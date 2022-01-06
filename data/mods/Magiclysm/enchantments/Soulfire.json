@@ -29,6 +29,7 @@
     "name": { "str": "Soul Burn" },
     "description": "A little of your soul has been burned away, leaving you in a weakened state.  The soul heals quickly, so rest for now.",
     "flags": [ "PERSONAL", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF" ],
+    "material": [ "magical_material" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_HP", "multiply": -0.4 } ] } ]
     },

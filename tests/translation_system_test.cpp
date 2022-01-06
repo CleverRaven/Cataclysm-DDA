@@ -1,8 +1,9 @@
+#include <cstring>
 #include "cata_catch.h"
 #include "filesystem.h"
 #include "string_formatter.h"
 #include "translation_document.h"
-#include "translation_manager.h"
+#include "translation_manager_impl.h"
 
 #if defined(LOCALIZE)
 
@@ -14,6 +15,7 @@ static void LoadMODocument( const char *path )
 TEST_CASE( "TranslationDocument loads valid MO", "[translations]" )
 {
     const char *path = "./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo";
+    CAPTURE( path );
     REQUIRE( file_exist( path ) );
     REQUIRE_NOTHROW( LoadMODocument( path ) );
 }
@@ -21,6 +23,7 @@ TEST_CASE( "TranslationDocument loads valid MO", "[translations]" )
 TEST_CASE( "TranslationDocument rejects invalid MO", "[translations]" )
 {
     const char *path = "./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/INVALID_RAND.mo";
+    CAPTURE( path );
     REQUIRE( file_exist( path ) );
     REQUIRE_THROWS_AS( LoadMODocument( path ), InvalidTranslationDocumentException );
 }
@@ -31,8 +34,36 @@ TEST_CASE( "TranslationDocument loads all core MO", "[translations]" )
         TranslationManager::GetInstance().GetAvailableLanguages();
     for( const std::string &lang : languages ) {
         const std::string path = string_format( "./lang/mo/%s/LC_MESSAGES/cataclysm-dda.mo", lang );
+        CAPTURE( path );
         REQUIRE( file_exist( path ) );
         REQUIRE_NOTHROW( LoadMODocument( path.c_str() ) );
+    }
+}
+
+TEST_CASE( "No string buffer overlap in TranslationDocument", "[translations]" )
+{
+    const std::unordered_set<std::string> languages =
+        TranslationManager::GetInstance().GetAvailableLanguages();
+    for( const std::string &lang : languages ) {
+        const std::string path = string_format( "./lang/mo/%s/LC_MESSAGES/cataclysm-dda.mo", lang );
+        CAPTURE( path );
+        REQUIRE( file_exist( path ) );
+        TranslationDocument document( path );
+        // The following code walks through every string contained in the MO document
+        // So AddressSanitizer can also detect memory access violation if there is any
+        const std::size_t n = document.Count();
+        const char *last_ending = nullptr;
+        for( std::size_t i = 0; i < n; i++ ) {
+            const char *str = document.GetOriginalString( i );
+            CHECK( last_ending < str );
+            last_ending = str + std::strlen( str );
+        }
+        last_ending = nullptr;
+        for( std::size_t i = 0; i < n; i++ ) {
+            const char *str = document.GetTranslatedString( i );
+            CHECK( last_ending < str );
+            last_ending = str + std::strlen( str );
+        }
     }
 }
 
@@ -48,7 +79,7 @@ TEST_CASE( "TranslationManager loading benchmark", "[.][benchmark][translations]
     BENCHMARK( "Load Russian" ) {
         TranslationManager manager;
         manager.LoadDocuments( std::vector<std::string> {"./lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo"} );
-        return manager;
+        return manager.Translate( "battery" );
     };
 }
 
@@ -162,9 +193,9 @@ TEST_CASE( "TranslationPluralRulesEvaluator", "[translations]" )
     }
     SECTION( "Russian" ) {
         auto russian_ground_truth = []( std::size_t n ) {
-            return ( n % 10 == 1 && n % 100 != 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && ( n % 100 < 12 ||
-                     n % 100 > 14 ) ? 1 : n % 10 == 0 || ( n % 10 >= 5 && n % 10 <= 9 ) || ( n % 100 >= 11 &&
-                             n % 100 <= 14 ) ? 2 : 3 );
+            return n % 10 == 1 && n % 100 != 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && ( n % 100 < 12 ||
+                    n % 100 > 14 ) ? 1 : n % 10 == 0 || ( n % 10 >= 5 && n % 10 <= 9 ) || ( n % 100 >= 11 &&
+                            n % 100 <= 14 ) ? 2 : 3;
         };
         const std::string russian_rules =
             // NOLINTNEXTLINE(cata-text-style)

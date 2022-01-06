@@ -1,31 +1,78 @@
 [
   {
     "type": "snippet",
-    "category": "NIGHT_MESSAGES_1",
+    "category": "PORTAL_STORM_INDOOR_MESSAGES_1",
+    "text": [
+      "A light breeze hits you from above.",
+      "You notice a small patch of dust appear nearby.",
+      "You smell a mild chemical odor you can't quite place.",
+      "Your hair stands on end as a faint electrical tingle washes over you.",
+      "For a split second a nearby object becomes hazy.",
+      "For a moment all colors grow slightly brighter.",
+      "For a moment all distances seem to grow slightly.",
+      "The straight lines of surrounding objects appear to be curved just so slightly.",
+      "The angles of geometric objects around do not appear to add up."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_INDOOR_MESSAGES_2",
+    "text": [
+      "A gust of wind hits you from above.",
+      "You notice several small patches of dust appear nearby.",
+      "You smell a chemical odor you can't quite place.",
+      "Your hair stands on end as an electrical tingle washes over you.",
+      "For a split second several nearby objects become hazy.",
+      "For a moment all colors grow brighter.",
+      "For a moment all distances seem to grow.",
+      "The straight lines of the surrounding objects seem to gain some curvature.",
+      "The angles of the geometric objects around have gone awry and do not add up."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_INDOOR_MESSAGES_3",
+    "text": [
+      "A gust of wind hits you from above and below.",
+      "You notice several large patches of dust appear nearby.",
+      "You smell a harsh chemical odor you can't quite place.",
+      "Your hair stands on end as a powerfull electrical tingle washes over you.",
+      "For a split second all nearby objects become hazy.",
+      "For a moment all colors grow much brighter.",
+      "For a moment all distances seem to grow much longer.",
+      "The straight lines of the surrounding objects seem to bend.",
+      "Euclidean geometry seems to fail at every turn.  Here and there you see impossible shapes and angles that seem to point inward as well as outward at the same time."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_NIGHT_MESSAGES_1",
     "text": [
       "You see what seems to be a new constellation in the sky.  The stars are quite dense and are precisely aligned in several regular polyhedrons next to each other.",
       "You see what seems to be a new constellation in the sky.  The stars are in a precise spiral, with the central star constantly shifting color.",
       "You see several shooting stars.  They seem larger than normal, and are all a deep purple.",
       "You see a shooting star.  It is bright red and does not fall in a straight line.",
       "For a brief moment you see a shape in the sky roughly the size of the moon, but square and green.",
-      "For a brief moment, the stars and moon all disappear.  When they come back, you're not sure if they're in the same places as they were."
+      "For a brief moment, the stars and moon all disappear.  When they come back, you're not sure if they're in the same places as they were.",
+      "The darkness around you thickens.  It is like a dense fog that sticks to your skin."
     ]
   },
   {
     "type": "snippet",
-    "category": "NIGHT_MESSAGES_2",
+    "category": "PORTAL_STORM_NIGHT_MESSAGES_2",
     "text": [
       "You see what seems to be a new constellation in the sky.  It changes shape as you look from a triangle to a pentagon.",
       "You see what seems to be a new constellation in the sky, in the shape of a hexagon.  It's easy to pick out - there are glowing lines between the stars.",
       "You see several shooting stars.  After they go below the horizon a bright glow briefly appears.",
       "You see a shooting star.  It is bright red and stops falling after a second to hover there ominously.",
       "For a brief moment you see a shape in the sky roughly the size of the moon.  It had almost looked like a blinking eye.",
-      "You see a moving object in the sky with a blinking red light coming from it."
+      "You see a moving object in the sky with a blinking red light coming from it.",
+      "The darkness around you thickens and surrounds you like a veil.  It seems… alive."
     ]
   },
   {
     "type": "snippet",
-    "category": "NIGHT_MESSAGES_3",
+    "category": "PORTAL_STORM_NIGHT_MESSAGES_3",
     "text": [
       "You see a once-familiar constellation and watch as several of its stars move.",
       "You see what seems to be a new constellation in the sky.  It reminds you of a serpent - it moves like one.",
@@ -34,7 +81,317 @@
       "As you look at the stars, they wink out for an instant, reappearing just slightly out of place, as if the night sky had been rotated ever so slightly.  This occurs twice more, in rapid succession.",
       "A strange cloud seems to float in the sky, at the very edge of your peripheral vision.  Just as you shift your gaze to it, it evaporates, boiling away into a stream of shooting stars.",
       "For a brief moment, you feel like you've been jerked to the side.  You haven't moved, though - the stars have.",
-      "As you look at the stars, a broad swath of them are plunged into darkness, then come back to life in ragged succession."
+      "As you look at the stars, a broad swath of them are plunged into darkness, then come back to life in ragged succession.",
+      "The darkness around you is so thick that it seems organic.  Your every move seems to tear the veil of night.  And the night is not fond of it."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_DAY_MESSAGES_1",
+    "text": [
+      "For a second you see what looks like an island in the sky.",
+      "For a second the sun turns blood red and seems to be dripping something.",
+      "For a moment you see what seem like buildings the size of mountains in the distance.",
+      "For an instant you are in a crowd of partially transparent people.  They take no notice of you.",
+      "You see a small airplane flying low in the sky but it's flying backwards and has a flag you don't know on it.",
+      "All the shadows you can see rotate as if the sun was moving.",
+      "You see few additional shadows, but there is no apparent light that could be causing them."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_DAY_MESSAGES_2",
+    "text": [
+      "For a second you see what looks like an island chain in the sky.",
+      "For a second the sun turns dark, almost as if it was a giant eye blinking.",
+      "For a moment you see what seem like insects the size of mountains in the distance.",
+      "For an instant you are in a crowd of partially transparent people.  They all look at you.",
+      "You see a large airplane flying low in the sky but it's flying backwards and has a color inverted version of your flag on it.",
+      "All the shadows you can see change shape and color beginning to resemble human like figures.",
+      "You see some extra shadows, but not the light that causes them.  Some are not even attached to the objects that cast them."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_DAY_MESSAGES_3",
+    "text": [
+      "For a second you see what looks like a city in the sky.",
+      "For a second the sun changes course to the north and speeds up.",
+      "For a moment you see what seem like humans the size of mountains in the distance.",
+      "For an instant you are in a crowd of partially transparent people.  They all point at you and scream in a language, human vocal cords should not be able to speak.",
+      "You see a large airplane flying low in the sky but it's flying backwards.  A parachuter appears near it and seemingly falls up into the plane while the figure struggles.",
+      "All the shadows you can see change shape and color beginning to resemble figures with far too many limbs beckoning to you to come towards them.",
+      "The shadows seem to live a life of their own.  Many are detached, as if they were cast by invisible objects.  Other objects in turn, including yourself, do not cast shadows despite the light."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_MESSAGES_1",
+    "text": [
+      "You smell a harsh chemical odor you can't quite place.",
+      "Your hair stands on end as a faint electrical tingle washes over you.",
+      "A giant hole opens in the sky and several clouds vanish into it.",
+      "A giant hole opens in the sky and several dark clouds emerge from it.",
+      "For a split second, the world grows hazy as if there were other shapes laid on top.",
+      "For a moment a hole in reality opens and you can see your own back.",
+      "For a moment all colors grow dull.",
+      "For a moment all distances seem to shrink.",
+      "For a moment all angles seem to bend.",
+      "A short figure quickly fades in and out of existence too fast to see its features."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_MESSAGES_2",
+    "text": [
+      "You smell an entirely new smell, like nothing you have smelled before.  You can't decide if it is good or bad.",
+      "Your hair stands on end as an electrical tingle washes over you.",
+      "A giant hole opens in the sky and several neon clouds emerge from it.",
+      "A giant hole that looks like an eye opens in the sky, then closes as if blinking.",
+      "For a split second, the world is overlaid with a vast, empty void.",
+      "For a split second, the world is overlaid with a tiny, featureless, circular room.",
+      "For a split second, the world is overlaid with a vast alien landscape with building-sized plant-like shapes all around you",
+      "For a split second the world is overlaid with an empty and ruined city, though built to a vastly different scale than those on earth.",
+      "For a moment a hole in reality opens and you can see an almost perfect copy of yourself.",
+      "For a moment all colors invert.",
+      "For a moment all distances seem to double.",
+      "For a moment all angles seem to invert.",
+      "A tall figure quickly fades in and out of existence leaving you with a vague impression of malice."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_MESSAGES_3",
+    "text": [
+      "You smell an entirely new smell, like nothing you have smelled before.  It makes you gag.",
+      "Your hair stands on end as a sharp electrical current washes over you.",
+      "A jagged hole opens in the sky and a vast cloud in the shape of an asymmetrical person emerges.",
+      "A jagged hole that resembles an eye opens in the sky, then stares at you.",
+      "For a split second, the world vanishes and you are in a vast, empty void.",
+      "For a split second, the world vanishes and you are in a tiny, featureless, circular room.",
+      "For a split second, the world vanishes and you are in a vast alien landscape with building-sized plant-like shapes all around you",
+      "For a split second the world vanishes and you are in an empty and ruined city, though built to a vastly different scale than those on earth.",
+      "For a moment a hole in reality opens and you can see a leering idealized copy of yourself.",
+      "For a moment all colors flow to form jagged shapes.",
+      "For a moment all distances seem to vanish, as if everything was one.  It is claustrophobic.",
+      "For a moment, all angles seem ungraspable.  Impossible shapes are everywhere.",
+      "A tall figure quickly fades in and out of existence staring and pointing at you the whole time."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_VOICES_1",
+    "text": [
+      "a gentle voice saying \"Come outside.  I'm waiting for you.\"",
+      "a gentle voice saying \"Why are you not here yet?  It's beautiful outside.\"",
+      "a gentle voice saying \"What a sky.  Unlimited, deep, blue.  The ocean of fresh air is at hand while you gasp mold and dust behind four walls.\"",
+      "a gentle voice saying \"There is a place for you here.\"",
+      "a gentle voice saying \"The place you called home is not there anymore.  Come with me and find your new home.\"",
+      "a gentle voice saying \"What good comes from hiding from the truth in a mausoleum of brick walls?\"",
+      "a gentle voice saying \"There is no amount of concrete or stone you could put between you and the veil that is thinner than a shadow.\"",
+      "a gentle voice saying \"You want to sleep now?  Just moments after you have awaken us from our eternal slumber?\"",
+      "a gentle voice saying \"Do you think you can cower in fear behind four walls?  Do you think you can put a ceiling above your head?  You think the universe considers this as a limit on its expansion?\"",
+      "a gentle voice saying \"It isn't so bad outside after all, you just think in old, obsolete categories.  Why don't you check for yourself?\"",
+      "a gentle voice saying \"Fresh air is good for your health, why not come outside and get some?\"",
+      "a gentle voice saying \"I am here just for you and only for you.  Are you sure you don't want to come out?\"",
+      "a gentle voice saying \"Can you feel it?  The unmaking in the making?  But the change isn't necessarily against you, but you need to face it to ride the tide.\"",
+      "a gentle voice saying \"Your existence has been frowned upon by many eyebrows.  But you too have a pair of eyebrows to frown back.\"",
+      "a deep voice saying \"ᛁᛟᚢᚱ ᛁᚾᚹᛁᛏᚨᛏᛁᛟᚾ ᛏᛟ ᚹᚨᛚᚺᚨᛚᛚᚨ ᚺᚨᛊ ᛒᛖᛖᚾ ᚱᛖᚹᛟᚲᛖᛞ\"",
+      "a gentle voice saying \"Fiery the angels fall.  Are you there yet?  At the bottom so low that the only way is up?\"",
+      "a gentle voice saying \"Sometimes dead is better.  But surely you wish to walk a different path?  So why do you stray from the road?\"",
+      "a gentle voice saying \"Tell me what thy lordly name is?  Tell me, tell me, I implore!\"",
+      "a gentle voice saying \"I have come to lead you to the other shore; into eternal darkness; into fire and into ice.\"",
+      "a gentle voice saying \"The cancer devours the flesh of this world.  You're next in line, but there is a path out of this.  Just walk the way.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_VOICES_2",
+    "text": [
+      "a voice saying \"All your leaders have walked this path and have chosen salvation.  It was a wise decision.  The right decision.\"",
+      "a voice saying \"The beyond can give you what you have always craved, purpose.\"",
+      "a voice saying \"Never before has the path to freedom been so strait.  Never before has it been so close.\"",
+      "a voice saying \"Remember when you were young and dreams could still come true?  Outside they still can.\"",
+      "a voice saying \"The wonders in the sky are beyond your imagination.  Can you even guess at what you are missing right now?\"",
+      "a voice saying \"All your life you have been oppressed by cruel physics, come outside and see freedom.\"",
+      "a voice saying \"What you may think you may lose is but a speck of what you will gain.  Walk outside and embrace the infinity.\"",
+      "a voice saying \"Do you want to live the rest of your life hiding like a coward or come out and face your fears?\"",
+      "a voice saying \"Afraid?  Fear is just a function of the flesh.  Can the light of your intellect not gaze beyond the blood and bone, and see that there is no place for fear here, outside?\"",
+      "a voice saying \"Like it or not it seems we are going to be sharing this piece of reality for a time.  Come outside and let us work out our differences.\"",
+      "a voice saying \"The key has been turned and the lock is open.  The chains have fallen, and the gates are open.  The beyond awaits your arrival.\"",
+      "a voice saying \"The veil is torn and the fabric is in tatters.  Gaze into the void, as I gaze back at you.  Eye to eye.  This is the way of contact.  The way of communication.\"",
+      "a voice saying \"Can you hear the silence calling you?  The whisper of the rain that never fell?\"",
+      "a voice saying \"Close your eyes.  Can you see the darkness?  It is not the absence of light but the liquid blood of the void itself.  It lives.  I live.\"",
+      "a deep voice saying \"ᚲᛟᛗᛖ ᚺᛖᛁᛗᛞᚨᛚᛚ, ᛚᛖᛏ ᚢᛊ ᛏᚱᚨᚹᛖᛚ ᛏᛟ ᚨᛊᚷᚨᚱᛞ ᛏᛟᚷᛖᚦᛖᚱ\"",
+      "a voice saying \"The struggle is futile.  Can you fix the broken?  Can you weave the existence itself?\"",
+      "a voice saying \"The road ahead is long and the hour is late.  Do not let these walls to impede your travel.\"",
+      "a voice saying \"You have finally done this!  You startled the sun and made the moon howl in the night.\"",
+      "a voice saying \"Can you feel your heart burning?  Can you feel the struggle within?  The fear within me is beyond anything your soul can make.  You cannot kill me in a way that matters.\"",
+      "a voice saying \"A monologue is not a conversation.  A monologue is not a bridge of communication.  Come out, let's speak and understand each other.\"",
+      "a voice saying \"How can I listen to you when it is only I who speaks to you.  Come out and express your thoughts.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_VOICES_3",
+    "text": [
+      "a confident voice saying \"Have you considered how lucky you are?  So few of your kind have a chance to see the truths being exposed outside right now.\"",
+      "a confident voice saying \"Death is inevitable but knowledge is not, why not come outside and learn the truth of reality?\"",
+      "a confident voice saying \"You flesh beings are so inconsistent, first you break into our home, and now you avoid the merest taste of it?\"",
+      "a confident voice saying \"Surely you know your world is doomed.  What has started here cannot be stopped, embrace the inevitable.\"",
+      "a confident voice saying \"You are infected with that which dooms your world.  It cannot be cured under your current physical laws, but under ours all is possible.\"",
+      "a confident voice saying \"For too long your kind have been shackled to the tyranny of static form.  Embrace the freedom we offer you.  Rejoice at our benevolence.\"",
+      "a confident voice saying \"That which consumes your world poisons you against us.  Ignore its lies, and abandon your half digested reality.\"",
+      "a confident voice saying \"Have you never dreamed of being one with everything?  Out here is the end of limitations like separation or alone.\"",
+      "a confident voice saying \"The breakdown of order has danger, but also opportunity.  There is still time to influence the end result, come outside and add your will to the mix.\"",
+      "a confident voice saying \"This world is half eaten, but there are others yet untouched in the infinite.  It is unlikely you will find the way through the chaos out here to them, but much more likely than you surviving in this dead world.\"",
+      "the membrane of reality trembling as if someone was rhythmically beating a drum, and the beats are arranged in a looping message evidently broadcasted in Morse code: \"-.. . .- - …. / ..- .--. --- -. / -.-- --- ..-\"",
+      "a confident voice saying \"Decay exists as an extant form of life.\"",
+      "a confident voice saying \"Why do you sit in a burning house and say it's fine?\"",
+      "a confident deep voice saying \"ᚱᚨᚷᚾᚨᚱᛟᚲ ᛁᛊ ᚢᛈᛟᚾ ᚢᛊ.\"",
+      "a commanding deep voice saying \"אמת\" and you suddenly feel invigorated, but then you hear other powerful voice saying \"מת\" and the feeling is instantly washed away by an overwhelming sense of dread.",
+      "a confident deep voice saying \"Quod non est mortuus, quae aeterna mendacium; Et cum alienis aeons etiam morte moriatur\"",
+      "a confident voice saying \"There is the one that devours.  There is the one that grows on the decay.  There are the ones that fertilize the soil with your flesh.  Yet you wish to choose them rather then the embrace of the veil?\"",
+      "a confident deep voice saying \"You call this the end?  The Cataclysm?  Open your eyes an look around.  It's never been so teeming with life.  Or is it not being on top of the chain that bothers you?\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_POPUP",
+    "//": "These are just proof of concept popups, would definitely prefer to get some more sophisticated ideas",
+    "text": [
+      "Your legs move on their own accord.  You need to go outside.  NOW.",
+      "This foolishness has lasted too long.  It's time to leave and embrace the cosmos.",
+      "Monsters spotted!  You need to leave, fast!",
+      "Heard footsteps!  Run outdoors to escape your fate.",
+      "Heard crash!  Your shelter is compromised, vacate it immediately!",
+      "The kevlar hulk is dangerously close!  Run outside, it's right behind you!",
+      "Ouch, somethings hurts!  You must leave the dreaded indoors to find reprieve."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_DEPENDENT_MESSAGES_VARIED_GOOD",
+    "text": [
+      "You suddenly smell the most delicious aroma in the world.",
+      "Some sparks appear and seem to dance around you for a brief moment.",
+      "Some sparks appear in front of you for a brief moment.  They seem to become white and beautiful birds before disappearing.",
+      "Some sparks appear in front of you for a brief moment.  They seem to take your shape and wave at you before disappearing.",
+      "Some sparks appear in front of you for a brief moment.  They seem to form a smiling face before disappearing.",
+      "Some sparks appear in front of you for a brief moment.  They seem to form your own face and blink at you before disappearing.",
+      "Some sparks appear to be following one of your fingers.  You draw a smile in the air and the sparks take its shape.",
+      "You raise your arms and some sparks appear.  You move them up and down and the sparks seem to become beautiful wings.",
+      "Your hand seems to become full of vitality for a brief moment.",
+      "For a split second one of your fingers seems to glow in phosphorescent lights.  You move them around and the lights seem like that of a disco ball.",
+      "For a moment all sounds around you sound stronger, as if attracted by you.",
+      "For a moment your voice seems to reach further.",
+      "For a moment you hear a beautiful voice from far away.",
+      "For a moment your voice seems to invoke dancing sparks.",
+      "For a moment you feel calm all around you.  Maybe portal storms are not so bad.",
+      "For a moment you feel like this weather is protecting you.",
+      "For a moment you feel like you can regain something lost if you just wait here.",
+      "For a moment you feel like you should enjoy portal storms.",
+      "For a moment you feel like you would regret it if you are not outside with this beautiful weather.",
+      "For a moment you feel like you can become something else if you continue like this."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_DEPENDENT_MESSAGES_VARIED_BAD",
+    "text": [
+      "Your sense of smell suddenly stops working.  It returns after a second.",
+      "Some sparks appear in front of you for a brief moment.",
+      "Some sparks appear in front of you for a brief moment.  They seem to take human shape before disappearing.",
+      "Some sparks appear in front of you for a brief moment.  They seem to take your shape before disappearing.",
+      "Some sparks appear in front of you for a brief moment.  They seem to form an agonizing face before disappearing.",
+      "Some sparks appear in front of you for a brief moment.  They seem to form your own face and scream before disappearing.",
+      "Some sparks appear to be following one of your fingers for a few seconds.",
+      "You raise your hand and some sparks appear.  But when you drop it the sparks disappear.  Weird.",
+      "Your hand suddenly seems foreign to you.",
+      "For a split second one of your fingers seems to glow in phosphorescent lights.",
+      "For a moment all sound disappears around you, as if escaping from you.",
+      "For a moment you can no longer hear your own voice.",
+      "For a moment your voice seems to sound far away.",
+      "For a moment your voice seems like someone else's."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_DEPENDENT_MESSAGES_STR_BAD",
+    "text": [
+      "You feel heavier for a brief moment.",
+      "You feel lighter for a brief moment.",
+      "Your arm stops moving for a brief moment.",
+      "Your muscles ache for a brief moment.",
+      "For a split second you feel a hole in your arm.",
+      "For a split second you feel as if touching an alien texture.",
+      "For a moment your strength disappears and you are unable to raise your arm.",
+      "You suddenly feel as if walking on the moon."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_DEPENDENT_MESSAGES_DEX_BAD",
+    "text": [
+      "For a moment your hand seems to get stuck in something.  You search around but can't find what it was.",
+      "For a split second your hand seems to disappear in the air.",
+      "Your right hand suddendly trespasses your left hand.  You separate them immediately.",
+      "Your left hand suddenly gets stuck in your right hand.  After a second you are able to separate them again.",
+      "For a split second your left and right hands seem to switch places.",
+      "You try to touch your own face with your hand, but you can't feel the touch.",
+      "You suddenly feel as if the wind passes through your skin and meat until reaching your bones.",
+      "You suddenly feel like you can't exert strength in your own hand."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_DEPENDENT_MESSAGES_PER_BAD",
+    "text": [
+      "Things seem bigger for a moment.  You blink and they look normal again.",
+      "For a split second the colors around you seem inverted.",
+      "For a split second everything seems green.",
+      "For a split second everything seems red.",
+      "For a split second everything seems blue.",
+      "For a split second everything seems to be made of pixels.",
+      "For a split second you see your old home.  The vision it's replaced by faint sparks after you blink.",
+      "For a split second you see an old friend smiling.  The vision fades after you blink but not before your friend seems to start screaming."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_DEPENDENT_MESSAGES_INT_BAD",
+    "text": [
+      "You suddenly thought of a happy family playing in the woods.  A second later you realize you don't know the people you were thinking about.",
+      "You suddenly think of some kids having fun on the beach.  A second later you realize the kids didn't have faces and the beach was purple.",
+      "You suddenly seem to remember your own wedding.  A second later you realize the wedding was not yours and the bride was a squid-like alien.",
+      "You suddenly seem to remember playing with your friends in the fields before all of this.  A second later you realize the fields around you were crawling with alien vermin.",
+      "You suddenly have the urge to lick your own hand.  A second later the urge fades.",
+      "You suddenly feel like the whole world is a video game.  You dismiss the notion after a moment.",
+      "You suddenly feel like if your entire being was being controlled by someone else.  The sensation fades after a moment.",
+      "You suddenly question whether zombies are bad.  Maybe they just need a hug.  You shudder when the thought fades.",
+      "You suddenly went right when you wanted to go left.",
+      "Your right hand suddenly slaps your left hand.  Weird.",
+      "Your left hand suddenly tries to strangle your right hand.  Weird."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_DEPENDENT_MESSAGES_DREAMS",
+    "text": [
+      "You dream that a great darkness surrounds you and wants to rip you apart.",
+      "You dream of hunting small animals, the animals drop candy and you feel reinvigorated by eating them.",
+      "You dream of yourself, sleeping, while a world of sparks dance around you.",
+      "You dream of yourself, sleeping, while a giant pair of eyes watch over you, waiting for you to wake up.",
+      "You dream of yourself, there are strings attached to your body and you move like a puppet.",
+      "You dream of yourself in a field in the middle of a portal storm, you seem to be uniting with the world.",
+      "You dream of yourself in a house in the middle of a portal storm, you seem to be sad and alone.",
+      "You dream of a different version of yourself, there is blood running from your mouth and your moves lack intelligence.",
+      "You dream of a different version of yourself, you are as big as a tree and fight similarly giant zombies.",
+      "You dream of a different version of yourself, you speak a language you have never heard and move in ways you should never had.",
+      "You dream of a family you never had, in a house you never knew.",
+      "You dream of traveling on an empty road under the moonlight, the only problem being that there are two moons on the sky, one blue and one green.",
+      "You dream of a ruined city, with crumbling buildings and foreign symbols.",
+      "You dream of a portal opening in the middle of nowhere.  You feel a strange calling from within."
     ]
   },
   {
@@ -42,7 +399,7 @@
     "category": "<AMBIENT_SUBWAY>",
     "text": [
       "The trains have long grown still, and your echoing footsteps are the only thing breaking the silence.  For now.",
-      "The rails are slick here with a grey, quivering ooze welling up from below.",
+      "The rails are slick here with a gray, quivering ooze welling up from below.",
       "There is a low, droning hum emanating from the rail, making your teeth ache.",
       "The layer of dust is broken by a thick trail of stinking slime leading off into the darkness.",
       "The air stings like chlorine in some spots, around black splashes etched into the concrete.",
@@ -68,7 +425,7 @@
       "The tunnel's wall is covered in a thin membrane of shuddering flesh, growing (flowing?  crawling?) from a broken pipe.  You keep your distance.",
       "You notice a single line of three-fingered footprints, starting on the floor but continuing without pause on the walls before disappearing in a hole on the ceiling that's dripping sticky, bluish ichor.",
       "There is a shimmering spot above the rails.  Looking through, you can see the night sky and hear something howl with hatred and hunger.  You're certain it could not pass through an opening so small.  You're also certain the gateway will grow.",
-      "The wall is carpeted by green-grey mushrooms, their caps turning towards you with anticipation.",
+      "The wall is carpeted by green-gray mushrooms, their caps turning towards you with anticipation.",
       "The wall's concrete is warped into a spiral relief, drawing your eye inexorably to its center.  You force yourself to look away, and feel something shift behind the wall."
     ]
   }

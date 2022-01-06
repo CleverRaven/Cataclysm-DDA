@@ -53,6 +53,8 @@ class character_martial_arts
         /** Displays a message if the player can or cannot use the martial art */
         void martialart_use_message( const Character &owner ) const;
 
+        /** Removes all martial arts events */
+        void clear_all_effects( Character &owner );
         /** Fires all non-triggered martial arts events */
         void ma_static_effects( Character &owner );
         /** Fires all move-triggered martial arts events */
@@ -80,8 +82,8 @@ class character_martial_arts
         bool can_leg_block( const Character &owner ) const;
         /** Returns true if the player has the arm block technique available */
         bool can_arm_block( const Character &owner ) const;
-        /** Returns true if either can_leg_block() or can_arm_block() returns true */
-        bool can_limb_block( const Character &owner ) const;
+        /** Returns true if you can block with nonstandard limbs */
+        bool can_nonstandard_block( const Character &owner ) const;
         /** Returns true if the current style forces unarmed attack techniques */
         bool is_force_unarmed() const;
 

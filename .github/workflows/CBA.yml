@@ -18,7 +18,7 @@ jobs:
       with:
         fetch-depth: 1
     - name: install dependencies
-      run: sudo apt-get install libncursesw5-dev
+      run: sudo apt-get install libncursesw5-dev gettext
     - name: Prepare Build Analyzer
       run: |
         cd

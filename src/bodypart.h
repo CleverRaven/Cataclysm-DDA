@@ -10,11 +10,14 @@
 #include <utility>
 #include <vector>
 
+#include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "subbodypart.h"
+#include "type_id.h"
 
 class JsonObject;
 class JsonOut;
@@ -60,17 +63,9 @@ struct enum_traits<body_part> {
     static constexpr body_part last = body_part::num_bp;
 };
 
-enum class side : int {
-    BOTH,
-    LEFT,
-    RIGHT,
-    num_sides
-};
+enum class side : int;
 
-template<>
-struct enum_traits<side> {
-    static constexpr side last = side::num_sides;
-};
+
 
 // Drench cache
 enum water_tolerance {
@@ -103,6 +98,40 @@ struct stat_hp_mods {
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
     void deserialize( const JsonObject &jo );
+};
+
+struct limb_score {
+    public:
+        static void load_limb_scores( const JsonObject &jo, const std::string &src );
+        static void reset();
+        void load( const JsonObject &jo, const std::string &src );
+        static const std::vector<limb_score> &get_all();
+
+        const limb_score_id &getId() const {
+            return id;
+        }
+        const translation &name() const {
+            return _name;
+        }
+        bool affected_by_wounds() const {
+            return wound_affect;
+        }
+        bool affected_by_encumb() const {
+            return encumb_affect;
+        }
+    private:
+        limb_score_id id;
+        translation _name;
+        bool wound_affect = true;
+        bool encumb_affect = true;
+        bool was_loaded = false;
+        friend class generic_factory<limb_score>;
+};
+
+struct bp_limb_score {
+    limb_score_id id = limb_score_id::NULL_ID();
+    float score = 0.0f;
+    float max = 0.0f;
 };
 
 struct body_part_type {
@@ -155,10 +184,13 @@ struct body_part_type {
         std::string legacy_id;
         // Legacy enum "int id"
         body_part token = num_bp;
-        /** Size of the body part when doing an unweighted selection. */
+        /** Size of the body part for melee targeting. */
         float hit_size = 0.0f;
-        /** Hit sizes for attackers who are smaller, equal in size, and bigger. */
-        std::array<float, 3> hit_size_relative = {{ 0.0f, 0.0f, 0.0f }};
+
+        /** Sub-location of the body part used for encumberance, coverage and determining protection
+         */
+        std::vector<sub_bodypart_str_id> sub_parts;
+
         /**
          * How hard is it to hit a given body part, assuming "owner" is hit.
          * Higher number means good hits will veer towards this part,
@@ -177,23 +209,13 @@ struct body_part_type {
         side part_side = side::BOTH;
         body_part_type::type limb_type = body_part_type::type::num_types;
 
-        // fine motor control
-        float manipulator_score = 0.0f;
-        float manipulator_max = 0.0f;
+        // Threshold to start encumbrance scaling
+        int encumbrance_threshold = 0;
+        // Limit of encumbrance, after reaching this point the limb contributes no scores
+        int encumbrance_limit = 0;
 
-        // modifier for lifting strength
-        float lifting_score = 0.0f;
-
-        // ability to block using martial arts
-        // each whole number is a block
-        float blocking_score = 0.0f;
-        // how well you can breathe with this part. cumulative.
-        float breathing_score = 0.0f;
-        // how well you can see things. affects things like throwing dispersion. cumulative
-        float vision_score = 0.0f;
-        float movement_speed_score = 0.0f;
-        float balance_score = 0.0f;
-        float swim_score = 0.0f;
+        // If true, extra encumbrance on this limb affects dodge effectiveness
+        bool encumb_impacts_dodge = false;
 
         float smash_efficiency = 0.5f;
 
@@ -205,6 +227,9 @@ struct body_part_type {
 
         int fire_warmth_bonus = 0;
 
+        //Innate environmental protection
+        int env_protection = 0;
+
         int base_hp = 60;
         stat_hp_mods hp_mods;
 
@@ -213,9 +238,13 @@ struct body_part_type {
         bool is_limb = false;
 
         int drench_max = 0;
+        cata::flat_set<json_character_flag> flags;
+        bool has_flag( const json_character_flag &flag ) const;
 
-        cata::flat_set<std::string> flags;
-        bool has_flag( const std::string &flag ) const;
+
+        // return a random sub part from the weighted list of subparts
+        // if secondary is true instead returns a part from only the secondary sublocations
+        sub_bodypart_id random_sub_part( bool secondary ) const;
 
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
@@ -231,12 +260,48 @@ struct body_part_type {
         // Verifies that body parts make sense
         static void check_consistency();
 
+        float get_limb_score( const limb_score_id &id ) const {
+            for( const bp_limb_score &bpls : limb_scores ) {
+                if( bpls.id == id ) {
+                    return bpls.score;
+                }
+            }
+            return 0.0f;
+        }
+
+        float get_limb_score_max( const limb_score_id &id ) const {
+            for( const bp_limb_score &bpls : limb_scores ) {
+                if( bpls.id == id ) {
+                    return bpls.max;
+                }
+            }
+            return 0.0f;
+        }
+
+        bool has_limb_score( const limb_score_id &id ) const {
+            for( const bp_limb_score &bpls : limb_scores ) {
+                if( bpls.id == id ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         int bionic_slots() const {
             return bionic_slots_;
         }
+
+        float damage_resistance( const damage_type &dt ) const;
+        float damage_resistance( const damage_unit &du ) const;
     private:
         int bionic_slots_ = 0;
+        // limb score values
+        std::vector<bp_limb_score> limb_scores;
+        // Protection from various damage types
+        resistances armor;
 };
+
+
 
 template<>
 struct enum_traits<body_part_type::type> {
@@ -249,8 +314,13 @@ struct layer_details {
     int max = 0;
     int total = 0;
 
+    // if the layer is conflicting
+    bool is_conflicting = false;
+
+    std::vector<sub_bodypart_id> covered_sub_parts;
+
     void reset();
-    int layer( int encumbrance );
+    int layer( int encumbrance, bool conflicts );
 
     bool operator ==( const layer_details &rhs ) const {
         return max == rhs.max &&
@@ -267,8 +337,56 @@ struct encumbrance_data {
     std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
     layer_penalty_details;
 
-    void layer( const layer_level level, const int encumbrance ) {
-        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance );
+    bool add_sub_locations( const layer_level level, const std::vector<sub_bodypart_id> &sub_parts ) {
+        bool return_val = false;
+        for( const sub_bodypart_id &sbp : sub_parts ) {
+            bool found = false;
+            for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
+                    ( level )].covered_sub_parts ) {
+                // if we find a location return true since we should add penalty
+                if( sbp == layer_sbp ) {
+                    found = true;
+                }
+            }
+            // if we've found it already in the list mark our return value as true
+            if( found ) {
+                return_val = true;
+            }
+            // otherwise we should add it to the list
+            else {
+                layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
+            }
+        }
+        return return_val;
+    }
+
+    bool add_sub_locations( const layer_level level,
+                            const std::vector<sub_bodypart_str_id> &sub_parts ) {
+        bool return_val = false;
+        for( const sub_bodypart_str_id &temp : sub_parts ) {
+            const sub_bodypart_id &sbp = temp;
+            bool found = false;
+            for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
+                    ( level )].covered_sub_parts ) {
+                // if we find a location return true since we should add penalty
+                if( sbp == layer_sbp ) {
+                    found = true;
+                }
+            }
+            // if we've found it already in the list mark our return value as true
+            if( found ) {
+                return_val = true;
+            }
+            // otherwise we should add it to the list
+            else {
+                layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
+            }
+        }
+        return return_val;
+    }
+
+    void layer( const layer_level level, const int encumbrance, bool conflicts ) {
+        layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance, conflicts );
     }
 
     void reset() {
@@ -308,6 +426,8 @@ class bodypart
         float wound_adjusted_limb_value( float val ) const;
         // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
         float encumb_adjusted_limb_value( float val ) const;
+        // If the limb score is affected by a skill, adjust it by the skill's level (used for swimming)
+        float skill_adjusted_limb_value( float val, int skill ) const;
     public:
         bodypart(): id( bodypart_str_id::NULL_ID() ), mut_drench() {}
         explicit bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
@@ -320,17 +440,15 @@ class bodypart
 
         float get_wetness_percentage() const;
 
-        float get_manipulator_score() const;
-        float get_encumb_adjusted_manipulator_score() const;
-        float get_wound_adjusted_manipulator_score() const;
-        float get_manipulator_max() const;
-        float get_blocking_score() const;
-        float get_lifting_score() const;
-        float get_breathing_score() const;
-        float get_vision_score() const;
-        float get_movement_speed_score() const;
-        float get_balance_score() const;
-        float get_swim_score( double swim_skill = 0.0 ) const;
+        int get_encumbrance_threshold() const;
+        // Check if we're above our encumbrance limit
+        bool is_limb_overencumbered() const;
+
+        // Get modified limb score as defined in limb_scores.json.
+        // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).
+        float get_limb_score( const limb_score_id &score, int skill = -1, int override_encumb = -1,
+                              int override_wounds = -1 ) const;
+        float get_limb_score_max( const limb_score_id &score ) const;
 
         int get_hp_cur() const;
         int get_hp_max() const;

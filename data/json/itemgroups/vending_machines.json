@@ -59,10 +59,10 @@
     "items": [
       { "group": "candy_chocolate", "prob": 615 },
       { "group": "salty_snacks", "prob": 485 },
-      [ "peanut_unshelled", 60 ],
-      [ "almond_unshelled", 60 ],
+      [ "peanut_shelled", 60 ],
+      [ "almond_shelled", 60 ],
       [ "cashews", 60 ],
-      [ "pistachio_unshelled", 60 ],
+      [ "pistachio_shelled", 60 ],
       [ "cookies", 80 ],
       [ "choco_coffee_beans", 10 ],
       [ "fruit_leather", 25 ]

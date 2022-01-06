@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "enums.h"
 
 const float book_proficiency_bonus::default_time_factor = 0.5f;
@@ -76,6 +77,8 @@ void proficiency::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "default_time_multiplier", _default_time_multiplier );
     optional( jo, was_loaded, "default_fail_multiplier", _default_fail_multiplier );
+    optional( jo, was_loaded, "default_weakpoint_bonus", _default_weakpoint_bonus );
+    optional( jo, was_loaded, "default_weakpoint_penalty", _default_weakpoint_penalty );
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
     optional( jo, was_loaded, "required_proficiencies", _required );
     optional( jo, was_loaded, "ignore_focus", _ignore_focus );
@@ -122,6 +125,17 @@ float proficiency::default_fail_multiplier() const
 {
     return _default_fail_multiplier;
 }
+
+float proficiency::default_weakpoint_bonus() const
+{
+    return _default_weakpoint_bonus;
+}
+
+float proficiency::default_weakpoint_penalty() const
+{
+    return _default_weakpoint_penalty;
+}
+
 
 time_duration proficiency::time_to_learn() const
 {

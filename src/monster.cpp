@@ -66,6 +66,8 @@
 #include "weakpoint.h"
 #include "weather.h"
 
+static const anatomy_id anatomy_default_anatomy( "default_anatomy" );
+
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
@@ -90,12 +92,12 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_venom_dmg( "venom_dmg" );
 static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
@@ -103,19 +105,41 @@ static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_worked_on( "worked_on" );
 
+static const emit_id emit_emit_shock_cloud( "emit_shock_cloud" );
+static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
+
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
 
+static const material_id material_bone( "bone" );
+static const material_id material_flesh( "flesh" );
+static const material_id material_hflesh( "hflesh" );
+static const material_id material_iflesh( "iflesh" );
+static const material_id material_iron( "iron" );
+static const material_id material_steel( "steel" );
+static const material_id material_stone( "stone" );
+static const material_id material_veggy( "veggy" );
+
+static const mfaction_str_id monfaction_acid_ant( "acid_ant" );
+static const mfaction_str_id monfaction_ant( "ant" );
+static const mfaction_str_id monfaction_bee( "bee" );
+static const mfaction_str_id monfaction_wasp( "wasp" );
+
+static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_MAMMAL( "MAMMAL" );
+static const species_id species_MIGO( "MIGO" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
 static const species_id species_NETHER( "NETHER" );
-static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_PLANT( "PLANT" );
+static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
+
+static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
+static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
 
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
 static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
@@ -125,6 +149,7 @@ static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
+static const trait_id trait_PHEROMONE_AMPHIBIAN( "PHEROMONE_AMPHIBIAN" );
 static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
@@ -177,7 +202,7 @@ monster::monster()
     biosig_timer = calendar::before_time_starts;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
-    set_anatomy( anatomy_id( "default_anatomy" ) );
+    set_anatomy( anatomy_default_anatomy );
     set_body();
 }
 
@@ -528,15 +553,15 @@ std::string monster::name( unsigned int quantity ) const
 std::string monster::name_with_armor() const
 {
     std::string ret;
-    if( made_of( material_id( "iflesh" ) ) ) {
+    if( made_of( material_iflesh ) ) {
         ret = _( "carapace" );
-    } else if( made_of( material_id( "veggy" ) ) ) {
+    } else if( made_of( material_veggy ) ) {
         ret = _( "thick bark" );
-    } else if( made_of( material_id( "bone" ) ) ) {
+    } else if( made_of( material_bone ) ) {
         ret = _( "exoskeleton" );
-    } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
+    } else if( made_of( material_flesh ) || made_of( material_hflesh ) ) {
         ret = _( "thick hide" );
-    } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
+    } else if( made_of( material_iron ) || made_of( material_steel ) ) {
         ret = _( "armor plating" );
     } else if( made_of( phase_id::LIQUID ) ) {
         ret = _( "dense jelly mass" );
@@ -637,7 +662,7 @@ std::string monster::speed_description( float mon_speed_rating,
 
     for( const speed_description_value &speed_value : speed_desc->values() ) {
         if( ratio_tpt >= speed_value.value() ) {
-            return random_entry( speed_value.descriptions(), std::string() );
+            return random_entry( speed_value.descriptions(), translation() ).translated();
         }
     }
 
@@ -655,7 +680,12 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
         return string_format( "'%s'", source.second->name() );
     }, enumeration_conjunction::arrow );
-    oss << "</color>" << "\n\n";
+    oss << "</color>" << "\n";
+
+    if( debug_mode ) {
+        oss << colorize( type->id.str(), c_white );
+    }
+    oss << "\n";
 
     // Print health bar, monster name, then statuses on the first line.
     nc_color bar_color = c_white;
@@ -755,6 +785,11 @@ std::string monster::extended_description() const
     }, enumeration_conjunction::arrow );
 
     ss += "\n--\n";
+
+    if( debug_mode ) {
+        ss += type->id.str();
+        ss += "\n";
+    }
 
     ss += string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
                          difficulty_str ) + "\n";
@@ -1043,6 +1078,11 @@ bool monster::made_of( phase_id p ) const
     return type->phase == p;
 }
 
+std::vector<material_id> monster::get_absorb_material() const
+{
+    return type->absorb_material;
+}
+
 void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
 {
     const tripoint_abs_ms base_abs_ms = project_to<coords::ms>( global_omt_location() );
@@ -1133,7 +1173,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // Unfriendly monsters go by faction attitude
             return Attitude::FRIENDLY;
             // NOLINTNEXTLINE(bugprone-branch-clone)
-        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
+        } else if( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) {
             // Stuff that hates a specific faction will always attack that faction
             return Attitude::HOSTILE;
         } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
@@ -1192,12 +1232,7 @@ monster_attitude monster::attitude( const Character *u ) const
     int effective_morale = morale;
 
     if( u != nullptr ) {
-        // Those are checked quite often, so avoiding string construction is a good idea
-        static const string_id<monfaction> faction_acid_ant( "acid_ant" );
-        static const string_id<monfaction> faction_ant( "ant" );
-        static const string_id<monfaction> faction_bee( "bee" );
-        static const string_id<monfaction> faction_wasp( "wasp" );
-        if( faction == faction_bee ) {
+        if( faction == monfaction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
             } else if( u->has_trait( trait_FLOWERS ) ) {
@@ -1219,8 +1254,13 @@ monster_attitude monster::attitude( const Character *u ) const
             effective_anger -= 20;
         }
 
-        if( ( faction == faction_acid_ant || faction == faction_ant || faction == faction_bee ||
-              faction == faction_wasp ) && effective_anger >= 10 && u->has_trait( trait_PHEROMONE_INSECT ) ) {
+        if( effective_anger >= 10 &&
+            type->in_species( species_AMPHIBIAN ) && u->has_trait( trait_PHEROMONE_AMPHIBIAN ) ) {
+            effective_anger -= 20;
+        }
+
+        if( ( faction == monfaction_acid_ant || faction == monfaction_ant || faction == monfaction_bee ||
+              faction == monfaction_wasp ) && effective_anger >= 10 && u->has_trait( trait_PHEROMONE_INSECT ) ) {
             effective_anger -= 20;
         }
 
@@ -1437,8 +1477,9 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     if( effect == effect_venom_dmg ||
         effect == effect_venom_player1 ||
         effect == effect_venom_player2 ) {
-        return ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) ) ||
-               type->in_species( species_NETHER ) || type->in_species( species_LEECH_PLANT );
+        return ( !made_of( material_flesh ) && !made_of( material_iflesh ) ) ||
+               type->in_species( species_NETHER ) || type->in_species( species_MIGO ) ||
+               type->in_species( species_LEECH_PLANT );
     }
 
     if( effect == effect_paralyzepoison ||
@@ -1446,6 +1487,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         effect == effect_venom_weaken ||
         effect == effect_poison ) {
         return type->in_species( species_ZOMBIE ) || type->in_species( species_NETHER ) ||
+               type->in_species( species_MIGO ) ||
                !made_of_any( Creature::cmat_flesh ) || type->in_species( species_LEECH_PLANT );
     }
 
@@ -1480,7 +1522,7 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return has_flag( MF_ACIDPROOF );
         case damage_type::HEAT:
             // Ugly hardcode - remove later
-            return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) );
+            return made_of( material_steel ) || made_of( material_stone );
         case damage_type::COLD:
             return false;
         case damage_type::ELECTRIC:
@@ -1518,8 +1560,8 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
-std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
-                                 damage_instance &dam )
+const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
+                                      damage_instance &dam )
 {
     resistances r = resistances( *this );
     const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
@@ -1536,7 +1578,7 @@ std::string monster::absorb_hit( const weakpoint_attack &attack, const bodypart_
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
     wp->apply_to( dam, attack.is_crit );
-    return wp->name;
+    return wp;
 }
 
 bool monster::melee_attack( Creature &target )
@@ -1586,11 +1628,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
     dealt_damage_instance dealt_dam;
 
     if( hitspread >= 0 ) {
-        weakpoint_attack attack;
-        attack.source = this;
-        attack.is_melee = true;
-        attack.wp_skill = weakpoint_skill();
-        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam, attack );
+        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
 
     const int total_dealt = dealt_dam.total_damage();
@@ -2074,8 +2112,9 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
         case damage_type::HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
         case damage_type::COLD:
-        case damage_type::ELECTRIC:
             return worn_armor;
+        case damage_type::ELECTRIC:
+            return worn_armor + static_cast<int>( type->armor_elec );
         case damage_type::NONE:
         case damage_type::NUM:
             // Let it error below
@@ -2170,6 +2209,12 @@ float monster::dodge_roll() const
     return get_dodge() * 5;
 }
 
+bool monster::can_attack_high() const
+{
+    return  !( ( type->size < creature_size::medium && !has_flag( MF_FLIES ) &&
+                 !has_flag( MF_ATTACK_UPPER ) ) || has_flag( MF_ATTACK_LOWER ) )  ;
+}
+
 int monster::get_grab_strength() const
 {
     return type->grab_strength;
@@ -2262,6 +2307,14 @@ bool monster::special_available( const std::string &special_name ) const
     return iter != special_attacks.end() && iter->second.enabled && iter->second.cooldown == 0;
 }
 
+bool monster::has_special( const std::string &special_name ) const
+{
+    std::map<std::string, mon_special_attack>::const_iterator iter = special_attacks.find(
+                special_name );
+    return iter != special_attacks.end() && iter->second.enabled;
+}
+
+
 void monster::explode()
 {
     // Handled in mondeath::normal
@@ -2296,11 +2349,11 @@ void monster::process_turn()
                 continue;
             }
             const emit_id emid = e.first;
-            if( emid == emit_id( "emit_shock_cloud" ) ) {
+            if( emid == emit_emit_shock_cloud ) {
                 if( has_effect( effect_emp ) ) {
                     continue; // don't emit electricity while EMPed
                 } else if( has_effect( effect_supercharged ) ) {
-                    here.emit_field( pos(), emit_id( "emit_shock_cloud_big" ) );
+                    here.emit_field( pos(), emit_emit_shock_cloud_big );
                     continue;
                 }
             }
@@ -2356,7 +2409,7 @@ void monster::process_turn()
                     explosion_handler::emp_blast( zap ); // Fries electronics due to the intensity of the field
                 }
                 const auto t = here.ter( zap );
-                if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
+                if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
                         explosion_handler::explosion( pos(), 40, 0.8, true );
                         add_msg_if_player_sees( zap, m_warning, _( "The %s explodes in a fiery inferno!" ),
@@ -2406,9 +2459,6 @@ void monster::die( Creature *nkiller )
     g->set_critter_died();
     dead = true;
     set_killer( nkiller );
-    if( death_drops && !no_extra_death_drops ) {
-        drop_items_on_death();
-    }
     if( get_killer() != nullptr ) {
         Character *ch = get_killer()->as_character();
         if( !is_hallucination() && ch != nullptr ) {
@@ -2421,25 +2471,6 @@ void monster::die( Creature *nkiller )
                 ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
                 ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
             }
-        }
-    }
-    if( death_drops ) {
-        // Drop items stored in optionals
-        move_special_item_to_inv( tack_item );
-        move_special_item_to_inv( armor_item );
-        move_special_item_to_inv( storage_item );
-        move_special_item_to_inv( tied_item );
-
-        if( has_effect( effect_lightsnare ) ) {
-            add_item( item( "string_36", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
-        }
-        if( has_effect( effect_heavysnare ) ) {
-            add_item( item( "rope_6", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
-        }
-        if( has_effect( effect_beartrap ) ) {
-            add_item( item( "beartrap", calendar::turn_zero ) );
         }
     }
     map &here = get_map();
@@ -2464,11 +2495,6 @@ void monster::die( Creature *nkiller )
                                             _( "The last enemy holding <npcname> collapses!" ) );
                 you->remove_effect( effect_grabbed );
             }
-        }
-    }
-    if( death_drops && !is_hallucination() ) {
-        for( const auto &it : inv ) {
-            here.add_item_or_charges( pos(), it );
         }
     }
 
@@ -2509,19 +2535,57 @@ void monster::die( Creature *nkiller )
         }
     }
 
+    item *corpse = nullptr;
     // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
     switch( type->mdeath_effect.corpse_type ) {
         case mdeath_type::NORMAL:
-            mdeath::normal( *this );
+            corpse =  mdeath::normal( *this );
             break;
         case mdeath_type::BROKEN:
             mdeath::broken( *this );
             break;
         case mdeath_type::SPLATTER:
-            mdeath::splatter( *this );
+            corpse = mdeath::splatter( *this );
             break;
         default:
             break;
+    }
+
+    if( death_drops && !no_extra_death_drops ) {
+        drop_items_on_death( corpse );
+    }
+    if( death_drops && !is_hallucination() ) {
+        for( const auto &it : inv ) {
+            if( corpse ) {
+                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+            } else {
+                get_map().add_item_or_charges( pos(), it );
+            }
+        }
+        if( corpse ) {
+            for( item_pocket *pocket : corpse->get_all_contained_pockets().value() ) {
+                pocket->set_usability( false );
+            }
+        }
+    }
+    if( death_drops ) {
+        // Drop items stored in optionals
+        move_special_item_to_inv( tack_item );
+        move_special_item_to_inv( armor_item );
+        move_special_item_to_inv( storage_item );
+        move_special_item_to_inv( tied_item );
+
+        if( has_effect( effect_lightsnare ) ) {
+            add_item( item( "string_36", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_heavysnare ) ) {
+            add_item( item( "rope_6", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_beartrap ) ) {
+            add_item( item( "beartrap", calendar::turn_zero ) );
+        }
     }
 
     // If our species fears seeing one of our own die, process that
@@ -2583,7 +2647,7 @@ bool monster::check_mech_powered() const
     return true;
 }
 
-void monster::drop_items_on_death()
+void monster::drop_items_on_death( item *corpse )
 {
     if( is_hallucination() ) {
         return;
@@ -2592,15 +2656,21 @@ void monster::drop_items_on_death()
         return;
     }
 
-    std::vector<item *> dropped = get_map().place_items( type->death_drops, 100, pos(), pos(), true,
-                                  calendar::start_of_cataclysm );
+    std::vector<item> new_items = item_group::items_from( type->death_drops,
+                                  calendar::start_of_cataclysm,
+                                  spawn_flags::use_spawn_rate );
 
-    if( has_flag( MF_FILTHY ) ) {
-        for( const auto &it : dropped ) {
-            if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
+    for( item &it : new_items ) {
+        if( has_flag( MF_FILTHY ) ) {
+            if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
-                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
+        }
+        if( corpse ) {
+            corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+        } else {
+            get_map().add_item_or_charges( pos(), it );
         }
     }
 }
@@ -2636,9 +2706,9 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[MOVEMENT_IMPAIRED] = true;
     } else if( id == effect_onfire ) {
         int dam = 0;
-        if( made_of( material_id( "veggy" ) ) ) {
+        if( made_of( material_veggy ) ) {
             dam = rng( 10, 20 );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
+        } else if( made_of( material_flesh ) || made_of( material_iflesh ) ) {
             dam = rng( 5, 10 );
         }
 
@@ -2756,9 +2826,9 @@ bool monster::make_fungus()
     if( type->in_species( species_FUNGUS ) ) { // No friendly-fungalizing ;-)
         return true;
     }
-    if( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "hflesh" ) ) &&
-        !made_of( material_id( "veggy" ) ) && !made_of( material_id( "iflesh" ) ) &&
-        !made_of( material_id( "bone" ) ) ) {
+    if( !made_of( material_flesh ) && !made_of( material_hflesh ) &&
+        !made_of( material_veggy ) && !made_of( material_iflesh ) &&
+        !made_of( material_bone ) ) {
         // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
         return true;
     }
@@ -2914,7 +2984,7 @@ bool monster::is_nemesis() const
     return has_flag( MF_NEMESIS );
 }
 
-void monster::init_from_item( const item &itm )
+void monster::init_from_item( item &itm )
 {
     if( itm.typeId() == itype_corpse ) {
         set_speed_base( get_speed_base() * 0.8 );
@@ -2935,6 +3005,10 @@ void monster::init_from_item( const item &itm )
         const std::string up_time = itm.get_var( "upgrade_time" );
         if( !up_time.empty() ) {
             upgrade_time = std::stoi( up_time );
+        }
+        for( item *it : itm.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            inv.push_back( *it );
+            itm.remove_item( *it );
         }
     } else {
         // must be a robot
@@ -3020,6 +3094,11 @@ void monster::on_hit( Creature *source, bodypart_id,
                 critter.morale += morale_adjust;
                 critter.anger += anger_adjust;
             }
+        }
+    }
+    if( source != nullptr ) {
+        if( Character *attacker = source->as_character() ) {
+            type->families.practice_hit( *attacker );
         }
     }
 
@@ -3212,8 +3291,8 @@ void monster::on_load()
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {
             regen = 0.02f * type->hp / to_turns<int>( 1_hours );
-        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ||
-                   made_of( material_id( "veggy" ) ) ) {
+        } else if( made_of( material_flesh ) || made_of( material_iflesh ) ||
+                   made_of( material_veggy ) ) {
             // Most living stuff here
             regen = 0.005f * type->hp / to_turns<int>( 1_hours );
         }

@@ -87,23 +87,23 @@ if (TILES)
                 ${FREETYPE_INCLUDE_DIRS}
                 ${PNG_INCLUDE_DIRS}
                 ${JPEG_INCLUDE_DIR}
-                ${ZLIB_INCLUDE_DIRS}
                 ${BZIP2_INCLUDE_DIR})
         target_link_libraries(cataclysm-tiles-common
                 ${FREETYPE_LIBRARIES}
                 ${PNG_LIBRARIES}
                 ${JPEG_LIBRARIES}
-                ${ZLIB_LIBRARIES}
                 ${BZIP2_LIBRARIES})
     endif ()
     target_include_directories(cataclysm-tiles-common PUBLIC
             ${SDL2_INCLUDE_DIR}
             ${SDL2_IMAGE_INCLUDE_DIRS}
-            ${SDL2_TTF_INCLUDE_DIRS})
+            ${SDL2_TTF_INCLUDE_DIRS}
+            ${ZLIB_INCLUDE_DIRS})
     target_link_libraries(cataclysm-tiles-common
             ${SDL2_LIBRARY}
             ${SDL2_IMAGE_LIBRARIES}
-            ${SDL2_TTF_LIBRARIES})
+            ${SDL2_TTF_LIBRARIES}
+            ${ZLIB_LIBRARIES})
 
     if (SOUND)
         target_compile_definitions(cataclysm-tiles-common PUBLIC SDL_SOUND )
@@ -168,8 +168,8 @@ if (CURSES)
                 ${ICONV_LIBRARIES})
     endif ()
 
-    target_include_directories(cataclysm-common PUBLIC ${CURSES_INCLUDE_DIR})
-    target_link_libraries(cataclysm-common ${CURSES_LIBRARIES})
+    target_include_directories(cataclysm-common PUBLIC ${CURSES_INCLUDE_DIR} ${ZLIB_INCLUDE_DIRS})
+    target_link_libraries(cataclysm-common ${CURSES_LIBRARIES} ${ZLIB_LIBRARIES})
 
     if (CMAKE_USE_PTHREADS_INIT)
         target_compile_options(cataclysm-common PUBLIC "-pthread")
@@ -205,14 +205,17 @@ if (MINGW AND NOT RELEASE)
     # Note: It is specific to MSYS2 and uses hardcoded versions so
     # probably it will fail if you run it :)
 
-    # GCC-specific libraries
+    # GCC-specific libraries and zlib
     find_library(RuntimeLib_GCC_S_DW2_1  "gcc_s_dw2-1")
     find_library(RuntimeLib_STDC_PP_6    "stdc++-6")
     find_library(RuntimeLib_WINPTHREAD_1 "winpthread-1")
+    find_library(RuntimeLib_zlib  "zlib1")
+
     set(RuntimeLib_GCC_ALL
             ${RuntimeLib_GCC_S_DW2_1}
             ${RuntimeLib_STDC_PP_6}
-            ${RuntimeLib_WINPTHREAD_1})
+            ${RuntimeLib_WINPTHREAD_1}
+            ${RuntimeLib_zlib})
     if (TILES)
         # SDL2 can have a varius deps. Here you are the MSYS2 ones...
         find_library(RuntimeLib_SDL2  "SDL2")
@@ -224,7 +227,6 @@ if (MINGW AND NOT RELEASE)
         find_library(RuntimeLib_webp  "libwebp-5")
         find_library(RuntimeLib_lzma  "liblzma-5")
         find_library(RuntimeLib_bz2  "libbz2-1")
-        find_library(RuntimeLib_zlib  "zlib1")
         find_library(RuntimeLib_hb  "libharfbuzz-0")
         find_library(RuntimeLib_SDL2_TTF  "SDL2_ttf")
         find_library(RuntimeLib_ft  "libfreetype-6")
@@ -239,7 +241,6 @@ if (MINGW AND NOT RELEASE)
                 ${RuntimeLib_webp}
                 ${RuntimeLib_lzma}
                 ${RuntimeLib_bz2}
-                ${RuntimeLib_zlib}
                 ${RuntimeLib_hb}
                 ${RuntimeLib_SDL2_TTF}
                 ${RuntimeLib_ft}

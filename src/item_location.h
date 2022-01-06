@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <memory>
+#include <string>
 
 #include "units_fwd.h"
 

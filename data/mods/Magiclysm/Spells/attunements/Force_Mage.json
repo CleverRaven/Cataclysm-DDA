@@ -34,6 +34,7 @@
     "to_hit": -10,
     "symbol": "[",
     "color": "brown",
+    "material": [ "magical_material" ],
     "environmental_protection": 2,
     "relic_data": {
       "passive_effects": [

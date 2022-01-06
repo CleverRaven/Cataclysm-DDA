@@ -88,6 +88,11 @@
       ]
     },
     "max_volume": "875 L",
+    "prying": {
+      "result": "f_coffin_o",
+      "message": "You wedge open the coffin.",
+      "prying_data": { "difficulty": 5, "prying_level": 2, "noisy": true, "failure": "You pry, but the coffin remains closed." }
+    },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -159,6 +164,11 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
     },
+    "prying": {
+      "result": "f_crate_o",
+      "message": "You pop open the crate.",
+      "prying_data": { "difficulty": 6, "prying_level": 1, "noisy": true, "failure": "You pry, but can't pop open the crate." }
+    },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -211,7 +221,7 @@
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "paper", "charges": [ 50, 100 ] } ]
+      "items": [ { "item": "cardboard", "charges": [ 50, 100 ] } ]
     }
   },
   {
@@ -542,7 +552,7 @@
     "type": "furniture",
     "id": "f_rack_l",
     "looks_like": "f_rack",
-    "name": "locked display case",
+    "name": "locked display rack",
     "description": "A sheet metal shelving unit, with the storage surfaces angled in such a way as to show off the items stored.  Metal fasteners with a lock hold the items securely to the rack.",
     "symbol": "{",
     "color": "light_gray",
@@ -1100,7 +1110,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "LIQUIDCONT", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 40,
       "str_max": 100,
@@ -1147,7 +1157,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "LIQUIDCONT", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 40,
       "str_max": 100,
@@ -1275,7 +1285,12 @@
     "required_str": 12,
     "max_volume": "1000 L",
     "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF" ],
-    "examine_action": "locked_object",
+    "prying": {
+      "result": "f_metal_crate_o",
+      "message": "You wrench open the metal crate.",
+      "byproducts": [ { "item": "sheet_metal", "count": 1 } ],
+      "prying_data": { "difficulty": 4, "prying_level": 1, "noisy": true, "failure": "The lid is sealed more tightly than you thought." }
+    },
     "bash": {
       "str_min": 30,
       "str_max": 150,

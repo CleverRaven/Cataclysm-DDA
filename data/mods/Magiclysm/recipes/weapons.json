@@ -35,7 +35,7 @@
     "time": "660 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 } ],
     "components": [
@@ -57,7 +57,7 @@
     "difficulty": 4,
     "time": "2 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
@@ -78,7 +78,7 @@
     "difficulty": 6,
     "time": "660 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "MANA_INFUSE", "level": 2 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_carving" },
@@ -114,7 +114,7 @@
     "time": "10 m",
     "autolearn": true,
     "reversible": false,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [ [ [ "bone", 1 ] ] ]
@@ -152,7 +152,7 @@
     "difficulty": 4,
     "time": "360 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [ [ [ "compositebow", 1 ] ], [ [ "rune_druid", 2 ] ] ]
   },
   {
@@ -501,7 +501,7 @@
       { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_almetallurgy" }
     ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "stick_long", 1 ], [ "2x4", 1 ] ],
@@ -551,7 +551,7 @@
     "charges": 4,
     "time": "30 m",
     "book_learn": [ [ "book_mythological", 9 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "orichalcum_ingot", 1 ] ],
@@ -587,7 +587,7 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_alchemy" } ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "small_mana_crystal", 1 ] ], [ [ "leather", 2 ] ], [ [ "mana_dust", 10 ] ] ]
   },
@@ -602,7 +602,7 @@
     "difficulty": 2,
     "time": "60 m",
     "book_learn": [ [ "enchantment_basic", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_alchemy" } ],
     "tools": [ [ [ "rune_alchemist", -1 ] ] ],
     "components": [ [ [ "enchanted_wood", 1 ] ], [ [ "mana_pearl", 1 ] ], [ [ "leather", 2 ] ], [ [ "mana_dust", 10 ] ] ]
@@ -620,7 +620,7 @@
     "book_learn": [ [ "enchantment_basic", 5 ] ],
     "using": [ [ "forging_standard", 2 ] ],
     "qualities": [
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "MANA_INFUSE", "level": 2 },
       { "id": "MANA_FOCUS", "level": 1 },
       { "id": "ANVIL", "level": 3 },

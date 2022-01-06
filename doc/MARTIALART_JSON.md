@@ -14,6 +14,7 @@
                             // Total chance to learn a style from a single read of the book is equal to one in (10 + learn_difficulty - primary_skill)
 "arm_block" : 99,           // Unarmed skill level at which arm blocking is unlocked
 "leg_block" : 99,           // Unarmed skill level at which arm blocking is unlocked
+"nonstandard_block": 99     // Unarmed skill level at which blocking with "nonstandard" mutated limbs is unlocked
 "static_buffs" : [          // List of buffs that are automatically applied every turn
     "id" : "debug_elem_resist",
     "heat_arm_per" : 1.0
@@ -40,10 +41,14 @@
 "name" : "phasing strike",  // In-game name displayed
 "unarmed_allowed" : true,   // Can an unarmed character use this technique
 "unarmed_weapons_allowed" : true,    // Does this technique require the character to be actually unarmed or does it allow unarmed weapons
+"weapon_categories_allowed" : [ "BLADES", "KNIVES" ], // Restrict technique to only these categories of weapons. If omitted, all weapon categories are allowed.
 "melee_allowed" : true,     // Means that ANY melee weapon can be used, NOT just the martial art's weapons
 "skill_requirements": [ { "name": "melee", "level": 3 } ],     // Skills and their minimum levels required to use this technique. Can be any skill.
 "weapon_damage_requirements": [ { "type": "bash", "min": 5 } ],     // Minimum weapon damage required to use this technique. Can be any damage type.
-"req_buffs": [ "eskrima_hit_buff" ],    // This technique requires a named buff to be active
+"required_buffs_any": [ "eskrima_hit_buff" ],    // This technique requires any of the named buffs to be active
+"required_buffs_all": [ "eskrima_hit_buff" ],    // This technique requires all of the named buffs to be active
+"forbidden_buffs_any": [ "eskrima_hit_buff" ],    // This technique is forbidden if any of the named buffs are active
+"forbidden_buffs_all": [ "eskrima_hit_buff" ],    // This technique is forbidden if all of the named buffs are active
 "crit_tec" : true,          // This technique only works on a critical hit
 "crit_ok" : true,           // This technique works on both normal and critical hits
 "downed_target": true,      // Technique only works on a downed target
@@ -78,9 +83,11 @@
 "name" : "Elemental resistance",    // In-game name displayed
 "description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",    // In-game description
 "buff_duration": 2,                 // Duration in turns that this buff lasts
+"persists": false,                 // Allow buff to remain when changing to a new style
 "unarmed_allowed" : true,           // Can this buff be applied to an unarmed character
 "unarmed_allowed" : false,          // Can this buff be applied to an armed character
 "unarmed_weapons_allowed" : true,          // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
+"weapon_categories_allowed" : [ "BLADES", "KNIVES" ], // Restrict buff to only these categories of weapons. If omitted, all weapon categories are allowed.
 "max_stacks" : 8,                   // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
 "bonus_blocks": 1       // Extra blocks per turn
 "bonus_dodges": 1       // Extra dodges per turn

@@ -707,9 +707,9 @@ std::string enumerate_as_string( const _Container &values,
             case enumeration_conjunction::none:
                 return _( ", " );
             case enumeration_conjunction::and_:
-                return ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
+                return values.size() > 2 ? _( ", and " ) : _( " and " );
             case enumeration_conjunction::or_:
-                return ( values.size() > 2 ? _( ", or " ) : _( " or " ) );
+                return values.size() > 2 ? _( ", or " ) : _( " or " );
             case enumeration_conjunction::arrow:
                 return _( " > " );
         }

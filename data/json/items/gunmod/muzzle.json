@@ -201,5 +201,23 @@
     "handling_modifier": 1,
     "loudness_modifier": -30,
     "flags": [ "CONSUMABLE" ]
+  },
+  {
+    "id": "choke",
+    "type": "GUNMOD",
+    "name": { "str": "choke" },
+    "description": "A choke shapes the spread of the shot cloud to gain better range and accuracy.",
+    "weight": "300 g",
+    "volume": "150 ml",
+    "price": 78000,
+    "price_postapoc": 1500,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "muzzle",
+    "mod_targets": [ "shotgun" ],
+    "install_time": "3 m",
+    "shot_spread_multiplier_modifier": -0.3,
+    "flags": [ "CHOKE" ]
   }
 ]

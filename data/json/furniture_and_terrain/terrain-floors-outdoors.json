@@ -146,7 +146,20 @@
     "move_cost": 0,
     "roof": "t_rock_floor",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ],
-    "examine_action": "fault"
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_TERRAIN_FAULT",
+          "effect": [
+            {
+              "u_message": "This wall is perfectly vertical.  Odd, twisted holes are set in it, leading as far back into the solid rock as you can see.  The holes are humanoid in shape, but with long, twisted, distended limbs.",
+              "popup": true
+            }
+          ]
+        }
+      ]
+    }
   },
   {
     "type": "terrain",
@@ -185,6 +198,18 @@
     "roof": "t_open_air",
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rubber_mulch",
+    "name": "rubber mulch",
+    "description": "A large area mulched with shredded rubber.  It's a softer place to land than regular dirt.",
+    "symbol": ".",
+    "color": "dark_gray",
+    "move_cost": 3,
+    "connects_to": "MULCHFLOOR",
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
     "type": "terrain",
@@ -398,7 +423,7 @@
     "type": "terrain",
     "id": "t_gelatinous_groundcover",
     "name": "gelatinous ground",
-    "description": "An incursion of a large area of otherwordly substrate, it feels like walking on hardened gelatin.",
+    "description": "An incursion of a large area of otherworldly substrate, it feels like walking on hardened gelatin.",
     "symbol": ".",
     "color": "pink",
     "move_cost": 5,

@@ -13,7 +13,7 @@
     "type": "proficiency",
     "id": "prof_intro_biology",
     "name": { "str": "Principles of Biology" },
-    "description": "You are beginning to gain a general idea of how various living beings fuction.",
+    "description": "You are beginning to gain a general idea of how various living beings function.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 4,

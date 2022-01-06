@@ -167,7 +167,7 @@
     "id": "npc_player_still_looking",
     "name": [ "Waiting for you to find something" ],
     "desc": [
-      "AI tag to prevent NPCs from following the player while the player is finding an additonal copy of an item.  This is a bug if you have it."
+      "AI tag to prevent NPCs from following the player while the player is finding an additional copy of an item.  This is a bug if you have it."
     ]
   },
   {
@@ -299,6 +299,18 @@
     "show_in_info": true
   },
   {
+    "type": "effect_type",
+    "id": "staggered",
+    "name": [ "Staggered" ],
+    "//": "Mainly for monsters",
+    "desc": [ "You've been knocked off-balance by an attack'." ],
+    "apply_message": "You're staggered off-balance.",
+    "base_mods": { "speed_mod": [ -20 ] },
+    "removes_effects": [ "grabbing" ],
+    "rating": "bad",
+    "show_in_info": true
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
@@ -306,6 +318,7 @@
     "desc": [ "You're knocked to the ground.  You have to get up before you can move." ],
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
+    "resist_traits": [ "GASTROPOD_FOOT" ],
     "show_in_info": true
   },
   {
@@ -420,6 +433,7 @@
     "name": [ "Unstable footing" ],
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
+    "resist_traits": [ "GASTROPOD_BALANCE" ],
     "rating": "bad"
   },
   {
@@ -431,7 +445,8 @@
     "apply_message": "You're blinded!",
     "remove_message": "Your sight returns!",
     "rating": "bad",
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "BLIND" ]
   },
   {
     "type": "effect_type",
@@ -645,7 +660,7 @@
     "//": "In formal usage, 'nauseous' technically means 'to cause nausea [in others],' not 'feeling sick.'",
     "miss_messages": [ [ "Your stomach bothers you.", 1 ] ],
     "rating": "bad",
-    "resist_traits": [ "POISRESIST" ],
+    "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
     "base_mods": {
       "per_mod": [ -1 ],
       "dex_mod": [ -1 ],
@@ -989,7 +1004,7 @@
     "desc": [ "You have an infected wound." ],
     "apply_memorial_log": "Contracted an infection.",
     "remove_memorial_log": "Recovered from an infection… this time.",
-    "apply_message": "Your bite wound feels infected.",
+    "apply_message": "Your wound feels infected.",
     "resist_traits": [ "INFRESIST" ],
     "main_parts_only": true,
     "rating": "bad",
@@ -1316,7 +1331,7 @@
   {
     "type": "effect_type",
     "id": "hallu",
-    "max_duration": "30 m",
+    "max_duration": "6 h",
     "blood_analysis_description": "Hallucinations"
   },
   {
@@ -1826,6 +1841,7 @@
     "type": "effect_type",
     "id": "tapeworm",
     "rating": "bad",
+    "resist_traits": [ "VOMITSTOMACH" ],
     "base_mods": { "hunger_chance": [ 50 ], "hunger_min": [ 1 ] },
     "blood_analysis_description": "Intestinal Parasite"
   },
@@ -2401,6 +2417,71 @@
   },
   {
     "type": "effect_type",
+    "id": "pd_str_bad",
+    "name": [ "Muscle Vanishment", "Muscle Dissapearance" ],
+    "desc": [ "You feel as if your muscles are not quite there.", "You feel as if your muscles are not in your body." ],
+    "max_intensity": 2,
+    "rating": "bad",
+    "int_dur_factor": "50 m",
+    "base_mods": { "str_mod": [ -1 ] },
+    "scaling_mods": { "str_mod": [ -2 ] },
+    "miss_messages": [ [ "Your lack of strength stops you!", 1 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "pd_dex_bad",
+    "name": [ "Weak Grasp", "Inexistent Grasp" ],
+    "desc": [ "You seem to have problems touching things.", "You feel as if your hands just pass through matter." ],
+    "max_intensity": 2,
+    "rating": "bad",
+    "int_dur_factor": "50 m",
+    "base_mods": { "dex_mod": [ -1 ] },
+    "scaling_mods": { "dex_mod": [ -2 ] },
+    "miss_messages": [ [ "Your attacks don't seem to touch your enemies!", 1 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "pd_per_bad",
+    "name": [ "Distorted Vision", "Otherworldly Vision" ],
+    "desc": [
+      "You have problems distinguishing shapes and colors.",
+      "You seem to see slightly different realities every time you blink."
+    ],
+    "max_intensity": 2,
+    "rating": "bad",
+    "int_dur_factor": "50 m",
+    "base_mods": { "per_mod": [ -1 ] },
+    "scaling_mods": { "per_mod": [ -2 ] },
+    "miss_messages": [ [ "You can't distinguish up from down!", 1 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "pd_int_bad",
+    "name": [ "Wandering Mind", "Foreign Mind" ],
+    "desc": [ "Your thoughts seem to wander around on their own.", "Foreign thoughts seem to invade your mind." ],
+    "max_intensity": 2,
+    "rating": "bad",
+    "int_dur_factor": "50 m",
+    "base_mods": { "int_mod": [ -1 ] },
+    "scaling_mods": { "int_mod": [ -2 ] },
+    "miss_messages": [ [ "You suddenly think you shouldn't do that!", 1 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "pd_rejection",
+    "name": [ "World Rejection", "Dimensional Rejection" ],
+    "desc": [
+      "Faint sparks surround your every move, your body aches more with every passing second.",
+      "Sparks swarm around you, your body hurts and even the air seems to reject your existence."
+    ],
+    "max_intensity": 2,
+    "rating": "bad",
+    "int_dur_factor": "7 m",
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 20 ] },
+    "scaling_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 25 ], "cough_chance": [ 30 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "grown_of_fuse",
     "name": [ "Grown of Fusion" ],
     "desc": [ "AI effect to increase stats after fusing with another critter.  1 stack means one absorbed max_hp." ],
@@ -2474,13 +2555,14 @@
   },
   {
     "type": "effect_type",
-    "id": "nightmares"
+    "id": "nightmares",
+    "max_duration": "72 hours"
   },
   {
     "type": "effect_type",
     "id": "incorporeal",
     "name": [ "Incorporeal" ],
-    "desc": [ "You lack substance, as if composed of mist." ]
+    "desc": [ "You lack substance, as if you aren't quite fully here." ]
   },
   {
     "type": "effect_type",
@@ -2601,5 +2683,20 @@
   {
     "type": "effect_type",
     "id": "hunger_blank"
+  },
+  {
+    "//": "Limits the number of police bots summoned to 3 every 6 hours",
+    "type": "effect_type",
+    "id": "eyebot_assisted",
+    "int_add_val": 1,
+    "max_intensity": 3,
+    "max_duration": "6 hours"
+  },
+  {
+    "//": "The eyebot can no longer summon police bots",
+    "type": "effect_type",
+    "id": "eyebot_depleted",
+    "int_add_val": 1,
+    "max_intensity": 10
   }
 ]

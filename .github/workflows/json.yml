@@ -10,11 +10,16 @@ jobs:
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
-        with:
-          cancel_others: 'true'
-          paths: '["**.json"]'
+    - id: skip_check
+      uses: fkirc/skip-duplicate-actions@master
+      with:
+        cancel_others: 'true'
+        paths: '["**.json"]'
+    - run: echo ${{ github.event.number }} > pull_request_id
+    - uses: actions/upload-artifact@v2
+      with:
+        name: pull_request_id
+        path: pull_request_id
   style-json:
     name: JSON style check
 

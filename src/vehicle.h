@@ -400,11 +400,15 @@ struct vehicle_part {
 
         /** Current part damage in same units as item::damage. */
         int damage() const;
+        /** Current part degradation of part base */
+        int degradation() const;
         /** max damage of part base */
         int max_damage() const;
+        /** Current damage floor of the part base */
+        int damage_floor( bool allow_negative ) const;
 
         /** Current part damage level in same units as item::damage_level */
-        int damage_level() const;
+        int damage_level( int dmg = INT_MIN ) const;
 
         /** Current part damage as a percentage of maximum, with 0.0 being perfect condition */
         double damage_percent() const;
@@ -799,7 +803,7 @@ class vehicle
          * Set stat for part constrained by range [0,durability]
          * @note does not invoke base @ref item::on_damage callback
          */
-        void set_hp( vehicle_part &pt, int qty );
+        void set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_degradation = -1 );
 
         /**
          * Apply damage to part constrained by range [0,durability] possibly destroying it
@@ -892,6 +896,10 @@ class vehicle
          *  @param pos location of physical controls to operate (ignored during remote operation)
          */
         void use_controls( const tripoint &pos );
+
+        item init_cord( const tripoint &pos );
+        void plug_in( const tripoint &pos );
+        void connect( const tripoint &source_pos, const tripoint &target_pos );
 
         // Fold up the vehicle
         bool fold_up();
@@ -1804,7 +1812,7 @@ class vehicle
         void clear_bike_racks( std::vector<int> &racks );
         void use_harness( int part, const tripoint &pos );
 
-        void interact_with( const vpart_position &vp );
+        void interact_with( const vpart_position &vp, bool with_pickup = false );
 
         std::string disp_name() const;
 
@@ -1842,7 +1850,7 @@ class vehicle
         /**
         * checks carried_vehicles param for duplicate entries of bike racks/vehicle parts
         * this eliminates edge cases caused by overlapping bike_rack lanes
-        * @param carried_vehicles is a set of either vehicle_parts or bike_racks that need duplicate entries accross the vector<vector>s rows removed
+        * @param carried_vehicles is a set of either vehicle_parts or bike_racks that need duplicate entries across the vector<vector>s rows removed
         */
         void validate_carried_vehicles( std::vector<std::vector<int>>
                                         &carried_vehicles );
@@ -1915,6 +1923,9 @@ class vehicle
         // SC config. optional, as majority of vehicles don't have SC installed
         cata::optional<smart_controller_config> smart_controller_cfg = cata::nullopt;
         bool has_enabled_smart_controller = false; // NOLINT(cata-serialize)
+
+        void add_tag( std::string tag );
+        bool has_tag( std::string tag ) const;
 
     private:
         mutable units::mass mass_cache; // NOLINT(cata-serialize)

@@ -119,7 +119,14 @@
   {
     "id": "survivor_grenades",
     "type": "item_group",
-    "items": [ [ "gasbomb_makeshift", 30 ], [ "molotov", 100 ], [ "improvised_pipebomb", 30 ], [ "can_bomb", 30 ] ]
+    "items": [
+      [ "gasbomb_makeshift", 30 ],
+      [ "molotov", 100 ],
+      [ "improvised_pipebomb", 30 ],
+      [ "can_bomb", 30 ],
+      [ "40x46mm_hornets_nest_22lr", 5 ],
+      [ "40x46mm_hornets_nest_410", 5 ]
+    ]
   },
   {
     "id": "survivor_stabbing",

@@ -121,7 +121,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Combat Rated Energy Field CBM" },
-    "description": "The HawkingCorps EnergyField Mark 2 was designed for police actions during food riots and other civilian uprisings.  It has proven cabaple of protecting against most improvised weapons.  This field is rated to reduce bashing and cut damage as viewed in your HUD by 15 points.",
+    "description": "The HawkingCorps EnergyField Mark 2 was designed for police actions during food riots and other civilian uprisings.  It has proven capable of protecting against most improvised weapons.  This field is rated to reduce bashing and cut damage as viewed in your HUD by 15 points.",
     "price": 100000,
     "price_postapoc": 3500,
     "difficulty": 8

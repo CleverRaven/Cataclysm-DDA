@@ -1,0 +1,25 @@
+[
+  {
+    "id": "RUBIK_ANUS_FETICK",
+    "type": "mission_definition",
+    "name": { "str": "Bring 6L of anesthetic to Rubik" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 240,
+    "item": "anesthetic",
+    "count": 840,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "If'n us'll to add the metal an' plastic for ye, us'll need two jars o' them anus-feticks, one for your thinkin'-meat an' one for our stock.",
+      "offer": "If'n us'll to add the metal an' plastic for ye, us'll need two jars o' them anus-feticks, one for your thinkin'-meat an' one for our stock.",
+      "accepted": "King's own luck!",
+      "rejected": "That be a choice an' you can tass.  Come back to this'n if you like.",
+      "advice": "Check round the chirurgery an' such, I'd razz.",
+      "inquire": "Us'n waits patient-like for those kits.",
+      "success": "Fine an' fine.  We can pass it in when you like.",
+      "success_lie": "Fine an' fine.  We can pass it in when you like.",
+      "failure": "Fine an' fine.  Come back to this'n if you like to try again."
+    },
+    "end": { "effect": [ { "u_add_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" } ] }
+  }
+]

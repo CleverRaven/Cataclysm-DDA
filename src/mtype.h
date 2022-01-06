@@ -135,8 +135,6 @@ enum m_flag : int {
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
     MF_BILE_BLOOD,          // Makes monster bleed bile.
-    MF_ABSORBS,             // Consumes objects it moves over which gives bonus hp.
-    MF_ABSORBS_SPLITS,      // Consumes objects it moves over which gives bonus hp. If it gets enough bonus HP, it spawns a copy of itself.
     MF_CBM_CIV,             // May produce a common CBM a power CBM when butchered.
     MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.
     MF_CBM_SCI,             // May produce a bionic from bionics_sci when butchered.
@@ -183,6 +181,8 @@ enum m_flag : int {
     MF_RANGED_ATTACKER,     // This monster has any sort of ranged attack
     MF_CAMOUFLAGE,          // This monster is hard to spot, even in broad daylight
     MF_WATER_CAMOUFLAGE,    // This monster is hard to spot if it is underwater, especially if you aren't
+    MF_ATTACK_UPPER,        // This monster is capable of hitting upper limbs
+    MF_ATTACK_LOWER,        // This monster is incapable of hitting upper limbs regardless of other factors
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -287,7 +287,8 @@ struct mtype {
 
         std::set<species_id> species;
         std::set<std::string> categories;
-        std::vector<material_id> mat;
+        std::map<material_id, int> mat;
+        int mat_portion_total = 0;
         /** UTF-8 encoded symbol, should be exactly one cell wide. */
         std::string sym;
         /** hint for tilesets that don't have a tile for this monster */
@@ -340,13 +341,35 @@ struct mtype {
         int armor_bullet = -1;  /** innate armor vs. bullet */
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
+        int armor_elec = -1;    /** innate armor vs. electricity */
         ::weakpoints weakpoints;
+        weakpoint_families families;
 
         // Pet food category this monster is in
         pet_food_data petfood;
 
+        // Multiplier to chance to apply status effects (only zapped for now)
+        float status_chance_multiplier = 1.0f;
+
         // Bleed rate in percent, 0 makes the monster immune to bleeding
         int bleed_rate = 100;
+
+        // The amount of volume in milliliters that this monster needs to absorb to gain 1 HP (default 250)
+        int absorb_ml_per_hp = 250;
+
+        // The type of material this monster can absorb. Leave unspecified for all materials.
+        std::vector<material_id> absorb_material;
+
+        // The move cost for this monster splitting via SPLITS_ABSORBS flag (default 200)
+        int split_move_cost = 200;
+
+        // Move cost per ml of matter consumed for this monster (default 0.025).
+        float absorb_move_cost_per_ml = 0.025f;
+
+        // Minimum move cost for this monster to absorb an item (default 1)
+        int absorb_move_cost_min = 1;
+        // Maximum move cost for this monster to absorb an item (default -1, -1 for no limit)
+        int absorb_move_cost_max = -1;
 
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         // Vision range is linearly scaled depending on lighting conditions

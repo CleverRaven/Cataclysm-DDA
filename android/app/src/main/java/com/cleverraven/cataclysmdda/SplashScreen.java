@@ -33,7 +33,7 @@ public class SplashScreen extends Activity {
     private ProgressDialog installDialog;
 
     public CharSequence[] mSettingsNames;
-    public boolean[] mSettingsValues = { false, false, true };
+    public boolean[] mSettingsValues = { false, false, true, true };
 
     private String getVersionName() {
         try {
@@ -202,7 +202,8 @@ public class SplashScreen extends Activity {
             mSettingsNames = new CharSequence[] {
                 getString(R.string.softwareRendering),
                 getString(R.string.forceFullscreen),
-                getString(R.string.trapBackButton)
+                getString(R.string.trapBackButton),
+                getString(R.string.nativeAndroidUI)
             };
 
             settingsAlert = new AlertDialog.Builder(SplashScreen.this)
@@ -218,6 +219,7 @@ public class SplashScreen extends Activity {
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Software rendering", SplashScreen.this.mSettingsValues[0]).commit();
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Force fullscreen", SplashScreen.this.mSettingsValues[1]).commit();
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Trap Back button", SplashScreen.this.mSettingsValues[2]).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Native Android UI", SplashScreen.this.mSettingsValues[3]).commit();
                         SplashScreen.this.startGameActivity(false);
                         return;
                     }

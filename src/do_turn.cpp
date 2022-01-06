@@ -20,6 +20,7 @@
 #include "mission.h"
 #include "monattack.h"
 #include "mtype.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -33,8 +34,11 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
-static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+
+static const bionic_id bio_alarm( "bio_alarm" );
 
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
@@ -45,7 +49,9 @@ static const itype_id itype_holybook_bible1( "holybook_bible1" );
 static const itype_id itype_holybook_bible2( "holybook_bible2" );
 static const itype_id itype_holybook_bible3( "holybook_bible3" );
 
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -88,7 +94,7 @@ bool cleanup_at_end()
 
         if( u.has_amount( itype_holybook_bible1, 1 ) || u.has_amount( itype_holybook_bible2, 1 ) ||
             u.has_amount( itype_holybook_bible3, 1 ) ) {
-            if( !( u.has_trait( trait_id( "CANNIBAL" ) ) || u.has_trait( trait_id( "PSYCHOPATH" ) ) ) ) {
+            if( !( u.has_trait( trait_CANNIBAL ) || u.has_trait( trait_PSYCHOPATH ) ) ) {
                 vRip.emplace_back( "               _______  ___" );
                 vRip.emplace_back( "              <       `/   |" );
                 vRip.emplace_back( "               >  _     _ (" );
@@ -220,10 +226,13 @@ bool cleanup_at_end()
         const int days = to_days<int>( survived );
 
         if( days > 0 ) {
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             sTemp = string_format( "%dd %dh %dm", days, hours, minutes );
         } else if( hours > 0 ) {
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             sTemp = string_format( "%dh %dm", hours, minutes );
         } else {
+            // NOLINTNEXTLINE(cata-translate-string-literal)
             sTemp = string_format( "%dm", minutes );
         }
 
@@ -448,7 +457,6 @@ void monmove()
             m.creature_in_field( critter );
         }
 
-        const bionic_id bio_alarm( "bio_alarm" );
         if( !critter.is_dead() &&
             u.has_active_bionic( bio_alarm ) &&
             u.get_power_level() >= bio_alarm->power_trigger &&
@@ -458,7 +466,7 @@ void monmove()
             add_msg( m_warning, _( "Your motion alarm goes off!" ) );
             g->cancel_activity_or_ignore_query( distraction_type::motion_alarm,
                                                 _( "Your motion alarm goes off!" ) );
-            if( u.has_effect( efftype_id( "sleep" ) ) ) {
+            if( u.has_effect( effect_sleep ) ) {
                 u.wake_up();
             }
         }
@@ -470,8 +478,8 @@ void monmove()
     // If so, despawn them. This is not the same as dying, they will be stored for later and the
     // monster::die function is not called.
     for( monster &critter : g->all_monsters() ) {
-        if( critter.posx() < 0 - ( MAPSIZE_X ) / 6 ||
-            critter.posy() < 0 - ( MAPSIZE_Y ) / 6 ||
+        if( critter.posx() < 0 - MAPSIZE_X / 6 ||
+            critter.posy() < 0 - MAPSIZE_Y / 6 ||
             critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
             critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) {
             g->despawn_monster( critter );
@@ -662,7 +670,7 @@ bool do_turn()
         sfx::do_hearing_loss();
     }
 
-    if( !u.has_effect( efftype_id( "sleep" ) ) || g->uquit == QUIT_WATCH ) {
+    if( !u.has_effect( effect_sleep ) || g->uquit == QUIT_WATCH ) {
         if( u.moves > 0 || g->uquit == QUIT_WATCH ) {
             while( u.moves > 0 || g->uquit == QUIT_WATCH ) {
                 g->cleanup_dead();
@@ -678,6 +686,11 @@ bool do_turn()
                     && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
                     g->wait_popup.reset();
                     ui_manager::redraw();
+                }
+
+                if( g->queue_screenshot ) {
+                    g->take_screenshot();
+                    g->queue_screenshot = false;
                 }
 
                 if( g->handle_action() ) {
@@ -715,7 +728,7 @@ bool do_turn()
             // If player is performing a task, a monster is dangerously close,
             // and monster can reach to the player or it has some sort of a ranged attack,
             // warn them regardless of previous safemode warnings
-            if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
+            if( u.activity && !u.has_activity( ACT_AIM ) &&
                 u.activity.moves_left > 0 &&
                 !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
                 Creature *hostile_critter = g->is_hostile_very_close( true );

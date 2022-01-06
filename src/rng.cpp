@@ -63,7 +63,7 @@ double rng_exponential( double min, double mean )
 
 bool one_in( int chance )
 {
-    return ( chance <= 1 || rng( 0, chance - 1 ) == 0 );
+    return chance <= 1 || rng( 0, chance - 1 ) == 0;
 }
 
 bool one_turn_in( const time_duration &duration )

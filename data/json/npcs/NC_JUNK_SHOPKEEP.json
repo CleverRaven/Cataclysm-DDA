@@ -26,6 +26,7 @@
       { "item": "trenchcoat_fur", "prob": 10 },
       { "item": "vest_leather", "prob": 15 },
       { "item": "vest_leather_mod", "prob": 5 },
+      { "item": "case_cigar", "prob": 5 },
       { "item": "football_armor", "prob": 30 },
       { "item": "jacket_leather", "prob": 25 },
       { "item": "jacket_leather_mod", "prob": 10 },

@@ -515,5 +515,11 @@
     "id": "sloc_light_industry_scen",
     "name": "Industrial Offices",
     "terrain": [ "s_lightindustry_scen_10" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_mansion_basement",
+    "name": "Mansion Basement",
+    "terrain": [ "mansion_t2d", "mansion_c2d", "mansion_c3d", "mansion_c4d", "mansion_t4d" ]
   }
 ]

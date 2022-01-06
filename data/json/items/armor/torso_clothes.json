@@ -15,7 +15,12 @@
     "color": "brown",
     "armor": [
       { "covers": [ "torso" ], "coverage": 70, "encumbrance": [ 2, 5 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 70, "encumbrance": [ 2, 2 ] }
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 70,
+        "encumbrance": [ 1, 1 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      }
     ],
     "pocket_data": [
       {
@@ -92,6 +97,51 @@
     "material_thickness": 1.5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "FANCY", "OUTER" ]
+  },
+  {
+    "id": "combat_shirt",
+    "repairs_like": "jacket_army_modern",
+    "type": "ARMOR",
+    "name": { "str_sp": "combat shirt" },
+    "description": "An oddly balanced long-sleeved shirt with a thin, moisture wicking torso and thicker arms more appropriate for a jacket.  The arms are covered in a camouflage pattern and have two shoulder pockets.  It has a pocket for your pen!",
+    "weight": "450 g",
+    "volume": "3 L",
+    "price": 6400,
+    "price_postapoc": 750,
+    "material": [ "nylon", "cotton" ],
+    "symbol": "[",
+    "looks_like": "jacket_army",
+    "color": "green",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 3 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 9 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 ml",
+        "max_contains_weight": "50 g",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
     "id": "dress",
@@ -365,7 +415,7 @@
     "warmth": 5,
     "material_thickness": 0.01,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 55, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
     "id": "linuxtshirt",
@@ -453,9 +503,9 @@
     "looks_like": "dress",
     "color": "blue",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 75, "encumbrance": [ 5, 7 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 75, "encumbrance": [ 5, 5 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 75, "encumbrance": [ 5, 5 ] }
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 5, 7 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 5, 5 ] }
     ],
     "pocket_data": [
       {
@@ -467,6 +517,41 @@
       }
     ],
     "warmth": 5,
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "maid_dress_short",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str_sp": "Short french maid clothes" },
+    "description": "The French maid dress, black with a frilly white apron.  This version is much lighter and shorter than normal.",
+    "weight": "60 g",
+    "volume": "250 ml",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "maid_dress",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 4 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 20 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 50 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 15,
+        "encumbrance": 2
+      }
+    ],
+    "warmth": 2,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ]
   },
@@ -525,6 +610,89 @@
     "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
+    "id": "santa_dress",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "santa dress", "str_pl": "santa dresses" },
+    "description": "A red sleeved dress with white faux fur as trim.  For when you want to be Mrs.  Claus on Christmas, or perhaps Santa going clubbing.",
+    "weight": "800 g",
+    "volume": "3500 ml",
+    "price": 18000,
+    "price_postapoc": 60,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "robe",
+    "color": "red",
+    "warmth": 25,
+    "material_thickness": 0.4,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 10 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 8 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 50 }
+    ]
+  },
+  {
+    "id": "santa_dress_long",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "luxury santa dress", "str_pl": "luxury santa dresses" },
+    "description": "A red sleeved long dress with white faux fur as trim.  This is a fancy version for a queen of the north pole.",
+    "weight": "1200 g",
+    "volume": "3850 ml",
+    "price": 25000,
+    "price_postapoc": 90,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "santa_dress",
+    "color": "red",
+    "warmth": 30,
+    "material_thickness": 0.8,
+    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": 8 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": 6 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 8 }
+    ]
+  },
+  {
+    "id": "santa_dress_short",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "short santa dress", "str_pl": "short santa dresses" },
+    "description": "A short red dress with white faux fur as trim.  Looks like something Mrs.  Claus might wear on Christmas night.",
+    "weight": "600 g",
+    "volume": "2000 ml",
+    "price": 16000,
+    "price_postapoc": 50,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "sundress",
+    "color": "red",
+    "warmth": 15,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "FANCY" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 75, "encumbrance": 4 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 4
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
+    ]
+  },
+  {
     "id": "sheriffshirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
@@ -570,7 +738,12 @@
     "color": "yellow",
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": 8 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 25, "encumbrance": 1 }
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
+        "coverage": 40,
+        "encumbrance": 1
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.5,
@@ -611,7 +784,14 @@
     "color": "yellow",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "FANCY" ],
-    "armor": [ { "coverage": 65, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 65, "covers": [ "torso" ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "sweater",
@@ -683,7 +863,7 @@
       { "id": "technician_shirt_lightblue", "text": "A light-blue work t-shirt with a small front pocket." }
     ],
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 4, 5 ], "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 4, 5 ], "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "tshirt",

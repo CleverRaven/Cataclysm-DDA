@@ -1,0 +1,37 @@
+[
+  {
+    "type": "limb_score",
+    "id": "test",
+    "name": "Testing",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
+  },
+  {
+    "id": "test_tail",
+    "type": "body_part",
+    "name": "test tail",
+    "name_multiple": "test tails",
+    "heading": "TST Tail",
+    "heading_multiple": "Tails",
+    "encumbrance_text": "Your testing tail feels heavy",
+    "hit_size": 1,
+    "drench_capacity": 4,
+    "main_part": "test_tail",
+    "hit_difficulty": 0.8,
+    "limb_type": "tail",
+    "opposite_part": "test_tail",
+    "connected_to": "torso",
+    "side": "both",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "test tail" },
+    "hp_bar_ui_text": "TST TAIL",
+    "base_hp": 20,
+    "limb_scores": [ [ "test", 0.8 ] ],
+    "armor": { "bash": 5.0, "acid": 5.0 }
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_TEST_TAIL",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "gain": "test_tail" } ]
+  }
+]

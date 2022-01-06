@@ -2921,7 +2921,10 @@
       "place_item": [
         { "item": "television", "x": 5, "y": 5, "chance": 100 },
         { "item": "laptop", "x": 1, "y": 5, "chance": 90 },
-        { "item": "multitool", "x": 0, "y": 5, "chance": 100 }
+        { "item": "multitool", "x": 0, "y": 5, "chance": 100 },
+        { "item": "breadboard", "x": 1, "y": 5, "chance": 95 },
+        { "item": "voltmeter", "x": 1, "y": 5, "chance": 90 },
+        { "item": "multimeter", "x": 1, "y": 5, "chance": 90 }
       ],
       "items": {
         "C": [

@@ -20,6 +20,7 @@ static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blisters( "blisters" );
+static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_common_cold( "common_cold" );
 static const efftype_id effect_disinfected( "disinfected" );
@@ -37,8 +38,8 @@ static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
 static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
 static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
-static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_hypovolemia( "hypovolemia" );
+static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
@@ -47,6 +48,7 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_HEATPROOF( "HEATPROOF" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 
@@ -54,6 +56,10 @@ static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+static const trait_id trait_COLDBLOOD( "COLDBLOOD" );
+static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
+static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
+static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
@@ -66,6 +72,7 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
+
 
 static const vitamin_id vitamin_blood( "blood" );
 
@@ -171,17 +178,21 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
-        activity_history.try_reduce_weariness( base_bmr(), in_sleep_state() );
+        static const std::string fatigue_modifier( "fatigue_modifier" );
+        static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
+        activity_history.try_reduce_weariness( base_bmr(),
+                                               1.0f + mutation_value( fatigue_modifier ),
+                                               1.0f + mutation_value( fatigue_regen_modifier ) );
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
         // Note: mend ticks once per 5 minutes, but wants rate in TURNS, not 5 minute intervals
-        // TODO: change @ref med to take time_duration
+        // TODO: change @ref mend to take time_duration
         mend( five_mins * to_turns<int>( 5_minutes ) );
         activity_history.reset_activity_level();
     }
 
-    activity_history.new_turn();
+    activity_history.new_turn( in_sleep_state() );
     if( ticks_between( from, to, 24_hours ) > 0 && !has_flag( json_flag_NO_MINIMAL_HEALING ) ) {
         enforce_minimum_healing();
     }
@@ -216,7 +227,14 @@ void Character::update_body( const time_point &from, const time_point &to )
         }
     }
 
+    if( calendar::once_every( 10_minutes ) ) {
+        update_bloodvol_index();
+        update_heartrate_index();
+        update_circulation();
+    }
+
     if( is_avatar() && ticks_between( from, to, 24_hours ) > 0 ) {
+        as_avatar()->update_cardio_acc();
         as_avatar()->advance_daily_calories();
     }
 
@@ -355,13 +373,13 @@ void Character::update_bodytemp()
     // Current temperature and converging temperature calculations
     for( const bodypart_id &bp : get_all_body_parts() ) {
 
-        if( bp->has_flag( "IGNORE_TEMP" ) ) {
+        if( bp->has_flag( json_flag_IGNORE_TEMP ) ) {
             continue;
         }
 
         // This adjusts the temperature scale to match the bodytemp scale,
         // it needs to be reset every iteration
-        int adjusted_temp = ( Ctemperature - ambient_norm );
+        int adjusted_temp = Ctemperature - ambient_norm;
         int bp_windpower = total_windpower;
         // Represents the fact that the body generates heat when it is cold.
         // TODO: : should this increase hunger?
@@ -408,7 +426,7 @@ void Character::update_bodytemp()
         mod_part_temp_conv( bp, mutation_heat_low );
         // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -5; harder to get blisters
-        int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
+        int blister_count = has_bark ? -5 : 0; // If the counter is high, your skin starts to burn
 
         if( get_part_frostbite_timer( bp ) > 0 ) {
             mod_part_frostbite_timer( bp, -std::max( 5, h_radiation ) );
@@ -751,7 +769,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     // No food/thirst/fatigue clock at all
     const bool debug_ls = has_trait( trait_DEBUG_LS );
     // No food/thirst, capped fatigue clock (only up to tired)
-    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
+    const bool npc_no_food = !needs_food();
     const bool foodless = debug_ls || npc_no_food;
     const bool no_thirst = has_flag( json_flag_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
@@ -1118,3 +1136,110 @@ bodypart_id Character::body_window( const std::string &menu_header,
     }
 }
 
+
+float Character::get_heartrate_index() const
+{
+    return heart_rate_index;
+}
+
+void Character::update_heartrate_index()
+{
+    // The following code was adapted from the heartrate function, which will now probably need to be rewritten to be based on the heartrate index.
+
+    //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
+    const int player_local_temp = get_weather().get_temperature( pos() );
+    float temperature_modifier = 0.0f;
+    if( has_trait( trait_COLDBLOOD ) ) {
+        temperature_modifier = 0.002f;
+    }
+    if( has_trait( trait_COLDBLOOD2 ) ) {
+        temperature_modifier = 0.00333f;
+    }
+    if( has_trait( trait_COLDBLOOD3 ) || has_trait( trait_COLDBLOOD4 ) ) {
+        temperature_modifier = 0.005f;
+    }
+    const float hr_temp_mod = ( player_local_temp - 65 ) * temperature_modifier;
+    const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
+    // The influence of stamina on heartrate seemeed excessive and was toned down.
+    const float hr_stamina_mod = 1.6f * ( 1.0f - stamina_level );
+
+    const int stim_level = get_stim();
+    float hr_stim_mod = 0.0f;
+    if( stim_level > 0 ) {
+        //that's asymptotical function that is equal to 1 at around 30 stim level
+        //and slows down all the time almost reaching 2.
+        //Tweaking x*x multiplier will accordingly change effect accumulation
+        hr_stim_mod = 2 - 2 / ( 1 + 0.001 * stim_level * stim_level );
+    }
+    float hr_nicotine_mod = 0.0f;
+    if( get_effect_dur( effect_cig ) > 0_turns ) {
+        //Nicotine-induced tachycardia
+        if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( add_type::CIG ) + 1 ) ) {
+            hr_nicotine_mod = 0.4f;
+        } else {
+            hr_nicotine_mod = 0.1f;
+        }
+    }
+    // Todo: Implement cardio effect (lowers HR?)
+    float hr_health_mod = 0;
+
+    //Pain simply adds 1% per point after it reaches 5 (that's arbitrary)
+    // this seems weird -- A character with brachycardia shouldn't be able to just hurt themselves to fix it.
+    const int cur_pain = get_perceived_pain();
+    float hr_pain_mod = 0.0f;
+    if( cur_pain > 5 ) {
+        hr_pain_mod = 0.01 * ( cur_pain - 5 );
+    }
+    // TODO: Add support for adrenaline trait
+    const float hr_trait_mod = 0.0f;
+
+    // TODO: implement support for HR increasing to compensate for low BP.
+    // it seems that heart rate and blood pressure changes are not linear - the heart is unreasonably efficient at
+    // increasing/decreasing blood pressure, as the geometry of blood vessels also changes. This means that at low
+    // bp, we can consider that a rise in x in heart rate index might cause more than x blood pressure index change as
+    // blood vessels constrict, but at higher bp, a rise in x in heart rate index might cause less than x blood pressure
+    // index change as blood vessels dilate. In other words, your blood pressure doesn't double when you're exercising.
+    const float hr_bp_loss_mod = 0.0f;
+
+
+    heart_rate_index = 1.0f + hr_temp_mod + hr_stamina_mod + hr_stim_mod + hr_nicotine_mod +
+                       hr_health_mod + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod;
+    // update_circulation();
+}
+
+float Character::get_bloodvol_index() const
+{
+    return blood_vol_index;
+}
+
+void Character::update_bloodvol_index()
+{
+    // vitamin_blood ranges from -50k(death) to 0(no hypovolemia).
+    blood_vol_index = 1.0f - ( static_cast<float>( vitamin_get( vitamin_blood ) ) / static_cast<float>
+                               ( vitamin_blood->min() ) );
+    // update_circulation();
+}
+
+float Character::get_circulation_resistance() const
+{
+    return circulation_resistance;
+}
+
+void Character::set_circulation_resistance( float ncirculation_resistance )
+{
+    circulation_resistance = ncirculation_resistance;
+    update_circulation();
+}
+
+void Character::update_circulation()
+{
+    circulation = get_bloodvol_index() * get_heartrate_index() * get_circulation_resistance();
+    // Incredibly annoying debug function - don't forget to comment out before merge!
+    //if( circulation < 0.8 ) {
+    //    debugmsg( "Low blood pressure: " + std::to_string( circulation ) + " " + std::to_string(
+    //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
+    //} else if( circulation > 2.0 ) {
+    //    debugmsg( "High blood pressure" + std::to_string( circulation ) + " " + std::to_string(
+    //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
+    //}
+}

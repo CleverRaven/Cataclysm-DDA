@@ -27,8 +27,17 @@
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "smokelounge_items",
-    "items": [ [ "cigar", 65 ], [ "ecig", 25 ], [ "cig", 35 ], [ "tobacco", 45 ], [ "rolling_paper", 15 ], [ "pipe_tobacco", 10 ] ]
+    "entries": [
+      { "item": "cigar", "prob": 65 },
+      { "group": "cigar_box_opened", "prob": 25 },
+      { "item": "ecig", "prob": 25 },
+      { "item": "cig", "prob": 35 },
+      { "item": "tobacco", "prob": 45 },
+      { "item": "rolling_paper", "prob": 15 },
+      { "item": "pipe_tobacco", "prob": 10 }
+    ]
   },
   {
     "id": "cop_armory",
@@ -245,6 +254,7 @@
       [ "down_blanket", 10 ],
       [ "pillow", 50 ],
       [ "down_pillow", 15 ],
+      [ "teddy_bear", 2 ],
       { "item": "smoxygen_tank", "prob": 10, "charges": [ 0, 12 ] },
       [ "antiparasitic", 3 ],
       { "item": "diazepam", "prob": 3, "charges": [ 1, 10 ] },
@@ -812,6 +822,7 @@
       [ "frame", 20 ],
       [ "basket", 25 ],
       [ "wrench", 10 ],
+      [ "wrench_large", 5 ],
       [ "shovel", 10 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
@@ -856,8 +867,8 @@
       [ "atomic_light", 1 ],
       { "item": "eink_tablet_pc", "prob": 1, "charges": [ 0, 100 ] },
       [ "mobile_memory_card", 5 ],
-      { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 30, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 35, "charges-min": 0 },
       [ "rag", 1 ],
       [ "claw_bar", 3 ],
       [ "crowbar", 18 ],
@@ -933,16 +944,17 @@
   {
     "type": "item_group",
     "id": "golf_cart",
-    "items": [
-      [ "hat_golf", 50 ],
-      [ "gloves_golf", 40 ],
-      [ "golf_bag", 25 ],
-      [ "golf_tee", 80 ],
-      [ "golf_ball", 90 ],
-      [ "towel", 40 ],
-      [ "scorecard", 10 ],
-      [ "golf_club", 75 ],
-      [ "pencil", 20 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "hat_golf", "prob": 50 },
+      { "item": "gloves_golf", "prob": 40 },
+      { "item": "golf_bag", "prob": 25 },
+      { "item": "golf_tee", "prob": 80 },
+      { "item": "golf_ball", "prob": 90 },
+      { "item": "towel", "prob": 40 },
+      { "item": "scorecard", "prob": 10 },
+      { "item": "golf_club", "prob": 75 },
+      { "item": "pencil", "prob": 20, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -1539,8 +1551,8 @@
       { "item": "mag_melee", "prob": 10 },
       { "item": "mag_traps", "prob": 10 },
       { "item": "mp3", "prob": 9, "charges": [ 0, 100 ] },
-      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 20, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 80, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 10, "charges-min": 0 },
       { "item": "eink_tablet_pc", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "camera", "prob": 3, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
@@ -1685,6 +1697,7 @@
       [ "eyedrops", 20 ],
       [ "clock", 10 ],
       { "group": "tobacco_products", "prob": 151 },
+      { "group": "cigar_box_opened", "prob": 15 },
       { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
       [ "joint", 10 ],
       [ "seed_weed", 15 ],
@@ -1740,8 +1753,8 @@
       [ "atomic_light", 3 ],
       [ "atomic_lamp", 3 ],
       { "item": "smart_lamp", "prob": 5, "charges": [ 0, 100 ] },
-      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 40, "charges": [ 0, 150 ] },
+      { "item": "cell_phone", "prob": 7, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 54, "charges": [ 0, 150 ] },
       { "item": "eink_tablet_pc", "prob": 15, "charges": [ 0, 100 ] },
       [ "mobile_memory_card", 40 ],
       [ "mobile_memory_card_science", 10 ],
@@ -1797,6 +1810,7 @@
       [ "bondage_mask", 5 ],
       [ "flask_hip", 5 ],
       [ "corset", 15 ],
+      [ "corset_waist", 15 ],
       [ "tieclip", 3 ],
       { "group": "religious_books", "prob": 18 },
       [ "collarpin", 3 ],
@@ -1829,6 +1843,9 @@
       { "group": "book_mag_tech", "prob": 70 },
       { "group": "book_mag_gen", "prob": 150 },
       { "group": "book_mag_interests", "prob": 20 },
+      [ "breadboard", 70 ],
+      { "item": "voltmeter", "prob": 50, "charges": [ 0, 100 ] },
+      { "item": "multimeter", "prob": 50, "charges": [ 0, 100 ] },
       [ "mask_hockey", 10 ],
       [ "hockey_stick", 20 ],
       [ "puck", 20 ],
@@ -1960,7 +1977,8 @@
       { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_saltpetre", "prob": 10, "charges": [ 1, 50 ] },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
-      { "item": "denat_alcohol", "prob": 10, "charges-min": 250 }
+      { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
+      { "item": "methed_alcohol", "prob": 4, "charges-min": 250 }
     ]
   },
   {
@@ -2037,6 +2055,8 @@
       { "item": "decoy_anarch", "prob": 10 },
       { "item": "aspirin", "prob": 85, "charges": [ 1, 20 ] },
       { "item": "maltballs", "prob": 30 },
+      { "group": "cigar_box_opened", "prob": 20 },
+      { "group": "cigar_box_unopened", "prob": 5 },
       { "group": "tobacco_products", "prob": 151 },
       { "item": "contacts", "prob": 15 },
       { "group": "clothing_glasses", "prob": 80 },
@@ -2094,6 +2114,8 @@
       [ "brownie", 60 ],
       [ "aspirin", 40 ],
       { "group": "tobacco_products", "prob": 150 },
+      { "group": "cigar_box_opened", "prob": 20 },
+      { "group": "cigar_box_unopened", "prob": 5 },
       { "item": "gum", "prob": 100, "charges": [ 1, 10 ] },
       { "item": "caff_gum", "prob": 20, "charges": [ 1, 10 ] },
       { "item": "nic_gum", "prob": 20, "charges": [ 1, 10 ] },
@@ -2291,7 +2313,8 @@
       { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "popcan_stove", "prob": 5, "charges": [ 0, 500 ] },
-      { "item": "denat_alcohol", "prob": 10, "charges-min": 250 },
+      { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
+      { "item": "methed_alcohol", "prob": 4, "charges-min": 250 },
       { "item": "water_purifier", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "rollmat", 40 ],
@@ -2309,6 +2332,7 @@
       [ "down_blanket", 10 ],
       [ "pillow", 20 ],
       [ "down_pillow", 15 ],
+      [ "teddy_bear", 1 ],
       [ "emer_blanket", 20 ],
       [ "flyer", 10 ],
       { "item": "gasoline_lantern", "prob": 5, "charges": [ 0, 500 ] },
@@ -2383,7 +2407,10 @@
     "subtype": "collection",
     "items": [
       { "group": "clothing_soldier_shirt" },
-      { "item": "jacket_army", "prob": 50 },
+      {
+        "distribution": [ { "item": "combat_shirt", "prob": 50 }, { "item": "jacket_army_modern", "prob": 50 } ],
+        "prob": 50
+      },
       { "item": "elbow_pads", "prob": 10 },
       { "item": "pants_army", "prob": 75 },
       { "item": "webbing_belt", "prob": 50 },
@@ -2392,7 +2419,7 @@
       { "item": "boots_combat", "prob": 50 },
       { "item": "helmet_army", "prob": 10 },
       { "item": "gloves_tactical", "prob": 10 },
-      { "item": "ballistic_vest_esapi", "prob": 10 },
+      { "group": "military_ballistic_vest", "prob": 10 },
       { "group": "clothing_tactical_leg", "prob": 5 },
       {
         "distribution": [
@@ -2446,7 +2473,11 @@
         "prob": 80
       },
       {
-        "distribution": [ { "item": "jacket_army", "prob": 80 }, { "item": "winter_jacket_army", "prob": 20 } ],
+        "distribution": [
+          { "item": "combat_shirt", "prob": 40 },
+          { "item": "jacket_army_modern", "prob": 40 },
+          { "item": "winter_jacket_army", "prob": 20 }
+        ],
         "prob": 100
       }
     ]
@@ -2552,6 +2583,12 @@
           {
             "distribution": [ { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] } ],
             "prob": 100
+          },
+          {
+            "distribution": [
+              { "item": "brazing_rod_bronze", "prob": 75, "charges": [ 100, 360 ] },
+              { "item": "brazing_rod_alloy", "prob": 50, "charges": [ 80, 360 ] }
+            ]
           }
         ],
         "prob": 25
@@ -2563,7 +2600,17 @@
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
       [ "sandpaper", 20 ],
       [ "vac_mold", 15 ],
-      { "item": "welder", "prob": 10, "charges": [ 0, 500 ] }
+      { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
+      {
+        "distribution": [
+          { "item": "welding_rod_steel", "prob": 30, "charges": [ 50, 360 ] },
+          { "item": "welding_rod_alloy", "prob": 20, "charges": [ 50, 360 ] },
+          { "item": "welding_wire_steel", "prob": 20, "charges": [ 50, 360 ] },
+          { "item": "welding_wire_alloy", "prob": 15, "charges": [ 50, 360 ] },
+          { "item": "brazing_rod_bronze", "prob": 10, "charges": [ 50, 200 ] },
+          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 50, 200 ] }
+        ]
+      }
     ]
   },
   {

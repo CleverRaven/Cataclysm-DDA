@@ -18,6 +18,7 @@
 #include "cata_assert.h"
 #include "character.h"
 #include "color.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -35,6 +36,7 @@
 #include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -61,10 +63,13 @@
 
 struct mutation_branch;
 
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
+static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
@@ -73,13 +78,29 @@ static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
+static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
+static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
+
+static const material_id material_cotton( "cotton" );
+static const material_id material_flesh( "flesh" );
+static const material_id material_iflesh( "iflesh" );
+static const material_id material_kevlar( "kevlar" );
+static const material_id material_paper( "paper" );
+static const material_id material_powder( "powder" );
+static const material_id material_steel( "steel" );
+static const material_id material_stone( "stone" );
+static const material_id material_veggy( "veggy" );
+static const material_id material_wood( "wood" );
+static const material_id material_wool( "wool" );
+
 static const species_id species_ROBOT( "ROBOT" );
+
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
 
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
@@ -90,17 +111,17 @@ const std::map<std::string, creature_size> Creature::size_map = {
 };
 
 const std::set<material_id> Creature::cmat_flesh{
-    material_id( "flesh" ), material_id( "iflesh" )
+    material_flesh, material_iflesh
 };
 const std::set<material_id> Creature::cmat_fleshnveg{
-    material_id( "flesh" ),  material_id( "iflesh" ), material_id( "veggy" )
+    material_flesh,  material_iflesh, material_veggy
 };
 const std::set<material_id> Creature::cmat_flammable{
-    material_id( "paper" ), material_id( "powder" ), material_id( "wood" ),
-    material_id( "cotton" ), material_id( "wool" )
+    material_paper, material_powder, material_wood,
+    material_cotton, material_wool
 };
 const std::set<material_id> Creature::cmat_flameres{
-    material_id( "stone" ), material_id( "kevlar" ), material_id( "steel" )
+    material_stone, material_kevlar, material_steel
 };
 
 Creature::Creature()
@@ -123,6 +144,10 @@ Creature &Creature::operator=( const Creature & ) = default;
 Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
+
+
+std::queue<scheduled_effect> Creature::scheduled_effects = std::queue<scheduled_effect> {};
+std::queue<terminating_effect> Creature::terminating_effects = std::queue<terminating_effect> {};
 
 tripoint Creature::pos() const
 {
@@ -279,7 +304,7 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
 static bool majority_rule( const bool a_vote, const bool b_vote, const bool c_vote )
 {
     // Helper function suggested on discord by jbtw
-    return ( ( a_vote + b_vote + c_vote ) > 1 );
+    return ( a_vote + b_vote + c_vote ) > 1;
 }
 
 bool Creature::sees( const Creature &critter ) const
@@ -638,6 +663,24 @@ bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) 
            ( !here.has_floor( above ) || here.ter( above )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) );
 }
 
+float Creature::get_crit_factor( const bodypart_id &bp ) const
+{
+    float crit_mod = 1.f;
+    const Character *c = as_character();
+    if( c != nullptr ) {
+        int total_v_cover = 0;
+        for( const item &it : c->worn ) {
+            if( it.covers( bp ) ) {
+                total_v_cover += it.get_coverage( bp, item::cover_type::COVER_VITALS );
+            }
+        }
+        total_v_cover = clamp<int>( total_v_cover, 0, 100 );
+        crit_mod = 1.f - total_v_cover / 100.f;
+    }
+    // TODO: as_monster()
+    return crit_mod;
+}
+
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
     const float dodge = dodge_roll();
@@ -660,10 +703,10 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
 
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                damage_instance dam, dealt_damage_instance &dealt_dam,
-                               const weakpoint_attack &attack )
+                               const weakpoint_attack &attack, const bodypart_id *bp )
 {
     if( source == nullptr || source->is_hallucination() ) {
-        dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part();
+        dealt_dam.bp_hit = anatomy_human_anatomy->random_body_part();
         return;
     }
 
@@ -682,7 +725,8 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    bodypart_id bp_hit =  select_body_part( source, hit_spread );
+    bodypart_id bp_hit = bp == nullptr ? select_body_part( -1, -1, source->can_attack_high(),
+                         hit_spread ) : *bp;
     block_hit( source, bp_hit, d );
 
     // Stabbing effects
@@ -706,8 +750,12 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         mod_moves( -stab_moves );
     }
 
+    weakpoint_attack attack_copy = attack;
+    attack_copy.is_crit = critical_hit;
+    attack_copy.type = weakpoint_attack::type_of_melee_attack( d );
+
     on_hit( source, bp_hit ); // trigger on-gethit events
-    dealt_dam = deal_damage( source, bp_hit, d, attack );
+    dealt_dam = deal_damage( source, bp_hit, d, attack_copy );
     dealt_dam.bp_hit = bp_hit;
 
     // Bashing critical
@@ -768,7 +816,7 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
         }
     }
     if( proj_effects.count( "INCENDIARY" ) ) {
-        if( target.made_of( material_id( "veggy" ) ) || target.made_of_any( Creature::cmat_flammable ) ) {
+        if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
             target.add_effect( effect_source( source ), effect_onfire, rng( 2_turns, 6_turns ),
                                dealt_dam.bp_hit );
         } else if( target.made_of_any( Creature::cmat_flesh ) && one_in( 4 ) ) {
@@ -776,7 +824,7 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
                                dealt_dam.bp_hit );
         }
     } else if( proj_effects.count( "IGNITE" ) ) {
-        if( target.made_of( material_id( "veggy" ) ) || target.made_of_any( Creature::cmat_flammable ) ) {
+        if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
             target.add_effect( effect_source( source ), effect_onfire, 6_turns, dealt_dam.bp_hit );
         } else if( target.made_of_any( Creature::cmat_flesh ) ) {
             target.add_effect( effect_source( source ), effect_onfire, 10_turns, dealt_dam.bp_hit );
@@ -879,30 +927,33 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
             ret.bp_hit = bodypart_id( "arm_r" );
         }
     }
+    float crit_mod = get_crit_factor( ret.bp_hit );
 
     const float crit_multiplier = proj.critical_multiplier;
+    const float std_hit_mult = std::sqrt( 2.0 * crit_multiplier );
     if( magic ) {
         ret.damage_mult *= rng_float( 0.9, 1.1 );
     } else if( goodhit < accuracy_headshot &&
                ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
         ret.message = _( "Headshot!" );
-        ret.gmtSCTcolor = m_headshot;
-        ret.damage_mult *= rng_float( 0.95, 1.05 );
-        ret.damage_mult *= crit_multiplier;
         ret.bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
+        crit_mod = get_crit_factor( ret.bp_hit );
+        ret.gmtSCTcolor = m_headshot;
+        ret.damage_mult *= rng_float( 0.5 + 0.45 * crit_mod, 0.75 + 0.3 * crit_mod ); // ( 0.95, 1.05 )
+        ret.damage_mult *= std_hit_mult + ( crit_multiplier - std_hit_mult ) * crit_mod;
         ret.is_crit = true;
     } else if( goodhit < accuracy_critical &&
                ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) ) {
         ret.message = _( "Critical!" );
         ret.gmtSCTcolor = m_critical;
-        ret.damage_mult *= rng_float( 0.75, 1.0 );
-        ret.damage_mult *= crit_multiplier;
+        ret.damage_mult *= rng_float( 0.5 + 0.25 * crit_mod, 0.75 + 0.25 * crit_mod ); // ( 0.75, 1.0 )
+        ret.damage_mult *= std_hit_mult + ( crit_multiplier - std_hit_mult ) * crit_mod;
         ret.is_crit = true;
     } else if( goodhit < accuracy_goodhit ) {
         ret.message = _( "Good hit!" );
         ret.gmtSCTcolor = m_good;
         ret.damage_mult *= rng_float( 0.5, 0.75 );
-        ret.damage_mult *= std::sqrt( 2.0 * crit_multiplier );
+        ret.damage_mult *= std_hit_mult;
     } else if( goodhit < accuracy_standard ) {
         ret.damage_mult *= rng_float( 0.5, 1 );
 
@@ -964,7 +1015,7 @@ void Creature::messaging_projectile_attack( const Creature *source,
                     add_msg( m_good, _( "You hit %1$s in %2$s for %3$d damage." ),
                              disp_name(), hit_selection.wp_hit, total_damage );
                 }
-            } else if( u_see_this ) {
+            } else if( u_see_this && source != this ) {
                 if( hit_selection.wp_hit.empty() ) {
                     //~ 1$ - shooter, 2$ - target
                     add_msg( _( "%1$s shoots %2$s." ),
@@ -1044,6 +1095,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     // Create a copy that records whether the attack is a crit.
     weakpoint_attack wp_attack_copy = wp_attack;
     wp_attack_copy.is_crit = hit_selection.is_crit;
+    wp_attack_copy.type = weakpoint_attack::attack_type::PROJECTILE;
 
     if( print_messages && source != nullptr && !hit_selection.message.empty() && u_see_this ) {
         source->add_msg_if_player( m_good, hit_selection.message );
@@ -1051,7 +1103,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     attack.missed_by = goodhit;
 
-    // copy it, since we're mutating
+    // copy it, since we're mutating.
     damage_instance impact = proj.impact;
     if( hit_selection.damage_mult > 0.0f && proj_effects.count( "NO_DAMAGE_SCALING" ) ) {
         hit_selection.damage_mult = 1.0f;
@@ -1090,25 +1142,41 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         return dealt_damage_instance();
     }
     int total_damage = 0;
+    int total_base_damage = 0;
     int total_pain = 0;
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
+    weakpoint_attack attack_copy = attack;
+    attack_copy.source = source;
+    attack_copy.target = this;
+    attack_copy.compute_wp_skill();
+
     dealt_damage_instance dealt_dams;
-    dealt_dams.wp_hit = absorb_hit( attack, bp, d );
+    const weakpoint *wp = absorb_hit( attack_copy, bp, d );
+    dealt_dams.wp_hit = wp == nullptr ? "" : wp->name;
 
     // Add up all the damage units dealt
-    for( const auto &it : d.damage_units ) {
+    for( const damage_unit &it : d.damage_units ) {
         int cur_damage = 0;
         deal_damage_handle_type( effect_source( source ), it, bp, cur_damage, total_pain );
+        total_base_damage += std::max( 0.0f, it.amount * it.unconditional_damage_mult );
         if( cur_damage > 0 ) {
             dealt_dams.dealt_dams[ static_cast<int>( it.type ) ] += cur_damage;
             total_damage += cur_damage;
         }
     }
-
+    if( total_base_damage < total_damage ) {
+        // Only deal more HP than remains if damage not including crit multipliers is higher.
+        total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
+    }
     mod_pain( total_pain );
 
     apply_damage( source, bp, total_damage );
+
+    if( wp != nullptr ) {
+        wp->apply_effects( *this, total_damage, attack );
+    }
+
     return dealt_dams;
 }
 void Creature::deal_damage_handle_type( const effect_source &source, const damage_unit &du,
@@ -1140,10 +1208,19 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             }
             break;
 
-        case damage_type::ELECTRIC:
+        case damage_type::ELECTRIC: {
             // Electrical damage adds a major speed/dex debuff
-            add_effect( source, effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
+            double multiplier = 1.0;
+            if( monster *mon = as_monster() ) {
+                multiplier = mon->type->status_chance_multiplier;
+            }
+            const int chance = std::log10( ( adjusted_damage + 2 ) * 0.5 ) * 100 * multiplier;
+            if( x_in_y( chance, 100 ) ) {
+                const int duration = std::max( adjusted_damage / 10.0 * multiplier, 2.0 );
+                add_effect( source, effect_zapped, 1_turns * duration );
+            }
             break;
+        }
 
         case damage_type::ACID:
             // Acid damage and acid burns are more painful
@@ -1168,6 +1245,56 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
 
 void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
 {
+}
+
+void Creature::longpull( const std::string name, const tripoint &p )
+{
+    if( pos() == p ) {
+        add_msg_if_player( _( "You try to pull yourself together." ) );
+        return;
+    }
+
+    std::vector<tripoint> path = line_to( pos(), p, 0, 0 );
+    Creature *c = nullptr;
+    for( const tripoint &path_p : path ) {
+        c = get_creature_tracker().creature_at( path_p );
+        if( c == nullptr && get_map().impassable( path_p ) ) {
+            add_msg_if_player( m_warning, _( "There's an obstacle in the way!" ) );
+            return;
+        }
+        if( c != nullptr ) {
+            break;
+        }
+    }
+    if( c == nullptr || !sees( *c ) ) {
+        // TODO: Latch onto objects?
+        add_msg_if_player( m_warning, _( "There's nothing here to latch onto with your %s!" ),
+                           name );
+        return;
+    }
+
+    // Pull creature
+    const Character *ch = as_character();
+    const monster *mon = as_monster();
+    const int str = ch != nullptr ? ch->get_str() : mon != nullptr ? mon->get_grab_strength() : 10;
+    const int odds = units::to_kilogram( c->get_weight() ) / ( str * 3 );
+    if( one_in( clamp<int>( odds * odds, 1, 1000 ) ) ) {
+        add_msg_if_player( m_good, _( "You pull %1$s towards you with your %2$s!" ), c->disp_name(),
+                           name );
+        if( c->is_avatar() ) {
+            add_msg( m_warning, _( "%1$s pulls you in with their %2$s!" ), disp_name( false, true ), name );
+        }
+        c->move_to( tripoint_abs_ms( line_to( get_location().raw(), c->get_location().raw(), 0,
+                                              0 ).front() ) );
+        c->add_effect( effect_stunned, 1_seconds );
+        sounds::sound( c->pos(), 5, sounds::sound_t::combat, _( "Shhhk!" ) );
+    } else {
+        add_msg_if_player( m_bad, _( "%s weight makes it difficult to pull towards you." ),
+                           c->disp_name( true, true ) );
+        if( c->is_avatar() ) {
+            add_msg( m_info, _( "%1s tries to pull you in, but you resist!" ), disp_name( false, true ) );
+        }
+    }
 }
 
 /*
@@ -1208,8 +1335,8 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
     if( !force && is_immune_effect( eff_id ) ) {
         return;
     }
-    if( eff_id == efftype_id( "knockdown" ) && ( has_effect( effect_ridden ) ||
-            has_effect( effect_riding ) ) ) {
+    if( eff_id == effect_knockdown && ( has_effect( effect_ridden ) ||
+                                        has_effect( effect_riding ) ) ) {
         monster *mons = dynamic_cast<monster *>( this );
         if( mons && mons->mounted_player ) {
             mons->mounted_player->forced_dismount();
@@ -1326,6 +1453,28 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
     add_effect( source, eff_id, dur, bodypart_str_id::NULL_ID(), permanent, intensity, force,
                 deferred );
 }
+
+void Creature::schedule_effect( const effect &eff, bool force, bool deferred )
+{
+    scheduled_effects.push( scheduled_effect{eff.get_id(), eff.get_duration(), eff.get_bp(),
+                            eff.is_permanent(), eff.get_intensity(), force,
+                            deferred} );
+}
+void Creature::schedule_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
+                                bool permanent, int intensity, bool force, bool deferred )
+{
+    scheduled_effects.push( scheduled_effect{eff_id, dur, bp,
+                            permanent, intensity, force,
+                            deferred} );
+}
+void Creature::schedule_effect( const efftype_id &eff_id,
+                                const time_duration &dur, bool permanent, int intensity, bool force,
+                                bool deferred )
+{
+    scheduled_effects.push( scheduled_effect{eff_id, dur, bodypart_str_id::NULL_ID(),
+                            permanent, intensity, force, deferred} );
+}
+
 bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                const time_duration &dur, const bodypart_id &bp, bool permanent, int intensity, bool force )
 {
@@ -1394,6 +1543,15 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
 bool Creature::remove_effect( const efftype_id &eff_id )
 {
     return remove_effect( eff_id, bodypart_str_id::NULL_ID() );
+}
+
+void Creature::schedule_effect_removal( const efftype_id &eff_id, const bodypart_id &bp )
+{
+    terminating_effects.push( terminating_effect{eff_id, bp} );
+}
+void Creature::schedule_effect_removal( const efftype_id &eff_id )
+{
+    return schedule_effect_removal( eff_id, bodypart_str_id::NULL_ID() );
 }
 
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
@@ -1755,7 +1913,7 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
                         part.first->hp_mods.per_mod + part.first->hp_mods.health_mod * healthy_mod + fat_to_max_hp +
                         hp_adjustment ) * hp_mod;
 
-        if( has_trait( trait_id( "GLASSJAW" ) ) && part.first == body_part_head ) {
+        if( has_trait( trait_GLASSJAW ) && part.first == body_part_head ) {
             new_max *= 0.8;
         }
 
@@ -2003,7 +2161,7 @@ void Creature::mod_part_frostbite_timer( const bodypart_id &id, int mod )
 void Creature::set_all_parts_temp_cur( int set )
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
-        if( elem.first->has_flag( "IGNORE_TEMP" ) ) {
+        if( elem.first->has_flag( json_flag_IGNORE_TEMP ) ) {
             continue;
         }
         elem.second.set_temp_cur( set );
@@ -2013,7 +2171,7 @@ void Creature::set_all_parts_temp_cur( int set )
 void Creature::set_all_parts_temp_conv( int set )
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
-        if( elem.first->has_flag( "IGNORE_TEMP" ) ) {
+        if( elem.first->has_flag( json_flag_IGNORE_TEMP ) ) {
             continue;
         }
         elem.second.set_temp_conv( set );
@@ -2230,6 +2388,19 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     return bodyparts;
 }
 
+std::vector<bodypart_id> Creature::get_all_body_parts_with_flag( const json_character_flag &flag )
+const
+{
+    std::vector<bodypart_id> bodyparts;
+
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        if( elem.first->has_flag( flag ) ) {
+            bodyparts.emplace_back( elem.first );
+        }
+    }
+    return bodyparts;
+}
+
 int Creature::get_hp( const bodypart_id &bp ) const
 {
     if( bp != bodypart_str_id::NULL_ID() ) {
@@ -2331,7 +2502,7 @@ void Creature::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "moves" ) {
         mod_moves( modifier );
     } else {
-        add_msg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
+        debugmsg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
     }
 }
 
@@ -2492,16 +2663,22 @@ std::unordered_map<std::string, std::string> &Creature::get_values()
     return values;
 }
 
-bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const
+
+bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attack_high,
+                                        int hit_roll ) const
 {
-    int szdif = source->get_size() - get_size();
-
     add_msg_debug( debugmode::DF_CREATURE, "hit roll = %d", hit_roll );
-    add_msg_debug( debugmode::DF_CREATURE, "source size = %d", source->get_size() );
-    add_msg_debug( debugmode::DF_CREATURE, "target size = %d", get_size() );
-    add_msg_debug( debugmode::DF_CREATURE, "difference = %d", szdif );
+    if( !is_monster() && !can_attack_high ) {
+        can_attack_high = as_character()->is_on_ground();
+    }
 
-    return anatomy( get_all_body_parts() ).select_body_part( szdif, hit_roll );
+    return anatomy( get_all_body_parts() ).select_body_part( min_hit, max_hit, can_attack_high,
+            hit_roll );
+}
+
+bodypart_id Creature::select_blocking_part( bool arm, bool leg, bool nonstandard ) const
+{
+    return anatomy( get_all_body_parts() ).select_blocking_part( this, arm, leg, nonstandard );
 }
 
 bodypart_id Creature::random_body_part( bool main_parts_only ) const
@@ -2736,9 +2913,24 @@ std::unique_ptr<talker> get_talker_for( Creature &me )
     }
 }
 
+std::unique_ptr<talker> get_talker_for( const Creature &me )
+{
+    if( !me.is_monster() ) {
+        return std::make_unique<talker_character_const>( static_cast<const Character *>( &me ) );
+    } else {
+        debugmsg( "Invalid creature type %s.", me.get_name() );
+        standard_npc default_npc( "Default" );
+        return get_talker_for( default_npc );
+    }
+}
+
 std::unique_ptr<talker> get_talker_for( Creature *me )
 {
-    if( me->is_monster() ) {
+    if( !me ) {
+        debugmsg( "Null creature type." );
+        standard_npc default_npc( "Default" );
+        return get_talker_for( default_npc );
+    } else if( me->is_monster() ) {
         return std::make_unique<talker_monster>( static_cast<monster *>( me ) );
     } else if( me->is_npc() ) {
         return std::make_unique<talker_npc>( static_cast<npc *>( me ) );

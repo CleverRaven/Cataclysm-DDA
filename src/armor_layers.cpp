@@ -33,6 +33,8 @@
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 
+static const flag_id json_flag_HIDDEN( "HIDDEN" );
+
 namespace
 {
 std::string clothing_layer( const item &worn_item );
@@ -69,8 +71,6 @@ struct item_penalties {
 item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                                    const Character &c, const bodypart_id &_bp )
 {
-    layer_level layer = worn_item_it->get_layer();
-
     std::vector<bodypart_id> body_parts_with_stacking_penalty;
     std::vector<bodypart_id> body_parts_with_out_of_order_penalty;
     std::vector<std::set<std::string>> lists_of_bad_items_within;
@@ -82,20 +82,47 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         if( !worn_item_it->covers( bp ) ) {
             continue;
         }
-        const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
-        [layer, bp]( const item & i ) {
-            return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
-        } );
-        if( num_items > 1 ) {
-            body_parts_with_stacking_penalty.push_back( bp );
+        std::set<std::string> bad_items_within;
+        // if no subparts do the old way
+        if( bp->sub_parts.empty() ) {
+            std::vector<layer_level> layer = worn_item_it->get_layer( bp );
+            const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
+            [layer, bp]( const item & i ) {
+                return i.has_layer( layer, bp ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
+            } );
+            if( num_items > 1 ) {
+                body_parts_with_stacking_penalty.push_back( bp );
+            }
+            for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
+                if( it->get_layer( bp ) > layer && it->covers( bp ) ) {
+                    bad_items_within.insert( it->type_name() );
+                }
+            }
+        } else {
+            for( const auto &sbp : bp->sub_parts ) {
+                if( !worn_item_it->covers( sbp ) ) {
+                    continue;
+                }
+                std::vector<layer_level> layer = worn_item_it->get_layer( sbp );
+                const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
+                [layer, bp, sbp]( const item & i ) {
+                    return i.has_layer( layer, sbp ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
+                           i.covers( sbp );
+                } );
+                if( num_items > 1 ) {
+                    body_parts_with_stacking_penalty.push_back( bp );
+                }
+                for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
+                    if( it->get_layer( sbp ) > layer && it->covers( sbp ) ) {
+                        bad_items_within.insert( it->type_name() );
+                    }
+                }
+            }
+
         }
 
-        std::set<std::string> bad_items_within;
-        for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
-            if( it->get_layer() > layer && it->covers( bp ) ) {
-                bad_items_within.insert( it->type_name() );
-            }
-        }
+
+
         if( !bad_items_within.empty() ) {
             body_parts_with_out_of_order_penalty.push_back( bp );
             lists_of_bad_items_within.push_back( bad_items_within );
@@ -193,25 +220,37 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     const item_penalties penalties = get_item_penalties( worn_item_it, c, bp );
 
     if( !penalties.body_parts_with_stacking_penalty.empty() ) {
-        std::string layer_description = [&]() {
-            switch( worn_item_it->get_layer() ) {
-                case layer_level::PERSONAL:
-                    return _( "in your <color_light_blue>personal aura</color>" );
-                case layer_level::UNDERWEAR:
-                    return _( "<color_light_blue>close to your skin</color>" );
-                case layer_level::REGULAR:
-                    return _( "of <color_light_blue>normal</color> clothing" );
-                case layer_level::WAIST:
-                    return _( "on your <color_light_blue>waist</color>" );
-                case layer_level::OUTER:
-                    return _( "of <color_light_blue>outer</color> clothing" );
-                case layer_level::BELTED:
-                    return _( "<color_light_blue>strapped</color> to you" );
-                case layer_level::AURA:
-                    return _( "an <color_light_blue>aura</color> around you" );
-                default:
-                    return _( "Unexpected layer" );
+        std::string layer_description = [&]() -> std::string {
+            std::string outstring;
+            for( layer_level layer : worn_item_it->get_layer() )
+            {
+                switch( layer ) {
+                    case layer_level::PERSONAL:
+                        outstring.append( _( "in your <color_light_blue>personal aura</color>" ) );
+                        break;
+                    case layer_level::UNDERWEAR:
+                        outstring.append( _( "<color_light_blue>close to your skin</color>" ) );
+                        break;
+                    case layer_level::REGULAR:
+                        outstring.append( _( "of <color_light_blue>normal</color> clothing" ) );
+                        break;
+                    case layer_level::WAIST:
+                        outstring.append( _( "on your <color_light_blue>waist</color>" ) );
+                        break;
+                    case layer_level::OUTER:
+                        outstring.append( _( "of <color_light_blue>outer</color> clothing" ) );
+                        break;
+                    case layer_level::BELTED:
+                        outstring.append( _( "<color_light_blue>strapped</color> to you" ) );
+                        break;
+                    case layer_level::AURA:
+                        outstring.append( _( "an <color_light_blue>aura</color> around you" ) );
+                        break;
+                    default:
+                        break;
+                }
             }
+            return outstring ;
         }
         ();
         std::string body_parts =
@@ -286,16 +325,33 @@ std::vector<std::string> clothing_properties(
 
     const std::string space = "  ";
 
-    const int coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage() :
-                         worn_item.get_coverage( bp );
-    const int encumbrance = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_encumber(
-                                c ) : worn_item.get_encumber( c, bp );
     props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
+
+    int coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage() :
+                   worn_item.get_coverage( bp );
     props.push_back( name_and_value( space + _( "Coverage:" ),
                                      string_format( "%3d", coverage ), width ) );
+    coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
+                   item::cover_type::COVER_MELEE ) :
+               worn_item.get_coverage( bp, item::cover_type::COVER_MELEE );
+    props.push_back( name_and_value( space + _( "Coverage (Melee):" ),
+                                     string_format( "%3d", coverage ), width ) );
+    coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
+                   item::cover_type::COVER_RANGED ) :
+               worn_item.get_coverage( bp, item::cover_type::COVER_RANGED );
+    props.push_back( name_and_value( space + _( "Coverage (Ranged):" ),
+                                     string_format( "%3d", coverage ), width ) );
+    coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
+                   item::cover_type::COVER_VITALS ) :
+               worn_item.get_coverage( bp, item::cover_type::COVER_VITALS );
+    props.push_back( name_and_value( space + _( "Coverage (Vitals):" ),
+                                     string_format( "%3d", coverage ), width ) );
+
+    const int encumbrance = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_encumber(
+                                c ) : worn_item.get_encumber( c, bp );
     props.push_back( name_and_value( space + _( "Encumbrance:" ),
-                                     string_format( "%3d", encumbrance ),
-                                     width ) );
+                                     string_format( "%3d", encumbrance ), width ) );
+
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
     return props;
@@ -524,6 +580,7 @@ void Character::sort_armor()
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "MOVE_ARMOR" );
     ctxt.register_action( "CHANGE_SIDE" );
+    ctxt.register_action( "TOGGLE_CLOTH" );
     ctxt.register_action( "ASSIGN_INVLETS" );
     ctxt.register_action( "SORT_ARMOR" );
     ctxt.register_action( "EQUIP_ARMOR" );
@@ -577,8 +634,12 @@ void Character::sort_armor()
         std::string temp = bp != bodypart_id( "bp_null" ) ? body_part_name_as_heading( bp, 1 ) : _( "All" );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", temp );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
-                         _( "Press [<color_yellow>%s</color>] for help.  "
+                         _( "[<color_yellow>%s</color>] Hide sprite.  "
+                            "[<color_yellow>%s</color>] Change side.  "
+                            "Press [<color_yellow>%s</color>] for help.  "
                             "Press [<color_yellow>%s</color>] to change keybindings." ),
+                         ctxt.get_desc( "TOGGLE_CLOTH" ),
+                         ctxt.get_desc( "CHANGE_SIDE" ),
                          ctxt.get_desc( "USAGE_HELP" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
@@ -608,12 +669,27 @@ void Character::sort_armor()
             }
 
             std::string worn_armor_name = tmp_worn[itemindex]->tname();
+            // Get storage capacity in user's preferred units
+            units::volume worn_armor_capacity = tmp_worn[itemindex]->get_total_capacity();
+            double worn_armor_storage = convert_volume( units::to_milliliter( worn_armor_capacity ) );
+
             item_penalties const penalties =
                 get_item_penalties( tmp_worn[itemindex], *this, bp );
 
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
+            // Show armor name and storage capacity (if any)
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
+            if( worn_armor_storage > 0 ) {
+                // two digits, accurate to 1% of preferred storage unit
+                right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
+                             string_format( "%.2f", worn_armor_storage ) );
+            }
+
+            if( tmp_worn[itemindex]->has_flag( json_flag_HIDDEN ) ) {
+                //~ Hint: Letter to show which piece of armor is Hidden in the layering menu
+                wprintz( w_sort_left, c_cyan, _( " H" ) );
+            }
         }
 
         // Left footer
@@ -807,6 +883,13 @@ void Character::sort_armor()
                     change_side( *tmp_worn[leftListIndex] );
                 }
             }
+        } else if( action == "TOGGLE_CLOTH" ) {
+            if( !tmp_worn[leftListIndex]->has_flag( json_flag_HIDDEN ) ) {
+                tmp_worn[leftListIndex]->set_flag( json_flag_HIDDEN );
+            } else {
+                tmp_worn[leftListIndex]->unset_flag( json_flag_HIDDEN );
+            }
+
         } else if( action == "SORT_ARMOR" ) {
             // Copy to a vector because stable_sort requires random-access
             // iterators
@@ -848,7 +931,7 @@ void Character::sort_armor()
                         popup( _( "Can't put this on!" ) );
                     }
                 } else {
-                    add_msg_if_player( "You chose not to wear the %s.", item_name );
+                    add_msg_if_player( _( "You chose not to wear the %s." ), item_name );
                 }
             }
         } else if( action == "EQUIP_ARMOR_HERE" ) {
@@ -873,7 +956,7 @@ void Character::sort_armor()
                         popup( _( "Can't put this on!" ) );
                     }
                 } else {
-                    add_msg_if_player( "You chose not to wear the %s.", item_name );
+                    add_msg_if_player( _( "You chose not to wear the %s." ), item_name );
                 }
             }
         } else if( action == "REMOVE_ARMOR" ) {
@@ -944,6 +1027,7 @@ void Character::sort_armor()
                 ctxt.get_desc( "NEXT_TAB" ),
                 ctxt.get_desc( "ASSIGN_INVLETS" ),
                 ctxt.get_desc( "CHANGE_SIDE" ),
+                ctxt.get_desc( "TOGGLE_CLOTH" ),
                 ctxt.get_desc( "SORT_ARMOR" ),
                 ctxt.get_desc( "EQUIP_ARMOR" ),
                 ctxt.get_desc( "EQUIP_ARMOR_HERE" ),

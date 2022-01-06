@@ -30,7 +30,7 @@
 
 using namespace auto_pickup;
 
-static bool check_special_rule( const std::vector<material_id> &materials,
+static bool check_special_rule( const std::map<material_id, int> &materials,
                                 const std::string &rule );
 
 auto_pickup::player_settings &get_auto_pickup()
@@ -610,7 +610,7 @@ bool player_settings::empty() const
     return global_rules.empty() && character_rules.empty();
 }
 
-bool check_special_rule( const std::vector<material_id> &materials, const std::string &rule )
+bool check_special_rule( const std::map<material_id, int> &materials, const std::string &rule )
 {
     char type = ' ';
     std::vector<std::string> filter;
@@ -624,16 +624,18 @@ bool check_special_rule( const std::vector<material_id> &materials, const std::s
     }
 
     if( type == 'm' ) {
-        return std::any_of( materials.begin(), materials.end(), [&filter]( const material_id & mat ) {
+        return std::any_of( materials.begin(),
+        materials.end(), [&filter]( const std::pair<material_id, int> &mat ) {
             return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string & search ) {
-                return lcmatch( mat->name(), search );
+                return lcmatch( mat.first->name(), search );
             } );
         } );
 
     } else if( type == 'M' ) {
-        return std::all_of( materials.begin(), materials.end(), [&filter]( const material_id & mat ) {
+        return std::all_of( materials.begin(),
+        materials.end(), [&filter]( const std::pair<material_id, int> &mat ) {
             return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string & search ) {
-                return lcmatch( mat->name(), search );
+                return lcmatch( mat.first->name(), search );
             } );
         } );
     }

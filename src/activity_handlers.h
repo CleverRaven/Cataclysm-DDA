@@ -9,6 +9,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "coordinates.h"
 #include "optional.h"
 #include "type_id.h"
 #include "requirements.h"
@@ -18,8 +19,22 @@ class item;
 class player_activity;
 struct tripoint;
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
-        const std::unordered_set<tripoint> &tiles );
+template<typename Point, typename Container>
+std::vector<Point> get_sorted_tiles_by_distance( const Point &center, const Container &tiles )
+{
+    const auto cmp = [center]( const Point & a, const Point & b ) {
+        const int da = rl_dist( center, a );
+        const int db = rl_dist( center, b );
+
+        return da < db;
+    };
+
+    std::vector<Point> sorted( tiles.begin(), tiles.end() );
+    std::sort( sorted.begin(), sorted.end(), cmp );
+
+    return sorted;
+}
+
 std::vector<tripoint> route_adjacent( const Character &you, const tripoint &dest );
 
 std::vector<tripoint> route_best_workbench( const Character &you, const tripoint &dest );
@@ -67,6 +82,7 @@ enum class do_activity_reason : int {
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
     WOULD_PREVENT_VEH_FLYING, // Attempting to perform this activity on a vehicle would prevent it from flying
     NEEDS_MINING,           // This spot can be mined, if the right tool is present.
+    NEEDS_MOP,               // This spot can be mopped, if a mop is present.
     NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
     NEEDS_DISASSEMBLE        // There is at least one item to disassemble.
 
@@ -133,6 +149,8 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list
                                const tripoint &where, bool force_ground = false );
 void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
                   const tripoint &where );
+// used in unit tests to avoid triggering user input
+void repair_item_finish( player_activity *act, Character *you, bool no_menu );
 
 namespace activity_handlers
 {
@@ -156,6 +174,7 @@ void hand_crank_do_turn( player_activity *act, Character *you );
 void multiple_chop_planks_do_turn( player_activity *act, Character *you );
 void wear_do_turn( player_activity *act, Character *you );
 void eat_menu_do_turn( player_activity *act, Character *you );
+void view_recipe_do_turn( player_activity *act, Character *you );
 void consume_food_menu_do_turn( player_activity *act, Character *you );
 void consume_drink_menu_do_turn( player_activity *act, Character *you );
 void consume_meds_menu_do_turn( player_activity *act, Character *you );
@@ -165,6 +184,7 @@ void multiple_farm_do_turn( player_activity *act, Character *you );
 void multiple_fish_do_turn( player_activity *act, Character *you );
 void multiple_construction_do_turn( player_activity *act, Character *you );
 void multiple_mine_do_turn( player_activity *act, Character *you );
+void multiple_mop_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_dis_do_turn( player_activity *act, Character *you );
 void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
@@ -180,7 +200,6 @@ void fish_do_turn( player_activity *act, Character *you );
 void cracking_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
 void butcher_do_turn( player_activity *act, Character *you );
-void pry_nails_do_turn( player_activity *act, Character *you );
 void chop_tree_do_turn( player_activity *act, Character *you );
 void jackhammer_do_turn( player_activity *act, Character *you );
 void find_mount_do_turn( player_activity *act, Character *you );
@@ -206,8 +225,11 @@ void fish_finish( player_activity *act, Character *you );
 void forage_finish( player_activity *act, Character *you );
 void longsalvage_finish( player_activity *act, Character *you );
 void pulp_finish( player_activity *act, Character *you );
+void mopping_finish( player_activity *act, Character *you );
 void pickaxe_finish( player_activity *act, Character *you );
 void start_fire_finish( player_activity *act, Character *you );
+void generic_game_finish( player_activity *act, Character *you );
+void teach_finish( player_activity *act, Character *you );
 void train_finish( player_activity *act, Character *you );
 void shear_finish( player_activity *act, Character *you );
 void vehicle_finish( player_activity *act, Character *you );
@@ -231,14 +253,15 @@ void vibe_finish( player_activity *act, Character *you );
 void hand_crank_finish( player_activity *act, Character *you );
 void atm_finish( player_activity *act, Character *you );
 void eat_menu_finish( player_activity *act, Character *you );
+void view_recipe_finish( player_activity *act, Character *you );
 void washing_finish( player_activity *act, Character *you );
-void pry_nails_finish( player_activity *act, Character *you );
 void chop_tree_finish( player_activity *act, Character *you );
 void chop_logs_finish( player_activity *act, Character *you );
 void chop_planks_finish( player_activity *act, Character *you );
 void jackhammer_finish( player_activity *act, Character *you );
 void fill_pit_finish( player_activity *act, Character *you );
 void robot_control_finish( player_activity *act, Character *you );
+void pull_creature_finish( player_activity *act, Character *you );
 void mind_splicer_finish( player_activity *act, Character *you );
 void spellcasting_finish( player_activity *act, Character *you );
 void study_spell_finish( player_activity *act, Character *you );

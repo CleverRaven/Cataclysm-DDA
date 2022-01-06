@@ -36,7 +36,7 @@ CataclysmWin.layout
 cata_test
 cata_test-tiles
 cataclysm
-cataclysm-tiles
+*cataclysm-tiles
 cataclysm-vcpkg
 cataclysmdda-*
 chkjson*
@@ -51,6 +51,7 @@ json_formatter
 *.opensdf
 *.pdb
 *.lib
+*.manifest
 *.sdf
 *.suo
 *.user
@@ -95,11 +96,14 @@ cscope.*
 tags
 
 # Generated translation source
-/lang/po/cataclysm-dda.pot
+/lang/po/*.pot
 /lang/po/en.po
 
 # Compiled binary translations
 /lang/mo/
+
+# Stampfile for binary translations
+/lang/mo_built.stamp
 
 # Directory for translatable strings
 /lang/json/*

@@ -38,6 +38,7 @@ bool string_id<scenario>::is_valid() const
 static scen_blacklist sc_blacklist;
 
 scenario::scenario()
+// NOLINTNEXTLINE(cata-static-string_id-constants)
     : id( "" ), _name_male( no_translation( "null" ) ),
       _name_female( no_translation( "null" ) ),
       _description_male( no_translation( "null" ) ),
@@ -90,7 +91,7 @@ void scenario::load( const JsonObject &jo, const std::string & )
         jo.throw_error( "at least one starting location (member \"allowed_locs\") must be defined" );
     }
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
-    optional( jo, was_loaded, "map_extra", _map_extra, "mx_null" );
+    optional( jo, was_loaded, "map_extra", _map_extra, map_extra_id::NULL_ID() );
     optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
 
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
@@ -120,7 +121,8 @@ void scenario::load( const JsonObject &jo, const std::string & )
     }
 
     for( JsonArray ja : jo.get_array( "surround_groups" ) ) {
-        _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ), ja.get_float( 1 ) );
+        _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ),
+                                       static_cast<float>( ja.get_float( 1 ) ) );
     }
 }
 
@@ -213,9 +215,8 @@ void scenario::check_definition() const
     check_traits( _forced_traits, id );
     check_traits( _forbidden_traits, id );
 
-    string_id<map_extra> me( _map_extra );
-    if( !me.is_valid() )  {
-        debugmsg( "there is no map extra with id %s", _map_extra );
+    if( !_map_extra.is_valid() )  {
+        debugmsg( "there is no map extra with id %s", _map_extra.str() );
     }
 
     for( const auto &e : eoc() ) {
@@ -546,9 +547,9 @@ bool scenario::can_pick( const scenario &current_scenario, const int points ) co
 }
 bool scenario::has_map_extra() const
 {
-    return _map_extra != "mx_null";
+    return !_map_extra.is_null();
 }
-const std::string &scenario::get_map_extra() const
+const map_extra_id &scenario::get_map_extra() const
 {
     return _map_extra;
 }

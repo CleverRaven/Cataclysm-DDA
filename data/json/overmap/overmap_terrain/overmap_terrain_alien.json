@@ -46,6 +46,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "exodii_base_x0y3z0",
+    "name": "ground-level entrance",
+    "sym": "?",
+    "color": "white",
+    "see_cost": 4,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "exodii_base_x1y0z0",
       "exodii_base_x2y0z0",
@@ -58,7 +67,6 @@
       "exodii_base_x1y2z0",
       "exodii_base_x2y2z0",
       "exodii_base_x3y2z0",
-      "exodii_base_x0y3z0",
       "exodii_base_x1y3z0",
       "exodii_base_x2y3z0",
       "exodii_base_x3y3z0"

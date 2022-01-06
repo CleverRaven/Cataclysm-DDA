@@ -9,9 +9,11 @@
     "volume": "250 ml",
     "price": 400,
     "price_postapoc": 1000,
+    "charges": 10,
     "stack_size": 30,
     "symbol": "!",
     "color": "yellow",
+    "container": "bottle_plastic_pill_supplement",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
@@ -33,6 +35,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "light_red",
+    "container": "bottle_plastic_pill_prescription",
     "stim": 24,
     "fun": 10,
     "addiction_potential": 10,
@@ -55,7 +58,7 @@
     "color": "white",
     "charges": 10,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 1, "bleed": 4, "move_cost": 200 }
+    "use_action": { "type": "heal", "bandages_power": 1, "bleed": 4, "move_cost": 750 }
   },
   {
     "id": "adrenaline_injector",
@@ -92,6 +95,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_prescription",
     "use_action": [ "ANTIBIOTIC" ],
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
   },
@@ -110,6 +114,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_prescription",
     "use_action": [ "ANTIFUNGAL" ],
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
   },
@@ -128,6 +133,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_prescription",
     "healthy": -5,
     "use_action": [ "ANTIPARASITIC" ],
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
@@ -147,6 +153,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_painkiller",
     "healthy": -1,
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
@@ -171,7 +178,7 @@
     "charges": 3,
     "stack_size": 9,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 15, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 15, "move_cost": 6000 }
   },
   {
     "id": "bandages_makeshift",
@@ -181,7 +188,7 @@
     "description": "Simple cloth bandages.  Better than nothing.",
     "price_postapoc": 100,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 10, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 10, "move_cost": 6000 }
   },
   {
     "id": "bandages_makeshift_bleached",
@@ -191,7 +198,7 @@
     "description": "Simple cloth bandages.  It is white, as real bandages should be.",
     "price_postapoc": 150,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 6000 }
   },
   {
     "id": "bandages_makeshift_boiled",
@@ -201,7 +208,7 @@
     "description": "Simple cloth bandages.  It was boiled to make it more sterile.",
     "price_postapoc": 150,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 6000 }
   },
   {
     "id": "bfipowder",
@@ -212,7 +219,7 @@
     "weight": "6 g",
     "volume": "250 ml",
     "price": 900,
-    "price_postapoc": 4000,
+    "price_postapoc": 2000,
     "charges": 4,
     "stack_size": 40,
     "material": [ "powder" ],
@@ -220,7 +227,7 @@
     "color": "white",
     "container": "bottle_plastic_small",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 100 }
+    "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
   },
   {
     "id": "caff_gum",
@@ -257,6 +264,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "cyan",
+    "container": "bottle_plastic_pill_supplement",
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "stim": 12,
     "addiction_potential": 3,
@@ -304,7 +312,7 @@
     "phase": "liquid",
     "container": "bottle_plastic_small",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
-    "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 100 }
+    "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
   },
   {
     "id": "cig",
@@ -338,14 +346,14 @@
     "weight": "9 g",
     "volume": "250 ml",
     "price": 1000,
-    "price_postapoc": 500,
+    "price_postapoc": 2500,
     "charges": 5,
     "symbol": "!",
     "color": "brown",
     "stim": 1,
-    "healthy": -1,
+    "healthy": -4,
     "fun": 15,
-    "addiction_potential": 50,
+    "addiction_potential": 60,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "use_action": [ "SMOKING" ]
@@ -380,6 +388,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "cyan",
+    "container": "bottle_plastic_pill_painkiller",
     "stim": -2,
     "fun": 10,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
@@ -439,7 +448,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,
-    "flags": [ "EATEN_COLD", "WATER_DISSOLVE" ],
+    "flags": [ "EATEN_COLD", "WATER_DISSOLVE", "NO_AUTO_CONSUME" ],
     "freezing_point": -45,
     "fun": 30
   },
@@ -478,7 +487,7 @@
     "color": "white",
     "container": "bag_plastic",
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 3, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 3, "move_cost": 3000 }
   },
   {
     "id": "crack",
@@ -546,7 +555,7 @@
     "phase": "liquid",
     "container": "bottle_plastic_small",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
-    "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 100 }
+    "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 3000 }
   },
   {
     "id": "disinfectant_makeshift",
@@ -556,7 +565,25 @@
     "copy-from": "disinfectant",
     "description": "Makeshift antiseptic made from ethanol.  Can be used to disinfect a wound.",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
-    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 100 }
+    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 3000 }
+  },
+  {
+    "id": "alcohol_wipes",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "alcohol wipes" },
+    "description": "A type of wet wipe saturated with alcohol and stored in a sterile package.  Commonly used for personal hygiene or disinfecting small wounds.",
+    "weight": "5 g",
+    "volume": "25 ml",
+    "freezing_point": -48,
+    "price": 400,
+    "price_postapoc": 250,
+    "charges": 40,
+    "symbol": ",",
+    "color": "white",
+    "container": "box_small",
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
+    "use_action": { "type": "heal", "disinfectant_power": 2, "bite": 0.3, "move_cost": 500 }
   },
   {
     "id": "diazepam",
@@ -572,6 +599,7 @@
     "stack_size": 100,
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_prescription",
     "stim": -8,
     "healthy": -1,
     "fun": 8,
@@ -585,7 +613,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "high quality shatter" },
-    "description": "Concentrated cannabis extract, commonly known as dabs.  This particular style of concentrate in is a thin sheet and shatters like glass at room temperature.  Argueably its one of the better styles of concentrate compared to wax, crumble, or distilate.  Normal cannabis contains around 20%THC, this shatter should be around 55%THC.",
+    "description": "Concentrated cannabis extract, commonly known as dabs.  This particular style of concentrate in is a thin sheet and shatters like glass at room temperature.  Argueably its one of the better styles of concentrate compared to wax, crumble, or distillate.  Normal cannabis contains around 20%THC, this shatter should be around 55%THC.",
     "looks_like": "honey_gold",
     "weight": "1 g",
     "volume": "1 ml",
@@ -1111,6 +1139,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_supplement",
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
@@ -1176,7 +1205,7 @@
     "symbol": ",",
     "color": "white",
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 5, "move_cost": 200 }
+    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 5, "move_cost": 6000 }
   },
   {
     "id": "meth",
@@ -1332,6 +1361,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "light_green",
+    "container": "bottle_plastic_pill_prescription",
     "healthy": -1,
     "stim": -4,
     "fun": 18,
@@ -1359,6 +1389,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "light_red",
+    "container": "bottle_plastic_pill_prescription",
     "stim": -8,
     "fun": 5,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
@@ -1478,6 +1509,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "light_green",
+    "container": "bottle_plastic_pill_prescription",
     "stim": -5,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "addiction_potential": 5,
@@ -1500,6 +1532,7 @@
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "symbol": "!",
     "color": "blue",
+    "container": "bottle_plastic_pill_supplement",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some Prussian blue.",
@@ -1523,7 +1556,7 @@
     "color": "light_gray",
     "container": "bag_plastic",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bleed": 20, "move_cost": 100 }
+    "use_action": { "type": "heal", "bleed": 20, "move_cost": 2000 }
   },
   {
     "id": "saline",
@@ -1557,6 +1590,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "light_red",
+    "container": "bottle_plastic_pill_prescription",
     "stim": -30,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": [ "THORAZINE" ]
@@ -1577,7 +1611,7 @@
     "phase": "liquid",
     "spoils_in": "28 days",
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 100 }
+    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 3000 }
   },
   {
     "id": "tobacco",
@@ -1625,6 +1659,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "yellow",
+    "container": "bottle_plastic_pill_prescription",
     "fun": 6,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "addiction_potential": 6,
@@ -1665,6 +1700,7 @@
     "stack_size": 20,
     "symbol": "!",
     "color": "magenta",
+    "container": "bottle_plastic_pill_supplement",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
@@ -1687,6 +1723,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "symbol": "!",
     "color": "magenta",
+    "container": "bottle_plastic_pill_supplement",
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 75 ] ] }
   },
   {
@@ -1737,6 +1774,7 @@
     "description": "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
     "price_postapoc": 1000,
     "fun": 4,
+    "container": "null",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "charges": 10,
     "stack_size": 10
@@ -1756,6 +1794,7 @@
     "stack_size": 20,
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_supplement",
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You swallow the %s.  You wait in anticipation of its effects." },
     "snippet_category": [
@@ -1777,7 +1816,7 @@
       },
       {
         "id": "pill5",
-        "text": "Some Aesculus hippocastanum homeopathic pills, prepared through the dilution of horse chestnut with 10^30 parts water.  These pills are meant to treat dysentry and hemorrhoids."
+        "text": "Some Aesculus hippocastanum homeopathic pills, prepared through the dilution of horse chestnut with 10^30 parts water.  These pills are meant to treat dysentery and hemorrhoids."
       },
       {
         "id": "pill6",
@@ -1875,6 +1914,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "cyan",
+    "container": "bottle_plastic_pill_prescription",
     "stim": -4,
     "healthy": -2,
     "fun": 20,
@@ -1902,7 +1942,7 @@
       "type": "heal",
       "disinfectant_power": 2,
       "bite": 0.5,
-      "move_cost": 200,
+      "move_cost": 6000,
       "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] }
     }
   },
@@ -1926,7 +1966,7 @@
       "type": "heal",
       "disinfectant_power": 3,
       "bite": 0.66,
-      "move_cost": 300,
+      "move_cost": 6000,
       "used_up_item": { "id": "cotton_ball", "quantity": 1, "charges": 1, "flags": [ "FILTHY" ] }
     }
   },
@@ -1945,6 +1985,7 @@
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_prescription",
     "healthy": -2,
     "use_action": [ "WEAK_ANTIBIOTIC" ],
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
@@ -1985,6 +2026,7 @@
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "red",
+    "container": "bottle_plastic_pill_prescription",
     "healthy": 25,
     "use_action": {
       "type": "consume_drug",
@@ -2014,7 +2056,7 @@
       "type": "heal",
       "disinfectant_power": 3,
       "bite": 0.75,
-      "move_cost": 100,
+      "move_cost": 3000,
       "effects": [ { "id": "pkill1", "duration": 720 } ]
     }
   },
@@ -2032,6 +2074,7 @@
     "stack_size": 200,
     "symbol": "!",
     "color": "white",
+    "container": "bottle_plastic_pill_prescription",
     "healthy": -10,
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "STRONG_ANTIBIOTIC" }
@@ -2055,6 +2098,6 @@
     "addiction_potential": 5,
     "addiction_type": "cocaine",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
-    "use_action": { "type": "heal", "bleed": 20, "move_cost": 100, "effects": [ { "id": "pkill1", "duration": 720 } ] }
+    "use_action": { "type": "heal", "bleed": 20, "move_cost": 3000, "effects": [ { "id": "pkill1", "duration": 720 } ] }
   }
 ]

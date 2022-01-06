@@ -41,7 +41,6 @@
     - [Categories](#categories)
     - [Death Functions](#death-functions)
     - [Flags](#flags-5)
-    - [Monster Defense and Attacks](#monster-defense-and-attacks)
     - [Sizes](#sizes)
     - [Special attacks](#special-attacks)
   - [Mutations](#mutations)
@@ -86,7 +85,6 @@ When an item is crafted, it can inherit flags from the components that were used
 
 ## TODO
 
-- Descriptions for `Special attacks` under `Monsters` could stand to be more descriptive of exactly what the attack does.
 - `Ammo effects` under `Ammo` need more descriptive details, and some need to be double-checked for accuracy.
 
 
@@ -192,7 +190,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
 - ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NOGIB).
 - ```NO_PENETRATE_OBSTACLES``` Prevents a projectile from going through a tile with obstacles, such as chainlink fences or dressers.
-- ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilise them.
+- ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilize them.
 - ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in a monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
 - ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
 - ```PLASMA``` Creates a trail of superheated plasma.
@@ -233,10 +231,37 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```MOUTH```
 - ```TORSO```
 
+### Specifically Covers
+
+- ```torso_upper```
+- ```torso_neck```
+- ```torso_lower```
+- ```torso_hanging_front```
+- ```torso_hanging_back```
+- ```arm_shoulder_r```
+- ```arm_upper_r```
+- ```arm_elbow_r```
+- ```arm_lower_r```
+- ```arm_shoulder_l```
+- ```arm_upper_l```
+- ```arm_elbow_l```
+- ```arm_lower_l```
+- ```leg_hip_r```
+- ```leg_upper_r```
+- ```leg_knee_r```
+- ```leg_lower_r```
+- ```leg_hip_l```
+- ```leg_upper_l```
+- ```leg_knee_l```
+- ```leg_lower_l```
+
+
 ### Flags
 
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
 
+- ```ABLATIVE_LARGE``` This item fits in large ablative pockets.
+- ```ABLATIVE_MEDIUM``` This item fits in medium ablative pockets.
 - ```ACTIVE_CLOAKING``` While active, drains UPS to provide invisibility.
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
@@ -246,8 +271,10 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BLIND``` Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
 - ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
 - ```BULLET_IMMNUE``` Wearing an item with this flag makes you immune to bullet damage
+- ```CANT_WEAR``` This item can't be worn directly.
 - ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
+- ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat. Used by NPCs to determine if they will toggle it on during combat. This only supports simple "transform" actions.
 - ```DEAF``` Makes the player deaf.
 - ```MUTE``` Makes the player mute.
 - ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
@@ -259,6 +286,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```HELMET_COMPAT``` Items that are not SKINTIGHT or OVERSIZE but can be worn with a helmet.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
+- ```NORMAL``` Items worn like normal clothing. This is assumed as default.
 - ```NO_TAKEOFF``` Item with that flag can't be taken off.
 - ```NO_QUICKDRAW``` Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
 - ```ONLY_ONE``` You can wear only one.
@@ -304,6 +332,16 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BIONIC_TOGGLED``` This bionic only has a function when activated, else it causes it's effect every turn.
 - ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
 - ```BIONIC_SHOCKPROOF``` This bionic can't be incapacitated by electrical attacks.
+- ```USES_BIONIC_POWER``` If present, items attached to this bionic will inherit the USES_BIONIC_POWER flag automatically.
+
+
+## Bodyparts
+
+-```ALWAYS_BLOCK``` This nonstandard bodypart is eligable to block in unarmed combat even if your martial arts don't allow such blocks. No effect without `NONSTANDARD_BLOCK`
+-```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
+-```LIMB_LOWER```  This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
+-```LIMB_UPPER```  This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags
+-```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`
 
 
 ## Books
@@ -490,6 +528,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
 - ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
 - ```NEGATIVE_MONOTONY_OK``` Allows ```negative_monotony``` property to lower comestible fun to negative values.
+- ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat/auto-drink zone
 - ```NO_INGEST``` Administered by some means other than oral intake.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
@@ -512,6 +551,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```ALARMED``` Sets off an alarm if smashed.
 - ```ALIGN_WORKBENCH``` (only for furniture) A hint to the tiles display that the sprite for this furniture should face toward any adjacent tile with a workbench quality.
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside ```SEALED``` terrain/furniture.
+- ```ALLOW_ON_OPEN_AIR``` Don't warn when this furniture is placed on
+  `t_open_air` or similar 'open air' terrains which lack a floor.
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 
     Example: `-` and `|` are both terrain with the `CONNECT_TO_WALL` flag. `O` does not have the flag, while `X` and `Y` have the `AUTO_WALL_SYMBOL` flag.
@@ -552,6 +593,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FLAT``` Player can build and move furniture on.
 - ```FORAGE_HALLU``` This item can be found with the `HIDDEN_HALLU` flag when found through foraging.
 - ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
+- ```FRESH_WATER``` Source of fresh water. Will spawn fresh water (once) on terrains with `SPAWN_WITH_LIQUID` flag.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
@@ -565,6 +607,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```LIQUID``` Blocks movement, but isn't a wall (lava, water, etc.)
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
+- ```MURKY``` Water taker from tiles with this flag is badly poisoned (almost on par with sewage).
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
 - ```NO_FLOOR``` Things should fall when placed on this tile
@@ -595,6 +638,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
 - ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
+- ```SPAWN_WITH_LIQUID``` This terrain will place liquid (once) on its own spawn. Type of liquid is defined by other flags. For example, it spawns fresh water via `FRESH_WATER` flag.
 - ```SUN_ROOF_ABOVE``` This furniture (terrain is not supported currently) has a "fake roof" above, that blocks sunlight. Special hack for #44421, to be removed later.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
 - ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
@@ -605,7 +649,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
-- ```WINDOW``` This terrain is a window, though it may be closed, broken, or covered up.  Used by teh tiles code to align furniture sprites away from the window.
+- ```WINDOW``` This terrain is a window, though it may be closed, broken, or covered up.  Used by the tiles code to align furniture sprites away from the window.
 - ```WORKOUT_LEGS``` This furniture is for training your legs. Needed for checks like `is_limb_broken()`.
 - ```WORKOUT_ARMS``` This furniture is for training your arms. Needed for checks like `is_limb_broken()`.
 
@@ -764,7 +808,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
 - ```mx_roadworks``` ... Partially closed damaged road with chance of work equipment and utility vehicles.
 - ```mx_science``` ... Corpses and some scientist items.
-- ```mx_shia``` ... A *chance* of Shia, if Crazy Catalcysm is enabled.
+- ```mx_shia``` ... A *chance* of Shia, if Crazy Cataclysm is enabled.
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
 - ```mx_spider``` ... A big spider web, complete with spiders and eggs.
 - ```mx_supplydrop``` ... Crates with some military items in it.
@@ -785,11 +829,12 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 ### Flags
 
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
+- ```BIONIC_WEAPON``` Cannot wield this item normally. It has to be attached to a bionic and equipped through activation of the bionic.
 - ```DIAMOND``` Diamond coating adds 30% bonus to cutting and piercing damage
 - ```MESSY``` Creates more mess when pulping
 - ```NO_CVD``` Item can never be used with a CVD machine
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
-- ```NO_UNWIELD``` Cannot unwield this item. Fake weapons and tools produced by bionics should have this flag. Such items support unwield as a special case.
+- ```NO_UNWIELD``` Cannot unwield this item. Fake weapons and tools wielded from bionics will automatically have this flag added.
 - ```POLEARM``` Item is clumsy up close and does 70% of normal damage against adjacent targets.  Should be paired with REACH_ATTACK.  Simple reach piercing weapons like spears should not get this flag.
 - ```REACH_ATTACK``` Allows performing a reach attack.
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
@@ -838,7 +883,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```PLAYER_WEAK``` Raises monster aggression by  10 - (percent of hp remaining / 10) if a potential enemy has less than 70% hp remaining - Anger trigger only!
 - ```PLAYER_NEAR_BABY``` Increases monster aggression by 8 and morale by 4 if **the player** comes within 3 tiles of its offspring (defined by the baby_monster field in its reproduction data)- Anger trigger only!
 - ```SOUND``` Not an actual trigger, monsters above 10 aggression and 0 morale will wander towards, monsters below 0 morale will wander away from the source of the sound for 1 turn (6, if they have the GOODHEARING flag).
-- ```STALK``` Raises monster aggresssion by 1, triggers 20% of the time each turn if aggression > 5 - Anger trigger only!
+- ```STALK``` Raises monster aggression by 1, triggers 20% of the time each turn if aggression > 5 - Anger trigger only!
 - ```HOSTILE_SEEN``` Increases aggression/ decreases morale by a random amount between 0-2 for every potential enemy it can see, up to 20 aggression - Anger/fear trigger only!
 - ```MATING_SEASON``` Increases aggression by 3 if a potential enemy is within 5 tiles range and the season is the same as the monster's mating season (defined by the baby_flags field in its reproduction data) - Anger trigger only!
 
@@ -881,8 +926,6 @@ Multiple death functions can be used. Not all combinations make sense.
 
 Other monster flags.
 
-- ```ABSORBS_SPLITS``` Consumes objects it moves over, and if it absorbs enough it will split into a copy.
-- ```ABSORBS``` Consumes objects it moves over. (Modders use this).
 - ```ACIDPROOF``` Immune to acid.
 - ```ACIDTRAIL``` Leaves a trail of acid.
 - ```ACID_BLOOD``` Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
@@ -890,6 +933,8 @@ Other monster flags.
 - ```AQUATIC``` Confined to water.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.
 - ```ATTACKMON``` Attacks other monsters.
+- ```ATTACK_UPPER``` Even though this monster is small in size it can attack upper limbs.
+- ```ATTACK_LOWER``` Even though this monster is large in size it can't attack upper limbs.
 - ```BADVENOM``` Attack may **severely** poison the player.
 - ```BASHES``` Bashes down doors.
 - ```BILE_BLOOD``` Makes monster bleed bile.
@@ -988,12 +1033,6 @@ Other monster flags.
 - ```WEBWALK``` Doesn't destroy webs and won't get caught in them.
 - ```WOOL``` May produce wool when butchered.
 
-### Monster Defense and Attacks
-
-- ```ACIDSPLASH``` Splashes acid on the attacker
-- ```NONE``` No special attack-back
-- ```ZAPBACK``` Shocks attacker on hit
-
 ### Sizes
 
 Monster physical sizes.
@@ -1005,109 +1044,7 @@ Monster physical sizes.
 - ```TINY``` Squirrel
 
 ### Special attacks
-
-Some special attacks are also valid use actions for tools and weapons.
-See `monsters.json` for examples on how to use these attacks.
-Also see `monster_attacks.json` for more special attacks, for example, impale and scratch.
-
-- ```ABSORB_MEAT``` Absorbs adjacent meat items (maximal absorbable item volume depends on the monster's volume), regenerating health in the process.
-- ```ACID_ACCURATE``` Shoots acid that is accurate at long ranges, but less so up close.
-- ```ACID_BARF``` Barfs corroding, blinding acid.
-- ```ACID``` Spits acid.
-- ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
-- ```BIO_OP_BIOJUTSU``` Attack with any of the below martial art attacks.
-- ```BIO_OP_TAKEDOWN``` Takedown attack, bashes either the target's head or torso and inflicts `downed`.
-- ```BIO_OP_DISARM``` Disarming attack, does no damage.
-- ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding .
-- ```BITE``` Bite attack that can cause deep infected wounds. If the attacker is humanoid, the target must be `grabbed` before BITE can trigger.
-- ```BOOMER_GLOW``` Spit glowing bile.
-- ```BOOMER``` Spit bile.
-- ```BRANDISH``` Brandish a knife at the player.
-- ```BREATHE``` Spawns a `breather` - `breather hub` only!
-- ```CALLBLOBS``` Calls 2/3 of nearby blobs to defend this monster, and sends 1/3 of nearby blobs after the player.
-- ```CHICKENBOT``` LEGACY - Robot can attack with tazer, M4, or MGL depending on distance.
-- ```COPBOT``` Cop-bot warns then tazes the player.
-- ```DANCE``` Monster dances.
-- ```DARKMAN``` Can cause darkness and wraiths to spawn.
-- ```DERMATIK_GROWTH``` Dermatik larva grows into an adult - obsoleted by them using `age_grow`.
-- ```DERMATIK``` Attempts to lay dermatik eggs in the player.
-- ```DISAPPEAR``` Hallucination (or other unusual monster) disappears.
-- ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
-- ```EAT_CROP``` The monster eats an adjacent planted crop.
-- ```EAT_FOOD``` The monster eats an adjacent non-seed food item (apart from their own eggs and food with fun < -20).
-- ```EVOLVE_KILL_STRIKE``` Damages the target's torso (damage scales with monster's melee dice), if it succeeds in killing a fleshy target the monster will upgrade to its next evolution.
-- ```FEAR_PARALYZE``` Paralyze the player with fear.
-- ```FLAMETHROWER``` Shoots a stream of fire.
-- ```FLESH_GOLEM``` Attack the player with 5-10 bash, has a chance to inflict `downed` if the attack connects. Also roars menacingly for some reason.
-- ```FLESH_TENDRIL``` Spawns gangrenous impalers or crawlers, pulls targets close when 4 > range > 1, either flings or grabs them when adjacent.
-- ```FORMBLOB``` Attacks a neighboring tile, effect depends on the tile's inhabitant: spawns small slimes depending on its speed if empty, slimes players/NPCs, speeds up friendly slimes, heals brain slimes, converts nonfriendly flesh/veggy non-huge monsters to slimes of appropriate size.  Decreases in size if it did any of those and its current speed is below a threshold.
-- ```FRAG_TUR``` MGL fires frag rounds.
-- ```FUNGAL_TRAIL``` Spreads fungal terrain.
-- ```FUNGUS_BIG_BLOSSOM``` Spreads fire suppressing fungal haze.
-- ```FUNGUS_BRISTLE``` Perform barbed tendril attack that can cause fungal infections.
-- ```FUNGUS_CORPORATE``` Used solely by Crazy Cataclysm. This will cause runtime errors if used without, and spawns SpOreos on top of the creature.
-- ```FUNGUS_FORTIFY``` Grows fungal hedgerows, and advances player on the mycus threshold path.
-- ```FUNGUS_GROWTH``` Grows a young fungaloid into an adult.
-- ```FUNGUS_HAZE``` Spawns fungal fields.
-- ```FUNGUS_INJECT``` Perform needle attack that can cause fungal infections.
-- ```FUNGUS_SPROUT``` Grows a fungal wall.
-- ```FUNGUS``` Releases fungal spores and attempts to infect the player.
-- ```GENERATOR``` Regenerates health, humms.
-- ```GENE_STING``` Shoot a dart at the player that causes a mutation if it connects.
-- ```GRAB_DRAG``` GRAB the target, and drag it around - dragging is resistable depending on the size difference and the melee dice of the attacker.
-- ```GRAB``` Grabs the player, slowing on hit, making movement and dodging impossible and blocking harder.
-- ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`. Can destroy bashable terrain or do damage if it hits something.
-- ```GROW_VINE``` Grows creeper vines.
-- ```GRENADIER``` Deploys tear gas/pacification/flashbang/c4 hacks from its ammo.
-- ```GRENADIER_ELITE``` Deploys grenade/flashbang/c4/mininuke hacks from its ammo.
-- ```HOWL``` "an ear-piercing howl!"
-- ```IMPALE``` Stabbing attack agains the target's torso, with a chance to down (superseded by the JSON-defined `impale` attack)
-- ```JACKSON``` Converts zombies into zombie dancers (until its death).
-- ```KAMIKAZE``` Detonates its defined ammo after a countdown (calculated automatically to hopefully almost catch up to a running player).
-- ```LASER``` Laser turret fires.
-- ```LEAP``` leap away to an unobstructed tile.
-- ```LEECH_SPAWNER``` Spawns root runners or root drones, low chance of upgrading itself into a leech stalk.
-- ```LONGSWIPE``` Claw attack with 3-10 cut damage, which can even hit 3 tiles away. If targeting an adjacent enemy it always hits the head and causes heavy bleeding. JSON equivalents of the two elements are `"id": "longswipe"` and `"id": "cut_throat"` respectively.
-- ```LUNGE``` Perform a jumping attack from some distance away, which can down the target.
-- ```MON_LEECH_EVOLUTION``` Evolves a leech plant into a leech blossom if no other blossoms are in sight.
-- ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower, M4, MGL, or 120mm cannon depending on distance.
-- ```NONE``` No special attack.
-- ```PARA_STING``` Shoot a paralyzing dart at the player.
-- ```PARROT``` Parrots the speech defined in `speech.json`, picks one of the lines randomly. "speaker" points to a monster id.
-- ```PARROT_AT_DANGER``` Performs the same function as PARROT, but only if the creature sees an angry monster from a hostile faction.
-- ```PAID_BOT```  For creature with PAY_BOT flag, removes the ally status when the pet effect runs out.
-- ```PHOTOGRAPH``` Photograph the player. Causes a robot attack?
-- ```PLANT``` Fungal spores take seed and grow into a fungaloid.
-- ```PULL_METAL_WEAPON``` Pulls any weapon that's made of iron or steel from the player's hand.
-- ```RANGED_PULL``` Pulls targets towards attacker from 3 tiles range, dodgable but not resistable.
-- ```RATKING``` Inflicts disease `rat`
-- ```RATTLE``` "a sibilant rattling sound!"
-- ```RESURRECT``` Revives the dead--again.
-- ```RIFLE_TUR``` Rifle turret fires.
-- ```RIOTBOT``` Sprays teargas or relaxation gas, can handcuff players, and can use a blinding flash.
-- ```SCIENCE``` Various science/technology related attacks (e.g. manhacks, radioactive beams, etc.)
-- ```SEARCHLIGHT``` Tracks targets with a searchlight.
-- ```SHOCKING_REVEAL``` Shoots bolts of lightning, and reveals a SHOCKING FACT! Very fourth-wall breaking. Used solely by Crazy Cataclysm.
-- ```SHOCKSTORM``` Shoots bolts of lightning.
-- ```SHRIEK_ALERT``` "a very terrible shriek!" - louder than for SHRIEK
-- ```SHRIEK_STUN``` "a stunning shriek!", causes a small bash, can cause a stun.
-- ```SHRIEK``` "a terrible shriek!"
-- ```SLIMESPRING``` Can provide a morale boost to the player, and cure bite and bleed effects.
-- ```SMASH``` Smashes the target, sending it flying for a number of tiles equal to `("melee_dice" * "melee_dice_sides" * 3) / 10`. JSON equivalent is `id: smash`.
-- ```SPIT_SAP``` Spit sap (acid damage, 12 range).
-- ```STARE``` Stare at the player and inflict ramping debuffs (`taint>tindrift`).
-- ```STRETCH_ATTACK``` Ranged (3 tiles) piercing attack, doing 5-10 damage. JSON equivalent is `id: stretch_attack`
-- ```STRETCH_BITE``` Ranged (3 tiles) bite attack, doing stab damage and potentially infecting without grabbing. JSON equivalent (without the chance of deep bites) is `id: stretch_bite`.
-- ```SUICIDE``` Dies after attacking.
-- ```TAZER``` Shock the player.
-- ```TENTACLE``` Lashes a tentacle at an enemy, doing bash damage at 3 tiles range. JSON equivalent is `id: tentacle`.
-- ```TINDALOS_TELEPORT``` Spawns afterimages, teleports to corners nearer to its target.
-- ```TRIFFID_GROWTH``` Young triffid grows into an adult.
-- ```TRIFFID_HEARTBEAT``` Grows and crumbles root walls around the player, and spawns more monsters.
-- ```UPGRADE``` Upgrades one of the non-hostile surrounding monsters, gets angry if it finds no targets to upgrade.
-- ```VINE``` Attacks with vine.
-- ```ZOMBIE_FUSE``` Absorbs an adjacent creature, healing and becoming less likely to fuse for 10 days.
-
+Special attacks have been moved to [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md) as they have all been migrated away from flags.
 
 ## Mutations
 
@@ -1170,8 +1107,18 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```KNOWN_UP``` There's a known way up.
 - ```LINEAR``` For roads etc, which use ID_straight, ID_curved, ID_tee, ID_four_way.
 - ```NO_ROTATE``` The terrain can't be rotated (ID_north, ID_east, ID_south, and ID_west instances will NOT be generated, just ID).
+- ```SHOULD_NOT_SPAWN``` The terrain should not be expected to spawn.  This
+  might be because it exists only for testing purposes, or it is part of a
+  partially completed feature where more work is required before it can start spawning.
 - ```RIVER``` It's a river tile.
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
+- ```IGNORE_ROTATION_FOR_ADJACENCY``` When mapgen for this OMT performs
+  neighbour checks, the directions will be treated as absolute, rather than
+  rotated to account for the rotation of the mapgen itself.  Probably only
+  useful for hardcoded mapgen.
+- ```REQUIRES_PREDECESSOR``` Mapgen for this will not start from scratch; it
+  will update the mapgen from the terrain it replaced.  This allows the
+  corresponding json mapgen to use the `expects_predecessor` feature.
 - ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
 - ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
 - ```SOURCE_FUEL``` For NPC AI, this location may contain fuel for looting.
@@ -1538,8 +1485,12 @@ Gun fault flags:
 - ```NO_SCENT``` You have no scent.
 - ```STOP_SLEEP_DEPRIVATION``` Stops Sleep Deprivation while awake and boosts it while sleeping.
 - ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.
+- ```HYPEROPIC``` You are far-sighted - close combat is hampered and reading is impossible without glasses.
+- ```MYOPIC``` You are nearsighted - vision range is severly reduced without glasses.
+- ```MYOPIC_IN_LIGHT``` You are nearsighted in light, but can see normally in low-light conditions.
 - ```NIGHT_VISION``` You can see in the dark.
 - ```INFRARED``` You can see infrared, aka heat vision.
+- ```SEESLEEP``` You can see while sleeping, and aren't bothered by light when trying to fall asleep.
 - ```ELECTRIC_IMMUNE``` You are immune to electric damage.
 - ```COLD_IMMUNE``` You are immune to cold damage.
 - ```BIO_IMMUNE``` You are immune to biological damage.
@@ -1555,6 +1506,7 @@ Gun fault flags:
 - ```FEATHER_FALL``` You are immune to fall damage.
 - ```INVISIBLE``` You can't be seen.
 - ```DIMENSIONAL_ANCHOR``` You can't be teleported.
+- ```PORTAL_PROOF``` You are immune to personal portal storm effects.
 - ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```THERMOMETER``` You always know what temperature it is.

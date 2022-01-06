@@ -1,0 +1,16 @@
+[
+  {
+    "id": "cardio_fit_num",
+    "type": "widget",
+    "label": "Cardio Fit",
+    "var": "cardio_fit",
+    "style": "number"
+  },
+  {
+    "id": "cardio_acc_num",
+    "type": "widget",
+    "label": "Cardio Acc",
+    "var": "cardio_acc",
+    "style": "number"
+  }
+]

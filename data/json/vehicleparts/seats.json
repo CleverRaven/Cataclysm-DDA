@@ -43,7 +43,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
+      }
     },
     "size": 100,
     "symbol": "#",
@@ -79,7 +83,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
+      }
     },
     "size": 25,
     "symbol": "#",
@@ -115,7 +123,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
+      }
     },
     "size": 120,
     "standard_symbols": false,
@@ -153,7 +165,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "20 s",
+        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 4 ] ]
+      }
     },
     "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "NONBELTABLE" ],
     "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ]
@@ -178,14 +194,18 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "20 s",
+        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 3 ] ]
+      }
     },
     "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "NONBELTABLE" ],
     "breaks_into": [ { "item": "rag", "count": [ 1, 6 ] } ]
   },
   {
     "abstract": "metal_bench_abstract",
-    "breaks_into": "ig_vp_steel_plate",
+    "breaks_into": "ig_vp_prison_bench",
     "broken_color": "dark_gray",
     "broken_symbol": "*",
     "categories": [ "operations", "passengers" ],
@@ -201,9 +221,9 @@
     "looks_like": "seat",
     "name": { "str": "steel bench" },
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 20 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "size": 25,
     "symbol": "#",

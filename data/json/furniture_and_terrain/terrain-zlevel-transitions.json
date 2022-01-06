@@ -143,6 +143,11 @@
     "symbol": "0",
     "color": "dark_gray",
     "move_cost": 2,
+    "prying": {
+      "result": "t_manhole",
+      "message": "You lift the manhole cover.",
+      "prying_data": { "difficulty": 4, "prying_level": 1, "failure": "You pry, but can't lift the manhole cover." }
+    },
     "flags": [ "TRANSPARENT" ]
   },
   {

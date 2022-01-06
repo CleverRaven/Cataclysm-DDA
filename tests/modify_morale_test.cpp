@@ -15,6 +15,8 @@
 #include "point.h"
 #include "type_id.h"
 
+static const mutation_category_id mutation_category_URSINE( "URSINE" );
+
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
@@ -605,7 +607,7 @@ TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
             dummy.mutate_towards( trait_URSINE_FUR );
             dummy.mutate_towards( trait_URSINE_EYE );
             dummy.mutate_towards( trait_PADDED_FEET );
-            REQUIRE( dummy.mutation_category_level[mutation_category_id( "URSINE" )] > 40 );
+            REQUIRE( dummy.mutation_category_level[mutation_category_URSINE] > 40 );
 
             THEN( "they get an extra honey morale bonus for eating it" ) {
                 dummy.modify_morale( honeycomb );

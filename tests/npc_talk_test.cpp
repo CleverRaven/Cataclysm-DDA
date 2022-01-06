@@ -38,17 +38,41 @@
 #include "talker.h"
 #include "type_id.h"
 
-static const efftype_id effect_gave_quest_item( "gave_quest_item" );
+static const bionic_id bio_ads( "bio_ads" );
+static const bionic_id bio_power_storage( "bio_power_storage" );
+
 static const efftype_id effect_currently_busy( "currently_busy" );
-static const efftype_id effect_infection( "infection" );
+static const efftype_id effect_gave_quest_item( "gave_quest_item" );
 static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_infection( "infection" );
+static const efftype_id effect_sleep( "sleep" );
+
+static const item_category_id item_category_food( "food" );
+static const item_category_id item_category_manual( "manual" );
+
+static const itype_id itype_beer( "beer" );
+static const itype_id itype_bottle_glass( "bottle_glass" );
+static const itype_id itype_dnd_handbook( "dnd_handbook" );
+static const itype_id itype_manual_speech( "manual_speech" );
+
+static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
+
+static const npc_class_id NC_NONE( "NC_NONE" );
+static const npc_class_id NC_TEST_CLASS( "NC_TEST_CLASS" );
+
+static const skill_id skill_driving( "driving" );
+
+static const trait_id trait_ELFA_EARS( "ELFA_EARS" );
 
 static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
-static npc &create_test_talker()
+static npc &create_test_talker( bool shopkeep = false )
 {
-    const string_id<npc_template> test_talker( "test_talker" );
+    const string_id<npc_template> test_talker( shopkeep ? "test_shopkeep" : "test_talker" );
     const character_id model_id = get_map().place_npc( point( 25, 25 ), test_talker );
     g->load_npcs();
 
@@ -62,9 +86,9 @@ static npc &create_test_talker()
     model_npc->set_hunger( 0 );
     model_npc->set_thirst( 0 );
     model_npc->set_fatigue( 0 );
-    model_npc->remove_effect( efftype_id( "sleep" ) );
+    model_npc->remove_effect( effect_sleep );
     // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
-    model_npc->set_mutation( trait_id( "WEB_WEAVER" ) );
+    model_npc->set_mutation( trait_WEB_WEAVER );
 
     return *model_npc;
 }
@@ -99,7 +123,7 @@ static void change_om_type( const std::string &new_type )
     overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 
-static npc &prep_test( dialogue &d )
+static npc &prep_test( dialogue &d, bool shopkeep = false )
 {
     clear_avatar();
     clear_vehicles();
@@ -113,7 +137,7 @@ static npc &prep_test( dialogue &d )
 
     g->faction_manager_ptr->create_if_needed();
 
-    npc &beta = create_test_talker();
+    npc &beta = create_test_talker( shopkeep );
     d = dialogue( get_talker_for( player_character ), get_talker_for( beta ) );
     return beta;
 }
@@ -177,17 +201,15 @@ TEST_CASE( "npc_talk_skills", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
-    const skill_id skill( "driving" );
-
     Character &player_character = get_avatar();
-    player_character.set_skill_level( skill, 8 );
+    player_character.set_skill_level( skill_driving, 8 );
 
     d.add_topic( "TALK_TEST_SIMPLE_SKILLS" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a driving test response." );
 
-    player_character.set_skill_level( skill, 6 );
+    player_character.set_skill_level( skill_driving, 6 );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
@@ -211,7 +233,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     gen_response_lines( d, 1 );
 
     CHECK( d.responses[0].text == "This is a basic test response." );
-    player_character.toggle_trait( trait_id( "ELFA_EARS" ) );
+    player_character.toggle_trait( trait_ELFA_EARS );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
@@ -222,7 +244,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[1].text == "This is a trait test response." );
     CHECK( d.responses[2].text == "This is a short trait test response." );
     CHECK( d.responses[3].text == "This is a wearing test response." );
-    talker_npc.toggle_trait( trait_id( "ELFA_EARS" ) );
+    talker_npc.toggle_trait( trait_ELFA_EARS );
     gen_response_lines( d, 6 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
@@ -230,17 +252,17 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[3].text == "This is a wearing test response." );
     CHECK( d.responses[4].text == "This is a npc trait test response." );
     CHECK( d.responses[5].text == "This is a npc short trait test response." );
-    player_character.toggle_trait( trait_id( "ELFA_EARS" ) );
-    talker_npc.toggle_trait( trait_id( "ELFA_EARS" ) );
-    player_character.toggle_trait( trait_id( "PSYCHOPATH" ) );
-    talker_npc.toggle_trait( trait_id( "SAPIOVORE" ) );
+    player_character.toggle_trait( trait_ELFA_EARS );
+    talker_npc.toggle_trait( trait_ELFA_EARS );
+    player_character.toggle_trait( trait_PSYCHOPATH );
+    talker_npc.toggle_trait( trait_SAPIOVORE );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a wearing test response." );
     CHECK( d.responses[2].text == "This is a trait flags test response." );
     CHECK( d.responses[3].text == "This is a npc trait flags test response." );
-    player_character.toggle_trait( trait_id( "PSYCHOPATH" ) );
-    talker_npc.toggle_trait( trait_id( "SAPIOVORE" ) );
+    player_character.toggle_trait( trait_PSYCHOPATH );
+    talker_npc.toggle_trait( trait_SAPIOVORE );
 }
 
 TEST_CASE( "npc_talk_effect", "[npc_talk]" )
@@ -292,7 +314,7 @@ TEST_CASE( "npc_talk_location", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
-    change_om_type( "pond_swamp_north" );
+    change_om_type( "pond_field_north" );
     d.add_topic( "TALK_TEST_LOCATION" );
     d.gen_responses( d.topic_stack.back() );
     gen_response_lines( d, 1 );
@@ -332,10 +354,10 @@ TEST_CASE( "npc_talk_class", "[npc_talk]" )
     npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_NPC_CLASS" );
-    talker_npc.myclass = npc_class_id( "NC_NONE" );
+    talker_npc.myclass = NC_NONE;
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    talker_npc.myclass = npc_class_id( "NC_TEST_CLASS" );
+    talker_npc.myclass = NC_TEST_CLASS;
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a class test response." );
@@ -516,7 +538,7 @@ TEST_CASE( "npc_talk_or", "[npc_talk]" )
     talker_npc.add_effect( effect_currently_busy, 9999_turns );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    player_character.toggle_trait( trait_id( "ELFA_EARS" ) );
+    player_character.toggle_trait( trait_ELFA_EARS );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is an or trait test response." );
@@ -528,7 +550,7 @@ TEST_CASE( "npc_talk_and", "[npc_talk]" )
     npc &talker_npc = prep_test( d );
     Character &player_character = get_avatar();
 
-    player_character.toggle_trait( trait_id( "ELFA_EARS" ) );
+    player_character.toggle_trait( trait_ELFA_EARS );
     d.add_topic( "TALK_TEST_AND" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -593,9 +615,9 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     Character &player_character = get_avatar();
 
     player_character.remove_items_with( []( const item & it ) {
-        return it.get_category_shallow().get_id() == item_category_id( "books" ) ||
-               it.get_category_shallow().get_id() == item_category_id( "food" ) ||
-               it.typeId() == itype_id( "bottle_glass" );
+        return it.get_category_shallow().get_id() == item_category_manual ||
+               it.get_category_shallow().get_id() == item_category_food ||
+               it.typeId() == itype_bottle_glass;
     } );
     d.add_topic( "TALK_TEST_HAS_ITEM" );
     gen_response_lines( d, 1 );
@@ -706,27 +728,27 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     CHECK( d.responses[2].text == "This is a u_has_item beer test response." );
     CHECK( d.responses[3].text == "This is a u_has_item bottle_glass test response." );
     CHECK( d.responses[4].text == "This is a u_has_items beer test response." );
-    CHECK( d.responses[5].text == "This is a u_has_item_category books test response." );
-    CHECK( d.responses[6].text == "This is a u_has_item_category books count 2 test response." );
+    CHECK( d.responses[5].text == "This is a u_has_item_category manuals test response." );
+    CHECK( d.responses[6].text == "This is a u_has_item_category manuals count 2 test response." );
     CHECK( d.responses[0].text == "This is a repeated item manual_speech test response" );
-    CHECK( d.responses[0].success.next_topic.item_type == itype_id( "manual_speech" ) );
+    CHECK( d.responses[0].success.next_topic.item_type == itype_manual_speech );
 
     d.add_topic( "TALK_TEST_ITEM_REPEAT" );
     gen_response_lines( d, 8 );
-    CHECK( d.responses[0].text == "This is a repeated category books, food test response" );
-    CHECK( d.responses[0].success.next_topic.item_type == itype_id( "beer" ) );
-    CHECK( d.responses[1].text == "This is a repeated category books, food test response" );
-    CHECK( d.responses[1].success.next_topic.item_type == itype_id( "dnd_handbook" ) );
-    CHECK( d.responses[2].text == "This is a repeated category books, food test response" );
-    CHECK( d.responses[2].success.next_topic.item_type == itype_id( "manual_speech" ) );
-    CHECK( d.responses[3].text == "This is a repeated category books test response" );
-    CHECK( d.responses[3].success.next_topic.item_type == itype_id( "dnd_handbook" ) );
-    CHECK( d.responses[4].text == "This is a repeated category books test response" );
-    CHECK( d.responses[4].success.next_topic.item_type == itype_id( "manual_speech" ) );
+    CHECK( d.responses[0].text == "This is a repeated category manuals, food test response" );
+    CHECK( d.responses[0].success.next_topic.item_type == itype_beer );
+    CHECK( d.responses[1].text == "This is a repeated category manuals, food test response" );
+    CHECK( d.responses[1].success.next_topic.item_type == itype_dnd_handbook );
+    CHECK( d.responses[2].text == "This is a repeated category manuals, food test response" );
+    CHECK( d.responses[2].success.next_topic.item_type == itype_manual_speech );
+    CHECK( d.responses[3].text == "This is a repeated category manuals test response" );
+    CHECK( d.responses[3].success.next_topic.item_type == itype_dnd_handbook );
+    CHECK( d.responses[4].text == "This is a repeated category manuals test response" );
+    CHECK( d.responses[4].success.next_topic.item_type == itype_manual_speech );
     CHECK( d.responses[5].text == "This is a repeated item beer, bottle_glass test response" );
-    CHECK( d.responses[5].success.next_topic.item_type == itype_id( "bottle_glass" ) );
+    CHECK( d.responses[5].success.next_topic.item_type == itype_bottle_glass );
     CHECK( d.responses[6].text == "This is a repeated item beer, bottle_glass test response" );
-    CHECK( d.responses[6].success.next_topic.item_type == itype_id( "beer" ) );
+    CHECK( d.responses[6].success.next_topic.item_type == itype_beer );
     CHECK( d.responses[7].text == "This is a basic test response." );
 
     // test sell and consume
@@ -735,7 +757,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     REQUIRE( has_item( player_character, "bottle_plastic", 1 ) );
     REQUIRE( has_beer_bottle( player_character, 2 ) );
     const std::vector<item *> glass_bottles = player_character.items_with( []( const item & it ) {
-        return it.typeId() == itype_id( "bottle_glass" );
+        return it.typeId() == itype_bottle_glass;
     } );
     REQUIRE( !glass_bottles.empty() );
     REQUIRE( player_character.wield( *glass_bottles.front() ) );
@@ -905,12 +927,35 @@ TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
     d.add_topic( "TALK_TEST_BIONICS" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    player_character.add_bionic( bionic_id( "bio_ads" ) );
-    beta.add_bionic( bionic_id( "bio_power_storage" ) );
+    player_character.add_bionic( bio_ads );
+    beta.add_bionic( bio_power_storage );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_has_bionics bio_ads test response." );
     CHECK( d.responses[2].text == "This is a npc_has_bionics ANY response." );
+}
+
+TEST_CASE( "npc_faction_trust", "[npc_talk]" )
+{
+    dialogue d;
+    npc &beta = prep_test( d, true );
+    Character &player_character = get_avatar();
+
+    player_character.get_faction()->trusts_u = 0;
+    beta.get_faction()->trusts_u = 0;
+    d.add_topic( "TALK_TEST_FACTION_TRUST" );
+    gen_response_lines( d, 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "Add 50 to faction trust." );
+    CHECK( d.responses[2].text == "Start trade." );
+    talk_effect_t &effects = d.responses[1].success;
+    effects.apply( d );
+    REQUIRE( beta.get_faction()->trusts_u == 50 );
+    gen_response_lines( d, 4 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "Faction trust is at least 20." );
+    CHECK( d.responses[2].text == "Add 50 to faction trust." );
+    CHECK( d.responses[3].text == "Start trade." );
 }
 
 TEST_CASE( "npc_talk_effects", "[npc_talk]" )
@@ -972,12 +1017,12 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
     REQUIRE( talker_npc.op_of_u.owed == 1500 );
 
     // test change class
-    talker_npc.myclass = npc_class_id( "NC_TEST_CLASS" );
+    talker_npc.myclass = NC_TEST_CLASS;
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
     talk_effect_t &effects = d.responses[18].success;
     effects.apply( d );
-    CHECK( talker_npc.myclass == npc_class_id( "NC_NONE" ) );
+    CHECK( talker_npc.myclass == NC_NONE );
 }
 
 TEST_CASE( "npc_change_topic", "[npc_talk]" )
@@ -1030,7 +1075,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     }
     player_character.cash = 0;
     beta.op_of_u.owed = 0;
-    const skill_id skill( "driving" );
+    const skill_id skill = skill_driving;
     player_character.set_skill_level( skill, 0 );
 
     get_weather().temperature = 19;
@@ -1038,9 +1083,9 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().clear_temp_cache();
     player_character.set_stored_kcal( 45000 );
     player_character.remove_items_with( []( const item & it ) {
-        return it.get_category_shallow().get_id() == item_category_id( "books" ) ||
-               it.get_category_shallow().get_id() == item_category_id( "food" ) ||
-               it.typeId() == itype_id( "bottle_glass" );
+        return it.get_category_shallow().get_id() == item_category_manual ||
+               it.get_category_shallow().get_id() == item_category_food ||
+               it.typeId() == itype_bottle_glass;
     } );
     player_character.remove_value( "npctalk_var_test_var_time_test_test" );
     calendar::turn = calendar::turn_zero;
@@ -1087,7 +1132,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().clear_temp_cache();
     player_character.setpos( tripoint( 18, 19, 20 ) );
     player_character.set_pain( 21 );
-    player_character.add_bionic( bionic_id( "bio_power_storage" ) );
+    player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 22_mJ );
     player_character.set_max_power_level( 44_mJ );
     player_character.clear_morale();
@@ -1098,11 +1143,11 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_thirst( 27 );
     player_character.set_stored_kcal( 55000 );
     player_character.worn.emplace_back( "backpack" );
-    player_character.inv->add_item( item( itype_id( "bottle_glass" ) ) );
-    player_character.inv->add_item( item( itype_id( "bottle_glass" ) ) );
-    player_character.inv->add_item( item( itype_id( "bottle_glass" ) ) );
+    player_character.inv->add_item( item( itype_bottle_glass ) );
+    player_character.inv->add_item( item( itype_bottle_glass ) );
+    player_character.inv->add_item( item( itype_bottle_glass ) );
     cata::event e = cata::event::make<event_type::character_kills_monster>(
-                        get_player_character().getID(), mtype_id( "mon_zombie_bio_op" ) );
+                        get_player_character().getID(), mon_zombie_bio_op );
     get_event_bus().send( e );
 
     gen_response_lines( d, 41 );
@@ -1369,11 +1414,11 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( beta.op_of_u.owed == 12 );
 
-    const skill_id skill( "driving" );
-    // "Sets skill level in driving to 13."
+    const skill_id skill = skill_driving;
+    // "Sets skill level in driving to 10."
     effects = d.responses[ 12 ].success;
     effects.apply( d );
-    CHECK( player_character.get_skill_level( skill ) == 13 );
+    CHECK( player_character.get_skill_level( skill ) == 10 );
 
     // "Sets pos_x to 14."
     effects = d.responses[ 13 ].success;
@@ -1395,7 +1440,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.get_pain() == 17 );
 
-    player_character.add_bionic( bionic_id( "bio_power_storage" ) );
+    player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 10_mJ );
     player_character.set_max_power_level( 44_mJ );
     // "Sets power to 18."

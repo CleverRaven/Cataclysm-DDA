@@ -74,6 +74,7 @@ enum class spell_flag : int {
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
+    SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
     LAST
 };
 
@@ -690,6 +691,8 @@ void timed_event( const spell &sp, Creature &caster, const tripoint & );
 void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
 void noise( const spell &sp, Creature &, const tripoint &target );
 void vomit( const spell &sp, Creature &caster, const tripoint &target );
+// intended to be a spell version of Character::longpull
+void pull_to_caster( const spell &sp, Creature &caster, const tripoint &target );
 void explosion( const spell &sp, Creature &, const tripoint &target );
 void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void mod_moves( const spell &sp, Creature &caster, const tripoint &target );
@@ -710,6 +713,7 @@ void emit( const spell &sp, Creature &caster, const tripoint &target );
 void fungalize( const spell &sp, Creature &caster, const tripoint &target );
 void effect_on_condition( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
+void slime_split_on_death( const spell &sp, Creature &, const tripoint &target );
 
 static const std::map<spell_shape, std::function<std::set<tripoint>
 ( const override_parameters &, const tripoint &, const tripoint & )>> shape_map = {
@@ -737,6 +741,7 @@ effect_map{
     { "ter_transform", spell_effect::transform_blast },
     { "noise", spell_effect::noise },
     { "vomit", spell_effect::vomit },
+    { "pull_target", spell_effect::pull_to_caster },
     { "explosion", spell_effect::explosion },
     { "flashbang", spell_effect::flashbang },
     { "mod_moves", spell_effect::mod_moves },
@@ -754,6 +759,7 @@ effect_map{
     { "emit", spell_effect::emit },
     { "fungalize", spell_effect::fungalize },
     { "effect_on_condition", spell_effect::effect_on_condition },
+    { "slime_split", spell_effect::slime_split_on_death },
     { "none", spell_effect::none }
 };
 } // namespace spell_effect

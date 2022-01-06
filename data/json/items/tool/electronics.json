@@ -121,7 +121,7 @@
     "name": { "str_sp": "electronic handcuffs" },
     "description": "A pair of electronic handcuffs, used by police and riot bots to detain captives.  Their continuous siren clearly identifies the wearer as an arrested criminal and alerts human police.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since the only police likely to respond are undead, you may have a long wait ahead, unless you get creative…",
     "weight": "2000 g",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -8,
@@ -152,6 +152,7 @@
     "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
+      "ELECTRICSTORAGE",
       "EBOOKSAVE",
       "EBOOKREAD",
       {
@@ -201,7 +202,7 @@
       }
     ],
     "//": "LIGHT_10 is the bare minimum for reading without penalties",
-    "flags": [ "LIGHT_10", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
     "id": "electrohack",
@@ -429,7 +430,7 @@
     "id": "portable_game",
     "type": "TOOL",
     "name": { "str": "handheld game system" },
-    "description": "This is a portable games console in working condition, with a backlit screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires batteries.",
+    "description": "This is a portable games console in working condition, with a backlit screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires batteries.  Multiple game systems can be linked together for multiplayer games.",
     "weight": "200 g",
     "volume": "230 ml",
     "price": 12000,
@@ -454,7 +455,7 @@
     "id": "smart_phone",
     "type": "TOOL",
     "name": { "str": "smartphone" },
-    "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm.  Runs on a small, rechargeable power cell compatible with Unified Power Supply.",
+    "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm and an app for tracking consumed calories.  Runs on a small, rechargeable power cell compatible with Unified Power Supply.",
     "weight": "230 g",
     "volume": "100 ml",
     "price": 20000,
@@ -477,9 +478,10 @@
         "type": "transform"
       },
       "CAMERA",
-      "MP3"
+      "MP3",
+      "CALORIES_INTAKE_TRACKER"
     ],
-    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "CALORIES_INTAKE" ]
   },
   {
     "id": "smartphone_music",

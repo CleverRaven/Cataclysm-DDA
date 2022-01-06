@@ -40,6 +40,8 @@ std::string enum_to_string<condition_type>( condition_type data )
             return "COMPONENT_ID";
         case condition_type::VAR:
             return "VAR";
+        case condition_type::SNIPPET_ID:
+            return "SNIPPET_ID";
         case condition_type::num_condition_types:
             break;
     }
@@ -183,9 +185,70 @@ bool itype::can_have_charges() const
 bool itype::is_basic_component() const
 {
     for( const auto &mat : materials ) {
-        if( mat->salvaged_into() && *mat->salvaged_into() == get_id() ) {
+        if( mat.first->salvaged_into() && *mat.first->salvaged_into() == get_id() ) {
             return true;
         }
     }
     return false;
+}
+
+int islot_armor::avg_env_resist() const
+{
+    int acc = 0;
+    for( const armor_portion_data &datum : data ) {
+        acc += datum.env_resist;
+    }
+    if( data.empty() ) {
+        return 0;
+    }
+    return acc / data.size();
+}
+
+int islot_armor::avg_env_resist_w_filter() const
+{
+    int acc = 0;
+    for( const armor_portion_data &datum : data ) {
+        acc += datum.env_resist_w_filter;
+    }
+    if( data.empty() ) {
+        return 0;
+    }
+    return acc / data.size();
+}
+
+float islot_armor::avg_thickness() const
+{
+    float acc = 0;
+    for( const armor_portion_data &datum : data ) {
+        acc += datum.avg_thickness;
+    }
+    if( data.empty() ) {
+        return 0;
+    }
+    return acc / data.size();
+}
+
+int armor_portion_data::max_coverage( bodypart_str_id bp ) const
+{
+    if( bp->sub_parts.empty() ) {
+        // if the location doesn't have subparts then its always 100 coverage
+        return 100;
+    }
+
+    int primary_max_coverage = 0;
+    int secondary_max_coverage = 0;
+    for( const sub_bodypart_str_id &sbp : sub_coverage ) {
+        if( bp.id() == sbp->parent.id() && !sbp->secondary ) {
+            // add all sublocations that share the same parent limb
+            primary_max_coverage += sbp->max_coverage;
+        }
+
+        if( bp.id() == sbp->parent.id() && sbp->secondary ) {
+            // add all sublocations that share the same parent limb
+            secondary_max_coverage += sbp->max_coverage;
+        }
+    }
+
+    // return the max of primary or hanging sublocations (this only matters for hanging items on chest)
+    return std::max( primary_max_coverage, secondary_max_coverage );
 }

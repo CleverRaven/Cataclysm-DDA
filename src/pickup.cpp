@@ -60,6 +60,8 @@ using PickupMap = std::map<std::string, ItemCount>;
 
 static const itype_id itype_water( "water" );
 
+static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
+
 // Pickup helper functions
 static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
                          PickupMap &mapPickup, bool autopickup );
@@ -260,7 +262,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     bool did_prompt = false;
     if( newit.is_frozen_liquid() ) {
-        if( !( got_water = !( player_character.crush_frozen_liquid( newloc ) ) ) ) {
+        if( !( got_water = !player_character.crush_frozen_liquid( newloc ) ) ) {
             option = STASH;
         }
     } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
@@ -481,7 +483,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     }
 
     if( !from_vehicle ) {
-        bool isEmpty = ( local.i_at( p ).empty() );
+        bool isEmpty = local.i_at( p ).empty();
 
         // Hide the pickup window if this is a toilet and there's nothing here
         // but non-frozen water.
@@ -522,7 +524,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             direction adjacentDir[8] = {direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST};
             for( auto &elem : adjacentDir ) {
 
-                tripoint apos = tripoint( direction_XY( elem ), 0 );
+                tripoint apos = tripoint( displace_XY( elem ), 0 );
                 apos += p;
 
                 pick_up( apos, min );
@@ -530,7 +532,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         }
 
         // Bail out if this square cannot be auto-picked-up
-        if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
+        if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ) {
             return;
         }
         if( local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {

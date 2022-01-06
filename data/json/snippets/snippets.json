@@ -215,6 +215,52 @@
   },
   {
     "type": "snippet",
+    "category": "examine_photo_msg",
+    "text": [
+      "You used to have a dog like this…",
+      "Ha-ha!  An amusing cat photo.",
+      "Excellent pictures of nature.",
+      "Food photos… your stomach rumbles!",
+      "Some very interesting travel photos.",
+      "Pictures of a concert of popular band.",
+      "Photos of someone's luxurious house.",
+      "You feel nostalgic as you stare at the photo."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "magic_8ball_good",
+    "text": [
+      "It is certain.",
+      "It is decidedly so.",
+      "Without a doubt.",
+      "Yes - definitely.",
+      "You may rely on it.",
+      "As I see it, yes.",
+      "Most likely.",
+      "Outlook good.",
+      "Yes.",
+      "Signs point to yes."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "magic_8ball_unknown",
+    "text": [
+      "Reply hazy, try again.",
+      "Ask again later.",
+      "Better not tell you now.",
+      "Can't predict now.",
+      "Concentrate and ask again."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "magic_8ball_bad",
+    "text": [ "Don't count on it.", "My reply is no.", "My sources say no.", "Outlook not so good.", "Very doubtful." ]
+  },
+  {
+    "type": "snippet",
     "category": "slime_cheers",
     "text": [
       {
@@ -234,6 +280,24 @@
           "//~": "Your slimes try to cheer you up!\nLowercase is intended: they're small voices.",
           "str": "\"i'm here for you!\""
         }
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "slime_generate",
+    "text": [
+      {
+        "text": {
+          "//~": "Usual enthusiastic slimespring small voices! :D",
+          "str": "\"wow!  you look just like me!  we should look out for each other!\""
+        }
+      },
+      {
+        "text": { "//~": "Usual enthusiastic slimespring small voices! :D", "str": "\"come on, big me, let's go!\"" }
+      },
+      {
+        "text": { "//~": "Usual enthusiastic slimespring small voices! :D", "str": "\"we're a team, we've got this!\"" }
       }
     ]
   }

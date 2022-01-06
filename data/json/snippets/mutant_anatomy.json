@@ -163,7 +163,7 @@
     "text": [
       {
         "id": "cooked_mutant_lung_1",
-        "text": "A cooked piece of a mutant animal's lung.  With a lot of work you can cut around the hardened shell of translucent gunk, but your only reward is getting to the spongy, grey, mostly-flavorless mass of tissue beneath."
+        "text": "A cooked piece of a mutant animal's lung.  With a lot of work you can cut around the hardened shell of translucent gunk, but your only reward is getting to the spongy, gray, mostly-flavorless mass of tissue beneath."
       },
       {
         "id": "cooked_mutant_lung_2",
@@ -197,7 +197,7 @@
       },
       {
         "id": "mutant_liver_4",
-        "text": "A chunk of liver from a mutated animal.  The surface is blackened and hard but cracked, exposing a few strips of fresh pink tissue underneath.  After cracking the shell fully open, the inner tissue begins swelling at an alarming rate before turning grey and lifeless."
+        "text": "A chunk of liver from a mutated animal.  The surface is blackened and hard but cracked, exposing a few strips of fresh pink tissue underneath.  After cracking the shell fully open, the inner tissue begins swelling at an alarming rate before turning gray and lifeless."
       }
     ]
   },
@@ -211,7 +211,7 @@
       },
       {
         "id": "cooked_mutant_liver_2",
-        "text": "A cooked chunk of liver from a mutated animal.  Instead of the matte grey-brown of a normal liver, this one turned disconcertingly orange after heating it up, and finger-sized flakes detach themselves from it at the slightest touch.  The taste reminds you of slightly overripe avocado, but that's still better than you expected."
+        "text": "A cooked chunk of liver from a mutated animal.  Instead of the matte gray-brown of a normal liver, this one turned disconcertingly orange after heating it up, and finger-sized flakes detach themselves from it at the slightest touch.  The taste reminds you of slightly overripe avocado, but that's still better than you expected."
       },
       {
         "id": "cooked_mutant_liver_3",
@@ -219,7 +219,7 @@
       },
       {
         "id": "cooked_mutant_liver_4",
-        "text": "A cooked chunk of liver from a mutated animal.  The tissue split apart following the veins before hardening, reminding you of a warped grey flower with a sinuous vein for a stem.  Perhaps surprisingly, it tastes not entirely unlike liver."
+        "text": "A cooked chunk of liver from a mutated animal.  The tissue split apart following the veins before hardening, reminding you of a warped gray flower with a sinuous vein for a stem.  Perhaps surprisingly, it tastes not entirely unlike liver."
       }
     ]
   },
@@ -229,7 +229,7 @@
     "text": [
       {
         "id": "mutant_kidney_1",
-        "text": "A piece of kidney from a mutated animal.  Cutting into it your knife slips, opening a large gash on its side from which tiny, beautiful pearls roll out.  Before your eyes they start glistening with humidity and melt, leaving no trace beyond a stingin stench."
+        "text": "A piece of kidney from a mutated animal.  While cutting into it your knife slips, opening a large gash on its side from which tiny, beautiful pearls roll out.  Before your eyes they start glistening with humidity and melt, leaving no trace beyond a stinging stench."
       },
       {
         "id": "mutant_kidney_2",
@@ -285,11 +285,41 @@
       },
       {
         "id": "bug_organs_5",
-        "text": "This is a meaty grey organ you removed from a mutant.  It has a chalky yellow coating that burns your skin, and several unidentifiable fleshy tubes sticking out of it.  The smell it gives off stings your nostrils.  You're pretty confident no natural creature has one of these."
+        "text": "This is a meaty gray organ you removed from a mutant.  It has a chalky yellow coating that burns your skin, and several unidentifiable fleshy tubes sticking out of it.  The smell it gives off stings your nostrils.  You're pretty confident no natural creature has one of these."
       },
       {
         "id": "bug_organs_6",
         "text": "This organ meat, retrieved from a mutated creature, looks like a series of small mammalian hearts arranged in series on a long fleshy tube.  At the end of the chain is a large fleshy sac resembling a stomach."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_bug_organs_desc",
+    "text": [
+      {
+        "id": "cooked_bug_organs_1",
+        "text": "Some disturbing hairs have been burned off during cooking, but you still have difficulty convincing yourself to eat them."
+      },
+      {
+        "id": "cooked_bug_organs_2",
+        "text": "You have cooked a pile of *things* that used to be green, and it still looks green under the light.  You think your face will turn that color after eating them."
+      },
+      {
+        "id": "cooked_bug_organs_3",
+        "text": "It's cooked.  You can force yourself to believe that the cordlike tissue inside is noodles with ketchup and Italian spices."
+      },
+      {
+        "id": "cooked_bug_organs_4",
+        "text": "After you cooked it, you tore this long thing into small pieces.  Maybe this can prevent it from reviving in your intestines."
+      },
+      {
+        "id": "cooked_bug_organs_5",
+        "text": "You're glad it didn't break your kitchen utensils.  Now you hope it won't damage your digestive system."
+      },
+      {
+        "id": "cooked_bug_organs_6",
+        "text": "Looking at this pile of biological tissues with strange smell, you don't know what kind of organs they belong to in medicine.  Of course, you're pretty sure they're not boiled tomatoes."
       }
     ]
   },
@@ -355,7 +385,7 @@
     "type": "snippet",
     "category": "<bug_harvest_general_deeper>",
     "text": [
-      "Spaced evenly across the entire body you find small sacs of eggs in different stages of growth",
+      "Spaced evenly across the entire body you find small sacs of eggs in various stages of growth",
       "Its intestines grew into a labyrinthine tangle, like so many worms devouring each other",
       "Inside, half-formed organs press against spongy meat that doesn't look anything like raw arthropod meat from normal creatures",
       "Beneath, you find a collection of hooked spines that seem to have been clasping it on somehow",
@@ -375,7 +405,7 @@
       "It is difficult to work, as the spongey tissue tears apart under your tools",
       "Despite its outward appearance, both the organs and the endolymph of this creature is pristinely white",
       "Some of your cuts meet nerves, and the already stiff corpse shudders with movement each time",
-      "You follow what you think are superflous veins into the deep, finding a gorged, tick-like creature at their convergence",
+      "You follow what you think are superfluous veins into the deep, finding a gorged, tick-like creature at their convergence",
       "Every cut reveals an organ you can't quite recognize, and you start to wonder what your insides look like by now",
       "You are dizzied by the rainbow coloration of the creature's muscles, clashing with the bloody mess in its guts",
       "As you cut into its flesh you are disturbed by its sickly-sweet smell, like fermenting fruit",
@@ -433,6 +463,42 @@
   },
   {
     "type": "snippet",
+    "category": "<bug_harvest_ground_beetle_exterior>",
+    "text": [
+      "When you sever the vestigial wings, a spurt of mud-thick fluid gushes up and every leg twitches",
+      "Prying off the elytra is easier than you thought it would be, but a thicker duplicate lies beneath, melted into the veiny wings",
+      "You hack off the legs, finding them surprisingly light once the knotted veins within are drained",
+      "The thick chitin is difficult to saw through, and rooted so deeply in fat that each panel you pull off comes with dangling ropes of sinew and grease",
+      "Each leg bears too many hooks and outcrops to count, and they look far too much like teeth for your liking",
+      "The eyes are easily pulled loose, though with them spills out numerous coiled ropes of nerve, sinew, and something halfway between"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_ground_beetle_interior>",
+    "text": [
+      "A lattice of glossy tubes still holds the mound of foamy fat and organs in place after the abdomen falls apart",
+      "The head is occupied entirely by organic hydraulics wrapped in muscle, and you dont find tangled strands of brain tissue until the thorax",
+      "A fist-sized organ next to the chain of hearts still subtly throbs, and you find broken shards of chitin inside it after a swift hacking",
+      "You find a clutch of stillborn grubs inside, curled up in their parents fatty innards with eggshells nearby",
+      "The reproductive organs of this beetle, sealed inside a chitin casket, have coiled into a mockery of nature and bristle with half-developed eggs",
+      "Something that looks like it belongs in an engine lies between the splayed out lungs, and it sprays grease five paces when you puncture it"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_ground_beetle_mega>",
+    "text": [
+      "A small landslide of flesh and gristle buries you to the waist at one point, and you could swear something was slithering near your ankles",
+      "When you grab one particularly bristled organ, it writhes and nearly escapes your grasp before you can smash it.  You find developing wings in the paste",
+      "A much smaller second shell lies buried deep inside the beetle, an entomological matryoshka that contains within itself… oh, fecal matter",
+      "Chunks of meat, bone, and fabric inside one of the digestive tracts are still easy to identify, and you wonder what their name was",
+      "A bundle of gigantic wasp eggs is buried in the beast, but all are pierced with wirey tubes draining nutrients and fluid from their fetal husks",
+      "You finish up, coming to grips with the fact that toxins suffuse every inch of the truckload of meat you just pulled from this mutant beetle"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<bug_harvest_flying_chitin>",
     "text": [
       "The wings of this creature break apart upon the slightest touch into myriad identical rainbow crystals",
@@ -462,7 +528,7 @@
     "text": [
       "The light of its abdomen flickers with each cut, growing ever dimmer",
       "An errant cut coats your tools with foul-smelling, glowing goop",
-      "What you saw as a homogenous light from a distance was the result of myriad strands of glowing chitin criscrossing just beneath the carapace",
+      "What you saw as a homogenous light from a distance was the result of myriad strands of glowing chitin crisscrossing just beneath the carapace",
       "This one's very flesh is glowing with a blinding intensity, lighting up your gruesome work"
     ]
   },
@@ -486,9 +552,9 @@
       "<bug_harvest_flying_deeper>",
       "<bug_harvest_general_deeper>",
       "The chaotic bundle of organs in its torso look much like those of other mutated insects, but as you near the abdomen there's order to the madness: comparatively neat rows of venom-filled glands, each feeding into a reservoir at the base of the stinger",
-      "You open a stomach, releasing a gush of sweet-smelling grey fluid",
+      "You open a stomach, releasing a gush of sweet-smelling gray fluid",
       "For its apparent hunger for meat, its intestines seem almost atrophied",
-      "Your knife reaches the retracted stinger and slips on its smooth surface, opening half a dozen venom glands in the process.  You haven't cut yourself, have you?",
+      "Your knife reaches the retracted stinger and slips on its smooth surface, opening half a dozen venom glands in the process.  You dearly hope that you have not cut yourself",
       "You find a handful of dead grubs underneath its chitin, near a chewed-open venom gland"
     ]
   },
@@ -508,7 +574,6 @@
     "text": [
       "<bug_harvest_general_chitin>",
       "Steaming puddles of acid spill from its outer shell as you pull it back",
-      "With the creature dead, its carapace comes away surprisingly easily",
       "Steaming acid burbles from the creature's chitin as you peel it back",
       "Several acid glands rupture as you peel back the carapace, sending streams of steaming caustic fluids spraying around"
     ]
@@ -572,6 +637,19 @@
     "type": "snippet",
     "category": "<centipede_mega_harvest>",
     "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mega>." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<ground_beetle_harvest>",
+    "text": [
+      "<bug_harvest_ground_beetle_exterior>.",
+      "<bug_harvest_ground_beetle_exterior>.  <bug_harvest_ground_beetle_interior>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<ground_beetle_mega_harvest>",
+    "text": [ "<ground_beetle_harvest>", "<ground_beetle_harvest>  <bug_harvest_ground_beetle_mega>." ]
   },
   {
     "type": "snippet",

@@ -36,6 +36,8 @@
 
 static const itype_id itype_petrified_eye( "petrified_eye" );
 
+static const map_extra_id map_extra_mx_dsa_alrp( "mx_dsa_alrp" );
+
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_copbot( "mon_copbot" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
@@ -46,6 +48,8 @@ static const mtype_id mon_riotbot( "mon_riotbot" );
 static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+
+static const spell_id spell_dks_summon_alrp( "dks_summon_alrp" );
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
                           int s )
@@ -252,12 +256,12 @@ void timed_event::actualize()
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const tripoint spot = here.getlocal( project_to<coords::ms>( map_point ).raw() );
                 monster dispatcher( mon_dsa_alien_dispatch );
-                fake_spell summoning( spell_id( "dks_summon_alrp" ), true, 12 );
+                fake_spell summoning( spell_dks_summon_alrp, true, 12 );
                 summoning.get_spell().cast_all_effects( dispatcher, spot );
             } else {
                 tinymap mx_map;
                 mx_map.load( map_point, false );
-                MapExtras::apply_function( "mx_dsa_alrp", mx_map, map_point );
+                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, map_point );
                 g->load_npcs();
                 here.invalidate_map_cache( map_point.z() );
             }
@@ -320,7 +324,7 @@ void timed_event::per_turn()
             }
 
             if( calendar::once_every( time_duration::from_seconds( 10 ) ) && faults ) {
-                add_msg( m_info, "You hear someone whispering \"%s\"",
+                add_msg( m_info, _( "You hear someone whispering \"%s\"" ),
                          SNIPPET.random_from_category( "amigara_whispers" ).value_or( translation() ) );
             }
         }

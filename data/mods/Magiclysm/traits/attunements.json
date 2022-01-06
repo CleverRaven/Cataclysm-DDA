@@ -626,7 +626,7 @@
     "valid": false,
     "description": "Through your power in Biomancy, you have changed your body towards your Kelvinist affinity for ice.  Extreme cold has less effect on you, and your superchilled skin causes frostbite when touching others.  You're also starting to research more magic that focuses on your body's inherent ice affinity.",
     "enchantments": [ "ICE_ELEMENTAL" ],
-    "spells_learned": [ [ "summon_subzero_talons", 5 ], [ "cold_heart", 5 ] ],
+    "spells_learned": [ [ "summon_subzero_talons", 5 ], [ "cold_heart", 5 ], [ "iceelemental_frostcrystal", 5 ] ],
     "prereqs": [ "BIOMANCER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -866,9 +866,12 @@
     "purifiable": false,
     "valid": false,
     "description": "The shapeshifter is the Biomancer refined - able to use a flicker of mana to change shape at the drop of a hat to make yourself more inviting or shape others into desired shapes.",
+    "spells_learned": [ [ "shapeshifter_alkahest", 5 ] ],
     "prereqs": [ "BIOMANCER", "MAGUS" ],
     "//": "Purposefully omits torso, head, etc.",
     "encumbrance_multiplier_always": { "arm_l": 0.4, "arm_r": 0.4, "hand_l": 0.4, "hand_r": 0.4, "leg_l": 0.4, "leg_r": 0.4, "mouth": 0.4 },
+    "ugliness": -7,
+    "social_modifiers": { "persuade": 10, "lie": 10, "intimidate": 10 },
     "cancels": [
       "ALCHEMIST",
       "BIOTEK",
@@ -1185,7 +1188,7 @@
       "VULCANIST",
       "SOULFIRE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "HEATPROOF" ]
   },
   {
     "id": "WITHER_MAGE",

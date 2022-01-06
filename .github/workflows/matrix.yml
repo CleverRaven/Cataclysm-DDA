@@ -29,24 +29,24 @@ on:
 # https://apt.llvm.org/
 
 jobs:
-  skip-duplicates:
+  skip-duplicates-code:
     continue-on-error: true
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+      should_skip_code: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'true'
-          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**"]'
-  skip-duplicates-mods:
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**", "lang/**"]'
+  skip-duplicates-data:
     continue-on-error: true
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
-      should_skip_mods: ${{ steps.skip_check.outputs.should_skip }}
+      should_skip_data: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
@@ -54,61 +54,93 @@ jobs:
           cancel_others: 'true'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
   varied_builds:
-    needs: skip-duplicates
+    needs: [ skip-duplicates-code, skip-duplicates-data ]
     strategy:
       max-parallel: 1
       matrix:
-        release: [0]
-        cmake: [0]
-        tiles: [1]
-        sound: [0]
-        localize: [1]
-        native: [linux64]
-
         include:
+          - compiler: g++-9
+            os: ubuntu-latest
+            release: 1
+            cmake: 0
+            tiles: 0
+            sound: 0
+            localize: 1
+            test-stage: 1
+            gold: 1
+            lto: 1
+            native: linux64
+            archive-success: basic-build
+            dont_skip_data_only_changes: 1
+            title: Basic Build and Test (GCC 9, Curses, LTO)
+
           - compiler: clang++-12
             os: ubuntu-latest
+            release: 0
+            cmake: 0
+            tiles: 1
+            sound: 0
+            localize: 1
+            native: linux64
             sanitize: address
             mods: --mods=magiclysm
+            dont_skip_data_only_changes: 1
             title: Clang 12, Ubuntu, Tiles, ASan
 
           - compiler: g++-11
             os: ubuntu-latest
+            release: 0
+            cmake: 0
             tiles: 0
+            sound: 0
+            localize: 1
+            native: linux64
             sanitize: address
             title: GCC 11, Ubuntu, Curses, ASan
 
           - compiler: clang++
             os: macos-10.15
+            release: 0
+            cmake: 0
             native: osx
             sanitize: undefined
             tiles: 1
             sound: 1
+            localize: 1
             title: Clang 12, macOS 10.15, Tiles, Sound, UBSan
 
           - compiler: g++
             os: ubuntu-latest
+            release: 0
+            cmake: 0
             native:
             tiles: 1
             sound: 1
+            localize: 1
             test-stage: 1
-            title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
+            title: GCC 11, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
             ldflags: -static-libgcc -static-libstdc++
-            mxe_target: i686-w64-mingw32.static
+            mxe_target: x86_64-w64-mingw32.static.gcc11
             wine: wine
 
           - compiler: clang++-6.0
             os: ubuntu-18.04
             tiles: 0
+            sound: 0
             release: 1
+            cmake: 0
+            localize: 1
+            native: linux64
             title: Clang 6, Ubuntu, Curses, Release
 
           - compiler: g++-7
             os: ubuntu-18.04
+            release: 0
             cmake: 1
             tiles: 1
             sound: 1
             localize: 0
+            native: linux64
             title: GCC 7, Ubuntu, Tiles, Sound, CMake
 
     name: ${{ matrix.title }}
@@ -132,7 +164,8 @@ jobs:
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
         RELEASE: ${{ matrix.release }}
-        SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' || ( matrix.mods != 0 && needs.skip-duplicates-mods.outputs.should_skip_mods == 'true' ) }}
+        ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
+        SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (GCC 9, Curses, LTO)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
@@ -166,36 +199,54 @@ jobs:
     - name: prepare
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/requirements.sh
-    - name: Get Date
-      id: get-date
+    - name: Get ccache vars
+      id: get-vars
       if: ${{ env.SKIP == 'false' }}
       run: |
-        echo "::set-output name=date::$(/bin/date -u "+%Y%m%d%H%M")"
+        echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+        echo "::set-output name=ccache-path::$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')"
       shell: bash
-    - name: ccache cache files (ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
+    - name: ccache cache files (master)
+      if: ${{ github.event_name == 'push' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
       uses: actions/cache@v2
       with:
-        path: ~/.ccache
-        key: ccache-linux-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
+        path: ${{ steps.get-vars.outputs.ccache-path }}
+        # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
+        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}
         restore-keys: |
-          ccache-linux-${{ matrix.compiler }}-
-    - name: ccache cache files (mac)
-      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
+          ccache-${{ runner.os }}-${{ matrix.compiler }}--
+    - name: ccache cache files (PR)
+      if: ${{ github.event_name == 'pull_request' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
       uses: actions/cache@v2
       with:
-        path: /Users/runner/Library/Caches/ccache
-        key: ccache-mac-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
-        restore-keys: |
-          ccache-mac-${{ matrix.compiler }}-
+        path: ${{ steps.get-vars.outputs.ccache-path }}
+        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/build.sh
+    - run: |
+        echo ${{ github.event.number }} > pull_request_id
+        echo "true" > ${{ env.ARCHIVE_SUCCESS }}
+      if: ${{ env.ARCHIVE_SUCCESS && success() }}
+    - run: |
+        echo ${{ github.event.number }} > pull_request_id
+        echo "false" > ${{ env.ARCHIVE_SUCCESS }}
+      if: ${{ env.ARCHIVE_SUCCESS && failure() }}
+    - uses: actions/upload-artifact@v2
+      if: ${{ always() && env.ARCHIVE_SUCCESS }}
+      with:
+        name: pull_request_id
+        path: pull_request_id
+    - uses: actions/upload-artifact@v2
+      if: ${{ always() && env.ARCHIVE_SUCCESS }}
+      with:
+        name: ${{ env.ARCHIVE_SUCCESS }}
+        path: ${{ env.ARCHIVE_SUCCESS }}
     - name: upload artifacts if failed
       uses: actions/upload-artifact@v2
       if: failure()
       with:
         name: cata_test
-        path: tests/cata_test
+        path: tests/cata_test*
         if-no-files-found: ignore

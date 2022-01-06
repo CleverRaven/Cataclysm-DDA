@@ -36,7 +36,7 @@ The `category` attribute denotes where the mod will appear in the mod selection 
  - `items` - A mod that adds new items and recipes to the game (eg: More survival tools)
  - `creatures` - A mod that adds new creatures or NPCs to the game (eg: Modular turrets)
  - `misc_additions` - Miscellaneous content additions to the game (eg: Alternative map key, Crazy cataclysm)
- - `buildings` - New overmap locations and structures (eg: Fuji's more buildings). If you're blacklisting buildings from spawning, this is also a usable category (eg: No rail stations).
+ - `buildings` - New overmap locations and structures (eg: National Guard Camp). If you're blacklisting buildings from spawning, this is also a usable category (eg: No rail stations).
  - `vehicles` - New cars or vehicle parts (eg: Tanks and other vehicles)
  - `rebalance` - A mod designed to rebalance the game in some way (eg: Safe autodocs).
  - `magical` - A mod that adds something magic-related to the game (eg: Necromancy)

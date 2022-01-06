@@ -834,6 +834,10 @@ class npc : public Character
         int faction_display( const catacurses::window &fac_w, int width ) const;
         std::string describe_mission() const;
         std::string name_and_activity() const;
+        /// Returns current status (Sleeping, Guarding, In Combat, etc.), or current activity
+        std::string get_current_status() const;
+        /// Returns the current activity name (reading, disassembling, etc.), or "nothing"
+        std::string get_current_activity() const;
 
         // Interaction with the player
         void form_opinion( const Character &you );
@@ -1022,6 +1026,22 @@ class npc : public Character
         // check if an NPC has a bionic weapon and activate it if possible
         void check_or_use_weapon_cbm( const bionic_id &cbm_id );
 
+        /*
+         * Item management functions. These are meant for during and after combat/danger.
+         */
+        void activate_combat_items();
+        void deactivate_combat_items();
+
+        /*
+         * Prepare for combat, such as enabling combat items or CBMs.
+         */
+        void prepare_for_combat();
+
+        /*
+         * Perform any cleanup upon no more present danger, such as disabling combat CBMs or items.
+         */
+        void cleanup_on_no_danger();
+
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
         // @param dur time duration between complaints
@@ -1034,6 +1054,9 @@ class npc : public Character
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
                          const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint_zero );
+        // return snippet strings by given range
+        std::string distance_string( int range );
+
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
@@ -1108,7 +1131,9 @@ class npc : public Character
 
         bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
 
-        void aim();
+        void update_cardio_acc() override {};
+
+        void aim( Target_attributes target_attributes );
         void do_reload( const item &it );
 
         // Physical movement from one tile to the next

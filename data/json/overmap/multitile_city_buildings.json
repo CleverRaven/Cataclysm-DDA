@@ -1090,6 +1090,12 @@
   },
   {
     "type": "city_building",
+    "id": "s_gun_looted",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gun_looted_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "s_gun_1",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gun_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_1_north" } ]
@@ -1108,10 +1114,29 @@
   },
   {
     "type": "city_building",
+    "id": "s_gun_3_looted",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gun_3_looted_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_3_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_gun_4",
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_gun_4_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gun_2ndfloor_4_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_gun_roof_4_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_gun_4_looted",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gun_4_looted_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_gun_2ndfloor_4_north" },
       { "point": [ 0, 0, 2 ], "overmap": "s_gun_roof_4_north" }
     ]
@@ -1132,6 +1157,16 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_gunstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gunstore_2ndfloor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_gunstore_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_gunstore_looted",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gunstore_looted_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_gunstore_2ndfloor_north" },
       { "point": [ 0, 0, 2 ], "overmap": "s_gunstore_roof_north" }
     ]
@@ -1886,31 +1921,12 @@
   },
   {
     "type": "city_building",
-    "id": "apartments_con",
-    "locations": [ "land" ],
-    "overmaps": [
-      { "point": [ 1, 1, 0 ], "overmap": "apartments_con_tower_NW_south" },
-      { "point": [ 1, 1, 1 ], "overmap": "apartments_con_tower_114_south" },
-      { "point": [ 0, 1, 0 ], "overmap": "apartments_con_tower_NE_south" },
-      { "point": [ 0, 1, 1 ], "overmap": "apartments_con_tower_014_south" },
-      { "point": [ 1, 0, 0 ], "overmap": "apartments_con_tower_SW_south" },
-      { "point": [ 1, 0, 1 ], "overmap": "apartments_con_tower_104_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "apartments_con_tower_SE_south" },
-      { "point": [ 0, 0, 1 ], "overmap": "apartments_con_tower_004_south" }
-    ]
-  },
-  {
-    "type": "city_building",
     "id": "apartments_mod",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 1, 1, 0 ], "overmap": "apartments_mod_tower_NW_south" },
       { "point": [ 1, 1, 1 ], "overmap": "apartments_mod_tower_113_south" },
-      { "point": [ 0, 1, 0 ], "overmap": "apartments_mod_tower_NE_south" },
       { "point": [ 0, 1, 1 ], "overmap": "apartments_mod_tower_013_south" },
-      { "point": [ 1, 0, 0 ], "overmap": "apartments_mod_tower_SW_south" },
       { "point": [ 1, 0, 1 ], "overmap": "apartments_mod_tower_103_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "apartments_mod_tower_SE_south" },
       { "point": [ 0, 0, 1 ], "overmap": "apartments_mod_tower_003_south" }
     ]
   },
@@ -2355,19 +2371,6 @@
       { "point": [ 1, 1, 0 ], "overmap": "mall_a_80_south" },
       { "point": [ 0, 1, 0 ], "overmap": "mall_a_81_south" },
       { "point": [ 4, 0, 0 ], "overmap": "road_end_north" }
-    ]
-  },
-  {
-    "type": "city_building",
-    "id": "home_improvement_superstore",
-    "locations": [ "land" ],
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "hdwr_large_entrance_south" },
-      { "point": [ 1, 0, 0 ], "overmap": "hdwr_large_SW_south" },
-      { "point": [ 1, 1, 0 ], "overmap": "hdwr_large_NW_south" },
-      { "point": [ 0, 1, 0 ], "overmap": "hdwr_large_NE_south" },
-      { "point": [ 1, 2, 0 ], "overmap": "hdwr_large_backroom_south" },
-      { "point": [ 0, 2, 0 ], "overmap": "hdwr_large_loadingbay_south" }
     ]
   },
   {

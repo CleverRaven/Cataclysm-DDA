@@ -13,10 +13,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc  |   c|  |c  c|r    ",
         " cc  |   c|  |c  c|r  c ",
@@ -52,10 +52,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "     | cc |  | cc |     ",
         "     2    2  2    | c c ",
@@ -92,10 +92,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "     | cc 2  2 cc |     ",
         "     |    |^^|    |cccc ",
@@ -132,10 +132,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc  |   c|  |c  c|r    ",
         " cc  |   c| u|c  c|r  c ",
@@ -175,10 +175,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "     | cc 2  2 cc |     ",
         "     |    |^^|    |cccc ",
@@ -231,10 +231,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "^|FFF|c  c|  |c  c|     ",
         " ||||||||||  |||||||||| ",

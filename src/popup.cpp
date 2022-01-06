@@ -357,6 +357,14 @@ query_popup::result query_popup::query()
     return res;
 }
 
+catacurses::window query_popup::get_window()
+{
+    if( !win ) {
+        init();
+    }
+    return win;
+}
+
 std::string query_popup::wait_text( const std::string &text, const nc_color &bar_color )
 {
     static const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};

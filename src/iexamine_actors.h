@@ -49,4 +49,18 @@ class cardreader_examine_actor : public iexamine_actor
         std::unique_ptr<iexamine_actor> clone() const override;
 };
 
+class eoc_examine_actor : public iexamine_actor
+{
+    private:
+        std::vector<effect_on_condition_id> eocs;
+    public:
+        explicit eoc_examine_actor( const std::string &type = "effect_on_condition" )
+            : iexamine_actor( type ) {}
+
+        void load( const JsonObject &jo ) override;
+        void call( Character &you, const tripoint &examp ) const override;
+        void finalize() const override;
+
+        std::unique_ptr<iexamine_actor> clone() const override;
+};
 #endif // CATA_SRC_IEXAMINE_ACTORS_H

@@ -15,6 +15,8 @@
 #include "point.h"
 #include "type_id.h"
 
+static const string_id<map_extra> map_extra_mx_minefield( "mx_minefield" );
+
 TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap][!mayfail]" )
 {
     // Pick a point in the middle of the overmap so we don't generate quite so
@@ -41,10 +43,9 @@ TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap][!mayfail]" )
         overmap_buffer.get_all_extras( origin.z() );
 
     // Count the number of mx_minefield map extras that have been generated.
-    const string_id<map_extra> mx_minefield( "mx_minefield" );
     int successes = std::count_if( extras.begin(),
-    extras.end(), [&mx_minefield]( const std::pair<point_abs_omt, string_id<map_extra>> &e ) {
-        return e.second == mx_minefield;
+    extras.end(), []( const std::pair<point_abs_omt, string_id<map_extra>> &e ) {
+        return e.second == map_extra_mx_minefield;
     } );
 
     // If at least one was generated, that's good enough.
@@ -74,8 +75,7 @@ TEST_CASE( "mx_minefield theoretical spawn", "[map_extra][overmap]" )
         tinymap tm;
         tm.load( project_combine( om.pos(), project_to<coords::sm>( center ) ), false );
 
-        const string_id<map_extra> mx_minefield( "mx_minefield" );
-        const map_extra_pointer mx_func = MapExtras::get_function( mx_minefield.str() );
+        const map_extra_pointer mx_func = MapExtras::get_function( map_extra_mx_minefield );
 
         return mx_func( tm, tm.get_abs_sub() );
     };

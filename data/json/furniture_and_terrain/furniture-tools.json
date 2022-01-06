@@ -107,7 +107,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "crafting_pseudo_item": "rock_forge_pseudo",
+    "crafting_pseudo_item": "fake_forge",
     "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
     "examine_action": "reload_furniture",
@@ -164,7 +164,7 @@
     "required_str": -1,
     "examine_action": "kiln_empty",
     "max_volume": "125 L",
-    "crafting_pseudo_item": "char_kiln",
+    "crafting_pseudo_item": "fake_char_kiln",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": [ 35, 40 ] } ] },
     "bash": {
@@ -210,7 +210,7 @@
     "required_str": -1,
     "examine_action": "kiln_empty",
     "max_volume": "125 L",
-    "crafting_pseudo_item": "char_kiln",
+    "crafting_pseudo_item": "fake_char_kiln",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
     "bash": {
@@ -264,7 +264,7 @@
     "required_str": -1,
     "examine_action": "arcfurnace_empty",
     "max_volume": "200 L",
-    "crafting_pseudo_item": "arcfurnace",
+    "crafting_pseudo_item": "fake_arcfurnace",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
     "bash": {
@@ -316,7 +316,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "crafting_pseudo_item": "pseudo_char_smoker",
+    "crafting_pseudo_item": "fake_char_smoker",
     "examine_action": "smoker_options",
     "deconstruct": { "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
@@ -325,6 +325,32 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_spinwheel",
+    "name": "spinning wheel",
+    "looks_like": "f_table",
+    "description": "Large wooden device with a mechanical wheel used to combine fibers together into a stronger material.",
+    "symbol": "=",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": 11,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "crafting_pseudo_item": "spinwheelitem",
+    "deconstruct": { "items": [ { "item": "string_36", "count": 15 }, { "item": "2x4", "count": 20 }, { "item": "nail", "charges": 25 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "string_36", "count": [ 12, 15 ] },
+        { "item": "2x4", "count": [ 10, 20 ] },
+        { "item": "nail", "charges": [ 15, 25 ] }
+      ]
     }
   },
   {
@@ -338,7 +364,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "crafting_pseudo_item": "pseudo_char_smoker",
+    "crafting_pseudo_item": "fake_char_smoker",
     "examine_action": "smoker_options",
     "bash": {
       "str_min": 18,
@@ -360,7 +386,7 @@
     "required_str": -1,
     "deployed_item": "metal_smoking_rack",
     "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "crafting_pseudo_item": "char_smoker",
+    "crafting_pseudo_item": "fake_char_smoker",
     "examine_action": "smoker_options",
     "deconstruct": { "items": [ { "item": "metal_smoking_rack", "count": 1 } ] },
     "bash": {
@@ -383,7 +409,7 @@
     "required_str": -1,
     "deployed_item": "metal_smoking_rack",
     "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "crafting_pseudo_item": "char_smoker",
+    "crafting_pseudo_item": "fake_char_smoker",
     "examine_action": "smoker_options",
     "deconstruct": { "items": [ { "item": "metal_smoking_rack", "count": 1 } ] },
     "bash": {
@@ -405,7 +431,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "crafting_pseudo_item": "rock_forge_pseudo",
+    "crafting_pseudo_item": "fake_forge",
     "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
@@ -428,7 +454,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "crafting_pseudo_item": "kiln_pseudo",
+    "crafting_pseudo_item": "fake_clay_kiln",
     "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
@@ -502,6 +528,40 @@
   },
   {
     "type": "furniture",
+    "id": "f_beverly_shear",
+    "name": "Beverly shear",
+    "looks_like": "f_machinery_light",
+    "description": "A massive bench-mounted device with a short guillotine blade mounted to a long lever.  Designed for making straight or curved cuts through sheet metal up to 3 millimeters thick.",
+    "//": "Based on the Beverly B-2 Throatless Shear, 10 gauge capacity",
+    "symbol": "7",
+    "color": "yellow_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 8, 10 ] }
+      ]
+    },
+    "crafting_pseudo_item": "fake_beverly_shear"
+  },
+  {
+    "type": "furniture",
     "id": "f_drill_press",
     "name": "drill press",
     "looks_like": "f_machinery_light",
@@ -537,6 +597,33 @@
       ]
     },
     "crafting_pseudo_item": "fake_drill_press"
+  },
+  {
+    "type": "furniture",
+    "id": "f_firefly_terrarium",
+    "name": "firefly terrarium",
+    "description": "While many survivors would have focused on trying to bring back electric lights, whomever lives here has apparently decided to make use of the changes wrought by the Cataclysm to provide light.  This vivarium contains soil, strange plants you don't recognize immediately, and most strikingly, a giant mutant firefly.",
+    "symbol": "#",
+    "color": "light_green",
+    "move_cost_mod": 3,
+    "coverage": 30,
+    "required_str": 6,
+    "light_emitted": 25,
+    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 30,
+      "sound_fail": "smash!",
+      "items": [
+        { "item": "glass_shard", "count": [ 8, 12 ] },
+        { "item": "alien_fern", "count": [ 0, 3 ] },
+        { "item": "mutant_meat", "count": [ 2, 4 ] },
+        { "item": "material_soil", "count": [ 2, 10 ] },
+        { "item": "mutant_bug_hydrogen_sacs", "count": [ 0, 2 ] },
+        { "item": "egg_firefly", "count": [ 0, 1 ] },
+        { "item": "mutant_bug_organs", "charges": [ 0, 5 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
@@ -690,7 +777,7 @@
         { "item": "motor_small", "count": 1 }
       ]
     },
-    "crafting_pseudo_item": "fake_router_table"
+    "crafting_pseudo_item": "fake_router"
   },
   {
     "type": "furniture",
@@ -1009,7 +1096,7 @@
       "BUTCHER_EQ",
       "ORGANIC"
     ],
-    "crafting_pseudo_item": "butchery_rack_pseudo",
+    "crafting_pseudo_item": "fake_butcher_rack",
     "deconstruct": { "items": [ { "item": "stick_long", "count": 6 } ] },
     "bash": {
       "str_min": 8,
@@ -1032,7 +1119,7 @@
     "deployed_item": "metal_butcher_rack",
     "examine_action": "deployed_furniture",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "BUTCHER_EQ" ],
-    "crafting_pseudo_item": "butchery_rack_pseudo",
+    "crafting_pseudo_item": "fake_butcher_rack",
     "deconstruct": { "items": [ { "item": "metal_butcher_rack", "count": 1 } ] },
     "bash": {
       "str_min": 18,
@@ -1053,7 +1140,7 @@
     "move_cost_mod": 2,
     "color": "light_gray",
     "deconstruct": { "items": [ { "item": "grip_hook", "count": 1 }, { "item": "chain", "count": 1 } ] },
-    "crafting_pseudo_item": "butchery_rack_pseudo",
+    "crafting_pseudo_item": "fake_butcher_rack",
     "flags": [ "TRANSPARENT", "BUTCHER_EQ" ]
   },
   {

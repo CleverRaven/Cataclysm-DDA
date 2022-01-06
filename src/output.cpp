@@ -39,6 +39,7 @@
 #include "wcwidth.h"
 
 #if defined(__ANDROID__)
+#include <jni.h>
 #include <SDL_keyboard.h>
 #endif
 
@@ -695,6 +696,26 @@ int border_helper::border_connection::as_curses_line() const
 
 bool query_yn( const std::string &text )
 {
+#if defined(__ANDROID__)
+    if( get_option<bool>( "ANDROID_NATIVE_UI" ) ) {
+        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        jclass clazz( env->GetObjectClass( activity ) );
+        jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
+                                           "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
+        jobject native_ui_obj = env->CallObjectMethod( activity, get_nativeui_method_id );
+        jclass native_ui_cls( env->GetObjectClass( native_ui_obj ) );
+        jmethodID queryYN_method_id = env->GetMethodID( native_ui_cls, "queryYN", "(Ljava/lang/String;)Z" );
+        jstring jstr = env->NewStringUTF( text.c_str() );
+        bool result = env->CallBooleanMethod( native_ui_obj, queryYN_method_id, jstr );
+        env->DeleteLocalRef( jstr );
+        env->DeleteLocalRef( native_ui_cls );
+        env->DeleteLocalRef( native_ui_obj );
+        env->DeleteLocalRef( clazz );
+        env->DeleteLocalRef( activity );
+        return result;
+    }
+#endif // defined(__ANDROID__)
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
@@ -747,6 +768,26 @@ std::vector<std::string> get_hotkeys( const std::string &s )
 
 int popup( const std::string &text, PopupFlags flags )
 {
+#if defined(__ANDROID__)
+    if( get_option<bool>( "ANDROID_NATIVE_UI" ) && flags == PF_NONE ) {
+        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        jclass clazz( env->GetObjectClass( activity ) );
+        jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
+                                           "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
+        jobject native_ui_obj = env->CallObjectMethod( activity, get_nativeui_method_id );
+        jclass native_ui_cls( env->GetObjectClass( native_ui_obj ) );
+        jmethodID queryYN_method_id = env->GetMethodID( native_ui_cls, "popup", "(Ljava/lang/String;)V" );
+        jstring jstr = env->NewStringUTF( remove_color_tags( text ).c_str() );
+        env->CallVoidMethod( native_ui_obj, queryYN_method_id, jstr );
+        env->DeleteLocalRef( jstr );
+        env->DeleteLocalRef( native_ui_cls );
+        env->DeleteLocalRef( native_ui_obj );
+        env->DeleteLocalRef( clazz );
+        env->DeleteLocalRef( activity );
+        return UNKNOWN_UNICODE;
+    }
+#endif
     query_popup pop;
     pop.preferred_keyboard_mode( keyboard_mode::keychar );
     pop.message( "%s", text );
@@ -915,16 +956,23 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                 for( const iteminfo &k : vItemCompare ) {
                     if( k.sValue != "-999" ) {
                         if( i.sName == k.sName && i.sType == k.sType ) {
-                            if( i.dValue > k.dValue - .1 &&
-                                i.dValue < k.dValue + .1 ) {
+                            double iVal = i.dValue;
+                            double kVal = k.dValue;
+                            if( i.sFmt != k.sFmt ) {
+                                // Different units, compare unit adjusted vals
+                                iVal = i.dUnitAdjustedVal;
+                                kVal = k.dUnitAdjustedVal;
+                            }
+                            if( iVal > kVal - .01 &&
+                                iVal < kVal + .01 ) {
                                 thisColor = c_light_gray;
-                            } else if( i.dValue > k.dValue ) {
+                            } else if( iVal > kVal ) {
                                 if( i.bLowerIsBetter ) {
                                     thisColor = c_light_red;
                                 } else {
                                     thisColor = c_light_green;
                                 }
-                            } else if( i.dValue < k.dValue ) {
+                            } else if( iVal < kVal ) {
                                 if( i.bLowerIsBetter ) {
                                     thisColor = c_light_green;
                                 } else {
@@ -1279,7 +1327,7 @@ void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sTe
     mvwputch( w, point( iOffsetX, 1 ),      c_light_gray, LINE_XOXO ); // |
     mvwputch( w, point( iOffsetXRight, 1 ), c_light_gray, LINE_XOXO ); // |
 
-    mvwprintz( w, point( iOffsetX + 1, 1 ), ( bSelected ) ? h_light_gray : c_light_gray, sText );
+    mvwprintz( w, point( iOffsetX + 1, 1 ), bSelected ? h_light_gray : c_light_gray, sText );
 
     for( int i = iOffsetX + 1; i < iOffsetXRight; i++ ) {
         mvwputch( w, point( i, 0 ), c_light_gray, LINE_OXOX );  // -
@@ -1309,9 +1357,9 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
     if( !bDisabled ) {
-        mvwprintz( w, point( iOffsetX + 1, 0 ), ( bSelected ) ? h_light_gray : c_light_gray, sText );
+        mvwprintz( w, point( iOffsetX + 1, 0 ), bSelected ? h_light_gray : c_light_gray, sText );
     } else {
-        mvwprintz( w, point( iOffsetX + 1, 0 ), ( bSelected ) ? h_dark_gray : c_dark_gray, sText );
+        mvwprintz( w, point( iOffsetX + 1, 0 ), bSelected ? h_dark_gray : c_dark_gray, sText );
     }
 
     if( bSelected ) {
@@ -1970,7 +2018,7 @@ void insert_table( const catacurses::window &w, int pad, int line, int columns,
 {
     const int width = getmaxx( w );
     const int rows = getmaxy( w );
-    const int col_width = ( ( width - pad ) / columns );
+    const int col_width = ( width - pad ) / columns;
     int indent = 1;  // 1 for right window border
     if( r_align ) {
         indent = ( col_width * columns ) + 1;
@@ -2077,7 +2125,7 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
     oLeft = iso_mode ? direction::NORTHWEST : direction::WEST;
     oUpLeft = iso_mode ? direction::NORTH : direction::NORTHWEST;
 
-    point pairDirXY = direction_XY( oDir );
+    point pairDirXY = displace_XY( oDir );
 
     dir = pairDirXY;
 
@@ -2132,11 +2180,11 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
         } else {
             //reserve Left/Right for creature hp display
             if( p_oDir == ( iso_mode ? direction::SOUTHEAST : direction::EAST ) ) {
-                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? direction::EAST : direction::NORTHEAST ) :
+                p_oDir = one_in( 2 ) ? ( iso_mode ? direction::EAST : direction::NORTHEAST ) :
                          ( iso_mode ? direction::SOUTH : direction::SOUTHEAST );
 
             } else if( p_oDir == ( iso_mode ? direction::NORTHWEST : direction::WEST ) ) {
-                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? direction::NORTH : direction::NORTHWEST ) :
+                p_oDir = one_in( 2 ) ? ( iso_mode ? direction::NORTH : direction::NORTHWEST ) :
                          ( iso_mode ? direction::WEST : direction::SOUTHWEST );
             }
         }

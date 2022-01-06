@@ -218,7 +218,25 @@ struct islot_brewable {
     void deserialize( const JsonObject &jo );
 };
 
+/** Material data for individual armor body parts */
+struct part_material {
+    material_id id; //material type
+    int cover; //portion coverage % of this material
+    float thickness; //portion thickness of this material
+
+    part_material() : id( material_id::NULL_ID() ), cover( 100 ), thickness( 0.0f ) {}
+    part_material( material_id id, int cover, float thickness ) :
+        id( id ), cover( cover ), thickness( thickness ) {}
+    part_material( const std::string &id, int cover, float thickness ) :
+        id( material_id( id ) ), cover( cover ), thickness( thickness ) {}
+
+    void deserialize( const JsonObject &jo );
+};
+
 struct armor_portion_data {
+
+    // The base volume for an item
+    const units::volume volume_per_encumbrance = 250_ml; // NOLINT(cata-serialize)
 
     // How much this piece encumbers the player.
     int encumber = 0;
@@ -226,16 +244,53 @@ struct armor_portion_data {
     // When storage is full, how much it encumbers the player.
     int max_encumber = -1;
 
+    // how much an item can hold comfortably compared to an average item
+    float volume_encumber_modifier = 1;
+
     // Percentage of the body part that this item covers.
     // This determines how likely it is to hit the item instead of the player.
     int coverage = 0;
+    int cover_melee = 0;
+    int cover_ranged = 0;
+    int cover_vitals = 0;
+
+    /**
+     * Average material thickness for all materials from
+     * this armor portion
+     */
+    float avg_thickness = 0.0f;
+    /**
+     * Resistance to environmental effects.
+     */
+    int env_resist = 0;
+    /**
+     * Environmental protection of a gas mask with installed filter.
+     */
+    int env_resist_w_filter = 0;
+
+    /**
+     * What materials this portion is made of, for armor purposes.
+     * Includes material portion and thickness.
+     */
+    std::vector<part_material> materials;
 
     // Where does this cover if any
     cata::optional<body_part_set> covers;
 
+    std::vector<sub_bodypart_str_id> sub_coverage;
+
+
     // What layer does it cover if any
-    // TODO: Not currently supported, we still use flags for this
-    //cata::optional<layer_level> layer;
+    std::vector<layer_level> layers;
+
+    /**
+     * Returns the amount all sublocations this item covers could possibly
+     * cover the specific body part.
+     * This is used for converting from sub location coverage values
+     * to body part coverage values. EX: shin guards cover the whole shin 100%
+     * coverage. However only cover 35% of the overall leg.
+     */
+    int max_coverage( bodypart_str_id bp ) const;
 
     void deserialize( const JsonObject &jo );
 };
@@ -246,18 +301,9 @@ struct islot_armor {
     */
     bool sided = false;
     /**
-     * Material protection stats are multiplied by this number
-     * to determine armor protection values.
+     * The Non-Functional variant of this item. Currently only applies to ablative plates
      */
-    float thickness = 0.0f;
-    /**
-     * Resistance to environmental effects.
-     */
-    int env_resist = 0;
-    /**
-     * Environmental protection of a gas mask with installed filter.
-     */
-    int env_resist_w_filter = 0;
+    itype_id non_functional;
     /**
      * How much warmth this item provides.
      */
@@ -275,15 +321,49 @@ struct islot_armor {
      */
     bool power_armor = false;
     /**
+     * Whether this item has ablative pockets
+     */
+    bool ablative = false;
+    /**
+     * Whether this item has pockets that generate additional encumbrance
+     */
+    bool additional_pocket_enc = false;
+    /**
+     * Whether this item has pockets that can be ripped off
+     */
+    bool ripoff_chance = false;
+    /**
+     * Whether this item has pockets that are noisy
+     */
+    bool noisy = false;
+    /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
 
-    // Layer, encumbrance and coverage information.
+    /**
+     * If the item in question has any sub coverage when testing for encumberance
+     */
+    bool has_sub_coverage = false;
+
+    // Layer, encumbrance and coverage information for each body part.
+    // This isn't directly loaded in but is instead generated from the loaded in
+    // sub_data vector
     std::vector<armor_portion_data> data;
 
+    // Layer, encumbrance and coverage information for each sub body part.
+    // This vector can have duplicates for body parts themselves.
+    std::vector<armor_portion_data> sub_data;
+
+    // all of the layers this item is involved in
+    std::vector<layer_level> all_layers;
+
     bool was_loaded = false;
+
+    int avg_env_resist() const;
+    int avg_env_resist_w_filter() const;
+    float avg_thickness() const;
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
@@ -625,11 +705,22 @@ struct islot_gunmod : common_ranged_data {
     int sight_dispersion = -1;
 
     /**
-     *  For sights (see @ref sight_dispersion), this value affects time cost of aiming.
-     *  Higher is better. In case of multiple usable sights,
-     *  the one with highest aim speed is used.
+    * If the target has not appeared in the scope, the aiming speed is relatively low.
+    * When the target appears in the scope, the aiming speed will be greatly accelerated.
+    * FoV uses a more realistic method to reflect the aiming speed of the sight to insteadthe original abstract aim_speed
+    */
+    int field_of_view = -1;
+
+    /**
+     *  Its position has been replaced by FoV.
+     *  But it is still retained due to compatibility considerations.
      */
     int aim_speed = -1;
+
+    /**
+    * This value is used to reflect other factors affecting aiming speed except Fov
+    */
+    double aim_speed_modifier = 0;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
@@ -668,6 +759,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much. */
     int consume_divisor = 1;
+
+    /** Enlarge or reduce shot spread */
+    float shot_spread_multiplier_modifier = 1.0f;
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;
@@ -733,6 +827,19 @@ struct islot_ammo : common_ranged_data {
      * Default charges.
      */
     int def_charges = 1;
+
+    /**
+     * Number of projectiles fired per round, e.g. shotgun shot.
+     */
+    int count = 1;
+    /**
+     * Spread/dispersion between projectiles fired from the same round.
+     */
+    int shot_spread = 0;
+    /**
+     * Damage for a single shot.
+     */
+    damage_instance shot_damage;
 
     /**
      * TODO: document me.
@@ -837,6 +944,7 @@ enum condition_type {
     FLAG,
     COMPONENT_ID,
     VAR,
+    SNIPPET_ID,
     num_condition_types
 };
 
@@ -851,6 +959,8 @@ struct conditional_name {
     condition_type type;
     // Context name  (i.e. "CANNIBALISM"   or "mutant")
     std::string condition;
+    // Used for variables and snippets to identify the specific value
+    std::string value;
     // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
     // be replaced by the item's normal name and/or preceding conditional names.
     translation name;
@@ -872,8 +982,6 @@ struct itype {
         friend class Item_factory;
 
         using FlagsSetType = std::set<flag_id>;
-
-        std::vector<std::pair<itype_id, mod_id>> src;
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
@@ -900,8 +1008,46 @@ struct itype {
         cata::value_ptr<islot_milling> milling_data;
         /*@}*/
 
+        /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */
+        use_function drop_action;
+
+        /** Action to take when countdown expires */
+        use_function countdown_action;
+
+        /**
+        * @name Non-negative properties
+        * After loading from JSON these properties guaranteed to be zero or positive
+        */
+        /**@{*/
+
+        /** Weight of item ( or each stack member ) */
+        units::mass weight = 0_gram;
+        /** Weight difference with the part it replaces for mods (defaults to weight) */
+        units::mass integral_weight = -1_gram;
+
+        std::vector<std::pair<itype_id, mod_id>> src;
+
         // Potential variant items that exist of this type (same stats, different name and desc)
         std::vector<itype_variant_data> variants;
+
+        // A list of conditional names, in order of ascending priority.
+        std::vector<conditional_name> conditional_names;
+
+        // Since the material list was converted to a map, keep track of the material insert order
+        // Do not use this for materials. Use the materials map above.
+        std::vector<material_id> mats_ordered;
+
+        /** Base damage output when thrown */
+        damage_instance thrown_damage;
+
+        /** What recipes can make this item */
+        std::vector<recipe_id> recipes;
+
+        // information related to being able to store things inside the item.
+        std::vector<pocket_data> pockets;
+
+        // What it has to say.
+        std::vector<std::string> chat_topics;
 
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;
@@ -909,34 +1055,44 @@ struct itype {
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
 
-        std::set<std::string> weapon_category;
-
         std::string snippet_category;
-        translation description; // Flavor text
+
         ascii_art_id picture_id;
 
+        /** If set via JSON forces item category to this (preventing automatic assignment) */
+        item_category_id category_force;
+
+        std::string sym;
+
+        requirement_id template_requirements;
+
+    protected:
+        itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
+
+    public:
         // The container it comes in
         cata::optional<itype_id> default_container;
-        bool default_container_sealed = true;
 
-        std::map<quality_id, int> qualities; //Tool quality indicators
+        std::set<weapon_category_id> weapon_category;
+
+        // Tool qualities and levels for those that work even when tool is not charged
+        std::map<quality_id, int> qualities;
+        // Tool qualities that work only when the tool has charges_to_use charges remaining
+        std::map<quality_id, int> charged_qualities;
+
         std::map<std::string, std::string> properties;
 
-        // A list of conditional names, in order of ascending priority.
-        std::vector<conditional_name> conditional_names;
-
         // What we're made of (material names). .size() == made of nothing.
+        // First -> the material
+        // Second -> the portion of item covered by the material (portion / total portions)
         // MATERIALS WORK IN PROGRESS.
-        std::vector<material_id> materials;
+        std::map<material_id, int> materials;
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
 
         /** The factor of ammo consumption indexed by action type*/
         std::map<std::string, float> ammo_scale;
-
-        /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */
-        use_function drop_action;
 
         /** Fields to emit when item is in active state */
         std::set<emit_id> emits;
@@ -945,89 +1101,9 @@ struct itype {
 
         // Minimum stat(s) or skill(s) to use the item
         std::map<skill_id, int> min_skills;
-        int min_str = 0;
-        int min_dex = 0;
-        int min_int = 0;
-        int min_per = 0;
-
-        // Needs to go so far away because padding!
-        // Type of the variant - so people can turn off certain types of variants
-        itype_variant_kind variant_kind = itype_variant_kind::last;
-
-        phase_id phase      = phase_id::SOLID; // e.g. solid, liquid, gas
-
-        // How should the item explode
-        explosion_data explosion;
-        // Should the item explode when lit on fire
-        bool explode_in_fire = false;
-
-        /** Is item destroyed after the countdown action is run? */
-        bool countdown_destroy = false;
-
-        /** Default countdown interval (if any) for item */
-        int countdown_interval = 0;
-
-        /** Action to take when countdown expires */
-        use_function countdown_action;
-
-        /**
-         * @name Non-negative properties
-         * After loading from JSON these properties guaranteed to be zero or positive
-         */
-        /**@{*/
-
-        /** Weight of item ( or each stack member ) */
-        units::mass weight = 0_gram;
-        /** Weight difference with the part it replaces for mods (defaults to weight) */
-        units::mass integral_weight = -1_gram;
-
-        /**
-         * Space occupied by items of this type
-         * CAUTION: value given is for a default-sized stack. Avoid using where @ref count_by_charges items may be encountered; see @ref item::volume instead.
-         * To determine how many of an item can fit in a given space, use @ref charges_per_volume.
-         */
-        units::volume volume = 0_ml;
-        /**
-         * Space consumed when integrated as part of another item (defaults to volume)
-         * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
-         */
-        units::volume integral_volume = -1_ml;
-
-        /**
-         * How long the longest side of this item is. If undefined, calculated from volume instead.
-         */
-        units::length longest_side = -1_mm;
-
-        /** Number of items per above volume for @ref count_by_charges items */
-        int stack_size = 0;
-
-        /** Value before cataclysm. Price given is for a default-sized stack. */
-        units::money price = 0_cent;
-        /** Value after cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
-        units::money price_post = -1_cent;
-
-        /** Damage output in melee for zero or more damage types */
-        std::array<int, static_cast<int>( damage_type::NUM )> melee;
-        /** Base damage output when thrown */
-        damage_instance thrown_damage;
-
-        int m_to_hit  = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
-
-        unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
-
-        /** If set via JSON forces item category to this (preventing automatic assignment) */
-        item_category_id category_force;
-
-        std::string sym;
-        nc_color color = c_white; // Color on the map (color.h)
-
-        static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
         /** What items can be used to repair this item? @see Item_factory::finalize */
         std::set<itype_id> repair;
-
-        /** What recipes can make this item */
-        std::vector<recipe_id> recipes;
 
         /** What faults (if any) can occur */
         std::set<fault_id> faults;
@@ -1038,55 +1114,116 @@ struct itype {
         /** Default magazine for each ammo type that can be used to reload this item */
         std::map< ammotype, itype_id > magazine_default;
 
-        // information related to being able to store things inside the item.
-        std::vector<pocket_data> pockets;
-
-        // What it has to say.
-        std::vector<std::string> chat_topics;
-
-        layer_level layer = layer_level::NUM_LAYER_LEVELS;
-
-        /**
-         * How much insulation this item provides, either as a container, or as
-         * a vehicle base part.  Larger means more insulation, less than 1 but
-         * greater than zero, transfers faster, cannot be less than zero.
-         */
-        float insulation_factor = 1.0f;
-
-        /**
-         * Efficiency of solar energy conversion for solarpacks.
-         */
-        float solar_efficiency = 0.0f;
-
-        // used for generic_factory for copy-from
-        bool was_loaded = false;
-
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
 
-        requirement_id template_requirements;
-
     private:
-        /** Can item be combined with other identical items? */
-        bool stackable_ = false;
-
-        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
-        // TODO: create and use a MinMax class or similar to put both values into one object.
-        /// @{
-        int damage_min_ = -1000;
-        int damage_max_ = +4000;
-        /// @}
-
         FlagsSetType item_tags;
 
-    protected:
-        itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
+    public:
+        // How should the item explode
+        explosion_data explosion;
 
+        translation description; // Flavor text
+
+    protected:
         // private because is should only be accessed through itype::nname!
         // nname() is used for display purposes
         translation name = no_translation( "none" );
 
     public:
+        // Total of item's material portions (materials->second)
+        int mat_portion_total = 0;
+
+        int min_str = 0;
+        int min_dex = 0;
+        int min_int = 0;
+        int min_per = 0;
+
+        // Type of the variant - so people can turn off certain types of variants
+        itype_variant_kind variant_kind = itype_variant_kind::last;
+
+        phase_id phase = phase_id::SOLID; // e.g. solid, liquid, gas
+
+        /** Default countdown interval (if any) for item */
+        int countdown_interval = 0;
+
+        /**
+        * Space occupied by items of this type
+        * CAUTION: value given is for a default-sized stack. Avoid using where @ref count_by_charges items may be encountered; see @ref item::volume instead.
+        * To determine how many of an item can fit in a given space, use @ref charges_per_volume.
+        */
+        units::volume volume = 0_ml;
+
+        /**
+        * Space consumed when integrated as part of another item (defaults to volume)
+        * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
+        */
+        units::volume integral_volume = -1_ml;
+
+        /**
+        * How long the longest side of this item is. If undefined, calculated from volume instead.
+        */
+        units::length longest_side = -1_mm;
+
+        /** Number of items per above volume for @ref count_by_charges items */
+        int stack_size = 0;
+
+        /** Value before the Cataclysm. Price given is for a default-sized stack. */
+        units::money price = 0_cent;
+
+        /** Value after the Cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
+        units::money price_post = -1_cent;
+
+        int m_to_hit = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
+
+        unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
+
+        nc_color color = c_white; // Color on the map (color.h)
+
+        /**
+        * How much insulation this item provides, either as a container, or as
+        * a vehicle base part.  Larger means more insulation, less than 1 but
+        * greater than zero, transfers faster, cannot be less than zero.
+        */
+        float insulation_factor = 1.0f;
+
+        /**
+        * Efficiency of solar energy conversion for solarpacks.
+        */
+        float solar_efficiency = 0.0f;
+
+    private:
+        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
+        // TODO: create and use a MinMax class or similar to put both values into one object.
+        /// @{
+        int damage_min_ = -1000;
+        int damage_max_ = +4000;
+        int degrade_increments_ = 50;
+        /// @}
+
+    public:
+        /** Damage output in melee for zero or more damage types */
+        std::array<int, static_cast<int>( damage_type::NUM )> melee;
+
+        bool default_container_sealed = true;
+
+        // Should the item explode when lit on fire
+        bool explode_in_fire = false;
+
+        /** Is item destroyed after the countdown action is run? */
+        bool countdown_destroy = false;
+
+        // used for generic_factory for copy-from
+        bool was_loaded = false;
+
+    private:
+        /** Can item be combined with other identical items? */
+        bool stackable_ = false;
+
+    public:
+        static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
+
         itype() {
             melee.fill( 0 );
         }
@@ -1096,6 +1233,9 @@ struct itype {
         }
         int damage_max() const {
             return count_by_charges() ? 0 : damage_max_;
+        }
+        int degrade_increments() const {
+            return count_by_charges() ? 0 : degrade_increments_;
         }
 
         std::string get_item_type_string() const {

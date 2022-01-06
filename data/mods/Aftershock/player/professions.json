@@ -434,5 +434,36 @@
     "traits": [ "PROF_MED", "UPLIFTED", "THRESH_CEPHALOPOD", "CEPH_EYES", "GILLS", "INT_UP_2", "LEG_TENTACLES", "SLIMY" ],
     "//": "Need to add underwater gear for this.  See extended leg_tentacles mutation.",
     "items": { "both": { "items": [ "wetsuit_cecalia", "trident", "dive_bag" ] } }
+  },
+  {
+    "type": "profession",
+    "id": "robot_scavenger",
+    "name": "Robot Scavenger",
+    "description": "Scavenging and reselling abandoned robotics is what you call your \"job.\" It certainly isn't official in any means of the word, but it rakes in the dough and that is all that matters to you, even if it involves dangerous activities, be it cracking old Wraitheon security cyphers or crossing well-worn wires on ancient mining drones.",
+    "points": 4,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 3, "name": "computer" },
+      { "level": 3, "name": "electronics" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "jumpsuit", "hazmat_suit", "mask_gas", "socks", "molle_pack", "wristwatch", "bot_manhack", "bot_manhack" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
+          { "item": "makeshift_scrambler" },
+          {
+            "item": "afs_cartridge",
+            "ammo-item": "battery",
+            "charges": 1500,
+            "container-item": "makeshift_scrambler"
+          }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
   }
 ]

@@ -76,50 +76,38 @@ static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
+static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const efftype_id effect_incorporeal( "incorporeal" );
 
+static const flag_id json_flag_NO_AUTO_CONSUME( "NO_AUTO_CONSUME" );
+
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
+static const itype_id itype_disassembly( "disassembly" );
+static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
+static const itype_id itype_mop( "mop" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_welder( "welder" );
-
-static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
-
-static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
-
-static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
-static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
-static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
-static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
-static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
-static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
-static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
-static const zone_type_id zone_type_MINING( "MINING" );
-static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
-static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
-static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
-static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -128,6 +116,32 @@ static const quality_id qual_FISHING( "FISHING" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
+
+static const requirement_id requirement_data_mining_standard( "mining_standard" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
+static const zone_type_id zone_type_( "" );
+static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
+static const zone_type_id zone_type_AUTO_EAT( "AUTO_EAT" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
+static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
+static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
+static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
+static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
+static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
+static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
+static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
+static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
+static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
+static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
+static const zone_type_id zone_type_MINING( "MINING" );
+static const zone_type_id zone_type_MOPPING( "MOPPING" );
+static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
+static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
+static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
+static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
 
 /** Activity-associated item */
 struct act_item {
@@ -495,7 +509,9 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
         act->set_to_null();
         return;
     } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
+               !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
+               !crafting_inv.has_charges( itype_liquid_soap, required.cleanser,
+                                          is_liquid_crafting_component ) ) {
         you->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                                 required.cleanser );
         act->set_to_null();
@@ -516,6 +532,7 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
     std::vector<item_comp> comps1;
     comps1.emplace_back( itype_soap, required.cleanser );
     comps1.emplace_back( itype_detergent, required.cleanser );
+    comps1.emplace_back( itype_liquid_soap, required.cleanser );
     you->consume_items( comps1 );
 
     you->add_msg_if_player( m_good, _( "You washed your items." ) );
@@ -645,7 +662,8 @@ static bool vehicle_activity( Character &you, const tripoint &src_loc, int vpind
     const vpart_info &vp = veh->part_info( vpindex );
     if( type == 'r' ) {
         const vehicle_part part = veh->part( vpindex );
-        time_to_take = vp.repair_time( you ) * part.damage() / part.max_damage();
+        time_to_take = vp.repair_time( you ) * ( part.damage() - part.degradation() ) /
+                       ( part.max_damage() - part.degradation() );
     } else if( type == 'o' ) {
         time_to_take = vp.removal_time( you );
     }
@@ -983,7 +1001,8 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                id == ACT_VEHICLE_REPAIR ||
                id == ACT_MULTIPLE_CHOP_TREES ||
                id == ACT_MULTIPLE_FISH ||
-               id == ACT_MULTIPLE_MINE;
+               id == ACT_MULTIPLE_MINE ||
+               id == ACT_MULTIPLE_MOP;
     };
     const bool check_weight = check_weight_if( activity_to_restore ) || ( !you.backlog.empty() &&
                               check_weight_if( you.backlog.front().id() ) );
@@ -1008,7 +1027,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             // skip tiles in IGNORE zone and tiles on fire
             // (to prevent taking out wood off the lit brazier)
             // and inaccessible furniture, like filled charcoal kiln
-            if( mgr.has( zone_type_LOOT_IGNORE, here.getabs( elem ) ) ||
+            if( mgr.has( zone_type_LOOT_IGNORE, here.getglobal( elem ) ) ||
                 here.dangerous_field_at( elem ) ||
                 !here.can_put_items_ter_furn( elem ) ) {
                 continue;
@@ -1136,10 +1155,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     continue;
                 }
                 item base( vpinfo.base_item );
-                if( base.is_wheel() ) {
-                    // no wheel removal yet
-                    continue;
-                }
                 const units::mass max_lift = you.best_nearby_lifting_assist( src_loc );
                 const bool use_aid = max_lift >= base.weight();
                 const bool use_str = you.can_lift( base );
@@ -1166,7 +1181,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 const vpart_info &vpinfo = part_elem->info();
                 int vpindex = veh->index_of_part( part_elem, true );
                 // if part is undamaged or beyond repair - can skip it.
-                if( part_elem->is_broken() || part_elem->damage() == 0 ||
+                if( part_elem->is_broken() || part_elem->damage() <= part_elem->degradation() ||
                     part_elem->info().repair_requirements().is_empty() ) {
                     continue;
                 }
@@ -1212,6 +1227,19 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return activity_reason_info::fail( do_activity_reason::NEEDS_MINING );
         } else {
             return activity_reason_info::ok( do_activity_reason::NEEDS_MINING );
+        }
+    }
+    if( act == ACT_MULTIPLE_MOP ) {
+        if( !here.terrain_moppable( src_loc ) ) {
+            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+        }
+
+        if( you.has_item_with( []( const item & itm ) {
+        return itm.typeId() == itype_mop;
+        } ) ) {
+            return activity_reason_info::ok( do_activity_reason::NEEDS_MOP );
+        } else {
+            return activity_reason_info::fail( do_activity_reason::NEEDS_MOP );
         }
     }
     if( act == ACT_MULTIPLE_FISH ) {
@@ -1299,8 +1327,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_TIDY_UP ) {
-        if( mgr.has_near( zone_type_LOOT_UNSORTED, here.getabs( src_loc ), distance ) ||
-            mgr.has_near( zone_type_CAMP_STORAGE, here.getabs( src_loc ), distance ) ) {
+        if( mgr.has_near( zone_type_LOOT_UNSORTED, here.getglobal( src_loc ), distance ) ||
+            mgr.has_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ), distance ) ) {
             return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
         }
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
@@ -1308,7 +1336,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
     if( act == ACT_MULTIPLE_CONSTRUCTION ) {
         const std::vector<construction> &list_constructions = get_constructions();
         zones = mgr.get_zones( zone_type_CONSTRUCTION_BLUEPRINT,
-                               here.getabs( src_loc ) );
+                               here.getglobal( src_loc ) );
         const partial_con *part_con = here.partial_con_at( src_loc );
         cata::optional<construction_id> part_con_idx;
         if( part_con ) {
@@ -1331,8 +1359,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return act_info;
         }
     } else if( act == ACT_MULTIPLE_FARM ) {
-        zones = mgr.get_zones( zone_type_FARM_PLOT,
-                               here.getabs( src_loc ) );
+        zones = mgr.get_zones( zone_type_FARM_PLOT, here.getglobal( src_loc ) );
         for( const zone_data &zone : zones ) {
             if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
                 // simple work, pulling up plants, nothing else required.
@@ -1397,7 +1424,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             i.erase_var( "activity_var" );
             if( i.is_disassemblable() ) {
                 // Are the requirements fulfilled?
-                const recipe &r = recipe_dictionary::get_uncraft( ( i.typeId() == itype_id( "disassembly" ) ) ?
+                const recipe &r = recipe_dictionary::get_uncraft( ( i.typeId() == itype_disassembly ) ?
                                   i.components.front().typeId() : i.typeId() );
                 req = r.disassembly_requirements();
                 if( !std::all_of( req.get_qualities().begin(),
@@ -1440,12 +1467,21 @@ static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tri
     if( npc *const guy = dynamic_cast<npc *>( &you ) ) {
         map &here = get_map();
         if( guy->assigned_camp &&
-            mgr.has_near( zone_type_CAMP_STORAGE, here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE ) ) {
-            std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
-                    here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE );
-            for( const tripoint &elem : bc_storage_set ) {
-                loot_zone_spots.push_back( here.getlocal( elem ) );
-                combined_spots.push_back( here.getlocal( elem ) );
+            mgr.has_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ), ACTIVITY_SEARCH_DISTANCE ) ) {
+            std::unordered_set<tripoint_abs_ms> bc_storage_set =
+                mgr.get_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ),
+                              ACTIVITY_SEARCH_DISTANCE );
+            for( const tripoint_abs_ms &elem : bc_storage_set ) {
+                tripoint here_local = here.getlocal( elem );
+
+                // Check that a coordinate is not already in the combined list, otherwise actions
+                // like construction may erroneously count materials twice if an object is both
+                // in the camp zone and in a loot zone.
+                if( std::find( combined_spots.begin(), combined_spots.end(),
+                               here_local ) == combined_spots.end() ) {
+                    loot_zone_spots.push_back( here_local );
+                    combined_spots.push_back( here_local );
+                }
             }
         }
     }
@@ -1487,8 +1523,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( Charac
         already_there_spots.push_back( elem );
         combined_spots.push_back( elem );
     }
-    for( const tripoint &elem : mgr.get_point_set_loot( here.getabs( you.pos() ), distance,
-            you.is_npc() ) ) {
+    for( const tripoint &elem : mgr.get_point_set_loot(
+             you.get_location(), distance, you.is_npc() ) ) {
         // if there is a loot zone that's already near the work spot, we don't want it to be added twice.
         if( std::find( already_there_spots.begin(), already_there_spots.end(),
                        elem ) != already_there_spots.end() ) {
@@ -1776,14 +1812,14 @@ static bool tidy_activity( Character &you, const tripoint &src_loc,
 {
     zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
-    tripoint loot_abspos = here.getabs( src_loc );
+    tripoint_abs_ms loot_abspos = here.getglobal( src_loc );
     tripoint loot_src_lot;
     const auto &zone_src_set = mgr.get_near( zone_type_LOOT_UNSORTED, loot_abspos, distance );
     if( !zone_src_set.empty() ) {
-        const std::vector<tripoint> &zone_src_sorted = get_sorted_tiles_by_distance(
+        const std::vector<tripoint_abs_ms> &zone_src_sorted = get_sorted_tiles_by_distance(
                     loot_abspos, zone_src_set );
         // Find the nearest unsorted zone to dump objects at
-        for( const tripoint &src_elem : zone_src_sorted ) {
+        for( const tripoint_abs_ms &src_elem : zone_src_sorted ) {
             if( !here.can_put_items_ter_furn( here.getlocal( src_elem ) ) ) {
                 continue;
             }
@@ -1814,7 +1850,7 @@ static bool tidy_activity( Character &you, const tripoint &src_loc,
         }
     }
     // we are adjacent to an unsorted zone, we came here to just drop items we are carrying
-    if( mgr.has( zone_type_LOOT_UNSORTED, here.getabs( src_loc ) ) ) {
+    if( mgr.has( zone_type_LOOT_UNSORTED, here.getglobal( src_loc ) ) ) {
         for( item *inv_elem : you.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
@@ -1879,9 +1915,10 @@ static bool fetch_activity( Character &you, const tripoint &src_loc,
                                                      you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
                                                      you.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
                                                      you.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                                                     you.backlog.front().id() == ACT_MULTIPLE_MINE ) ) {
+                                                     you.backlog.front().id() == ACT_MULTIPLE_MINE ||
+                                                     you.backlog.front().id() == ACT_MULTIPLE_MOP ) ) {
                     if( it.volume() > volume_allowed || it.weight() > weight_allowed ) {
-                        add_msg_if_player_sees( you, "%1s failed to fetch tools", you.name );
+                        add_msg_if_player_sees( you, _( "%1s failed to fetch tools." ), you.name );
                         continue;
                     }
                     item leftovers = it;
@@ -1988,27 +2025,37 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
     int &num_processed = act.values[ 0 ];
 
     map &here = get_map();
-    const tripoint abspos = here.getabs( you.pos() );
+    const tripoint_abs_ms abspos = you.get_location();
     auto &mgr = zone_manager::get_manager();
     if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
         mgr.cache_vzones();
     }
 
     if( stage == INIT ) {
-        act.coord_set = mgr.get_near( zone_type_LOOT_UNSORTED, abspos, ACTIVITY_SEARCH_DISTANCE );
+        // TODO: fix point types
+        act.coord_set.clear();
+        for( const tripoint_abs_ms &p :
+             mgr.get_near( zone_type_LOOT_UNSORTED, abspos, ACTIVITY_SEARCH_DISTANCE ) ) {
+            act.coord_set.insert( p.raw() );
+        }
         stage = THINK;
     }
 
     if( stage == THINK ) {
         //initialize num_processed
         num_processed = 0;
-        const auto &src_set = act.coord_set;
+        // TODO: fix point types
+        std::vector<tripoint_abs_ms> src_set;
+        for( const tripoint &p : act.coord_set ) {
+            src_set.emplace_back( tripoint_abs_ms( p ) );
+        }
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
 
-        for( const tripoint &src : src_sorted ) {
-            act.placement = src;
-            act.coord_set.erase( src );
+        for( const tripoint_abs_ms &src : src_sorted ) {
+            // TODO: fix point types
+            act.placement = src.raw();
+            act.coord_set.erase( src.raw() );
 
             const auto &src_loc = here.getlocal( src );
             if( !here.inbounds( src_loc ) ) {
@@ -2096,8 +2143,9 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
         }
     }
     if( stage == DO ) {
-        const tripoint &src = act.placement;
-        const tripoint &src_loc = here.getlocal( src );
+        // TODO: fix point types
+        const tripoint_abs_ms src( act.placement );
+        const tripoint src_loc = here.getlocal( src );
 
         bool is_adjacent_or_closer = square_dist( you.pos(), src_loc ) <= 1;
         // before we move any item, check if player is at or
@@ -2157,22 +2205,48 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
-            if( id != zone_type_id( "LOOT_CUSTOM" ) && mgr.has( id, src ) ) {
+            if( id != zone_type_LOOT_CUSTOM && mgr.has( id, src ) ) {
                 continue;
             }
 
-            if( id == zone_type_id( "LOOT_CUSTOM" ) && mgr.custom_loot_has( src, &thisitem ) ) {
+            if( id == zone_type_LOOT_CUSTOM && mgr.custom_loot_has( src, &thisitem ) ) {
                 continue;
             }
 
-            const std::unordered_set<tripoint> &dest_set = mgr.get_near( id, abspos, ACTIVITY_SEARCH_DISTANCE,
-                    &thisitem );
-            for( const tripoint &dest : dest_set ) {
+            const std::unordered_set<tripoint_abs_ms> dest_set =
+                mgr.get_near( id, abspos, ACTIVITY_SEARCH_DISTANCE, &thisitem );
+
+            // if this item isn't going anywhere and its not sealed
+            // then we should unload it and see what is inside
+            if( dest_set.empty() && !it->first->is_container_empty() && !it->first->any_pockets_sealed() ) {
+                for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                    // no liquids don't want to spill stuff
+                    if( !contained->made_of( phase_id::LIQUID ) ) {
+                        //here.add_item_or_charges( src_loc, it->first->remove_item( *contained ) );
+                        //Check if on a cargo part
+                        if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+                                false ) ) {
+                            dest_veh = &vp->vehicle();
+                            dest_part = vp->part_index();
+                        } else {
+                            dest_veh = nullptr;
+                            dest_part = -1;
+                        }
+                        move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
+                        it->first->remove_item( *contained );
+                    }
+                }
+                // after dumping items go back to start of activity loop
+                // so that can re-assess the items in the tile
+                return;
+            }
+
+            for( const tripoint_abs_ms &dest : dest_set ) {
                 const tripoint &dest_loc = here.getlocal( dest );
 
                 //Check destination for cargo part
-                if( const cata::optional<vpart_reference> vp = here.veh_at( dest_loc ).part_with_feature( "CARGO",
-                        false ) ) {
+                if( const cata::optional<vpart_reference> vp =
+                        here.veh_at( dest_loc ).part_with_feature( "CARGO", false ) ) {
                     dest_veh = &vp->vehicle();
                     dest_part = vp->part_index();
                 } else {
@@ -2229,7 +2303,7 @@ static int chop_moves( Character &you, item *it )
     const int quality = it->get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it->has_flag( flag_POWERED ) ? you.dex_cur : you.str_cur;
+    const int attr = it->has_flag( flag_POWERED ) ? you.dex_cur : you.get_arm_str();
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = you.get_num_crafting_helpers( 3 );
@@ -2271,7 +2345,8 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
     }
     int moves = to_moves<int>( powered ? 30_minutes : 20_minutes );
     if( !powered ) {
-        moves += ( ( MAX_STAT + 4 ) - std::min( you.str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
+        moves += ( ( MAX_STAT + 4 ) - std::min( you.get_arm_str(),
+                                                MAX_STAT ) ) * to_moves<int>( 5_minutes );
     }
     if( here.move_cost( src_loc ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
@@ -2282,6 +2357,15 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
     you.activity.placement = here.getabs( src_loc );
     return true;
 
+}
+
+// Not really an activity like the others; relies on zone activity alerting on enemies
+static bool mop_activity( Character &you, const tripoint &src_loc )
+{
+    // iuse::mop costs 15 moves per use
+    you.assign_activity( ACT_MOP, 15 );
+    you.activity.placement = get_map().getabs( src_loc );
+    return true;
 }
 
 static bool chop_tree_activity( Character &you, const tripoint &src_loc )
@@ -2321,7 +2405,7 @@ static void check_npc_revert( Character &you )
 static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manager &mgr,
                                       const activity_id &act_id )
 {
-    zone_type_id ret = zone_type_id( "" );
+    zone_type_id ret = zone_type_;
     if( act_id == ACT_VEHICLE_DECONSTRUCTION ) {
         ret = zone_type_VEHICLE_DECONSTRUCT;
     }
@@ -2349,11 +2433,14 @@ static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manage
     if( act_id == ACT_MULTIPLE_MINE ) {
         ret = zone_type_MINING;
     }
+    if( act_id == ACT_MULTIPLE_MOP ) {
+        ret = zone_type_MOPPING;
+    }
     if( act_id == ACT_MULTIPLE_DIS ) {
-        ret = zone_type_id( "zone_disassemble" );
+        ret = zone_type_zone_disassemble;
     }
     if( src_loc != tripoint_zero && act_id == ACT_FETCH_REQUIRED ) {
-        const zone_data *zd = mgr.get_zone_at( get_map().getabs( src_loc ) );
+        const zone_data *zd = mgr.get_zone_at( get_map().getglobal( src_loc ) );
         if( zd ) {
             ret = zd->get_type();
         }
@@ -2363,21 +2450,21 @@ static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manage
 
 /** Determine all locations for this generic activity */
 /** Returns locations */
-static std::unordered_set<tripoint> generic_multi_activity_locations( Character &you,
-        const activity_id &act_id )
+static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
+    Character &you, const activity_id &act_id )
 {
     bool dark_capable = false;
-    std::unordered_set<tripoint> src_set;
+    std::unordered_set<tripoint_abs_ms> src_set;
 
     zone_manager &mgr = zone_manager::get_manager();
     const tripoint localpos = you.pos();
     map &here = get_map();
-    const tripoint abspos = here.getabs( localpos );
+    const tripoint_abs_ms abspos = here.getglobal( localpos );
     if( act_id == ACT_TIDY_UP ) {
         dark_capable = true;
         tripoint unsorted_spot;
-        std::unordered_set<tripoint> unsorted_set = mgr.get_near( zone_type_LOOT_UNSORTED, abspos,
-                ACTIVITY_SEARCH_DISTANCE );
+        std::unordered_set<tripoint_abs_ms> unsorted_set =
+            mgr.get_near( zone_type_LOOT_UNSORTED, abspos, ACTIVITY_SEARCH_DISTANCE );
         if( !unsorted_set.empty() ) {
             unsorted_spot = here.getlocal( random_entry( unsorted_set ) );
         }
@@ -2402,7 +2489,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( Character 
                 if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == you.name ) {
                     const furn_t &f = here.furn( elem ).obj();
                     if( !f.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
-                        src_set.insert( here.getabs( elem ) );
+                        src_set.insert( here.getglobal( elem ) );
                         found_one_point = true;
                         // only check for a valid path, as that is all that is needed to tidy something up.
                         if( square_dist( you.pos(), elem ) > 1 ) {
@@ -2420,7 +2507,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( Character 
             for( const item *inv_elem : you.inv_dump() ) {
                 if( inv_elem->has_var( "activity_var" ) ) {
                     // we've gone to tidy up all the things lying around, now tidy up the things we picked up.
-                    src_set.insert( here.getabs( unsorted_spot ) );
+                    src_set.insert( here.getglobal( unsorted_spot ) );
                     break;
                 }
             }
@@ -2433,7 +2520,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( Character 
             for( const tripoint &elem : here.points_in_radius( localpos, ACTIVITY_SEARCH_DISTANCE ) ) {
                 partial_con *pc = here.partial_con_at( elem );
                 if( pc ) {
-                    src_set.insert( here.getabs( elem ) );
+                    src_set.insert( here.getglobal( elem ) );
                 }
             }
             // farming activities encompass tilling, planting, harvesting.
@@ -2449,17 +2536,25 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( Character 
                 ACTIVITY_SEARCH_DISTANCE );
         for( const auto &elem : mental_map ) {
             const tripoint &elem_point = std::get<0>( elem );
-            src_set.insert( here.getabs( elem_point ) );
+            src_set.insert( here.getglobal( elem_point ) );
         }
     }
     // prune the set to remove tiles that are never gonna work out.
     const bool pre_dark_check = src_set.empty();
+    const bool MOP_ACTIVITY = act_id == ACT_MULTIPLE_MOP;
     for( auto it2 = src_set.begin(); it2 != src_set.end(); ) {
         // remove dangerous tiles
         const tripoint set_pt = here.getlocal( *it2 );
-        if( here.dangerous_field_at( set_pt ) ) {
-            it2 = src_set.erase( it2 );
-            continue;
+        if( MOP_ACTIVITY ) {
+            if( !here.mopsafe_field_at( set_pt ) ) {
+                it2 = src_set.erase( it2 );
+                continue;
+            }
+        } else {
+            if( here.dangerous_field_at( set_pt ) ) {
+                it2 = src_set.erase( it2 );
+                continue;
+            }
         }
         // remove tiles in darkness, if we aren't lit-up ourselves
         if( !dark_capable && you.fine_detail_vision_mod( set_pt ) > 4.0 ) {
@@ -2478,20 +2573,20 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( Character 
         }
     }
     const bool post_dark_check = src_set.empty();
-    if( !pre_dark_check && post_dark_check ) {
+    if( !pre_dark_check && post_dark_check && !MOP_ACTIVITY ) {
         you.add_msg_if_player( m_info, _( "It is too dark to do this activity." ) );
     }
     return src_set;
 }
 
 /** Check if this activity can not be done immediately because it has some requirements */
-static requirement_check_result generic_multi_activity_check_requirement( Character &you,
-        const activity_id &act_id, activity_reason_info &act_info,
-        const tripoint &src, const tripoint &src_loc, const std::unordered_set<tripoint> &src_set,
-        const bool check_only = false )
+static requirement_check_result generic_multi_activity_check_requirement(
+    Character &you, const activity_id &act_id, activity_reason_info &act_info,
+    const tripoint_abs_ms &src, const tripoint &src_loc,
+    const std::unordered_set<tripoint_abs_ms> &src_set, const bool check_only = false )
 {
     map &here = get_map();
-    const tripoint abspos = here.getabs( you.pos() );
+    const tripoint_abs_ms abspos = here.getglobal( you.pos() );
     zone_manager &mgr = zone_manager::get_manager();
 
     bool &can_do_it = act_info.can_do;
@@ -2553,8 +2648,8 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
         requirement_id what_we_need;
         std::vector<tripoint> loot_zone_spots;
         std::vector<tripoint> combined_spots;
-        for( const tripoint &elem : mgr.get_point_set_loot( abspos, ACTIVITY_SEARCH_DISTANCE,
-                you.is_npc() ) ) {
+        for( const tripoint &elem : mgr.get_point_set_loot(
+                 abspos, ACTIVITY_SEARCH_DISTANCE, you.is_npc() ) ) {
             loot_zone_spots.push_back( elem );
             combined_spots.push_back( elem );
         }
@@ -2594,7 +2689,7 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
             requirement_data::save_requirement( reqs, req_id );
             what_we_need = req_id;
         } else if( reason == do_activity_reason::NEEDS_MINING ) {
-            what_we_need = requirement_id( "mining_standard" );
+            what_we_need = requirement_data_mining_standard;
         } else if( reason == do_activity_reason::NEEDS_TILLING ||
                    reason == do_activity_reason::NEEDS_PLANTING ||
                    reason == do_activity_reason::NEEDS_CHOPPING ||
@@ -2667,7 +2762,7 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
                 if( act_prev.coords.empty() ) {
                     std::vector<tripoint> local_src_set;
                     local_src_set.reserve( src_set.size() );
-                    for( const tripoint &elem : src_set ) {
+                    for( const tripoint_abs_ms &elem : src_set ) {
                         local_src_set.push_back( here.getlocal( elem ) );
                     }
                     std::vector<tripoint> candidates;
@@ -2688,7 +2783,8 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
                     act_prev.coords.push_back( here.getabs( candidates[std::max( 0,
                                                                       static_cast<int>( candidates.size() / 2 ) )] ) );
                 }
-                act_prev.placement = src;
+                // TODO: fix point types
+                act_prev.placement = src.raw();
             }
             return requirement_check_result::RETURN_EARLY;
         }
@@ -2700,7 +2796,7 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
 /** Returns true if this multi activity may be processed further */
 static bool generic_multi_activity_do( Character &you, const activity_id &act_id,
                                        const activity_reason_info &act_info,
-                                       const tripoint &src, const tripoint &src_loc )
+                                       const tripoint_abs_ms &src, const tripoint &src_loc )
 {
     // If any of the following activities return without processing
     // then they MUST return true here, to stop infinite loops.
@@ -2719,12 +2815,12 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         you.assign_activity( ACT_CHURN, 18000, -1 );
         you.backlog.push_front( player_activity( act_id ) );
-        you.activity.placement = src;
+        // TODO: fix point types
+        you.activity.placement = src.raw();
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING &&
                here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLANTABLE, src_loc ) ) {
-        std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT,
-                                       here.getabs( src_loc ) );
+        std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT, src );
         for( const zone_data &zone : zones ) {
             const itype_id seed =
                 dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
@@ -2756,7 +2852,8 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
         if( here.partial_con_at( src_loc ) ) {
             you.backlog.push_front( player_activity( act_id ) );
             you.assign_activity( ACT_BUILD );
-            you.activity.placement = src;
+            // TODO: fix point types
+            you.activity.placement = src.raw();
             return false;
         }
         if( construction_activity( you, zone, src_loc, act_info, act_id ) ) {
@@ -2796,6 +2893,11 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
         if( mine_activity( you, src_loc ) ) {
             return false;
         }
+    } else if( reason == do_activity_reason::NEEDS_MOP ) {
+        if( mop_activity( you, src_loc ) ) {
+            you.backlog.push_front( player_activity( act_id ) );
+            return false;
+        }
     } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'o' ) ) {
             you.backlog.push_front( player_activity( act_id ) );
@@ -2815,7 +2917,7 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
             if( elem.is_disassemblable() ) {
                 // Disassemble the checked one.
                 if( elem.get_var( "activity_var" ) == you.name ) {
-                    const auto &r = ( elem.typeId() == itype_id( "disassembly" ) ) ? elem.get_making() :
+                    const auto &r = ( elem.typeId() == itype_disassembly ) ? elem.get_making() :
                                     recipe_dictionary::get_uncraft( elem.typeId() );
                     player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,
                                                            recipe_time_flag::ignore_proficiencies ) * std::max( 1, elem.charges ) ) );
@@ -2840,7 +2942,7 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
 bool generic_multi_activity_handler( player_activity &act, Character &you, bool check_only )
 {
     map &here = get_map();
-    const tripoint abspos = here.getabs( you.pos() );
+    const tripoint_abs_ms abspos = here.getglobal( you.pos() );
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     activity_id activity_to_restore = act.id();
     // Nuke the current activity, leaving the backlog alone
@@ -2849,9 +2951,10 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     }
     // now we setup the target spots based on which activity is occurring
     // the set of target work spots - potentially after we have fetched required tools.
-    std::unordered_set<tripoint> src_set = generic_multi_activity_locations( you, activity_to_restore );
+    std::unordered_set<tripoint_abs_ms> src_set =
+        generic_multi_activity_locations( you, activity_to_restore );
     // now we have our final set of points
-    std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+    std::vector<tripoint_abs_ms> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
 
@@ -2861,7 +2964,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     if( activity_to_restore == activity_id( ACT_FETCH_REQUIRED ) && src_sorted.empty() ) {
         return true;
     }
-    for( const tripoint &src : src_sorted ) {
+    for( const tripoint_abs_ms &src : src_sorted ) {
         const tripoint &src_loc = here.getlocal( src );
         if( !here.inbounds( src_loc ) && !check_only ) {
             if( !here.inbounds( you.pos() ) ) {
@@ -2884,8 +2987,8 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         activity_reason_info act_info = can_do_activity_there( activity_to_restore, you,
                                         src_loc, ACTIVITY_SEARCH_DISTANCE );
         // see activity_handlers.h enum for requirement_check_result
-        const requirement_check_result req_res = generic_multi_activity_check_requirement( you,
-                activity_to_restore, act_info, src, src_loc, src_set, check_only );
+        const requirement_check_result req_res = generic_multi_activity_check_requirement(
+                    you, activity_to_restore, act_info, src, src_loc, src_set, check_only );
         if( req_res == requirement_check_result::SKIP_LOCATION ) {
             continue;
         } else if( req_res == requirement_check_result::RETURN_EARLY ) {
@@ -3009,14 +3112,14 @@ static cata::optional<tripoint> find_refuel_spot_zone( const tripoint &center )
 {
     const zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
-    const tripoint center_abs = here.getabs( center );
+    const tripoint_abs_ms center_abs = here.getglobal( center );
 
-    const std::unordered_set<tripoint> &tiles_abs_unordered =
+    const std::unordered_set<tripoint_abs_ms> tiles_abs_unordered =
         mgr.get_near( zone_type_SOURCE_FIREWOOD, center_abs, PICKUP_RANGE );
-    const std::vector<tripoint> &tiles_abs =
+    const std::vector<tripoint_abs_ms> &tiles_abs =
         get_sorted_tiles_by_distance( center_abs, tiles_abs_unordered );
 
-    for( const tripoint &tile_abs : tiles_abs ) {
+    for( const tripoint_abs_ms &tile_abs : tiles_abs ) {
         const tripoint tile = here.getlocal( tile_abs );
         if( has_clear_path_to_pickup_items( center, tile ) ) {
             return tile;
@@ -3052,18 +3155,18 @@ int get_auto_consume_moves( Character &you, const bool food )
     zone_manager &mgr = zone_manager::get_manager();
     zone_type_id consume_type_zone( "" );
     if( food ) {
-        consume_type_zone = zone_type_id( "AUTO_EAT" );
+        consume_type_zone = zone_type_AUTO_EAT;
     } else {
-        consume_type_zone = zone_type_id( "AUTO_DRINK" );
+        consume_type_zone = zone_type_AUTO_DRINK;
     }
     map &here = get_map();
-    const std::unordered_set<tripoint> &dest_set = mgr.get_near( consume_type_zone, here.getabs( pos ),
-            ACTIVITY_SEARCH_DISTANCE );
+    const std::unordered_set<tripoint_abs_ms> &dest_set =
+        mgr.get_near( consume_type_zone, here.getglobal( pos ), ACTIVITY_SEARCH_DISTANCE );
     if( dest_set.empty() ) {
         return 0;
     }
-    for( const tripoint &loc : dest_set ) {
-        if( loc.z != you.pos().z ) {
+    for( const tripoint_abs_ms &loc : dest_set ) {
+        if( loc.z() != you.pos().z ) {
             continue;
         }
 
@@ -3086,12 +3189,16 @@ int get_auto_consume_moves( Character &you, const bool food )
         }
         for( item *it : items_here ) {
             item &comest = you.get_consumable_from( *it );
+            if( comest.has_flag( json_flag_NO_AUTO_CONSUME ) ) {
+                // ignored due to NO_AUTO_CONSUME flag
+                continue;
+            }
             if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
                 you.fun_for( comest ).first < -5 ) {
                 // not good eatings.
                 continue;
             }
-            if( !you.can_consume( comest ) ) {
+            if( !you.can_consume_as_is( comest ) ) {
                 continue;
             }
             if( food && you.compute_effective_nutrients( comest ).kcal() < 50 ) {

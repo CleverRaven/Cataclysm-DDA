@@ -233,5 +233,102 @@
     "material": [ "steel", "plastic" ],
     "bashing": 3,
     "to_hit": 1
+  },
+  {
+    "id": "comb_lice",
+    "name": { "str": "lice comb" },
+    "type": "GENERIC",
+    "description": "A stainless-steel comb with spiral grooved teeth designed to remove pesky parasites from hair.  Even just thinking about it makes you itch.",
+    "symbol": "c",
+    "material": [ "steel" ],
+    "copy-from": "base_toiletries"
+  },
+  {
+    "id": "bath_toy",
+    "name": { "str": "bath toy" },
+    "type": "GENERIC",
+    "description": "A plastic floating bath toy.",
+    "symbol": "w",
+    "color": "yellow",
+    "material": [ "rubber" ],
+    "copy-from": "base_toiletries",
+    "weight": "55 mg",
+    "volume": "53 ml",
+    "snippet_category": [
+      { "id": "btoy1", "text": "A plastic floating bath toy." },
+      { "id": "btoy2", "text": "A yellow rubber duck.  Designed to dropped in the bath." },
+      { "id": "btoy3", "text": "A black rubber duck with large white eyes.  Designed to dropped in the bath." },
+      { "id": "btoy4", "text": "A small green dinosaur with a wide grin.  Designed for bath time." }
+    ]
+  },
+  {
+    "id": "toothbrush_electric",
+    "name": { "str": "electric toothbrush", "str_pl": "electric toothbrushes" },
+    "type": "GENERIC",
+    "description": "A plastic electric toothbrush.",
+    "symbol": "/",
+    "material": [ "plastic" ],
+    "copy-from": "base_toiletries",
+    "weight": "140 g",
+    "volume": "107 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "bottle_bathroom",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "plastic bottle" },
+    "description": "A squeezable used bottle to hold various bathroom soaps",
+    "weight": "130 g",
+    "volume": "502 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "1250 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 400
+      }
+    ],
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": 1,
+    "material": [ "plastic" ],
+    "ascii_picture": "plastic_bottle",
+    "symbol": ")",
+    "color": "light_cyan",
+    "snippet_category": [
+      { "id": "bbottle_1", "text": "A bottle for special shampoo for dyed hair." },
+      { "id": "bbottle_2", "text": "A plain white bottle made to contain the cheapest shampoo." },
+      { "id": "bbottle_3", "text": "A bottle for body wash.  This one is called 'Afrika'." },
+      { "id": "bbottle_4", "text": "A bottle for hair conditioner." },
+      { "id": "bbottle_5", "text": "A colorful bottle of body and hair wash marketed for children." },
+      { "id": "bbottle_6", "text": "A plain white bottle made to contain the cheapest shampoo." },
+      { "id": "bbottle_7", "text": "A plain white bottle made to contain the cheapest hair conditioner." },
+      { "id": "bbottle_8", "text": "A plain white bottle made to contain the cheapest shower jell." }
+    ]
+  },
+  {
+    "id": "dentures",
+    "name": { "str": "set of dentures", "str_pl": "sets of dentures" },
+    "type": "GENERIC",
+    "description": "A standard set of prosthetic teeth.  Pretty useless to anyone aside from its owner.",
+    "symbol": "c",
+    "material": [ "plastic" ],
+    "color": "pink",
+    "weight": "124 mg",
+    "volume": "5 ml",
+    "copy-from": "base_toiletries"
   }
 ]

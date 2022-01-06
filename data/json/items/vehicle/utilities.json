@@ -37,7 +37,7 @@
     "type": "GENERIC",
     "id": "mountable_cooler",
     "name": { "str": "vehicle cooler" },
-    "description": "A vehicle-mounted area cooler.",
+    "description": "A vehicle-mounted area cooler.  Install a muffler in another part of the vehicle to direct the exhaust heat to that location.",
     "weight": "12500 g",
     "to_hit": -4,
     "color": "light_cyan",
@@ -64,6 +64,18 @@
     "category": "veh_parts",
     "price": 20000,
     "price_postapoc": 1500
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "mountable_heater",
+    "id": "mountable_heater_small",
+    "name": { "str": "small vehicle heater" },
+    "description": "A small vehicle-mounted area heater.",
+    "weight": "6000 g",
+    "bashing": 3,
+    "volume": "3750 ml",
+    "price": 10000,
+    "price_postapoc": 750
   },
   {
     "type": "GENERIC",

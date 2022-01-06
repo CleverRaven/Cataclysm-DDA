@@ -25,6 +25,10 @@
 #include "value_ptr.h"
 
 
+static const flag_id json_flag_COLD( "COLD" );
+static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_HOT( "HOT" );
+
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_duffelbag( "test_duffelbag" );
 static const itype_id itype_test_mp3( "test_mp3" );
@@ -53,11 +57,11 @@ TEST_CASE( "item_volume", "[item]" )
 
 TEST_CASE( "simple_item_layers", "[item]" )
 {
-    CHECK( item( "arm_warmers" ).get_layer() == layer_level::UNDERWEAR );
-    CHECK( item( "10gal_hat" ).get_layer() == layer_level::REGULAR );
-    CHECK( item( "baldric" ).get_layer() == layer_level::WAIST );
-    CHECK( item( "armor_lightplate" ).get_layer() == layer_level::OUTER );
-    CHECK( item( "2byarm_guard" ).get_layer() == layer_level::BELTED );
+    CHECK( item( "arm_warmers" ).get_layer().front() == layer_level::UNDERWEAR );
+    CHECK( item( "10gal_hat" ).get_layer().front() == layer_level::REGULAR );
+    CHECK( item( "baldric" ).get_layer().front() == layer_level::WAIST );
+    CHECK( item( "armor_lightplate" ).get_layer().front() == layer_level::OUTER );
+    CHECK( item( "legrig" ).get_layer().front() == layer_level::BELTED );
 }
 
 TEST_CASE( "gun_layer", "[item]" )
@@ -66,7 +70,7 @@ TEST_CASE( "gun_layer", "[item]" )
     item mod( "shoulder_strap" );
     CHECK( gun.is_gunmod_compatible( mod ).success() );
     gun.put_in( mod, item_pocket::pocket_type::MOD );
-    CHECK( gun.get_layer() == layer_level::BELTED );
+    CHECK( gun.get_layer().front() == layer_level::BELTED );
 }
 
 TEST_CASE( "stacking_cash_cards", "[item]" )
@@ -190,13 +194,13 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
     liquid_hot.heat_up(); // 60 C (333.15 K)
     liquid_cold.cold_up(); // 3 C (276.15 K)
     liquid_filthy.cold_up(); // 3 C (276.15 K)
-    liquid_filthy.set_flag( flag_id( "FILTHY" ) );
+    liquid_filthy.set_flag( json_flag_FILTHY );
 
     // Temperature is in terms of 0.000001 K
     REQUIRE( std::floor( liquid_hot.temperature / 100000 ) == 333 );
     REQUIRE( std::floor( liquid_cold.temperature / 100000 ) == 276 );
-    REQUIRE( liquid_hot.has_flag( flag_id( "HOT" ) ) );
-    REQUIRE( liquid_cold.has_flag( flag_id( "COLD" ) ) );
+    REQUIRE( liquid_hot.has_flag( json_flag_HOT ) );
+    REQUIRE( liquid_cold.has_flag( json_flag_COLD ) );
 
     SECTION( "liquids at the same temperature can stack together" ) {
         CHECK( liquid_cold.stacks_with( liquid_cold ) );

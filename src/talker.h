@@ -8,6 +8,7 @@
 #include "units_fwd.h"
 #include <list>
 
+class computer;
 class faction;
 class item;
 class item_location;
@@ -33,7 +34,7 @@ class talker
         virtual Character *get_character() {
             return nullptr;
         }
-        virtual Character *get_character() const {
+        virtual const Character *get_character() const {
             return nullptr;
         }
         virtual npc *get_npc() {
@@ -57,7 +58,13 @@ class talker
         virtual Creature *get_creature() {
             return nullptr;
         }
-        virtual Creature *get_creature() const {
+        virtual const Creature *get_creature() const {
+            return nullptr;
+        }
+        virtual computer *get_computer() {
+            return nullptr;
+        }
+        virtual const computer *get_computer() const {
             return nullptr;
         }
         // identity and location
@@ -125,16 +132,16 @@ class talker
         virtual void set_dex_max( int ) {}
         virtual void set_int_max( int ) {}
         virtual void set_per_max( int ) {}
-        virtual int get_str_max() {
+        virtual int get_str_max() const {
             return 0;
         }
-        virtual int get_dex_max() {
+        virtual int get_dex_max() const {
             return 0;
         }
-        virtual int get_int_max() {
+        virtual int get_int_max() const {
             return 0;
         }
-        virtual int get_per_max() {
+        virtual int get_per_max() const {
             return 0;
         }
         virtual int get_skill_level( const skill_id & ) const {
@@ -169,6 +176,12 @@ class talker
             return false;
         }
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::vector<skill_id> skills_teacheable() const {
+            return {};
+        }
+        virtual std::string skill_seminar_text( const skill_id & ) const {
             return {};
         }
         virtual std::string skill_training_text( const talker &, const skill_id & ) const {
@@ -260,6 +273,10 @@ class talker
         }
         virtual void add_sold( int ) {}
         virtual std::vector<item *> items_with( const std::function<bool( const item & )> & ) const {
+            return {};
+        }
+        virtual std::vector<const item *> const_items_with( const std::function<bool( const item & )> & )
+        const {
             return {};
         }
         virtual void i_add( const item & ) {}

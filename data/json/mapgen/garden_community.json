@@ -62,7 +62,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "communitygarden",
+    "om_terrain": "communitygarden_2",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -114,7 +114,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "communitygarden",
+    "om_terrain": "communitygarden_3",
     "type": "mapgen",
     "weight": 100,
     "object": {

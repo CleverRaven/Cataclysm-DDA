@@ -294,6 +294,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_stag_beetle",
+    "name": { "str": "stag beetle egg" },
+    "copy-from": "egg_insect",
+    "color": "brown",
+    "symbol": "o",
+    "spoils_in": "20 days",
+    "proportional": { "weight": 5, "calories": 5, "volume": 5 },
+    "vitamins": [ [ "vitA", 95 ], [ "calcium", 35 ], [ "iron", 90 ], [ "vitB", 330 ], [ "mutant_toxin", 125 ] ],
+    "description": "A huge translucent beetle egg.  You can see a larva slowly squirming inside, contorting uncomfortably outside of the soil.",
+    "rot_spawn": "GROUP_EGG_STAG_BEETLE",
+    "rot_spawn_chance": 100
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_antlion",
     "name": { "str": "antlion egg" },
     "copy-from": "egg_insect",
@@ -431,6 +445,26 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "rehydrated_eggs",
+    "copy-from": "egg_bird",
+    "name": { "str": "rehydrated egg" },
+    "weight": "50 g",
+    "color": "yellow",
+    "symbol": "%",
+    "looks_like": "powder_egg",
+    "quench": 2,
+    "calories": 80,
+    "description": "Rehydrated eggs.  You can use it instead of an egg when cooking, provided you don't care that it has lost its complete shape.",
+    "price": 22,
+    "price_postapoc": 25,
+    "material": [ "egg" ],
+    "volume": "50 ml",
+    "flags": [  ],
+    "fun": -2,
+    "vitamins": [ [ "vitB", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "scrambled_eggs",
     "name": { "str_sp": "scrambled eggs" },
     "copy-from": "egg_chicken",
@@ -459,6 +493,21 @@
     "price_postapoc": 50,
     "material": [ "egg" ],
     "fun": 2,
+    "flags": [ "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_salad",
+    "name": { "str": "egg salad" },
+    "copy-from": "boiled_egg",
+    "color": "white",
+    "symbol": "o",
+    "quench": 2,
+    "description": "Hard-boiled eggs, mixed into a salad.  Can be made into a sandwich!",
+    "price": 95,
+    "price_postapoc": 50,
+    "material": [ "egg" ],
+    "fun": 4,
     "flags": [ "FREEZERBURN" ]
   },
   {
@@ -526,6 +575,38 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "fried_egg_sandwich_wheat_free",
+    "name": { "str_sp": "wheat-free fried egg sandwich" },
+    "copy-from": "scrambled_eggs",
+    "color": "yellow",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 422,
+    "description": "Sunny-side up eggs fried with a runny yolk and just a bit of crisp on the edges.  Made into a sandwich with wheat-free bread, just like Sunday morning.",
+    "price": 500,
+    "price_postapoc": 120,
+    "material": [ "egg", "veggy" ],
+    "fun": 4,
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "deluxe_fried_egg_sandwich_wheat_free",
+    "name": { "str_sp": "wheat-free deluxe fried egg sandwich" },
+    "copy-from": "scrambled_eggs",
+    "color": "yellow",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 422,
+    "description": "Deluxe sunny-side up eggs fried with a runny yolk and just a bit of crisp on the edges.  Made into a sandwich with wheat-free bread, just like Sunday morning.",
+    "price": 500,
+    "price_postapoc": 120,
+    "material": [ "egg", "veggy" ],
+    "fun": 12,
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "pickled_egg",
     "name": { "str": "pickled egg" },
     "copy-from": "egg_chicken",
@@ -539,5 +620,15 @@
     "material": [ "egg" ],
     "fun": 2,
     "flags": [ "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "copy-from": "egg_chicken",
+    "weight": "20 g",
+    "volume": "650 ml",
+    "description": "A large clump of the eggs of a frog.  The eggs themselves are gelatinous and transparent.",
+    "rot_spawn": "GROUP_EGG_FROG"
   }
 ]

@@ -47,30 +47,33 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "GM security drone" },
-    "description": "A small drone, it has a camera and speaker visible.",
+    "description": "A small quadcopter drone, it has a camera and speaker visible.  It patrols the surrounding area in a regular manner, continuously scanning individuals it encounters even if there is hardly anything left of them.",
     "diff": 2,
     "speed": 190,
     "color": "light_green",
-    "hp": 500,
-    "melee_cut": 12,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
         "type": "spell",
         "spell_data": { "id": "green_maintenance_check" },
-        "cooldown": 5,
+        "cooldown": 20,
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
     "revert_to_itype": "bot_lab_security_drone_GM",
-    "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ],
+    "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" }
   },
   {
     "id": "yellow_maintenance_check",
     "type": "SPELL",
-    "name": { "str": "Yellow maintenance Badge Trait" },
+    "name": { "str": "ocher Maintenance Badge Trait" },
+    "//": "reanamed player facing name to ocher.",
     "description": "Adds trait for badge check",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],
@@ -108,13 +111,15 @@
     "id": "mon_lab_security_drone_YM",
     "copy-from": "base_drone",
     "type": "MONSTER",
-    "name": { "str": "YM security drone" },
-    "description": "A small drone, it has a camera and speaker visible.",
+    "name": { "str": "OM security drone" },
+    "description": "A small quadcopter drone, it has a camera and speaker visible.  It patrols the surrounding area in a regular manner, continuously scanning individuals it encounters even if there is hardly anything left of them.",
     "diff": 2,
     "speed": 190,
     "color": "yellow",
-    "hp": 500,
-    "melee_cut": 12,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -125,7 +130,7 @@
       }
     ],
     "revert_to_itype": "bot_manhack",
-    "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ],
+    "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" }
   },
@@ -171,12 +176,14 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "BM security drone" },
-    "description": "A small drone, it has a camera and speaker visible.",
+    "description": "A small quadcopter drone, it has a camera and speaker visible.  It patrols the surrounding area in a regular manner, continuously scanning individuals it encounters even if there is hardly anything left of them.",
     "diff": 2,
     "speed": 190,
     "color": "blue",
-    "hp": 500,
-    "melee_cut": 12,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -187,7 +194,7 @@
       }
     ],
     "revert_to_itype": "bot_manhack",
-    "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ],
+    "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" }
   },
@@ -259,12 +266,14 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "BM security drone" },
-    "description": "A small drone, it has a camera and speaker visible.",
+    "description": "A small quadcopter drone, it has a camera and speaker visible.  It patrols the surrounding area in a regular manner, continuously scanning individuals it encounters even if there is hardly anything left of them.",
     "diff": 2,
     "speed": 190,
     "color": "cyan",
-    "hp": 500,
-    "melee_cut": 12,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -275,14 +284,14 @@
       }
     ],
     "revert_to_itype": "bot_manhack",
-    "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ],
+    "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" }
   },
   {
     "id": "green_researcher_check",
     "type": "SPELL",
-    "name": { "str": "Green researcher Badge Trait" },
+    "name": { "str": "Light Green researcher Badge Trait" },
     "description": "Adds trait for badge check",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],
@@ -318,14 +327,14 @@
     ]
   },
   {
-    "//": "Opens bot release if you lack a green researcher ID card.",
+    "//": "Opens bot release if you lack a light green researcher ID card.",
     "type": "mapgen",
     "update_mapgen_id": "bot_release_rearcher_green",
     "method": "json",
     "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 19, "y": 15, "x2": 19, "y2": 16 } ] }
   },
   {
-    "//": "Opens bot release if you lack a green researcher ID card.",
+    "//": "Opens bot release if you lack a light green researcher ID card.",
     "type": "mapgen",
     "update_mapgen_id": "bot_release_rearcher_green_2",
     "method": "json",
@@ -335,13 +344,15 @@
     "id": "mon_lab_security_drone_GR",
     "copy-from": "base_drone",
     "type": "MONSTER",
-    "name": { "str": "GR security drone" },
-    "description": "A small drone, it has a camera and speaker visible.",
+    "name": { "str": "LGR security drone" },
+    "description": "A small quadcopter drone, it has a camera and speaker visible.  It patrols the surrounding area in a regular manner, continuously scanning individuals it encounters even if there is hardly anything left of them.",
     "diff": 2,
     "speed": 190,
     "color": "light_green",
-    "hp": 500,
-    "melee_cut": 12,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -352,7 +363,7 @@
       }
     ],
     "revert_to_itype": "bot_lab_security_drone_GR",
-    "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ],
+    "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" }
   },
@@ -439,12 +450,14 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "BS security drone" },
-    "description": "A small drone, it has a camera and speaker visible.",
+    "description": "A small quadcopter drone, it has a camera and speaker visible.  It patrols the surrounding area in a regular manner, continuously scanning individuals it encounters even if there is hardly anything left of them.",
     "diff": 2,
     "speed": 190,
     "color": "dark_gray",
-    "hp": 500,
-    "melee_cut": 12,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "armor_bullet": 6,
     "default_faction": "science",
     "special_attacks": [
       {
@@ -455,7 +468,7 @@
       }
     ],
     "revert_to_itype": "bot_lab_security_drone_BS",
-    "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ],
+    "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" }
   }

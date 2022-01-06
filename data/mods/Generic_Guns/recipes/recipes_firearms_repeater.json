@@ -72,7 +72,7 @@
     "time": "3 h",
     "autolearn": true,
     "book_learn": [ [ "manual_pistol", 6 ] ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "GLARE", "level": 2 } ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "GLARE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_antique" } ],
     "using": [ [ "blacksmithing_standard", 4 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],

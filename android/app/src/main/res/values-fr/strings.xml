@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="installTitle">Installation des données de jeu ...</string>
+    <string name="softwareRendering">Rendu logiciel</string>
+    <string name="forceFullscreen">Forcer plein écran</string>
+    <string name="settings">Réglages</string>
+    <string name="startGame">Démarrer le jeu</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="cancel">Annuler</string>
+    </resources>

@@ -2,14 +2,102 @@
 
 #include "player_helpers.h"
 #include "morale.h"
+#include "options_helpers.h"
+#include "weather.h"
+#include "weather_type.h"
 #include "widget.h"
 
+// Needed for screen scraping
+#if !(defined(TILES) || defined(_WIN32))
+namespace cata_curses_test
+{
+#define NCURSES_NOMACROS
+#if defined(__CYGWIN__)
+#include <ncurses/curses.h>
+#else
+#include <curses.h>
+#endif
+}
+#else
+#include "cursesport.h"
+#endif
+
+static const itype_id itype_rad_badge( "rad_badge" );
+
+static const weather_type_id weather_acid_rain( "acid_rain" );
+static const weather_type_id weather_cloudy( "cloudy" );
+static const weather_type_id weather_drizzle( "drizzle" );
+static const weather_type_id weather_portal_storm( "portal_storm" );
+static const weather_type_id weather_snowing( "snowing" );
+static const weather_type_id weather_sunny( "sunny" );
+
 // test widgets defined in data/json/sidebar.json and data/mods/TEST_DATA/widgets.json
+static const widget_id widget_test_2_column_layout( "test_2_column_layout" );
+static const widget_id widget_test_3_column_layout( "test_3_column_layout" );
+static const widget_id widget_test_4_column_layout( "test_4_column_layout" );
+static const widget_id widget_test_bp_wetness_head_num( "test_bp_wetness_head_num" );
+static const widget_id widget_test_bp_wetness_torso_num( "test_bp_wetness_torso_num" );
+static const widget_id widget_test_bucket_graph( "test_bucket_graph" );
+static const widget_id widget_test_color_graph_10k_widget( "test_color_graph_10k_widget" );
+static const widget_id widget_test_color_graph_widget( "test_color_graph_widget" );
+static const widget_id widget_test_color_number_widget( "test_color_number_widget" );
+static const widget_id widget_test_dex_num( "test_dex_num" );
+static const widget_id widget_test_focus_num( "test_focus_num" );
+static const widget_id widget_test_hp_head_graph( "test_hp_head_graph" );
+static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
+static const widget_id widget_test_int_num( "test_int_num" );
+static const widget_id widget_test_mana_num( "test_mana_num" );
+static const widget_id widget_test_morale_num( "test_morale_num" );
+static const widget_id widget_test_move_num( "test_move_num" );
+static const widget_id widget_test_per_num( "test_per_num" );
+static const widget_id widget_test_pool_graph( "test_pool_graph" );
+static const widget_id widget_test_rad_badge_text( "test_rad_badge_text" );
+static const widget_id widget_test_speed_num( "test_speed_num" );
+static const widget_id widget_test_stamina_graph( "test_stamina_graph" );
+static const widget_id widget_test_stamina_num( "test_stamina_num" );
+static const widget_id widget_test_stat_panel( "test_stat_panel" );
+static const widget_id widget_test_str_num( "test_str_num" );
+static const widget_id widget_test_text_widget( "test_text_widget" );
+static const widget_id widget_test_weariness_num( "test_weariness_num" );
+static const widget_id widget_test_weather_text( "test_weather_text" );
+static const widget_id widget_test_weather_text_height5( "test_weather_text_height5" );
+
+// dseguin 2022 - Ugly hack to scrape content from the window object.
+// Scrapes the window w at origin, reading the number of cols and rows.
+static std::vector<std::string> scrape_win_at(
+    catacurses::window &w, const point &origin, int cols, int rows )
+{
+    std::vector<std::string> lines;
+
+#if defined(TILES) || defined(_WIN32)
+    cata_cursesport::WINDOW *win = static_cast<cata_cursesport::WINDOW *>( w.get() );
+
+    for( int i = origin.y; i < rows && static_cast<size_t>( i ) < win->line.size(); i++ ) {
+        lines.emplace_back( std::string() );
+        for( int j = origin.x; j < cols && static_cast<size_t>( j ) < win->line[i].chars.size(); j++ ) {
+            lines[i] += win->line[i].chars[j].ch;
+        }
+    }
+#else
+    cata_curses_test::WINDOW *win = static_cast<cata_curses_test::WINDOW *>( w.get() );
+
+    int max_y = catacurses::getmaxy( w );
+    for( int i = origin.y; i < rows && i < max_y; i++ ) {
+        wchar_t *buf = static_cast<wchar_t *>( ::malloc( sizeof( *buf ) * ( cols + 1 ) ) );
+        cata_curses_test::mvwinnwstr( win, i, origin.x, buf, cols );
+        std::wstring line( buf, static_cast<size_t>( cols ), std::allocator<wchar_t>() );
+        lines.emplace_back( std::string( line.begin(), line.end() ) );
+        ::free( buf );
+    }
+#endif
+
+    return lines;
+}
 
 TEST_CASE( "widget value strings", "[widget][value][string]" )
 {
     SECTION( "numeric values" ) {
-        widget focus = widget_id( "test_focus_num" ).obj();
+        widget focus = widget_test_focus_num.obj();
         REQUIRE( focus._style == "number" );
         CHECK( focus.value_string( 0 ) == "0" );
         CHECK( focus.value_string( 50 ) == "50" );
@@ -17,7 +105,7 @@ TEST_CASE( "widget value strings", "[widget][value][string]" )
     }
 
     SECTION( "graph values with bucket fill" ) {
-        widget head = widget_id( "test_hp_head_graph" ).obj();
+        widget head = widget_test_hp_head_graph.obj();
         REQUIRE( head._style == "graph" );
         REQUIRE( head._fill == "bucket" );
         // Buckets of width 5 with 2 nonzero symbols can show 10 values
@@ -45,7 +133,7 @@ TEST_CASE( "widget value strings", "[widget][value][string]" )
     }
 
     SECTION( "graph values with pool fill" ) {
-        widget stamina = widget_id( "test_stamina_graph" ).obj();
+        widget stamina = widget_test_stamina_graph.obj();
         REQUIRE( stamina._style == "graph" );
         REQUIRE( stamina._fill == "pool" );
         // Pool of width 20 with 2 nonzero symbols can show 20 values
@@ -77,7 +165,7 @@ TEST_CASE( "widget value strings", "[widget][value][string]" )
 TEST_CASE( "widgets", "[widget][graph][color]" )
 {
     SECTION( "text widgets" ) {
-        widget words = widget_id( "test_text_widget" ).obj();
+        widget words = widget_test_text_widget.obj();
         REQUIRE( words._style == "text" );
 
         CHECK( words.text( 0 ) == "Zero" );
@@ -94,7 +182,7 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
     }
 
     SECTION( "number widget with color" ) {
-        widget colornum = widget_id( "test_color_number_widget" ).obj();
+        widget colornum = widget_test_color_number_widget.obj();
         REQUIRE( colornum._style == "number" );
         REQUIRE( colornum._colors.size() == 3 );
         REQUIRE( colornum._var_max == 2 );
@@ -107,7 +195,7 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
     }
 
     SECTION( "graph widget with color" ) {
-        widget colornum = widget_id( "test_color_graph_widget" ).obj();
+        widget colornum = widget_test_color_graph_widget.obj();
         REQUIRE( colornum._style == "graph" );
         REQUIRE( colornum._colors.size() == 4 );
         REQUIRE( colornum._var_max == 10 );
@@ -128,7 +216,7 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
         CHECK( colornum.color_value_string( 11 ) == "<color_c_green>#####</color>" );
 
         // Long / large var graph
-        widget graph10k = widget_id( "test_color_graph_10k_widget" ).obj();
+        widget graph10k = widget_test_color_graph_10k_widget.obj();
         REQUIRE( graph10k._style == "graph" );
         REQUIRE( graph10k._colors.size() == 5 );
         REQUIRE( graph10k._var_max == 10000 );
@@ -142,7 +230,7 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
 
     SECTION( "graph widgets" ) {
         SECTION( "bucket fill" ) {
-            widget wid = widget_id( "test_bucket_graph" ).obj();
+            widget wid = widget_test_bucket_graph.obj();
             REQUIRE( wid._style == "graph" );
             REQUIRE( wid._fill == "bucket" );
 
@@ -161,7 +249,7 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
             CHECK( wid.graph( 12 ) == "3333" );
         }
         SECTION( "pool fill" ) {
-            widget wid = widget_id( "test_pool_graph" ).obj();
+            widget wid = widget_test_pool_graph.obj();
             REQUIRE( wid._style == "graph" );
             REQUIRE( wid._fill == "pool" );
 
@@ -182,7 +270,7 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
     }
 
     SECTION( "graph hit points" ) {
-        widget wid = widget_id( "test_hp_head_graph" ).obj();
+        widget wid = widget_test_hp_head_graph.obj();
         REQUIRE( wid._fill == "bucket" );
 
         CHECK( wid._label.translated() == "HEAD" );
@@ -206,10 +294,10 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
     clear_avatar();
 
     SECTION( "base stats str / dex / int / per" ) {
-        widget str_w = widget_id( "test_str_num" ).obj();
-        widget dex_w = widget_id( "test_dex_num" ).obj();
-        widget int_w = widget_id( "test_int_num" ).obj();
-        widget per_w = widget_id( "test_per_num" ).obj();
+        widget str_w = widget_test_str_num.obj();
+        widget dex_w = widget_test_dex_num.obj();
+        widget int_w = widget_test_int_num.obj();
+        widget per_w = widget_test_per_num.obj();
 
         ava.str_max = 8;
         ava.dex_max = 10;
@@ -223,8 +311,8 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
     }
 
     SECTION( "stamina" ) {
-        widget stamina_num_w = widget_id( "test_stamina_num" ).obj();
-        widget stamina_graph_w = widget_id( "test_stamina_graph" ).obj();
+        widget stamina_num_w = widget_test_stamina_num.obj();
+        widget stamina_graph_w = widget_test_stamina_graph.obj();
         REQUIRE( stamina_graph_w._fill == "pool" );
         REQUIRE( stamina_graph_w._symbols == "-=#" );
 
@@ -246,7 +334,7 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
     }
 
     SECTION( "speed pool" ) {
-        widget speed_w = widget_id( "test_speed_num" ).obj();
+        widget speed_w = widget_test_speed_num.obj();
 
         ava.set_speed_base( 90 );
         CHECK( speed_w.layout( ava ) == "SPEED: 90" );
@@ -255,7 +343,7 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
     }
 
     SECTION( "focus pool" ) {
-        widget focus_w = widget_id( "test_focus_num" ).obj();
+        widget focus_w = widget_test_focus_num.obj();
 
         ava.set_focus( 75 );
         CHECK( focus_w.layout( ava ) == "FOCUS: 75" );
@@ -264,7 +352,7 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
     }
 
     SECTION( "mana pool" ) {
-        widget mana_w = widget_id( "test_mana_num" ).obj();
+        widget mana_w = widget_test_mana_num.obj();
 
         ava.magic->set_mana( 150 );
         CHECK( mana_w.layout( ava ) == "MANA: 150" );
@@ -273,7 +361,7 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
     }
 
     SECTION( "morale" ) {
-        widget morale_w = widget_id( "test_morale_num" ).obj();
+        widget morale_w = widget_test_morale_num.obj();
 
         ava.clear_morale();
         CHECK( morale_w.layout( ava ) == "MORALE: 0" );
@@ -286,7 +374,7 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
     }
 
     SECTION( "move counter" ) {
-        widget move_w = widget_id( "test_move_num" ).obj();
+        widget move_w = widget_test_move_num.obj();
 
         ava.movecounter = 80;
         CHECK( move_w.layout( ava ) == "MOVE: 80" );
@@ -296,8 +384,8 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
 
     SECTION( "hit points" ) {
         bodypart_id head( "head" );
-        widget head_num_w = widget_id( "test_hp_head_num" ).obj();
-        widget head_graph_w = widget_id( "test_hp_head_graph" ).obj();
+        widget head_num_w = widget_test_hp_head_num.obj();
+        widget head_graph_w = widget_test_hp_head_graph.obj();
         REQUIRE( ava.get_part_hp_max( head ) == 84 );
         REQUIRE( ava.get_part_hp_cur( head ) == 84 );
 
@@ -317,38 +405,278 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
     }
 
     SECTION( "weariness" ) {
-        widget weariness_w = widget_id( "test_weariness_num" ).obj();
+        widget weariness_w = widget_test_weariness_num.obj();
 
         CHECK( weariness_w.layout( ava ) == "WEARINESS: 0" );
         // TODO: Check weariness set to other levels
     }
 
     SECTION( "wetness" ) {
-        widget head_wetness_w = widget_id( "test_bp_wetness_head_num" ).obj();
-        widget torso_wetness_w = widget_id( "test_bp_wetness_torso_num" ).obj();
+        widget head_wetness_w = widget_test_bp_wetness_head_num.obj();
+        widget torso_wetness_w = widget_test_bp_wetness_torso_num.obj();
 
         CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 0" );
         CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 0" );
-        ava.drench( 100, { bodypart_str_id( "head" ), bodypart_str_id( "torso" ) }, false );
+        ava.drench( 100, { body_part_head, body_part_torso }, false );
         CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 2" );
         CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 2" );
     }
 }
 
-TEST_CASE( "layout widgets", "[widget][layout]" )
+TEST_CASE( "radiation badge widget", "[widget][radiation]" )
 {
-    widget stats_w = widget_id( "test_stat_panel" ).obj();
+    widget rads_w = widget_test_rad_badge_text.obj();
 
     avatar &ava = get_avatar();
     clear_avatar();
 
-    CHECK( stats_w.layout( ava, 32 ) ==
-           string_format( "STR: 8  DEX: 8  INT: 8  PER:   8" ) );
-    CHECK( stats_w.layout( ava, 38 ) ==
-           string_format( "STR:   8  DEX:   8  INT:  8  PER:    8" ) );
-    CHECK( stats_w.layout( ava, 40 ) ==
-           string_format( "STR:   8  DEX:   8  INT:   8  PER:     8" ) );
-    CHECK( stats_w.layout( ava, 42 ) ==
-           string_format( "STR:    8  DEX:    8  INT:   8  PER:     8" ) );
+    // No indicator when character has no radiation badge
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_light_gray>Unknown</color>" );
+
+    // Acquire and wear a radiation badge
+    item &rad_badge = ava.i_add( item( itype_rad_badge ) );
+    ava.worn.emplace_back( rad_badge );
+
+    // Color indicator is shown when character has radiation badge
+    rad_badge.irradiation = 0;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_white_green> green </color>" );
+    // Any positive value turns it blue
+    rad_badge.irradiation = 1;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
+    rad_badge.irradiation = 29;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
+    rad_badge.irradiation = 31;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_i_yellow> yellow </color>" );
+    rad_badge.irradiation = 61;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_yellow> orange </color>" );
+    rad_badge.irradiation = 121;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
+    rad_badge.irradiation = 241;
+    CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
 }
 
+// Widgets with "layout" style can combine other widgets in columns or rows.
+//
+// Using "arrange": "columns", width is divided as equally as possible among widgets.
+// With C columns, (C-1)*2 characters are allotted for space between columns (__):
+//
+//     C=2: FIRST__SECOND
+//     C=3: FIRST__SECOND__THIRD
+//     C=4: FIRST__SECOND__THIRD__FOURTH
+//
+// So total width available to each column is:
+//
+//     (W - (C-1)*2) / C
+//
+// At 24 width, 2 columns, each column gets (24 - (2-1)*2) / 2 == 11 characters.
+// At 36 width, 2 columns, each column gets (36 - (2-1)*2) / 2 == 17 characters.
+// At 36 width, 3 columns, each column gets (36 - (3-1)*2) / 3 == 10 characters.
+//
+// This test case calls layout() at different widths for 2-, 3-, and 4-column layouts,
+// to verify and demonstrate how the space is distributed among widgets in columns.
+//
+TEST_CASE( "layout widgets in columns", "[widget][layout][columns]" )
+{
+    widget stat_w = widget_test_stat_panel.obj();
+    widget two_w = widget_test_2_column_layout.obj();
+    widget three_w = widget_test_3_column_layout.obj();
+    widget four_w = widget_test_4_column_layout.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    ava.str_max = 8;
+    ava.dex_max = 8;
+    ava.int_max = 8;
+    ava.per_max = 8;
+    ava.movecounter = 50;
+    ava.set_focus( 120 );
+    ava.set_speed_base( 100 );
+    ava.magic->set_mana( 1000 );
+
+    // Two columns
+    // string ruler:                   123456789012345678901234567890123456
+    CHECK( two_w.layout( ava, 24 ) == "MOVE:    50  SPEED:  100" );
+    CHECK( two_w.layout( ava, 25 ) == "MOVE:     50  SPEED:  100" );
+    CHECK( two_w.layout( ava, 26 ) == "MOVE:     50  SPEED:   100" );
+    CHECK( two_w.layout( ava, 27 ) == "MOVE:      50  SPEED:   100" );
+    CHECK( two_w.layout( ava, 28 ) == "MOVE:      50  SPEED:    100" );
+    CHECK( two_w.layout( ava, 29 ) == "MOVE:       50  SPEED:    100" );
+    CHECK( two_w.layout( ava, 30 ) == "MOVE:       50  SPEED:     100" );
+    CHECK( two_w.layout( ava, 31 ) == "MOVE:        50  SPEED:     100" );
+    CHECK( two_w.layout( ava, 32 ) == "MOVE:        50  SPEED:      100" );
+    CHECK( two_w.layout( ava, 33 ) == "MOVE:         50  SPEED:      100" );
+    CHECK( two_w.layout( ava, 34 ) == "MOVE:         50  SPEED:       100" );
+    CHECK( two_w.layout( ava, 35 ) == "MOVE:          50  SPEED:       100" );
+    CHECK( two_w.layout( ava, 36 ) == "MOVE:          50  SPEED:        100" );
+    // string ruler:                   123456789012345678901234567890123456
+
+    // Three columns
+    // string ruler:                     1234567890123456789012345678901234567890
+    CHECK( three_w.layout( ava, 36 ) == "MOVE:    50  SPEED:  100  FOCUS: 120" );
+    CHECK( three_w.layout( ava, 37 ) == "MOVE:    50  SPEED:  100  FOCUS:  120" );
+    CHECK( three_w.layout( ava, 38 ) == "MOVE:     50  SPEED:  100  FOCUS:  120" );
+    CHECK( three_w.layout( ava, 39 ) == "MOVE:     50  SPEED:   100  FOCUS:  120" );
+    CHECK( three_w.layout( ava, 40 ) == "MOVE:     50  SPEED:   100  FOCUS:   120" );
+    CHECK( three_w.layout( ava, 41 ) == "MOVE:      50  SPEED:   100  FOCUS:   120" );
+    CHECK( three_w.layout( ava, 42 ) == "MOVE:      50  SPEED:    100  FOCUS:   120" );
+    CHECK( three_w.layout( ava, 43 ) == "MOVE:      50  SPEED:    100  FOCUS:    120" );
+    CHECK( three_w.layout( ava, 44 ) == "MOVE:       50  SPEED:    100  FOCUS:    120" );
+    CHECK( three_w.layout( ava, 45 ) == "MOVE:       50  SPEED:     100  FOCUS:    120" );
+    CHECK( three_w.layout( ava, 46 ) == "MOVE:       50  SPEED:     100  FOCUS:     120" );
+    // string ruler:                     1234567890123456789012345678901234567890123456
+
+    // Four columns
+    // string ruler:                    123456789012345678901234567890123456789012
+    CHECK( stat_w.layout( ava, 32 ) == "STR:  8  DEX:  8  INT: 8  PER: 8" );
+    CHECK( stat_w.layout( ava, 33 ) == "STR:  8  DEX:  8  INT:  8  PER: 8" );
+    CHECK( stat_w.layout( ava, 34 ) == "STR:  8  DEX:  8  INT:  8  PER:  8" );
+    CHECK( stat_w.layout( ava, 35 ) == "STR:   8  DEX:  8  INT:  8  PER:  8" );
+    CHECK( stat_w.layout( ava, 36 ) == "STR:   8  DEX:   8  INT:  8  PER:  8" );
+    CHECK( stat_w.layout( ava, 37 ) == "STR:   8  DEX:   8  INT:   8  PER:  8" );
+    CHECK( stat_w.layout( ava, 38 ) == "STR:   8  DEX:   8  INT:   8  PER:   8" );
+    CHECK( stat_w.layout( ava, 39 ) == "STR:    8  DEX:   8  INT:   8  PER:   8" );
+    CHECK( stat_w.layout( ava, 40 ) == "STR:    8  DEX:    8  INT:   8  PER:   8" );
+    CHECK( stat_w.layout( ava, 41 ) == "STR:    8  DEX:    8  INT:    8  PER:   8" );
+    CHECK( stat_w.layout( ava, 42 ) == "STR:    8  DEX:    8  INT:    8  PER:    8" );
+    CHECK( stat_w.layout( ava, 43 ) == "STR:     8  DEX:    8  INT:    8  PER:    8" );
+    CHECK( stat_w.layout( ava, 44 ) == "STR:     8  DEX:     8  INT:    8  PER:    8" );
+    CHECK( stat_w.layout( ava, 45 ) == "STR:     8  DEX:     8  INT:     8  PER:    8" );
+    CHECK( stat_w.layout( ava, 46 ) == "STR:     8  DEX:     8  INT:     8  PER:     8" );
+    // string ruler:                    1234567890123456789012345678901234567890123456
+
+    // Column alignment
+    // Layout keeps labels vertically aligned for layouts with the same number of widgets
+    // string ruler:                    123456789012345678901234567890123456789012345678
+    CHECK( stat_w.layout( ava, 48 ) == "STR:      8  DEX:      8  INT:     8  PER:     8" );
+    CHECK( four_w.layout( ava, 48 ) == "MOVE:    50  SPEED:  100  FOCUS: 120  MANA: 1000" );
+
+    // string ruler:                    1234567890123456789012345678901234567890123456789012
+    CHECK( stat_w.layout( ava, 52 ) == "STR:       8  DEX:       8  INT:      8  PER:      8" );
+    CHECK( four_w.layout( ava, 52 ) == "MOVE:     50  SPEED:   100  FOCUS:  120  MANA:  1000" );
+
+    // string ruler:                    12345678901234567890123456789012345678901234567890123456
+    CHECK( stat_w.layout( ava, 56 ) == "STR:        8  DEX:        8  INT:       8  PER:       8" );
+    CHECK( four_w.layout( ava, 56 ) == "MOVE:      50  SPEED:    100  FOCUS:   120  MANA:   1000" );
+
+    // string ruler:                    123456789012345678901234567890123456789012345678901234567890
+    CHECK( stat_w.layout( ava, 60 ) == "STR:         8  DEX:         8  INT:        8  PER:        8" );
+    CHECK( four_w.layout( ava, 60 ) == "MOVE:       50  SPEED:     100  FOCUS:    120  MANA:    1000" );
+
+    // TODO: Consider re-distributing space so values are closer to labels, like this:
+    // 48 width
+    //     "STR: 8      DEX: 8      INT: 8      PER: 8      "
+    //     "MOVE: 0     SPEED: 100  FOCUS: 100  MANA: 1000  "
+    // 60 width
+    //     "STR: 8         DEX: 8         INT: 8         PER: 8         "
+    //     "MOVE: 0        SPEED: 100     FOCUS: 100     MANA: 1000     "
+}
+
+TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
+{
+    widget weather_w = widget_test_weather_text.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "weather conditions" ) {
+        SECTION( "sunny" ) {
+            scoped_weather_override forecast( weather_sunny );
+            REQUIRE( get_weather().weather_id->name.translated() == "Sunny" );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_cyan>Sunny</color>" );
+        }
+
+        SECTION( "cloudy" ) {
+            scoped_weather_override forecast( weather_cloudy );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Cloudy</color>" );
+        }
+
+        SECTION( "drizzle" ) {
+            scoped_weather_override forecast( weather_drizzle );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_blue>Drizzle</color>" );
+        }
+
+        SECTION( "snowing" ) {
+            scoped_weather_override forecast( weather_snowing );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_white>Snowing</color>" );
+        }
+
+        SECTION( "acid rain" ) {
+            scoped_weather_override forecast( weather_acid_rain );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_green>Acid Rain</color>" );
+        }
+
+        SECTION( "portal storm" ) {
+            scoped_weather_override forecast( weather_portal_storm );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_red>Portal Storm</color>" );
+        }
+
+        SECTION( "cannot see weather when underground" ) {
+            ava.setpos( tripoint_below );
+            CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
+        }
+    }
+}
+
+TEST_CASE( "Custom widget height and multiline formatting", "[widget]" )
+{
+    const int cols = 32;
+    const int rows = 5;
+    widget height1 = widget_test_weather_text.obj();
+    widget height5 = widget_test_weather_text_height5.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+    scoped_weather_override forcast( weather_sunny );
+
+    SECTION( "Height field does not impact text content" ) {
+        std::string layout1 = height1.layout( ava );
+        std::string layout5 = height5.layout( ava );
+        CHECK( height1._height == 1 );
+        CHECK( height5._height == 5 );
+        CHECK( layout1 == "Weather: <color_c_light_cyan>Sunny</color>" );
+        CHECK( layout5 == "Weather: <color_c_light_cyan>Sunny</color>" );
+    }
+
+    SECTION( "Multiline drawing splits newlines correctly" ) {
+#if !(defined(TILES) || defined(_WIN32))
+        // Running the tests in a developer environment works fine, but
+        // the CI env has no interactive shell, so we skip the screen scraping.
+        const char *term_env = ::getenv( "TERM" );
+        // The tests don't initialize the curses window, so initialize it here...
+        if( term_env != nullptr && std::string( term_env ) != "unknown" &&
+            cata_curses_test::initscr() != nullptr ) {
+#endif
+            catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+
+            werase( w );
+            SECTION( "Single-line layout" ) {
+                std::string layout1 = "abcd efgh ijkl mnop qrst";
+                CHECK( widget::custom_draw_multiline( layout1, w, 1, 30, 0 ) == 1 );
+                std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+                CHECK( lines[0] == " abcd efgh ijkl mnop qrst       " );
+                CHECK( lines[1] == "                                " );
+                CHECK( lines[2] == "                                " );
+                CHECK( lines[3] == "                                " );
+                CHECK( lines[4] == "                                " );
+            }
+
+            werase( w );
+            SECTION( "Single-line layout" ) {
+                std::string layout5 = "abcd\nefgh\nijkl\nmnop\nqrst";
+                CHECK( widget::custom_draw_multiline( layout5, w, 1, 30, 0 ) == 5 );
+                std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+                CHECK( lines[0] == " abcd                           " );
+                CHECK( lines[1] == " efgh                           " );
+                CHECK( lines[2] == " ijkl                           " );
+                CHECK( lines[3] == " mnop                           " );
+                CHECK( lines[4] == " qrst                           " );
+            }
+
+#if !(defined(TILES) || defined(_WIN32))
+            // ... and free it here
+            cata_curses_test::endwin();
+        }
+#endif
+    }
+}

@@ -185,7 +185,7 @@
     "symbol": ";",
     "color": "blue",
     "weight": "280 g",
-    "volume": "80 ml",
+    "volume": "270 ml",
     "longest_side": "14 cm",
     "price": 500,
     "price_postapoc": 100,
@@ -223,7 +223,7 @@
       "target": "flashlight",
       "ammo_scale": 0
     },
-    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP" ]
+    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK" ]
   },
   {
     "id": "gasoline_lantern",
@@ -276,7 +276,7 @@
     "name": { "str": "glowstick" },
     "description": "This is a small blue light glowstick.  Use it to bend the plastic and break the glass cylinder inside to start the reaction.  It will produce a small amount of light.",
     "weight": "29 g",
-    "volume": "250 ml",
+    "volume": "25 ml",
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -1,
@@ -301,7 +301,7 @@
     "name": { "str": "dead glowstick" },
     "description": "This is a spent glowstick.  It is essentially trash.",
     "weight": "29 g",
-    "volume": "250 ml",
+    "volume": "25 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
@@ -317,7 +317,7 @@
     "name": { "str": "active glowstick" },
     "description": "This is an active glowstick and is producing light.  It will last for a few hours before burning out.",
     "weight": "29 g",
-    "volume": "250 ml",
+    "volume": "25 ml",
     "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": ";",
@@ -368,7 +368,7 @@
     "id": "heavy_flashlight",
     "type": "TOOL",
     "name": { "str": "heavy duty flashlight (off)", "str_pl": "heavy duty flashlights (off)" },
-    "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Makes for a passable melee weapon.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
+    "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Using this flashlight will turn it on and provide light even underwater, assuming it is charged with batteries.",
     "weight": "450 g",
     "volume": "470 ml",
     "longest_side": "37 cm",
@@ -380,7 +380,7 @@
     "color": "blue",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "BELT_CLIP", "WATER_BREAK" ],
+    "flags": [ "BELT_CLIP" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy duty flashlight on.",
@@ -419,7 +419,7 @@
     "type": "TOOL",
     "name": { "str": "lightstrip_base" },
     "weight": "27 g",
-    "volume": "250 ml",
+    "volume": "50 ml",
     "price": 500,
     "price_postapoc": 25,
     "to_hit": 2,
@@ -531,15 +531,7 @@
       "need_charges": 1,
       "need_charges_msg": "The %s must be attached to a gas cylinder to light."
     },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "weldtank", "tinyweldtank" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "tinyweldtank" ] } ]
   },
   {
     "id": "oxylamp_on",

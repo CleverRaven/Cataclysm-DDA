@@ -1218,9 +1218,16 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
+    add( "AUTO_MOPPING", "general", to_translation( "Auto mopping" ),
+         to_translation( "If true, enables automatic use of wielded mops to clean surrounding terrain." ),
+         false
+       );
+
+    get_option( "AUTO_MOPPING" ).setPrerequisite( "AUTO_FEATURES" );
+
     add( "AUTO_FORAGING", "general", to_translation( "Auto foraging" ),
-         to_translation( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Everything: Forage bushes, trees, and everything else including flowers, cattails etc." ),
-    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", to_translation( "Bushes" ) }, { "trees", to_translation( "Trees" ) }, { "both", to_translation( "Everything" ) } },
+         to_translation( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Crops: Only forage crops.  - Everything: Forage bushes, trees, crops, and everything else including flowers, cattails etc." ),
+    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", to_translation( "Bushes" ) }, { "trees", to_translation( "Trees" ) }, { "crops", to_translation( "Crops" ) }, { "all", to_translation( "Everything" ) } },
     "off"
        );
 
@@ -1340,6 +1347,11 @@ void options_manager::add_options_general()
     "ask"
        );
 
+    add( "EVENT_SPAWNS", "general", to_translation( "Special event spawns" ),
+         to_translation( "If enabled, unique items and/or monsters can spawn during special events (Christmas, Halloween, etc.)" ),
+    { { "off", to_translation( "Disabled" ) }, { "items", to_translation( "Items" ) }, { "monsters", to_translation( "Monsters" ) }, { "both", to_translation( "Both" ) } },
+    "off" );
+
     add_empty_line();
 
     add( "SOUND_ENABLED", "general", to_translation( "Sound Enabled" ),
@@ -1428,12 +1440,20 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "SHOW_GUN_VARIANTS", "interface", to_translation( "Show gun brand names" ),
-         to_translation( "Show brand names for guns, intead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+         to_translation( "Show brand names for guns, instead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
          false );
     add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
          to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
          true
        );
+    add( "DETAILED_CONTAINERS", "interface", to_translation( "Detailed Containers" ),
+         to_translation( "All: every container has detailed remaining volume info - Worn: only worn containers have detailed remaining volume info - None: no additional info is provided" ),
+    {
+        { "ALL", to_translation( "All" ) },
+        { "WORN", to_translation( "Worn" ) },
+        { "NONE", to_translation( "None" ) }
+    },
+    "WORN" );
 
     add_empty_line();
 
@@ -1546,8 +1566,17 @@ void options_manager::add_options_interface()
          * `Shift` + `Cursor Right` -> `9` = `Move Northeast`;
          * `Ctrl` + `Cursor Right` -> `1` = `Move Southwest`.
 
+         # Mode 4: Diagonal Lock
+
+         * Holding Ctrl or Shift locks movement to diagonal only
+         * This ensures that pressing ↑ + → will results in ↗ and not ↑ or →
+         * Reject input if it doesn't make sense
+         * Example 1: Press → while holding Shift and ↑ results in ↗
+         * Example 2: Press → while holding Shift, ↑ and ← results in input rejection
+         * Example 3: Press → while holding Shift and ← results in input rejection
+
          */
-    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) } },
+    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) }, { "mode4", to_translation( "Mode 4: Diagonal Lock" ) } },
     "none", COPT_CURSES_HIDE );
 
     add_empty_line();
@@ -1894,6 +1923,11 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
+    add( "NV_GREEN_TOGGLE", "graphics", to_translation( "Night Vision color overlay" ),
+         to_translation( "Toggle the color overlay from night vision goggles and other similar tools." ),
+         true, COPT_CURSES_HIDE
+       );
+
     add( "MEMORY_MAP_MODE", "graphics", to_translation( "Memory map overlay preset" ),
     to_translation( "Specified the overlay in which the memory map is drawn.  Requires restart.  For custom overlay define gamma and RGB values for dark and light colors." ), {
         { "color_pixel_darken", to_translation( "Darkened" ) },
@@ -2182,12 +2216,12 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_DAY", "world_default", to_translation( "Initial day" ),
-         to_translation( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+         to_translation( "How many days into the year the Cataclysm ended.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
          -1, 999, 60
        );
 
     add( "SPAWN_DELAY", "world_default", to_translation( "Spawn delay" ),
-         to_translation( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
+         to_translation( "How many days after the end of the Cataclysm the player spawns.  Day 0 is immediately after the end of the Cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
          0, 9999, 0
        );
 
@@ -2204,6 +2238,14 @@ void options_manager::add_options_world_default()
     add( "ETERNAL_SEASON", "world_default", to_translation( "Eternal season" ),
          to_translation( "Keep the initial season for ever." ),
          false
+       );
+
+    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day / night cycle" ),
+    to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
+        { "normal", to_translation( "Normal" ) },
+        { "day", to_translation( "Eternal Day" ) },
+        { "night", to_translation( "Eternal Night" ) },
+    }, "normal"
        );
 
     add_empty_line();
@@ -2319,6 +2361,13 @@ void options_manager::add_options_android()
          to_translation( "If true, the back button will NOT back out of the app and will be passed to the application as SDL_SCANCODE_AC_BACK.  Requires restart." ),
          // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
          android_get_default_setting( "Trap Back button", true )
+       );
+
+
+    add( "ANDROID_NATIVE_UI", "android", to_translation( "Use native Android UI menus" ),
+         to_translation( "If true, native Android dialogs are used for some in-game menus, "
+                         "such as popup messages and yes/no dialogs." ),
+         android_get_default_setting( "Native Android UI", true )
        );
 
     add( "ANDROID_AUTO_KEYBOARD", "android", to_translation( "Auto-manage virtual keyboard" ),
@@ -3025,7 +3074,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 || iter.first == "PIXEL_MINIMAP_SCALE_TO_FIT" ) {
                 pixel_minimap_changed = true;
 
-            } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {
+            } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "OVERMAP_TILES" ) {
                 used_tiles_changed = true;
 
             } else if( iter.first == "USE_LANG" ) {
@@ -3074,6 +3123,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     }
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
 #if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {

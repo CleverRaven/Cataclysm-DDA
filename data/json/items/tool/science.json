@@ -5,8 +5,8 @@
     "category": "tools",
     "name": { "str": "barometer" },
     "description": "A plastic barometer that can read the atmospheric pressure.",
-    "weight": "1 g",
-    "volume": "250 ml",
+    "weight": "10 g",
+    "volume": "50 ml",
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -3,
@@ -22,7 +22,7 @@
     "name": { "str": "goo canister" },
     "description": "There is a label on this canister: \"Warning: contains highly toxic and corrosive materials.  Contents may be sentient.  Open at your own risk.\" You think you can feel something moving inside it.",
     "weight": "1596 g",
-    "volume": "500 ml",
+    "volume": "270 ml",
     "price": 35000,
     "price_postapoc": 1000,
     "to_hit": 1,
@@ -95,9 +95,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "25 L",
-        "max_contains_weight": "200 kg",
         "//": "this tool is small and has no actual battery compartment, but can connect to large batteries.",
         "item_restriction": [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
       }
@@ -123,10 +120,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
     ]
@@ -159,10 +153,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
     ]
@@ -198,10 +189,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
     ]
@@ -226,10 +214,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
     ]
@@ -265,10 +250,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -317,10 +299,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -368,10 +347,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -420,10 +396,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -466,7 +439,7 @@
     "color": "dark_gray",
     "looks_like": "paper",
     "weight": "20 g",
-    "volume": "250 ml",
+    "volume": "25 ml",
     "price": 100,
     "to_hit": -1,
     "cutting": 1,
@@ -482,7 +455,7 @@
     "color": "dark_gray",
     "looks_like": "paper",
     "weight": "20 g",
-    "volume": "250 ml",
+    "volume": "25 ml",
     "price": 100,
     "to_hit": -1,
     "cutting": 1,
@@ -518,10 +491,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "500 ml",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -570,10 +540,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "500 ml",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -664,8 +631,8 @@
     "category": "tools",
     "name": { "str": "hygrometer" },
     "description": "A plastic hygrometer that can read the relative humidity in the air.",
-    "weight": "1 g",
-    "volume": "250 ml",
+    "weight": "10 g",
+    "volume": "50 ml",
     "price": 100,
     "price_postapoc": 500,
     "to_hit": -3,
@@ -792,7 +759,7 @@
     "category": "tools",
     "name": { "str": "Doppler Radar Turbo 2000" },
     "description": "A briefcase with built-in laptop that looks like it's from the 80s.  Its vintage monochrome monitor displays a plethora of meteorological data.  No sign of the FLDSMDFR, however.",
-    "weight": "10 g",
+    "weight": "1000 g",
     "volume": "2500 ml",
     "price": 200,
     "price_postapoc": 500,
@@ -952,7 +919,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "multimeter" },
-    "description": "This gadget is a little bigger than a handheld calculator, with a digital display and two pointed probes connected by wires.  It can measure not just voltage, but current in amps, and resistance in ohms, as well as test for electrical continuty.",
+    "description": "This gadget is a little bigger than a handheld calculator, with a digital display and two pointed probes connected by wires.  It can measure not just voltage, but current in amps, and resistance in ohms, as well as test for electrical continuity.",
     "//": "Dimensions from a sampling of consumer digital multimeter models online.",
     "weight": "500 g",
     "volume": "650 ml",
@@ -1020,8 +987,8 @@
     "category": "spare_parts",
     "name": { "str": "light detector" },
     "description": "This is a photodiode on a chip, designed to convert incoming light to electrical energy for quantification.",
-    "weight": "50 g",
-    "volume": "250 ml",
+    "weight": "5 g",
+    "volume": "20 ml",
     "price": 400,
     "price_postapoc": 250,
     "to_hit": -5,
@@ -1038,7 +1005,7 @@
     "name": { "str": "glass prism" },
     "description": "This is a high quality crystal glass prism for separating and redirecting light.",
     "weight": "50 g",
-    "volume": "250 ml",
+    "volume": "20 ml",
     "price": 50,
     "price_postapoc": 50,
     "to_hit": -5,
@@ -1085,7 +1052,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "dissecting microscope" },
-    "description": "This microscope has less magnification than a standard one.  It's also stereoscopic and produces a neat 3d image of the surface.  It was typically used for doing dissections and other fine detail work on small creatures.  It still works pretty well with an added light source, but what would you do with it?",
+    "description": "This microscope has less magnification than a standard one.  It's also stereoscopic and produces a neat 3D image of the surface.  It was typically used for doing dissections and other fine detail work on small creatures.  It still works pretty well with an added light source, but what would you do with it?",
     "weight": "2200 g",
     "volume": "4000ml",
     "price": 3000,
@@ -1216,7 +1183,7 @@
     "category": "spare_parts",
     "name": { "str": "plastic stopcock" },
     "description": "Stop giggling.  This is a tiny plastic valve, get your mind out of the gutter.",
-    "weight": "5 g",
+    "weight": "1 g",
     "volume": "1ml",
     "price": 5,
     "price_postapoc": 10,
@@ -1332,10 +1299,25 @@
     "type": "TOOL",
     "name": { "str_sp": "Mi-go Biotech" },
     "conditional_names": [
-      { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_MORALE", "name": { "str_sp": "%s (happy)" } },
-      { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_FOCUS", "name": { "str_sp": "%s (focus)" } },
-      { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_PAIN", "name": { "str_sp": "%s (pain relief)" } },
-      { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_FATIGUE", "name": { "str_sp": "%s (wake up)" } }
+      { "type": "VAR", "condition": "npctalk_var_mbt_f_function", "value": "morale", "name": { "str_sp": "%s (happy)" } },
+      {
+        "type": "VAR",
+        "condition": "npctalk_var_mbt_f_function",
+        "value": "focus",
+        "name": { "str_sp": "%s (focus)" }
+      },
+      {
+        "type": "VAR",
+        "condition": "npctalk_var_mbt_f_function",
+        "value": "pain",
+        "name": { "str_sp": "%s (pain relief)" }
+      },
+      {
+        "type": "VAR",
+        "condition": "npctalk_var_mbt_f_function",
+        "value": "fatigue",
+        "name": { "str_sp": "%s (wake up)" }
+      }
     ],
     "description": "A piece of mi-go biotechnology.",
     "weight": "1 g",
@@ -1366,20 +1348,20 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_SETUP",
-          "condition": { "not": { "npc_has_var": "function_set", "type": "migo_bio_tech", "context": "bio_tech", "value": "yes" } },
+          "condition": { "not": { "npc_has_var": "function_set", "type": "mbt", "context": "f", "value": "yes" } },
           "effect": [
-            { "npc_add_var": "function_set", "type": "migo_bio_tech", "context": "bio_tech", "value": "yes" },
+            { "npc_add_var": "function_set", "type": "mbt", "context": "f", "value": "yes" },
             {
               "npc_add_var": "function",
-              "type": "migo_bio_tech",
-              "context": "bio_tech",
+              "type": "mbt",
+              "context": "f",
               "possible_values": [ "morale", "focus", "pain", "fatigue" ]
             }
           ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_MORALE",
-          "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "morale" },
+          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "morale" },
           "effect": [
             { "u_message": "You feel amazing!" },
             {
@@ -1388,35 +1370,28 @@
               "max_bonus": 50,
               "duration": "12 hours",
               "decay_start": "10 hours"
-            },
-            { "npc_add_var": "MORALE", "type": "DISPLAY", "context": "NAME", "value": "" }
+            }
           ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_FOCUS",
-          "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "focus" },
-          "effect": [
-            { "u_message": "You feel incredibly focused!" },
-            { "arithmetic": [ { "u_val": "focus" }, { "u_val": "focus" }, { "const": 30 } ], "op": "+" },
-            { "npc_add_var": "FOCUS", "type": "DISPLAY", "context": "NAME", "value": "" }
-          ]
+          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "focus" },
+          "effect": [ { "u_message": "You feel incredibly focused!" }, { "arithmetic": [ { "u_val": "focus" }, "+=", { "const": 30 } ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_PAIN",
-          "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "pain" },
+          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "pain" },
           "effect": [
             { "u_message": "You feel your aches and pains fade away!" },
-            { "arithmetic": [ { "u_val": "pain" }, { "u_val": "pain" }, { "const": 30 } ], "op": "-" },
-            { "npc_add_var": "PAIN", "type": "DISPLAY", "context": "NAME", "value": "" }
+            { "arithmetic": [ { "u_val": "pain" }, "-=", { "const": 30 } ] }
           ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_FATIGUE",
-          "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "fatigue" },
+          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "fatigue" },
           "effect": [
             { "u_message": "You instantly feel more awake!" },
-            { "arithmetic": [ { "u_val": "fatigue" }, { "u_val": "fatigue" }, { "const": 30 } ], "op": "-" },
-            { "npc_add_var": "FATIGUE", "type": "DISPLAY", "context": "NAME", "value": "" }
+            { "arithmetic": [ { "u_val": "fatigue" }, "-=", { "const": 30 } ] }
           ]
         }
       ]

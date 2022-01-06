@@ -69,7 +69,7 @@ We support and test Clang from version 6.0.
 
 ## Mingw and Mingw-w64
 
-We use Mingw for cross-compilation of Windows versions on Linux.  gcc 9.3 is
+We use Mingw for cross-compilation of Windows versions on Linux.  gcc 11.2 is
 currently used both in the tests and for the Windows release binaries.
 
 ## MSYS2

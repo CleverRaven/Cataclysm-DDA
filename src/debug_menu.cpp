@@ -54,12 +54,14 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "global_vars.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
@@ -112,12 +114,22 @@
 #include "weighted_list.h"
 #include "worldfactory.h"
 
+static const bodypart_str_id body_part_no_a_real_part( "no_a_real_part" );
+
 static const efftype_id effect_asthma( "asthma" );
+
+static const faction_id faction_no_faction( "no_faction" );
+
+static const matype_id style_none( "style_none" );
 
 static const mtype_id mon_generator( "mon_generator" );
 
-static const trait_id trait_NONE( "NONE" );
+static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
+
 static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_NONE( "NONE" );
+
+static const vproto_id vehicle_prototype_custom( "custom" );
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
@@ -183,6 +195,8 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::PRINT_NPC_MAGIC: return "PRINT_NPC_MAGIC";
         case debug_menu::debug_menu_index::QUIT_NOSAVE: return "QUIT_NOSAVE";
         case debug_menu::debug_menu_index::TEST_WEATHER: return "TEST_WEATHER";
+        case debug_menu::debug_menu_index::WRITE_GLOBAL_EOCS: return "WRITE_GLOBAL_EOCS";
+        case debug_menu::debug_menu_index::WRITE_GLOBAL_VARS: return "WRITE_GLOBAL_VARS";
         case debug_menu::debug_menu_index::SAVE_SCREENSHOT: return "SAVE_SCREENSHOT";
         case debug_menu::debug_menu_index::GAME_REPORT: return "GAME_REPORT";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_LOCAL: return "DISPLAY_SCENTS_LOCAL";
@@ -201,6 +215,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
+        case debug_menu::debug_menu_index::ACTIVATE_EOC: return "ACTIVATE_EOC";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -250,7 +265,7 @@ static int player_uilist()
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::MUTATE, true, 'M', _( "Mutate" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_SKILLS, true, 's', _( "Change all skills" ) ) },
-        { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theorical knowledge" ) ) },
+        { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theoretical knowledge" ) ) },
         { uilist_entry( debug_menu_index::LEARN_MA, true, 'l', _( "Learn all melee styles" ) ) },
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
@@ -301,6 +316,8 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
+            { uilist_entry( debug_menu_index::WRITE_GLOBAL_EOCS, true, 'C', _( "Write global effect_on_condition(s) to eocs.output" ) ) },
+            { uilist_entry( debug_menu_index::WRITE_GLOBAL_VARS, true, 'G', _( "Write global vars(s) to var_list.output" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
@@ -318,6 +335,7 @@ static int game_uilist()
         { uilist_entry( debug_menu_index::SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
         { uilist_entry( debug_menu_index::CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
         { uilist_entry( debug_menu_index::QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
+        { uilist_entry( debug_menu_index::ACTIVATE_EOC, true, 'E', _( "Activate EOC" ) ) },
     };
 
     return uilist( _( "Game…" ), uilist_initializer );
@@ -1132,14 +1150,13 @@ static void spawn_nested_mapgen()
 
         map target_map;
         target_map.load( abs_sub, true );
-        // TODO: fix point types
-        const tripoint local_ms = target_map.getlocal( abs_ms.raw() );
+        const tripoint local_ms = target_map.getlocal( abs_ms );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgens[nest_ids[nest_choice]].funcs().pick();
         if( ptr == nullptr ) {
             return;
         }
-        ( *ptr )->nest( md, local_ms.xy() );
+        ( *ptr )->nest( md, local_ms.xy(), "debug menu" );
         target_map.save();
         g->load_npcs();
         here.invalidate_map_cache( here.get_abs_sub().z );
@@ -1191,6 +1208,7 @@ static void character_edit_needs_menu( Character &you )
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( you );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( you );
     std::pair<std::string, nc_color> fatigue_pair = display::fatigue_text_color( you );
+    std::pair<std::string, nc_color> weariness_pair = display::weariness_text_color( you );
 
     std::stringstream data;
     data << string_format( _( "Hunger: %d  %s" ), you.get_hunger(), colorize( hunger_pair.first,
@@ -1199,6 +1217,8 @@ static void character_edit_needs_menu( Character &you )
                            thirst_pair.second ) ) << std::endl;
     data << string_format( _( "Fatigue: %d  %s" ), you.get_fatigue(), colorize( fatigue_pair.first,
                            fatigue_pair.second ) ) << std::endl;
+    data << string_format( _( "Weariness: %d  %s" ), you.weariness(), colorize( weariness_pair.first,
+                           weariness_pair.second ) ) << std::endl;
     data << std::endl;
     data << _( "Stored kCal: " ) << you.get_stored_kcal() << std::endl;
     data << _( "Total kCal: " ) << you.get_stored_kcal() + you.stomach.get_calories() +
@@ -1223,8 +1243,9 @@ static void character_edit_needs_menu( Character &you )
     smenu.addentry( 4, true, 't', "%s: %d", _( "Thirst" ), you.get_thirst() );
     smenu.addentry( 5, true, 'f', "%s: %d", _( "Fatigue" ), you.get_fatigue() );
     smenu.addentry( 6, true, 'd', "%s: %d", _( "Sleep Deprivation" ), you.get_sleep_deprivation() );
-    smenu.addentry( 7, true, 'a', _( "Reset all basic needs" ) );
-    smenu.addentry( 8, true, 'e', _( "Empty stomach and guts" ) );
+    smenu.addentry( 7, true, 'w', "%s: %d", _( "Weariness" ), you.weariness() );
+    smenu.addentry( 8, true, 'a', _( "Reset all basic needs" ) );
+    smenu.addentry( 9, true, 'e', _( "Empty stomach and guts" ) );
 
     const auto &vits = vitamin::all();
     for( const auto &v : vits ) {
@@ -1276,21 +1297,29 @@ static void character_edit_needs_menu( Character &you )
                 you.set_sleep_deprivation( value );
             }
             break;
+
         case 7:
+            if( query_yn( _( "Reset weariness?  Currently: %d" ),
+                          you.weariness() ) ) {
+                you.activity_history.weary_clear();
+            }
+            break;
+        case 8:
             you.initialize_stomach_contents();
             you.set_hunger( 0 );
             you.set_thirst( 0 );
             you.set_fatigue( 0 );
             you.set_sleep_deprivation( 0 );
             you.set_stored_kcal( you.get_healthy_kcal() );
+            you.activity_history.weary_clear();
             break;
-        case 8:
+        case 9:
             you.stomach.empty();
             you.guts.empty();
             break;
         default:
-            if( smenu.ret >= 9 && smenu.ret < static_cast<int>( vits.size() + 9 ) ) {
-                auto iter = std::next( vits.begin(), smenu.ret - 9 );
+            if( smenu.ret >= 10 && smenu.ret < static_cast<int>( vits.size() + 10 ) ) {
+                auto iter = std::next( vits.begin(), smenu.ret - 10 );
                 if( query_int( value, _( "Set %s to?  Currently: %d" ),
                                iter->second.name(), you.vitamin_get( iter->first ) ) ) {
                     you.vitamin_set( iter->first, value );
@@ -1316,7 +1345,7 @@ static void character_edit_hp_menu( Character &you )
     smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
     smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), you.get_lowest_hp() );
     smenu.query();
-    bodypart_str_id bp = bodypart_str_id( "no_a_real_part" );
+    bodypart_str_id bp = body_part_no_a_real_part;
     int bp_ptr = -1;
     bool all_select = false;
 
@@ -1676,10 +1705,10 @@ static void character_edit_menu()
             }
             break;
         case D_MORALE: {
-            int current_morale_level = you.get_morale_level();
             int value;
-            if( query_int( value, _( "Set the morale to?  Currently: %d" ), current_morale_level ) ) {
-                int morale_level_delta = value - current_morale_level;
+            if( query_int( value, _( "Set the morale to?  Currently: %d" ), you.get_morale_level() ) ) {
+                you.rem_morale( MORALE_PERM_DEBUG );
+                int morale_level_delta = value - you.get_morale_level();
                 you.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
                 you.apply_persistent_morale();
             }
@@ -2154,7 +2183,7 @@ static void debug_menu_spawn_vehicle()
         // Vector of name, id so that we can sort by name
         std::vector<std::pair<std::string, vproto_id>> veh_strings;
         for( auto &elem : vehicle_prototype::get_all() ) {
-            if( elem == vproto_id( "custom" ) ) {
+            if( elem == vehicle_prototype_custom ) {
                 continue;
             }
             veh_strings.emplace_back( elem->name.translated(), elem );
@@ -2335,8 +2364,8 @@ void debug()
             new_fac_id += temp->name;
             // create a new "lone wolf" faction for this one NPC
             faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( temp->name,
-                                    faction_id( new_fac_id ), faction_id( "no_faction" ) );
-            temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
+                                    faction_id( new_fac_id ), faction_no_faction );
+            temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
             g->load_npcs();
         }
         break;
@@ -2415,7 +2444,7 @@ void debug()
             add_msg( m_info, _( "Martial arts debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto &style : all_martialart_types() ) {
-                if( style != matype_id( "style_none" ) ) {
+                if( style != style_none ) {
                     player_character.martial_arts_data->add_martialart( style );
                 }
             }
@@ -2445,7 +2474,7 @@ void debug()
                 artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 here.create_anomaly( *center, prop );
-                here.spawn_artifact( *center, relic_procgen_id( "alien_reality" ) );
+                here.spawn_artifact( *center, relic_procgen_data_alien_reality );
             }
             break;
 
@@ -2753,11 +2782,25 @@ void debug()
         case debug_menu_index::CRASH_GAME:
             raise( SIGSEGV );
             break;
+        case debug_menu_index::ACTIVATE_EOC: {
+            const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();
+            uilist eoc_menu;
+            for( const effect_on_condition &eoc : eocs ) {
+                eoc_menu.addentry( -1, true, -1, eoc.id.str() );
+            }
+            eoc_menu.query();
+
+            if( eoc_menu.ret >= 0 && eoc_menu.ret < static_cast<int>( eocs.size() ) ) {
+                dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
+                eocs[eoc_menu.ret].activate( newDialog );
+            }
+        }
+        break;
         case debug_menu_index::MAP_EXTRA: {
-            const std::vector<std::string> &mx_str = MapExtras::get_all_function_names();
+            const std::vector<map_extra_id> &mx_str = MapExtras::get_all_function_names();
             uilist mx_menu;
-            for( const std::string &extra : mx_str ) {
-                mx_menu.addentry( -1, true, -1, extra );
+            for( const map_extra_id &extra : mx_str ) {
+                mx_menu.addentry( -1, true, -1, extra.str() );
             }
             mx_menu.query();
             int mx_choice = mx_menu.ret;
@@ -2826,38 +2869,30 @@ void debug()
             get_weather().get_cur_weather_gen().test_weather( g->get_seed() );
         }
         break;
-
-
-
-        case debug_menu_index::SAVE_SCREENSHOT: {
-#if defined(TILES)
-            // check that the current '<world>/screenshots' directory exists
-            std::stringstream map_directory;
-            map_directory << PATH_INFO::world_base_save_path() << "/screenshots/";
-            assure_dir_exist( map_directory.str() );
-
-            // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
-            // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
-            std::time_t time = std::time( nullptr );
-            std::stringstream date_buffer;
-            date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
-            const auto tmp_file_name = string_format( "[%s]_%s.png", player_character.get_name(),
-                                       date_buffer.str() );
-
-            std::string file_name = ensure_valid_file_name( tmp_file_name );
-            auto current_file_path = map_directory.str() + file_name;
-
-            // Take a screenshot of the viewport.
-            if( g->take_screenshot( current_file_path ) ) {
-                popup( _( "Successfully saved your screenshot to: %s" ), map_directory.str() );
-            } else {
-                popup( _( "An error occurred while trying to save the screenshot." ) );
-            }
-#else
-            popup( _( "This binary was not compiled with tiles support." ) );
-#endif
+        case debug_menu_index::WRITE_GLOBAL_EOCS: {
+            effect_on_conditions::write_global_eocs_to_file();
+            popup( _( "effect_on_condition list written to eocs.output" ) );
         }
         break;
+        case debug_menu_index::WRITE_GLOBAL_VARS: {
+            write_to_file( "var_list.output", [&]( std::ostream & testfile ) {
+                testfile << "Global" << std::endl;
+                testfile << "|;key;value;" << std::endl;
+                global_variables &globvars = get_globals();
+                auto globals = globvars.get_global_values();
+                for( const auto &value : globals ) {
+                    testfile << "|;" << value.first << ";" << value.second << ";" << std::endl;
+                }
+
+            }, "var_list" );
+
+            popup( _( "Var list written to var_list.output" ) );
+        }
+        break;
+
+        case debug_menu_index::SAVE_SCREENSHOT:
+            g->queue_screenshot = true;
+            break;
 
         case debug_menu_index::GAME_REPORT: {
             // generate a game report, useful for bug reporting.

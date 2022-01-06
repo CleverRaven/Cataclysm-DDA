@@ -223,6 +223,7 @@ enum class ter_furn_flag : int {
     TFLAG_GOES_DOWN,
     TFLAG_GOES_UP,
     TFLAG_NO_FLOOR,
+    TFLAG_ALLOW_ON_OPEN_AIR,
     TFLAG_SEEN_FROM_ABOVE,
     TFLAG_RAMP_DOWN,
     TFLAG_RAMP_UP,
@@ -293,6 +294,7 @@ enum class ter_furn_flag : int {
     TFLAG_BLOCKSDOOR,
     TFLAG_NO_SELF_CONNECT,
     TFLAG_BURROWABLE,
+    TFLAG_MURKY,
 
     NUM_TFLAG_FLAGS
 };
@@ -326,6 +328,7 @@ enum ter_connects : int {
     TERCONN_CLAY,
     TERCONN_DIRT,
     TERCONN_ROCKFLOOR,
+    TERCONN_MULCHFLOOR,
     TERCONN_METALFLOOR,
     TERCONN_WOODFLOOR,
 };
@@ -340,6 +343,24 @@ struct activity_byproduct {
 
     bool was_loaded = false;
     void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+};
+
+struct pry_data {
+    bool prying_nails = false;
+
+    int difficulty = 0;
+    int prying_level = 0;
+
+    bool noisy = false;
+    bool alarm = false;
+    bool breakable = false;
+
+    translation failure;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
 };
 
 class activity_data_common
@@ -363,6 +384,10 @@ class activity_data_common
             return sound_;
         }
 
+        const pry_data &prying_data() const {
+            return prying_data_;
+        }
+
         const std::vector<activity_byproduct> &byproducts() const {
             return byproducts_;
         }
@@ -375,6 +400,7 @@ class activity_data_common
         time_duration duration_;
         translation message_;
         translation sound_;
+        struct pry_data prying_data_;
         std::vector<activity_byproduct> byproducts_;
 };
 
@@ -464,6 +490,9 @@ struct map_data_common_t {
         int heat_radiation = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
+        // Warmth provided by the terrain (for sleeping, etc.)
+        int floor_bedding_warmth = 0;
+        int comfort = 0;
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
 
@@ -556,6 +585,7 @@ struct ter_t : map_data_common_t {
     cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
     cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data
     cata::value_ptr<activity_data_ter> oxytorch; // Oxytorch action data
+    cata::value_ptr<activity_data_ter> prying;  // Prying action data
 
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
@@ -595,8 +625,6 @@ struct furn_t : map_data_common_t {
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
     itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
-    int comfort = 0;
-    int floor_bedding_warmth = 0;
     /** Emissions of furniture */
     std::set<emit_id> emissions;
 
@@ -608,6 +636,7 @@ struct furn_t : map_data_common_t {
     cata::value_ptr<activity_data_furn> boltcut; // Bolt cutting action data
     cata::value_ptr<activity_data_furn> hacksaw; // Hacksaw action data
     cata::value_ptr<activity_data_furn> oxytorch; // Oxytorch action data
+    cata::value_ptr<activity_data_furn> prying;  // Prying action data
 
     cata::value_ptr<furn_workbench_info> workbench;
 
@@ -773,7 +802,7 @@ furn_id refers to a position in the furnlist[] where the furn_t struct is stored
 about ter_id above.
 */
 // NOLINTNEXTLINE(cata-static-int_id-constants)
-extern furn_id f_null,
+extern furn_id f_null, f_clear,
        f_hay, f_cattails, f_lotus, f_lilypad,
        f_rubble, f_rubble_rock, f_wreckage, f_ash,
        f_barricade_road, f_sandbag_half, f_sandbag_wall,

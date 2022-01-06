@@ -131,7 +131,7 @@
   {
     "id": "leverpostej",
     "type": "COMESTIBLE",
-    "comestible_type": "DRINK",
+    "comestible_type": "FOOD",
     "name": { "str_sp": "leverpostej" },
     "symbol": "%",
     "looks_like": "peanutbutter",
@@ -283,6 +283,16 @@
     "description": "Sausage casings made from animal intestines.  Ready to be used for forming meat products.",
     "color": "red",
     "material": [ "flesh" ],
+    "charges": 60
+  },
+  {
+    "id": "sausage_casings_artificial",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str": "artifical sausage casing" },
+    "description": "Sausage casings made from plastic bags.  Ready to be used for forming meat products.",
+    "color": "red",
+    "material": [ "plastic" ],
     "charges": 60
   },
   {

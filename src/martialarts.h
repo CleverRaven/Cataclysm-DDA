@@ -25,6 +25,33 @@ class effect;
 class item;
 struct itype;
 
+class weapon_category
+{
+    public:
+        static void load_weapon_categories( const JsonObject &jo, const std::string &src );
+        static void reset();
+
+        void load( const JsonObject &jo, const std::string &src );
+
+        static const std::vector<weapon_category> &get_all();
+
+        const weapon_category_id &getId() const {
+            return id;
+        }
+
+        const translation &name() const {
+            return name_;
+        }
+
+    private:
+        friend class generic_factory<weapon_category>;
+
+        weapon_category_id id;
+        bool was_loaded = false;
+
+        translation name_;
+};
+
 matype_id martial_art_learned_from( const itype & );
 
 struct ma_requirements {
@@ -36,6 +63,9 @@ struct ma_requirements {
     bool strictly_unarmed; // Ignore force_unarmed?
     bool wall_adjacent; // Does it only work near a wall?
 
+    /** Weapon categories compatible with this requirement. If empty, allow any weapon category. */
+    std::vector<weapon_category_id> weapon_categories_allowed;
+
     /** Minimum amount of given skill to trigger this bonus */
     std::vector<std::pair<skill_id, int>> min_skill;
 
@@ -44,7 +74,12 @@ struct ma_requirements {
      */
     std::vector<std::pair<damage_type, int>> min_damage;
 
-    std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
+    std::set<mabuff_id> req_buffs_all; // all listed buffs required to trigger this bonus
+    std::set<mabuff_id> req_buffs_any; // any listed buffs required to trigger this bonus
+    std::set<mabuff_id> forbid_buffs_all; // all listed buffs prevent triggering this bonus
+    std::set<mabuff_id> forbid_buffs_any; // any listed buffs prevent triggering this bonus
+
+
     std::set<flag_id> req_flags; // any item flags required for this technique
 
     ma_requirements() {
@@ -57,6 +92,7 @@ struct ma_requirements {
 
     std::string get_description( bool buff = false ) const;
 
+    bool buff_requirements_satisfied( const Character &u ) const;
     bool is_valid_character( const Character &u ) const;
     bool is_valid_weapon( const item &i ) const;
 
@@ -188,6 +224,7 @@ class ma_buff
 
         time_duration buff_duration = 0_turns; // total length this buff lasts
         int max_stacks = 0; // total number of stacks this buff can have
+        bool persists = false; // prevent buff removal when switching styles
 
         int dodges_bonus = 0; // extra dodges, like karate
         int blocks_bonus = 0; // extra blocks, like karate
@@ -210,6 +247,8 @@ class martialart
         martialart();
 
         void load( const JsonObject &jo, const std::string &src );
+
+        void remove_all_buffs( Character &u ) const;
 
         // modifies a Character's "current" stats with various types of bonuses
         void apply_static_buffs( Character &u ) const;
@@ -255,11 +294,12 @@ class martialart
         int learn_difficulty = 0;
         int arm_block = 0;
         int leg_block = 0;
+        int nonstandard_block = 0;
         bool arm_block_with_bio_armor_arms = false;
         bool leg_block_with_bio_armor_legs = false;
         std::set<matec_id> techniques; // all available techniques
         std::set<itype_id> weapons; // all style weapons
-        std::set<std::string> weapon_category; // all style weapon categories
+        std::set<weapon_category_id> weapon_category; // all style weapon categories
         bool strictly_unarmed = false; // Punch daggers etc.
         bool strictly_melee = false; // Must have a weapon.
         bool allow_melee = false; // Can use unarmed or with ANY weapon

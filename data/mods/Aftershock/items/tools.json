@@ -20,9 +20,10 @@
         "type": "transform"
       },
       "CAMERA",
-      "MP3"
+      "MP3",
+      "CALORIES_INTAKE_TRACKER"
     ],
-    "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "CALORIES_INTAKE" ]
   },
   {
     "id": "afs_imager",
@@ -121,7 +122,8 @@
       },
       "CAMERA",
       "MP3",
-      "ROBOTCONTROL"
+      "ROBOTCONTROL",
+      "CALORIES_INTAKE_TRACKER"
     ]
   },
   {
@@ -132,7 +134,7 @@
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
     "use_action": [ "MP3_ON" ],
-    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "CALORIES_INTAKE" ]
   },
   {
     "id": "afs_atomic_wraitheon_flashlight",
@@ -194,7 +196,7 @@
     "turns_per_charge": 3,
     "revert_to": "afs_power_cutter",
     "use_action": { "target": "afs_power_cutter", "msg": "Your power cutter falls quiet.", "menu_text": "Turn off", "type": "transform" },
-    "qualities": [ [ "CUT", 1 ], [ "SAW_M", 5 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -70 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_M", 5 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -70 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
@@ -230,7 +232,7 @@
     "turns_per_charge": 5,
     "revert_to": "afs_murdersaw",
     "use_action": { "target": "afs_murdersaw", "msg": "Your murdersaw falls quiet.", "menu_text": "Turn off", "type": "transform" },
-    "qualities": [ [ "CUT", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", -50 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_M", 1 ], [ "BUTCHER", -50 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
@@ -243,6 +245,7 @@
     "sided": true,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
     "flags": [ "RECHARGE", "WAIST", "NO_UNLOAD", "NO_RELOAD", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ],
+    "material": [ "aluminum", "plastic" ],
     "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {

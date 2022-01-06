@@ -19,7 +19,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "handwritten note" },
-    "description": "A small, meticulously folded piece of paper, filled with tiny handwriting and some surprisingly precise diagrams of subway tunnels, access codes, ventilation shafts, and…guard shifts?  You have the feeling they weren't supposed to write any of this stuff down.",
+    "description": "A small, meticulously folded piece of paper, filled with tiny handwriting and some surprisingly precise diagrams of subway tunnels, access codes, ventilation shafts, and… guard shifts?  You have the feeling they weren't supposed to write any of this stuff down.",
     "color": "blue",
     "volume": "10 ml",
     "weight": "10 g",

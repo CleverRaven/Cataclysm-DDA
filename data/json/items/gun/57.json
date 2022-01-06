@@ -4,8 +4,8 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "FN Five-Seven" },
-    "description": "Designed to work with FN's proprietary 5.7x28mm round, the Five-Seven is a lightweight pistol with a very high capacity, best used against armored opponents.",
+    "name": { "str": "FN Five-seveN" },
+    "description": "Designed to work with FN's proprietary 5.7x28mm round, the Five-seveN is a lightweight pistol with a very high capacity, best used against armored opponents.",
     "ascii_picture": "FN_five_seven",
     "weight": "600 g",
     "volume": "551 ml",
@@ -23,6 +23,7 @@
     "dispersion": 440,
     "durability": 8,
     "min_cycle_recoil": 81,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -36,16 +37,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "fn57mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ]
   },
   {
     "id": "fn_p90",
@@ -84,15 +76,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "magazine_well": "500 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "fnp90mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag" ] } ]
   }
 ]

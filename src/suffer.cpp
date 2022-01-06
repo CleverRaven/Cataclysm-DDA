@@ -46,6 +46,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pldata.h"
@@ -93,13 +94,31 @@ static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_weary_0( "weary_0" );
+static const efftype_id effect_weary_1( "weary_1" );
+static const efftype_id effect_weary_2( "weary_2" );
+static const efftype_id effect_weary_3( "weary_3" );
+static const efftype_id effect_weary_4( "weary_4" );
+static const efftype_id effect_weary_5( "weary_5" );
+static const efftype_id effect_weary_6( "weary_6" );
+static const efftype_id effect_weary_7( "weary_7" );
+static const efftype_id effect_weary_8( "weary_8" );
 static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_inhaler( "inhaler" );
-static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
-static const itype_id itype_rad_badge( "rad_badge" );
+static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
+
+static const json_character_flag json_flag_GILLS( "GILLS" );
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
+static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ALBINO( "ALBINO" );
@@ -115,9 +134,10 @@ static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
 static const trait_id trait_LEAVES2( "LEAVES2" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
+static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
+static const trait_id trait_MUCUS_SECRETION( "MUCUS_SECRETION" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
-static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -134,6 +154,7 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
+static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_TROGLO( "TROGLO" );
@@ -145,14 +166,8 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
 
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
-static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-
-static const json_character_flag json_flag_GILLS( "GILLS" );
-static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const vitamin_id vitamin_vitA( "vitA" );
+static const vitamin_id vitamin_vitC( "vitC" );
 
 namespace suffer
 {
@@ -381,7 +396,7 @@ void suffer::from_chemimbalance( Character &you )
         int pkilladd = 5 * rng( -1, 2 );
         if( pkilladd > 0 ) {
             you.add_msg_if_player( m_bad, _( "You suddenly feel numb." ) );
-        } else if( ( pkilladd < 0 ) && ( !( you.has_trait( trait_NOPAIN ) ) ) ) {
+        } else if( ( pkilladd < 0 ) && ( !you.has_trait( trait_NOPAIN ) ) ) {
             you.add_msg_if_player( m_bad, _( "You suddenly ache." ) );
         }
         you.mod_painkiller( pkilladd );
@@ -588,6 +603,7 @@ void suffer::from_schizophrenia( Character &you )
         // Weapon is concerned for itself if damaged
         // Otherwise random chit-chat
         std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
+        const item &weap = you.get_wielded_item();
 
         std::string i_talk_w;
         bool does_talk = false;
@@ -609,8 +625,8 @@ void suffer::from_schizophrenia( Character &you )
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( you.get_wielded_item().damage() >= you.get_wielded_item().max_damage() / 3 &&
-                   one_turn_in( 1_hours ) ) {
+        } else if( weap.damage() >= ( weap.max_damage() - weap.damage_floor( false ) ) / 3 +
+                   weap.damage_floor( false ) && one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
@@ -762,8 +778,8 @@ void suffer::in_sunlight( Character &you )
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        you.vitamin_mod( vitamin_id( "vitA" ), 1, true );
-        you.vitamin_mod( vitamin_id( "vitC" ), 1, true );
+        you.vitamin_mod( vitamin_vitA, 1, true );
+        you.vitamin_mod( vitamin_vitC, 1, true );
     }
 
     if( !g->is_in_sunlight( position ) ) {
@@ -1025,6 +1041,11 @@ void suffer::from_other_mutations( Character &you )
 
     }
 
+    if( you.has_active_mutation( trait_SNAIL_TRAIL ) && !you.in_vehicle ) {
+        here.add_field( position, fd_sludge, 1 );
+
+    }
+
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
     if( you.has_trait( trait_PER_SLIME ) ) {
@@ -1032,13 +1053,13 @@ void suffer::from_other_mutations( Character &you )
             you.add_msg_if_player( m_bad, _( "Suddenly, you can't hear anything!" ) );
             you.add_effect( effect_deaf, rng( 20_minutes, 60_minutes ) );
         }
-        if( one_turn_in( 1_hours ) && !( you.has_effect( effect_blind ) ) ) {
+        if( one_turn_in( 1_hours ) && !you.has_effect( effect_blind ) ) {
             you.add_msg_if_player( m_bad, _( "Suddenly, your eyes stop working!" ) );
             you.add_effect( effect_blind, rng( 2_minutes, 6_minutes ) );
         }
         // Yes, you can be blind and hallucinate at the same time.
         // Your post-human biology is truly remarkable.
-        if( one_turn_in( 30_minutes ) && !( you.has_effect( effect_visuals ) ) ) {
+        if( one_turn_in( 30_minutes ) && !you.has_effect( effect_visuals ) ) {
             you.add_msg_if_player( m_bad, _( "Your visual centers must be acting up…" ) );
             you.add_effect( effect_visuals, rng( 36_minutes, 72_minutes ) );
         }
@@ -1047,6 +1068,10 @@ void suffer::from_other_mutations( Character &you )
     if( you.has_trait( trait_WEB_SPINNER ) && !you.in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
         here.add_field( position, fd_web, 1 );
+    }
+
+    if( you.has_trait( trait_MUCUS_SECRETION ) && !you.in_vehicle && one_in( 2033 ) ) {
+        here.add_field( position, fd_sludge, 1 );
     }
 
     bool should_mutate = you.has_trait( trait_UNSTABLE ) && !you.has_trait( trait_CHAOTIC_BAD ) &&
@@ -1333,15 +1358,15 @@ static void apply_weariness( Character &you, int level, int old )
     }
     // A mapping of weariness level to the effect to be applied
     static const std::array<efftype_id, 9> weary_effects { {
-            efftype_id( "weary_0" ),
-            efftype_id( "weary_1" ),
-            efftype_id( "weary_2" ),
-            efftype_id( "weary_3" ),
-            efftype_id( "weary_4" ),
-            efftype_id( "weary_5" ),
-            efftype_id( "weary_6" ),
-            efftype_id( "weary_7" ),
-            efftype_id( "weary_8" ),
+            effect_weary_0,
+            effect_weary_1,
+            effect_weary_2,
+            effect_weary_3,
+            effect_weary_4,
+            effect_weary_5,
+            effect_weary_6,
+            effect_weary_7,
+            effect_weary_8,
         }};
 
     // If we're going above level 8, we're seriously messed up
@@ -1376,7 +1401,8 @@ void suffer::from_exertion( Character &you )
 
     // Significantly slow the rate of messaging when in an activity
     const int chance = you.activity ? to_turns<int>( 48_minutes ) : to_turns<int>( 5_minutes );
-    if( you.activity_history.activity() > max_activity && one_in( chance ) && !you.in_sleep_state() ) {
+    if( !you.in_sleep_state() && you.activity_history.activity( false ) > max_activity &&
+        one_in( chance ) ) {
         you.add_msg_if_player( m_bad,
                                _( "You're tiring out; continuing to work at this rate will be slower." ) );
     }
@@ -1495,8 +1521,8 @@ void Character::suffer()
         }
     }
 
-    for( size_t i = 0; i < get_bionics().size(); i++ ) {
-        process_bionic( i );
+    for( bionic &bio : *my_bionics ) {
+        process_bionic( bio );
     }
 
     for( const trait_id &mut_id : get_mutations() ) {
@@ -1576,9 +1602,9 @@ bool Character::irradiate( float rads, bool bypass )
         int rads_max = roll_remainder( rads );
         mod_rad( rng( 0, rads_max ) );
 
-        // Apply rads to any radiation badges.
+        // Apply rads to any radiation badges that are exposed (worn or wielded)
         for( item *const it : inv_dump() ) {
-            if( it->typeId() != itype_rad_badge ) {
+            if( !it->has_flag( json_flag_RAD_DETECT ) ) {
                 continue;
             }
 
@@ -1599,13 +1625,14 @@ bool Character::irradiate( float rads, bool bypass )
             }
 
             // If the color hasn't changed, don't print anything.
-            const std::string &col_before = rad_badge_color( before );
-            const std::string &col_after = rad_badge_color( it->irradiation );
+            const std::string &col_before = display::rad_badge_color_name( before );
+            const std::string &col_after = display::rad_badge_color_name( it->irradiation );
             if( col_before == col_after ) {
                 continue;
             }
 
-            add_msg_if_player( m_warning, _( "Your radiation badge changes from %1$s to %2$s!" ),
+            //~ %1$s = previous badge color, %2%s = current badge color
+            add_msg_if_player( m_bad, _( "Your radiation badge changes from %1$s to %2$s!" ),
                                col_before, col_after );
         }
 

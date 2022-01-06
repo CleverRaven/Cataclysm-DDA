@@ -24,7 +24,7 @@
   {
     "id": "BGSS_LEFT_FOR_DEAD_3_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "At some point, I felt like I was waking up.  It was around the time they were busting out those humvees with riot control turrets on top.  Says something about my frame of mind that I don't even remember if I'd seen them before that point.  Anyway I heard the gunfire going off and just kinda realized I was on the edges of a mob charging a heavily armed military emplacement.  That's when I started seeing the mob for what it was, seeing the wild-eyed animals, even the zombies.  I turned and ran.",
+    "dynamic_line": "At some point, I felt like I was waking up.  It was around the time they were busting out those Humvees with riot control turrets on top.  Says something about my frame of mind that I don't even remember if I'd seen them before that point.  Anyway I heard the gunfire going off and just kinda realized I was on the edges of a mob charging a heavily armed military emplacement.  That's when I started seeing the mob for what it was, seeing the wild-eyed animals, even the zombies.  I turned and ran.",
     "responses": [
       { "text": "What made you come back?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY4" },
       { "text": "Where did you go from there?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY5" },

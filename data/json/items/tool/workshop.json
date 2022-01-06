@@ -20,7 +20,7 @@
       "msg": "You test the bricks, and they're solid enough to use.",
       "moves": 50,
       "type": "delayed_transform",
-      "transform_age": 100800,
+      "transform_age": 604800,
       "not_ready_msg": "The bricks are still too damp to bear weight.",
       "//": "Should be about a week. Irl it's ten days, so make big batches."
     }
@@ -73,7 +73,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
-    "qualities": [ [ "GRIND", 2 ] ],
+    "charged_qualities": [ [ "GRIND", 2 ], [ "SAW_M", 2 ] ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": 800000,
@@ -86,6 +86,36 @@
         "default_magazine": "medium_battery_cell"
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "grinder_cutoff_disc",
+    "symbol": "o",
+    "color": "dark_gray",
+    "name": { "str": "cutoff disc" },
+    "description": "This is a manufactured disc for an angle grinder, with a thin abrasive edge designed for cutting metal.",
+    "category": "spare_parts",
+    "price": 20,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "weight": "349 g",
+    "volume": "250 ml",
+    "to_hit": -4
+  },
+  {
+    "type": "GENERIC",
+    "id": "grinder_metal_grinding_disc",
+    "symbol": "o",
+    "color": "dark_gray",
+    "name": { "str": "metal grinding disc" },
+    "description": "This is a manufactured disc for an angle grinder, with a thick abrasive surface designed for grinding and shaping metal.",
+    "category": "spare_parts",
+    "price": 20,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "weight": "349 g",
+    "volume": "250 ml",
+    "to_hit": -4
   },
   {
     "id": "brick_kiln",
@@ -104,14 +134,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000 } } ],
     "ammo": [ "charcoal" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "kiln_pseudo",
-    "type": "TOOL",
-    "name": { "str": "clay kiln" },
-    "copy-from": "brick_kiln",
-    "sub": "brick_kiln",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 40000 } } ]
   },
   {
     "id": "carding_paddles",
@@ -232,7 +254,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR", "HAMMER" ],
     "flags": [ "BELT_CLIP" ]
   },
@@ -281,7 +303,41 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
-    "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
+    "charges_per_use": 5,
+    "qualities": [ [ "SCREW", 1 ] ],
+    "charged_qualities": [ [ "DRILL", 3 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "200 ml",
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "cordless_impact_wrench",
+    "type": "TOOL",
+    "name": { "str": "cordless impact wrench", "str_pl": "cordless impact wrenches" },
+    "description": "This is a cordless battery-powered impact wrench, designed to deliver high torque via an internal rotating hammer.  It comes with a standard set of sockets, and makes a loud ratcheting sound when it operates.  You could use it to turn large bolts, or even change a vehicle wheel.",
+    "//": "Loosely based on DeWalt DCF899B 20V 1/2-inch cordless impact wrench, $220 on Amazon, 6.4 pounds.",
+    "looks_like": "cordless_drill",
+    "weight": "2900 g",
+    "volume": "900 ml",
+    "longest_side": "22 cm",
+    "price": 20000,
+    "price_postapoc": 250,
+    "to_hit": -2,
+    "bashing": 3,
+    "cutting": 1,
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
+    "charges_per_use": 10,
+    "qualities": [ [ "WRENCH", 1 ] ],
+    "charged_qualities": [ [ "WRENCH", 2 ], [ "WHEEL_FAST", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -351,6 +407,26 @@
     "flags": [ "BELT_CLIP" ]
   },
   {
+    "id": "tin_snips",
+    "type": "TOOL",
+    "name": { "str_sp": "tin snips" },
+    "description": "This is a pair of tin snips, resembling a sturdy pair of scissors with beefy blades designed to cut through thin sheets of soft metal.  These cannot cut through thick metals like a hacksaw can, but are better suited to precision work and leave a cleaner edge.",
+    "//": "Loosely based on Stanley FATMAX straight cut 9-7/8-inch aviation snip",
+    "weight": "400 g",
+    "volume": "200 ml",
+    "longest_side": "20 cm",
+    "price": 2500,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "SAW_M", 1 ], [ "SAW_M_FINE", 2 ] ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
     "id": "hammer",
     "type": "TOOL",
     "name": { "str": "hammer" },
@@ -366,9 +442,10 @@
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ] ],
+    "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
-    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "weapon_category": [ "BATONS" ]
   },
   {
     "id": "hand_drill",
@@ -525,12 +602,12 @@
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
       [ "PRY", 1 ],
+      [ "PRYING_NAIL", 1 ],
       [ "SAW_M_FINE", 1 ],
       [ "SAW_M", 2 ],
       [ "SAW_W", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "WRENCH", 2 ],
-      [ "WHEEL_FAST", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ],
@@ -582,7 +659,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "FILE", 2 ] ]
+    "qualities": [ [ "FILE", 2 ], [ "GRIND", 2 ] ]
   },
   {
     "id": "metal_smoother",
@@ -618,7 +695,7 @@
     "ammo": [ "tape" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "tape": 200 } } ],
     "charges_per_use": 5,
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", 7 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", 7 ] ],
     "use_action": [
       {
         "type": "repair_item",
@@ -666,7 +743,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "WRENCH", 1 ], [ "SCREW", 1 ], [ "SCREW_FINE", 1 ], [ "BUTCHER", 7 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "WRENCH", 1 ], [ "SCREW", 1 ], [ "SCREW_FINE", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -684,17 +761,9 @@
     "ammo": [ "weldgas" ],
     "charges_per_use": 4,
     "use_action": [ "OXYTORCH" ],
-    "qualities": [ [ "WELD", 2 ] ],
+    "charged_qualities": [ [ "WELD", 2 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "weldtank", "tinyweldtank" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "tinyweldtank" ] } ]
   },
   {
     "id": "paint_brush",
@@ -730,7 +799,8 @@
     "color": "dark_gray",
     "use_action": [ "PICKAXE" ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
+    "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "id": "pin_reamer",
@@ -738,7 +808,7 @@
     "name": { "str": "pin reamer" },
     "description": "Handheld pin reamers of this kind are used to enlarge existing holes, or remove any burs and such from them.",
     "weight": "76 g",
-    "volume": "250 ml",
+    "volume": "20 ml",
     "longest_side": "13 cm",
     "price": 300,
     "price_postapoc": 100,
@@ -756,8 +826,8 @@
     "name": { "str_sp": "pliers" },
     "description": "This is a basic pair of slip-joint pliers, able to handle basic mechanical work.  Anything too complex will require a wrench.",
     "ascii_picture": "pliers",
-    "weight": "807 g",
-    "volume": "250 ml",
+    "weight": "200 g",
+    "volume": "70 ml",
     "longest_side": "15 cm",
     "price": 800,
     "price_postapoc": 100,
@@ -766,6 +836,42 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "big_pliers",
+    "type": "TOOL",
+    "name": { "str_sp": "tongue-and-groove pliers" },
+    "description": "This is a large pair of slip-joint pliers bent at the elbow, able to handle basic mechanical work.  Anything too complex will require a wrench.",
+    "ascii_picture": "pliers",
+    "weight": "800 g",
+    "volume": "280 ml",
+    "longest_side": "30 cm",
+    "price": 800,
+    "price_postapoc": 100,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "WRENCH", 2 ] ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "pliers_locking",
+    "type": "TOOL",
+    "name": { "str_sp": "locking pliers" },
+    "description": "These pliers have extra-hefty jaws, and an adjustable mechanism to clamp them in a locked grip on whatever unfortunate object is trapped between them.  They could grip and turn a fairly large bolt head, or clamp two parts together temporarily.",
+    "looks_like": "pliers",
+    "weight": "250 g",
+    "volume": "100 ml",
+    "longest_side": "20 cm",
+    "price": 1200,
+    "price_postapoc": 100,
+    "bashing": 3,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "WRENCH", 2 ], [ "VISE", 1 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -783,6 +889,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
+    "charges_per_use": 1,
+    "charged_qualities": [ [ "GRIND", 2 ] ],
     "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
     "pocket_data": [
@@ -813,6 +921,35 @@
     "flags": [ "BELT_CLIP" ]
   },
   {
+    "id": "reciprocating_saw",
+    "type": "TOOL",
+    "name": { "str": "reciprocating saw" },
+    "description": "This battery-powered tool, commonly known by the generic trademark Sawzall, uses an electric motor to push a straight sawblade back and forth to rapidly cut wood or metal.  It is useful for heavy demolition and construction work, but is poorly suited to precision tasks.",
+    "weight": "2 kg",
+    "volume": "3 L",
+    "price": 5000,
+    "price_postapoc": 250,
+    "to_hit": -3,
+    "bashing": 2,
+    "cutting": 2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "/",
+    "color": "yellow",
+    "charged_qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 2 ] ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "power_draw": 800000,
+    "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "200 ml",
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
     "id": "screwdriver",
     "type": "TOOL",
     "name": { "str": "screwdriver" },
@@ -830,7 +967,8 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP" ]
+    "flags": [ "SPEAR", "BELT_CLIP" ],
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "screwdriver_set",
@@ -850,6 +988,46 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "socket_screwdriver_set",
+    "type": "TOOL",
+    "name": { "str": "socket screwdriver set" },
+    "description": "This is a ratcheting screwdriver with a collection of hex sockets for turning small bolts or nuts, including a couple standard screwdriver bits.",
+    "looks_like": "screwdriver_set",
+    "weight": "340 g",
+    "volume": "500 ml",
+    "longest_side": "28 cm",
+    "price": 2000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 2,
+    "cutting": 6,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "qualities": [ [ "SCREW", 1 ], [ "WRENCH", 1 ], [ "WRENCH_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "socket_wrench_set",
+    "type": "TOOL",
+    "name": { "str": "socket wrench set" },
+    "description": "This is a thick-handled ratchet wrench with an assortment of interchangeable sockets in common hex bolt sizes.  You could loosen or tighten fairly large bolts with this, and the ratchet makes a satisfying clicking sound.",
+    "//": "Modeled after 40-piece Walmart set, 2.85 lb, case 9.75 x 1.5 x 5 inches",
+    "looks_like": "screwdriver_set",
+    "weight": "1300 g",
+    "volume": "1200 ml",
+    "longest_side": "25 cm",
+    "price": 2000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 2,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -878,20 +1056,20 @@
       [ "SAW_W", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "WRENCH", 2 ],
-      [ "WHEEL_FAST", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ],
-      [ "CHISEL_WOOD", 3 ]
+      [ "CHISEL_WOOD", 3 ],
+      [ "PRYING_NAIL", 1 ]
     ],
-    "use_action": [ "GUN_REPAIR", [ "CROWBAR", 0 ], [ "HAMMER", 0 ] ],
+    "use_action": [ "GUN_REPAIR", [ "CROWBAR", 0 ], [ "HAMMER", 0 ], [ "HACKSAW", 0 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
       }
     ]
   },
@@ -956,8 +1134,8 @@
     "category": "container",
     "name": { "str": "toolbox", "str_pl": "toolboxes" },
     "description": "This is a stout metal box for containing tools.  It has a handle on the top and a latch on the front.",
-    "weight": "3522 g",
-    "volume": "2500 ml",
+    "weight": "4377 g",
+    "volume": "8000 ml",
     "longest_side": "42 cm",
     "price": 12999,
     "price_postapoc": 3000,
@@ -966,7 +1144,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "pocket_data": [ { "max_contains_volume": "2400 ml", "max_contains_weight": "10 kg", "max_item_length": "40 cm", "rigid": true } ]
+    "pocket_data": [ { "max_contains_volume": "7800 ml", "max_contains_weight": "15 kg", "max_item_length": "40 cm", "rigid": true } ]
   },
   {
     "id": "toolbox_workshop_empty",
@@ -975,9 +1153,9 @@
     "name": { "str": "workshop toolbox", "str_pl": "workshop toolboxes" },
     "description": "This is a stout metal box for containing tools.  It is much bigger than a regular tool box and could be used to store more tools than usual.",
     "looks_like": "toolbox_empty",
-    "weight": "3994 g",
-    "volume": "3100 ml",
-    "longest_side": "65 cm",
+    "weight": "8618 g",
+    "volume": "34400 ml",
+    "longest_side": "66 cm",
     "price": 14099,
     "price_postapoc": 3250,
     "to_hit": -2,
@@ -985,19 +1163,19 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "pocket_data": [ { "max_contains_volume": "3000 ml", "max_contains_weight": "15 kg", "max_item_length": "63 cm", "rigid": true } ]
+    "pocket_data": [ { "max_contains_volume": "34000 ml", "max_contains_weight": "34 kg", "max_item_length": "65 cm", "rigid": true } ]
   },
   {
     "id": "toolset_extended",
     "type": "TOOL",
-    "name": { "str": "extended toolset" },
-    "description": "Your toolset, protruding from your hands.  It can slice, dice, and make everything nice.",
+    "name": { "str": "extended multitool" },
+    "description": "Your multitool, extended.  Ready to do repair work.",
     "symbol": "#",
     "color": "white",
     "weight": "226 g",
     "bashing": 3,
-    "cutting": 5,
-    "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USES_BIONIC_POWER" ],
+    "cutting": 1,
+    "flags": [ "NO_UNWIELD", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
     "//": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
     "charges_per_use": 1,
     "use_action": [
@@ -1029,22 +1207,17 @@
       { "flame": false, "type": "cauterize" }
     ],
     "qualities": [
-      [ "HAMMER", 3 ],
-      [ "HAMMER_FINE", 1 ],
       [ "SAW_W", 1 ],
-      [ "SAW_M", 2 ],
+      [ "SAW_M", 1 ],
       [ "SAW_M_FINE", 1 ],
-      [ "WRENCH", 2 ],
+      [ "WRENCH", 1 ],
       [ "WRENCH_FINE", 1 ],
-      [ "WHEEL_FAST", 1 ],
       [ "SCREW", 1 ],
       [ "SCREW_FINE", 1 ],
-      [ "CUT", 2 ],
+      [ "CUT", 1 ],
       [ "PRY", 1 ],
-      [ "DRILL", 3 ],
-      [ "BUTCHER", -38 ],
-      [ "FILE", 2 ],
-      [ "REAM", 1 ]
+      [ "PRYING_NAIL", 1 ],
+      [ "BUTCHER", -55 ]
     ]
   },
   {
@@ -1063,7 +1236,7 @@
     "color": "red",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "qualities": [ [ "WELD", 2 ] ],
+    "charged_qualities": [ [ "WELD", 2 ] ],
     "use_action": [
       {
         "type": "repair_item",
@@ -1101,7 +1274,7 @@
     "color": "light_red",
     "ammo": [ "battery" ],
     "charges_per_use": 10,
-    "qualities": [ [ "WELD", 1 ] ],
+    "charged_qualities": [ [ "WELD", 1 ] ],
     "use_action": [
       {
         "type": "repair_item",
@@ -1171,16 +1344,35 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ], [ "BUTCHER", 7 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 2 ], [ "BUTCHER", 7 ], [ "FABRIC_CUT", 1 ] ],
     "flags": [ "FRAGILE_MELEE" ]
+  },
+  {
+    "id": "wrench_small",
+    "type": "TOOL",
+    "name": { "str": "small adjustable wrench", "str_pl": "small adjustable wrenches" },
+    "description": "This adjustable crescent wrench is compact, with a short handle that fits in the palm of the hand.  It could be used for turning small hex-head nuts or bolts.",
+    "//": "Measured weight of 6-inch Craftsman wrench with 150mm jaws, assume 8g/ml steel density plus some margin for mechanism and empty space.",
+    "looks_like": "wrench",
+    "weight": "110 g",
+    "volume": "20 ml",
+    "longest_side": "15 cm",
+    "price": 500,
+    "price_postapoc": 100,
+    "bashing": 1,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "WRENCH", 1 ], [ "WRENCH_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "wrench",
     "type": "TOOL",
-    "name": { "str": "wrench", "str_pl": "wrenches" },
+    "name": { "str": "adjustable wrench", "str_pl": "adjustable wrenches" },
     "description": "This is an adjustable crescent wrench.  It could be a decent melee weapon, and is used in many mechanics crafting recipes.",
     "weight": "907 g",
-    "volume": "450 ml",
+    "volume": "120 ml",
     "longest_side": "20 cm",
     "price": 1200,
     "price_postapoc": 100,
@@ -1188,7 +1380,27 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ], [ "WHEEL_FAST", 1 ] ],
+    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
+    "flags": [ "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ]
+  },
+  {
+    "id": "wrench_large",
+    "type": "TOOL",
+    "name": { "str": "large adjustable wrench", "str_pl": "large adjustable wrenches" },
+    "description": "This adjustable crescent wrench is unusually large, with a long handle and jaws that widen over two inches.  This could easily turn most bolts, and should even work on wheel lug nuts.",
+    "//": "WESTWARD 31D018 from Walmart, 18-inch length, 2-3/8-inch jaws, 4.23 lb, assume 8g/ml steel density with some margin for mechanism and other empty space.",
+    "looks_like": "wrench",
+    "weight": "1900 g",
+    "volume": "250 ml",
+    "longest_side": "46 cm",
+    "price": 1200,
+    "price_postapoc": 100,
+    "bashing": 12,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "WRENCH", 2 ], [ "WHEEL_FAST", 1 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -1239,6 +1451,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
+    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

@@ -31,11 +31,13 @@
 #include "game_constants.h"
 #include "input.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"
@@ -1159,6 +1161,7 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
+    ctxt.register_action( "EXAMINE_CONTENTS" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TOGGLE_AUTO_PICKUP" );
     ctxt.register_action( "TOGGLE_FAVORITE" );
@@ -1679,6 +1682,17 @@ void advanced_inventory::display()
                 continue;
             }
             action_examine( sitem, spane );
+        } else if( action == "EXAMINE_CONTENTS" ) {
+            if( sitem == nullptr ) {
+                continue;
+            }
+            item_location sitem_location = sitem->items.front();
+            inventory_examiner examine_contents( player_character, sitem_location );
+            examine_contents.add_contained_items( sitem_location );
+            int examine_result = examine_contents.execute();
+            if( examine_result == NO_CONTENTS_TO_EXAMINE ) {
+                action_examine( sitem, spane );
+            }
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {

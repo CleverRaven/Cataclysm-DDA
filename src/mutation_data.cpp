@@ -10,16 +10,20 @@
 
 #include "assign.h"
 #include "color.h"
+#include "condition.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "memory_fast.h"
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"
+
+static const trait_group::Trait_group_tag Trait_group_EMPTY_GROUP( "EMPTY_GROUP" );
 
 using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
@@ -289,36 +293,9 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
     return true;
 }
 
-namespace io
-{
-    // *INDENT-OFF*
-    template<>
-    std::string enum_to_string<trigger_type>(trigger_type trigger_num)
-    {
-        switch (trigger_num) {
-        case trigger_type::PAIN: return "PAIN";
-        case trigger_type::HUNGER: return "HUNGER";
-        case trigger_type::THRIST: return "THIRST";
-        case trigger_type::MOOD: return "MOOD";
-        case trigger_type::STAMINA: return "STAMINA";
-        case trigger_type::MOON: return "MOON";
-        case trigger_type::TIME: return "TIME";
-        case trigger_type::num_trigger: return "undefined trigger";
-        }
-        cata_fatal("Invalid trigger_type %d", trigger_num);
-    }
-    // *INDENT-ON*
-} // namespace io
-
 void reflex_activation_data::load( const JsonObject &jsobj )
 {
-    std::string tmp;
-    mandatory( jsobj, was_loaded, "trigger_type", tmp );
-    trigger = io::string_to_enum<trigger_type>( tmp );
-
-    optional( jsobj, was_loaded, "threshold_low",  threshold_low, INT_MIN );
-    optional( jsobj, was_loaded, "threshold_high", threshold_high, INT_MAX );
-
+    read_condition<dialogue>( jsobj, "condition", trigger, false );
     if( jsobj.has_object( "msg_on" ) ) {
         JsonObject jo = jsobj.get_object( "msg_on" );
         optional( jo, was_loaded, "text", msg_on.first );
@@ -428,7 +405,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, cata::nullopt );
     optional( jo, was_loaded, "movecost_swim_modifier", movecost_swim_modifier, cata::nullopt );
     optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, cata::nullopt );
-    optional( jo, was_loaded, "max_stamina_modifier", max_stamina_modifier, cata::nullopt );
+    optional( jo, was_loaded, "cardio_multiplier", cardio_multiplier, cata::nullopt );
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, cata::nullopt );
     optional( jo, was_loaded, "hearing_modifier", hearing_modifier, cata::nullopt );
     optional( jo, was_loaded, "noise_modifier", noise_modifier, cata::nullopt );
@@ -573,9 +550,18 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     for( JsonObject ao : jo.get_array( "armor" ) ) {
         const resistances res = load_resistances_instance( ao );
-
+        // Set damage resistances for all body parts of the specified type(s)
+        for( const std::string &type_string : ao.get_tags( "part_types" ) ) {
+            for( const body_part_type &bp : body_part_type::get_all() ) {
+                if( type_string == "ALL" ||
+                    bp.limb_type == io::string_to_enum<body_part_type::type>( type_string ) ) {
+                    armor[bp.id] += res;
+                }
+            }
+        }
+        // Set damage resistances for specific body parts
         for( const std::string &part_string : ao.get_tags( "parts" ) ) {
-            armor[bodypart_str_id( part_string )] = res;
+            armor[bodypart_str_id( part_string )] += res;
         }
     }
 
@@ -707,7 +693,7 @@ void mutation_branch::reset_all()
     trait_factory.reset();
     trait_blacklist.clear();
     trait_groups.clear();
-    trait_groups.emplace( trait_group::Trait_group_tag( "EMPTY_GROUP" ),
+    trait_groups.emplace( Trait_group_EMPTY_GROUP,
                           make_shared_fast<Trait_group_collection>( 100 ) );
 }
 

@@ -25,6 +25,7 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "memory_fast.h"
 #include "npc.h"
 #include "optional.h"
@@ -40,6 +41,11 @@
 #include "type_id.h"
 #include "ui_manager.h"
 
+static const faction_id faction_no_faction( "no_faction" );
+static const faction_id faction_your_followers( "your_followers" );
+
+static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
+
 namespace npc_factions
 {
 std::vector<faction_template> all_templates;
@@ -49,6 +55,7 @@ faction_template::faction_template()
 {
     likes_u = 0;
     respects_u = 0;
+    trusts_u = 0;
     known_by_u = true;
     food_supply = 0;
     wealth = 0;
@@ -103,6 +110,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
     , likes_u( jsobj.get_int( "likes_u" ) )
     , respects_u( jsobj.get_int( "respects_u" ) )
+    , trusts_u( jsobj.get_int( "trusts_u", 0 ) )
     , known_by_u( jsobj.get_bool( "known_by_u" ) )
     , id( faction_id( jsobj.get_string( "id" ) ) )
     , size( jsobj.get_int( "size" ) )
@@ -382,7 +390,7 @@ void faction_manager::clear()
 
 void faction_manager::remove_faction( const faction_id &id )
 {
-    if( id.str().empty() || id == faction_id( "no_faction" ) ) {
+    if( id.str().empty() || id == faction_no_faction ) {
         return;
     }
     for( auto it = factions.cbegin(), next_it = it; it != factions.cend(); it = next_it ) {
@@ -422,7 +430,7 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
 faction *faction_manager::get( const faction_id &id, const bool complain )
 {
     if( id.is_null() ) {
-        return get( faction_id( "no_faction" ) );
+        return get( faction_no_faction );
     }
     for( auto &elem : factions ) {
         if( elem.first == id ) {
@@ -505,6 +513,25 @@ void faction::faction_display( const catacurses::window &fac_w, const int width 
                     "%s", desc );
 }
 
+std::string npc::get_current_status() const
+{
+    if( current_target() != nullptr ) {
+        return _( "In Combat!" );
+    } else if( in_sleep_state() ) {
+        return _( "Sleeping" );
+    } else if( is_following() ) {
+        return _( "Following" );
+    } else if( is_leader() ) {
+        return _( "Leading" );
+    } else if( is_patrolling() ) {
+        return _( "Patrolling" );
+    } else if( is_guarding() ) {
+        return _( "Guarding" );
+    } else {
+        return get_current_activity();
+    }
+}
+
 int npc::faction_display( const catacurses::window &fac_w, const int width ) const
 {
     int retval = 0;
@@ -534,8 +561,18 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             mission_string = _( "Current Mission: " ) +
                              get_mission_action_string( c_mission.mission_id );
         }
+        fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
+
+        // Determine remaining time in mission, and display it
+        std::string mission_eta;
+        if( companion_mission_time_ret < calendar::turn ) {
+            mission_eta = _( "JOB COMPLETED" );
+        } else {
+            mission_eta = _( "ETA: " ) + to_string( companion_mission_time_ret - calendar::turn );
+        }
+        fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_eta );
     }
-    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
+
     tripoint_abs_omt guy_abspos = global_omt_location();
     basecamp *temp_camp = nullptr;
     if( assigned_camp ) {
@@ -560,7 +597,6 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::string can_see;
     nc_color see_color;
 
-    static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
     bool u_has_radio = player_character.has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
@@ -618,22 +654,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     mvwprintz( fac_w, point( width, ++y ), see_color, "%s", can_see );
     nc_color status_col = col;
-    std::string current_status = _( "Status: " );
     if( current_target() != nullptr ) {
-        current_status += _( "In Combat!" );
         status_col = c_light_red;
-    } else if( in_sleep_state() ) {
-        current_status += _( "Sleeping" );
-    } else if( is_following() ) {
-        current_status += _( "Following" );
-    } else if( is_leader() ) {
-        current_status += _( "Leading" );
-    } else if( is_patrolling() ) {
-        current_status += _( "Patrolling" );
-    } else if( is_guarding() ) {
-        current_status += _( "Guarding" );
     }
-    mvwprintz( fac_w, point( width, ++y ), status_col, current_status );
+    mvwprintz( fac_w, point( width, ++y ), status_col, _( "Status: " ) + get_current_status() );
     if( is_stationed && has_job() ) {
         mvwprintz( fac_w, point( width, ++y ), col, _( "Working at camp" ) );
     } else if( is_stationed ) {
@@ -845,7 +869,7 @@ void faction_manager::display() const
         }
         valfac.clear();
         for( const auto &elem : g->faction_manager_ptr->all() ) {
-            if( elem.second.known_by_u && elem.second.id != faction_id( "your_followers" ) ) {
+            if( elem.second.known_by_u && elem.second.id != faction_your_followers ) {
                 valfac.push_back( &elem.second );
             }
         }
@@ -917,7 +941,7 @@ void faction_manager::display() const
                     guy->reset_companion_mission();
                     popup( _( "%s returns from their mission" ), guy->disp_name() );
                 } else if( interactable || radio_interactable ) {
-                    player_character.talk_to( get_talker_for( *guy ), false, radio_interactable );
+                    player_character.talk_to( get_talker_for( *guy ), radio_interactable );
                 }
             } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
                 camp->query_new_name();

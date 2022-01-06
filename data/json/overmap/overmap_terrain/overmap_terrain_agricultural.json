@@ -17,7 +17,8 @@
     "type": "overmap_terrain",
     "id": "rural_road_3way",
     "copy-from": "generic_rural_road",
-    "sym": "┬"
+    "sym": "┬",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -77,13 +78,15 @@
     "type": "overmap_terrain",
     "id": "dirt_road_turn",
     "copy-from": "generic_dirt_road",
-    "sym": "┐"
+    "sym": "┐",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
     "id": "dirt_road_turn1",
     "copy-from": "generic_dirt_road",
-    "sym": "┌"
+    "sym": "┌",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -183,15 +186,11 @@
       "farm_isherwood_7",
       "farm_isherwood_8",
       "farm_isherwood_9",
-      "farm_lot_M",
       "farm_lot_M1",
       "farm_lot_wire_straight_h",
-      "farm_lot_wire_straight_h_open",
       "farm_lot_wire_straight_v",
       "farm_lot_wire_straight_v_open",
       "farm_lot_wire_turn_h",
-      "farm_lot_wire_turn_h_open",
-      "farm_lot_wire_turn_uni",
       "farm_lot_wire_turn_v",
       "farm_lot_wire_turn_v_open",
       "farm_stills_1",
@@ -607,7 +606,8 @@
     "type": "overmap_terrain",
     "id": "coop_chicken",
     "copy-from": "generic_rural_building",
-    "name": "chicken coop"
+    "name": "chicken coop",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",

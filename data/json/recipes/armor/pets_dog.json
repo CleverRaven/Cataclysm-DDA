@@ -66,7 +66,7 @@
     "difficulty": 1,
     "time": "4 h",
     "byproducts": [ [ "leather", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "vest_leather", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2, "fail_multiplier": 1.2 } ]
   },
@@ -160,7 +160,7 @@
     "time": "5 h",
     "autolearn": true,
     "using": [ [ "clasps", 3 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "duct_tape", 25 ] ], [ [ "coat_rain", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
@@ -177,7 +177,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "clasps", 3 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "bag_plastic", 10 ] ], [ [ "rag", 10 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   }

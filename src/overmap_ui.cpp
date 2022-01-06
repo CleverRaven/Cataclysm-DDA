@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "all_enum_values.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "cached_options.h"
@@ -83,6 +84,10 @@ static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
+
+static const oter_str_id oter_forest( "forest" );
+
+static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
 
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
@@ -288,7 +293,7 @@ static void draw_city_labels( const catacurses::window &w, const tripoint_abs_om
         }
 
         if( screen_center_pos.x >= ( text_x_min - 1 ) &&
-            screen_center_pos.x <= ( text_x_max ) &&
+            screen_center_pos.x <= text_x_max &&
             screen_center_pos.y >= ( text_y - 1 ) &&
             screen_center_pos.y <= ( text_y + 1 ) ) {
             continue;   // right under the cursor.
@@ -327,7 +332,7 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint_abs_om
         }
 
         if( screen_center_pos.x >= ( text_x_min - 1 ) &&
-            screen_center_pos.x <= ( text_x_max ) &&
+            screen_center_pos.x <= text_x_max &&
             screen_center_pos.y >= ( text_y - 1 ) &&
             screen_center_pos.y <= ( text_y + 1 ) ) {
             continue;   // right under the cursor.
@@ -514,7 +519,7 @@ static void draw_ascii(
     const int om_half_width = om_map_width / 2;
     const int om_half_height = om_map_height / 2;
     const bool viewing_weather =
-        ( ( uistate.overmap_debug_weather || uistate.overmap_visible_weather ) && center.z() == 10 );
+        ( uistate.overmap_debug_weather || uistate.overmap_visible_weather ) && center.z() == 10;
 
     avatar &player_character = get_avatar();
     // Target of current mission
@@ -530,7 +535,7 @@ static void draw_ascii(
     // Whether showing hordes is currently enabled
     const bool showhordes = uistate.overmap_show_hordes;
 
-    const oter_id forest = oter_str_id( "forest" ).id();
+    const oter_id forest = oter_forest.id();
 
     std::string sZoneName;
     tripoint_abs_omt tripointZone( -1, -1, -1 );
@@ -767,7 +772,7 @@ static void draw_ascii(
                 ter_color = c_yellow;
                 ter_sym = "Z";
             } else if( !uistate.overmap_show_forest_trails && cur_ter &&
-                       is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
+                       ( cur_ter->get_type_id() == oter_type_forest_trail ) ) {
                 // If forest trails shouldn't be displayed, and this is a forest trail, then
                 // instead render it like a forest.
                 set_color_and_symbol( forest, omp, ter_sym, ter_color );
@@ -1025,7 +1030,7 @@ static void draw_om_sidebar(
 
     // Draw text describing the overmap tile at the cursor position.
     int lines = 1;
-    if( center_seen && !viewing_weather ) {
+    if( center_seen ) {
         if( !mgroups.empty() ) {
             int line_number = 6;
             for( const auto &mgroup : mgroups ) {
@@ -1053,27 +1058,38 @@ static void draw_om_sidebar(
             lines = fold_and_print( wbar, point( 3, 1 ), getmaxx( wbar ) - 3, c_light_gray,
                                     overmap_buffer.get_description_at( sm_pos ) );
         }
-    } else if( viewing_weather ) {
-        const bool weather_is_visible = ( uistate.overmap_debug_weather ||
-                                          player_character.overmap_los( center, sight_points * 2 ) );
-        if( weather_is_visible ) {
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( wbar, point( 1, 1 ), get_weather_at_point( center )->color,
-                       get_weather_at_point( center )->name.translated() );
-        } else {
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
-        }
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
     }
 
+    // Describe the weather conditions on the following line, if weather is visible
+    if( viewing_weather ) {
+        const bool weather_is_visible = uistate.overmap_debug_weather ||
+                                        player_character.overmap_los( center, sight_points * 2 );
+        if( weather_is_visible ) {
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            mvwprintz( wbar, point( 3, ++lines ), get_weather_at_point( center )->color,
+                       get_weather_at_point( center )->name.translated() );
+        } else {
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            mvwprintz( wbar, point( 1, ++lines ), c_dark_gray, _( "# Weather unknown" ) );
+        }
+    }
+
     if( ( data.debug_editor && center_seen ) || data.debug_info ) {
         const oter_t &oter = overmap_buffer.ter( center ).obj();
-        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "oter: %s" ), oter.id.str() );
+        mvwprintz( wbar, point( 1, ++lines ), c_white, "oter: %s (rot %d)", oter.id.str(),
+                   oter.get_rotation() );
         mvwprintz( wbar, point( 1, ++lines ), c_white,
-                   _( "oter_type: %s" ), oter.get_type_id().str() );
+                   "oter_type: %s", oter.get_type_id().str() );
+        std::vector<oter_id> predecessors = overmap_buffer.predecessors( center );
+        if( !predecessors.empty() ) {
+            mvwprintz( wbar, point( 1, ++lines ), c_white, "predecessors:" );
+            for( auto pred = predecessors.rbegin(); pred != predecessors.rend(); ++pred ) {
+                mvwprintz( wbar, point( 1, ++lines ), c_white, "- %s", pred->id().str() );
+            }
+        }
         cata::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( center );
         if( args ) {
             if( *args ) {
@@ -1082,7 +1098,14 @@ static void draw_om_sidebar(
                                arg.first, arg.second.get_string() );
                 }
             } else {
-                mvwprintz( wbar, point( 1, ++lines ), c_white, _( "args not yet set" ) );
+                mvwprintz( wbar, point( 1, ++lines ), c_white, "args not yet set" );
+            }
+        }
+
+        for( cube_direction dir : all_enum_values<cube_direction>() ) {
+            if( std::string *join = overmap_buffer.join_used_at( { center, dir } ) ) {
+                mvwprintz( wbar, point( 1, ++lines ), c_white, "join %s: %s",
+                           io::enum_to_string( dir ), *join );
             }
         }
     }

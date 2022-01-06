@@ -25,7 +25,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install gettext python3-pip
-          sudo pip3 install transifex-client
+          sudo pip3 install transifex-client polib
       - name: "Checkout"
         uses: actions/checkout@v2
       - name: "Generate translation template"

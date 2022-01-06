@@ -25,8 +25,18 @@
         "max_contains_weight": "5 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "30gal_barrel",
@@ -158,8 +168,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_paper_powder",
@@ -184,8 +193,7 @@
     ],
     "material": [ "paper" ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "white"
   },
   {
     "id": "bag_zipper",
@@ -210,8 +218,28 @@
       }
     ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
+  },
+  {
+    "id": "bag_zipper_gallon",
+    "copy-from": "bag_zipper",
+    "type": "GENERIC",
+    "name": { "str": "gallon-sized zipper bag" },
+    "description": "An inexpensive flexible rectangular storage bag, noticeably larger than it's more common counterpart.  Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
+    "weight": "20 g",
+    "volume": "75 ml",
+    "price_postapoc": 13,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "4500 ml",
+        "max_contains_weight": "3000 g",
+        "max_item_length": "29 cm",
+        "spoil_multiplier": 0.8,
+        "moves": 600
+      }
+    ]
   },
   {
     "id": "bag_body_bag",
@@ -237,8 +265,7 @@
         "moves": 400
       }
     ],
-    "color": "dark_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "dark_gray"
   },
   {
     "id": "bag_iv",
@@ -263,8 +290,7 @@
         "max_contains_weight": "3 kg",
         "moves": 400
       }
-    ],
-    "flags": [ "TRADER_AVOID" ]
+    ]
   },
   {
     "id": "bottle_glass",
@@ -274,7 +300,7 @@
     "looks_like": "bottle_plastic",
     "description": "A watertight glass bottle, holds 750 ml of liquid.",
     "weight": "450 g",
-    "volume": "1318 ml",
+    "volume": "953 ml",
     "longest_side": "276 mm",
     "price": 0,
     "price_postapoc": 10,
@@ -304,7 +330,7 @@
     "name": { "str": "plastic bottle" },
     "description": "A watertight plastic bottle, holds 500 ml of liquid.  Some may be factory-sealed to increase shelf life.",
     "weight": "13 g",
-    "volume": "502 ml",
+    "volume": "510 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -363,7 +389,7 @@
     "looks_like": "bottle_plastic",
     "description": "A watertight plastic bottle, holds 250 ml of liquid.",
     "weight": "7 g",
-    "volume": "251 ml",
+    "volume": "255 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -383,6 +409,51 @@
     "color": "white"
   },
   {
+    "id": "bottle_plastic_pill_prescription",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "plastic prescription bottle" },
+    "looks_like": "antibiotics",
+    "description": "A small orange pill bottle with a white screw top.",
+    "weight": "7 g",
+    "volume": "251 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ],
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "bottle_plastic_pill_painkiller",
+    "type": "GENERIC",
+    "copy-from": "bottle_plastic_pill_prescription",
+    "name": { "str": "plastic painkiller bottle" },
+    "looks_like": "aspirin",
+    "description": "A small white pill bottle with a screw top.",
+    "color": "white"
+  },
+  {
+    "id": "bottle_plastic_pill_supplement",
+    "type": "GENERIC",
+    "copy-from": "bottle_plastic_pill_prescription",
+    "name": { "str": "plastic supplement bottle" },
+    "looks_like": "vitamins",
+    "description": "A small green pill bottle with a screw top.",
+    "color": "green"
+  },
+  {
     "id": "bottle_twoliter",
     "type": "GENERIC",
     "category": "container",
@@ -390,7 +461,7 @@
     "looks_like": "bottle_plastic",
     "description": "It's a two-liter plastic bottle that can hold a lot of soda, or, nowadays, boiled water.",
     "weight": "13 g",
-    "volume": "2003 ml",
+    "volume": "2040 ml",
     "price": 25,
     "price_postapoc": 10,
     "material": [ "plastic" ],
@@ -416,7 +487,7 @@
     "looks_like": "bowl_plastic",
     "description": "A clay bowl with a waterproofed hide lid.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
     "weight": "60 g",
-    "volume": "255 ml",
+    "volume": "295 ml",
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -1,
@@ -452,6 +523,22 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ]
   },
   {
+    "id": "case_cigar",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "cigar case" },
+    "looks_like": "box_small",
+    "description": "A small handmade wood and leather case meant to hold one or two cigars.",
+    "weight": "95 g",
+    "volume": "323 ml",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "wood", "leather" ],
+    "symbol": "u",
+    "color": "brown",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "145 ml", "max_contains_weight": "1 kg" } ]
+  },
+  {
     "id": "box_small",
     "type": "GENERIC",
     "category": "container",
@@ -474,6 +561,30 @@
     "price_postapoc": 0,
     "material": [ "cardboard" ],
     "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_small_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small wooden box", "str_pl": "small wooden boxes" },
+    "description": "A small wooden box a few inches on each side, just about right for holding a few small items.",
+    "weight": "400 g",
+    "volume": "2010 ml",
+    "longest_side": "181 mm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "1350 ml",
+        "max_contains_weight": "4536 g",
+        "max_item_length": "167 mm"
+      }
+    ],
+    "price": 2000,
+    "price_postapoc": 5,
+    "material": [ "wood" ],
+    "symbol": "[",
     "color": "brown"
   },
   {
@@ -581,7 +692,19 @@
         "max_contains_weight": "20 kg"
       }
     ],
-    "armor_data": { "material_thickness": 1, "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "coverage": 30,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
     "flags": [ "BELTED" ]
   },
   {
@@ -591,7 +714,7 @@
     "name": { "str": "aluminum can" },
     "description": "An aluminum can, like what soda comes in.",
     "weight": "13 g",
-    "volume": "253 ml",
+    "volume": "262 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -3,
@@ -725,7 +848,7 @@
     "description": "A small tin can, like what tuna comes in.",
     "//": "Represents a 4 cm radius x 5 cm height steel can.",
     "weight": "40 g",
-    "volume": "253 ml",
+    "volume": "262 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "steel" ],
@@ -765,7 +888,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "volume": "503 ml"
+    "volume": "525 ml"
   },
   {
     "id": "canteen",
@@ -775,7 +898,7 @@
     "looks_like": "2lcanteen",
     "description": "A military-style water canteen with a 1.5 liter capacity.  Commonly worn at the hip.",
     "weight": "155 g",
-    "volume": "1503 ml",
+    "volume": "1575 ml",
     "price": 800,
     "price_postapoc": 50,
     "to_hit": 1,
@@ -794,10 +917,17 @@
     ],
     "armor_data": {
       "sided": true,
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+      "armor": [
+        {
+          "encumbrance": 2,
+          "coverage": 5,
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ],
+          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ]
+        }
+      ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "thermos",
@@ -832,7 +962,7 @@
     "looks_like": "bowl_clay",
     "description": "A fragile clay vessel.  It can be used to make crude impact grenades or to store liquid.",
     "weight": "268 g",
-    "volume": "253 ml",
+    "volume": "295 ml",
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": 1,
@@ -858,7 +988,7 @@
     "looks_like": "bowl_clay",
     "description": "A 15-liter clay pot with three handles for carrying and for pouring.",
     "weight": "1955 g",
-    "volume": "15003 ml",
+    "volume": "17700 ml",
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": -1,
@@ -885,7 +1015,7 @@
     "looks_like": "bowl_clay",
     "description": "A bulky and heavy clay pot with a waterproofed hide lid, meant to store water, but can carry other liquids in a pinch.",
     "weight": "4887 g",
-    "volume": "37500 ml",
+    "volume": "44250 ml",
     "price": 10000,
     "price_postapoc": 10,
     "to_hit": -2,
@@ -897,7 +1027,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "37490 ml",
+        "max_contains_volume": "37500 ml",
         "max_contains_weight": "50 kg"
       }
     ],
@@ -1077,7 +1207,7 @@
     "looks_like": "2lcanteen",
     "description": "A 250 ml metal flask with a hinged screw-on lid, commonly used to discreetly transport alcohol.",
     "weight": "120 g",
-    "volume": "251 ml",
+    "volume": "262 ml",
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": 1,
@@ -1095,9 +1225,19 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "armor_data": { "sided": true, "material_thickness": 1, "armor": [ { "coverage": 2, "covers": [ "leg_l", "leg_r" ] } ] },
+    "armor_data": {
+      "sided": true,
+      "armor": [
+        {
+          "material": [ { "type": "iron", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "coverage": 2,
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+        }
+      ]
+    },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "jar_3l_glass_sealed",
@@ -1161,7 +1301,7 @@
     "name": { "str": "plastic jerrycan" },
     "description": "A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids in a pinch.",
     "weight": "1587 g",
-    "volume": "10003 ml",
+    "volume": "10500 ml",
     "price": 1250,
     "price_postapoc": 50,
     "to_hit": -2,
@@ -1187,7 +1327,7 @@
     "looks_like": "jerrycan",
     "description": "A steel jerrycan, meant to carry fuel, but can carry other liquids in a pinch.",
     "weight": "4815 g",
-    "volume": "20002 ml",
+    "volume": "21000 ml",
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -3,
@@ -1215,7 +1355,7 @@
     "looks_like": "bowl_clay",
     "description": "A clay container with a lid, used to hold and pour liquids.",
     "weight": "400 g",
-    "volume": "1002 ml",
+    "volume": "1180 ml",
     "price": 100,
     "price_postapoc": 10,
     "bashing": 1,
@@ -1241,7 +1381,7 @@
     "looks_like": "bottle_plastic",
     "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory-sealed to increase shelf life.",
     "weight": "190 g",
-    "volume": "3752 ml",
+    "volume": "3825 ml",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
@@ -1296,7 +1436,7 @@
     "looks_like": "keg",
     "description": "A reusable heavy steel keg, used for shipping beer.  It has a capacity of 50 liters.",
     "weight": "12600 g",
-    "volume": "50050 ml",
+    "volume": "52500 ml",
     "price": 8000,
     "price_postapoc": 250,
     "to_hit": -5,
@@ -1420,8 +1560,18 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 5, "coverage": 5, "covers": [ "torso" ] } ] },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 5,
+          "coverage": 5,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "stomach_sealed",
@@ -1473,8 +1623,18 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "sided": true, "material_thickness": 2, "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ] },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "sided": true,
+      "armor": [
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "coverage": 5,
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin2",
@@ -1501,8 +1661,17 @@
         "max_contains_weight": "6 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "coverage": 10, "covers": [ "torso" ] } ] },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin3",
@@ -1529,7 +1698,16 @@
         "max_contains_weight": "10 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "coverage": 40,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1573,8 +1751,7 @@
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
-    "flags": [ "TRADER_AVOID" ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ]
   },
   {
     "id": "wrapper_pr",
@@ -1649,7 +1826,15 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3750 ml", "max_contains_weight": "7 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "3750 ml",
+        "max_contains_weight": "7 kg",
+        "max_item_length": "26 cm"
+      }
+    ],
     "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {
@@ -1752,7 +1937,7 @@
     "looks_like": "ifak_pouch",
     "description": "A plastic box that used to contain a first aid kit.",
     "weight": "50 g",
-    "volume": "2650 ml",
+    "volume": "2900 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
@@ -1761,7 +1946,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2450 ml",
+        "max_contains_volume": "2700 ml",
         "max_contains_weight": "3 kg",
         "rigid": true,
         "moves": 400
@@ -1783,7 +1968,7 @@
     "price_postapoc": 10,
     "to_hit": -2,
     "material": [ "cotton", "neoprene" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
+    "flags": [ "COLLAPSE_CONTENTS", "PALS_MEDIUM" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1889,7 +2074,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2831 ml",
+        "max_contains_volume": "2749 ml",
         "max_contains_weight": "4 kg",
         "airtight": true,
         "moves": 200,

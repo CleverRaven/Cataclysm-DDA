@@ -118,6 +118,7 @@ class monster : public Creature
         void refill_udders();
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
+        std::vector<material_id> get_absorb_material() const;
         creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
@@ -329,10 +330,10 @@ class monster : public Creature
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
-        std::string absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                damage_instance &dam ) override;
+        const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
+                                     damage_instance &dam ) override;
         // The monster's skill in hitting a weakpoint
-        float weakpoint_skill();
+        float weakpoint_skill() const;
 
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         bool melee_attack( Creature &target );
@@ -391,6 +392,7 @@ class monster : public Creature
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() const override;  // For the purposes of comparing to player::hit_roll()
 
+        bool can_attack_high() const override; // Can we attack upper limbs?
         int get_grab_strength() const; // intensity of grabbed effect
 
         monster_horde_attraction get_horde_attraction();
@@ -419,6 +421,8 @@ class monster : public Creature
         void set_special( const std::string &special_name, int time );
         /** Sets the enabled flag for the given special to false */
         void disable_special( const std::string &special_name );
+        /** Test whether the monster has the specified special regardless of readiness. */
+        bool has_special( const std::string &special_name ) const;
         /** Test whether the specified special is ready. */
         bool special_available( const std::string &special_name ) const;
 
@@ -429,7 +433,7 @@ class monster : public Creature
         void reset_stats() override;
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
-        void drop_items_on_death();
+        void drop_items_on_death( item *corpse );
 
         // Other
         /**
@@ -543,7 +547,7 @@ class monster : public Creature
          * This applies to robotic monsters that are spawned by invoking an item (e.g. turret),
          * and to reviving monsters that spawn from a corpse.
          */
-        void init_from_item( const item &itm );
+        void init_from_item( item &itm );
 
         /**
          * Do some cleanup and caching as monster is being unloaded from map.

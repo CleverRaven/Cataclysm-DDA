@@ -9,8 +9,10 @@
 #include <unordered_set>
 
 #include "cata_utility.h"
+#include "character.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "flag.h"
 #include "json.h"
 #include "messages.h"
 #include "output.h"
@@ -19,6 +21,12 @@
 #include "weighted_list.h"
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
+static const json_character_flag json_flag_ALWAYS_BLOCK( "ALWAYS_BLOCK" );
+static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
+static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
+
+static const limb_score_id limb_score_block( "block" );
 
 namespace
 {
@@ -92,17 +100,6 @@ void anatomy::check() const
         debugmsg( "Invalid size_sum calculation for anatomy %s", id.c_str() );
     }
 
-    for( size_t i = 0; i < 3; i++ ) {
-        const float size_all = std::accumulate( cached_bps.begin(), cached_bps.end(), 0.0f, [i]( float acc,
-        const bodypart_id & bp ) {
-            return acc + bp->hit_size_relative[i];
-        } );
-        if( size_all <= 0.0f ) {
-            debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(),
-                      static_cast<int>( i ) - 1 );
-        }
-    }
-
     std::unordered_set<bodypart_str_id> all_parts( unloaded_bps.begin(), unloaded_bps.end() );
     std::unordered_set<bodypart_str_id> root_parts;
 
@@ -170,18 +167,36 @@ bodypart_id anatomy::random_body_part() const
     return get_part_with_cumulative_hit_size( rng_float( 0.0f, size_sum ) ).id();
 }
 
-bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
+bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack_high,
+                                       int hit_roll ) const
 {
-    const size_t size_diff_index = static_cast<size_t>( 1 + clamp( size_diff, -1, 1 ) );
+
     weighted_float_list<bodypart_id> hit_weights;
     for( const bodypart_id &bp : cached_bps ) {
-        float weight = bp->hit_size_relative[size_diff_index];
-        if( weight <= 0.0f ) {
+        float weight = bp->hit_size;
+        //Filter out too-large or too-small bodyparts
+        if( weight < min_hit || ( max_hit > -1 && weight > max_hit ) ) {
+            add_msg_debug( debugmode::DF_ANATOMY_BP, "BP %s discarded - hitsize %.1f( min %d max %d )",
+                           body_part_name( bp ), weight, min_hit, max_hit );
             continue;
         }
 
-        if( hit_roll != 0 ) {
-            weight *= std::pow( hit_roll, bp->hit_difficulty );
+        if( !can_attack_high ) {
+            if( bp->has_flag( json_flag_LIMB_UPPER ) ) {
+                add_msg_debug( debugmode::DF_ANATOMY_BP, "limb %s discarded, we can't attack upper limbs",
+                               body_part_name( bp ) );
+                continue;
+            }
+            if( bp->has_flag( json_flag_LIMB_LOWER ) ) {
+                add_msg_debug( debugmode::DF_ANATOMY_BP,
+                               "limb %s's weight tripled for short attackers",
+                               body_part_name( bp ) );
+                weight *= 3;
+            }
+        }
+
+        if( hit_roll > 0 ) {
+            weight *= std::pow( static_cast<float>( hit_roll ), bp->hit_difficulty );
         }
 
         hit_weights.add( bp, weight );
@@ -199,5 +214,65 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
     }
 
     add_msg_debug( debugmode::DF_ANATOMY_BP, "selected part: %s", ret->id().obj().name );
+    return *ret;
+}
+
+
+bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bool leg,
+        bool nonstandard ) const
+{
+    weighted_float_list<bodypart_id> block_scores;
+    for( const bodypart_id &bp : cached_bps ) {
+        float block_score = bp->get_limb_score( limb_score_block );
+        if( const Character *u = dynamic_cast<const Character *>( blocker ) ) {
+            block_score = u->get_part( bp )->get_limb_score( limb_score_block );
+            // Weigh shielded bodyparts higher
+            block_score *= u->worn_with_flag( flag_BLOCK_WHILE_WORN, bp ) ? 5 : 1;
+        }
+        body_part_type::type limb_type = bp->limb_type;
+
+        if( block_score == 0 ) {
+            add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no blocking score",
+                           body_part_name( bp ) );
+            continue;
+        }
+
+        // Filter out arm and leg types TODO consolidate into one if
+        if( limb_type == body_part_type::type::arm && !arm &&
+            !bp->has_flag( json_flag_ALWAYS_BLOCK ) )  {
+            add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no arm blocks allowed",
+                           body_part_name( bp ) );
+            continue;
+        }
+
+        if( limb_type == body_part_type::type::leg && !leg &&
+            !bp->has_flag( json_flag_ALWAYS_BLOCK ) ) {
+            add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no leg blocks allowed",
+                           body_part_name( bp ) );
+            continue;
+        }
+
+        if( limb_type != body_part_type::type::arm && limb_type != body_part_type::type::leg &&
+            !nonstandard ) {
+            add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no nonstandard blocks allowed",
+                           body_part_name( bp ) );
+            continue;
+        }
+
+        block_scores.add( bp, block_score );
+    }
+
+    // Debug for seeing weights.
+    for( const weighted_object<double, bodypart_id> &pr : block_scores ) {
+        add_msg_debug( debugmode::DF_MELEE, "%s = %.3f", pr.obj.obj().name, pr.weight );
+    }
+
+    const bodypart_id *ret = block_scores.pick();
+    if( ret == nullptr ) {
+        debugmsg( "Attempted to select body part from empty anatomy %s", id.c_str() );
+        return bodypart_str_id::NULL_ID().id();
+    }
+
+    add_msg_debug( debugmode::DF_MELEE, "selected part: %s", ret->id().obj().name );
     return *ret;
 }

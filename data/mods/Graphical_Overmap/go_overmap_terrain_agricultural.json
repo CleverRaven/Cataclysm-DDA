@@ -823,12 +823,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "farm_lot_M",
-    "copy-from": "farm_lot_M",
-    "sym": "\u00A9"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "farm_lot_M1",
     "copy-from": "farm_1"
   },

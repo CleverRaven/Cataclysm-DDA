@@ -4,6 +4,7 @@
     "method": "json",
     "om_terrain": "anthill",
     "object": {
+      "fallback_predecessor_mapgen": "field",
       "rows": [
         "                        ",
         "                        ",
@@ -30,13 +31,18 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": [ [ "t_region_groundcover_barren", 5 ], [ "t_region_groundcover", 3 ], [ "t_region_shrub", 1 ] ],
-        "<": "t_slope_down",
-        "+": "t_dirtmound",
-        "-": [ "t_dirtmound", "t_region_groundcover_barren" ]
-      }
+      "terrain": { "<": "t_slope_down", "+": "t_dirtmound", "-": [ "t_dirtmound", "t_region_groundcover_barren" ] }
     }
+  },
+  {
+    "//": "slopes up to anthill entrance to be used where appropriate",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ant_up_to_surface",
+    "object": { "mapgensize": [ 2, 2 ], "rows": [
+        ">>",
+        ">>"
+      ], "terrain": { ">": "t_slope_up" } }
   },
   {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",
@@ -236,18 +242,6 @@
     "object": {
       "fill_ter": "t_dirt_underground",
       "rows": [
-        "#######          #######",
-        "#######          #######",
-        "#######          #######",
-        "#######          #######",
-        "#######          #######",
-        "#######          #######",
-        "#######          #######",
-        "#######          #######",
-        "#######          #######",
-        "#######          #######",
-        "#######          #######",
-        "#######          #######",
         "########################",
         "########################",
         "########################",
@@ -259,22 +253,34 @@
         "########################",
         "########################",
         "########################",
-        "########################"
+        "########################",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######"
       ],
       "terrain": { "#": "t_soil" },
       "place_nested": [
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 2 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 3 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 4 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 5 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 6 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 7 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 8 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 9 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 10 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 11 }
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 12 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 13 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 14 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 15 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 16 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 17 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 18 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 19 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 20 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 21 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 22 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 23 }
       ]
     }
   },
@@ -451,6 +457,7 @@
       ],
       "terrain": { "#": "t_soil" },
       "place_nested": [
+        { "chunks": [ "ant_up_to_surface" ], "joins": { "above": "tunnel_to_surface" }, "x": 11, "y": 11 },
         { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
         { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
         { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 2 },

@@ -123,6 +123,7 @@ Below is a table of currently implemented effects, along with special rules for 
 | `banishment` | kills monsters in the aoe up to damage hp. any overflow hp the monster has is taken from the caster; if it's more hp than the caster has it fails.
 | `revive` | Revives a monster like a zombie necromancer.  The monster must have the revives flag
 | `upgrade` | Immediately upgrades a target monster
+| `pull_target` | Attempts to pull the target towards the caster in a straight line. If the path is blocked by impassable furniture or terrain, the effect fails.
 | `guilt` | The target gets the guilt morale as if it killed the caster
 | `remove_effect` | Removes `effect_str` effects from all creatures in aoe
 | `emit` | Causes an emit at the target
@@ -178,6 +179,7 @@ Spells may have any number of flags, for example:
 | `UNSAFE_TELEPORT` | teleport spell risks killing the caster or others
 | `TARGET_TELEPORT` | teleport spell changes to maximum range target with aoe as variation around target
 | `SPAWN_GROUP` | spawn or summon from an item or monster group, instead of individual item/monster ID
+| `SPAWN_WITH_DEATH_DROPS` | allows summoned monsters to retain their usual death drops, otherwise they drop nothing
 | `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
 
 
@@ -425,7 +427,7 @@ You can assign a spell as a special attack for a monster.
 |---                          |---
 | `id`                        | Unique ID. Must be one continuous word, use underscores if necessary.
 | `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active. "WIELD" - when wielded in your hand * "WORN" - when worn as armor * "HELD" - when in your inventory
-| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active. * "INACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.
+| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "DIALOG_CONDITION" - ACTIVE whenever the dialog condition in `condition` is true * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active. * "INACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.
 | `hit_you_effect`            | A spell that activates when you melee_attack a creature.  The spell is centered on the location of the creature unless self = true, then it is centered on your location.  Follows the template for defining "fake_spell"
 | `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining "fake_spell"
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the "fake_spell" template.

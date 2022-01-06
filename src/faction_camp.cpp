@@ -42,6 +42,7 @@
 #include "itype.h"
 #include "kill_tracker.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -83,25 +84,22 @@ class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
+static const item_group_id
+Item_spawn_data_foraging_faction_camp_autumn( "foraging_faction_camp_autumn" );
+static const item_group_id
+Item_spawn_data_foraging_faction_camp_spring( "foraging_faction_camp_spring" );
+static const item_group_id
+Item_spawn_data_foraging_faction_camp_summer( "foraging_faction_camp_summer" );
+static const item_group_id
+Item_spawn_data_foraging_faction_camp_winter( "foraging_faction_camp_winter" );
+static const item_group_id Item_spawn_data_forest( "forest" );
+static const item_group_id
+Item_spawn_data_gathering_faction_base_camp_firewood( "gathering_faction_base_camp_firewood" );
+
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
+static const itype_id itype_makeshift_sling( "makeshift_sling" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
-
-static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
-static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
-
-static const skill_id skill_bashing( "bashing" );
-static const skill_id skill_cutting( "cutting" );
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_melee( "melee" );
-static const skill_id skill_speech( "speech" );
-static const skill_id skill_stabbing( "stabbing" );
-static const skill_id skill_survival( "survival" );
-static const skill_id skill_swimming( "swimming" );
-static const skill_id skill_traps( "traps" );
-static const skill_id skill_unarmed( "unarmed" );
 
 static const mtype_id mon_bear( "mon_bear" );
 static const mtype_id mon_beaver( "mon_beaver" );
@@ -133,7 +131,33 @@ static const mtype_id mon_turkey( "mon_turkey" );
 static const mtype_id mon_weasel( "mon_weasel" );
 static const mtype_id mon_wolf( "mon_wolf" );
 
+static const oter_str_id oter_faction_hide_site_0( "faction_hide_site_0" );
+static const oter_str_id oter_forest_wet( "forest_wet" );
+
+static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
+
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_speech( "speech" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_traps( "traps" );
+static const skill_id skill_unarmed( "unarmed" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
+static const update_mapgen_id update_mapgen_faction_wall_level_E_1( "faction_wall_level_E_1" );
+static const update_mapgen_id update_mapgen_faction_wall_level_N_1( "faction_wall_level_N_1" );
+static const update_mapgen_id update_mapgen_faction_wall_level_S_1( "faction_wall_level_S_1" );
+static const update_mapgen_id update_mapgen_faction_wall_level_W_1( "faction_wall_level_W_1" );
+
+static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 struct mass_volume {
     units::mass wgt = 0_gram;
@@ -493,11 +517,13 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     bool avail = false;
     for( const auto &comp : npc_list ) {
         time_duration elapsed = calendar::turn - comp->companion_mission_time;
-        entry += " " +  comp->get_name() + " [" + to_string( elapsed ) + "/" +
-                 to_string( duration ) + "]\n";
+        entry += "\n  " +  comp->get_name() + " [" + to_string( elapsed ) + " / " +
+                 to_string( duration ) + "]";
         avail |= elapsed >= duration;
     }
-    entry += _( "\n\nDo you wish to bring your allies back into your party?" );
+    if( avail ) {
+        entry += _( "\n\nDo you wish to bring your allies back into your party?" );
+    }
     return avail;
 }
 
@@ -716,24 +742,25 @@ void talk_function::basecamp_mission( npc &p )
     }
     basecamp *bcp = *temp_camp;
     bcp->set_by_radio( get_avatar().dialogue_by_radio );
-    if( bcp->get_dumping_spot() == tripoint_zero ) {
+    if( bcp->get_dumping_spot() == tripoint_abs_ms{} ) {
         map &here = get_map();
         auto &mgr = zone_manager::get_manager();
         if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
             mgr.cache_vzones();
         }
         tripoint src_loc;
-        // TODO: fix point types
-        const tripoint abspos = p.get_location().raw();
+        const tripoint_abs_ms abspos = p.get_location();
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
-            const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-            const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+            const std::unordered_set<tripoint_abs_ms> &src_set =
+                mgr.get_near( zone_type_CAMP_STORAGE, abspos );
+            const std::vector<tripoint_abs_ms> &src_sorted =
+                get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
             if( !src_sorted.empty() ) {
                 src_loc = here.getlocal( src_sorted.front() );
             }
         }
-        bcp->set_dumping_spot( here.getabs( src_loc ) );
+        bcp->set_dumping_spot( here.getglobal( src_loc ) );
     }
     bcp->get_available_missions( mission_key );
     if( display_and_choose_opts( mission_key, omt_pos, base_camps::id, title ) ) {
@@ -1374,6 +1401,15 @@ void basecamp::get_available_missions( mission_data &mission_key )
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
                                     base_camps::base_dir, entry, avail );
+        }
+    } else {
+        // Unless maximum expansions have been reached, show "Expand Base",
+        // but in a disabled state, with a message about what is required.
+        if( directions.size() < 8 ) {
+            const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_expansion" ];
+            entry = _( "You will need more beds before you can expand your base." );
+            mission_key.add_return( miss_info.miss_id, miss_info.desc.translated(),
+                                    base_camps::base_dir, entry, false );
         }
     }
 
@@ -2047,7 +2083,7 @@ void basecamp::start_cut_logs()
             if( om_cutdown_trees_est( forest ) < 5 ) {
                 const oter_id &omt_trees = overmap_buffer.ter( forest );
                 //Do this for swamps "forest_wet" if we have a swamp without trees...
-                if( omt_trees.id() != "forest_wet" ) {
+                if( omt_trees.id() != oter_forest_wet ) {
                     overmap_buffer.ter_set( forest, oter_id( "field" ) );
                 }
             }
@@ -2214,10 +2250,10 @@ void basecamp::start_fortifications( std::string &bldg_exp )
     if( start != tripoint_abs_omt( -999, -999, -999 ) &&
         stop != tripoint_abs_omt( -999, -999, -999 ) ) {
         const recipe &making = recipe_id( bldg_exp ).obj();
-        bool change_x = ( start.x() != stop.x() );
-        bool change_y = ( start.y() != stop.y() );
+        bool change_x = start.x() != stop.x();
+        bool change_y = start.y() != stop.y();
         if( change_x && change_y ) {
-            popup( "Construction line must be straight!" );
+            popup( _( "Construction line must be straight!" ) );
             return;
         }
         if( bldg_exp == "faction_wall_level_N_1" ) {
@@ -2759,22 +2795,22 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
 
     item_group_id itemlist( "forest" );
     if( task == "_faction_camp_firewood" ) {
-        itemlist = item_group_id( "gathering_faction_base_camp_firewood" );
+        itemlist = Item_spawn_data_gathering_faction_base_camp_firewood;
     } else if( task == "_faction_camp_gathering" ) {
         itemlist = get_gatherlist();
     } else if( task == "_faction_camp_foraging" ) {
         switch( season_of_year( calendar::turn ) ) {
             case SPRING:
-                itemlist = item_group_id( "foraging_faction_camp_spring" );
+                itemlist = Item_spawn_data_foraging_faction_camp_spring;
                 break;
             case SUMMER:
-                itemlist = item_group_id( "foraging_faction_camp_summer" );
+                itemlist = Item_spawn_data_foraging_faction_camp_summer;
                 break;
             case AUTUMN:
-                itemlist = item_group_id( "foraging_faction_camp_autumn" );
+                itemlist = Item_spawn_data_foraging_faction_camp_autumn;
                 break;
             case WINTER:
-                itemlist = item_group_id( "foraging_faction_camp_winter" );
+                itemlist = Item_spawn_data_foraging_faction_camp_winter;
                 break;
             default:
                 debugmsg( "Invalid season" );
@@ -2798,10 +2834,10 @@ void basecamp::fortifications_return()
         update_mapgen_id build_s{ "faction_wall_level_S_0" };
         update_mapgen_id build_w{ "faction_wall_level_W_0" };
         if( comp->companion_mission_role_id == "faction_wall_level_N_1" ) {
-            build_n = update_mapgen_id( "faction_wall_level_N_1" );
-            build_e = update_mapgen_id( "faction_wall_level_E_1" );
-            build_s = update_mapgen_id( "faction_wall_level_S_1" );
-            build_w = update_mapgen_id( "faction_wall_level_W_1" );
+            build_n = update_mapgen_faction_wall_level_N_1;
+            build_e = update_mapgen_faction_wall_level_E_1;
+            build_s = update_mapgen_faction_wall_level_S_1;
+            build_w = update_mapgen_faction_wall_level_W_1;
         }
         update_mapgen_id build_first = build_e;
         update_mapgen_id build_second = build_w;
@@ -3524,7 +3560,7 @@ time_duration companion_travel_time_calc( const std::vector<tripoint_abs_omt> &j
         // Player walks 1 om in roughly 30 seconds
         if( om_id == "field" ) {
             one_way += 30 + 30 * haulage;
-        } else if( is_ot_match( "forest_trail", omt_ref, ot_match_type::type ) ) {
+        } else if( omt_ref->get_type_id() == oter_type_forest_trail ) {
             one_way += 35 + 30 * haulage;
         } else if( om_id == "forest_thick" ) {
             one_way += 50 + 30 * haulage;
@@ -3559,7 +3595,7 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &co
     }
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).get_total_capacity();
+    units::volume sack_v = item( itype_makeshift_sling ).get_total_capacity();
     units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );
@@ -3590,7 +3626,7 @@ std::vector<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &start, 
 
         const oter_id &omt_ref = overmap_buffer.ter( last );
 
-        if( bounce && omt_ref.id() == "faction_hide_site_0" ) {
+        if( bounce && omt_ref.id() == oter_faction_hide_site_0 ) {
             range = def_range * .75;
             def_range = range;
         }
@@ -3633,7 +3669,7 @@ bool basecamp::validate_sort_points()
         mgr.cache_vzones();
     }
     tripoint src_loc = here.getlocal( bb_pos ) + point_north;
-    const tripoint abspos = here.getabs( get_player_character().pos() );
+    const tripoint_abs_ms abspos = get_player_character().get_location();
     if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ||
         !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
@@ -3642,14 +3678,16 @@ bool basecamp::validate_sort_points()
             return false;
         }
     } else {
-        const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-        const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+        const std::unordered_set<tripoint_abs_ms> &src_set =
+            mgr.get_near( zone_type_CAMP_STORAGE, abspos );
+        const std::vector<tripoint_abs_ms> &src_sorted =
+            get_sorted_tiles_by_distance( abspos, src_set );
         // Find the nearest unsorted zone to dump objects at
         if( !src_sorted.empty() ) {
             src_loc = here.getlocal( src_sorted.front() );
         }
     }
-    set_dumping_spot( here.getabs( src_loc ) );
+    set_dumping_spot( here.getglobal( src_loc ) );
     return true;
 }
 
@@ -3817,7 +3855,7 @@ std::string basecamp::gathering_description( const std::string &bldg )
     if( item_group::group_is_defined( item_group_id( "gathering_" + bldg ) ) ) {
         itemlist = item_group_id( "gathering_" + bldg );
     } else {
-        itemlist = item_group_id( "forest" );
+        itemlist = Item_spawn_data_forest;
     }
     std::string output;
 
@@ -3872,6 +3910,7 @@ int camp_food_supply( int change, bool return_days )
     if( yours->food_supply < 0 ) {
         yours->likes_u += yours->food_supply / 1250;
         yours->respects_u += yours->food_supply / 625;
+        yours->trusts_u += yours->food_supply / 625;
         yours->food_supply = 0;
     }
     if( return_days ) {
@@ -3904,8 +3943,9 @@ bool basecamp::distribute_food()
     if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
         mgr.cache_vzones();
     }
-    const tripoint &abspos = get_dumping_spot();
-    const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_CAMP_FOOD, abspos, 60 );
+    const tripoint_abs_ms &abspos = get_dumping_spot();
+    const std::unordered_set<tripoint_abs_ms> &z_food =
+        mgr.get_near( zone_type_CAMP_FOOD, abspos, 60 );
 
     double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
     double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
@@ -3981,7 +4021,7 @@ bool basecamp::distribute_food()
         }
         return consume_non_recursive( it, container );
     };
-    for( const tripoint &p_food_stock_abs : z_food ) {
+    for( const tripoint_abs_ms &p_food_stock_abs : z_food ) {
         // @FIXME: this will not handle zones in vehicle
         const tripoint p_food_stock = here.getlocal( p_food_stock_abs );
         map_stack items = here.i_at( p_food_stock );
@@ -4035,12 +4075,14 @@ void basecamp::place_results( const item &result )
             mgr.cache_vzones();
         }
         Character &player_character = get_player_character();
-        const tripoint abspos = here.getabs( player_character.pos() );
+        const tripoint_abs_ms abspos = player_character.get_location();
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos ) ) {
-            const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-            const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+            const std::unordered_set<tripoint_abs_ms> &src_set =
+                mgr.get_near( zone_type_CAMP_STORAGE, abspos );
+            const std::vector<tripoint_abs_ms> &src_sorted =
+                get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
-            for( const tripoint &src : src_sorted ) {
+            for( const tripoint_abs_ms &src : src_sorted ) {
                 const tripoint &src_loc = here.getlocal( src );
                 here.add_item_or_charges( src_loc, result, true );
                 apply_camp_ownership( src_loc, 10 );

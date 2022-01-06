@@ -3,6 +3,7 @@
     "abstract": "spell_scroll",
     "name": { "str": "Spell Scroll" },
     "type": "BOOK",
+    "category": "manuals",
     "weight": "475 g",
     "volume": "500 ml",
     "price": 4000,

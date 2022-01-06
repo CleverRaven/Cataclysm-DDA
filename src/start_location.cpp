@@ -311,21 +311,22 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     // Sometimes it may be impossible to automatically found an ideal location
     // but the player may be more creative than this algorithm and do away with just "good"
     int best_rate = 0;
+    tripoint best_spot = you.pos();
     // In which attempt did this area get checked?
     // We can overwrite earlier attempts, but not start in them
-    int checked[MAPSIZE_X][MAPSIZE_Y];
-    std::fill_n( &checked[0][0], MAPSIZE_X * MAPSIZE_Y, 0 );
+    int checked[MAPSIZE_X][MAPSIZE_Y] = {};
 
     bool found_good_spot = false;
+
     // Try some random points at start
 
     int tries = 0;
     const auto check_spot = [&]( const tripoint & pt ) {
-        tries++;
+        ++tries;
         const int rate = rate_location( here, pt, must_be_inside, bash, tries, checked );
         if( best_rate < rate ) {
             best_rate = rate;
-            you.setpos( pt );
+            best_spot = pt;
             if( rate == INT_MAX ) {
                 found_good_spot = true;
             }
@@ -345,11 +346,13 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         int &x = tmp.x;
         int &y = tmp.y;
         for( x = 0; x < MAPSIZE_X; x++ ) {
-            for( y = 0; y < MAPSIZE_Y; y++ ) {
+            for( y = 0; y < MAPSIZE_Y && !found_good_spot; y++ ) {
                 check_spot( tmp );
             }
         }
     }
+
+    you.setpos( best_spot );
 
     if( !found_good_spot ) {
         debugmsg( "Could not find a good starting place for character" );
@@ -385,7 +388,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
 }
 
 void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
-                                    const std::string &map_extra ) const
+                                    const map_extra_id &map_extra ) const
 {
     const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;

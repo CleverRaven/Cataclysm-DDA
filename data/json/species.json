@@ -53,6 +53,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "MIGO",
+    "description": "a creature from the mi-go homeworld",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "SLIME",
     "description": "a slime",
     "footsteps": "plop.",

@@ -6,6 +6,7 @@ on:
 
 jobs:
   pull-translations:
+    if: github.repository == 'CleverRaven/Cataclysm-DDA'
     runs-on: ubuntu-20.04
     steps:
       - name: "Install dependencies"

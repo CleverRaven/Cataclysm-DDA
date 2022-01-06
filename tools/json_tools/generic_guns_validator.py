@@ -31,14 +31,7 @@ AMMO_TYPE_WHITELIST = {
     'plasma',
     'rock',
     'signal_flare',
-    'weldgas',
-    'currency',
-    'coin_penny',
-    'coin_nickel',
-    'coin_dime',
-    'coin_quarter',
-    'coin_half_dollar',
-    'coin_dollar',
+    'weldgas'
 }
 SKILL_WHITELIST = {
     'archery',
@@ -61,6 +54,7 @@ ID_WHITELIST = {
     # Magazines
     '223_speedloader5',
     'coin_wrapper',
+    'bio_shotgun_gun',
 }
 
 

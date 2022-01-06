@@ -36,6 +36,12 @@ struct iexamine_actor {
     virtual ~iexamine_actor() = default;
 };
 
+enum fuel_station_fuel_type {
+    FUEL_TYPE_NONE,
+    FUEL_TYPE_GASOLINE,
+    FUEL_TYPE_DIESEL
+};
+
 namespace iexamine
 {
 
@@ -81,7 +87,6 @@ void harvested_plant( Character &you, const tripoint &examp );
 void locked_object( Character &you, const tripoint &examp );
 void locked_object_pickable( Character &you, const tripoint &examp );
 void bulletin_board( Character &you, const tripoint &examp );
-void fault( Character &you, const tripoint &examp );
 void pedestal_wyrm( Character &you, const tripoint &examp );
 void pedestal_temple( Character &you, const tripoint &examp );
 void door_peephole( Character &you, const tripoint &examp );
@@ -107,6 +112,7 @@ void tree_marloss( Character &you, const tripoint &examp );
 void shrub_wildveggies( Character &you, const tripoint &examp );
 void water_source( Character &, const tripoint &examp );
 void clean_water_source( Character &, const tripoint &examp );
+void finite_water_source( Character &, const tripoint &examp );
 void kiln_empty( Character &you, const tripoint &examp );
 void kiln_full( Character &you, const tripoint &examp );
 void arcfurnace_empty( Character &you, const tripoint &examp );
@@ -141,7 +147,7 @@ bool pour_into_keg( const tripoint &pos, item &liquid );
 cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
 bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
 cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &fuel_units,
-        const std::string &fuel_type );
+        fuel_station_fuel_type &fuel_type );
 
 bool has_keg( const tripoint &pos );
 
@@ -152,7 +158,8 @@ std::list<item> get_harvest_items( const itype &type, int plant_count,
 std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
 int query_seed( const std::vector<seed_tuple> &seed_entries );
 void plant_seed( Character &you, const tripoint &examp, const itype_id &seed_id );
-void harvest_plant( Character &you, const tripoint &examp, bool from_activity = false );
+void harvest_plant_ex( Character &you, const tripoint &examp );
+void harvest_plant( Character &you, const tripoint &examp, bool from_activity );
 void fertilize_plant( Character &you, const tripoint &tile, const itype_id &fertilizer );
 itype_id choose_fertilizer( Character &you, const std::string &pname, bool ask_player );
 ret_val<bool> can_fertilize( Character &you, const tripoint &tile, const itype_id &fertilizer );

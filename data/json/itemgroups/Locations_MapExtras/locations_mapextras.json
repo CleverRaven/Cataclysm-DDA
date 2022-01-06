@@ -60,6 +60,7 @@
       [ "backpack_leather", 28 ],
       [ "holster", 8 ],
       [ "bholster", 2 ],
+      [ "bbholster", 2 ],
       [ "armguard_soft", 40 ],
       [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
@@ -116,6 +117,8 @@
       [ "switchblade", 4 ],
       [ "gold_watch", 5 ],
       [ "silver_watch", 2 ],
+      [ "cigar_cutter", 8 ],
+      [ "cigar_punch", 6 ],
       [ "pocketwatch", 2 ],
       [ "gold_dental_grill", 2 ],
       [ "diamond_dental_grill", 1 ],
@@ -138,6 +141,7 @@
       [ "daypack", 75 ],
       [ "rope_30", 10 ],
       [ "hatchet", 50 ],
+      [ "storage_line", 20 ],
       [ "iceaxe", 20 ],
       { "item": "mess_kit", "prob": 100, "charges": [ 0, 500 ] },
       [ "teapot", 50 ],
@@ -167,7 +171,8 @@
       { "item": "gasoline_lantern", "charges": 40, "charges-min": 0 },
       { "item": "oil_lamp", "prob": 40, "charges-min": 0 },
       [ "popcan_stove", 10 ],
-      [ "denat_alcohol", 10 ],
+      [ "denat_alcohol", 6 ],
+      [ "methed_alcohol", 4 ],
       { "item": "pur_tablets", "prob": 10, "charges": [ 1, 15 ] },
       [ "water_clean", 50 ],
       [ "granola", 60 ],
@@ -182,7 +187,8 @@
       [ "crackpipe", 10 ],
       { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
       [ "joint", 10 ],
-      { "item": "smart_phone", "prob": 20, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 17, "charges-min": 0 },
       { "item": "camera", "prob": 20, "charges": [ 0, 150 ] },
       [ "chem_hexamine", 5 ]
     ]
@@ -224,7 +230,8 @@
       { "item": "cig", "prob": 20, "charges": [ 1, 20 ] },
       { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
       [ "joint", 10 ],
-      { "item": "smart_phone", "prob": 50, "charges-min": 0 }
+      { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 44, "charges-min": 0 }
     ]
   },
   {
@@ -260,7 +267,8 @@
       { "item": "cig", "prob": 20, "charges": [ 1, 20 ] },
       { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
       [ "joint", 10 ],
-      { "item": "smart_phone", "prob": 50, "charges-min": 0 }
+      { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 44, "charges-min": 0 }
     ]
   }
 ]

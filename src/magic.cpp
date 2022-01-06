@@ -53,6 +53,8 @@
 #include "ui.h"
 #include "units.h"
 
+static const skill_id skill_spellcraft( "spellcraft" );
+
 static const trait_id trait_NONE( "NONE" );
 
 static std::string target_to_string( spell_target data )
@@ -142,6 +144,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NO_FAIL: return "NO_FAIL";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
+        case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
@@ -168,11 +171,11 @@ const int fake_spell::level_default = 0;
 const bool fake_spell::self_default = false;
 const int fake_spell::trigger_once_in_default = 1;
 
-const skill_id spell_type::skill_default = skill_id( "spellcraft" );
+const skill_id spell_type::skill_default = skill_spellcraft;
 // empty string
 const requirement_id spell_type::spell_components_default;
 const translation spell_type::message_default = to_translation( "You cast %s!" );
-const translation spell_type::sound_description_default = to_translation( "an explosion" );
+const translation spell_type::sound_description_default = to_translation( "an explosion." );
 const sounds::sound_t spell_type::sound_type_default = sounds::sound_t::combat;
 const bool spell_type::sound_ambient_default = false;
 // empty string
@@ -206,7 +209,7 @@ const float spell_type::pierce_increment_default = 0.0f;
 const int spell_type::max_pierce_default = 0;
 const int spell_type::base_energy_cost_default = 0;
 const float spell_type::energy_increment_default = 0.0f;
-const trait_id spell_type::spell_class_default = trait_id( "NONE" );
+const trait_id spell_type::spell_class_default = trait_NONE;
 const magic_energy_type spell_type::energy_source_default = magic_energy_type::none;
 const damage_type spell_type::dmg_type_default = damage_type::NONE;
 const int spell_type::difficulty_default = 0;
@@ -242,7 +245,7 @@ void spell_type::load_spell( const JsonObject &jo, const std::string &src )
 static std::string moves_to_string( const int moves )
 {
     if( moves < to_moves<int>( 2_seconds ) ) {
-        return string_format( _( "%d moves" ), moves );
+        return string_format( n_gettext( "%d move", "%d moves", moves ), moves );
     } else {
         return to_string( time_duration::from_moves( moves ) );
     }

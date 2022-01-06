@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "FMCNote",
     "name": { "str": "Merch" },
@@ -11,14 +11,12 @@
     "weight": "1 g",
     "volume": "1 ml",
     "to_hit": -3,
-    "stack_size": 1,
     "color": "white",
     "symbol": "$",
-    "material": [ "paper" ],
-    "ammo_type": "currency"
+    "material": [ "paper" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "RobofacCoin",
     "name": { "str": "Hub 01 Gold Coin" },
@@ -29,14 +27,12 @@
     "weight": "28 g",
     "volume": "2ml",
     "to_hit": -3,
-    "stack_size": 1,
     "color": "yellow",
     "symbol": "$",
-    "material": [ "gold" ],
-    "ammo_type": "currency"
+    "material": [ "gold" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "FlatCoin",
     "name": { "str": "FlatCoin" },
@@ -46,14 +42,12 @@
     "weight": "18 g",
     "volume": "1 ml",
     "to_hit": -3,
-    "stack_size": 1,
     "color": "brown",
     "symbol": "$",
-    "material": [ "copper" ],
-    "ammo_type": "currency"
+    "material": [ "copper" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "signed_chit",
     "name": { "str": "chit" },
@@ -63,14 +57,12 @@
     "weight": "1 g",
     "volume": "1 ml",
     "to_hit": -3,
-    "stack_size": 1,
     "color": "white",
     "symbol": "$",
-    "material": [ "paper" ],
-    "ammo_type": "currency"
+    "material": [ "paper" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "icon",
     "name": { "str": "icon" },
@@ -80,14 +72,12 @@
     "weight": "1 g",
     "volume": "2 ml",
     "to_hit": -3,
-    "stack_size": 1,
     "color": "white",
     "symbol": "$",
-    "material": [ "paper" ],
-    "ammo_type": "currency"
+    "material": [ "paper" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_penny",
     "name": { "str": "penny", "str_pl": "pennies" },
@@ -96,16 +86,14 @@
     "volume": "1 ml",
     "price": 1,
     "price_postapoc": 1,
-    "stack_size": 1,
     "material": [ "copper" ],
     "symbol": "o",
     "color": "brown",
     "flags": [ "OLD_CURRENCY" ],
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "coin_penny"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_nickel",
     "name": { "str": "nickel" },
@@ -114,16 +102,14 @@
     "volume": "1 ml",
     "price": 5,
     "price_postapoc": 1,
-    "stack_size": 1,
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY" ],
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "coin_nickel"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_dime",
     "name": { "str": "dime" },
@@ -132,16 +118,14 @@
     "volume": "1 ml",
     "price": 10,
     "price_postapoc": 1,
-    "stack_size": 1,
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY" ],
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "coin_dime"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_quarter",
     "name": { "str": "quarter" },
@@ -150,16 +134,14 @@
     "volume": "1 ml",
     "price": 25,
     "price_postapoc": 1,
-    "stack_size": 1,
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY" ],
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "coin_quarter"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_half_dollar",
     "name": { "str": "half-dollar coin" },
@@ -168,16 +150,14 @@
     "volume": "1 ml",
     "price": 25,
     "price_postapoc": 1,
-    "stack_size": 1,
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY" ],
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "coin_half_dollar"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_dollar",
     "name": { "str": "dollar coin" },
@@ -186,16 +166,14 @@
     "volume": "1 ml",
     "price": 100,
     "price_postapoc": 1,
-    "stack_size": 1,
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY" ],
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "coin_dollar"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_silver",
     "name": { "str": "Silver Eagle coin" },
@@ -204,15 +182,13 @@
     "volume": "1 ml",
     "price": 2300,
     "price_postapoc": 310,
-    "stack_size": 1,
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "currency"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "coin_gold",
     "name": { "str": "American Buffalo coin" },
@@ -221,16 +197,14 @@
     "volume": "1 ml",
     "price": 175000,
     "price_postapoc": 600,
-    "stack_size": 1,
     "material": [ "gold" ],
     "symbol": "o",
     "color": "yellow",
-    "use_action": [ "COIN_FLIP" ],
-    "ammo_type": "currency"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "id": "coin_wrapper",
-    "type": "MAGAZINE",
+    "type": "GENERIC",
     "category": "currency",
     "name": { "str": "coin wrapper" },
     "description": "A coin wrapper capable of holding between twenty and fifty coins, depending on denomination, in accordance with American Banking Standards.",
@@ -238,22 +212,20 @@
     "volume": "1 ml",
     "price": 1,
     "price_postapoc": 0,
-    "reload_time": 120,
     "material": [ "paper" ],
     "symbol": "$",
     "color": "dark_gray",
-    "ammo_type": [ "coin_penny", "coin_nickel", "coin_dime", "coin_quarter", "coin_half_dollar", "coin_dollar" ],
     "pocket_data": [
       {
-        "pocket_type": "MAGAZINE",
         "rigid": false,
-        "magazine_well": "0 ml",
-        "ammo_restriction": { "coin_penny": 50, "coin_nickel": 40, "coin_dime": 50, "coin_quarter": 40, "coin_half_dollar": 20, "coin_dollar": 25 }
+        "max_contains_volume": "50 ml",
+        "max_contains_weight": "200 g",
+        "item_restriction": [ "coin_penny", "coin_nickel", "coin_dime", "coin_quarter", "coin_half_dollar", "coin_dollar" ]
       }
     ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "currency",
     "id": "money_one",
     "name": { "str": "one-dollar bill" },
@@ -266,11 +238,10 @@
     "symbol": "$",
     "color": "green",
     "to_hit": -3,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "money_two",
     "name": { "str": "two-dollar bill" },
     "description": "A two-dollar bill, featuring a portrait of Thomas Jefferson.",
@@ -280,11 +251,10 @@
     "symbol": "$",
     "price": 200,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "money_five",
     "name": { "str": "five-dollar bill" },
     "description": "A five-dollar bill, featuring a portrait of Abraham Lincoln.",
@@ -294,11 +264,10 @@
     "symbol": "$",
     "price": 500,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "money_ten",
     "name": { "str": "ten-dollar bill" },
     "description": "A ten-dollar bill, featuring a depiction of Alexander Hamilton.",
@@ -308,11 +277,10 @@
     "symbol": "$",
     "price": 1000,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "money_twenty",
     "name": { "str": "twenty-dollar bill" },
     "description": "A twenty-dollar bill, featuring a portrait of Andrew Jackson.",
@@ -322,11 +290,10 @@
     "symbol": "$",
     "price": 2000,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "money_fifty",
     "name": { "str": "fifty-dollar bill" },
     "description": "A fifty-dollar bill, featuring a portrait of Ulysses S Grant.",
@@ -336,11 +303,10 @@
     "symbol": "$",
     "price": 5000,
     "price_postapoc": 1,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "money_hundred",
     "name": { "str": "hundred-dollar bill" },
     "description": "A hundred-dollar bill, featuring a portrait of Benjamin Franklin.",
@@ -350,8 +316,7 @@
     "symbol": "$",
     "price": 10000,
     "price_postapoc": 1,
-    "flags": [ "OLD_CURRENCY" ],
-    "ammo_type": "currency"
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -474,8 +439,8 @@
     "id": "money_bundle_two",
     "name": { "str": "two-dollar currency bundle" },
     "description": "A thousand two-dollar bills, divided evenly between ten green currency straps, and bundled together by with rubber bands.",
-    "looks_like": "money_strap_one",
-    "copy-from": "money_strap_one",
+    "looks_like": "money_bundle_one",
+    "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
     "price": 200000,
@@ -486,8 +451,8 @@
     "id": "money_bundle_five",
     "name": { "str": "five-dollar currency bundle" },
     "description": "A thousand five-dollar bills, divided evenly between ten red currency straps, and bundled together by with rubber bands.",
-    "looks_like": "money_strap_one",
-    "copy-from": "money_strap_one",
+    "looks_like": "money_bundle_one",
+    "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
     "price": 500000,
@@ -498,8 +463,8 @@
     "id": "money_bundle_ten",
     "name": { "str": "ten-dollar currency bundle" },
     "description": "A thousand ten-dollar bills, divided evenly between ten yellow currency straps, and bundled together by with rubber bands.",
-    "looks_like": "money_strap_one",
-    "copy-from": "money_strap_one",
+    "looks_like": "money_bundle_one",
+    "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
     "price": 1000000,
@@ -510,8 +475,8 @@
     "id": "money_bundle_twenty",
     "name": { "str": "twenty-dollar currency bundle" },
     "description": "A thousand twenty-dollar bills, divided evenly between ten violet currency straps, and bundled together with two rubber bands.",
-    "looks_like": "money_strap_one",
-    "copy-from": "money_strap_one",
+    "looks_like": "money_bundle_one",
+    "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
     "price": 2000000,
@@ -522,8 +487,8 @@
     "id": "money_bundle_fifty",
     "name": { "str": "fifty-dollar currency bundle" },
     "description": "A thousand fifty-dollar bills, divided evenly between ten brown currency straps, and bundled together with two rubber bands.",
-    "looks_like": "money_strap_one",
-    "copy-from": "money_strap_one",
+    "looks_like": "money_bundle_one",
+    "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
     "price": 5000000,
@@ -534,8 +499,8 @@
     "id": "money_bundle_hundred",
     "name": { "str": "hundred-dollar currency bundle" },
     "description": "A thousand hundred-dollar bills, divided evenly between ten mustard currency straps, and bundled together with two rubber bands.",
-    "looks_like": "money_strap_one",
-    "copy-from": "money_strap_one",
+    "looks_like": "money_bundle_one",
+    "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
     "price": 10000000,
@@ -546,8 +511,8 @@
     "id": "money_bundle_FMCNote",
     "name": { "str": "Merch currency bundle" },
     "description": "A thousand Free Merchant Certified Notes, divided evenly between ten improvised currency straps, and bundled together with two rubber bands.  This can be exchanged for food, water, and other services through the Free Merchants at the Refugee Center.",
-    "looks_like": "money_strap_one",
-    "copy-from": "money_strap_one",
+    "looks_like": "money_bundle_one",
+    "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
     "price": 5000000,

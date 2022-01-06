@@ -51,13 +51,13 @@ class speed_description_value
             return value_;
         }
 
-        const std::vector<std::string> &descriptions() const {
+        const std::vector<translation> &descriptions() const {
             return descriptions_;
         }
 
     private:
         double value_ = 0.00;
-        std::vector<std::string> descriptions_;
+        std::vector<translation> descriptions_;
 };
 
 #endif // CATA_SRC_SPEED_DESCRIPTION_H

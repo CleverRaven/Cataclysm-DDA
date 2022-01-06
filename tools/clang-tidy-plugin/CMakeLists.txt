@@ -15,16 +15,20 @@ add_library(CataAnalyzerPlugin MODULE
         LargeStackObjectCheck.cpp
         NoLongCheck.cpp
         NoStaticGettextCheck.cpp
+        OtMatchCheck.cpp
         PointInitializationCheck.cpp
+        RedundantParenthesesCheck.cpp
         SerializeCheck.cpp
         SimplifyPointConstructorsCheck.cpp
         StaticDeclarationsCheck.cpp
+        StaticInitializationOrderCheck.cpp
         StaticIntIdConstantsCheck.cpp
         StaticStringIdConstantsCheck.cpp
         StringLiteralIterator.cpp
         TestFilenameCheck.cpp
         TestsMustRestoreGlobalStateCheck.cpp
         TextStyleCheck.cpp
+        TranslateStringLiteralCheck.cpp
         TranslationsInDebugMessagesCheck.cpp
         TranslatorCommentsCheck.cpp
         UnsequencedCallsCheck.cpp

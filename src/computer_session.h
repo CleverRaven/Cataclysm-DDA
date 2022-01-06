@@ -107,6 +107,7 @@ class computer_session
         void action_map_subway();
         void action_maps();
         void action_miss_disarm();
+        void action_miss_launch();
         void action_open();
         void action_open_gate();
         void action_close_gate();

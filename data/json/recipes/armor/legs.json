@@ -11,7 +11,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
@@ -66,6 +66,7 @@
     "difficulty": 2,
     "time": "2 h",
     "autolearn": true,
+    "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ],
     "using": [ [ "tailoring_lycra", 1 ], [ "filament", 10 ] ]
@@ -228,6 +229,35 @@
     "using": [ [ "tailoring_cotton", 1 ], [ "fastener_small", 1 ] ]
   },
   {
+    "result": "skirt_leather",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "6 h",
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "fastener_small", 1 ], [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "kilt_leather",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "6 h",
+    "book_learn": [ [ "scots_tailor", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "fabric_leather_hide", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ]
+  },
+  {
     "result": "kilt",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -250,7 +280,6 @@
     "difficulty": 4,
     "time": "2 h",
     "book_learn": [ [ "plastics_book", 2 ] ],
-    "reversible": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_closures" } ],
     "using": [ [ "plastic_molding", 4 ], [ "clasps", 2 ], [ "strap_small", 2 ] ]
   },
@@ -352,7 +381,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "legguard_metal",
+    "result": "legguard_metal_sheets",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
@@ -367,12 +396,49 @@
     "qualities": [ { "id": "HAMMER", "level": 2 } ]
   },
   {
-    "result": "xl_legguard_metal",
+    "result": "xl_legguard_metal_sheets",
     "type": "recipe",
-    "copy-from": "legguard_metal",
+    "copy-from": "legguard_metal_sheets",
     "time": "50 m",
     "using": [ [ "steel_tiny", 6 ], [ "strap_large", 2 ], [ "clasps", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ]
+  },
+  {
+    "result": "legguard_metal",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "8 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "using": [
+      [ "forging_standard", 6 ],
+      [ "bronzesmithing_tools", 1 ],
+      [ "strap_small", 4 ],
+      [ "clasps", 4 ],
+      [ "steel_tiny", 12 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" }
+    ]
+  },
+  {
+    "result": "xl_legguard_metal",
+    "type": "recipe",
+    "copy-from": "legguard_metal",
+    "time": "9 h",
+    "using": [
+      [ "forging_standard", 8 ],
+      [ "bronzesmithing_tools", 1 ],
+      [ "strap_small", 4 ],
+      [ "clasps", 4 ],
+      [ "steel_tiny", 16 ]
+    ]
   },
   {
     "result": "legguard_paper",
@@ -437,7 +503,7 @@
     "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
     "using": [ [ "strap_large", 3 ], [ "cordage", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 8 ] ] ]
   },
   {
@@ -447,7 +513,7 @@
     "time": "1 h",
     "using": [ [ "strap_large", 3 ], [ "cordage", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 10 ] ] ]
   },
   {
@@ -460,14 +526,13 @@
     "time": "15 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "cordage_short", 1 ] ],
-    "components": [ [ [ "rag", 2 ] ] ]
+    "using": [ [ "cordage_short", 1 ], [ "fabric_standard_nostretch", 2 ] ]
   },
   {
     "result": "loincloth_fur",
     "type": "recipe",
     "copy-from": "loincloth",
-    "components": [ [ [ "fur", 2 ] ] ]
+    "using": [ [ "fabric_fur", 2 ] ]
   },
   {
     "result": "loincloth_leather",
@@ -479,7 +544,7 @@
     "result": "loincloth_wool",
     "type": "recipe",
     "copy-from": "loincloth",
-    "components": [ [ [ "felt_patch", 2 ] ] ]
+    "using": [ [ "fabric_felt", 2 ] ]
   },
   {
     "result": "long_underpants",

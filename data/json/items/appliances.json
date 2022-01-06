@@ -1,0 +1,75 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "fridge",
+    "looks_like": "minifridge",
+    "symbol": "F",
+    "color": "light_blue",
+    "name": { "str": "fridge" },
+    "description": "A fridge for keeping food cool.  Provides some insulation from outside weather.",
+    "longest_side": "1700 mm",
+    "insulation": 10,
+    "volume": "800 L",
+    "weight": "70 kg",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "500 L",
+        "max_contains_weight": "400 kg"
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "oven",
+    "looks_like": "f_oven",
+    "symbol": "#",
+    "description": "A disconnected electric convection-based oven, commonly used for heating and cooking food.",
+    "color": "dark_gray_white",
+    "name": { "str": "disconnected oven" },
+    "material": [ "budget_steel" ],
+    "longest_side": "69 cm",
+    "insulation": 3,
+    "volume": "290 L",
+    "weight": "77 kg",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ]
+  },
+  {
+    "type": "TOOL",
+    "id": "power_cord",
+    "name": { "str": "power cord" },
+    "description": "A power cord, like you've seen many times before: it's a short multi-stranded copper cord with power outlet at the end.",
+    "to_hit": 1,
+    "color": "dark_gray",
+    "symbol": "&",
+    "material": [ "steel", "plastic" ],
+    "volume": "500 ml",
+    "weight": "75 g",
+    "bashing": 2,
+    "category": "tools",
+    "price": 1,
+    "price_postapoc": 100,
+    "max_charges": 3,
+    "initial_charges": 3,
+    "use_action": [ "CABLE_ATTACH" ],
+    "flags": [ "CABLE_SPOOL", "POWER_CORD" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "standing_lamp",
+    "name": { "str": "standing lamp" },
+    "description": "An electrical device containing an electric lamp that provides illumination once plugged into a power outlet.",
+    "weight": "2500 g",
+    "to_hit": -1,
+    "material": [ "plastic", "steel" ],
+    "volume": "2 L",
+    "longest_side": "170 cm",
+    "bashing": 5,
+    "price": 9000,
+    "price_postapoc": 5000,
+    "symbol": "L",
+    "color": "white"
+  }
+]

@@ -16,6 +16,32 @@
 #include "rng.h"
 #include "translations.h"
 
+static const skill_id skill_archery( "archery" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_driving( "driving" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_pistol( "pistol" );
+static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_shotgun( "shotgun" );
+static const skill_id skill_smg( "smg" );
+static const skill_id skill_speech( "speech" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_tailor( "tailor" );
+static const skill_id skill_throw( "throw" );
+static const skill_id skill_traps( "traps" );
+static const skill_id skill_unarmed( "unarmed" );
+
 // TODO: a map, for Barry's sake make this a map.
 std::vector<Skill> Skill::skills;
 std::map<skill_id, Skill> Skill::contextual_skills;
@@ -140,6 +166,19 @@ SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
 {
 }
 
+/** @relates string_id */
+template<>
+const SkillDisplayType &skill_displayType_id::obj() const
+{
+    for( const SkillDisplayType &skill : SkillDisplayType::skillTypes ) {
+        if( skill.ident() == *this ) {
+            return skill;
+        }
+    }
+
+    return invalid_skill_type;
+}
+
 void SkillDisplayType::load( const JsonObject &jsobj )
 {
     // TEMPORARY until 0.G: Remove "ident" support
@@ -170,13 +209,13 @@ const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayTyp
 skill_id Skill::from_legacy_int( const int legacy_id )
 {
     static const std::array<skill_id, 28> legacy_skills = { {
-            skill_id::NULL_ID(), skill_id( "dodge" ), skill_id( "melee" ), skill_id( "unarmed" ),
-            skill_id( "bashing" ), skill_id( "cutting" ), skill_id( "stabbing" ), skill_id( "throw" ),
-            skill_id( "gun" ), skill_id( "pistol" ), skill_id( "shotgun" ), skill_id( "smg" ),
-            skill_id( "rifle" ), skill_id( "archery" ), skill_id( "launcher" ), skill_id( "mechanics" ),
-            skill_id( "electronics" ), skill_id( "cooking" ), skill_id( "tailor" ), skill_id::NULL_ID(),
-            skill_id( "firstaid" ), skill_id( "speech" ), skill_id( "computer" ),
-            skill_id( "survival" ), skill_id( "traps" ), skill_id( "swimming" ), skill_id( "driving" ),
+            skill_id::NULL_ID(), skill_dodge, skill_melee, skill_unarmed,
+            skill_bashing, skill_cutting, skill_stabbing, skill_throw,
+            skill_gun, skill_pistol, skill_shotgun, skill_smg,
+            skill_rifle, skill_archery, skill_launcher, skill_mechanics,
+            skill_electronics, skill_cooking, skill_tailor, skill_id::NULL_ID(),
+            skill_firstaid, skill_speech, skill_computer,
+            skill_survival, skill_traps, skill_swimming, skill_driving,
         }
     };
     if( static_cast<size_t>( legacy_id ) < legacy_skills.size() ) {
@@ -212,12 +251,12 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         return;
     }
     // catchup gets faster the higher the level gap gets.
-    float level_gap = 1.0f * std::max( _knowledgeLevel, 1 ) / std::max( _level, 1 );
+    float level_gap = 1.0f * std::max( knowledgeLevel(), 1 ) / std::max( level(), 1 );
     float catchup_amount = amount * catchup_modifier;
     float knowledge_amount = amount * knowledge_modifier;
-    if( _knowledgeLevel > _level ) {
+    if( knowledgeLevel() > level() ) {
         catchup_amount *= level_gap;
-    } else if( _knowledgeLevel == _level && _knowledgeExperience > _exercise ) {
+    } else if( knowledgeLevel() == level() && _knowledgeExperience > _exercise ) {
         // when you're in the same level, the catchup starts to slow down.
         catchup_amount = amount * std::max( catchup_modifier - 1.0f * _exercise / _knowledgeExperience,
                                             1.0f );
@@ -234,7 +273,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         knowledge_amount = catchup_amount * 0.9f;
     }
 
-    if( _knowledgeLevel >= MAX_SKILL ) {
+    if( unadjustedKnowledgeLevel() >= MAX_SKILL ) {
         knowledge_amount = 0;
     }
 
@@ -255,12 +294,12 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
     _knowledgeExperience += knowledge_amount;
 
     const auto xp_to_level = [&]() {
-        return 100 * 100 * ( _level + 1 ) * ( _level + 1 );
+        return 100 * 100 * pow( unadjustedLevel() + 1, 2U );
     };
     while( _exercise >= xp_to_level() ) {
         _exercise = allow_multilevel ? _exercise - xp_to_level() : 0;
         ++_level;
-        if( _level > _knowledgeLevel ) {
+        if( unadjustedLevel() > unadjustedKnowledgeLevel() ) {
             _knowledgeLevel = _level;
             _knowledgeExperience = 0;
         }
@@ -269,11 +308,11 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
     if( _rustAccumulator < 0 ) {
         _rustAccumulator = 0;
     }
-    if( _level == _knowledgeLevel && _exercise > _knowledgeExperience ) {
+    if( level() == knowledgeLevel() && _exercise > _knowledgeExperience ) {
         _knowledgeExperience = _exercise;
     }
 
-    if( _knowledgeExperience >= 10000 * ( _knowledgeLevel + 1 ) * ( _knowledgeLevel + 1 ) ) {
+    if( _knowledgeExperience >= 10000 * pow( unadjustedKnowledgeLevel() + 1, 2U ) ) {
         _knowledgeExperience = 0;
         ++_knowledgeLevel;
     }
@@ -292,11 +331,11 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge )
     // level exceeds your own.  The best teacher is one who is only somewhat more knowledgeable than you.
     if( npc_knowledge > 0 ) {
         // This should later be modified by NPC teaching proficiencies.
-        level_gap = std::max( npc_knowledge * 1.0f - _knowledgeLevel * 1.0f, 1.0f );
+        level_gap = std::max<float>( npc_knowledge - unadjustedKnowledgeLevel(), 1.0f );
     } else {
         // Some day this should be affected by json specific to the skill, some skills are more amenable
         // to book learning.
-        level_gap = std::max( _knowledgeLevel * 1.0f - _level * 1.0f, 1.0f );
+        level_gap = std::max<float>( unadjustedKnowledgeLevel() - unadjustedLevel(), 1.0f );
     }
     float level_mult = 2.0f / ( level_gap + 1.0f );
     amount *= level_mult;
@@ -307,7 +346,7 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge )
     }
     _knowledgeExperience += amount;
 
-    if( _knowledgeExperience >= 10000 * ( _knowledgeLevel + 1 ) * ( _knowledgeLevel + 1 ) ) {
+    if( _knowledgeExperience >= 10000 * pow( unadjustedKnowledgeLevel() + 1, 2U ) ) {
         _knowledgeExperience = 0;
         ++_knowledgeLevel;
     }
@@ -317,8 +356,8 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge )
 bool SkillLevel::isRusty() const
 {
     // skill is considered rusty if the practical xp lags knowledge xp by at least 1%
-    return _level != _knowledgeLevel ||
-           _knowledgeExperience - _exercise >= ( _level + 1 ) * ( _level + 1 ) * 10;
+    return level() != knowledgeLevel() ||
+           _knowledgeExperience - _exercise >= pow( level() + 1, 2U ) * 10;
 }
 
 bool SkillLevel::rust( int rust_resist )
@@ -328,12 +367,12 @@ bool SkillLevel::rust( int rust_resist )
         return false;
     }
 
-    if( _level >= MAX_SKILL ) {
+    if( unadjustedLevel() >= MAX_SKILL ) {
         // don't rust any more once you hit the level cap, at least until we have a way to "pause" rust for a while.
         return false;
     }
 
-    const int level_multiplier = ( _level + 1 ) * ( _level + 1 );
+    const int level_multiplier = pow( unadjustedLevel() + 1, 2U );
     float level_exp = level_multiplier * 10000.0f;
     if( _rustAccumulator > level_exp * 3 ) {
         // at this point the numbers ahead will be too small to bother.  Just cap it off.
@@ -352,11 +391,11 @@ bool SkillLevel::rust( int rust_resist )
         rust_amount = std::lround( rust_amount * ( std::max( ( 100 - rust_resist ), 0 ) / 100.0 ) );
     }
 
-    if( _level == 0 ) {
+    if( level() == 0 ) {
         rust_amount = std::min( rust_amount, _exercise );
     }
 
-    if( rust_amount < 1 ) {
+    if( rust_amount <= 0 ) {
         return false;
     }
 
@@ -365,7 +404,7 @@ bool SkillLevel::rust( int rust_resist )
     const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
-            _exercise = ( 100 * 100 * _level * _level ) - 1;
+            _exercise = ( 100 * 100 * pow( unadjustedLevel(), 2U ) ) - 1;
             --_level;
         } else {
             _exercise = 0;
@@ -382,8 +421,8 @@ void SkillLevel::practice()
 
 void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 {
-    if( _knowledgeLevel < maximumLevel || maximumLevel < 0 ) {
-        knowledge_train( ( _knowledgeLevel + 1 ) * rng( minimumGain, maximumGain ) * 100 );
+    if( knowledgeLevel() < maximumLevel || maximumLevel < 0 ) {
+        knowledge_train( ( knowledgeLevel() + 1 ) * rng( minimumGain, maximumGain ) * 100 );
     }
 
     practice();
@@ -520,7 +559,7 @@ bool SkillLevelMap::theoretical_recipe_requirements( const recipe &rec ) const
 
 bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
 {
-    return ( exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec ) );
+    return exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec );
 }
 
 bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const

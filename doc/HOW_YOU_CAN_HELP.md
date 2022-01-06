@@ -1,12 +1,82 @@
 # How You Can Help
 
+CDDA is maintained by thousands of volunteers, organized by a core development team. There are many
+ways you can help, both through direct participation in the game's code and content development, and
+by finding or reproducing bugs, locating causes, and testing the proposed fixes.
+
+- See [ISSUES.md](../ISSUES.md) for how to report bugs or request new features
+- See [CONTRIBUTING.md](../.github/CONTRIBUTING.md) for how to make and and submit changes to the
+  game with pull requests
+- See the [Guide to adding new content to CDDA for first time
+contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors)
+  for more help getting started with contributing
+
+
+## Other ways to help
+
+This section focuses on ways you can support CDDA development without necessarily knowing how to use
+Git, C++, or even JSON.
+
+As a player, you may follow CDDA development and know about the
+[issues page on GitHub](https://github.com/CleverRaven/Cataclysm-DDA/issues)
+where bugs and feature requests are reported.
+
+If you don't have a GitHub account, you may use the
+[Issue Triage Crowdsource](https://forms.gle/FBucNHVH5rJyJCfGA) form to tell us about issues of
+particular importance or annoyance to you, which you think should be fixed before the next stable
+release.
+
+If you have a GitHub account, you may know you can [open issues](../ISSUES.md) and create pull
+requests to [contribute code changes](../.github/CONTRIBUTING.md). But you can also use your GitHub
+account to help manage and triage the existing issues and pull requests, and participate in
+the discovery, discussion, and testing processes that surround game development.
+
+Ways to help with issues:
+
+- Reproduce issues that [need confirmation](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S1+-+Need+confirmation%29%22).
+  Finding a procecdure that reliably reproduces a problem is an important step toward finding a
+  solution. Comment with your results (positive or negative), game version, the steps you followed,
+  and any screenshots or other relevant info.
+
+- Determine the first version, pull request, or commit affected by an issue. In the case of newly
+  appearing bugs or regressions in game behavior, it may be possible to pinpoint when it first
+  started occurring, by manually testing different game versions, or using a more sophisticated
+  approach like `git bisect`. If you play experimental and update regularly, you might know right
+  off the top of your head which version broke something! This is valuable information. If you can
+  determine this and comment on the issue, it will definitely help locate a fix.
+
+- Find closely related or possible duplicate issues. Even when people do search for existing issues
+  before opening new ones, with thousands of open issues, they may still be hard to find, and
+  duplicates often arise. If you notice two or more issues that are similar, related, or duplicated,
+  please comment with the issue number(s) to generate a cross-reference link.
+
+- Check old issues, to see if they are still relevant and reproducible in the current experimental
+  version. Comment on any that may be already fixed or obsoleted, and could be closed with no
+  further action - or, conversely, any that are still valid and worth fixing.
+
+Ways to help with pull requests:
+
+- Read pull request descriptions, and look at the affected code and/or JSON files. Provide
+  constructive feedback in the form of comments or code reviews on the PR.
+
+- Check out, compile, and test pull requests. The "Code" dropdown shown at the top-right
+  of each pull request shows how to checkout the PR using [GitHub CLI](https://cli.github.com/), ex.
+  `gh pr checkout 12345`. Build and playtest the PR to verify that it does what it should, and share
+  your findings with the author.
+
+
+## Issue labels
+
+Both issues and pull requests are categorized with labels, which can be helpful for organization.
+Typically someone with triage permissions will add appropriate labels. Use the links below to search
+for issues by label.
+
 If you want to just jump right in, search for the ["Good First Issue"](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Good+First+Issue%22) tag.
 
 If you wish to find something pertaining to your specialty, use the more detailed tags, in any combination.
 
-&nbsp;
 
-## Languages
+### Languages
 
 | Tag                                                                                                             | Description
 |---                                                                                                              |---
@@ -17,7 +87,7 @@ If you wish to find something pertaining to your specialty, use the more detaile
 
 &nbsp;
 
-## Issue Types
+### Issue Types
 
 | Tag                                                                                                                                                     | Description
 |---                                                                                                                                                      |---
@@ -32,7 +102,7 @@ If you wish to find something pertaining to your specialty, use the more detaile
 
 &nbsp;
 
-## Gameplay Categories
+### Gameplay Categories
 
 | Tag                                                                                                                                                                         | Description
 |---                                                                                                                                                                          |---
@@ -81,7 +151,7 @@ If you wish to find something pertaining to your specialty, use the more detaile
 
 &nbsp;
 
-## Flags
+### Flags
 
 | Tag                                                                                                                                                                                             | Description
 |---                                                                                                                                                                                              |---

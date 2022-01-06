@@ -309,7 +309,7 @@
     "id": "t_tree_dead",
     "name": "dead tree",
     "looks_like": "t_tree",
-    "description": "An indiscernible tree that has withered away, whether by weather, fire or otherworldy.  You could cut it down with the right tools.",
+    "description": "An indiscernible tree that has withered away, whether by weather, fire or otherworldly.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": "brown",
     "move_cost": 0,
@@ -342,6 +342,26 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 0, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_mega_fern",
+    "name": "mega fern",
+    "looks_like": "t_tree_young",
+    "description": "A gigantic fern like nothing you've seen before.  The leaves are a bright scarlet color with a net like structure of green veins.  The multipronged trunks appear to have the consistency of balsa wood.",
+    "symbol": "1",
+    "color": [ "red_green", "red_green", "red_green", "brown" ],
+    "//": "barren in winter",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "YOUNG", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "alien_fern", "count": [ 0, 5 ] } ]
     }
   },
   {
@@ -1957,6 +1977,17 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
     "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grass_alien",
+    "name": "alien grass",
+    "description": "An area of something that almost looks like grass.  The blades are serrated and move on their own.",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "ROUGH", "PAINFUL" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
     "type": "terrain",

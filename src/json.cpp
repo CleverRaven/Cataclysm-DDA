@@ -30,7 +30,7 @@
 static bool is_whitespace( char ch )
 {
     // These are all the valid whitespace characters allowed by RFC 4627.
-    return ( ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' );
+    return ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r';
 }
 
 // Thw following function would fit more logically in catacharset.cpp, but it's
@@ -118,7 +118,9 @@ void JsonObject::report_unvisited() const
             const std::string &name = p.first;
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) ) {
                 try {
-                    throw_error( string_format( "Invalid or misplaced field name \"%s\" in JSON data", name ), name );
+                    throw_error(
+                        string_format( "Invalid or misplaced field name \"%s\" in JSON data, or value in unexpected format.",
+                                       name ), name );
                 } catch( const JsonError &e ) {
                     debugmsg( "(json-error)\n%s", e.what() );
                 }

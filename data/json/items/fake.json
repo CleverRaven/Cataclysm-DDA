@@ -10,10 +10,16 @@
     "color": "red"
   },
   {
-    "id": "arcfurnace",
+    "id": "fake_arcfurnace",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "arc furnace" }
+  },
+  {
+    "id": "spinwheelitem",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "spinning wheel" }
   },
   {
     "id": "fake_burrowing",
@@ -28,24 +34,21 @@
     "id": "toolset",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": { "str": "integrated toolset" },
-    "flags": [ "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER" ],
+    "name": { "str": "integrated multitool" },
+    "flags": [ "TRADER_AVOID", "FIRESTARTER" ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
-      [ "HAMMER", 3 ],
-      [ "HAMMER_FINE", 1 ],
       [ "SAW_W", 1 ],
-      [ "SAW_M", 2 ],
+      [ "SAW_M", 1 ],
       [ "SAW_M_FINE", 1 ],
-      [ "WRENCH", 2 ],
+      [ "WRENCH", 1 ],
       [ "WRENCH_FINE", 1 ],
-      [ "WHEEL_FAST", 1 ],
       [ "SCREW", 1 ],
       [ "SCREW_FINE", 1 ],
-      [ "CUT", 1 ],
+      [ "CUT", 2 ],
       [ "PRY", 1 ],
-      [ "DRILL", 3 ],
-      [ "BUTCHER", -38 ]
+      [ "PRYING_NAIL", 1 ],
+      [ "BUTCHER", -55 ]
     ]
   },
   {
@@ -53,7 +56,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "bionic goggles" },
-    "qualities": [ [ "GLARE", 2 ] ]
+    "qualities": [ [ "GLARE", 1 ] ]
   },
   {
     "id": "bio_scalpel",
@@ -64,8 +67,8 @@
     "to_hit": 2,
     "cutting": 8,
     "techniques": [ "PRECISE" ],
-    "flags": [ "TRADER_AVOID", "NO_UNWIELD", "UNBREAKABLE_MELEE", "SPEAR" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ]
+    "flags": [ "TRADER_AVOID", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "SPEAR" ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ]
   },
   {
     "id": "fake_razor",
@@ -159,19 +162,6 @@
     "ranged_damage": { "damage_type": "stab", "amount": 30 }
   },
   {
-    "id": "pseudo_char_smoker",
-    "type": "TOOL",
-    "name": { "str": "smoking rack" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
-    "sub": "char_smoker",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
-  },
-  {
     "id": "fake_tire_changer",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -192,6 +182,13 @@
     "type": "TOOL",
     "copy-from": "fake_power_tool",
     "name": { "str": "electric arc furnace" }
+  },
+  {
+    "id": "fake_beverly_shear",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "Beverly shear" },
+    "qualities": [ [ "SAW_M", 2 ] ]
   },
   {
     "id": "fake_drill_press",
@@ -218,7 +215,7 @@
     "name": { "str": "bandsaw" }
   },
   {
-    "id": "fake_router_table",
+    "id": "fake_router",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
     "name": { "str": "router table" }
@@ -242,7 +239,7 @@
     "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
   },
   {
-    "id": "fake_power_lathe",
+    "id": "fake_heavy_lathe",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
     "name": { "str": "power lathe" }

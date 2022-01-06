@@ -3,6 +3,7 @@
 #define CATA_SRC_CALENDAR_H
 
 #include <iosfwd>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -95,6 +96,14 @@ extern const time_duration INDEFINITELY_LONG_DURATION;
 /// @returns Whether the eternal season is enabled.
 bool eternal_season();
 void set_eternal_season( bool is_eternal_season );
+
+/// @returns Whether the eternal night is enabled.
+bool eternal_night();
+void set_eternal_night( bool is_eternal_night );
+
+/// @returns Whether the eternal day is enabled.
+bool eternal_day();
+void set_eternal_day( bool is_eternal_day );
 
 /** @returns Time in a year, (configured in current world settings) */
 time_duration year_length();
@@ -416,7 +425,8 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * 59 minutes will return "59 minutes".
  * @param align none, right, or compact.
  */
-std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
+std::string to_string_clipped( const time_duration &d,
+                               const clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
