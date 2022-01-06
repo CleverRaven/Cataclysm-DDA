@@ -583,7 +583,7 @@
     "id": "mon_feral_militia",
     "type": "MONSTER",
     "name": { "str": "mad militia" },
-    "description": "Wearing a geared camo uniform with a kevlar vest, this person was a militia member, turned feral.  Their hands grip unto a semi-automatic rifle as their bloodshot eyes scan around; a headlamp above them illuminates their presence and surroundings.",
+    "description": "Wearing a tactical camo uniform with a kevlar vest, this person seems to have been a militia member, now turned feral.  Their hands grip an automatic rifle as their bloodshot eyes scan for threats; a flashlight strapped to their forehead illuminates their presence and surroundings.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
