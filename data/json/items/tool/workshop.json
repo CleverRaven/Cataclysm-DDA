@@ -613,7 +613,20 @@
       [ "CHISEL", 3 ],
       [ "CHISEL_WOOD", 3 ]
     ],
-    "use_action": [ "GUN_REPAIR", [ "CROWBAR", 0 ], [ "HAMMER", 0 ] ],
+    "use_action": [ 
+	  "GUN_REPAIR", 
+	  [ "HAMMER", 0 ],
+	  [ "HACKSAW", 0 ],
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      },
+      { "flame": false, "type": "cauterize" }
+	],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
@@ -1062,7 +1075,20 @@
       [ "CHISEL_WOOD", 3 ],
       [ "PRYING_NAIL", 1 ]
     ],
-    "use_action": [ "GUN_REPAIR", [ "CROWBAR", 0 ], [ "HAMMER", 0 ], [ "HACKSAW", 0 ] ],
+    "use_action": [
+	  "GUN_REPAIR",
+	  [ "HAMMER", 0 ],
+	  [ "HACKSAW", 0 ],
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      },
+      { "flame": false, "type": "cauterize" }
+	],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
