@@ -3003,6 +3003,17 @@
   },
   {
     "type": "construction",
+    "id": "app_oven",
+    "group": "place_oven",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "oven", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_standing_lamp",
     "group": "place_standing_lamp",
     "category": "APPLIANCE",
@@ -3449,6 +3460,18 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_butcher_rack"
+  },
+  {
+    "type": "construction",
+    "id": "constr_spin_wheel",
+    "group": "build_spinwheel",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ], [ "mechanics", 2 ], [ "tailor", 1 ] ],
+    "time": "3 h",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 20 ] ], [ [ "string_36", 15 ] ], [ [ "nail", 25 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_spinwheel"
   },
   {
     "type": "construction",

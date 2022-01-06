@@ -72,9 +72,9 @@ std::vector<item_reference> active_item_cache::get()
 std::vector<item_reference> active_item_cache::get_for_processing()
 {
     std::vector<item_reference> items_to_process;
-    items_to_process.reserve( std::accumulate( active_items.begin(), active_items.end(), 0,
+    items_to_process.reserve( std::accumulate( active_items.begin(), active_items.end(), std::size_t{ 0 },
     []( size_t prev, const auto & kv ) {
-        return prev + kv.second.size() / kv.first;
+        return prev + kv.second.size() / static_cast<size_t>( kv.first );
     } ) );
     for( std::pair<const int, std::list<item_reference>> &kv : active_items ) {
         // Rely on iteration logic to make sure the number is sane.

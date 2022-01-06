@@ -112,6 +112,9 @@ using matype_id = string_id<martialart>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
 
+class map_extra;
+using map_extra_id = string_id<map_extra>;
+
 class mapgen_palette;
 using palette_id = string_id<mapgen_palette>;
 

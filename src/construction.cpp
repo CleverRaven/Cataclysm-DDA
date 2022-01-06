@@ -98,6 +98,7 @@ static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
+static const std::string flag_APPLIANCE( "APPLIANCE" );
 
 static bool finalized = false;
 
@@ -1328,12 +1329,23 @@ void construct::done_appliance( const tripoint &p )
     }
     const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
     veh->install_part( point_zero, vpart );
-    veh->add_tag( "APPLIANCE" );
+    veh->add_tag( flag_APPLIANCE );
 
     veh->name = vpart->name();
     // Update the vehicle cache immediately,
     // or the appliance will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
+
+    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
+        const optional_vpart_position vp = here.veh_at( trip );
+        if( !vp ) {
+            continue;
+        }
+        const vehicle &veh_target = vp->vehicle();
+        if( veh_target.has_tag( flag_APPLIANCE ) ) {
+            veh->connect( p, trip );
+        }
+    }
 }
 
 void construct::done_deconstruct( const tripoint &p )
@@ -1421,12 +1433,11 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
 {
     map &here = get_map();
     // TODO: fix point types
-    const tripoint_abs_ms abs_pos( here.getabs( p ) );
+    const tripoint_abs_ms abs_pos = here.getglobal( p );
     const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm + tripoint_below, false );
-    // TODO: fix point types
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos.raw() );
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     Character &player_character = get_player_character();
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
@@ -1480,12 +1491,11 @@ void construct::done_mine_upstair( const tripoint &p )
 {
     map &here = get_map();
     // TODO: fix point types
-    const tripoint_abs_ms abs_pos( here.getabs( p ) );
+    const tripoint_abs_ms abs_pos = here.getglobal( p );
     const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm + tripoint_above, false );
-    // TODO: fix point types
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos.raw() );
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
         here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem

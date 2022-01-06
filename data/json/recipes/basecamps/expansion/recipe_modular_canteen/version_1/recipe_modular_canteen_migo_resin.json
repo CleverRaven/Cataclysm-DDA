@@ -12,12 +12,7 @@
     "blueprint_name": "build the mi-go resin central kitchen room",
     "blueprint_requires": [ { "id": "fbmk_0" } ],
     "blueprint_provides": [ { "id": "fbmk_center" } ],
-    "blueprint_excludes": [ { "id": "fbmk_center" } ],
-    "blueprint_needs": {
-      "time": "1 d 1 h 30 m",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 37 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_center" } ]
   },
   {
     "type": "recipe",
@@ -32,12 +27,7 @@
     "blueprint_name": "finish the mi-go resin central kitchen room",
     "blueprint_requires": [ { "id": "fbmk_center" } ],
     "blueprint_provides": [ { "id": "fbmk_center2" } ],
-    "blueprint_excludes": [ { "id": "fbmk_center2" } ],
-    "blueprint_needs": {
-      "time": "1 d 6 h 30 m",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 51 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_center2" } ]
   },
   {
     "type": "recipe",
@@ -52,16 +42,7 @@
     "blueprint_name": "build a mi-go resin roofed area for smoking racks",
     "blueprint_requires": [ { "id": "fbmk_center2" } ],
     "blueprint_provides": [ { "id": "fbmk_smoking_area" } ],
-    "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ],
-    "blueprint_needs": {
-      "time": "1 d 1 h 25 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 180 ] ], [ [ "nail", 448 ] ], [ [ "alien_pod_resin", 12 ] ], [ [ "wood_panel", 22 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ]
   },
   {
     "type": "recipe",
@@ -76,12 +57,7 @@
     "blueprint_name": "build a mi-go resin pantry",
     "blueprint_requires": [ { "id": "fbmk_center2" } ],
     "blueprint_provides": [ { "id": "fbmk_pantry_room" } ],
-    "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ],
-    "blueprint_needs": {
-      "time": "2 d 1 h",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 82 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ]
   },
   {
     "type": "recipe",
@@ -96,16 +72,7 @@
     "blueprint_name": "build W mi-go resin wall",
     "blueprint_requires": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
-    "blueprint_needs": {
-      "time": "1 d 1 h 6 m",
-      "skills": [ [ "fabrication", 2 ], [ "survival", 0 ] ],
-      "inline": {
-        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
-        "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 30 ] ], [ [ "alien_pod_resin", 36 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ]
   },
   {
     "type": "recipe",
@@ -120,16 +87,7 @@
     "blueprint_name": "build E mi-go resin wall",
     "blueprint_requires": [ { "id": "fbmk_canteen_dining_west" }, { "id": "fbmk_smoking_area" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_east" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ],
-    "blueprint_needs": {
-      "time": "1 d 12 h 30 m",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
-        "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 30 ] ], [ [ "alien_pod_resin", 51 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ]
   },
   {
     "type": "recipe",
@@ -144,11 +102,6 @@
     "blueprint_name": "build center of the mi-go resin dining hall",
     "blueprint_requires": [ { "id": "fbmk_canteen_dining_east" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_center" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ],
-    "blueprint_needs": {
-      "time": "1 d 15 h",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 53 ] ] ] }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ]
   }
 ]

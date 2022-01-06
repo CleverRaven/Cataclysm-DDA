@@ -1330,7 +1330,7 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "light_blue",
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE", "RAD_DETECT" ]
   },
   {
     "abstract": "badge_abstract",

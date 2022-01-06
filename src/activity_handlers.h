@@ -9,6 +9,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "coordinates.h"
 #include "optional.h"
 #include "type_id.h"
 #include "requirements.h"
@@ -18,8 +19,22 @@ class item;
 class player_activity;
 struct tripoint;
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
-        const std::unordered_set<tripoint> &tiles );
+template<typename Point, typename Container>
+std::vector<Point> get_sorted_tiles_by_distance( const Point &center, const Container &tiles )
+{
+    const auto cmp = [center]( const Point & a, const Point & b ) {
+        const int da = rl_dist( center, a );
+        const int db = rl_dist( center, b );
+
+        return da < db;
+    };
+
+    std::vector<Point> sorted( tiles.begin(), tiles.end() );
+    std::sort( sorted.begin(), sorted.end(), cmp );
+
+    return sorted;
+}
+
 std::vector<tripoint> route_adjacent( const Character &you, const tripoint &dest );
 
 std::vector<tripoint> route_best_workbench( const Character &you, const tripoint &dest );

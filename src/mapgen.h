@@ -91,6 +91,28 @@ struct jmapgen_int {
     int get() const;
 };
 
+/** Mapgen pieces will be applied in order of phases.  The phases are as
+ * follows: */
+enum class mapgen_phase {
+    terrain,
+    furniture,
+    default_,
+    nested_mapgen,
+    transform,
+    faction_ownership,
+    last
+};
+
+template<>
+struct enum_traits<mapgen_phase> {
+    static constexpr mapgen_phase last = mapgen_phase::last;
+};
+
+inline bool operator<( const mapgen_phase l, const mapgen_phase r )
+{
+    return static_cast<int>( l ) < static_cast<int>( r );
+}
+
 enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_OPTYPE_POINT = 0,
     JMAPGEN_SETMAP_TER,
@@ -132,7 +154,11 @@ struct jmapgen_setmap {
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
         fuel( ifuel ), status( istatus ) {}
+
+    mapgen_phase phase() const;
+
     bool apply( const mapgendata &dat, const point &offset ) const;
+
     /**
      * checks if applying these objects to data would cause cause a collision with vehicles
      * on the same map
@@ -144,22 +170,6 @@ struct spawn_data {
     std::map<itype_id, jmapgen_int> ammo;
     std::vector<point> patrol_points_rel_ms;
 };
-
-/** Mapgen pieces will be applied in order of phases.  The phases are as
- * follows: */
-enum class mapgen_phase {
-    terrain,
-    furniture,
-    default_,
-    nested_mapgen,
-    transform,
-    faction_ownership,
-};
-
-inline bool operator<( const mapgen_phase l, const mapgen_phase r )
-{
-    return static_cast<int>( l ) < static_cast<int>( r );
-}
 
 /**
  * Basic mapgen object. It is supposed to place or do something on a specific square on the map.
@@ -200,8 +210,8 @@ class jmapgen_piece
                                             const std::string &/*outer_context*/ ) const {}
 
         /** Place something on the map from mapgendata &dat, at (x,y). */
-        virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                          ) const = 0;
+        virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                            const std::string &context ) const = 0;
         virtual ~jmapgen_piece() = default;
         jmapgen_int repeat;
         virtual bool has_vehicle_collision( const mapgendata &, const point &/*offset*/ ) const {
@@ -373,8 +383,9 @@ struct jmapgen_objects {
 
         void merge_parameters_into( mapgen_parameters &, const std::string &outer_context ) const;
 
-        void apply( const mapgendata &dat ) const;
-        void apply( const mapgendata &dat, const point &offset ) const;
+        void apply( const mapgendata &dat, mapgen_phase, const std::string &context ) const;
+        void apply( const mapgendata &dat, mapgen_phase, const point &offset,
+                    const std::string &context ) const;
 
         /**
          * checks if applying these objects to data would cause cause a collision with vehicles
@@ -488,7 +499,8 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         mapgen_function_json_nested( const json_source_location &jsrcloc, const std::string &context );
         ~mapgen_function_json_nested() override = default;
 
-        void nest( const mapgendata &md, const point &offset ) const;
+        void nest( const mapgendata &md, const point &offset,
+                   const std::string &outer_context ) const;
     protected:
         bool setup_internal( const JsonObject &jo ) override;
 
