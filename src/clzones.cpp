@@ -1055,7 +1055,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     //Create a regular zone
     zones.push_back( new_zone );
 
-  //If not player defined, save them immediately
+    //If not player defined, save them immediately
     if( fac != faction_your_followers ) {
         save_world_zones();
     }
