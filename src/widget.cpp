@@ -334,6 +334,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
     optional( jo, was_loaded, "var_min", _var_min );
+    optional( jo, was_loaded, "var_norm", _var_norm );
     optional( jo, was_loaded, "var_max", _var_max );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
     optional( jo, was_loaded, "flags", _flags );
@@ -370,6 +371,33 @@ void widget::load( const JsonObject &jo, const std::string & )
 void widget::finalize()
 {
     // Nothing to do?
+}
+
+int widget::get_var_norm( const avatar &ava )
+{
+    int norm_val = 1;
+    switch( _var ) {
+        case widget_var::stat_str:
+            norm_val = ava.get_str_base();
+            break;
+        case widget_var::stat_dex:
+            norm_val = ava.get_dex_base();
+            break;
+        case widget_var::stat_int:
+            norm_val = ava.get_int_base();
+            break;
+        case widget_var::stat_per:
+            norm_val = ava.get_per_base();
+            break;
+        default:
+            break;
+    }
+
+    // JSON-defined var_norm may override it
+    if( _var_norm > 0 ) {
+        norm_val = _var_norm;
+    }
+    return norm_val;
 }
 
 int widget::get_var_max( const avatar &ava ) const

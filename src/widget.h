@@ -180,6 +180,8 @@ class widget
         widget_var _var;
         // Minimum var value, optional
         int _var_min = 0;
+        // Normal var value, optional
+        int _var_norm = 0;
         // Maximum var value, required for graph widgets
         int _var_max = 10;
         // Body part variable is linked to
@@ -236,6 +238,8 @@ class widget
 
         // Evaluate and return the bound "var" associated value for an avatar
         int get_var_value( const avatar &ava ) const;
+        // Return normal "var" value from "var_norm", or normal value for avatar (stats, focus)
+        int get_var_norm( const avatar &ava );
         // Return the maximum "var" value from "var_max", or max for avatar (HP, mana, etc.)
         int get_var_max( const avatar &ava ) const;
         // True if this widget has the given flag. Used to specify certain behaviors.
