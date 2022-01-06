@@ -83,7 +83,7 @@
     "id": "mon_skeleton_electric",
     "type": "MONSTER",
     "name": { "str": "skeletal shocker" },
-    "description": "Heavy, jagged bone plates have grown out of the surface of this zombie.  Underneath, its flesh glows and crackles with the occasional jolt of electricity.",
+    "description": "Heavy, jagged bone plates have grown out of the surface of this zombie's skin.  Underneath, its flesh glows and crackles with the occasional jolt of electricity.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
