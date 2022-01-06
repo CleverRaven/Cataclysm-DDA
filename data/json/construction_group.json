@@ -1105,14 +1105,14 @@
     "name": "Place Standing Lamp"
   },
   {
-	"type": "construction_group",
-	"id": "place_solar_panel",
-	"name": "Place Solar Panel"
+    "type": "construction_group",
+    "id": "place_solar_panel",
+    "name": "Place Solar Panel"
   },
   {
-	"type": "construction_group",
-	"id": "place_small_battery",
-	"name": "Place Small Battery"
+    "type": "construction_group",
+    "id": "place_small_battery",
+    "name": "Place Small Battery"
   },
   {
     "type": "construction_group",
