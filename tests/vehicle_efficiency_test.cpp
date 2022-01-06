@@ -436,7 +436,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "beetle", 717777, 444000, 386700, 111500, 91570 );
     test_vehicle( "car", 1021926, 644100, 436900, 59860, 30240 );
     test_vehicle( "car_sports", 1056322, 354700, 288200, 39690, 27210 );
-    test_vehicle( "electric_car", 948443, 372500, 231100, 25020, 14280 );
+    test_vehicle( "electric_car", 905243, 382840, 252690, 26030, 16190 );
     test_vehicle( "suv", 1221594, 1210000, 695900, 93430, 37220 );
     test_vehicle( "motorcycle", 162585, 120300, 100900, 63320, 51130 );
     test_vehicle( "quad_bike", 264845, 116100, 116100, 46770, 46770 );
@@ -455,7 +455,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "beetle", 717777, 58800, 58800, 45900, 44560, 0, 0, true );
     test_vehicle( "car", 1021926, 76390, 76260, 48330, 30270, 0, 0, true );
     test_vehicle( "car_sports", 1056322, 355300, 288600, 38670, 24580, 0, 0, true );
-    test_vehicle( "electric_car", 948443, 373700, 231800, 25070, 14310, 0, 0, true );
+    test_vehicle( "electric_car", 905243, 373700, 231800, 25070, 14310, 0, 0, true );
     test_vehicle( "suv", 1221594, 114900, 112400, 70400, 35200, 0, 0, true );
     test_vehicle( "motorcycle", 162585, 20070, 19030, 15490, 14890, 0, 0, true );
     test_vehicle( "quad_bike", 264845, 19650, 19650, 15440, 15440, 0, 0, true );
