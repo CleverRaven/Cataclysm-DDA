@@ -613,10 +613,10 @@
       [ "CHISEL", 3 ],
       [ "CHISEL_WOOD", 3 ]
     ],
-    "use_action": [ 
-	  "GUN_REPAIR", 
-	  [ "CROWBAR", 0 ],
-	  [ "HACKSAW", 0 ],
+    "use_action": [
+      "GUN_REPAIR",
+      [ "CROWBAR", 0 ],
+      [ "HACKSAW", 0 ],
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
@@ -626,7 +626,7 @@
         "move_cost": 1500
       },
       { "flame": false, "type": "cauterize" }
-	],
+    ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
@@ -1076,9 +1076,9 @@
       [ "PRYING_NAIL", 1 ]
     ],
     "use_action": [
-	  "GUN_REPAIR",
-	  [ "CROWBAR", 0 ],
-	  [ "HACKSAW", 0 ],
+      "GUN_REPAIR",
+      [ "CROWBAR", 0 ],
+      [ "HACKSAW", 0 ],
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
@@ -1088,7 +1088,7 @@
         "move_cost": 1500
       },
       { "flame": false, "type": "cauterize" }
-	],
+    ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
