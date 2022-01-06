@@ -488,7 +488,13 @@
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "CALORIES_INTAKE" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 120 } },
-      { "pocket_type": "EBOOK", "rigid": true, "max_contains_volume": "1 ml", "max_contains_weight": "1 g", "weight_multiplier": 0.0 }
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0
+      }
     ]
   },
   {
@@ -524,11 +530,11 @@
       "EBOOKSAVE",
       "EBOOKREAD",
       {
-      "ammo_scale": 0,
-      "target": "smart_phone",
-      "msg": "You deactivate the flashlight app.",
-      "menu_text": "Turn off flashlight",
-      "type": "transform"
+        "ammo_scale": 0,
+        "target": "smart_phone",
+        "msg": "You deactivate the flashlight app.",
+        "menu_text": "Turn off flashlight",
+        "type": "transform"
       }
     ],
     "flags": [ "WATCH", "LIGHT_20", "CHARGEDIM", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
