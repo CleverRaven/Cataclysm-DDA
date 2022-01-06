@@ -138,6 +138,6 @@
   {
     "type": "overmap_location",
     "id": "open_air",
-    "terrains": [ "open air" ]
+    "terrains": [ "open_air" ]
   }
 ]
