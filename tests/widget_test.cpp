@@ -327,27 +327,50 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
     }
 }
 
-TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
+TEST_CASE( "widgets showing stats STR, DEX, INT, PER", "[widget][stats]" )
 {
+    widget str_w = widget_test_str_num.obj();
+    widget dex_w = widget_test_dex_num.obj();
+    widget int_w = widget_test_int_num.obj();
+    widget per_w = widget_test_per_num.obj();
+
     avatar &ava = get_avatar();
     clear_avatar();
 
     SECTION( "base stats str / dex / int / per" ) {
-        widget str_w = widget_test_str_num.obj();
-        widget dex_w = widget_test_dex_num.obj();
-        widget int_w = widget_test_int_num.obj();
-        widget per_w = widget_test_per_num.obj();
-
         ava.str_max = 8;
         ava.dex_max = 10;
         ava.int_max = 7;
         ava.per_max = 13;
 
-        CHECK( str_w.layout( ava ) == "STR: 8" );
-        CHECK( dex_w.layout( ava ) == "DEX: 10" );
-        CHECK( int_w.layout( ava ) == "INT: 7" );
-        CHECK( per_w.layout( ava ) == "PER: 13" );
+        CHECK( str_w.layout( ava ) == "STR: <color_c_white>8</color>" );
+        CHECK( dex_w.layout( ava ) == "DEX: <color_c_white>10</color>" );
+        CHECK( int_w.layout( ava ) == "INT: <color_c_white>7</color>" );
+        CHECK( per_w.layout( ava ) == "PER: <color_c_white>13</color>" );
     }
+
+    SECTION( "stats above or below their normal level" ) {
+        // Normal base STR is 8, shown in white
+        ava.str_max = 8;
+        CHECK( str_w.layout( ava ) == "STR: <color_c_white>8</color>" );
+        // Reduced STR, due to pain or something
+        ava.set_str_bonus( -1 );
+        CHECK( str_w.layout( ava ) == "STR: <color_c_light_red>7</color>" );
+        ava.set_str_bonus( -2 );
+        CHECK( str_w.layout( ava ) == "STR: <color_c_red>7</color>" );
+        // Increased STR, due to magic or something
+        ava.set_str_bonus( 1 );
+        CHECK( str_w.layout( ava ) == "STR: <color_c_light_green>7</color>" );
+        ava.set_str_bonus( 2 );
+        CHECK( str_w.layout( ava ) == "STR: <color_c_green>7</color>" );
+
+    }
+}
+
+TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
 
     SECTION( "stamina" ) {
         widget stamina_num_w = widget_test_stamina_num.obj();

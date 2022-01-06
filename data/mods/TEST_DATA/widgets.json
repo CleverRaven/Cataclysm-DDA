@@ -216,32 +216,38 @@
     "style": "text"
   },
   {
+    "id": "test_stat_num",
+    "type": "widget",
+    "style": "number",
+    "colors": [ "c_red", "c_light_red", "c_white", "c_light_green", "c_green" ]
+  },
+  {
     "id": "test_str_num",
     "type": "widget",
     "label": "STR",
     "var": "stat_str",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_dex_num",
     "type": "widget",
     "label": "DEX",
     "var": "stat_dex",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_int_num",
     "type": "widget",
     "label": "INT",
     "var": "stat_int",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_per_num",
     "type": "widget",
     "label": "PER",
     "var": "stat_per",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_weather_text",
