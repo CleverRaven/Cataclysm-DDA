@@ -59,12 +59,12 @@ static Uint32 timer_func( Uint32 interval, void * )
     SDL_Event event;
     SDL_UserEvent userevent;
 
-    userevent.type = GAMEPAD_SCHEDULER;
+    userevent.type = SDL_GAMEPAD_SCHEDULER;
     userevent.code = 0;
     userevent.data1 = nullptr;
     userevent.data2 = nullptr;
 
-    event.type = GAMEPAD_SCHEDULER;
+    event.type = SDL_GAMEPAD_SCHEDULER;
     event.user = userevent;
 
     SDL_PushEvent( &event );
