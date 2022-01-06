@@ -1336,7 +1336,7 @@ void construct::done_appliance( const tripoint &p )
     // or the appliance will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
 
-    for( const tripoint trip : here.points_in_radius( p, 1 ) ) {
+    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
         const optional_vpart_position vp = here.veh_at( trip );
         if( !vp ) {
             continue;
