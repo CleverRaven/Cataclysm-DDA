@@ -102,5 +102,27 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_solar_panel",
+    "name": { "str": "mounted solar panel" },
+    "symbol": "#",
+    "categories": [ "energy" ],
+    "color": "yellow",
+    "broken_symbol": "x",
+    "broken_color": "yellow",
+    "damage_modifier": 10,
+    "durability": 20,
+    "description": "A solar panel mounted on a frame and ready to power other appliances.",
+    "epower": 50,
+    "item": "static_solar_panel",
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "solar_cell", "count": [ 1, 4 ] }
+    ]
   }
 ]

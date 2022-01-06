@@ -71,5 +71,21 @@
     "price_postapoc": 5000,
     "symbol": "L",
     "color": "white"
+  },
+    {
+    "type": "GENERIC",
+    "id": "static_solar_panel",
+    "name": { "str": "static solar panel" },
+    "description": "A set of photovoltaic power generators ready to be installed to a power grid, providing electricity from solar radiation.",
+    "weight": "12 kg",
+    "to_hit": -1,
+    "material": [ "glass", "steel" ],
+    "volume": "10 L",
+    "longest_side": "120 cm",
+    "bashing": 4,
+    "price": 10000,
+    "price_postapoc": 2000,
+    "symbol": "#",
+    "color": "light_blue"
   }
 ]
