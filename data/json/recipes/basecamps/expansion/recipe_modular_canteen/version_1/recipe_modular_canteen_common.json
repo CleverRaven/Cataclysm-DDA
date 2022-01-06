@@ -36,15 +36,6 @@
     ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_fire" } ],
     "blueprint_resources": [ "fake_fireplace", "fake_fireplace", "pot" ],
-    "blueprint_needs": {
-      "time": "4 h 30 m",
-      "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
-        "components": [ [ [ "2x4", 2 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 8 ] ], [ [ "rock", 80 ] ] ]
-      }
-    },
     "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ], [ [ "pan", 1 ] ] ]
   },
   {
@@ -69,21 +60,6 @@
     ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_fire" } ],
     "blueprint_resources": [ "fake_fireplace", "fake_fireplace", "pot" ],
-    "blueprint_needs": {
-      "time": "2 h 30 m",
-      "skills": [ [ "fabrication", 5 ], [ "mechanics", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SAW_W" } ] ],
-        "components": [
-          [ [ "2x4", 2 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ],
-          [ [ "nail", 8 ] ],
-          [ [ "metal_tank", 2 ] ],
-          [ [ "pipe", 2 ] ]
-        ]
-      }
-    },
     "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ], [ [ "pan", 1 ] ] ]
   },
   {
@@ -99,16 +75,7 @@
     "blueprint_name": "build a well",
     "blueprint_requires": [ { "id": "fbmk_canteen_fire" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_well" }, { "id": "water_well" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_well" } ],
-    "blueprint_needs": {
-      "time": "11 h",
-      "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ], [ "survival", 4 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
-        "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ], [ [ "well_pump", 1 ] ], [ [ "pipe", 6 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_well" } ]
   },
   {
     "type": "recipe",
@@ -123,16 +90,7 @@
     "blueprint_name": "build kitchen counters",
     "blueprint_requires": [ { "id": "fbmk_center2" } ],
     "blueprint_provides": [ { "id": "fbmk_counters" } ],
-    "blueprint_excludes": [ { "id": "fbmk_counters" } ],
-    "blueprint_needs": {
-      "time": "7 h 20 m",
-      "skills": [ [ "fabrication", 1 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
-        "components": [ [ [ "2x4", 32 ] ], [ [ "wood_sheet", 12 ], [ "wood_panel", 24 ] ], [ [ "nail", 192 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_counters" } ]
   },
   {
     "type": "recipe",
@@ -149,16 +107,7 @@
     "blueprint_requires": [ { "id": "fbmk_canteen_fire" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_smoking" }, { "id": "kitchen_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_smoking" } ],
-    "blueprint_resources": [ "fake_char_smoker", "fake_char_smoker", "fake_char_smoker", "fake_char_kiln" ],
-    "blueprint_needs": {
-      "time": "6 h 30 m",
-      "skills": [ [ "cooking", 2 ], [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "DIG" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
-        "components": [ [ [ "2x4", 48 ], [ "stick", 48 ] ], [ [ "rock", 64 ] ] ]
-      }
-    }
+    "blueprint_resources": [ "fake_char_smoker", "fake_char_smoker", "fake_char_smoker", "fake_char_kiln" ]
   },
   {
     "type": "recipe",
@@ -173,24 +122,7 @@
     "blueprint_name": "furnish the pantry",
     "blueprint_requires": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_provides": [ { "id": "fbmk_pantry_furniture" }, { "id": "pantry" } ],
-    "blueprint_excludes": [ { "id": "fbmk_pantry_furniture" } ],
-    "blueprint_needs": {
-      "time": "1 d 9 h 20 m",
-      "skills": [ [ "survival", 4 ], [ "fabrication", 4 ], [ "cooking", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "elec_jackhammer", 14000 ], [ "jackhammer", 280 ], [ "pickaxe", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
-        "components": [
-          [ [ "2x4", 112 ] ],
-          [ [ "brick", 80 ], [ "rock", 80 ] ],
-          [ [ "nail", 504 ] ],
-          [ [ "sheet_metal_small", 24 ] ],
-          [ [ "straw_pile", 24 ], [ "withered", 24 ] ],
-          [ [ "water_faucet", 2 ] ],
-          [ [ "wood_panel", 48 ], [ "wood_sheet", 24 ] ]
-        ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_pantry_furniture" } ]
   },
   {
     "type": "recipe",
@@ -223,16 +155,7 @@
     "blueprint_name": "furnish the dining room",
     "blueprint_requires": [ { "id": "fbmk_canteen_dining_center" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_furniture" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_furniture" } ],
-    "blueprint_needs": {
-      "time": "12 h",
-      "skills": [ [ "fabrication", 2 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
-        "components": [ [ [ "2x4", 96 ] ], [ [ "wood_sheet", 8 ], [ "wood_panel", 8 ] ], [ [ "nail", 192 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_furniture" } ]
   },
   {
     "type": "recipe",
@@ -248,16 +171,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_canteen_well" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_planterA" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_planterA" } ],
-    "blueprint_needs": {
-      "time": "2 h 30 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 72 ] ], [ [ "nail", 216 ] ], [ [ "pebble", 1200 ] ], [ [ "material_soil", 450 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_planterA" } ]
   },
   {
     "type": "recipe",
@@ -273,16 +187,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_canteen_planterA" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_planterB" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_planterB" } ],
-    "blueprint_needs": {
-      "time": "2 h 30 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 72 ] ], [ [ "nail", 216 ] ], [ [ "pebble", 1200 ] ], [ [ "material_soil", 450 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_planterB" } ]
   },
   {
     "type": "recipe",
@@ -298,16 +203,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_canteen_planterB" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_planterC" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_planterC" } ],
-    "blueprint_needs": {
-      "time": "2 h 30 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 72 ] ], [ [ "nail", 216 ] ], [ [ "pebble", 1200 ] ], [ [ "material_soil", 450 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_planterC" } ]
   },
   {
     "type": "recipe",
@@ -323,15 +219,6 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_canteen_planterC" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_planterD" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_planterD" } ],
-    "blueprint_needs": {
-      "time": "2 h 30 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 72 ] ], [ [ "nail", 216 ] ], [ [ "pebble", 1200 ] ], [ [ "material_soil", 450 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_planterD" } ]
   }
 ]
