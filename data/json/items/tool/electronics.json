@@ -508,7 +508,7 @@
       "ELECTRICSTORAGE",
       "EBOOKSAVE",
       "EBOOKREAD"
-	],
+    ],
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
   },
   {
@@ -523,14 +523,14 @@
       "EINKTABLETPC",
       "EBOOKSAVE",
       "EBOOKREAD",
-	  {
+      {
       "ammo_scale": 0,
       "target": "smart_phone",
       "msg": "You deactivate the flashlight app.",
       "menu_text": "Turn off flashlight",
       "type": "transform"
       }
-	],
+    ],
     "flags": [ "WATCH", "LIGHT_20", "CHARGEDIM", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
   },
   {
