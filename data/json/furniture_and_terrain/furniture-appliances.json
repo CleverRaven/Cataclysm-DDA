@@ -567,7 +567,7 @@
     "name": "mounted solar panel",
     "description": "A set of photovoltaic power generators, which turns solar radiation into useable electricity.  While useful before the Cataclysm, they have become priceless tools, invaluable to any survivor.",
     "symbol": "#",
-    "color": "yellow",
+    "color": "light_blue",
     "move_cost_mod": 2,
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
