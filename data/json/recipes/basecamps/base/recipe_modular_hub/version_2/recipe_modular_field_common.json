@@ -551,6 +551,7 @@
     "construction_blueprint": "fbmh_2_parkour",
     "blueprint_name": "build an obstacle course",
     "blueprint_provides": [ { "id": "fbmh_2_parkour" } ],
+    "blueprint_requires": [ { "id": "fbmh_2" } ],
     "blueprint_excludes": [ { "id": "fbmh_2_parkour" } ]
   }
 ]

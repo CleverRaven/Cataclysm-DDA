@@ -325,6 +325,7 @@ enum class distraction_type : int {
     asthma,
     motion_alarm,
     weather_change,
+    portal_storm_popup
 };
 
 enum game_message_type : int {

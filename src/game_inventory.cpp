@@ -728,9 +728,12 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( you.has_trait( trait_SAPROPHAGE ) || you.has_trait( trait_SAPROVORE ) ) {
                     return 1;
                 } else {
-                    return 4;
+                    return 5;
                 }
             } else if( time == 0_turns ) {
+                return 4;
+            } else if( loc.has_parent() &&
+                       loc.parent_item()->contained_where( *loc )->spoil_multiplier() == 0.0f ) {
                 return 3;
             } else {
                 return 2;

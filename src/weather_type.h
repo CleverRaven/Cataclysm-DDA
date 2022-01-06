@@ -13,13 +13,13 @@
 #include "catacharset.h"
 #include "color.h"
 #include "damage.h"
-#include "dialogue.h"
 #include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;
+struct dialogue;
 template<typename T>
 class generic_factory;
 
@@ -59,6 +59,9 @@ enum weather_sound_category : int {
     snowstorm,
     snow,
     portal_storm,
+    clear,
+    sunny,
+    cloudy,
     last
 };
 

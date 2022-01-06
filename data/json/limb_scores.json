@@ -4,7 +4,8 @@
     "id": "manip",
     "name": "Manipulation",
     "affected_by_wounds": true,
-    "affected_by_encumb": true
+    "affected_by_encumb": true,
+    "//": "TODO: minor parts have no HP, meaning their scores are unaffected by wounds."
   },
   {
     "type": "limb_score",
@@ -12,6 +13,13 @@
     "name": "Lifting",
     "affected_by_wounds": true,
     "affected_by_encumb": false
+  },
+  {
+    "type": "limb_score",
+    "id": "grip",
+    "name": "Grip Strength",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
   },
   {
     "type": "limb_score",

@@ -9,6 +9,7 @@
 //#include "cata_variant.h"
 #include "enum_traits.h"
 #include "generic_factory.h"
+#include "panels.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
@@ -23,6 +24,7 @@ enum class widget_var : int {
     speed,          // Current speed, integer
     stamina,        // Current stamina 0-10000, greater being fuller stamina reserves
     fatigue,        // Current fatigue, integer
+    health,         // Current hidden health value, -200 to +200
     mana,           // Current available mana, integer
     morale_level,   // Current morale level, integer (may be negative)
     weariness_level, // Current weariness level, integer
@@ -37,14 +39,15 @@ enum class widget_var : int {
     hunger,         // TODO
     thirst,         // TODO
     mood,           // TODO
-    cardio_fit,
-    cardio_acc,
+    cardio_fit,     // Cardio fitness, integer near BMR
+    cardio_acc,     // Cardio accumulator, integer
     // Text vars
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
     date_text,      // Current date, in terms of day within season
     env_temp_text,  // Environment temperature, if character has thermometer
     fatigue_text,   // Fagitue description text, color string
+    health_text,    // Hidden health message, color string
     hunger_text,    // Hunger description text, color string
     lighting_text,  // Current light level, color string
     mood_text,      // Mood as a text emote, color string
@@ -52,10 +55,12 @@ enum class widget_var : int {
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
+    rad_badge_text, // Color indicator for radiation badge
     safe_mode_text, // Safe mode text, color string
     style_text,     // Active martial arts style name
     thirst_text,    // Thirst description text, color string
     time_text,      // Current time - exact if character has a watch, approximate otherwise
+    weather_text,   // Weather/sky conditions (if visible), color string
     weariness_text, // Weariness description text, color string
     weary_malus_text, // Weariness malus or penalty
     weight_text,    // Weight description text, color string
@@ -75,6 +80,9 @@ struct enum_traits<widget_var> {
 class JsonObject;
 template<typename T>
 class generic_factory;
+
+// Forward declaration, due to codependency on panels.h
+class window_panel;
 
 // A widget is a UI element displaying information from the underlying value of a widget_var.
 // It may be loaded from a JSON object having "type": "widget".
@@ -106,6 +114,8 @@ class widget
         bodypart_id _bp_id;
         // Width in characters of widget, not including label
         int _width = 0;
+        // Height in characters of widget, only matters for style == widget
+        int _height = 0;
         // String of symbols for graph widgets, mapped in increasing order like "0123..."
         std::string _symbols;
         // Graph fill style ("bucket" or "pool")
@@ -122,17 +132,23 @@ class widget
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string &src );
+        // Finalize anything that must wait until all widgets are loaded
+        static void finalize();
         // Reset to defaults using generic widget_factory
         static void reset();
+        // Get all widget instances from the factory
+        static const std::vector<widget> &get_all();
 
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the
         // label area, so the returned string is equal to max_width.
         std::string layout( const avatar &ava, unsigned int max_width = 0 );
         // Display labeled widget, with value (number, graph, or string) from an avatar
-        std::string show( const avatar &ava );
+        std::string show( const avatar &ava, unsigned int max_width );
+        // Return a window_panel for rendering this widget at given width (and possibly height)
+        window_panel get_window_panel( const int width, const int req_height = 1 );
         // Return a colorized string for a _var associated with a description function
-        std::string color_text_function_string( const avatar &ava );
+        std::string color_text_function_string( const avatar &ava, unsigned int max_width );
         // Return true if the current _var is one which uses a description function
         bool uses_text_function();
 
@@ -154,7 +170,12 @@ class widget
         std::string text( int value, int value_max = 0 );
         // Return the graph part of this widget, rendered with "bucket" or "pool" fill
         std::string graph( int value, int value_max = 0 );
-
+        // Takes a string generated by widget::layout and draws the text to the window w.
+        // If the string contains newline characters, the text is broken up into lines.
+        // Returns the new row index after drawing.
+        // Note: Not intended to be called directly, only public for unit testing.
+        static int custom_draw_multiline( const std::string &widget_string, const catacurses::window &w,
+                                          const int margin, const int width, int row_num );
 };
 
 #endif // CATA_SRC_WIDGET_H

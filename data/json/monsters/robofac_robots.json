@@ -3,7 +3,7 @@
     "id": "mon_robofac_laserturret_mk1",
     "type": "MONSTER",
     "name": { "str": "prototype laser turret" },
-    "description": "This appears to be a very experimental automated tower.  Plating-less and seemingly half-built, it's little more than an oversized laser emitter and a camera, both welded to a swiveling platform.",
+    "description": "This appears to be a very experimental automated tower.  Lacking armor plating and seemingly half-built, it's little more than an oversized laser emitter and a camera, both welded to a swiveling platform.",
     "default_faction": "robofac",
     "species": [ "ROBOT" ],
     "volume": "30000 ml",

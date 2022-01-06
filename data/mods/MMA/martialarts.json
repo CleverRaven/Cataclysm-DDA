@@ -68,7 +68,7 @@
     "type": "martial_art",
     "id": "style_mma_diamond_mind",
     "name": { "str": "Diamond Mind" },
-    "description": "A student of the Diamond Mind discipline has honed their mind to defeat any opponent.  With quick reflexes and surgical percision, they are able to move so fast that their opponents are unable react.  Marked by unparrelled confidence, those that hesitate for even a moment will fall before them in the blink of an eye.",
+    "description": "A student of the Diamond Mind discipline has honed their mind to defeat any opponent.  With quick reflexes and surgical precision, they are able to move so fast that their opponents are unable react.  Marked by unparalleled confidence, those that hesitate for even a moment will fall before them in the blink of an eye.",
     "initiate": [ "You concentrate and become very still for a moment.", "%s becomes very still for a moment." ],
     "learn_difficulty": 10,
     "primary_skill": "cutting",

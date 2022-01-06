@@ -1027,7 +1027,7 @@ void overmap_terrains::finalize()
 
     if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
         debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
-                  "cataclysm pending.  And not the fun kind." );
+                  "Cataclysm pending.  And not the fun kind." );
     }
 
     for( auto &elem : region_settings_map ) {
@@ -3036,9 +3036,9 @@ bool overmap::has_extra( const tripoint_om_omt &p ) const
     return false;
 }
 
-const string_id<map_extra> &overmap::extra( const tripoint_om_omt &p ) const
+const map_extra_id &overmap::extra( const tripoint_om_omt &p ) const
 {
-    static const string_id<map_extra> fallback{};
+    static const map_extra_id fallback{};
 
     if( p.z() < -OVERMAP_DEPTH || p.z() > OVERMAP_HEIGHT ) {
         return fallback;
@@ -3053,7 +3053,7 @@ const string_id<map_extra> &overmap::extra( const tripoint_om_omt &p ) const
     return ( it != std::end( extras ) ) ? it->id : fallback;
 }
 
-void overmap::add_extra( const tripoint_om_omt &p, const string_id<map_extra> &id )
+void overmap::add_extra( const tripoint_om_omt &p, const map_extra_id &id )
 {
     if( p.z() < -OVERMAP_DEPTH || p.z() > OVERMAP_HEIGHT ) {
         debugmsg( "Attempting to add not to overmap for blank layer %d", p.z() );
@@ -3077,7 +3077,7 @@ void overmap::add_extra( const tripoint_om_omt &p, const string_id<map_extra> &i
 
 void overmap::delete_extra( const tripoint_om_omt &p )
 {
-    add_extra( p, string_id<map_extra>::NULL_ID() );
+    add_extra( p, map_extra_id::NULL_ID() );
 }
 
 std::vector<point_abs_omt> overmap::find_extras( const int z, const std::string &text )
