@@ -231,7 +231,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel 2 mm plate armor" },
-    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  This one has been made with mild steel. ",
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "15 kg",
     "volume": "17500 ml",
     "price": 60000,
