@@ -205,5 +205,24 @@
       { "item": "scrap", "count": [ 2, 4 ] },
       { "item": "solar_cell", "count": [ 1, 4 ] }
     ]
+  },
+    {
+    "type": "vehicle_part",
+    "id": "ap_battery_small",
+    "name": { "str": "small grid battery" },
+    "symbol": "B",
+    "categories": [ "energy" ],
+    "color": "yellow",
+    "broken_symbol": "x",
+    "broken_color": "yellow",
+    "damage_modifier": 10,
+    "durability": 20,
+    "description": "A small battery to store electrical power in a storage grid.",
+    "item": "grid_battery_small",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "breaks_into": [
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 0, 3 ] }
+    ]
   }
 ]

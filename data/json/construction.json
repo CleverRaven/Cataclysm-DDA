@@ -3163,6 +3163,17 @@
   },
   {
     "type": "construction",
+    "id": "app_battery_small",
+    "group": "place_small_battery",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "grid_battery_small", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_standing_lamp",
     "group": "place_standing_lamp",
     "category": "APPLIANCE",
