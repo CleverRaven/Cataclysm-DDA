@@ -810,7 +810,7 @@ void Item_factory::finalize_post( itype &obj )
             // go through each material and contribute its values
             float tempbest = 1.0f;
             float tempworst = 1.0f;
-            for( part_material mat : armor_data.materials ) {
+            for( const part_material &mat : armor_data.materials ) {
                 // the percent chance the material is not hit
                 float cover = mat.cover * .01f;
                 float cover_invert = 1.0f - cover;
@@ -846,7 +846,7 @@ void Item_factory::finalize_post( itype &obj )
             // go through each material and contribute its values
             float tempbest = 1.0f;
             float tempworst = 1.0f;
-            for( part_material mat : armor_data.materials ) {
+            for( const part_material &mat : armor_data.materials ) {
                 // the percent chance the material is not hit
                 float cover = mat.cover * .01f;
                 float cover_invert = 1.0f - cover;

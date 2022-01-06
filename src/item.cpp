@@ -7530,8 +7530,25 @@ float item::bash_resist( const sub_bodypart_id &bp, bool to_self,  int roll ) co
                 resist += m->id->bash_resist() * eff_thic;
             }
         }
+        return resist + mod;
     }
-    return resist + mod;
+
+    // base resistance this chunk is needed for items defined the old materials way
+    // Don't give reinforced items +armor, just more resistance to ripping
+    const float avg_thickness = get_thickness( bp->parent );
+    const float eff_thickness = std::max( 0.1f, avg_thickness - eff_damage );
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        for( const auto &m : mats ) {
+            resist += m.first->bash_resist() * m.second;
+        }
+        // Average based portion of materials
+        resist /= total;
+    }
+
+    return ( resist * eff_thickness ) + mod;
+
 }
 
 float item::cut_resist( bool to_self, const bodypart_id &bp, int roll ) const
@@ -7599,8 +7616,24 @@ float item::cut_resist( const sub_bodypart_id &bp, bool to_self, int roll ) cons
                 resist += m->id->cut_resist() * eff_thic;
             }
         }
+        return resist + mod;
     }
-    return resist + mod;
+
+    // base resistance this chunk is needed for items defined the old materials way
+    // Don't give reinforced items +armor, just more resistance to ripping
+    const float avg_thickness = get_thickness( bp->parent );
+    const float eff_thickness = std::max( 0.1f, avg_thickness - eff_damage );
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        for( const auto &m : mats ) {
+            resist += m.first->cut_resist() * m.second;
+        }
+        // Average based portion of materials
+        resist /= total;
+    }
+
+    return ( resist * eff_thickness ) + mod;
 }
 
 #if defined(_MSC_VER)
@@ -7684,8 +7717,24 @@ float item::bullet_resist( const sub_bodypart_id &bp, bool to_self, int roll ) c
                 resist += m->id->bullet_resist() * eff_thic;
             }
         }
+        return resist + mod;
     }
-    return resist + mod;
+
+    // base resistance this chunk is needed for items defined the old materials way
+    // Don't give reinforced items +armor, just more resistance to ripping
+    const float avg_thickness = get_thickness( bp->parent );
+    const float eff_thickness = std::max( 0.1f, avg_thickness - eff_damage );
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        for( const auto &m : mats ) {
+            resist += m.first->bullet_resist() * m.second;
+        }
+        // Average based portion of materials
+        resist /= total;
+    }
+
+    return ( resist * eff_thickness ) + mod;
 }
 
 float item::acid_resist( bool to_self, int base_env_resist, const bodypart_id &bp ) const
