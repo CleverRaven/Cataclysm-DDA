@@ -153,6 +153,21 @@
     "style": "number"
   },
   {
+    "id": "test_weather_text",
+    "type": "widget",
+    "label": "Weather",
+    "var": "weather_text",
+    "style": "text"
+  },
+  {
+    "id": "test_weather_text_height5",
+    "type": "widget",
+    "label": "Weather",
+    "var": "weather_text",
+    "style": "text",
+    "height": 5
+  },
+  {
     "id": "test_weariness_num",
     "type": "widget",
     "label": "WEARINESS",
@@ -198,7 +213,29 @@
     "id": "test_stat_panel",
     "type": "widget",
     "style": "layout",
+    "arrange": "columns",
     "widgets": [ "test_str_num", "test_dex_num", "test_int_num", "test_per_num" ]
+  },
+  {
+    "id": "test_2_column_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_move_num", "test_speed_num" ]
+  },
+  {
+    "id": "test_3_column_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_move_num", "test_speed_num", "test_focus_num" ]
+  },
+  {
+    "id": "test_4_column_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_move_num", "test_speed_num", "test_focus_num", "test_mana_num" ]
   },
   {
     "id": "test_text_widget",

@@ -208,7 +208,7 @@
     "price_postapoc": 12000,
     "to_hit": -5,
     "bashing": 8,
-    "material": [ "steel", "leather" ],
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "leather", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
@@ -303,7 +303,7 @@
     "price_postapoc": 6000,
     "to_hit": -5,
     "bashing": 8,
-    "material": [ "steel", "leather" ],
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "leather", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "light_gray",
@@ -517,6 +517,7 @@
     "name": { "str": "kevlar chainmail armor" },
     "description": "A fully customized chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
     "copy-from": "chainmail_suit",
+    "material_thickness": 6,
     "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE" ]
@@ -533,7 +534,9 @@
     "id": "xl_kevlar_chainmail_suit",
     "type": "ARMOR",
     "name": { "str": "XL kevlar chainmail armor" },
-    "copy-from": "xl_chainmail_suit"
+    "copy-from": "kevlar_chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "chainmail_suit_faraday",

@@ -257,6 +257,20 @@
   },
   {
     "type": "snippet",
+    "category": "PORTAL_STORM_POPUP",
+    "//": "These are just proof of concept popups, would definitely prefer to get some more sophisticated ideas",
+    "text": [
+      "Your legs move on their own accord.  You need to go outside.  NOW.",
+      "This foolishness has lasted too long.  It's time to leave and embrace the cosmos.",
+      "Monsters spotted!  You need to leave, fast!",
+      "Heard footsteps!  Run outdoors to escape your fate.",
+      "Heard crash!  Your shelter is compromised, vacate it immediately!",
+      "The kevlar hulk is dangerously close!  Run outside, it's right behind you!",
+      "Ouch, somethings hurts!  You must leave the dreaded indoors to find reprieve."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "PORTAL_DEPENDENT_MESSAGES_VARIED_GOOD",
     "text": [
       "You suddenly smell the most delicious aroma in the world.",

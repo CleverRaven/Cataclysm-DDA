@@ -596,6 +596,10 @@ class pickup_activity_actor : public activity_actor
             return std::string();
         }
 
+        bool do_drop_invalid_inventory() const override {
+            return false;
+        }
+
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };

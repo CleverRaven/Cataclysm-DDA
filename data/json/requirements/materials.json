@@ -195,7 +195,7 @@
   {
     "id": "fabric_nomex",
     "type": "requirement",
-    "//": "Materials used for crafting nomex clothing",
+    "//": "Materials used for crafting Nomex clothing",
     "components": [ [ [ "nomex", 1 ], [ "sheet_nomex_patchwork", 1 ], [ "sheet_nomex", 1 ] ] ]
   },
   {
