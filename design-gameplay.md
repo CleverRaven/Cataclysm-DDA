@@ -25,21 +25,14 @@ Long-term objectives include deeply customizing your base camp and/or vehicle, s
 ### Overview
 This is an approximation, and does not describe the expected timeline from a player perspective, but rather the expected design structure.  In other words, it should not be hard-coded that a given feature is only available on a given day, but rather, game design should make access to that feature require a particular time investment making it unlikely to obtain earlier.
 
-All these timelines are targets.  Currently most of these features are available too early.
-
-This assumes a start date on day 45 of spring, because personally I think that should become the canonical start.
-
-Dev/balance notes:
-
-One of the bottom lines of it is that there needs to be a ton more stuff to do and explore, rather than the main game objective being to level up in large leaps and bounds
-
-This playstyle depending on longer frames of time and things taking realistic periods to be built/developed may depend more heavily on things being automated such as
+**Dev/balance notes:**  
+The bottom lines is that there needs to be a ton of stuff to do and explore in the game, rather than the main game objective being to level up in large leaps and bounds.  This playstyle depending on longer frames of time and things taking realistic periods to be built/developed depends heavily on things being automated, for example:
 
 - fast travel options
 - schedule eat/drink/sleep/stoke fire options to allow players to skip a week or two of time
 - NPCs doing more of the long term crafting and projects in a more automated way.
 
-This would allow the pace of the game to be slowed just a little, while the calendar ran faster.
+Some of these features already exist, or exist partially, at the time of this writing.  More features in this vein will help to further capture this play speed.
 
 ### "Lone Wolf" Play Element
 #### Early game

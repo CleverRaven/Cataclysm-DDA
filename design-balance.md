@@ -1,5 +1,3 @@
-This document is under construction.
-
 # Overview of game balance principles
 
 **Summary**
