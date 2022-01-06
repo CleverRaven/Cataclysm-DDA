@@ -646,7 +646,7 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
 }
 
-TEST_CASE( "compass widget", "[widget]" )
+TEST_CASE( "compass widget", "[widget][compass]" )
 {
     const int sidebar_width = 36;
     widget c5s_N = widget_test_compass_N.obj();
@@ -693,11 +693,11 @@ TEST_CASE( "compass widget", "[widget]" )
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
                "N:                                  " );
         CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> monster producing CBMs when dissected" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> monster producing CBMs when dissected\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
         CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> monster producing CBMs when dissected\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
     }
 
     SECTION( "1 monster N" ) {
@@ -715,11 +715,11 @@ TEST_CASE( "compass widget", "[widget]" )
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
                "N:                                  " );
         CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> monster producing CBMs when dissected" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> monster producing CBMs when dissected\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
         CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> monster producing CBMs when dissected\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
     }
 
     SECTION( "3 same monsters N" ) {
@@ -742,11 +742,11 @@ TEST_CASE( "compass widget", "[widget]" )
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
                "N:                                  " );
         CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
-               "3 <color_c_white>B</color> monster producing CBMs when dissected" );
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
-               "3 <color_c_white>B</color> monster producing CBMs when dissected\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>\n" );
         CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
-               "3 <color_c_white>B</color> monster producing CBMs when dissected\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>\n" );
     }
 
     SECTION( "3 different monsters N" ) {
@@ -771,15 +771,15 @@ TEST_CASE( "compass widget", "[widget]" )
                "N:                                  " );
         // Single-line widgets use left-padding
         CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
-               "                 <color_c_white>S</color> shearable monster" );
+               "                 <color_c_white>S</color> <color_c_dark_gray>shearable monster</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
-               "<color_c_white>S</color> shearable monster\n"
-               "<color_c_white>B</color> monster producing bovine samples when dissected\n"
-               "<color_c_white>B</color> monster producing CBMs when dissected" );
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
-               "<color_c_white>S</color> shearable monster\n"
-               "<color_c_white>B</color> monster producing bovine samples when dissected\n"
-               "<color_c_white>B</color> monster producing CBMs when dissected\n" );
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
     }
 }
 

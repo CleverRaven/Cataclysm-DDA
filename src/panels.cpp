@@ -2265,7 +2265,7 @@ static std::string get_compass_for_direction( const cardinal_direction dir, int 
     return ret;
 }
 
-std::string display::colorized_compass_text_color( const cardinal_direction dir, int width )
+std::string display::colorized_compass_text( const cardinal_direction dir, int width )
 {
     if( dir == cardinal_direction::num_cardinal_directions ) {
         return "";
@@ -2273,11 +2273,9 @@ std::string display::colorized_compass_text_color( const cardinal_direction dir,
     return get_compass_for_direction( dir, width );
 }
 
-std::string display::colorized_compass_legend_text_color( int width, int height )
+std::string display::colorized_compass_legend_text( int width, int height )
 {
     const monster_visible_info &mon_visible = get_avatar().get_mon_visible();
-    //~ Creature name format in compass legend. 1$ = symbol, 2$ = name. ex: "Z shocker zombie"
-    const std::string name_fmt = _( "%1$s %2$s" );
     std::vector<std::string> names;
     for( const std::vector<npc *> &nv : mon_visible.unique_types ) {
         for( const npc *n : nv ) {
@@ -2293,7 +2291,7 @@ std::string display::colorized_compass_legend_text_color( int width, int height 
                     name = colorize( "@", c_pink );
                     break;
             }
-            name = string_format( name_fmt, name, n->name );
+            name = string_format( "%s %s", name, n->name );
             names.emplace_back( name );
         }
     }
@@ -2304,9 +2302,19 @@ std::string display::colorized_compass_legend_text_color( int width, int height 
         }
     }
     for( const auto &m : mlist ) {
+        nc_color danger = c_dark_gray;
+        if( m.first->difficulty >= 30 ) {
+            danger = c_red;
+        } else if( m.first->difficulty >= 16 ) {
+            danger = c_light_red;
+        } else if( m.first->difficulty >= 8 ) {
+            danger = c_white;
+        } else if( m.first->agro > 0 ) {
+            danger = c_light_gray;
+        }
         std::string name = m.second > 1 ? string_format( "%d ", m.second ) : "";
-        name += string_format( name_fmt, colorize( m.first->sym, m.first->color ),
-                               m.first->nname( m.second ) );
+        name += m.first->nname( m.second );
+        name = string_format( "%s %s", colorize( m.first->sym, m.first->color ), colorize( name, danger ) );
         names.emplace_back( name );
     }
     // Split names into X lines, where X = height.
@@ -2326,7 +2334,8 @@ std::string display::colorized_compass_legend_text_color( int width, int height 
             if( nidx < nsize ) {
                 nwidth = utf8_width( names[nidx], true );
                 if( wavail > nwidth ) {
-                    ret += " ";
+                    ret += "  ";
+                    wavail -= 2;
                 }
             }
         }
@@ -3304,7 +3313,7 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
 #endif // TILES
     ret.emplace_back( window_panel( draw_compass_padding_compact, "Compass",
                                     to_translation( "Compass" ),
-                                    5, width, true ) );
+                                    5, width, false ) );
     ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     7, width, false ) );
 

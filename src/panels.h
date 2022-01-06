@@ -102,8 +102,8 @@ std::pair<std::string, nc_color> wind_text_color( const Character &u );
 std::pair<std::string, nc_color> weather_text_color( const Character &u );
 
 // Get visible threats by cardinal direction - Already colorized
-std::string colorized_compass_text_color( const cardinal_direction dir, int width );
-std::string colorized_compass_legend_text_color( int width, int height );
+std::string colorized_compass_text( const cardinal_direction dir, int width );
+std::string colorized_compass_legend_text( int width, int height );
 
 // Define color for displaying the body temperature
 nc_color bodytemp_color( const Character &u, const bodypart_id &bp );

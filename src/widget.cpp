@@ -603,11 +603,11 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::wind_text_color( ava );
             break;
         case widget_var::compass_text:
-            desc.first = display::colorized_compass_text_color( _direction, _width );
+            desc.first = display::colorized_compass_text( _direction, _width );
             apply_color = false; // Already colorized
             break;
         case widget_var::compass_legend_text:
-            desc.first = display::colorized_compass_legend_text_color( max_width, _height );
+            desc.first = display::colorized_compass_legend_text( max_width, _height );
             apply_color = false; // Already colorized
             break;
         default:
