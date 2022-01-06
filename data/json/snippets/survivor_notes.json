@@ -630,70 +630,64 @@
         "id": "note_237",
         "text": "\"Good news: My teachers aren't trying to tear my limbs off about my homework.  Bad news: My teachers are trying to tear my limbs off regardless.\""
       },
-	  {
-		  "id": "note_238",
-		  "text": "\"G, I've stopped the bleeding, I'll be fine.  Can't stay here any longer, there's too much commotion outside.  Meet me back at our usual spot, we will retrieve our stuff together, don't go alone.  Be careful when exiting out the back, I saw one of them running around with a spear.\""
-	  },
-	  {
-		  "id": "note_239",
-		  "text": "\"To whoever may find this, I've had enough of cowering and hiding.  I have realized I can't outlast whatever this is.  I saw something different at the grocery store down the block.  Skulking around on all four, faster than all the others.  It jumped at me from behind a car.  It's as if they were all changing.  I'm sure I'll see many more of these as time goes on.  I'm leaving.  Whatever you want, take it.\""
-	  },
-	  {
-		  "id": "note_240",
-		  "text": "\"G, I hope you're finding my notes and the supply drops.  Use my binocs, if they're still there, and check out the roof. Avoid the huge tower.  I don't know what's inside, but the noises that come out of it can't signal anything good.\""
-	  },
-	  {
-		  "id": "note_241",
-		  "text": "\"Anyone reading this, stay off the roads.  Me and the boys were ambushed by some goons there.  If you see a fallen tree blocking your path, just turn around and go back.\""
-	  },
-	  {
-		  "id": "note_242",
-		  "text": "\"Mike, we have your dog and that ginger fuck you run around with.  You know where to find us.  Come alone, it's time to pay up.\""
-	  },
-	  {
-		  "id": "note_243",
-		  "text": "\"5 gallons of water, 3 cans of chicken, 3 cans of soup, 14 9mm rounds.  GUNSHOP -> CHECK GARAGE -> CUT THROUGH YARDS -> HOME\""
-	  },
-	  {
-		  "id": "note_244",
-		  "text": "\"G, don't head straight through, go around.  There's a glowing one just hanging out in the alley.  I tried stabbing it but it zapped me with some sort of static electricity and I ran back here.  I'll try to whack it with a club next time.\""
-	  },
-	  {
-		  "id": "note_245",
-		  "text": "\"STOP FOLLOWING ME I CAN HEAR YOU IN THE DARK\""
-	  },
-	  {
-		  "id": "note_246",
-		  "text": "\"G, If you find this, I'm at the farm just out of town.  I'll need to stay there a few days, I've been wounded by one of those overgrown bastards, shot a spike right into my thigh.  I'll wait for you there as long as I can, stay safe.\""
-	  },
-	  {
-		  "id": "note_247",
-		  "text": "\"G, the city is full of them.  I don't know how, it's as if we never came through here.  They're the same ones we'd put down, I am sure of it.  They got back up and now look more dangerous than ever.  I saw one of them just snatch a bird right off the roof with its long hands.  You have to use the sewers.  I know we agreed not to go down there, but as horrible as it is down there, I fear our world up here is no longer ours either.\""
-	  },
-	  {
-		  "id": "note_248",
-		  "text": "\"G, move only after dark.  I saw lights in the distance, I think there might be someone living around here.  Wish I had my radio right now.\""
-	  },
-	  {
-		  "id": "note_249",
-		  "text": "\"G, I have not found any of your notes, which means you're either taking a different path or have already made your way back home.  In the case you're still out here somewhere, if you see the sky suddenly grow dark, hide indoors immediately, I have a feeling this storm is far from over.\""
-	  },
-	  {
-		  "id": "note_250",
-		  "text": "\"2236\""
-	  },
-	  {
-		  "id": "note_251",
-		  "text": "\"G, be careful around those bulging and pulsating corpses.  I saw one today. I think there's something eating away at those things.  I didn't stick around to find out.  I burnt the entire building down, just to be sure, so you should have relatively safe passage.\""
-	  },
-	  {
-		  "id": "note_252",
-		  "text": "\"G, I ran into an actual human today!  He was looking for his daughter.  We exchanged some food and traded information on the surrounding area.  He spoke of a family living on a farm out in the fields, surviving and thriving!  Maybe it's time we carved ourselves a peaceful place in this hell.  We'll discuss this once we meet back home.\""
-	  },
-	  {
-		  "id": "note_253",
-		  "text": "\"G, There's something not right with the forests here.  The ground there feels soft and is overgrown with some sort of mushrooms.  Be careful not to breathe in the dust they kick up, I accidentally took a whiff and have been coughing and vomiting since.  The map shows there's a cabin just outside town, I'll lay low  there until I feel better.  I'm almost home.  I know you will be waiting for me there.\""
-	  } 
+      {
+        "id": "note_238",
+        "text": "\"G, I've stopped the bleeding, I'll be fine.  Can't stay here any longer, there's too much commotion outside.  Meet me back at our usual spot, we will retrieve our stuff together, don't go alone.  Be careful when exiting out the back, I saw one of them running around with a spear.\""
+      },
+      {
+        "id": "note_239",
+        "text": "\"To whoever may find this, I've had enough of cowering and hiding.  I have realized I can't outlast whatever this is.  I saw something different at the grocery store down the block.  Skulking around on all four, faster than all the others.  It jumped at me from behind a car.  It's as if they were all changing.  I'm sure I'll see many more of these as time goes on.  I'm leaving.  Whatever you want, take it.\""
+      },
+      {
+        "id": "note_240",
+        "text": "\"G, I hope you're finding my notes and the supply drops.  Use my binocs, if they're still there, and check out the roof. Avoid the huge tower.  I don't know what's inside, but the noises that come out of it can't signal anything good.\""
+      },
+      {
+        "id": "note_241",
+        "text": "\"Anyone reading this, stay off the roads.  Me and the boys were ambushed by some goons there.  If you see a fallen tree blocking your path, just turn around and go back.\""
+      },
+      {
+        "id": "note_242",
+        "text": "\"Mike, we have your dog and that ginger fuck you run around with.  You know where to find us.  Come alone, it's time to pay up.\""
+      },
+      {
+        "id": "note_243",
+        "text": "\"5 gallons of water, 3 cans of chicken, 3 cans of soup, 14 9mm rounds.  GUNSHOP -> CHECK GARAGE -> CUT THROUGH YARDS -> HOME\""
+      },
+      {
+        "id": "note_244",
+        "text": "\"G, don't head straight through, go around.  There's a glowing one just hanging out in the alley.  I tried stabbing it but it zapped me with some sort of static electricity and I ran back here.  I'll try to whack it with a club next time.\""
+      },
+      { "id": "note_245", "text": "\"STOP FOLLOWING ME I CAN HEAR YOU IN THE DARK\"" },
+      {
+        "id": "note_246",
+        "text": "\"G, If you find this, I'm at the farm just out of town.  I'll need to stay there a few days, I've been wounded by one of those overgrown bastards, shot a spike right into my thigh.  I'll wait for you there as long as I can, stay safe.\""
+      },
+      {
+        "id": "note_247",
+        "text": "\"G, the city is full of them.  I don't know how, it's as if we never came through here.  They're the same ones we'd put down, I am sure of it.  They got back up and now look more dangerous than ever.  I saw one of them just snatch a bird right off the roof with its long hands.  You have to use the sewers.  I know we agreed not to go down there, but as horrible as it is down there, I fear our world up here is no longer ours either.\""
+      },
+      {
+        "id": "note_248",
+        "text": "\"G, move only after dark.  I saw lights in the distance, I think there might be someone living around here.  Wish I had my radio right now.\""
+      },
+      {
+        "id": "note_249",
+        "text": "\"G, I have not found any of your notes, which means you're either taking a different path or have already made your way back home.  In the case you're still out here somewhere, if you see the sky suddenly grow dark, hide indoors immediately, I have a feeling this storm is far from over.\""
+      },
+      { "id": "note_250", "text": "\"2236\"" },
+      {
+        "id": "note_251",
+        "text": "\"G, be careful around those bulging and pulsating corpses.  I saw one today. I think there's something eating away at those things.  I didn't stick around to find out.  I burnt the entire building down, just to be sure, so you should have relatively safe passage.\""
+      },
+      {
+        "id": "note_252",
+        "text": "\"G, I ran into an actual human today!  He was looking for his daughter.  We exchanged some food and traded information on the surrounding area.  He spoke of a family living on a farm out in the fields, surviving and thriving!  Maybe it's time we carved ourselves a peaceful place in this hell.  We'll discuss this once we meet back home.\""
+      },
+      {
+        "id": "note_253",
+        "text": "\"G, There's something not right with the forests here.  The ground there feels soft and is overgrown with some sort of mushrooms.  Be careful not to breathe in the dust they kick up, I accidentally took a whiff and have been coughing and vomiting since.  The map shows there's a cabin just outside town, I'll lay low  there until I feel better.  I'm almost home.  I know you will be waiting for me there.\""
+      }
     ]
   }
 ]
