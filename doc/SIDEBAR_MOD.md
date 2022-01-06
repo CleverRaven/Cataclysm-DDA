@@ -203,6 +203,8 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `style_text`    | Name of current martial arts style
 | `weight_text`   | "Emaciated", "Normal", "Overweight", etc.
 | `date_text`     | Current day within season, like "Summer, day 15"
+| `compass_text`  | A compass direction (ex: NE), displaying visible creatures in that direction
+| `compass_legend_text` | A list of creatures visible by the player, corresponding to compass symbols
 
 For example, a widget to show the current STR stat would define this "var":
 
@@ -218,6 +220,27 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
 {
   "var": "bp_hp",
   "bodypart": "arm_r"
+}
+```
+
+Widgets using `compass_text` expect the additional fields `direction` and `width` to
+identify (respectively) the cardinal direction and number of creatures displayed:
+
+```json
+{
+  "var": "compass_text",
+  "direction": "N",
+  "width": 6
+}
+```
+
+`compass_legend_text` makes use of the "height" field (see below), which tells the display
+function to reserve that many lines for the compass legend:
+
+```json
+{
+  "var": "compass_legend_text",
+  "height": 3
 }
 ```
 
