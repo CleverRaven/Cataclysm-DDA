@@ -319,6 +319,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHARP" ],
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [ { "seasons": [ "spring" ], "id": "cactus_harv" } ],
+    "transforms_into": "t_cholla_cactus_harvested",
     "bash": {
       "str_min": 4,
       "str_max": 30,
@@ -361,6 +362,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHARP" ],
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "cactus_harv" } ],
+    "transforms_into": "t_nopal_cactus_harvested",
     "bash": {
       "str_min": 4,
       "str_max": 30,
