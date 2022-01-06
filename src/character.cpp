@@ -1781,6 +1781,18 @@ bool Character::has_two_arms_lifting() const
     return get_limb_score( limb_score_lift, body_part_type::type::arm ) > 0.5f;
 }
 
+std::set<matec_id> Character::get_limb_techs() const
+{
+    std::set<matec_id> result;
+    for( const bodypart_id &part : get_all_body_parts() ) {
+        if( !natural_attack_restricted_on( part ) ) {
+            std::set<matec_id> part_tech = get_part( part )->get_limb_techs();
+            result.insert( part_tech.begin(), part_tech.end() );
+        }
+    }
+    return result;
+}
+
 int Character::get_working_arm_count() const
 {
     int limb_count = 0;
