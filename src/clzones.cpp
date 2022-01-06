@@ -44,12 +44,12 @@
 #include "visitable.h"
 #include "vpart_position.h"
 
+static const faction_id faction_your_followers( "your_followers" );
+
 static const item_category_id item_category_food( "food" );
 
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_null( "null" );
-
-static const faction_id faction_your_followers( "your_followers" );
 
 static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
 static const zone_type_id zone_type_AUTO_EAT( "AUTO_EAT" );
