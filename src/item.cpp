@@ -7920,9 +7920,9 @@ const std::set<itype_id> &item::repaired_with() const
     return has_flag( flag_NO_REPAIR )  ? no_repair : type->repair;
 }
 
-void item::mitigate_damage( damage_unit &du ) const
+void item::mitigate_damage( damage_unit &du, const bodypart_id &bp ) const
 {
-    const resistances res = resistances( *this );
+    const resistances res = resistances( *this, false, bp );
     const float mitigation = res.get_effective_resist( du );
     du.amount -= mitigation;
     du.amount = std::max( 0.0f, du.amount );
