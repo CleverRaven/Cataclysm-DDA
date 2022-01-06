@@ -1,7 +1,6 @@
 #if defined(TILES)
-#include "gamepad.h"
+#include "sdl_gamepad.h"
 #include "debug.h"
-#include "sdl_wrappers.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
