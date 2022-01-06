@@ -1308,7 +1308,9 @@
     "id": "xl_kevlar_chainmail_suit",
     "type": "ARMOR",
     "name": { "str": "XL kevlar chainmail armor" },
-    "copy-from": "xl_chainmail_suit"
+    "copy-from": "kevlar_chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "chainmail_suit_faraday",
