@@ -439,6 +439,13 @@ int widget::get_var_max( const avatar &ava ) const
     return max_val;
 }
 
+void widget::set_default_var_range( const avatar &ava )
+{
+    //_var_min = get_var_min( ava );
+    _var_norm = get_var_norm( ava );
+    _var_max = get_var_max( ava );
+}
+
 int widget::get_var_value( const avatar &ava ) const
 {
     // Numeric value to be rendered in the widget
@@ -547,6 +554,7 @@ bool widget::has_flag( const std::string &flag ) const
 
 std::string widget::show( const avatar &ava, const unsigned int max_width )
 {
+    set_default_var_range( ava );
     if( uses_text_function() ) {
         // Text functions are a carry-over from before widgets, with existing functions generating
         // descriptive colorized text for avatar attributes.  The "value" for these is immaterial;
@@ -557,8 +565,7 @@ std::string widget::show( const avatar &ava, const unsigned int max_width )
         // For normal widgets, get current numeric value and potential maximum,
         // and return a color string rendering of that value in the appropriate style.
         int value = get_var_value( ava );
-        int value_max = get_var_max( ava );
-        return color_value_string( value, value_max );
+        return color_value_string( value );
     }
 }
 
@@ -872,13 +879,10 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
     return ret;
 }
 
-std::string widget::color_value_string( int value, int value_max )
+std::string widget::color_value_string( int value )
 {
-    if( value_max == 0 ) {
-        value_max = _var_max;
-    }
-    std::string val_string = value_string( value, value_max );
-    const nc_color cur_color = value_color( value, value_max );
+    std::string val_string = value_string( value );
+    const nc_color cur_color = value_color( value );
     if( cur_color == c_unset ) {
         return val_string;
     } else {
@@ -886,36 +890,42 @@ std::string widget::color_value_string( int value, int value_max )
     }
 }
 
-std::string widget::value_string( int value, int value_max )
+std::string widget::value_string( int value )
 {
     std::string ret;
     if( _style == "graph" ) {
-        ret += graph( value, value_max );
+        ret += graph( value );
     } else if( _style == "text" ) {
-        ret += text( value, value_max );
+        ret += text( value );
     } else if( _style == "number" ) {
-        ret += number( value, value_max );
+        ret += number( value );
     } else {
         ret += "???";
     }
     return ret;
 }
 
-nc_color widget::value_color( int value, int value_max )
+nc_color widget::value_color( int value )
 {
     if( _colors.empty() ) {
         return c_unset;
     }
-    // Scale to value_max
-    if( value_max > 0 ) {
-        if( value <= value_max ) {
+    int var_range = _var_max - _var_min;
+    if( var_range > 0 ) {
+        if( value == _var_norm ) {
+            // Special case: If value is _var_norm, use the middle color
+            const int color_index = std::floor( _colors.size() / 2 );
+            return _colors[color_index];
+        } else if( _var_min <= value && value <= _var_max ) {
+            // If value is within the range, map it to an appropriate color
             // Scale value range from [0, 1] to map color range
-            const double scale = static_cast<double>( value ) / value_max;
+            const double scale = static_cast<double>( value ) / var_range;
             const int color_max = _colors.size() - 1;
             // Include 0.5f offset to make up for floor piling values up at the bottom
             const int color_index = std::floor( scale * color_max + 0.5f );
             return _colors[color_index];
         } else {
+            // Default if value outside of range: Last color
             return _colors.back();
         }
     }
@@ -927,26 +937,26 @@ nc_color widget::value_color( int value, int value_max )
     return _colors.back();
 }
 
-std::string widget::number( int value, int /* value_max */ )
+std::string widget::number( int value )
 {
     return string_format( "%d", value );
 }
 
-std::string widget::text( int value, int /* value_max */ )
+std::string widget::text( int value )
 {
     return _strings.at( value ).translated();
 }
 
-std::string widget::graph( int value, int value_max )
+std::string widget::graph( int value )
 {
     // graph "depth is equal to the number of nonzero symbols
     int depth = _symbols.length() - 1;
     // Max integer value this graph can show
     int max_graph_val = _width * depth;
     // Scale value range to current graph resolution (width x depth)
-    if( value_max > 0 && value_max != max_graph_val ) {
+    if( _var_max > 0 && _var_max != max_graph_val ) {
         // Scale max source value to max graph value
-        value = max_graph_val * value / value_max;
+        value = max_graph_val * value / _var_max;
     }
 
     // Negative values are not (yet) supported
