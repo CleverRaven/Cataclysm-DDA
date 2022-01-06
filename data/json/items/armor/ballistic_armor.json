@@ -19,6 +19,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
@@ -28,6 +29,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
@@ -37,6 +39,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
@@ -46,6 +49,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
@@ -59,7 +63,7 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
           { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
         ],
-        "encumbrance": [ 6, 6 ],
+        "encumbrance": 6,
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "torso" ]
@@ -143,6 +147,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
@@ -152,6 +157,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
@@ -161,6 +167,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
@@ -170,6 +177,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
@@ -183,7 +191,7 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
           { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
         ],
-        "encumbrance": [ 6, 6 ],
+        "encumbrance": 6,
         "coverage": 100,
         "cover_vitals": 100,
         "covers": [ "torso" ]
@@ -193,7 +201,7 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3.0 }
         ],
-        "encumbrance": [ 5, 5 ],
+        "encumbrance": 5,
         "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
         "coverage": 80,
         "cover_melee": 80,
@@ -207,7 +215,7 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3.0 }
         ],
-        "encumbrance": [ 2, 2 ],
+        "encumbrance": 2,
         "coverage": 75,
         "cover_vitals": 100,
         "covers": [ "leg_l", "leg_r" ],
@@ -230,7 +238,7 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
           { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
         ],
-        "encumbrance": [ 6, 6 ],
+        "encumbrance": 6,
         "coverage": 100,
         "cover_vitals": 100,
         "covers": [ "torso" ]
@@ -240,7 +248,7 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3.0 }
         ],
-        "encumbrance": [ 5, 5 ],
+        "encumbrance": 5,
         "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
         "coverage": 80,
         "cover_melee": 80,
@@ -266,7 +274,7 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
           { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
         ],
-        "encumbrance": [ 6, 6 ],
+        "encumbrance": 6,
         "coverage": 100,
         "cover_vitals": 100,
         "covers": [ "torso" ]
@@ -276,7 +284,7 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3.0 }
         ],
-        "encumbrance": [ 2, 2 ],
+        "encumbrance": 2,
         "coverage": 75,
         "cover_vitals": 100,
         "covers": [ "leg_l", "leg_r" ],
@@ -299,6 +307,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
@@ -308,6 +317,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
@@ -318,7 +328,7 @@
     "armor": [
       {
         "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 } ],
-        "encumbrance": [ 1, 1 ],
+        "encumbrance": 1,
         "coverage": 90,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ]
