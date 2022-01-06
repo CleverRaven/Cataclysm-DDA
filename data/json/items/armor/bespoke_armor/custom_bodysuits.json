@@ -75,7 +75,8 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
           { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
         ],
-        "encumbrance": [ 15, 26 ],
+        "volume_encumber_modifier": 0.2,
+        "encumbrance": 15,
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "torso" ]
@@ -85,7 +86,8 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 3.0 }
         ],
-        "encumbrance": [ 15, 15 ],
+        "encumbrance": 15,
+        "volume_encumber_modifier": 0,
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "arm_l", "arm_r" ]
@@ -95,7 +97,8 @@
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 3.0 }
         ],
-        "encumbrance": [ 10, 14 ],
+        "volume_encumber_modifier": 0.1,
+        "encumbrance": 10,
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "leg_l", "leg_r" ]
@@ -167,6 +170,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
@@ -176,6 +180,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
@@ -185,6 +190,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
@@ -194,6 +200,7 @@
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
+        "volume_encumber_modifier": 0,
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
