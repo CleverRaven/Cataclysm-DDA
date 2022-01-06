@@ -199,28 +199,28 @@ jobs:
     - name: prepare
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/requirements.sh
-    - name: Get Date
-      id: get-date
+    - name: Get ccache vars
+      id: get-vars
       if: ${{ env.SKIP == 'false' }}
       run: |
-        echo "::set-output name=date::$(/bin/date -u "+%Y%m%d%H%M")"
+        echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+        echo "::set-output name=ccache-path::$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')"
       shell: bash
-    - name: ccache cache files (ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
+    - name: ccache cache files (master)
+      if: ${{ github.event_name == 'push' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
       uses: actions/cache@v2
       with:
-        path: ~/.ccache
-        key: ccache-linux-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
+        path: ${{ steps.get-vars.outputs.ccache-path }}
+        # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
+        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}
         restore-keys: |
-          ccache-linux-${{ matrix.compiler }}-
-    - name: ccache cache files (mac)
-      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
+          ccache-${{ runner.os }}-${{ matrix.compiler }}--
+    - name: ccache cache files (PR)
+      if: ${{ github.event_name == 'pull_request' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
       uses: actions/cache@v2
       with:
-        path: /Users/runner/Library/Caches/ccache
-        key: ccache-mac-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
-        restore-keys: |
-          ccache-mac-${{ matrix.compiler }}-
+        path: ${{ steps.get-vars.outputs.ccache-path }}
+        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       if: ${{ env.SKIP == 'false' }}

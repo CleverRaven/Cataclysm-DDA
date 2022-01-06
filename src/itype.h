@@ -235,11 +235,17 @@ struct part_material {
 
 struct armor_portion_data {
 
+    // The base volume for an item
+    const units::volume volume_per_encumbrance = 250_ml; // NOLINT(cata-serialize)
+
     // How much this piece encumbers the player.
     int encumber = 0;
 
     // When storage is full, how much it encumbers the player.
     int max_encumber = -1;
+
+    // how much an item can hold comfortably compared to an average item
+    float volume_encumber_modifier = 1;
 
     // Percentage of the body part that this item covers.
     // This determines how likely it is to hit the item instead of the player.

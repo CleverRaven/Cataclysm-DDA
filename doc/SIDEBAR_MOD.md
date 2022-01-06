@@ -224,9 +224,25 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
 Plain numeric values can be displayed as-is, up to any maximum. For "graph" widgets, it is useful to
 define a "var_max" as a cutoff point; see the "Graph widget" section for more.
 
-
 You may also define "var_min" if it's relevant. By default this is 0.
 
+#### `height`
+
+Some widgets can make use of multiple lines by specifying the `"height"` field, which reserves
+vertical space in the sidebar. Display functions can make use of this extra space to render
+multi-line widgets.
+
+Warning: implementation details ahead.
+
+The max width and height available for a widget is passed to its `display::` function through
+`widget::color_text_function_string()`. The display function can use this data to format the
+widget text as a series of lines delimited by a newline (`\n`).
+
+The formatted string is passed to `widget::show()` and `widget::layout()`, which format each
+line individually for drawing in `widget::custom_draw_multiline()`.
+
+Adding new multi-line-capable widgets involves ensuring the new display function formats the
+widget's text according to the available width and height.
 
 ### Number widget
 
