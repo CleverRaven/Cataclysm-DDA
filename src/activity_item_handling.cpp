@@ -2047,7 +2047,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
         // TODO: fix point types
         std::vector<tripoint_abs_ms> src_set;
         for( const tripoint &p : act.coord_set ) {
-            src_set.push_back( tripoint_abs_ms( p ) );
+            src_set.emplace_back( tripoint_abs_ms( p ) );
         }
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
