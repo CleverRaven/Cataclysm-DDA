@@ -49,6 +49,8 @@ static const item_category_id item_category_food( "food" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_null( "null" );
 
+static const faction_id faction_your_followers( "your_followers" );
+
 static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
 static const zone_type_id zone_type_AUTO_EAT( "AUTO_EAT" );
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
@@ -1054,7 +1056,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     zones.push_back( new_zone );
 
   //If not player defined, save them immediately
-    if( fac != faction_id( "your_followers" ) ) {
+    if( fac != faction_your_followers ) {
         save_world_zones();
     }
  
@@ -1209,7 +1211,7 @@ void zone_manager::serialize( JsonOut &json ) const
 {
     std::vector<zone_data> tmp;
     std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( zone_data z ) {
-        return z.get_faction() == faction_id( "your_followers" );
+        return z.get_faction() == faction_your_followers;
     } );
     json.write( tmp );
 }
@@ -1227,7 +1229,7 @@ void zone_manager::deserialize( const JsonValue &jv )
             zones.erase( it );
             debugmsg( "Invalid zone type: %s", zone_type.c_str() );
         }
-        if( it->get_faction() != faction_id( "your_followers" ) ) {
+        if( it->get_faction() != faction_your_followers ) {
             zones.erase( it );
         }
     }
@@ -1342,7 +1344,7 @@ bool zone_manager::save_world_zones()
     std::string savefile = PATH_INFO::world_base_save_path() + "/zones_cache.json";
     std::vector<zone_data> tmp;
     std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( zone_data z ) {
-        return z.get_faction() != faction_id( "your_followers" );
+        return z.get_faction() != faction_your_followers;
     } );
     return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
@@ -1364,7 +1366,7 @@ void zone_manager::load_world_zones()
                 tmp.erase( it );
                 debugmsg( "Invalid zone type: %s", zone_type.c_str() );
             }
-            if( it->get_faction() == faction_id( "your_followers" ) ) {
+            if( it->get_faction() == faction_your_followers ) {
                 tmp.erase( it );
             }
         }
