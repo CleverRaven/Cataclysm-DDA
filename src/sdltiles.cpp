@@ -48,7 +48,6 @@
 #include "font_loader.h"
 #include "game.h"
 #include "game_ui.h"
-#include "gamepad.h"
 #include "get_version.h"
 #include "hash_utils.h"
 #include "input.h"
@@ -69,6 +68,7 @@
 #include "sdl_geometry.h"
 #include "sdl_wrappers.h"
 #include "sdl_font.h"
+#include "sdl_gamepad.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
 #include "ui_manager.h"
@@ -3209,7 +3209,7 @@ static void CheckMessages()
             case SDL_CONTROLLERAXISMOTION:
                 gamepad::handle_axis_event( ev );
                 break;
-            case GAMEPAD_SCHEDULER:
+            case SDL_GAMEPAD_SCHEDULER:
                 gamepad::handle_scheduler_event( ev );
                 break;
             case SDL_MOUSEMOTION:
