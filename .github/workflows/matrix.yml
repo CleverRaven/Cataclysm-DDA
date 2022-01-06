@@ -203,7 +203,7 @@ jobs:
       id: get-vars
       if: ${{ env.SKIP == 'false' }}
       run: |
-        echo "::set-output name=date::$(/bin/date -u "+%Y%m%d%H%M")"
+        echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
         echo "::set-output name=ccache-path::$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')"
       shell: bash
     - name: ccache cache files (master)
