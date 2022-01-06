@@ -615,7 +615,7 @@
     ],
     "use_action": [ 
 	  "GUN_REPAIR", 
-	  [ "HAMMER", 0 ],
+	  [ "CROWBAR", 0 ],
 	  [ "HACKSAW", 0 ],
       {
         "type": "repair_item",
@@ -1077,7 +1077,7 @@
     ],
     "use_action": [
 	  "GUN_REPAIR",
-	  [ "HAMMER", 0 ],
+	  [ "CROWBAR", 0 ],
 	  [ "HACKSAW", 0 ],
       {
         "type": "repair_item",
