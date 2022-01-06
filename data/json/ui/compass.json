@@ -1,0 +1,119 @@
+[
+  {
+    "id": "compass_N_text",
+    "type": "widget",
+    "label": "N",
+    "style": "text",
+    "direction": "N",
+    "var": "compass_text",
+    "width": 6
+  },
+  {
+    "id": "compass_S_text",
+    "type": "widget",
+    "label": "S",
+    "style": "text",
+    "direction": "S",
+    "var": "compass_text",
+    "width": 6
+  },
+  {
+    "id": "compass_E_text",
+    "type": "widget",
+    "label": "E",
+    "style": "text",
+    "direction": "E",
+    "var": "compass_text",
+    "width": 6
+  },
+  {
+    "id": "compass_W_text",
+    "type": "widget",
+    "label": "W",
+    "style": "text",
+    "direction": "W",
+    "var": "compass_text",
+    "width": 6
+  },
+  {
+    "id": "compass_NE_text",
+    "type": "widget",
+    "label": "NE",
+    "style": "text",
+    "direction": "NE",
+    "var": "compass_text",
+    "width": 6
+  },
+  {
+    "id": "compass_NW_text",
+    "type": "widget",
+    "label": "NW",
+    "style": "text",
+    "direction": "NW",
+    "var": "compass_text",
+    "width": 6
+  },
+  {
+    "id": "compass_SE_text",
+    "type": "widget",
+    "label": "SE",
+    "style": "text",
+    "direction": "SE",
+    "var": "compass_text",
+    "width": 6
+  },
+  {
+    "id": "compass_SW_text",
+    "type": "widget",
+    "label": "SW",
+    "style": "text",
+    "direction": "SW",
+    "var": "compass_text",
+    "width": 6
+  },
+  {
+    "//": "An empty space indicating threats nearby",
+    "id": "compass_local_text",
+    "type": "widget",
+    "style": "text",
+    "direction": "L",
+    "var": "compass_text",
+    "width": 6
+  },
+  {
+    "id": "compass_legend_text",
+    "type": "widget",
+    "style": "text",
+    "var": "compass_legend_text",
+    "height": 3
+  },
+  {
+    "id": "compass_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "compass_NW_text", "compass_N_text", "compass_NE_text" ]
+  },
+  {
+    "id": "compass_middle_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "compass_W_text", "compass_local_text", "compass_E_text" ]
+  },
+  {
+    "id": "compass_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "compass_SW_text", "compass_S_text", "compass_SE_text" ]
+  },
+  {
+    "id": "compass_all_layout",
+    "type": "widget",
+    "label": "Compass Alt",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "compass_top_layout", "compass_middle_layout", "compass_bottom_layout", "compass_legend_text" ]
+  }
+]
