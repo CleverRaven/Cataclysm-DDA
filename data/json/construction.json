@@ -73,6 +73,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_pit_straw",
+    "group": "pit_straw",
+    "category": "DIG",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "3 m",
+    "components": [ [ [ "straw_pile", 60 ], [ "withered", 60 ] ] ],
+    "dark_craftable": true,
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "t_pit_straw"
+  },
+  {
+    "type": "construction",
     "id": "constr_chop_trunk",
     "group": "chop_tree_trunk_into_planks",
     "category": "FARM_WOOD",

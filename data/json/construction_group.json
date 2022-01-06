@@ -976,6 +976,11 @@
   },
   {
     "type": "construction_group",
+    "id": "pit_straw",
+    "name": "Fill Shallow Pit with Straw"
+  },
+  {
+    "type": "construction_group",
     "id": "fill_salt_water_with_dirt",
     "name": "Fill Salt Water With Dirt"
   },
