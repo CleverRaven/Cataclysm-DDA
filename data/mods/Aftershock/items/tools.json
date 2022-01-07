@@ -21,9 +21,23 @@
       },
       "CAMERA",
       "MP3",
-      "CALORIES_INTAKE_TRACKER"
+      "CALORIES_INTAKE_TRACKER",
+      "PORTABLE_GAME",
+      "EINKTABLETPC",
+      "ELECTRICSTORAGE",
+      "EBOOKSAVE",
+      "EBOOKREAD"
     ],
-    "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "CALORIES_INTAKE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "CALORIES_INTAKE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0
+      }
+    ]
   },
   {
     "id": "afs_imager",
@@ -87,7 +101,16 @@
     "name": { "str": "atomic smartphone - music", "str_pl": "atomic smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "MP3_ON" ],
+    "use_action": [
+      "CAMERA",
+      "MP3_ON",
+      "CALORIES_INTAKE_TRACKER",
+      "PORTABLE_GAME",
+      "EINKTABLETPC",
+      "ELECTRICSTORAGE",
+      "EBOOKSAVE",
+      "EBOOKREAD"
+    ],
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -96,7 +119,12 @@
     "type": "TOOL",
     "name": { "str": "atomic smartphone - Flashlight", "str_pl": "atomic smartphones - Flashlight" },
     "revert_to": "afs_atomic_smartphone",
-    "use_action": {
+    "use_action": [
+      "PORTABLE_GAME",
+      "EINKTABLETPC",
+      "EBOOKSAVE",
+      "EBOOKREAD",
+    {
       "target": "afs_atomic_smartphone",
       "msg": "You deactivate the flashlight app.",
       "menu_text": "Turn off flashlight",
@@ -123,7 +151,21 @@
       "CAMERA",
       "MP3",
       "ROBOTCONTROL",
-      "CALORIES_INTAKE_TRACKER"
+      "CALORIES_INTAKE_TRACKER",
+      "PORTABLE_GAME",
+      "EINKTABLETPC",
+      "ELECTRICSTORAGE",
+      "EBOOKSAVE",
+      "EBOOKREAD"
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0
+      }
     ]
   },
   {
@@ -133,7 +175,16 @@
     "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "MP3_ON" ],
+    "use_action": [
+      "CAMERA",
+      "MP3_ON",
+      "CALORIES_INTAKE_TRACKER",
+      "PORTABLE_GAME",
+      "EINKTABLETPC",
+      "ELECTRICSTORAGE",
+      "EBOOKSAVE",
+      "EBOOKREAD"
+    ],
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "CALORIES_INTAKE" ]
   },
   {
@@ -143,6 +194,10 @@
     "name": { "str": "Executive's smartphone - Flashlight", "str_pl": "Executive's smartphones - Flashlight" },
     "revert_to": "afs_atomic_smartphone",
     "use_action": {
+      "PORTABLE_GAME",
+      "EINKTABLETPC",
+      "EBOOKSAVE",
+      "EBOOKREAD",
       "target": "afs_wraitheon_smartphone",
       "msg": "You deactivate the flashlight app.",
       "menu_text": "Turn off flashlight",
