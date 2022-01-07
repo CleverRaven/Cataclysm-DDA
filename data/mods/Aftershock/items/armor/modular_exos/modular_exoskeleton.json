@@ -164,7 +164,12 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "power_draw": 7123,
     "revert_to": "modular_exoskeleton",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exoskeleton" }
+    "use_action": [ {
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The %s disengages.",
+      "target": "modular_exoskeleton"
+    }, "MANAGE_EXOSUIT" ]
   },
   {
     "id": "exoskeleton_helmet",
