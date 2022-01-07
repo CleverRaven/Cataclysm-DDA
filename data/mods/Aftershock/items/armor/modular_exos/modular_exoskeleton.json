@@ -113,6 +113,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "name": "Leg compartment 1 (Gadget)",
         "description": "This is a mount for storing items on the legs.",
         "rigid": true,
         "max_contains_volume": "2 L",
