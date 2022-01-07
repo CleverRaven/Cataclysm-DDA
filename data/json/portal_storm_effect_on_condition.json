@@ -542,6 +542,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK_START",
     "global": true,
+    "condition": { "not": "u_driving" },
     "effect": [
       { "u_location_variable": { "u_val": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK" ] },
@@ -610,7 +611,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_INCORPOREAL",
-    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
     "effect": [
       {
         "arithmetic": [
@@ -621,7 +622,11 @@
           { "time": "1 seconds" }
         ]
       },
-      { "u_message": "You feel stretched, as if part of you was elsewhere.", "type": "bad" },
+      {
+        "u_message": "You feel stretched, as if part of you was elsewhere.  You are not solid enough to affect matter and your equipment falls through you.",
+        "type": "bad",
+        "popup": true
+      },
       { "u_add_effect": "incorporeal", "duration": { "global_val": "ps_incorporeal_str", "default": "1 seconds" } }
     ]
   },
