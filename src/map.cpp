@@ -4066,12 +4066,22 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 
 void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p )
 {
+    tripoint_abs_omt origin = get_avatar().global_omt_location();
+    bool shifted = false;
+    if( !get_map().inbounds( get_map().getlocal( p ) ) ) {
+        const tripoint_abs_ms abs_ms( p );
+        g->place_player_overmap( project_to<coords::omt>( abs_ms ) );
+        shifted = true;
+    }
     for( const tripoint &t : points_on_zlevel() ) {
         const float radiX = trig_dist( p, getabs( t ) );
         // within distance, and either no submap limitation or same overmap coords.
         if( radiX <= radi ) {
             transform->transform( t );
         }
+    }
+    if( shifted ) {
+        g->place_player_overmap( origin );
     }
 }
 

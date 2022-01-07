@@ -662,25 +662,9 @@
         "target_var": { "global_val": "grass_transform" }
       },
       {
-        "set_queue_effect_on_condition": [
-          {
-            "id": "EOC_PORTAL_ALIEN_GRASS_CHANGE",
-            "global": true,
-            "effect": [
-              {
-                "u_transform_radius": { "global_val": "ps_transform_radius", "default": 5 },
-                "ter_furn_transform": "portal_alien_grass_transform",
-                "target_var": { "global_val": "grass_transform" }
-              },
-              {
-                "u_make_sound": "a high pitched squeal.",
-                "target_var": { "global_val": "grass_transform" },
-                "volume": 60,
-                "type": "alert"
-              }
-            ]
-          }
-        ],
+        "u_transform_radius": { "global_val": "ps_transform_radius", "default": 5 },
+        "ter_furn_transform": "portal_alien_grass_transform",
+        "target_var": { "global_val": "grass_transform" },
         "time_in_future_min": "30 seconds",
         "time_in_future_max": "5 minutes"
       }
