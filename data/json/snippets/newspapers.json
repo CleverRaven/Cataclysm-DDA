@@ -262,6 +262,7 @@
       },
       {
         "id": "months_old_news_16",
+        "effect_on_examine": [ { "u_spawn_item": "mind_splicer" }, { "u_spawn_item": "data_card" } ],
         "text": "THE MAN BEHIND THE RIOTS.  [Photograph: Interpol identification photograph of Qiang Ye, taken in Maastricht airport in June, 2019.]  Our sources in the UN have informed reporters that the investigative committee in charge of the riots currently engulfing most of the world, nicknamed the \"FriendFace Riots\" for the role of social media in spreading the violence, are the work of a discredited Chinese hacker and alleged intelligence agent, Qiang Ye.  Ye is wanted by Interpol for his involvement in a cyberterror attack on Dutch banks in 2018 that led to billions of dollars of losses for European banks.  The Chinese government has disavowed any connection to Ye since 2015.  \"One man, with an army of well-programmed bots at his control, could certainly be behind this,\" said Dr. Ely Savage, a professor of political science at Berkeley and our expert correspondent on the riots.  \"Social media is very susceptible to this sort of influence.\""
       },
       {
