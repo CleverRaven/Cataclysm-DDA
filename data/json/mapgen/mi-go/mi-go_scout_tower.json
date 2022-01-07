@@ -108,7 +108,7 @@
       "palettes": [ "mi-go_palette" ],
       "place_nested": [
         { "chunks": [ "mi-go_scout_tower_cells" ], "x": 4, "y": 3 },
-        { "chunks": [ "mi-go_encampment1_room14" ], "x": 1, "y": 14 }
+        { "chunks": [ "mi-go_encampment1_room17" ], "x": 1, "y": 14 }
       ],
       "place_monsters": [ { "monster": "GROUP_MI-GO_SCOUT_TOWER", "density": 0.1, "x": 12, "y": 12 } ]
     }
