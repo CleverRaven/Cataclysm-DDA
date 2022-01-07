@@ -26,6 +26,7 @@
     "joins": [
       { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
       { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
+      { "id": "surface_to_surface", "into_locations": [ "open_air" ] },
       "tunnel_to_tunnel"
     ],
     "overmaps": {
