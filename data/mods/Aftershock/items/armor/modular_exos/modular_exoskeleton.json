@@ -81,6 +81,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "name": "Arm compartment 1 (Gadget)",
         "description": "This is a mount for storing items on the arms.",
         "rigid": true,
         "max_contains_volume": "2 L",
