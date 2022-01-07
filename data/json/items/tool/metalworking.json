@@ -430,7 +430,7 @@
     "id": "gas_forge",
     "type": "TOOL",
     "name": { "str": "gas forge" },
-	"//": "Based on the Whisper Daddy 3 Burner Forge, large enough to craft tools and small weapons.",
+    "//": "Based on the Whisper Daddy 3 Burner Forge, large enough to craft tools and small weapons.",
     "description": "This is a gas-fueled metalworking forge.  If combined with the right tools, you could use this for metalworking.",
     "weight": "32205 g",
     "volume": "8 L",
@@ -442,8 +442,12 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "propane" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": 
-	[ "small_propane_tank", "medium_propane_tank", "large_propane_tank" ]}],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "small_propane_tank", "medium_propane_tank", "large_propane_tank" ]
+      }
+    ],
     "sub": "forge",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   }

@@ -1005,10 +1005,12 @@
     "color": "green",
     "ammo": [ "propane" ],
     "sub": "hotplate",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": 
-	[ "small_propane_tank", "medium_propane_tank", "large_propane_tank" ]
-	}
-	],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "small_propane_tank", "medium_propane_tank", "large_propane_tank" ]
+      }
+    ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   }

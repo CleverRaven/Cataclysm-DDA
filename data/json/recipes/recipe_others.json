@@ -2328,18 +2328,19 @@
     "components": [ [ [ "propane_lantern", 2 ] ], [ [ "pilot_light", 1 ] ], [ [ "scrap", 3 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
-  "type": "recipe",
-  "activity_level": "MODERATE_EXERCISE",
-  "result": "gas_forge",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "fabrication",
-  "difficulty": 7,
-  "time": "360 m",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "gas_forge",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "360 m",
     "components": [
-	[ [ "propane_lantern", 3 ], ["propane_cooker", 2 ] ],
-	[ [ "pilot_light", 1 ] ],
-	[ [ "scrap", 10 ] ],
-	[ [ "brick", 8 ] ] ]
+      [ [ "propane_lantern", 3 ], [ "propane_cooker", 2 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "scrap", 10 ] ],
+      [ [ "brick", 8 ] ]
+    ]
   }
 ]
