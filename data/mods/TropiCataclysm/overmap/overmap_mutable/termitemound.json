@@ -29,8 +29,8 @@
       "tunnel_to_tunnel"
     ],
     "overmaps": {
-      "surface": { "overmap": "termitemound_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
-      "roof": { "overmap": "termites_roof_north", "locations": [ "open_air" ] },
+      "surface": { "overmap": "termitemound_north", "below": "surface_to_tunnel", "above": "termites_roof", "locations": [ "land" ] },
+      "roof": { "overmap": "termites_roof_north", "below": "termitemound", "locations": [ "open_air" ] },
       "below_entrance": {
         "overmap": "termites_nesw",
         "above": "tunnel_to_surface",
