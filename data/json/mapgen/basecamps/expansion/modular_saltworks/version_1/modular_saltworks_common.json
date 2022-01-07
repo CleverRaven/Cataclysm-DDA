@@ -4,14 +4,7 @@
     "id": "fbmsw_common_palette",
     "terrain": { ".": "t_dirt" },
     "//": "Didn't like an empty terrain section, so a dummy entry has been added",
-    "furniture": {
-      "r": "f_rack",
-      "t": "f_table",
-      "#": "f_stool",
-      "H": "f_wood_keg",
-      "^": "f_still",
-      "s": "f_woodstove"
-    }
+    "furniture": { "r": "f_rack", "t": "f_table", "#": "f_stool", "H": "f_wood_keg", "^": "f_still", "s": "f_woodstove" }
   },
   {
     "type": "mapgen",
