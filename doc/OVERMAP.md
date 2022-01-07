@@ -396,11 +396,11 @@ Depending on the subtype, there are further relevant fields:
 
 |   Identifier          |                                              Description                                              |
 | --------------------- | ----------------------------------------------------------------------------------------------------- |
-| `check_for_locations` | List of pairs `[ [ x, y, z ], [ locations, ... ] ]` defining the locations that must exist for initial placement. |
-| `connections`         | List of connections and their relative `[ x, y, z ]` location within the special. |
-| `overmaps`            | Definitions of the various overmaps and how they join to one another. |
-| `root`                | The initial overmap from which the mutable overmap will be grown. |
-| `phases`              | A specification of how to grow the overmap special from the root OMT. |
+| `check_for_locations`      | List of pairs `[ [ x, y, z ], [ locations, ... ] ]` defining the locations that must exist for initial placement. |
+| `check_for_locations_area` | List of check_for_locations area objects to be considered in addition to the explicit `check_for_locations` pairs. |
+| `overmaps`                 | Definitions of the various overmaps and how they join to one another. |
+| `root`                     | The initial overmap from which the mutable overmap will be grown. |
+| `phases`                   | A specification of how to grow the overmap special from the root OMT. |
 
 ### Example fixed special
 
@@ -457,6 +457,10 @@ Depending on the subtype, there are further relevant fields:
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "WILDERNESS" ],
+    "//example": "The following check_for_locations_area field is superfluous in this example, and serves as a proof of concept",
+    "check_for_locations_area": [
+      { "type": [ "subterranean_empty" ], "from": [ -1, -1, -1 ], "to": [ 1, 1, -1 ] }
+    ],
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "land" ] ],
       [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
@@ -625,6 +629,38 @@ The `check_for_locations` constraints ensure that the `below_entrance` overmap
 can be placed below the root and that all four cardinal-adjacent OMTs are
 `subterranean_empty`, which is needed to add any further overmaps satisfying
 the four other joins of `below_entrance`.
+
+##### `check_for_locations_area`
+
+`check_for_locations_area` defines a list of extra, rectangular regions of constraints 
+to be considered in addition to the `check_for_locations` constraints. It is an array
+of objects that define a singular location, as well as a `from` and `to` tripoint that 
+define the square region of constraints, like this:
+
+```json
+"check_for_locations_area": [
+  { "type": [ "subterranean_empty" ], "from": [ -1, -1, -1 ], "to": [ 1, 1, -1 ] }
+],
+```
+For the above, the `check_for_locations_area` field is equivalent to manually adding
+the following constraints to the `check_for_locations` array:
+```json
+[ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
+[ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
+[ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
+[ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
+[ [ 0, -1, -1 ], [ "subterranean_empty" ] ],
+[ [ 1, 1, -1 ], [ "subterranean_empty" ] ],
+[ [ 1, -1, -1 ], [ "subterranean_empty" ] ],
+[ [ -1, 1, -1 ], [ "subterranean_empty" ] ],
+[ [ -1, -1, -1 ], [ "subterranean_empty" ] ]
+```
+
+The `check_for_locations_area` field in the example mutable special is superfluous and
+serves only to illustrate the syntax of the field.
+
+Look at /json/overmap/overmap_mutable/nether_monster_corpse.json for an application
+of this field in a real mutable special tile.
 
 ##### `into_locations`
 
