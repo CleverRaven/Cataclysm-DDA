@@ -1,0 +1,64 @@
+[
+  {
+    "type": "trait_group",
+    "id": "NPC_Personality_Any",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "NPCPersonality_Abrasive" },
+      { "trait": "NPCPersonality_Absent-Minded" },
+      { "trait": "NPCPersonality_Analytical" },
+      { "trait": "NPCPersonality_Clown_Always" },
+      { "trait": "NPCPersonality_Clown_Hurt" },
+      { "trait": "NPCPersonality_Conspiracy" },
+      { "trait": "NPCPersonality_Entitled" },
+      { "trait": "NPCPersonality_Fighter" },
+      { "trait": "NPCPersonality_Flake" },
+      { "trait": "NPCPersonality_Flirt" },
+      { "trait": "NPCPersonality_Needy" },
+      { "trait": "NPCPersonality_Professional" },
+      { "trait": "NPCPersonality_Listener" },
+      { "trait": "NPCPersonality_Sincere" },
+      { "trait": "NPCPersonality_Traumatized" }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "NPC_Personality_Professional",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "NPCPersonality_Abrasive" },
+      { "trait": "NPCPersonality_Absent-Minded" },
+      { "trait": "NPCPersonality_Analytical" },
+      { "trait": "NPCPersonality_Clown_Hurt" },
+      { "trait": "NPCPersonality_Entitled" },
+      { "trait": "NPCPersonality_Professional" },
+      { "trait": "NPCPersonality_Listener" },
+      { "trait": "NPCPersonality_Sincere" }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "NPC_Personality_Broken",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "NPCPersonality_Abrasive" },
+      { "trait": "NPCPersonality_Absent-Minded" },
+      { "trait": "NPCPersonality_Clown_Always" },
+      { "trait": "NPCPersonality_Needy" },
+      { "trait": "NPCPersonality_Traumatized" }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "NPC_Personality_Unhappy",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "NPCPersonality_Abrasive" },
+      { "trait": "NPCPersonality_Conspiracy" },
+      { "trait": "NPCPersonality_Entitled" },
+      { "trait": "NPCPersonality_Fighter" },
+      { "trait": "NPCPersonality_Needy" },
+      { "trait": "NPCPersonality_Traumatized" }
+    ]
+  },
+]

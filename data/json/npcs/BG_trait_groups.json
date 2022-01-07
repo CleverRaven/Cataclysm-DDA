@@ -5,8 +5,21 @@
     "id": "BG_survival_story_UNIVERSAL",
     "subtype": "distribution",
     "traits": [
-      { "trait": "BGSS_Confused_1" },
-      { "trait": "BGSS_No_Past_1" },
+	  { "collection": [
+	    { "trait": "BGSS_Confused_1" },
+	    { "group": "NPC_Personality_Broken" }
+	    ]
+	  },
+	  { "collection": [
+	    { "trait": "BGSS_No_Past_1" },
+	    { "group": "NPC_Personality_Unhappy" }
+	    ]
+	  },
+	  { "collection": [
+	    { "trait": "BGSS_No_Past_2" },
+	    { "group": "NPC_Personality_Broken" }
+	    ]
+	  },
       { "trait": "BGSS_No_Past_2" },
       { "trait": "BGSS_No_Past_3" },
       { "trait": "BGSS_No_Past_4" },
