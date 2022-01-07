@@ -102,12 +102,9 @@
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
     "use_action": [
-      "CAMERA",
       "MP3_ON",
-      "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
       "EINKTABLETPC",
-      "ELECTRICSTORAGE",
       "EBOOKSAVE",
       "EBOOKREAD"
     ],
@@ -177,12 +174,9 @@
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
     "use_action": [
-      "CAMERA",
       "MP3_ON",
-      "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
       "EINKTABLETPC",
-      "ELECTRICSTORAGE",
       "EBOOKSAVE",
       "EBOOKREAD"
     ],
