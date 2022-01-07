@@ -59,6 +59,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "name": "PSU compartment",
         "description": "This is a mounting point for power supply units and large modules.",
         "rigid": true,
         "max_contains_volume": "25 L",
