@@ -153,8 +153,6 @@ jobs:
             content: application/aap
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
-    env:
-        ZSTD_CLEVEL: 17
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies (windows msvc) (1/3)

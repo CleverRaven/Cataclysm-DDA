@@ -144,7 +144,6 @@ jobs:
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
-        ZSTD_CLEVEL: 17
         CMAKE: ${{ matrix.cmake }}
         COMPILER: ${{ matrix.compiler }}
         MXE_TARGET: ${{ matrix.mxe_target }}
@@ -168,15 +167,34 @@ jobs:
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
         fetch-depth: 1
+    - name: checkout dependencies (ubuntu)
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+        repository: ccache/ccache
+        ref: refs/heads/4.5-maint
+        path: ccache
     - name: install dependencies (ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
-            libsdl2-mixer-dev libpulse-dev ccache gettext parallel
+            libsdl2-mixer-dev libpulse-dev gettext parallel
+          cd ${{ github.workspace}}/ccache
+          mkdir build
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DHIREDIS_FROM_INTERNET=ON -DZSTD_FROM_INTERNET=ON ..
+          make -j3
+          make install
+          make clean
+          cd ${{ github.workspace }}
+          ccache --version
+          ccache --show-stats --verbose
+          ccache -C
     - name: install old GCC (Ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-7' || matrix.compiler == 'g++-8') }}
       run: |
@@ -208,15 +226,17 @@ jobs:
     - name: ccache cache files (master)
       if: ${{ github.event_name == 'push' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
       uses: actions/cache@v2
+      id: ccache-master
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
-        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}-1
+        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}-3
         restore-keys: |
           ccache-${{ runner.os }}-${{ matrix.compiler }}--
     - name: ccache cache files (PR)
       if: ${{ github.event_name == 'pull_request' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
       uses: actions/cache@v2
+      id: ccache-pr
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}
@@ -249,3 +269,17 @@ jobs:
         name: cata_test
         path: tests/cata_test*
         if-no-files-found: ignore
+    - name: Prepare ccache for upload
+      # The condition is weird here because we're checking for the output from
+      # two steps, only one of which will run at a time. The possible values are
+      # '', 'false', or 'true'. We want to recompress cache iff there was a 'false'.
+      # '' and 'true, 'true' and '' both evaluate the and clause to true, negated is false, will skip.
+      # 'false' and whatever, whatever and 'false' will evaluate the and to false, negated to true, will run the step.
+      if: ${{ !failure() && !(steps.ccache-master.outputs.cache-hit != 'false' && steps.ccache-pr.outputs.cache-hit != 'false') }}
+      run: |
+        ccache --show-stats -v
+        # Recompress and shrink ccache prior to github cache upload
+        ccache -X 17
+        ccache -M 600M
+        ccache -c
+        ccache --show-stats -v
