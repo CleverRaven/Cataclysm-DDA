@@ -831,6 +831,11 @@
   },
   {
     "type": "item_action",
+    "id": "MANAGE_EXOSUIT",
+    "name": { "str": "Manage exoskeleton modules" }
+  },
+  {
+    "type": "item_action",
     "id": "RM13ARMOR_OFF",
     "name": { "str": "Turn on" }
   },
