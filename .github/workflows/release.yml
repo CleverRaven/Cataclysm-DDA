@@ -153,6 +153,8 @@ jobs:
             content: application/aap
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    env:
+        ZSTD_CLEVEL: 17
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies (windows msvc) (1/3)
@@ -164,7 +166,7 @@ jobs:
         id: runvcpkg
         with:
           additionalCachedPaths: '${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed'
-          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}
+          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}-1
           setupOnly: true
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
           # We have to use at least this version of vcpkg to include fixes for yasm-tool's

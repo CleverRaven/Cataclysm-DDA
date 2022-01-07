@@ -894,7 +894,8 @@
       "weapon_style_layout",
       "place_date_time_layout",
       "light_moon_wind_temp_layout",
-      "vehicle_azimuth_cruise_fuel_layout"
+      "vehicle_azimuth_cruise_fuel_layout",
+      "bodypart_status_layout"
     ]
   }
 ]

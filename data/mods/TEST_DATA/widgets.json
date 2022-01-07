@@ -231,6 +231,22 @@
     "style": "number"
   },
   {
+    "id": "test_status_torso_text",
+    "type": "widget",
+    "label": "TORSO STATUS",
+    "var": "bp_status_text",
+    "bodypart": "torso",
+    "style": "text"
+  },
+  {
+    "id": "test_status_left_arm_text",
+    "type": "widget",
+    "label": "LEFT ARM STATUS",
+    "var": "bp_status_text",
+    "bodypart": "arm_l",
+    "style": "text"
+  },
+  {
     "id": "test_stat_panel",
     "type": "widget",
     "style": "layout",

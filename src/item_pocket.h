@@ -471,6 +471,9 @@ class pocket_data
         // the name of the item the pocket belongs to
         // this can be used as a fallback description if needed
         translation name;
+        // an optional name defined for this pocket
+        // used to very briefly distinguish the purpose of the pocket (ex: Torso compartment)
+        translation pocket_name;
 
         /** Data that is different for sealed pockets than unsealed pockets. This takes priority. */
         cata::value_ptr<sealable_data> sealed_data;

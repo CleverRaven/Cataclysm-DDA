@@ -45,6 +45,7 @@ enum class widget_var : int {
     // Text vars
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
+    bp_status_text, // Status of bodypart (bleeding, bitten, and/or infected)
     date_text,      // Current date, in terms of day within season
     env_temp_text,  // Environment temperature, if character has thermometer
     fatigue_text,   // Fagitue description text, color string
