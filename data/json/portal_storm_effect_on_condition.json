@@ -622,7 +622,11 @@
           { "time": "1 seconds" }
         ]
       },
-      { "u_message": "You feel stretched, as if part of you was elsewhere.  You are not solid enough to affect matter and your equipment falls through you.", "type": "bad", "popup": true },
+      {
+        "u_message": "You feel stretched, as if part of you was elsewhere.  You are not solid enough to affect matter and your equipment falls through you.",
+        "type": "bad",
+        "popup": true
+      },
       { "u_add_effect": "incorporeal", "duration": { "global_val": "ps_incorporeal_str", "default": "1 seconds" } }
     ]
   },
