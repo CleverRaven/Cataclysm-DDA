@@ -124,12 +124,13 @@
       "EINKTABLETPC",
       "EBOOKSAVE",
       "EBOOKREAD",
-    {
-      "target": "afs_atomic_smartphone",
-      "msg": "You deactivate the flashlight app.",
-      "menu_text": "Turn off flashlight",
-      "type": "transform"
-    },
+      {
+        "target": "afs_atomic_smartphone",
+        "msg": "You deactivate the flashlight app.",
+        "menu_text": "Turn off flashlight",
+        "type": "transform"
+      }
+    ],
     "flags": [ "WATCH", "LIGHT_25", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -193,16 +194,18 @@
     "type": "TOOL",
     "name": { "str": "Executive's smartphone - Flashlight", "str_pl": "Executive's smartphones - Flashlight" },
     "revert_to": "afs_atomic_smartphone",
-    "use_action": {
+    "use_action": [
       "PORTABLE_GAME",
       "EINKTABLETPC",
       "EBOOKSAVE",
       "EBOOKREAD",
-      "target": "afs_wraitheon_smartphone",
-      "msg": "You deactivate the flashlight app.",
-      "menu_text": "Turn off flashlight",
-      "type": "transform"
-    }
+      {
+        "target": "afs_wraitheon_smartphone",
+        "msg": "You deactivate the flashlight app.",
+        "menu_text": "Turn off flashlight",
+        "type": "transform"
+      }
+    ]
   },
   {
     "id": "afs_atompot",
