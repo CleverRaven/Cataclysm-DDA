@@ -230,7 +230,7 @@ jobs:
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
-        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}-3
+        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}-7
         restore-keys: |
           ccache-${{ runner.os }}-${{ matrix.compiler }}--
     - name: ccache cache files (PR)

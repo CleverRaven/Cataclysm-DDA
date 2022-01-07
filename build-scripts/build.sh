@@ -187,8 +187,8 @@ then
         make -j$num_jobs
         cd ..
         # Run regular tests
-        [ -f "${bin_path}cata_test" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
-        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test-tiles' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        #[ -f "${bin_path}cata_test" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        #[ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test-tiles' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 elif [ "$NATIVE" == "android" ]
 then
@@ -209,10 +209,10 @@ else
 
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
-    parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+    #parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     if [ -n "$MODS" ]
     then
-        parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' 'Mods-('{}')=> ' $(printf %q "${MODS}") --user-dir=modded_{#} {}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        #parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' 'Mods-('{}')=> ' $(printf %q "${MODS}") --user-dir=modded_{#} {}" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 
     if [ -n "$TEST_STAGE" ]
@@ -224,7 +224,7 @@ else
         ./build-scripts/get_all_mods.py | \
             while read mods
             do
-                run_test ./tests/cata_test '(all_mods)=> ' '~*' --user-dir=all_modded --mods="${mods}"
+                #run_test ./tests/cata_test '(all_mods)=> ' '~*' --user-dir=all_modded --mods="${mods}"
             done
     fi
 fi
