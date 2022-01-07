@@ -142,16 +142,15 @@
     "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
-    "use_action": [
-	{
+
+    "use_action": [ {
       "target": "modular_exoskeleton_on",
       "msg": "The %s engages.",
       "active": true,
       "need_charges": 1,
       "need_charges_msg": "The suit does not have enough charge.",
       "type": "transform"
-    },
-	{"MANAGE_EXOSUIT"}
+    }, "MANAGE_EXOSUIT" ]
   },
   {
     "id": "modular_exoskeleton_on",
