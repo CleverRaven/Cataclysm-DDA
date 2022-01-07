@@ -26,12 +26,10 @@
     "joins": [
       { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
       { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
-      { "id": "surface_to_surface", "into_locations": [ "open_air" ] },
       "tunnel_to_tunnel"
     ],
     "overmaps": {
-      "surface": { "overmap": "termitemound_north", "below": "surface_to_tunnel", "above": "surface_to_surface", "locations": [ "land" ] },
-      "roof": { "overmap": "termites_roof_north", "below": "surface_to_surface", "locations": [ "open_air" ] },
+      "surface": { "overmap": "termitemound_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
       "below_entrance": {
         "overmap": "termites_nesw",
         "above": "tunnel_to_surface",
