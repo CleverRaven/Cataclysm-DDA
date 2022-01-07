@@ -49,6 +49,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "name": "Torso compartment (Gadget)",
         "description": "This is a mount for storing items in the torso.",
         "rigid": true,
         "max_contains_volume": "2 L",
