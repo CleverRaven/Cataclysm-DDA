@@ -25,8 +25,7 @@
       "p": "t_platform_resin",
       "v": "t_open_air",
       "_": "t_resin_roof",
-      ";": "t_region_groundcover",
-      ".": "t_region_groundcover"
+      ";": "t_region_groundcover"
     },
     "furniture": {
       "i": "f_alien_tendril",
