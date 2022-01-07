@@ -352,6 +352,7 @@
         "|||||;"
       ],
       "palettes": [ "mi-go_palette" ],
+      "terrain": { ".": "t_floor_resin" },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_BRUTE", "x": [ 1, 3 ], "y": [ 3, 4 ], "repeat": [ 1, 2 ] } ]
     }
   },
