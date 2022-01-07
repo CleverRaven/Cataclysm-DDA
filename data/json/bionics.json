@@ -140,7 +140,8 @@
       "FAT",
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
-      "MUCUS_SECRETION2"
+      "MUCUS_SECRETION2",
+      "RABBIT_FEET"
     ]
   },
   {
@@ -161,7 +162,7 @@
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": { "str": "Intradermal Alloy - head" },
+    "name": { "str": "Intradermal Alloy - Head" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
     "bash_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
@@ -365,7 +366,6 @@
       "RABBIT_FUR",
       "TAIL_RABBIT",
       "RABBIT_FEET",
-      "PAWS_LITTLE",
       "BOVINE_BULK",
       "BOVINE_BULK2",
       "FAT",
@@ -379,13 +379,13 @@
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": { "str": "Intradermal Alloy - torso" },
+    "name": { "str": "Intradermal Alloy - Torso" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "bash_protec": [ [ "torso", 3 ] ],
     "cut_protec": [ [ "torso", 3 ] ],
     "bullet_protec": [ [ "torso", 3 ] ],
-    "encumbrance": [ [ "torso", 3 ] ],
+    "encumbrance": [ [ "torso", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "cant_remove_reason": "The Intradermal Alloy is too thoroughly entwined with %1$s to be removed safely.",
     "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
@@ -456,7 +456,6 @@
       "PATCHSKIN1",
       "PATCHSKIN2",
       "RABBIT_FUR",
-      "PAWS_LITTLE",
       "BOVINE_BULK",
       "BOVINE_BULK2",
       "FAT",
@@ -695,7 +694,22 @@
     "description": "You have been outfitted with three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illness, and can sometimes eat rotten food.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "vitamin_absorb_mod": 1.5,
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "PARAIMMUNE", "IMMUNE_SPOIL" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "PARAIMMUNE", "IMMUNE_SPOIL" ],
+    "canceled_mutations": [
+      "WEAKSTOMACH",
+      "STRONGSTOMACH",
+      "CARNIVORE",
+      "HERBIVORE",
+      "ANTIJUNK",
+      "ANTIFRUIT",
+      "RUMINANT",
+      "ANTIWHEAT",
+      "NAUSEA",
+      "VOMITOUS",
+      "EATPOISON",
+      "EATDEAD",
+      "ALCMET"
+    ]
   },
   {
     "id": "bio_dis_acid",
@@ -822,7 +836,9 @@
       "INFRARED",
       "LIZ_EYE",
       "EYEBULGE",
-      "SEESLEEP"
+      "SEESLEEP",
+      "EYESTALKS1",
+      "EYESTALKS2"
     ]
   },
   {
@@ -1608,7 +1624,7 @@
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ],
     "social_modifiers": { "persuade": -20, "lie": 10, "intimidate": 20 },
-    "canceled_mutations": [ "GROWL", "SNARL", "HISS" ]
+    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK" ]
   },
   {
     "id": "bio_watch",
@@ -1655,7 +1671,27 @@
     "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "weight_capacity_bonus": "20 kg",
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [
+      "AMORPHOUS",
+      "BENDY2",
+      "BENDY3",
+      "LARGE",
+      "LARGE_OK",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL",
+      "SMALL2",
+      "SMALL_OK",
+      "ARM_TENTACLES",
+      "ARM_TENTACLES_4",
+      "ARM_TENTACLES_8",
+      "CLAWS_TENTACLES",
+      "GASTROPOD_FOOT",
+      "GASTROPOD_BALANCE",
+      "LEG_TENTACLES",
+      "LEG_TENT_BRACE"
+    ]
   },
   {
     "id": "bio_taste_blocker",
