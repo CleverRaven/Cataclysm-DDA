@@ -61,8 +61,10 @@
 #include "weather_type.h"
 #include "widget.h"
 
+static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_hunger_blank( "hunger_blank" );
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
@@ -1329,42 +1331,34 @@ nc_color display::limb_color( const Character &u, const bodypart_id &bp, bool bl
     if( bp == bodypart_str_id::NULL_ID() ) {
         return c_light_gray;
     }
-    int color_bit = 0;
     nc_color i_color = c_light_gray;
     const int intense = u.get_effect_int( effect_bleed, bp );
-    if( bleed && intense > 0 ) {
-        color_bit += 1;
-    }
-    if( bite && u.has_effect( effect_bite, bp.id() ) ) {
-        color_bit += 10;
-    }
-    if( infect && u.has_effect( effect_infected, bp.id() ) ) {
-        color_bit += 100;
-    }
-    switch( color_bit ) {
-        case 1:
-            i_color = colorize_bleeding_intensity( intense );
-            break;
-        case 10:
-            i_color = c_blue;
-            break;
-        case 100:
-            i_color = c_green;
-            break;
-        case 11:
-            if( intense < 21 ) {
-                i_color = c_magenta;
-            } else {
-                i_color = c_magenta_red;
-            }
-            break;
-        case 101:
-            if( intense < 21 ) {
-                i_color = c_yellow;
-            } else {
-                i_color = c_yellow_red;
-            }
-            break;
+    const bool bleeding = bleed && intense > 0;
+    const bool bitten = bite && u.has_effect( effect_bite, bp.id() );
+    const bool infected = infect && u.has_effect( effect_infected, bp.id() );
+
+    // Handle worst cases first
+    if( bleeding && infected ) {
+        // Red and green make yellow
+        if( intense < 21 ) {
+            i_color = c_yellow;
+        } else {
+            i_color = c_yellow_red;
+        }
+    } else if( bleeding && bitten ) {
+        // Red and blue make magenta
+        if( intense < 21 ) {
+            i_color = c_magenta;
+        } else {
+            i_color = c_magenta_red;
+        }
+    } else if( infected ) {
+        i_color = c_green; // Green is very bad
+    } else if( bitten ) {
+        i_color = c_blue; // Blue is also bad
+    } else if( bleeding ) {
+        // Blood is some shade of red, naturally
+        i_color = colorize_bleeding_intensity( intense );
     }
 
     return i_color;
@@ -1432,6 +1426,65 @@ std::pair<std::string, nc_color> display::rad_badge_text_color( const Character 
         }
     }
     return std::make_pair( rad_text, rad_color );
+}
+
+std::vector<std::pair<std::string, nc_color>> display::bodypart_status_colors( const Character &u,
+        const bodypart_id &bp )
+{
+    // List of status strings and colors
+    std::vector<std::pair<std::string, nc_color>> ret;
+    // Empty if no bodypart given
+    if( bp == bodypart_str_id::NULL_ID() ) {
+        return ret;
+    }
+
+    const int bleed_intensity = u.get_effect_int( effect_bleed, bp );
+    const bool bleeding = bleed_intensity > 0;
+    const bool bitten = u.has_effect( effect_bite, bp.id() );
+    const bool infected = u.has_effect( effect_infected, bp.id() );
+    const bool broken = u.is_limb_broken( bp ) && bp->is_limb;
+    const bool splinted = u.worn_with_flag( json_flag_SPLINT,  bp );
+    const bool bandaged = u.has_effect( effect_bandaged,  bp.id() );
+    const bool disinfected = u.has_effect( effect_disinfected,  bp.id() );
+
+    // Ailments
+    if( broken ) {
+        ret.emplace_back( std::make_pair( "broken", c_magenta ) );
+    }
+    if( bitten ) {
+        ret.emplace_back( std::make_pair( "bitten", c_yellow ) );
+    }
+    if( bleeding ) {
+        ret.emplace_back( std::make_pair( "bleeding",
+                                          colorize_bleeding_intensity( bleed_intensity ) ) );
+    }
+    if( infected ) {
+        ret.emplace_back( std::make_pair( "infected", c_pink ) );
+    }
+    // Treatments
+    if( splinted ) {
+        ret.emplace_back( std::make_pair( "splinted", c_light_gray ) );
+    }
+    if( bandaged ) {
+        ret.emplace_back( std::make_pair( "bandaged", c_white ) );
+    }
+    if( disinfected ) {
+        ret.emplace_back( std::make_pair( "disinfected", c_light_green ) );
+    }
+
+    return ret;
+}
+
+std::string display::colorized_bodypart_status_text( const Character &u, const bodypart_id &bp )
+{
+    // Colorized strings for each status
+    std::vector<std::string> color_strings;
+    // Get all status strings and colorize them
+    for( const std::pair<std::string, nc_color> &sc : display::bodypart_status_colors( u, bp ) ) {
+        color_strings.emplace_back( colorize( sc.first, sc.second ) );
+    }
+    // Join with commas, or return "--" if no statuses
+    return color_strings.empty() ? "--" : join( color_strings, ", " );
 }
 
 static void draw_stats( const draw_args &args )
