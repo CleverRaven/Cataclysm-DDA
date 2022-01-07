@@ -101,6 +101,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "name": "Leg compartment (Plate)",
         "description": "This is a mounting point for leg armor.",
         "ablative": true,
         "rigid": true,
