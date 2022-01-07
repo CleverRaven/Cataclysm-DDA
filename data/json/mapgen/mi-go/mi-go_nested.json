@@ -397,6 +397,26 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room17",
+    "//": "Large monster holding cell",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".|||..",
+        "|| +..",
+        "|##|||",
+        "|1  P|",
+        "|  1||",
+        "|||||v"
+      ],
+      "palettes": [ "mi-go_palette" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_BRUTE", "x": [ 1, 3 ], "y": [ 3, 4 ], "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "mi-go_scout_tower_cells",
     "//": "Mi-go surgical suite and prisoner cells for upper z levels",
     "object": {
