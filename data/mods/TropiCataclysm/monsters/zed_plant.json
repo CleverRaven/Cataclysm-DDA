@@ -4,7 +4,6 @@
     "type": "MONSTER",
     "name": { "str": "thorny shambler" },
     "copy-from": "mon_zombie_thorny",
-    "default_faction": "triffid",
     "upgrades": { "half_life": 20, "into_group": "GROUP_THORNY_SHAMBLER_UPGRADE" }
   },
   {
