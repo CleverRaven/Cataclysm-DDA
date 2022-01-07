@@ -1171,7 +1171,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tire suit" },
-    "description": "A suit of armor made from thick chunks of rubber tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
+    "description": "A suit of armor made from thick chunks of rubber tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection. ",
     "weight": "14400 g",
     "volume": "15500 ml",
     "price": 50000,
