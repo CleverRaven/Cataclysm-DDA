@@ -243,7 +243,7 @@ jobs:
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       if: ${{ env.SKIP == 'false' }}
-      run: bash ./build-scripts/build.sh
+      run: ccache -C && bash ./build-scripts/build.sh
     - run: |
         echo ${{ github.event.number }} > pull_request_id
         echo "true" > ${{ env.ARCHIVE_SUCCESS }}
