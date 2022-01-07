@@ -1,0 +1,29 @@
+[
+  {
+    "id": "mon_triffid_lifegiver",
+    "type": "MONSTER",
+    "name": { "str": "triffid lifegiver" },
+    "description": "An enormous triffid that crawls over the surrounding overgrowth.  It barely moves unlike the others and instead seems to act as a sort of progenitor figure.",
+    "default_faction": "triffid",
+    "species": [ "PLANT" ],
+    "diff": 50,
+    "volume": "875000 ml",
+    "weight": "200 kg",
+    "hp": 500,
+    "speed": 80,
+    "material": [ "veggy" ],
+    "symbol": "T",
+    "color": "red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_cut": 0,
+    "armor_bash": 12,
+    "armor_cut": 16,
+    "armor_bullet": 13,
+    "armor_elec": 7,
+    "harvest": "triffid_queen",
+    "special_attacks": [ [ "SPIT_SAP", 5 ] ],
+    "reproduction": { "baby_egg": "triffid_pod", "baby_count": 1, "baby_timer": 2 },
+    "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM", "QUEEN" ]
+  }
+]
