@@ -144,6 +144,7 @@ jobs:
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
+        ZSTD_CLEVEL: 17
         CMAKE: ${{ matrix.cmake }}
         COMPILER: ${{ matrix.compiler }}
         MXE_TARGET: ${{ matrix.mxe_target }}
@@ -210,7 +211,7 @@ jobs:
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
-        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}
+        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}-1
         restore-keys: |
           ccache-${{ runner.os }}-${{ matrix.compiler }}--
     - name: ccache cache files (PR)
