@@ -62,5 +62,5 @@
       { "text": "Huh.  Interesting stuff.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "Huh.  Interesting stuff.  <end_talking>", "topic": "TALK_DONE" }
     ]
-  },
+  }
 ]
