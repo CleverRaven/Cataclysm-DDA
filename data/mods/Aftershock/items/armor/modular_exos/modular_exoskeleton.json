@@ -69,6 +69,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "name": "Arm compartment (Plate)",
         "description": "This is a mounting point for arm armor.",
         "ablative": true,
         "rigid": true,
