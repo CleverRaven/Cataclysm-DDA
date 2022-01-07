@@ -118,5 +118,14 @@
       { "monster": "mon_caterpillar_giant", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_caterpillar", "freq": 100, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "name": "GROUP_EGG_TRIFFID",
+    "type": "monstergroup",
+    "default": "mon_triffid_sprig",
+    "monsters": [
+      { "monster": "mon_biollante_sprig", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_triffid_sprig", "freq": 100, "cost_multiplier": 1 }
+    ]
   }
 ]
