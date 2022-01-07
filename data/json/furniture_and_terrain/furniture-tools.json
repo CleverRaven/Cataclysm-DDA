@@ -1400,28 +1400,5 @@
       "sound_fail": "whump.",
       "items": [ { "item": "grip_hook", "count": [ 4, 4 ] }, { "item": "rope_30", "count": [ 1, 1 ] } ]
     }
-  },
-  {
-    "type": "furniture",
-    "id": "f_gas_forge",
-    "name": "gas forge",
-    "looks_like": "f_fireplace",
-    "description": "Metalworking station typically used in combination with an anvil.",
-    "symbol": "^",
-    "color": "light_red",
-    "move_cost_mod": -1,
-    "coverage": 40,
-    "required_str": -1,
-    "crafting_pseudo_item": "fake_forge",
-    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
-    "examine_action": "reload_furniture",
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "char_forge", "count": 1 } ]
-    }
   }
 ]
