@@ -38,6 +38,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "name": "Torso compartment (Plate)",
         "description": "This is a mounting point for torso armor.",
         "ablative": true,
         "rigid": true,
