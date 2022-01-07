@@ -506,12 +506,9 @@
     "power_draw": 300,
     "revert_to": "smart_phone",
     "use_action": [
-      "CAMERA",
       "MP3_ON",
-      "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
       "EINKTABLETPC",
-      "ELECTRICSTORAGE",
       "EBOOKSAVE",
       "EBOOKREAD"
     ],
