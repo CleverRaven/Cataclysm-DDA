@@ -35,7 +35,7 @@
     "species": [ "PLANT" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 800,
+    "hp": 80,
     "speed": 80,
     "material": [ "veggy" ],
     "symbol": "F",
