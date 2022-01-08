@@ -626,25 +626,26 @@ Graph widget ids typically have a `_graph` suffix.
 
 Text widget ids typically have a `_desc` suffix.
 
-| id                 | example
-| --                 | --
-| `activity_desc`    | `Activity: Moderate`
-| `date_desc`        | `Date: Summer day 25`
-| `env_temp_desc`    | `Temperature: 65F`
-| `fatigue_desc`     | `Rest: Tired`
-| `health_desc`      | `Health: Good`
-| `hunger_desc`      | `Hunger: Satisfied`
-| `lighting_desc`    | `Lighting: Bright`
-| `mood_desc`        | `Mood: :-)`
-| `pain_desc`        | `Pain: Unmanageable pain`
-| `place_desc`       | `Place: Evac Shelter J-38`
-| `power_desc`       | `Bionic Power: 250mJ`
-| `style_desc`       | `Style: Brawling`
-| `time_desc`        | `Time: 10:45:32 am`
-| `weary_malus_desc` | `Weary Malus: +10%`
-| `weather_desc`     | `Weather: Sunny`
-| `weight_desc`      | `Weight: Overweight`
-| `wind_desc`        | `Wind: <= Calm`
+| id                     | example
+| --                     | --
+| `activity_desc`        | `Activity: Moderate`
+| `date_desc`            | `Date: Summer day 25`
+| `env_temp_desc`        | `Temperature: 65F`
+| `fatigue_desc`         | `Rest: Tired`
+| `health_desc`          | `Health: Good`
+| `hunger_desc`          | `Hunger: Satisfied`
+| `lighting_desc`        | `Lighting: Bright`
+| `mood_desc`            | `Mood: :-)`
+| `move_count_mode_desc` | `Move: 100(W)`
+| `pain_desc`            | `Pain: Unmanageable pain`
+| `place_desc`           | `Place: Evac Shelter J-38`
+| `power_desc`           | `Bionic Power: 250mJ`
+| `style_desc`           | `Style: Brawling`
+| `time_desc`            | `Time: 10:45:32 am`
+| `weary_malus_desc`     | `Weary Malus: +10%`
+| `weather_desc`         | `Weather: Sunny`
+| `weight_desc`          | `Weight: Overweight`
+| `wind_desc`            | `Wind: <= Calm`
 
 
 ## Layout widgets
