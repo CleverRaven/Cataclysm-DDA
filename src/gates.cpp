@@ -349,6 +349,10 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
 
     if( didit ) {
         // TODO: Vary this? Based on strength, broken legs, and so on.
-        who.mod_moves( -90 );
+        if( who.as_character()->is_crouching() ) {
+            who.mod_moves( -270 );
+        } else {
+            who.mod_moves( -90 );
+        }
     }
 }
