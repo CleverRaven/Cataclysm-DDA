@@ -531,7 +531,7 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
 
 TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
 {
-    clear_map();
+    clear_map_and_put_player_underground();
     // Unarmored target
     // This test result is difficult to converge
     // After more attempts, the average value is about 7

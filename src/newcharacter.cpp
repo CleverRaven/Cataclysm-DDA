@@ -358,7 +358,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     while( true ) {
         menu.query( true );
         const matype_id &selected = styles[menu.ret];
-        if( query_yn( _( "Use this style?" ) ) ) {
+        if( query_yn( string_format( _( "Use the %s style?" ), selected.obj().name ) ) ) {
             return selected;
         }
     }
@@ -380,6 +380,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     init_age = rng( 16, 55 );
     randomize_height();
     randomize_blood();
+    randomize_heartrate();
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
@@ -756,6 +757,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // setup staring bank money
     cash = rng( -200000, 200000 );
+    randomize_heartrate();
 
     if( has_trait( trait_XS ) ) {
         set_stored_kcal( 10000 );
@@ -3957,6 +3959,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             you.set_base_age( rng( 16, 55 ) );
             you.randomize_height();
             you.randomize_blood();
+            you.randomize_heartrate();
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
         } else if( action == "CHOOSE_LOCATION" ) {

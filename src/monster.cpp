@@ -1078,6 +1078,11 @@ bool monster::made_of( phase_id p ) const
     return type->phase == p;
 }
 
+std::vector<material_id> monster::get_absorb_material() const
+{
+    return type->absorb_material;
+}
+
 void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
 {
     const tripoint_abs_ms base_abs_ms = project_to<coords::ms>( global_omt_location() );
@@ -1562,8 +1567,9 @@ const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const body
     const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
-        add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
-                       io::enum_to_string( elem.type ), elem.res_pen, elem.res_mult );
+        add_msg_debug( debugmode::DF_MONSTER,
+                       "Dam Type: %s :: Dam Amt: %.1f :: Ar Pen: %.1f :: Armor Mult: %.1f",
+                       io::enum_to_string( elem.type ), elem.amount, elem.res_pen, elem.res_mult );
         add_msg_debug( debugmode::DF_MONSTER,
                        "Weakpoint: %s :: Armor Mult: %.1f :: Armor Penalty: %.1f :: Resist: %.1f",
                        wp->id, wp->armor_mult[static_cast<int>( elem.type )],
@@ -2107,8 +2113,9 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
         case damage_type::HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
         case damage_type::COLD:
-        case damage_type::ELECTRIC:
             return worn_armor;
+        case damage_type::ELECTRIC:
+            return worn_armor + static_cast<int>( type->armor_elec );
         case damage_type::NONE:
         case damage_type::NUM:
             // Let it error below
@@ -2300,6 +2307,14 @@ bool monster::special_available( const std::string &special_name ) const
                 special_name );
     return iter != special_attacks.end() && iter->second.enabled && iter->second.cooldown == 0;
 }
+
+bool monster::has_special( const std::string &special_name ) const
+{
+    std::map<std::string, mon_special_attack>::const_iterator iter = special_attacks.find(
+                special_name );
+    return iter != special_attacks.end() && iter->second.enabled;
+}
+
 
 void monster::explode()
 {
@@ -2998,7 +3013,7 @@ void monster::init_from_item( item &itm )
         }
     } else {
         // must be a robot
-        const int damfac = itm.max_damage() - std::max( itm.degradation(), itm.damage() ) + 1;
+        const int damfac = itm.max_damage() - std::max( 0, itm.damage() ) + 1;
         // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
         hp = std::max( 1, hp * damfac / ( itm.max_damage() + 1 ) );
     }

@@ -40,7 +40,7 @@
     "warmth": 20,
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER" ]
   },
   {
     "id": "armor_chitin",
@@ -61,7 +61,7 @@
     "warmth": 10,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
@@ -70,7 +70,7 @@
     "name": { "str": "XL chitinous armor" },
     "copy-from": "armor_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_acidchitin",
@@ -93,7 +93,7 @@
     "name": { "str": "XL biosilicified chitin armor" },
     "copy-from": "armor_acidchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_farmor",
@@ -136,7 +136,7 @@
     "warmth": 60,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_farmor",
@@ -144,7 +144,7 @@
     "name": { "str": "XL fur body armor" },
     "copy-from": "armor_farmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_larmor",
@@ -186,7 +186,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_larmor",
@@ -194,7 +194,7 @@
     "name": { "str": "XL leather body armor" },
     "copy-from": "armor_larmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_lightplate",
@@ -225,6 +225,781 @@
     "copy-from": "armor_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "OUTER", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "armor_lc_lightplate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel 2 mm plate armor" },
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  This one has been made with mild steel.",
+    "weight": "15 kg",
+    "volume": "17500 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 2,
+    "flags": [ "OUTER", "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 15
+        },
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.25 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        },
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.25 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_lc_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel 2 mm plate armor" },
+    "copy-from": "armor_lc_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_mc_lightplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_lightplate",
+    "name": { "str": "medium steel 2 mm plate armor" },
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 15
+        },
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.25 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        },
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.25 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_mc_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel 2 mm plate armor" },
+    "copy-from": "armor_mc_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_hc_lightplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_lightplate",
+    "name": { "str": "high steel 2 mm plate armor" },
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 15
+        },
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.25 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        },
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.25 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_hc_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel 2 mm plate armor" },
+    "copy-from": "armor_hc_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_ch_lightplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_lightplate",
+    "name": { "str": "case hardened 2 mm plate armor" },
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 15
+        },
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.25 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        },
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.25 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_ch_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "XL case hardened 2 mm plate armor" },
+    "copy-from": "armor_ch_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_qt_lightplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_lightplate",
+    "name": { "str": "tempered 2 mm plate armor" },
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 15
+        },
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.25 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        },
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.25 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_qt_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered 2 mm plate armor" },
+    "copy-from": "armor_qt_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_lc_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel 4 mm plate armor" },
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  This one has been made with mild steel.",
+    "weight": "20 kg",
+    "volume": "17500 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 4,
+    "flags": [ "OUTER", "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 20
+        },
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.75 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 15
+        },
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.75 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_lc_plate",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel 4 mm plate armor" },
+    "copy-from": "armor_lc_plate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_mc_plate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_plate",
+    "name": { "str": "medium steel 4 mm plate armor" },
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 20
+        },
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.75 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 15
+        },
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.75 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_mc_plate",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel 4 mm plate armor" },
+    "copy-from": "armor_mc_plate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_hc_plate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_plate",
+    "name": { "str": "high steel 4 mm plate armor" },
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 20
+        },
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.75 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 15
+        },
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.75 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_hc_plate",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel 4 mm plate armor" },
+    "copy-from": "armor_hc_plate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_ch_plate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_plate",
+    "name": { "str": "case hardened 4 mm plate armor" },
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 20
+        },
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.75 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 15
+        },
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.75 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_ch_plate",
+    "type": "ARMOR",
+    "name": { "str": "XL case hardened 4 mm plate armor" },
+    "copy-from": "armor_ch_plate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_qt_plate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_plate",
+    "name": { "str": "tempered 4 mm plate armor" },
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 20
+        },
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.75 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 15
+        },
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.75 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_qt_plate",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered 4 mm plate armor" },
+    "copy-from": "armor_qt_plate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_lc_heavyplate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel 6 mm plate armor" },
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  This one has been made with mild steel.",
+    "weight": "25 kg",
+    "volume": "17500 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 6,
+    "flags": [ "OUTER", "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 25
+        },
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        },
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_lc_heavyplate",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel 6 mm plate armor" },
+    "copy-from": "armor_lc_heavyplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_mc_heavyplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_heavyplate",
+    "name": { "str": "medium steel 6 mm plate armor" },
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 25
+        },
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        },
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_mc_heavyplate",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel 6 mm plate armor" },
+    "copy-from": "armor_mc_heavyplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_hc_heavyplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_heavyplate",
+    "name": { "str": "high steel 6 mm plate armor" },
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 25
+        },
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        },
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_hc_heavyplate",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel 6 mm plate armor" },
+    "copy-from": "armor_hc_heavyplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_ch_heavyplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_heavyplate",
+    "name": { "str": "case hardened 6 mm plate armor" },
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 25
+        },
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        },
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_ch_heavyplate",
+    "type": "ARMOR",
+    "name": { "str": "XL case hardened 6 mm plate armor" },
+    "copy-from": "armor_ch_heavyplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_qt_heavyplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_heavyplate",
+    "name": { "str": "tempered 6 mm plate armor" },
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "material": [ { "type": "tempered_steel", "portion": 9 }, { "type": "leather", "portion": 1 } ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 25
+        },
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        },
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "leg_l", "leg_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_qt_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered 6 mm plate armor" },
+    "copy-from": "armor_qt_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_plarmor",
@@ -281,7 +1056,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_plarmor",
@@ -289,7 +1064,7 @@
     "name": { "str": "XL plated leather armor" },
     "copy-from": "armor_plarmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_plate",
@@ -458,14 +1233,22 @@
     "price": 35988,
     "price_postapoc": 3000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "light_red",
     "warmth": 30,
     "material_thickness": 6,
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "kevlar_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "kevlar chainmail hauberk" },
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "copy-from": "chainmail_hauberk",
+    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
   },
   {
     "id": "xl_chainmail_hauberk",
@@ -473,7 +1256,15 @@
     "name": { "str": "XL chainmail hauberk" },
     "copy-from": "chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_kevlar_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar chainmail hauberk" },
+    "copy-from": "kevlar_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "chainmail_suit",
@@ -486,14 +1277,25 @@
     "price": 45000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
     "warmth": 30,
+    "material_thickness": 5,
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "kevlar_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "kevlar chainmail armor" },
+    "description": "A fully customized chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "copy-from": "chainmail_suit",
     "material_thickness": 6,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE" ]
   },
   {
     "id": "xl_chainmail_suit",
@@ -501,7 +1303,15 @@
     "name": { "str": "XL chainmail armor" },
     "copy-from": "chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_kevlar_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar chainmail armor" },
+    "copy-from": "kevlar_chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "chainmail_suit_faraday",
@@ -514,10 +1324,10 @@
     "price": 35000,
     "price_postapoc": 9000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "color": "light_red",
-    "material_thickness": 4,
+    "material_thickness": 3,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER" ],
     "armor": [
       {
@@ -526,6 +1336,14 @@
         "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
+  },
+  {
+    "id": "xl_chainmail_suit_faraday",
+    "type": "ARMOR",
+    "copy-from": "chainmail_suit_faraday",
+    "name": { "str": "XL faraday chainmail suit" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "cleansuit",
@@ -586,7 +1404,7 @@
     "name": { "str": "XL entry suit" },
     "copy-from": "entry_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "gambeson",
@@ -620,6 +1438,7 @@
   },
   {
     "id": "gambeson_loose",
+    "repairs_like": "gambeson",
     "type": "ARMOR",
     "name": { "str": "gambeson (loose)", "str_pl": "gambesons (loose)" },
     "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  Use it to wear it tighter and be able to put proper armor over it.",
@@ -664,6 +1483,7 @@
   },
   {
     "id": "k_gambeson_loose",
+    "repairs_like": "k_gambeson",
     "type": "ARMOR",
     "name": { "str": "kevlar gambeson (loose)", "str_pl": "kevlar gambesons (loose)" },
     "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  This one incorporates Kevlar layers added for better protection.  Use it to wear it tighter and be able to put proper armor over it.",
@@ -682,11 +1502,12 @@
     "name": { "str": "XL gambeson" },
     "copy-from": "gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ],
+    "extend": { "flags": [ "OVERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_gambeson_loose", "menu_text": "Loosen" }
   },
   {
     "id": "xl_gambeson_loose",
+    "repairs_like": "xl_gambeson",
     "type": "ARMOR",
     "name": { "str": "XL gambeson (loose)", "str_pl": "XL gambesons (loose)" },
     "copy-from": "xl_gambeson",
@@ -704,11 +1525,12 @@
     "name": { "str": "XL kevlar gambeson" },
     "copy-from": "k_gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "OVERSIZE" ],
+    "extend": { "flags": [ "OVERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_k_gambeson_loose", "menu_text": "Loosen" }
   },
   {
     "id": "xl_k_gambeson_loose",
+    "repairs_like": "xl_k_gambeson",
     "type": "ARMOR",
     "name": { "str": "XL kevlar gambeson (loose)", "str_pl": "XL kevlar gambesons (loose)" },
     "copy-from": "xl_k_gambeson",
@@ -772,7 +1594,7 @@
     "name": { "str": "XL flame-resistant suit" },
     "copy-from": "nomex_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "robofac_enviro_suit",
@@ -790,17 +1612,13 @@
     "color": "brown",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 13 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 10 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
     ],
@@ -866,7 +1684,7 @@
     ],
     "warmth": 25,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "FANCY", "POCKETS" ]
+    "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER" ]
   },
   {
     "id": "swat_armor",
@@ -928,7 +1746,7 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
   {
     "id": "mil_flight_suit",
@@ -990,7 +1808,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
     ],
     "warmth": 15,
-    "material_thickness": 6,
+    "material_thickness": 0.5,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },

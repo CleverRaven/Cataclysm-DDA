@@ -165,20 +165,20 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
 
 // Modifiers
 
-static double aim_speed_skill_modifier( const Character &c, const skill_id &gun_skill )
+static float aim_speed_skill_modifier( const Character &c, const skill_id &gun_skill )
 {
-    double skill_mult = 0.25;
-    double base_modifier = 0;
+    float skill_mult = 0.25f;
+    float base_modifier = 0.0f;
     if( gun_skill == skill_archery ) {
-        skill_mult = 0.5;
-        base_modifier = -1.5;
+        skill_mult = 0.5f;
+        base_modifier = -1.5f;
     }
     return skill_mult * std::min( MAX_SKILL, c.get_skill_level( gun_skill ) ) + base_modifier;
 }
 
-static double aim_speed_dex_modifier( const Character &c, const skill_id & )
+static float aim_speed_dex_modifier( const Character &c, const skill_id & )
 {
-    return ( c.get_dex() - 8 ) * 0.5;
+    return ( c.get_dex() - 8 ) * 0.5f;
 }
 
 static float stamina_move_cost_modifier( const Character &c, const skill_id & )

@@ -14,7 +14,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
-#include "diary.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "json.h"
@@ -26,6 +25,7 @@
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
+class diary;
 class faction;
 class item;
 class item_location;
@@ -279,6 +279,10 @@ class avatar : public Character
             return mon_visible;
         }
 
+        const monster_visible_info &get_mon_visible() const {
+            return mon_visible;
+        }
+
         struct daily_calories {
             int spent = 0;
             int gained = 0;
@@ -344,13 +348,9 @@ class avatar : public Character
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 
-        const mood_face_id &character_mood_face();
-        void clear_mood_face();
+        const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
     private:
-
-        bool mood_face_horizontal = false;
-        cata::optional<mood_face_id> mood_face_cache;
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;

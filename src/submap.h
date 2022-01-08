@@ -224,6 +224,8 @@ class submap : maptile_soa<SEEX, SEEY>
 
         bool contains_vehicle( vehicle * );
 
+        bool is_open_air( const point & ) const;
+
         void rotate( int turns );
         void mirror( bool horizontally );
 

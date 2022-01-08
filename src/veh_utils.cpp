@@ -84,8 +84,8 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
 
         if( info.is_repairable() &&
             who.meets_skill_requirements( info.repair_skills ) &&
-            ( info.repair_requirements() * vpr.part().damage_level() ).can_make_with_inventory( inv,
-                    is_crafting_component ) ) {
+            ( info.repair_requirements() * ( vpr.part().damage_level() - vpr.part().damage_level(
+                    vpr.part().damage_floor( false ) ) ) ).can_make_with_inventory( inv, is_crafting_component ) ) {
             repairable_cache[ &vpr.part()] = repairable_status::repairable;
         }
     }
@@ -118,9 +118,8 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
     const vpart_info &vp = pt.info();
 
     // TODO: Expose base part damage somewhere, don't recalculate it here
-    const requirement_data reqs = pt.is_broken() ?
-                                  vp.install_requirements() :
-                                  vp.repair_requirements() * pt.damage_level();
+    const requirement_data reqs = pt.is_broken() ? vp.install_requirements() :
+                                  vp.repair_requirements() * ( pt.damage_level() - pt.damage_level( pt.damage_floor( false ) ) );
 
     const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;

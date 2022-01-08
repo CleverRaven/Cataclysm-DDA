@@ -990,9 +990,9 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     // TODO: Except javelin type items
     throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1_liter ) );
     // 1 penalty for gram above str*100 grams (at 0 skill)
-    ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
+    ///\ARM_STR decreases throwing dispersion when throwing heavy objects
     const int weight_in_gram = units::to_gram( weight );
-    throw_difficulty += std::max( 0, weight_in_gram - get_str() * 100 );
+    throw_difficulty += std::max( 0, weight_in_gram - get_arm_str() * 100 );
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
@@ -1052,8 +1052,8 @@ int Character::thrown_item_adjusted_damage( const item &thrown ) const
     // The damage dealt due to item's weight, player's strength, and skill level
     // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
     // Railgun doubles the effective strength
-    ///\EFFECT_STR increases throwing damage
-    double stats_mod = do_railgun ? get_str() : ( get_str() / 2.0 );
+    ///\ARM_STR increases throwing damage
+    double stats_mod = do_railgun ? get_str() : ( get_arm_str() / 2.0 );
     stats_mod = throw_assist ? *throw_assist / 2.0 : stats_mod;
     // modify strength impact based on skill level, clamped to [0.15 - 1]
     // mod = mod * [ ( ( skill / max_skill ) * 0.85 ) + 0.15 ]
@@ -1082,7 +1082,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
     const units::volume volume = thrown.volume() * glass_fraction;
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     if( !thrown.active && glass_portion &&
-        rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100 ) {
+        rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_arm_str() * 100 ) {
         proj.impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
     }
     // Some minor (skill/2) armor piercing for skillful throws
@@ -1138,9 +1138,9 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const int glass_portion = thrown.made_of( material_glass );
     const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
     const units::volume glass_vol = volume * glass_fraction;
-    /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
+    /** @ARM_STR increases chance of shattering thrown glass items (NEGATIVE) */
     const bool shatter = !thrown.active && glass_portion &&
-                         rng( 0, units::to_milliliter( 2_liter - glass_vol ) ) < get_str() * 100;
+                         rng( 0, units::to_milliliter( 2_liter - glass_vol ) ) < get_arm_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
@@ -1713,7 +1713,7 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
     // at 10%, 5% and 0% of the difference between MAX_RECOIL and sight dispersion.
     std::vector<int> thresholds = {
         static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 10.0 ) + sight_dispersion ),
-        static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 20.0 ) + sight_dispersion ),
+        static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 40.0 ) + sight_dispersion ),
         static_cast<int>( sight_dispersion )
     };
     // Remove duplicate thresholds.
@@ -2993,7 +2993,8 @@ bool target_ui::action_switch_mode()
 
             text += ( active_gun_mode ? _( " (active)" ) : "" );
 
-            menu.entries.emplace_back( firing_modes_range.first + std::distance( gun_modes.begin(), it ),
+            menu.entries.emplace_back( firing_modes_range.first + static_cast<int>( std::distance(
+                                           gun_modes.begin(), it ) ),
                                        true, MENU_AUTOASSIGN, text );
             if( active_gun_mode ) {
                 menu.entries.back().text_color = c_light_green;

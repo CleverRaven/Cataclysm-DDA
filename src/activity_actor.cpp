@@ -1962,6 +1962,7 @@ static void cancel_pickup( Character &who )
     if( who.is_hauling() && !get_map().has_haulable_items( who.pos() ) ) {
         who.stop_hauling();
     }
+    who.drop_invalid_inventory();
 }
 
 void pickup_activity_actor::do_turn( player_activity &, Character &who )
@@ -2313,9 +2314,11 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             // Increase your XP if you successfully pick the lock, unless you were using a Perfect Lockpick.
             xp_gain = xp_gain * 2;
         }
-        here.has_furn( target ) ?
-        here.furn_set( target, new_furn_type ) :
-        static_cast<void>( here.ter_set( target, new_ter_type ) );
+        if( here.has_furn( target ) ) {
+            here.furn_set( target, new_furn_type );
+        } else {
+            here.ter_set( target, new_ter_type );
+        }
         who.add_msg_if_player( m_good, open_message );
     } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
@@ -4834,8 +4837,8 @@ time_duration prying_activity_actor::prying_time( const activity_data_common &da
     int difficulty = pdata.difficulty;
     difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
     return time_duration::from_moves(
-               /** @EFFECT_STR speeds up crowbar prying attempts */
-               std::max( 20, 5 * ( 4 * difficulty - who.get_str() ) ) );
+               /** @ARM_STR speeds up crowbar prying attempts */
+               std::max( 20, 5 * ( 4 * difficulty - who.get_arm_str() ) ) );
 }
 
 void prying_activity_actor::start( player_activity &act, Character &who )
@@ -4916,8 +4919,8 @@ void prying_activity_actor::handle_prying( Character &who )
         int difficulty = pdata.difficulty;
         difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
 
-        /** @EFFECT_STR increases chance of prying success */
-        const int dice_str = dice( 4, who.get_str() );
+        /** @ARM_STR increases chance of prying success */
+        const int dice_str = dice( 4, who.get_arm_str() );
 
         return dice( 4, difficulty ) < dice_str;
     };
@@ -4933,8 +4936,8 @@ void prying_activity_actor::handle_prying( Character &who )
 
         /** @EFFECT_MECHANICS reduces chance of breaking when prying */
         const int dice_mech = dice( 2, who.get_skill_level( skill_mechanics ) );
-        /** @EFFECT_STR reduces chance of breaking when prying */
-        const int dice_str = dice( 2, who.get_str() );
+        /** @ARM_STR reduces chance of breaking when prying */
+        const int dice_str = dice( 2, who.get_arm_str() );
 
         if( dice( 4, difficulty ) > dice_mech + dice_str )
         {

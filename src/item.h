@@ -457,7 +457,7 @@ class item : public visitable
         void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
         void armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                                    bool debug ) const;
+                                    bool debug, const bodypart_id &bp = bodypart_id(), bool combine_opposites = false ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
         void animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -555,14 +555,14 @@ class item : public visitable
         const std::string &symbol() const;
         /**
          * Returns the monetary value of an item.
-         * If `practical` is false, returns pre-cataclysm market value,
+         * If `practical` is false, returns pre-Cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
         int price( bool practical ) const;
 
         /**
          * Returns the monetary value of an item by itself.
-         * If `practical` is false, returns pre-cataclysm market value,
+         * If `practical` is false, returns pre-Cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
         int price_no_contents( bool practical ) const;
@@ -616,8 +616,10 @@ class item : public visitable
          * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
          * @param integral if true return effective volume if this item was integrated into another
          * @param ignore_contents if true return effective volume for the item alone, ignoring its contents
+         * @param charges_in_vol if specified, get the volume for this many charges instead of current charges
          */
-        units::volume volume( bool integral = false, bool ignore_contents = false ) const;
+        units::volume volume( bool integral = false, bool ignore_contents = false,
+                              int charges_in_vol = -1 ) const;
 
         units::length length() const;
 
@@ -857,11 +859,6 @@ class item : public visitable
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
-        // checks if the item can have things placed in it
-        bool has_pockets() const {
-            // what has it gots in them, precious
-            return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
-        }
         bool has_unrestricted_pockets() const;
         units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
@@ -1179,7 +1176,7 @@ class item : public visitable
          * Assuming that specified du hit the armor, reduce du based on the item's resistance to the
          * damage type. This will never reduce du.amount below 0.
          */
-        void mitigate_damage( damage_unit &du ) const;
+        void mitigate_damage( damage_unit &du, const bodypart_id &bp = bodypart_id() ) const;
         /**
          * Resistance provided by this item against damage type given by an enum.
          */
@@ -1215,8 +1212,18 @@ class item : public visitable
          *    1334 ~ 2666     2
          *    2667 ~ 3999     3
          *           4000     4
+         *
+         * @param dmg If specified, get the damage level of "dmg" instead of
+         * this item's current damage.
          */
-        int damage_level() const;
+        int damage_level( int dmg = INT_MIN ) const;
+
+        /**
+         * Get the minimum possible damage this item can be repaired to,
+         * accounting for degradation.
+         * @param allow_negative If true, get the damage floor for reinforcement
+         */
+        int damage_floor( bool allow_negative ) const;
 
         /** Minimum amount of damage to an item (state of maximum repair) */
         int min_damage() const;
@@ -1252,6 +1259,28 @@ class item : public visitable
         bool inc_damage( damage_type dt );
         /// same as other inc_damage, but uses @ref damage_type::NONE as damage type.
         bool inc_damage();
+
+        enum class armor_status {
+            UNDAMAGED,
+            DAMAGED,
+            DESTROYED,
+            TRANSFORMED
+        };
+
+        /**
+         * Damage related logic for armor items, wraps mod_damage with needed logic
+         * This version is for items with durability
+         * @return the state of the armor
+         */
+        armor_status damage_armor_durability( damage_unit &du, const bodypart_id &bp );
+
+        /**
+         * Damage related logic for armor items that warp and transform instead of degrading.
+         * Items such as ablative plates are considered with this.
+         * @return the state of the armor
+         */
+        armor_status damage_armor_transforms( damage_unit &du );
+
 
         /** Provide color for UI display dependent upon current item damage level */
         nc_color damage_color() const;
@@ -1838,26 +1867,38 @@ class item : public visitable
         std::vector<layer_level> get_layer() const;
 
         /**
-         * Returns highest layer this clothing covers
+         * Returns clothing layer for body part.
          */
-        layer_level get_max_layer() const;
+        std::vector<layer_level> get_layer( const bodypart_id bp ) const;
 
         /**
-         * Returns true if an item has a given layer level.
+         * Returns clothing layer for sub bodypart .
          */
-        bool has_layer( layer_level ll ) const;
+        std::vector<layer_level> get_layer( const sub_bodypart_id sbp ) const;
+
+        /**
+         * Returns true if an item has a given layer level on a specific part.
+         */
+        bool has_layer( const std::vector<layer_level> &ll, const bodypart_id bp ) const;
+
+        /**
+         * Returns true if an item has a given layer level on a specific subpart.
+         */
+        bool has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id sbp ) const;
 
         /**
          * Returns true if an item has any of the given layer levels.
          */
         bool has_layer( const std::vector<layer_level> &ll ) const;
 
-        enum cover_type {
+        enum class cover_type {
             COVER_DEFAULT,
             COVER_MELEE,
             COVER_RANGED,
             COVER_VITALS
         };
+        static cover_type get_cover_type( damage_type type );
+
         /*
          * Returns the average coverage of each piece of data this item
          */
@@ -2588,7 +2629,9 @@ class item : public visitable
         std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
 
-        void armor_encumbrance_info( std::vector<iteminfo> &info, int reduce_encumbrance_by = 0 ) const;
+        /** Returns true if protection info was printed as well */
+        bool armor_encumbrance_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                                     bool header = true, int reduce_encumbrance_by = 0 ) const;
 
     public:
         enum class sizing : int {
@@ -2638,7 +2681,6 @@ class item : public visitable
         bool requires_tags_processing = true;
         FlagsSetType item_tags; // generic item specific flags
         safe_reference_anchor anchor;
-        const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented

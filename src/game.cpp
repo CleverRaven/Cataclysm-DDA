@@ -69,6 +69,7 @@
 #include "debug.h"
 #include "dependency_tree.h"
 #include "dialogue_chatbin.h"
+#include "diary.h"
 #include "editmap.h"
 #include "effect_on_condition.h"
 #include "enums.h"
@@ -168,6 +169,7 @@
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "veh_appliance.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -240,6 +242,10 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+
+static const limb_score_id limb_score_footing( "footing" );
+static const limb_score_id limb_score_grip( "grip" );
+static const limb_score_id limb_score_lift( "lift" );
 
 static const material_id material_glass( "glass" );
 
@@ -424,7 +430,6 @@ void game::load_static_data()
     fullscreen = false;
     was_fullscreen = false;
     show_panel_adm = false;
-    panel_manager::get_manager().init();
 
     // These functions do not load stuff from json.
     // The content they load/initialize is hardcoded into the program.
@@ -672,8 +677,9 @@ void game::setup()
 
         load_core_data( ui );
     }
-
     load_world_modfiles( ui );
+    // Panel manager needs JSON data to be loaded before init
+    panel_manager::get_manager().init();
 
     m = map();
 
@@ -687,6 +693,9 @@ void game::setup()
     // a different world
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
     weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
@@ -713,6 +722,7 @@ void game::setup()
     follower_ids.clear();
     scent.reset();
     effect_on_conditions::clear( u );
+    u.character_mood_face( true );
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
     global_variables &globvars = get_globals();
@@ -1290,6 +1300,77 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         for( auto &activity : u.backlog ) {
             activity.ignore_distraction( type );
         }
+    }
+
+    ui_manager::redraw();
+    refresh_display();
+
+    return false;
+}
+
+bool game::portal_storm_query( const distraction_type type, const std::string &text )
+{
+    if( u.has_distant_destination() ) {
+        if( cancel_auto_move( u, text ) ) {
+            return true;
+        } else {
+            u.set_destination( u.get_auto_move_route(), player_activity( ACT_TRAVELLING ) );
+            return false;
+        }
+    }
+    if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
+        return false;
+    }
+    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
+                            : input_context::allow_all_keys;
+
+    const int color_num = rng( 0, 6 );
+    std::string color;
+    switch( color_num ) {
+        case 0:
+            color = "light_red";
+            break;
+        case 1:
+            color = "red";
+            break;
+        case 2:
+            color = "green";
+            break;
+        case 3:
+            color = "light_green";
+            break;
+        case 4:
+            color = "blue";
+            break;
+        case 5:
+            color = "light_blue";
+            break;
+        case 6:
+            color = "yellow";
+            break;
+    }
+
+    std::string color_string = force_uc && !is_keycode_mode_supported()
+                               ? "<color_" + color + "> %s</color> (Case Sensitive)"
+                               : "<color_" + color + "> %s</color>";
+
+    query_popup()
+    .preferred_keyboard_mode( keyboard_mode::keycode )
+    .context( "YES_QUERY" )
+    .message(
+        pgettext( "yes_query",
+                  color_string.c_str() ),
+        text )
+    .option( "YES0", allow_key )
+    .option( "YES1", allow_key )
+    .option( "YES2", allow_key )
+    .query();
+
+    // ensure it never happens again during this activity - shouldn't be an issue anyway
+    u.activity.ignore_distraction( type );
+    for( auto &activity : u.backlog ) {
+        activity.ignore_distraction( type );
     }
 
     ui_manager::redraw();
@@ -2474,10 +2555,31 @@ void game::death_screen()
     display_faction_epilogues();
 }
 
+// A timestamp that can be used to make unique file names
+// Date format is a somewhat ISO-8601 compliant GMT time date (except we use '-' instead of ':' probably because of Windows file name rules).
+static std::string timestamp_now()
+{
+    std::time_t time = std::time( nullptr );
+    std::tm *timedate = std::gmtime( &time );
+    std::string date_buffer( 32, '\0' );
+#if defined(_WIN32)
+    std::strftime( &date_buffer[0], date_buffer.capacity(), "%Y-%m-%dT%H-%M-%S", timedate );
+    TIME_ZONE_INFORMATION tz_info;
+    if( GetTimeZoneInformation( &tz_info ) == TIME_ZONE_ID_INVALID ) {
+        return string_format( "%sZ", date_buffer );
+    }
+    const int bias = -static_cast<int>( tz_info.Bias );
+    return string_format( "%s%+.2d%02d", date_buffer, bias / 60, std::abs( bias ) % 60 );
+#else
+    std::strftime( &date_buffer[0], date_buffer.capacity(), "%Y-%m-%dT%H-%M-%S%z", timedate );
+#endif
+    return date_buffer;
+}
+
 void game::move_save_to_graveyard()
 {
     const std::string &save_dir      = PATH_INFO::world_base_save_path();
-    const std::string &graveyard_dir = PATH_INFO::graveyarddir();
+    const std::string graveyard_dir = PATH_INFO::graveyarddir() + "/" + timestamp_now() + "/";
     const std::string &prefix        = base64_encode( u.get_save_id() ) + ".";
 
     if( !assure_dir_exist( graveyard_dir ) ) {
@@ -2621,6 +2723,9 @@ bool game::load( const save_t &name )
     // worldoptions
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
     u.reset();
 
@@ -3269,25 +3374,30 @@ void game::draw_panels( bool force_draw )
     int y = 0;
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     int spacer = get_option<bool>( "SIDEBAR_SPACERS" ) ? 1 : 0;
+    // Total up height used by all panels, and see what is left over for log
     int log_height = 0;
     for( const window_panel &panel : mgr.get_current_layout().panels() ) {
+        // The panel with height -2 is the message log panel
         if( panel.get_height() != -2 && panel.toggle && panel.render() ) {
             log_height += panel.get_height() + spacer;
         }
     }
     log_height = std::max( TERMY - log_height, 3 );
+    // Draw each panel having render() true
     for( const window_panel &panel : mgr.get_current_layout().panels() ) {
         if( panel.render() ) {
             // height clamped to window height.
             int h = std::min( panel.get_height(), TERMY - y );
+            // The panel with height -2 is the message log panel
             if( h == -2 ) {
                 h = log_height;
             }
             h += spacer;
             if( panel.toggle && panel.render() && h > 0 ) {
                 if( panel.always_draw || draw_this_turn ) {
-                    panel.draw( u, catacurses::newwin( h, panel.get_width(),
-                                                       point( sidebar_right ? TERMX - panel.get_width() : 0, y ) ) );
+                    catacurses::window w = catacurses::newwin( h, panel.get_width(),
+                                           point( sidebar_right ? TERMX - panel.get_width() : 0, y ) );
+                    panel.draw( { u, w, panel.get_widget() } );
                 }
                 if( show_panel_adm ) {
                     const std::string panel_name = panel.get_name();
@@ -4744,13 +4854,13 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &inst
             case 2:
                 add_msg( m_info, _( "The removal fails." ) );
                 add_msg( m_bad, _( "The body is damaged." ) );
-                cyborg->set_damage( damage + 1000 );
+                cyborg->mod_damage( 1000 );
                 break;
             case 3:
             case 4:
                 add_msg( m_info, _( "The removal fails badly." ) );
                 add_msg( m_bad, _( "The body is badly damaged!" ) );
-                cyborg->set_damage( damage + 2000 );
+                cyborg->mod_damage( 2000 );
                 break;
             case 5:
                 add_msg( m_info, _( "The removal is a catastrophe." ) );
@@ -4763,6 +4873,15 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &inst
 
     }
 
+}
+
+void game::exam_appliance( vehicle &veh, const point &c )
+{
+    player_activity act = veh_app_interact::run( veh, c );
+    if( act ) {
+        u.moves = 0;
+        u.assign_activity( act );
+    }
 }
 
 void game::exam_vehicle( vehicle &veh, const point &c )
@@ -5647,19 +5766,32 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 {
     const int max_width = getmaxx( w_look ) - column - 1;
 
-    // Print OMT type and terrain type on first line, or first two lines if can't fit in one line.
-    const std::string tile = m.tername( lp );
-    if( utf8_width( tile ) + utf8_width( area_name ) + 1 > max_width ) {
-        trim_and_print( w_look, point( column, line++ ), max_width, c_white, area_name );
-        trim_and_print( w_look, point( column, line++ ), max_width, c_light_gray, tile );
-    } else {
-        mvwprintz( w_look, point( column, line ), c_white, area_name );
-        mvwprintz( w_look, point( column + utf8_width( area_name ) + 1, line++ ), c_light_gray, tile );
+    // Print OMT type and terrain type on first two lines
+    // if can't fit in one line.
+    std::string tile = m.tername( lp );
+    tile[0] = toupper( tile[0] );
+    std::string area =  area_name;
+    area[0] = toupper( area[0] );
+    mvwprintz( w_look, point( column, line++ ), c_yellow, area );
+    mvwprintz( w_look, point( column, line++ ), c_white, tile );
+    std::string desc = string_format( m.ter( lp ).obj().description );
+    std::vector<std::string> lines = foldstring( desc, max_width );
+    int numlines = lines.size();
+    for( int i = 0; i < numlines; i++ ) {
+        mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
     }
 
-    // Furniture on second line if any.
+    // Furniture if any.
     if( m.has_furn( lp ) ) {
-        mvwprintz( w_look, point( column, ++line ), c_light_blue, m.furnname( lp ) );
+        std::string desc = m.furnname( lp );
+        desc[0] = toupper( desc[0] );
+        mvwprintz( w_look, point( column, line++ ), c_white, desc );
+        desc = string_format( m.furn( lp ).obj().description );
+        lines = foldstring( desc, max_width );
+        numlines = lines.size();
+        for( int i = 0; i < numlines; i++ ) {
+            mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
+        }
     }
 
     // Cover percentage from terrain and furniture next.
@@ -5667,8 +5799,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
                     m.coverage( lp ) );
     // Terrain and furniture flags next. These can be several lines for some combinations of
     // furnitures and terrains.
-    std::vector<std::string> lines = foldstring( m.features( lp ), max_width );
-    int numlines = lines.size();
+    lines = foldstring( m.features( lp ), max_width );
+    numlines = lines.size();
     for( int i = 0; i < numlines; i++ ) {
         mvwprintz( w_look, point( column, ++line ), c_light_gray, lines[i] );
     }
@@ -5840,12 +5972,12 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
 
 bool game::check_zone( const zone_type_id &type, const tripoint &where ) const
 {
-    return zone_manager::get_manager().has( type, m.getabs( where ) );
+    return zone_manager::get_manager().has( type, m.getglobal( where ) );
 }
 
 bool game::check_near_zone( const zone_type_id &type, const tripoint &where ) const
 {
-    return zone_manager::get_manager().has_near( type, m.getabs( where ) );
+    return zone_manager::get_manager().has_near( type, m.getglobal( where ) );
 }
 
 bool game::is_zones_manager_open() const
@@ -5866,13 +5998,19 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
-                            _( "<+-> Move up/down" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
+                            _( "<Z>-Enable personal" ) ) + 2;
+    shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
+                    _( "<X>-Disable personal" ) );
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
+                            _( "<+-> Move up/down" ) ) + 2;
+    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
+
+    tmpx = 1;
+    tmpx += shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<M>ap" ) );
+    shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<M>ap" ) );
 
     wnoutrefresh( w_info );
 }
@@ -5925,7 +6063,7 @@ void game::zones_manager()
 
     u.view_offset = tripoint_zero;
 
-    const int zone_ui_height = 12;
+    const int zone_ui_height = 13;
     const int zone_options_height = 7;
 
     const int width = 45;
@@ -5981,6 +6119,8 @@ void game::zones_manager()
     ctxt.register_action( "SHOW_ZONE_ON_MAP" );
     ctxt.register_action( "ENABLE_ZONE" );
     ctxt.register_action( "DISABLE_ZONE" );
+    ctxt.register_action( "ENABLE_PERSONAL_ZONES" );
+    ctxt.register_action( "DISABLE_PERSONAL_ZONES" );
     ctxt.register_action( "SHOW_ALL_ZONES" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
@@ -5999,10 +6139,11 @@ void game::zones_manager()
         if( show_all_zones ) {
             zones = mgr.get_zones();
         } else {
-            const tripoint u_abs_pos = m.getabs( u.pos() );
+            const tripoint_abs_ms u_abs_pos = u.get_location();
             for( zone_manager::ref_zone_data &ref : mgr.get_zones() ) {
-                const tripoint &zone_abs_pos = ref.get().get_center_point();
-                if( u_abs_pos.z == zone_abs_pos.z && rl_dist( u_abs_pos, zone_abs_pos ) <= 50 ) {
+                const tripoint_abs_ms &zone_abs_pos = ref.get().get_center_point();
+                if( u_abs_pos.z() == zone_abs_pos.z() &&
+                    rl_dist( u_abs_pos, zone_abs_pos ) <= 50 ) {
                     zones.emplace_back( ref );
                 }
             }
@@ -6045,6 +6186,10 @@ void game::zones_manager()
                 zone_start, zone_end, zone_blink, zone_cursor );
     add_draw_callback( zone_cb );
 
+    // This lambda returns either absolute coordinates or relative-to-player
+    // corrdinates, depending on whether personal is false or true respectively.
+    // In C++20 we could have the return type depend on the parameter using
+    // if constexpr( personal ) but for now it will just return tripoints.
     auto query_position =
     [&]( bool personal = false ) -> cata::optional<std::pair<tripoint, tripoint>> {
         on_out_of_scope invalidate_current_ui( [&]()
@@ -6065,8 +6210,8 @@ void game::zones_manager()
 
         tripoint center = u.pos() + u.view_offset;
 
-        const look_around_result first = look_around( /*show_window=*/false, center, center, false, true,
-                false );
+        const look_around_result first =
+        look_around( /*show_window=*/false, center, center, false, true, false );
         if( first.position )
         {
             popup.message( "%s", _( "Select second point." ) );
@@ -6075,30 +6220,30 @@ void game::zones_manager()
                     true, true, false );
             if( second.position ) {
                 if( personal ) {
-                    tripoint first_abs = tripoint( std::min( first.position->x - u.posx(),
-                                                   second.position->x - u.posx() ),
-                                                   std::min( first.position->y - u.posy(), second.position->y - u.posy() ),
-                                                   std::min( first.position->z - u.posz(),
-                                                           second.position->z - u.posz() ) ) ;
-                    tripoint second_abs = tripoint( std::max( first.position->x - u.posx(),
-                                                    second.position->x - u.posx() ),
-                                                    std::max( first.position->y - u.posy(), second.position->y - u.posy() ),
-                                                    std::max( first.position->z - u.posz(),
-                                                            second.position->z - u.posz() ) ) ;
-                    return std::pair<tripoint, tripoint>( first_abs, second_abs );
+                    tripoint first_rel(
+                        std::min( first.position->x - u.posx(), second.position->x - u.posx() ),
+                        std::min( first.position->y - u.posy(), second.position->y - u.posy() ),
+                        std::min( first.position->z - u.posz(), second.position->z - u.posz() ) ) ;
+                    tripoint second_rel(
+                        std::max( first.position->x - u.posx(), second.position->x - u.posx() ),
+                        std::max( first.position->y - u.posy(), second.position->y - u.posy() ),
+                        std::max( first.position->z - u.posz(), second.position->z - u.posz() ) ) ;
+                    return { { first_rel, second_rel } };
                 }
-                tripoint first_abs = m.getabs( tripoint( std::min( first.position->x,
-                                               second.position->x ),
-                                               std::min( first.position->y, second.position->y ),
-                                               std::min( first.position->z,
-                                                       second.position->z ) ) );
-                tripoint second_abs = m.getabs( tripoint( std::max( first.position->x,
-                                                second.position->x ),
-                                                std::max( first.position->y, second.position->y ),
-                                                std::max( first.position->z,
-                                                        second.position->z ) ) );
+                tripoint_abs_ms first_abs =
+                    m.getglobal(
+                        tripoint(
+                            std::min( first.position->x, second.position->x ),
+                            std::min( first.position->y, second.position->y ),
+                            std::min( first.position->z, second.position->z ) ) );
+                tripoint_abs_ms second_abs =
+                    m.getglobal(
+                        tripoint(
+                            std::max( first.position->x, second.position->x ),
+                            std::max( first.position->y, second.position->y ),
+                            std::max( first.position->z, second.position->z ) ) );
 
-                return std::pair<tripoint, tripoint>( first_abs, second_abs );
+                return { { first_abs.raw(), second_abs.raw() } };
             }
         }
 
@@ -6126,7 +6271,7 @@ void game::zones_manager()
 
             int iNum = 0;
 
-            tripoint player_absolute_pos = m.getabs( u.pos() );
+            tripoint_abs_ms player_absolute_pos = u.get_location();
 
             //Display saved zones
             for( auto &i : zones ) {
@@ -6143,13 +6288,14 @@ void game::zones_manager()
 
                     //Draw Zone name
                     mvwprintz( w_zones, point( 3, iNum - start_index ), colorLine,
-                               trim_by_length( zone.get_name(), 15 ) );
+                               //~ "P: <Zone Name>" represents a personal zone
+                               trim_by_length( ( zone.get_is_personal() ? _( "P: " ) : "" ) + zone.get_name(), 15 ) );
 
                     //Draw Type name
                     mvwprintz( w_zones, point( 20, iNum - start_index ), colorLine,
                                mgr.get_name_from_type( zone.get_type() ) );
 
-                    tripoint center = zone.get_center_point();
+                    tripoint_abs_ms center = zone.get_center_point();
 
                     //Draw direction + distance
                     mvwprintz( w_zones, point( 32, iNum - start_index ), colorLine, "%*d %s",
@@ -6203,6 +6349,7 @@ void game::zones_manager()
                     break;
                 }
 
+                // TODO: fix point types
                 mgr.add( name, id, get_player_character().get_faction()->id, false, true,
                          position->first, position->second, options, false );
 
@@ -6243,6 +6390,7 @@ void game::zones_manager()
                 }
 
                 //add a zone that is relative to the avatar position
+                // TODO: fix point types
                 mgr.add( name, id, get_player_character().get_faction()->id, false, true,
                          position->first, position->second, options, true );
                 zones = get_zones();
@@ -6330,8 +6478,11 @@ void game::zones_manager()
                         break;
                     case 4: {
                         const auto pos = query_position( zone.get_is_personal() );
-                        if( pos && ( pos->first != zone.get_start_point() ||
-                                     pos->second != zone.get_end_point() ) ) {
+                        // FIXME: this comparison is nonsensival in the
+                        // personal zone case because it's between different
+                        // coordinate systems.
+                        if( pos && ( pos->first != zone.get_start_point().raw() ||
+                                     pos->second != zone.get_end_point().raw() ) ) {
                             zone.set_position( *pos );
                             stuff_changed = true;
                         }
@@ -6363,8 +6514,8 @@ void game::zones_manager()
             } else if( action == "SHOW_ZONE_ON_MAP" ) {
                 //show zone position on overmap;
                 tripoint_abs_omt player_overmap_position = u.global_omt_location();
-                // TODO: fix point types
-                tripoint_abs_omt zone_overmap( ms_to_omt_copy( zones[active_index].get().get_center_point() ) );
+                tripoint_abs_omt zone_overmap =
+                    coords::project_to<coords::omt>( zones[active_index].get().get_center_point() );
 
                 ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
             } else if( action == "ENABLE_ZONE" ) {
@@ -6376,6 +6527,36 @@ void game::zones_manager()
                 zones[active_index].get().set_enabled( false );
 
                 stuff_changed = true;
+            } else if( action == "ENABLE_PERSONAL_ZONES" ) {
+                bool zones_changed = false;
+
+                for( const auto &i : zones ) {
+                    auto &zone = i.get();
+                    if( zone.get_enabled() ) {
+                        continue;
+                    }
+                    if( zone.get_is_personal() ) {
+                        zone.set_enabled( true );
+                        zones_changed = true;
+                    }
+                }
+
+                stuff_changed = zones_changed;
+            } else if( action == "DISABLE_PERSONAL_ZONES" ) {
+                bool zones_changed = false;
+
+                for( const auto &i : zones ) {
+                    auto &zone = i.get();
+                    if( !zone.get_enabled() ) {
+                        continue;
+                    }
+                    if( zone.get_is_personal() ) {
+                        zone.set_enabled( false );
+                        zones_changed = true;
+                    }
+                }
+
+                stuff_changed = zones_changed;
             }
         }
 
@@ -7010,12 +7191,8 @@ bool game::take_screenshot() const
     assure_dir_exist( map_directory.str() );
 
     // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
-    // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
-    std::time_t time = std::time( nullptr );
-    std::stringstream date_buffer;
-    date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
     const auto tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
-                               date_buffer.str() );
+                               timestamp_now() );
 
     std::string file_name = ensure_valid_file_name( tmp_file_name );
     auto current_file_path = map_directory.str() + file_name;
@@ -9109,22 +9286,18 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
 
     const tripoint furn_pos = u.pos() + u.grab_point;
-    const tripoint furn_dest = dest_loc + u.grab_point;
+    const tripoint furn_dest = dest_loc + tripoint( u.grab_point.xy(), 0 );
 
     bool grabbed = u.get_grab_type() != object_type::NONE;
     if( grabbed ) {
         const tripoint dp = dest_loc - u.pos();
-        pushing = dp ==  u.grab_point;
-        pulling = dp == -u.grab_point;
-    }
-    if( grabbed && dest_loc.z != u.posz() ) {
-        add_msg( m_warning, _( "You let go of the grabbed object." ) );
-        grabbed = false;
-        u.grab( object_type::NONE );
+        pushing = dp.xy() ==  u.grab_point.xy();
+        pulling = dp.xy() == -u.grab_point.xy();
     }
 
     // Now make sure we're actually holding something
     const vehicle *grabbed_vehicle = nullptr;
+    const optional_vpart_position vp_grabbed = m.veh_at( u.pos() + u.grab_point );
     if( grabbed && u.get_grab_type() == object_type::FURNITURE ) {
         // We only care about shifting, because it's the only one that can change our destination
         if( m.has_furn( u.pos() + u.grab_point ) ) {
@@ -9326,6 +9499,16 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( moving ) {
         cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
+    }
+
+    if( furniture_move ) {
+        // Adjust the grab_point if player has changed z level.
+        u.grab_point.z -= u.posz() - oldpos.z;
+    }
+
+    if( grabbed_vehicle ) {
+        // Vehicle might be at different z level than the grabbed part.
+        u.grab_point.z = vp_grabbed->pos().z - u.posz();
     }
 
     if( pulling ) {
@@ -9810,14 +9993,18 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 
 bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
 {
-    const bool pulling_furniture = dp == -u.grab_point;
+    const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
     const bool has_floor = m.has_floor( fdest );
     creature_tracker &creatures = get_creature_tracker();
+    bool is_ramp_or_road = m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fdest ) ||
+                           m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fdest ) ||
+                           m.has_flag( ter_furn_flag::TFLAG_ROAD, fdest );
     return  m.passable( fdest ) &&
             creatures.creature_at<npc>( fdest ) == nullptr &&
             creatures.creature_at<monster>( fdest ) == nullptr &&
             ( !pulling_furniture || is_empty( u.pos() + dp ) ) &&
-            ( !has_floor || m.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ) &&
+            ( !has_floor || m.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ||
+              is_ramp_or_road ) &&
             !m.has_furn( fdest ) &&
             !m.veh_at( fdest ) &&
             ( !has_floor || m.tr_at( fdest ).is_null() );
@@ -9833,7 +10020,7 @@ int game::grabbed_furn_move_time( const tripoint &dp )
         return 0;
     }
 
-    tripoint fdest = fpos + dp; // intended destination of furniture.
+    tripoint fdest = fpos + tripoint( dp.xy(), 0 ); // intended destination of furniture.
 
     const bool canmove = can_move_furniture( fdest, dp );
     const furn_t &furntype = m.furn( fpos ).obj();
@@ -9859,12 +10046,14 @@ int game::grabbed_furn_move_time( const tripoint &dp )
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
+    //ARM_STR affects dragging furniture
+    int str = u.get_arm_str();
 
     const float weary_mult = 1.0f / u.exertion_adjusted_move_multiplier();
     if( !canmove ) { // NOLINT(bugprone-branch-clone)
         return 50 * weary_mult;
-    } else if( str_req > u.get_str() &&
-               one_in( std::max( 20 - ( str_req - u.get_str() ), 2 ) ) ) {
+    } else if( str_req > str &&
+               one_in( std::max( 20 - ( str_req - str ), 2 ) ) ) {
         return 100 * weary_mult;
     } else if( !src_item_ok && !dst_item_ok && dst_items > 0 ) {
         return 50 * weary_mult;
@@ -9872,10 +10061,10 @@ int game::grabbed_furn_move_time( const tripoint &dp )
     int moves_total = 0;
     moves_total = str_req * 10;
     // Additional penalty if we can't comfortably move it.
-    if( str_req > u.get_str() ) {
+    if( str_req > str ) {
         int move_penalty = std::pow( str_req, 2.0 ) + 100.0;
         if( move_penalty <= 1000 ) {
-            if( u.get_str() >= str_req - 3 ) {
+            if( str >= str_req - 3 ) {
                 moves_total += std::max( 3000, move_penalty * 10 ) * weary_mult;
             } else {
                 moves_total += 100 * weary_mult;
@@ -9900,11 +10089,20 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return false;
     }
 
-    const bool pushing_furniture = dp ==  u.grab_point;
-    const bool pulling_furniture = dp == -u.grab_point;
+    int ramp_offset = 0;
+    // Furniture could be on a ramp at different time than player so adjust for that.
+    if( m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fpos + tripoint( dp.xy(), 0 ) ) ) {
+        ramp_offset = 1;
+    } else if( m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fpos + tripoint( dp.xy(), 0 ) ) ) {
+        ramp_offset = -1;
+    }
+
+    const bool pushing_furniture = dp.xy() ==  u.grab_point.xy();
+    const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
-    tripoint fdest = fpos + dp; // intended destination of furniture.
+    // Intended destination of furniture.
+    const tripoint fdest = fpos + tripoint( dp.xy(), ramp_offset );
 
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
@@ -9941,19 +10139,20 @@ bool game::grabbed_furn_move( const tripoint &dp )
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
+    int str = u.get_arm_str();
 
     if( !canmove ) {
         // TODO: What is something?
         add_msg( _( "The %s collides with something." ), furntype.name() );
         return true;
-    } else if( str_req > u.get_str() && u.get_perceived_pain() > 40 &&
+    } else if( str_req > str && u.get_perceived_pain() > 40 &&
                !u.has_trait( trait_CENOBITE ) && !u.has_trait( trait_MASOCHIST ) &&
                !u.has_trait( trait_MASOCHIST_MED ) ) {
         add_msg( m_bad, _( "You are in too much pain to try moving the heavy %s!" ),
                  furntype.name() );
         return true;
 
-    } else if( str_req > u.get_str() && u.get_perceived_pain() > 50 &&
+    } else if( str_req > str && u.get_perceived_pain() > 50 &&
                ( u.has_trait( trait_MASOCHIST ) || u.has_trait( trait_MASOCHIST_MED ) ) ) {
         add_msg( m_bad,
                  _( "Even with your appetite for pain, you are in too much pain to try moving the heavy %s!" ),
@@ -9961,8 +10160,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true;
 
         ///\EFFECT_STR determines ability to drag furniture
-    } else if( str_req > u.get_str() &&
-               one_in( std::max( 20 - str_req - u.get_str(), 2 ) ) ) {
+    } else if( str_req > str &&
+               one_in( std::max( 20 - str_req - str, 2 ) ) ) {
         add_msg( m_bad, _( "You strain yourself trying to move the heavy %s!" ),
                  furntype.name() );
         u.mod_pain( 1 ); // Hurt ourselves.
@@ -9973,10 +10172,10 @@ bool game::grabbed_furn_move( const tripoint &dp )
     }
 
     // Additional penalty if we can't comfortably move it.
-    if( str_req > u.get_str() ) {
+    if( str_req > str ) {
         int move_penalty = std::pow( str_req, 2.0 ) + 100.0;
         if( move_penalty <= 1000 ) {
-            if( u.get_str() >= str_req - 3 ) {
+            if( str >= str_req - 3 ) {
                 add_msg( m_bad, _( "The %s is really heavy!" ), furntype.name() );
                 if( one_in( 3 ) ) {
                     add_msg( m_bad, _( "You fail to move the %s." ), furntype.name() );
@@ -10043,6 +10242,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true;
     }
 
+    u.grab_point.z += ramp_offset;
+
     if( shifting_furniture ) {
         // We didn't move
         tripoint d_sum = u.grab_point + dp;
@@ -10069,11 +10270,6 @@ bool game::grabbed_furn_move( const tripoint &dp )
 bool game::grabbed_move( const tripoint &dp, const bool via_ramp )
 {
     if( u.get_grab_type() == object_type::NONE ) {
-        return false;
-    }
-
-    if( dp.z != 0 ) {
-        // No dragging stuff up/down stairs yet!
         return false;
     }
 
@@ -10118,7 +10314,7 @@ void game::on_move_effects()
         if( !u.can_run() ) {
             u.toggle_run_mode();
         }
-        if( u.get_stamina() < u.get_stamina_max() / 5 && one_in( u.get_stamina() ) ) {
+        if( u.get_stamina() <= 0 ) {
             u.add_effect( effect_winded, 10_turns );
         }
     }
@@ -10819,8 +11015,6 @@ bool game::vertical_shift( const int z_after )
         return false;
     }
 
-    // TODO: Implement dragging stuff up/down
-    u.grab( object_type::NONE );
     scent.reset();
 
     const int z_before = u.posz();
@@ -11372,7 +11566,7 @@ void game::autosave()
 void game::start_calendar()
 {
     time_duration initial_days;
-    // Initial day is the time of cataclysm. Limit it to occur on the first year.
+    // Initial day is the time of the Cataclysm. Limit it to occur on the first year.
     if( get_option<int>( "INITIAL_DAY" )  == -1 ) {
         initial_days = 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
     } else {
@@ -11386,7 +11580,7 @@ void game::start_calendar()
                                   + 1_hours * scen->start_hour()
                                   + 1_days * scen->start_day();
         if( calendar::start_of_game < calendar::start_of_cataclysm ) {
-            // If the cataclysm has been set to happen late or the scenario has random start it may try to start before cataclysm happens.
+            // If the Cataclysm has been set to happen late or the scenario has random start it may try to start before the Cataclysm happens.
             // That is unacceptable. So lets just jump to same day on next year.
             calendar::start_of_game += calendar::year_length();
         }
@@ -11575,6 +11769,11 @@ bool game::slip_down( bool check_for_traps )
 
     // Apply wetness penalty
     climb /= wet_penalty;
+
+    // Apply limb score penalties - grip, arm strength and footing are all relevant
+
+    climb *= ( u.get_limb_score( limb_score_grip ) * 3 + u.get_limb_score(
+                   limb_score_lift ) * 2 + u.get_limb_score( limb_score_footing ) ) / 6 ;
 
     // Being weighed down makes it easier for you to slip.
     const double weight_ratio = u.weight_carried() / u.weight_capacity();

@@ -352,5 +352,14 @@
       "per_mod": [ -4 ],
       "dex_mod": [ 8 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "alkahest",
+    "name": [ "Stepped on alkahest" ],
+    "desc": [ "You're standing in alkahest!" ],
+    "base_mods": { "speed_mod": [ -20 ], "hurt_amount": [ 10 ] },
+    "scaling_mods": { "speed_mod": [ -15 ], "hurt_amount": [ 5 ] },
+    "max_intensity": 5
   }
 ]

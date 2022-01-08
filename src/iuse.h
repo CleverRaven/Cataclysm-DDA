@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "clone_ptr.h"
+#include "item_location.h"
 #include "optional.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -142,6 +143,7 @@ cata::optional<int> electricstorage( Character *, item *, bool, const tripoint &
 cata::optional<int> ebooksave( Character *, item *, bool, const tripoint & );
 cata::optional<int> ebookread( Character *, item *, bool, const tripoint & );
 cata::optional<int> makemound( Character *, item *, bool, const tripoint & );
+cata::optional<int> manage_exosuit( Character *, item *, bool, const tripoint & );
 cata::optional<int> melatonin_tablet( Character *, item *, bool, const tripoint & );
 cata::optional<int> mind_splicer( Character *, item *, bool, const tripoint & );
 cata::optional<int> mininuke( Character *, item *, bool, const tripoint & );
@@ -238,6 +240,8 @@ cata::optional<std::string> can_smoke( const Character &you );
 } // namespace iuse
 
 void remove_radio_mod( item &it, Character &p );
+// used for unit testing iuse::gun_repair
+cata::optional<int> gun_repair( Character *p, item *it, item_location &loc );
 
 // Helper for clothes washing
 struct washing_requirements {

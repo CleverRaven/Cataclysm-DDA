@@ -595,12 +595,12 @@ std::string diary::get_head_text()
             std::string hours_text;
             std::string minutes_text;
             if( days > 0 ) {
-                days_text = string_format( n_gettext( "%d day, ", "%d days, ", days ) );
+                days_text = string_format( n_gettext( "%d day, ", "%d days, ", days ), days );
             }
             if( hours > 0 ) {
-                hours_text = string_format( n_gettext( "%d hour, ", "%d hours, ", hours ) );
+                hours_text = string_format( n_gettext( "%d hour, ", "%d hours, ", hours ), hours );
             }
-            minutes_text = string_format( n_gettext( "%d minute", "%d minutes", minutes ) );
+            minutes_text = string_format( n_gettext( "%d minute", "%d minutes", minutes ), minutes );
             //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
             time_diff_text = string_format( _( "%1$s%2$s%3$s since last entry" ),
                                             days_text, hours_text, minutes_text );

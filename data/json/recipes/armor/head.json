@@ -1838,6 +1838,12 @@
     "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
   },
   {
+    "result": "xl_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "chainmail_hood",
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
     "result": "pot_xlhelmet",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

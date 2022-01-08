@@ -67,10 +67,9 @@ static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
+
 static const itype_id itype_fitness_band( "fitness_band" );
-static const itype_id itype_smart_phone( "smart_phone" );
-static const itype_id itype_smart_phone_flashlight( "smart_phone_flashlight" );
-static const itype_id itype_smart_phone_music( "smart_phone_music" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
@@ -729,9 +728,12 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( you.has_trait( trait_SAPROPHAGE ) || you.has_trait( trait_SAPROVORE ) ) {
                     return 1;
                 } else {
-                    return 4;
+                    return 5;
                 }
             } else if( time == 0_turns ) {
+                return 4;
+            } else if( loc.has_parent() &&
+                       loc.parent_item()->contained_where( *loc )->spoil_multiplier() == 0.0f ) {
                 return 3;
             } else {
                 return 2;
@@ -1003,8 +1005,7 @@ static std::string get_consume_needs_hint( Character &you )
     int kcal_spent_today = you.as_avatar()->get_daily_spent_kcal( false );
     int kcal_spent_yesterday = you.as_avatar()->get_daily_spent_kcal( true );
     bool has_fitness_band =  you.is_wearing( itype_fitness_band );
-    bool has_tracker = has_fitness_band || you.has_amount( itype_smart_phone, 1 ) ||
-                       you.has_amount( itype_smart_phone_flashlight, 1 ) || you.has_amount( itype_smart_phone_music, 1 );
+    bool has_tracker = has_fitness_band || you.has_item_with_flag( json_flag_CALORIES_INTAKE );
 
     std::string kcal_estimated_intake;
     if( kcal_ingested_today == 0 ) {
@@ -1938,13 +1939,18 @@ item_location game_menus::inv::molle_attach( Character &you, item &tool )
         return item_location();
     }
 
+    const int vacancies = actor->size - tool.get_contents().get_additional_space_used();
+
     return inv_internal( you, attach_molle_inventory_preset( actor, &tool ),
                          _( "Attach an item to the vest" ), 1,
                          _( "You don't have any MOLLE compatible items." ),
-                         string_format(
-                             _( "Choose an accessory to attach to your %s\n There is space for %d small items" ),
-                             tool.tname( 1, false ), actor->size - tool.get_contents().get_additional_space_used()
-                         )
+                         string_format( "%s\n%s",
+                                        string_format( _( "Choose an accessory to attach to your %s" ),
+                                                tool.tname( 1, false ) ),
+                                        string_format( n_gettext( "There is space for %d small item",
+                                                "There is space for %d small items",
+                                                vacancies ), vacancies )
+                                      )
                        );
 }
 

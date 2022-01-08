@@ -853,6 +853,7 @@ class inventory_multiselector : public inventory_selector
         std::vector<std::pair<item_location, int>> to_use;
         std::vector<item_location> usable_locs;
         bool allow_select_contained;
+        virtual void on_toggle() {};
     private:
         std::unique_ptr<inventory_column> selection_col;
 };

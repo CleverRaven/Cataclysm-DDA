@@ -124,6 +124,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
     optional( jo, was_loaded, "default_magazine", default_magazine );
     optional( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "name", pocket_name );
     if( jo.has_member( "ammo_restriction" ) && ammo_restriction.empty() ) {
         jo.throw_error( "pocket defines empty ammo_restriction" );
     }
@@ -155,6 +156,7 @@ void pocket_data::load( const JsonObject &jo )
                   units::default_length_from_volume( volume_capacity ) * M_SQRT2 );
         optional( jo, was_loaded, "min_item_length", min_item_length );
         optional( jo, was_loaded, "extra_encumbrance", extra_encumbrance, 0 );
+        optional( jo, was_loaded, "volume_encumber_modifier", volume_encumber_modifier, 1 );
         optional( jo, was_loaded, "ripoff", ripoff, 0 );
         optional( jo, was_loaded, "activity_noise", activity_noise );
     }
@@ -639,7 +641,7 @@ int item_pocket::ammo_consume( int qty )
             it = contents.erase( it );
         } else {
             it->charges -= need;
-            used = need;
+            used += need;
             break;
         }
     }
@@ -894,7 +896,12 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
     }
 
     if( !get_description().empty() ) {
-        info.emplace_back( "DESCRIPTION", string_format( "<info>%s</info>", get_description() ) );
+        info.emplace_back( "DESCRIPTION", string_format( "<info>%s</info>",
+                           get_description().translated() ) );
+    } else if( name_as_description ) {
+        // fallback to the original items name as a description
+        info.emplace_back( "DESCRIPTION", string_format( "<info>%s</info>",
+                           get_name().translated() ) );
     }
 
     // NOLINTNEXTLINE(cata-translate-string-literal)
@@ -1138,12 +1145,12 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                 contents_header = true;
             }
 
-            const translation &description = contents_item.type->description;
+            const translation &desc = contents_item.type->description;
 
             if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
                 info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
                                    contents_item.color_in_inventory() ) );
-                info.emplace_back( vol_to_info( cont_type_str, description + space, contents_item.volume() ) );
+                info.emplace_back( vol_to_info( cont_type_str, desc + space, contents_item.volume() ) );
             } else {
                 info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
                                    contents_item.color_in_inventory() ) );
@@ -1419,7 +1426,10 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
                 if( loaded->has_flag( flag_CASING ) ) {
                     continue;
                 }
-                if( !loaded->can_combine( ammo ) ) {
+                // This is a *very* cut down version of item::stacks_with()
+                bool cant_combine = loaded->type != ammo.type || loaded->active != ammo.active ||
+                                    loaded->made_of( phase_id::LIQUID ) != ammo.made_of( phase_id::LIQUID );
+                if( cant_combine ) {
                     return false;
                 }
             }
@@ -1778,9 +1788,14 @@ bool item_pocket::is_ablative() const
     return get_pocket_data()->ablative;
 }
 
-std::string item_pocket::get_description() const
+const translation &item_pocket::get_description() const
 {
     return get_pocket_data()->description;
+}
+
+const translation &item_pocket::get_name() const
+{
+    return get_pocket_data()->name;
 }
 
 bool item_pocket::holster_full() const

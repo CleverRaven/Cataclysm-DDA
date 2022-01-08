@@ -507,7 +507,8 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     bool failed = Mix_PlayChannel( static_cast<int>( channel::any ), effect_to_play, 0 ) == -1;
     if( failed ) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id
+                       << " variant:" << variant << " season:" << season;
     }
 }
 
@@ -556,7 +557,8 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
         }
     }
     if( failed ) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id
+                       << " variant:" << variant << " season:" << season;
         if( is_pitched ) {
             cleanup_when_channel_finished( channel, effect_to_play );
         }
@@ -605,7 +607,8 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
         }
     }
     if( failed ) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id
+                       << " variant:" << variant << " season:" << season;
         if( is_pitched ) {
             cleanup_when_channel_finished( ch, effect_to_play );
         }

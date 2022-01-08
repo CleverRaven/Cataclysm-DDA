@@ -354,7 +354,7 @@
     "color": "light_gray",
     "connects_to": "ROCKFLOOR",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_rock_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },
@@ -425,6 +425,7 @@
     "color": "cyan",
     "connects_to": "WOODFLOOR",
     "move_cost": 2,
+    "comfort": 1,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
@@ -487,6 +488,7 @@
     "color": "light_red",
     "connects_to": "WOODFLOOR",
     "move_cost": 2,
+    "comfort": 1,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
@@ -628,6 +630,7 @@
     "symbol": ".",
     "color": "red",
     "move_cost": 2,
+    "comfort": 1,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
@@ -1107,7 +1110,7 @@
     "type": "terrain",
     "id": "t_floor_brood_wasp",
     "name": "paper brood cap",
-    "description": "A thin paper floor, protecting the pupatig wasp larva until it's ready to emerge.",
+    "description": "A thin paper floor, protecting the pupating wasp larva until it's ready to emerge.",
     "looks_like": "t_floor_paper",
     "symbol": ".",
     "color": "white",

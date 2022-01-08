@@ -54,7 +54,6 @@ jobs:
             })
     - name: remove-label
       if: ${{ github.event.workflow_run.conclusion == 'failure' && steps.set-basic-build-success.outputs.basic-build-success != 'true' }}
-      uses: actions/github-script@v5 }}
       uses: actions/github-script@v5
       with:
         script: |

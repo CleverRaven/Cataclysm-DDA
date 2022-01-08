@@ -105,6 +105,18 @@ float damage_instance::type_damage( damage_type dt ) const
     }
     return ret;
 }
+
+float damage_instance::type_arpen( damage_type dt ) const
+{
+    float ret = 0.0f;
+    for( const damage_unit &elem : damage_units ) {
+        if( elem.type == dt ) {
+            ret += elem.res_pen;
+        }
+    }
+    return ret;
+}
+
 //This returns the damage from this damage_instance. The damage done to the target will be reduced by their armor.
 float damage_instance::total_damage() const
 {
@@ -224,13 +236,13 @@ resistances::resistances()
     resist_vals.fill( 0 );
 }
 
-resistances::resistances( const item &armor, bool to_self )
+resistances::resistances( const item &armor, bool to_self, const bodypart_id &bp )
 {
     // Armors protect, but all items can resist
     if( to_self || armor.is_armor() ) {
         for( int i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
             damage_type dt = static_cast<damage_type>( i );
-            set_resist( dt, armor.damage_resist( dt, to_self ) );
+            set_resist( dt, armor.damage_resist( dt, to_self, bp ) );
         }
     }
 }
@@ -242,6 +254,7 @@ resistances::resistances( monster &monster ) : resistances()
     set_resist( damage_type::BULLET, monster.type->armor_bullet );
     set_resist( damage_type::ACID, monster.type->armor_acid );
     set_resist( damage_type::HEAT, monster.type->armor_fire );
+    set_resist( damage_type::ELECTRIC, monster.type->armor_elec );
 }
 void resistances::set_resist( damage_type dt, float amount )
 {

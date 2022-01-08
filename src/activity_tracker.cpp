@@ -46,7 +46,7 @@ void activity_tracker::try_reduce_weariness( int bmr, float fatigue_mod, float f
     }
 
     // If happens to be no reduction, character is not (as) hypoglycemic
-    intake *= std::pow( 1 - recovery_mult, ( 1.0f / 12.0f ) );
+    intake = static_cast<int>( intake * std::pow( 1 - recovery_mult, ( 1.0f / 12.0f ) ) );
 
     // Normalize values, make sure we stay above 0
     intake = std::max( intake, 0 );

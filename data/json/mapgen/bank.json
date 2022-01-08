@@ -129,7 +129,7 @@
         {
           "chunks": [ [ "null", 20 ], [ "roof_2x2_utilities_b", 15 ], [ "roof_2x2_utilities_c", 5 ], [ "roof_2x2_utilities_d", 40 ] ],
           "x": [ 4, 16 ],
-          "y": [ 4, 14 ]
+          "y": [ 5, 14 ]
         }
       ]
     }

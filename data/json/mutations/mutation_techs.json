@@ -1,0 +1,19 @@
+[
+  {
+    "type": "technique",
+    "id": "tec_dbg_sting",
+    "name": "CHOMP",
+    "messages": [ "You sting %s with your bug-laden tail", "<npcname> stings %s with their bug-laden tail" ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "attack_override": true,
+    "weighting": -2,
+    "crit_ok": true,
+    "required_char_flags": [ "SEESLEEP" ],
+    "flat_bonuses": [ { "stat": "damage", "type": "bullet", "scale": 0 }, { "stat": "movecost", "scale": 300 } ],
+    "tech_effects": [
+      { "id": "bleed", "chance": 100, "duration": 2000, "permanent": true, "on_damage": false },
+      { "id": "downed", "chance": 50, "duration": 2 }
+    ]
+  }
+]

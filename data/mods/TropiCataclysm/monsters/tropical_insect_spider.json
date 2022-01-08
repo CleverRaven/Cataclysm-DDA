@@ -87,7 +87,7 @@
     "id": "mon_diving_larva",
     "type": "MONSTER",
     "name": { "str": "giant water tiger" },
-    "description": "The predatory, aquatic larva of a diving bettle grown to large proportions.  It is quite slow but still a good ambusher.",
+    "description": "The predatory, aquatic larva of a diving beetle grown to large proportions.  It is quite slow but still a good ambusher.",
     "species": [ "INSECT" ],
     "bodytype": "insect",
     "material": [ "iflesh" ],

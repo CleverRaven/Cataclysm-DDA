@@ -1977,7 +1977,8 @@
       { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_saltpetre", "prob": 10, "charges": [ 1, 50 ] },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
-      { "item": "denat_alcohol", "prob": 10, "charges-min": 250 }
+      { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
+      { "item": "methed_alcohol", "prob": 4, "charges-min": 250 }
     ]
   },
   {
@@ -2312,7 +2313,8 @@
       { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "popcan_stove", "prob": 5, "charges": [ 0, 500 ] },
-      { "item": "denat_alcohol", "prob": 10, "charges-min": 250 },
+      { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
+      { "item": "methed_alcohol", "prob": 4, "charges-min": 250 },
       { "item": "water_purifier", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "rollmat", 40 ],

@@ -266,7 +266,6 @@
       ],
       "palettes": [ "bunker_ext" ],
       "set": [
-        { "point": "trap", "id": "tr_beartrap", "x": 11, "y": 11 },
         { "point": "trap", "id": "tr_spike_pit", "x": [ 7, 15 ], "y": 4 },
         { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 18 ], "y": 5 },
         { "point": "trap", "id": "tr_spike_pit", "x": [ 4, 19 ], "y": 6 },
@@ -322,7 +321,7 @@
         "########################"
       ],
       "palettes": [ "bunker", "empty_bunker_items" ],
-      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 12, 16 ], "y": [ 11, 14 ], "density": 0.4 } ],
+      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 4, 22 ], "y": [ 10, 19 ], "density": 0.3 } ],
       "set": [
         { "point": "trap", "id": "tr_beartrap", "x": 3, "y": 6 },
         { "point": "trap", "id": "tr_spike_pit", "x": 7, "y": 3 },
@@ -372,11 +371,11 @@
         { "chunks": [ "lmoe3_tankroom_11x11" ], "x": 1, "y": 18 },
         { "chunks": [ "lmoe3_crafting_11x11" ], "x": 13, "y": 18 }
       ],
-      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 7, 11 ], "y": [ 6, 16 ], "density": 0.4 } ],
+      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 1, 22 ], "y": [ 4, 22 ], "density": 0.3 } ],
       "set": [
         { "point": "trap", "id": "tr_beartrap", "x": 13, "y": 12 },
-        { "point": "trap", "id": "tr_nailboard", "x": 4, "y": 2 },
-        { "point": "trap", "id": "tr_shotgun_2", "x": 15, "y": 18 }
+        { "point": "trap", "id": "tr_nailboard", "x": 11, "y": 20 },
+        { "point": "trap", "id": "tr_shotgun_2", "x": 1, "y": 18 }
       ]
     }
   }
