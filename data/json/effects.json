@@ -804,8 +804,10 @@
     "type": "effect_type",
     "id": "glowing_gas",
     "name": [ { "ctxt": "inhaled", "str": "Glowing Gas" } ],
-    "desc": [ "You've inhaled a lungful of glowing nether parasite spores. Thankfully, they don't seem adapted to the human anatomy." ],
-    "apply_message": "You inhale a lungful of the glowing gas, and you have an urge to violenty cough.",
+    "desc": [
+      "You've inhaled a lungful of glowing nether parasite spores. Thankfully, they don't seem adapted to the human physiology."
+    ],
+    "apply_message": "You inhale a lungful of the glowing gas, and you have an urge to violently cough.",
     "rating": "bad",
     "miss_messages": [ [ "Your lungs burn from the glowing gas.", 1 ] ],
     "harmful_cough": true,

@@ -13,7 +13,7 @@
     "id": "corpse_surface",
     "name": "monster corpse",
     "copy-from": "corpse_bowels_empty_edge",
-    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN", "REQUIRES_PREDECESSOR"],
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN", "REQUIRES_PREDECESSOR" ],
     "sym": "T"
   },
   {
@@ -99,6 +99,16 @@
     "copy-from": "corpse_bowels_empty_edge",
     "color": "red",
     "sym": "H"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_brain",
+    "copy-from": "corpse_head"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_under_brain",
+    "copy-from": "corpse_head"
   },
   {
     "type": "overmap_terrain",

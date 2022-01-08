@@ -2,7 +2,15 @@
   {
     "type": "palette",
     "id": "nether_monster_palette",
-    "terrain": { "#": "t_nm_wall_flesh", "O": "t_nm_wall_flesh_pupating", "@": "t_nm_wall_bone", "B": "t_nm_ichor_sh", "C": "t_nm_cartilage", "X": "t_soil", "x": "t_dirt_underground" },
+    "terrain": {
+      "#": "t_nm_wall_flesh",
+      "O": "t_nm_wall_flesh_pupating",
+      "@": "t_nm_wall_bone",
+      "B": "t_nm_ichor_sh",
+      "C": "t_nm_cartilage",
+      "X": "t_soil",
+      "x": "t_dirt_underground"
+    },
     "furniture": { "g": "f_nm_tube", "G": "f_nm_tube_emitter" }
   }
 ]

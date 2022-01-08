@@ -100,6 +100,20 @@
         "north": "head_to_head",
         "south": "head_to_head"
       },
+      "corpse_brain": {
+        "overmap": "corpse_brain_north",
+        "east": "head_to_head",
+        "west": "head_to_head",
+        "north": "head_to_head",
+        "south": "head_to_head"
+      },
+      "corpse_under_brain": {
+        "overmap": "corpse_under_brain_north",
+        "east": "head_to_head",
+        "west": "head_to_head",
+        "north": "head_to_head",
+        "south": "head_to_head"
+      },
       "corpse_head_fin": { "overmap": "corpse_head_fin_north", "north": "head_to_head" },
       "corpse_head_lcorner": { "overmap": "corpse_head_lcorner_north", "north": "head_to_head", "east": "head_to_head" },
       "corpse_head_rcorner": { "overmap": "corpse_head_rcorner_north", "north": "head_to_head", "west": "head_to_head" },
@@ -199,10 +213,10 @@
             { "overmap": "corpse_head_neck_center", "pos": [ 0, 0, 0 ] },
             { "overmap": "corpse_head_neck_r", "pos": [ 1, 0, 0 ] },
             { "overmap": "corpse_head", "pos": [ -1, 1, 0 ] },
-            { "overmap": "corpse_head", "pos": [ 0, 1, 0 ] },
+            { "overmap": "corpse_under_brain", "pos": [ 0, 1, 0 ] },
             { "overmap": "corpse_head", "pos": [ 1, 1, 0 ] },
             { "overmap": "corpse_head", "pos": [ -1, 2, 0 ] },
-            { "overmap": "corpse_head", "pos": [ 0, 2, 0 ] },
+            { "overmap": "corpse_brain", "pos": [ 0, 2, 0 ] },
             { "overmap": "corpse_head", "pos": [ 1, 2, 0 ] },
             { "overmap": "corpse_head", "pos": [ -1, 3, 0 ] },
             { "overmap": "corpse_head", "pos": [ 0, 3, 0 ] },

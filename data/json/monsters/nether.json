@@ -1089,8 +1089,8 @@
     "morale": 105,
     "melee_skill": 4,
     "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 4,
+    "melee_dice_sides": 5,
+    "melee_cut": 3,
     "dodge": 5,
     "armor_bash": 0,
     "armor_cut": 2,
@@ -1099,16 +1099,6 @@
     "harvest": "fish_small",
     "looks_like": "mon_fish_brown_trout",
     "fear_triggers": [ "FIRE" ],
-    "flags": [
-      "HEARS",
-      "WARM",
-      "SWIMS",
-      "AQUATIC",
-      "NO_BREATHE",
-      "WATER_CAMOUFLAGE",
-      "ARTHROPOD_BLOOD",
-      "GOODHEARING",
-      "ANIMAL"
-    ]
+    "flags": [ "HEARS", "WARM", "SWIMS", "AQUATIC", "NO_BREATHE", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD", "GOODHEARING", "ANIMAL" ]
   }
 ]

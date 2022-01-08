@@ -25,8 +25,7 @@
     "coverage": 50,
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
-    "emissions": [ "emit_monster_gas_1","emit_monster_gas_2" ],
+    "emissions": [ "emit_monster_gas_1", "emit_monster_gas_2" ],
     "bash": { "str_min": 30, "str_max": 60, "sound": "whump!", "sound_fail": "whump!", "furn_set": "f_nm_tube_emitter" }
   }
 ]
-  
