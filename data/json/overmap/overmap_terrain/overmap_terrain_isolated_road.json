@@ -18,7 +18,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "isolated_house_farm_blacksmith", "isolated_house_farm_roof_blacksmith", "isolated_house_basement_blacksmith" ],
+    "id": [ "isolated_house_farm_blacksmith", "isolated_house_farm_roof_blacksmith" ],
     "name": "blacksmiths home",
     "sym": "v",
     "color": "cyan",
