@@ -138,6 +138,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_butterfly",
+    "name": "butterfly egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
+    "rot_spawn": "GROUP_EGG_BUTTERFLY"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "triffid_pod",
     "name": { "str": "triffid pod" },
     "weight": "278 g",
