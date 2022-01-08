@@ -1,0 +1,12 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_blossom",
+    "name": "triffid_blossom",
+    "sym": "T",
+    "color": "magenta",
+    "see_cost": 3,
+    "extras": "marloss",
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  }
+]
