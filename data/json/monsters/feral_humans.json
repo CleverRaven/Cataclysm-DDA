@@ -617,14 +617,14 @@
         "type": "gun",
         "cooldown": 5,
         "move_cost": 150,
-        "gun_type": "ar15",
+        "gun_type": "feral_militia_gun",
         "ammo_type": "223",
         "fake_skills": [ [ "gun", 2 ], [ "rifle", 2 ] ],
         "fake_dex": 8,
         "fake_per": 10,
-        "ranges": [ [ 0, 30, "BURST" ], [ 0, 30, "AUTO" ] ],
+        "ranges": [ [ 0, 35, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "The mad militiaman fires their machine gun!"
+        "description": "The mad militiaman fires their rifle!"
       }
     ],
     "death_drops": "mon_feral_militia_death_drops",
