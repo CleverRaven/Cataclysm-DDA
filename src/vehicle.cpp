@@ -2957,7 +2957,7 @@ void vehicle::connect_appliance_to_neighbours()
 {
     map &here = get_map();
 
-    for( const tripoint trip : here.points_in_radius( sm_pos, 1 ) ) {
+    for( const tripoint &trip : here.points_in_radius( sm_pos, 1 ) ) {
         const optional_vpart_position vp = here.veh_at( trip );
         if( !vp ) {
             continue;

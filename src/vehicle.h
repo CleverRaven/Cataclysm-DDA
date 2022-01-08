@@ -1106,6 +1106,8 @@ class vehicle
         bool part_flag( int p, const std::string &f ) const;
         bool part_flag( int p, vpart_bitflags f ) const;
 
+        void connect_appliance_to_neighbours();
+
         // Translate mount coordinates "p" using current pivot direction and anchor and return tile coordinates
         point coord_translate( const point &p ) const;
 
