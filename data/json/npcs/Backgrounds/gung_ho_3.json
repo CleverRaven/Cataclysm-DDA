@@ -49,7 +49,7 @@
     "type": "talk_topic",
     "dynamic_line": "We're all thinking the same thing, aren't we?  Not much this could be but some kind of secret military bullshit.  At first, I thought it was our own government, but after all that went down, it's just too much.  It must've been the Chinese.  I wonder if those sons of bitches are sitting back home, right as rain, watching us struggling down here and waiting for things to die down.",
     "responses": [
-      { "text": "How could that have cauesd everything that went down?", "topic": "BGSS_GUNG_HO_3_IDEAS2" },
+      { "text": "How could that have caused everything that went down?", "topic": "BGSS_GUNG_HO_3_IDEAS2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
