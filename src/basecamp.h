@@ -230,11 +230,11 @@ class basecamp
          * if skill is higher, an item or corpse is spawned
          */
         void hunting_results( int skill, const std::string &task, int attempts, int difficulty );
-        inline const tripoint &get_dumping_spot() const {
+        inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
         }
         // dumping spot in absolute co-ords
-        inline void set_dumping_spot( const tripoint &spot ) {
+        inline void set_dumping_spot( const tripoint_abs_ms &spot ) {
             dumping_spot = spot;
         }
         void place_results( const item &result );
@@ -355,7 +355,7 @@ class basecamp
         tripoint bb_pos;
         std::map<point, expansion_data> expansions;
         comp_list camp_workers; // NOLINT(cata-serialize)
-        tripoint dumping_spot;
+        tripoint_abs_ms dumping_spot;
 
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
         std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)

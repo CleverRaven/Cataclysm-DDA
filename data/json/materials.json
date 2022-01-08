@@ -2333,5 +2333,15 @@
     "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched"
+  },
+  {
+    "type": "material",
+    "id": "propane",
+    "name": "Propane",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "energy": 25,
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
   }
 ]

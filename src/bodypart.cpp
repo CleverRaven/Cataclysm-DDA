@@ -341,6 +341,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "encumbrance_threshold", encumbrance_threshold, 0 );
     optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
+    optional( jo, was_loaded, "techniques", techniques );
+    optional( jo, was_loaded, "technique_encumbrance_limit", technique_enc_limit, 50 );
 
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
@@ -352,6 +354,12 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
             bpls.max = jval.get_array().size() > 2 ? jval.get_array().get_float( 2 ) : bpls.score;
             limb_scores.emplace_back( bpls );
         }
+    }
+
+    if( jo.has_array( "unarmed_damage" ) ) {
+        unarmed_bonus = true;
+        damage = damage_instance();
+        damage = load_damage_instance( jo.get_array( "unarmed_damage" ) );
     }
 
     if( jo.has_object( "armor" ) ) {
@@ -441,6 +449,16 @@ void body_part_type::check() const
     if( next != next->connected_to ) {
         debugmsg( "Loop in body part connectedness starting from %s", id.str() );
     }
+}
+
+float body_part_type::unarmed_damage( const damage_type &dt ) const
+{
+    return damage.type_damage( dt );
+}
+
+float body_part_type::unarmed_arpen( const damage_type &dt ) const
+{
+    return damage.type_arpen( dt );
 }
 
 float body_part_type::damage_resistance( const damage_type &dt ) const
@@ -559,6 +577,15 @@ int bodypart::get_encumbrance_threshold() const
 bool bodypart::is_limb_overencumbered() const
 {
     return get_encumbrance_data().encumbrance >= id->encumbrance_limit;
+}
+
+std::set<matec_id> bodypart::get_limb_techs() const
+{
+    std::set<matec_id> result;
+    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit ) ) {
+        result.insert( id->techniques.begin(), id->techniques.end() );
+    }
+    return result;
 }
 
 float bodypart::wound_adjusted_limb_value( const float val ) const

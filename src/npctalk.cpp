@@ -835,13 +835,13 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                         int heard_volume, const tripoint &spos )
 {
     const map &here = get_map();
-    const tripoint s_abs_pos = here.getabs( spos );
-    const tripoint my_abs_pos = here.getabs( pos() );
+    const tripoint_abs_ms s_abs_pos = here.getglobal( spos );
+    const tripoint_abs_ms my_abs_pos = get_location();
 
     add_msg_debug( debugmode::DF_NPC,
                    "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
                    disp_name(), description, static_cast<int>( spriority ), heard_volume,
-                   s_abs_pos.x, s_abs_pos.y, my_abs_pos.x, my_abs_pos.y );
+                   s_abs_pos.x(), s_abs_pos.y(), my_abs_pos.x(), my_abs_pos.y() );
 
     Character &player_character = get_player_character();
     bool player_ally = player_character.pos() == spos && is_player_ally();
@@ -913,14 +913,16 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                 }
             }
             if( should_check ) {
-                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", get_name(), s_abs_pos.x,
-                               s_abs_pos.y );
+                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", get_name(),
+                               s_abs_pos.x(), s_abs_pos.y() );
                 dangerous_sound temp_sound;
-                temp_sound.abs_pos = s_abs_pos;
+                // TODO: fix point types
+                temp_sound.abs_pos = s_abs_pos.raw();
                 temp_sound.volume = heard_volume;
                 temp_sound.type = spriority;
                 if( !ai_cache.sound_alerts.empty() ) {
-                    if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos ) {
+                    // TODO: fix point types
+                    if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos.raw() ) {
                         ai_cache.sound_alerts.push_back( temp_sound );
                     }
                 } else {
@@ -2358,6 +2360,10 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
 {
     ter_furn_transform_id transform = ter_furn_transform_id( jo.get_string( "ter_furn_transform" ) );
     int_or_var iov = get_int_or_var( jo, member );
+    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
+            0_seconds );
+    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
+            0_seconds );
     cata::optional<std::string> target_var;
     var_type type = var_type::u;
     if( jo.has_member( "target_var" ) ) {
@@ -2365,20 +2371,21 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
         type = var.type;
         target_var = var.name;
     }
-    function = [iov, transform, target_var, type, is_npc]( const dialogue & d ) {
+    function = [iov, transform, target_var, type, is_npc, dov_time_in_future_min,
+         dov_time_in_future_max]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, type,
                               d.actor( type == var_type::npc ) );
-        bool shifted = false;
-        tripoint_abs_omt origin = get_avatar().global_omt_location();
-        if( !get_map().inbounds( get_map().getlocal( target_pos ) ) ) {
-            const tripoint_abs_ms abs_ms( target_pos );
-            g->place_player_overmap( project_to<coords::omt>( abs_ms ) );
-            shifted = true;
-        }
-        get_map().transform_radius( transform, iov.evaluate( d.actor( iov.is_npc() ) ), target_pos );
-        if( shifted ) {
-            g->place_player_overmap( origin );
+
+        int radius = iov.evaluate( d.actor( iov.is_npc() ) );
+        time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
+        if( min > 0_seconds ) {
+            get_timed_events().add( timed_event_type::TRANSFORM_RADIUS,
+                                    calendar::turn + rng( min, dov_time_in_future_max.evaluate( d.actor(
+                                                dov_time_in_future_max.is_npc() ) ) ),
+                                    -1, tripoint_abs_sm( target_pos ), radius, transform.str() );
+        } else {
+            get_map().transform_radius( transform, radius, target_pos );
         }
     };
 }

@@ -1,13 +1,44 @@
 #include "catch/catch.hpp"
 
+#include "game.h"
 #include "player_helpers.h"
+#include "map_helpers.h"
+#include "monster.h"
 #include "morale.h"
 #include "options_helpers.h"
 #include "weather.h"
 #include "weather_type.h"
 #include "widget.h"
 
+// Needed for screen scraping
+#if !(defined(TILES) || defined(_WIN32))
+namespace cata_curses_test
+{
+#define NCURSES_NOMACROS
+#if defined(__CYGWIN__)
+#include <ncurses/curses.h>
+#else
+#include <curses.h>
+#endif
+}
+#else
+#include "cursesport.h"
+#endif
+
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_infected( "infected" );
+
+static const flag_id json_flag_SPLINT( "SPLINT" );
+
 static const itype_id itype_rad_badge( "rad_badge" );
+
+static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_prone( "prone" );
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_walk( "walk" );
 
 static const weather_type_id weather_acid_rain( "acid_rain" );
 static const weather_type_id weather_cloudy( "cloudy" );
@@ -26,6 +57,12 @@ static const widget_id widget_test_bucket_graph( "test_bucket_graph" );
 static const widget_id widget_test_color_graph_10k_widget( "test_color_graph_10k_widget" );
 static const widget_id widget_test_color_graph_widget( "test_color_graph_widget" );
 static const widget_id widget_test_color_number_widget( "test_color_number_widget" );
+static const widget_id widget_test_compass_N( "test_compass_N" );
+static const widget_id widget_test_compass_N_nodir_nowidth( "test_compass_N_nodir_nowidth" );
+static const widget_id widget_test_compass_N_nowidth( "test_compass_N_nowidth" );
+static const widget_id widget_test_compass_legend_1( "test_compass_legend_1" );
+static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
+static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
 static const widget_id widget_test_dex_num( "test_dex_num" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
 static const widget_id widget_test_hp_head_graph( "test_hp_head_graph" );
@@ -33,6 +70,9 @@ static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
 static const widget_id widget_test_int_num( "test_int_num" );
 static const widget_id widget_test_mana_num( "test_mana_num" );
 static const widget_id widget_test_morale_num( "test_morale_num" );
+static const widget_id widget_test_move_cost_num( "test_move_cost_num" );
+static const widget_id widget_test_move_mode_letter( "test_move_mode_letter" );
+static const widget_id widget_test_move_mode_text( "test_move_mode_text" );
 static const widget_id widget_test_move_num( "test_move_num" );
 static const widget_id widget_test_per_num( "test_per_num" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
@@ -41,10 +81,45 @@ static const widget_id widget_test_speed_num( "test_speed_num" );
 static const widget_id widget_test_stamina_graph( "test_stamina_graph" );
 static const widget_id widget_test_stamina_num( "test_stamina_num" );
 static const widget_id widget_test_stat_panel( "test_stat_panel" );
+static const widget_id widget_test_status_left_arm_text( "test_status_left_arm_text" );
+static const widget_id widget_test_status_torso_text( "test_status_torso_text" );
 static const widget_id widget_test_str_num( "test_str_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
 static const widget_id widget_test_weariness_num( "test_weariness_num" );
 static const widget_id widget_test_weather_text( "test_weather_text" );
+static const widget_id widget_test_weather_text_height5( "test_weather_text_height5" );
+
+// dseguin 2022 - Ugly hack to scrape content from the window object.
+// Scrapes the window w at origin, reading the number of cols and rows.
+static std::vector<std::string> scrape_win_at(
+    catacurses::window &w, const point &origin, int cols, int rows )
+{
+    std::vector<std::string> lines;
+
+#if defined(TILES) || defined(_WIN32)
+    cata_cursesport::WINDOW *win = static_cast<cata_cursesport::WINDOW *>( w.get() );
+
+    for( int i = origin.y; i < rows && static_cast<size_t>( i ) < win->line.size(); i++ ) {
+        lines.emplace_back( std::string() );
+        for( int j = origin.x; j < cols && static_cast<size_t>( j ) < win->line[i].chars.size(); j++ ) {
+            lines[i] += win->line[i].chars[j].ch;
+        }
+    }
+#else
+    cata_curses_test::WINDOW *win = static_cast<cata_curses_test::WINDOW *>( w.get() );
+
+    int max_y = catacurses::getmaxy( w );
+    for( int i = origin.y; i < rows && i < max_y; i++ ) {
+        wchar_t *buf = static_cast<wchar_t *>( ::malloc( sizeof( *buf ) * ( cols + 1 ) ) );
+        cata_curses_test::mvwinnwstr( win, i, origin.x, buf, cols );
+        std::wstring line( buf, static_cast<size_t>( cols ), std::allocator<wchar_t>() );
+        lines.emplace_back( std::string( line.begin(), line.end() ) );
+        ::free( buf );
+    }
+#endif
+
+    return lines;
+}
 
 TEST_CASE( "widget value strings", "[widget][value][string]" )
 {
@@ -375,6 +450,170 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
     }
 }
 
+TEST_CASE( "widgets showing movement mode", "[widget][move_mode]" )
+{
+    widget mode_letter_w = widget_test_move_mode_letter.obj();
+    widget mode_text_w = widget_test_move_mode_text.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    ava.set_movement_mode( move_mode_walk );
+    CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_white>W</color>" );
+    CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_white>walking</color>" );
+    ava.set_movement_mode( move_mode_run );
+    CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_red>R</color>" );
+    CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_red>running</color>" );
+    ava.set_movement_mode( move_mode_crouch );
+    CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_light_blue>C</color>" );
+    CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_light_blue>crouching</color>" );
+    ava.set_movement_mode( move_mode_prone );
+    CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_green>P</color>" );
+    CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_green>prone</color>" );
+}
+
+TEST_CASE( "widgets showing movement cost", "[widget][move_cost]" )
+{
+    widget cost_num_w = widget_test_move_cost_num.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "without shoes" ) {
+        REQUIRE_FALSE( ava.is_wearing_shoes() );
+        // Having no shoes adds +8 per foot to base run cost
+        REQUIRE( ava.run_cost( 100 ) == 116 );
+        CHECK( cost_num_w.layout( ava ) == "MOVE COST: 116" );
+    }
+    SECTION( "wearing sneakers" ) {
+        // Sneakers eliminate the no-shoes penalty
+        ava.wear_item( item( "sneakers" ) );
+        REQUIRE( ava.is_wearing_shoes() );
+        REQUIRE( ava.run_cost( 100 ) == 100 );
+        CHECK( cost_num_w.layout( ava ) == "MOVE COST: 100" );
+    }
+    SECTION( "wearing swim fins" ) {
+        // Swim fins multiply cost by 1.5
+        ava.wear_item( item( "swim_fins" ) );
+        REQUIRE( ava.is_wearing_shoes() );
+        REQUIRE( ava.run_cost( 100 ) == 167 );
+        CHECK( cost_num_w.layout( ava ) == "MOVE COST: 167" );
+    }
+}
+
+TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    bodypart_id arm( "arm_l" );
+    bodypart_id torso( "torso" );
+    widget arm_status_w = widget_test_status_left_arm_text.obj();
+    widget torso_status_w = widget_test_status_torso_text.obj();
+
+    // No ailments
+    CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: --" );
+    CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+
+    // Add various ailments and/or treatments to the left arm, and ensure status is displayed
+    // correctly, while torso status display is unaffected
+
+    WHEN( "bitten" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_yellow>bitten</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bleeding" ) {
+        // low-intensity
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.get_effect( effect_bleed, arm ).set_intensity( 5 );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_light_red>bleeding</color>" );
+        // medium-intensity
+        ava.get_effect( effect_bleed, arm ).set_intensity( 15 );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_red>bleeding</color>" );
+        // high-intensity
+        ava.get_effect( effect_bleed, arm ).set_intensity( 25 );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_red_red>bleeding</color>" );
+        // torso still fine
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bandaged" ) {
+        ava.add_effect( effect_bandaged, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_white>bandaged</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "broken" ) {
+        ava.set_part_hp_cur( arm, 0 );
+        REQUIRE( ava.is_limb_broken( arm ) );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_magenta>broken</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "broken and splinted" ) {
+        ava.set_part_hp_cur( arm, 0 );
+        ava.wear_item( item( "arm_splint" ) );
+        REQUIRE( ava.is_limb_broken( arm ) );
+        REQUIRE( ava.worn_with_flag( json_flag_SPLINT, arm ) );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
+               " <color_c_magenta>broken</color>"
+               ", <color_c_light_gray>splinted</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "infected" ) {
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_pink>infected</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "disinfected" ) {
+        ava.add_effect( effect_disinfected, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_light_green>disinfected</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bitten and bleeding" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
+               " <color_c_yellow>bitten</color>"
+               ", <color_c_light_red>bleeding</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bitten and infected" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
+               " <color_c_yellow>bitten</color>"
+               ", <color_c_pink>infected</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bleeding and infected" ) {
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
+               " <color_c_light_red>bleeding</color>"
+               ", <color_c_pink>infected</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bitten, bleeding, and infected" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
+               " <color_c_yellow>bitten</color>"
+               ", <color_c_light_red>bleeding</color>"
+               ", <color_c_pink>infected</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+}
+
 TEST_CASE( "radiation badge widget", "[widget][radiation]" )
 {
     widget rads_w = widget_test_rad_badge_text.obj();
@@ -405,6 +644,143 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
     rad_badge.irradiation = 241;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
+}
+
+TEST_CASE( "compass widget", "[widget][compass]" )
+{
+    const int sidebar_width = 36;
+    widget c5s_N = widget_test_compass_N.obj();
+    widget c5s_N_nowidth = widget_test_compass_N_nowidth.obj();
+    widget c5s_N_nodir_nowidth = widget_test_compass_N_nodir_nowidth.obj();
+    widget c5s_legend1 = widget_test_compass_legend_1.obj();
+    widget c5s_legend3 = widget_test_compass_legend_3.obj();
+    widget c5s_legend5 = widget_test_compass_legend_5.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    const tripoint northeast = ava.pos() + tripoint( 10, -10, 0 );
+    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+
+    SECTION( "No monsters" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        // Single-line widgets use left-padding
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "                                    " );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ).empty() );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ).empty() );
+    }
+
+    SECTION( "1 monster NE" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", northeast );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTHEAST )].size()
+                 == 1 );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+    }
+
+    SECTION( "1 monster N" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 1 );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>B</color>" );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>+</color>" );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+    }
+
+    SECTION( "3 same monsters N" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        monster &mon2 = spawn_test_monster( "mon_test_CBM", north + tripoint( 0, -1, 0 ) );
+        monster &mon3 = spawn_test_monster( "mon_test_CBM", north + tripoint( 0, -2, 0 ) );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( mon2 ) );
+        REQUIRE( ava.sees( mon3 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 1 );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>B</color>" );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>+</color>" );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>" );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>\n" );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>\n" );
+    }
+
+    SECTION( "3 different monsters N" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        monster &mon2 = spawn_test_monster( "mon_test_bovine", north + tripoint( 0, -1, 0 ) );
+        monster &mon3 = spawn_test_monster( "mon_test_shearable", north + tripoint( 0, -2, 0 ) );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( mon2 ) );
+        REQUIRE( ava.sees( mon3 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 3 );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                               <color_c_white>B</color>"
+               "<color_c_white>B</color><color_c_white>S</color>" );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>+</color>" );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        // Single-line widgets use left-padding
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "                 <color_c_white>S</color> <color_c_dark_gray>shearable monster</color>" );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+    }
 }
 
 // Widgets with "layout" style can combine other widgets in columns or rows.
@@ -567,5 +943,68 @@ TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
             ava.setpos( tripoint_below );
             CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
         }
+    }
+}
+
+TEST_CASE( "Custom widget height and multiline formatting", "[widget]" )
+{
+    const int cols = 32;
+    const int rows = 5;
+    widget height1 = widget_test_weather_text.obj();
+    widget height5 = widget_test_weather_text_height5.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+    scoped_weather_override forcast( weather_sunny );
+
+    SECTION( "Height field does not impact text content" ) {
+        std::string layout1 = height1.layout( ava );
+        std::string layout5 = height5.layout( ava );
+        CHECK( height1._height == 1 );
+        CHECK( height5._height == 5 );
+        CHECK( layout1 == "Weather: <color_c_light_cyan>Sunny</color>" );
+        CHECK( layout5 == "Weather: <color_c_light_cyan>Sunny</color>" );
+    }
+
+    SECTION( "Multiline drawing splits newlines correctly" ) {
+#if !(defined(TILES) || defined(_WIN32))
+        // Running the tests in a developer environment works fine, but
+        // the CI env has no interactive shell, so we skip the screen scraping.
+        const char *term_env = ::getenv( "TERM" );
+        // The tests don't initialize the curses window, so initialize it here...
+        if( term_env != nullptr && std::string( term_env ) != "unknown" &&
+            cata_curses_test::initscr() != nullptr ) {
+#endif
+            catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+
+            werase( w );
+            SECTION( "Single-line layout" ) {
+                std::string layout1 = "abcd efgh ijkl mnop qrst";
+                CHECK( widget::custom_draw_multiline( layout1, w, 1, 30, 0 ) == 1 );
+                std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+                CHECK( lines[0] == " abcd efgh ijkl mnop qrst       " );
+                CHECK( lines[1] == "                                " );
+                CHECK( lines[2] == "                                " );
+                CHECK( lines[3] == "                                " );
+                CHECK( lines[4] == "                                " );
+            }
+
+            werase( w );
+            SECTION( "Single-line layout" ) {
+                std::string layout5 = "abcd\nefgh\nijkl\nmnop\nqrst";
+                CHECK( widget::custom_draw_multiline( layout5, w, 1, 30, 0 ) == 5 );
+                std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+                CHECK( lines[0] == " abcd                           " );
+                CHECK( lines[1] == " efgh                           " );
+                CHECK( lines[2] == " ijkl                           " );
+                CHECK( lines[3] == " mnop                           " );
+                CHECK( lines[4] == " qrst                           " );
+            }
+
+#if !(defined(TILES) || defined(_WIN32))
+            // ... and free it here
+            cata_curses_test::endwin();
+        }
+#endif
     }
 }

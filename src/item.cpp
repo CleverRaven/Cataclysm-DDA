@@ -6289,8 +6289,9 @@ units::volume item::base_volume() const
     return type->volume;
 }
 
-units::volume item::volume( bool integral, bool ignore_contents ) const
+units::volume item::volume( bool integral, bool ignore_contents, int charges_in_vol ) const
 {
+    charges_in_vol = charges_in_vol < 0 || charges_in_vol > charges ? charges : charges_in_vol;
     if( is_null() ) {
         return 0_ml;
     }
@@ -6322,7 +6323,7 @@ units::volume item::volume( bool integral, bool ignore_contents ) const
 
     if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
         units::quantity<int64_t, units::volume_in_milliliter_tag> num = ret * static_cast<int64_t>
-                ( charges );
+                ( charges_in_vol );
         if( type->stack_size <= 0 ) {
             debugmsg( "Item type %s has invalid stack_size %d", typeId().str(), type->stack_size );
             ret = num;
@@ -7920,9 +7921,9 @@ const std::set<itype_id> &item::repaired_with() const
     return has_flag( flag_NO_REPAIR )  ? no_repair : type->repair;
 }
 
-void item::mitigate_damage( damage_unit &du ) const
+void item::mitigate_damage( damage_unit &du, const bodypart_id &bp ) const
 {
-    const resistances res = resistances( *this );
+    const resistances res = resistances( *this, false, bp );
     const float mitigation = res.get_effective_resist( du );
     du.amount -= mitigation;
     du.amount = std::max( 0.0f, du.amount );

@@ -427,6 +427,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "propane",
+    "name": "propane",
+    "default": "propane"
+  },
+  {
+    "type": "ammunition_type",
     "id": "conc_alcohol",
     "name": "concentrated alcohol",
     "default": "denat_alcohol"

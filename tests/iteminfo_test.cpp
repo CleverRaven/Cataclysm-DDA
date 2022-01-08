@@ -1473,8 +1473,8 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
                "Even chance of good hit at range: <color_c_yellow>3</color>\n"
                "Time to reach aim level: <color_c_yellow>99</color> moves\n"
                "<color_c_cyan>Careful</color>\n"
-               "Even chance of good hit at range: <color_c_yellow>5</color>\n"
-               "Time to reach aim level: <color_c_yellow>135</color> moves\n"
+               "Even chance of good hit at range: <color_c_yellow>6</color>\n"
+               "Time to reach aim level: <color_c_yellow>165</color> moves\n"
                "<color_c_cyan>Precise</color>\n"
                "Even chance of good hit at range: <color_c_yellow>8</color>\n"
                "Time to reach aim level: <color_c_yellow>263</color> moves\n" );

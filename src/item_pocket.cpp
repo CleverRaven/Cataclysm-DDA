@@ -124,6 +124,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
     optional( jo, was_loaded, "default_magazine", default_magazine );
     optional( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "name", pocket_name );
     if( jo.has_member( "ammo_restriction" ) && ammo_restriction.empty() ) {
         jo.throw_error( "pocket defines empty ammo_restriction" );
     }
@@ -155,6 +156,7 @@ void pocket_data::load( const JsonObject &jo )
                   units::default_length_from_volume( volume_capacity ) * M_SQRT2 );
         optional( jo, was_loaded, "min_item_length", min_item_length );
         optional( jo, was_loaded, "extra_encumbrance", extra_encumbrance, 0 );
+        optional( jo, was_loaded, "volume_encumber_modifier", volume_encumber_modifier, 1 );
         optional( jo, was_loaded, "ripoff", ripoff, 0 );
         optional( jo, was_loaded, "activity_noise", activity_noise );
     }

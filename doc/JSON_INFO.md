@@ -647,7 +647,10 @@ For information about tools with option to export ASCII art in format ready to b
 | `smash_message`        | (_optional_) The message displayed when using that part to smash something.
 | `smash_efficiency`     | (_optional_) Modifier applied to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 | `flags`                | (_optional_) List of bodypart flags.  These are considered character flags, similar to bionic/trait/effect flags.
+| `techniques`           | (_optional_) List of melee techniques granted by this limb.  The chance for the technique to be included in each attack's tech list is dependent on limb encumbrance. ( `!x_in_y(current encumbrance / technique_encumbrance_limit`)
+| `technique_encumbrance_limit` | (_optional_) Level of encumbrance that disables the given techniques for this limb completely, lower encumbrance still reduces the chances of the technique being chosen (see above).
 | `limb_scores`          | (_optional_) List of arrays defining limb scores. Each array contains 2 mandatory values and 1 optional value. Value 1 is a reference to a `limb_score` id. Value 2 is a float defining the limb score's value. (optional) Value 3 is a float defining the limb score's maximum value (mostly just used for manipulator score).
+| `unarmed_damage`       | (_optional_) An array of objects, each detailing the amount of unarmed damage the bodypart contributes to unarmed attacks and their armor penetration. The unarmed damages of each limb are summed and added to the base unarmed damage. Should be used for limbs the character is expected to *always* attack with, for special attacks use a dedicated technique.
 | `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
 
 ```json

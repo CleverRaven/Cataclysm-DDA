@@ -203,6 +203,8 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `style_text`    | Name of current martial arts style
 | `weight_text`   | "Emaciated", "Normal", "Overweight", etc.
 | `date_text`     | Current day within season, like "Summer, day 15"
+| `compass_text`  | A compass direction (ex: NE), displaying visible creatures in that direction
+| `compass_legend_text` | A list of creatures visible by the player, corresponding to compass symbols
 
 For example, a widget to show the current STR stat would define this "var":
 
@@ -221,12 +223,49 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
 }
 ```
 
+Widgets using `compass_text` expect the additional fields `direction` and `width` to
+identify (respectively) the cardinal direction and number of creatures displayed:
+
+```json
+{
+  "var": "compass_text",
+  "direction": "N",
+  "width": 6
+}
+```
+
+`compass_legend_text` makes use of the "height" field (see below), which tells the display
+function to reserve that many lines for the compass legend:
+
+```json
+{
+  "var": "compass_legend_text",
+  "height": 3
+}
+```
+
 Plain numeric values can be displayed as-is, up to any maximum. For "graph" widgets, it is useful to
 define a "var_max" as a cutoff point; see the "Graph widget" section for more.
 
-
 You may also define "var_min" if it's relevant. By default this is 0.
 
+#### `height`
+
+Some widgets can make use of multiple lines by specifying the `"height"` field, which reserves
+vertical space in the sidebar. Display functions can make use of this extra space to render
+multi-line widgets.
+
+Warning: implementation details ahead.
+
+The max width and height available for a widget is passed to its `display::` function through
+`widget::color_text_function_string()`. The display function can use this data to format the
+widget text as a series of lines delimited by a newline (`\n`).
+
+The formatted string is passed to `widget::show()` and `widget::layout()`, which format each
+line individually for drawing in `widget::custom_draw_multiline()`.
+
+Adding new multi-line-capable widgets involves ensuring the new display function formats the
+widget's text according to the available width and height.
 
 ### Number widget
 

@@ -3003,6 +3003,17 @@
   },
   {
     "type": "construction",
+    "id": "app_oven",
+    "group": "place_oven",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "oven", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_standing_lamp",
     "group": "place_standing_lamp",
     "category": "APPLIANCE",

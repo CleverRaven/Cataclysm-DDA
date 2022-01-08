@@ -616,8 +616,10 @@ class item : public visitable
          * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
          * @param integral if true return effective volume if this item was integrated into another
          * @param ignore_contents if true return effective volume for the item alone, ignoring its contents
+         * @param charges_in_vol if specified, get the volume for this many charges instead of current charges
          */
-        units::volume volume( bool integral = false, bool ignore_contents = false ) const;
+        units::volume volume( bool integral = false, bool ignore_contents = false,
+                              int charges_in_vol = -1 ) const;
 
         units::length length() const;
 
@@ -1174,7 +1176,7 @@ class item : public visitable
          * Assuming that specified du hit the armor, reduce du based on the item's resistance to the
          * damage type. This will never reduce du.amount below 0.
          */
-        void mitigate_damage( damage_unit &du ) const;
+        void mitigate_damage( damage_unit &du, const bodypart_id &bp = bodypart_id() ) const;
         /**
          * Resistance provided by this item against damage type given by an enum.
          */

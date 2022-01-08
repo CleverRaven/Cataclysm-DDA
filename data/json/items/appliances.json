@@ -22,6 +22,21 @@
     ]
   },
   {
+    "type": "GENERIC",
+    "id": "oven",
+    "looks_like": "f_oven",
+    "symbol": "#",
+    "description": "A disconnected electric convection-based oven, commonly used for heating and cooking food.",
+    "color": "dark_gray_white",
+    "name": { "str": "disconnected oven" },
+    "material": [ "budget_steel" ],
+    "longest_side": "69 cm",
+    "insulation": 3,
+    "volume": "290 L",
+    "weight": "77 kg",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ]
+  },
+  {
     "type": "TOOL",
     "id": "power_cord",
     "name": { "str": "power cord" },
