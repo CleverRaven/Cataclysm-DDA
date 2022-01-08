@@ -1030,7 +1030,7 @@ void complete_construction( Character *you )
         return;
     }
     const construction &built = pc->id.obj();
-    you->activity.str_values.push_back( built.id.id().c_str() );
+    you->activity.str_values.emplace_back( built.str_id );
     const auto award_xp = [&]( Character & practicer ) {
         for( const auto &pr : built.required_skills ) {
             practicer.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) *
