@@ -1,0 +1,9 @@
+[
+  {
+    "id": "place_desc",
+    "type": "widget",
+    "label": "Place",
+    "style": "text",
+    "var": "place_text"
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "stamina_graph_classic",
+    "type": "widget",
+    "label": "Stam",
+    "var": "stamina",
+    "style": "graph",
+    "width": 5,
+    "symbols": ".\\|",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "stamina_graph",
+    "type": "widget",
+    "label": "Stamina",
+    "var": "stamina",
+    "style": "graph",
+    "width": 10,
+    "symbols": ".\\|",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "stamina_num",
+    "type": "widget",
+    "label": "Stamina",
+    "var": "stamina",
+    "style": "number"
+  }
+]
