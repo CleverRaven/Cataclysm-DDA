@@ -6472,9 +6472,12 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
                     // this couuld probably be done in a single loop with installing parts above
                     std::vector<int> parts_in_square = veh_to_add->parts_at_relative( source_point, true );
+                    std::set<int> parts_to_check;
                     for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
                         veh_to_add->remove_part( parts_in_square[index] );
+                        parts_to_check.insert( parts_in_square[index] );
                     }
+                    veh_to_add->find_and_split_vehicles( parts_to_check );
                 }
             }
 
