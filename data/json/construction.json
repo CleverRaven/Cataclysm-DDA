@@ -3733,6 +3733,7 @@
     "time": "15 m",
     "components": [ [ [ "rock", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
+    "dark_craftable": true,
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "f_firering"
   },
