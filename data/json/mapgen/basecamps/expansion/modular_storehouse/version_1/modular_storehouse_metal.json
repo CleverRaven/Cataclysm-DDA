@@ -2,22 +2,8 @@
   {
     "type": "palette",
     "id": "fbms_metal_palette",
-    "terrain": {
-      ".": "t_scrap_floor",
-      "b": "t_grass",
-      "d": "t_door_metal_c",
-      "o": "t_window_no_curtains",
-      "w": "t_scrap_wall"
-    },
-    "furniture": {
-      "b": "f_bench",
-      "t": "f_table",
-      "l": "f_locker",
-      "B": "f_bookcase",
-      "d": "f_clear",
-      "o": "f_clear",
-      "w": "f_clear"
-    }
+    "terrain": { ".": "t_scrap_floor", "b": "t_grass", "d": "t_door_metal_c", "o": "t_window_no_curtains", "w": "t_scrap_wall" },
+    "furniture": { "b": "f_bench", "t": "f_table", "l": "f_locker", "B": "f_bookcase", "d": "f_clear", "o": "f_clear", "w": "f_clear" }
   },
   {
     "type": "mapgen",
