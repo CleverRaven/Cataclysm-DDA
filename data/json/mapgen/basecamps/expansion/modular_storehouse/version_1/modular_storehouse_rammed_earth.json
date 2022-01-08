@@ -9,15 +9,7 @@
       "o": "t_window_empty",
       "w": "t_wall_rammed_earth"
     },
-    "furniture": {
-      "b": "f_bench",
-      "t": "f_table",
-      "l": "f_locker",
-      "B": "f_bookcase",
-      "d": "f_clear",
-      "o": "f_clear",
-      "w": "f_clear"
-    }
+    "furniture": { "b": "f_bench", "t": "f_table", "l": "f_locker", "B": "f_bookcase", "d": "f_clear", "o": "f_clear", "w": "f_clear" }
   },
   {
     "type": "mapgen",
