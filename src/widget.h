@@ -161,6 +161,8 @@ class widget
         std::string _arrange;
         // Compass direction corresponding to the indexed directions from avatar::get_mon_visible
         cardinal_direction _direction;
+        // Flags for special widget behaviors
+        std::set<flag_id> _flags;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
@@ -186,9 +188,12 @@ class widget
         bool uses_text_function();
 
         // Evaluate and return the bound "var" associated value for an avatar
-        int get_var_value( const avatar &ava );
+        int get_var_value( const avatar &ava ) const;
         // Return the maximum "var" value from "var_max", or max for avatar (HP, mana, etc.)
-        int get_var_max( const avatar &ava );
+        int get_var_max( const avatar &ava ) const;
+        // True if this widget has the given flag. Used to specify certain behaviors.
+        bool has_flag( const flag_id &flag ) const;
+        bool has_flag( const std::string &flag ) const;
 
         // Return a color-enhanced value_string
         std::string color_value_string( int value, int value_max = 0 );

@@ -671,9 +671,7 @@ TEST_CASE( "compass widget", "[widget][compass]" )
                "N:                                  " );
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
                "N:                                  " );
-        // Single-line widgets use left-padding
-        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
-               "                                    " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ).empty() );
         CHECK( c5s_legend3.layout( ava, sidebar_width ).empty() );
         CHECK( c5s_legend5.layout( ava, sidebar_width ).empty() );
     }
@@ -769,9 +767,8 @@ TEST_CASE( "compass widget", "[widget][compass]" )
                "N:                                 <color_c_white>+</color>" );
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
                "N:                                  " );
-        // Single-line widgets use left-padding
         CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
-               "                 <color_c_white>S</color> <color_c_dark_gray>shearable monster</color>" );
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
                "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
