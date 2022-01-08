@@ -2,13 +2,7 @@
   {
     "type": "palette",
     "id": "fbms_rock_palette",
-    "terrain": {
-      ".": "t_floor",
-      "b": "t_grass",
-      "d": "t_door_c",
-      "o": "t_window_no_curtains",
-      "w": "t_rock_wall"
-    },
+    "terrain": { ".": "t_floor", "b": "t_grass", "d": "t_door_c", "o": "t_window_no_curtains", "w": "t_rock_wall" },
     "furniture": {
       ".": "f_clear",
       "b": "f_bench",
