@@ -3308,6 +3308,11 @@ int vehicle::engine_fuel_left( const int e, bool recurse ) const
     return 0;
 }
 
+itype_id vehicle::engine_fuel_current( int e ) const
+{
+    return parts[ engines[ e ] ].fuel_current();
+}
+
 int vehicle::fuel_capacity( const itype_id &ftype ) const
 {
     return std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
