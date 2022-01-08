@@ -4009,7 +4009,8 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if( !check_only ) {
-            sounds::sound( p, 6, sounds::sound_t::movement, _( "swish" ), true,
+            int volume = get_player_character().is_crouching() ? 3 : 6;
+            sounds::sound( p, volume, sounds::sound_t::movement, _( "swish" ), true,
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
@@ -4027,8 +4028,9 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if( !check_only ) {
-            sounds::sound( p, 6, sounds::sound_t::movement, _( "swish" ), true,
-                           "open_door", furn.id.str() );
+            int volume = get_player_character().is_crouching() ? 3 : 6;
+            sounds::sound( p, volume, sounds::sound_t::movement, _( "swish" ), true, "open_door",
+                           furn.id.str() );
             furn_set( p, furn.open );
         }
 
@@ -4124,14 +4126,16 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
     const auto &furn = this->furn( p ).obj();
     if( ter.close && !furn.id ) {
         if( !check_only ) {
-            sounds::sound( p, 10, sounds::sound_t::movement, _( "swish" ), true,
+            int volume = get_player_character().is_crouching() ? 5 : 10;
+            sounds::sound( p, volume, sounds::sound_t::movement, _( "swish" ), true,
                            "close_door", ter.id.str() );
             ter_set( p, ter.close );
         }
         return true;
     } else if( furn.close ) {
         if( !check_only ) {
-            sounds::sound( p, 10, sounds::sound_t::movement, _( "swish" ), true,
+            int volume = get_player_character().is_crouching() ? 5 : 10;
+            sounds::sound( p, volume, sounds::sound_t::movement, _( "swish" ), true,
                            "close_door", furn.id.str() );
             furn_set( p, furn.close );
         }
