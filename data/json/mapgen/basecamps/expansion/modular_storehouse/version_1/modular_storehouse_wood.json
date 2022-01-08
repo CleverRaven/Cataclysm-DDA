@@ -11,7 +11,17 @@
       "w": "t_wall_wood",
       ";": "t_floor_primitive"
     },
-    "furniture": { "b": "f_bench", "t": "f_table", "x": "f_brazier", "U": "f_birdbath", "l": "f_locker", "B": "f_bookcase" }
+    "furniture": {
+      ".": "f_clear",
+      "b": "f_bench",
+      "p": "f_clear",
+      "d": "f_clear",
+      "o": "f_clear",
+      "w": "f_clear",
+      ";": "f_clear",
+      "t": "f_table",
+      "l": "f_locker",
+      "B": "f_bookcase" }
   },
   {
     "type": "mapgen",

@@ -5,15 +5,20 @@
     "terrain": {
       ".": "t_floor_primitive",
       "b": "t_grass",
-      "t": "t_floor_primitive",
-      "l": "t_floor_primitive",
-      "B": "t_floor_primitive",
       "d": "t_door_makeshift_c",
       "o": "t_wall_wattle_half",
-      "w": "t_wall_wattle",
-      ";": "t_floor_primitive"
+      "w": "t_wall_wattle"
     },
-    "furniture": { "b": "f_bench", "t": "f_table", "x": "f_brazier", "U": "f_birdbath", "l": "f_locker", "B": "f_bookcase" }
+    "furniture": {
+      ".": "f_clear",
+      "b": "f_bench",
+      "t": "f_table",
+      "l": "f_locker",
+      "B": "f_bookcase",
+      "d": "f_clear",
+      "o": "f_clear",
+      "w": "f_clear"
+    }
   },
   {
     "type": "mapgen",

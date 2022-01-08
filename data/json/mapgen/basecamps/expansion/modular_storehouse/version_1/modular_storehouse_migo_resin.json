@@ -5,15 +5,20 @@
     "terrain": {
       ".": "t_floor_resin",
       "b": "t_grass",
-      "t": "t_floor_resin",
-      "l": "t_floor_resin",
-      "B": "t_floor_resin",
       "d": "t_resin_hole_c",
       "o": "t_wall_resin_cage",
-      "w": "t_wall_resin",
-      ";": "t_floor_resin"
+      "w": "t_wall_resin"
     },
-    "furniture": { "b": "f_bench", "t": "f_table", "x": "f_brazier", "U": "f_birdbath", "l": "f_locker", "B": "f_bookcase" }
+    "furniture": {
+      ".": "f_clear",
+      "b": "f_bench",
+      "t": "f_table",
+      "l": "f_locker",
+      "B": "f_bookcase",
+      "d": "f_clear",
+      "o": "f_clear",
+      "w": "f_clear"
+      }
   },
   {
     "type": "mapgen",
