@@ -162,6 +162,7 @@ struct availability {
         const inventory &inv = player.crafting_inventory();
         auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
         auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
+        auto no_favorite_filter = r->get_component_filter( recipe_filter_flags::no_favorite );
         const deduped_requirement_data &req = r->deduped_requirements();
         has_all_skills = r->skill_used.is_null() ||
                          player.get_skill_level( r->skill_used ) >= r->get_difficulty( player );
@@ -170,6 +171,8 @@ struct availability {
                     req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
         would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
                            craft_flags::start_only );
+        would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
+                             craft_flags::start_only );
         would_not_benefit = r->is_practice() && cannot_gain_skill_or_prof( player, *r );
         const requirement_data &simple_req = r->simple_requirements();
         apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
@@ -185,6 +188,7 @@ struct availability {
     }
     bool can_craft;
     bool would_use_rotten;
+    bool would_use_favorite;
     bool would_not_benefit;
     bool apparently_craftable;
     bool has_proficiencies;
@@ -197,6 +201,8 @@ struct availability {
             return h_dark_gray;
         } else if( would_use_rotten || would_not_benefit ) {
             return has_all_skills ? h_brown : h_red;
+        } else if( would_use_favorite ) {
+            return has_all_skills ? h_pink : h_red;
         } else {
             return has_all_skills ? h_white : h_yellow;
         }
@@ -207,6 +213,8 @@ struct availability {
             return c_dark_gray;
         } else if( would_use_rotten || would_not_benefit ) {
             return has_all_skills || ignore_missing_skills ? c_brown : c_red;
+        } else if( would_use_favorite ) {
+            return has_all_skills ? c_pink : c_red;
         } else {
             return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
         }
@@ -285,6 +293,9 @@ static std::vector<std::string> recipe_info(
     const bool can_craft_this = avail.can_craft;
     if( can_craft_this && avail.would_use_rotten ) {
         oss << _( "<color_red>Will use rotten ingredients</color>\n" );
+    }
+    if( can_craft_this && avail.would_use_favorite ) {
+        oss << _( "<color_red>Will use favorited ingredients</color>\n" );
     }
     const bool too_complex = recp.deduped_requirements().is_too_complex();
     if( can_craft_this && too_complex ) {

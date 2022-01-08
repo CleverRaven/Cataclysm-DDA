@@ -713,35 +713,12 @@ void monster::move()
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
-    if( action == "consume_items" ) {
-        add_msg_if_player_sees( *this,
-                                _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                                name() );
-        static const auto volume_per_hp = 250_ml;
-        for( item &elem : here.i_at( pos() ) ) {
-            hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            if( has_flag( MF_ABSORBS_SPLITS ) ) {
-                while( hp / 2 > type->hp ) {
-                    monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
-                    if( !spawn ) {
-                        break;
-                    }
-                    hp -= type->hp;
-                    //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
-                    spawn->make_ally( *this );
-                    add_msg_if_player_sees( *this, _( "The %s splits in two!" ), name() );
-                }
-            }
-        }
-        here.i_clear( pos() );
-    } else if( action == "eat_crop" ) {
-        // TODO: Create a special attacks whitelist unordered map instead of an if chain.
-        std::map<std::string, mtype_special_attack>::const_iterator attack =
-            type->special_attacks.find( action );
-        if( attack != type->special_attacks.end() && attack->second->call( *this ) ) {
-            if( special_attacks.count( action ) != 0 ) {
-                reset_special( action );
-            }
+    // TODO: Create a special attacks whitelist unordered map instead of an if chain.
+    std::map<std::string, mtype_special_attack>::const_iterator attack =
+        type->special_attacks.find( action );
+    if( attack != type->special_attacks.end() && attack->second->call( *this ) ) {
+        if( special_attacks.count( action ) != 0 ) {
+            reset_special( action );
         }
     }
     // record position before moving to put the player there if we're dragging

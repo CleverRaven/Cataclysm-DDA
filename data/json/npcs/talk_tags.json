@@ -57,7 +57,7 @@
     "text": [
       "Pink tablets!  I love those!",
       "Hey there's some pink tablets, take some!",
-      "Look, some LSD, let's play Cataclysm: fun times ahead!",
+      "Look, some LSD, let's play Cataclysm: Fun Times Ahead!",
       "Say yes to LSD, say yes to Fun!",
       "Perfect, those pink tablets will keep us going, take some!",
       "You know what would make all this more bearable?  Pink Tablets!",
@@ -1415,11 +1415,11 @@
   {
     "type": "snippet",
     "category": "<CWH_intro_question>",
-    "//": "avatar response to an NPC that opens up their theories about what the cataclysm was.",
+    "//": "avatar response to an NPC that opens up their theories about what the Cataclysm was.",
     "text": [
       "How do you think we ended up here?  What even happened?",
       "What's going on?  Like, big picture, what the hell happened?",
-      "What do you think the cataclysm even was?",
+      "What do you think the Cataclysm even was?",
       "So how do you think the end of the world happened?",
       "Have you heard anything about how the apocalypse came about?"
     ]

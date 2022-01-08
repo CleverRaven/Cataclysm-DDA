@@ -155,6 +155,16 @@ void craft_command::execute( bool only_cache_comps )
             flags = recipe_filter_flags::none;
         }
 
+        flags |= recipe_filter_flags::no_favorite;
+        if( !crafter->can_start_craft( rec, flags, batch_size ) ) {
+            if( !query_yn( _( "This craft will use favorited components.\n"
+                              "Start crafting anyway?" ) ) ) {
+                return;
+            }
+            flags = flags & recipe_filter_flags::no_rotten ? recipe_filter_flags::no_rotten :
+                    recipe_filter_flags::none;
+        }
+
         item_selections.clear();
         const auto filter = rec->get_component_filter( flags );
         const requirement_data *needs = rec->deduped_requirements().select_alternative(

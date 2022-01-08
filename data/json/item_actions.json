@@ -192,12 +192,12 @@
   {
     "type": "item_action",
     "id": "CHANGE_EYES",
-    "name": { "str": "Change the eye colour" }
+    "name": { "str": "Change the eye color" }
   },
   {
     "type": "item_action",
     "id": "CHANGE_SKIN",
-    "name": { "str": "Change skin colour" }
+    "name": { "str": "Change skin color" }
   },
   {
     "type": "item_action",
@@ -828,6 +828,11 @@
     "type": "item_action",
     "id": "REMOTEVEH",
     "name": { "str": "Control a vehicle" }
+  },
+  {
+    "type": "item_action",
+    "id": "MANAGE_EXOSUIT",
+    "name": { "str": "Manage exoskeleton modules" }
   },
   {
     "type": "item_action",

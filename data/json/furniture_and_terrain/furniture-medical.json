@@ -172,7 +172,7 @@
     "type": "furniture",
     "id": "f_sample_freezer",
     "name": "sample freezer",
-    "description": "A specialized freezer capable of maintaining tempuratures of -80 Celsius, and is often used only for the preservation of delicate scientific samples.",
+    "description": "A specialized freezer capable of maintaining temperatures of -80 Celsius, and is often used only for the preservation of delicate scientific samples.",
     "symbol": "[",
     "bgcolor": "white",
     "move_cost_mod": 2,

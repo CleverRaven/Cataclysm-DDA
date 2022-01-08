@@ -463,16 +463,16 @@
       "place_nested": [
         {
           "chunks": [
-            [ "null", 5 ],
+            [ "null", 30 ],
             [ "roof_4x4_survivor", 15 ],
-            [ "roof_16x16_help", 25 ],
             [ "roof_4x4_holdout", 5 ],
             [ "roof_6x6_utility", 45 ],
             [ "roof_5x5_coop", 5 ]
           ],
-          "x": [ 11, 23 ],
-          "y": [ 5, 23 ]
-        }
+          "x": [ 11, 18 ],
+          "y": [ 5, 18 ]
+        },
+        { "chunks": [ [ "null", 75 ], [ "roof_16x16_help", 25 ] ], "x": [ 24, 32 ], "y": [ 5, 8 ] }
       ]
     }
   }

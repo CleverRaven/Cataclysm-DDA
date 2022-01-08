@@ -141,6 +141,7 @@
       [ "daypack", 75 ],
       [ "rope_30", 10 ],
       [ "hatchet", 50 ],
+      [ "storage_line", 20 ],
       [ "iceaxe", 20 ],
       { "item": "mess_kit", "prob": 100, "charges": [ 0, 500 ] },
       [ "teapot", 50 ],

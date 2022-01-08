@@ -448,7 +448,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,
-    "flags": [ "EATEN_COLD", "WATER_DISSOLVE" ],
+    "flags": [ "EATEN_COLD", "WATER_DISSOLVE", "NO_AUTO_CONSUME" ],
     "freezing_point": -45,
     "fun": 30
   },

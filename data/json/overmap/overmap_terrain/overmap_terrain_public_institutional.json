@@ -26,20 +26,49 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "cathedral_1_NW", "cathedral_1_NE", "cathedral_1_SW", "cathedral_1_SE" ],
+    "id": [
+      "cathedral_1_NW",
+      "cathedral_1_NE",
+      "cathedral_1_SW",
+      "cathedral_1_SE",
+      "cathedral_2_NW",
+      "cathedral_2_NE",
+      "cathedral_2_SW",
+      "cathedral_2_SE",
+      "cathedral_3_NW",
+      "cathedral_3_NE",
+      "cathedral_3_SW",
+      "cathedral_3_SE"
+    ],
     "name": "cathedral",
     "sym": "C",
     "color": "i_light_red",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "KNOWN_DOWN" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "cathedral_b_NW", "cathedral_b_NE", "cathedral_b_SW", "cathedral_b_SE" ],
     "copy-from": "cathedral_1_NW",
     "name": "cathedral basement",
-    "delete": { "flags": [ "SIDEWALK", "KNOWN_DOWN" ] }
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cathedral_4_NW",
+      "cathedral_4_NE",
+      "cathedral_5_NW",
+      "cathedral_5_NE",
+      "cathedral_6_NW",
+      "cathedral_6_NE",
+      "cathedral_7_NW",
+      "cathedral_7_NE"
+    ],
+    "copy-from": "cathedral_1_NW",
+    "name": "cathedral tower",
+    "delete": { "flags": [ "SIDEWALK" ] }
   },
   {
     "type": "overmap_terrain",
