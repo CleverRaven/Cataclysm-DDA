@@ -57,7 +57,7 @@
   {
     "id": "BGSS_GUNG_HO_3_IDEAS2",
     "type": "talk_topic",
-    "dynamic_line": "I dunno, I'm no expert.  You might not remember, but there was that big news a couple years back that supposedly China had some kind of super fusion reactor.  I read a news article, apparently that was all a front for some other kind of secret weapon they were working on.  Made so much energy, there was no way to hide it, so they made it a story about fusion power instead.  That'd explain why we never saw fusion power Stateside, don't you think?  And if they were that much more advanced that they could make fusion power, who knows what eles they could make.",
+    "dynamic_line": "I dunno, I'm no expert.  You might not remember, but there was that big news a couple years back that supposedly China had some kind of super fusion reactor.  I read a news article, apparently that was all a front for some other kind of secret weapon they were working on.  Made so much energy, there was no way to hide it, so they made it a story about fusion power instead.  That'd explain why we never saw fusion power Stateside, don't you think?  And if they were that much more advanced that they could make fusion power, who knows what else they could make.",
     "responses": [
       { "text": "Huh.  Interesting stuff.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "Huh.  Interesting stuff.  <end_talking>", "topic": "TALK_DONE" }
