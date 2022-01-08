@@ -96,5 +96,34 @@
         { "item": "supplies_metal_precious", "chance": 20, "repeat": [ 2, 6 ] }
       ]
     }
+  },
+  {
+    "type": "palette",
+    "id": "gunshow",
+    "terrain": {
+      " ": "t_dirt"
+    },
+    "furniture": {
+      "h": "f_chair",
+      "T": "f_table",
+      "d": "f_utility_shelf",
+      "m": "f_metal_crate_o",
+      "|": "f_curtain"
+    },
+    "items": {
+      "m": [
+        { "item": "SUS_gunstore_crate", "chance": 20, "repeat": [ 0, 4 ] },
+        { "item": "SUS_gunstore_displaycase", "chance": 20, "repeat": [ 0, 4 ] }
+      ],
+      "d": [
+        { "item": "SUS_gunstore_safe", "chance": 5, "repeat": [ 0, 5 ] },
+        { "item": "SUS_gunstore_safe_obscure", "chance": 5, "repeat": [ 0, 5 ] }
+      ],
+      "T": [
+        { "item": "guns_common_display", "chance": 20, "repeat": [ 0, 1 ] },
+        { "item": "gunmod_common", "chance": 10, "repeat": [ 0, 4 ] },
+        { "item": "SUS_gunstore_gear", "chance": 10, "repeat": [ 0, 4 ] }
+      ]
+    }
   }
 ]

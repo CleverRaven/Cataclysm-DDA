@@ -198,6 +198,54 @@
     ]
   },
   {
+    "id": "mon_secubot_america",
+    "type": "MONSTER",
+    "name": { "str": "M16A4 autonomous TALON UGV Liberty Edition" },
+    "description": "A TALON unmanned ground vehicle equipped with an M16A4.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.  This one has been plastered with an american flag decal.",
+    "default_faction": "defense_bot",
+    "species": [ "ROBOT" ],
+    "diff": 20,
+    "volume": "150 L",
+    "weight": "40750 g",
+    "hp": 80,
+    "speed": 40,
+    "material": [ "steel" ],
+    "symbol": "R",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "armor_bash": 14,
+    "armor_cut": 14,
+    "armor_bullet": 11,
+    "vision_day": 50,
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 8,
+        "move_cost": 80,
+        "gun_type": "firework_cannon",
+        "fake_skills": [ [ "gun", 3 ], [ "rifle", 3 ] ],
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "targeting_sound": "\"Proud to be an American.\"",
+        "targeting_volume": 50,
+        "description": "Fireworks explode out of the turret!",
+        "no_ammo_sound": "an igniter clicks rapidly!"
+      }
+    ],
+    "death_drops": {  },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "Loud rock music blares as the %s explodes!", "corpse_type": "NO_CORPSE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "LOUDMOVES",
+      "STUN_IMMUNE"
+    ]
+  },
+  {
     "id": "mon_skitterbot",
     "type": "MONSTER",
     "name": { "str": "skitterbot" },

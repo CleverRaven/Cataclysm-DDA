@@ -186,5 +186,18 @@
       { "item": "reloaded_545", "prob": 3 },
       { "item": "reloaded_762_51", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "kitted_ak12",
+    "subtype": "collection",
+    "items": [
+      {
+        "item": "ak12",
+        "ammo-item": "545",
+        "charges": 30,
+        "contents-item": [ "shoulder_strap", "holo_sight", "suppressor", "hyper_burst", "m203", "rail_laser_sight"  ]
+      }
+    ]
   }
 ]
