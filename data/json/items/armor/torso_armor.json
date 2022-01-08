@@ -630,166 +630,171 @@
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
-    "id": "lc_lightcuirass",
+    "id": "armor_lc_chestplate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel 2 mm cuirass" },
-    "description": "A light cuirass with a 2 mm thick chestpiece.  This one has been made with mild steel.",
-    "weight": "6 kg",
-    "volume": "6 L",
+    "name": { "str": "mild steel 2 mm chestplate" },
+    "description": "A light chestplate, 2 mm thick.  This one has been made with mild steel.",
+    "weight": "7500 g",
+    "volume": "8750 ml",
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
     "bashing": 8,
     "symbol": "[",
-    "looks_like": "armor_larmor",
+    "looks_like": "cuirass_lightplate",
     "color": "light_gray",
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 2,
-    "flags": [ "OUTER", "STURDY" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "low_steel", "covered_by_mat": 99, "thickness": 2.0 },
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 15
         }
       ]
     }
   },
   {
-    "id": "xl_lc_lightcuirass",
+    "id": "xl_armor_lc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 2 mm cuirass" },
-    "copy-from": "lc_lightcuirass",
+    "name": { "str": "XL mild steel 2 mm chestplate" },
+    "copy-from": "armor_lc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_mc_lightcuirass",
+    "id": "armor_mc_chestplate",
     "type": "ARMOR",
-    "copy-from": "lc_lightcuirass",
-    "name": { "str": "medium steel 2 mm cuirass" },
-    "description": "A light cuirasss with a 2 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "copy-from": "armor_lc_chestplate",
+    "name": { "str": "medium steel 2 mm chestplate" },
+    "description": "A light chestplate, 2 mm thick.  Made with tougher medium steel, this offers solid protection.",
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "med_steel", "covered_by_mat": 99, "thickness": 2.0 },
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 15
         }
       ]
     }
   },
   {
-    "id": "xl_armor_mc_lightcuirass",
+    "id": "xl_armor_mc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 2 mm cuirass" },
-    "copy-from": "armor_mc_lightcuirass",
+    "name": { "str": "XL mild steel 2 mm chestplate" },
+    "copy-from": "armor_mc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_hc_lightcuirass",
+    "id": "armor_hc_chestplate",
     "type": "ARMOR",
-    "copy-from": "lc_lightcuirass",
-    "name": { "str": "high steel 2 mm cuirass" },
-    "description": "A light cuirass with a 2 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
+    "copy-from": "armor_lc_chestplate",
+    "name": { "str": "high steel 2 mm chestplate" },
+    "description": "A light chestplate, 2 mm thick.  Made with high carbon steel offering excellent protection.",
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "high_steel", "covered_by_mat": 99, "thickness": 2.0 },
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 15
         }
       ]
     }
   },
   {
-    "id": "xl_armor_hc_lightcuirass",
+    "id": "xl_armor_hc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel 2 mm cuirass" },
-    "copy-from": "armor_hc_lightcuirass",
+    "name": { "str": "XL high steel 2 mm chestplate" },
+    "copy-from": "armor_hc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_ch_lightcuirass",
+    "id": "armor_ch_chestplate",
     "type": "ARMOR",
-    "copy-from": "lc_lightcuirass",
-    "name": { "str": "case hardened 2 mm cuirass" },
-    "description": "A light cuirass with a 2 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
+    "copy-from": "armor_lc_chestplate",
+    "name": { "str": "case hardened 2 mm chestplate" },
+    "description": "A light chestplate, 2 mm thick.  The mild steel has been case hardened, offering superior protection.",
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 99, "thickness": 2.0 },
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 15
         }
       ]
     }
   },
   {
-    "id": "xl_armor_ch_lightcuirass",
+    "id": "xl_armor_ch_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened 2 mm cuirass" },
-    "copy-from": "armor_ch_lightcuirass",
+    "name": { "str": "XL case hardened 2 mm chestplate" },
+    "copy-from": "armor_ch_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_qt_lightcuirass",
+    "id": "armor_qt_chestplate",
     "type": "ARMOR",
-    "copy-from": "lc_lightcuirass",
-    "name": { "str": "tempered 2 mm cuirass" },
-    "description": "A light cuirass with a 2 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "copy-from": "armor_lc_chestplate",
+    "name": { "str": "tempered 2 mm chestplate" },
+    "description": "A light chestplate, 2 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "tempered_steel", "covered_by_mat": 99, "thickness": 2.0 },
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 15
         }
       ]
     }
   },
   {
-    "id": "xl_armor_qt_lightcuirass",
+    "id": "xl_armor_qt_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered 2 mm cuirass" },
-    "copy-from": "armor_qt_lightcuirass",
+    "name": { "str": "XL tempered 2 mm chestplate" },
+    "copy-from": "armor_qt_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "lc_cuirass",
+    "id": "armor_lc_chestplate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel 4 mm cuirass" },
-    "description": "A cuirass with a 4 mm thick chestpiece.  This one has been made with mild steel.",
-    "weight": "8500 g",
-    "volume": "6 L",
+    "name": { "str": "mild steel 4 mm chestplate" },
+    "description": "A chestplate, 4 mm thick.  This one has been made with mild steel.",
+    "weight": "10 kg",
+    "volume": "17500 ml",
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
@@ -800,149 +805,154 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "low_steel", "covered_by_mat": 99, "thickness": 4.0 },
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 20
         }
       ]
     }
   },
   {
-    "id": "xl_lc_cuirass",
+    "id": "xl_armor_lc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 4 mm cuirass" },
-    "copy-from": "lc_cuirass",
+    "name": { "str": "XL mild steel 4 mm chestplate" },
+    "copy-from": "armor_lc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_mc_cuirass",
+    "id": "armor_mc_chestplate",
     "type": "ARMOR",
-    "copy-from": "lc_cuirass",
-    "name": { "str": "medium steel 4 mm cuirass" },
-    "description": "A cuirass with a 4 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "copy-from": "armor_lc_chestplate",
+    "name": { "str": "medium steel 4 mm chestplate" },
+    "description": "A chestplate, 4 mm thick.  Made with tougher medium steel, this offers solid protection.",
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "med_steel", "covered_by_mat": 99, "thickness": 4.0 },
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 20
         }
       ]
     }
   },
   {
-    "id": "xl_armor_mc_cuirass",
+    "id": "xl_armor_mc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 4 mm cuirass" },
-    "copy-from": "armor_mc_cuirass",
+    "name": { "str": "XL mild steel 4 mm chestplate" },
+    "copy-from": "armor_mc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_hc_cuirass",
+    "id": "armor_hc_chestplate",
     "type": "ARMOR",
-    "copy-from": "lc_cuirass",
-    "name": { "str": "high steel 4 mm cuirass" },
-    "description": "A cuirass with a 4 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
+    "copy-from": "armor_lc_chestplate",
+    "name": { "str": "high steel 4 mm chestplate" },
+    "description": "A chestplate, 4 mm thick.  Made with high carbon steel offering excellent protection.",
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "high_steel", "covered_by_mat": 99, "thickness": 4.0 },
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 20
         }
       ]
     }
   },
   {
-    "id": "xl_armor_hc_cuirass",
+    "id": "xl_armor_hc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel 4 mm cuirass" },
-    "copy-from": "armor_hc_cuirass",
+    "name": { "str": "XL high steel 4 mm chestplate" },
+    "copy-from": "armor_hc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_ch_cuirass",
+    "id": "armor_ch_chestplate",
     "type": "ARMOR",
-    "copy-from": "lc_cuirass",
-    "name": { "str": "case hardened 4 mm cuirass" },
-    "description": "A cuirass with a 4 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
+    "copy-from": "armor_lc_chestplate",
+    "name": { "str": "case hardened 4 mm chestplate" },
+    "description": "A chestplate, 4 mm thick.  The mild steel has been case hardened, offering superior protection.",
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 99, "thickness": 4.0 },
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 20
         }
       ]
     }
   },
   {
-    "id": "xl_armor_ch_cuirass",
+    "id": "xl_armor_ch_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened 4 mm cuirass" },
-    "copy-from": "armor_ch_cuirass",
+    "name": { "str": "XL case hardened 4 mm chestplate" },
+    "copy-from": "armor_ch_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_qt_cuirass",
+    "id": "armor_qt_chestplate",
     "type": "ARMOR",
-    "copy-from": "lc_cuirass",
-    "name": { "str": "tempered 4 mm cuirass" },
-    "description": "A cuirass with a 4 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "copy-from": "armor_lc_chestplate",
+    "name": { "str": "tempered 4 mm chestplate" },
+    "description": "A chestplate, 4 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "tempered_steel", "covered_by_mat": 99, "thickness": 4.0 },
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 20
         }
       ]
     }
   },
   {
-    "id": "xl_armor_qt_cuirass",
+    "id": "xl_armor_qt_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered 4 mm cuirass" },
-    "copy-from": "armor_qt_cuirass",
+    "name": { "str": "XL tempered 4 mm chestplate" },
+    "copy-from": "armor_qt_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "lc_heavycuirass",
+    "id": "armor_lc_heavyplate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel 6 mm cuirass" },
-    "description": "A heavy cuirass with a 6 mm thick chestpiece.  This one has been made with mild steel.",
-    "weight": "10 kg",
-    "volume": "6 L",
+    "name": { "str": "mild steel 6 mm chestplate" },
+    "description": "A heavy chestplate, 6 mm thick.  This one has been made with mild steel.",
+    "weight": "17500 g",
+    "volume": "17500 ml",
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
@@ -953,504 +963,46 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 6,
-    "flags": [ "OUTER", "STURDY" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "low_steel", "covered_by_mat": 99, "thickness": 6.0 },
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 25
         }
       ]
     }
   },
   {
-    "id": "xl_lc_heavycuirass",
+    "id": "xl_armor_lc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 6 mm cuirass" },
-    "copy-from": "lc_heavycuirass",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_mc_heavycuirass",
-    "type": "ARMOR",
-    "copy-from": "lc_heavycuirass",
-    "name": { "str": "medium steel 6 mm cuirass" },
-    "description": "A heavy cuirass with a 6 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 99, "thickness": 6.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 25
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_armor_mc_heavycuirass",
-    "type": "ARMOR",
-    "name": { "str": "XL mild steel 6 mm cuirass" },
-    "copy-from": "armor_mc_heavycuirass",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_hc_heavycuirass",
-    "type": "ARMOR",
-    "copy-from": "lc_heavycuirass",
-    "name": { "str": "high steel 6 mm cuirass" },
-    "description": "A heavy cuirass with a 6 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 99, "thickness": 6.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 25
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_armor_hc_heavycuirass",
-    "type": "ARMOR",
-    "name": { "str": "XL high steel 6 mm cuirass" },
-    "copy-from": "armor_hc_heavycuirass",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_ch_heavycuirass",
-    "type": "ARMOR",
-    "copy-from": "lc_heavycuirass",
-    "name": { "str": "case hardened 6 mm cuirass" },
-    "description": "A heavy cuirass with a 6 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 99, "thickness": 6.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 25
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_armor_ch_heavycuirass",
-    "type": "ARMOR",
-    "name": { "str": "XL case hardened 6 mm cuirass" },
-    "copy-from": "armor_ch_heavycuirass",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_qt_heavycuirass",
-    "type": "ARMOR",
-    "copy-from": "lc_heavycuirass",
-    "name": { "str": "tempered 6 mm cuirass" },
-    "description": "A heavy cuirass with a 6 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "material": [ { "type": "tempered_steel", "portion": 9 }, { "type": "leather", "portion": 1 } ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 99, "thickness": 6.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 25
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_armor_qt_lightcuirass",
-    "type": "ARMOR",
-    "name": { "str": "XL tempered 6 mm cuirass" },
-    "copy-from": "armor_qt_lightcuirass",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "lc_cuirass",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "mild steel 2 mm cuirass" },
-    "description": "A light cuirass with a 2 mm thick chestpiece.  This one has been made with mild steel.",
-    "weight": "6 kg",
-    "volume": "6 L",
-    "price": 60000,
-    "price_postapoc": 12000,
-    "to_hit": -5,
-    "bashing": 8,
-    "symbol": "[",
-    "looks_like": "armor_larmor",
-    "color": "light_gray",
-    "warmth": 20,
-    "longest_side": "60 cm",
-    "material_thickness": 2,
-    "flags": [ "OUTER", "STURDY" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 99, "thickness": 2.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 15
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_lc_cuirass",
-    "type": "ARMOR",
-    "name": { "str": "XL mild steel 2 mm cuirass" },
-    "copy-from": "lc_cuirass",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_mc_cuirass",
-    "type": "ARMOR",
-    "copy-from": "lc_cuirass",
-    "name": { "str": "medium steel 2 mm cuirass" },
-    "description": "A light cuirasss with a 2 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 99, "thickness": 2.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 15
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_armor_mc_cuirass",
-    "type": "ARMOR",
-    "name": { "str": "XL mild steel 2 mm cuirass" },
-    "copy-from": "armor_mc_cuirass",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_hc_cuirass",
-    "type": "ARMOR",
-    "copy-from": "lc_cuirass",
-    "name": { "str": "high steel 2 mm cuirass" },
-    "description": "A light cuirass with a 2 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 99, "thickness": 2.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 15
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_armor_hc_cuirass",
-    "type": "ARMOR",
-    "name": { "str": "XL high steel 2 mm cuirass" },
-    "copy-from": "armor_hc_cuirass",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_ch_cuirass",
-    "type": "ARMOR",
-    "copy-from": "lc_cuirass",
-    "name": { "str": "case hardened 2 mm cuirass" },
-    "description": "A light cuirass with a 2 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 99, "thickness": 2.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 15
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_armor_ch_cuirass",
-    "type": "ARMOR",
-    "name": { "str": "XL case hardened 2 mm cuirass" },
-    "copy-from": "armor_ch_cuirass",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_qt_cuirass",
-    "type": "ARMOR",
-    "copy-from": "lc_cuirass",
-    "name": { "str": "tempered 2 mm cuirass" },
-    "description": "A light cuirass with a 2 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 99, "thickness": 2.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 15
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_armor_qt_cuirass",
-    "type": "ARMOR",
-    "name": { "str": "XL tempered 2 mm cuirass" },
-    "copy-from": "armor_qt_cuirass",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "lc_plate",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "mild steel 4 mm cuirass" },
-    "description": "A cuirass with a 4 mm thick chestpiece.  This one has been made with mild steel.",
-    "weight": "8500 g",
-    "volume": "6 L",
-    "price": 60000,
-    "price_postapoc": 12000,
-    "to_hit": -5,
-    "bashing": 8,
-    "symbol": "[",
-    "looks_like": "armor_larmor",
-    "color": "light_gray",
-    "warmth": 20,
-    "longest_side": "60 cm",
-    "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 99, "thickness": 4.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 20
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_lc_plate",
-    "type": "ARMOR",
-    "name": { "str": "XL mild steel 4 mm cuirass" },
-    "copy-from": "lc_plate",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_mc_plate",
-    "type": "ARMOR",
-    "copy-from": "lc_plate",
-    "name": { "str": "medium steel 4 mm cuirass" },
-    "description": "A cuirass with a 4 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 99, "thickness": 4.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 20
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_armor_mc_plate",
-    "type": "ARMOR",
-    "name": { "str": "XL mild steel 4 mm cuirass" },
-    "copy-from": "armor_mc_plate",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_hc_plate",
-    "type": "ARMOR",
-    "copy-from": "lc_plate",
-    "name": { "str": "high steel 4 mm cuirass" },
-    "description": "A cuirass with a 4 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 99, "thickness": 4.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 20
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_armor_hc_plate",
-    "type": "ARMOR",
-    "name": { "str": "XL high steel 4 mm cuirass" },
-    "copy-from": "armor_hc_plate",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_ch_plate",
-    "type": "ARMOR",
-    "copy-from": "lc_plate",
-    "name": { "str": "case hardened 4 mm cuirass" },
-    "description": "A cuirass with a 4 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 99, "thickness": 4.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 20
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_armor_ch_plate",
-    "type": "ARMOR",
-    "name": { "str": "XL case hardened 4 mm cuirass" },
-    "copy-from": "armor_ch_plate",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "armor_qt_plate",
-    "type": "ARMOR",
-    "copy-from": "lc_plate",
-    "name": { "str": "tempered 4 mm cuirass" },
-    "description": "A cuirass with a 4 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 99, "thickness": 4.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 20
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_armor_qt_plate",
-    "type": "ARMOR",
-    "name": { "str": "XL tempered 4 mm cuirass" },
-    "copy-from": "armor_qt_plate",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "lc_heavyplate",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "mild steel 6 mm cuirass" },
-    "description": "A heavy cuirass with a 6 mm thick chestpiece.  This one has been made with mild steel.",
-    "weight": "10 kg",
-    "volume": "6 L",
-    "price": 60000,
-    "price_postapoc": 12000,
-    "to_hit": -5,
-    "bashing": 8,
-    "symbol": "[",
-    "looks_like": "armor_larmor",
-    "color": "light_gray",
-    "warmth": 20,
-    "longest_side": "60 cm",
-    "material_thickness": 6,
-    "flags": [ "OUTER", "STURDY" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 99, "thickness": 6.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 95,
-          "encumbrance": 25
-        }
-      ]
-    }
-  },
-  {
-    "id": "xl_lc_heavyplate",
-    "type": "ARMOR",
-    "name": { "str": "XL mild steel 6 mm cuirass" },
-    "copy-from": "lc_heavyplate",
+    "name": { "str": "XL mild steel 6 mm chestplate" },
+    "copy-from": "armor_lc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_mc_heavyplate",
     "type": "ARMOR",
-    "copy-from": "lc_heavyplate",
-    "name": { "str": "medium steel 6 mm cuirass" },
-    "description": "A heavy cuirass with a 6 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "copy-from": "armor_lc_heavyplate",
+    "name": { "str": "medium steel 6 mm chestplate" },
+    "description": "A heavy chestplate, 6 mm thick.  Made with tougher medium steel, this offers solid protection.",
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "med_steel", "covered_by_mat": 99, "thickness": 6.0 },
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 25
         }
       ]
@@ -1459,7 +1011,7 @@
   {
     "id": "xl_armor_mc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 6 mm cuirass" },
+    "name": { "str": "XL mild steel 6 mm chestplate" },
     "copy-from": "armor_mc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1467,18 +1019,19 @@
   {
     "id": "armor_hc_heavyplate",
     "type": "ARMOR",
-    "copy-from": "lc_heavyplate",
-    "name": { "str": "high steel 6 mm cuirass" },
-    "description": "A heavy cuirass with a 6 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
+    "copy-from": "armor_lc_heavyplate",
+    "name": { "str": "high steel 6 mm chestplate" },
+    "description": "A heavy chestplate, 6 mm thick.  Made with high carbon steel offering excellent protection.",
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "high_steel", "covered_by_mat": 99, "thickness": 6.0 },
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 25
         }
       ]
@@ -1487,7 +1040,7 @@
   {
     "id": "xl_armor_hc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel 6 mm cuirass" },
+    "name": { "str": "XL high steel 6 mm chestplate" },
     "copy-from": "armor_hc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1495,18 +1048,19 @@
   {
     "id": "armor_ch_heavyplate",
     "type": "ARMOR",
-    "copy-from": "lc_heavyplate",
-    "name": { "str": "case hardened 6 mm cuirass" },
-    "description": "A heavy cuirass with a 6 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
+    "copy-from": "armor_lc_heavyplate",
+    "name": { "str": "case hardened 6 mm chestplate" },
+    "description": "A heavy chestplate, 6 mm thick.  The mild steel has been case hardened, offering superior protection.",
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 99, "thickness": 6.0 },
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 25
         }
       ]
@@ -1515,7 +1069,7 @@
   {
     "id": "xl_armor_ch_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened 6 mm cuirass" },
+    "name": { "str": "XL case hardened 6 mm chestplate" },
     "copy-from": "armor_ch_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1523,29 +1077,29 @@
   {
     "id": "armor_qt_heavyplate",
     "type": "ARMOR",
-    "copy-from": "lc_heavyplate",
-    "name": { "str": "tempered 6 mm cuirass" },
-    "description": "A heavy cuirass with a 6 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "material": [ { "type": "tempered_steel", "portion": 9 }, { "type": "leather", "portion": 1 } ],
+    "copy-from": "armor_lc_heavyplate",
+    "name": { "str": "tempered 6 mm chestplate" },
+    "description": "A heavy chestplate, 6 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor_data": {
       "armor": [
         {
           "material": [
-            { "type": "tempered_steel", "covered_by_mat": 99, "thickness": 6.0 },
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "torso" ],
-          "coverage": 95,
+          "coverage": 100,
           "encumbrance": 25
         }
       ]
     }
   },
   {
-    "id": "xl_armor_qt_cuirass",
+    "id": "xl_armor_qt_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered 6 mm cuirass" },
-    "copy-from": "armor_qt_cuirass",
+    "name": { "str": "XL tempered 6 mm chestplate" },
+    "copy-from": "armor_qt_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   }
