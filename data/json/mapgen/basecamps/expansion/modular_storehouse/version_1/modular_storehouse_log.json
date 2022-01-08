@@ -2,13 +2,7 @@
   {
     "type": "palette",
     "id": "fbms_log_palette",
-    "terrain": {
-      ".": "t_floor",
-      "b": "t_grass",
-      "d": "t_door_c",
-      "o": "t_window_no_curtains",
-      "w": "t_wall_log"
-    },
+    "terrain": { ".": "t_floor", "b": "t_grass", "d": "t_door_c", "o": "t_window_no_curtains", "w": "t_wall_log" },
     "furniture": {
       ".": "f_clear",
       "b": "f_bench",
