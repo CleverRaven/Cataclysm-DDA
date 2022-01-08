@@ -49,7 +49,7 @@
     "class": "JAY_RUCKERS",
     "attitude": 0,
     "mission": 3,
-    "chat": "TALK_BUNKER_MERCHANT",
+    "chat": "TALK_GUNSMITH_SERVICES",
     "faction": "isolated_artisans"
   },
   {
