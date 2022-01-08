@@ -46,6 +46,8 @@ enum class widget_var : int {
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
     bp_status_text, // Status of bodypart (bleeding, bitten, and/or infected)
+    compass_text,   // Compass / visible threats by cardinal direction
+    compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
     env_temp_text,  // Environment temperature, if character has thermometer
     fatigue_text,   // Fagitue description text, color string
@@ -78,6 +80,28 @@ enum class widget_var : int {
 template<>
 struct enum_traits<widget_var> {
     static constexpr widget_var last = widget_var::last;
+};
+
+// This is deliberately separate from "direction".
+// The values correspond to the indexed directions returned from avatar::get_mon_visible
+enum class cardinal_direction : int {
+    NORTH = 0,
+    NORTHEAST = 1,
+    EAST = 2,
+    SOUTHEAST = 3,
+    SOUTH = 4,
+    SOUTHWEST = 5,
+    WEST = 6,
+    NORTHWEST = 7,
+    LOCAL = 8,
+    num_cardinal_directions
+};
+
+// Use enum_traits for generic iteration over cardinal_direction, and string (de-)serialization.
+// Use io::string_to_enum<cardinal_direction>( string ) to convert a string to cardinal_direction.
+template<>
+struct enum_traits<cardinal_direction> {
+    static constexpr cardinal_direction last = cardinal_direction::num_cardinal_directions;
 };
 
 // Use generic_factory for loading JSON data.
@@ -132,6 +156,8 @@ class widget
         std::vector<widget_id> _widgets;
         // Child widget layout arrangement / direction
         std::string _arrange;
+        // Compass direction corresponding to the indexed directions from avatar::get_mon_visible
+        cardinal_direction _direction;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );

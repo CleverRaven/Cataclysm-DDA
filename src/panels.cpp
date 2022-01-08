@@ -2232,6 +2232,120 @@ std::pair<std::string, nc_color> display::weather_text_color( const Character &u
     }
 }
 
+static std::string get_compass_for_direction( const cardinal_direction dir, int max_width )
+{
+    const int d = static_cast<int>( dir );
+    const monster_visible_info &mon_visible = get_avatar().get_mon_visible();
+    std::vector<std::pair<std::string, nc_color>> syms;
+    for( npc *n : mon_visible.unique_types[d] ) {
+        switch( n->get_attitude() ) {
+            case NPCATT_KILL:
+                syms.emplace_back( "@", c_red );
+                break;
+            case NPCATT_FOLLOW:
+                syms.emplace_back( "@", c_light_green );
+                break;
+            default:
+                syms.emplace_back( "@", c_pink );
+                break;
+        }
+    }
+    for( const std::pair<const mtype *, int> &m : mon_visible.unique_mons[d] ) {
+        syms.emplace_back( m.first->sym, m.first->color );
+    }
+
+    std::string ret;
+    for( int i = 0; i < static_cast<int>( syms.size() ); i++ ) {
+        if( i >= max_width - 1 ) {
+            ret += colorize( "+", c_white );
+            break;
+        }
+        ret += colorize( syms[i].first, syms[i].second );
+    }
+    return ret;
+}
+
+std::string display::colorized_compass_text( const cardinal_direction dir, int width )
+{
+    if( dir == cardinal_direction::num_cardinal_directions ) {
+        return "";
+    }
+    return get_compass_for_direction( dir, width );
+}
+
+std::string display::colorized_compass_legend_text( int width, int height )
+{
+    const monster_visible_info &mon_visible = get_avatar().get_mon_visible();
+    std::vector<std::string> names;
+    for( const std::vector<npc *> &nv : mon_visible.unique_types ) {
+        for( const npc *n : nv ) {
+            std::string name;
+            switch( n->get_attitude() ) {
+                case NPCATT_KILL:
+                    name = colorize( "@", c_red );
+                    break;
+                case NPCATT_FOLLOW:
+                    name = colorize( "@", c_light_green );
+                    break;
+                default:
+                    name = colorize( "@", c_pink );
+                    break;
+            }
+            name = string_format( "%s %s", name, n->name );
+            names.emplace_back( name );
+        }
+    }
+    std::map<const mtype *, int> mlist;
+    for( const auto &mv : mon_visible.unique_mons ) {
+        for( const std::pair<const mtype *, int> &m : mv ) {
+            mlist[m.first] += m.second;
+        }
+    }
+    for( const auto &m : mlist ) {
+        nc_color danger = c_dark_gray;
+        if( m.first->difficulty >= 30 ) {
+            danger = c_red;
+        } else if( m.first->difficulty >= 16 ) {
+            danger = c_light_red;
+        } else if( m.first->difficulty >= 8 ) {
+            danger = c_white;
+        } else if( m.first->agro > 0 ) {
+            danger = c_light_gray;
+        }
+        std::string name = m.second > 1 ? string_format( "%d ", m.second ) : "";
+        name += m.first->nname( m.second );
+        name = string_format( "%s %s", colorize( m.first->sym, m.first->color ), colorize( name, danger ) );
+        names.emplace_back( name );
+    }
+    // Split names into X lines, where X = height.
+    // Lines use the provided width.
+    // This effectively limits the text to a 'width'x'height' box.
+    std::string ret;
+    const int nsize = names.size();
+    for( int row = 0, nidx = 0; row < height && nidx < nsize; row++ ) {
+        int wavail = width;
+        int nwidth = utf8_width( names[nidx], true );
+        bool startofline = true;
+        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
+            startofline = false;
+            wavail -= nwidth;
+            ret += names[nidx];
+            nidx++;
+            if( nidx < nsize ) {
+                nwidth = utf8_width( names[nidx], true );
+                if( wavail > nwidth ) {
+                    ret += "  ";
+                    wavail -= 2;
+                }
+            }
+        }
+        if( row < height - 1 ) {
+            ret += "\n";
+        }
+    }
+    return ret;
+}
+
 static void draw_health_classic( const draw_args &args )
 {
     const avatar &u = args._ava;
@@ -3199,7 +3313,7 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
 #endif // TILES
     ret.emplace_back( window_panel( draw_compass_padding_compact, "Compass",
                                     to_translation( "Compass" ),
-                                    5, width, true ) );
+                                    5, width, false ) );
     ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     7, width, false ) );
 
