@@ -196,7 +196,7 @@
         "item": "ak12",
         "ammo-item": "545",
         "charges": 30,
-        "contents-item": [ "shoulder_strap", "holo_sight", "suppressor", "hyper_burst", "m203", "rail_laser_sight"  ]
+        "contents-item": [ "shoulder_strap", "holo_sight", "suppressor", "hyper_burst", "m203", "rail_laser_sight" ]
       }
     ]
   }

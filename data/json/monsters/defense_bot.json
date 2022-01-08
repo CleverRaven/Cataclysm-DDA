@@ -233,17 +233,12 @@
       }
     ],
     "death_drops": {  },
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "Loud rock music blares as the %s explodes!", "corpse_type": "NO_CORPSE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "ELECTRONIC",
-      "COLDPROOF",
-      "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
-      "LOUDMOVES",
-      "STUN_IMMUNE"
-    ]
+    "death_function": {
+      "effect": { "id": "death_smokeburst", "hit_self": true },
+      "message": "Loud rock music blares as the %s explodes!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_skitterbot",

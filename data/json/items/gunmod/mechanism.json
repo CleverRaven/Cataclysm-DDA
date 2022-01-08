@@ -84,7 +84,7 @@
     "mod_targets": [ "ak12" ],
     "install_time": "15 m",
     "handling_modifier": 20,
-    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "hyper-burst", 2 ]  ],
+    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "hyper-burst", 2 ] ],
     "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
     "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
   },

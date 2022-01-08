@@ -100,16 +100,8 @@
   {
     "type": "palette",
     "id": "gunshow",
-    "terrain": {
-      " ": "t_dirt"
-    },
-    "furniture": {
-      "h": "f_chair",
-      "T": "f_table",
-      "d": "f_utility_shelf",
-      "m": "f_metal_crate_o",
-      "|": "f_curtain"
-    },
+    "terrain": { " ": "t_dirt" },
+    "furniture": { "h": "f_chair", "T": "f_table", "d": "f_utility_shelf", "m": "f_metal_crate_o", "|": "f_curtain" },
     "items": {
       "m": [
         { "item": "SUS_gunstore_crate", "chance": 20, "repeat": [ 0, 4 ] },
