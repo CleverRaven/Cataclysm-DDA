@@ -23,5 +23,17 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_bloomery"
+  },
+  {
+    "type": "construction",
+    "id": "constr_fvat_empty_no_faucet",
+    "group": "build_fermenting_vat",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ], [ "cooking", 3 ] ],
+    "time": "90 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 12 ] ], [ [ "sheet_metal_small", 13 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_fvat_empty"
   }
 ]
