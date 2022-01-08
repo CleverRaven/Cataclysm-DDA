@@ -616,8 +616,10 @@ class item : public visitable
          * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
          * @param integral if true return effective volume if this item was integrated into another
          * @param ignore_contents if true return effective volume for the item alone, ignoring its contents
+         * @param charges_in_vol if specified, get the volume for this many charges instead of current charges
          */
-        units::volume volume( bool integral = false, bool ignore_contents = false ) const;
+        units::volume volume( bool integral = false, bool ignore_contents = false,
+                              int charges_in_vol = -1 ) const;
 
         units::length length() const;
 

@@ -54,6 +54,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "hunger";
         case widget_var::move:
             return "move";
+        case widget_var::move_cost:
+            return "move_cost";
         case widget_var::mood:
             return "mood";
         case widget_var::pain:
@@ -76,6 +78,11 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "mana";
         case widget_var::morale_level:
             return "morale_level";
+        // Compass
+        case widget_var::compass_text:
+            return "compass_text";
+        case widget_var::compass_legend_text:
+            return "compass_legend_text";
         // Base stats
         case widget_var::stat_str:
             return "stat_str";
@@ -103,6 +110,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "activity_text";
         case widget_var::body_temp_text:
             return "body_temp_text";
+        case widget_var::bp_status_text:
+            return "bp_status_text";
         case widget_var::date_text:
             return "date_text";
         case widget_var::env_temp_text:
@@ -119,6 +128,10 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "mood_text";
         case widget_var::moon_phase_text:
             return "moon_phase_text";
+        case widget_var::move_mode_letter:
+            return "move_mode_letter";
+        case widget_var::move_mode_text:
+            return "move_mode_text";
         case widget_var::pain_text:
             return "pain_text";
         case widget_var::place_text:
@@ -135,12 +148,18 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "thirst_text";
         case widget_var::time_text:
             return "time_text";
-        case widget_var::weather_text:
-            return "weather_text";
+        case widget_var::veh_azimuth_text:
+            return "veh_azimuth_text";
+        case widget_var::veh_cruise_text:
+            return "veh_cruise_text";
+        case widget_var::veh_fuel_text:
+            return "veh_fuel_text";
         case widget_var::weariness_text:
             return "weariness_text";
         case widget_var::weary_malus_text:
             return "weary_malus_text";
+        case widget_var::weather_text:
+            return "weather_text";
         case widget_var::weight_text:
             return "weight_text";
         case widget_var::wielding_text:
@@ -154,6 +173,34 @@ std::string enum_to_string<widget_var>( widget_var data )
     cata_fatal( "Invalid widget_var" );
 }
 
+template<>
+std::string enum_to_string<cardinal_direction>( cardinal_direction dir )
+{
+    switch( dir ) {
+        case cardinal_direction::NORTH:
+            return "N";
+        case cardinal_direction::SOUTH:
+            return "S";
+        case cardinal_direction::EAST:
+            return "E";
+        case cardinal_direction::WEST:
+            return "W";
+        case cardinal_direction::NORTHEAST:
+            return "NE";
+        case cardinal_direction::NORTHWEST:
+            return "NW";
+        case cardinal_direction::SOUTHEAST:
+            return "SE";
+        case cardinal_direction::SOUTHWEST:
+            return "SW";
+        case cardinal_direction::LOCAL:
+            return "L";
+        case cardinal_direction::num_cardinal_directions:
+        default:
+            break;
+    }
+    cata_fatal( "Invalid cardinal_direction" );
+}
 } // namespace io
 
 void widget::load( const JsonObject &jo, const std::string & )
@@ -168,6 +215,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
     optional( jo, was_loaded, "var_min", _var_min );
     optional( jo, was_loaded, "var_max", _var_max );
+    optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
 
     if( jo.has_string( "var" ) ) {
         _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
@@ -273,6 +321,9 @@ int widget::get_var_value( const avatar &ava )
             break;
         case widget_var::move:
             value = ava.movecounter;
+            break;
+        case widget_var::move_cost:
+            value = ava.run_cost( 100 );
             break;
         case widget_var::pain:
             value = ava.get_perceived_pain();
@@ -433,6 +484,9 @@ bool widget::uses_text_function()
     switch( _var ) {
         case widget_var::activity_text:
         case widget_var::body_temp_text:
+        case widget_var::bp_status_text:
+        case widget_var::compass_text:
+        case widget_var::compass_legend_text:
         case widget_var::date_text:
         case widget_var::env_temp_text:
         case widget_var::fatigue_text:
@@ -441,6 +495,8 @@ bool widget::uses_text_function()
         case widget_var::lighting_text:
         case widget_var::mood_text:
         case widget_var::moon_phase_text:
+        case widget_var::move_mode_letter:
+        case widget_var::move_mode_text:
         case widget_var::pain_text:
         case widget_var::place_text:
         case widget_var::power_text:
@@ -449,9 +505,12 @@ bool widget::uses_text_function()
         case widget_var::style_text:
         case widget_var::thirst_text:
         case widget_var::time_text:
-        case widget_var::weather_text:
+        case widget_var::veh_azimuth_text:
+        case widget_var::veh_cruise_text:
+        case widget_var::veh_fuel_text:
         case widget_var::weariness_text:
         case widget_var::weary_malus_text:
+        case widget_var::weather_text:
         case widget_var::weight_text:
         case widget_var::wielding_text:
         case widget_var::wind_text:
@@ -462,9 +521,10 @@ bool widget::uses_text_function()
 }
 
 // NOTE: Use max_width to split multi-line widgets across lines
-std::string widget::color_text_function_string( const avatar &ava, unsigned int /*max_width*/ )
+std::string widget::color_text_function_string( const avatar &ava, unsigned int max_width )
 {
     std::string ret;
+    bool apply_color = true;
     std::pair<std::string, nc_color> desc;
     // Give a default color (some widget_vars do not define one)
     desc.second = c_light_gray;
@@ -474,6 +534,10 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::body_temp_text:
             desc = display::temp_text_color( ava );
+            break;
+        case widget_var::bp_status_text:
+            desc.first = display::colorized_bodypart_status_text( ava, _bp_id );
+            apply_color = false; // Has embedded color already
             break;
         case widget_var::date_text:
             desc.first = display::date_string();
@@ -499,6 +563,12 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::moon_phase_text:
             desc.first = display::get_moon();
             break;
+        case widget_var::move_mode_letter:
+            desc = display::move_mode_letter_color( ava );
+            break;
+        case widget_var::move_mode_text:
+            desc = display::move_mode_text_color( ava );
+            break;
         case widget_var::pain_text:
             desc = display::pain_text_color( ava );
             break;
@@ -523,14 +593,23 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::time_text:
             desc.first = display::time_string( ava );
             break;
-        case widget_var::weather_text:
-            desc = display::weather_text_color( ava );
+        case widget_var::veh_azimuth_text:
+            desc.first = display::vehicle_azimuth_text( ava );
+            break;
+        case widget_var::veh_cruise_text:
+            desc = display::vehicle_cruise_text_color( ava );
+            break;
+        case widget_var::veh_fuel_text:
+            desc = display::vehicle_fuel_percent_text_color( ava );
             break;
         case widget_var::weariness_text:
             desc = display::weariness_text_color( ava );
             break;
         case widget_var::weary_malus_text:
             desc = display::weary_malus_text_color( ava );
+            break;
+        case widget_var::weather_text:
+            desc = display::weather_text_color( ava );
             break;
         case widget_var::weight_text:
             desc = display::weight_text_color( ava );
@@ -541,12 +620,20 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::wind_text:
             desc = display::wind_text_color( ava );
             break;
+        case widget_var::compass_text:
+            desc.first = display::colorized_compass_text( _direction, _width );
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::compass_legend_text:
+            desc.first = display::colorized_compass_legend_text( max_width, _height );
+            apply_color = false; // Already colorized
+            break;
         default:
             debugmsg( "Unexpected widget_var %s - no text_color function defined",
                       io::enum_to_string<widget_var>( _var ) );
             return _( "???" );
     }
-    ret += colorize( desc.first, desc.second );
+    ret += apply_color ? colorize( desc.first, desc.second ) : desc.first;
     return ret;
 }
 

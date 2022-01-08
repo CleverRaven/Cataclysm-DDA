@@ -1,0 +1,10 @@
+[
+  {
+    "id": "env_temp_desc",
+    "type": "widget",
+    "label": "Temperature",
+    "style": "text",
+    "var": "env_temp_text",
+    "//": "Uses display::get_temp"
+  }
+]
