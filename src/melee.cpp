@@ -400,16 +400,16 @@ std::string Character::get_miss_reason()
 }
 
 void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap, bool unarmed, const Creature *target, const bodypart_id &bp ) const
+                                 const item &weap, std::string attack_vector, const Creature *target, const bodypart_id &bp ) const
 {
     float crit_mod = 1.f;
     if( target != nullptr ) {
         crit_mod = target->get_crit_factor( bp );
     }
-    roll_bash_damage( crit, di, average, weap, unarmed, crit_mod );
-    roll_cut_damage( crit, di, average, weap, unarmed, crit_mod );
-    roll_stab_damage( crit, di, average, weap, unarmed, crit_mod );
-    roll_other_damage( crit, di, average, weap, unarmed, crit_mod );
+    roll_bash_damage( crit, di, average, weap, attack_vector, crit_mod );
+    roll_cut_damage( crit, di, average, weap, attack_vector, crit_mod );
+    roll_stab_damage( crit, di, average, weap, attack_vector, crit_mod );
+    roll_other_damage( crit, di, average, weap, attack_vector, crit_mod );
 }
 
 static void melee_train( Character &you, int lo, int hi, const item &weap )
@@ -751,8 +751,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         }
         
         damage_instance d;
-        bool unarmed = attack_vector == "WEAPON";
-        roll_all_damage( critical_hit, d, false, *cur_weapon, unarmed, &t, target_bp );
+        roll_all_damage( critical_hit, d, false, *cur_weapon, attack_vector, &t, target_bp );
                 
         // your hits are not going to hurt very much if you can't use martial arts due to broken limbs
         if( attack_vector == "HANDS" && get_limb_score( limb_score_block, body_part_type::type::arm ) < 1.0f ) {
@@ -1182,9 +1181,10 @@ float Character::bonus_damage( bool random ) const
 }
 
 void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
-                                  const item &weap, bool unarmed, float crit_mod ) const
+                                  const item &weap, std::string attack_vector, float crit_mod ) const
 {
     float bash_dam = 0.0f;
+    bool unarmed = attack_vector == "WEAPON";
     
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
     if( has_active_bionic( bio_cqb ) ) {
@@ -1219,11 +1219,41 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     }
 
     if( unarmed ) {
-        const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
-        const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
-                                 weap.is_null();
-        if( left_empty || right_empty ) {
-            float per_hand = 0.0f;
+        bool bp_unrestricted;
+
+        if( attack_vector == "ARM" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "arm_r" ) ) );
+        }
+        else if( attack_vector == "ELBOW" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_elbow_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "arm_elbow_r" ) ) );
+        }
+        else if( attack_vector == "SHOULDER" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_shoulder_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "arm_shoulder_r" ) ) );
+        }
+        else if( attack_vector == "FOOT" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "foot_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "foot_r" ) ) );
+        }
+        else if( attack_vector == "LOWER_LEG" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_lower_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "leg_lower_r" ) ) );
+        }
+        else if( attack_vector == "KNEE" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_knee_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "leg_knee_r" ) ) );
+        }
+        else if( attack_vector == "HIP" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_hip_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "leg_hip_r" ) ) );
+        }
+        else if( attack_vector == "HEAD" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "head" ) );
+        }
+        else if( attack_vector == "TORSO" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "torso" ) );
+        }
+        else {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "hand_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) && weap.is_null() );
+        }
+
+        if( bp_unrestricted ) {
+            float extra_damage = 0.0f;
             for( const trait_id &mut : get_mutations() ) {
                 if( mut->flags.count( json_flag_NEED_ACTIVE_TO_MELEE ) > 0 && !has_active_mutation( mut ) ) {
                     continue;
@@ -1233,16 +1263,12 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
                 if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && bash_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
-                per_hand += bash_bonus + unarmed_bonus;
+                extra_damage += bash_bonus + unarmed_bonus;
                 const std::pair<int, int> rand_bash = mut->rand_bash_bonus;
-                per_hand += average ? ( rand_bash.first + rand_bash.second ) / 2.0f : rng( rand_bash.first,
+                extra_damage += average ? ( rand_bash.first + rand_bash.second ) / 2.0f : rng( rand_bash.first,
                             rand_bash.second );
             }
-            bash_dam += per_hand; // First hand
-            if( left_empty && right_empty ) {
-                // Second hand
-                bash_dam += per_hand;
-            }
+            bash_dam += extra_damage;
         }
 
     }
@@ -1295,10 +1321,11 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 }
 
 void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap, bool unarmed, float crit_mod ) const
+                                 const item &weap, std::string attack_vector, float crit_mod ) const
 {
     float cut_dam = mabuff_damage_bonus( damage_type::CUT ) + weap.damage_melee( damage_type::CUT );
     float cut_mul = 1.0f;
+    bool unarmed = attack_vector == "WEAPON";
 
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_cutting );
 
@@ -1307,16 +1334,41 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
     }
 
     if( unarmed ) {
-        // TODO: 1-handed weapons that aren't unarmed attacks
-        const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
-        const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
-                                 weap.is_null();
-        if( left_empty || right_empty ) {
-            float per_hand = 0.0f;
-            if( has_bionic( bio_razors ) ) {
-                per_hand += 2;
-            }
+        bool bp_unrestricted;
 
+        if( attack_vector == "ARM" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "arm_r" ) ) );
+        }
+        else if( attack_vector == "ELBOW" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_elbow_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "arm_elbow_r" ) ) );
+        }
+        else if( attack_vector == "SHOULDER" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_shoulder_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "arm_shoulder_r" ) ) );
+        }
+        else if( attack_vector == "FOOT" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "foot_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "foot_r" ) ) );
+        }
+        else if( attack_vector == "LOWER_LEG" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_lower_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "leg_lower_r" ) ) );
+        }
+        else if( attack_vector == "KNEE" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_knee_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "leg_knee_r" ) ) );
+        }
+        else if( attack_vector == "HIP" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_hip_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "leg_hip_r" ) ) );
+        }
+        else if( attack_vector == "HEAD" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "head" ) );
+        }
+        else if( attack_vector == "TORSO" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "torso" ) );
+        }
+        else {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "hand_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) && weap.is_null() );
+        }
+
+        if( bp_unrestricted ) {
+            float extra_damage = 0.0f;
             for( const trait_id &mut : get_mutations() ) {
                 if( mut->flags.count( json_flag_NEED_ACTIVE_TO_MELEE ) > 0 && !has_active_mutation( mut ) ) {
                     continue;
@@ -1326,19 +1378,14 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
                 if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
-                per_hand += cut_bonus + unarmed_bonus;
+                extra_damage += cut_bonus + unarmed_bonus;
                 const std::pair<int, int> rand_cut = mut->rand_cut_bonus;
-                per_hand += average ? ( rand_cut.first + rand_cut.second ) / 2.0f : rng( rand_cut.first,
+                extra_damage += average ? ( rand_cut.first + rand_cut.second ) / 2.0f : rng( rand_cut.first,
                             rand_cut.second );
             }
-            // TODO: add acidproof check back to slime hands (probably move it elsewhere)
-
-            cut_dam += per_hand; // First hand
-            if( left_empty && right_empty ) {
-                // Second hand
-                cut_dam += per_hand;
-            }
+            cut_dam += extra_damage;
         }
+
     }
 
     if( cut_dam <= 0.0f ) {
@@ -1368,10 +1415,11 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
     di.add_damage( damage_type::CUT, cut_dam, arpen, armor_mult, cut_mul );
 }
 
-void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average*/,
-                                  const item &weap, bool unarmed, float crit_mod ) const
+void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
+                                  const item &weap, std::string attack_vector, float crit_mod ) const
 {
-    float cut_dam = mabuff_damage_bonus( damage_type::STAB ) + weap.damage_melee( damage_type::STAB );
+    float stab_dam = mabuff_damage_bonus( damage_type::STAB ) + weap.damage_melee( damage_type::STAB );
+    bool unarmed = attack_vector == "WEAPON";
 
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_stabbing );
 
@@ -1380,33 +1428,66 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
     }
 
     if( unarmed ) {
-        const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
-        const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
-                                 weap.is_null();
-        if( left_empty || right_empty ) {
-            float per_hand = 0.0f;
+        bool bp_unrestricted;
 
-            for( const trait_id &mut : get_mutations() ) {
-                per_hand += mut->pierce_dmg_bonus;
-
-                if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
-                    per_hand += std::min( skill / 2, 4 );
-                }
-            }
-
-            if( has_bionic( bio_razors ) ) {
-                per_hand += 2;
-            }
-
-            cut_dam += per_hand; // First hand
-            if( left_empty && right_empty ) {
-                // Second hand
-                cut_dam += per_hand;
-            }
+        if( attack_vector == "ARM" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "arm_r" ) ) );
         }
+        else if( attack_vector == "ELBOW" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_elbow_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "arm_elbow_r" ) ) );
+        }
+        else if( attack_vector == "SHOULDER" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_shoulder_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "arm_shoulder_r" ) ) );
+        }
+        else if( attack_vector == "FOOT" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "foot_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "foot_r" ) ) );
+        }
+        else if( attack_vector == "LOWER_LEG" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_lower_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "leg_lower_r" ) ) );
+        }
+        else if( attack_vector == "KNEE" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_knee_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "leg_knee_r" ) ) );
+        }
+        else if( attack_vector == "HIP" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_hip_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "leg_hip_r" ) ) );
+        }
+        else if( attack_vector == "HEAD" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "head" ) );
+        }
+        else if( attack_vector == "TORSO" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "torso" ) );
+        }
+        else {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "hand_l" ) ) || ( !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) && weap.is_null() );
+        }
+
+        if( bp_unrestricted ) {
+            float extra_damage = 0.0f;
+            for( const trait_id &mut : get_mutations() ) {
+                if( mut->flags.count( json_flag_NEED_ACTIVE_TO_MELEE ) > 0 && !has_active_mutation( mut ) ) {
+                    continue;
+                }
+                float unarmed_bonus = 0.0f;
+                const int pierce_bonus = mut->pierce_dmg_bonus;
+                if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && pierce_bonus > 0 ) {
+                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                }
+                extra_damage += pierce_bonus + unarmed_bonus;
+                const std::pair<int, int> rand_pierce = mut->rand_cut_bonus;
+                extra_damage += average ? ( rand_pierce.first + rand_pierce.second ) / 2.0f : rng( rand_pierce.first,
+                            rand_pierce.second );
+            }
+            
+            if( attack_vector == "HAND" && has_bionic( bio_razors ) ) {
+                extra_damage += 2;
+            }
+
+            stab_dam += extra_damage;
+        }
+
     }
 
-    if( cut_dam <= 0 ) {
+    if( stab_dam <= 0 ) {
         return; // No negative stabbing!
     }
 
@@ -1429,11 +1510,11 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
         armor_mult = 1.f - 0.34f * crit_mod;
     }
 
-    di.add_damage( damage_type::STAB, cut_dam, arpen, armor_mult, stab_mul );
+    di.add_damage( damage_type::STAB, stab_dam, arpen, armor_mult, stab_mul );
 }
 
 void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*average*/,
-                                   const item &weap, bool unarmed, float /*crit_mod*/ ) const
+                                   const item &weap, std::string attack_vector, float /*crit_mod*/ ) const
 {
     std::map<std::string, damage_type> dt_map = get_dt_map();
 
