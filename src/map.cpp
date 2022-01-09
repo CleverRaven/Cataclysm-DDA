@@ -848,6 +848,12 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         }
     }
 
+    // Prevent potential division by zero
+    if( coll_parts_cnt == 0 ) {
+        debugmsg( "Vehicle %s collided with bugs in the code", veh.name );
+        return 0.0f;
+    }
+
     const float dmg1_part = dmg_veh1 / coll_parts_cnt;
     const float dmg2_part = dmg_veh2 / coll_parts_cnt;
 
