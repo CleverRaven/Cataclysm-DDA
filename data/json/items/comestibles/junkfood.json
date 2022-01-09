@@ -649,7 +649,7 @@
     "charges": 5,
     "stack_size": 30,
     "fun": 2,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",

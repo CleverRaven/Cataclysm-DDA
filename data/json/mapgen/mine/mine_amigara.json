@@ -32,7 +32,7 @@
         "########################################################################"
       ],
       "terrain": {
-        " ": [ [ "t_water_sh_underground", 1 ], [ "t_rock_floor", 10 ] ],
+        " ": [ [ "t_puddle_underground", 1 ], [ "t_rock_floor", 10 ] ],
         "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ],
         "#": "t_rock",
         "*": "t_railroad_track_small",

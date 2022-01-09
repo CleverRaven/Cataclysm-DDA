@@ -1,29 +1,40 @@
 # Sidebar Modification
 
 - [Overview](#overview)
-- [About widgets](#about-widgets)
-- [Widget variables](#widget-variables)
-- [Number widget](#number-widget)
-- [Graph widget](#graph-widget)
-  - [fill](#fill)
-  - [var_max](#var-max)
-- [Layout widget](#layout-widget)
-  - [Root layouts](#root-layouts)
-
+- [Widgets](#widgets)
+- [Sidebar widgets](#sidebar-widgets)
+- [Layout widgets](#layout-widgets)
+- [Variable widgets](#variable-widgets)
+  - [Number widget](#number-widget)
+  - [Graph widget](#graph-widget)
+    - [fill](#fill)
+    - [var_max](#var-max)
+  - [Colors](#colors)
+- [Flags](#flags)
 
 ## Overview
 
 Some parts of the main CDDA sidebar are now moddable, meaning they are data-driven and can be
 customized simply by editing JSON files, without recompiling the game.
 
-You can add the custom sidebar via the Sidebar Options menu `}` by enabling the "Custom" section.
+You can add a custom sidebar section to your regular sidebar via the Sidebar Options menu `}`
+by enabling the "Custom" section from the left-hand column for any of the regular sidebar layouts
+(classic, labels, narrow etc.)
+
+You can also switch to an almost completely custom sidebar, by selecting "custom" from the
+right-hand column of the sidebar options menu. This layout is built from the "custom_sidebar" widget
+defined in `data/json/ui/sidebar.json`, with sections you can toggle or rearrange in-game according
+to your preference.
+
+In both cases, you can further customize your sidebar widgets by modifying (or modding) the JSON
+that describes them. This document explains how they work.
 
 
-## About widgets
+## Widgets
 
-Sidebar UI elements are defined in objects called widgets. A widget can display a variety of player
-character attributes in numeric form, or as a bar graph of arbitrary width. A widget can also make a
-layout of other widgets.
+All "custom" sidebar UI elements are defined in objects called widgets. A widget can display a
+variety of player character attributes in numeric form, or as a bar graph of arbitrary width. A
+widget can also make a layout of other widgets.
 
 Widget instances are defined by JSON data, with the main game sidebar widgets and layouts being in
 `data/json/ui/sidebar.json`. You may customize yours by editing this file, or by loading a mod that
@@ -43,21 +54,113 @@ For example, here is a widget to display the player character's "Focus" attribut
 
 All widgets must have a unique "id", and "type": "widget".
 
-Widgets have the following "style" options:
+Each widget has a "style" field that may be:
 
-- `number`: Display value as a plain integer number
+- `number`: Show value as a plain integer number
 - `graph`: Show a bar graph of the value with colored text characters
 - `text`: Show text from a `*_text` variable
-- `layout`: Special style; this widget will be a layout container for other widgets
+- `layout`: Layout container for arranging other widgets in rows or columns
+- `sidebar`: Special top-level widget for defining custom sidebars
 
-Non-layout widgets must define a "var" field, with the name of a predefined widget variable.
+Let's start at the top, with the "sidebar" widget, composed of several "layout" widgets.
 
 
-## Widget variables
+## Sidebar widget
 
-The "var" field of a widget tells what variable data gives the widget its value. Valid var names
-are given by the `widget_var` enum defined in `widget.h`. In the widget's `show` method, these var
-enums determine which avatar method(s) to get their values from.
+The highest-level widget is the "sidebar", which represents the entire display region on the right
+(or left) edge of the screen. It includes a "width" in characters, a "label" displayed in the
+sidebar options menu, and a list of "widgets", shown as sections that may be rearranged or
+toggled from the sidebar options menu.
+
+These sub-widgets are typically [layout widgets](#layout-widgets), with other widgets arranged
+inside them, but they could also be plain [variable widgets](#variable-widgets), used for showing
+character attributes or other information.
+
+Here is how a simple sidebar definition might look in JSON:
+
+```json
+{
+  "id": "my_sidebar",
+  "style": "sidebar",
+  "width": 40,
+  "widgets": [
+    "sound_focus_move_layout",
+    "stats_layout"
+  ]
+}
+```
+
+Each widget in the "sidebar" will be associated with a `panel_layout` instance in the code, which is
+what allows them to be toggled and rearranged like the classic sidebar sections.
+
+You may define any number of "sidebar" widgets, each with their own width, label, and collection of
+sub-widgets and layouts.
+
+Sidebar widgets aside, there are two major types of widget: [variable widgets](#variable-widgets),
+showing some piece of information (with a label); and [layout widgets](#layout-widgets), used for
+arranging other widgets in rows or columns.
+
+We will look at layout widgets first, since they are easier to explain.
+
+
+## Layout widgets
+
+Use widgets with "style": "layout" to arrange child widgets in sidebar panels, giving widget ids in
+the "widgets" list field.
+
+The arrangement of child widgets is defined by the "arrange" field, which may be "columns" (default)
+to array widgets horizontally, or "rows" to arrange them vertically, one widget per row.  Widgets in
+the same row will have their horizontal space split as equally as possible.
+
+```json
+[
+  {
+    "id": "sound_focus_move_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "sound_num", "focus_num", "move_num" ]
+  },
+  {
+    "id": "stats_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "str_num", "dex_num", "int_num", "per_num" ]
+  },
+  {
+    "id": "sound_focus_move_stats_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [
+      "sound_focus_move_layout",
+      "stats_layout"
+    ]
+  }
+]
+```
+
+The above might yield:
+
+```
+Sound: 8  Focus: 105  Move: 120
+Str: 8  Dex: 9  Int: 7  Per: 11
+```
+
+Where do all these numeric widgets and their values come from? These are variable widgets, discussed
+next.
+
+
+## Variable widgets
+
+Variable widgets define a "var" field, with the name of a predefined widget variable. This tells the
+widget what information it should show. Most of the time, these are attributes of the player
+character, but they can also be attributes of the world, environment, or vehicle where they are.
+
+The "var" field of a display widget tells what variable data gives the widget its value. Valid var
+names are given by the `widget_var` enum defined in `widget.h`. In the widget's `show` method, these
+var enums determine which avatar method(s) to get their values from.
 
 Below are a few examples of vars and what they mean. See the `widget_var` list in `widget.h` for the
 definitive list of vars.
@@ -101,6 +204,8 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `style_text`    | Name of current martial arts style
 | `weight_text`   | "Emaciated", "Normal", "Overweight", etc.
 | `date_text`     | Current day within season, like "Summer, day 15"
+| `compass_text`  | A compass direction (ex: NE), displaying visible creatures in that direction
+| `compass_legend_text` | A list of creatures visible by the player, corresponding to compass symbols
 
 For example, a widget to show the current STR stat would define this "var":
 
@@ -119,14 +224,51 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
 }
 ```
 
+Widgets using `compass_text` expect the additional fields `direction` and `width` to
+identify (respectively) the cardinal direction and number of creatures displayed:
+
+```json
+{
+  "var": "compass_text",
+  "direction": "N",
+  "width": 6
+}
+```
+
+`compass_legend_text` makes use of the "height" field (see below), which tells the display
+function to reserve that many lines for the compass legend:
+
+```json
+{
+  "var": "compass_legend_text",
+  "height": 3
+}
+```
+
 Plain numeric values can be displayed as-is, up to any maximum. For "graph" widgets, it is useful to
 define a "var_max" as a cutoff point; see the "Graph widget" section for more.
 
-
 You may also define "var_min" if it's relevant. By default this is 0.
 
+#### `height`
 
-## Number widget
+Some widgets can make use of multiple lines by specifying the `"height"` field, which reserves
+vertical space in the sidebar. Display functions can make use of this extra space to render
+multi-line widgets.
+
+Warning: implementation details ahead.
+
+The max width and height available for a widget is passed to its `display::` function through
+`widget::color_text_function_string()`. The display function can use this data to format the
+widget text as a series of lines delimited by a newline (`\n`).
+
+The formatted string is passed to `widget::show()` and `widget::layout()`, which format each
+line individually for drawing in `widget::custom_draw_multiline()`.
+
+Adding new multi-line-capable widgets involves ensuring the new display function formats the
+widget's text according to the available width and height.
+
+### Number widget
 
 The simplest and usually most compact widget for displaying a value, "style": "number" appears as a
 label with an integer number.
@@ -147,7 +289,7 @@ Focus: 100
 The numeric value comes from the given "var", displayed as a decimal integer.
 
 
-## Graph widget
+### Graph widget
 
 The graph shows an arrangement of symbols. It has two important parameters:
 
@@ -231,7 +373,7 @@ The method is specified with the "fill" field. This example uses the default "bu
 there is also a "pool" method, described in the next section.
 
 
-### fill
+#### fill
 
 With "bucket" fill, positions are filled like a row of buckets, using all symbols in the first
 position before beginning to fill the next position.  This is like the classic 5-bar HP meter.
@@ -290,7 +432,7 @@ Result:
 The total number of possible graphs is the same in each case, so both have the same resolution.
 
 
-### var_max
+#### var_max
 
 Using "graph" style widgets, usually you should provide a "var_max" value (integer) with the maximum
 typical value of "var" that will ever be rendered.
@@ -304,62 +446,7 @@ up to 100 or 200 (like focus). If a var usually varies within a range `[low, hig
 "var_max" greater than `high` to be sure the normal variance is captured in the graph's range.
 
 
-## Layout widget
-
-Use widgets with "style": "layout" to arrange child widgets in sidebar panels, giving widget ids in
-the "widgets" list field.
-
-The arrangement of child widgets is defined by the "arrange" field, which may be "columns" (default)
-to array widgets horizontally, or "rows" to arrange them vertically, one widget per row.  Widgets in
-the same row will have their horizontal space split as equally as possible.
-
-```json
-[
-  {
-    "id": "sound_focus_move_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "columns",
-    "widgets": [ "sound_num", "focus_num", "move_num" ]
-  },
-  {
-    "id": "stats_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "columns",
-    "widgets": [ "str_num", "dex_num", "int_num", "per_num" ]
-  },
-  {
-    "id": "root_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "widgets": [
-      "sound_focus_move_layout",
-      "stats_layout"
-    ]
-  }
-]
-```
-
-The above might yield:
-
-```
-Sound: 8  Focus: 105  Move: 120
-Str: 8  Dex: 9  Int: 7  Per: 11
-```
-
-### Root layouts
-
-There are two important "root layout" widgets defined in `data/json/ui/sidebar.json`:
-
-- Widget id "root_layout_wide" is used for "labels" and "classic" sidebars
-- Widget id "root_layout_narrow" is used for "compact" and "labels narrow" sidebars
-
-Modify or override the root layout widget to define all sub-layouts or child widgets you want to see
-in the custom section of your sidebar.
-
-## Colors
+### Colors
 
 Widgets with "number" or "graph" style may define "colors", which will be used as a spectrum across
 the widget's values ("var_min" to "var_max"), applying the appropriate color at each level.
@@ -398,4 +485,26 @@ yellow, light red, and red. Such coloration could be represented with "colors" l
 }
 ```
 
+## Flags
 
+Widgets can use flags to specify special behaviors:
+
+```json
+{
+  "id": "my_widget",
+  "type": "widget",
+  "style": "text",
+  "label": "My Widget",
+  "var": "my_widget_var",
+  "flags": [ "W_LABEL_NONE", "W_PAD_CENTER" ]
+}
+```
+
+Here are some flags that can be included:
+
+| Flag id        | Description
+|---             |---
+| `W_LABEL_NONE` | Prevents the widget's label from being displayed in the sidebar
+| `W_DISABLED`   | Makes this widget disabled by default (only applies to top-level widgets/layouts)
+| `W_PAD_CENTER` | Adds enough left-padding to center the widget text (widget is center-aligned)
+| `W_PAD_NONE`   | Omits the left-padding altogether (widget is left-aligned)

@@ -1581,7 +1581,8 @@ void activity_handlers::forage_finish( player_activity *act, Character *you )
     bool next_to_bush = false;
     map &here = get_map();
     for( const tripoint &pnt : here.points_in_radius( you->pos(), 1 ) ) {
-        if( here.getabs( pnt ) == act->placement ) {
+        // TODO: fix point types
+        if( here.getglobal( pnt ) == tripoint_abs_ms( act->placement ) ) {
             next_to_bush = true;
             break;
         }
@@ -2887,8 +2888,7 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
             waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
         }
         map &here = get_map();
-        // TODO: fix point types
-        tripoint centre_sub = here.getlocal( waypoint.raw() );
+        tripoint centre_sub = here.getlocal( waypoint );
         if( !here.passable( centre_sub ) ) {
             tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
             for( const tripoint &elem : candidates ) {
@@ -3621,11 +3621,13 @@ void activity_handlers::chop_planks_finish( player_activity *act, Character *you
     map &here = get_map();
     if( planks > 0 ) {
         here.spawn_item( here.getlocal( act->placement ), itype_2x4, planks, 0, calendar::turn );
-        you->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
+        you->add_msg_if_player( m_good, n_gettext( "You produce %d plank.", "You produce %d planks.",
+                                planks ), planks );
     }
     if( scraps > 0 ) {
         here.spawn_item( here.getlocal( act->placement ), itype_splinter, scraps, 0, calendar::turn );
-        you->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
+        you->add_msg_if_player( m_good, n_gettext( "You produce %d splinter.", "You produce %d splinters.",
+                                scraps ), scraps );
     }
     if( planks < max_planks / 2 ) {
         you->add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
@@ -3697,24 +3699,8 @@ void activity_handlers::fill_pit_finish( player_activity *act, Character *you )
     act->set_to_null();
 }
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
-        const std::unordered_set<tripoint> &tiles )
-{
-    const auto cmp = [abspos]( tripoint a, tripoint b ) {
-        const int da = rl_dist( abspos, a );
-        const int db = rl_dist( abspos, b );
-
-        return da < db;
-    };
-
-    std::vector<tripoint> sorted( tiles.begin(), tiles.end() );
-    std::sort( sorted.begin(), sorted.end(), cmp );
-
-    return sorted;
-}
-
 template<typename fn>
-static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
+static void cleanup_tiles( std::unordered_set<tripoint_abs_ms> &tiles, fn &cleanup )
 {
     auto it = tiles.begin();
     map &here = get_map();
@@ -3737,15 +3723,16 @@ static void perform_zone_activity_turn( Character *you,
 {
     const zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
-    const tripoint abspos = here.getabs( you->pos() );
-    std::unordered_set<tripoint> unsorted_tiles = mgr.get_near( ztype, abspos );
+    const tripoint_abs_ms abspos = you->get_location();
+    std::unordered_set<tripoint_abs_ms> unsorted_tiles = mgr.get_near( ztype, abspos );
 
     cleanup_tiles( unsorted_tiles, tile_filter );
 
     // sort remaining tiles by distance
-    const std::vector<tripoint> &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
+    const std::vector<tripoint_abs_ms> &tiles =
+        get_sorted_tiles_by_distance( abspos, unsorted_tiles );
 
-    for( const tripoint &tile : tiles ) {
+    for( const tripoint_abs_ms &tile : tiles ) {
         const tripoint &tile_loc = here.getlocal( tile );
 
         std::vector<tripoint> route = here.route( you->pos(), tile_loc, you->get_pathfinding_settings(),

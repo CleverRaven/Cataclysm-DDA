@@ -97,6 +97,16 @@ class activity_actor
         }
 
         /**
+         * Override to false in actors that are slow because they frequently
+         * invalidate the inventory and trigger excessive
+         * drop_invalid_inventory() calls, and can guarantee that it is called
+         * appropriately themselves.
+         */
+        virtual bool do_drop_invalid_inventory() const {
+            return true;
+        }
+
+        /**
          * Returns a deep copy of this object. Example implementation:
          * \code
          * class my_activity_actor {

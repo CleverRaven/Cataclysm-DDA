@@ -2074,7 +2074,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2831 ml",
+        "max_contains_volume": "2749 ml",
         "max_contains_weight": "4 kg",
         "airtight": true,
         "moves": 200,
@@ -2138,5 +2138,86 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "small_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "small propane tank" },
+    "description": "This is a small tank of propane, commonly used for camping stoves and torches.",
+    "weight": "907 g",
+    "volume": "5030 ml",
+    "longest_side": "21 cm",
+    "price": 2000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 5,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 30 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "medium_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "medium propane tank" },
+    "description": "This is a medium tank of propane, commonly used for barbeques.",
+    "weight": "4082 g",
+    "volume": "13600 ml",
+    "longest_side": "3251 cm",
+    "price": 2000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 5,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 75 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "large_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "large propane tank" },
+    "description": "This is a large tank of propane, commonly used for heating.",
+    "weight": "8164 g",
+    "volume": "44 L",
+    "longest_side": "46 cm",
+    "price": 6000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 302 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   }
 ]

@@ -897,7 +897,9 @@ class vehicle
          */
         void use_controls( const tripoint &pos );
 
+        item init_cord( const tripoint &pos );
         void plug_in( const tripoint &pos );
+        void connect( const tripoint &source_pos, const tripoint &target_pos );
 
         // Fold up the vehicle
         bool fold_up();
@@ -1191,6 +1193,9 @@ class vehicle
         int fuel_left( int p, bool recurse = false ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
         int engine_fuel_left( int e, bool recurse = false ) const;
+        // Returns what type of fuel an engine uses
+        itype_id engine_fuel_current( int e ) const;
+        // Returns total vehicle fuel capacity for the given fuel type
         int fuel_capacity( const itype_id &ftype ) const;
 
         // Returns the total specific energy of this fuel type. Frozen is ignored.
@@ -1923,7 +1928,7 @@ class vehicle
         bool has_enabled_smart_controller = false; // NOLINT(cata-serialize)
 
         void add_tag( std::string tag );
-        bool has_tag( std::string tag );
+        bool has_tag( std::string tag ) const;
 
     private:
         mutable units::mass mass_cache; // NOLINT(cata-serialize)

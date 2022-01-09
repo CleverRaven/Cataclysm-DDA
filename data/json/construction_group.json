@@ -726,6 +726,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_spinwheel",
+    "name": "Build Spinwheel"
+  },
+  {
+    "type": "construction_group",
     "id": "build_split_rail_fence",
     "name": "Build Split Rail Fence"
   },
@@ -1088,6 +1093,11 @@
     "type": "construction_group",
     "id": "place_fridge",
     "name": "Place Fridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_oven",
+    "name": "Place Oven"
   },
   {
     "type": "construction_group",

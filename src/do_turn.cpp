@@ -20,6 +20,7 @@
 #include "mission.h"
 #include "monattack.h"
 #include "mtype.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
