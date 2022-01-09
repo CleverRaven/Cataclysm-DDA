@@ -32,10 +32,10 @@
         "||||||||||||||||||||||||||||||||||||||||||||||||"
       ],
       "place_monster": [
-        { "monster": "mon_secubot_america", "x": 8, "y": 23, "chance": 100 },
-        { "monster": "mon_secubot_america", "x": 35, "y": 23, "chance": 100 },
-        { "monster": "mon_secubot", "x": 14, "y": 8, "chance": 100 },
-        { "monster": "mon_secubot", "x": 22, "y": 6, "chance": 100 }
+        { "monster": "mon_secubot_america", "x": 8, "y": [ 3, 22 ], "chance": 100 },
+        { "monster": "mon_secubot_america", "x": 35, "y": [ 3, 22 ], "chance": 100 },
+        { "monster": "mon_secubot", "x": 14, "y": [ 3, 22 ], "chance": 100 },
+        { "monster": "mon_secubot", "x": 22, "y": [ 3, 22 ], "chance": 100 }
       ],
       "place_loot": [
         { "group": "kitted_kord", "chance": 100, "x": 15, "y": 23 },
