@@ -37,6 +37,7 @@
       "K": "t_thconc_floor",
       "(": "t_thconc_floor",
       "m": "t_thconc_floor",
+      "C": "t_thconc_floor",
       "_": "t_strconc_wall"
     },
     "furniture": {
@@ -69,7 +70,8 @@
       "!": "f_generator_broken",
       "*": "f_console",
       "X": "f_curtain",
-      "V": "f_forge",
+      "V": "f_forge_artisan_0",
+      "C": "f_forge_artisan_1",
       "I": "f_anvil",
       "N": "f_kiln_empty",
       "M": "f_arcfurnace_empty",
