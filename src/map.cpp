@@ -4736,6 +4736,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 washing_machine_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
+                //~ %1$d: Number of minutes remaining, %2$s: Name of the vehicle
                 add_msg( _( "It should take %1$d minutes to finish washing items in the %2$s." ),
                          to_minutes<int>( time_left ) + 1, cur_veh.name );
                 break;
@@ -4765,6 +4766,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
                 const int minutes = to_minutes<int>( time_left ) + 1;
+                //~ %1$d: Number of minutes remaining, %2$s: Name of the vehicle
                 add_msg( n_gettext( "It should take %1$d minute to finish sterilizing items in the %2$s.",
                                     "It should take %1$d minutes to finish sterilizing items in the %2$s.", minutes ),
                          minutes, cur_veh.name );
