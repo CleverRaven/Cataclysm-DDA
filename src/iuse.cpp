@@ -2641,6 +2641,11 @@ cata::optional<int> iuse::hammer( Character *p, item *it, bool, const tripoint &
     return iuse::crowbar( p, it, false, pos );
 }
 
+cata::optional<int> iuse::crowbar_weak( Character *p, item *it, bool, const tripoint &pos )
+{
+    return iuse::crowbar( p, it, false, pos );
+}
+
 cata::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint &pos )
 {
     if( p->is_mounted() ) {
