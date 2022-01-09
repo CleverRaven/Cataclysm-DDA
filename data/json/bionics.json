@@ -140,8 +140,7 @@
       "FAT",
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
-      "MUCUS_SECRETION2",
-      "RABBIT_FEET"
+      "MUCUS_SECRETION2"
     ]
   },
   {
@@ -373,7 +372,8 @@
       "GASTROPOD_FOOT",
       "GASTROPOD_BALANCE",
       "MUCUS_SECRETION",
-      "MUCUS_SECRETION2"
+      "MUCUS_SECRETION2",
+      "RABBIT_FEET"
     ]
   },
   {
