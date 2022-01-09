@@ -46,6 +46,8 @@ enum class widget_var : int {
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
     bp_status_text, // Status of bodypart (bleeding, bitten, and/or infected)
+    compass_text,   // Compass / visible threats by cardinal direction
+    compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
     env_temp_text,  // Environment temperature, if character has thermometer
     fatigue_text,   // Fagitue description text, color string
@@ -64,9 +66,12 @@ enum class widget_var : int {
     style_text,     // Active martial arts style name
     thirst_text,    // Thirst description text, color string
     time_text,      // Current time - exact if character has a watch, approximate otherwise
-    weather_text,   // Weather/sky conditions (if visible), color string
+    veh_azimuth_text, // Azimuth or heading in degrees, string
+    veh_cruise_text, // Current/target cruising speed in vehicle, color string
+    veh_fuel_text,  // Current/total fuel for active vehicle engine, color string
     weariness_text, // Weariness description text, color string
     weary_malus_text, // Weariness malus or penalty
+    weather_text,   // Weather/sky conditions (if visible), color string
     weight_text,    // Weight description text, color string
     wielding_text,  // Currently wielded weapon or item name
     wind_text,      // Wind level and direction, color string
@@ -78,6 +83,28 @@ enum class widget_var : int {
 template<>
 struct enum_traits<widget_var> {
     static constexpr widget_var last = widget_var::last;
+};
+
+// This is deliberately separate from "direction".
+// The values correspond to the indexed directions returned from avatar::get_mon_visible
+enum class cardinal_direction : int {
+    NORTH = 0,
+    NORTHEAST = 1,
+    EAST = 2,
+    SOUTHEAST = 3,
+    SOUTH = 4,
+    SOUTHWEST = 5,
+    WEST = 6,
+    NORTHWEST = 7,
+    LOCAL = 8,
+    num_cardinal_directions
+};
+
+// Use enum_traits for generic iteration over cardinal_direction, and string (de-)serialization.
+// Use io::string_to_enum<cardinal_direction>( string ) to convert a string to cardinal_direction.
+template<>
+struct enum_traits<cardinal_direction> {
+    static constexpr cardinal_direction last = cardinal_direction::num_cardinal_directions;
 };
 
 // Use generic_factory for loading JSON data.
@@ -132,6 +159,10 @@ class widget
         std::vector<widget_id> _widgets;
         // Child widget layout arrangement / direction
         std::string _arrange;
+        // Compass direction corresponding to the indexed directions from avatar::get_mon_visible
+        cardinal_direction _direction;
+        // Flags for special widget behaviors
+        std::set<flag_id> _flags;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
@@ -157,9 +188,12 @@ class widget
         bool uses_text_function();
 
         // Evaluate and return the bound "var" associated value for an avatar
-        int get_var_value( const avatar &ava );
+        int get_var_value( const avatar &ava ) const;
         // Return the maximum "var" value from "var_max", or max for avatar (HP, mana, etc.)
-        int get_var_max( const avatar &ava );
+        int get_var_max( const avatar &ava ) const;
+        // True if this widget has the given flag. Used to specify certain behaviors.
+        bool has_flag( const flag_id &flag ) const;
+        bool has_flag( const std::string &flag ) const;
 
         // Return a color-enhanced value_string
         std::string color_value_string( int value, int value_max = 0 );

@@ -505,16 +505,7 @@
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "power_draw": 300,
     "revert_to": "smart_phone",
-    "use_action": [
-      "CAMERA",
-      "MP3_ON",
-      "CALORIES_INTAKE_TRACKER",
-      "PORTABLE_GAME",
-      "EINKTABLETPC",
-      "ELECTRICSTORAGE",
-      "EBOOKSAVE",
-      "EBOOKREAD"
-    ],
+    "use_action": [ "MP3_ON", "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
   },
   {

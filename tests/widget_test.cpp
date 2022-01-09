@@ -1,6 +1,9 @@
 #include "catch/catch.hpp"
 
+#include "game.h"
 #include "player_helpers.h"
+#include "map_helpers.h"
+#include "monster.h"
 #include "morale.h"
 #include "options_helpers.h"
 #include "weather.h"
@@ -54,6 +57,12 @@ static const widget_id widget_test_bucket_graph( "test_bucket_graph" );
 static const widget_id widget_test_color_graph_10k_widget( "test_color_graph_10k_widget" );
 static const widget_id widget_test_color_graph_widget( "test_color_graph_widget" );
 static const widget_id widget_test_color_number_widget( "test_color_number_widget" );
+static const widget_id widget_test_compass_N( "test_compass_N" );
+static const widget_id widget_test_compass_N_nodir_nowidth( "test_compass_N_nodir_nowidth" );
+static const widget_id widget_test_compass_N_nowidth( "test_compass_N_nowidth" );
+static const widget_id widget_test_compass_legend_1( "test_compass_legend_1" );
+static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
+static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
 static const widget_id widget_test_dex_num( "test_dex_num" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
 static const widget_id widget_test_hp_head_graph( "test_hp_head_graph" );
@@ -635,6 +644,140 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
     rad_badge.irradiation = 241;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
+}
+
+TEST_CASE( "compass widget", "[widget][compass]" )
+{
+    const int sidebar_width = 36;
+    widget c5s_N = widget_test_compass_N.obj();
+    widget c5s_N_nowidth = widget_test_compass_N_nowidth.obj();
+    widget c5s_N_nodir_nowidth = widget_test_compass_N_nodir_nowidth.obj();
+    widget c5s_legend1 = widget_test_compass_legend_1.obj();
+    widget c5s_legend3 = widget_test_compass_legend_3.obj();
+    widget c5s_legend5 = widget_test_compass_legend_5.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    const tripoint northeast = ava.pos() + tripoint( 10, -10, 0 );
+    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+
+    SECTION( "No monsters" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ).empty() );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ).empty() );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ).empty() );
+    }
+
+    SECTION( "1 monster NE" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", northeast );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTHEAST )].size()
+                 == 1 );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+    }
+
+    SECTION( "1 monster N" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 1 );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>B</color>" );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>+</color>" );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+    }
+
+    SECTION( "3 same monsters N" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        monster &mon2 = spawn_test_monster( "mon_test_CBM", north + tripoint( 0, -1, 0 ) );
+        monster &mon3 = spawn_test_monster( "mon_test_CBM", north + tripoint( 0, -2, 0 ) );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( mon2 ) );
+        REQUIRE( ava.sees( mon3 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 1 );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>B</color>" );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>+</color>" );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>" );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>\n" );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>\n" );
+    }
+
+    SECTION( "3 different monsters N" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        monster &mon2 = spawn_test_monster( "mon_test_bovine", north + tripoint( 0, -1, 0 ) );
+        monster &mon3 = spawn_test_monster( "mon_test_shearable", north + tripoint( 0, -2, 0 ) );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( mon2 ) );
+        REQUIRE( ava.sees( mon3 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 3 );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                               <color_c_white>B</color>"
+               "<color_c_white>B</color><color_c_white>S</color>" );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>+</color>" );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>" );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+    }
 }
 
 // Widgets with "layout" style can combine other widgets in columns or rows.

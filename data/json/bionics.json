@@ -55,7 +55,6 @@
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "ALBINO",
       "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
@@ -172,7 +171,6 @@
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "ALBINO",
       "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
@@ -291,7 +289,6 @@
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "ALBINO",
       "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
@@ -391,7 +388,6 @@
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "ALBINO",
       "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",

@@ -10,6 +10,7 @@
     - [fill](#fill)
     - [var_max](#var-max)
   - [Colors](#colors)
+- [Flags](#flags)
 
 ## Overview
 
@@ -203,6 +204,8 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `style_text`    | Name of current martial arts style
 | `weight_text`   | "Emaciated", "Normal", "Overweight", etc.
 | `date_text`     | Current day within season, like "Summer, day 15"
+| `compass_text`  | A compass direction (ex: NE), displaying visible creatures in that direction
+| `compass_legend_text` | A list of creatures visible by the player, corresponding to compass symbols
 
 For example, a widget to show the current STR stat would define this "var":
 
@@ -218,6 +221,27 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
 {
   "var": "bp_hp",
   "bodypart": "arm_r"
+}
+```
+
+Widgets using `compass_text` expect the additional fields `direction` and `width` to
+identify (respectively) the cardinal direction and number of creatures displayed:
+
+```json
+{
+  "var": "compass_text",
+  "direction": "N",
+  "width": 6
+}
+```
+
+`compass_legend_text` makes use of the "height" field (see below), which tells the display
+function to reserve that many lines for the compass legend:
+
+```json
+{
+  "var": "compass_legend_text",
+  "height": 3
 }
 ```
 
@@ -461,3 +485,26 @@ yellow, light red, and red. Such coloration could be represented with "colors" l
 }
 ```
 
+## Flags
+
+Widgets can use flags to specify special behaviors:
+
+```json
+{
+  "id": "my_widget",
+  "type": "widget",
+  "style": "text",
+  "label": "My Widget",
+  "var": "my_widget_var",
+  "flags": [ "W_LABEL_NONE", "W_PAD_CENTER" ]
+}
+```
+
+Here are some flags that can be included:
+
+| Flag id        | Description
+|---             |---
+| `W_LABEL_NONE` | Prevents the widget's label from being displayed in the sidebar
+| `W_DISABLED`   | Makes this widget disabled by default (only applies to top-level widgets/layouts)
+| `W_PAD_CENTER` | Adds enough left-padding to center the widget text (widget is center-aligned)
+| `W_PAD_NONE`   | Omits the left-padding altogether (widget is left-aligned)

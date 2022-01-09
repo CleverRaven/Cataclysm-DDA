@@ -21,6 +21,7 @@ class Character;
 class Creature;
 class mood_face;
 struct point;
+enum class cardinal_direction;
 
 enum face_type : int {
     face_human = 0,
@@ -64,6 +65,14 @@ std::string activity_malus_str( const Character &u );
 // gets the description, printed in player_display, related to your current bmi
 std::string weight_long_description( const Character &u );
 
+// For vehicle being driven or remotely piloted by character
+// Azimuth (heading) in degrees
+std::string vehicle_azimuth_text( const Character &u );
+// Vehicle target/current cruise velocity (and units) with engine strain color
+std::pair<std::string, nc_color> vehicle_cruise_text_color( const Character &u );
+// Vehicle percent of fuel remaining for currently running engine
+std::pair<std::string, nc_color> vehicle_fuel_percent_text_color( const Character &u );
+
 // Functions returning (text, color) pairs
 std::pair<translation, nc_color> weariness_text_color( size_t weariness );
 std::pair<std::string, nc_color> weariness_text_color( const Character &u );
@@ -99,6 +108,10 @@ std::pair<std::string, nc_color> per_text_color( const Character &p );
 std::pair<std::string, nc_color> safe_mode_text_color( const bool classic_mode );
 std::pair<std::string, nc_color> wind_text_color( const Character &u );
 std::pair<std::string, nc_color> weather_text_color( const Character &u );
+
+// Get visible threats by cardinal direction - Already colorized
+std::string colorized_compass_text( const cardinal_direction dir, int width );
+std::string colorized_compass_legend_text( int width, int height );
 
 // Define color for displaying the body temperature
 nc_color bodytemp_color( const Character &u, const bodypart_id &bp );

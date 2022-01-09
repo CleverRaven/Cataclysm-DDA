@@ -1,0 +1,10 @@
+[
+  {
+    "id": "rad_badge_desc",
+    "type": "widget",
+    "label": "Radiation",
+    "style": "text",
+    "var": "rad_badge_text",
+    "//": "Shows worn/wielded radiation badge color from display::rad_badge_text_color"
+  }
+]

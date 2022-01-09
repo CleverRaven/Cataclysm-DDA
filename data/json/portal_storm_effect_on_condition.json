@@ -732,7 +732,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_POPUP",
     "global": true,
-    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 120 } } ] },
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 250 } } ] },
     "effect": [
       {
         "u_message": "PORTAL_STORM_POPUP",

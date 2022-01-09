@@ -1,0 +1,9 @@
+[
+  {
+    "id": "lighting_desc",
+    "type": "widget",
+    "label": "Lighting",
+    "style": "text",
+    "var": "lighting_text"
+  }
+]
