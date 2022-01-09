@@ -1372,23 +1372,24 @@ furn_id map::furn( const tripoint &p ) const
     return current_submap->get_furn( l );
 }
 
-void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset )
+bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset )
 {
     if( !inbounds( p ) ) {
-        return;
+        debugmsg( "map::furn_set %s out of bounds", p.to_string() );
+        return false;
     }
 
     point l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to set furniture at (%d,%d) but the submap is not loaded", l.x, l.y );
-        return;
+        return false;
     }
     const furn_id new_target_furniture = new_furniture == f_clear ? f_null : new_furniture;
     const furn_id old_id = current_submap->get_furn( l );
     if( old_id == new_target_furniture ) {
         // Nothing changed
-        return;
+        return true;
     }
 
     current_submap->set_furn( l, new_target_furniture );
@@ -1396,6 +1397,17 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     // Set the dirty flags
     const furn_t &old_f = old_id.obj();
     const furn_t &new_f = new_target_furniture.obj();
+
+    bool result = true;
+
+    if( current_submap->is_open_air( l ) &&
+        !new_f.has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) ) {
+        const ter_id current_ter = current_submap->get_ter( l );
+        debugmsg( "Setting furniture %s at %s where terrain is %s (which is_open_air)\n"
+                  "If this is intentional, set the ALLOW_ON_OPEN_AIR flag on the furniture",
+                  new_target_furniture.id().str(), p.to_string(), current_ter.id().str() );
+        result = false;
+    }
 
     avatar &player_character = get_avatar();
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
@@ -1448,6 +1460,8 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
+
+    return result;
 }
 
 bool map::can_move_furniture( const tripoint &pos, Character *you )
@@ -1718,6 +1732,16 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     // Set the dirty flags
     const ter_t &old_t = old_id.obj();
     const ter_t &new_t = new_terrain.obj();
+
+    if( current_submap->is_open_air( l ) ) {
+        const furn_id &current_furn = current_submap->get_furn( l );
+        if( current_furn != f_null &&
+            !current_furn->has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) ) {
+            debugmsg( "Setting terrain %s at %s where furniture is %s.  Terrain is_open_air\n"
+                      "If this is intentional, set the ALLOW_ON_OPEN_AIR flag on the furniture",
+                      new_terrain.id().str(), p.to_string(), current_furn.id().str() );
+        }
+    }
 
     // HACK: Hack around ledges in traplocs or else it gets NASTY in z-level mode
     if( old_t.trap != tr_null && old_t.trap != tr_ledge ) {
@@ -3533,6 +3557,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             bash_ter_furn( below, params_below );
         }
 
+        furn_set( p, f_null );
         ter_set( p, t_open_air );
     }
 
@@ -4041,12 +4066,22 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 
 void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p )
 {
+    tripoint_abs_omt origin = get_avatar().global_omt_location();
+    bool shifted = false;
+    if( !get_map().inbounds( get_map().getlocal( p ) ) ) {
+        const tripoint_abs_ms abs_ms( p );
+        g->place_player_overmap( project_to<coords::omt>( abs_ms ) );
+        shifted = true;
+    }
     for( const tripoint &t : points_on_zlevel() ) {
         const float radiX = trig_dist( p, getabs( t ) );
         // within distance, and either no submap limitation or same overmap coords.
         if( radiX <= radi ) {
             transform->transform( t );
         }
+    }
+    if( shifted ) {
+        g->place_player_overmap( origin );
     }
 }
 

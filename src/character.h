@@ -1181,6 +1181,8 @@ class Character : public Creature, public visitable
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
         bool has_two_arms_lifting() const;
+        // Return all the limb special attacks the character has, if the parent limb isn't too encumbered
+        std::set<matec_id> get_limb_techs() const;
         int get_working_arm_count() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;

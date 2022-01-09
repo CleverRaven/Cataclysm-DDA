@@ -262,10 +262,10 @@ tripoint npc::good_escape_direction( bool include_pos )
     map &here = get_map();
     if( path.empty() ) {
         zone_type_id retreat_zone = zone_type_NPC_RETREAT;
-        const tripoint abs_pos = get_location().raw();
+        const tripoint_abs_ms abs_pos = get_location();
         const zone_manager &mgr = zone_manager::get_manager();
-        cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
-                fac_id );
+        cata::optional<tripoint_abs_ms> retreat_target =
+            mgr.get_nearest( retreat_zone, abs_pos, 60, fac_id );
         if( retreat_target && *retreat_target != abs_pos ) {
             update_path( here.getlocal( *retreat_target ) );
             if( !path.empty() ) {

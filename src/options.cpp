@@ -1219,7 +1219,7 @@ void options_manager::add_options_general()
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
     add( "AUTO_MOPPING", "general", to_translation( "Auto mopping" ),
-         to_translation( "If true, enables automatic use of wielded mops to clean surronding terrain." ),
+         to_translation( "If true, enables automatic use of wielded mops to clean surrounding terrain." ),
          false
        );
 
@@ -1440,7 +1440,7 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "SHOW_GUN_VARIANTS", "interface", to_translation( "Show gun brand names" ),
-         to_translation( "Show brand names for guns, intead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+         to_translation( "Show brand names for guns, instead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
          false );
     add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
          to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
@@ -2216,12 +2216,12 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_DAY", "world_default", to_translation( "Initial day" ),
-         to_translation( "How many days into the year the Cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+         to_translation( "How many days into the year the Cataclysm ended.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
          -1, 999, 60
        );
 
     add( "SPAWN_DELAY", "world_default", to_translation( "Spawn delay" ),
-         to_translation( "How many days after the Cataclysm the player spawns.  Day 0 is the day of the Cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
+         to_translation( "How many days after the end of the Cataclysm the player spawns.  Day 0 is immediately after the end of the Cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
          0, 9999, 0
        );
 

@@ -358,7 +358,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     while( true ) {
         menu.query( true );
         const matype_id &selected = styles[menu.ret];
-        if( query_yn( _( "Use this style?" ) ) ) {
+        if( query_yn( string_format( _( "Use the %s style?" ), selected.obj().name ) ) ) {
             return selected;
         }
     }

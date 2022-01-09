@@ -440,6 +440,8 @@ class pocket_data
         bool ablative = false;
         // additional encumbrance when this pocket is in use
         int extra_encumbrance = 0;
+        // how much this pocket contributes to enumbrance compared to an average item
+        float volume_encumber_modifier = 1;
         // chance this pockets contents get ripped off when escaping a grab
         int ripoff = 0;
         // volume this pocket makes when moving
@@ -469,6 +471,9 @@ class pocket_data
         // the name of the item the pocket belongs to
         // this can be used as a fallback description if needed
         translation name;
+        // an optional name defined for this pocket
+        // used to very briefly distinguish the purpose of the pocket (ex: Torso compartment)
+        translation pocket_name;
 
         /** Data that is different for sealed pockets than unsealed pockets. This takes priority. */
         cata::value_ptr<sealable_data> sealed_data;
