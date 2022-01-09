@@ -10,6 +10,7 @@
     - [fill](#fill)
     - [var_max](#var-max)
   - [Colors](#colors)
+- [Flags](#flags)
 
 ## Overview
 
@@ -484,3 +485,26 @@ yellow, light red, and red. Such coloration could be represented with "colors" l
 }
 ```
 
+## Flags
+
+Widgets can use flags to specify special behaviors:
+
+```json
+{
+  "id": "my_widget",
+  "type": "widget",
+  "style": "text",
+  "label": "My Widget",
+  "var": "my_widget_var",
+  "flags": [ "W_LABEL_NONE", "W_PAD_CENTER" ]
+}
+```
+
+Here are some flags that can be included:
+
+| Flag id        | Description
+|---             |---
+| `W_LABEL_NONE` | Prevents the widget's label from being displayed in the sidebar
+| `W_DISABLED`   | Makes this widget disabled by default (only applies to top-level widgets/layouts)
+| `W_PAD_CENTER` | Adds enough left-padding to center the widget text (widget is center-aligned)
+| `W_PAD_NONE`   | Omits the left-padding altogether (widget is left-aligned)
