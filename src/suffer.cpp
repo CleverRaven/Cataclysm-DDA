@@ -306,7 +306,7 @@ void suffer::while_grabbed( Character &you )
         // your characters chest is being crushed and you are dying
         you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 + grab_intensity ) );
     } else if( you.oxygen <= 15 ) {
-        you.add_msg_if_player( m_bad, _( "You can't breath with all this weight!" ) );
+        you.add_msg_if_player( m_bad, _( "You can't breathe with all this weight!" ) );
     } else if( you.oxygen <= 25 ) {
         you.add_msg_if_player( m_bad, _( "You're having difficulty breathing!" ) );
     }
