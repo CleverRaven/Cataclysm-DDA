@@ -7,6 +7,36 @@
     "upgrades": { "half_life": 20, "into_group": "GROUP_THORNY_SHAMBLER_UPGRADE" }
   },
   {
+    "id": "mon_zombie_garden",
+    "type": "MONSTER",
+    "name": { "str": "pollinator zombie" },
+    "description": "This zombie seems to be wearing some kind of gardener or botanic atire and is smeared full of pollen and sap.  The triffids have it controlled somehow but its purpose remains unclear.",
+    "copy-from": "mon_beekeeper",
+    "default_faction": "triffid",
+    "harvest": "zombie_thorny",
+    "species": [ "ZOMBIE", "PLANT" ],
+    "material": [ "veggy" ],
+    "symbol": "z",
+    "color": "light_green",
+    "death_drops": "mon_zombie_thorny_death_drops",
+    "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY",
+      "PARALYZEVENOM"
+    ]
+  },
+  {
     "id": "mon_czombie_thorny",
     "type": "MONSTER",
     "name": { "str": "thorny child", "str_pl": "thorny children" },
