@@ -189,14 +189,14 @@
   },
   {
     "type": "item_group",
-    "id": "kitted_ak12",
+    "id": "kitted_kord",
     "subtype": "collection",
     "items": [
       {
-        "item": "ak12",
+        "item": "kord",
         "ammo-item": "545",
         "charges": 30,
-        "contents-item": [ "shoulder_strap", "holo_sight", "suppressor", "hyper_burst", "m203", "rail_laser_sight" ]
+        "contents-item": [ "shoulder_strap", "holo_sight", "muzzle_brake", "bars", "rail_laser_sight" ]
       }
     ]
   }

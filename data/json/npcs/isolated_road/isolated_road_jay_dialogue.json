@@ -15,7 +15,7 @@
         "text": "Hey Cody says they are sorry.  They thought you would want to see this.",
         "condition": {
           "and": [
-            { "u_has_items": { "item": "ak12", "count": 1 } },
+            { "u_has_items": { "item": "kord", "count": 1 } },
             {
               "not": { "u_has_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
             }

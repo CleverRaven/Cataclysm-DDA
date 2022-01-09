@@ -151,7 +151,7 @@
     "id": "TALK_BLACKSMITH_COOP_ABOUT",
     "type": "talk_topic",
     "dynamic_line": [
-      "Well not anyone, but I've always been a believer in community.  The shop is run as a co-op so if you want access you'll have to buy a share. As a partial owner, you will have full access to the shop.  Shares are currently 100 merch, I hate the currency but currently, it's the closest thing we've got to a representation of labor."
+      "Well not anyone, but I've always been a believer in community.  The shop is run as a co-op so if you want access you'll have to buy a share.  As a partial owner, you will have full access to the shop.  Shares are currently 100 merch, I hate the currency but it's the closest thing we've got to a representation of labor."
     ],
     "speaker_effect": {
       "effect": [

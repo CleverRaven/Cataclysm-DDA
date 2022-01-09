@@ -68,10 +68,10 @@
     "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
   },
   {
-    "id": "hyper_burst",
+    "id": "bars",
     "type": "GUNMOD",
-    "name": { "str": "double recoil mechanism" },
-    "description": "This is the complex set of parts required for hyper burst.  This allows a user to fire multiple round before feeling the recoil impulse of the first round.",
+    "name": { "str": "balanced recoil system" },
+    "description": "This is the complex set of parts designed to minimize recoil by providing counter weight.",
     "weight": "60 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
@@ -81,10 +81,9 @@
     "symbol": ":",
     "color": "red",
     "location": "mechanism",
-    "mod_targets": [ "ak12" ],
+    "mod_targets": [ "kord" ],
     "install_time": "15 m",
-    "handling_modifier": 20,
-    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "hyper-burst", 2 ] ],
+    "handling_modifier": 15,
     "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
     "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
   },
