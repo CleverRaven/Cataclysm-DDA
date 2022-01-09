@@ -3841,8 +3841,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 }
             }
             if( dam <= 0 && get_player_view().sees( p ) ) {
-                // TODO: add exclamation mark once out of string freeze
-                add_msg( _( "The shot is stopped by the %s" ), data.name() );
+                add_msg( _( "The shot is stopped by the %s!" ), data.name() );
             }
             // only very flammable furn/ter can be set alight with incendiary rounds
             if( incendiary && data.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
