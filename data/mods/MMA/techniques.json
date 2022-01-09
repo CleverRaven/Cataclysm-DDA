@@ -283,7 +283,7 @@
     "unarmed_allowed": true,
     "crit_ok": true,
     "flat_bonuses": [ { "stat": "hit", "scale": 5.0 } ],
-    "attack_vectors_random": [ "HAND", "FOOT", "HEAD", "TORSO" ]
+    "attack_vectors_random": [ "HAND", "FOOT", "HEAD", "TORSO", "HEAD" ]
   },
   {
     "type": "technique",
