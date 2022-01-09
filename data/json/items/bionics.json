@@ -72,7 +72,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Arms Alloy Plating CBM" },
-    "description": "An advanced protective mesh that weaves into the user's flesh.  Provides passive protection at the cost of some encumbrance and can be used in conjunction with bionic martial arts.",
+    "description": "An advanced protective mesh that weaves into the user's flesh.  Provides passive protection at the cost of mild encumbrance and can be used in conjunction with bionic martial arts.  A warning indicates that this CBM cannot be removed safely after being installed.",
     "price": 350000,
     "difficulty": 6,
     "installation_data": "AID_bio_armor_arms"
@@ -94,7 +94,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Head Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "An advanced protective mesh that weaves into the user's flesh, protecting both their head and jaw regions at the cost of some encumbrance.",
+    "description": "An advanced protective mesh that weaves into the user's flesh, protecting both their head and jaw regions at the cost of mild encumbrance.  A warning indicates that this CBM cannot be removed safely after being installed.",
     "price": 350000,
     "weight": "1000 g",
     "difficulty": 6
@@ -105,7 +105,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Legs Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "An advanced protective mesh that weaves into the user's flesh.  Provides passive protection at the cost of some encumbrance and can be used in conjunction with bionic martial arts.",
+    "description": "An advanced protective mesh that weaves into the user's flesh.  Provides passive protection at the cost of mild encumbrance and can be used in conjunction with bionic martial arts.  A warning indicates that this CBM cannot be removed safely after being installed.",
     "price": 350000,
     "difficulty": 6,
     "installation_data": "AID_bio_armor_legs"
@@ -116,7 +116,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Torso Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "An advanced protective mesh that weaves into the user's flesh, protecting it from physical trauma at the cost of some encumbrance.",
+    "description": "An advanced protective mesh that weaves into the user's flesh, protecting it from physical trauma at the cost of mild encumbrance.  A warning indicates that this CBM cannot be removed safely after being installed.",
     "price": 350000,
     "weight": "3000 g",
     "difficulty": 6
