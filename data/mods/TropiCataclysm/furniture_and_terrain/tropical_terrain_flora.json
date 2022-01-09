@@ -335,7 +335,7 @@
     "name": "cholla cactus",
     "description": "This cactus is a member of the 'Cylindropuntia' genus, producing fruit known commonly as cholla buds.  There doesnt seem to be any cholla buds right now.",
     "symbol": "#",
-    "color": [ "red_green", "green", "green", "green" ],
+    "color": [ "green", "green", "green", "green" ],
     "move_cost": 8,
     "coverage": 40,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHARP" ],
