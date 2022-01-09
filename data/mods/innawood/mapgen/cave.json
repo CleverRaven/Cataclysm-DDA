@@ -35,7 +35,7 @@
       "terrain": {
         ".": [ [ "t_region_groundcover_forest", 4 ], [ "t_region_tree", 1 ] ],
         "|": "t_rock",
-        ",": "t_rock_roof",
+        ",": "t_rock_floor",
         "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
         "<": "t_slope_down"
@@ -82,7 +82,7 @@
         "|": "t_rock",
         "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_rock_roof",
+        ",": "t_rock_floor",
         "<": "t_slope_down"
       },
       "furniture": {  }
@@ -126,8 +126,8 @@
         "|": "t_rock",
         "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_rock_roof",
-        "W": "t_rock_roof",
+        ",": "t_rock_floor",
+        "W": "t_rock_floor",
         "<": "t_slope_down"
       },
       "furniture": {  },
@@ -173,8 +173,8 @@
         "|": "t_rock",
         "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_rock_roof",
-        "W": "t_rock_roof",
+        ",": "t_rock_floor",
+        "W": "t_rock_floor",
         "<": "t_slope_down"
       },
       "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
@@ -219,8 +219,8 @@
         "|": "t_rock",
         "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_rock_roof",
-        "B": "t_rock_roof",
+        ",": "t_rock_floor",
+        "B": "t_rock_floor",
         "<": "t_slope_down"
       },
       "furniture": {  },
@@ -265,9 +265,9 @@
         "|": "t_rock",
         "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_rock_roof",
-        "B": "t_rock_roof",
-        "W": "t_rock_roof",
+        ",": "t_rock_floor",
+        "B": "t_rock_floor",
+        "W": "t_rock_floor",
         "<": "t_slope_down"
       },
       "furniture": {  },
@@ -313,9 +313,9 @@
         "|": "t_rock",
         "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_rock_roof",
-        "B": "t_rock_roof",
-        "W": "t_rock_roof",
+        ",": "t_rock_floor",
+        "B": "t_rock_floor",
+        "W": "t_rock_floor",
         "<": "t_slope_down"
       },
       "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
@@ -360,9 +360,9 @@
         "|": "t_rock",
         "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_rock_roof",
-        "B": "t_rock_roof",
-        "W": "t_rock_roof",
+        ",": "t_rock_floor",
+        "B": "t_rock_floor",
+        "W": "t_rock_floor",
         "<": "t_slope_down"
       },
       "furniture": {  },
@@ -412,9 +412,9 @@
         "?": "t_rock_floor_no_roof",
         "#": "t_rock_floor_no_roof",
         "~": "t_rock_floor_no_roof",
-        "@": "t_rock_roof",
-        ",": "t_rock_roof",
-        "q": "t_rock_roof",
+        "@": "t_rock_floor",
+        ",": "t_rock_floor",
+        "q": "t_rock_floor",
         "R": "t_rock_floor_no_roof"
       },
       "furniture": { "R": [ [ "f_boulder_small", 1 ], [ "f_null", 10 ] ] },
