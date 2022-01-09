@@ -560,18 +560,18 @@
     "sided": true,
     "material_thickness": 2,
     "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
-	"armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.25 },
-            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-		  "coverage": 100,
-          "encumbrance": 10
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.25 },
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   },
   {
     "id": "xl_armor_lc_lightarmguard",
@@ -587,18 +587,18 @@
     "copy-from": "armor_lc_lightarmguard",
     "name": { "str": "medium steel 1.25 mm armguard" },
     "description": "A light armguard, 1.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.25 },
-            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 10
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.25 },
+          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   },
   {
     "id": "xl_armor_mc_lightarmguard",
@@ -614,18 +614,18 @@
     "copy-from": "armor_lc_lightarmguard",
     "name": { "str": "high steel 1.25 mm armguard" },
     "description": "A light armguard, 1.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.25 },
-            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 10
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.25 },
+          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   },
   {
     "id": "xl_armor_hc_lightarmguard",
@@ -641,18 +641,18 @@
     "copy-from": "armor_lc_lightarmguard",
     "name": { "str": "case hardened 1.25 mm armguard" },
     "description": "A light armguard, 1.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.25 },
-            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 10
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.25 },
+          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   },
   {
     "id": "xl_armor_ch_lightarmguard",
@@ -668,18 +668,18 @@
     "copy-from": "armor_lc_lightarmguard",
     "name": { "str": "tempered 1.25 mm armguard" },
     "description": "A light armguard, 1.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.25 },
-            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 10
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.25 },
+          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   },
   {
     "id": "xl_armor_qt_lightarmguard",
@@ -708,18 +708,18 @@
     "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.75 },
-            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "xl_armor_lc_armguard",
@@ -735,18 +735,18 @@
     "copy-from": "armor_lc_armguard",
     "name": { "str": "medium steel 1.75 mm armguard" },
     "description": "An armguard, 1.75 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.75 },
-            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "xl_armor_mc_armguard",
@@ -762,18 +762,18 @@
     "copy-from": "armor_lc_armguard",
     "name": { "str": "high steel 1.75 mm armguard" },
     "description": "An armguard, 1.75 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.75 },
-            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "xl_armor_hc_armguard",
@@ -789,18 +789,18 @@
     "copy-from": "armor_lc_armguard",
     "name": { "str": "case hardened 1.75 mm armguard" },
     "description": "An armguard, 1.75 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.75 },
-            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "xl_armor_ch_armguard",
@@ -816,18 +816,18 @@
     "copy-from": "armor_lc_armguard",
     "name": { "str": "tempered 1.75 mm armguard" },
     "description": "An armguard, 1.75 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.75 },
-            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "xl_armor_qt_armguard",
@@ -856,18 +856,18 @@
     "longest_side": "60 cm",
     "material_thickness": 6,
     "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
-            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_armor_lc_heavyarmguard",
@@ -883,18 +883,18 @@
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "medium steel 2.25 mm armguard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
-            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_armor_mc_heavyarmguard",
@@ -910,18 +910,18 @@
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "high steel 2.25 mm armguard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
-            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_armor_hc_heavyarmguard",
@@ -937,18 +937,18 @@
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "case hardened 2.25 mm armguard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
-            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_armor_ch_heavyarmguard",
@@ -964,18 +964,18 @@
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "tempered 2.25 mm armguard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
-            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
+    "armor": [
+      {
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_armor_qt_heavyarmguard",
