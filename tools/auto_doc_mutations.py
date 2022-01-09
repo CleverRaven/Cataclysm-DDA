@@ -100,13 +100,13 @@ def cli(paths, outfile) -> None:
         if len(jfile) == 0:
             continue
 
-        if not isinstance(jfile[0], dict):
-            continue
-
         for jo in jfile:
-            if jo.get("type") != "mutation":
+            if not isinstance(jo, dict):
                 continue
 
+            if jo.get("type") != "mutation":
+                continue
+            
             mutations.append(
                 Mutation(
                     jo.get("id"),
