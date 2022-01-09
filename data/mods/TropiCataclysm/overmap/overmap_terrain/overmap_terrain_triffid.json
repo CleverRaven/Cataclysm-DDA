@@ -6,7 +6,7 @@
     "sym": "T",
     "color": "magenta",
     "see_cost": 3,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ],
+    "flags": [ "UNIQUE", "CLASSIC", "WILDERNESS", "NO_ROTATE", "RISK_HIGH" ],
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 6, 10 ], "chance": 100 }
   }
 ]
