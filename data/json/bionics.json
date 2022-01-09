@@ -50,7 +50,7 @@
     "cut_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
     "bullet_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
     "encumbrance": [ [ "arm_l", 1 ], [ "arm_r", 1 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "cant_remove_reason": "The Intradermal Alloy is too thoroughly entwined with %1$s to be removed safely.",
+    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -155,7 +155,6 @@
     "bullet_protec": [ [ "eyes", 3 ] ],
     "encumbrance": [ [ "eyes", 1 ] ],
     "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
-    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
     "social_modifiers": { "intimidate": 10 }
   },
   {
@@ -168,7 +167,7 @@
     "cut_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
     "bullet_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
     "encumbrance": [ [ "head", 1 ] ],
-    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined with to be removed safely.",
+    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -287,7 +286,7 @@
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "encumbrance": [ [ "leg_l", 1 ], [ "leg_r", 1 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
-    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined with to be removed safely.",
+    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -387,7 +386,7 @@
     "bullet_protec": [ [ "torso", 3 ] ],
     "encumbrance": [ [ "torso", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined with to be removed safely.",
+    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
     "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
     "mutation_conflicts": [
       "THICKSKIN",
