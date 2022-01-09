@@ -4569,10 +4569,7 @@
   {
     "type": "overmap_special",
     "id": "gun_show",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "gunshow_0" },
-      { "point": [ 1, 0, 0 ], "overmap": "gunshow_1" }
-    ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "gunshow_0" }, { "point": [ 1, 0, 0 ], "overmap": "gunshow_1" } ],
     "locations": [ "land" ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
