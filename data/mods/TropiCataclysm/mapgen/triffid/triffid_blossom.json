@@ -49,8 +49,8 @@
           [ "f_dandelion", 2 ],
           "f_brambles"
         ],
-        ".": [ [ "f_null", 18 ], [ "f_flower_spurge", 4 ], [ "f_burdock", 3 ], "f_brambles" ],
-        ",": [ [ "f_null", 12 ], [ "f_mutpoppy", 2 ], "f_flower_tulip", "f_brambles" ],
+        ".": [ [ "f_null", 18 ], [ "f_flower_spurge", 4 ], [ "f_burdock", 3 ] ],
+        ",": [ [ "f_null", 12 ], [ "f_mutpoppy", 2 ], "f_flower_tulip" ],
         "_": [ [ "f_null", 10 ], [ "f_bluebell", 2 ], "f_brambles" ],
         "&": [ [ "f_brambles", 8 ], "f_glowingbulb", "f_dandelion" ]
       },
