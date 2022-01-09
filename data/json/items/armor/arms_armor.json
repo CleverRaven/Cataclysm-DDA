@@ -569,7 +569,7 @@
             { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
           ],
           "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
+		  "coverage": 100,
           "encumbrance": 10
         }
       ]
@@ -607,7 +607,7 @@
   {
     "id": "xl_armor_mc_lightarmguard",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 1.25 mm armguard" },
+    "name": { "str": "XL medium steel 1.25 mm armguard" },
     "copy-from": "armor_mc_lightarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
