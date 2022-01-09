@@ -199,51 +199,5 @@
         "contents-item": [ "shoulder_strap", "holo_sight", "suppressor", "hyper_burst", "m203", "rail_laser_sight" ]
       }
     ]
-  },
-  {
-    "type": "furniture",
-    "id": "f_forge_artisan_0",
-    "name": "Cody's forge",
-    "looks_like": "f_fireplace",
-    "description": "Metalworking station typically used in combination with an anvil.  You can see pipes running into the walls.",
-    "symbol": "^",
-    "color": "light_red",
-    "move_cost_mod": -1,
-    "coverage": 40,
-    "required_str": -1,
-    "crafting_pseudo_item": "fake_forge",
-    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
-    "examine_action": "reload_furniture",
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "char_forge", "count": 1 } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_forge_artisan_1",
-    "name": "Cody's forge",
-    "looks_like": "f_fireplace",
-    "description": "Metalworking station typically used in combination with an anvil.  You can see pipes running into the walls.",
-    "symbol": "^",
-    "color": "light_red",
-    "move_cost_mod": -1,
-    "coverage": 40,
-    "required_str": -1,
-    "crafting_pseudo_item": "fake_forge",
-    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
-    "examine_action": "reload_furniture",
-    "bash": {
-      "str_min": 4,
-      "str_max": 8,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "char_forge", "count": 1 } ]
-    }
   }
 ]
