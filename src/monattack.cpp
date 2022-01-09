@@ -2875,6 +2875,11 @@ bool mattack::grab( monster *z )
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, body_part_torso, false,
                         prev_effect + z->get_grab_strength() );
+    // if too many entities grab a player they can suffocate
+    // if this is the first monster to grab you set the players oxygen levels
+    if( ( target->is_npc() || target->is_avatar() ) && prev_effect == 0 ) {
+        target->as_character()->oxygen = 30 + 2 * target->as_character()->str_cur;
+    }
     add_msg_if_player_sees( *z, m_bad, _( "The %1$s grabs %2$s!" ), z->name(), target->disp_name() );
 
     return true;
@@ -2935,6 +2940,12 @@ bool mattack::grab_drag( monster *z )
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 3 );
+
+    // if too many entities grab a player they can suffocate
+    // if this is the first monster to grab you set the players oxygen levels
+    if( ( target->is_npc() || target->is_avatar() ) && prev_effect == 0 ) {
+        target->as_character()->oxygen = 30 + 2 * target->as_character()->str_cur;
+    }
 
     // cooldown was not reset prior to refactor here
     return true;
