@@ -3114,6 +3114,18 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_turret_artisans",
+    "symbol": ",",
+    "color": "green",
+    "name": {
+      "str": "broken M249 autonomous CROWS II.  Additional spot welded plating has warped as it was destroyed.",
+      "str_pl": "broken M249 autonomous CROWS II turrets.  The additional spot welded plating has warped as they were destroyed."
+    },
+    "weight": "75 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_secubot",
     "symbol": ",",
     "color": "green",
