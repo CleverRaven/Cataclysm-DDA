@@ -1,3 +1,13 @@
 [
-  
+  {
+    "type": "overmap_special",
+    "id": "Triffid Blossom",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "triffid_blossom" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 90, 100 ],
+    "flags": [ "TRIFFID", "UNIQUE" ],
+    "rotate": false,
+    "spawns": { "group": "GROUP_TRIFFID_OUTER", "population": [ 125, 175 ], "radius": [ 2, 2 ] }
+  }
 ]
