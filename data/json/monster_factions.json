@@ -15,7 +15,7 @@
     "type": "MONSTER_FACTION",
     "name": "human",
     "neutral": [ "mech_bot" ],
-    "by_mood": ["exodii", "isolated_artisans"]
+    "by_mood": [ "exodii", "isolated_artisans" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -129,7 +129,20 @@
     "base_faction": "animal",
     "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider" ],
     "by_mood": [ "bear", "big_cat" ],
-    "neutral": [ "zombie", "bot", "animal", "small_animal", "exodii", "isolated_artisans", "plant", "nether", "jabberwock", "insect", "mutant", "fungus" ]
+    "neutral": [
+      "zombie",
+      "bot",
+      "animal",
+      "small_animal",
+      "exodii",
+      "isolated_artisans",
+      "plant",
+      "nether",
+      "jabberwock",
+      "insect",
+      "mutant",
+      "fungus"
+    ]
   },
   {
     "type": "MONSTER_FACTION",
