@@ -2,11 +2,10 @@
   {
     "type": "overmap_terrain",
     "id": "triffid_blossom",
-    "name": "triffid_blossom",
+    "name": "triffid blossom",
     "sym": "T",
     "color": "magenta",
     "see_cost": 3,
-    "extras": "marloss",
     "flags": [ "NO_ROTATE", "RISK_HIGH" ],
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 6, 10 ], "chance": 100 }
   }
