@@ -9,5 +9,16 @@
     "flags": [ "TRIFFID", "UNIQUE" ],
     "rotate": false,
     "spawns": { "group": "GROUP_TRIFFID_OUTER", "population": [ 125, 175 ], "radius": [ 2, 2 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Triffid Garden",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "triffid_garden" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 90, 100 ],
+    "flags": [ "TRIFFID", "UNIQUE" ],
+    "rotate": false,
+    "spawns": { "group": "GROUP_TRIFFID_OUTER", "population": [ 100, 150 ], "radius": [ 2, 2 ] }
   }
 ]
