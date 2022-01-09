@@ -16,7 +16,7 @@
     "harvest": "zombie_thorny",
     "species": [ "ZOMBIE", "PLANT" ],
     "material": [ "veggy" ],
-    "symbol": "z",
+    "symbol": "Z",
     "color": "light_green",
     "death_drops": "mon_zombie_thorny_death_drops",
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
