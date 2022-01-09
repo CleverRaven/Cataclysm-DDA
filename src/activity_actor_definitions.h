@@ -1575,4 +1575,37 @@ class haircut_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
+class disable_activity_actor : public activity_actor
+{
+    public:
+        disable_activity_actor() = default;
+        disable_activity_actor( const tripoint &target, int moves_total,
+                                bool reprogram ) : target( target ), moves_total( moves_total ), reprogram( reprogram ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_DISABLE" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity & /*&act*/, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<disable_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+        /** Returns whether the given monster is a robot and can currently be disabled or reprogrammed */
+        static bool can_disable_or_reprogram( const monster &monster );
+
+        static int get_disable_turns();
+
+    private:
+        tripoint target;
+        int moves_total;
+        bool reprogram;
+};
+
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
