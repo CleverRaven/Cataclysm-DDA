@@ -630,7 +630,7 @@
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
-    "id": "armor_lc_chestplate",
+    "id": "armor_lc_light_chestplate",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel 2 mm chestplate" },
@@ -664,17 +664,17 @@
     }
   },
   {
-    "id": "xl_armor_lc_chestplate",
+    "id": "xl_armor_lc_light_chestplate",
     "type": "ARMOR",
     "name": { "str": "XL mild steel 2 mm chestplate" },
-    "copy-from": "armor_lc_chestplate",
+    "copy-from": "armor_lc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_mc_chestplate",
+    "id": "armor_mc_light_chestplate",
     "type": "ARMOR",
-    "copy-from": "armor_lc_chestplate",
+    "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "medium steel 2 mm chestplate" },
     "description": "A light chestplate, 2 mm thick.  Made with tougher medium steel, this offers solid protection.",
     "armor_data": {
@@ -693,17 +693,17 @@
     }
   },
   {
-    "id": "xl_armor_mc_chestplate",
+    "id": "xl_armor_mc_light_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 2 mm chestplate" },
-    "copy-from": "armor_mc_chestplate",
+    "name": { "str": "XL medium steel 2 mm chestplate" },
+    "copy-from": "armor_mc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_hc_chestplate",
+    "id": "armor_hc_light_chestplate",
     "type": "ARMOR",
-    "copy-from": "armor_lc_chestplate",
+    "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "high steel 2 mm chestplate" },
     "description": "A light chestplate, 2 mm thick.  Made with high carbon steel offering excellent protection.",
     "armor_data": {
@@ -722,17 +722,17 @@
     }
   },
   {
-    "id": "xl_armor_hc_chestplate",
+    "id": "xl_armor_hc_light_chestplate",
     "type": "ARMOR",
     "name": { "str": "XL high steel 2 mm chestplate" },
-    "copy-from": "armor_hc_chestplate",
+    "copy-from": "armor_hc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_ch_chestplate",
+    "id": "armor_ch_light_chestplate",
     "type": "ARMOR",
-    "copy-from": "armor_lc_chestplate",
+    "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "case hardened 2 mm chestplate" },
     "description": "A light chestplate, 2 mm thick.  The mild steel has been case hardened, offering superior protection.",
     "armor_data": {
@@ -751,17 +751,17 @@
     }
   },
   {
-    "id": "xl_armor_ch_chestplate",
+    "id": "xl_armor_ch_light_chestplate",
     "type": "ARMOR",
     "name": { "str": "XL case hardened 2 mm chestplate" },
-    "copy-from": "armor_ch_chestplate",
+    "copy-from": "armor_ch_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_qt_chestplate",
+    "id": "armor_qt_light_chestplate",
     "type": "ARMOR",
-    "copy-from": "armor_lc_chestplate",
+    "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "tempered 2 mm chestplate" },
     "description": "A light chestplate, 2 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor_data": {
@@ -780,10 +780,10 @@
     }
   },
   {
-    "id": "xl_armor_qt_chestplate",
+    "id": "xl_armor_qt_light_chestplate",
     "type": "ARMOR",
     "name": { "str": "XL tempered 2 mm chestplate" },
-    "copy-from": "armor_qt_chestplate",
+    "copy-from": "armor_qt_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -853,7 +853,7 @@
   {
     "id": "xl_armor_mc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 4 mm chestplate" },
+    "name": { "str": "XL medium steel 4 mm chestplate" },
     "copy-from": "armor_mc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -946,7 +946,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_lc_heavyplate",
+    "id": "armor_lc_heavy_chestplate",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel 6 mm chestplate" },
@@ -980,17 +980,17 @@
     }
   },
   {
-    "id": "xl_armor_lc_heavyplate",
+    "id": "xl_armor_lc_heavy_chestplate",
     "type": "ARMOR",
     "name": { "str": "XL mild steel 6 mm chestplate" },
-    "copy-from": "armor_lc_heavyplate",
+    "copy-from": "armor_lc_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_mc_heavyplate",
+    "id": "armor_mc_heavy_chestplate",
     "type": "ARMOR",
-    "copy-from": "armor_lc_heavyplate",
+    "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "medium steel 6 mm chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  Made with tougher medium steel, this offers solid protection.",
     "armor_data": {
@@ -1009,17 +1009,17 @@
     }
   },
   {
-    "id": "xl_armor_mc_heavyplate",
+    "id": "xl_armor_mc_heavy_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 6 mm chestplate" },
-    "copy-from": "armor_mc_heavyplate",
+    "name": { "str": "XL medium steel 6 mm chestplate" },
+    "copy-from": "armor_mc_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_hc_heavyplate",
+    "id": "armor_hc_heavy_chestplate",
     "type": "ARMOR",
-    "copy-from": "armor_lc_heavyplate",
+    "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "high steel 6 mm chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  Made with high carbon steel offering excellent protection.",
     "armor_data": {
@@ -1038,17 +1038,17 @@
     }
   },
   {
-    "id": "xl_armor_hc_heavyplate",
+    "id": "xl_armor_hc_heavy_chestplate",
     "type": "ARMOR",
     "name": { "str": "XL high steel 6 mm chestplate" },
-    "copy-from": "armor_hc_heavyplate",
+    "copy-from": "armor_hc_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_ch_heavyplate",
+    "id": "armor_ch_heavy_chestplate",
     "type": "ARMOR",
-    "copy-from": "armor_lc_heavyplate",
+    "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "case hardened 6 mm chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  The mild steel has been case hardened, offering superior protection.",
     "armor_data": {
@@ -1067,17 +1067,17 @@
     }
   },
   {
-    "id": "xl_armor_ch_heavyplate",
+    "id": "xl_armor_ch_heavy_chestplate",
     "type": "ARMOR",
     "name": { "str": "XL case hardened 6 mm chestplate" },
-    "copy-from": "armor_ch_heavyplate",
+    "copy-from": "armor_ch_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_qt_heavyplate",
+    "id": "armor_qt_heavy_chestplate",
     "type": "ARMOR",
-    "copy-from": "armor_lc_heavyplate",
+    "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "tempered 6 mm chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor_data": {
@@ -1096,10 +1096,10 @@
     }
   },
   {
-    "id": "xl_armor_qt_chestplate",
+    "id": "xl_armor_qt_heavy_chestplate",
     "type": "ARMOR",
     "name": { "str": "XL tempered 6 mm chestplate" },
-    "copy-from": "armor_qt_chestplate",
+    "copy-from": "armor_qt_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   }
