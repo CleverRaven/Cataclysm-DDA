@@ -190,7 +190,7 @@
     "type": "talk_topic",
     "dynamic_line": [ "Money is part of what got us into this mess in the first place." ],
     "responses": [
-      { "text": "[per 8] is that why you don't carry any cash?", "topic": "TALK_BLACKSMITH_MONEY_NO_CASH" },
+      { "text": "[per 8] Is that why you don't carry any cash?", "topic": "TALK_BLACKSMITH_MONEY_NO_CASH" },
       { "text": "…", "topic": "TALK_BLACKSMITH_SERVICES" }
     ]
   },

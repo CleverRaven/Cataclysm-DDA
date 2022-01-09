@@ -12,6 +12,34 @@
         "topic": "TALK_GUNSMITH_SHOP_ABOUT"
       },
       {
+        "text": "Hey Cody says they are sorry.  They thought you would want to see this.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "ak12", "count": 1 } },
+            {
+              "not": { "u_has_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_GUNSMITH_AK_12"
+      },
+      {
+        "text": "I'm interested in helping with that thing for Cody.",
+        "condition": {
+          "and": [
+            { "u_has_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" },
+            {
+              "not": { "u_has_var": "gunsmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
+            }
+          ]
+        },
+        "effect": [
+          { "add_mission": "MISSION_GUNSMITH_1" },
+          { "u_add_var": "gunsmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
+        ],
+        "topic": "TALK_GUNSMITH_Q1_DETAILS"
+      },
+      {
         "text": "How are my rounds coming?",
         "condition": {
           "and": [
@@ -179,5 +207,37 @@
     "type": "talk_topic",
     "dynamic_line": [ "Stuff is fucked all over bud how about we stick to talking business." ],
     "responses": [ { "text": "Alright.", "topic": "TALK_GUNSMITH_SERVICES" } ]
+  },
+  {
+    "id": "TALK_GUNSMITH_AK_12",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Where did you… I, I don't know what to say.  Cody put you up to this didn't they?  The weapon is beautiful, modern rails, ergonomic furniture, complex high fire rate hyper burst mechanism.  Thank you for letting me see this.  If you could help me out with something for Cody I'll hook you up with a casket mag for that thing and a box of the good ammo, stuff from my reserves."
+    ],
+    "speaker_effect": { "effect": [ { "u_add_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" } ] },
+    "responses": [
+      {
+        "text": "I'm listening.",
+        "effect": [
+          { "add_mission": "MISSION_GUNSMITH_1" },
+          { "u_add_var": "gunsmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
+        ],
+        "topic": "TALK_GUNSMITH_Q1_DETAILS"
+      },
+      { "text": "Not really interested.", "topic": "TALK_DONE" },
+      { "text": "I'll think about it", "topic": "TALK_GUNSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_GUNSMITH_Q1_DETAILS",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Alright, so Cody has talked about some cutting-edge tech she's seen displayed.  This thing is called a nano-fabricator.  It's like a complicated 3d printer with some robotics.  Cody used to run with some hackers that steal IP, schematics that sort of thing.  I guess a problem they were running into was the newest tech stuff is all encrypted as templates for these printers.  Well, I know of a colleague who went home with debug software for the system.  You get that for her and we are in business."
+    ],
+    "speaker_effect": { "effect": [ { "u_add_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" } ] },
+    "responses": [
+      { "text": "I'll see if I can find it.", "topic": "TALK_DONE" },
+      { "text": "Alright.", "topic": "TALK_GUNSMITH_SERVICES" }
+    ]
   }
 ]

@@ -218,6 +218,7 @@
     "armor_cut": 14,
     "armor_bullet": 11,
     "vision_day": 50,
+    "revert_to_itype": "bot_secubot",
     "special_attacks": [
       {
         "type": "gun",
