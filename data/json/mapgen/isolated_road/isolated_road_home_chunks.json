@@ -32,19 +32,21 @@
         "......................%G"
       ],
       "palettes": [ "artisans" ],
-      "place_monster": [ { "monster": "mon_turret_artisans", "x": 8, "y": 13, "chance": 100 },
-      { "monster": "mon_turret_artisans", "x": 4, "y": 13, "chance": 100 } ],
+      "place_monster": [
+        { "monster": "mon_turret_artisans", "x": 8, "y": 13, "chance": 100 },
+        { "monster": "mon_turret_artisans", "x": 4, "y": 13, "chance": 100 }
+      ],
       "place_loot": [
         { "group": "ammo_rifle_common", "x": 2, "y": 7, "chance": 100 },
         { "group": "guns_rifle_milspec", "x": 2, "y": 7, "chance": 100 },
-        { "group": "gunsmith_basic_ammo", "x": 3, "y": 10, "chance": 100, "repeat": [1,4] },
-        { "group": "gunsmith_basic_ammo", "x": 5, "y": 10, "chance": 100, "repeat": [1,4] },
-        { "group": "gunsmith_basic_ammo", "x": 6, "y": 10, "chance": 100, "repeat": [1,4] },
-        { "group": "gunsmith_basic_ammo", "x": 7, "y": 10, "chance": 100, "repeat": [1,4] },
-        { "group": "gunsmith_repack_ammo", "x": 3, "y": 12 , "chance": 100, "repeat": [3,6] },
-        { "group": "gunsmith_repack_ammo", "x": 9, "y": 12 , "chance": 100, "repeat": [3,6] },
-        { "group": "gunsmith_repack_ammo", "x": 9, "y": 11 , "chance": 100, "repeat": [3,6] }
-       ],
+        { "group": "gunsmith_basic_ammo", "x": 3, "y": 10, "chance": 100, "repeat": [ 1, 4 ] },
+        { "group": "gunsmith_basic_ammo", "x": 5, "y": 10, "chance": 100, "repeat": [ 1, 4 ] },
+        { "group": "gunsmith_basic_ammo", "x": 6, "y": 10, "chance": 100, "repeat": [ 1, 4 ] },
+        { "group": "gunsmith_basic_ammo", "x": 7, "y": 10, "chance": 100, "repeat": [ 1, 4 ] },
+        { "group": "gunsmith_repack_ammo", "x": 3, "y": 12, "chance": 100, "repeat": [ 3, 6 ] },
+        { "group": "gunsmith_repack_ammo", "x": 9, "y": 12, "chance": 100, "repeat": [ 3, 6 ] },
+        { "group": "gunsmith_repack_ammo", "x": 9, "y": 11, "chance": 100, "repeat": [ 3, 6 ] }
+      ],
       "place_npcs": [ { "class": "jay_ruckers", "x": 6, "y": 13 } ],
       "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
