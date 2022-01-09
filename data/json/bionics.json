@@ -690,6 +690,7 @@
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "vitamin_absorb_mod": 1.5,
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "PARAIMMUNE", "IMMUNE_SPOIL" ],
+    "cant_remove_reason": "The CBM has replaced the patient's digestive organs and cannot be removed.",
     "canceled_mutations": [
       "WEAKSTOMACH",
       "STRONGSTOMACH",
