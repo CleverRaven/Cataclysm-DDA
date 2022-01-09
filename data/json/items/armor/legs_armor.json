@@ -684,7 +684,6 @@
     "sided": true,
     "material_thickness": 2,
     "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -697,7 +696,6 @@
           "encumbrance": 10
         }
       ]
-    }
   },
   {
     "id": "xl_armor_lc_light_leg_guard",
@@ -713,7 +711,6 @@
     "copy-from": "armor_lc_light_leg_guard",
     "name": { "str": "medium steel 1.25 mm leg guard" },
     "description": "A light leg guard, 1.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -726,7 +723,6 @@
           "encumbrance": 10
         }
       ]
-    }
   },
   {
     "id": "xl_armor_mc_light_leg_guard",
@@ -742,7 +738,6 @@
     "copy-from": "armor_lc_light_leg_guard",
     "name": { "str": "high steel 1.25 mm leg guard" },
     "description": "A light leg guard, 1.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -755,7 +750,6 @@
           "encumbrance": 10
         }
       ]
-    }
   },
   {
     "id": "xl_armor_hc_light_leg_guard",
@@ -771,7 +765,6 @@
     "copy-from": "armor_lc_light_leg_guard",
     "name": { "str": "case hardened 1.25 mm leg guard" },
     "description": "A light leg guard, 1.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -784,7 +777,6 @@
           "encumbrance": 10
         }
       ]
-    }
   },
   {
     "id": "xl_armor_ch_light_leg_guard",
@@ -800,7 +792,6 @@
     "copy-from": "armor_lc_light_leg_guard",
     "name": { "str": "tempered 1.25 mm leg guard" },
     "description": "A light leg guard, 1.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -813,7 +804,6 @@
           "encumbrance": 10
         }
       ]
-    }
   },
   {
     "id": "xl_armor_qt_light_leg_guard",
@@ -842,7 +832,6 @@
     "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -855,7 +844,6 @@
           "encumbrance": 15
         }
       ]
-    }
   },
   {
     "id": "xl_armor_lc_leg_guard",
@@ -871,7 +859,6 @@
     "copy-from": "armor_lc_leg_guard",
     "name": { "str": "medium steel 1.75 mm leg guard" },
     "description": "A leg guard, 1.75 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -884,7 +871,6 @@
           "encumbrance": 15
         }
       ]
-    }
   },
   {
     "id": "xl_armor_mc_leg_guard",
@@ -900,7 +886,6 @@
     "copy-from": "armor_lc_leg_guard",
     "name": { "str": "high steel 1.75 mm leg guard" },
     "description": "A leg guard, 1.75 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -913,7 +898,6 @@
           "encumbrance": 15
         }
       ]
-    }
   },
   {
     "id": "xl_armor_hc_leg_guard",
@@ -929,7 +913,6 @@
     "copy-from": "armor_lc_leg_guard",
     "name": { "str": "case hardened 1.75 mm leg guard" },
     "description": "A leg guard, 1.75 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -942,7 +925,6 @@
           "encumbrance": 15
         }
       ]
-    }
   },
   {
     "id": "xl_armor_ch_leg_guard",
@@ -958,7 +940,6 @@
     "copy-from": "armor_lc_leg_guard",
     "name": { "str": "tempered 1.75 mm leg guard" },
     "description": "A leg guard, 1.75 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -971,7 +952,6 @@
           "encumbrance": 15
         }
       ]
-    }
   },
   {
     "id": "xl_armor_qt_leg_guard",
@@ -1000,7 +980,6 @@
     "longest_side": "60 cm",
     "material_thickness": 6,
     "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -1013,7 +992,6 @@
           "encumbrance": 20
         }
       ]
-    }
   },
   {
     "id": "xl_armor_lc_heavy_leg_guard",
@@ -1029,7 +1007,6 @@
     "copy-from": "armor_lc_heavy_leg_guard",
     "name": { "str": "medium steel 2.25 mm leg guard" },
     "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -1042,7 +1019,6 @@
           "encumbrance": 20
         }
       ]
-    }
   },
   {
     "id": "xl_armor_mc_heavy_leg_guard",
@@ -1058,7 +1034,6 @@
     "copy-from": "armor_lc_heavy_leg_guard",
     "name": { "str": "high steel 2.25 mm leg guard" },
     "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -1071,7 +1046,6 @@
           "encumbrance": 20
         }
       ]
-    }
   },
   {
     "id": "xl_armor_hc_heavy_leg_guard",
@@ -1087,7 +1061,6 @@
     "copy-from": "armor_lc_heavy_leg_guard",
     "name": { "str": "case hardened 2.25 mm leg guard" },
     "description": "A heavy leg guard, 2.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -1100,7 +1073,6 @@
           "encumbrance": 20
         }
       ]
-    }
   },
   {
     "id": "xl_armor_ch_heavy_leg_guard",
@@ -1116,7 +1088,6 @@
     "copy-from": "armor_lc_heavy_leg_guard",
     "name": { "str": "tempered 2.25 mm leg guard" },
     "description": "A heavy leg guard, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -1129,7 +1100,6 @@
           "encumbrance": 20
         }
       ]
-    }
   },
   {
     "id": "xl_armor_qt_heavy_leg_guard",

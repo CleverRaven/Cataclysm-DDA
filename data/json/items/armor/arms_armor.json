@@ -560,8 +560,7 @@
     "sided": true,
     "material_thickness": 2,
     "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
-    "armor_data": {
-      "armor": [
+	"armor": [
         {
           "material": [
             { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.25 },
@@ -573,7 +572,6 @@
           "encumbrance": 10
         }
       ]
-    }
   },
   {
     "id": "xl_armor_lc_lightarmguard",
@@ -589,7 +587,6 @@
     "copy-from": "armor_lc_lightarmguard",
     "name": { "str": "medium steel 1.25 mm armguard" },
     "description": "A light armguard, 1.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -602,7 +599,6 @@
           "encumbrance": 10
         }
       ]
-    }
   },
   {
     "id": "xl_armor_mc_lightarmguard",
@@ -618,7 +614,6 @@
     "copy-from": "armor_lc_lightarmguard",
     "name": { "str": "high steel 1.25 mm armguard" },
     "description": "A light armguard, 1.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -631,7 +626,6 @@
           "encumbrance": 10
         }
       ]
-    }
   },
   {
     "id": "xl_armor_hc_lightarmguard",
@@ -647,7 +641,6 @@
     "copy-from": "armor_lc_lightarmguard",
     "name": { "str": "case hardened 1.25 mm armguard" },
     "description": "A light armguard, 1.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -660,7 +653,6 @@
           "encumbrance": 10
         }
       ]
-    }
   },
   {
     "id": "xl_armor_ch_lightarmguard",
@@ -676,7 +668,6 @@
     "copy-from": "armor_lc_lightarmguard",
     "name": { "str": "tempered 1.25 mm armguard" },
     "description": "A light armguard, 1.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -689,7 +680,6 @@
           "encumbrance": 10
         }
       ]
-    }
   },
   {
     "id": "xl_armor_qt_lightarmguard",
@@ -718,7 +708,6 @@
     "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -731,7 +720,6 @@
           "encumbrance": 15
         }
       ]
-    }
   },
   {
     "id": "xl_armor_lc_armguard",
@@ -747,7 +735,6 @@
     "copy-from": "armor_lc_armguard",
     "name": { "str": "medium steel 1.75 mm armguard" },
     "description": "An armguard, 1.75 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -760,7 +747,6 @@
           "encumbrance": 15
         }
       ]
-    }
   },
   {
     "id": "xl_armor_mc_armguard",
@@ -776,7 +762,6 @@
     "copy-from": "armor_lc_armguard",
     "name": { "str": "high steel 1.75 mm armguard" },
     "description": "An armguard, 1.75 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -789,7 +774,6 @@
           "encumbrance": 15
         }
       ]
-    }
   },
   {
     "id": "xl_armor_hc_armguard",
@@ -805,7 +789,6 @@
     "copy-from": "armor_lc_armguard",
     "name": { "str": "case hardened 1.75 mm armguard" },
     "description": "An armguard, 1.75 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -818,7 +801,6 @@
           "encumbrance": 15
         }
       ]
-    }
   },
   {
     "id": "xl_armor_ch_armguard",
@@ -834,7 +816,6 @@
     "copy-from": "armor_lc_armguard",
     "name": { "str": "tempered 1.75 mm armguard" },
     "description": "An armguard, 1.75 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -847,7 +828,6 @@
           "encumbrance": 15
         }
       ]
-    }
   },
   {
     "id": "xl_armor_qt_armguard",
@@ -876,7 +856,6 @@
     "longest_side": "60 cm",
     "material_thickness": 6,
     "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -889,7 +868,6 @@
           "encumbrance": 20
         }
       ]
-    }
   },
   {
     "id": "xl_armor_lc_heavyarmguard",
@@ -905,7 +883,6 @@
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "medium steel 2.25 mm armguard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -918,7 +895,6 @@
           "encumbrance": 20
         }
       ]
-    }
   },
   {
     "id": "xl_armor_mc_heavyarmguard",
@@ -934,7 +910,6 @@
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "high steel 2.25 mm armguard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -947,7 +922,6 @@
           "encumbrance": 20
         }
       ]
-    }
   },
   {
     "id": "xl_armor_hc_heavyarmguard",
@@ -963,7 +937,6 @@
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "case hardened 2.25 mm armguard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -976,7 +949,6 @@
           "encumbrance": 20
         }
       ]
-    }
   },
   {
     "id": "xl_armor_ch_heavyarmguard",
@@ -992,7 +964,6 @@
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "tempered 2.25 mm armguard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor_data": {
       "armor": [
         {
           "material": [
@@ -1005,7 +976,6 @@
           "encumbrance": 20
         }
       ]
-    }
   },
   {
     "id": "xl_armor_qt_heavyarmguard",
