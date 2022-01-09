@@ -21,7 +21,7 @@
             }
           ]
         },
-        "topic": "TALK_GUNSMITH_AK_12"
+        "topic": "TALK_GUNSMITH_KORD"
       },
       {
         "text": "I'm interested in helping with that thing for Cody.",
@@ -209,10 +209,10 @@
     "responses": [ { "text": "Alright.", "topic": "TALK_GUNSMITH_SERVICES" } ]
   },
   {
-    "id": "TALK_GUNSMITH_AK_12",
+    "id": "TALK_GUNSMITH_KORD",
     "type": "talk_topic",
     "dynamic_line": [
-      "Where did you… I, I don't know what to say.  Cody put you up to this didn't they?  The weapon is beautiful, modern rails, ergonomic furniture, complex high fire rate hyper burst mechanism.  Thank you for letting me see this.  If you could help me out with something for Cody I'll hook you up with a casket mag for that thing and a box of the good ammo, stuff from my reserves."
+      "Where did you… I, I don't know what to say.  Cody put you up to this, didn't they?  The weapon is beautiful, modern rails, ergonomic furniture, recoil balancing system.  I know Cody thinks they did something wrong but all I remember is being so angry… just blindingly furious and then running.  When I woke up everything was fine.  Thank you for letting me see this and getting Cody and I talking.  If you could help me out with something for Cody I'll hook you up with a casket mag for that thing and a box of the good ammo, stuff from my reserves."
     ],
     "speaker_effect": { "effect": [ { "u_add_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" } ] },
     "responses": [
