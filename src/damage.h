@@ -65,6 +65,7 @@ struct damage_instance {
     damage_instance( damage_type dt, float amt, float arpen = 0.0f, float arpen_mult = 1.0f,
                      float dmg_mult = 1.0f, float unc_arpen_mult = 1.0f, float unc_dmg_mult = 1.0f );
     void mult_damage( double multiplier, bool pre_armor = false );
+    void mult_type_damage( double multiplier, damage_type dt );
     float type_damage( damage_type dt ) const;
     float type_arpen( damage_type dt ) const;
     float total_damage() const;

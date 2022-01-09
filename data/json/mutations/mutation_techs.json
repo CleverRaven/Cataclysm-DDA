@@ -7,10 +7,19 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "attack_override": true,
-    "weighting": -2,
+    "weighting": 2,
     "crit_ok": true,
     "required_char_flags": [ "SEESLEEP" ],
-    "flat_bonuses": [ { "stat": "damage", "type": "bullet", "scale": 0 }, { "stat": "movecost", "scale": 300 } ],
+    "forbidded_char_flags": [ "EYE_MEMBRANE" ],
+    "repeat_min": 1,
+    "repeat_max": 5,
+    "mult_bonuses": [ { "stat": "damage", "type": "bullet", "scale": 15 } ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 5 },
+      { "stat": "arpen", "type": "bash", "scale": 10 },
+      { "stat": "arpen", "type": "cut", "scale": 10 },
+      { "stat": "movecost", "scale": 40 }
+    ],
     "tech_effects": [
       { "id": "bleed", "chance": 100, "duration": 2000, "permanent": true, "on_damage": false },
       { "id": "downed", "chance": 50, "duration": 2 }

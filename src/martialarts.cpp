@@ -248,6 +248,9 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "weighting", weighting, 1 );
 
+    optional( jo, was_loaded, "stamina_cost", stamina_cost, 0 );
+    optional( jo, was_loaded, "repeat_min", repeat_min, 1 );
+    optional( jo, was_loaded, "repeat_max", repeat_max, 1 );
     optional( jo, was_loaded, "down_dur", down_dur, 0 );
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
