@@ -1,0 +1,17 @@
+[
+  {
+    "id": "pain_num",
+    "type": "widget",
+    "label": "Pain",
+    "var": "pain",
+    "style": "number"
+  },
+  {
+    "id": "pain_desc",
+    "type": "widget",
+    "label": "Pain",
+    "style": "text",
+    "var": "pain_text",
+    "//": "Uses display::pain_text_color"
+  }
+]

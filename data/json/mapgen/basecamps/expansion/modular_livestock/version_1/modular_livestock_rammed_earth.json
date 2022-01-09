@@ -15,7 +15,19 @@
       "w": "t_wall_rammed_earth",
       "+": "t_door_makeshift_c"
     },
-    "furniture": { "b": "f_bench", "r": "f_rack_wood", "t": "f_table" }
+    "furniture": {
+      ".": "f_clear",
+      "b": "f_bench",
+      "r": "f_rack_wood",
+      "t": "f_table",
+      "d": "f_clear",
+      "f": "f_clear",
+      "o": "f_clear",
+      "F": "f_clear",
+      "D": "f_clear",
+      "w": "f_clear",
+      "+": "f_clear"
+    }
   },
   {
     "type": "mapgen",

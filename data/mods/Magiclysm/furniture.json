@@ -19,7 +19,7 @@
     "symbol": "O",
     "color": "red",
     "required_str": -1,
-    "flags": [ "ALLOW_FIELD_EFFECT" ],
+    "flags": [ "ALLOW_FIELD_EFFECT", "TRANSPARENT" ],
     "description": "This is a rough magic circle, carved into the ground and decorated with blood, candles, and other small knick-knacks."
   },
   {

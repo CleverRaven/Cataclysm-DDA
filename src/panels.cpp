@@ -41,6 +41,7 @@
 #include "mood_face.h"
 #include "move_mode.h"
 #include "mtype.h"
+#include "npc.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -54,14 +55,17 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_type.h"
 #include "widget.h"
 
+static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_hunger_blank( "hunger_blank" );
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
@@ -79,19 +83,22 @@ static const flag_id json_flag_RAD_DETECT( "RAD_DETECT" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
+static const itype_id fuel_type_muscle( "muscle" );
+
 static const string_id<behavior::node_t> behavior__node_t_npc_needs( "npc_needs" );
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 
 // constructor
 window_panel::window_panel(
-    const std::function<void( avatar &, const catacurses::window & )> &draw_func,
+    const std::function<void( const draw_args & )> &draw_func,
     const std::string &id, const translation &nm, const int ht, const int wd,
     const bool default_toggle_, const std::function<bool()> &render_func,
     const bool force_draw )
     : draw( draw_func ), render( render_func ), toggle( default_toggle_ ),
       always_draw( force_draw ), height( ht ), width( wd ), id( id ), name( nm )
 {
+    wgt = widget_id::NULL_ID();
 }
 
 // ====================================
@@ -104,26 +111,6 @@ static std::string trunc_ellipse( const std::string &input, unsigned int trunc )
         return utf8_truncate( input, trunc - 1 ) + "…";
     }
     return input;
-}
-
-static void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
-                            point bottom_right )
-{
-    // corners
-    mvwaddch( w, top_left, LINE_OXXO );
-    mvwaddch( w, point( top_left.x, bottom_right.y ), LINE_XXOO );
-    mvwaddch( w, point( bottom_right.x, top_left.y ), LINE_OOXX );
-    mvwaddch( w, bottom_right, LINE_XOOX );
-
-    for( int i = 1; i < bottom_right.x; i++ ) {
-        mvwaddch( w, point( i, top_left.y ), LINE_OXOX );
-        mvwaddch( w, point( i, bottom_right.y ), LINE_OXOX );
-    }
-
-    for( int i = 1; i < bottom_right.y; i++ ) {
-        mvwaddch( w, point( top_left.x, i ), LINE_XOXO );
-        mvwaddch( w, point( bottom_right.x, i ), LINE_XOXO );
-    }
 }
 
 std::pair<std::string, nc_color> display::str_text_color( const Character &p )
@@ -232,8 +219,17 @@ std::string window_panel::get_name() const
     return name.translated();
 }
 
-panel_layout::panel_layout( const translation &_name,
-                            const std::vector<window_panel> &_panels )
+void window_panel::set_widget( const widget_id &w )
+{
+    wgt = w;
+}
+
+const widget_id &window_panel::get_widget() const
+{
+    return wgt;
+}
+
+panel_layout::panel_layout( const translation &_name, const std::vector<window_panel> &_panels )
     : _name( _name ), _panels( _panels )
 {
 }
@@ -855,7 +851,7 @@ std::pair<std::string, nc_color> display::safe_mode_text_color( const bool class
 // panels code
 // ===============================
 
-static void draw_limb_health( avatar &u, const catacurses::window &w, bodypart_id bp )
+static void draw_limb_health( const avatar &u, const catacurses::window &w, bodypart_id bp )
 {
     const bool no_feeling = u.has_trait( trait_NOPAIN );
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
@@ -912,8 +908,11 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, bodypart_i
     }
 }
 
-static void draw_limb2( avatar &u, const catacurses::window &w )
+static void draw_limb2( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     // print bodypart health
     int i = 0;
@@ -1335,42 +1334,34 @@ nc_color display::limb_color( const Character &u, const bodypart_id &bp, bool bl
     if( bp == bodypart_str_id::NULL_ID() ) {
         return c_light_gray;
     }
-    int color_bit = 0;
     nc_color i_color = c_light_gray;
     const int intense = u.get_effect_int( effect_bleed, bp );
-    if( bleed && intense > 0 ) {
-        color_bit += 1;
-    }
-    if( bite && u.has_effect( effect_bite, bp.id() ) ) {
-        color_bit += 10;
-    }
-    if( infect && u.has_effect( effect_infected, bp.id() ) ) {
-        color_bit += 100;
-    }
-    switch( color_bit ) {
-        case 1:
-            i_color = colorize_bleeding_intensity( intense );
-            break;
-        case 10:
-            i_color = c_blue;
-            break;
-        case 100:
-            i_color = c_green;
-            break;
-        case 11:
-            if( intense < 21 ) {
-                i_color = c_magenta;
-            } else {
-                i_color = c_magenta_red;
-            }
-            break;
-        case 101:
-            if( intense < 21 ) {
-                i_color = c_yellow;
-            } else {
-                i_color = c_yellow_red;
-            }
-            break;
+    const bool bleeding = bleed && intense > 0;
+    const bool bitten = bite && u.has_effect( effect_bite, bp.id() );
+    const bool infected = infect && u.has_effect( effect_infected, bp.id() );
+
+    // Handle worst cases first
+    if( bleeding && infected ) {
+        // Red and green make yellow
+        if( intense < 21 ) {
+            i_color = c_yellow;
+        } else {
+            i_color = c_yellow_red;
+        }
+    } else if( bleeding && bitten ) {
+        // Red and blue make magenta
+        if( intense < 21 ) {
+            i_color = c_magenta;
+        } else {
+            i_color = c_magenta_red;
+        }
+    } else if( infected ) {
+        i_color = c_green; // Green is very bad
+    } else if( bitten ) {
+        i_color = c_blue; // Blue is also bad
+    } else if( bleeding ) {
+        // Blood is some shade of red, naturally
+        i_color = colorize_bleeding_intensity( intense );
     }
 
     return i_color;
@@ -1440,8 +1431,152 @@ std::pair<std::string, nc_color> display::rad_badge_text_color( const Character 
     return std::make_pair( rad_text, rad_color );
 }
 
-static void draw_stats( avatar &u, const catacurses::window &w )
+// Get remotely controlled vehicle, or vehicle character is inside of
+static vehicle *vehicle_driven( const Character &u )
 {
+    vehicle *veh = g->remoteveh();
+    if( veh == nullptr && u.in_vehicle ) {
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
+    }
+    return veh;
+}
+
+std::string display::vehicle_azimuth_text( const Character &u )
+{
+    vehicle *veh = vehicle_driven( u );
+    if( veh ) {
+        return veh->face.to_string_azimuth_from_north();
+    }
+    return "";
+}
+
+std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Character &u )
+{
+    // Defaults in case no vehicle is found
+    std::string vel_text;
+    nc_color vel_color = c_light_gray;
+
+    // Show target velocity and current velocity, with units.
+    // For example:
+    //     25 < 10 mph : accelerating towards 25 mph
+    //     25 < 25 mph : cruising at 25 mph
+    //     10 < 25 mph : decelerating toward 10
+    // Text color indicates how much the engine is straining beyond its safe velocity.
+    vehicle *veh = vehicle_driven( u );
+    if( veh && veh->cruise_on ) {
+        int target = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int current = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
+        vel_text = string_format( "%d < %d %s", target, current, units );
+
+        const float strain = veh->strain();
+        if( strain <= 0 ) {
+            vel_color = c_light_blue;
+        } else if( strain <= 0.2 ) {
+            vel_color = c_yellow;
+        } else if( strain <= 0.4 ) {
+            vel_color = c_light_red;
+        } else {
+            vel_color = c_red;
+        }
+    }
+    return std::make_pair( vel_text, vel_color );
+}
+
+std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const Character &u )
+{
+    // Defaults in case no vehicle is found
+    std::string fuel_text;
+    nc_color fuel_color = c_light_gray;
+
+    vehicle *veh = vehicle_driven( u );
+    if( veh && veh->cruise_on ) {
+        itype_id fuel_type = itype_id::NULL_ID();
+        // FIXME: Move this to a vehicle helper function like get_active_engine
+        for( size_t e = 0; e < veh->engines.size(); e++ ) {
+            if( veh->is_engine_on( e ) &&
+                !( veh->is_perpetual_type( e ) || veh->is_engine_type( e, fuel_type_muscle ) ) ) {
+                // Get the fuel type of the first engine that is turned on
+                fuel_type = veh->engine_fuel_current( e );
+            }
+        }
+        int max_fuel = veh->fuel_capacity( fuel_type );
+        int cur_fuel = veh->fuel_left( fuel_type );
+        if( max_fuel != 0 ) {
+            int percent = cur_fuel * 100 / max_fuel;
+            // Simple percent indicator, yellow under 25%, red under 10%
+            fuel_text = string_format( "%d %%", percent );
+            fuel_color = percent < 10 ? c_red : ( percent < 25 ? c_yellow : c_green );
+        }
+    }
+
+    return std::make_pair( fuel_text, fuel_color );
+}
+
+std::vector<std::pair<std::string, nc_color>> display::bodypart_status_colors( const Character &u,
+        const bodypart_id &bp )
+{
+    // List of status strings and colors
+    std::vector<std::pair<std::string, nc_color>> ret;
+    // Empty if no bodypart given
+    if( bp == bodypart_str_id::NULL_ID() ) {
+        return ret;
+    }
+
+    const int bleed_intensity = u.get_effect_int( effect_bleed, bp );
+    const bool bleeding = bleed_intensity > 0;
+    const bool bitten = u.has_effect( effect_bite, bp.id() );
+    const bool infected = u.has_effect( effect_infected, bp.id() );
+    const bool broken = u.is_limb_broken( bp ) && bp->is_limb;
+    const bool splinted = u.worn_with_flag( json_flag_SPLINT,  bp );
+    const bool bandaged = u.has_effect( effect_bandaged,  bp.id() );
+    const bool disinfected = u.has_effect( effect_disinfected,  bp.id() );
+
+    // Ailments
+    if( broken ) {
+        ret.emplace_back( std::make_pair( "broken", c_magenta ) );
+    }
+    if( bitten ) {
+        ret.emplace_back( std::make_pair( "bitten", c_yellow ) );
+    }
+    if( bleeding ) {
+        ret.emplace_back( std::make_pair( "bleeding",
+                                          colorize_bleeding_intensity( bleed_intensity ) ) );
+    }
+    if( infected ) {
+        ret.emplace_back( std::make_pair( "infected", c_pink ) );
+    }
+    // Treatments
+    if( splinted ) {
+        ret.emplace_back( std::make_pair( "splinted", c_light_gray ) );
+    }
+    if( bandaged ) {
+        ret.emplace_back( std::make_pair( "bandaged", c_white ) );
+    }
+    if( disinfected ) {
+        ret.emplace_back( std::make_pair( "disinfected", c_light_green ) );
+    }
+
+    return ret;
+}
+
+std::string display::colorized_bodypart_status_text( const Character &u, const bodypart_id &bp )
+{
+    // Colorized strings for each status
+    std::vector<std::string> color_strings;
+    // Get all status strings and colorize them
+    for( const std::pair<std::string, nc_color> &sc : display::bodypart_status_colors( u, bp ) ) {
+        color_strings.emplace_back( colorize( sc.first, sc.second ) );
+    }
+    // Join with commas, or return "--" if no statuses
+    return color_strings.empty() ? "--" : join( color_strings, ", " );
+}
+
+static void draw_stats( const draw_args &args )
+{
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     nc_color stat_clr = display::str_text_color( u ).second;
     mvwprintz( w, point_zero, c_light_gray, _( "STR" ) );
@@ -1482,20 +1617,32 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-std::pair<std::string, nc_color> display::move_mode_text_color( const Character &u )
+// Single-letter move mode (W, R, C, P)
+std::pair<std::string, nc_color> display::move_mode_letter_color( const Character &u )
 {
     const std::string mm_text = std::string( 1, u.current_movement_mode()->panel_letter() );
     const nc_color mm_color = u.current_movement_mode()->panel_color();
     return std::make_pair( mm_text, mm_color );
 }
 
-static void draw_stealth( avatar &u, const catacurses::window &w )
+// Full name of move mode (walking, running, crouching, prone)
+std::pair<std::string, nc_color> display::move_mode_text_color( const Character &u )
 {
+    const std::string mm_text = u.current_movement_mode()->type_name();
+    const nc_color mm_color = u.current_movement_mode()->panel_color();
+    return std::make_pair( mm_text, mm_color );
+}
+
+static void draw_stealth( const draw_args &args )
+{
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     mvwprintz( w, point_zero, c_light_gray, _( "Speed" ) );
     mvwprintz( w, point( 7, 0 ), value_color( u.get_speed() ), "%s", u.get_speed() );
 
-    std::pair<std::string, nc_color> move_mode = display::move_mode_text_color( u );
+    std::pair<std::string, nc_color> move_mode = display::move_mode_letter_color( u );
 
     mvwprintz( w, point( 15 - utf8_width( move_mode.first ), 0 ), move_mode.second, move_mode.first );
     if( u.is_deaf() ) {
@@ -1553,8 +1700,11 @@ static void draw_time_graphic( const catacurses::window &w )
     wprintz( w, c_white, "]" );
 }
 
-static void draw_time( const avatar &u, const catacurses::window &w )
+static void draw_time( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     // display date
     mvwprintz( w, point_zero, c_light_gray, calendar::name_season( season_of_year( calendar::turn ) ) );
@@ -1578,8 +1728,11 @@ static void draw_time( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_needs_compact( const avatar &u, const catacurses::window &w )
+static void draw_needs_compact( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
 
     auto hunger_pair = display::hunger_text_color( u );
@@ -1603,8 +1756,11 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_limb_narrow( avatar &u, const catacurses::window &w )
+static void draw_limb_narrow( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     int ny2 = 0;
     int i = 0;
@@ -1648,8 +1804,11 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_limb_wide( avatar &u, const catacurses::window &w )
+static void draw_limb_wide( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     int i = 0;
     for( const bodypart_id &bp :
@@ -1667,8 +1826,11 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_char_narrow( avatar &u, const catacurses::window &w )
+static void draw_char_narrow( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1700,7 +1862,7 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 26, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
 
-    std::pair<std::string, nc_color> move_mode_pair = display::move_mode_text_color( u );
+    std::pair<std::string, nc_color> move_mode_pair = display::move_mode_letter_color( u );
     std::string movecost = std::to_string( u.movecounter ) + string_format( "(%s)",
                            move_mode_pair.first );
     mvwprintz( w, point( 26, 2 ), move_mode_pair.second, "%s", movecost );
@@ -1708,8 +1870,12 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_char_wide( avatar &u, const catacurses::window &w )
+static void draw_char_wide( const draw_args &args )
 {
+
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1736,7 +1902,7 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
 
     mvwprintz( w, point( 23, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
 
-    std::pair<std::string, nc_color> move_mode_pair = display::move_mode_text_color( u );
+    std::pair<std::string, nc_color> move_mode_pair = display::move_mode_letter_color( u );
     std::string movecost = std::to_string( u.movecounter ) + string_format( "(%s)",
                            move_mode_pair.first );
     mvwprintz( w, point( 38, 1 ), move_mode_pair.second, "%s", movecost );
@@ -1744,8 +1910,11 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_stat_narrow( avatar &u, const catacurses::window &w )
+static void draw_stat_narrow( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1789,8 +1958,12 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_stat_wide( avatar &u, const catacurses::window &w )
+static void draw_stat_wide( const draw_args &args )
 {
+
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
 
     mvwprintz( w, point_east, c_light_gray, _( "Str  :" ) );
@@ -1832,8 +2005,11 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool minimap )
+static void draw_loc_labels( const draw_args &args, bool minimap )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     // display location
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
@@ -1870,23 +2046,26 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     wnoutrefresh( w );
 }
 
-static void draw_loc_narrow( const avatar &u, const catacurses::window &w )
+static void draw_loc_narrow( const draw_args &args )
 {
-    draw_loc_labels( u, w, false );
+    draw_loc_labels( args, false );
 }
 
-static void draw_loc_wide( const avatar &u, const catacurses::window &w )
+static void draw_loc_wide( const draw_args &args )
 {
-    draw_loc_labels( u, w, false );
+    draw_loc_labels( args, false );
 }
 
-static void draw_loc_wide_map( const avatar &u, const catacurses::window &w )
+static void draw_loc_wide_map( const draw_args &args )
 {
-    draw_loc_labels( u, w, true );
+    draw_loc_labels( args, true );
 }
 
-static void draw_moon_narrow( const avatar &u, const catacurses::window &w )
+static void draw_moon_narrow( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), display::get_moon() );
@@ -1895,8 +2074,11 @@ static void draw_moon_narrow( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_moon_wide( const avatar &u, const catacurses::window &w )
+static void draw_moon_wide( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), display::get_moon() );
@@ -1904,8 +2086,11 @@ static void draw_moon_wide( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
+static void draw_weapon_labels( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wield:" ) );
@@ -1916,8 +2101,11 @@ static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
+static void draw_needs_narrow( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
@@ -1939,8 +2127,11 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_needs_labels( const avatar &u, const catacurses::window &w )
+static void draw_needs_labels( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
@@ -1966,8 +2157,11 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w )
+static void draw_needs_labels_alt( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
@@ -1991,8 +2185,11 @@ static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w 
     wnoutrefresh( w );
 }
 
-static void draw_sound_labels( const avatar &u, const catacurses::window &w )
+static void draw_sound_labels( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
@@ -2004,8 +2201,11 @@ static void draw_sound_labels( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_sound_narrow( const avatar &u, const catacurses::window &w )
+static void draw_sound_narrow( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
@@ -2017,8 +2217,11 @@ static void draw_sound_narrow( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_env_compact( avatar &u, const catacurses::window &w )
+static void draw_env_compact( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
 
     // Minimap to the left of text labels
@@ -2077,8 +2280,11 @@ std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
     return std::make_pair( wind_text, get_wind_color( windpower ) );
 }
 
-static void render_wind( avatar &u, const catacurses::window &w, const std::string &formatstr )
+static void render_wind( const draw_args &args, const std::string &formatstr )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     mvwprintz( w, point_zero, c_light_gray,
                //~ translation should not exceed 5 console cells
@@ -2089,22 +2295,146 @@ static void render_wind( avatar &u, const catacurses::window &w, const std::stri
     wnoutrefresh( w );
 }
 
-static void draw_wind( avatar &u, const catacurses::window &w )
+static void draw_wind( const draw_args &args )
 {
-    render_wind( u, w, "%s: " );
+    render_wind( args, "%s: " );
 }
 
-static void draw_wind_padding( avatar &u, const catacurses::window &w )
+static void draw_wind_padding( const draw_args &args )
 {
-    render_wind( u, w, " %s: " );
+    render_wind( args, " %s: " );
 }
 
-static void draw_health_classic( avatar &u, const catacurses::window &w )
+std::pair<std::string, nc_color> display::weather_text_color( const Character &u )
 {
-    vehicle *veh = g->remoteveh();
-    if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
+    if( u.pos().z < 0 ) {
+        return std::make_pair( _( "Underground" ), c_light_gray );
+    } else {
+        weather_manager &weather = get_weather();
+        std::string weather_text = weather.weather_id->name.translated();
+        nc_color weather_color = weather.weather_id->color;
+        return std::make_pair( weather_text, weather_color );
     }
+}
+
+static std::string get_compass_for_direction( const cardinal_direction dir, int max_width )
+{
+    const int d = static_cast<int>( dir );
+    const monster_visible_info &mon_visible = get_avatar().get_mon_visible();
+    std::vector<std::pair<std::string, nc_color>> syms;
+    for( npc *n : mon_visible.unique_types[d] ) {
+        switch( n->get_attitude() ) {
+            case NPCATT_KILL:
+                syms.emplace_back( "@", c_red );
+                break;
+            case NPCATT_FOLLOW:
+                syms.emplace_back( "@", c_light_green );
+                break;
+            default:
+                syms.emplace_back( "@", c_pink );
+                break;
+        }
+    }
+    for( const std::pair<const mtype *, int> &m : mon_visible.unique_mons[d] ) {
+        syms.emplace_back( m.first->sym, m.first->color );
+    }
+
+    std::string ret;
+    for( int i = 0; i < static_cast<int>( syms.size() ); i++ ) {
+        if( i >= max_width - 1 ) {
+            ret += colorize( "+", c_white );
+            break;
+        }
+        ret += colorize( syms[i].first, syms[i].second );
+    }
+    return ret;
+}
+
+std::string display::colorized_compass_text( const cardinal_direction dir, int width )
+{
+    if( dir == cardinal_direction::num_cardinal_directions ) {
+        return "";
+    }
+    return get_compass_for_direction( dir, width );
+}
+
+std::string display::colorized_compass_legend_text( int width, int height )
+{
+    const monster_visible_info &mon_visible = get_avatar().get_mon_visible();
+    std::vector<std::string> names;
+    for( const std::vector<npc *> &nv : mon_visible.unique_types ) {
+        for( const npc *n : nv ) {
+            std::string name;
+            switch( n->get_attitude() ) {
+                case NPCATT_KILL:
+                    name = colorize( "@", c_red );
+                    break;
+                case NPCATT_FOLLOW:
+                    name = colorize( "@", c_light_green );
+                    break;
+                default:
+                    name = colorize( "@", c_pink );
+                    break;
+            }
+            name = string_format( "%s %s", name, n->name );
+            names.emplace_back( name );
+        }
+    }
+    std::map<const mtype *, int> mlist;
+    for( const auto &mv : mon_visible.unique_mons ) {
+        for( const std::pair<const mtype *, int> &m : mv ) {
+            mlist[m.first] += m.second;
+        }
+    }
+    for( const auto &m : mlist ) {
+        nc_color danger = c_dark_gray;
+        if( m.first->difficulty >= 30 ) {
+            danger = c_red;
+        } else if( m.first->difficulty >= 16 ) {
+            danger = c_light_red;
+        } else if( m.first->difficulty >= 8 ) {
+            danger = c_white;
+        } else if( m.first->agro > 0 ) {
+            danger = c_light_gray;
+        }
+        std::string name = m.second > 1 ? string_format( "%d ", m.second ) : "";
+        name += m.first->nname( m.second );
+        name = string_format( "%s %s", colorize( m.first->sym, m.first->color ), colorize( name, danger ) );
+        names.emplace_back( name );
+    }
+    // Split names into X lines, where X = height.
+    // Lines use the provided width.
+    // This effectively limits the text to a 'width'x'height' box.
+    std::string ret;
+    const int nsize = names.size();
+    for( int row = 0, nidx = 0; row < height && nidx < nsize; row++ ) {
+        int wavail = width;
+        int nwidth = utf8_width( names[nidx], true );
+        bool startofline = true;
+        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
+            startofline = false;
+            wavail -= nwidth;
+            ret += names[nidx];
+            nidx++;
+            if( nidx < nsize ) {
+                nwidth = utf8_width( names[nidx], true );
+                if( wavail > nwidth ) {
+                    ret += "  ";
+                    wavail -= 2;
+                }
+            }
+        }
+        if( row < height - 1 ) {
+            ret += "\n";
+        }
+    }
+    return ret;
+}
+
+static void draw_health_classic( const draw_args &args )
+{
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
 
     werase( w );
 
@@ -2140,6 +2470,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
     mvwprintz( w, point( 34, 1 ), morale_pair.second, morale_pair.first );
 
+    vehicle *veh = vehicle_driven( u );
+
     if( !veh ) {
         // stats
         std::pair<std::string, nc_color> pair = display::str_text_color( u );
@@ -2170,7 +2502,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( !veh ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + std::to_string( u.get_speed() ) );
-        std::pair<std::string, nc_color> move_mode_pair = display::move_mode_text_color( u );
+        std::pair<std::string, nc_color> move_mode_pair = display::move_mode_letter_color( u );
         std::string move_string = std::to_string( u.movecounter ) + " " + move_mode_pair.first;
         mvwprintz( w, point( 29, 5 ), move_mode_pair.second, move_string );
     }
@@ -2195,8 +2527,11 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_armor_padding( const avatar &u, const catacurses::window &w )
+static void draw_armor_padding( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     nc_color color = c_light_gray;
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -2222,8 +2557,11 @@ static void draw_armor_padding( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_armor( const avatar &u, const catacurses::window &w )
+static void draw_armor( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     nc_color color = c_light_gray;
     mvwprintz( w, point_zero, color, _( "Head :" ) );
@@ -2248,8 +2586,10 @@ static void draw_armor( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_messages( avatar &, const catacurses::window &w )
+static void draw_messages( const draw_args &args )
 {
+    const catacurses::window &w = args._win;
+
     werase( w );
     int line = getmaxy( w ) - 2;
     int maxlength = getmaxx( w );
@@ -2257,8 +2597,10 @@ static void draw_messages( avatar &, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_messages_classic( avatar &, const catacurses::window &w )
+static void draw_messages_classic( const draw_args &args )
 {
+    const catacurses::window &w = args._win;
+
     werase( w );
     int line = getmaxy( w ) - 2;
     int maxlength = getmaxx( w );
@@ -2267,8 +2609,10 @@ static void draw_messages_classic( avatar &, const catacurses::window &w )
 }
 
 #if defined(TILES)
-static void draw_mminimap( avatar &, const catacurses::window &w )
+static void draw_mminimap( const draw_args &args )
 {
+    const catacurses::window &w = args._win;
+
     werase( w );
     g->draw_pixel_minimap( w );
     wnoutrefresh( w );
@@ -2276,7 +2620,7 @@ static void draw_mminimap( avatar &, const catacurses::window &w )
 #endif
 
 // Print monster info to the given window
-void display::print_mon_info( avatar &u, const catacurses::window &w, int hor_padding,
+void display::print_mon_info( const avatar &u, const catacurses::window &w, int hor_padding,
                               bool compact )
 {
     const monster_visible_info &mon_visible = u.get_mon_visible();
@@ -2435,92 +2779,66 @@ void display::print_mon_info( avatar &u, const catacurses::window &w, int hor_pa
     }
 }
 
-static void draw_compass( avatar &u, const catacurses::window &w )
+static void draw_compass( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     display::print_mon_info( u, w );
     wnoutrefresh( w );
 }
 
-static void draw_compass_compact( avatar &u, const catacurses::window &w )
+static void draw_compass_compact( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     display::print_mon_info( u, w, 0, true );
     wnoutrefresh( w );
 }
 
-static void draw_compass_padding( avatar &u, const catacurses::window &w )
+static void draw_compass_padding( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     display::print_mon_info( u, w, 1 );
     wnoutrefresh( w );
 }
 
-static void draw_compass_padding_compact( avatar &u, const catacurses::window &w )
+static void draw_compass_padding_compact( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     display::print_mon_info( u, w, 1, true );
     wnoutrefresh( w );
 }
 
-static void draw_overmap_narrow( avatar &u, const catacurses::window &w )
+static void draw_overmap( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     const tripoint_abs_omt curs = u.global_omt_location();
-    draw_rectangle( w, c_light_gray, point_zero, point( 31, 13 ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), 30, 12 );
+    overmap_ui::draw_overmap_chunk( w, u, curs, point_zero, getmaxx( w ) - 1, getmaxy( w ) - 1 );
     wnoutrefresh( w );
 }
 
-static void draw_overmap_wide( avatar &u, const catacurses::window &w )
+static void draw_veh_compact( const draw_args &args )
 {
-    werase( w );
-    const tripoint_abs_omt curs = u.global_omt_location();
-    draw_rectangle( w, c_light_gray, point_zero, point( 43, 19 ) );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), 42, 18 );
-    wnoutrefresh( w );
-}
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
 
-// Custom moddable sidebar
-static void draw_mod_sidebar( avatar &u, const catacurses::window &w, const std::string layout_name,
-                              const int width )
-{
     werase( w );
 
-    // Render each row of the root layout widget
-    widget root = widget_id( layout_name ).obj();
-    int row_num = 0;
-    for( const widget_id &row_wid : root._widgets ) {
-        widget row_widget = row_wid.obj();
-        trim_and_print( w, point( 1, row_num ), width - 1, c_light_gray, _( row_widget.layout( u,
-                        width - 1 ) ) );
-        row_num++;
-    }
-
-    wnoutrefresh( w );
-}
-
-static void draw_mod_sidebar_narrow( avatar &u, const catacurses::window &w )
-{
-    draw_mod_sidebar( u, w, "root_layout_narrow", 31 );
-}
-
-static void draw_mod_sidebar_wide( avatar &u, const catacurses::window &w )
-{
-    draw_mod_sidebar( u, w, "root_layout_wide", 43 );
-}
-
-static void draw_veh_compact( const avatar &u, const catacurses::window &w )
-{
-    werase( w );
-
-    // vehicle display
-    vehicle *veh = g->remoteveh();
-    if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
-    }
+    vehicle *veh = vehicle_driven( u );
     if( veh ) {
         veh->print_fuel_indicators( w, point_zero );
         mvwprintz( w, point( 6, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
@@ -2530,15 +2848,14 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_veh_padding( const avatar &u, const catacurses::window &w )
+static void draw_veh_padding( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
 
-    // vehicle display
-    vehicle *veh = g->remoteveh();
-    if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
-    }
+    vehicle *veh = vehicle_driven( u );
     if( veh ) {
         veh->print_fuel_indicators( w, point_east );
         mvwprintz( w, point( 7, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
@@ -2548,8 +2865,11 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_ai_goal( const avatar &u, const catacurses::window &w )
+static void draw_ai_goal( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     behavior::tree needs;
     needs.add( &behavior__node_t_npc_needs.obj() );
@@ -2560,8 +2880,11 @@ static void draw_ai_goal( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_location_classic( const avatar &u, const catacurses::window &w )
+static void draw_location_classic( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Location:" ) );
@@ -2571,8 +2894,10 @@ static void draw_location_classic( const avatar &u, const catacurses::window &w 
     wnoutrefresh( w );
 }
 
-static void draw_weather_classic( avatar &, const catacurses::window &w )
+static void draw_weather_classic( const draw_args &args )
 {
+    const catacurses::window &w = args._win;
+
     werase( w );
 
     if( get_map().get_abs_sub().z < 0 ) {
@@ -2589,8 +2914,11 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_lighting_classic( const avatar &u, const catacurses::window &w )
+static void draw_lighting_classic( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
 
     const std::pair<std::string, nc_color> ll = get_light_level(
@@ -2608,8 +2936,11 @@ static void draw_lighting_classic( const avatar &u, const catacurses::window &w 
     wnoutrefresh( w );
 }
 
-static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
+static void draw_weapon_classic( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Weapon  :" ) );
@@ -2626,8 +2957,11 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_time_classic( const avatar &u, const catacurses::window &w )
+static void draw_time_classic( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
 
     // display date
@@ -2652,8 +2986,10 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_hint( const avatar &, const catacurses::window &w )
+static void draw_hint( const draw_args &args )
 {
+    const catacurses::window &w = args._win;
+
     werase( w );
     std::string press = press_x( ACTION_TOGGLE_PANEL_ADM );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -2692,29 +3028,41 @@ static void draw_weariness_partial( const avatar &u, const catacurses::window &w
     wnoutrefresh( w );
 }
 
-static void draw_weariness( const avatar &u, const catacurses::window &w )
+static void draw_weariness( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     draw_weariness_partial( u, w, point_zero, false );
     wnoutrefresh( w );
 }
 
-static void draw_weariness_narrow( const avatar &u, const catacurses::window &w )
+static void draw_weariness_narrow( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     draw_weariness_partial( u, w, point_east, false );
     wnoutrefresh( w );
 }
 
-static void draw_weariness_wide( const avatar &u, const catacurses::window &w )
+static void draw_weariness_wide( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
     draw_weariness_partial( u, w, point_east, true );
     wnoutrefresh( w );
 }
 
-static void draw_weariness_classic( const avatar &u, const catacurses::window &w )
+static void draw_weariness_classic( const draw_args &args )
 {
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
     werase( w );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
@@ -2757,24 +3105,36 @@ static void print_mana( const Character &you, const catacurses::window &w,
     wnoutrefresh( w );
 }
 
-static void draw_mana_classic( const Character &you, const catacurses::window &w )
+static void draw_mana_classic( const draw_args &args )
 {
-    print_mana( you, w, "%s: %s %s: %s", -8, -5, 20, -5 );
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
+    print_mana( u, w, "%s: %s %s: %s", -8, -5, 20, -5 );
 }
 
-static void draw_mana_compact( const Character &you, const catacurses::window &w )
+static void draw_mana_compact( const draw_args &args )
 {
-    print_mana( you, w, "%s %s %s %s", 4, -5, 12, -5 );
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
+    print_mana( u, w, "%s %s %s %s", 4, -5, 12, -5 );
 }
 
-static void draw_mana_narrow( const Character &you, const catacurses::window &w )
+static void draw_mana_narrow( const draw_args &args )
 {
-    print_mana( you, w, " %s: %s %s : %s", -5, -5, 9, -5 );
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
+    print_mana( u, w, " %s: %s %s : %s", -5, -5, 9, -5 );
 }
 
-static void draw_mana_wide( const Character &you, const catacurses::window &w )
+static void draw_mana_wide( const draw_args &args )
 {
-    print_mana( you, w, " %s: %s %s : %s", -5, -5, 13, -5 );
+    const avatar &u = args._ava;
+    const catacurses::window &w = args._win;
+
+    print_mana( u, w, " %s: %s %s : %s", -5, -5, 13, -5 );
 }
 
 // ============
@@ -2820,12 +3180,10 @@ static std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
                                     to_translation( "Alt Compass" ),
                                     5, 44, false ) );
-    ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
+    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", to_translation( "Log" ),
                                     -2, 44, true ) );
-    ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Custom", to_translation( "Custom" ),
-                                    8, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 44, true, default_render, true ) );
@@ -2866,10 +3224,8 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_compass_compact, "Alt Compass",
                                     to_translation( "Alt Compass" ),
                                     5, 32, true ) );
-    ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
+    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
-    ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
-                                    8, 32, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 32, true, default_render, true ) );
@@ -2919,10 +3275,8 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
                                     to_translation( "Alt Compass" ),
                                     5, 32, false ) );
-    ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
+    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
-    ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
-                                    8, 32, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 32, true, default_render, true ) );
@@ -2976,16 +3330,66 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_compass_padding_compact, "Alt Compass",
                                     to_translation( "Alt Compass" ),
                                     5, 44, false ) );
-    ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
+    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
-    ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Custom", to_translation( "Custom" ),
-                                    8, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 44, true, default_render, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", to_translation( "AI Needs" ),
                                     1, 44, false ) );
+
+    return ret;
+}
+
+// Message on how to use the custom sidebar panel and edit its JSON
+static void draw_custom_hint( const draw_args &args )
+{
+    const catacurses::window &w = args._win;
+
+    werase( w );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_white, _( "Custom sidebar" ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray,
+               _( "Edit sidebar.json to adjust." ) );
+    mvwprintz( w, point( 1, 2 ), c_light_gray,
+               _( "See SIDEBAR_MOD.md for help." ) );
+
+    wnoutrefresh( w );
+}
+
+// Initialize custom panels from a given "sidebar" style widget
+static std::vector<window_panel> initialize_default_custom_panels( const widget &wgt )
+{
+    std::vector<window_panel> ret;
+
+    // Use defined width, or at least 16
+    const int width = std::max( wgt._width, 16 );
+
+    // Show hint on configuration
+    ret.emplace_back( window_panel( draw_custom_hint, "Hint", to_translation( "Hint" ),
+                                    3, width, true ) );
+
+    // Add window panel for each child widget
+    for( const widget_id &row_wid : wgt._widgets ) {
+        widget row_widget = row_wid.obj();
+        ret.emplace_back( row_widget.get_window_panel( width ) );
+    }
+
+    // Add compass, message log, and map to fill remaining space
+    // TODO: Make these into proper widgets
+    ret.emplace_back( window_panel( draw_messages, "Log", to_translation( "Log" ),
+                                    -2, width, true ) );
+#if defined(TILES)
+    ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
+                                    -1, width, true, default_render, true ) );
+#endif // TILES
+    ret.emplace_back( window_panel( draw_compass_padding_compact, "Compass",
+                                    to_translation( "Compass" ),
+                                    5, width, false ) );
+    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
+                                    7, width, false ) );
 
     return ret;
 }
@@ -3003,13 +3407,22 @@ static std::map<std::string, panel_layout> initialize_default_panel_layouts()
     ret.emplace( "labels", panel_layout( to_translation( "labels" ),
                                          initialize_default_label_panels() ) );
 
+    // Add panel layout for each "sidebar" widget
+    for( const widget &wgt : widget::get_all() ) {
+        if( wgt._style == "sidebar" ) {
+            ret.emplace( wgt._label.translated(),
+                         panel_layout( wgt._label, initialize_default_custom_panels( wgt ) ) );
+        }
+    }
+
     return ret;
 }
 
 panel_manager::panel_manager()
 {
     current_layout_id = "labels";
-    layouts = initialize_default_panel_layouts();
+    // Set empty layouts; these will be populated by load()
+    layouts = std::map<std::string, panel_layout>();
 }
 
 panel_layout &panel_manager::get_current_layout()
@@ -3046,6 +3459,7 @@ int panel_manager::get_width_left()
 
 void panel_manager::init()
 {
+    layouts = initialize_default_panel_layouts();
     load();
     update_offsets( get_current_layout().panels().begin()->get_width() );
 }
@@ -3152,7 +3566,7 @@ void panel_manager::show_adm()
     ctxt.register_action( "MOVE_PANEL" );
     ctxt.register_action( "TOGGLE_PANEL" );
 
-    const std::vector<int> column_widths = { 17, 37, 17 };
+    const std::vector<int> column_widths = { 25, 37, 17 };
 
     size_t current_col = 0;
     size_t current_row = 0;
@@ -3174,7 +3588,7 @@ void panel_manager::show_adm()
     const int popup_height = 24;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w = catacurses::newwin( popup_height, 75,
+        w = catacurses::newwin( popup_height, 83,
                                 point( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 ) );
 
         ui.position_from_window( w );

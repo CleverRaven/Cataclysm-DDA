@@ -23,6 +23,7 @@ enum class timed_event_type : int {
     ARTIFACT_LIGHT,
     DSA_ALRP_SUMMON,
     CUSTOM_LIGHT_LEVEL,
+    TRANSFORM_RADIUS,
     NUM_TIMED_EVENT_TYPES
 };
 
@@ -36,7 +37,11 @@ struct timed_event {
     tripoint_abs_sm map_point = tripoint_abs_sm( tripoint_min );
     /** How powerful the effect is */
     int strength = -1;
+    //type of applied effect
+    std::string string_id;
     timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p, int s );
+    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p, int s,
+                 std::string s_id );
 
     // When the time runs out
     void actualize();
@@ -61,6 +66,8 @@ class timed_event_manager
          */
         void add( timed_event_type type, const time_point &when, int faction_id,
                   const tripoint_abs_sm &where, int strength = -1 );
+        void add( const timed_event_type type, const time_point &when, const int faction_id,
+                  const tripoint_abs_sm &where, int strength, std::string string_id );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( timed_event_type type ) const;
         /// @returns One of the queued events of the given type, or `nullptr`
