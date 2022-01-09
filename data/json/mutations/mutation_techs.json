@@ -7,7 +7,7 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "attack_override": true,
-    "weighting": 2,
+    "weighting": -2,
     "crit_ok": true,
     "required_char_flags": [ "SEESLEEP" ],
     "forbidded_char_flags": [ "EYE_MEMBRANE" ],
