@@ -66,6 +66,27 @@
   },
   {
     "type": "terrain",
+    "id": "t_nm_wall_cartilage",
+    "name": "flesh wall",
+    "description": "A thick wall of fleshy cartilage. It still pounds rythmically, reminding you that ",
+    "symbol": "LINE_OXOX",
+    "color": "magenta_red",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "looks_like": "t_concrete_wall_flesh",
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_nm_floor_flesh",
+      "items": [ { "item": "meat_tainted", "count": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_nm_wall_flesh_pupating",
     "name": "flesh wall",
     "//": " is spawning monsters on bashing/destruction of terrain possible? ",

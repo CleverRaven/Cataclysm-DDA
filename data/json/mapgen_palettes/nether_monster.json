@@ -11,6 +11,9 @@
       "X": "t_soil",
       "x": "t_dirt_underground"
     },
-    "furniture": { "g": "f_nm_tube", "G": "f_nm_tube_emitter" }
+    "furniture": { "g": "f_nm_tube", "G": "f_nm_tube_emitter" },
+    "traps": { "P": "tr_portal" },
+    "fields": { "q": { "field": "fd_fatigue", "intensity": 1 },
+    "Q": { "field": "fd_fatigue", "intensity": 2 } }
   }
 ]

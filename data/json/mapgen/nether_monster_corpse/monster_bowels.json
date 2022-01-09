@@ -374,7 +374,7 @@
       ],
       "palettes": [ "nether_monster_palette" ],
       "place_monster": [ { "monster": "mon_nether_fish", "x": [ 0, 23 ], "y": [ 12 ], "chance": 100, "pack_size": [ 2, 4 ] } ],
-      "terrain": { "H": "t_nm_heart_nw", "J": "t_nm_heart_ne", "K": "t_nm_heart_sw", "L": "t_nm_heart_se" }
+      "terrain": { "H": "t_nm_floor_flesh", "J": "t_nm_floor_flesh", "K": "t_nm_floor_flesh", "L": "t_nm_floor_flesh" }
     }
   },
   {
