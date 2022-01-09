@@ -1073,6 +1073,7 @@
     "time": "40 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "material_soil", 200 ] ] ],
+    "dark_craftable": true,
     "pre_terrain": "t_pit",
     "post_terrain": "t_dirt"
   },
