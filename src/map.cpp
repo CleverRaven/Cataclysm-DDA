@@ -732,11 +732,18 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     //  parts are damaged/broken on both sides,
     //  remaining times are normalized
     const veh_collision &c = collisions[0];
-    add_msg( m_bad, _( "The %1$s's %2$s collides with %3$s's %4$s." ),
-             veh.name,  veh.part_info( c.part ).name(),
-             veh2.name, veh2.part_info( c.target_part ).name() );
-
     const bool vertical = veh.sm_pos.z != veh2.sm_pos.z;
+
+    // Check whether avatar sees the collision, and log a message if so
+    const avatar &you = get_avatar();
+    const tripoint part1_pos = veh.global_part_pos3( c.part );
+    const tripoint part2_pos = veh.global_part_pos3( c.target_part );
+    if( you.sees( part1_pos ) || you.sees( part2_pos ) ) {
+        //~ %1$s: first vehicle, %2$s: first part, %3s: second vehicle, %4$s: second part
+        add_msg( m_bad, _( "The %1$s's %2$s collides with %3$s's %4$s." ),
+                 veh.name,  veh.part_info( c.part ).name(),
+                 veh2.name, veh2.part_info( c.target_part ).name() );
+    }
 
     // Used to calculate the epicenter of the collision.
     point epicenter1;
