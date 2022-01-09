@@ -831,7 +831,9 @@
       "INFRARED",
       "LIZ_EYE",
       "EYEBULGE",
-      "SEESLEEP",
+      "SEESLEEP"
+    ],
+    "mutation_conflicts": [
       "EYESTALKS1",
       "EYESTALKS2"
     ]
