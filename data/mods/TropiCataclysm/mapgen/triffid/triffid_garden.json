@@ -52,6 +52,7 @@
         ",": [ [ "f_null", 24 ], [ "f_flower_tulip", 2 ], [ "f_burdock", 5 ] ],
         "_": [ [ "f_null", 20 ], [ "f_bluebell", 4 ], [ "f_glowingbulb", 2 ] ]
       },
+      "place_monster": [ { "monster": "mon_zombie_garden", "x": [ 6, 17 ], "y": [ 6, 22 ], "repeat": 10 } ],
       "monster": { "X": { "monster": "mon_triffid_lifegiver" }, "Y": { "monster": "mon_triffid_flower" } }
     }
   }
