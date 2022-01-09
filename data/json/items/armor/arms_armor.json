@@ -849,10 +849,10 @@
     }
   },
   {
-    "id": "xl_armor_qt_lightarmguard",
+    "id": "xl_armor_qt_heavyarmguard",
     "type": "ARMOR",
     "name": { "str": "XL tempered 2.25 mm armguard" },
-    "copy-from": "armor_qt_lightarmguard",
+    "copy-from": "armor_qt_heavyarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   }
