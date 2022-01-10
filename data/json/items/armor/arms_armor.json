@@ -567,7 +567,7 @@
           { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -594,7 +594,7 @@
           { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -621,7 +621,7 @@
           { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -648,7 +648,7 @@
           { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -675,7 +675,7 @@
           { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -715,7 +715,7 @@
           { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 15
       }
@@ -742,7 +742,7 @@
           { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 15
       }
@@ -769,7 +769,7 @@
           { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 15
       }
@@ -796,7 +796,7 @@
           { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 15
       }
@@ -823,7 +823,7 @@
           { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 15
       }
@@ -863,7 +863,7 @@
           { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -890,7 +890,7 @@
           { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -917,7 +917,7 @@
           { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -944,7 +944,7 @@
           { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -971,7 +971,7 @@
           { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "arm_l", "arm_r" ],
+        "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100,
         "encumbrance": 20
       }
