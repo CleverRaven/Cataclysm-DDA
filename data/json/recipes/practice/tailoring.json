@@ -32,7 +32,7 @@
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "tailor", 2 ] ],
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
-    "components": [ [ [ "sheet_cotton", 10 ], [ "sheet_cotton_patchwork", 1 ], [ "rag", 1 ] ] ],
+    "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ], [ "rag", 2 ], [ "cotton_patchwork", 2 ] ] ],
     "using": [ [ "sewing_standard", 10 ], [ "fastener_small", 2 ] ]
   },
   {

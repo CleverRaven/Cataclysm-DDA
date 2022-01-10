@@ -53,7 +53,7 @@
       { "proficiency": "prof_closures_waterproofing" }
     ],
     "components": [
-      [ [ "cotton_patchwork", 4 ], [ "sheet_cotton_patchwork", 1 ] ],
+      [ [ "cotton_patchwork", 2 ], [ "sheet_cotton_patchwork", 1 ] ],
       [ [ "vest", 1 ], [ "tacvest", 1 ] ],
       [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ], [ "dump_pouch", 2 ], [ "fanny", 2 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
