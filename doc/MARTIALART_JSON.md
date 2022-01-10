@@ -58,6 +58,8 @@
 "downed_target": true,      // Technique only works on a downed target
 "stunned_target": true,     // Technique only works on a stunned target
 "human_target": true,       // Technique only works on a human-like target
+"repeat_min": 1,            // Technique's damage and any added effects are repeated rng( repeat_min, repeat_max) times. The target's armor and the effect's chances are applied for each repeat.
+"repeat_max": 1,
 "knockback_dist": 1,        // Distance target is knocked back
 "knockback_spread": 1,      // The knockback may not send the target straight back
 "knockback_follow": 1,      // Attacker will follow target if they are knocked back
