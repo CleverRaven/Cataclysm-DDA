@@ -1054,12 +1054,6 @@ class Character : public Creature, public visitable
                            int roll );
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
-         * Is wrapped by the other two armor absorb calls
-         * @return true if the armor was completely destroyed (and the item must be deleted).
-         */
-        bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp );
-        /**
-         * Reduces and mutates du, prints messages about armor taking damage.
          * If the armor is fully destroyed it is replaced
          * @return true if the armor was completely destroyed.
          */

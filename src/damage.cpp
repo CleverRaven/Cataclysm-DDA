@@ -236,16 +236,28 @@ resistances::resistances()
     resist_vals.fill( 0 );
 }
 
-resistances::resistances( const item &armor, bool to_self, const bodypart_id &bp )
+resistances::resistances( const item &armor, bool to_self, int roll, const bodypart_id &bp )
+{
+    // Armors protect, but all items can resist
+    if( to_self || armor.is_armor() || armor.is_pet_armor() ) {
+        for( int i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
+            damage_type dt = static_cast<damage_type>( i );
+            set_resist( dt, armor.damage_resist( dt, to_self, bp, roll ) );
+        }
+    }
+}
+
+resistances::resistances( const item &armor, bool to_self, int roll, const sub_bodypart_id &bp )
 {
     // Armors protect, but all items can resist
     if( to_self || armor.is_armor() ) {
         for( int i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
             damage_type dt = static_cast<damage_type>( i );
-            set_resist( dt, armor.damage_resist( dt, to_self, bp ) );
+            set_resist( dt, armor.damage_resist( dt, to_self, bp, roll ) );
         }
     }
 }
+
 resistances::resistances( monster &monster ) : resistances()
 {
     set_resist( damage_type::BASH, monster.type->armor_bash );
