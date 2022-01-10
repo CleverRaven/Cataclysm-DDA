@@ -22,6 +22,7 @@
         "rigid": true,
         "max_contains_volume": "4 L",
         "max_contains_weight": "30 kg",
+        "description": "compartment for a UPS",
         "moves": 200
       },
       {
@@ -32,6 +33,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -42,6 +44,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -52,6 +55,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -62,6 +66,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -69,6 +74,7 @@
         "rigid": true,
         "max_contains_volume": "1100 ml",
         "max_contains_weight": "2 kg",
+        "description": "compartment for grenades",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -78,6 +84,7 @@
         "max_contains_volume": "12 L",
         "max_contains_weight": "16500 g",
         "max_item_length": "154 cm",
+        "description": "integrated rifle case",
         "moves": 100
       }
     ],
@@ -138,6 +145,7 @@
         "rigid": true,
         "max_contains_volume": "4 L",
         "max_contains_weight": "30 kg",
+        "description": "compartment for a UPS",
         "moves": 200
       },
       {
@@ -148,6 +156,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -158,6 +167,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -168,6 +178,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -178,6 +189,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -185,6 +197,7 @@
         "rigid": true,
         "max_contains_volume": "1100 ml",
         "max_contains_weight": "2 kg",
+        "description": "compartment for grenades",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -194,6 +207,7 @@
         "max_contains_volume": "12 L",
         "max_contains_weight": "16500 g",
         "max_item_length": "154 cm",
+        "description": "integrated rifle case",
         "moves": 100
       }
     ],
@@ -279,6 +293,7 @@
         "rigid": true,
         "max_contains_volume": "4 L",
         "max_contains_weight": "30 kg",
+        "description": "compartment for a UPS",
         "moves": 200
       },
       {
@@ -289,6 +304,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -299,6 +315,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -309,6 +326,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -319,6 +337,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -326,6 +345,7 @@
         "rigid": true,
         "max_contains_volume": "1100 ml",
         "max_contains_weight": "2 kg",
+        "description": "compartment for grenades",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -335,6 +355,7 @@
         "max_contains_volume": "12 L",
         "max_contains_weight": "16500 g",
         "max_item_length": "154 cm",
+        "description": "integrated rifle case",
         "moves": 100
       }
     ],
@@ -442,7 +463,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "field combat exoskeleton" },
-    "description": "The final iteration of military power armor before the fall of civilization, this type - a powered exoskeleton with high-tech segmented plating - was designed for actual widespread combat use and was seen on the front lines during the last days of the cataclysm.  Like the heavier suits, it is resistant to most modern weaponry, but it is light and maneuverable, and can fit into normal vehicles and doorways without fuss, a huge advantage over predecessors.  Unfortunately, the world ended before it could roll out in significant numbers.  There is an integrated chemical resistant bodyglove that precludes wearing other clothing.  The armor is outfitted with a variety of clips & clamps, allowing it to hold a few mags & grenades, as well as a large rifle",
+    "description": "The final iteration of military power armor before the fall of civilization, this type - a powered exoskeleton with high-tech segmented plating - was designed for actual widespread combat use and was seen on the front lines during the last days of the Cataclysm.  Like the heavier suits, it is resistant to most modern weaponry, but it is light and maneuverable, and can fit into normal vehicles and doorways without fuss, a huge advantage over predecessors.  Unfortunately, the world ended before it could roll out in significant numbers.  There is an integrated chemical resistant bodyglove that precludes wearing other clothing.  The armor is outfitted with a variety of clips & clamps, allowing it to hold a few mags & grenades, as well as a large rifle",
     "weight": "12670 g",
     "volume": "25 L",
     "price": 11500000,
@@ -459,6 +480,7 @@
         "rigid": true,
         "max_contains_volume": "4 L",
         "max_contains_weight": "30 kg",
+        "description": "compartment for a UPS",
         "moves": 200
       },
       {
@@ -469,6 +491,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -479,6 +502,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -489,6 +513,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -499,6 +524,7 @@
         "max_item_length": "200 mm",
         "holster": true,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "description": "spring-loaded clamp",
         "moves": 60
       },
       {
@@ -506,6 +532,7 @@
         "rigid": true,
         "max_contains_volume": "1100 ml",
         "max_contains_weight": "2 kg",
+        "description": "compartment for grenades",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ]
       },
@@ -515,6 +542,7 @@
         "max_contains_volume": "12 L",
         "max_contains_weight": "16500 g",
         "max_item_length": "154 cm",
+        "description": "integrated rifle case",
         "moves": 100
       }
     ],
@@ -540,7 +568,7 @@
     "looks_like": "power_armor_light",
     "type": "TOOL_ARMOR",
     "name": { "str": "field combat exoskeleton (on)", "str_pl": "field combat exoskeletons (on)" },
-    "description": "The final iteration of military power armor before the fall of civilization, this type - a powered exoskeleton with high-tech segmented plating - was designed for actual widespread combat use and was seen on the front lines during the last days of the cataclysm.  Like the heavier suits, it is resistant to most modern weaponry, but it is light and maneuverable, and can fit into normal vehicles and doorways without fuss, a huge advantage over predecessors.  Unfortunately, the world ended before it could roll out in significant numbers.  There is an integrated chemical resistant bodyglove that precludes wearing other clothing.  It is turned on and continually drawing power.  Use it to turn it off.",
+    "description": "The final iteration of military power armor before the fall of civilization, this type - a powered exoskeleton with high-tech segmented plating - was designed for actual widespread combat use and was seen on the front lines during the last days of the Cataclysm.  Like the heavier suits, it is resistant to most modern weaponry, but it is light and maneuverable, and can fit into normal vehicles and doorways without fuss, a huge advantage over predecessors.  Unfortunately, the world ended before it could roll out in significant numbers.  There is an integrated chemical resistant bodyglove that precludes wearing other clothing.  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID", "CLIMATE_CONTROL", "COMBAT_TOGGLEABLE" ],
     "power_draw": 4000000,
     "revert_to": "power_armor_light",

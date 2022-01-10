@@ -358,7 +358,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     while( true ) {
         menu.query( true );
         const matype_id &selected = styles[menu.ret];
-        if( query_yn( _( "Use this style?" ) ) ) {
+        if( query_yn( string_format( _( "Use the %s style?" ), selected.obj().name ) ) ) {
             return selected;
         }
     }
@@ -380,6 +380,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     init_age = rng( 16, 55 );
     randomize_height();
     randomize_blood();
+    randomize_heartrate();
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
@@ -756,6 +757,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // setup staring bank money
     cash = rng( -200000, 200000 );
+    randomize_heartrate();
 
     if( has_trait( trait_XS ) ) {
         set_stored_kcal( 10000 );
@@ -1601,7 +1603,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
                 for( const profession *hobbies : u.hobbies ) {
                     if( hobbies->is_locked_trait( cur_trait ) ) {
                         inc_type = 0;
-                        popup( _( "Your hobby of %s prevents you from removing this trait." ),
+                        popup( _( "Your background of %s prevents you from removing this trait." ),
                                hobbies->gender_appropriate_name( u.male ) );
                     }
                 }
@@ -2194,13 +2196,13 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = n_gettext( "Hobby %1$s earns %2$d point",
-                                           "Hobby %1$s earns %2$d points",
+                prof_msg_temp = n_gettext( "Background %1$s earns %2$d point",
+                                           "Background %1$s earns %2$d points",
                                            pointsForProf );
             } else {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = n_gettext( "Hobby %1$s costs %2$d point",
-                                           "Hobby %1$s costs %2$d points",
+                prof_msg_temp = n_gettext( "Background %1$s costs %2$d point",
+                                           "Background %1$s costs %2$d points",
                                            pointsForProf );
             }
 
@@ -2258,7 +2260,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
 
             // Profession traits
             const auto prof_traits = sorted_profs[cur_id]->get_locked_traits();
-            buffer += colorize( _( "Hobby traits:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Background traits:" ), c_light_blue ) + "\n";
             if( prof_traits.empty() ) {
                 buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
             } else {
@@ -2269,7 +2271,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
 
             // Profession skills
             const auto prof_skills = sorted_profs[cur_id]->skills();
-            buffer += colorize( _( "Hobby skill experience:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Background skill experience:" ), c_light_blue ) + "\n";
             if( prof_skills.empty() ) {
                 buffer += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
             } else {
@@ -2297,9 +2299,9 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             // Proficiencies
             const std::string newline = "\n";
             std::vector<proficiency_id> prof_proficiencies = sorted_profs[cur_id]->proficiencies();
-            buffer += colorize( _( "Hobby proficiencies:" ), c_light_blue ) + newline;
+            buffer += colorize( _( "Background proficiencies:" ), c_light_blue ) + newline;
             if( prof_proficiencies.empty() ) {
-                buffer += pgettext( "Hobby has no proficiencies", "None" ) + newline;
+                buffer += pgettext( "Background has no proficiencies", "None" ) + newline;
             } else {
                 for( const proficiency_id &prof : prof_proficiencies ) {
                     buffer += prof->name() + newline;
@@ -2423,7 +2425,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                         for( const trait_id &suspect_trait : hobby->get_locked_traits() ) {
                             if( are_conflicting_traits( new_trait, suspect_trait ) ) {
                                 conflict_found = true;
-                                popup( _( "The trait [%1$s] conflicts with hobby [%2$s]'s trait [%3$s]." ), new_trait->name(),
+                                popup( _( "The trait [%1$s] conflicts with background [%2$s]'s trait [%3$s]." ), new_trait->name(),
                                        hobby->gender_appropriate_name( u.male ), suspect_trait->name() );
                             }
                         }
@@ -2482,7 +2484,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             string_input_popup()
             .title( _( "Search:" ) )
             .width( 60 )
-            .description( _( "Search by hobby name." ) )
+            .description( _( "Search by background name." ) )
             .edit( filterstring );
             recalc_profs = true;
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
@@ -3766,7 +3768,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         wnoutrefresh( w_profession );
 
         werase( w_hobbies );
-        mvwprintz( w_hobbies, point_zero, COL_HEADER, _( "Hobbies: " ) );
+        mvwprintz( w_hobbies, point_zero, COL_HEADER, _( "Background: " ) );
         if( you.hobbies.empty() ) {
             mvwprintz( w_hobbies, point_south, c_light_red, _( "None!" ) );
         } else {
@@ -3957,6 +3959,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             you.set_base_age( rng( 16, 55 ) );
             you.randomize_height();
             you.randomize_blood();
+            you.randomize_heartrate();
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
         } else if( action == "CHOOSE_LOCATION" ) {

@@ -209,7 +209,7 @@
     "range": 2,
     "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true } ],
     "hit_dmg_u": "The %1$s's stinger tail whips out and hits your %2$s!",
-    "hit_dmg_npc": "The %1$s'tail stings <npcname>!",
+    "hit_dmg_npc": "The %1$s's tail stings <npcname>!",
     "miss_msg_u": "The %1$s tries to sting you, but you dodge!",
     "miss_msg_npc": "The %1$s tries to sting <npcname>, but they dodge!",
     "no_dmg_msg_u": "The %1$s's stinger bounces off your %2$s.",

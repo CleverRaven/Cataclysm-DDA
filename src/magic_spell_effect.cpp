@@ -72,9 +72,14 @@ static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_large( "mon_blob_large" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
 static const mtype_id mon_generator( "mon_generator" );
 
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
+static const species_id species_SLIME( "SLIME" );
 
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
@@ -1541,6 +1546,80 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
             eoc->activate( d );
         } else {
             debugmsg( "Must use an activation eoc for a spell.  If you don't want the effect_on_condition to happen on its own (without the spell being cast), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this spell with its condition and effects, then have a recurring one queue it." );
+        }
+    }
+}
+
+void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, const tripoint &target )
+{
+    sp.make_sound( target );
+    int mass = caster.get_speed_base();
+    monster *caster_monster = dynamic_cast<monster *>( &caster );
+    if( caster_monster && caster_monster->type->id == mon_blob_brain ) {
+        mass += mass;
+    }
+    const int radius = sp.aoe();
+    std::vector<tripoint> pts = closest_points_first( caster.pos(), radius );
+    std::vector<monster *> summoned_slimes;
+    const bool permanent = sp.has_flag( spell_flag::PERMANENT );
+    // Make sure the creature has enough mass to create new slimes
+    if( mass >= mon_blob_small->speed / 2 ) {
+        for( const tripoint &dest : pts ) {
+            // Fall back to small slimes if no bigger smile is chosen
+            mtype_id slime_id = mon_blob_small;
+            if( mass > mon_blob_large->speed + 20 && one_in( 3 ) ) {
+                // 33% chance of spawning a big slime if enough mass
+                slime_id = mon_blob_large;
+            } else if( mass > mon_blob->speed + 20 && one_in( 2 ) ) {
+                // 50% chance of spawning a slime if enough mass
+                slime_id = mon_blob;
+            }
+
+            shared_ptr_fast<monster> mon = make_shared_fast<monster>( slime_id );
+            mon->ammo = mon->type->starting_ammo;
+            if( mon->will_move_to( dest ) ) {
+                if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
+                    sp.make_sound( dest );
+                    if( !permanent ) {
+                        blob->set_summon_time( sp.duration_turns() );
+                    }
+                    if( caster_monster ) {
+                        blob->make_ally( *caster_monster );
+                    }
+                    const int used_mass = std::min( mass, slime_id->speed - 15 );
+                    mass -= used_mass;
+                    blob->set_speed_base( used_mass );
+                    blob->no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
+                    summoned_slimes.push_back( mon.get() );
+                    if( mass < mon_blob_small->speed / 2 ) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // Divide remaining mass between summoned slimes
+    if( mass > 0 && !summoned_slimes.empty() ) {
+        const int mass_per_mob = mass / summoned_slimes.size();
+        for( monster *slime : summoned_slimes ) {
+            slime->set_speed_base( slime->get_speed_base() + mass_per_mob );
+            mass -= mass_per_mob;
+        }
+    }
+
+    // Last resort: Find a slime nearby that will absorb part of this mass
+    if( mass > 3 ) {
+        for( const tripoint &dest : pts ) {
+            if( monster *mon = get_creature_tracker().creature_at<monster>( dest ) ) {
+                if( mon->type->in_species( species_SLIME ) ) {
+                    // The mass discarded here should prevent issues when surrounded
+                    // by big blobs that keep trading mass and spawning medium slimes
+                    // over and over.
+                    mon->set_speed_base( mon->get_speed_base() + mass - 3 );
+                    return;
+                }
+            }
         }
     }
 }

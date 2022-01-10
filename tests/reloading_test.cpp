@@ -43,7 +43,7 @@ static void test_reloading( item &target, item &ammo, bool expect_success = true
     dummy.i_add( ammo );
     dummy.set_wielded_item( target );
 
-    g->reload_weapon( false );
+    g->reload_wielded( false );
 
 
 
@@ -216,7 +216,7 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
 
         SECTION( "with empty magazine" ) {
             item mag( "glockmag" );
-            test_reloading( gun, mag, false );
+            test_reloading( gun, mag );
         }
 
         SECTION( "with full magazine" ) {
@@ -268,7 +268,7 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
 
         SECTION( "with empty magazine" ) {
             item mag( "glockmag" );
-            test_reloading( gun, mag, false );
+            test_reloading( gun, mag );
         }
 
         SECTION( "with full magazine" ) {

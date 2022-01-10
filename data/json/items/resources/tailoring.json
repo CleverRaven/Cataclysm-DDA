@@ -201,7 +201,7 @@
     "to_hit": -1
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "tanned_hide",
     "symbol": ",",
     "color": "brown",
@@ -212,9 +212,7 @@
     "material": [ "leather" ],
     "weight": "600 g",
     "volume": "1500 ml",
-    "category": "spare_parts",
-    "count": 1,
-    "ammo_type": "components"
+    "category": "spare_parts"
   },
   {
     "type": "GENERIC",
@@ -233,7 +231,7 @@
     "to_hit": -1
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "tanned_pelt",
     "symbol": ",",
     "color": "brown",
@@ -244,9 +242,7 @@
     "material": [ "fur" ],
     "weight": "684 g",
     "volume": "1500 ml",
-    "category": "spare_parts",
-    "count": 1,
-    "ammo_type": "components"
+    "category": "spare_parts"
   },
   {
     "id": "sheet_cotton",
@@ -376,7 +372,7 @@
     "id": "sheet_kevlar_layered",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "layered kevlar panel" },
+    "name": { "str": "layered Kevlar panel" },
     "description": "This is a small 16-layer thick Kevlar panel.  It could be used to repair armor made of Kevlar.",
     "weight": "80 g",
     "volume": "65 ml",
@@ -391,7 +387,7 @@
     "id": "rigid_kevlar_plate",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "rigid kevlar plate" },
+    "name": { "str": "rigid Kevlar plate" },
     "description": "This is a compressed panel of Kevlar treated with epoxy or other adhesive.  It could be used to repair items made of Kevlar.",
     "weight": "300 g",
     "volume": "235 ml",

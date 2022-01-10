@@ -39,7 +39,6 @@ jobs:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
         with:
-          cancel_others: 'true'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**", "lang/**"]'
   skip-duplicates-data:
     continue-on-error: true
@@ -51,7 +50,6 @@ jobs:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
         with:
-          cancel_others: 'true'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
   varied_builds:
     needs: [ skip-duplicates-code, skip-duplicates-data ]
@@ -146,6 +144,7 @@ jobs:
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
+        ZSTD_CLEVEL: 17
         CMAKE: ${{ matrix.cmake }}
         COMPILER: ${{ matrix.compiler }}
         MXE_TARGET: ${{ matrix.mxe_target }}
@@ -165,7 +164,7 @@ jobs:
         LTO: ${{ matrix.lto }}
         RELEASE: ${{ matrix.release }}
         ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
-        SKIP: ${{ ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
+        SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (GCC 9, Curses, LTO)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
@@ -199,28 +198,28 @@ jobs:
     - name: prepare
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/requirements.sh
-    - name: Get Date
-      id: get-date
+    - name: Get ccache vars
+      id: get-vars
       if: ${{ env.SKIP == 'false' }}
       run: |
-        echo "::set-output name=date::$(/bin/date -u "+%Y%m%d%H%M")"
+        echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+        echo "::set-output name=ccache-path::$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')"
       shell: bash
-    - name: ccache cache files (ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
+    - name: ccache cache files (master)
+      if: ${{ github.event_name == 'push' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
       uses: actions/cache@v2
       with:
-        path: ~/.ccache
-        key: ccache-linux-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
+        path: ${{ steps.get-vars.outputs.ccache-path }}
+        # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
+        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}-1
         restore-keys: |
-          ccache-linux-${{ matrix.compiler }}-
-    - name: ccache cache files (mac)
-      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
+          ccache-${{ runner.os }}-${{ matrix.compiler }}--
+    - name: ccache cache files (PR)
+      if: ${{ github.event_name == 'pull_request' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
       uses: actions/cache@v2
       with:
-        path: /Users/runner/Library/Caches/ccache
-        key: ccache-mac-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
-        restore-keys: |
-          ccache-mac-${{ matrix.compiler }}-
+        path: ${{ steps.get-vars.outputs.ccache-path }}
+        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       if: ${{ env.SKIP == 'false' }}

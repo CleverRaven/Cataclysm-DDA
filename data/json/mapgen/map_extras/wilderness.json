@@ -24,7 +24,7 @@
       ".": [ [ "t_region_groundcover", 60 ], "t_region_tree", "t_region_shrub" ],
       ",": [ [ "t_region_groundcover", 30 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 2 ], "t_region_shrub" ],
       ";": [ [ "t_region_groundcover", 10 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 6 ], "t_region_shrub" ],
-      "|": [ [ "t_region_groundcover_forest", 7 ], "t_water_sh" ]
+      "|": [ [ "t_region_groundcover_forest", 7 ], "t_puddle" ]
     },
     "furniture": {
       ".": [ [ "f_null", 2000 ], [ "f_region_weed", 20 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
@@ -70,7 +70,7 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_grass2_map",
-    "object": { "place_nested": [ { "chunks": [ [ "mx_grass_nested", 100 ] ], "x": [ 0, 17 ], "y": [ 0, 17 ], "repeat": [ 1, 6 ] } ] }
+    "object": { "place_nested": [ { "chunks": [ [ "mx_grass_nested", 100 ] ], "x": [ 0, 16 ], "y": [ 0, 16 ], "repeat": [ 1, 6 ] } ] }
   },
   {
     "type": "mapgen",
@@ -146,7 +146,7 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_trees2_map",
-    "object": { "place_nested": [ { "chunks": [ [ "mx_trees_nested", 100 ] ], "x": [ 0, 17 ], "y": [ 0, 17 ], "repeat": [ 1, 6 ] } ] }
+    "object": { "place_nested": [ { "chunks": [ [ "mx_trees_nested", 100 ] ], "x": [ 0, 16 ], "y": [ 0, 16 ], "repeat": [ 1, 6 ] } ] }
   },
   {
     "type": "mapgen",
@@ -192,8 +192,8 @@
       "place_nested": [
         {
           "chunks": [ [ "mx_grass_nested", 70 ], [ "mx_trees_nested", 30 ] ],
-          "x": [ 0, 17 ],
-          "y": [ 0, 17 ],
+          "x": [ 0, 16 ],
+          "y": [ 0, 16 ],
           "repeat": [ 2, 6 ]
         },
         { "chunks": [ [ "mx_fallen_shed_nested", 100 ] ], "x": [ 0, 11 ], "y": [ 0, 11 ] }

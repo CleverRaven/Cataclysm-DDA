@@ -1,0 +1,16 @@
+[
+  {
+    "id": "health_num",
+    "type": "widget",
+    "label": "Health",
+    "var": "health",
+    "style": "number"
+  },
+  {
+    "id": "health_desc",
+    "type": "widget",
+    "label": "Health",
+    "style": "text",
+    "var": "health_text"
+  }
+]

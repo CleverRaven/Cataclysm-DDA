@@ -104,6 +104,7 @@
 #include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
@@ -1638,7 +1639,7 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
                                   it->tname(), who->disp_name( true ) );
             if( x_in_y( 9, 10 ) || who->is_ally( *p ) ) {
                 who->say(
-                    _( "Okay, but please, don't give me this again.  I don't want to eat pet food in the cataclysm all day." ) );
+                    _( "Okay, but please, don't give me this again.  I don't want to eat pet food in the Cataclysm all day." ) );
             } else {
                 p->add_msg_if_player( _( "%s knocks it from your hand!" ), who->disp_name() );
                 who->make_angry();
@@ -2037,6 +2038,259 @@ cata::optional<int> iuse::extinguisher( Character *p, item *it, bool, const trip
     return it->type->charges_to_use();
 }
 
+class exosuit_interact
+{
+    public:
+        static int run( item *it ) {
+            exosuit_interact menu( it );
+            menu.interact_loop();
+            return menu.moves;
+        }
+
+    private:
+        explicit exosuit_interact( item *it ) : suit( it ), ctxt( "", keyboard_mode::keycode ) {
+            ctxt.register_directions();
+            ctxt.register_action( "SCROLL_INFOBOX_UP" );
+            ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
+            ctxt.register_action( "CONFIRM" );
+            ctxt.register_action( "QUIT" );
+            ctxt.register_action( "ANY_INPUT" );
+            pocket_count = it->get_all_contained_pockets().value().size();
+            height = std::max( pocket_count, height_default ) + 2;
+            width_menu = 30;
+            for( const item_pocket *pkt : it->get_all_contained_pockets().value() ) {
+                int tmp = utf8_width( get_pocket_name( pkt ) );
+                if( tmp > width_menu ) {
+                    width_menu = tmp;
+                }
+            }
+            width_menu = std::min( width_menu, 50 );
+            width_info = 80 - width_menu;
+            moves = 0;
+        }
+        ~exosuit_interact() = default;
+
+        item *suit;
+        weak_ptr_fast<ui_adaptor> ui;
+        input_context ctxt;
+        catacurses::window w_border;
+        catacurses::window w_info;
+        catacurses::window w_menu;
+        int moves = 0;
+        int pocket_count = 0;
+        int cur_pocket = 0;
+        int scroll_pos = 0;
+        int height = 0;
+        const int height_default = 20;
+        int width_info = 30;
+        int width_menu = 30;
+
+        static std::string get_pocket_name( const item_pocket *pkt ) {
+            if( !pkt->get_pocket_data()->pocket_name.empty() ) {
+                return pkt->get_pocket_data()->pocket_name.translated();
+            }
+            const std::set<flag_id> flags = pkt->get_pocket_data()->get_flag_restrictions();
+            return enumerate_as_string( flags, []( const flag_id & fid ) {
+                if( fid->name().empty() ) {
+                    return fid.str();
+                }
+                return fid->name();
+            } );
+        }
+
+        void init_windows() {
+            const point topleft( TERMX / 2 - ( width_info + width_menu + 3 ) / 2, TERMY / 2 - height / 2 );
+            //NOLINTNEXTLINE(cata-use-named-point-constants)
+            w_menu = catacurses::newwin( height - 2, width_menu, topleft + point( 1, 1 ) );
+            w_info = catacurses::newwin( height - 2, width_info, topleft + point( 2 + width_menu, 1 ) );
+            w_border = catacurses::newwin( height, width_info + width_menu + 3, topleft );
+        }
+
+        void draw_menu() {
+            werase( w_menu );
+            int row = 0;
+            for( const item_pocket *pkt : suit->get_contents().get_all_contained_pockets().value() ) {
+                nc_color colr = row == cur_pocket ? h_white : c_white;
+                mvwprintz( w_menu, point( 0, row ), colr, get_pocket_name( pkt ) );
+                row++;
+            }
+            wnoutrefresh( w_menu );
+        }
+
+        void draw_iteminfo() {
+            std::vector<iteminfo> dummy;
+            std::vector<iteminfo> suitinfo;
+            item_pocket *pkt = suit->get_contents().get_all_contained_pockets().value()[cur_pocket];
+            pkt->general_info( suitinfo, cur_pocket, true );
+            pkt->contents_info( suitinfo, cur_pocket, true );
+            item_info_data data( suit->tname(), suit->type_name(), suitinfo, dummy, scroll_pos );
+            data.without_getch = true;
+            data.without_border = true;
+            data.scrollbar_left = false;
+            data.use_full_win = true;
+            data.padding = 0;
+            draw_item_info( w_info, data );
+        }
+
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor() {
+            shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+            if( !current_ui ) {
+                ui = current_ui = make_shared_fast<ui_adaptor>();
+                current_ui->on_screen_resize( [this]( ui_adaptor & cui ) {
+                    init_windows();
+                    cui.position_from_window( catacurses::stdscr );
+                } );
+                current_ui->mark_resize();
+                current_ui->on_redraw( [this]( const ui_adaptor & ) {
+                    draw_border( w_border, c_white, suit->tname(), c_light_green );
+                    for( int i = 1; i < height - 1; i++ ) {
+                        mvwputch( w_border, point( width_menu + 1, i ), c_white, LINE_XOXO );
+                    }
+                    mvwputch( w_border, point( width_menu + 1, height - 1 ), c_white, LINE_XXOX );
+                    wnoutrefresh( w_border );
+                    draw_menu();
+                    draw_iteminfo();
+                } );
+            }
+            return current_ui;
+        }
+
+        void interact_loop() {
+            bool done = false;
+            shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
+            while( !done ) {
+                ui_manager::redraw();
+                const std::string action = ctxt.handle_input();
+                if( action == "QUIT" ) {
+                    scroll_pos = 0;
+                    done = true;
+                } else if( action == "CONFIRM" ) {
+                    scroll_pos = 0;
+                    int nmoves = insert_replace_mod(
+                                     suit->get_contents().get_all_contained_pockets().value()[cur_pocket], suit );
+                    moves = moves > nmoves ? moves : nmoves;
+                } else if( action == "UP" ) {
+                    cur_pocket--;
+                    if( cur_pocket < 0 ) {
+                        cur_pocket = pocket_count - 1;
+                    }
+                    scroll_pos = 0;
+                } else if( action == "DOWN" ) {
+                    cur_pocket++;
+                    if( cur_pocket >= pocket_count ) {
+                        cur_pocket = 0;
+                    }
+                    scroll_pos = 0;
+                } else if( action == "SCROLL_INFOBOX_UP" ) {
+                    scroll_pos--;
+                } else if( action == "SCROLL_INFOBOX_DOWN" ) {
+                    scroll_pos++;
+                } else if( action == "ANY_INPUT" ) {
+                    // TODO? Probably unnecessary.
+                }
+            }
+        }
+
+        int insert_replace_mod( item_pocket *pkt, item *it ) {
+            Character &c = get_player_character();
+            map &here = get_map();
+            const std::set<flag_id> flags = pkt->get_pocket_data()->get_flag_restrictions();
+            if( flags.empty() ) {
+                //~ Modular exoskeletons require pocket restrictions to insert modules. %s = pocket name.
+                popup( _( "%s doesn't define any restrictions for modules!" ), get_pocket_name( pkt ) );
+                return 0;
+            }
+
+            // If pocket already contains a module, ask to unload or replace
+            const bool not_empty = !pkt->empty();
+            if( not_empty ) {
+                std::string mod_name = pkt->all_items_top().front()->tname();
+                //~ Prompt the player to handle the module inside the modular exoskeleton
+                uilist amenu( _( "What to do with the existing module?" ), {
+                    string_format( _( "Unload the %s" ), mod_name ),
+                    string_format( _( "Replace the %s" ), mod_name )
+                } );
+                int ret = amenu.ret;
+                if( ret < 0 || ret > 1 ) {
+                    return 0;
+                } else if( ret == 0 ) {
+                    // Unload existing module
+                    pkt->remove_items_if( [&c, &here]( const item & i ) {
+                        here.add_item_or_charges( c.pos(), i );
+                        return true;
+                    } );
+                    return to_moves<int>( 5_seconds );
+                }
+            }
+
+            const item_filter filter = [&flags, pkt, it]( const item & i ) {
+                return i.has_any_flag( flags ) && ( pkt->empty() || !it->has_item( i ) );
+            };
+
+            std::vector<item_location> candidates;
+            for( item *i : c.items_with( filter ) ) {
+                candidates.emplace_back( c, i );
+            }
+            for( const tripoint &p : here.points_in_radius( c.pos(), PICKUP_RANGE ) ) {
+                for( item &i : here.i_at( p ) ) {
+                    if( filter( i ) ) {
+                        candidates.emplace_back( map_cursor( p ), &i );
+                    }
+                }
+            }
+            if( candidates.empty() ) {
+                //~ The player has nothing that fits in the modular exoskeleton's pocket
+                popup( _( "You don't have anything compatible with this module!" ) );
+                return 0;
+            }
+
+            //~ Prompt the player to select an item to attach to the modular exoskeleton's pocket (%s)
+            uilist imenu( string_format( _( "Which module to attach to the %s?" ), get_pocket_name( pkt ) ), {} );
+            for( const item_location &i : candidates ) {
+                imenu.addentry( -1, true, MENU_AUTOASSIGN, i->tname() );
+            }
+            imenu.query();
+            int ret = imenu.ret;
+            if( ret < 0 || static_cast<size_t>( ret ) >= candidates.size() ) {
+                // Cancelled
+                return 0;
+            }
+
+            int moves = 0;
+
+            // Unload existing module
+            if( not_empty ) {
+                pkt->remove_items_if( [&c, &here]( const item & i ) {
+                    here.add_item_or_charges( c.pos(), i );
+                    return true;
+                } );
+                moves += to_moves<int>( 5_seconds );
+            }
+
+            if( pkt->insert_item( *candidates[ret] ).success() ) {
+                candidates[ret].remove_item();
+                moves += to_moves<int>( 5_seconds );
+                return moves;
+            }
+            debugmsg( "Could not insert item \"%s\" into pocket \"%s\"", candidates[ret]->type_name(),
+                      get_pocket_name( pkt ) );
+            return moves;
+        }
+};
+
+cata::optional<int> iuse::manage_exosuit( Character *p, item *it, bool, const tripoint & )
+{
+    if( !p->is_avatar() ) {
+        return cata::nullopt;
+    }
+    if( !it->get_contents().get_all_contained_pockets().success() ) {
+        add_msg( m_warning, _( "Your %s does not have any pockets to contain modules." ), it->tname() );
+        return cata::nullopt;
+    }
+    p->moves -= exosuit_interact::run( it );
+    return 0;
+}
+
 cata::optional<int> iuse::rm13armor_off( Character *p, item *it, bool, const tripoint & )
 {
     // This allows it to turn on for a turn, because ammo_sufficient assumes non-tool non-weapons need zero ammo, for some reason.
@@ -2383,6 +2637,11 @@ cata::optional<int> iuse::ma_manual( Character *p, item *it, bool, const tripoin
 
 // Remove after 0.G
 cata::optional<int> iuse::hammer( Character *p, item *it, bool, const tripoint &pos )
+{
+    return iuse::crowbar( p, it, false, pos );
+}
+
+cata::optional<int> iuse::crowbar_weak( Character *p, item *it, bool, const tripoint &pos )
 {
     return iuse::crowbar( p, it, false, pos );
 }
@@ -3291,7 +3550,7 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
     }
 
     int moves = to_moves<int>( 20_minutes );
-    moves += ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
+    moves += ( ( MAX_STAT + 4 ) - std::min( p->get_arm_str(), MAX_STAT ) ) * to_moves<int>( 5_minutes );
     if( here.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
@@ -3885,27 +4144,33 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
 
     /** @EFFECT_DODGE increases chance of dodging a tazer attack */
     const bool tazer_was_dodged = dice( numdice, 10 ) < dice( target->get_dodge(), 10 );
+    const int tazer_resistance = target->get_armor_bash( bodypart_id( "torso" ) );
+    const bool tazer_was_armored = dice( numdice, 10 ) < dice( tazer_resistance, 10 );
     if( tazer_was_dodged ) {
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
                                   _( "<npcname> attempts to shock %s, but misses." ),
                                   target->disp_name() );
+    } else if( tazer_was_armored ) {
+        p->add_msg_player_or_npc( _( "You attempt to shock %s, but are blocked by armor." ),
+                                  _( "<npcname> attempts to shock %s, but is blocked by armor." ),
+                                  target->disp_name() );
     } else {
-        // TODO: Maybe - Execute an attack and maybe zap something other than torso
-        // Maybe, because it's torso (heart) that fails when zapped with electricity
-        int dam = target->deal_damage( p, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
-                                       rng( 5,
-                                            25 ) ) ).total_damage();
-        if( dam > 0 ) {
-            p->add_msg_player_or_npc( m_good,
-                                      _( "You shock %s!" ),
-                                      _( "<npcname> shocks %s!" ),
-                                      target->disp_name() );
+        // Stun duration scales harshly inversely with big creatures
+        if( target->get_size() == creature_size::tiny ) {
+            target->moves -= rng( 150, 250 );
+        } else if( target->get_size() == creature_size::small ) {
+            target->moves -= rng( 125, 200 );
+        } else if( target->get_size() == creature_size::large ) {
+            target->moves -= rng( 95, 115 );
+        } else if( target->get_size() == creature_size::huge ) {
+            target->moves -= rng( 50, 80 );
         } else {
-            p->add_msg_player_or_npc( m_warning,
-                                      _( "You unsuccessfully attempt to shock %s!" ),
-                                      _( "<npcname> unsuccessfully attempts to shock %s!" ),
-                                      target->disp_name() );
+            target->moves -= rng( 110, 150 );
         }
+        p->add_msg_player_or_npc( m_good,
+                                  _( "You shock %s!" ),
+                                  _( "<npcname> shocks %s!" ),
+                                  target->disp_name() );
     }
 
     if( foe != nullptr ) {
@@ -3917,11 +4182,11 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
 
 cata::optional<int> iuse::tazer2( Character *p, item *it, bool b, const tripoint &pos )
 {
-    if( it->ammo_remaining( p ) >= 100 ) {
+    if( it->ammo_remaining( p ) >= 2 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", calendar::turn_zero );
-        fake.charges = 100;
+        fake.charges = 2;
         return tazer( p, &fake, b, pos );
     } else {
         p->add_msg_if_player( m_info, _( "Insufficient power" ) );
@@ -4792,7 +5057,7 @@ static int chop_moves( Character *p, item *it )
     const int quality = it->get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it->has_flag( flag_POWERED ) ? p->dex_cur : p->str_cur;
+    const int attr = it->has_flag( flag_POWERED ) ? p->dex_cur : p->get_arm_str();
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = p->get_num_crafting_helpers( 3 );
@@ -5508,6 +5773,11 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
         return cata::nullopt;
     }
+    return ::gun_repair( p, it, loc );
+}
+
+cata::optional<int> gun_repair( Character *p, item *it, item_location &loc )
+{
     item &fix = *loc;
     if( !fix.is_firearm() ) {
         p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
@@ -5517,13 +5787,19 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         p->add_msg_if_player( m_info, _( "You can't repair your %s." ), fix.tname() );
         return cata::nullopt;
     }
-    if( fix.damage() <= fix.min_damage() ) {
-        p->add_msg_if_player( m_info, _( "You can't improve your %s any more this way." ),
-                              fix.tname() );
+    if( fix.damage() <= fix.damage_floor( true ) ) {
+        const char *msg = fix.damage_level() > 0 ?
+                          _( "You can't improve your %s any more, considering the degradation." ) :
+                          _( "You can't improve your %s any more this way." );
+        p->add_msg_if_player( m_info, msg, fix.tname() );
         return cata::nullopt;
     }
-    if( fix.damage() <= 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
-        p->add_msg_if_player( m_info, _( "Your %s is already in peak condition." ), fix.tname() );
+    if( fix.damage() <= fix.damage_floor( false ) && fix.damage_floor( true ) < 0 &&
+        p->get_skill_level( skill_mechanics ) < 8 ) {
+        const char *msg = fix.damage_level() > 0 ?
+                          _( "Your %s is in its best condition, considering the degradation." ) :
+                          _( "Your %s is already in peak condition." );
+        p->add_msg_if_player( m_info, msg, fix.tname() );
         p->add_msg_if_player( m_info,
                               _( "With a higher mechanics skill, you might be able to improve it." ) );
         return cata::nullopt;
@@ -5551,7 +5827,7 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
         p->moves -= to_moves<int>( 5_seconds * p->fine_detail_vision_mod() );
         p->practice( skill_mechanics, 10 );
-        fix.set_damage( 0 );
+        fix.set_damage( fix.damage_floor( false ) );
         resultdurability = fix.durability_indicator( true );
         p->add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ),
                               fix.tname( 1, false ), startdurability, resultdurability );
@@ -9312,7 +9588,7 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
     ) {
         units::volume total_volume = 0_ml;
         for( const auto &pair : locs ) {
-            total_volume += pair.first->volume( false, true );
+            total_volume += pair.first->volume( false, true, pair.second );
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
         auto to_string = []( int val ) -> std::string {
@@ -9349,7 +9625,7 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             return cata::nullopt;
         }
-        total_volume += pair.first->volume( false, true );
+        total_volume += pair.first->volume( false, true, pair.second );
     }
 
     washing_requirements required = washing_requirements_for_volume( total_volume );
@@ -9551,7 +9827,8 @@ cata::optional<int> iuse::play_game( Character *p, item *it, bool, const tripoin
                               .query().action;
             if( res == "FRIENDS" ) {
                 if( fcount > 1 ) {
-                    add_msg( _( "You and your %d friends start playing." ), fcount );
+                    add_msg( n_gettext( "You and your %d friend start playing.",
+                                        "You and your %d friends start playing.", fcount ), fcount );
                 } else {
                     add_msg( _( "You and your friend start playing." ) );
                 }

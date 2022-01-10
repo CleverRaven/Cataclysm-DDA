@@ -14,7 +14,6 @@
       [ "flashbang", 30 ],
       { "item": "goggles_ir", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "goggles_nv", "prob": 10, "charges": [ 0, 100 ] },
-      [ "helmet_lobster", 5 ],
       [ "helmet_riot", 5 ],
       [ "holo_sight", 20 ],
       [ "balclava", 10 ],

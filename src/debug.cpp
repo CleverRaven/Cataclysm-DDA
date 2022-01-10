@@ -1060,7 +1060,13 @@ void debug_write_backtrace( std::ostream &out )
             out << "\n    (unable to get module base address),";
         }
         if( bt_state ) {
-            bt_syminfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
+#if defined(__MINGW64__)
+            constexpr uint64_t static_image_base = 0x140000000ULL;
+#elif defined(__MINGW32__)
+            constexpr uint64_t static_image_base = 0x400000ULL;
+#endif
+            uint64_t de_aslr_pc = reinterpret_cast<uintptr_t>( bt[i] ) - mod_base + static_image_base;
+            bt_syminfo( bt_state, de_aslr_pc,
                         // syminfo callback
                         [&out]( const uintptr_t pc, const char *const symname,
             const uintptr_t symval, const uintptr_t ) {
@@ -1075,7 +1081,7 @@ void debug_write_backtrace( std::ostream &out )
                     << ", msg = " << ( msg ? msg : "[no msg]" )
                     << "),";
             } );
-            bt_pcinfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
+            bt_pcinfo( bt_state, de_aslr_pc,
                        // backtrace callback
                        [&out]( const uintptr_t pc, const char *const filename,
             const int lineno, const char *const function ) -> int {

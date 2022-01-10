@@ -3990,7 +3990,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 1 ], [ "flour_wheat_free", 6 ] ],
+      [ [ "flour", 1 ], [ "flour_wheat_free", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
@@ -4012,7 +4012,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 1 ], [ "flour_wheat_free", 6 ] ],
+      [ [ "flour", 1 ], [ "flour_wheat_free", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],

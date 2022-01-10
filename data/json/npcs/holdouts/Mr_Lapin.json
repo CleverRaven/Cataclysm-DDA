@@ -47,6 +47,17 @@
       { "text": "Heard anything about the outside world?", "topic": "TALK_WARRENER_WORLD" },
       { "text": "You look different?", "topic": "TALK_WARRENER_MUTATION" },
       { "text": "Anything I can help with?", "topic": "TALK_MISSION_LIST" },
+      { "text": "About that work…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+      {
+        "text": "About that work…",
+        "topic": "TALK_MISSION_LIST_ASSIGNED",
+        "condition": "has_many_assigned_missions"
+      },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
       { "text": "Do you need any resources?", "topic": "TALK_LAPIN_RESOURCES" },
       { "text": "Where did you get that giant firefly terrarium?", "topic": "TALK_LAPIN_FIREFLY" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }

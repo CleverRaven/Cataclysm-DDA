@@ -330,7 +330,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 5 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "beast_sample", 1 ] ],
+      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
@@ -346,7 +351,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_beast", 2 ] ] ],
+    "components": [ [ [ "mutagen_beast", 2 ] ], [ [ "beast_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -362,7 +367,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
+      [ [ "ursine_sample", 1 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
@@ -378,7 +388,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_ursine", 2 ] ] ],
+    "components": [ [ [ "mutagen_ursine", 2 ] ], [ [ "ursine_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -539,6 +549,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
+      [ [ "cephalopod_sample", 1 ] ],
       [ [ "meat_tainted", 3 ], [ "dry_meat_tainted", 3 ], [ "can_chowder", 1 ], [ "can_clams", 1 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
@@ -557,7 +568,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_cephalopod", 2 ] ] ],
+    "components": [ [ [ "mutagen_cephalopod", 2 ] ], [ [ "cephalopod_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {

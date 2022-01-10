@@ -175,7 +175,7 @@
     "id": "move_earth",
     "type": "SPELL",
     "name": "Move Earth",
-    "description": "Your essense flows around you, and the earth follows.",
+    "description": "Your essence flows around you, and the earth follows.",
     "valid_targets": [ "hostile", "ally", "ground", "self" ],
     "flags": [ "SOMATIC", "LOUD", "NO_PROJECTILE" ],
     "min_aoe": 1,

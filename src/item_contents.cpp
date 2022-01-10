@@ -94,6 +94,8 @@ static std::string keys_text()
 {
     return
         colorize( "p", c_light_green ) + _( " priority, " ) +
+        colorize( "d", c_light_green ) + _( " toggle auto pickup, " ) +
+        colorize( "u", c_light_green ) + _( " toggle auto unload, " ) +
         colorize( "i", c_light_green ) + _( " item, " ) +
         colorize( "c", c_light_green ) + _( " category, " ) +
         colorize( "w", c_light_green ) + _( " whitelist, " ) +
@@ -132,6 +134,12 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         popup.title( string_format( _( "Enter Priority (current priority %d)" ),
                                     selected_pocket->settings.priority() ) );
         selected_pocket->settings.set_priority( popup.query_int() );
+    } else if( input == 'd' ) {
+        selected_pocket->settings.set_disabled( !selected_pocket->settings.is_disabled() );
+        return true;
+    } else if( input == 'u' ) {
+        selected_pocket->settings.set_unloadable( !selected_pocket->settings.is_unloadable() );
+        return true;
     }
 
     const bool item_id = input == 'i';
@@ -1187,11 +1195,18 @@ std::list<item *> item_contents::all_items_top( const std::function<bool( item_p
     return all_items_internal;
 }
 
-std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type )
+std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type,
+        bool unloading )
 {
+    if( unloading ) {
+        return all_items_top( [pk_type]( item_pocket & pocket ) {
+            return pocket.is_type( pk_type ) && pocket.settings.is_unloadable();
+        } );
+    }
     return all_items_top( [pk_type]( item_pocket & pocket ) {
         return pocket.is_type( pk_type );
     } );
+
 }
 
 std::list<const item *> item_contents::all_items_top( const
@@ -1489,8 +1504,12 @@ void item_contents::add_pocket( const item &pocket_item )
 {
     units::volume total_nonrigid_volume = 0_ml;
     for( const item_pocket *i_pocket : pocket_item.get_all_contained_pockets().value() ) {
+
         // need to insert before the end since the final pocket is the migration pocket
         contents.insert( --contents.end(), *i_pocket );
+        // these pockets should fallback to using the item name as a description
+        // need to update it once it's stored in the contents list
+        ( ++contents.rbegin() )->name_as_description = true;
         total_nonrigid_volume += i_pocket->max_contains_volume();
     }
     additional_pockets_encumbrance += total_nonrigid_volume / 250_ml;
@@ -1591,9 +1610,10 @@ units::volume item_contents::total_container_capacity( const bool unrestricted_p
         if( restriction_condition ) {
             const pocket_data *p_data = pocket.get_pocket_data();
             // if the pocket has default volume or is a holster that has an
-            // item in it instead of returning the volume return the volume of things contained
-            if( pocket.volume_capacity() >= pocket_data::max_volume_for_container || ( p_data->holster &&
-                    !pocket.all_items_top().empty() ) ) {
+            // item in it or is a pocket that has normal pickup disabled
+            // instead of returning the volume return the volume of things contained
+            if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
+                pocket.settings.is_disabled() || ( p_data->holster && !pocket.all_items_top().empty() ) ) {
                 total_vol += pocket.contains_volume();
             } else {
                 total_vol += pocket.volume_capacity();
@@ -1784,8 +1804,10 @@ float item_contents::relative_encumbrance() const
         if( pocket.rigid() ) {
             continue;
         }
-        nonrigid_volume += pocket.contains_volume();
-        nonrigid_max_volume += pocket.max_contains_volume();
+        // need to modify by pockets volume encumbrance modifier since some pockets may have less effect than others
+        float modifier = pocket.get_pocket_data()->volume_encumber_modifier;
+        nonrigid_volume += pocket.contains_volume() * modifier;
+        nonrigid_max_volume += pocket.max_contains_volume() * modifier;
     }
     if( nonrigid_volume > nonrigid_max_volume ) {
         debugmsg( "volume exceeds capacity (%sml > %sml)",

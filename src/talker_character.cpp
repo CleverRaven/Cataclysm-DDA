@@ -549,7 +549,9 @@ void talker_character::add_bionic( const bionic_id &new_bionic )
 
 void talker_character::remove_bionic( const bionic_id &old_bionic )
 {
-    me_chr->remove_bionic( old_bionic );
+    if( cata::optional<bionic *> bio = me_chr->find_bionic_by_type( old_bionic ) ) {
+        me_chr->remove_bionic( **bio );
+    }
 }
 
 std::vector<skill_id> talker_character::skills_teacheable() const

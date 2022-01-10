@@ -1581,7 +1581,8 @@ void activity_handlers::forage_finish( player_activity *act, Character *you )
     bool next_to_bush = false;
     map &here = get_map();
     for( const tripoint &pnt : here.points_in_radius( you->pos(), 1 ) ) {
-        if( here.getabs( pnt ) == act->placement ) {
+        // TODO: fix point types
+        if( here.getglobal( pnt ) == tripoint_abs_ms( act->placement ) ) {
             next_to_bush = true;
             break;
         }
@@ -1827,7 +1828,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
                                     weapon.damage_melee( damage_type::STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you->str_cur + weapon.damage_melee( damage_type::BASH ) ) *
+    float pulp_power = std::sqrt( ( you->get_arm_str() + weapon.damage_melee( damage_type::BASH ) ) *
                                   ( cut_power + 1.0f ) );
     float pulp_effort = you->str_cur + weapon.damage_melee( damage_type::BASH );
     // Multiplier to get the chance right + some bonus for survival skill
@@ -2138,7 +2139,12 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {
-                    g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
+                    point int_p( act->values[ 2 ], act->values[ 3 ] );
+                    if( vp->vehicle().has_tag( "APPLIANCE" ) ) {
+                        g->exam_appliance( vp->vehicle(), int_p );
+                    } else {
+                        g->exam_vehicle( vp->vehicle(), int_p );
+                    }
                 }
                 return;
             } else {
@@ -2392,6 +2398,11 @@ struct weldrig_hack {
 
 void activity_handlers::repair_item_finish( player_activity *act, Character *you )
 {
+    ::repair_item_finish( act, you, false );
+}
+
+void repair_item_finish( player_activity *act, Character *you, bool no_menu )
+{
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0,
                          static_cast<int>( repeat_type::INIT ) ) );
@@ -2468,11 +2479,16 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         const bool need_input =
             ( repeat == repeat_type::ONCE ) ||
             ( repeat == repeat_type::EVENT && event_happened ) ||
-            ( repeat == repeat_type::FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) ) ||
+            ( repeat == repeat_type::FULL && ( cannot_continue_repair ||
+                                               fix_location->damage() <= fix_location->damage_floor( false ) ) ) ||
             ( repeat == repeat_type::REFIT_ONCE ) ||
             ( repeat == repeat_type::REFIT_FULL && !can_refit );
         if( need_input ) {
             repeat = repeat_type::INIT;
+            if( no_menu ) {
+                act->set_to_null();
+                return;
+            }
         }
     }
     // Check tool is valid before we query target and Repeat choice.
@@ -2581,8 +2597,12 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
                 you->activity.targets.pop_back();
                 return;
             }
-            if( repeat == repeat_type::FULL && fix.damage() <= 0 ) {
-                you->add_msg_if_player( m_info, _( "Your %s is already fully repaired." ), fix.tname() );
+            if( repeat == repeat_type::FULL &&
+                fix.damage() <= fix.damage_floor( false ) ) {
+                const char *msg = fix.damage_level() > 0 ?
+                                  _( "Your %s is repaired as much as possible, considering the degradation." ) :
+                                  _( "Your %s is already fully repaired." );
+                you->add_msg_if_player( m_info, msg, fix.tname() );
                 repeat = repeat_type::INIT;
             }
         } while( repeat == repeat_type::INIT );
@@ -2868,8 +2888,7 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
             waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
         }
         map &here = get_map();
-        // TODO: fix point types
-        tripoint centre_sub = here.getlocal( waypoint.raw() );
+        tripoint centre_sub = here.getlocal( waypoint );
         if( !here.passable( centre_sub ) ) {
             tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
             for( const tripoint &elem : candidates ) {
@@ -3105,10 +3124,10 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     /**
     - values[0]: Difficulty
     - values[1]: success
-    - values[2]: max_power_level
+    - values[2]: bionic UID when uninstalling
     - values[3]: pl_skill
     - str_values[0]: install/uninstall
-    - str_values[1]: bionic_id
+    - str_values[1]: bionic_id when installing
     - str_values[2]: installer_name
     - str_values[3]: bool autodoc
     */
@@ -3193,10 +3212,11 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                 add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
             }
 
-            if( you->has_bionic( bid ) ) {
-                you->perform_uninstall( bid, act->values[0], act->values[1], act->values[3] );
+            if( cata::optional<bionic *> bio = you->find_bionic_by_uid( act->values[2] ) ) {
+                you->perform_uninstall( **bio, act->values[0], act->values[1], act->values[3] );
             } else {
-                debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ), bid.c_str() );
+                debugmsg( _( "Tried to uninstall bionic with UID %s, but you don't have this bionic installed." ),
+                          act->values[2] );
                 you->remove_effect( effect_under_operation );
                 act->set_to_null();
             }
@@ -3207,7 +3227,13 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
 
             if( bid.is_valid() ) {
                 const bionic_id upbid = bid->upgraded_bionic;
-                you->perform_install( bid, upbid, act->values[0], act->values[1], act->values[3],
+                // TODO: Let the user pick bionic to upgrade if multiple candidates exist
+                bionic_uid upbio_uid = 0;
+                if( cata::optional<bionic *> bio = you->find_bionic_by_type( upbid ) ) {
+                    upbio_uid = ( *bio )->get_uid();
+                }
+
+                you->perform_install( bid, upbio_uid, act->values[0], act->values[1], act->values[3],
                                       act->str_values[installer_name], bid->canceled_mutations, you->pos() );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
@@ -3595,11 +3621,13 @@ void activity_handlers::chop_planks_finish( player_activity *act, Character *you
     map &here = get_map();
     if( planks > 0 ) {
         here.spawn_item( here.getlocal( act->placement ), itype_2x4, planks, 0, calendar::turn );
-        you->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
+        you->add_msg_if_player( m_good, n_gettext( "You produce %d plank.", "You produce %d planks.",
+                                planks ), planks );
     }
     if( scraps > 0 ) {
         here.spawn_item( here.getlocal( act->placement ), itype_splinter, scraps, 0, calendar::turn );
-        you->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
+        you->add_msg_if_player( m_good, n_gettext( "You produce %d splinter.", "You produce %d splinters.",
+                                scraps ), scraps );
     }
     if( planks < max_planks / 2 ) {
         you->add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
@@ -3671,24 +3699,8 @@ void activity_handlers::fill_pit_finish( player_activity *act, Character *you )
     act->set_to_null();
 }
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
-        const std::unordered_set<tripoint> &tiles )
-{
-    const auto cmp = [abspos]( tripoint a, tripoint b ) {
-        const int da = rl_dist( abspos, a );
-        const int db = rl_dist( abspos, b );
-
-        return da < db;
-    };
-
-    std::vector<tripoint> sorted( tiles.begin(), tiles.end() );
-    std::sort( sorted.begin(), sorted.end(), cmp );
-
-    return sorted;
-}
-
 template<typename fn>
-static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
+static void cleanup_tiles( std::unordered_set<tripoint_abs_ms> &tiles, fn &cleanup )
 {
     auto it = tiles.begin();
     map &here = get_map();
@@ -3711,15 +3723,16 @@ static void perform_zone_activity_turn( Character *you,
 {
     const zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
-    const tripoint abspos = here.getabs( you->pos() );
-    std::unordered_set<tripoint> unsorted_tiles = mgr.get_near( ztype, abspos );
+    const tripoint_abs_ms abspos = you->get_location();
+    std::unordered_set<tripoint_abs_ms> unsorted_tiles = mgr.get_near( ztype, abspos );
 
     cleanup_tiles( unsorted_tiles, tile_filter );
 
     // sort remaining tiles by distance
-    const std::vector<tripoint> &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
+    const std::vector<tripoint_abs_ms> &tiles =
+        get_sorted_tiles_by_distance( abspos, unsorted_tiles );
 
-    for( const tripoint &tile : tiles ) {
+    for( const tripoint_abs_ms &tile : tiles ) {
         const tripoint &tile_loc = here.getlocal( tile );
 
         std::vector<tripoint> route = here.route( you->pos(), tile_loc, you->get_pathfinding_settings(),

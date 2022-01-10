@@ -4,7 +4,7 @@
     "type": "field_type",
     "intensity_levels": [
       {
-        "name": "dreadful presense",
+        "name": "dreadful presence",
         "sym": "8",
         "dangerous": true,
         "effects": [
@@ -19,7 +19,7 @@
         ]
       },
       {
-        "name": "frightful presense",
+        "name": "frightful presence",
         "color": "light_gray",
         "effects": [
           {
@@ -33,7 +33,7 @@
         ]
       },
       {
-        "name": "terrifying presense",
+        "name": "terrifying presence",
         "color": "dark_gray",
         "effects": [
           {

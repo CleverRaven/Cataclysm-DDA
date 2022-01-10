@@ -120,7 +120,7 @@
         "max_contains_volume": "5 L",
         "max_contains_weight": "6 kg",
         "max_item_length": "120 cm",
-        "min_item_length": "40 cm",
+        "min_item_length": "20 cm",
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
@@ -134,7 +134,7 @@
         "max_contains_volume": "5 L",
         "max_contains_weight": "6 kg",
         "max_item_length": "120 cm",
-        "min_item_length": "40 cm",
+        "min_item_length": "20 cm",
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
@@ -176,7 +176,7 @@
         "max_contains_volume": "5 L",
         "max_contains_weight": "6 kg",
         "max_item_length": "120 cm",
-        "min_item_length": "40 cm",
+        "min_item_length": "20 cm",
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
@@ -190,7 +190,7 @@
         "max_contains_volume": "5 L",
         "max_contains_weight": "6 kg",
         "max_item_length": "120 cm",
-        "min_item_length": "40 cm",
+        "min_item_length": "20 cm",
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
@@ -204,7 +204,7 @@
         "max_contains_volume": "5 L",
         "max_contains_weight": "6 kg",
         "max_item_length": "120 cm",
-        "min_item_length": "40 cm",
+        "min_item_length": "20 cm",
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
@@ -270,5 +270,63 @@
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
     "armor": [ { "encumbrance": [ 3, 12 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "survivor_rig",
+    "type": "ARMOR",
+    "name": { "str": "survivor distributed rigging" },
+    "description": "A custom-built lightweight set of weight distributing pouches on the thighs and stomach.  This configuration is designed to wear with a military harness or tactical vest.",
+    "weight": "440 g",
+    "volume": "3000 ml",
+    "price": 24000,
+    "price_postapoc": 2500,
+    "material": [ "nylon", "leather" ],
+    "symbol": "[",
+    "looks_like": "legrig",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "moves": 80,
+        "max_item_length": "30 cm",
+        "description": "upper leg pouch"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "moves": 80,
+        "max_item_length": "30 cm",
+        "description": "upper leg pouch"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "moves": 120,
+        "description": "tactical fanny pack"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "moves": 200,
+        "description": "back tactical fanny pack"
+      }
+    ],
+    "warmth": 1,
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
+    "armor": [
+      {
+        "encumbrance": [ 1, 3 ],
+        "coverage": 80,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      },
+      { "encumbrance": [ 1, 3 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] }
+    ]
   }
 ]

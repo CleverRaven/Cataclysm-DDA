@@ -48,6 +48,63 @@
     "entries": [ { "item": "reptile_sample", "count-min": 1, "count-max": 4 } ]
   },
   {
+    "id": "ursine_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "ursine_sample", "count-min": 2, "count-max": 6 } ]
+  },
+  {
+    "id": "ungulate_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "beast_sample", "count-min": 1, "count-max": 2 },
+      { "item": "bovine_sample", "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "mollusk_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "snail_sample", "count-min": 1, "count-max": 2 },
+      { "item": "cephalopod_sample", "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "camouflaged_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "feline_sample", "count-min": 1, "count-max": 2 },
+      { "item": "reptile_sample", "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "camouflaged_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "snail_sample", "count-min": 1, "count-max": 2 },
+      { "item": "reptile_sample", "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "arthropod_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "insect_sample", "count-min": 1, "count-max": 2 },
+      { "item": "spider_sample", "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "beast_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "beast_sample", "count-min": 1, "count-max": 4 } ]
+  },
+  {
     "id": "lupine_sample",
     "type": "item_group",
     "subtype": "collection",

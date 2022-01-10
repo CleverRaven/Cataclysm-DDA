@@ -104,6 +104,14 @@ class item_pocket
                 /** Flag to show or hide the pocket contents in 'i'nventory screen. */
                 void set_collapse( bool );
 
+                // functions for setting if the pocket is completely disabled for normal pickup
+                bool is_disabled() const;
+                void set_disabled( bool );
+
+                // functions for setting if the pocket will unload during normal actions
+                bool is_unloadable() const;
+                void set_unloadable( bool );
+
                 void info( std::vector<iteminfo> &info ) const;
 
                 void serialize( JsonOut &json ) const;
@@ -115,6 +123,8 @@ class item_pocket
                 cata::flat_set<item_category_id> category_whitelist;
                 cata::flat_set<item_category_id> category_blacklist;
                 bool collapsed = false;
+                bool disabled = false;
+                bool unload = true;
         };
 
         item_pocket() = default;
@@ -147,7 +157,8 @@ class item_pocket
         bool is_allowed() const;
         void set_usability( bool show );
 
-        std::string get_description() const;
+        const translation &get_description() const;
+        const translation &get_name() const;
 
         const pocket_data *get_pocket_data() const;
 
@@ -347,6 +358,9 @@ class item_pocket
         bool operator==( const item_pocket &rhs ) const;
 
         favorite_settings settings;
+
+        // should the name of this pocket be used as a description
+        bool name_as_description = false; // NOLINT(cata-serialize)
     private:
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST; // NOLINT(cata-serialize)
@@ -426,6 +440,8 @@ class pocket_data
         bool ablative = false;
         // additional encumbrance when this pocket is in use
         int extra_encumbrance = 0;
+        // how much this pocket contributes to enumbrance compared to an average item
+        float volume_encumber_modifier = 1;
         // chance this pockets contents get ripped off when escaping a grab
         int ripoff = 0;
         // volume this pocket makes when moving
@@ -450,7 +466,14 @@ class pocket_data
         bool open_container = false;
 
         // a description of the pocket
-        std::string description;
+        translation description;
+
+        // the name of the item the pocket belongs to
+        // this can be used as a fallback description if needed
+        translation name;
+        // an optional name defined for this pocket
+        // used to very briefly distinguish the purpose of the pocket (ex: Torso compartment)
+        translation pocket_name;
 
         /** Data that is different for sealed pockets than unsealed pockets. This takes priority. */
         cata::value_ptr<sealable_data> sealed_data;

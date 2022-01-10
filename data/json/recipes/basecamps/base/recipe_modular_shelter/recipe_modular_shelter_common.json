@@ -768,16 +768,7 @@
     "blueprint_name": "build a work bench",
     "blueprint_requires": [ { "id": "fbmc_shelter_fire" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_craftspot" }, { "id": "tool_storage" } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_craftspot" } ],
-    "blueprint_needs": {
-      "time": "2 h",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 1 } ] ],
-        "components": [ [ [ "pipe", 16 ] ], [ [ "sheet_metal", 4 ] ], [ [ "sheet_metal_small", 8 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmc_shelter_craftspot" } ]
   },
   {
     "type": "recipe",

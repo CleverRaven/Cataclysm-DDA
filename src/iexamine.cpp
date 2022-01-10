@@ -318,14 +318,14 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
 }
 
 /**
- * Change player eye and skin colour
+ * Change player eye and skin color
  */
 void iexamine::change_appearance( Character &you, const tripoint & )
 {
     uilist amenu;
     amenu.title = _( "Change what?" );
-    amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change eye colour" ) );
-    amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change skin colour" ) );
+    amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change eye color" ) );
+    amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change skin color" ) );
 
     amenu.query();
     if( amenu.ret == 0 ) {
@@ -785,7 +785,7 @@ class atm_menu
             return true;
         }
 
-        //!Deposit pre-cataclysm currency and receive equivalent amount minus fees on a card.
+        //!Deposit pre-Cataclysm currency and receive equivalent amount minus fees on a card.
         bool do_exchange_cash() {
             item *dst;
             if( you.activity.id() == ACT_ATM ) {
@@ -1609,8 +1609,8 @@ void iexamine::gunsafe_el( Character &you, const tripoint &examp )
 void iexamine::locked_object( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    item &best_prying = you.item_with_best_of_quality( qual_PRY );
-    item &best_lockpick = you.item_with_best_of_quality( qual_LOCKPICK );
+    item &best_prying = you.item_with_best_of_quality( qual_PRY, true );
+    item &best_lockpick = you.item_with_best_of_quality( qual_LOCKPICK, true );
     const bool has_prying = !best_prying.is_null();
     const bool can_pick = here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) &&
                           ( !best_lockpick.is_null() || you.has_bionic( bio_lockpick ) );
@@ -2760,7 +2760,9 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
         } else {
-            add_msg( _( "It should take about %d minutes to finish burning." ), minutes );
+            add_msg( n_gettext( "It should take about %d minute to finish burning.",
+                                "It should take about %d minutes to finish burning.",
+                                minutes ), minutes );
         }
         return;
     }
@@ -2889,7 +2891,9 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
         } else {
-            add_msg( _( "It should take about %d minutes to finish burning." ), minutes );
+            add_msg( n_gettext( "It should take about %d minute to finish burning.",
+                                "It should take about %d minutes to finish burning.",
+                                minutes ), minutes );
         }
         return;
     }
@@ -3061,6 +3065,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
     if( here.has_items( examp ) ) {
+        // Note: This is displayed regardless of whether "examine with pickup" was used
         selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
     }
     if( !already_on_fire ) {
@@ -4523,7 +4528,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
         int maximum_liters = std::min( money / pricePerUnit, tankUnits / 1000 );
 
         std::string popupmsg = str_to_illiterate_str( string_format(
-                                   _( "How many liters of %s to buy?  Max: %d L.  (0 to cancel)" ), fuelType, maximum_liters ) );
+                                   _( "How many liters of %s to buy?  Max: %d L.  (0 to cancel)" ), fuelTypeStr, maximum_liters ) );
         int liters = string_input_popup()
                      .title( popupmsg )
                      .width( 20 )
@@ -5026,10 +5031,12 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
 
             std::vector<bionic_id> bio_list;
             std::vector<std::string> bionic_names;
+            std::vector<const bionic *> bionics;
             for( const bionic &bio : installed_bionics ) {
                 if( item::type_is_defined( bio.info().itype() ) ) {
                     bio_list.emplace_back( bio.id );
                     bionic_names.emplace_back( bio.info().name.translated() );
+                    bionics.push_back( &bio );
                 }
             }
             int bionic_index = uilist( _( "Choose bionic to uninstall" ), bionic_names );
@@ -5046,14 +5053,14 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                 return;
             }
 
-            if( patient.can_uninstall_bionic( bid, installer, true ) ) {
+            if( patient.can_uninstall_bionic( *bionics[bionic_index], installer, true ) ) {
                 const time_duration duration = difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
                     you.consume_tools( anesth_kit, volume_anesth );
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.uninstall_bionic( bid, installer, true );
+                patient.uninstall_bionic( *bionics[bionic_index], installer, true );
             }
             break;
         }
@@ -6038,8 +6045,9 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
                     } else if( minutes_left > 30 ) {
                         pop += _( "It will finish smoking in less than an hour." ) + std::string( "\n" );
                     } else {
-                        pop += string_format( _( "It should take about %d minutes to finish smoking." ),
-                                              minutes_left ) + "\n ";
+                        pop += string_format( n_gettext( "It should take about %d minute to finish smoking.",
+                                                         "It should take about %d minutes to finish smoking.",
+                                                         minutes_left ), minutes_left ) + "\n ";
                     }
                 }
             } else {

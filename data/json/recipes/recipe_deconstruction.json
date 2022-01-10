@@ -5759,5 +5759,13 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "nylon", 3 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "kevlar_shears",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "12 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 2 ] ] ]
   }
 ]

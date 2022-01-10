@@ -55,7 +55,6 @@
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "ALBINO",
       "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
@@ -173,7 +172,6 @@
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "ALBINO",
       "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
@@ -292,7 +290,6 @@
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "ALBINO",
       "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
@@ -392,7 +389,6 @@
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "ALBINO",
       "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
@@ -488,7 +484,7 @@
     "encumbrance": [ [ "arm_r", 2 ] ],
     "act_cost": "50 J",
     "fake_weapon": "bio_blade_weapon",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_shotgun",
@@ -600,7 +596,7 @@
     "occupied_bodyparts": [ [ "torso", 16 ], [ "arm_l", 4 ] ],
     "act_cost": "100 kJ",
     "fake_weapon": "bio_lightning",
-    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_claws",
@@ -741,7 +737,8 @@
     "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE" ],
     "active_flags": [ "SUPER_HEARING" ],
     "auto_deactivates": [ "bio_earplugs" ],
-    "included_bionics": [ "bio_earplugs" ]
+    "included_bionics": [ "bio_earplugs" ],
+    "activated_on_install": true
   },
   {
     "id": "bio_emp",
@@ -759,7 +756,7 @@
     "occupied_bodyparts": [ [ "arm_r", 8 ], [ "hand_r", 2 ] ],
     "act_cost": "50 kJ",
     "fake_weapon": "bio_emp_gun",
-    "flags": [ "BIONIC_GUN" ]
+    "flags": [ "BIONIC_GUN", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_ethanol",
@@ -1022,7 +1019,7 @@
     "occupied_bodyparts": [ [ "hand_r", 1 ] ],
     "act_cost": "30 kJ",
     "fake_weapon": "bio_laser_gun",
-    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_leaky",
@@ -1376,7 +1373,7 @@
     "id": "bio_synaptic_regen",
     "type": "bionic",
     "name": { "str": "Synaptic Regeneration System" },
-    "description": "An electromagnetic stimulator has been surgically implanted on the back of your head and along your spine, continually draining power.  As long as it's active, you won't become sleep deprived; and if you're sleep deprived already, it will boost the rate of recovery while you sleep.",
+    "description": "An electromagnetic stimulator has been surgically implanted on the back of your head and along your spine, continually draining power.  As long as it's active, you will not suffer from sleep deprivation, although you may still feel sleepy; and if you're sleep deprived already, it will gradually reduce the symptoms of lacking sleep.",
     "flags": [ "BIONIC_TOGGLED" ],
     "active_flags": [ "STOP_SLEEP_DEPRIVATION" ],
     "occupied_bodyparts": [ [ "head", 1 ], [ "torso", 1 ] ],
@@ -1534,7 +1531,8 @@
     "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "toggled_pseudo_items": [ "toolset" ],
     "included_bionics": [ "bio_tools_extend" ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ],
+    "activated_on_install": true
   },
   {
     "id": "bio_tools_extend",
