@@ -24,8 +24,9 @@ def find_files(paths: list[Path], extensions: tuple[str]) -> Generator[str, None
 
 
 @functools.total_ordering
-@dataclass(init=True, repr=True, slots=True)
+@dataclass(init=True, repr=True)
 class Mutation:
+    __slots__ = ('id_', 'name', 'categories', 'description')
     id_: str
     name: str
     categories: list[str]
