@@ -42,7 +42,7 @@
     "type": "terrain",
     "id": "t_nm_floor_flesh",
     "name": "flesh floor",
-    "description": "Walking over the innards of this monstrous beast, you can stillfeel movement underneath you.",
+    "description": "Walking over the innards of this monstrous beast, you can still feel movement underneath your feet.",
     "symbol": ".",
     "color": "magenta_white",
     "move_cost": 1,

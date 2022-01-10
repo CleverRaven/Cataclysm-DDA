@@ -6309,13 +6309,47 @@ void iexamine::workout( Character &you, const tripoint &examp )
 }
 
 // a flavor admire examine action for the nether lily, showcasing how irresistible it is for the PC.
+// This could alternatively be done through JSON EOC, but I am not yet proficient with that system.
+// TODO: perhaps add small positive moodlet for this action.
 void iexamine::admire( Character &you, const tripoint &examp )
 {
-    if( !query_yn( _( "Admire the %s?" ), get_map().furnname( examp ) ) ) {
-        none( you, examp );
-        return;
+    const int res = rng( 0, 3 );
+    switch( res ) {
+        case 0:
+            if( !query_yn( _( "Admire the %s?" ), get_map().furnname( examp ) ) ) {
+                none( you, examp );
+                return;
+            }
+            you.add_msg_if_player( m_info, _( "You admire the %s. Isn't it beautiful?" ),
+                                   get_map().furnname( examp ) );
+            break;
+        case 1:
+            if( !query_yn( _( "Worship the %s?" ), get_map().furnname( examp ) ) ) {
+                none( you, examp );
+                return;
+            }
+            you.add_msg_if_player( m_info, _( "You worship the %s, and feel truly fulfilled." ),
+                                   get_map().furnname( examp ) );
+            break;
+        case 2:
+            if( !query_yn( _( "Bow to the %s?" ), get_map().furnname( examp ) ) ) {
+                none( you, examp );
+                return;
+            }
+            you.add_msg_if_player( m_info,
+                                   _( "You bow to the %s, and gain immense satisfaction in having done so." ),
+                                   get_map().furnname( examp ) );
+            break;
+        case 3:
+            if( !query_yn( _( "Look at the %s?" ), get_map().furnname( examp ) ) ) {
+                none( you, examp );
+                return;
+            }
+            you.add_msg_if_player( m_info,
+                                   _( "You focus on the %s and realize it truly is perfection *incarnate*." ),
+                                   get_map().furnname( examp ) );
+            break;
     }
-    you.add_msg_if_player( m_info, _( "You admire the %s." ), get_map().furnname( examp ) );
 }
 
 void iexamine::invalid( Character &/*you*/, const tripoint &examp )
