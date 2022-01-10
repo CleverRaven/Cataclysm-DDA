@@ -1316,12 +1316,11 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
 
         add_msg( msgtype, msg, z.name() );
 
-        int moraleMalus = -50 * ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        const int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        const time_duration duration = sp.duration_turns() *
-                                       ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        const time_duration decayDelay = 3_minutes *
-                                         ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
+        float killRatio = static_cast<float>( kill_count ) / max_kills;
+        int moraleMalus = -50 * ( 1.0 - killRatio );
+        const int maxMalus = -250 * ( 1.0 - killRatio );
+        const time_duration duration = sp.duration_turns() * ( 1.0 - killRatio );
+        const time_duration decayDelay = 3_minutes * ( 1.0 - killRatio );
         if( z.type->in_species( species_id( sp.effect_data() ) ) ) {
             moraleMalus /= 10;
             if( guy.has_trait( trait_PACIFIST ) ) {
