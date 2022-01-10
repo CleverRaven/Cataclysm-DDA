@@ -1679,6 +1679,9 @@ time_duration Character::get_consume_time( const item &it )
         consume_time_modifier = mutation_value( "consume_time_modifier" );
     }
 
+    // Minimum consumption time, without mutations, is always 1 second.
+    time = std::max( 1_seconds, time );
+
     return time * consume_time_modifier;
 }
 

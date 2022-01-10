@@ -21,6 +21,7 @@ class Character;
 class Creature;
 class mood_face;
 struct point;
+enum class cardinal_direction;
 
 enum face_type : int {
     face_human = 0,
@@ -64,6 +65,14 @@ std::string activity_malus_str( const Character &u );
 // gets the description, printed in player_display, related to your current bmi
 std::string weight_long_description( const Character &u );
 
+// For vehicle being driven or remotely piloted by character
+// Azimuth (heading) in degrees
+std::string vehicle_azimuth_text( const Character &u );
+// Vehicle target/current cruise velocity (and units) with engine strain color
+std::pair<std::string, nc_color> vehicle_cruise_text_color( const Character &u );
+// Vehicle percent of fuel remaining for currently running engine
+std::pair<std::string, nc_color> vehicle_fuel_percent_text_color( const Character &u );
+
 // Functions returning (text, color) pairs
 std::pair<translation, nc_color> weariness_text_color( size_t weariness );
 std::pair<std::string, nc_color> weariness_text_color( const Character &u );
@@ -83,10 +92,12 @@ std::pair<std::string, nc_color> morale_face_color( const avatar &u );
 // Helpers for morale_face_color
 std::pair<std::string, nc_color> morale_emotion( const int morale_cur, const mood_face &face );
 
-// Current movement mode (as single letter) and color
+// Current movement mode and color, as single letter or full word
+std::pair<std::string, nc_color> move_mode_letter_color( const Character &u );
 std::pair<std::string, nc_color> move_mode_text_color( const Character &u );
+// Current body part status (bleeding, bitten, infected) phrase, fully colorized
+std::string colorized_bodypart_status_text( const Character &u, const bodypart_id &bp );
 
-// TODO: Swap text/string order to match previous functions
 std::pair<std::string, nc_color> temp_text_color( const Character &u );
 std::pair<std::string, nc_color> power_text_color( const Character &u );
 std::pair<std::string, nc_color> mana_text_color( const Character &you );
@@ -96,12 +107,21 @@ std::pair<std::string, nc_color> int_text_color( const Character &p );
 std::pair<std::string, nc_color> per_text_color( const Character &p );
 std::pair<std::string, nc_color> safe_mode_text_color( const bool classic_mode );
 std::pair<std::string, nc_color> wind_text_color( const Character &u );
+std::pair<std::string, nc_color> weather_text_color( const Character &u );
+
+// Get visible threats by cardinal direction - Already colorized
+std::string colorized_compass_text( const cardinal_direction dir, int width );
+std::string colorized_compass_legend_text( int width, int height );
 
 // Define color for displaying the body temperature
 nc_color bodytemp_color( const Character &u, const bodypart_id &bp );
 // Returns color which this limb would have in healing menus
 nc_color limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool bite,
                      bool infect );
+// Return strings for all statuses affecting body part (bleeding, bitten, bandaged, etc.)
+std::vector<std::pair<std::string, nc_color>> bodypart_status_colors( const Character &u,
+        const bodypart_id &bp );
+
 // Color for displaying the given encumbrance level
 nc_color encumb_color( const int level );
 

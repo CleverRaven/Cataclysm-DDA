@@ -7,7 +7,7 @@
     "style": "number"
   },
   {
-    "id": "health_text",
+    "id": "health_desc",
     "type": "widget",
     "label": "Health",
     "style": "text",

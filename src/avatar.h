@@ -14,7 +14,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
-#include "diary.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "json.h"
@@ -26,6 +25,7 @@
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
+class diary;
 class faction;
 class item;
 class item_location;

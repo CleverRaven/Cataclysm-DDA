@@ -1,0 +1,10 @@
+[
+  {
+    "id": "body_temp_desc",
+    "type": "widget",
+    "label": "Heat",
+    "style": "text",
+    "var": "body_temp_text",
+    "//": "Uses display::temp_text_color"
+  }
+]

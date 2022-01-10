@@ -1,0 +1,80 @@
+[
+  {
+    "id": "bodypart_status_text",
+    "//": "Base widget for showing body part status; needs bodypart field defined in derived widget.",
+    "type": "widget",
+    "style": "text",
+    "var": "bp_status_text"
+  },
+  {
+    "id": "bp_status_head_text",
+    "type": "widget",
+    "label": "HEAD",
+    "bodypart": "head",
+    "copy-from": "bodypart_status_text"
+  },
+  {
+    "id": "bp_status_torso_text",
+    "type": "widget",
+    "label": "TORSO",
+    "bodypart": "torso",
+    "copy-from": "bodypart_status_text"
+  },
+  {
+    "id": "bp_status_left_arm_text",
+    "type": "widget",
+    "label": "L ARM",
+    "bodypart": "arm_l",
+    "copy-from": "bodypart_status_text"
+  },
+  {
+    "id": "bp_status_right_arm_text",
+    "type": "widget",
+    "label": "R ARM",
+    "bodypart": "arm_r",
+    "copy-from": "bodypart_status_text"
+  },
+  {
+    "id": "bp_status_left_leg_text",
+    "type": "widget",
+    "label": "L LEG",
+    "bodypart": "leg_l",
+    "copy-from": "bodypart_status_text"
+  },
+  {
+    "id": "bp_status_right_leg_text",
+    "type": "widget",
+    "label": "R LEG",
+    "bodypart": "leg_r",
+    "copy-from": "bodypart_status_text"
+  },
+  {
+    "id": "bodypart_status_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "bp_status_left_arm_text", "bp_status_head_text", "bp_status_right_arm_text" ]
+  },
+  {
+    "id": "bodypart_status_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "bp_status_left_leg_text", "bp_status_torso_text", "bp_status_right_leg_text" ]
+  },
+  {
+    "id": "bodypart_status_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Body Part Status",
+    "arrange": "rows",
+    "widgets": [
+      "bp_status_head_text",
+      "bp_status_torso_text",
+      "bp_status_left_arm_text",
+      "bp_status_right_arm_text",
+      "bp_status_left_leg_text",
+      "bp_status_right_leg_text"
+    ]
+  }
+]
