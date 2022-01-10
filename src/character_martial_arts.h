@@ -79,7 +79,8 @@ class character_martial_arts
         void ma_onkill_effects( Character &owner );
 
         /** Returns an attack vector that the player can use */
-        std::string get_valid_attack_vector( const Character &user, std::vector<std::string> attack_vectors) const;
+        std::string get_valid_attack_vector( const Character &user,
+                                             std::vector<std::string> attack_vectors ) const;
         /** Returns true if the player is able to use the given attack vector */
         bool can_use_attack_vector( const Character &user, std::string av ) const;
         /** Returns true if the player has the leg block technique available */

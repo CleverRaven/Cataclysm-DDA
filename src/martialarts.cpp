@@ -229,7 +229,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
-        
+
     optional( jo, was_loaded, "attack_vectors", attack_vectors, {} );
     optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
 
@@ -1163,7 +1163,8 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
 }
 
 
-std::string character_martial_arts::get_valid_attack_vector( const Character &user, std::vector<std::string> attack_vectors ) const 
+std::string character_martial_arts::get_valid_attack_vector( const Character &user,
+        std::vector<std::string> attack_vectors ) const
 {
     for( const std::string av : attack_vectors ) {
         if( can_use_attack_vector( user, av ) ) {
@@ -1185,20 +1186,18 @@ bool character_martial_arts::can_use_attack_vector( const Character &user, std::
 
     if( av == "HEAD" || av == "TORSO" ) {
         return true;
-    }
-    else if( av == "WEAPON" && valid_weapon && ( arm_r_hp > 0 || arm_l_hp > 0 ) ) {
+    } else if( av == "WEAPON" && valid_weapon && ( arm_r_hp > 0 || arm_l_hp > 0 ) ) {
+        return true;
+    } else if( ( av == "HAND" || av == "ARM" || av == "ELBOW" || av == "SHOULDER" ) && ( arm_r_hp > 0 ||
+               arm_l_hp > 0 ) ) {
+        return true;
+    } else if( ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && ( leg_r_hp > 0 &&
+               leg_l_hp > 0 ) ) {
+        return true;
+    } else if( ( av == "GRAPPLE" || av == "THROW" ) && ( arm_r_hp > 0 && arm_l_hp > 0 ) ) {
         return true;
     }
-    else if( ( av == "HAND" || av == "ARM" || av == "ELBOW" || av == "SHOULDER" ) && ( arm_r_hp > 0 || arm_l_hp > 0 ) ) {
-        return true;
-    }
-    else if( ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && ( leg_r_hp > 0 && leg_l_hp > 0 ) ) {
-        return true;
-    }
-    else if( ( av == "GRAPPLE" || av == "THROW" ) && ( arm_r_hp > 0 && arm_l_hp > 0 ) ) {
-        return true;
-    }
-    
+
     return false;
 }
 
