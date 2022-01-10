@@ -26,7 +26,7 @@ def find_files(paths: list[Path], extensions: tuple[str]) -> Generator[str, None
 @functools.total_ordering
 @dataclass(init=True, repr=True)
 class Mutation:
-    __slots__ = ('id_', 'name', 'categories', 'description')
+    __slots__ = ("id_", "name", "categories", "description")
     id_: str
     name: str
     categories: list[str]
@@ -79,15 +79,20 @@ def write_mutations(mutations: list[Mutation], filename: Path) -> None:
 
 @click.command()
 @click.argument(
-    "paths", type=click.Path(exists=True, resolve_path=True, path_type=Path), nargs=-1
+    "paths",
+    type=click.Path(exists=True, resolve_path=True, path_type=Path),
+    nargs=-1,
 )
 @click.option(
     "-o",
     "--outfile",
     type=click.Path(resolve_path=True, path_type=Path, dir_okay=False),
     default="mutations.md",
+    help="Specify the file to write to.",
+    show_default=True,
 )
 def cli(paths, outfile) -> None:
+    """Search PATHS for JSON files and generate a markdown file documenting mutations."""
     # The entrypoint to the CLI.
     mutations = []
 
@@ -107,7 +112,7 @@ def cli(paths, outfile) -> None:
 
             if jo.get("type") != "mutation":
                 continue
-            
+
             mutations.append(
                 Mutation(
                     jo.get("id"),
