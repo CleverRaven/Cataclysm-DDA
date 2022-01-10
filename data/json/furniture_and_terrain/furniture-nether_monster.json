@@ -100,7 +100,7 @@
     "type": "furniture",
     "id": "f_nm_nether_lichen",
     "name": "nether lichen",
-    "description": "A bed of orange, flowering lichen, covering the surface of the yellow ichor. Every now and then, a flower dissapears into the liquid, but seems to reappear the moment you look away.",
+    "description": "A bed of orange, flowering lichen, covering the surface of the yellow ichor. Every now and then, a flower dissappears into the liquid, but seems to reappear the moment you look away.",
     "looks_like": "f_shrub_moss",
     "symbol": "~",
     "color": "green",

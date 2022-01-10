@@ -141,7 +141,7 @@ void workbench( Character &you, const tripoint &examp );
 void workbench_internal( Character &you, const tripoint &examp,
                          const cata::optional<vpart_reference> &part );
 void workout( Character &you, const tripoint &examp );
-void admire(Character& you, const tripoint& examp);
+void admire( Character &you, const tripoint &examp );
 void invalid( Character &you, const tripoint &examp );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
