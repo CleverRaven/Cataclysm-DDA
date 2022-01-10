@@ -1078,19 +1078,19 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         std::string weather_aspect = jo.get_string( "weather" );
         if( weather_aspect == "temperature" ) {
             return []( const T & ) {
-                return get_weather().weather_precise->temperature;
+                return static_cast<int>( get_weather().weather_precise->temperature );
             };
         } else if( weather_aspect == "windpower" ) {
             return []( const T & ) {
-                return get_weather().weather_precise->windpower;
+                return static_cast<int>( get_weather().weather_precise->windpower );
             };
         } else if( weather_aspect == "humidity" ) {
             return []( const T & ) {
-                return get_weather().weather_precise->humidity;
+                return static_cast<int>( get_weather().weather_precise->humidity );
             };
         } else if( weather_aspect == "pressure" ) {
             return []( const T & ) {
-                return get_weather().weather_precise->pressure;
+                return static_cast<int>( get_weather().weather_precise->pressure );
             };
         }
     } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
@@ -1158,7 +1158,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 jo.throw_error( "allies count not supported for NPCs.  In " + jo.str() );
             } else {
                 return []( const T & ) {
-                    return g->allies().size();
+                    return static_cast<int>( g->allies().size() );
                 };
             }
         } else if( checked_value == "cash" ) {
@@ -1209,12 +1209,12 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "power" ) {
             return [is_npc]( const T & d ) {
                 // Energy in milijoule
-                return d.actor( is_npc )->power_cur().value();
+                return static_cast<int>( d.actor( is_npc )->power_cur().value() );
             };
         } else if( checked_value == "power_max" ) {
             return [is_npc]( const T & d ) {
                 // Energy in milijoule
-                return d.actor( is_npc )->power_max().value();
+                return static_cast<int>( d.actor( is_npc )->power_max().value() );
             };
         } else if( checked_value == "power_percentage" ) {
             return [is_npc]( const T & d ) {
