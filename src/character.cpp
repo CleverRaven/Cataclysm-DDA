@@ -625,6 +625,16 @@ void Character::set_wielded_item( const item &to_wield )
     weapon = to_wield;
 }
 
+bool Character::set_oxygen()
+{
+    // if not already grabbed or underwater set your oxygen level
+    if( !has_effect( effect_grabbed, body_part_torso ) && !is_underwater() ) {
+        oxygen = 30 + 2 * str_cur;
+        return true;
+    }
+    return false;
+}
+
 void Character::randomize_heartrate()
 {
     avg_nat_bpm = rng_normal( 60, 80 );
