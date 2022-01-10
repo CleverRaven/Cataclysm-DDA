@@ -142,6 +142,7 @@
     "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
+<<<<<<< HEAD
 
     "use_action": [ {
       "target": "modular_exoskeleton_on",
@@ -151,6 +152,19 @@
       "need_charges_msg": "The suit does not have enough charge.",
       "type": "transform"
     }, "MANAGE_EXOSUIT" ]
+=======
+    "use_action": [
+      {
+        "target": "modular_exoskeleton_on",
+        "msg": "The %s engages.",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The suit does not have enough charge.",
+        "type": "transform"
+      },
+      "MANAGE_EXOSUIT"
+    ]
+>>>>>>> 81e89c11af (Linting)
   },
   {
     "id": "modular_exoskeleton_on",
@@ -164,12 +178,10 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "power_draw": 7123,
     "revert_to": "modular_exoskeleton",
-    "use_action": [ {
-      "type": "transform",
-      "menu_text": "Turn off",
-      "msg": "The %s disengages.",
-      "target": "modular_exoskeleton"
-    }, "MANAGE_EXOSUIT" ]
+    "use_action": [
+      { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exoskeleton" },
+      "MANAGE_EXOSUIT"
+    ]
   },
   {
     "id": "exoskeleton_helmet",
