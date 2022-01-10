@@ -347,7 +347,7 @@
       "op": "==",
       "value": 200,
       "yes": "Alright, that's 200 rounds minus the 10% service fee, they'll be converted in a day.",
-      "no": "Alright, that's 800 rounds minus the 10% service fee, they'll be converted in 5 days.""
+      "no": "Alright, that's 800 rounds minus the 10% service fee, they'll be converted in 5 days."
     },
     "responses": [
       { "text": "See you then.", "topic": "TALK_DONE" },
