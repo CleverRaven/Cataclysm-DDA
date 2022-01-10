@@ -1530,7 +1530,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
                 ap += bp->unarmed_arpen( damage_type::STAB );
             }
         }
-        cut_dam += dam;
+        stab_dam += dam;
         arpen += ap;
 
     }
@@ -1565,7 +1565,7 @@ void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*av
                                    const item &weap, std::string attack_vector, float /*crit_mod*/ ) const
 {
     std::map<std::string, damage_type> dt_map = get_dt_map();
-    const bool unarmed = weap.is_unarmed_weapon();
+    bool unarmed = attack_vector == "WEAPON";
 
     for( const std::pair<const std::string, damage_type> &dt : dt_map ) {
         damage_type type_name = dt.second;
