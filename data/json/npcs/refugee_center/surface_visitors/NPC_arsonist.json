@@ -24,6 +24,7 @@
     "id": "NC_ARSONIST",
     "name": { "str": "Arsonist" },
     "job_description": "I'm just watching the world burn.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
       { "group": "NPC_starting_traits" },
