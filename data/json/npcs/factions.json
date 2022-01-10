@@ -322,7 +322,7 @@
       "free_merchants": {
         "kill on sight": false,
         "watch your back": true,
-        "share my stuff": true,
+        "share my stuff": false,
         "guard your stuff": true,
         "lets you in": true,
         "defends your space": true,
