@@ -1079,7 +1079,7 @@
     "species": [ "NETHER" ],
     "volume": "62500 ml",
     "weight": "0 g",
-    "hp": 10,
+    "hp": 25,
     "speed": 100,
     "symbol": "O",
     "color": "dark_gray",
