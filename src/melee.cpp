@@ -712,7 +712,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // If no weapon is selected, use highest layer of gloves instead.
         if( attack_vector != "WEAPON" ) {
             for( item &worn_item : worn ) {
-                bool covers;
+                bool covers = false;
 
                 if( attack_vector == "HAND" || attack_vector == "GRAPPLE" || attack_vector == "THROW" ) {
                     covers = worn_item.covers( bodypart_id( "hand_l" ) ) &&
