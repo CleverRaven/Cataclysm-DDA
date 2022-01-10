@@ -529,7 +529,8 @@ Character::Character() :
     pkill = 0;
     // 55 Mcal or 55k kcal
     healthy_calories = 55'000'000;
-    stored_calories = healthy_calories;
+    // this makes sure characters start with normal bmi
+    stored_calories = healthy_calories - 1'000'000;
     initialize_stomach_contents();
 
     name.clear();
