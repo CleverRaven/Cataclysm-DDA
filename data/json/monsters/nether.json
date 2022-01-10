@@ -111,6 +111,7 @@
     "melee_cut": 2,
     "harvest": "zombie",
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
+    "death_function": { "effect": { "id": "death_guilt_human", "hit_self": true } },
     "death_drops": "default_zombie_clothes",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "IMMOBILE", "GUILT", "POISON", "REVIVES", "FILTHY" ]
   },
