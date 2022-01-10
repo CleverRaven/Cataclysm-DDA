@@ -95,6 +95,7 @@ def write_mutations(mutations: list[Mutation], filename: Path) -> None:
             fd.write(
                 f'  - [{category}](#{category.replace(" ", "-").lower()})\n'
             )
+        fd.write("\n\n")
 
         # Write mutations
         for category, mutations in categories.items():
@@ -104,7 +105,7 @@ def write_mutations(mutations: list[Mutation], filename: Path) -> None:
                 fd.write(f"src: `{mut.mod}`\n")
                 fd.write(f"id: `{mut.id_}` \n")
                 fd.write(f'categories: `{"`, `".join(mut.categories)}`\n')
-                fd.write(f"Description: {mut.description}\n\n")
+                fd.write(f"Description: {mut.description}\n")
             fd.write("\n\n")
 
 
