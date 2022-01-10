@@ -524,7 +524,7 @@
     "id": "maid_dress_short",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str_sp": "Short french maid clothes" },
+    "name": { "str_sp": "short French maid clothes" },
     "description": "The French maid dress, black with a frilly white apron.  This version is much lighter and shorter than normal.",
     "weight": "60 g",
     "volume": "250 ml",
