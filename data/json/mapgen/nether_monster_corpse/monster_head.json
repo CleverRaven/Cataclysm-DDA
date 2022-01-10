@@ -2,134 +2,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "nm_portal_incursion1",
-    "object": {
-      "mapgensize": [ 7, 7 ],
-      "rows": [
-        "  r   r",
-        "aq ar a",
-        " raQra ",
-        " arPaq ",
-        " aQrraa",
-        "aqraar ",
-        "   ar  "
-      ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": { },
-      "furniture": { "r": "f_rubble_rock", "a": "f_ash" },
-      "place_monster": [ { "group": "GROUP_NETHER_CORPSE_PORTAL", "x": [ 2, 5 ], "y": [ 2, 5 ], "repeat": [ 2, 5 ] } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "nm_portal_incursion2",
-    "object": {
-      "mapgensize": [ 7, 7 ],
-      "rows": [
-        "r aar r",
-        "ra raaa",
-        " rQPar ",
-        "arPPPQa",
-        " QrPqq ",
-        "rqaarrr",
-        " r aa  "
-      ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": { },
-      "furniture": { "r": "f_rubble_rock", "a": "f_ash" },
-      "place_monster": [ { "group": "GROUP_NETHER_CORPSE_PORTAL", "x": [ 2, 5 ], "y": [ 2, 5 ], "repeat": [ 3, 6 ] } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "nm_gas_emit1",
-    "object": {
-      "mapgensize": [ 4, 4 ],
-      "rows": [
-        "G  G",
-        "    ",
-        "    ",
-        "    "
-      ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": {  }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "nm_gas_emit2",
-    "object": {
-      "mapgensize": [ 4, 4 ],
-      "rows": [
-        "g  g",
-        "    ",
-        "    ",
-        "    "
-      ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": {  }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "nm_gas_emit3",
-    "object": {
-      "mapgensize": [ 4, 4 ],
-      "rows": [
-        "G  g",
-        "    ",
-        "    ",
-        "    "
-      ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": {  }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "nm_gas_emit4",
-    "object": {
-      "mapgensize": [ 4, 4 ],
-      "rows": [
-        "g  G",
-        "    ",
-        "    ",
-        "    "
-      ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": {  }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "nm_cartilage_web",
-    "object": {
-      "mapgensize": [ 10, 10 ],
-      "rows": [
-        "CCCC  CCCC",
-        "          ",
-        "          ",
-        "          ",
-        "          ",
-        "          ",
-        "          ",
-        "          ",
-        "          ",
-        "          "
-      ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": {  }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "om_terrain": "corpse_neck",
     "weight": 100,
     "object": {
@@ -384,8 +256,28 @@
       "place_nested": [
         {
           "chunks": [ [ "null", 50 ], [ "nm_portal_incursion1", 35 ], [ "nm_portal_incursion2", 15 ] ],
-          "x": [ 5, 18 ],
-          "y": [ 5, 18 ]
+          "x": [ 6, 17 ],
+          "y": [ 6, 17 ]
+        },
+        {
+          "chunks": [ [ "null", 40 ], [ "nm_plant_incursion1", 20 ], [ "nm_plant_incursion2", 20 ], [ "nm_plant_incursion3", 20 ] ],
+          "x": [ 6, 17 ],
+          "y": [ 6, 17 ]
+        },
+        {
+          "chunks": [ [ "null", 40 ], [ "nm_plant_incursion1", 20 ], [ "nm_plant_incursion2", 20 ], [ "nm_plant_incursion3", 20 ] ],
+          "x": [ 6, 17 ],
+          "y": [ 6, 17 ]
+        },
+        {
+          "chunks": [ [ "null", 40 ], [ "nm_plant_incursion1", 20 ], [ "nm_plant_incursion2", 20 ], [ "nm_plant_incursion3", 20 ] ],
+          "x": [ 6, 17 ],
+          "y": [ 6, 17 ]
+        },
+        {
+          "chunks": [ [ "null", 40 ], [ "nm_plant_incursion1", 20 ], [ "nm_plant_incursion2", 20 ], [ "nm_plant_incursion3", 20 ] ],
+          "x": [ 6, 17 ],
+          "y": [ 6, 17 ]
         }
       ]
     }

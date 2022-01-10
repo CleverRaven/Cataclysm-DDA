@@ -6308,6 +6308,16 @@ void iexamine::workout( Character &you, const tripoint &examp )
     you.assign_activity( player_activity( workout_activity_actor( examp ) ) );
 }
 
+// a flavor admire examine action for the nether lily, showcasing how irresistible it is for the PC.
+void iexamine::admire( Character &you, const tripoint &examp )
+{
+    if( !query_yn( _( "Admire the %s?" ), get_map().furnname( examp ) ) ) {
+        none( you, examp );
+        return;
+    }
+    you.add_msg_if_player( m_info, _( "You admire the %s." ), get_map().furnname( examp ) );
+}
+
 void iexamine::invalid( Character &/*you*/, const tripoint &examp )
 {
     debugmsg( "Called invalid iexamine function on %s!", get_map().tername( examp ) );
@@ -6401,6 +6411,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "open_safe", &iexamine::open_safe },
             { "workbench", &iexamine::workbench },
             { "workout", &iexamine::workout },
+            { "admire", &iexamine::admire },
             { "invalid", &iexamine::invalid },
         }
     };

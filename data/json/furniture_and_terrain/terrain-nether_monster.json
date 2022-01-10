@@ -25,9 +25,24 @@
   },
   {
     "type": "terrain",
+    "id": "t_nm_wall_teeth",
+    "name": "monster teeth",
+    "//": "TODO: use construction menu to extract extremely sharp tooth for use in crafting later",
+    "//2": "TODO2: perhaps make player unable to bash these",
+    "description": "A fractal array of uncountable, bristling teeth that seem impossibly sharp, even at a conceptual level. An iridescent haze surrounds it, as if light itself cannot help but be separated in their presence. With proper protective equipment, you surmise you could extract some for your own use.",
+    "symbol": "^",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "looks_like": "t_concrete_wall",
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_nm_floor_flesh",
     "name": "flesh floor",
-    "description": "As you walk in the bowels of this monstrous beast, you can still feel movement underneath your feet.",
+    "description": "Walking over the innards of this monstrous beast, you can stillfeel movement underneath you.",
     "symbol": ".",
     "color": "magenta_white",
     "move_cost": 1,
@@ -37,9 +52,9 @@
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_nm_floor_bone",
-      "str_min": 10,
-      "str_max": 20,
-      "str_min_supported": 10,
+      "str_min": 15,
+      "str_max": 25,
+      "str_min_supported": 15,
       "items": [ { "item": "meat_tainted", "count": [ 2, 10 ] } ]
     }
   },
@@ -56,8 +71,8 @@
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_concrete_wall_flesh",
     "bash": {
-      "str_min": 10,
-      "str_max": 20,
+      "str_min": 20,
+      "str_max": 30,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_nm_floor_flesh",
@@ -68,7 +83,7 @@
     "type": "terrain",
     "id": "t_nm_wall_cartilage",
     "name": "flesh wall",
-    "description": "A thick wall of fleshy cartilage. It still pounds rythmically, reminding you that ",
+    "description": "A thick wall of fleshy cartilage. It still pounds to a rhythm you cannot otherwise perceive.",
     "symbol": "LINE_OXOX",
     "color": "magenta_red",
     "move_cost": 0,

@@ -6,6 +6,7 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 
 ## Hardcoded Examine Actions
 
+- ```admire``` Admires a furniture tile (flavour).
 - ```aggie_plant``` Harvest plants.
 - ```autodoc``` Brings the autodoc consoles menu. Needs the ```AUTODOC``` flag to function properly and an adjacent furniture with the ```AUTODOC_COUCH``` flag.
 - ```autoclave_empty``` Start the autoclave cycle if it contains filthy CBM, and the player has enough water.
