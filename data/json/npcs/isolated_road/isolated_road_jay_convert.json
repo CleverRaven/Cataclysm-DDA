@@ -245,35 +245,35 @@
       "context": "artisans",
       "op": "==",
       "value": 556,
-      "yes": "Sure 5.56 to what?",
+      "yes": "Sure, 5.56 to what?",
       "no": {
         "u_compare_var": "gunsmith_ammo_from",
         "type": "number",
         "context": "artisans",
         "op": "==",
         "value": 76251,
-        "yes": "Sure 7.62x51 to what?",
+        "yes": "Sure, 7.62x51 to what?",
         "no": {
           "u_compare_var": "gunsmith_ammo_from",
           "type": "number",
           "context": "artisans",
           "op": "==",
           "value": 76239,
-          "yes": "Sure 7.62x39 to what?",
+          "yes": "Sure, 7.62x39 to what?",
           "no": {
             "u_compare_var": "gunsmith_ammo_from",
             "type": "number",
             "context": "artisans",
             "op": "==",
             "value": 545,
-            "yes": "Sure 5.45x39 to what?",
+            "yes": "Sure, 5.45x39 to what?",
             "no": {
               "u_compare_var": "gunsmith_ammo_from",
               "type": "number",
               "context": "artisans",
               "op": "==",
               "value": 300,
-              "yes": "Sure Blackout to what?",
+              "yes": "Sure, 300 BLK to what?",
               "no": "I don't understand you should have told me what rounds you want."
             }
           }
@@ -346,8 +346,8 @@
       "context": "artisans",
       "op": "==",
       "value": 200,
-      "yes": "Alright 200 rounds, converted minus a 10% service fee, see you in a day.",
-      "no": "Alright 800 rounds, converted minus a 10% service fee, see you in 5 days."
+      "yes": "Alright, that's 200 rounds minus the 10% service fee, they'll be converted in a day.",
+      "no": "Alright, that's 800 rounds minus the 10% service fee, they'll be converted in 5 days.""
     },
     "responses": [
       { "text": "See you then.", "topic": "TALK_DONE" },
@@ -366,7 +366,7 @@
   {
     "id": "TALK_GUNSMITH_BULLET_PICKUP",
     "type": "talk_topic",
-    "dynamic_line": "Your transaction is complete here are your items.",
+    "dynamic_line": "The transaction is complete, here are your items.",
     "responses": [
       { "//": "ALL 556 Converts" },
       {
