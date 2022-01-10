@@ -1454,6 +1454,9 @@ void options_manager::add_options_interface()
         { "NONE", to_translation( "None" ) }
     },
     "WORN" );
+    add( "NEGLIGIBLE_ARMOR_INFO", "interface", to_translation( "Show negligible armor info" ),
+         to_translation( "If true, armor protection values below 1 will be displayed in the UI for armor." ),
+         false );
 
     add_empty_line();
 
