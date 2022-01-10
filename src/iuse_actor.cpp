@@ -298,6 +298,8 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
                 obj->ammo_set( ammo_type, qty );
             } else if( !obj->ammo_current().is_null() ) {
                 obj->ammo_set( obj->ammo_current(), qty );
+            } else if( obj->has_flag( flag_RADIO_ACTIVATION ) && obj->has_flag( flag_BOMB ) ) {
+                obj->set_countdown( 1 );
             } else {
                 obj->set_countdown( qty );
             }
