@@ -3280,7 +3280,8 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         // check if the user wants to display the armor values no matter what
         const bool always_show = get_option<bool>( "NEGLIGIBLE_ARMOR_INFO" );
 
-        if( best_res.type_resist( damage_type::BASH ) >= 1 || always_show ) {
+        if( best_res.type_resist( damage_type::BASH ) >= 1 || ( always_show &&
+                best_res.type_resist( damage_type::BASH ) > 0 ) ) {
             if( percent_worst > 0 ) {
                 info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
                                    _( "Bash: " ), worst_res.type_resist( damage_type::BASH ),
@@ -3292,7 +3293,8 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             }
             printed_any = true;
         }
-        if( best_res.type_resist( damage_type::CUT ) >= 1 || always_show ) {
+        if( best_res.type_resist( damage_type::CUT ) >= 1 || ( always_show &&
+                best_res.type_resist( damage_type::CUT ) > 0 ) ) {
             if( percent_worst > 0 ) {
                 info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
                                    _( "Cut: " ), worst_res.type_resist( damage_type::CUT ),
@@ -3304,7 +3306,8 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             }
             printed_any = true;
         }
-        if( best_res.type_resist( damage_type::BULLET ) >= 1 || always_show ) {
+        if( best_res.type_resist( damage_type::BULLET ) >= 1 || ( always_show &&
+                best_res.type_resist( damage_type::BULLET ) > 0 ) ) {
             if( percent_worst > 0 ) {
                 info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
                                    _( "Ballistic: " ), worst_res.type_resist( damage_type::BULLET ),
@@ -3316,17 +3319,20 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             }
             printed_any = true;
         }
-        if( best_res.type_resist( damage_type::ACID ) >= 1 || always_show ) {
+        if( best_res.type_resist( damage_type::ACID ) >= 1 || ( always_show &&
+                best_res.type_resist( damage_type::ACID ) > 0 ) ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
                                iteminfo::is_decimal, best_res.type_resist( damage_type::ACID ) );
             printed_any = true;
         }
-        if( best_res.type_resist( damage_type::HEAT ) >= 1 || always_show ) {
+        if( best_res.type_resist( damage_type::HEAT ) >= 1 || ( always_show &&
+                best_res.type_resist( damage_type::HEAT ) > 0 ) ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Fire: " ) ), "",
                                iteminfo::is_decimal, best_res.type_resist( damage_type::HEAT ) );
             printed_any = true;
         }
-        if( get_base_env_resist( *this ) >= 1 || always_show ) {
+        if( get_base_env_resist( *this ) >= 1 || ( always_show &&
+                get_base_env_resist( *this ) > 0 ) ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Environmental: " ) ),
                                get_base_env_resist( *this ) );
             printed_any = true;
