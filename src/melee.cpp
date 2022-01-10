@@ -1269,7 +1269,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 
         if( bp_unrestricted ) {
             float extra_damage = 0.0f;
-          
+
             for( const trait_id &mut : get_mutations() ) {
                 if( mut->flags.count( json_flag_NEED_ACTIVE_TO_MELEE ) > 0 && !has_active_mutation( mut ) ) {
                     continue;
@@ -1411,7 +1411,7 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
             }
             cut_dam += extra_damage;
         }
-      
+
         float dam = 0.0f;
         float ap = 0.0f;
         for( const bodypart_id &bp : get_all_body_parts() ) {
@@ -1521,7 +1521,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
 
             stab_dam += extra_damage;
         }
-      
+
         float dam = 0.0f;
         float ap = 0.0f;
         for( const bodypart_id &bp : get_all_body_parts() ) {
