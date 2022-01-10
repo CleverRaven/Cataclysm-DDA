@@ -149,6 +149,9 @@ class ma_technique
 
         ma_requirements reqs;
 
+
+        int repeat_min = 1;    // Number of times the technique is repeated on a successful proc
+        int repeat_max = 1;
         int down_dur = 0;
         int stun_dur = 0;
         int knockback_dist = 0;
