@@ -42,15 +42,15 @@
     "extra_effects": [ { "id": "necro_boomer_revive", "hit_self": true }, { "id": "necro_boomer_upgrade", "hit_self": true } ]
   },
   {
-    "id": "zombie_child_guilt",
+    "id": "death_guilt",
     "type": "SPELL",
-    "name": { "str": "Zombie Child Guilt" },
+    "name": { "str": "Death Guilt" },
     "description": "Causes guilt to the target as if the caster was killed by it.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],
     "shape": "blast",
     "effect": "guilt",
-    "effect_str": "ZOMBIE",
+    "effect_str": "NULL",
     "min_damage": 100,
     "max_damage": 100,
     "min_duration": 180000,
