@@ -3,7 +3,7 @@
     "id": "MISSION_BLACKSMITH_1",
     "type": "mission_definition",
     "name": { "str": "Find the gun" },
-    "description": "Cody wants you to go to a gun show and find a rare gun that Jay wanted to see.  It was an AK of some kind.",
+    "description": "Cody wants you to go to a gun show and find a rare gun that Jay wanted to see.  It was an AK of some kind with a weird name… something like CARD or CORE.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "u_has_items": { "item": "kord", "count": 1 } },
     "difficulty": 5,
