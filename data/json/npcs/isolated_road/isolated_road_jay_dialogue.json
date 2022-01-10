@@ -12,7 +12,7 @@
         "topic": "TALK_GUNSMITH_SHOP_ABOUT"
       },
       {
-        "text": "Hey Cody says they are sorry.  They thought you would want to see this.",
+        "text": "Hey, Cody says they are sorry.  They thought you would want to see this.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "kord", "count": 1 } },
@@ -156,7 +156,7 @@
     "type": "talk_topic",
     "dynamic_line": [ "Fuck yeah.  New currency is death and I'm dealing it." ],
     "responses": [
-      { "text": "I understand that but how does this work exactly?", "topic": "TALK_GUNSMITH_SHOP_ABOUT_MORE" },
+      { "text": "I understand, but how does this work exactly?", "topic": "TALK_GUNSMITH_SHOP_ABOUT_MORE" },
       { "text": "…", "topic": "TALK_GUNSMITH_SERVICES" }
     ]
   },
@@ -188,7 +188,7 @@
     "id": "TALK_GUNSMITH_LOCATION_ABOUT",
     "type": "talk_topic",
     "dynamic_line": [
-      "It's my house and Cody's if you've met her.  We dug a pit and set up some milspec turrets.  I programmed them Cody armored them.  Now we're just trying to get by.  This ain't the wizard of oz you can look behind the curtain over there."
+      "It's my house and Cody's if you've met her.  We dug a pit and set up some milspec turrets.  I programmed them and Cody armored them.  Now we're just trying to get by.  This ain't the wizard of oz you can look behind the curtain over there."
     ],
     "speaker_effect": { "effect": [ { "u_add_var": "gunsmith_mentioned_cody", "type": "dialogue", "context": "artisans", "value": "yes" } ] },
     "responses": [
@@ -205,7 +205,7 @@
   {
     "id": "TALK_GUNSMITH_CODY",
     "type": "talk_topic",
-    "dynamic_line": [ "Stuff is fucked all over bud how about we stick to talking business." ],
+    "dynamic_line": [ "Stuff is fucked all over bud, how about we stick to talking business." ],
     "responses": [ { "text": "Alright.", "topic": "TALK_GUNSMITH_SERVICES" } ]
   },
   {
@@ -232,7 +232,7 @@
     "id": "TALK_GUNSMITH_Q1_DETAILS",
     "type": "talk_topic",
     "dynamic_line": [
-      "Alright, so Cody has talked about some cutting-edge tech she's seen displayed.  This thing is called a nano-fabricator.  It's like a complicated 3d printer with some robotics.  Cody used to run with some hackers that steal IP, schematics that sort of thing.  I guess a problem they were running into was the newest tech stuff is all encrypted as templates for these printers.  Well, I know of a colleague who went home with debug software for the system.  You get that for her and we are in business."
+      "Alright, so Cody has talked about some cutting-edge tech she's seen displayed.  This thing is called a nano-fabricator.  It's like a complicated, robotic 3d printer.  Cody used to run with some hackers that steal IP, schematics that sort of thing.  I guess a problem they were running into was the newest tech stuff is all encrypted as templates for these printers.  Well, I know of a colleague who went home with debug software for the system.  You get that for her and we are in business."
     ],
     "speaker_effect": { "effect": [ { "u_add_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" } ] },
     "responses": [

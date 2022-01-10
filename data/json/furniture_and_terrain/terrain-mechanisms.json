@@ -370,7 +370,7 @@
     "type": "terrain",
     "id": "t_card_artisans",
     "name": "card reader",
-    "description": "This is a smartcard reader.  Text written on a post note above reads CO-OP MEMBERS ONLY.",
+    "description": "This is a smartcard reader.  Text written on a post note above reads 'CO-OP MEMBERS ONLY'.",
     "//": "for the isolated artisans faction",
     "symbol": "6",
     "color": "pink",

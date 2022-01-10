@@ -79,7 +79,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "…",
-      "offer": "Alright, so Cody has talked about some cutting-edge tech she's seen displayed.  This thing is called a nano-fabricator.  It's like a complicated 3d printer with some robotics.  Cody used to run with some hackers that steal IP, schematics that sort of thing.  I guess a problem they were running into was the newest tech stuff is all encrypted as templates for these printers.  Well, I know of a colleague who went home with debug software for the system.  You get that for her and we are in business.",
+      "offer": "Alright, so Cody has talked about some cutting-edge tech she's seen displayed.  This thing is called a nano-fabricator.  It's like a complicated, robotic 3d printer.  Cody used to run with some hackers that steal IP, schematics that sort of thing.  I guess a problem they were running into was the newest tech stuff is all encrypted as templates for these printers.  Well, I know of a colleague who went home with debug software for the system.  You get that for her and we are in business.",
       "accepted": "Thanks, I'll start working on an apology.",
       "rejected": "Let me know if you change your mind.",
       "advice": "I'd be careful, guy was a bit of a nut I don't know what he was planning to do with that software.",

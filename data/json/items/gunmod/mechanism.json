@@ -71,7 +71,7 @@
     "id": "bars",
     "type": "GUNMOD",
     "name": { "str": "balanced recoil system" },
-    "description": "This is the complex set of parts designed to minimize recoil by providing counter weight.",
+    "description": "This is a complex set of parts designed to minimize recoil using a reciprocating counterweight.",
     "weight": "60 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
