@@ -6390,6 +6390,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         ch.vehicle_list.insert( placed_vehicle );
         add_vehicle_to_cache( placed_vehicle );
 
+        rebuild_vehicle_level_caches();
         //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
     }
     return placed_vehicle;
@@ -6401,24 +6402,24 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
  * otherwise returns a pointer to the placed vehicle, which may not necessarily
  * be the one passed in (if wreckage is created by fusing cars).
  * @param veh The vehicle to place on the map.
- * @param merge_wrecks Whether crashed vehicles become part of each other
+ * @param merge_wrecks Whether crashed vehicles intermix parts
  * @return The vehicle that was finally placed.
  */
 std::unique_ptr<vehicle> map::add_vehicle_to_map(
-    std::unique_ptr<vehicle> veh, const bool merge_wrecks )
+    std::unique_ptr<vehicle> veh_to_add, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
-    std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
+    std::vector<int> frame_indices = veh_to_add->all_parts_at_location( "structure" );
 
     //Check for boat type vehicles that should be placeable in deep water
-    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
+    const bool can_float = size( veh_to_add->get_avail_parts( "FLOATS" ) ) > 2;
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
-        const tripoint p = veh->global_part_pos3( *part );
+        const tripoint p = veh_to_add->global_part_pos3( *part );
 
         //Don't spawn anything in water
         if( has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) && !can_float ) {
@@ -6426,69 +6427,71 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
         }
 
         // Don't spawn shopping carts on top of another vehicle or other obstacle.
-        if( veh->type == vehicle_prototype_shopping_cart ) {
+        if( veh_to_add->type == vehicle_prototype_shopping_cart ) {
             if( veh_at( p ) || impassable( p ) ) {
                 return nullptr;
             }
         }
 
         //For other vehicles, simulate collisions with (non-shopping cart) stuff
-        vehicle *const other_veh = veh_pointer_or_null( veh_at( p ) );
-        if( other_veh != nullptr && other_veh->type != vehicle_prototype_shopping_cart ) {
+        vehicle *const first_veh = veh_pointer_or_null( veh_at( p ) );
+        if( first_veh != nullptr && first_veh->type != vehicle_prototype_shopping_cart ) {
             if( !merge_wrecks ) {
                 return nullptr;
             }
 
             // Hard wreck-merging limit: 200 tiles
             // Merging is slow for big vehicles which lags the mapgen
-            if( frame_indices.size() + other_veh->all_parts_at_location( "structure" ).size() > 200 ) {
+            if( frame_indices.size() + first_veh->all_parts_at_location( "structure" ).size() > 200 ) {
                 return nullptr;
             }
 
-            /* There's a vehicle here, so let's fuse them together into wreckage and
-             * smash them up. It'll look like a nasty collision has occurred.
-             * Trying to do a local->global->local conversion would be a major
-             * headache, so instead, let's make another vehicle whose (0, 0) point
-             * is the (0, 0) of the existing vehicle, convert the coordinates of both
-             * vehicles into global coordinates, find the distance between them and
-             * p and then install them that way.
-             * Create a vehicle with type "null" so it starts out empty. */
-            auto wreckage = std::make_unique<vehicle>();
-            wreckage->pos = other_veh->pos;
-            wreckage->sm_pos = other_veh->sm_pos;
+            /**
+             * attempt to pull parts from `veh_to_add` (the prospective new vehicle)
+             * in order to place them into `first_veh` (the vehicle that is overlapped)
+             *
+             * the intent here is to get something similar to the old wreckage behavior
+             * (combining two vehicles) without completely garbling all of the vehicle parts
+             * for tile rendering purposes.
+             *
+             * the overlap span is still a mess, though.
+             */
 
-            //Where are we on the global scale?
-            const tripoint global_pos = wreckage->global_pos3();
+            for( const tripoint map_pos : first_veh->get_points( true ) ) {
+                std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_pos, "",
+                        part_status_flag::any );
+                if( !parts_to_move.empty() ) {
+                    const point &target_point = first_veh->get_parts_at( map_pos, "",
+                                                part_status_flag:: any ).front()->mount;
+                    const point &source_point = veh_to_add->get_parts_at( map_pos, "",
+                                                part_status_flag:: any ).front()->mount;
+                    for( const vehicle_part *vp : parts_to_move ) {
+                        // TODO: change mount points to be tripoint
+                        first_veh->install_part( target_point, *vp );
+                    }
 
-            for( const vpart_reference &vpr : veh->get_all_parts() ) {
-                const tripoint part_pos = veh->global_part_pos3( vpr.part() ) - global_pos;
-                // TODO: change mount points to be tripoint
-                wreckage->install_part( part_pos.xy(), vpr.part() );
+                    // this couuld probably be done in a single loop with installing parts above
+                    std::vector<int> parts_in_square = veh_to_add->parts_at_relative( source_point, true );
+                    std::set<int> parts_to_check;
+                    for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
+                        veh_to_add->remove_part( parts_in_square[index] );
+                        parts_to_check.insert( parts_in_square[index] );
+                    }
+                    veh_to_add->find_and_split_vehicles( parts_to_check );
+                }
             }
 
-            for( const vpart_reference &vpr : other_veh->get_all_parts() ) {
-                const tripoint part_pos = other_veh->global_part_pos3( vpr.part() ) - global_pos;
-                wreckage->install_part( part_pos.xy(), vpr.part() );
+            // TODO: more targeted damage around the impact site
+            first_veh->smash( *this );
+            first_veh->enable_refresh();
 
-            }
-
-            wreckage->name = _( "Wreckage" );
-
-            // Now get rid of the old vehicles
-            std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
-            // Failure has happened here when caches are corrupted due to bugs.
-            // Add an assertion to avoid null-pointer dereference later.
-            cata_assert( old_veh );
-
-            // Try again with the wreckage
-            std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( wreckage ), true );
+            // TODO: entangle the old vehicle and the new vehicle somehow, perhaps with tow cables
+            // or something like them, to make them harder to separate
+            std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( veh_to_add ), true );
             if( new_veh != nullptr ) {
                 new_veh->smash( *this );
                 return new_veh;
             }
-
-            // If adding the wreck failed, we want to restore the vehicle we tried to merge with
-            add_vehicle_to_map( std::move( old_veh ), false );
             return nullptr;
 
         } else if( impassable( p ) ) {
@@ -6509,10 +6512,10 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     }
 
     if( needs_smashing ) {
-        veh->smash( *this );
+        veh_to_add->smash( *this );
     }
 
-    return veh;
+    return veh_to_add;
 }
 
 computer *map::add_computer( const tripoint &p, const std::string &name, int security )

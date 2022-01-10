@@ -1400,7 +1400,7 @@
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.04 },
+      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.04, "flags": [ "FILTHY" ] },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.04 }
     ]
   },

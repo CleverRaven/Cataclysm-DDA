@@ -18,6 +18,9 @@ namespace cata_curses_test
 #if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else
+#if !defined(_XOPEN_SOURCE_EXTENDED)
+#define _XOPEN_SOURCE_EXTENDED // required for mvwinnwstr on macOS
+#endif
 #include <curses.h>
 #endif
 }
