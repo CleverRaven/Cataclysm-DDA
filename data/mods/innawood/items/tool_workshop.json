@@ -21,8 +21,8 @@
       [ "HAMMER", 3 ],
       [ "PRY", 1 ],
       [ "COOK", 1 ],
-      [ "CHISEL", 2 ],
-      [ "CHISEL_WOOD", 2 ],
+      [ "GRIND", 2 ],
+      [ "FILE", 2 ],
       [ "PRYING_NAIL", 1 ]
     ],
     "use_action": [
