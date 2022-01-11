@@ -356,6 +356,12 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         }
     }
 
+    if( jo.has_array( "temp_mod" ) ) {
+        JsonArray temp_array = jo.get_array( "temp_mod" );
+        temp_min = temp_array.get_int( 0 );
+        temp_max = temp_array.get_int( 1 );
+    }
+
     if( jo.has_array( "unarmed_damage" ) ) {
         unarmed_bonus = true;
         damage = damage_instance();
