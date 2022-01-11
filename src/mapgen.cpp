@@ -6457,7 +6457,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              * the overlap span is still a mess, though.
              */
 
-            for( const tripoint map_pos : first_veh->get_points( true ) ) {
+            for( const tripoint &map_pos : first_veh->get_points( true ) ) {
                 std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_pos, "",
                         part_status_flag::any );
                 if( !parts_to_move.empty() ) {
