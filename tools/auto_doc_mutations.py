@@ -16,8 +16,9 @@ def find_files(
     """Recursively search :paths: for files that have :extensions:.
 
     If :include_mods: is False (the default), ignore all files that are in a
-    subdirectory of a directory containing a modinfo.json file. If :include_mods:
-    is True, yield modinfo.json before all other files, if it exists.
+    subdirectory of a directory containing a modinfo.json file. If
+    :include_mods: is True, yield modinfo.json before all other files,
+    if it exists.
     """
     for path in paths:
         if os.path.isdir(path):
@@ -176,17 +177,21 @@ class Mod:
     "--outfile",
     type=click.Path(resolve_path=True, path_type=Path, dir_okay=False),
     default="mutations.md",
-    help="Specify the filepath to write the documentation for DDA to. If mods are included, their documentation will be written to the same directory.",
+    help="""Specify the filepath to write the documentation for DDA to.
+    If mods are included, their documentation will be written to the same
+    directory.""",
     show_default=True,
 )
 @click.option(
     "--include-mods / --exclude-mods",
     default=False,
-    help="""Include (or exclude) mutations defined in mods. A mod is a file which is contained in a subdirectory of a directory including a modinfo.json file.""",
+    help="""Include (or exclude) mutations defined in mods.
+    A mod is a file which is contained in a subdirectory of a
+    directory including a modinfo.json file.""",
     show_default=True,
 )
 def cli(paths, outfile, include_mods) -> None:
-    """Search PATHS for JSON files and generate a markdown file documenting mutations."""
+    """Search PATHS for JSON files and generate documentation for mutations."""
     # The entrypoint to the CLI.
 
     if not include_mods:
@@ -228,8 +233,10 @@ def cli(paths, outfile, include_mods) -> None:
                 with open(file, "rb") as fd:
                     jfile = orjson.loads(fd.read())
 
-                # modinfo.json should be an array containing at least one object.
-                # However, just a single top-level object is also supported.
+                # modinfo.json supports two formats:
+                # - An array containing at least one object, the first of which
+                # contains info about the mod.
+                # - A single top-level object.
                 if isinstance(jfile, list) and len(jfile) > 0:
                     mod_info = jfile[0]
                 else:
