@@ -1321,7 +1321,18 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         const int maxMalus = -250 * ( 1.0 - killRatio );
         const time_duration duration = sp.duration_turns() * ( 1.0 - killRatio );
         const time_duration decayDelay = 3_minutes * ( 1.0 - killRatio );
-        if( z.type->in_species( species_id( sp.effect_data() ) ) ) {
+
+        bool shared_species = false;
+        if( caster.is_dead_state() && caster.get_killer() != nullptr ) {
+            for( const auto specie : caster.as_monster()->type->species ) {
+                if( guy.in_species( specie ) ) {
+                    shared_species = true;
+                }
+            }
+        } else if( z.type->in_species( species_id( sp.effect_data() ) ) ) {
+            shared_species = true;
+        }
+        if( !shared_species ) {
             moraleMalus /= 10;
             if( guy.has_trait( trait_PACIFIST ) ) {
                 moraleMalus *= 5;
