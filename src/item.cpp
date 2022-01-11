@@ -37,6 +37,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
+#include "display.h"
 #include "effect.h" // for weed_msg
 #include "effect_source.h"
 #include "enum_traits.h"
@@ -78,7 +79,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "proficiency.h"

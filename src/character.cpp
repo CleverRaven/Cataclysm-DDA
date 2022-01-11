@@ -38,6 +38,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "disease.h"
+#include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "effect_source.h"
@@ -88,7 +89,6 @@
 #include "output.h"
 #include "overlay_ordering.h"
 #include "overmapbuffer.h"
-#include "panels.h"
 #include "pathfinding.h"
 #include "profession.h"
 #include "proficiency.h"
@@ -527,10 +527,10 @@ Character::Character() :
     set_anatomy( anatomy_human_anatomy );
     update_type_of_scent( true );
     pkill = 0;
-    // 45 days to starve to death
     // 55 Mcal or 55k kcal
     healthy_calories = 55'000'000;
-    stored_calories = healthy_calories;
+    // this makes sure characters start with normal bmi
+    stored_calories = healthy_calories - 1'000'000;
     initialize_stomach_contents();
 
     name.clear();
