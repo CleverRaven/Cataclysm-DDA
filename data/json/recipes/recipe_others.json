@@ -98,7 +98,13 @@
       [ [ "sheet_metal_small", 3 ] ],
       [ [ "nail", 100 ] ],
       [ [ "pipe", 4 ] ],
-      [ [ "funnel", 1 ], [ "metal_funnel", 1 ], [ "makeshift_funnel", 1 ] ],
+      [
+        [ "funnel", 1 ],
+        [ "metal_funnel", 1 ],
+        [ "makeshift_funnel", 1 ],
+        [ "birchbark_funnel", 1 ],
+        [ "leather_funnel", 1 ]
+      ],
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
@@ -131,7 +137,13 @@
       [ [ "nail", 100 ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ],
-      [ [ "funnel", 1 ], [ "metal_funnel", 1 ], [ "makeshift_funnel", 1 ] ],
+      [
+        [ "funnel", 1 ],
+        [ "metal_funnel", 1 ],
+        [ "makeshift_funnel", 1 ],
+        [ "birchbark_funnel", 1 ],
+        [ "leather_funnel", 1 ]
+      ],
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
