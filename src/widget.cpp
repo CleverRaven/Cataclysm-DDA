@@ -2,11 +2,11 @@
 
 #include "character_martial_arts.h"
 #include "color.h"
+#include "display.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "panels.h"
 
 const static flag_id json_flag_W_DISABLED( "W_DISABLED" );
 const static flag_id json_flag_W_LABEL_NONE( "W_LABEL_NONE" );

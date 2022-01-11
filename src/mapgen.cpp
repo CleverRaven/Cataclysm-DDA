@@ -6461,10 +6461,11 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                 std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_pos, "",
                         part_status_flag::any );
                 if( !parts_to_move.empty() ) {
-                    const point &target_point = first_veh->get_parts_at( map_pos, "",
-                                                part_status_flag:: any ).front()->mount;
-                    const point &source_point = veh_to_add->get_parts_at( map_pos, "",
-                                                part_status_flag:: any ).front()->mount;
+                    // Store target_point by value because first_veh->parts may reallocate
+                    // to a different address after install_part()
+                    const point target_point = first_veh->get_parts_at( map_pos, "",
+                                               part_status_flag:: any ).front()->mount;
+                    const point source_point = parts_to_move.front()->mount;
                     for( const vehicle_part *vp : parts_to_move ) {
                         // TODO: change mount points to be tripoint
                         first_veh->install_part( target_point, *vp );

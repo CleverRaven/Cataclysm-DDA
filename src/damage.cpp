@@ -95,6 +95,16 @@ void damage_instance::mult_damage( double multiplier, bool pre_armor )
         }
     }
 }
+
+void damage_instance::mult_type_damage( double multiplier, damage_type dt )
+{
+    for( damage_unit &elem : damage_units ) {
+        if( elem.type == dt ) {
+            elem.damage_multiplier *= multiplier;
+        }
+    }
+}
+
 float damage_instance::type_damage( damage_type dt ) const
 {
     float ret = 0.0f;
