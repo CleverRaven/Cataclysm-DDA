@@ -297,10 +297,6 @@ ifneq ($(CLANG), 0)
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
-  else
-    # clang with glibc 2.31+ will cause linking error on math functions
-    # this is a workaround (see https://github.com/google/filament/issues/2146)
-    CXXFLAGS += -fno-builtin
   endif
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
