@@ -36,7 +36,8 @@
         "d          d",
         "dddd    dddd"
       ],
-      "terrain": { "d": "t_dirt" }
+      "terrain": { "d": "t_dirt" },
+      "furniture": {"d": "f_clear" }
     }
   },
   {
