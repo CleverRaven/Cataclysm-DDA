@@ -301,7 +301,7 @@
           [ [ "sheet_metal", 2 ] ],
           [ [ "pipe", 8 ] ],
           [ [ "lock", 1 ] ],
-          [ [ "2x4", 8 ], [ "stick", 8 ] ],
+          [ [ "2x4", 8 ], [ "stick", 8 ], [ "stick_long", 4 ] ],
           [ [ "straw_pile", 16 ], [ "withered", 16 ], [ "pine_bough", 16 ] ]
         ]
       }
@@ -331,7 +331,7 @@
           [ [ "sheet_metal", 2 ] ],
           [ [ "pipe", 8 ] ],
           [ [ "lock", 1 ] ],
-          [ [ "2x4", 8 ], [ "stick", 8 ] ],
+          [ [ "2x4", 8 ], [ "stick", 8 ], [ "stick_long", 4 ] ],
           [ [ "straw_pile", 16 ], [ "withered", 16 ], [ "pine_bough", 16 ] ]
         ]
       }
@@ -361,7 +361,7 @@
           [ [ "sheet_metal", 2 ] ],
           [ [ "pipe", 8 ] ],
           [ [ "lock", 1 ] ],
-          [ [ "2x4", 8 ], [ "stick", 8 ] ],
+          [ [ "2x4", 8 ], [ "stick", 8 ], [ "stick_long", 4 ] ],
           [ [ "straw_pile", 16 ], [ "withered", 16 ], [ "pine_bough", 16 ] ]
         ]
       }
@@ -391,7 +391,7 @@
           [ [ "sheet_metal", 2 ] ],
           [ [ "pipe", 8 ] ],
           [ [ "lock", 1 ] ],
-          [ [ "2x4", 8 ], [ "stick", 8 ] ],
+          [ [ "2x4", 8 ], [ "stick", 8 ], [ "stick_long", 4 ] ],
           [ [ "straw_pile", 16 ], [ "withered", 16 ], [ "pine_bough", 16 ] ]
         ]
       }
@@ -822,7 +822,7 @@
           [ [ "sheet_metal", 4 ] ],
           [ [ "pipe", 16 ] ],
           [ [ "lock", 2 ] ],
-          [ [ "2x4", 16 ], [ "stick", 16 ] ],
+          [ [ "2x4", 16 ], [ "stick", 16 ], [ "stick_long", 8 ] ],
           [ [ "straw_pile", 32 ], [ "withered", 32 ], [ "pine_bough", 32 ] ]
         ]
       }
