@@ -1277,6 +1277,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         const int kill_count = g->get_kill_tracker().kill_count( z.type->id );
         // this is when the player stops caring altogether.
         const int max_kills = sp.damage();
+        // this determines how strong the morale penalty will be
+        const int guilt_mult = sp.get_level();
 
         // different message as we kill more of the same monster
         std::string msg = _( "You feel guilty for killing %s." ); // default guilt message
@@ -1317,7 +1319,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         add_msg( msgtype, msg, z.name() );
 
         float killRatio = static_cast<float>( kill_count ) / max_kills;
-        int moraleMalus = -50 * ( 1.0 - killRatio );
+        int moraleMalus = -5 * guilt_mult * ( 1.0 - killRatio );
         const int maxMalus = -250 * ( 1.0 - killRatio );
         const time_duration duration = sp.duration_turns() * ( 1.0 - killRatio );
         const time_duration decayDelay = 3_minutes * ( 1.0 - killRatio );

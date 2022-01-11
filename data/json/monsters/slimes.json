@@ -203,7 +203,7 @@
     "fear_triggers": [ "FIRE" ],
     "death_function": {
       "message": "The %s's body dissolves into acid.",
-      "effect": { "id": "death_slimespring" },
+      "effect": { "id": "death_slimespring", "min_level": 10 },
       "corpse_type": "NO_CORPSE"
     },
     "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT" ]
