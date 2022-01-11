@@ -1335,8 +1335,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
             shared_species = true;
         }
         // killing your own kind hurts your soul more
-        if( !shared_species ) {
-            moraleMalus /= 10;
+        if( shared_species ) {
+            moraleMalus *= 2;
         }
         if( guy.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;

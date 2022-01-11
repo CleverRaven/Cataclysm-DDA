@@ -32,7 +32,7 @@
     "vision_day": 10,
     "vision_night": 3,
     "harvest": "zombie",
-    "death_function": { "effect": { "id": "death_zombie_kinderling", "min_level": 10 }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_zombie_kinderling", "min_level": 4 }, "message": "A %s explodes!" },
     "upgrades": { "half_life": 14, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
