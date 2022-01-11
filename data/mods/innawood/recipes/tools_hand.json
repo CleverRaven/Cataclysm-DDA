@@ -59,5 +59,24 @@
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "blacksmith_kit",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "components": [
+      [ [ "metalworking_tongs", 1 ] ],
+      [ [ "metal_file", 1 ] ],
+      [ [ "hammer", 1 ] ],
+      [ [ "clay_canister", 1 ], [ "bowl_clay", 1 ], [ "jug_clay", 1 ] ]
+    ]
   }
 ]
