@@ -269,7 +269,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Expanded Digestive System CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "This module contains three synthetic stomachs and industrial-grade intestines which replace the user's corresponding organs.  Not only will these extract much more nutrition from food, but also increase the user's resistance to foodborne illness, and occasionally allow the digestion of rotten food. Installing this CBM will correct any abnormalities in the patient's digestive system",
+    "description": "This module contains three synthetic stomachs and industrial-grade intestines which replace the user's corresponding organs.  Not only will these extract much more nutrition from food, but also increase the user's resistance to foodborne illness, and occasionally allow the digestion of rotten food.  Installing this CBM will correct any abnormalities in the patient's digestive system",
     "price": 550000,
     "difficulty": 6
   },
