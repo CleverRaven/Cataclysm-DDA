@@ -38,12 +38,6 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "rigid": true,
-        "ammo_restriction": { "charcoal": 100 }
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 100 } } ]
   }
 ]
