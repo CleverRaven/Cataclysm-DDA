@@ -150,7 +150,7 @@
     "melee_cut": 0,
     "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 20 ] ],
-    "death_function": { "message": "The %s disappears.", "effect": { "id": "death_guilt_human" }, "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s disappears.", "effect": { "id": "death_guilt" }, "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "SMELLS", "GUILT" ]
   },
   {
