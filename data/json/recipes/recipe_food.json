@@ -2363,6 +2363,24 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "starch",
+    "id_suffix": "boil_fibrous_stuff",
+    "byproducts": [ [ "plant_fibre", 5 ] ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 4 ],
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 20, 1 ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "cattail_rhizome", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "oj",
     "byproducts": [ [ "juice_pulp", 2 ] ],
@@ -8401,7 +8419,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [
-      [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ], [ "instant_coffee", 1 ] ],
+      [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sugar_standard_half", 1, "LIST" ] ]
     ]
