@@ -2241,7 +2241,8 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 
 bool npc::can_open_door( const tripoint &p, const bool inside ) const
 {
-    return !rules.has_flag( ally_rule::avoid_doors ) && get_map().open_door( p, inside, true );
+    return !is_hallucination() && !rules.has_flag( ally_rule::avoid_doors ) &&
+           get_map().open_door( p, inside, true );
 }
 
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
