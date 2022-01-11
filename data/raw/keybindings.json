@@ -672,8 +672,7 @@
     "type": "keybinding",
     "id": "HIDE_SHOW_RECIPE",
     "category": "CRAFTING",
-    "name": "Hide/show recipe",
-    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+    "name": "Hide/show recipe"
   },
   {
     "type": "keybinding",
@@ -2469,8 +2468,7 @@
   {
     "type": "keybinding",
     "name": "Toggle Minimap",
-    "id": "toggle_pixel_minimap",
-    "bindings": [ { "input_method": "keyboard_char", "key": "N" }, { "input_method": "keyboard_code", "key": "n", "mod": [ "shift" ] } ]
+    "id": "toggle_pixel_minimap"
   },
   {
     "type": "keybinding",
