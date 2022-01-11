@@ -89,12 +89,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "office_tower_roof_nw",
-      "office_tower_roof_ne",
-      "office_tower_roof_sw",
-      "office_tower_roof_se"
-    ],
+    "id": [ "office_tower_roof_nw", "office_tower_roof_ne", "office_tower_roof_sw", "office_tower_roof_se" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "tower roof",
     "sym": "t",
