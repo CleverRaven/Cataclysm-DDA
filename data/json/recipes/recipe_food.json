@@ -8419,7 +8419,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [
-      [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ],
+      [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ], [ "instant_coffee", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sugar_standard_half", 1, "LIST" ] ]
     ]
