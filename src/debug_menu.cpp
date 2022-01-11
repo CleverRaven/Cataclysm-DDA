@@ -42,6 +42,7 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
+#include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "effect_source.h"
@@ -86,7 +87,6 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h" // IWYU pragma: keep
-#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"

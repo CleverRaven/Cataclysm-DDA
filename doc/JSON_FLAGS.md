@@ -1533,3 +1533,5 @@ Gun fault flags:
 - ```THERMOMETER``` You always know what temperature it is.
 - ```CBQ_LEARN_BONUS``` You learn CBQ from the bionic bio_cqb faster.
 - ```GILLS``` You can breathe underwater.
+- ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
+- ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).
