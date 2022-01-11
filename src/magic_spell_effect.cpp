@@ -1332,15 +1332,20 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         } else if( z.type->in_species( species_id( sp.effect_data() ) ) ) {
             shared_species = true;
         }
+        // killing your own kind hurts your soul more
         if( !shared_species ) {
             moraleMalus /= 10;
-            if( guy.has_trait( trait_PACIFIST ) ) {
-                moraleMalus *= 5;
-            } else if( guy.has_trait_flag( json_flag_PRED1 ) ) {
-                moraleMalus /= 4;
-            } else if( guy.has_trait_flag( json_flag_PRED2 ) ) {
-                moraleMalus /= 5;
-            }
+        }
+        if( guy.has_trait( trait_PACIFIST ) ) {
+            moraleMalus *= 5;
+        }
+        // cullers feel less bad about killing
+        else if( guy.has_trait_flag( json_flag_PRED1 ) ) {
+            moraleMalus /= 4;
+        }
+        // hunters feel less bad about killing
+        else if( guy.has_trait_flag( json_flag_PRED2 ) ) {
+            moraleMalus /= 5;
         }
         guy.add_morale( MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay );
     }
