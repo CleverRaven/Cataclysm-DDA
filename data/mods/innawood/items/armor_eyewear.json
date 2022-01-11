@@ -1,0 +1,22 @@
+[
+  {
+    "id": "glasses_safety",
+    "type": "ARMOR",
+    "name": { "str": "pair of safety glasses", "str_pl": "pairs of safety glasses" },
+    "description": "A pair of plastic glasses, used in workshops, sports, chemistry labs, and many other places.  Provides great protection from damage.",
+    "weight": "60 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 250,
+    "to_hit": -2,
+    "material": [ "glass" ],
+    "symbol": "[",
+    "looks_like": "glasses_eye",
+    "color": "light_gray",
+    "warmth": 5,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY", "OUTER" ],
+    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ]
+  }
+]
