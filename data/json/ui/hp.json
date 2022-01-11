@@ -172,6 +172,14 @@
     "widgets": [ "hp_left_leg_num", "hp_torso_num", "hp_right_leg_num" ]
   },
   {
+    "id": "hitpoints_all_nums_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "HP Numbers",
+    "arrange": "rows",
+    "widgets": [ "hitpoint_nums_top_layout", "hitpoint_nums_bottom_layout" ]
+  },
+  {
     "id": "hitpoints_all_narrow_graphs_layout",
     "type": "widget",
     "style": "layout",
