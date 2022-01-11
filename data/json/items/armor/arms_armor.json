@@ -977,7 +977,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "tempered 2.25 mm armguard" },
-    "description": "A heavy armguard, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A heavy armguard, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection. ",
     "armor": [
       {
         "material": [
