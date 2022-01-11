@@ -391,6 +391,7 @@
     "armor": { "bash": 10 },
     "unarmed_damage": [ { "damage_type": "acid", "amount": 10 }, { "damage_type": "bullet", "amount": 5, "armor_penetration": 100 } ],
     "techniques": [ "tec_dbg_sting" ],
+    "temp_mod": [ 500, 500 ],
     "technique_encumbrance_limit": 10
   },
   {
