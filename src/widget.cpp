@@ -237,12 +237,7 @@ void widget::load( const JsonObject &jo, const std::string & )
             _colors.emplace_back( get_all_colors().name_to_color( color_name ) );
         }
     }
-    if( jo.has_array( "widgets" ) ) {
-        _widgets.clear();
-        for( const std::string wid : jo.get_array( "widgets" ) ) {
-            _widgets.emplace_back( widget_id( wid ) );
-        }
-    }
+    optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
 }
 
 void widget::finalize()
