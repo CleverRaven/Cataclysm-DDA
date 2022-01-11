@@ -724,7 +724,7 @@
     "skill_used": "chemistry",
     "skills_required": [ "electronics", 2 ],
     "difficulty": 2,
-    "time": "1 h 45 m", 
+    "time": "1 h 45 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
