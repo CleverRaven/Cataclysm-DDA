@@ -612,5 +612,25 @@
     "opposite": "leg_lower_r",
     "name_multiple": "lower legs",
     "name": "left lower leg"
+  },
+  {
+    "id": "hand_wrist_r",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "hand_r",
+    "side": 1,
+    "opposite": "hand_wrist_l",
+    "name_multiple": "wrists",
+    "name": "right wrist"
+  },
+  {
+    "id": "hand_wrist_l",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "hand_l",
+    "side": 1,
+    "opposite": "hand_wrist_r",
+    "name_multiple": "wrists",
+    "name": "left wrist"
   }
 ]

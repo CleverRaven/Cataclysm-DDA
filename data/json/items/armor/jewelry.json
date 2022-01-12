@@ -231,7 +231,7 @@
     "sided": true,
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "collarpin",
@@ -894,7 +894,7 @@
     "color": "yellow",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "tieclip",
@@ -924,7 +924,7 @@
     "color": "light_gray",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "armor": [ { "coverage": 10, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 10, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "silver_bracelet",
@@ -970,7 +970,7 @@
     "color": "yellow",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "armor": [ { "coverage": 10, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 10, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "small_relic",
@@ -1058,7 +1058,7 @@
     "color": "white",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "platinum_bracelet",
@@ -1315,7 +1315,7 @@
     "color": "dark_gray",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "rad_badge",

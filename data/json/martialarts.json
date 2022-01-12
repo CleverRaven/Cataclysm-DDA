@@ -98,7 +98,7 @@
       "tec_aikido_dodgethrow",
       "tec_aikido_blockthrow"
     ],
-    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel", "knuckle_steel_forged" ]
+    "weapons": [ "bagh_nakha", "bio_claws_weapon" ]
   },
   {
     "type": "martial_art",
@@ -652,7 +652,7 @@
       }
     ],
     "techniques": [ "tec_judo_backthrow", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
-    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel", "knuckle_steel_forged" ]
+    "weapons": [ "bagh_nakha", "bio_claws_weapon" ]
   },
   {
     "type": "martial_art",
