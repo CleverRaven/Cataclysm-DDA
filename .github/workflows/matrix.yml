@@ -233,21 +233,15 @@ jobs:
         echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
         echo "::set-output name=ccache-path::$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')"
       shell: bash
-    - name: ccache cache files (master)
-      if: ${{ github.event_name == 'push' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
+    - name: ccache cache files
+      if: ${{ env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
       uses: actions/cache@v2
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
-        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}-1
+        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}
         restore-keys: |
           ccache-${{ runner.os }}-${{ matrix.compiler }}--
-    - name: ccache cache files (PR)
-      if: ${{ github.event_name == 'pull_request' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
-      uses: actions/cache@v2
-      with:
-        path: ${{ steps.get-vars.outputs.ccache-path }}
-        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       if: ${{ env.SKIP == 'false' }}
