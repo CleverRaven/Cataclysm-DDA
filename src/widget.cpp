@@ -81,6 +81,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "weariness_level";
         case widget_var::mana:
             return "mana";
+        case widget_var::max_mana:
+            return "max_mana";
         case widget_var::morale_level:
             return "morale_level";
         // Compass
@@ -298,6 +300,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::mana:
             value = ava.magic->available_mana();
+            break;
+        case widget_var::max_mana:
+            value = ava.magic->max_mana( ava );
             break;
         case widget_var::morale_level:
             value = ava.get_morale_level();
