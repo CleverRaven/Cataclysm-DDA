@@ -1353,6 +1353,8 @@ tab_direction set_traits( avatar &u, pool_type pool )
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
@@ -1578,6 +1580,10 @@ tab_direction set_traits( avatar &u, pool_type pool )
             } else {
                 iCurrentLine[iCurWorkingPage] += -10;
             }
+        } else if( action == "HOME" ) {
+            iCurrentLine[iCurWorkingPage] = 0;
+        } else if( action == "END" ) {
+            iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
         } else if( action == "CONFIRM" ) {
             int inc_type = 0;
             const trait_id cur_trait = *sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
@@ -1728,6 +1734,8 @@ tab_direction set_profession( avatar &u, pool_type pool )
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
@@ -2053,6 +2061,10 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 cur_id += -scroll_rate;
             }
             desc_offset = 0;
+        } else if( action == "HOME" ) {
+            cur_id = 0;
+        } else if( action == "END" ) {
+            cur_id = recmax - 1;
         } else if( action == "LEFT" ) {
             if( desc_offset > 0 ) {
                 desc_offset--;
@@ -2147,6 +2159,8 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
@@ -2407,6 +2421,10 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                 cur_id += -scroll_rate;
             }
             desc_offset = 0;
+        } else if( action == "HOME" ) {
+            cur_id = 0;
+        } else if( action == "END" ) {
+            cur_id = recmax - 1;
         } else if( action == "LEFT" ) {
             if( desc_offset > 0 ) {
                 desc_offset--;
@@ -2601,6 +2619,8 @@ tab_direction set_skills( avatar &u, pool_type pool )
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "SCROLL_SKILL_INFO_DOWN" );
     ctxt.register_action( "SCROLL_SKILL_INFO_UP" );
     ctxt.register_action( "PREV_TAB" );
@@ -2780,6 +2800,15 @@ tab_direction set_skills( avatar &u, pool_type pool )
             get_next( false, true );
         } else if( action == "PAGE_UP" ) {
             get_next( true, true );
+        } else if( action == "HOME" ) {
+            // Start at the bottom and go down so `get_next()` handles invariants for us
+            cur_pos = skill_list.size() - 1;
+            get_next( false, false );
+        } else if( action == "END" ) {
+            // Start at the top and go up so `get_next()` handles invariants for us
+            cur_pos = 0;
+            get_next( true, false );
+            currentSkill = skill_list[cur_pos].second;
         } else if( action == "LEFT" ) {
             const skill_id &skill_id = currentSkill->ident();
             const int level = u.get_skill_level( skill_id );
@@ -2894,6 +2923,8 @@ tab_direction set_scenario( avatar &u, pool_type pool )
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
@@ -3193,6 +3224,10 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             } else {
                 cur_id += -scroll_rate;
             }
+        } else if( action == "HOME" ) {
+            cur_id = 0;
+        } else if( action == "END" ) {
+            cur_id = scens_length - 1;
         } else if( action == "CONFIRM" ) {
             if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
                 continue;

@@ -1156,6 +1156,8 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "RIGHT" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "TOGGLE_TAB" );
     ctxt.register_action( "TOGGLE_VEH" );
     ctxt.register_action( "FILTER" );
@@ -1699,6 +1701,10 @@ void advanced_inventory::display()
             spane.scroll_page( linesPerPage, +1 );
         } else if( action == "PAGE_UP" ) {
             spane.scroll_page( linesPerPage, -1 );
+        } else if( action == "HOME" ) {
+            spane.scroll_to_start();
+        } else if( action == "END" ) {
+            spane.scroll_to_end();
         } else if( action == "DOWN" ) {
             if( inCategoryMode ) {
                 spane.scroll_category( +1 );

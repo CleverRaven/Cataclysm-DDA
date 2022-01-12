@@ -41,7 +41,7 @@ static constexpr int KEY_UP         = 0x103;    /* up arrow */
 static constexpr int KEY_LEFT       = 0x104;    /* left arrow */
 static constexpr int KEY_RIGHT      = 0x105;    /* right arrow*/
 static constexpr int KEY_HOME       =
-    0x106;    /* home key */                   //<---------not used
+    0x106;    /* home key */
 static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
 static constexpr int KEY_DC         = 0x151;    /* Delete Character */
