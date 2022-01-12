@@ -685,7 +685,6 @@ void Character::load( const JsonObject &data )
         }
     }
     data.read( "consumption_history", consumption_history );
-    data.read( "activity", activity );
     data.read( "destination_activity", destination_activity );
     data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
     data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
@@ -1031,6 +1030,7 @@ void Character::load( const JsonObject &data )
         setID( tmpid );
     }
 
+    data.read( "activity", activity );
     data.read( "addictions", addictions );
 
     for( bionic &bio : *my_bionics ) {
