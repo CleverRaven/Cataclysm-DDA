@@ -3,7 +3,7 @@
     "id": "blacksmith_kit",
     "type": "TOOL",
     "name": { "str": "blacksmith repair kit" },
-    "description": "This is a set of tools to repair damaged metal tools and armor. It uses charcoal, contained in a small clay vessel, to heat the part and make it easier to work.",
+    "description": "This is a set of tools to repair damaged metal tools and armor.  It uses charcoal, contained in a small clay vessel, to heat the part and make it easier to work.",
     "weight": "1600 g",
     "volume": "1400 ml",
     "longest_side": "25 cm",
