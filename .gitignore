@@ -61,6 +61,9 @@ json_formatter
 Debug*/
 Release*/
 
+# Temporary CMakeFiles
+out/
+
 # Distribution script results
 /msvc-full-features/distribution
 
