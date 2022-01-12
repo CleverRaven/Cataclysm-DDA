@@ -8,6 +8,11 @@ on:
     branches:
     - master
 
+# We only care about the latest revision of a PR, so cancel all previous instances.
+concurrency:
+  group: general-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
 # Overall strategy for what sorts of builds to include:
 # We want a build for the newest and oldest supported version of each compiler.
 # We want a build for each platform.
