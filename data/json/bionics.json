@@ -38,6 +38,7 @@
     "description": "In a cruel twist of fate, a poorly executed CBM surgery has given you a pair of useless bionics which make squeaking noises when you walk.",
     "occupied_bodyparts": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "enchantments": [ "SQUEAKY_ANKLES" ],
+    "mutation_conflicts": [ "LEG_TENTACLES", "LEG_TENT_BRACE", "GASTROPOD_FOOT", "GASTROPOD_BALANCE", "AMORPHOUS" ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -139,7 +140,9 @@
       "FAT",
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
-      "MUCUS_SECRETION2"
+      "MUCUS_SECRETION2",
+      "BENDY2",
+      "BENDY3"
     ]
   },
   {
@@ -604,7 +607,19 @@
     "encumbrance": [ [ "hand_l", 3 ], [ "hand_r", 3 ] ],
     "act_cost": "25 J",
     "fake_weapon": "bio_claws_weapon",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ],
+    "mutation_conflicts": [
+      "BENDY3",
+      "ARM_TENTACLES",
+      "ARM_TENTACLES_4",
+      "ARM_TENTACLES_8",
+      "CLAWS_TENTACLES",
+      "TALONS",
+      "CLAWS",
+      "CLAWS_RETRACT",
+      "CLAWS_RAT",
+      "CLAWS_ST"
+    ]
   },
   {
     "id": "bio_climate",
