@@ -34,7 +34,7 @@ on:
     - '!tools/format/**'
     - 'utilities/**'
 
-# We only care about the latest revision of a PR, so cancel all previous instances.
+# We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:
   group: msvc-build-${{ github.event.pull_request.number || github.ref_name }}
   cancel-in-progress: true
