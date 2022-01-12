@@ -75,7 +75,8 @@ bool isBetween( int test, int down, int up )
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
+    if( TranslationManager::GetInstance().GetCurrentLanguage() != "en" ||
+        ( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) ) {
         const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
         std::wstring wneedle = utf8_to_wstr( qry );
         std::wstring whaystack = utf8_to_wstr( str );

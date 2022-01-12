@@ -304,7 +304,9 @@ void uilist::filterlist()
     std::string fstr;
     fstr.reserve( filter.size() );
     if( nocase ) {
-        transform( filter.begin(), filter.end(), std::back_inserter( fstr ), tolower );
+        std::wstring wstr = utf8_to_wstr( filter );
+        transform( wstr.begin(), wstr.end(), wstr.begin(), towlower );
+        filter = wstr_to_utf8( wstr );
     } else {
         fstr = filter;
     }
