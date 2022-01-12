@@ -34,6 +34,11 @@ on:
     - '!tools/format/**'
     - 'utilities/**'
 
+# We only care about the latest revision of a PR, so cancel previous instances.
+concurrency:
+  group: msvc-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
 env:
   # There's not enough disk space to build both release and debug versions of
   # our dependencies, so we hack the triplet file to build only release versions
