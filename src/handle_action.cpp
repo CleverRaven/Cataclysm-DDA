@@ -2834,8 +2834,8 @@ bool game::handle_action()
                 std::string msg = string_format( _( "Unknown command: \"%s\" (%ld)" ), evt.long_description(), ch );
                 if( const cata::optional<std::string> hint =
                         press_x_if_bound( ACTION_KEYBINDINGS ) ) {
-                    msg += string_format(
-                               _( "\n%s at any time to see and edit keybindings relevant to "
+                    msg += string_format( "\n%s", 
+                               _( "%s at any time to see and edit keybindings relevant to "
                                   "the current context." ), *hint
                            );
                 }
