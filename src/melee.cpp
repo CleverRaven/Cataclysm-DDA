@@ -2839,7 +2839,7 @@ void avatar::steal( npc &target )
     int their_roll = dice( 5, target.get_per() );
 
     const item *it = loc.get_item();
-    if( my_roll >= their_roll ) {
+    if( my_roll >= their_roll && !target.is_hallucination() ) {
         add_msg( _( "You sneakily steal %1$s from %2$s!" ),
                  it->tname(), target.get_name() );
         i_add( target.i_rem( it ) );
