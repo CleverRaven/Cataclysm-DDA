@@ -63,7 +63,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "UNARMED_WEAPON" ],
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 5, "coverage": 10, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 7, "coverage": 10, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "type": "ARMOR",
