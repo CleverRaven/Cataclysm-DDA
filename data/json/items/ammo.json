@@ -884,6 +884,21 @@
   },
   {
     "type": "AMMO",
+    "id": "carbon_electrode",
+    "category": "spare_parts",
+    "name": { "str": "Carbon electrode rod", "str_pl": "Carbon electrode rod" },
+    "description": "This carbon electrode is basically made from wood and sugar. But you know what? It works!",
+    "price_postapoc": 50,
+    "material": [ "charcoal" ],
+    "ammo_type": "charcoal",
+    "symbol": "=",
+    "color": "dark_gray",
+    "phase": "solid",
+    "volume": "30 ml",
+    "weight": "50 g"
+  },
+  {
+    "type": "AMMO",
     "id": "cac2powder",
     "category": "spare_parts",
     "price": 200,
