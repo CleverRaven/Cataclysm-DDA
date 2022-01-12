@@ -48,15 +48,7 @@
     "move_cost": 1,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
-    "looks_like": "t_thconc_floor_flesh",
-    "bash": {
-      "sound": "SMASH!",
-      "ter_set": "t_nm_floor_bone",
-      "str_min": 15,
-      "str_max": 25,
-      "str_min_supported": 15,
-      "items": [ { "item": "meat_tainted", "count": [ 2, 10 ] } ]
-    }
+    "looks_like": "t_thconc_floor_flesh"
   },
   {
     "type": "terrain",
@@ -83,22 +75,15 @@
     "type": "terrain",
     "id": "t_nm_wall_cartilage",
     "name": "flesh wall",
-    "description": "A thick wall of fleshy cartilage. It still pounds to a rhythm you cannot otherwise perceive.",
+    "description": "A thick wall of fleshy cartilage. With the proper tools, you could smash right through it.",
     "symbol": "LINE_OXOX",
-    "color": "magenta_red",
+    "color": "magenta",
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "looks_like": "t_concrete_wall_flesh",
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_nm_floor_flesh",
-      "items": [ { "item": "meat_tainted", "count": [ 2, 10 ] } ]
-    }
+    "looks_like": "t_nm_wall_flesh",
+    "bash": { "str_min": 15, "str_max": 25, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_nm_floor_flesh" }
   },
   {
     "type": "terrain",
@@ -149,7 +134,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_nm_brain_center",
+    "id": "t_nm_brain",
     "name": "nether brain",
     "description": "An oozing pile of wrinkled, decomposing flesh.",
     "symbol": "LINE_OXOX",
@@ -157,175 +142,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "looks_like": "t_concrete_wall_flesh",
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_nm_floor_flesh",
-      "items": [ { "item": "meat_tainted", "count": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_nm_brain_north",
-    "name": "nether brain",
-    "description": "An oozing pile of wrinkled, decomposing flesh.",
-    "symbol": "LINE_OXOX",
-    "color": "magenta_red",
-    "move_cost": 0,
-    "coverage": 100,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "looks_like": "t_concrete_wall_flesh",
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_nm_floor_flesh",
-      "items": [ { "item": "meat_tainted", "count": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_nm_brain_south",
-    "name": "nether brain",
-    "description": "An oozing pile of wrinkled, decomposing flesh.",
-    "symbol": "LINE_OXOX",
-    "color": "magenta_red",
-    "move_cost": 0,
-    "coverage": 100,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "looks_like": "t_concrete_wall_flesh",
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_nm_floor_flesh",
-      "items": [ { "item": "meat_tainted", "count": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_nm_brain_west",
-    "name": "nether brain",
-    "description": "An oozing pile of wrinkled, decomposing flesh.",
-    "symbol": "LINE_OXOX",
-    "color": "magenta_red",
-    "move_cost": 0,
-    "coverage": 100,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "looks_like": "t_concrete_wall_flesh",
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_nm_floor_flesh",
-      "items": [ { "item": "meat_tainted", "count": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_nm_brain_east",
-    "name": "nether brain",
-    "description": "An oozing pile of wrinkled, decomposing flesh.",
-    "symbol": "LINE_OXOX",
-    "color": "magenta_red",
-    "move_cost": 0,
-    "coverage": 100,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "looks_like": "t_concrete_wall_flesh",
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_nm_floor_flesh",
-      "items": [ { "item": "meat_tainted", "count": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_nm_brain_nw",
-    "name": "nether brain",
-    "description": "An oozing pile of wrinkled, decomposing flesh.",
-    "symbol": "LINE_OXOX",
-    "color": "magenta_red",
-    "move_cost": 0,
-    "coverage": 100,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "looks_like": "t_concrete_wall_flesh",
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_nm_floor_flesh",
-      "items": [ { "item": "meat_tainted", "count": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_nm_brain_ne",
-    "name": "nether brain",
-    "description": "An oozing pile of wrinkled, decomposing flesh.",
-    "symbol": "LINE_OXOX",
-    "color": "magenta_red",
-    "move_cost": 0,
-    "coverage": 100,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "looks_like": "t_concrete_wall_flesh",
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_nm_floor_flesh",
-      "items": [ { "item": "meat_tainted", "count": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_nm_brain_sw",
-    "name": "nether brain",
-    "description": "An oozing pile of wrinkled, decomposing flesh.",
-    "symbol": "LINE_OXOX",
-    "color": "magenta_red",
-    "move_cost": 0,
-    "coverage": 100,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "looks_like": "t_concrete_wall_flesh",
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_nm_floor_flesh",
-      "items": [ { "item": "meat_tainted", "count": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_nm_brain_se",
-    "name": "nether brain",
-    "description": "An oozing pile of wrinkled, decomposing flesh.",
-    "symbol": "LINE_OXOX",
-    "color": "magenta_red",
-    "move_cost": 0,
-    "coverage": 100,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_concrete_wall_flesh",
     "bash": {
       "str_min": 10,
