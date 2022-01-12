@@ -2831,13 +2831,14 @@ bool game::handle_action()
         if( !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
-                add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), evt.long_description(), ch );
+                std::string msg = string_format( _( "Unknown command: \"%s\" (%ld)" ), evt.long_description(), ch );
                 if( const cata::optional<std::string> hint =
                         press_x_if_bound( ACTION_KEYBINDINGS ) ) {
-                    add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
-                                        "the current context." ),
-                             *hint );
+                    msg += string_format( "\n%s",
+                                          _( "%s at any time to see and edit keybindings relevant to "
+                                             "the current context." ), *hint );
                 }
+                add_msg( m_info, msg );
             }
         }
         return false;
