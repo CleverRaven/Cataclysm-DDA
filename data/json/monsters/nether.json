@@ -1073,7 +1073,7 @@
   {
     "id": "mon_memory",
     "type": "MONSTER",
-    "name": { "str": "Memory" },
+    "name": { "str": "Memory", "str_pl": "Memories" },
     "description": "The shade of a human body reaching towards you like it needs help.  Though it has no eyes you feel as though it is staring through you.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
