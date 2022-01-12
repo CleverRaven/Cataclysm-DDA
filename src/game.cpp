@@ -160,6 +160,7 @@
 #include "string_input_popup.h"
 #include "submap.h"
 #include "talker.h"
+#include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
 #include "translations.h"
@@ -5277,7 +5278,12 @@ bool game::npc_menu( npc &who )
     } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
         u.steal( who );
     } else if( choice == trade ) {
-        npc_trading::trade( who, 0, _( "Trade" ) );
+        if( who.is_hallucination() ) {
+            who.say( SNIPPET.random_from_category( "<hallu_dont_trade>" ).value_or(
+                         translation() ).translated() );
+        } else {
+            npc_trading::trade( who, 0, _( "Trade" ) );
+        }
     }
 
     return true;
