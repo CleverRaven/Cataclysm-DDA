@@ -117,7 +117,9 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 5 }, "allowed_speedloaders": [ "3006_clip" ] } ]
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 5 }, "allowed_speedloaders": [ "3006_clip" ] }
+    ]
   },
   {
     "id": "m1918",

@@ -479,7 +479,7 @@ void avatar::power_mutations()
                 }
 
                 examine_id = GetTrait( active, passive, cursor, tab_mode );
-            } else if( action == "NEXT_TAB" || "PREV_TAB" ) {
+            } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                 if( tab_mode == mutation_tab_mode::active && !passive.empty() ) {
                     tab_mode = mutation_tab_mode::passive;
                 } else if( tab_mode == mutation_tab_mode::passive && !active.empty() ) {

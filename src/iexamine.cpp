@@ -4528,7 +4528,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
         int maximum_liters = std::min( money / pricePerUnit, tankUnits / 1000 );
 
         std::string popupmsg = str_to_illiterate_str( string_format(
-                                   _( "How many liters of %s to buy?  Max: %d L.  (0 to cancel)" ), fuelType, maximum_liters ) );
+                                   _( "How many liters of %s to buy?  Max: %d L.  (0 to cancel)" ), fuelTypeStr, maximum_liters ) );
         int liters = string_input_popup()
                      .title( popupmsg )
                      .width( 20 )

@@ -53,14 +53,13 @@
     "skill_used": "fabrication",
     "proficiencies": [ { "proficiency": "prof_metallurgy" } ],
     "difficulty": 1,
-    "result_mult": 4,
     "time": "9 h",
-    "batch_time_factors": [ 90, 4 ],
+    "batch_time_factors": [ 95, 2 ],
     "reversible": true,
     "autolearn": true,
     "tools": [ [ [ "bloomery", -1 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "iron_ore", 68 ] ], [ [ "charcoal", 165 ] ] ]
+    "components": [ [ [ "iron_ore", 17 ] ], [ [ "charcoal", 41 ] ] ]
   },
   {
     "type": "recipe",

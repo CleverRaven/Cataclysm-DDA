@@ -1100,5 +1100,27 @@
     "looks_like": "mon_fish_brown_trout",
     "fear_triggers": [ "FIRE" ],
     "flags": [ "HEARS", "WARM", "SWIMS", "AQUATIC", "NO_BREATHE", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD", "GOODHEARING", "ANIMAL" ]
+  },
+    "id": "mon_memory",
+    "type": "MONSTER",
+    "name": { "str": "Memory", "str_pl": "Memories" },
+    "description": "The shade of a human body reaching towards you like it needs help.  Though it has no eyes you feel as though it is staring through you.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 25,
+    "speed": 100,
+    "symbol": "O",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_cut": 0,
+    "special_attacks": [ [ "GRAB", 2 ], [ "PARROT", 4 ] ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s begins to cry as it disappears." },
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON" ]
   }
 ]

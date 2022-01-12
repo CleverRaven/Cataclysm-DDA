@@ -2,14 +2,26 @@
 
 - [Overview](#overview)
 - [Widgets](#widgets)
-- [Sidebar widgets](#sidebar-widgets)
-- [Layout widgets](#layout-widgets)
-- [Variable widgets](#variable-widgets)
-  - [Number widget](#number-widget)
-  - [Graph widget](#graph-widget)
-    - [fill](#fill)
-    - [var_max](#var-max)
-  - [Colors](#colors)
+  - [Sidebar widgets](#sidebar-widgets)
+  - [Layout widgets](#layout-widgets)
+  - [Variable widgets](#variable-widgets)
+    - [Number widget](#number-widget)
+    - [Graph widget](#graph-widget)
+- [Other fields](#other-fields)
+  - [fill](#fill)
+  - [var_max](#var_max)
+  - [direction](#direction)
+  - [height](#height)
+  - [colors](#colors)
+  - [flags](#flags)
+- [Variables](#variables)
+  - [Numeric variables](#numeric-variables)
+  - [Text variables](#text-variables)
+- [Predefined widgets](#predefined-widgets)
+  - [Number widgets](#number-widgets)
+  - [Graph widgets](#graph-widgets)
+  - [Text widgets](#text-widgets)
+  - [Layout widgets](#layout-widgets)
 
 ## Overview
 
@@ -64,7 +76,7 @@ Each widget has a "style" field that may be:
 Let's start at the top, with the "sidebar" widget, composed of several "layout" widgets.
 
 
-## Sidebar widget
+### Sidebar widgets
 
 The highest-level widget is the "sidebar", which represents the entire display region on the right
 (or left) edge of the screen. It includes a "width" in characters, a "label" displayed in the
@@ -102,7 +114,7 @@ arranging other widgets in rows or columns.
 We will look at layout widgets first, since they are easier to explain.
 
 
-## Layout widgets
+### Layout widgets
 
 Use widgets with "style": "layout" to arrange child widgets in sidebar panels, giving widget ids in
 the "widgets" list field.
@@ -151,58 +163,12 @@ Where do all these numeric widgets and their values come from? These are variabl
 next.
 
 
-## Variable widgets
+### Variable widgets
 
 Variable widgets define a "var" field, with the name of a predefined widget variable. This tells the
 widget what information it should show. Most of the time, these are attributes of the player
 character, but they can also be attributes of the world, environment, or vehicle where they are.
-
-The "var" field of a display widget tells what variable data gives the widget its value. Valid var
-names are given by the `widget_var` enum defined in `widget.h`. In the widget's `show` method, these
-var enums determine which avatar method(s) to get their values from.
-
-Below are a few examples of vars and what they mean. See the `widget_var` list in `widget.h` for the
-definitive list of vars.
-
-Many vars are numeric in nature. These may use style "number" or style "graph".
-Some examples:
-
-| var               | description
-|--                 |--
-| `bp_hp`           | hit points of given "bodypart", like "arm_l" or "torso", 0-MAX_HP
-| `bp_encumb`       | encumbrance given "bodypart", 0-50+
-| `bp_warmth`       | warmth of given "bodypart", 0-10000
-| `bp_wetness`      | wetness of given "bodypart", 0-100+
-| `stat_str`        | strength stat, 0-20+
-| `stat_dex`        | dexterity stat, 0-20+
-| `stat_int`        | intelligence stat, 0-20+
-| `stat_per`        | perception stat, 0-20+
-| `stamina`         | stamina reserves, 0-10000
-| `fatigue`         | tiredness, 0-600+
-| `move`            | movement counter, 0-100+
-| `pain`            | perceived pain, 0-80+
-| `focus`           | focus level, 0-100+
-| `speed`           | speed, 0-500+
-| `sound`           | sound, 0-20+
-| `mana`            | available mana, 0-MAX_MANA
-| `morale_level`    | morale level, -100 to +100
-| `weariness_level` | weariness level, 0-6+
-
-In the `widget.cpp` code, `get_var_value` returns the numeric value of the widget's "var" variable,
-which in turn is used for rendering numeric widgets as well as graphs of that value. Graphs are
-rendered with reference to the maximum value for the variable, or "var_max" if none is known.
-
-Some vars refer to text descriptors. These must use style "text". Examples:
-
-| var             | description
-|--               |--
-| `pain_text`     | "Mild pain", "Distracting pain", "Intense pain", etc.
-| `hunger_text`   | "Engorged", "Full", "Hungry", "Famished", etc.
-| `thirst_text`   | "Slaked", "Thirsty", "Dehydrated", etc.
-| `wielding_text` | Name of current weapon or wielded item
-| `style_text`    | Name of current martial arts style
-| `weight_text`   | "Emaciated", "Normal", "Overweight", etc.
-| `date_text`     | Current day within season, like "Summer, day 15"
+See the [Variables](#variables) section for a list of them.
 
 For example, a widget to show the current STR stat would define this "var":
 
@@ -221,30 +187,7 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
 }
 ```
 
-Plain numeric values can be displayed as-is, up to any maximum. For "graph" widgets, it is useful to
-define a "var_max" as a cutoff point; see the "Graph widget" section for more.
-
-You may also define "var_min" if it's relevant. By default this is 0.
-
-#### `height`
-
-Some widgets can make use of multiple lines by specifying the `"height"` field, which reserves
-vertical space in the sidebar. Display functions can make use of this extra space to render
-multi-line widgets.
-
-Warning: implementation details ahead.
-
-The max width and height available for a widget is passed to its `display::` function through
-`widget::color_text_function_string()`. The display function can use this data to format the
-widget text as a series of lines delimited by a newline (`\n`).
-
-The formatted string is passed to `widget::show()` and `widget::layout()`, which format each
-line individually for drawing in `widget::custom_draw_multiline()`.
-
-Adding new multi-line-capable widgets involves ensuring the new display function formats the
-widget's text according to the available width and height.
-
-### Number widget
+#### Number widget
 
 The simplest and usually most compact widget for displaying a value, "style": "number" appears as a
 label with an integer number.
@@ -265,7 +208,7 @@ Focus: 100
 The numeric value comes from the given "var", displayed as a decimal integer.
 
 
-### Graph widget
+#### Graph widget
 
 The graph shows an arrangement of symbols. It has two important parameters:
 
@@ -344,12 +287,20 @@ with "=" and "#":
 ### 222
 ```
 
-When using more than two sybols, different ways of filling up the graph become possible.
-The method is specified with the "fill" field. This example uses the default "bucket" method, but
-there is also a "pool" method, described in the next section.
+See the [fill](#fill), [var_max](#var_max), and [colors](#colors) fields for more ways to customize
+the graph.
 
 
-#### fill
+# Other fields
+
+This section documents a few more widget fields with special uses.
+
+
+## fill
+
+For "graph" widgets with more than two sybols, different ways of filling up the graph become
+possible.  The method is specified with the "fill" field. By default the "bucket" fill method is
+used, but there is also a "pool" method described helow.
 
 With "bucket" fill, positions are filled like a row of buckets, using all symbols in the first
 position before beginning to fill the next position.  This is like the classic 5-bar HP meter.
@@ -408,7 +359,7 @@ Result:
 The total number of possible graphs is the same in each case, so both have the same resolution.
 
 
-#### var_max
+## `var_max`
 
 Using "graph" style widgets, usually you should provide a "var_max" value (integer) with the maximum
 typical value of "var" that will ever be rendered.
@@ -422,7 +373,55 @@ up to 100 or 200 (like focus). If a var usually varies within a range `[low, hig
 "var_max" greater than `high` to be sure the normal variance is captured in the graph's range.
 
 
-### Colors
+## `direction`
+
+Widgets using `compass_text` expect the additional fields `direction` and `width` to
+identify (respectively) the cardinal direction and number of creatures displayed:
+
+```json
+{
+  "var": "compass_text",
+  "direction": "N",
+  "width": 6
+}
+```
+
+`compass_legend_text` makes use of the "height" field (see below), which tells the display
+function to reserve that many lines for the compass legend:
+
+```json
+{
+  "var": "compass_legend_text",
+  "height": 3
+}
+```
+
+Plain numeric values can be displayed as-is, up to any maximum. For "graph" widgets, it is useful to
+define a "var_max" as a cutoff point; see the "Graph widget" section for more.
+
+You may also define "var_min" if it's relevant. By default this is 0.
+
+
+## `height`
+
+Some widgets can make use of multiple lines by specifying the `"height"` field, which reserves
+vertical space in the sidebar. Display functions can make use of this extra space to render
+multi-line widgets.
+
+Warning: implementation details ahead.
+
+The max width and height available for a widget is passed to its `display::` function through
+`widget::color_text_function_string()`. The display function can use this data to format the
+widget text as a series of lines delimited by a newline (`\n`).
+
+The formatted string is passed to `widget::show()` and `widget::layout()`, which format each
+line individually for drawing in `widget::custom_draw_multiline()`.
+
+Adding new multi-line-capable widgets involves ensuring the new display function formats the
+widget's text according to the available width and height.
+
+
+## `colors`
 
 Widgets with "number" or "graph" style may define "colors", which will be used as a spectrum across
 the widget's values ("var_min" to "var_max"), applying the appropriate color at each level.
@@ -459,5 +458,248 @@ yellow, light red, and red. Such coloration could be represented with "colors" l
   "symbols": ".\\|",
   "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
 }
+```
+
+
+## `flags`
+
+Widgets can use flags to specify special behaviors:
+
+```json
+{
+  "id": "my_widget",
+  "type": "widget",
+  "style": "text",
+  "label": "My Widget",
+  "var": "my_widget_var",
+  "flags": [ "W_LABEL_NONE", "W_PAD_CENTER" ]
+}
+```
+
+Here are some flags that can be included:
+
+| Flag id        | Description
+|---             |---
+| `W_LABEL_NONE` | Prevents the widget's label from being displayed in the sidebar
+| `W_DISABLED`   | Makes this widget disabled by default (only applies to top-level widgets/layouts)
+| `W_PAD_CENTER` | Adds enough left-padding to center the widget text (widget is center-aligned)
+| `W_PAD_NONE`   | Omits the left-padding altogether (widget is left-aligned)
+
+
+# Variables
+
+Below are most of the available `widget_var` values and what they mean. See the `widget_var` list in
+`widget.h` for the definitive list of available variables.
+
+Many vars are numeric in nature. These may use style "number" or style "graph".  Some examples:
+
+## Numeric variables
+
+| var               | description
+|--                 |--
+| `cardio_acc`      | Cardio accumulator, integer
+| `cardio_fit`      | Cardio fitness, integer near BMR
+| `fatigue`         | tiredness, 0-600+
+| `focus`           | focus level, 0-100+
+| `health`          | Current hidden health value, -200 to +200
+| `mana`            | available mana, 0-MAX_MANA
+| `morale_level`    | morale level, -100 to +100
+| `move`            | movement counter, 0-100+
+| `pain`            | perceived pain, 0-80+
+| `sound`           | sound, 0-20+
+| `speed`           | speed, 0-500+
+| `stamina`         | stamina reserves, 0-MAX (approx. 8700)
+| `stat_dex`        | dexterity stat, 0-20+
+| `stat_int`        | intelligence stat, 0-20+
+| `stat_per`        | perception stat, 0-20+
+| `stat_str`        | strength stat, 0-20+
+| `weariness_level` | weariness level, 0-6+
+
+Variables with a `bp_` prefix refer to body part variables, and require a "bodypart" field.
+These variables have separate values for each part of the body, and include:
+
+| var               | description
+|--                 |--
+| `bp_hp`           | hit points of given "bodypart", like "arm_l" or "torso", 0-MAX_HP
+| `bp_encumb`       | encumbrance given "bodypart", 0-50+
+| `bp_warmth`       | warmth of given "bodypart", 0-10000
+| `bp_wetness`      | wetness of given "bodypart", 0-100+
+
+In the `widget.cpp` code, `get_var_value` returns the numeric value of the widget's "var" variable,
+which in turn is used for rendering numeric widgets as well as graphs of that value. Graphs are
+rendered with reference to the maximum value for the variable, or "var_max" if none is known.
+
+
+## Text variables
+
+Some vars refer to text descriptors. These must use style "text". Examples:
+
+| var                   | description
+|--                     |--
+| `activity_text`       | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
+| `body_temp_text`      | Felt body temperature "Comfortable", "Chilly", "Warm" etc.
+| `bp_status_text`      | Status of given "bodypart" - "bitten", "bleeding", "infected", etc.
+| `compass_legend_text` | A list of creatures visible by the player, corresponding to compass symbols
+| `compass_text`        | A compass direction (ex: NE), displaying visible creatures in that direction
+| `date_text`           | Current day within season, like "Summer, day 15"
+| `env_temp_text`       | Environment temperature, if thermometer is available
+| `fatigue_text`        | Fatigue level - "Tired", "Dead Tired", "Exhausted"
+| `health_text`         | Hidden health - "OK", "Good", "Very good", "Bad", "Very bad", etc.
+| `hunger_text`         | Hunger level - "Engorged", "Full", "Hungry", "Famished", etc.
+| `lighting_text`       | Lighting conditions at avatar position - "bright", "cloudy", "dark" etc.
+| `mood_text`           | Avatar mood represented as an emoticon face
+| `moon_phase_text`     | Phase of the moon - "New moon", "Waxing gibbous", "Full moon" etc.
+| `move_mode_letter`    | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
+| `move_mode_text`      | Movement mode - "walking", "running", "crouching", "prone"
+| `pain_text`           | "Mild pain", "Distracting pain", "Intense pain", etc.
+| `place_text`          | Location place name
+| `power_text`          | Bionic power available
+| `rad_badge_text`      | Radiation badge color indicator, if radiation badge is available
+| `safe_mode_text`      | Status of safe mode - "On" or "Off", with color for approaching turn limit
+| `style_text`          | Name of current martial arts style
+| `thirst_text`         | Thirst level - "Slaked", "Thirsty", "Dehydrated", etc.
+| `time_text`           | Current time - exact if clock is available, approximate otherwise
+| `veh_azimuth_text`    | Heading of vehicle in degrees
+| `veh_cruise_text`     | Target and actual cruising velocity, positive or negative
+| `veh_fuel_text`       | Percentage of fuel remaining for current vehicle engine
+| `weariness_text`      | Weariness level - "Fresh", "Light", "Moderate", "Weary" etc.
+| `weary_malus_text`    | Percentage penalty affecting speed due to weariness
+| `weather_text`        | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
+| `weight_text`         | Body weight - "Emaciated", "Normal", "Overweight", etc.
+| `wielding_text`       | Name of current weapon or wielded item
+| `wind_text`           | Wind direction and intensity
+
+
+# Predefined widgets
+
+Many widgets for numbers, text, graphs, and layouts are already defined in `data/json/ui/`, and you
+can save time customizing your sidebar by using these existing components. This section includes a
+list and demo/mockup of many of them.
+
+
+## Number widgets
+
+Numerical widget ids typically have a `_num` suffix.
+
+| id               | example
+| --               | --
+| `cardio_fit_num` | `Cardio Fit: 1750`
+| `focus_num`      | `Focus: 100`
+| `health_num`     | `Health: -20`
+| `morale_num`     | `Morale: 95`
+| `move_cost_num`  | `Move cost: 300`
+| `move_num`       | `Move count: 150`
+| `pain_num`       | `Pain: 15`
+| `sound_num`      | `Sound: 8`
+| `speed_num`      | `Speed: 100`
+| `stamina_num`    | `Stamina: 8714`
+| `str_num`        | `Str: 8`
+| `dex_num`        | `Dex: 8`
+| `int_num`        | `Int: 8`
+| `per_num`        | `Per: 8`
+
+
+## Graph widgets
+
+Graph widget ids typically have a `_graph` suffix.
+
+| id                      | example
+| --                      | --
+| `stamina_graph`         | `Stamina: \|\|\|\|\|\|\|\|\|\|`
+| `stamina_graph_classic` | `Stam: \|\|\|\|\|`
+| `hp_head_graph`         | `HEAD: \|\|\|\|\|`
+| `hp_torso_graph`        | `TORSO: \|\|\|\|\|`
+| `hp_left_arm_graph`     | `L ARM: \|\|\|\|\|`
+| `hp_right_arm_graph`    | `L ARM: \|\|\|\|\|`
+| `hp_left_leg_graph`     | `L LEG: \|\|\|\|\|`
+| `hp_right_leg_graph`    | `L LEG: \|\|\|\|\|`
+
+
+## Text widgets
+
+Text widget ids typically have a `_desc` suffix.
+
+| id                 | example
+| --                 | --
+| `activity_desc`    | `Activity: Moderate`
+| `date_desc`        | `Date: Summer day 25`
+| `env_temp_desc`    | `Temperature: 65F`
+| `fatigue_desc`     | `Rest: Tired`
+| `health_desc`      | `Health: Good`
+| `hunger_desc`      | `Hunger: Satisfied`
+| `lighting_desc`    | `Lighting: Bright`
+| `mood_desc`        | `Mood: :-)`
+| `pain_desc`        | `Pain: Unmanageable pain`
+| `place_desc`       | `Place: Evac Shelter J-38`
+| `power_desc`       | `Bionic Power: 250mJ`
+| `style_desc`       | `Style: Brawling`
+| `time_desc`        | `Time: 10:45:32 am`
+| `weary_malus_desc` | `Weary Malus: +10%`
+| `weather_desc`     | `Weather: Sunny`
+| `weight_desc`      | `Weight: Overweight`
+| `wind_desc`        | `Wind: <= Calm`
+
+
+## Layout widgets
+
+Layout widget ids typically have a `_layout` suffix. Complex layouts may be composed of simpler
+layouts, most often by building single-line layouts in "columns" first, then arranging several
+"columns" layouts into a multi-line layout using a "rows" arrangement.
+
+
+### Single-line layouts
+
+This table gives some examples of single-line "columns" layouts:
+
+| id | example
+| -- | --
+| `hitpoint_graphs_top_layout` | `L ARM: \|\|\|\|\|  HEAD:  \|\|\|\|\|  R ARM: \|\|\|\|\|`
+| `hitpoint_graphs_bottom_layout` | `L LEG: \|\|\|\|\|  TORSO: \|\|\|\|\|  R LEG: \|\|\|\|\|`
+| `hitpoints_head_torso_layout` | `HEAD:  \|\|\|\|\|  TORSO: \|\|\|\|\|`
+| `hitpoints_arms_layout` | `L ARM: \|\|\|\|\|  R ARM: \|\|\|\|\|`
+| `hitpoints_legs_layout` | `L LEG: \|\|\|\|\|  R LEG: \|\|\|\|\|`
+| `mood_focus_layout` | `Mood: :-)  Focus: 100`
+| `safe_sound_layout` | `Safe: Off  Sound:  15`
+| `sound_fatigue_focus_layout` | `Sound:  15  Fatigue: Fresh  Focus: 100`
+| `sound_focus_layout` | `Sound:  15  Focus: 100`
+| `stats_layout` | `Str: 9  Dex: 8  Int: 10  Per: 7`
+
+
+### Multi-line layouts
+
+Below are examples of multi-line "rows" layouts:
+
+#### `hitpoints_all_graphs_layout`
+
+Combines `hitpoint_graphs_top_layout` and `hitpoint_graphs_bottom_layout` into a single layout
+showing all body part hit points:
+
+```
+L ARM: |||||  HEAD:  |||||  R ARM: |||||
+L LEG: |||||  TORSO: |||||  R LEG: |||||
+```
+
+#### `hitpoints_all_narrow_graphs_layout`
+
+Alternative hitpoint graph, better for narrower sidebars. Combines `hitpoints_head_torso_layout`,
+`hitpoints_arms_layout`, and `hitpoints_legs_layout`
+
+```
+HEAD:  |||||  TORSO: |||||
+L ARM: |||||  R ARM: |||||
+L LEG: |||||  R LEG: |||||
+```
+
+#### `compass_all_layout`
+
+Full compass rose showing colored symbols for nearby monsters, along with a legend for what monster
+names belong to each symbol.
+
+```
+NW:   zZZ  N:     a  NE:    ZZ
+NW:               Z  E:     da
+SW:   ddd  S:        SE:  zZZZ
+a 2 wasps  d 5 zombie dogs
+Z 6 zombies  z 2 zombie cops
 ```
 

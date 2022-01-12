@@ -36,6 +36,11 @@
   },
   {
     "type": "item_action",
+    "id": "CROWBAR_WEAK",
+    "name": { "str": "Pry crate or nails" }
+  },
+  {
+    "type": "item_action",
     "id": "CROWBAR",
     "name": { "str": "Pry crate, window, door or nails" }
   },

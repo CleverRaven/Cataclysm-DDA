@@ -160,6 +160,7 @@ struct plant_data {
  * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  * BLOCK_WIND - This tile will partially block wind
  * FLAT_SURF - Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
+ * ROAD - Mainly affects the speed of rollerblades
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle

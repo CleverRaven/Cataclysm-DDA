@@ -86,6 +86,53 @@
     "style": "text"
   },
   {
+    "id": "test_compass_N_nodir_nowidth",
+    "type": "widget",
+    "label": "N",
+    "var": "compass_text",
+    "style": "text"
+  },
+  {
+    "id": "test_compass_N_nowidth",
+    "type": "widget",
+    "label": "N",
+    "var": "compass_text",
+    "style": "text",
+    "direction": "N"
+  },
+  {
+    "id": "test_compass_N",
+    "type": "widget",
+    "label": "N",
+    "var": "compass_text",
+    "style": "text",
+    "direction": "N",
+    "width": 4
+  },
+  {
+    "id": "test_compass_legend_1",
+    "type": "widget",
+    "style": "text",
+    "var": "compass_legend_text",
+    "flags": [ "W_PAD_NONE" ]
+  },
+  {
+    "id": "test_compass_legend_3",
+    "type": "widget",
+    "style": "text",
+    "var": "compass_legend_text",
+    "height": 3,
+    "flags": [ "W_PAD_NONE" ]
+  },
+  {
+    "id": "test_compass_legend_5",
+    "type": "widget",
+    "style": "text",
+    "var": "compass_legend_text",
+    "height": 5,
+    "flags": [ "W_PAD_NONE" ]
+  },
+  {
     "id": "test_speed_num",
     "type": "widget",
     "label": "SPEED",

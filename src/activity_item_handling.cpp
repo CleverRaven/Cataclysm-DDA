@@ -494,7 +494,8 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
     units::volume total_volume = 0_ml;
 
     for( const act_item &filthy_item : items ) {
-        total_volume += filthy_item.loc->volume( false, true );
+        int count = filthy_item.loc->count_by_charges() ? filthy_item.count : -1;
+        total_volume += filthy_item.loc->volume( false, true, count );
     }
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
@@ -518,10 +519,21 @@ void activity_handlers::washing_finish( player_activity *act, Character *you )
         return;
     }
 
-    for( const act_item &ait : items ) {
+    for( act_item &ait : items ) {
         item *filthy_item = const_cast<item *>( &*ait.loc );
-        filthy_item->unset_flag( flag_FILTHY );
-        you->on_worn_item_washed( *filthy_item );
+        if( filthy_item->count_by_charges() ) {
+            item copy( *filthy_item );
+            copy.charges = ait.count;
+            copy.unset_flag( flag_FILTHY );
+            filthy_item->charges -= ait.count;
+            if( filthy_item->charges <= 0 ) {
+                ait.loc.remove_item();
+            }
+            you->i_add_or_drop( copy );
+        } else {
+            filthy_item->unset_flag( flag_FILTHY );
+            you->on_worn_item_washed( *filthy_item );
+        }
     }
 
     std::vector<item_comp> comps;
