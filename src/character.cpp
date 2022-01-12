@@ -6731,9 +6731,9 @@ void Character::shout( std::string msg, bool order )
     constexpr int minimum_noise = 2;
 
     if( noise <= base ) {
-        std::string dampened_shout;
-        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
-        msg = std::move( dampened_shout );
+        std::wstring wstr( utf8_to_wstr( msg ) );
+        std::transform( wstr.begin(), wstr.end(), wstr.begin(), towlower );
+        msg = wstr_to_utf8( wstr );
     }
 
     // Screaming underwater is not good for oxygen and harder to do overall
