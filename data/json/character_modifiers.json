@@ -85,6 +85,13 @@
   },
   {
     "type": "character_mod",
+    "id": "crawl_speed_movecost_mod",
+    "description": "Crawl speed movecost modifier",
+    "mod_type": "x",
+    "value": { "limb_score": "crawl", "nominator": 1.2 }
+  },
+  {
+    "type": "character_mod",
     "id": "limb_speed_movecost_mod",
     "description": "Limb speed movecost modifier",
     "mod_type": "x",

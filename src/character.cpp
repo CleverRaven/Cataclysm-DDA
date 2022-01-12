@@ -169,6 +169,8 @@ static const bionic_id bio_voice( "bio_voice" );
 static const character_modifier_id character_modifier_aim_speed_dex_mod( "aim_speed_dex_mod" );
 static const character_modifier_id character_modifier_aim_speed_mod( "aim_speed_mod" );
 static const character_modifier_id character_modifier_aim_speed_skill_mod( "aim_speed_skill_mod" );
+static const character_modifier_id
+character_modifier_crawl_speed_movecost_mod( "crawl_speed_movecost_mod" );
 static const character_modifier_id character_modifier_limb_run_cost_mod( "limb_run_cost_mod" );
 static const character_modifier_id
 character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
@@ -8917,7 +8919,8 @@ int Character::run_cost( int base_cost, bool diag ) const
             }
         }
 
-        movecost *= get_modifier( character_modifier_limb_run_cost_mod );
+        movecost *= get_modifier( is_prone() ? character_modifier_crawl_speed_movecost_mod :
+                                  character_modifier_limb_run_cost_mod );
 
         movecost *= mutation_value( "movecost_modifier" );
         if( flatground ) {
@@ -8979,7 +8982,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         movecost /= get_modifier( character_modifier_stamina_move_cost_mod );
 
         if( !is_mounted() && !is_prone() && has_effect( effect_downed ) ) {
-            movecost *= 3;
+            movecost *= get_modifier( character_modifier_crawl_speed_movecost_mod ) * 2.5;
         }
     }
 
