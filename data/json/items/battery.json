@@ -78,25 +78,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ]
   },
   {
-    "id": "light_minus_dry_cell",
-    "type": "MAGAZINE",
-    "category": "spare_parts",
-    "name": { "str": "ultra-light dry battery", "str_pl": "ultra-light dry batteries" },
-    "description": "This is a light battery cell designed for small size over everything else.  It retains its universal compatibility, though.  The battery's chemistry doesn't provides high energy capacity, and it cannot be recharged.",
-    "weight": "2 g",
-    "volume": "1 ml",
-    "price_postapoc": 50,
-    "material": [ "iron", "plastic" ],
-    "symbol": "=",
-    "color": "yellow",
-    "ammo_type": [ "battery" ],
-    "count": 40,
-    "capacity": 40,
-    "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_ULTRA_LIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40 } } ]
-  },
-  {
     "id": "light_battery_cell",
     "type": "MAGAZINE",
     "category": "spare_parts",
