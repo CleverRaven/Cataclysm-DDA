@@ -457,7 +457,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
     "time": "1 m",
-    "byproducts": [ [ "rope_6", 5 ] ],
     "autolearn": true,
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
