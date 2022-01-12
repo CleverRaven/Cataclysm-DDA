@@ -1326,7 +1326,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
 
         bool shared_species = false;
         if( caster.is_dead_state() && caster.get_killer() != nullptr ) {
-            for( const auto specie : caster.as_monster()->type->species ) {
+            for( const species_id &specie : caster.as_monster()->type->species ) {
                 if( guy.in_species( specie ) ) {
                     shared_species = true;
                 }
