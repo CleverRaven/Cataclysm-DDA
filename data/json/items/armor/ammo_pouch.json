@@ -90,12 +90,13 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ]
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "volume_encumber_modifier": 0.5
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "WAIST" ],
-    "armor": [ { "encumbrance": 4, "coverage": 20, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "chestpouch",
@@ -118,7 +119,8 @@
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
@@ -146,7 +148,8 @@
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
@@ -154,7 +157,8 @@
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
@@ -162,7 +166,8 @@
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
@@ -170,12 +175,13 @@
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "xl_chestrig",
@@ -302,7 +308,8 @@
         "max_contains_volume": "500 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
@@ -310,12 +317,13 @@
         "max_contains_volume": "500 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_MEDIUM" ],
-    "armor": [ { "coverage": 38, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 38, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] } ]
   },
   {
     "id": "quiver",
@@ -497,7 +505,7 @@
     "material_thickness": 1.5,
     "use_action": [ { "type": "attach_molle", "size": 3 }, { "type": "detach_molle" } ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "coverage": 55, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 55, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "volume_encumber_modifier": 0.5 } ]
   },
   {
     "id": "load_bearing_vest",
@@ -516,7 +524,7 @@
     "material_thickness": 1.5,
     "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "volume_encumber_modifier": 0.4 } ]
   },
   {
     "id": "heavy_load_bearing_vest",
@@ -535,7 +543,7 @@
     "material_thickness": 1.5,
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "volume_encumber_modifier": 0.3 } ]
   },
   {
     "id": "radio_pouch",
@@ -558,12 +566,13 @@
         "max_contains_volume": "500 ml",
         "max_contains_weight": "500 g",
         "max_item_length": "13 cm",
-        "moves": 40
+        "moves": 40,
+        "volume_encumber_modifier": 0.5
       }
     ],
     "material_thickness": 0.5,
     "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
-    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "gadget_pouch",
@@ -586,12 +595,13 @@
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "15 cm",
-        "moves": 80
+        "moves": 80,
+        "volume_encumber_modifier": 0.5
       }
     ],
     "material_thickness": 0.5,
     "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
-    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "h2o_pouch",
@@ -614,19 +624,21 @@
         "max_contains_volume": "2048 ml",
         "max_contains_weight": "5 kg",
         "max_item_length": "254 mm",
-        "moves": 80
+        "moves": 80,
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "426 ml",
         "max_contains_weight": "3 kg",
         "max_item_length": "165 mm",
-        "moves": 80
+        "moves": 80,
+        "volume_encumber_modifier": 0.5
       }
     ],
     "material_thickness": 0.5,
     "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "tool_pouch",
@@ -649,12 +661,13 @@
         "max_contains_volume": "2753 ml",
         "max_contains_weight": "8 kg",
         "max_item_length": "305 mm",
-        "moves": 80
+        "moves": 80,
+        "volume_encumber_modifier": 0.5
       }
     ],
     "material_thickness": 0.5,
     "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "flashlight_pouch",
@@ -678,12 +691,13 @@
         "max_contains_volume": "500 ml",
         "max_contains_weight": "500 g",
         "max_item_length": "37 cm",
-        "moves": 40
+        "moves": 40,
+        "volume_encumber_modifier": 0.5
       }
     ],
     "material_thickness": 0.5,
     "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
-    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "tactical_holster",
@@ -748,7 +762,8 @@
         "max_contains_weight": "2 kg",
         "//": "gas masks don't seem to have lengths currently",
         "max_item_length": "30 cm",
-        "moves": 80
+        "moves": 80,
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
@@ -756,12 +771,13 @@
         "max_contains_volume": "250 ml",
         "max_contains_weight": "500 g",
         "max_item_length": "8 cm",
-        "moves": 80
+        "moves": 80,
+        "volume_encumber_modifier": 0.5
       }
     ],
     "material_thickness": 0.5,
     "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "tactical_grenade_pouch",
@@ -784,12 +800,13 @@
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "GRENADE" ]
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.5
       }
     ],
     "material_thickness": 0.5,
     "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
-    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "triple_stacker_pouch",
@@ -813,7 +830,8 @@
         "max_contains_volume": "300 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
@@ -821,7 +839,8 @@
         "max_contains_volume": "300 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
@@ -829,7 +848,8 @@
         "max_contains_volume": "300 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
@@ -837,7 +857,8 @@
         "max_contains_volume": "400 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
@@ -845,7 +866,8 @@
         "max_contains_volume": "400 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
@@ -853,12 +875,13 @@
         "max_contains_volume": "400 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       }
     ],
     "material_thickness": 0.5,
     "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "tactical_shotshell_pouch",
@@ -878,7 +901,7 @@
     "pocket_data": [ { "ammo_restriction": { "410shot": 12, "shot": 12, "20x66mm": 12, "signal_flare": 12, "308": 20 }, "moves": 30 } ],
     "material_thickness": 0.5,
     "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "xlkevlar",
