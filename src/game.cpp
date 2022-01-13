@@ -2558,11 +2558,13 @@ void game::death_screen()
 
 // A timestamp that can be used to make unique file names
 // Date format is a somewhat ISO-8601 compliant GMT time date (except we use '-' instead of ':' probably because of Windows file name rules).
+// XXX: removed the timezone suffix due to an mxe bug
+// See: https://github.com/mxe/mxe/issues/2749
 static std::string timestamp_now()
 {
     std::time_t time = std::time( nullptr );
     std::stringstream date_buffer;
-    date_buffer << std::put_time( std::gmtime( &time ), "%FT%H-%M-%S%z" );
+    date_buffer << std::put_time( std::gmtime( &time ), "%Y-%m-%dT%H-%M-%S" );
     return date_buffer.str();
 }
 
