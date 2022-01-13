@@ -3118,8 +3118,8 @@
     "symbol": ",",
     "color": "green",
     "name": {
-      "str": "broken M249 autonomous CROWS II.  The additional spot welded plating looks warped and destroyed.",
-      "str_pl": "broken M249 autonomous CROWS II turrets.  The additional spot welded plating looks warped and destroyed."
+      "str": "broken custom plated turret",
+      "str_pl": "broken custom plated turrets"
     },
     "weight": "75 kg",
     "copy-from": "broken_turret"
