@@ -23,7 +23,7 @@ namespace cata_curses_test
 #endif
 #include <curses.h>
 #endif
-}
+} // namespace cata_curses_test
 #else
 #include "cursesport.h"
 #endif
