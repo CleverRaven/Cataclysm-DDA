@@ -48,6 +48,14 @@
     "widgets": [ "stamina_graph_classic", "speed_num" ]
   },
   {
+    "id": "stamina_speed_move_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stamina/Speed/Move",
+    "arrange": "columns",
+    "widgets": [ "stamina_graph_classic", "speed_num", "move_num" ]
+  },
+  {
     "id": "stamina_activity_weary_layout",
     "type": "widget",
     "style": "layout",
@@ -170,12 +178,44 @@
     "widgets": [ "sound_num", "focus_num" ]
   },
   {
+    "id": "sound_mood_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Sound/Mood",
+    "arrange": "columns",
+    "widgets": [ "sound_num", "mood_desc" ]
+  },
+  {
+    "id": "sound_mood_focus_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Sound/Mood/Focus",
+    "arrange": "columns",
+    "widgets": [ "sound_num", "mood_desc", "focus_num" ]
+  },
+  {
+    "id": "wind_temp_layout",
+    "type": "widget",
+    "label": "Wind/Temp",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "wind_desc", "env_temp_desc" ]
+  },
+  {
     "id": "light_moon_wind_temp_layout",
     "type": "widget",
     "label": "Environment",
     "style": "layout",
     "arrange": "rows",
     "widgets": [ "lighting_desc", "moon_phase_desc", "wind_desc", "env_temp_desc" ]
+  },
+  {
+    "id": "all_location_info_rows_layout",
+    "type": "widget",
+    "label": "Location",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "place_desc", "lighting_desc", "weather_desc", "moon_phase_desc", "date_desc", "time_desc" ]
   },
   {
     "id": "place_date_time_layout",
