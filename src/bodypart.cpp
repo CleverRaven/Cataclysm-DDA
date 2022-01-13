@@ -296,6 +296,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "stat_hp_mods", hp_mods );
 
     mandatory( jo, was_loaded, "drench_capacity", drench_max );
+    optional( jo, was_loaded, "drench_increment", drench_increment, 2 );
+    optional( jo, was_loaded, "drying_increment", drying_increment, 1 );
 
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
@@ -572,7 +574,11 @@ bool bodypart::is_at_max_hp() const
 
 float bodypart::get_wetness_percentage() const
 {
-    return static_cast<float>( wetness ) / id->drench_max;
+    if( id->drench_max == 0 ) {
+        return 0;
+    } else {
+        return static_cast<float>( wetness ) / id->drench_max;
+    }
 }
 
 int bodypart::get_encumbrance_threshold() const

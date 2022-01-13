@@ -1557,7 +1557,7 @@ void Character::suffer()
     }
 
     for( const trait_id &mut_id : get_mutations() ) {
-        if( calendar::once_every( 1_minutes ) ) {
+        if( calendar::once_every( 1_minutes ) && mut_id->weakness_to_water != 0 ) {
             suffer::water_damage( *this, mut_id );
         }
         if( has_active_mutation( mut_id ) ) {
@@ -1854,7 +1854,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         }
         // Different sources will only make the bodypart wet to a limit
         int source_wet_max = saturation * bp_wetness_max / 100;
-        int wetness_increment = ignore_waterproof ? 100 : 2;
+        int wetness_increment = ignore_waterproof ? 100 : bp->drench_increment;
         // Respect maximums
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
         const int curr_wetness = get_part_wetness( bp );

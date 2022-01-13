@@ -135,7 +135,7 @@ void Character::update_body_wetness( const w_point &weather )
 
         // TODO: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {
-            mod_part_wetness( bp, -1 );
+            mod_part_wetness( bp, bp->drying_increment * -1 );
             if( get_part_wetness( bp ) < 0 ) {
                 set_part_wetness( bp, 0 );
             }
