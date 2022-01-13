@@ -2561,20 +2561,9 @@ void game::death_screen()
 static std::string timestamp_now()
 {
     std::time_t time = std::time( nullptr );
-    std::tm *timedate = std::gmtime( &time );
-    std::string date_buffer( 32, '\0' );
-#if defined(_WIN32)
-    std::strftime( &date_buffer[0], date_buffer.capacity(), "%Y-%m-%dT%H-%M-%S", timedate );
-    TIME_ZONE_INFORMATION tz_info;
-    if( GetTimeZoneInformation( &tz_info ) == TIME_ZONE_ID_INVALID ) {
-        return string_format( "%sZ", date_buffer );
-    }
-    const int bias = -static_cast<int>( tz_info.Bias );
-    return string_format( "%s%+.2d%02d", date_buffer, bias / 60, std::abs( bias ) % 60 );
-#else
-    std::strftime( &date_buffer[0], date_buffer.capacity(), "%Y-%m-%dT%H-%M-%S%z", timedate );
-#endif
-    return date_buffer;
+    std::stringstream date_buffer;
+    date_buffer << std::put_time( std::gmtime( &time ), "%FT%H-%M-%S%z" );
+    return date_buffer.str();
 }
 
 void game::move_save_to_graveyard()
