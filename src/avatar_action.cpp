@@ -73,6 +73,8 @@ static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_swim_fins( "swim_fins" );
 
+static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
+
 static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_swimming( "swimming" );
@@ -646,16 +648,14 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         you.burn_move_stamina( movecost );
     }
 
-    body_part_set drenchFlags{ {
-            body_part_leg_l, body_part_leg_r, body_part_torso, body_part_arm_l,
-            body_part_arm_r, body_part_foot_l, body_part_foot_r, body_part_hand_l, body_part_hand_r
-        }
-    };
-
-    if( you.is_underwater() ) {
-        drenchFlags.unify_set( { { body_part_head, body_part_eyes, body_part_mouth, body_part_hand_l, body_part_hand_r } } );
+    body_part_set flags;
+    if( !you.is_underwater() ) {
+        flags = you.get_drenching_body_parts( false, true, true );
+    } else {
+        flags = you.get_drenching_body_parts();
     }
-    you.drench( 100, drenchFlags, true );
+
+    you.drench( 100, flags, false );
 }
 
 static float rate_critter( const Creature &c )
