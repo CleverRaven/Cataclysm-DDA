@@ -51,7 +51,7 @@ static void serialize_liquid_source( player_activity &act, const vehicle &veh, c
 {
     act.values.push_back( static_cast<int>( liquid_source_type::VEHICLE ) );
     act.values.push_back( part_num );
-    act.coords.push_back( veh.global_pos3() );
+    act.coords.push_back( veh.global_part_pos3( part_num ) );
     act.str_values.push_back( serialize( liquid ) );
 }
 
