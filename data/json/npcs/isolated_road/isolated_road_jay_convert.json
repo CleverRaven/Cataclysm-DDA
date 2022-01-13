@@ -274,7 +274,7 @@
               "op": "==",
               "value": 300,
               "yes": "Sure, 300 BLK to what?",
-              "no": "I don't understand you should have told me what rounds you want."
+              "no": "If you are seeing this I am bugged and confused.  You should report this fact on the github."
             }
           }
         }
