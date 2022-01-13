@@ -282,7 +282,8 @@
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
-      [ "rigid_plastic_sheet", 30 ]
+      [ "rigid_plastic_sheet", 30 ],
+	  [ "gas_forge", 15 ]
     ]
   },
   {
@@ -392,7 +393,8 @@
       [ "diesel", 20 ],
       [ "gasoline", 50 ],
       [ "motor_oil", 100 ],
-      [ "lamp_oil", 100 ]
+      [ "lamp_oil", 100 ],
+	  [ "propane", 75 ]
     ]
   },
   {
@@ -409,7 +411,13 @@
       { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
       { "item": "scrap_copper", "prob": 5, "count": [ 1, 12 ] },
       { "item": "wire", "prob": 5 },
-      { "item": "scrap", "prob": 70, "count": [ 1, 10 ] }
+      { "item": "scrap", "prob": 70, "count": [ 1, 10 ] },
+      { "item": "lc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "lc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
+      { "item": "mc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "mc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
+      { "item": "hc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "hc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
     ]
   },
   {
@@ -495,7 +503,8 @@
       [ "storage_battery", 6 ],
       [ "motor_oil", 100 ],
       [ "solar_panel", 3 ],
-      [ "recharge_station", 8 ]
+      [ "recharge_station", 8 ],
+	  [ "gas_forge", 2 ]
     ]
   },
   {
