@@ -1,24 +1,6 @@
 [
   {
     "type": "item_group",
-    "id": "cave_minerals",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
-      { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
-      { "item": "rock_large", "prob": 10, "count": [ 1, 10 ] },
-      { "item": "rock_flaking", "prob": 20, "count": [ 1, 10 ] },
-      { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
-      { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
-      { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
-      { "item": "chunk_sulfur", "prob": 5, "count": [ 1, 10 ] },
-      { "item": "material_rocksalt", "prob": 5, "count": [ 1, 10 ] },
-      { "item": "material_rhodonite", "prob": 5, "count": [ 1, 10 ] },
-      { "item": "material_zincite", "prob": 5, "count": [ 1, 10 ] }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "field",
     "items": [ [ "rock", 400000 ], [ "rock_flaking", 100000 ], [ "rock_large", 50000 ], [ "sharp_rock", 50000 ] ]
   },
