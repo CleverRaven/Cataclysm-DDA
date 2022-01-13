@@ -541,7 +541,7 @@
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       {
-        "encumbrance": 3,
+        "encumbrance": 2,
         "coverage": 85,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
@@ -568,7 +568,7 @@
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       {
-        "encumbrance": 5,
+        "encumbrance": 4,
         "coverage": 85,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper", "torso_lower" ],
