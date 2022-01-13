@@ -3041,6 +3041,28 @@
   },
   {
     "type": "construction",
+    "id": "app_sewing_machine",
+    "group": "place_sewing_machine",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "components": [ [ [ "sewing_machine", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_overlocker",
+    "group": "place_overlocker",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "components": [ [ [ "overlocker", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "constr_pontoon_dp",
     "group": "build_pontoon_bridge",
     "//": "Set up pontoon bridge",

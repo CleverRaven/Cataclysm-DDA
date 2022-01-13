@@ -37,6 +37,32 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ]
   },
   {
+    "type": "GENERIC",
+    "id": "sewing_machine",
+    "looks_like": "f_sewing_machine",
+    "symbol": "#",
+    "description": "A disconnected domestic sewing machine, able to fulfill the sewing needs for all but the most demanding tasks.  The faded advertising sticker recommends purchasing an Overlocker, promising \"Once you try it, you won't be able to live without it\".",
+    "color": "dark_gray_white",
+    "name": { "str": "disconnected sewing machine" },
+    "material": [ "plastic" ],
+    "longest_side": "45 cm",
+    "volume": "16 L",
+    "weight": "7 kg"
+  },
+  {
+    "type": "GENERIC",
+    "id": "overlocker",
+    "looks_like": "f_sewing_machine",
+    "symbol": "#",
+    "description": "A disconnected domestic overlocker, designed to rapidly stitch seams and edges.  The faded advertising sticker recommends purchasing a Sewing Machine, praising it as \"The essential companion for any tailor\".",
+    "color": "dark_gray_white",
+    "name": { "str": "disconnected overlocker" },
+    "material": [ "plastic" ],
+    "longest_side": "35 cm",
+    "volume": "16 L",
+    "weight": "8 kg"
+  },
+  {
     "type": "TOOL",
     "id": "power_cord",
     "name": { "str": "power cord" },
