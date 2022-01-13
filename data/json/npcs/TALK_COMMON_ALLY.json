@@ -122,6 +122,7 @@
               { "npc_need": "hunger", "amount": 160 },
               { "npc_need": "fatigue", "level": "TIRED" },
               { "npc_has_effect": "asked_to_train" },
+              { "npc_has_trait": "HALLUCINATION" },
               "u_driving",
               "npc_driving"
             ]
@@ -132,7 +133,7 @@
       },
       {
         "text": "Can you host a training seminar?",
-        "condition": { "not": "is_by_radio" },
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
         "trial": {
           "type": "CONDITION",
           "condition": {
@@ -156,7 +157,8 @@
             { "not": "u_driving" },
             { "not": "npc_driving" },
             { "not": "is_by_radio" },
-            { "not": { "u_has_effect": "asked_to_train" } }
+            { "not": { "u_has_effect": "asked_to_train" } },
+            { "not": { "npc_has_trait": "HALLUCINATION" } }
           ]
         },
         "topic": "TALK_TRAIN_NPC"
@@ -202,7 +204,7 @@
       },
       {
         "text": "Drop off any items you're not using.",
-        "condition": { "not": "is_by_radio" },
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
         "topic": "TALK_DONE",
         "effect": "drop_items_in_place"
       },

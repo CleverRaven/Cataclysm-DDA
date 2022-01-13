@@ -317,6 +317,7 @@
               [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 3 ],
               [ "EOC_PORTAL_ABSENCE", 2 ],
+              [ "EOC_PORTAL_MEMORIES", 1 ],
               [ "EOC_PORTAL_PAIN", 3 ],
               [ "EOC_PORTAL_LIGHT", 2 ],
               [ "EOC_PORTAL_GRASS_CHANGE", 1 ],
@@ -358,6 +359,7 @@
               [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
               [ "EOC_PORTAL_ABSENCE", 1 ],
+              [ "EOC_PORTAL_MEMORIES", 2 ],
               [ "EOC_PORTAL_LIGHT", 2 ],
               [ "EOC_PORTAL_TELEPORT_STUCK_START", 1 ],
               [ "EOC_PORTAL_RADIATION", 1 ],
@@ -499,6 +501,21 @@
         "hallucination_count": 3,
         "lifespan_min": "5 seconds",
         "lifespan_max": "3 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_MEMORIES",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_message": "Ghosts of the dead surround you.", "type": "bad" },
+      {
+        "u_set_spawn_monster": "mon_memory",
+        "real_count": 10,
+        "hallucination_count": 10,
+        "lifespan_min": "5 seconds",
+        "lifespan_max": "2 minutes"
       }
     ]
   },

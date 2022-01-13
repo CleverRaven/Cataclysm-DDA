@@ -80,6 +80,7 @@ static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_formication( "formication" );
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_iodine( "iodine" );
@@ -176,6 +177,7 @@ void in_sunlight( Character &you );
 void water_damage( Character &you, const trait_id &mut_id );
 void mutation_power( Character &you, const trait_id &mut_id );
 void while_underwater( Character &you );
+void while_grabbed( Character &you );
 void from_addictions( Character &you );
 void while_awake( Character &you, const int current_stim );
 void from_chemimbalance( Character &you );
@@ -287,6 +289,35 @@ void suffer::while_underwater( Character &you )
         !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos() ) &&
         you.get_thirst() > -60 ) {
         you.mod_thirst( -1 );
+    }
+}
+
+void suffer::while_grabbed( Character &you )
+{
+    // get the intensity of the current grab
+    int grab_intensity = you.get_effect_int( effect_grabbed, body_part_torso );
+
+    // you should have trouble breathing as you get swarmed by zombies grabbing you
+    if( grab_intensity <= 2 ) {
+        // only a chance to lose breath at low grab chance
+        you.oxygen -= rng( 0, 1 );
+    } else if( grab_intensity <= 4 ) {
+        you.oxygen -= 1;
+    } else if( grab_intensity <= 6 ) {
+        you.oxygen -= rng( 1, 2 );
+    } else if( grab_intensity <= 8 ) {
+        you.oxygen -= 2;
+    }
+
+    // a few warnings before starting to take damage
+    if( you.oxygen <= 5 ) {
+        you.add_msg_if_player( m_bad, _( "You're suffocating!" ) );
+        // your characters chest is being crushed and you are dying
+        you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
+    } else if( you.oxygen <= 15 ) {
+        you.add_msg_if_player( m_bad, _( "You can't breathe with all this weight!" ) );
+    } else if( you.oxygen <= 25 ) {
+        you.add_msg_if_player( m_bad, _( "You're having difficulty breathing!" ) );
     }
 }
 
@@ -516,10 +547,7 @@ void suffer::from_schizophrenia( Character &you )
     if( one_turn_in( 2_days ) && !you.get_wielded_item().is_null() ) {
         const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
                                      translation() );
-        std::string str = string_format( snip, i_name_w );
-        str[0] = toupper( str[0] );
-
-        you.add_msg_if_player( m_bad, "%s", str );
+        you.add_msg_if_player( m_bad, "%s", uppercase_first_letter( string_format( snip, i_name_w ) ) );
         item_location loc( you, &you.get_wielded_item() );
         you.drop( loc, you.pos() );
         return;
@@ -1532,6 +1560,10 @@ void Character::suffer()
         if( has_active_mutation( mut_id ) ) {
             suffer::mutation_power( *this, mut_id );
         }
+    }
+
+    if( has_effect( effect_grabbed, body_part_torso ) ) {
+        suffer::while_grabbed( *this );
     }
 
     if( underwater ) {

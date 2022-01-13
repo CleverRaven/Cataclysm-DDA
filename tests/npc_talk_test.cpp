@@ -1080,6 +1080,10 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
 
     get_weather().temperature = 19;
     get_weather().windspeed = 20;
+    get_weather().weather_precise->temperature = 19;
+    get_weather().weather_precise->windpower = 20;
+    get_weather().weather_precise->humidity = 20;
+    get_weather().weather_precise->pressure = 20;
     get_weather().clear_temp_cache();
     player_character.set_stored_kcal( 45000 );
     player_character.remove_items_with( []( const item & it ) {
