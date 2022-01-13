@@ -375,10 +375,6 @@ static void check_fist_weapons( const std::function<Approx( const std::string & 
         CHECK( calc_expected_dps( "bagh_nakha" ) == 14.0 );
         CHECK( calc_expected_dps( "punch_dagger" ) == 11.0 );
         CHECK( calc_expected_dps( "knuckle_katar" ) == 10.5 );
-        CHECK( calc_expected_dps( "knuckle_steel" ) == 4.0 );
-        CHECK( calc_expected_dps( "knuckle_brass" ) == 4.0 );
-        CHECK( calc_expected_dps( "knuckle_nail" ) == 4.0 );
-        CHECK( calc_expected_dps( "cestus" ) == 3.0 );
     }
 }
 
