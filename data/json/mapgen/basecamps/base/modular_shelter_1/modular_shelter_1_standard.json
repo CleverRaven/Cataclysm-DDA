@@ -124,7 +124,9 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmc_shelter_1_bedroom_S2",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
         "dw",
         "  "
       ],
