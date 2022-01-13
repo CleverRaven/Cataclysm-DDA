@@ -306,7 +306,7 @@ void uilist::filterlist()
     if( nocase ) {
         std::wstring wstr = utf8_to_wstr( filter );
         transform( wstr.begin(), wstr.end(), wstr.begin(), towlower );
-        filter = wstr_to_utf8( wstr );
+        fstr = wstr_to_utf8( wstr );
     } else {
         fstr = filter;
     }
