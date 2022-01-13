@@ -993,10 +993,10 @@
     }
   },
   {
-    "id": "xl_armor_qt_lightplate",
+    "id": "xl_armor_qt_heavyplate",
     "type": "ARMOR",
     "name": { "str": "XL tempered 6 mm plate armor" },
-    "copy-from": "armor_qt_lightplate",
+    "copy-from": "armor_qt_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
