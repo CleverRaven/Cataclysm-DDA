@@ -73,8 +73,6 @@ static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_swim_fins( "swim_fins" );
 
-static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
-
 static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_swimming( "swimming" );
