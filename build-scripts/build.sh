@@ -20,7 +20,7 @@ fi
 if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
-    make -j "$num_jobs" style-json
+    make style-all-json-parallel RELEASE=1
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
 
