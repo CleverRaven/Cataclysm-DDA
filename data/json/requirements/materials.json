@@ -354,5 +354,23 @@
     "type": "requirement",
     "//": "Materials used for joining soft, flexible material where regular brittle superglue would be inappropriate.",
     "components": [ [ [ "rubber_cement", 1 ] ] ]
+  },
+  {
+    "id": "lc_steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ "lc_steel_lump", 1 ], [ "lc_steel_chunk", 4 ] ]
+  },
+  {
+    "id": "mc_steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ "med_steel_lump", 1 ], [ "med_steel_chunk", 4 ] ]
+  },
+  {
+    "id": "hc_steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ "high_steel_lump", 1 ], [ "high_steel_chunk", 4 ] ]
   }
 ]
