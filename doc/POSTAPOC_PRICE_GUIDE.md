@@ -104,7 +104,7 @@ pretty much the most anyone will be willing to spend on any one thing, no matter
 ```
 
 #### Food pricing
-Food is priced mostly for a combination of calories, how preservable they are, and how nutritious they are.
+Food is priced mostly for a combination of calories, how perservable they are, and how nutritious they are.
 
 Meat jerky is 250.
 
