@@ -81,6 +81,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "weariness_level";
         case widget_var::mana:
             return "mana";
+        case widget_var::max_mana:
+            return "max_mana";
         case widget_var::morale_level:
             return "morale_level";
         // Compass
@@ -237,12 +239,7 @@ void widget::load( const JsonObject &jo, const std::string & )
             _colors.emplace_back( get_all_colors().name_to_color( color_name ) );
         }
     }
-    if( jo.has_array( "widgets" ) ) {
-        _widgets.clear();
-        for( const std::string wid : jo.get_array( "widgets" ) ) {
-            _widgets.emplace_back( widget_id( wid ) );
-        }
-    }
+    optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
 }
 
 void widget::finalize()
@@ -303,6 +300,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::mana:
             value = ava.magic->available_mana();
+            break;
+        case widget_var::max_mana:
+            value = ava.magic->max_mana( ava );
             break;
         case widget_var::morale_level:
             value = ava.get_morale_level();

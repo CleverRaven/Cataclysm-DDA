@@ -160,6 +160,7 @@
 #include "string_input_popup.h"
 #include "submap.h"
 #include "talker.h"
+#include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
 #include "translations.h"
@@ -5277,7 +5278,12 @@ bool game::npc_menu( npc &who )
     } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
         u.steal( who );
     } else if( choice == trade ) {
-        npc_trading::trade( who, 0, _( "Trade" ) );
+        if( who.is_hallucination() ) {
+            who.say( SNIPPET.random_from_category( "<hallu_dont_trade>" ).value_or(
+                         translation() ).translated() );
+        } else {
+            npc_trading::trade( who, 0, _( "Trade" ) );
+        }
     }
 
     return true;
@@ -5768,10 +5774,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     // Print OMT type and terrain type on first two lines
     // if can't fit in one line.
-    std::string tile = m.tername( lp );
-    capitalize_letter( tile );
-    std::string area =  area_name;
-    capitalize_letter( area );
+    std::string tile = uppercase_first_letter( m.tername( lp ) );
+    std::string area = uppercase_first_letter( area_name );
     mvwprintz( w_look, point( column, line++ ), c_yellow, area );
     mvwprintz( w_look, point( column, line++ ), c_white, tile );
     std::string desc = string_format( m.ter( lp ).obj().description );
@@ -5783,8 +5787,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     // Furniture if any.
     if( m.has_furn( lp ) ) {
-        std::string desc = m.furnname( lp );
-        capitalize_letter( desc );
+        std::string desc = uppercase_first_letter( m.furnname( lp ) );
         mvwprintz( w_look, point( column, line++ ), c_white, desc );
         desc = string_format( m.furn( lp ).obj().description );
         lines = foldstring( desc, max_width );
