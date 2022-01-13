@@ -228,9 +228,5 @@ else
             done
     fi
 fi
-ccache --show-stats
-# Shrink the ccache back down to 2GB in preperation for pushing to shared storage.
-ccache -M 2G
-ccache -c
 
 # vim:tw=0

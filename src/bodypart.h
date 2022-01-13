@@ -238,6 +238,10 @@ struct body_part_type {
         bool is_vital = false;
         bool is_limb = false;
 
+        // Intrinsic temperature bonus of the bodypart
+        int temp_min = 0;
+        // Temperature bonus to apply when not overheated
+        int temp_max = 0;
         int drench_max = 0;
         cata::flat_set<json_character_flag> flags;
         bool has_flag( const json_character_flag &flag ) const;

@@ -113,21 +113,24 @@
     "id": "test_compass_legend_1",
     "type": "widget",
     "style": "text",
-    "var": "compass_legend_text"
+    "var": "compass_legend_text",
+    "flags": [ "W_PAD_NONE" ]
   },
   {
     "id": "test_compass_legend_3",
     "type": "widget",
     "style": "text",
     "var": "compass_legend_text",
-    "height": 3
+    "height": 3,
+    "flags": [ "W_PAD_NONE" ]
   },
   {
     "id": "test_compass_legend_5",
     "type": "widget",
     "style": "text",
     "var": "compass_legend_text",
-    "height": 5
+    "height": 5,
+    "flags": [ "W_PAD_NONE" ]
   },
   {
     "id": "test_speed_num",

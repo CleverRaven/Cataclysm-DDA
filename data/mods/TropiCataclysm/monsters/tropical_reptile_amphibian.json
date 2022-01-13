@@ -437,8 +437,8 @@
         "cooldown": 20,
         "accuracy": 6,
         "damage_max_instance": [
-          { "damage_type": "stab", "amount": 4.5, "armor_multiplier": 0.5 },
-          { "damage_type": "bash", "amount": 7.5, "armor_multiplier": 0.5 }
+          { "damage_type": "stab", "amount": 3, "armor_multiplier": 0.5 },
+          { "damage_type": "bash", "amount": 5, "armor_multiplier": 0.5 }
         ],
         "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
         "infection_chance": 50

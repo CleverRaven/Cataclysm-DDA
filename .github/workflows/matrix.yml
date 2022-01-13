@@ -8,6 +8,11 @@ on:
     branches:
     - master
 
+# We only care about the latest revision of a PR, so cancel all previous instances.
+concurrency:
+  group: general-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
 # Overall strategy for what sorts of builds to include:
 # We want a build for the newest and oldest supported version of each compiler.
 # We want a build for each platform.
@@ -71,6 +76,9 @@ jobs:
             archive-success: basic-build
             dont_skip_data_only_changes: 1
             title: Basic Build and Test (GCC 9, Curses, LTO)
+            # ~850MB in a clean build
+            # ~370MB compressed
+            ccache_limit: 1.5G
 
           - compiler: clang++-12
             os: ubuntu-latest
@@ -84,6 +92,9 @@ jobs:
             mods: --mods=magiclysm
             dont_skip_data_only_changes: 1
             title: Clang 12, Ubuntu, Tiles, ASan
+            # ~390MB in a clean build
+            # ~50MB compressed
+            ccache_limit: 1G
 
           - compiler: g++-11
             os: ubuntu-latest
@@ -95,6 +106,9 @@ jobs:
             native: linux64
             sanitize: address
             title: GCC 11, Ubuntu, Curses, ASan
+            # ~480MB in a clean build
+            # ~50MB compressed
+            ccache_limit: 1G
 
           - compiler: clang++
             os: macos-10.15
@@ -106,6 +120,10 @@ jobs:
             sound: 1
             localize: 1
             title: Clang 12, macOS 10.15, Tiles, Sound, UBSan
+            # ccache on mac has zstd built in
+            # ~120MB ccache-compressed in a clean build
+            # ~115 compressed
+            ccache_limit: 300M
 
           - compiler: g++
             os: ubuntu-latest
@@ -120,6 +138,9 @@ jobs:
             ldflags: -static-libgcc -static-libstdc++
             mxe_target: x86_64-w64-mingw32.static.gcc11
             wine: wine
+            # ~285MB in a clean build
+            # ~36MB compressed
+            ccache_limit: 1G
 
           - compiler: clang++-6.0
             os: ubuntu-18.04
@@ -130,16 +151,22 @@ jobs:
             localize: 1
             native: linux64
             title: Clang 6, Ubuntu, Curses, Release
+            # ~190MB in a clean build
+            # ~30MB compressed
+            ccache_limit: 1G
 
           - compiler: g++-7
             os: ubuntu-18.04
-            release: 0
+            release: 1
             cmake: 1
             tiles: 1
             sound: 1
             localize: 0
             native: linux64
             title: GCC 7, Ubuntu, Tiles, Sound, CMake
+            # ~180MB in a clean build
+            # ~25MB compressed
+            ccache_limit: 1G
 
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
@@ -164,11 +191,12 @@ jobs:
         LTO: ${{ matrix.lto }}
         RELEASE: ${{ matrix.release }}
         ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
+        CCACHE_LIMIT: ${{ matrix.ccache_limit }}
         SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (GCC 9, Curses, LTO)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
         fetch-depth: 1
     - name: install dependencies (ubuntu)
@@ -205,21 +233,15 @@ jobs:
         echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
         echo "::set-output name=ccache-path::$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')"
       shell: bash
-    - name: ccache cache files (master)
-      if: ${{ github.event_name == 'push' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
+    - name: ccache cache files
+      if: ${{ env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
       uses: actions/cache@v2
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
-        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}-1
+        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}
         restore-keys: |
           ccache-${{ runner.os }}-${{ matrix.compiler }}--
-    - name: ccache cache files (PR)
-      if: ${{ github.event_name == 'pull_request' && env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
-      uses: actions/cache@v2
-      with:
-        path: ${{ steps.get-vars.outputs.ccache-path }}
-        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       if: ${{ env.SKIP == 'false' }}
@@ -249,3 +271,9 @@ jobs:
         name: cata_test
         path: tests/cata_test*
         if-no-files-found: ignore
+    - name: cleanup ccache before upload
+      if: ${{ !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
+      run: |
+        ccache --show-stats
+        ccache -M ${{ env.CCACHE_LIMIT }}
+        ccache -c
