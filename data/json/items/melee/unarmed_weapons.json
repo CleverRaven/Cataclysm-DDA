@@ -13,7 +13,14 @@
     "price_postapoc": 250,
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "type": "ARMOR",
@@ -29,7 +36,14 @@
     "price_postapoc": 250,
     "flags": [ "DURABLE_MELEE" ],
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 5, "coverage": 10, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 10,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "type": "ARMOR",
@@ -46,7 +60,14 @@
     "price_postapoc": 50,
     "flags": [ "STAB" ],
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 7, "coverage": 20, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 7,
+        "coverage": 20,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "type": "ARMOR",
@@ -63,7 +84,14 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "UNARMED_WEAPON" ],
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 7, "coverage": 10, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 7,
+        "coverage": 10,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "type": "ARMOR",
@@ -81,7 +109,14 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE" ],
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 5, "coverage": 10, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 10,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "id": "gloves_studded",
@@ -119,7 +154,14 @@
     "warmth": 0,
     "material_thickness": 3,
     "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OUTER" ],
-    "armor": [ { "encumbrance": 5, "coverage": 40, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 40,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "id": "knuckle_skewer",
