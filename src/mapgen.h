@@ -95,6 +95,7 @@ struct jmapgen_int {
 /** Mapgen pieces will be applied in order of phases.  The phases are as
  * follows: */
 enum class mapgen_phase {
+    removal,
     terrain,
     furniture,
     default_,

@@ -2906,6 +2906,9 @@ class jmapgen_remove_items : public jmapgen_piece
                 items_to_remove.emplace_back( itype_id( item_id ) );
             }
         }
+        mapgen_phase phase() const override {
+            return mapgen_phase::removal;
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
@@ -2947,6 +2950,9 @@ class jmapgen_remove_vehicles : public jmapgen_piece
             for( std::string item_id : jo.get_string_array( "vehicles" ) ) {
                 vehicles_to_remove.emplace_back( vproto_id( item_id ) );
             }
+        }
+        mapgen_phase phase() const override {
+            return mapgen_phase::removal;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
