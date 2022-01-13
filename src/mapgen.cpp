@@ -2534,7 +2534,8 @@ class jmapgen_terrain : public jmapgen_piece
                 }
                 if( !error.empty() ) {
                     debugmsg( "In %s on %s, setting terrain to %s (from %s) at %s when %s.  "
-                              "Resolve this either by removing the terrain from this mapgen, or "
+                              "Resolve this either by removing the terrain from this mapgen, "
+                              "adding suitable removal commands to the mapgen, or "
                               "by adding a suitable flag to the innermost mapgen: either "
                               "ERASE_ALL_BEFORE_PLACING_TERRAIN if you wish terrain to replace "
                               "everything previously on the tile or ALLOW_TERRAIN_UNDER_OTHER_DATA "
@@ -2987,6 +2988,34 @@ class jmapgen_remove_vehicles : public jmapgen_piece
                             get_map().clear_vehicle_level_caches();
                         }
                     }
+                }
+            }
+        }
+};
+
+// Removes furniture, traps, vehicles, items, fields, graffiti
+class jmapgen_remove_all : public jmapgen_piece
+{
+    public:
+        jmapgen_remove_all( const JsonObject &/*jo*/, const std::string &/*context*/ ) {
+        }
+        mapgen_phase phase() const override {
+            return mapgen_phase::removal;
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
+
+            const tripoint start = tripoint( x.val, y.val, dat.zlevel() );
+            const tripoint end = tripoint( x.valmax, y.valmax, dat.zlevel() );
+            for( const tripoint &p : tripoint_range<tripoint>( start, end ) ) {
+                dat.m.furn_clear( p );
+                dat.m.i_clear( p );
+                dat.m.remove_trap( p );
+                dat.m.clear_fields( p );
+                dat.m.delete_graffiti( p );
+                if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
+                    dat.m.destroy_vehicle( &vp->vehicle() );
+                    get_map().clear_vehicle_level_caches();
                 }
             }
         }
@@ -3653,6 +3682,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_items>( jo, "remove_items", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_vehicles>( jo, "remove_vehicles", format_placings, c );
+    new_pal.load_place_mapings<jmapgen_remove_all>( jo, "remove_all", format_placings, c );
     new_pal.load_place_mapings<jmapgen_trap>( jo, "traps", format_placings, c );
     new_pal.load_place_mapings<jmapgen_monster>( jo, "monster", format_placings, c );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings, c );
@@ -3916,6 +3946,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         setup_setmap( jo.get_array( "set" ) );
     }
 
+    objects.load_objects<jmapgen_remove_all>( jo, "place_remove_all", context_ );
     // "add" is deprecated in favor of "place_item", but kept to support mods
     // which are not under our control.
     objects.load_objects<jmapgen_spawn_item>( jo, "add", context_ );
