@@ -547,10 +547,7 @@ void suffer::from_schizophrenia( Character &you )
     if( one_turn_in( 2_days ) && !you.get_wielded_item().is_null() ) {
         const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
                                      translation() );
-        std::string str = string_format( snip, i_name_w );
-        str[0] = toupper( str[0] );
-
-        you.add_msg_if_player( m_bad, "%s", str );
+        you.add_msg_if_player( m_bad, "%s", uppercase_first_letter( string_format( snip, i_name_w ) ) );
         item_location loc( you, &you.get_wielded_item() );
         you.drop( loc, you.pos() );
         return;
