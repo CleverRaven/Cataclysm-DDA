@@ -5774,10 +5774,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     // Print OMT type and terrain type on first two lines
     // if can't fit in one line.
-    std::string tile = m.tername( lp );
-    capitalize_letter( tile );
-    std::string area =  area_name;
-    capitalize_letter( area );
+    std::string tile = uppercase_first_letter( m.tername( lp ) );
+    std::string area = uppercase_first_letter( area_name );
     mvwprintz( w_look, point( column, line++ ), c_yellow, area );
     mvwprintz( w_look, point( column, line++ ), c_white, tile );
     std::string desc = string_format( m.ter( lp ).obj().description );
@@ -5789,8 +5787,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     // Furniture if any.
     if( m.has_furn( lp ) ) {
-        std::string desc = m.furnname( lp );
-        capitalize_letter( desc );
+        std::string desc = uppercase_first_letter( m.furnname( lp ) );
         mvwprintz( w_look, point( column, line++ ), c_white, desc );
         desc = string_format( m.furn( lp ).obj().description );
         lines = foldstring( desc, max_width );
