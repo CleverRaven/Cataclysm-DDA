@@ -578,7 +578,7 @@ bool bodypart::is_at_max_hp() const
 float bodypart::get_wetness_percentage() const
 {
     if( id->drench_max == 0 ) {
-        return 0;
+        return 0.0f;
     } else {
         return static_cast<float>( wetness ) / id->drench_max;
     }
