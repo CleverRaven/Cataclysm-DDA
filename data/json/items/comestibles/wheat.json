@@ -292,7 +292,7 @@
     "type": "COMESTIBLE",
     "id": "blood_pancakes",
     "copy-from": "pancakes",
-    "name": { "str": "Blodplättar" },
+    "name": { "str": "blodplättar" },
     "weight": "80 g",
     "spoils_in": "2 days 12 hours",
     "color": "black",

@@ -1126,7 +1126,7 @@
     "id": "armor_samurai",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "O-yoroi" },
+    "name": { "str": "ō-yoroi" },
     "description": "An ornamental suit of Japanese samurai armor.",
     "weight": "9220 g",
     "volume": "11500 ml",
@@ -1245,7 +1245,7 @@
   {
     "id": "kevlar_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "kevlar chainmail hauberk" },
+    "name": { "str": "Kevlar chainmail hauberk" },
     "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
     "copy-from": "chainmail_hauberk",
     "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
@@ -1261,7 +1261,7 @@
   {
     "id": "xl_kevlar_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "XL kevlar chainmail hauberk" },
+    "name": { "str": "XL Kevlar chainmail hauberk" },
     "copy-from": "kevlar_chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1289,7 +1289,7 @@
   {
     "id": "kevlar_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "kevlar chainmail armor" },
+    "name": { "str": "Kevlar chainmail armor" },
     "description": "A fully customized chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
     "copy-from": "chainmail_suit",
     "material_thickness": 6,
@@ -1454,7 +1454,7 @@
   {
     "id": "k_gambeson",
     "type": "ARMOR",
-    "name": { "str": "kevlar gambeson" },
+    "name": { "str": "Kevlar gambeson" },
     "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  This one incorporates Kevlar layers added for better protection.  Use it to loosen it if you want to wear it over your clothes.",
     "weight": "2760 g",
     "volume": "2520 ml",
@@ -1485,7 +1485,7 @@
     "id": "k_gambeson_loose",
     "repairs_like": "k_gambeson",
     "type": "ARMOR",
-    "name": { "str": "kevlar gambeson (loose)", "str_pl": "kevlar gambesons (loose)" },
+    "name": { "str": "Kevlar gambeson (loose)", "str_pl": "Kevlar gambesons (loose)" },
     "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  This one incorporates Kevlar layers added for better protection.  Use it to wear it tighter and be able to put proper armor over it.",
     "copy-from": "k_gambeson",
     "extend": { "flags": [ "OUTER" ] },
@@ -1522,7 +1522,7 @@
   {
     "id": "xl_k_gambeson",
     "type": "ARMOR",
-    "name": { "str": "XL kevlar gambeson" },
+    "name": { "str": "XL Kevlar gambeson" },
     "copy-from": "k_gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] },
@@ -1532,7 +1532,7 @@
     "id": "xl_k_gambeson_loose",
     "repairs_like": "xl_k_gambeson",
     "type": "ARMOR",
-    "name": { "str": "XL kevlar gambeson (loose)", "str_pl": "XL kevlar gambesons (loose)" },
+    "name": { "str": "XL Kevlar gambeson (loose)", "str_pl": "XL Kevlar gambesons (loose)" },
     "copy-from": "xl_k_gambeson",
     "extend": { "flags": [ "OUTER" ] },
     "use_action": {

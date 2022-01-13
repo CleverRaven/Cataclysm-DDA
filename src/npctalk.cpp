@@ -1739,7 +1739,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     // Parse any tags in challenge
     parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(),
                 topic.item_type );
-    capitalize_letter( challenge );
+    challenge = uppercase_first_letter( challenge );
 
     d_win.clear_history_highlights();
     if( challenge[0] == '&' ) {

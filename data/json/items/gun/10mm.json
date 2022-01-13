@@ -32,7 +32,12 @@
     "blackpowder_tolerance": 56,
     "clip_size": 6,
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "ammo_restriction": { "10mm": 6, "40": 6 }, "allowed_speedloaders": [ "40_speedloader6" ] }
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "10mm": 6, "40": 6 },
+        "allowed_speedloaders": [ "40_speedloader6" ]
+      }
     ]
   },
   {

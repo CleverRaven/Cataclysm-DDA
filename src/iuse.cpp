@@ -2641,6 +2641,11 @@ cata::optional<int> iuse::hammer( Character *p, item *it, bool, const tripoint &
     return iuse::crowbar( p, it, false, pos );
 }
 
+cata::optional<int> iuse::crowbar_weak( Character *p, item *it, bool, const tripoint &pos )
+{
+    return iuse::crowbar( p, it, false, pos );
+}
+
 cata::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint &pos )
 {
     if( p->is_mounted() ) {
@@ -7972,7 +7977,7 @@ cata::optional<int> iuse::radiocaron( Character *p, item *it, bool t, const trip
 static void sendRadioSignal( Character &p, const flag_id &signal )
 {
     map &here = get_map();
-    for( const tripoint &loc : here.points_in_radius( p.pos(), 30 ) ) {
+    for( const tripoint &loc : here.points_in_radius( p.pos(), 60 ) ) {
         for( item &it : here.i_at( loc ) ) {
             if( it.has_flag( flag_RADIO_ACTIVATION ) && it.has_flag( signal ) ) {
                 sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
