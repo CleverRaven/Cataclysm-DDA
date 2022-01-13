@@ -323,7 +323,14 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 1, "coverage": 38, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 38,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
   },
   {
     "id": "quiver",
@@ -505,7 +512,15 @@
     "material_thickness": 1.5,
     "use_action": [ { "type": "attach_molle", "size": 3 }, { "type": "detach_molle" } ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": 1, "coverage": 55, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "volume_encumber_modifier": 0.5 } ]
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 55,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "volume_encumber_modifier": 0.5
+      }
+    ]
   },
   {
     "id": "load_bearing_vest",
@@ -524,7 +539,15 @@
     "material_thickness": 1.5,
     "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "volume_encumber_modifier": 0.4 } ]
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 85,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "volume_encumber_modifier": 0.4
+      }
+    ]
   },
   {
     "id": "heavy_load_bearing_vest",
@@ -543,7 +566,15 @@
     "material_thickness": 1.5,
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "volume_encumber_modifier": 0.3 } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 85,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ]
   },
   {
     "id": "radio_pouch",
