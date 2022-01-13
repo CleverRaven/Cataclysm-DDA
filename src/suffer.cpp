@@ -1935,6 +1935,7 @@ void Character::apply_wetness_morale( int temperature )
         // Average of global and part temperature modifiers, each in range [-1.0, 1.0]
         double scaled_temperature = ( global_temperature_mod + part_mod ) / 2;
 
+        bp_morale += bp->wet_morale;
         if( bp_morale < 0 ) {
             // Damp, hot clothing on hot skin feels bad
             scaled_temperature = std::fabs( scaled_temperature );

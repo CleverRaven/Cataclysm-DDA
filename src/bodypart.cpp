@@ -300,6 +300,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "drying_chance", drying_chance, drench_max );
     optional( jo, was_loaded, "drying_increment", drying_increment, 1 );
 
+    optional( jo, was_loaded, "wet_morale", wet_morale, 0 );
+
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
     mandatory( jo, was_loaded, "limb_type", limb_type );

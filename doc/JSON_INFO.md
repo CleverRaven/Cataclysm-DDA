@@ -638,6 +638,7 @@ For information about tools with option to export ASCII art in format ready to b
 | `drench_increment`     | (_optional_) Units of "wetness" applied each time the limb gets drenched. Default 2, ignored by diving underwater.
 | `drying_chance`        | (_optional_) Base chance the bodypart will succed in the drying roll ( `x/80` chance, modified by ambient temperature etc)
 | `drying_increment`     | (_optonal_) Units of wetness the limb will dry each turn, if it succeeds in the drying roll (base chance `drench_capacity / 80`, modified by ambient temperature).
+| `wet_morale`           | (_optional_) Mood bonus/malus when the limb gets wet, representing the morale effect at 100% limb saturation. Modified by worn clothing and ambient temperature.
 | `stylish_bonus`        | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
 | `hot_morale_mod`       | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | `cold_morale_mod`      | (_optional_) Mood effect of being too cold on this part. (default: `0`)
