@@ -4,8 +4,10 @@
 #include "player_helpers.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "mission.h"
 #include "monster.h"
 #include "morale.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "options_helpers.h"
 #include "weather.h"
@@ -952,11 +954,12 @@ TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
 // Fill a 3x3 overmap area around the avatar with a given overmap terrain
 static void fill_overmap_area( const avatar &ava, const oter_id &oter )
 {
-    const tripoint_abs_omt ava_pos( ms_to_omt_copy( get_map().getabs( ava.pos() ) ) );
+    const tripoint_abs_omt &ava_pos = ava.global_omt_location();
     for( int x = -1; x <= 1; ++x ) {
         for( int y = -1; y <= 1; ++y ) {
             const tripoint offset( x, y, 0 );
             overmap_buffer.ter_set( ava_pos + offset, oter );
+            overmap_buffer.set_seen( ava_pos + offset, true );
         }
     }
 }
@@ -965,8 +968,12 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
 {
     widget overmap_w = widget_test_overmap_3x3_text.obj();
     avatar &ava = get_avatar();
+    mission msn;
+    // Use mission target to invalidate the om cache
+    msn.set_target( ava.global_omt_location() + tripoint( 5, 0, 0 ) );
     clear_avatar();
     clear_map();
+    ava.on_mission_assignment( msn );
 
     SECTION( "field" ) {
         const std::string brown_dot = "<color_c_brown>.</color>";
@@ -978,6 +985,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
         };
 
         fill_overmap_area( ava, oter_id( "field" ) );
+        msn.set_target( msn.get_target() + tripoint( 1, 0, 0 ) );
         CHECK( overmap_w.layout( ava ) == join( field_3x3, "" ) );
     }
 
@@ -991,6 +999,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
         };
 
         fill_overmap_area( ava, oter_id( "forest" ) );
+        msn.set_target( msn.get_target() + tripoint( 2, 0, 0 ) );
         CHECK( overmap_w.layout( ava ) == join( forest_3x3, "" ) );
     }
 
@@ -1004,6 +1013,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
         };
 
         fill_overmap_area( ava, oter_id( "central_lab" ) );
+        msn.set_target( msn.get_target() + tripoint( 3, 0, 0 ) );
         CHECK( overmap_w.layout( ava ) == join( lab_3x3, "" ) );
     }
 

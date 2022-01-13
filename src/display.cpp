@@ -35,6 +35,15 @@ static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
 static const itype_id fuel_type_muscle( "muscle" );
 
+// Cache for the overmap widget string
+static disp_overmap_cache disp_om_cache;
+
+disp_overmap_cache::disp_overmap_cache()
+{
+    _center = overmap::invalid_tripoint;
+    _mission = overmap::invalid_tripoint;
+}
+
 // Get remotely controlled vehicle, or vehicle character is inside of
 vehicle *display::vehicle_driven( const Character &u )
 {
@@ -1232,14 +1241,19 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     map &here = get_map();
 
     // Map is roughly centered around this point
-    const point_abs_omt center_xy = u.global_omt_location().xy();
+    const tripoint_abs_omt &center_xyz = u.global_omt_location();
+    const tripoint_abs_omt &mission_xyz = u.get_active_mission_target();
+    // Retrieve cached string instead of constantly rebuilding it
+    if( disp_om_cache.is_valid_for( center_xyz, mission_xyz ) ) {
+        return disp_om_cache.get_val();
+    }
 
     // Scan each row of overmap tiles
     for( int row = -( height / 2 ); row <= height - ( height / 2 ) - 1; row++ ) {
         // Scan across the width of the row
         for( int col = -( width / 2 ); col <= width - ( width / 2 ) - 1; col++ ) {
             // Get colorized symbol for this point
-            const tripoint_abs_omt omt( center_xy + point( col, row ), here.get_abs_sub().z );
+            const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z );
             std::pair<std::string, nc_color> sym_color = display::overmap_tile_symbol_color( u, omt );
 
             // Highlight player character location in the center
@@ -1250,6 +1264,10 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
         }
         overmap_text += "\n";
     }
+
+    // Rebuild the cache so we can reuse it if nothing changes
+    disp_om_cache.rebuild( center_xyz, mission_xyz, overmap_text );
+
     return overmap_text;
 }
 
