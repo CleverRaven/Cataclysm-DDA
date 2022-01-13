@@ -297,28 +297,25 @@ void uilist::init()
  */
 void uilist::filterlist()
 {
-    bool notfiltering = !filtering || filter.empty();
-    int num_entries = entries.size();
     // TODO: && is_all_lc( filter )
-    bool nocase = filtering_nocase;
-    std::string fstr;
-    fstr.reserve( filter.size() );
-    if( nocase ) {
-        std::wstring wstr = utf8_to_wstr( filter );
-        transform( wstr.begin(), wstr.end(), wstr.begin(), towlower );
-        fstr = wstr_to_utf8( wstr );
-    } else {
-        fstr = filter;
-    }
     fentries.clear();
     fselected = -1;
     int f = 0;
-    for( int i = 0; i < num_entries; i++ ) {
-        if( notfiltering || ( !nocase && static_cast<int>( entries[i].txt.find( filter ) ) != -1 ) ||
-            lcmatch( entries[i].txt, fstr ) ) {
-            fentries.push_back( i );
+    for( size_t i = 0; i < entries.size(); i++ ) {
+        bool visible = true;
+        if( filtering && !filter.empty() ) {
+            if( filtering_nocase ) {
+                // case-insensitive match
+                visible = lcmatch( entries[i].txt, filter );
+            } else {
+                // case-sensitive match
+                visible = entries[i].txt.find( filter ) != std::string::npos;
+            }
+        }
+        if( visible ) {
+            fentries.push_back( static_cast<int>( i ) );
             if( hilight_disabled || entries[i].enabled ) {
-                if( i == selected || ( i > selected && fselected == -1 ) ) {
+                if( static_cast<int>( i ) == selected || ( static_cast<int>( i ) > selected && fselected == -1 ) ) {
                     // Either this is selected, or we are past the previously selected entry,
                     // which has been filtered out, so choose another nearby entry instead.
                     fselected = f;
