@@ -80,6 +80,8 @@
 #  make style-json
 # Style all json files using the current rules (don't PR this, it's too many changes at once).
 #  make style-all-json
+# Style all json files in parallel using all available CPU cores (don't make -jX on this, just make)
+#  make style-all-json-parallel
 # Disable astyle of source files.
 # make ASTYLE=0
 # Disable format check of whitelisted json files.
@@ -1227,6 +1229,9 @@ endif
 
 style-all-json: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
+
+style-all-json-parallel: $(JSON_FORMATTER_BIN)
+	find data -name "*.json" -print0 | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
