@@ -552,6 +552,7 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `moon_phase_text`     | Phase of the moon - "New moon", "Waxing gibbous", "Full moon" etc.
 | `move_mode_letter`    | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
 | `move_mode_text`      | Movement mode - "walking", "running", "crouching", "prone"
+| `overmap_loc_text`    | Overmap coordinates, same as shown in the lower corner of overmap screen
 | `overmap_text`        | Colored text rendering of the local overmap; may define "width" and "height"
 | `pain_text`           | "Mild pain", "Distracting pain", "Intense pain", etc.
 | `place_text`          | Location place name
