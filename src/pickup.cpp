@@ -82,53 +82,98 @@ struct pickup_count {
     int count = 0;
 };
 
+static bool is_valid_auto_pickup( const item *pickup_item )
+{
+    int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
+    int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
+
+    return pickup_item->volume() > units::from_milliliter( volume_limit * 50 ) ||
+           pickup_item->weight() > weight_limit * 50_gram;
+}
+
+static bool should_auto_pickup( const item *pickup_item )
+{
+    std::string item_name = pickup_item->tname( 1, false );
+    rule_state pickup_state = get_auto_pickup().check_item( item_name );
+
+    if( !is_valid_auto_pickup( pickup_item ) ) {
+        return false;
+    } else if( pickup_state == rule_state::WHITELISTED ) {
+        return true;
+    } else if( pickup_state != rule_state::BLACKLISTED ) {
+        //No prematched pickup rule found, check rules in more detail
+        get_auto_pickup().create_rule( pickup_item );
+
+        if( get_auto_pickup().check_item( item_name ) == rule_state::WHITELISTED ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+static std::vector<item_location *> get_pickup_list_from( item_location *container )
+{
+    std::vector<item_location *> pickup_list;
+    std::list<item *> contents = container->get_item()->get_contents().all_items_top();
+    pickup_list.reserve( contents.size() );
+
+    for( item *item_to_check : contents ) {
+        if( should_auto_pickup( item_to_check ) ) {
+            // TODO: make check here for BLACKLIST
+            pickup_list.push_back( new item_location( *container, item_to_check ) );
+        } else if( !item_to_check->is_container_empty() ) {
+            // get pickup list from nested item container
+            item_location *location = new item_location( *container, item_to_check );
+            std::vector<item_location *> pickup_nested = get_pickup_list_from( location );
+
+            pickup_list.reserve( pickup_nested.size() + pickup_list.size() );
+            pickup_list.insert( pickup_list.end(), pickup_nested.begin(), pickup_nested.end() );
+        }
+    }
+    // all items in container were approved for pickup
+    if( !contents.empty() && pickup_list.size() == contents.size() ) {
+        // picking up whole container so delete all registered pickups
+        for( item_location *dealoc : pickup_list ) {
+            delete( dealoc );
+        }
+        pickup_list.clear();
+        pickup_list.push_back( container );
+    } else {
+        // container will not be picked up
+        delete( container );
+    }
+    return pickup_list;
+}
+
 static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>> &here,
-                                     std::vector<pickup_count> &getitem )
+                                     std::vector<pickup_count> &getitem,
+                                     std::vector<item_location> &target_items,
+                                     const tripoint &location )
 {
     bool bFoundSomething = false;
-
-    //Loop through Items lowest Volume first
-    bool bPickup = false;
+    const map_cursor map_location = map_cursor( location );
 
     for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
+        // iterate over all item stacks found in location
         for( size_t i = 0; i < here.size(); i++ ) {
-            bPickup = false;
             item_stack::iterator begin_iterator = here[i].front();
             if( begin_iterator->volume() / units::legacy_volume_factor == static_cast<int>( iVol ) ) {
                 iNumChecked++;
-                const std::string sItemName = begin_iterator->tname( 1, false );
+                item *item_entry = &*begin_iterator;
+                const std::string sItemName = item_entry->tname( 1, false );
+                item_contents &contents = begin_iterator->get_contents();
 
-                //Check the Pickup Rules
-                if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
-                    bPickup = true;
-                } else if( get_auto_pickup().check_item( sItemName ) != rule_state::BLACKLISTED ) {
-                    //No prematched pickup rule found
-                    //check rules in more detail
-                    get_auto_pickup().create_rule( &*begin_iterator );
-
-                    if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
-                        bPickup = true;
+                // before checking contents check if item is on pickup list
+                if( should_auto_pickup( &*begin_iterator ) ) {
+                    getitem[i].pick = true;
+                    bFoundSomething = true;
+                } else if( begin_iterator->is_container() && !begin_iterator->empty_container() ) {
+                    item_location *container_location = new item_location( map_location, item_entry );
+                    for( item_location *add_item : get_pickup_list_from( container_location ) ) {
+                        target_items.insert( target_items.begin(), *add_item );
+                        bFoundSomething = true;
                     }
                 }
-
-                //Auto Pickup all items with Volume <= AUTO_PICKUP_VOL_LIMIT * 50 and Weight <= AUTO_PICKUP_ZERO * 50
-                //items will either be in the autopickup list ("true") or unmatched ("")
-                if( !bPickup ) {
-                    int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
-                    int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
-                    if( weight_limit && volume_limit ) {
-                        if( begin_iterator->volume() <= units::from_milliliter( volume_limit * 50 ) &&
-                            begin_iterator->weight() <= weight_limit * 50_gram &&
-                            get_auto_pickup().check_item( sItemName ) != rule_state::BLACKLISTED ) {
-                            bPickup = true;
-                        }
-                    }
-                }
-            }
-
-            if( bPickup ) {
-                getitem[i].pick = true;
-                bFoundSomething = true;
             }
         }
     }
@@ -458,8 +503,9 @@ void Pickup::autopickup( const tripoint &p )
     } );
 
     std::vector<pickup_count> getitem( stacked_here.size() );
+    std::vector<item_location> target_items;
 
-    if( !select_autopickup_items( stacked_here, getitem ) ) {
+    if( !select_autopickup_items( stacked_here, getitem, target_items, p ) ) {
         // If we didn't find anything, bail out now.
         return;
     }
@@ -491,8 +537,11 @@ void Pickup::autopickup( const tripoint &p )
             }
         }
     }
-    std::vector<item_location> target_items;
     std::vector<int> quantities;
+    // create quantities for already registered target items to pickup
+    for( size_t i = 0; i < target_items.size(); i++ ) {
+        quantities.push_back( 0 );
+    }
     for( std::pair<item_stack::iterator, int> &iter_qty : pick_values ) {
         target_items.emplace_back( map_cursor( p ), &*iter_qty.first );
         quantities.push_back( iter_qty.second );
