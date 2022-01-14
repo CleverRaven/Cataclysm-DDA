@@ -524,7 +524,6 @@
     "name": { "str": "Thick-Skinned" },
     "points": 1,
     "description": "Your skin is tough.  Cutting and bashing damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
-    "starting_trait": true,
     "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR", "GASTROPOD" ],
     "cancels": [ "THINSKIN" ],
     "armor": [
@@ -1228,7 +1227,6 @@
     "name": { "str": "Thin-Skinned" },
     "points": -1,
     "description": "Your skin is fragile.  Cutting and bashing damage is slightly increased for you.",
-    "starting_trait": true,
     "cancels": [ "THICKSKIN" ],
     "armor": [
       {
@@ -4333,7 +4331,8 @@
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "threshreq": [ "THRESH_BIRD" ],
-    "category": [ "BIRD" ]
+    "category": [ "BIRD" ],
+    "flags": [ "WINGS_2" ]
   },
   {
     "type": "mutation",
@@ -5281,7 +5280,8 @@
     "restricts_gear": [ "torso" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
     "dodge_modifier": -4,
-    "movecost_modifier": 0.9
+    "movecost_modifier": 0.9,
+    "flags": [ "WINGS_1" ]
   },
   {
     "type": "mutation",

@@ -1860,16 +1860,18 @@ void replace_substring( std::string &input, const std::string &substring,
     }
 }
 
-//wrap if for i18n
-std::string &capitalize_letter( std::string &str, size_t n )
+std::string uppercase_first_letter( const std::string &str )
 {
-    char c = str[n];
-    if( !str.empty() && c >= 'a' && c <= 'z' ) {
-        c += 'A' - 'a';
-        str[n] = c;
-    }
+    std::wstring wstr = utf8_to_wstr( str );
+    wstr[0] = towupper( wstr[0] );
+    return wstr_to_utf8( wstr );
+}
 
-    return str;
+std::string lowercase_first_letter( const std::string &str )
+{
+    std::wstring wstr = utf8_to_wstr( str );
+    wstr[0] = towlower( wstr[0] );
+    return wstr_to_utf8( wstr );
 }
 
 //remove prefix of a string, between c1 and c2, i.e., "<prefix>remove it"
@@ -2471,7 +2473,7 @@ int ci_find_substr( const std::string &str1, const std::string &str2, const std:
 }
 
 /**
-* Convert, round up and format a volume.
+* Convert and format volume.
 */
 std::string format_volume( const units::volume &volume )
 {
@@ -2479,7 +2481,7 @@ std::string format_volume( const units::volume &volume )
 }
 
 /**
-* Convert, clamp, round up and format a volume,
+* Convert, clamp and format volume,
 * taking into account the specified width (0 for unlimited space),
 * optionally returning a flag that indicate if the value was truncated to fit the width,
 * optionally returning the formatted value as double.
@@ -2494,8 +2496,6 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
     if( width != 0 ) {
         value = clamp_to_width( value, std::abs( width ), scale, out_truncated );
     }
-    // round up
-    value = round_up( value, scale );
     if( out_value != nullptr ) {
         *out_value = value;
     }

@@ -805,6 +805,73 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
 
+        // calculate worst case and best case protection %
+        for( armor_portion_data &armor_data : obj.armor->data ) {
+            // go through each material and contribute its values
+            float tempbest = 1.0f;
+            float tempworst = 1.0f;
+            for( const part_material &mat : armor_data.materials ) {
+                // the percent chance the material is not hit
+                float cover = mat.cover * .01f;
+                float cover_invert = 1.0f - cover;
+
+                tempbest *= cover;
+                // just interested in cover values that can fail.
+                // multiplying by 0 would make this value pointless
+                if( cover_invert > 0 ) {
+                    tempworst *= cover_invert;
+                }
+            }
+
+            // if tempworst is 1 then the item is homogenous so it only has a single option for damage
+            if( tempworst == 1 ) {
+                tempworst = 0;
+            }
+
+            // if not exactly 0 it should display as at least 1
+            if( tempworst > 0 ) {
+                armor_data.worst_protection_chance = std::max( 1.0f, tempworst * 100.0f );
+            } else {
+                armor_data.worst_protection_chance = 0;
+            }
+            if( tempbest > 0 ) {
+                armor_data.best_protection_chance = std::max( 1.0f, tempbest * 100.0f );
+            } else {
+                armor_data.best_protection_chance = 0;
+            }
+        }
+
+        // calculate worst case and best case protection %
+        for( armor_portion_data &armor_data : obj.armor->sub_data ) {
+            // go through each material and contribute its values
+            float tempbest = 1.0f;
+            float tempworst = 1.0f;
+            for( const part_material &mat : armor_data.materials ) {
+                // the percent chance the material is not hit
+                float cover = mat.cover * .01f;
+                float cover_invert = 1.0f - cover;
+
+                tempbest *= cover;
+                // just interested in cover values that can fail.
+                // multiplying by 0 would make this value pointless
+                if( cover_invert > 0 ) {
+                    tempworst *= cover_invert;
+                }
+            }
+
+            // if not exactly 0 it should display as at least 1
+            if( tempworst > 0 ) {
+                armor_data.worst_protection_chance = std::max( 1.0f, tempworst * 100.0f );
+            } else {
+                armor_data.worst_protection_chance = 0;
+            }
+            if( tempbest > 0 ) {
+                armor_data.best_protection_chance = std::max( 1.0f, tempbest * 100.0f );
+            } else {
+                armor_data.best_protection_chance = 0;
+            }
+        }
+
         // create the vector of all layers
         if( obj.has_flag( flag_PERSONAL ) ) {
             obj.armor->all_layers.push_back( layer_level::PERSONAL );
@@ -1257,6 +1324,7 @@ void Item_factory::init()
     add_iuse( "E_COMBATSAW_ON", &iuse::e_combatsaw_on );
     add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
+    add_iuse( "CROWBAR_WEAK", &iuse::crowbar_weak );
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIVE_TANK", &iuse::dive_tank );
@@ -1322,6 +1390,7 @@ void Item_factory::init()
     add_iuse( "MARLOSS_GEL", &iuse::marloss_gel );
     add_iuse( "MARLOSS_SEED", &iuse::marloss_seed );
     add_iuse( "MA_MANUAL", &iuse::ma_manual );
+    add_iuse( "MANAGE_EXOSUIT", &iuse::manage_exosuit );
     add_iuse( "MEDITATE", &iuse::meditate );
     add_iuse( "METH", &iuse::meth );
     add_iuse( "MININUKE", &iuse::mininuke );

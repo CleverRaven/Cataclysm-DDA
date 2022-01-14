@@ -3,7 +3,7 @@
     "type": "mapgen",
     "update_mapgen_id": "faction_base_lightindustry_workshop_0",
     "method": "json",
-    "object": { "set": [ { "point": "furniture", "id": "f_null", "x": 0, "y": 0 } ] }
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",

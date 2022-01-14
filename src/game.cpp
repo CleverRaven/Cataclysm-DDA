@@ -160,6 +160,7 @@
 #include "string_input_popup.h"
 #include "submap.h"
 #include "talker.h"
+#include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
 #include "translations.h"
@@ -331,7 +332,7 @@ static constexpr int DANGEROUS_PROXIMITY = 5;
 
 
 #if defined(__ANDROID__)
-extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
+extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back ); // NOLINT
 #endif
 
 //The one and only game instance
@@ -546,8 +547,8 @@ void game::load_data_from_dir( const std::string &path, const std::string &src, 
 
 #if !(defined(_WIN32) || defined(TILES))
 // in ncurses_def.cpp
-void check_encoding();
-void ensure_term_size();
+extern void check_encoding(); // NOLINT
+extern void ensure_term_size(); // NOLINT
 #endif
 
 void game_ui::init_ui()
@@ -2556,24 +2557,15 @@ void game::death_screen()
 }
 
 // A timestamp that can be used to make unique file names
-// Date format is a somewhat ISO-8601 compliant GMT time date (except we use '-' instead of ':' probably because of Windows file name rules).
+// Date format is a somewhat ISO-8601 compliant local time date (except we use '-' instead of ':' probably because of Windows file name rules).
+// XXX: removed the timezone suffix due to an mxe bug
+// See: https://github.com/mxe/mxe/issues/2749
 static std::string timestamp_now()
 {
     std::time_t time = std::time( nullptr );
-    std::tm *timedate = std::gmtime( &time );
-    std::string date_buffer( 32, '\0' );
-#if defined(_WIN32)
-    std::strftime( &date_buffer[0], date_buffer.capacity(), "%Y-%m-%dT%H-%M-%S", timedate );
-    TIME_ZONE_INFORMATION tz_info;
-    if( GetTimeZoneInformation( &tz_info ) == TIME_ZONE_ID_INVALID ) {
-        return string_format( "%sZ", date_buffer );
-    }
-    const int bias = -static_cast<int>( tz_info.Bias );
-    return string_format( "%s%+.2d%02d", date_buffer, bias / 60, std::abs( bias ) % 60 );
-#else
-    std::strftime( &date_buffer[0], date_buffer.capacity(), "%Y-%m-%dT%H-%M-%S%z", timedate );
-#endif
-    return date_buffer;
+    std::stringstream date_buffer;
+    date_buffer << std::put_time( std::localtime( &time ), "%Y-%m-%dT%H-%M-%S" );
+    return date_buffer.str();
 }
 
 void game::move_save_to_graveyard()
@@ -5277,7 +5269,12 @@ bool game::npc_menu( npc &who )
     } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
         u.steal( who );
     } else if( choice == trade ) {
-        npc_trading::trade( who, 0, _( "Trade" ) );
+        if( who.is_hallucination() ) {
+            who.say( SNIPPET.random_from_category( "<hallu_dont_trade>" ).value_or(
+                         translation() ).translated() );
+        } else {
+            npc_trading::trade( who, 0, _( "Trade" ) );
+        }
     }
 
     return true;
@@ -5768,10 +5765,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     // Print OMT type and terrain type on first two lines
     // if can't fit in one line.
-    std::string tile = m.tername( lp );
-    tile[0] = toupper( tile[0] );
-    std::string area =  area_name;
-    area[0] = toupper( area[0] );
+    std::string tile = uppercase_first_letter( m.tername( lp ) );
+    std::string area = uppercase_first_letter( area_name );
     mvwprintz( w_look, point( column, line++ ), c_yellow, area );
     mvwprintz( w_look, point( column, line++ ), c_white, tile );
     std::string desc = string_format( m.ter( lp ).obj().description );
@@ -5783,8 +5778,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     // Furniture if any.
     if( m.has_furn( lp ) ) {
-        std::string desc = m.furnname( lp );
-        desc[0] = toupper( desc[0] );
+        std::string desc = uppercase_first_letter( m.furnname( lp ) );
         mvwprintz( w_look, point( column, line++ ), c_white, desc );
         desc = string_format( m.furn( lp ).obj().description );
         lines = foldstring( desc, max_width );
@@ -7427,6 +7421,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+    ctxt.register_action( "zoom_in" );
+    ctxt.register_action( "zoom_out" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -7769,6 +7765,12 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             iScrollPos -= item_info_scroll_lines;
         } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
             iScrollPos += item_info_scroll_lines;
+        } else if( action == "zoom_in" ) {
+            zoom_in();
+            mark_main_ui_adaptor_resize();
+        } else if( action == "zoom_out" ) {
+            zoom_out();
+            mark_main_ui_adaptor_resize();
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
             return game::vmenu_ret::CHANGE_TAB;
@@ -7871,6 +7873,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "zoom_in" );
+    ctxt.register_action( "zoom_out" );
     ctxt.register_action( "SAFEMODE_BLACKLIST_ADD" );
     ctxt.register_action( "SAFEMODE_BLACKLIST_REMOVE" );
     ctxt.register_action( "QUIT" );
@@ -8101,6 +8105,12 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
             return game::vmenu_ret::CHANGE_TAB;
+        } else if( action == "zoom_in" ) {
+            zoom_in();
+            mark_main_ui_adaptor_resize();
+        } else if( action == "zoom_out" ) {
+            zoom_out();
+            mark_main_ui_adaptor_resize();
         } else if( action == "SAFEMODE_BLACKLIST_REMOVE" ) {
             const monster *m = dynamic_cast<monster *>( cCurMon );
             const std::string monName = ( m != nullptr ) ? m->name() : "human";
@@ -10606,9 +10616,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
                 return;
             }
-            u.set_underwater( true );
             ///\EFFECT_STR increases breath-holding capacity while diving
-            u.oxygen = 30 + 2 * u.str_cur;
+            u.set_oxygen();
+            u.set_underwater( true );
             add_msg( _( "You dive underwater!" ) );
         } else {
             if( u.swim_speed() < 500 || u.shoe_type_count( itype_swim_fins ) ) {

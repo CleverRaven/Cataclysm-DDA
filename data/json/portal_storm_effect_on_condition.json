@@ -317,6 +317,7 @@
               [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 3 ],
               [ "EOC_PORTAL_ABSENCE", 2 ],
+              [ "EOC_PORTAL_MEMORIES", 1 ],
               [ "EOC_PORTAL_PAIN", 3 ],
               [ "EOC_PORTAL_LIGHT", 2 ],
               [ "EOC_PORTAL_GRASS_CHANGE", 1 ],
@@ -358,6 +359,7 @@
               [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
               [ "EOC_PORTAL_ABSENCE", 1 ],
+              [ "EOC_PORTAL_MEMORIES", 2 ],
               [ "EOC_PORTAL_LIGHT", 2 ],
               [ "EOC_PORTAL_TELEPORT_STUCK_START", 1 ],
               [ "EOC_PORTAL_RADIATION", 1 ],
@@ -504,6 +506,21 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PORTAL_MEMORIES",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_message": "Ghosts of the dead surround you.", "type": "bad" },
+      {
+        "u_set_spawn_monster": "mon_memory",
+        "real_count": 10,
+        "hallucination_count": 10,
+        "lifespan_min": "5 seconds",
+        "lifespan_max": "2 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PORTAL_ABSENCE",
     "condition": "u_is_outside",
     "effect": [
@@ -542,6 +559,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK_START",
     "global": true,
+    "condition": { "not": "u_driving" },
     "effect": [
       { "u_location_variable": { "u_val": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK" ] },
@@ -610,7 +628,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_INCORPOREAL",
-    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
     "effect": [
       {
         "arithmetic": [
@@ -621,7 +639,11 @@
           { "time": "1 seconds" }
         ]
       },
-      { "u_message": "You feel stretched, as if part of you was elsewhere.", "type": "bad" },
+      {
+        "u_message": "You feel stretched, as if part of you was elsewhere.  You are not solid enough to affect matter and your equipment falls through you.",
+        "type": "bad",
+        "popup": true
+      },
       { "u_add_effect": "incorporeal", "duration": { "global_val": "ps_incorporeal_str", "default": "1 seconds" } }
     ]
   },
@@ -657,25 +679,9 @@
         "target_var": { "global_val": "grass_transform" }
       },
       {
-        "set_queue_effect_on_condition": [
-          {
-            "id": "EOC_PORTAL_ALIEN_GRASS_CHANGE",
-            "global": true,
-            "effect": [
-              {
-                "u_transform_radius": { "global_val": "ps_transform_radius", "default": 5 },
-                "ter_furn_transform": "portal_alien_grass_transform",
-                "target_var": { "global_val": "grass_transform" }
-              },
-              {
-                "u_make_sound": "a high pitched squeal.",
-                "target_var": { "global_val": "grass_transform" },
-                "volume": 60,
-                "type": "alert"
-              }
-            ]
-          }
-        ],
+        "u_transform_radius": { "global_val": "ps_transform_radius", "default": 5 },
+        "ter_furn_transform": "portal_alien_grass_transform",
+        "target_var": { "global_val": "grass_transform" },
         "time_in_future_min": "30 seconds",
         "time_in_future_max": "5 minutes"
       }
@@ -743,7 +749,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_POPUP",
     "global": true,
-    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 120 } } ] },
+    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 250 } } ] },
     "effect": [
       {
         "u_message": "PORTAL_STORM_POPUP",

@@ -67,7 +67,7 @@
         "#######        ##  №#######           ########  "
       ],
       "terrain": {
-        " ": [ [ "t_water_sh_underground", 1 ], [ "t_rock_floor", 10 ] ],
+        " ": [ [ "t_puddle_underground", 1 ], [ "t_rock_floor", 10 ] ],
         "<": "t_ladder_up",
         "-": "t_wall",
         "|": "t_wall",

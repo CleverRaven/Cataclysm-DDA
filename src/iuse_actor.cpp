@@ -298,6 +298,8 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
                 obj->ammo_set( ammo_type, qty );
             } else if( !obj->ammo_current().is_null() ) {
                 obj->ammo_set( obj->ammo_current(), qty );
+            } else if( obj->has_flag( flag_RADIO_ACTIVATION ) && obj->has_flag( flag_BOMB ) ) {
+                obj->set_countdown( 1 );
             } else {
                 obj->set_countdown( qty );
             }
@@ -1769,10 +1771,10 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
     }
 
     if( material_restricted && !cut.made_of_any( material_whitelist ) ) {
-        std::string lower_verb = verb.translated();
-        std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower );
+        std::wstring lower_verb = utf8_to_wstr( verb.translated() );
+        std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), towlower );
         add_msg( m_info, _( "You can't %1$s %2$s because of the material it is made of." ),
-                 lower_verb, cut.display_name() );
+                 wstr_to_utf8( lower_verb ), cut.display_name() );
         return false;
     }
 
@@ -4629,36 +4631,28 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
         bool enab = false;
         std::string prompt;
         if( !mod.has_own_flag( obj.flag ) ) {
-            // TODO: Fix for UTF-8 strings
-            // TODO: find other places where this is used and make a global function for all
-            static const auto tolower = []( std::string t ) {
-                if( !t.empty() ) {
-                    t.front() = std::tolower( t.front() );
-                }
-                return t;
-            };
             // Mod not already present, check if modification is possible
             if( obj.restricted &&
                 std::find( valid_mods.begin(), valid_mods.end(), obj.flag.str() ) == valid_mods.end() ) {
                 //~ %1$s: modification desc, %2$s: mod name
                 prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
-                                        tolower( obj.implement_prompt.translated() ),
+                                        lowercase_first_letter( obj.implement_prompt.translated() ),
                                         mod.tname( 1, false ) );
             } else if( !it.ammo_sufficient( &p, thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
-                                        tolower( obj.implement_prompt.translated() ), thread_needed );
+                                        lowercase_first_letter( obj.implement_prompt.translated() ), thread_needed );
             } else if( !has_enough[obj.item_string] ) {
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
                 prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ),
-                                        tolower( obj.implement_prompt.translated() ),
+                                        lowercase_first_letter( obj.implement_prompt.translated() ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
             } else {
                 // Modification is possible
                 enab = true;
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
                 prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ),
-                                        tolower( obj.implement_prompt.translated() ),
+                                        lowercase_first_letter( obj.implement_prompt.translated() ),
                                         items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
             }
 

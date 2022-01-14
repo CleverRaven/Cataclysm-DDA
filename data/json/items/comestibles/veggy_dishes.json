@@ -34,7 +34,7 @@
     "name": { "str_sp": "starch" },
     "weight": "180 g",
     "color": "light_gray",
-    "spoils_in": "1 day 6 hours",
+    "spoils_in": "3 day 12 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,

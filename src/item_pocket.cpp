@@ -26,6 +26,7 @@
 #include "localized_comparator.h"
 #include "map.h"
 #include "math_defines.h"
+#include "messages.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -124,6 +125,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
     optional( jo, was_loaded, "default_magazine", default_magazine );
     optional( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "name", pocket_name );
     if( jo.has_member( "ammo_restriction" ) && ammo_restriction.empty() ) {
         jo.throw_error( "pocket defines empty ammo_restriction" );
     }
@@ -1516,6 +1518,7 @@ void item_pocket::overflow( const tripoint &pos )
             ( !ret_contain.success() &&
               ret_contain.value() != contain_code::ERR_NO_SPACE &&
               ret_contain.value() != contain_code::ERR_CANNOT_SUPPORT ) ) {
+            add_msg( m_bad, _( "Your %s falls to the ground." ), ( *iter ).tname() );
             here.add_item_or_charges( pos, *iter );
             iter = contents.erase( iter );
         } else {

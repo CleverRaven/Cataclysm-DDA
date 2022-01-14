@@ -1739,7 +1739,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     // Parse any tags in challenge
     parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(),
                 topic.item_type );
-    capitalize_letter( challenge );
+    challenge = uppercase_first_letter( challenge );
 
     d_win.clear_history_highlights();
     if( challenge[0] == '&' ) {
@@ -2360,6 +2360,10 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
 {
     ter_furn_transform_id transform = ter_furn_transform_id( jo.get_string( "ter_furn_transform" ) );
     int_or_var iov = get_int_or_var( jo, member );
+    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
+            0_seconds );
+    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
+            0_seconds );
     cata::optional<std::string> target_var;
     var_type type = var_type::u;
     if( jo.has_member( "target_var" ) ) {
@@ -2367,20 +2371,21 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
         type = var.type;
         target_var = var.name;
     }
-    function = [iov, transform, target_var, type, is_npc]( const dialogue & d ) {
+    function = [iov, transform, target_var, type, is_npc, dov_time_in_future_min,
+         dov_time_in_future_max]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, type,
                               d.actor( type == var_type::npc ) );
-        bool shifted = false;
-        tripoint_abs_omt origin = get_avatar().global_omt_location();
-        if( !get_map().inbounds( get_map().getlocal( target_pos ) ) ) {
-            const tripoint_abs_ms abs_ms( target_pos );
-            g->place_player_overmap( project_to<coords::omt>( abs_ms ) );
-            shifted = true;
-        }
-        get_map().transform_radius( transform, iov.evaluate( d.actor( iov.is_npc() ) ), target_pos );
-        if( shifted ) {
-            g->place_player_overmap( origin );
+
+        int radius = iov.evaluate( d.actor( iov.is_npc() ) );
+        time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
+        if( min > 0_seconds ) {
+            get_timed_events().add( timed_event_type::TRANSFORM_RADIUS,
+                                    calendar::turn + rng( min, dov_time_in_future_max.evaluate( d.actor(
+                                                dov_time_in_future_max.is_npc() ) ) ),
+                                    -1, tripoint_abs_sm( target_pos ), radius, transform.str() );
+        } else {
+            get_map().transform_radius( transform, radius, target_pos );
         }
     };
 }

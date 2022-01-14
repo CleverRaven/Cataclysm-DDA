@@ -376,7 +376,7 @@ class input_manager
          * Use `input_context::(re)set_timeout()` when possible so timeout will be properly
          * reset when entering a new input context.
          */
-        void set_timeout( int t );
+        void set_timeout( int delay );
         void reset_timeout() {
             set_timeout( -1 );
         }
