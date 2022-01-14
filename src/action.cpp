@@ -41,6 +41,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+
 static const itype_id itype_swim_fins( "swim_fins" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
