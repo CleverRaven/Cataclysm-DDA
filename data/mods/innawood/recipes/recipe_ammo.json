@@ -11,7 +11,7 @@
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "string_6", 2 ] ], [ [ "superglue", 1 ] ] ],
+    "components": [ [ [ "string_6", 2 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ],
     "//": "Essentially a ball of glued-together string with some leather around it"
   }
 ]
