@@ -277,6 +277,17 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         p.moves -= moves;
     }
 
+    if ( possess && need_fire && p.has_trait( trait_PYROMANIA ) ) {
+        if( one_in( 4 ) ) {
+            p.add_msg_if_player( m_mixed,
+                                    _( "You light a fire, but it isn't enough.  You need to light more." ) );
+        } else {
+            p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
+            p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
+            p.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        }
+    }
+
     item obj_copy( it );
     item *obj;
     // defined here to allow making a new item assigned to the pointer
