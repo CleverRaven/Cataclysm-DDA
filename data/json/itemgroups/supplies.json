@@ -283,7 +283,7 @@
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
       [ "rigid_plastic_sheet", 30 ],
-	  [ "gas_forge", 15 ]
+      [ "gas_forge", 15 ]
     ]
   },
   {
@@ -394,7 +394,7 @@
       [ "gasoline", 50 ],
       [ "motor_oil", 100 ],
       [ "lamp_oil", 100 ],
-	  [ "propane", 75 ]
+      [ "propane", 75 ]
     ]
   },
   {
@@ -504,7 +504,7 @@
       [ "motor_oil", 100 ],
       [ "solar_panel", 3 ],
       [ "recharge_station", 8 ],
-	  [ "gas_forge", 2 ]
+      [ "gas_forge", 2 ]
     ]
   },
   {
