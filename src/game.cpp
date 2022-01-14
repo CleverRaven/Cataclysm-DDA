@@ -5255,8 +5255,12 @@ bool game::npc_menu( npc &who )
             }
         }
     } else if( choice == sort_armor ) {
-        who.sort_armor();
-        u.mod_moves( -100 );
+        if( who.is_hallucination() ) {
+            who.say( SNIPPET.random_from_category( "<no>" ).value_or( translation() ).translated() );
+        } else {
+            who.sort_armor();
+            u.mod_moves( -100 );
+        }
     } else if( choice == attack ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
             u.melee_attack( who, true );

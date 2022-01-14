@@ -773,7 +773,7 @@ void game::chat()
             break;
         case NPC_CHAT_MOUNT:
             for( npc *them : followers ) {
-                if( them->has_effect( effect_riding ) ) {
+                if( them->has_effect( effect_riding ) || them->is_hallucination() ) {
                     continue;
                 }
                 talk_function::find_mount( *them );
