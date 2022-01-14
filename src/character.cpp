@@ -7511,7 +7511,8 @@ void Character::heal_bp( bodypart_id bp, int dam )
 void Character::heal( const bodypart_id &healed, int dam )
 {
     if( !is_limb_broken( healed ) ) {
-        int effective_heal = std::min( dam, get_part_hp_max( healed ) - get_part_hp_cur( healed ) );
+        int effective_heal = std::min( dam + healed->heal_bonus,
+                                       get_part_hp_max( healed ) - get_part_hp_cur( healed ) ) ;
         mod_part_hp_cur( healed, effective_heal );
         get_event_bus().send<event_type::character_heals_damage>( getID(), effective_heal );
     }
