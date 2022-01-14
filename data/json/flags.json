@@ -176,6 +176,11 @@
     "info": "You could probably use this to get into a secure industrial facility."
   },
   {
+    "id": "COOP_CARD",
+    "type": "json_flag",
+    "info": "Gives you access to the artisans workshop."
+  },
+  {
     "id": "SKINNED",
     "type": "json_flag"
   },

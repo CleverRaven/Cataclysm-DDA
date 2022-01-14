@@ -27,7 +27,7 @@
         },
         "effect": [
           {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 3 } ]
+            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
           },
           { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
         ],
@@ -50,7 +50,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
         "effect": [
           {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 3 } ]
+            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
           },
           { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
         ],
@@ -114,7 +114,12 @@
             "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 3 } ],
             "op": "=",
             "yes": "Well, a few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
-            "no": "ERROR: out of bounds on randomize_directions."
+            "no": {
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 4 } ],
+              "op": "=",
+              "yes": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea but the lad lives on a homestead with a women who wouldn't let my guys leave without a full belly.",
+              "no": "ERROR: out of bounds on randomize_directions."
+            }
           }
         }
       }
@@ -163,6 +168,21 @@
           ]
         },
         "effect": { "assign_mission": "directions_exodii" },
+        "switch": true
+      },
+      {
+        "text": "Where was that?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
+        "condition": {
+          "and": [
+            {
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, { "const": 4 } ],
+              "op": "="
+            },
+            { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" } }
+          ]
+        },
+        "effect": { "assign_mission": "directions_artisans" },
         "switch": true
       },
       {
@@ -271,6 +291,31 @@
       "accepted": "Your funeral.",
       "rejected": "Seems reasonable.",
       "advice": "Be careful.  Seems like a rough place to me.",
+      "inquire": "How is the search going?",
+      "success": "Huh, go figure.",
+      "success_lie": "Huh, go figure.",
+      "failure": "Seems reasonable."
+    }
+  },
+  {
+    "id": "directions_artisans",
+    "type": "mission_definition",
+    "name": { "str": "Check out bullet bank" },
+    "description": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea, but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "isolated_house_farm_gunsmith", "reveal_radius": 2, "search_range": 400 },
+      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea, but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
+      "offer": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea, but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
+      "accepted": "Hopefully they are still around.",
+      "rejected": "Seems reasonable.",
+      "advice": "Don't worry about the turrets they seem friendly to people.",
       "inquire": "How is the search going?",
       "success": "Huh, go figure.",
       "success_lie": "Huh, go figure.",
