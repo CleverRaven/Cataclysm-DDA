@@ -547,7 +547,7 @@
       [ "horse_tack", 3 ],
       [ "saddlebag", 5 ],
       [ "lifestraw", 3 ],
-      [ "acetylene_machine", 2 ]
+      [ "acetylene_machine", 2 ],
       { "item": "propane_lantern", "prob": 15, "charges": [ 0, 30 ] },
       { "item": "propane_cooker", "prob": 15, "charges": [ 0, 10 ] }
     ]
