@@ -277,10 +277,10 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         p.moves -= moves;
     }
 
-    if ( possess && need_fire && p.has_trait( trait_PYROMANIA ) ) {
+    if( possess && need_fire && p.has_trait( trait_PYROMANIA ) ) {
         if( one_in( 2 ) ) {
             p.add_msg_if_player( m_mixed,
-                                    _( "You light a fire, but it isn't enough.  You need to light more." ) );
+                                 _( "You light a fire, but it isn't enough.  You need to light more." ) );
         } else {
             p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
             p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
