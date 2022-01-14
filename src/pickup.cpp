@@ -113,8 +113,9 @@ static bool should_auto_pickup( const item *pickup_item )
 
 static std::vector<item_location *> get_pickup_list_from( item_location *container )
 {
+    item *container_item = container->get_item();
     std::vector<item_location *> pickup_list;
-    std::list<item *> contents = container->get_item()->get_contents().all_items_top();
+    std::list<item *> contents = container_item->get_contents().all_items_top();
     pickup_list.reserve( contents.size() );
 
     for( item *item_to_check : contents ) {
@@ -132,12 +133,15 @@ static std::vector<item_location *> get_pickup_list_from( item_location *contain
     }
     // all items in container were approved for pickup
     if( !contents.empty() && pickup_list.size() == contents.size() ) {
-        // picking up whole container so delete all registered pickups
-        for( item_location *dealoc : pickup_list ) {
-            delete( dealoc );
+        // make sure container is allowed to be picked up
+        if( is_valid_auto_pickup( container_item ) ) {
+            // picking up whole container so delete all registered pickups
+            for( item_location *dealoc : pickup_list ) {
+                delete( dealoc );
+            }
+            pickup_list.clear();
+            pickup_list.push_back( container );
         }
-        pickup_list.clear();
-        pickup_list.push_back( container );
     } else {
         // container will not be picked up
         delete( container );
