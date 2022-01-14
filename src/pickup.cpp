@@ -463,7 +463,6 @@ void Pickup::autopickup( const tripoint &p )
         // If we didn't find anything, bail out now.
         return;
     }
-
     // At this point we've selected our items, register an activity to pick them up.
     std::vector<std::pair<item_stack::iterator, int>> pick_values;
     for( size_t i = 0; i < stacked_here.size(); i++ ) {
@@ -492,14 +491,12 @@ void Pickup::autopickup( const tripoint &p )
             }
         }
     }
-
     std::vector<item_location> target_items;
     std::vector<int> quantities;
     for( std::pair<item_stack::iterator, int> &iter_qty : pick_values ) {
         target_items.emplace_back( map_cursor( p ), &*iter_qty.first );
         quantities.push_back( iter_qty.second );
     }
-
     player_character.assign_activity( player_activity( pickup_activity_actor( target_items, quantities,
                                       player_character.pos() ) ) );
     // Auto pickup will need to auto resume since there can be several of them on the stack.
