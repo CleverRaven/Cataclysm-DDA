@@ -337,7 +337,7 @@ Example:
 ```
 
 ### Row terrains in "terrain"
-**required by "rows"**
+**usually required by "rows"**
 
 Defines terrain ids for "rows", each key is a single character with a terrain id string
 
@@ -403,6 +403,30 @@ Example:
   "l": "f_locker"
 },
 ```
+
+## Mapgen flags
+`"flags"` may provide a list of flags to be applied to the mapgen.
+
+Example:
+```json
+"flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+```
+
+Currently the defined flags are as follows:
+
+* `ERASE_ALL_BEFORE_PLACING_TERRAIN` and `ALLOW_TERRAIN_UNDER_OTHER_DATA` are
+  mutually exclusive flags that can be used with any mapgen which is layered on
+  top of existing terrain.  This can be update mapgen, nested mapgen, or
+  regular mapgen with a predecessor.  It specifies the behaviour to follow when
+  an existing terrain is changed by the update, but the tile has existing
+  items, trap, or furniture on it.  If neither flag is provided this is an
+  error.  If `ERASE_ALL_BEFORE_PLACING_TERRAIN` is given then any items, trap,
+  or furniture will be removed before changing the terrain.  If
+  `ALLOW_TERRAIN_UNDER_OTHER_DATA` is given then they will be retained without
+  an error.  If you require more fine-grained control over this behaviour than
+  can be provided by these flags, then each of these things can be removed
+  either individually or together.  See the other entries below, such as
+  `remove_all`.
 
 ## Set terrain, furniture, or traps with a "set" array
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.
@@ -1013,6 +1037,14 @@ The `type` field values affect NPC behavior. NPCs will:
 - Prefer to retreat towards `NPC_RETREAT` zones.
 - Not move to the see the source of unseen sounds coming from `NPC_NO_INVESTIGATE` zones.
 - Not move to the see the source of unseen sounds coming from outside `NPC_INVESTIGATE_ONLY` zones.
+
+
+### Remove everything with "remove_all"
+
+This has no additional fields, and will remove all fields, items, traps,
+graffiti, and furniture from a tile.  This can be useful in e.g. nests or other
+update mapgen to clear out existing stuff that might exist but wouldn't make
+sense in the nest.
 
 
 ### Translate terrain type with "translate_ter"
