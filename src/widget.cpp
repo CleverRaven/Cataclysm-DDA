@@ -141,6 +141,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "move_mode_text";
         case widget_var::pain_text:
             return "pain_text";
+        case widget_var::overmap_text:
+            return "overmap_text";
         case widget_var::place_text:
             return "place_text";
         case widget_var::power_text:
@@ -484,7 +486,7 @@ window_panel widget::get_window_panel( const int width, const int req_height )
         for( const widget_id &wid : _widgets ) {
             height += wid->_height > 0 ? wid->_height : 1;
         }
-    } else if( _style == "widget" ) {
+    } else if( _style == "widget" || _style == "text" ) {
         height = _height > 1 ? _height : req_height;
     }
     // Minimap and log do not have a predetermined height
@@ -515,6 +517,7 @@ bool widget::uses_text_function()
         case widget_var::move_mode_letter:
         case widget_var::move_mode_text:
         case widget_var::pain_text:
+        case widget_var::overmap_text:
         case widget_var::place_text:
         case widget_var::power_text:
         case widget_var::rad_badge_text:
@@ -588,6 +591,10 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::pain_text:
             desc = display::pain_text_color( ava );
+            break;
+        case widget_var::overmap_text:
+            desc.first = display::colorized_overmap_text( ava, _width == 0 ? max_width : _width, _height );
+            apply_color = false;
             break;
         case widget_var::place_text:
             desc.first = overmap_buffer.ter( ava.global_omt_location() )->get_name();
@@ -787,6 +794,10 @@ static std::string append_line( const std::string &line, bool first_row, unsigne
     std::string ret;
     // Width used by label, ": " and value, using utf8_width to ignore color tags
     unsigned int used_width = utf8_width( line, true );
+    // utf8_width subtracts 1 for each newline; add it back for multiline widgets
+    if( !line.empty() && line.back() == '\n' ) {
+        used_width += 1;
+    }
     if( first_row ) {
         const std::string tlabel = label.translated();
         // If label is empty or omitted, don't reserve space for it

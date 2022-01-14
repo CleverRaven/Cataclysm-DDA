@@ -2,9 +2,11 @@
 
 #include "game.h"
 #include "player_helpers.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
 #include "morale.h"
+#include "overmapbuffer.h"
 #include "options_helpers.h"
 #include "weather.h"
 #include "weather_type.h"
@@ -77,6 +79,7 @@ static const widget_id widget_test_move_cost_num( "test_move_cost_num" );
 static const widget_id widget_test_move_mode_letter( "test_move_mode_letter" );
 static const widget_id widget_test_move_mode_text( "test_move_mode_text" );
 static const widget_id widget_test_move_num( "test_move_num" );
+static const widget_id widget_test_overmap_3x3_text( "test_overmap_3x3_text" );
 static const widget_id widget_test_per_num( "test_per_num" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
 static const widget_id widget_test_rad_badge_text( "test_rad_badge_text" );
@@ -944,6 +947,69 @@ TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
             CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
         }
     }
+}
+
+// Fill a 3x3 overmap area around the avatar with a given overmap terrain
+static void fill_overmap_area( const avatar &ava, const oter_id &oter )
+{
+    const tripoint_abs_omt ava_pos( ms_to_omt_copy( get_map().getabs( ava.pos() ) ) );
+    for( int x = -1; x <= 1; ++x ) {
+        for( int y = -1; y <= 1; ++y ) {
+            const tripoint offset( x, y, 0 );
+            overmap_buffer.ter_set( ava_pos + offset, oter );
+        }
+    }
+}
+
+TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
+{
+    widget overmap_w = widget_test_overmap_3x3_text.obj();
+    avatar &ava = get_avatar();
+    clear_avatar();
+    clear_map();
+
+    SECTION( "field" ) {
+        const std::string brown_dot = "<color_c_brown>.</color>";
+        const std::string h_brown_dot = "<color_h_brown>.</color>";
+        const std::vector<std::string> field_3x3 = {
+            brown_dot, brown_dot, brown_dot, "\n",
+            brown_dot, h_brown_dot, brown_dot, "\n",
+            brown_dot, brown_dot, brown_dot, "\n"
+        };
+
+        fill_overmap_area( ava, oter_id( "field" ) );
+        CHECK( overmap_w.layout( ava ) == join( field_3x3, "" ) );
+    }
+
+    SECTION( "forest" ) {
+        const std::string green_F = "<color_c_green>F</color>";
+        const std::string h_green_F = "<color_h_green>F</color>";
+        const std::vector<std::string> forest_3x3 = {
+            green_F, green_F, green_F, "\n",
+            green_F, h_green_F, green_F, "\n",
+            green_F, green_F, green_F, "\n"
+        };
+
+        fill_overmap_area( ava, oter_id( "forest" ) );
+        CHECK( overmap_w.layout( ava ) == join( forest_3x3, "" ) );
+    }
+
+    SECTION( "central lab" ) {
+        const std::string blue_L = "<color_c_light_blue>L</color>";
+        const std::string h_blue_L = "<color_h_light_blue>L</color>";
+        const std::vector<std::string> lab_3x3 = {
+            blue_L, blue_L, blue_L, "\n",
+            blue_L, h_blue_L, blue_L, "\n",
+            blue_L, blue_L, blue_L, "\n"
+        };
+
+        fill_overmap_area( ava, oter_id( "central_lab" ) );
+        CHECK( overmap_w.layout( ava ) == join( lab_3x3, "" ) );
+    }
+
+    // TODO:
+    // Mission marker
+    // Horde indicators
 }
 
 TEST_CASE( "Custom widget height and multiline formatting", "[widget]" )
