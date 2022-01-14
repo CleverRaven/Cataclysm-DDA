@@ -256,6 +256,8 @@ static const itype_id itype_data_card( "data_card" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_ecig( "ecig" );
+static const itype_id itype_emf_detector( "emf_detector" );
+static const itype_id itype_emf_detector_on( "emf_detector_on" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_firecracker_act( "firecracker_act" );
 static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
@@ -2615,6 +2617,40 @@ cata::optional<int> iuse::noise_emitter_on( Character *p, item *it, bool t, cons
     } else { // Turning it off
         p->add_msg_if_player( _( "The infernal racket dies as the noise emitter turns off." ) );
         it->convert( itype_noise_emitter ).active = false;
+    }
+    return it->type->charges_to_use();
+}
+
+cata::optional<int> iuse::emf_passive_off( Character *p, item *it, bool, const tripoint & )
+{
+    if( !it->ammo_sufficient( p ) ) {
+        p->add_msg_if_player( _( "It's dead." ) );
+        return cata::nullopt;
+    } else {
+        p->add_msg_if_player( _( "You turn the emf detector on." ) );
+        it->convert( itype_emf_detector_on ).active = true;
+    }
+    return it->type->charges_to_use();
+}
+
+cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const tripoint &pos )
+{
+    if( t ) { // Normal use
+        // need to calculate the closest.
+
+        for( const Creature *critter : get_map().get_creatures_in_radius( pos, 20 ) ) {
+            if( critter->in_species( species_ROBOT ) || critter->has_flag( MF_ELECTRIC ) ) {
+                //~ the sound of an EMF detector above threshold
+                sounds::sound( pos, 4, sounds::sound_t::alarm, _( "BEEP BEEP" ), true, "tool",
+                               "emf_detector" );
+                // skip continuing to check for locations
+                return it->type->charges_to_use();
+            }
+        }
+
+    } else { // Turning it off
+        p->add_msg_if_player( _( "The noise of your EMF detector slows to a halt." ) );
+        it->convert( itype_emf_detector ).active = false;
     }
     return it->type->charges_to_use();
 }

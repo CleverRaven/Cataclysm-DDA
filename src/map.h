@@ -2093,6 +2093,9 @@ class map
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
                 size_t radiusz = 0 );
+        /**returns creatures in specified radius closest first*/
+        std::list<Creature *> get_creatures_in_radius_sorted( const tripoint &center, size_t radius,
+                size_t radiusz = 0 );
 
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
