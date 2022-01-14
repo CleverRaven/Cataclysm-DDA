@@ -1180,8 +1180,11 @@ std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::
     return std::make_pair( ter_sym, ter_color );
 }
 
+// Return an overmap tile symbol and color for an omt relatively near the avatar's position.
+// The edge_tile flag says this omt is at the edge of the map and may point to an off-map mission.
+// The found_mi (reference) is set to true to tell the calling function if a mission marker was found.
 std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avatar &u,
-        const tripoint_abs_omt &omt )
+        const tripoint_abs_omt &omt, const bool edge_tile, bool &found_mi )
 {
     std::string ter_sym;
     nc_color ter_color = c_light_gray;
@@ -1215,9 +1218,21 @@ std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avata
     const tripoint_abs_omt target = u.get_active_mission_target();
     const tripoint_abs_omt u_loc = u.global_omt_location();
 
-    // If there's a valid mission target, and avatar isn't already there, mark it with a red background
-    if( target != overmap::invalid_tripoint && target.xy() == omt.xy() && target.xy() != u_loc.xy() ) {
-        ter_color = red_background( ter_color );
+    // Check if there is a valid mission target, and avatar is not there already
+    if( target != overmap::invalid_tripoint && target.xy() != u_loc.xy() ) {
+        // highlight it with a red background (if on-map)
+        // or point towards it with a red asterisk (if off-map)
+        if( target.xy() == omt.xy() ) {
+            ter_color = red_background( ter_color );
+            found_mi = true;
+        } else if( edge_tile ) {
+            std::vector<tripoint_abs_omt> plist = line_to( u_loc, target );
+            if( std::find( plist.begin(), plist.end(), omt ) != plist.end() ) {
+                ter_color = c_red;
+                ter_sym = "*";
+                found_mi = true;
+            }
+        }
     }
 
     // Show hordes on minimap, leaving a one-tile space around the player
@@ -1248,18 +1263,35 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
         return disp_om_cache.get_val();
     }
 
+    // Remember when mission indicator is found, so we don't draw it more than once
+    bool found_mi = false;
+    // Figure out extents of the map area, so we know where the edges are
+    const int left = -( width / 2 );
+    const int right = width + left - 1;
+    const int top = -( height / 2 );
+    const int bottom = height + top - 1;
     // Scan each row of overmap tiles
-    for( int row = -( height / 2 ); row <= height - ( height / 2 ) - 1; row++ ) {
+    for( int row = top; row <= bottom; row++ ) {
         // Scan across the width of the row
-        for( int col = -( width / 2 ); col <= width - ( width / 2 ) - 1; col++ ) {
+        for( int col = left; col <= right; col++ ) {
+            // Is this point along the border of the overmap text area we have to work wth?
+            // If so, overmap_tile_symbol_color may draw a mission indicator at this point.
+            const bool edge = !found_mi && !( mission_xyz.x() >= center_xyz.x() + left &&
+                                              mission_xyz.x() <= center_xyz.x() + right &&
+                                              mission_xyz.y() >= center_xyz.y() + top &&
+                                              mission_xyz.y() <= center_xyz.y() + bottom ) &&
+                              ( row == top || row == bottom || col == left || col == right );
             // Get colorized symbol for this point
             const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z );
-            std::pair<std::string, nc_color> sym_color = display::overmap_tile_symbol_color( u, omt );
+            std::pair<std::string, nc_color> sym_color = display::overmap_tile_symbol_color( u, omt, edge,
+                    found_mi );
 
             // Highlight player character location in the center
             if( row == 0 && col == 0 ) {
                 sym_color.second = hilite( sym_color.second );
             }
+
+            // Append the colorized symbol for this point to the map
             overmap_text += colorize( sym_color.first, sym_color.second );
         }
         overmap_text += "\n";

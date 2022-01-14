@@ -139,7 +139,7 @@ std::pair<std::string, nc_color> rad_badge_text_color( const Character &u );
 
 // Colorized symbol for the overmap tile at the given location
 std::pair<std::string, nc_color> overmap_tile_symbol_color( const avatar &u,
-        const tripoint_abs_omt &omt );
+        const tripoint_abs_omt &omt, const bool edge_tile, bool &found_mi );
 // Colorized symbol for an overmap note, given its full text
 std::pair<std::string, nc_color> overmap_note_symbol_color( const std::string note_text );
 // Mission marker position as an offset within an overmap of given width and height

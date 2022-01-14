@@ -975,51 +975,56 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
     clear_map();
     ava.on_mission_assignment( msn );
 
+    // Mission marker is a red asterisk when it's along the border
+    const std::string red_star = "<color_c_red>*</color>";
+
     SECTION( "field" ) {
         const std::string brown_dot = "<color_c_brown>.</color>";
         const std::string h_brown_dot = "<color_h_brown>.</color>";
+        fill_overmap_area( ava, oter_id( "field" ) );
+        // Mission marker to the north of avatar position (y - 2)
+        msn.set_target( ava.global_omt_location() + tripoint( 0, -2, 0 ) );
+        // (red star in top center of the map)
         const std::vector<std::string> field_3x3 = {
-            brown_dot, brown_dot, brown_dot, "\n",
+            brown_dot, red_star, brown_dot, "\n",
             brown_dot, h_brown_dot, brown_dot, "\n",
             brown_dot, brown_dot, brown_dot, "\n"
         };
-
-        fill_overmap_area( ava, oter_id( "field" ) );
-        msn.set_target( msn.get_target() + tripoint( 1, 0, 0 ) );
         CHECK( overmap_w.layout( ava ) == join( field_3x3, "" ) );
     }
 
     SECTION( "forest" ) {
         const std::string green_F = "<color_c_green>F</color>";
         const std::string h_green_F = "<color_h_green>F</color>";
+        fill_overmap_area( ava, oter_id( "forest" ) );
+        // Mission marker to the east of avatar position (x + 2)
+        msn.set_target( ava.global_omt_location() + tripoint( 2, 0, 0 ) );
+        // (red star on the right edge of the map)
         const std::vector<std::string> forest_3x3 = {
             green_F, green_F, green_F, "\n",
-            green_F, h_green_F, green_F, "\n",
+            green_F, h_green_F, red_star, "\n",
             green_F, green_F, green_F, "\n"
         };
-
-        fill_overmap_area( ava, oter_id( "forest" ) );
-        msn.set_target( msn.get_target() + tripoint( 2, 0, 0 ) );
         CHECK( overmap_w.layout( ava ) == join( forest_3x3, "" ) );
     }
 
     SECTION( "central lab" ) {
         const std::string blue_L = "<color_c_light_blue>L</color>";
         const std::string h_blue_L = "<color_h_light_blue>L</color>";
+        //const std::string blue_L_red = "<color_c_light_blue_red>L</color>";
+        fill_overmap_area( ava, oter_id( "central_lab" ) );
+        // Mission marker southwest of avatar position (x-2, y+2)
+        msn.set_target( ava.global_omt_location() + tripoint( -2, 2, 0 ) );
+        // (red star on lower left corner of map)
         const std::vector<std::string> lab_3x3 = {
             blue_L, blue_L, blue_L, "\n",
             blue_L, h_blue_L, blue_L, "\n",
-            blue_L, blue_L, blue_L, "\n"
+            red_star, blue_L, blue_L, "\n"
         };
-
-        fill_overmap_area( ava, oter_id( "central_lab" ) );
-        msn.set_target( msn.get_target() + tripoint( 3, 0, 0 ) );
         CHECK( overmap_w.layout( ava ) == join( lab_3x3, "" ) );
     }
 
-    // TODO:
-    // Mission marker
-    // Horde indicators
+    // TODO: Horde indicators
 }
 
 TEST_CASE( "Custom widget height and multiline formatting", "[widget]" )
