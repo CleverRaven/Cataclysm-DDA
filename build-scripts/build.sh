@@ -40,6 +40,7 @@ ccache --zero-stats
 # Increase cache size because debug builds generate large object files
 ccache -M 5G
 ccache --show-stats
+export CCACHE_LOGFILE=ccache.log
 
 function run_test
 {
@@ -228,5 +229,7 @@ else
             done
     fi
 fi
+
+cat ccache.log
 
 # vim:tw=0
