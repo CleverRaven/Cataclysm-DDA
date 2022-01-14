@@ -2197,6 +2197,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "VIEW_CATEGORY_MODE" );
     ctxt.register_action( "ANY_INPUT" ); // For invlets
     ctxt.register_action( "INVENTORY_FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
     ctxt.register_action( "HIDE_CONTENTS", to_translation( "Hide contents" ) );
     ctxt.register_action( "SHOW_CONTENTS", to_translation( "Show contents" ) );
@@ -2292,6 +2293,8 @@ void inventory_selector::on_input( const inventory_input &input )
         }
     } else if( input.action == "INVENTORY_FILTER" ) {
         query_set_filter();
+    } else if( input.action == "RESET_FILTER" ) {
+        set_filter( "" );
     } else if( input.action == "TOGGLE_SKIP_UNSELECTABLE" ) {
         toggle_skip_unselectable();
     } else {
