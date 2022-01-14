@@ -3,6 +3,8 @@
 #include "display.h"
 #include "game.h"
 #include "options.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "make_static.h"
 #include "map.h"
 #include "mood_face.h"
@@ -1076,5 +1078,239 @@ std::pair<std::string, nc_color> display::move_mode_text_color( const Character 
     const std::string mm_text = u.current_movement_mode()->type_name();
     const nc_color mm_color = u.current_movement_mode()->panel_color();
     return std::make_pair( mm_text, mm_color );
+}
+
+std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string note_text )
+{
+    std::string ter_sym = "N";
+    nc_color ter_color = c_yellow;
+
+    // Parse note text for : (symbol) and ; (color) separators
+    int symbolIndex = note_text.find( ':' );
+    int colorIndex = note_text.find( ';' );
+
+    bool symbolFirst = symbolIndex < colorIndex;
+
+    // Both color and symbol
+    if( colorIndex > -1 && symbolIndex > -1 ) {
+        if( symbolFirst ) {
+            if( colorIndex > 4 ) {
+                colorIndex = -1;
+            }
+            if( symbolIndex > 1 ) {
+                symbolIndex = -1;
+                colorIndex = -1;
+            }
+        } else {
+            if( symbolIndex > 4 ) {
+                symbolIndex = -1;
+            }
+            if( colorIndex > 2 ) {
+                colorIndex = -1;
+            }
+        }
+    } else if( colorIndex > 2 ) {
+        colorIndex = -1;
+    } else if( symbolIndex > 1 ) {
+        symbolIndex = -1;
+    }
+
+    if( symbolIndex > -1 ) {
+        int symbolStart = 0;
+        if( colorIndex > -1 && !symbolFirst ) {
+            symbolStart = colorIndex + 1;
+        }
+        ter_sym = note_text.substr( symbolStart, symbolIndex - symbolStart );
+    }
+
+    if( colorIndex > -1 ) {
+
+        int colorStart = 0;
+
+        if( symbolIndex > -1 && symbolFirst ) {
+            colorStart = symbolIndex + 1;
+        }
+
+        std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
+
+        if( sym.length() == 2 ) {
+            if( sym == "br" ) {
+                ter_color = c_brown;
+            } else if( sym == "lg" ) {
+                ter_color = c_light_gray;
+            } else if( sym == "dg" ) {
+                ter_color = c_dark_gray;
+            }
+        } else {
+            char colorID = sym.c_str()[0];
+            if( colorID == 'r' ) {
+                ter_color = c_light_red;
+            } else if( colorID == 'R' ) {
+                ter_color = c_red;
+            } else if( colorID == 'g' ) {
+                ter_color = c_light_green;
+            } else if( colorID == 'G' ) {
+                ter_color = c_green;
+            } else if( colorID == 'b' ) {
+                ter_color = c_light_blue;
+            } else if( colorID == 'B' ) {
+                ter_color = c_blue;
+            } else if( colorID == 'W' ) {
+                ter_color = c_white;
+            } else if( colorID == 'C' ) {
+                ter_color = c_cyan;
+            } else if( colorID == 'c' ) {
+                ter_color = c_light_cyan;
+            } else if( colorID == 'P' ) {
+                ter_color = c_pink;
+            } else if( colorID == 'm' ) {
+                ter_color = c_magenta;
+            }
+        }
+    }
+    return std::make_pair( ter_sym, ter_color );
+}
+
+std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avatar &u,
+        const tripoint_abs_omt &omt )
+{
+    std::string ter_sym;
+    nc_color ter_color = c_light_gray;
+
+    // Terrain color and symbol to use for this point
+    const bool seen = overmap_buffer.seen( omt );
+    const bool vehicle_here = overmap_buffer.has_vehicle( omt );
+    if( overmap_buffer.has_note( omt ) ) {
+        const std::string &note_text = overmap_buffer.note( omt );
+        std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
+        ter_sym = sym_color.first;
+        ter_color = sym_color.second;
+    } else if( !seen ) {
+        // Always grey # for unseen
+        ter_sym = "#";
+        ter_color = c_dark_gray;
+    } else if( vehicle_here ) {
+        // Always cyan c for vehicle
+        ter_color = c_cyan;
+        ter_sym = "c";
+    } else {
+        // Otherwise, get symbol and color appropriate for the terrain
+        const oter_id &cur_ter = overmap_buffer.ter( omt );
+        ter_sym = cur_ter->get_symbol();
+        if( overmap_buffer.is_explored( omt ) ) {
+            ter_color = c_dark_gray;
+        } else {
+            ter_color = cur_ter->get_color();
+        }
+    }
+    const tripoint_abs_omt target = u.get_active_mission_target();
+    const tripoint_abs_omt u_loc = u.global_omt_location();
+
+    // If there's a valid mission target, and avatar isn't already there, mark it with a red background
+    if( target != overmap::invalid_tripoint && target.xy() == omt.xy() && target.xy() != u_loc.xy() ) {
+        ter_color = red_background( ter_color );
+    }
+
+    // Show hordes on minimap, leaving a one-tile space around the player
+    if( std::abs( u_loc.x() - omt.x() ) > 1 || std::abs( u_loc.y() - omt.y() ) > 1 ) {
+        const int horde_size = overmap_buffer.get_horde_size( omt );
+        const int sight_points = u.overmap_sight_range( g->light_level( u.posz() ) );
+        if( horde_size >= HORDE_VISIBILITY_SIZE && overmap_buffer.seen( omt ) &&
+            u.overmap_los( omt, sight_points ) ) {
+            // Draw green Z or z
+            ter_sym = horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z';
+            ter_color = c_green;
+        }
+    }
+
+    return std::make_pair( ter_sym, ter_color );
+}
+
+std::string display::colorized_overmap_text( const avatar &u, const int width, const int height )
+{
+    std::string overmap_text;
+    map &here = get_map();
+
+    // Map is roughly centered around this point
+    const point_abs_omt center_xy = u.global_omt_location().xy();
+
+    // Scan each row of overmap tiles
+    for( int row = -( height / 2 ); row <= height - ( height / 2 ) - 1; row++ ) {
+        // Scan across the width of the row
+        for( int col = -( width / 2 ); col <= width - ( width / 2 ) - 1; col++ ) {
+            // Get colorized symbol for this point
+            const tripoint_abs_omt omt( center_xy + point( col, row ), here.get_abs_sub().z );
+            std::pair<std::string, nc_color> sym_color = display::overmap_tile_symbol_color( u, omt );
+
+            // Highlight player character location in the center
+            if( row == 0 && col == 0 ) {
+                sym_color.second = hilite( sym_color.second );
+            }
+            overmap_text += colorize( sym_color.first, sym_color.second );
+        }
+        overmap_text += "\n";
+    }
+    return overmap_text;
+}
+
+// Return (x, y) position of mission target, relative to avatar location, within an overmap of the
+// given width and height.
+point display::mission_arrow_offset( const avatar &you, int width, int height )
+{
+    // FIXME: Use tripoint for curs
+    const point_abs_omt curs = you.global_omt_location().xy();
+    const tripoint_abs_omt targ = you.get_active_mission_target();
+    const point mid( width / 2, height / 2 );
+
+    // If x-coordinates are the same, mission is either due north or due south
+    // Use an extreme slope rather than dividing by zero
+    double slope = curs.x() == targ.x() ? 1000 :
+                   static_cast<double>( targ.y() - curs.y() ) / ( targ.x() - curs.x() );
+
+    if( std::fabs( slope ) > 12 ) {
+        // For any near-vertical slope, center the marker
+        if( targ.y() > curs.y() ) {
+            // Target is due south
+            return point( mid.x, height - 1 );
+            //mvwputch( w_minimap, point( mid.x + start_x, height - 1 + start_y ), c_red, '*' );
+        } else if( targ.y() < curs.y() ) {
+            // Target is due north
+            return point( mid.x, 1 );
+            //mvwputch( w_minimap, point( mid.x + start_x, 1 + start_y ), c_red, '*' );
+        } else {
+            // Target is right here
+            return mid;
+        }
+    } else {
+        // For non-vertical slope, calculate where it intersects the edge of the map
+        point arrow( point_north_west );
+        if( std::fabs( slope ) >= 1. ) {
+            // If target to the north or south, arrow on top or bottom edge of minimap
+            if( targ.y() > curs.y() ) {
+                arrow.x = static_cast<int>( ( 1. + ( 1. / slope ) ) * mid.x );
+                arrow.y = height - 1;
+            } else {
+                arrow.x = static_cast<int>( ( 1. - ( 1. / slope ) ) * mid.x );
+                arrow.y = 0;
+            }
+            // Clip to left/right edges
+            arrow.x = std::max( arrow.x, 0 );
+            arrow.x = std::min( arrow.x, width - 1 );
+        } else {
+            // If target to the east or west, arrow on left or right edge of minimap
+            if( targ.x() > curs.x() ) {
+                arrow.x = width - 1;
+                arrow.y = static_cast<int>( ( 1. + slope ) * mid.y );
+            } else {
+                arrow.x = 0;
+                arrow.y = static_cast<int>( ( 1. - slope ) * mid.y );
+            }
+            // Clip to top/bottom edges
+            arrow.y = std::max( arrow.y, 0 );
+            arrow.y = std::min( arrow.y, height - 1 );
+        }
+        return arrow;
+        //mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
+    }
 }
 
