@@ -1253,6 +1253,15 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     return overmap_text;
 }
 
+std::string display::overmap_position_text( const tripoint_abs_omt &loc )
+{
+    point_abs_omt abs_omt = loc.xy();
+    point_abs_om om;
+    point_om_omt omt;
+    std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
+    return string_format( _( "LEVEL %i, %d'%d, %d'%d" ), loc.z(), om.x(), omt.x(), om.y(), omt.y() );
+}
+
 // Return (x, y) position of mission target, relative to avatar location, within an overmap of the
 // given width and height.
 point display::mission_arrow_offset( const avatar &you, int width, int height )

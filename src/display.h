@@ -116,6 +116,8 @@ std::pair<std::string, nc_color> overmap_note_symbol_color( const std::string no
 point mission_arrow_offset( const avatar &you, int width, int height );
 // Fully colorized newline-separated overmap string of the given size, centered on character
 std::string colorized_overmap_text( const avatar &u, const int width, const int height );
+// Current overmap position (coordinates)
+std::string overmap_position_text( const tripoint_abs_omt &loc );
 
 // Functions returning colorized string
 // gets the string that describes your weight
