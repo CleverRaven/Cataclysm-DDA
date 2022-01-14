@@ -278,7 +278,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     }
 
     if ( possess && need_fire && p.has_trait( trait_PYROMANIA ) ) {
-        if( one_in( 4 ) ) {
+        if( one_in( 2 ) ) {
             p.add_msg_if_player( m_mixed,
                                     _( "You light a fire, but it isn't enough.  You need to light more." ) );
         } else {
