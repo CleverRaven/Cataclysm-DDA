@@ -1597,10 +1597,10 @@ class jmapgen_alternatively : public jmapgen_piece
                 piece.merge_parameters_into( params, outer_context );
             }
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &context ) const override {
             if( const auto chosen = random_entry_opt( alternatives ) ) {
-                chosen->get().apply( dat, x, y );
+                chosen->get().apply( dat, x, y, context );
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
@@ -1632,15 +1632,15 @@ class jmapgen_constrained : public jmapgen_piece
                                   ) const override {
             underlying_piece->merge_parameters_into( params, outer_context );
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &context ) const override {
             for( const mapgen_constraint<Value> &constraint : constraints ) {
                 Value param_value = dat.get_arg<Value>( constraint.parameter_name );
                 if( param_value != constraint.value ) {
                     return;
                 }
             }
-            underlying_piece->apply( dat, x, y );
+            underlying_piece->apply( dat, x, y, context );
         }
 };
 
@@ -1663,8 +1663,8 @@ class jmapgen_field : public jmapgen_piece
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) )
             , remove( jsi.get_bool( "remove", false ) ) {
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             field_type_id chosen_id = ftype.get( dat );
             if( chosen_id.id().is_null() ) {
                 return;
@@ -1703,8 +1703,8 @@ class jmapgen_npc : public jmapgen_piece
                 jsi.read( "add_trait", traits );
             }
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             string_id<npc_template> chosen_id = npc_class.get( dat );
             if( chosen_id.is_null() ) {
                 return;
@@ -1739,8 +1739,8 @@ class jmapgen_faction : public jmapgen_piece
         mapgen_phase phase() const override {
             return mapgen_phase::faction_ownership;
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             faction_id chosen_id = id.get( dat );
             if( chosen_id.is_null() ) {
                 return;
@@ -1770,8 +1770,8 @@ class jmapgen_sign : public jmapgen_piece
                 jsi.throw_error( "jmapgen_sign: needs either signage or snippet" );
             }
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
             dat.m.furn_set( r, f_null );
             dat.m.furn_set( r, furn_f_sign );
@@ -1823,8 +1823,8 @@ class jmapgen_graffiti : public jmapgen_piece
                 jsi.throw_error( "jmapgen_graffiti: needs either text or snippet" );
             }
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
 
             std::string graffiti;
@@ -1873,8 +1873,8 @@ class jmapgen_vending_machine : public jmapgen_piece
                 group_id = mapgen_value<item_group_id>( "default_vending_machine" );
             }
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
             dat.m.furn_set( r, f_null );
             item_group_id chosen_id = group_id.get( dat );
@@ -1906,8 +1906,8 @@ class jmapgen_toilet : public jmapgen_piece
         mapgen_phase phase() const override {
             return mapgen_phase::furniture;
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
             const int charges = amount.get();
             dat.m.furn_set( r, f_null );
@@ -1951,8 +1951,8 @@ class jmapgen_gaspump : public jmapgen_piece
             }
         }
 
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
             int charges = amount.get();
             dat.m.furn_set( r, f_null );
@@ -1988,8 +1988,8 @@ class jmapgen_liquid_item : public jmapgen_piece
             , liquid( jsi.get_member( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             if( one_in( chance.get() ) ) {
                 itype_id chosen_id = liquid.get( dat );
                 if( chosen_id.is_null() ) {
@@ -2025,10 +2025,10 @@ class jmapgen_corpse : public jmapgen_piece
             group( jsi.get_member( "group" ) ) {
         }
 
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
-            const std::vector<mtype_id> monster_group = MonsterGroupManager::GetMonstersFromGroup( group,
-                    true );
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
+            const std::vector<mtype_id> monster_group =
+                MonsterGroupManager::GetMonstersFromGroup( group, true );
             const mtype_id &corpse_type = random_entry_ref( monster_group );
             item corpse = item::make_corpse( corpse_type, calendar::start_of_cataclysm );
             dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), corpse );
@@ -2058,8 +2058,8 @@ class jmapgen_item_group : public jmapgen_piece
                 debugmsg( "Invalid item_group_id \"%s\" in %s", group_id.str(), context );
             }
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             dat.m.place_items( group_id, chance.get(), point( x.val, y.val ), point( x.valmax, y.valmax ), true,
                                calendar::start_of_cataclysm );
         }
@@ -2103,8 +2103,8 @@ class jmapgen_loot : public jmapgen_piece
             }
         }
 
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
                 const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm,
@@ -2136,8 +2136,8 @@ class jmapgen_monster_group : public jmapgen_piece
             , density( jsi.get_float( "density", -1.0f ) )
             , chance( jsi, "chance", 1, 1 ) {
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             mongroup_id chosen_id = id.get( dat );
             if( chosen_id.is_null() ) {
                 return;
@@ -2222,8 +2222,8 @@ class jmapgen_monster : public jmapgen_piece
             m_id.check( oter_name, parameters );
         }
 
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
 
             int raw_odds = chance.get();
 
@@ -2308,8 +2308,8 @@ class jmapgen_vehicle : public jmapgen_piece
                 rotation.push_back( units::from_degrees( jsi.get_int( "rotation", 0 ) ) );
             }
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             if( !x_in_y( chance.get(), 100 ) ) {
                 return;
             }
@@ -2354,8 +2354,8 @@ class jmapgen_spawn_item : public jmapgen_piece
             }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             itype_id chosen_id = type.get( dat );
             if( chosen_id.is_null() ) {
                 return;
@@ -2406,9 +2406,8 @@ class jmapgen_trap : public jmapgen_piece
             }
             init( tid );
         }
-
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             trap_id chosen_id = id.get( dat );
             if( chosen_id.id().is_null() ) {
                 return;
@@ -2447,13 +2446,15 @@ class jmapgen_furniture : public jmapgen_piece
         mapgen_phase phase() const override {
             return mapgen_phase::furniture;
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &context ) const override {
             furn_id chosen_id = id.get( dat );
             if( chosen_id.id().is_null() ) {
                 return;
             }
-            dat.m.furn_set( point( x.get(), y.get() ), chosen_id );
+            if( !dat.m.furn_set( point( x.get(), y.get() ), chosen_id ) ) {
+                debugmsg( "Problem setting furniture in %s", context );
+            }
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -2483,19 +2484,20 @@ class jmapgen_terrain : public jmapgen_piece
             return mapgen_phase::terrain;
         }
 
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             ter_id chosen_id = id.get( dat );
             if( chosen_id.id().is_null() ) {
                 return;
             }
-            dat.m.ter_set( point( x.get(), y.get() ), chosen_id );
+            point p( x.get(), y.get() );
+            dat.m.ter_set( p, chosen_id );
             // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
-            if( dat.m.has_flag_ter( ter_furn_flag::TFLAG_WALL, point( x.get(), y.get() ) ) ) {
-                dat.m.furn_clear( point( x.get(), y.get() ) );
+            if( dat.m.has_flag_ter( ter_furn_flag::TFLAG_WALL, p ) ) {
+                dat.m.furn_clear( p );
                 // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
-                if( !dat.m.has_flag_ter( ter_furn_flag::TFLAG_PLACE_ITEM, point( x.get(), y.get() ) ) ) {
-                    dat.m.i_clear( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
+                if( !dat.m.has_flag_ter( ter_furn_flag::TFLAG_PLACE_ITEM, p ) ) {
+                    dat.m.i_clear( tripoint( p, dat.m.get_abs_sub().z ) );
                 }
             }
         }
@@ -2519,8 +2521,8 @@ class jmapgen_ter_furn_transform: public jmapgen_piece
         jmapgen_ter_furn_transform( const JsonObject &jsi, const std::string &/*context*/ ) :
             id( jsi.get_member( "transform" ) ) {}
 
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             ter_furn_transform_id chosen_id = id.get( dat );
             if( chosen_id.is_null() ) {
                 return;
@@ -2554,8 +2556,8 @@ class jmapgen_make_rubble : public jmapgen_piece
             }
             jsi.read( "overwrite", overwrite );
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             furn_id chosen_rubble_type = rubble_type.get( dat );
             ter_id chosen_floor_type = floor_type.get( dat );
             if( chosen_rubble_type.id().is_null() ) {
@@ -2618,8 +2620,8 @@ class jmapgen_computer : public jmapgen_piece
                 }
             }
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
             dat.m.furn_set( r, furn_f_console );
             computer *cpu = dat.m.add_computer( tripoint( r, dat.m.get_abs_sub().z ), name.translated(),
@@ -2758,8 +2760,8 @@ class jmapgen_sealed_item : public jmapgen_piece
             }
         }
 
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &context ) const override {
             const int c = chance.get();
 
             // 100% chance = always generate, otherwise scale by item spawn rate.
@@ -2771,10 +2773,10 @@ class jmapgen_sealed_item : public jmapgen_piece
 
             dat.m.furn_set( point( x.get(), y.get() ), f_null );
             if( item_spawner ) {
-                item_spawner->apply( dat, x, y );
+                item_spawner->apply( dat, x, y, context );
             }
             if( item_group_spawner ) {
-                item_group_spawner->apply( dat, x, y );
+                item_group_spawner->apply( dat, x, y, context );
             }
             furn_id chosen_furn = furniture.get( dat );
             dat.m.furn_set( point( x.get(), y.get() ), chosen_furn );
@@ -2801,8 +2803,8 @@ class jmapgen_translate : public jmapgen_piece
         mapgen_phase phase() const override {
             return mapgen_phase::transform;
         }
-        void apply( const mapgendata &dat, const jmapgen_int &/*x*/,
-                    const jmapgen_int &/*y*/ ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &/*x*/, const jmapgen_int &/*y*/,
+                    const std::string &/*context*/ ) const override {
             ter_id chosen_from = from.get( dat );
             ter_id chosen_to = to.get( dat );
             dat.m.translate( chosen_from, chosen_to );
@@ -2831,8 +2833,8 @@ class jmapgen_zone : public jmapgen_piece
                 name = jsi.get_string( "name" );
             }
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             zone_type_id chosen_zone_type = zone_type.get( dat );
             faction_id chosen_faction = faction.get( dat );
             zone_manager &mgr = zone_manager::get_manager();
@@ -2860,8 +2862,8 @@ class jmapgen_remove_items : public jmapgen_piece
                 items_to_remove.emplace_back( itype_id( item_id ) );
             }
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
             const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
             const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
             std::vector<itype_id> items_to_remove_local = items_to_remove;
@@ -2902,8 +2904,8 @@ class jmapgen_remove_vehicles : public jmapgen_piece
                 vehicles_to_remove.emplace_back( vproto_id( item_id ) );
             }
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
 
             const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
             const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
@@ -3095,8 +3097,8 @@ class jmapgen_nested : public jmapgen_piece
                 return else_entries;
             }
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
-                  ) const override {
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &context ) const override {
             const mapgen_value<nested_mapgen_id> *val = get_entries( dat ).pick();
             if( val == nullptr ) {
                 return;
@@ -3120,7 +3122,7 @@ class jmapgen_nested : public jmapgen_piece
                 return;
             }
 
-            ( *ptr )->nest( dat, point( x.get(), y.get() ) );
+            ( *ptr )->nest( dat, point( x.get(), y.get() ), context );
         }
         void check( const std::string &oter_name, const mapgen_parameters &parameters
                   ) const override {
@@ -4179,7 +4181,8 @@ bool mapgen_function_json_base::has_vehicle_collision(
 
 static bool apply_mapgen_in_phases(
     const mapgendata &md, const std::vector<jmapgen_setmap> &setmap_points,
-    const jmapgen_objects &objects, const point &offset, bool verify = false )
+    const jmapgen_objects &objects, const point &offset, const std::string &context,
+    bool verify = false )
 {
     if( verify && objects.has_vehicle_collision( md, offset ) ) {
         return false;
@@ -4201,7 +4204,7 @@ static bool apply_mapgen_in_phases(
             elem.apply( md, offset );
         }
 
-        objects.apply( md, phase, offset );
+        objects.apply( md, phase, offset, context );
     }
     cata_assert( setmap_point == setmap_points.end() );
 
@@ -4260,7 +4263,7 @@ void mapgen_function_json::generate( mapgendata &md )
 
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ) );
 
-    apply_mapgen_in_phases( md_with_params, setmap_points, objects, point_zero );
+    apply_mapgen_in_phases( md_with_params, setmap_points, objects, point_zero, context_ );
 
     m->rotate( rotation.get() );
 
@@ -4279,25 +4282,31 @@ mapgen_parameters mapgen_function_json::get_mapgen_params( mapgen_parameter_scop
     return parameters.params_for_scope( scope );
 }
 
-void mapgen_function_json_nested::nest( const mapgendata &md, const point &offset ) const
+void mapgen_function_json_nested::nest( const mapgendata &md, const point &offset,
+                                        const std::string &outer_context ) const
 {
     // TODO: Make rotation work for submaps, then pass this value into elem & objects apply.
     //int chosen_rotation = rotation.get() % 4;
 
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::nest ) );
 
-    apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset );
+    std::string context = context_;
+    context += " in ";
+    context += outer_context;
+    apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, context );
 }
 
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void jmapgen_objects::apply( const mapgendata &dat, mapgen_phase phase ) const
+void jmapgen_objects::apply( const mapgendata &dat, mapgen_phase phase,
+                             const std::string &context ) const
 {
-    apply( dat, phase, point_zero );
+    apply( dat, phase, point_zero, context );
 }
 
-void jmapgen_objects::apply( const mapgendata &dat, mapgen_phase phase, const point &offset ) const
+void jmapgen_objects::apply( const mapgendata &dat, mapgen_phase phase, const point &offset,
+                             const std::string &context ) const
 {
     bool terrain_resolved = false;
 
@@ -4324,7 +4333,7 @@ void jmapgen_objects::apply( const mapgendata &dat, mapgen_phase phase, const po
         // into the what and where in some cases--we just need the greater value of the two.
         const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
-            what.apply( dat, where.x, where.y );
+            what.apply( dat, where.x, where.y, context );
         }
     }
 }
@@ -6381,6 +6390,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         ch.vehicle_list.insert( placed_vehicle );
         add_vehicle_to_cache( placed_vehicle );
 
+        rebuild_vehicle_level_caches();
         //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
     }
     return placed_vehicle;
@@ -6392,24 +6402,24 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
  * otherwise returns a pointer to the placed vehicle, which may not necessarily
  * be the one passed in (if wreckage is created by fusing cars).
  * @param veh The vehicle to place on the map.
- * @param merge_wrecks Whether crashed vehicles become part of each other
+ * @param merge_wrecks Whether crashed vehicles intermix parts
  * @return The vehicle that was finally placed.
  */
 std::unique_ptr<vehicle> map::add_vehicle_to_map(
-    std::unique_ptr<vehicle> veh, const bool merge_wrecks )
+    std::unique_ptr<vehicle> veh_to_add, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
-    std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
+    std::vector<int> frame_indices = veh_to_add->all_parts_at_location( "structure" );
 
     //Check for boat type vehicles that should be placeable in deep water
-    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
+    const bool can_float = size( veh_to_add->get_avail_parts( "FLOATS" ) ) > 2;
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
-        const tripoint p = veh->global_part_pos3( *part );
+        const tripoint p = veh_to_add->global_part_pos3( *part );
 
         //Don't spawn anything in water
         if( has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) && !can_float ) {
@@ -6417,69 +6427,72 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
         }
 
         // Don't spawn shopping carts on top of another vehicle or other obstacle.
-        if( veh->type == vehicle_prototype_shopping_cart ) {
+        if( veh_to_add->type == vehicle_prototype_shopping_cart ) {
             if( veh_at( p ) || impassable( p ) ) {
                 return nullptr;
             }
         }
 
         //For other vehicles, simulate collisions with (non-shopping cart) stuff
-        vehicle *const other_veh = veh_pointer_or_null( veh_at( p ) );
-        if( other_veh != nullptr && other_veh->type != vehicle_prototype_shopping_cart ) {
+        vehicle *const first_veh = veh_pointer_or_null( veh_at( p ) );
+        if( first_veh != nullptr && first_veh->type != vehicle_prototype_shopping_cart ) {
             if( !merge_wrecks ) {
                 return nullptr;
             }
 
             // Hard wreck-merging limit: 200 tiles
             // Merging is slow for big vehicles which lags the mapgen
-            if( frame_indices.size() + other_veh->all_parts_at_location( "structure" ).size() > 200 ) {
+            if( frame_indices.size() + first_veh->all_parts_at_location( "structure" ).size() > 200 ) {
                 return nullptr;
             }
 
-            /* There's a vehicle here, so let's fuse them together into wreckage and
-             * smash them up. It'll look like a nasty collision has occurred.
-             * Trying to do a local->global->local conversion would be a major
-             * headache, so instead, let's make another vehicle whose (0, 0) point
-             * is the (0, 0) of the existing vehicle, convert the coordinates of both
-             * vehicles into global coordinates, find the distance between them and
-             * p and then install them that way.
-             * Create a vehicle with type "null" so it starts out empty. */
-            auto wreckage = std::make_unique<vehicle>();
-            wreckage->pos = other_veh->pos;
-            wreckage->sm_pos = other_veh->sm_pos;
+            /**
+             * attempt to pull parts from `veh_to_add` (the prospective new vehicle)
+             * in order to place them into `first_veh` (the vehicle that is overlapped)
+             *
+             * the intent here is to get something similar to the old wreckage behavior
+             * (combining two vehicles) without completely garbling all of the vehicle parts
+             * for tile rendering purposes.
+             *
+             * the overlap span is still a mess, though.
+             */
 
-            //Where are we on the global scale?
-            const tripoint global_pos = wreckage->global_pos3();
+            for( const tripoint &map_pos : first_veh->get_points( true ) ) {
+                std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_pos, "",
+                        part_status_flag::any );
+                if( !parts_to_move.empty() ) {
+                    // Store target_point by value because first_veh->parts may reallocate
+                    // to a different address after install_part()
+                    const point target_point = first_veh->get_parts_at( map_pos, "",
+                                               part_status_flag:: any ).front()->mount;
+                    const point source_point = parts_to_move.front()->mount;
+                    for( const vehicle_part *vp : parts_to_move ) {
+                        // TODO: change mount points to be tripoint
+                        first_veh->install_part( target_point, *vp );
+                    }
 
-            for( const vpart_reference &vpr : veh->get_all_parts() ) {
-                const tripoint part_pos = veh->global_part_pos3( vpr.part() ) - global_pos;
-                // TODO: change mount points to be tripoint
-                wreckage->install_part( part_pos.xy(), vpr.part() );
+                    // this couuld probably be done in a single loop with installing parts above
+                    std::vector<int> parts_in_square = veh_to_add->parts_at_relative( source_point, true );
+                    std::set<int> parts_to_check;
+                    for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
+                        veh_to_add->remove_part( parts_in_square[index] );
+                        parts_to_check.insert( parts_in_square[index] );
+                    }
+                    veh_to_add->find_and_split_vehicles( parts_to_check );
+                }
             }
 
-            for( const vpart_reference &vpr : other_veh->get_all_parts() ) {
-                const tripoint part_pos = other_veh->global_part_pos3( vpr.part() ) - global_pos;
-                wreckage->install_part( part_pos.xy(), vpr.part() );
+            // TODO: more targeted damage around the impact site
+            first_veh->smash( *this );
+            first_veh->enable_refresh();
 
-            }
-
-            wreckage->name = _( "Wreckage" );
-
-            // Now get rid of the old vehicles
-            std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
-            // Failure has happened here when caches are corrupted due to bugs.
-            // Add an assertion to avoid null-pointer dereference later.
-            cata_assert( old_veh );
-
-            // Try again with the wreckage
-            std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( wreckage ), true );
+            // TODO: entangle the old vehicle and the new vehicle somehow, perhaps with tow cables
+            // or something like them, to make them harder to separate
+            std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( veh_to_add ), true );
             if( new_veh != nullptr ) {
                 new_veh->smash( *this );
                 return new_veh;
             }
-
-            // If adding the wreck failed, we want to restore the vehicle we tried to merge with
-            add_vehicle_to_map( std::move( old_veh ), false );
             return nullptr;
 
         } else if( impassable( p ) ) {
@@ -6500,10 +6513,10 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     }
 
     if( needs_smashing ) {
-        veh->smash( *this );
+        veh_to_add->smash( *this );
     }
 
-    return veh;
+    return veh_to_add;
 }
 
 computer *map::add_computer( const tripoint &p, const std::string &name, int security )
@@ -7397,7 +7410,8 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
     };
     rotation_guard rot( md_with_params );
 
-    return apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, verify );
+    return apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, context_,
+                                   verify );
 }
 
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )

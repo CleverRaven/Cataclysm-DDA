@@ -54,6 +54,13 @@ static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHO
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value )
 {
+    int_or_var empty;
+    return get_talk_varname( jo, member, check_value, empty );
+}
+
+std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+                              bool check_value, int_or_var &default_val )
+{
     if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
                           jo.has_array( "possible_values" ) ) ) {
         jo.throw_error( "invalid " + member + " condition in " + jo.str() );
@@ -61,6 +68,14 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member,
     const std::string &var_basename = jo.get_string( member );
     const std::string &type_var = jo.get_string( "type", "" );
     const std::string &var_context = jo.get_string( "context", "" );
+    default_val = get_int_or_var( jo, "default", false );
+    if( jo.has_member( "default_time" ) ) {
+        int_or_var value;
+        time_duration max_time;
+        mandatory( jo, false, "default_time", max_time );
+        value.int_val = to_turns<int>( max_time );
+        default_val = value;
+    }
     return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
             + var_context ) + "_" + var_basename;
 }
@@ -1063,19 +1078,19 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         std::string weather_aspect = jo.get_string( "weather" );
         if( weather_aspect == "temperature" ) {
             return []( const T & ) {
-                return get_weather().weather_precise->temperature;
+                return static_cast<int>( get_weather().weather_precise->temperature );
             };
         } else if( weather_aspect == "windpower" ) {
             return []( const T & ) {
-                return get_weather().weather_precise->windpower;
+                return static_cast<int>( get_weather().weather_precise->windpower );
             };
         } else if( weather_aspect == "humidity" ) {
             return []( const T & ) {
-                return get_weather().weather_precise->humidity;
+                return static_cast<int>( get_weather().weather_precise->humidity );
             };
         } else if( weather_aspect == "pressure" ) {
             return []( const T & ) {
-                return get_weather().weather_precise->pressure;
+                return static_cast<int>( get_weather().weather_precise->pressure );
             };
         }
     } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
@@ -1117,20 +1132,16 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return d.actor( is_npc )->get_per_max();
             };
         } else if( checked_value == "var" ) {
-            const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name, is_global]( const T & d ) {
-                int stored_value = 0;
-                std::string var;
-                if( is_global ) {
-                    global_variables &globvars = get_globals();
-                    var = globvars.get_global_value( var_name );
-                } else {
-                    var = d.actor( is_npc )->get_value( var_name );
-                }
+            int_or_var default_val;
+            const std::string var_name = get_talk_varname( jo, "var_name", false, default_val );
+            return [is_npc, var_name, is_global, default_val]( const T & d ) {
+                std::string var = read_var_value( is_npc ? var_type::npc : ( is_global ? var_type::global :
+                                                  var_type::u ), var_name, d.actor( is_npc ) );
                 if( !var.empty() ) {
-                    stored_value = std::stoi( var );
+                    return std::stoi( var );
+                } else {
+                    return default_val.evaluate( d.actor( default_val.is_npc() ) );
                 }
-                return stored_value;
             };
         } else if( checked_value == "time_since_var" ) {
             const std::string var_name = get_talk_varname( jo, "var_name", false );
@@ -1147,7 +1158,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 jo.throw_error( "allies count not supported for NPCs.  In " + jo.str() );
             } else {
                 return []( const T & ) {
-                    return g->allies().size();
+                    return static_cast<int>( g->allies().size() );
                 };
             }
         } else if( checked_value == "cash" ) {
@@ -1198,12 +1209,12 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "power" ) {
             return [is_npc]( const T & d ) {
                 // Energy in milijoule
-                return d.actor( is_npc )->power_cur().value();
+                return static_cast<int>( d.actor( is_npc )->power_cur().value() );
             };
         } else if( checked_value == "power_max" ) {
             return [is_npc]( const T & d ) {
                 // Energy in milijoule
-                return d.actor( is_npc )->power_max().value();
+                return static_cast<int>( d.actor( is_npc )->power_max().value() );
             };
         } else if( checked_value == "power_percentage" ) {
             return [is_npc]( const T & d ) {

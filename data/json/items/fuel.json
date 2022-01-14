@@ -235,5 +235,24 @@
     "price_postapoc": 500,
     "ammo_type": "flammable",
     "range": 0
+  },
+  {
+    "id": "propane",
+    "type": "AMMO",
+    "name": { "str_sp": "propane" },
+    "description": "Propane gas, useful for everything from torches to barbeque grills to metalworking.",
+    "weight": "375 g",
+    "volume": "200ml",
+    "price": 200,
+    "price_postapoc": 500,
+    "count": 200,
+    "stack_size": 200,
+    "category": "chems",
+    "phase": "gas",
+    "container": "small_propane_tank",
+    "material": [ "propane" ],
+    "symbol": "~",
+    "color": "white",
+    "ammo_type": "propane"
   }
 ]

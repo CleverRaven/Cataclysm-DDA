@@ -21,6 +21,7 @@
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
+#include "display.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -79,6 +80,7 @@ static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_formication( "formication" );
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_iodine( "iodine" );
@@ -107,11 +109,11 @@ static const efftype_id effect_winded( "winded" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
-static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
@@ -175,6 +177,7 @@ void in_sunlight( Character &you );
 void water_damage( Character &you, const trait_id &mut_id );
 void mutation_power( Character &you, const trait_id &mut_id );
 void while_underwater( Character &you );
+void while_grabbed( Character &you );
 void from_addictions( Character &you );
 void while_awake( Character &you, const int current_stim );
 void from_chemimbalance( Character &you );
@@ -286,6 +289,35 @@ void suffer::while_underwater( Character &you )
         !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos() ) &&
         you.get_thirst() > -60 ) {
         you.mod_thirst( -1 );
+    }
+}
+
+void suffer::while_grabbed( Character &you )
+{
+    // get the intensity of the current grab
+    int grab_intensity = you.get_effect_int( effect_grabbed, body_part_torso );
+
+    // you should have trouble breathing as you get swarmed by zombies grabbing you
+    if( grab_intensity <= 2 ) {
+        // only a chance to lose breath at low grab chance
+        you.oxygen -= rng( 0, 1 );
+    } else if( grab_intensity <= 4 ) {
+        you.oxygen -= 1;
+    } else if( grab_intensity <= 6 ) {
+        you.oxygen -= rng( 1, 2 );
+    } else if( grab_intensity <= 8 ) {
+        you.oxygen -= 2;
+    }
+
+    // a few warnings before starting to take damage
+    if( you.oxygen <= 5 ) {
+        you.add_msg_if_player( m_bad, _( "You're suffocating!" ) );
+        // your characters chest is being crushed and you are dying
+        you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
+    } else if( you.oxygen <= 15 ) {
+        you.add_msg_if_player( m_bad, _( "You can't breathe with all this weight!" ) );
+    } else if( you.oxygen <= 25 ) {
+        you.add_msg_if_player( m_bad, _( "You're having difficulty breathing!" ) );
     }
 }
 
@@ -515,10 +547,7 @@ void suffer::from_schizophrenia( Character &you )
     if( one_turn_in( 2_days ) && !you.get_wielded_item().is_null() ) {
         const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
                                      translation() );
-        std::string str = string_format( snip, i_name_w );
-        str[0] = toupper( str[0] );
-
-        you.add_msg_if_player( m_bad, "%s", str );
+        you.add_msg_if_player( m_bad, "%s", uppercase_first_letter( string_format( snip, i_name_w ) ) );
         item_location loc( you, &you.get_wielded_item() );
         you.drop( loc, you.pos() );
         return;
@@ -1533,6 +1562,10 @@ void Character::suffer()
         }
     }
 
+    if( has_effect( effect_grabbed, body_part_torso ) ) {
+        suffer::while_grabbed( *this );
+    }
+
     if( underwater ) {
         suffer::while_underwater( *this );
     }
@@ -1601,9 +1634,9 @@ bool Character::irradiate( float rads, bool bypass )
         int rads_max = roll_remainder( rads );
         mod_rad( rng( 0, rads_max ) );
 
-        // Apply rads to any radiation badges.
+        // Apply rads to any radiation badges that are exposed (worn or wielded)
         for( item *const it : inv_dump() ) {
-            if( it->typeId() != itype_rad_badge ) {
+            if( !it->has_flag( json_flag_RAD_DETECT ) ) {
                 continue;
             }
 
@@ -1624,13 +1657,14 @@ bool Character::irradiate( float rads, bool bypass )
             }
 
             // If the color hasn't changed, don't print anything.
-            const std::string &col_before = rad_badge_color( before );
-            const std::string &col_after = rad_badge_color( it->irradiation );
+            const std::string &col_before = display::rad_badge_color_name( before );
+            const std::string &col_after = display::rad_badge_color_name( it->irradiation );
             if( col_before == col_after ) {
                 continue;
             }
 
-            add_msg_if_player( m_warning, _( "Your radiation badge changes from %1$s to %2$s!" ),
+            //~ %1$s = previous badge color, %2%s = current badge color
+            add_msg_if_player( m_bad, _( "Your radiation badge changes from %1$s to %2$s!" ),
                                col_before, col_after );
         }
 

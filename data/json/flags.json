@@ -6,10 +6,22 @@
     "restriction": "Item must be a large ablative plate"
   },
   {
+    "id": "ABLATIVE_MANTLE",
+    "type": "json_flag",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> mantle connector",
+    "restriction": "Item must be an armored mantle"
+  },
+  {
     "id": "ABLATIVE_MEDIUM",
     "type": "json_flag",
     "info": "This plate will fit in <info>medium</info> armor pockets",
     "restriction": "Item must be a medium ablative plate"
+  },
+  {
+    "id": "ABLATIVE_SKIRT",
+    "type": "json_flag",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> skirt connector",
+    "restriction": "Item must be an armored skirt"
   },
   {
     "id": "ACTIVE_CLOAKING",
@@ -162,6 +174,11 @@
     "id": "INDUSTRIAL_CARD",
     "type": "json_flag",
     "info": "You could probably use this to get into a secure industrial facility."
+  },
+  {
+    "id": "COOP_CARD",
+    "type": "json_flag",
+    "info": "Gives you access to the artisans workshop."
   },
   {
     "id": "SKINNED",
@@ -557,6 +574,10 @@
     "info": "This item used to be legal tender before the Cataclysm."
   },
   {
+    "id": "NO_AUTO_CONSUME",
+    "type": "json_flag"
+  },
+  {
     "id": "PALS_SMALL",
     "type": "json_flag",
     "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small ammount of space</good>."
@@ -576,6 +597,11 @@
     "type": "json_flag",
     "//": "25% chance to protect against fear_paralyze monster attack.",
     "info": "This gear <good>keeps out</good> the <info>mind control rays</info>."
+  },
+  {
+    "id": "RAD_DETECT",
+    "type": "json_flag",
+    "info": "This item can <good>detect</good> dangerous levels of <info>radiation</info>."
   },
   {
     "id": "RAD_PROOF",

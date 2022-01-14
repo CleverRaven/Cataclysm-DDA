@@ -235,11 +235,17 @@ struct part_material {
 
 struct armor_portion_data {
 
+    // The base volume for an item
+    const units::volume volume_per_encumbrance = 250_ml; // NOLINT(cata-serialize)
+
     // How much this piece encumbers the player.
     int encumber = 0;
 
     // When storage is full, how much it encumbers the player.
     int max_encumber = -1;
+
+    // how much an item can hold comfortably compared to an average item
+    float volume_encumber_modifier = 1;
 
     // Percentage of the body part that this item covers.
     // This determines how likely it is to hit the item instead of the player.
@@ -276,6 +282,14 @@ struct armor_portion_data {
 
     // What layer does it cover if any
     std::vector<layer_level> layers;
+
+    // the chance that every material applies to an attack
+    // this is primarily used as a chached value for UI
+    int best_protection_chance = 100; // NOLINT(cata-serialize)
+
+    // the chance that the smallest number of materials possible applies to an attack
+    // this is primarily used as a chached value for UI
+    int worst_protection_chance = 0; // NOLINT(cata-serialize)
 
     /**
      * Returns the amount all sublocations this item covers could possibly

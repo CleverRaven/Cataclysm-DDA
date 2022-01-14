@@ -109,7 +109,7 @@
     "id": "egg_turtle",
     "name": "turtle egg",
     "copy-from": "egg_reptile",
-    "description": "The round egg of a turtle.  Its covered in leaves",
+    "description": "The round egg of a turtle.  It is covered in leaves.",
     "rot_spawn": "GROUP_EGG_TURTLE"
   },
   {
@@ -117,7 +117,7 @@
     "id": "egg_snapper",
     "name": "iguana egg",
     "copy-from": "egg_reptile",
-    "description": "The round egg of a snapping turtle.  Its covered in mud",
+    "description": "The round egg of a snapping turtle.  It is covered in mud.",
     "rot_spawn": "GROUP_EGG_IGUANA"
   },
   {
@@ -125,7 +125,45 @@
     "id": "egg_tortoise",
     "name": "iguana egg",
     "copy-from": "egg_reptile",
-    "description": "The round egg of a tortoise.  Its covered in dirt",
+    "description": "The round egg of a tortoise.  It is covered in dirt.",
     "rot_spawn": "GROUP_EGG_IGUANA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_termite",
+    "name": "termite egg",
+    "copy-from": "egg_insect",
+    "description": "The small translucent egg of a termite.  It will grow quickly into a nymph if allowed.",
+    "rot_spawn": "GROUP_EGG_TERMITE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_butterfly",
+    "name": "butterfly egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
+    "rot_spawn": "GROUP_EGG_BUTTERFLY"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "triffid_pod",
+    "name": { "str": "triffid pod" },
+    "weight": "278 g",
+    "color": "light_green",
+    "spoils_in": "3 days 8 hours",
+    "//": "Copied from Fungal Fluid Sac which is also based on Wild Vegetables.",
+    "comestible_type": "FOOD",
+    "symbol": "o",
+    "quench": 18,
+    "healthy": -1,
+    "calories": 35,
+    "description": "A strange green pod produced by a triffid.  Based on observation it may be the closest thing to triffid seeds( or eggs?).",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_veggy",
+    "rot_spawn": "GROUP_EGG_TRIFFID"
   }
 ]

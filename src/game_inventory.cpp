@@ -25,6 +25,7 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "display.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
@@ -40,7 +41,6 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "recipe.h"
@@ -728,9 +728,12 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( you.has_trait( trait_SAPROPHAGE ) || you.has_trait( trait_SAPROVORE ) ) {
                     return 1;
                 } else {
-                    return 4;
+                    return 5;
                 }
             } else if( time == 0_turns ) {
+                return 4;
+            } else if( loc.has_parent() &&
+                       loc.parent_item()->contained_where( *loc )->spoil_multiplier() == 0.0f ) {
                 return 3;
             } else {
                 return 2;

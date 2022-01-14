@@ -28,6 +28,8 @@ airhorn
 airjack
 airworthy
 alamosaurus
+alate
+alates
 alay
 albertosaurus
 aldosterone
@@ -35,6 +37,7 @@ alembic
 alexandrites
 alienis
 alient
+alkahest
 alkalis
 alkyl
 alleghaniensis
@@ -91,6 +94,7 @@ asstown
 asswagon
 ategory
 aterial
+atire
 atompot
 attac
 attery
@@ -146,6 +150,7 @@ beeeeep
 beefsim
 beforenext
 beladen
+belcher
 bellend
 benchlike
 benchtop
@@ -188,6 +193,7 @@ blacksmithy
 bleedin
 bloodbank
 bloodloss
+bloomery
 bluegill
 blup
 blutwurst
@@ -285,6 +291,7 @@ chasin
 chausses
 cheapshot
 cheescutter
+chestpiece
 chestrig
 chestwrap
 chicharrones
@@ -392,7 +399,6 @@ cyberdog
 cyberterror
 cybug
 cyphers
-cysts
 d
 dagnabbit
 dambreaker
@@ -440,6 +446,7 @@ diminute
 dimorphism
 dimorphodon
 dioicus
+dionaea
 diphenyl
 diplodocus
 discoes
@@ -472,6 +479,7 @@ driers
 drivetrain
 dropoff
 droppers
+druidry
 drywalled
 dunderfuck
 dyoplosaurus
@@ -510,6 +518,8 @@ eppies
 ergometer
 erlischt
 ersonal
+eructing
+eructor
 erzeugen
 escalier
 escription
@@ -610,7 +620,6 @@ foodplace
 footgear
 foregrip
 forestock
-forewings
 forgemaster
 forgnottedn
 forntget
@@ -730,7 +739,6 @@ harvestable
 hauberk
 hbhbh
 hdd
-healthiness
 heartlike
 heatsink
 heatsinks
@@ -739,7 +747,6 @@ helpdesk
 hemolymph
 hemostatics
 heoretical
-heraclean
 hevel
 hexamine
 hexapod
@@ -805,6 +812,7 @@ infeme
 infirma
 inhalative
 injest
+innawood
 innawoods
 inquiringly
 inscribable
@@ -826,6 +834,7 @@ isable
 isassembled
 issions
 itemname
+iterating
 ixed
 j
 jabberwock
@@ -841,6 +850,7 @@ jointer
 jointing
 jots
 jr
+json
 jtest
 junglefowl
 junipers
@@ -903,6 +913,7 @@ lamellar
 landshark
 langourous
 lavrae
+lawd
 layin
 lbs
 leache
@@ -919,6 +930,7 @@ leverpostej
 lewede
 leylines
 lickin
+lifegiver
 lifestraw
 lightnin
 lightsource
@@ -1097,6 +1109,7 @@ necco
 neckawoods
 neckbeard
 necrowolf
+nectivore
 needin
 needlelike
 neodays
@@ -1324,12 +1337,14 @@ queenright
 quicksave
 quidem
 quiescent
+quipping
 qwerty
 r
 racketus
 radially
 radiocontrol
 radioisotopes
+rafflesia
 railguns
 raincatcher
 rainsuit
@@ -1342,6 +1357,7 @@ rayed
 razorbar
 razorclaw
 razorshap
+razorsharp
 razzin
 rd
 reachability
@@ -1438,6 +1454,7 @@ samghati
 samoyed
 sandleather
 sapience
+sarracenia
 satirizes
 savetest
 sawblade
@@ -1456,6 +1473,7 @@ sealable
 secubot
 segmentata
 seguiram
+semiaquatic
 sendin
 sendo
 serendipitously
@@ -1740,7 +1758,6 @@ undercovering
 underprepared
 underslung
 underwelming
-undescribed
 undulates
 uneasing
 unfavorite
@@ -1748,6 +1765,7 @@ unfermented
 unflavored
 unfoldable
 ungraspable
+unhardened
 unharvested
 unhidden
 unhomogenized
@@ -1886,6 +1904,7 @@ xp
 yark
 yarker
 yarkin
+yateveo
 ybindings
 yipe
 ynn

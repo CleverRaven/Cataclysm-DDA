@@ -309,7 +309,7 @@
     "item": "hdframe",
     "location": "center",
     "looks_like": "hatch_opaque",
-    "name": { "str": "opaque heavy duty hatch" },
+    "name": { "str": "heavy duty opaque hatch" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },

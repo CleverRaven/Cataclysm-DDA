@@ -239,14 +239,37 @@ struct action_attributes {
 // On the joystick there's a maximum of 256 key states.
 // So for joy axis events, we simply use a number larger
 // than that.
-constexpr int JOY_0 = 0;
-constexpr int JOY_1 = 1;
-constexpr int JOY_2 = 2;
-constexpr int JOY_3 = 3;
-constexpr int JOY_4 = 4;
-constexpr int JOY_5 = 5;
-constexpr int JOY_6 = 6;
-constexpr int JOY_7 = 7;
+constexpr int JOY_0  = 0;
+constexpr int JOY_1  = 1;
+constexpr int JOY_2  = 2;
+constexpr int JOY_3  = 3;
+constexpr int JOY_4  = 4;
+constexpr int JOY_5  = 5;
+constexpr int JOY_6  = 6;
+constexpr int JOY_7  = 7;
+constexpr int JOY_8  = 8;
+constexpr int JOY_9  = 9;
+constexpr int JOY_10 = 10;
+constexpr int JOY_11 = 11;
+constexpr int JOY_12 = 12;
+constexpr int JOY_13 = 13;
+constexpr int JOY_14 = 14;
+constexpr int JOY_15 = 15;
+constexpr int JOY_16 = 16;
+constexpr int JOY_17 = 17;
+constexpr int JOY_18 = 18;
+constexpr int JOY_19 = 19;
+constexpr int JOY_20 = 20;
+constexpr int JOY_21 = 21;
+constexpr int JOY_22 = 22;
+constexpr int JOY_23 = 23;
+constexpr int JOY_24 = 24;
+constexpr int JOY_25 = 25;
+constexpr int JOY_26 = 26;
+constexpr int JOY_27 = 27;
+constexpr int JOY_28 = 28;
+constexpr int JOY_29 = 29;
+constexpr int JOY_30 = 30;
 
 constexpr int JOY_LEFT      = 256 + 1;
 constexpr int JOY_RIGHT     = 256 + 2;
@@ -353,7 +376,7 @@ class input_manager
          * Use `input_context::(re)set_timeout()` when possible so timeout will be properly
          * reset when entering a new input context.
          */
-        void set_timeout( int t );
+        void set_timeout( int delay );
         void reset_timeout() {
             set_timeout( -1 );
         }

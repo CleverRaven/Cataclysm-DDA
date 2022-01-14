@@ -46,7 +46,7 @@
     "id": "mon_riotbot",
     "type": "MONSTER",
     "name": { "str": "riot control bot" },
-    "description": "Nonviolent riot-control bot.  Designed to suppress riots and make mass arrests of those participating.  Though its relaxation gas is by far its best-known weapon, it carries a blinding flash and a low-powered stungun for self-defense--in addition to its supply of electronic handcuffs.",
+    "description": "A nonviolent riot-control bot, designed to suppress riots and make mass arrests of those participating.  Though its relaxation gas is by far its best-known weapon, it carries a blinding spotlight and a low-powered stungun for self-defense--in addition to a supply of electronic handcuffs.",
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
     "diff": 10,
@@ -198,6 +198,50 @@
     ]
   },
   {
+    "id": "mon_secubot_america",
+    "type": "MONSTER",
+    "name": { "str": "autonomous TALON UGV Liberty Edition" },
+    "description": "A TALON unmanned ground vehicle equipped with an M16A4.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.  This one has been plastered with an american flag decal.",
+    "default_faction": "defense_bot",
+    "species": [ "ROBOT" ],
+    "diff": 20,
+    "volume": "150 L",
+    "weight": "40750 g",
+    "hp": 80,
+    "speed": 40,
+    "material": [ "steel" ],
+    "symbol": "R",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "armor_bash": 14,
+    "armor_cut": 14,
+    "armor_bullet": 11,
+    "vision_day": 50,
+    "revert_to_itype": "bot_secubot",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 8,
+        "move_cost": 80,
+        "gun_type": "firework_cannon",
+        "fake_skills": [ [ "gun", 3 ], [ "rifle", 3 ] ],
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "targeting_sound": "\"Proud to be an American.\"",
+        "targeting_volume": 50,
+        "description": "Fireworks explode out of the turret!",
+        "no_ammo_sound": "an igniter clicks rapidly!"
+      }
+    ],
+    "death_drops": {  },
+    "death_function": {
+      "effect": { "id": "death_smokeburst", "hit_self": true },
+      "message": "Loud rock music blares as the %s explodes!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "STUN_IMMUNE" ]
+  },
+  {
     "id": "mon_skitterbot",
     "type": "MONSTER",
     "name": { "str": "skitterbot" },
@@ -278,7 +322,7 @@
     "id": "mon_robofac_prototype",
     "type": "MONSTER",
     "name": { "str": "prototype robot" },
-    "description": "The single glowing eye of this robot surveys the landscape periodically, as it performs the endless slaughter dictated by a misinterpreted and cruel routine.  Between half-built plates, you can see the machinery and cables that animate it, and yet it moves deftly as it switches between one target and the next.",
+    "description": "This robot's single, glowing eye surveys the landscape periodically as it performs the endless slaughter dictated by a misinterpreted and cruel routine.  Between half-built plates, you can see the machinery and cables that animate it, and yet it moves deftly as it switches between one target and the next.",
     "default_faction": "berserk_bot",
     "bodytype": "human",
     "species": [ "ROBOT" ],

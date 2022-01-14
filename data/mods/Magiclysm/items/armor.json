@@ -31,11 +31,19 @@
     "id": "armguard_demonchitin",
     "copy-from": "armguard_chitin",
     "type": "ARMOR",
-    "name": { "str": "pair of demon chitin arm guards", "str_pl": "pairs of demon chitin arm guards" },
+    "name": { "str": "pair of demon chitin arm guards", "str_pl": "XL pairs of demon chitin arm guards" },
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
     "material": [ "demon_chitin" ],
     "proportional": { "weight": 0.9, "encumbrance": 0.9, "price": 10, "warmth": 2 },
     "environmental_protection": 8
+  },
+  {
+    "id": "xl_armguard_demonchitin",
+    "type": "ARMOR",
+    "name": { "str": "XL pair of demon chitin arm guards", "str_pl": "pairs of demon chitin arm guards" },
+    "copy-from": "armguard_demonchitin",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_demonchitin",
@@ -48,6 +56,14 @@
     "environmental_protection": 8
   },
   {
+    "id": "xl_armor_demonchitin",
+    "type": "ARMOR",
+    "name": { "str": "XL demon chitin armor" },
+    "copy-from": "armor_demonchitin",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "helmet_demonchitin",
     "copy-from": "helmet_chitin",
     "type": "ARMOR",
@@ -56,6 +72,14 @@
     "material": [ "demon_chitin" ],
     "proportional": { "weight": 0.9, "encumbrance": 0.9, "price": 10, "warmth": 2 },
     "environmental_protection": 8
+  },
+  {
+    "id": "xl_helmet_demonchitin",
+    "type": "ARMOR",
+    "name": { "str": "XL demon chitin helmet" },
+    "copy-from": "helmet_demonchitin",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "gauntlets_demonchitin",
@@ -68,6 +92,14 @@
     "environmental_protection": 8
   },
   {
+    "id": "xl_gauntlets_demonchitin",
+    "type": "ARMOR",
+    "name": { "str": "XL pair of demon chitin gauntlets", "str_pl": "XL pairs of demon chitin gauntlets" },
+    "copy-from": "gauntlets_demonchitin",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "boots_demonchitin",
     "copy-from": "boots_chitin",
     "type": "ARMOR",
@@ -76,6 +108,14 @@
     "material": [ "demon_chitin" ],
     "proportional": { "weight": 0.9, "encumbrance": 0.9, "price": 10, "warmth": 2 },
     "environmental_protection": 8
+  },
+  {
+    "id": "xl_boots_demonchitin",
+    "type": "ARMOR",
+    "name": { "str": "XL pair of demon chitin boots", "str_pl": "XL pairs of demon chitin boots" },
+    "copy-from": "boots_demonchitin",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "type": "PET_ARMOR",

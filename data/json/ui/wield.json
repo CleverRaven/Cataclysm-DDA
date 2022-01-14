@@ -1,0 +1,9 @@
+[
+  {
+    "id": "wielding_desc",
+    "type": "widget",
+    "label": "Wield",
+    "style": "text",
+    "var": "wielding_text"
+  }
+]

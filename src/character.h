@@ -1054,12 +1054,6 @@ class Character : public Creature, public visitable
                            int roll );
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
-         * Is wrapped by the other two armor absorb calls
-         * @return true if the armor was completely destroyed (and the item must be deleted).
-         */
-        bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp );
-        /**
-         * Reduces and mutates du, prints messages about armor taking damage.
          * If the armor is fully destroyed it is replaced
          * @return true if the armor was completely destroyed.
          */
@@ -1181,6 +1175,8 @@ class Character : public Creature, public visitable
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
         bool has_two_arms_lifting() const;
+        // Return all the limb special attacks the character has, if the parent limb isn't too encumbered
+        std::set<matec_id> get_limb_techs() const;
         int get_working_arm_count() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
@@ -2313,6 +2309,10 @@ class Character : public Creature, public visitable
         stomach_contents guts;
         std::list<consumption_event> consumption_history;
 
+        // sets the characters oxygen level if they aren't already using it
+        // oxygen is set only when needed. Currently when drowning or suffocating
+        // returns if oxygen was set.
+        bool set_oxygen();
         int oxygen = 0;
         int slow_rad = 0;
         blood_type my_blood_type;

@@ -1504,11 +1504,15 @@ void item_contents::add_pocket( const item &pocket_item )
 {
     units::volume total_nonrigid_volume = 0_ml;
     for( const item_pocket *i_pocket : pocket_item.get_all_contained_pockets().value() ) {
+
         // need to insert before the end since the final pocket is the migration pocket
         contents.insert( --contents.end(), *i_pocket );
+        // these pockets should fallback to using the item name as a description
+        // need to update it once it's stored in the contents list
+        ( ++contents.rbegin() )->name_as_description = true;
         total_nonrigid_volume += i_pocket->max_contains_volume();
     }
-    additional_pockets_encumbrance += total_nonrigid_volume / 250_ml;
+    additional_pockets_volume += total_nonrigid_volume;
     additional_pockets_space_used += pocket_item.get_pocket_size();
     additional_pockets.push_back( pocket_item );
 
@@ -1537,7 +1541,7 @@ item item_contents::remove_pocket( int index )
         // finally remove the pocket data
         contents.erase( it++ );
     }
-    additional_pockets_encumbrance -= total_nonrigid_volume / 250_ml;
+    additional_pockets_volume -= total_nonrigid_volume;
     additional_pockets_space_used -= additional_pockets[index].get_pocket_size();
 
     // create a copy of the item to return and delete the old items entry
@@ -1553,9 +1557,9 @@ bool item_contents::has_additional_pockets() const
     return !additional_pockets.empty();
 }
 
-int item_contents::get_additional_pocket_encumbrance() const
+int item_contents::get_additional_pocket_encumbrance( float mod ) const
 {
-    return additional_pockets_encumbrance;
+    return additional_pockets_volume * mod / 250_ml;
 }
 
 int item_contents::get_additional_space_used() const
@@ -1800,8 +1804,10 @@ float item_contents::relative_encumbrance() const
         if( pocket.rigid() ) {
             continue;
         }
-        nonrigid_volume += pocket.contains_volume();
-        nonrigid_max_volume += pocket.max_contains_volume();
+        // need to modify by pockets volume encumbrance modifier since some pockets may have less effect than others
+        float modifier = pocket.get_pocket_data()->volume_encumber_modifier;
+        nonrigid_volume += pocket.contains_volume() * modifier;
+        nonrigid_max_volume += pocket.max_contains_volume() * modifier;
     }
     if( nonrigid_volume > nonrigid_max_volume ) {
         debugmsg( "volume exceeds capacity (%sml > %sml)",

@@ -179,6 +179,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_GOES_DOWN: return "GOES_DOWN";
         case ter_furn_flag::TFLAG_GOES_UP: return "GOES_UP";
         case ter_furn_flag::TFLAG_NO_FLOOR: return "NO_FLOOR";
+        case ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR: return "ALLOW_ON_OPEN_AIR";
         case ter_furn_flag::TFLAG_SEEN_FROM_ABOVE: return "SEEN_FROM_ABOVE";
         case ter_furn_flag::TFLAG_RAMP_DOWN: return "RAMP_DOWN";
         case ter_furn_flag::TFLAG_RAMP_UP: return "RAMP_UP";

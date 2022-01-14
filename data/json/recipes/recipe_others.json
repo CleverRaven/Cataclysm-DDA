@@ -98,7 +98,13 @@
       [ [ "sheet_metal_small", 3 ] ],
       [ [ "nail", 100 ] ],
       [ [ "pipe", 4 ] ],
-      [ [ "funnel", 1 ], [ "metal_funnel", 1 ], [ "makeshift_funnel", 1 ] ],
+      [
+        [ "funnel", 1 ],
+        [ "metal_funnel", 1 ],
+        [ "makeshift_funnel", 1 ],
+        [ "birchbark_funnel", 1 ],
+        [ "leather_funnel", 1 ]
+      ],
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
@@ -131,7 +137,13 @@
       [ [ "nail", 100 ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ],
-      [ [ "funnel", 1 ], [ "metal_funnel", 1 ], [ "makeshift_funnel", 1 ] ],
+      [
+        [ "funnel", 1 ],
+        [ "metal_funnel", 1 ],
+        [ "makeshift_funnel", 1 ],
+        [ "birchbark_funnel", 1 ],
+        [ "leather_funnel", 1 ]
+      ],
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
@@ -2313,5 +2325,34 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "training_dummy_light", 1 ] ], [ [ "duct_tape", 50 ], [ "cordage", 2, "LIST" ] ], [ [ "scrap", 150 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "propane_cooker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "propane_lantern", 2 ] ], [ [ "pilot_light", 1 ] ], [ [ "scrap", 3 ] ], [ [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "gas_forge",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "360 m",
+    "components": [
+      [ [ "propane_lantern", 3 ], [ "propane_cooker", 2 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "scrap", 10 ] ],
+      [ [ "brick", 8 ] ]
+    ]
   }
 ]
