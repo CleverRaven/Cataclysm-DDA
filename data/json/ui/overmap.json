@@ -1,0 +1,12 @@
+[
+  {
+    "id": "overmap_full_width",
+    "type": "widget",
+    "label": "Overmap",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 0,
+    "height": 7,
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]
