@@ -25,22 +25,18 @@
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
  *
- * Consists of six JSON manipulation tools:
+ * Consists of four JSON manipulation tools:
  * JsonIn - for low-level parsing of an input JSON stream
  * JsonOut - for outputting JSON
  * JsonObject - convenience-wrapper for reading JSON objects from a JsonIn
  * JsonArray - convenience-wrapper for reading JSON arrays from a JsonIn
- * JsonSerializer - inheritable interface for custom datatype serialization
- * JsonDeserializer - inheritable interface for custom datatype deserialization
  *
  * Further documentation can be found below.
  */
 
 class JsonArray;
-class JsonDeserializer;
 class JsonIn;
 class JsonObject;
-class JsonSerializer;
 class JsonValue;
 class item;
 
@@ -368,7 +364,6 @@ class JsonIn
         bool read( std::string &s, bool throw_on_error = false );
         template<size_t N>
         bool read( std::bitset<N> &b, bool throw_on_error = false );
-        bool read( JsonDeserializer &j, bool throw_on_error = false );
 
         template <typename T>
         auto read( string_id<T> &thing, bool throw_on_error = false ) -> bool {
@@ -731,7 +726,6 @@ class JsonIn
  * which inserts newlines and whitespace liberally, if turned on.
  *
  * Basic containers such as maps, sets and vectors,
- * as well as anything inheriting the JsonSerializer interface,
  * can be serialized automatically by write() and member().
  */
 class JsonOut
@@ -819,8 +813,6 @@ class JsonOut
 
         template<size_t N>
         void write( const std::bitset<N> &b );
-
-        void write( const JsonSerializer &thing );
 
         template <typename T>
         auto write( const string_id<T> &thing ) {
@@ -1005,8 +997,8 @@ class JsonOut
  * and for member existence with has_member(name).
  *
  * They can also read directly into compatible data structures,
- * including sets, vectors, maps, and any class inheriting JsonDeserializer,
- * using read(name, value).
+ * including sets, vectors, maps, and any class with a compatible
+ * deserialize() routine.
  *
  * read() returns true on success, false on failure.
  *
@@ -1224,12 +1216,12 @@ class JsonObject
  * -------------------------
  *
  * Elements can also be automatically read into compatible containers,
- * such as maps, sets, vectors, and classes implementing JsonDeserializer,
+ * such as maps, sets, vectors, and classes using a deserialize routine,
  * using the read_next() and read() methods.
  *
  *     JsonArray ja = jo.get_array("custom_datatype_array");
  *     while (ja.has_more()) {
- *         MyDataType mydata; // MyDataType implementing JsonDeserializer
+ *         MyDataType mydata;
  *         ja.read_next(mydata);
  *         process(mydata);
  *     }
@@ -1595,72 +1587,6 @@ Res JsonObject::get_tags( const std::string &name ) const
  * array (which should be a string) add it to the given set.
  */
 void add_array_to_set( std::set<std::string> &, const JsonObject &json, const std::string &name );
-
-/* JsonSerializer
- * ==============
- *
- * JsonSerializer is an inheritable interface,
- * allowing classes to define how they are to be serialized,
- * and then treated as a basic type for serialization purposes.
- *
- * All a class must to do satisfy this interface,
- * is define a `void serialize(JsonOut&) const` method,
- * which should use the provided JsonOut to write its data as JSON.
- *
- *     class point : public JsonSerializer {
- *         int x, y;
- *         void serialize(JsonOut &jsout) const {
- *             jsout.start_array();
- *             jsout.write(x);
- *             jsout.write(y);
- *             jsout.end_array();
- *         }
- *     }
- */
-class JsonSerializer
-{
-    public:
-        virtual ~JsonSerializer() = default;
-        virtual void serialize( JsonOut &jsout ) const = 0;
-        JsonSerializer() = default;
-        JsonSerializer( JsonSerializer && ) = default;
-        JsonSerializer( const JsonSerializer & ) = default;
-        JsonSerializer &operator=( JsonSerializer && ) = default;
-        JsonSerializer &operator=( const JsonSerializer & ) = default;
-};
-
-/* JsonDeserializer
- * ==============
- *
- * JsonDeserializer is an inheritable interface,
- * allowing classes to define how they are to be deserialized,
- * and then treated as a basic type for deserialization purposes.
- *
- * All a class must to do satisfy this interface,
- * is define a `void deserialize(JsonIn&)` method,
- * which should read its data from the provided JsonIn,
- * assuming it to be in the correct form.
- *
- *     class point : public JsonDeserializer {
- *         int x, y;
- *         void deserialize(JsonIn &jsin) {
- *             JsonArray ja = jsin.get_array();
- *             x = ja.get_int(0);
- *             y = ja.get_int(1);
- *         }
- *     }
- */
-class JsonDeserializer
-{
-    public:
-        virtual ~JsonDeserializer() = default;
-        virtual void deserialize( JsonIn &jsin ) = 0;
-        JsonDeserializer() = default;
-        JsonDeserializer( JsonDeserializer && ) = default;
-        JsonDeserializer( const JsonDeserializer & ) = default;
-        JsonDeserializer &operator=( JsonDeserializer && ) = default;
-        JsonDeserializer &operator=( const JsonDeserializer & ) = default;
-};
 
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
 
