@@ -161,7 +161,6 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
                 iNumChecked++;
                 item *item_entry = &*begin_iterator;
                 const std::string sItemName = item_entry->tname( 1, false );
-                item_contents &contents = begin_iterator->get_contents();
 
                 // before checking contents check if item is on pickup list
                 if( should_auto_pickup( &*begin_iterator ) ) {
