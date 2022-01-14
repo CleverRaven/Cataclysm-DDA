@@ -273,6 +273,7 @@
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
+    "examine_action": "harvest_ter_nectar",
     "transforms_into": "t_tree_basswood_harvested",
     "harvest_by_season": [ { "seasons": [ "spring" ], "id": "basswood_harv" } ],
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],

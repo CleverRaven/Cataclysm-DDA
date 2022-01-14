@@ -280,6 +280,29 @@
   },
   {
     "type": "terrain",
+    "id": "t_japanese_knotweed",
+    "name": "japanese knotweed",
+    "description": "An invasive species originating from Japan.  The stem looks like it could contain some water.",
+    "symbol": ",",
+    "looks_like": "t_fern",
+    "color": [ "brown_green", "green", "green", "green" ],
+    "move_cost": 3,
+    "coverage": 70,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "japanese_knotweed_harv" } ],
+    "transforms_into": "t_dirt",
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_alder",
     "name": "alder tree",
     "description": "A deciduous flowering tree with serrate, scalloped, round-obovate leaves, commonly forming dense groves alongside water.",

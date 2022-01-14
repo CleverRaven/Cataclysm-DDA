@@ -272,6 +272,11 @@
     "entries": [ { "drop": "leaves_basswood", "base_num": [ 2, 5 ], "scale_num": [ 0, 1 ] } ]
   },
   {
+    "id": "japanese_knotweed_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "japanese_knotweed_stem", "base_num": [ 1, 3 ], "scale_num": [ 0, 1 ] } ]
+  },
+  {
     "id": "fish_tiny",
     "type": "harvest",
     "entries": [

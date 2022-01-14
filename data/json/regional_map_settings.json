@@ -39,6 +39,7 @@
           "t_underbrush": 30,
           "t_shrub": 10,
           "t_fern": 5,
+          "f_japanese_knotweed": 3,
           "t_shrub_blueberry": 2,
           "t_shrub_strawberry": 2,
           "t_shrub_blackberry": 2,
