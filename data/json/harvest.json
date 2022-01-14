@@ -267,6 +267,11 @@
     "entries": [ { "drop": "alder_bark", "base_num": [ 2, 5 ], "scale_num": [ 0, 1 ] } ]
   },
   {
+    "id": "basswood_leaves_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "leaves_basswood", "base_num": [ 2, 5 ], "scale_num": [ 0, 1 ] } ]
+  },
+  {
     "id": "fish_tiny",
     "type": "harvest",
     "entries": [
