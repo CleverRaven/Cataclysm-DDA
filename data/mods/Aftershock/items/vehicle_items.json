@@ -21,6 +21,6 @@
     "id": "exo_gantry",
     "copy-from": "vehicle_rig",
     "name": "exoskeleton maintenance gantry",
-    "description": "A vehicle-mounted gantry for supporting an exoskeleton upright during maintenance and repair. Includes the specialized tools needed for complex repairs and will also charge the suit's power when activated from the vehicle's controls."
+    "description": "A vehicle-mounted gantry for supporting an exoskeleton upright during maintenance and repair.  Includes the specialized tools needed for complex repairs and will also charge the suit's power when activated from the vehicle's controls."
   }
 ]
