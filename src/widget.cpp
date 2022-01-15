@@ -333,8 +333,6 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "label", _label, translation() );
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
-    optional( jo, was_loaded, "var_min", _var_min );
-    optional( jo, was_loaded, "var_max", _var_max );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
     optional( jo, was_loaded, "flags", _flags );
 
@@ -342,21 +340,6 @@ void widget::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_string( "var" ) ) {
         _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
-    }
-
-    // var_norm may be a single numerical value considered "normal",
-    // or a [ low, high ] pair representing a normal range (inclusive)
-    if( jo.has_number( "var_norm" ) ) {
-        const int normal = jo.get_int( "var_norm" );
-        _var_norm = std::make_pair( normal, normal );
-    } else if( jo.has_array( "var_norm" ) ) {
-        JsonArray norm_range = jo.get_array( "var_norm" );
-        if( norm_range.size() != 2 ) {
-            debugmsg( "var_norm must have exactly 2 elements" );
-        }
-        const int low = norm_range.get_int( 0 );
-        const int high = norm_range.get_int( 1 );
-        _var_norm = std::make_pair( low, high );
     }
 
     if( jo.has_string( "bodypart" ) ) {
@@ -424,13 +407,6 @@ std::pair<int, int> widget::get_var_norm( const avatar &ava ) const
         default:
             break;
     }
-
-    // TODO: JSON-defined var_norm may override it
-    /*
-    if( _var_norm > 0 ) {
-        norm_val = _var_norm;
-    }
-    */
     return std::make_pair( low_val, high_val );
 }
 
