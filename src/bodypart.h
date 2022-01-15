@@ -246,6 +246,11 @@ struct body_part_type {
         // Temperature bonus to apply when not overheated
         int temp_max = 0;
         int drench_max = 0;
+        int drench_increment = 2;
+        int drying_chance = 1;
+        int drying_increment = 1;
+        // Wetness morale bonus/malus of the limb
+        int wet_morale = 0;
         cata::flat_set<json_character_flag> flags;
         bool has_flag( const json_character_flag &flag ) const;
 
