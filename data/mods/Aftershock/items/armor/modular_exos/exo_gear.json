@@ -1,6 +1,6 @@
 [
   {
-    "id": "exo_mounted_drill",
+    "id": "exo_mounted_drill ",
     "type": "TOOL_ARMOR",
     "name": { "str": "exoskeleton mounted drill" },
     "category": "tool",
