@@ -436,19 +436,31 @@ std::pair<int, int> widget::get_var_norm( const avatar &ava ) const
 
 int widget::get_var_max( const avatar &ava ) const
 {
-    // Some vars (like HP) have an inherent maximum, used unless the widget overrides it
     int max_val = 1;
-    // max_val (used only for graphs) is set to a known maximum if the attribute has one; otherwise,
-    // it is up to the graph widget to set "var_max" so the graph widget can determine a scaling.
+    // max_val must be set to a reasonable maximum for the widget_var to determine correct scaling
+    // for graph widgets and color-spectrum allocation.
     switch( _var ) {
+        case widget_var::cardio_fit:
+            // Same maximum used by get_cardiofit - 3 x BMR, adjusted for mutations
+            max_val = 3 * ava.base_bmr() * ava.mutation_value( "cardio_multiplier" );
+            break;
         case widget_var::stamina:
             max_val = ava.get_stamina_max();
+            break;
+        case widget_var::fatigue:
+            max_val = 1000;
             break;
         case widget_var::mana:
             max_val = ava.magic->max_mana( ava );
             break;
         case widget_var::morale_level:
             // TODO: Determine actual max
+            max_val = 100;
+            break;
+        case widget_var::pain:
+            max_val = 80;
+            break;
+        case widget_var::bp_encumb:
             max_val = 100;
             break;
         case widget_var::bp_hp:
@@ -463,12 +475,11 @@ int widget::get_var_max( const avatar &ava ) const
         case widget_var::bp_wetness:
             max_val = 100; // ???
             break;
+        case widget_var::weariness_level:
+            max_val = 10;
+            break;
         default:
             break;
-    }
-    // JSON-defined var_max may override it
-    if( _var_max > 0 ) {
-        max_val = _var_max;
     }
     return max_val;
 }
