@@ -391,34 +391,50 @@ TEST_CASE( "widgets showing stats STR, DEX, INT, PER", "[widget][stats]" )
     }
 }
 
-TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
+TEST_CASE( "widgets showing avatar stamina", "[widget][avatar][stamina]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
 
-    SECTION( "stamina" ) {
-        widget stamina_num_w = widget_test_stamina_num.obj();
-        widget stamina_graph_w = widget_test_stamina_graph.obj();
-        REQUIRE( stamina_graph_w._fill == "pool" );
-        REQUIRE( stamina_graph_w._symbols == "-=#" );
+    // Calculate 25%, 50%, 75%, and 100% of maximum stamina
+    const int stamina_max = ava.get_stamina_max();
+    const int stamina_25 = static_cast<int>( 0.25 * stamina_max );
+    const int stamina_50 = static_cast<int>( 0.5 * stamina_max );
+    const int stamina_75 = static_cast<int>( 0.75 * stamina_max );
 
-        // FIXME: Stamina is not absolute 0-10k anymore
-        ava.set_stamina( 0 );
-        CHECK( stamina_num_w.layout( ava ) == "STAMINA: 0" );
-        CHECK( stamina_graph_w.layout( ava ) == "STAMINA: ----------" );
-        ava.set_stamina( 2500 );
-        CHECK( stamina_num_w.layout( ava ) == "STAMINA: 2500" );
-        CHECK( stamina_graph_w.layout( ava ) == "STAMINA: =====-----" );
-        ava.set_stamina( 5000 );
-        CHECK( stamina_num_w.layout( ava ) == "STAMINA: 5000" );
-        CHECK( stamina_graph_w.layout( ava ) == "STAMINA: ==========" );
-        ava.set_stamina( 7500 );
-        CHECK( stamina_num_w.layout( ava ) == "STAMINA: 7500" );
-        CHECK( stamina_graph_w.layout( ava ) == "STAMINA: #####=====" );
-        ava.set_stamina( 10000 );
-        CHECK( stamina_num_w.layout( ava ) == "STAMINA: 10000" );
-        CHECK( stamina_graph_w.layout( ava ) == "STAMINA: ##########" );
-    }
+    // Test widgets showing stamina as a number, and as a 10-character graph
+    widget stamina_num_w = widget_test_stamina_num.obj();
+    widget stamina_graph_w = widget_test_stamina_graph.obj();
+    // Ensure graph is configured as expected
+    REQUIRE( stamina_graph_w._fill == "pool" );
+    REQUIRE( stamina_graph_w._symbols == "-=#" );
+    REQUIRE( stamina_graph_w._width == 10 );
+
+    ava.set_stamina( 0 );
+    CHECK( stamina_num_w.layout( ava ) == "STAMINA: 0" );
+    CHECK( stamina_graph_w.layout( ava ) == "STAMINA: ----------" );
+
+    ava.set_stamina( stamina_25 );
+    CHECK( stamina_num_w.layout( ava ) == string_format( "STAMINA: %d", stamina_25 ) );
+    CHECK( stamina_graph_w.layout( ava ) == "STAMINA: =====-----" );
+
+    ava.set_stamina( stamina_50 );
+    CHECK( stamina_num_w.layout( ava ) == string_format( "STAMINA: %d", stamina_50 ) );
+    CHECK( stamina_graph_w.layout( ava ) == "STAMINA: ==========" );
+
+    ava.set_stamina( stamina_75 );
+    CHECK( stamina_num_w.layout( ava ) == string_format( "STAMINA: %d", stamina_75 ) );
+    CHECK( stamina_graph_w.layout( ava ) == "STAMINA: #####=====" );
+
+    ava.set_stamina( stamina_max );
+    CHECK( stamina_num_w.layout( ava ) == string_format( "STAMINA: %d", stamina_max ) );
+    CHECK( stamina_graph_w.layout( ava ) == "STAMINA: ##########" );
+}
+
+TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
 
     SECTION( "speed pool" ) {
         widget speed_w = widget_test_speed_num.obj();
