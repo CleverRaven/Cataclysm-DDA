@@ -21,7 +21,14 @@
       { "stat": "movecost", "scale": 40 }
     ],
     "tech_effects": [
-      { "id": "bleed", "chance": 100, "duration": 2000, "permanent": true, "on_damage": false, "message": "You bleed the %s dry!" },
+      {
+        "id": "bleed",
+        "chance": 100,
+        "duration": 2000,
+        "permanent": true,
+        "on_damage": false,
+        "message": "You bleed the %s dry!"
+      },
       { "id": "downed", "chance": 50, "duration": 2, "message": "You bonk the %s real good", "req_flag": "DREAMY" }
     ]
   }
