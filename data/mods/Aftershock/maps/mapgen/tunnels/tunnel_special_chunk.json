@@ -31,7 +31,7 @@
         "************************",
         "************************"
       ],
-      "palettes": [ { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {
