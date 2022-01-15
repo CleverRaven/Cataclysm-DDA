@@ -114,6 +114,8 @@ static bool should_auto_pickup( const item *pickup_item )
 static std::vector<item_location *> get_pickup_list_from( item_location *container )
 {
     item *container_item = container->get_item();
+    bool pick_all_items = true;
+
     std::vector<item_location *> pickup_list;
     std::list<item *> contents = container_item->get_contents().all_items_top();
     pickup_list.reserve( contents.size() );
@@ -122,17 +124,23 @@ static std::vector<item_location *> get_pickup_list_from( item_location *contain
         if( should_auto_pickup( item_to_check ) ) {
             // TODO: make check here for BLACKLIST
             pickup_list.push_back( new item_location( *container, item_to_check ) );
-        } else if( !item_to_check->is_container_empty() ) {
+        } else if( item_to_check->is_container_empty() ) {
+            pick_all_items = false;
+        } else {
             // get pickup list from nested item container
             item_location *location = new item_location( *container, item_to_check );
             std::vector<item_location *> pickup_nested = get_pickup_list_from( location );
 
+            // container with content was marked for pickup
+            if( pickup_nested.size() != 1 || pickup_nested[0] != location ) {
+                pick_all_items = false;
+            }
             pickup_list.reserve( pickup_nested.size() + pickup_list.size() );
             pickup_list.insert( pickup_list.end(), pickup_nested.begin(), pickup_nested.end() );
         }
     }
     // all items in container were approved for pickup
-    if( !contents.empty() && pickup_list.size() == contents.size() ) {
+    if( !contents.empty() && pick_all_items ) {
         // make sure container is allowed to be picked up
         if( is_valid_auto_pickup( container_item ) ) {
             // picking up whole container so delete all registered pickups
