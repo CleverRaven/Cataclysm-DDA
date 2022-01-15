@@ -31,8 +31,7 @@
     "label": "POOL",
     "width": 4,
     "symbols": "0123",
-    "fill": "pool",
-    "var_max": 240
+    "fill": "pool"
   },
   {
     "id": "test_number_widget",
@@ -45,9 +44,6 @@
     "type": "widget",
     "label": "COLORNUM",
     "style": "number",
-    "//": "var_min to var_max maps exactly 1:1 with color index",
-    "var_min": 0,
-    "var_max": 2,
     "colors": [ "c_red", "c_yellow", "c_green" ]
   },
   {
@@ -57,8 +53,6 @@
     "style": "graph",
     "width": 5,
     "symbols": "-=#",
-    "var_min": 0,
-    "var_max": 10,
     "colors": [ "c_red", "c_yellow", "c_light_green", "c_green" ]
   },
   {
@@ -69,8 +63,6 @@
     "width": 10,
     "symbols": "-=#",
     "fill": "pool",
-    "var_min": 0,
-    "var_max": 10000,
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
   },
   {
@@ -170,8 +162,7 @@
     "style": "graph",
     "fill": "pool",
     "width": 10,
-    "symbols": "-=#",
-    "var_max": 10000
+    "symbols": "-=#"
   },
   {
     "id": "test_sound_num",

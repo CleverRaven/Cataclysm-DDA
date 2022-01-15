@@ -173,6 +173,8 @@ TEST_CASE( "widget value strings", "[widget][value][string]" )
 
     SECTION( "graph values with pool fill" ) {
         widget stamina = widget_test_stamina_graph.obj();
+        stamina._var_min = 0;
+        stamina._var_max = 20;
         REQUIRE( stamina._style == "graph" );
         REQUIRE( stamina._fill == "pool" );
         // Pool of width 20 with 2 nonzero symbols can show 20 values
@@ -201,10 +203,12 @@ TEST_CASE( "widget value strings", "[widget][value][string]" )
     }
 }
 
-TEST_CASE( "widgets", "[widget][graph][color]" )
+TEST_CASE( "text widgets", "[widget][text]" )
 {
-    SECTION( "text widgets" ) {
+    SECTION( "words Zero-Ten for values 0-10" ) {
         widget words = widget_test_text_widget.obj();
+        words._var_min = 0;
+        words._var_max = 10;
         REQUIRE( words._style == "text" );
 
         CHECK( words.text( 0 ) == "Zero" );
@@ -219,12 +223,16 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
         CHECK( words.text( 9 ) == "Nine" );
         CHECK( words.text( 10 ) == "Ten" );
     }
+}
 
-    SECTION( "number widget with color" ) {
+TEST_CASE( "number widgets with color", "[widget][number][color]" )
+{
+    SECTION( "numbers 0-2 with 3 colors" ) {
         widget colornum = widget_test_color_number_widget.obj();
+        colornum._var_min = 0;
+        colornum._var_max = 2;
         REQUIRE( colornum._style == "number" );
         REQUIRE( colornum._colors.size() == 3 );
-        REQUIRE( colornum._var_max == 2 );
 
         CHECK( colornum.color_value_string( 0 ) == "<color_c_red>0</color>" );
         CHECK( colornum.color_value_string( 1 ) == "<color_c_yellow>1</color>" );
@@ -232,44 +240,15 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
         // Beyond var_max, stays at max color
         CHECK( colornum.color_value_string( 3 ) == "<color_c_green>3</color>" );
     }
+}
 
-    SECTION( "graph widget with color" ) {
-        widget colornum = widget_test_color_graph_widget.obj();
-        REQUIRE( colornum._style == "graph" );
-        REQUIRE( colornum._colors.size() == 4 );
-        REQUIRE( colornum._var_max == 10 );
-
-        // with +0.5: 2r, 3y, 4lg, 2g
-        CHECK( colornum.color_value_string( 0 ) == "<color_c_red>-----</color>" );
-        CHECK( colornum.color_value_string( 1 ) == "<color_c_red>=----</color>" );
-        CHECK( colornum.color_value_string( 2 ) == "<color_c_yellow>#----</color>" );
-        CHECK( colornum.color_value_string( 3 ) == "<color_c_yellow>#=---</color>" );
-        CHECK( colornum.color_value_string( 4 ) == "<color_c_yellow>##---</color>" );
-        CHECK( colornum.color_value_string( 5 ) == "<color_c_light_green>##=--</color>" );
-        CHECK( colornum.color_value_string( 6 ) == "<color_c_light_green>###--</color>" );
-        CHECK( colornum.color_value_string( 7 ) == "<color_c_light_green>###=-</color>" );
-        CHECK( colornum.color_value_string( 8 ) == "<color_c_light_green>####-</color>" );
-        CHECK( colornum.color_value_string( 9 ) == "<color_c_green>####=</color>" );
-        CHECK( colornum.color_value_string( 10 ) == "<color_c_green>#####</color>" );
-        // Beyond var_max, stays at max color
-        CHECK( colornum.color_value_string( 11 ) == "<color_c_green>#####</color>" );
-
-        // Long / large var graph
-        widget graph10k = widget_test_color_graph_10k_widget.obj();
-        REQUIRE( graph10k._style == "graph" );
-        REQUIRE( graph10k._colors.size() == 5 );
-        REQUIRE( graph10k._var_max == 10000 );
-
-        CHECK( graph10k.color_value_string( 0 ) == "<color_c_red>----------</color>" );
-        CHECK( graph10k.color_value_string( 2500 ) == "<color_c_light_red>=====-----</color>" );
-        CHECK( graph10k.color_value_string( 5000 ) == "<color_c_yellow>==========</color>" );
-        CHECK( graph10k.color_value_string( 7500 ) == "<color_c_light_green>#####=====</color>" );
-        CHECK( graph10k.color_value_string( 10000 ) == "<color_c_green>##########</color>" );
-    }
-
+TEST_CASE( "graph widgets", "[widget][graph]" )
+{
     SECTION( "graph widgets" ) {
-        SECTION( "bucket fill" ) {
+        SECTION( "bucket fill with 12 states" ) {
             widget wid = widget_test_bucket_graph.obj();
+            wid._var_min = 0;
+            wid._var_max = 12;
             REQUIRE( wid._style == "graph" );
             REQUIRE( wid._fill == "bucket" );
 
@@ -287,8 +266,10 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
             CHECK( wid.graph( 11 ) == "3332" );
             CHECK( wid.graph( 12 ) == "3333" );
         }
-        SECTION( "pool fill" ) {
+        SECTION( "pool fill with 12 states" ) {
             widget wid = widget_test_pool_graph.obj();
+            wid._var_min = 0;
+            wid._var_max = 12;
             REQUIRE( wid._style == "graph" );
             REQUIRE( wid._fill == "pool" );
 
@@ -308,8 +289,10 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
         }
     }
 
-    SECTION( "graph hit points" ) {
+    SECTION( "graph hit points with 10 states" ) {
         widget wid = widget_test_hp_head_graph.obj();
+        wid._var_min = 0;
+        wid._var_max = 10;
         REQUIRE( wid._fill == "bucket" );
 
         CHECK( wid._label.translated() == "HEAD" );
@@ -324,6 +307,47 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
         CHECK( wid.graph( 8 ) == "||||," );
         CHECK( wid.graph( 9 ) == "||||\\" );
         CHECK( wid.graph( 10 ) == "|||||" );
+    }
+}
+
+TEST_CASE( "graph widgets with color", "[widget][graph][color]" )
+{
+    SECTION( "graph widget with 4 colors and 10 states" ) {
+        widget colornum = widget_test_color_graph_widget.obj();
+        colornum._var_min = 0;
+        colornum._var_max = 10;
+        REQUIRE( colornum._style == "graph" );
+        REQUIRE( colornum._colors.size() == 4 );
+
+        // with +0.5: 2r, 3y, 4lg, 2g
+        CHECK( colornum.color_value_string( 0 ) == "<color_c_red>-----</color>" );
+        CHECK( colornum.color_value_string( 1 ) == "<color_c_red>=----</color>" );
+        CHECK( colornum.color_value_string( 2 ) == "<color_c_yellow>#----</color>" );
+        CHECK( colornum.color_value_string( 3 ) == "<color_c_yellow>#=---</color>" );
+        CHECK( colornum.color_value_string( 4 ) == "<color_c_yellow>##---</color>" );
+        CHECK( colornum.color_value_string( 5 ) == "<color_c_light_green>##=--</color>" );
+        CHECK( colornum.color_value_string( 6 ) == "<color_c_light_green>###--</color>" );
+        CHECK( colornum.color_value_string( 7 ) == "<color_c_light_green>###=-</color>" );
+        CHECK( colornum.color_value_string( 8 ) == "<color_c_light_green>####-</color>" );
+        CHECK( colornum.color_value_string( 9 ) == "<color_c_green>####=</color>" );
+        CHECK( colornum.color_value_string( 10 ) == "<color_c_green>#####</color>" );
+        // Beyond var_max, stays at max color
+        CHECK( colornum.color_value_string( 11 ) == "<color_c_green>#####</color>" );
+    }
+
+    SECTION( "graph showing variable range 0-10000 with 5 colors and 20 states" ) {
+        // Long / large var graph
+        widget graph10k = widget_test_color_graph_10k_widget.obj();
+        graph10k._var_min = 0;
+        graph10k._var_max = 10000;
+        REQUIRE( graph10k._style == "graph" );
+        REQUIRE( graph10k._colors.size() == 5 );
+
+        CHECK( graph10k.color_value_string( 0 ) == "<color_c_red>----------</color>" );
+        CHECK( graph10k.color_value_string( 2500 ) == "<color_c_light_red>=====-----</color>" );
+        CHECK( graph10k.color_value_string( 5000 ) == "<color_c_yellow>==========</color>" );
+        CHECK( graph10k.color_value_string( 7500 ) == "<color_c_light_green>#####=====</color>" );
+        CHECK( graph10k.color_value_string( 10000 ) == "<color_c_green>##########</color>" );
     }
 }
 
@@ -357,12 +381,12 @@ TEST_CASE( "widgets showing stats STR, DEX, INT, PER", "[widget][stats]" )
         ava.set_str_bonus( -1 );
         CHECK( str_w.layout( ava ) == "STR: <color_c_light_red>7</color>" );
         ava.set_str_bonus( -2 );
-        CHECK( str_w.layout( ava ) == "STR: <color_c_red>7</color>" );
+        CHECK( str_w.layout( ava ) == "STR: <color_c_red>6</color>" );
         // Increased STR, due to magic or something
         ava.set_str_bonus( 1 );
-        CHECK( str_w.layout( ava ) == "STR: <color_c_light_green>7</color>" );
+        CHECK( str_w.layout( ava ) == "STR: <color_c_light_green>9</color>" );
         ava.set_str_bonus( 2 );
-        CHECK( str_w.layout( ava ) == "STR: <color_c_green>7</color>" );
+        CHECK( str_w.layout( ava ) == "STR: <color_c_green>10</color>" );
 
     }
 }
@@ -378,6 +402,7 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         REQUIRE( stamina_graph_w._fill == "pool" );
         REQUIRE( stamina_graph_w._symbols == "-=#" );
 
+        // FIXME: Stamina is not absolute 0-10k anymore
         ava.set_stamina( 0 );
         CHECK( stamina_num_w.layout( ava ) == "STAMINA: 0" );
         CHECK( stamina_graph_w.layout( ava ) == "STAMINA: ----------" );
