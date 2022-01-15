@@ -279,25 +279,23 @@
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
-    "type": "terrain",
-    "id": "t_japanese_knotweed",
+    "type": "furniture",
+    "id": "f_japanese_knotweed",
     "name": "japanese knotweed",
     "description": "An invasive species originating from Japan.  The stem looks like it might contain some water.",
     "symbol": ",",
-    "looks_like": "t_fern",
+    "looks_like": "f_cattails",
     "color": [ "brown_green", "green", "green", "green" ],
     "move_cost": 3,
     "coverage": 70,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
-    "examine_action": "harvest_ter_nectar",
+    "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring" ], "id": "japanese_knotweed_harv" } ],
-    "transforms_into": "t_dirt",
     "bash": {
       "str_min": 2,
       "str_max": 6,
       "sound": "crunch.",
       "sound_fail": "whish.",
-      "ter_set": "t_dirt",
       "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
     }
   },
