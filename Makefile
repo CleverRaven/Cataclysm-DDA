@@ -436,11 +436,11 @@ WARNINGS += -Wimplicit-fallthrough=0
 endif
 
 ifeq ($(PCH), 1)
-  PCHFLAGS = -Ipch -Winvalid-pch
+  PCHFLAGS = -Winvalid-pch
   PCH_H = pch/main-pch.hpp
 
   ifeq ($(CLANG), 0)
-    PCHFLAGS += -fpch-preprocess -include main-pch.hpp
+    PCHFLAGS += -include $(PCH_H)
     PCH_P = $(PCH_H).gch
   else
     PCH_P = $(PCH_H).pch
