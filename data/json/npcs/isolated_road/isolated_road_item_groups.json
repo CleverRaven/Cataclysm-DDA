@@ -207,7 +207,7 @@
     "symbol": ",",
     "color": "white",
     "looks_like": "paper",
-    "name": { "str": "engineering notes", "str_pl": "engineering notes" },
+    "name": { "str_sp": "engineering notes" },
     "snippet_category": "artisan_docs",
     "description": "A collection of sketches and CAD designs marked up with pencil.  There are two peoples handwriting.",
     "price": 0,
