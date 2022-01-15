@@ -2639,13 +2639,30 @@ cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const 
         // need to calculate distance to closest thing electrical thing
 
         // set distance as farther than the radius
-        int distance = 21;
+        const int max = 10;
+        int distance = max + 1;
 
         creature_tracker &creatures = get_creature_tracker();
-        for( const auto &loc : closest_points_first( pos, 10 ) ) {
+        map &here = get_map();
+
+        for( const auto &loc : closest_points_first( pos, max ) ) {
             const Creature *critter = creatures.creature_at( loc );
+
             // if the creature exists and is either a robot or electric
-            if( critter != nullptr && critter->is_electrical() ) {
+            bool found = critter != nullptr && critter->is_electrical();
+
+            // check for an electrical field
+            if( !found ) {
+                for( const auto &fd : here.field_at( loc ) ) {
+                    if( fd.first->has_elec ) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            // if an electrical field or creature is nearby
+            if( found ) {
                 distance = rl_dist( pos, loc );
                 if( distance <= 3 ) {
                     sounds::sound( pos, 4, sounds::sound_t::alarm, _( "BEEEEEEP BEEEEEEP" ), true, "tool",
@@ -2661,7 +2678,6 @@ cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const 
                 return it->type->charges_to_use();
             }
         }
-
     } else { // Turning it off
         p->add_msg_if_player( _( "The noise of your EMF detector slows to a halt." ) );
         it->convert( itype_emf_detector ).active = false;
