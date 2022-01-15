@@ -238,6 +238,8 @@ class widget
 
         // Evaluate and return the bound "var" associated value for an avatar
         int get_var_value( const avatar &ava ) const;
+        // Return the minimum "var" value from "var_min", or minimum for avatar
+        int get_var_min( const avatar &ava ) const;
         // Return normal "var" value from "var_norm", or normal value for avatar (stats, focus)
         int get_var_norm( const avatar &ava );
         // Return the maximum "var" value from "var_max", or max for avatar (HP, mana, etc.)

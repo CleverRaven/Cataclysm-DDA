@@ -373,6 +373,19 @@ void widget::finalize()
     // Nothing to do?
 }
 
+int widget::get_var_min( const avatar & /* ava */ ) const
+{
+    int min_val = 0;
+    switch( _var ) {
+        case widget_var::health:
+            min_val = -200;
+            break;
+        default:
+            break;
+    }
+    return min_val;
+}
+
 int widget::get_var_norm( const avatar &ava )
 {
     int norm_val = 1;
@@ -441,7 +454,7 @@ int widget::get_var_max( const avatar &ava ) const
 
 void widget::set_default_var_range( const avatar &ava )
 {
-    //_var_min = get_var_min( ava );
+    _var_min = get_var_min( ava );
     _var_norm = get_var_norm( ava );
     _var_max = get_var_max( ava );
 }
