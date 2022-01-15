@@ -848,7 +848,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "armor_lc_heavyarmguard ",
+    "id": "armor_lc_heavyarmguard",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel 2.25 mm armguard" },
