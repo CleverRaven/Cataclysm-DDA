@@ -145,7 +145,7 @@ struct container_data {
         if( compact ) {
             string_to_format = "%s/%s : %s/%s : max %s";
         } else {
-            string_to_format = "(remains %s, %s) max length %s";
+            string_to_format = _( "(remains %s, %s) max length %s" );
         }
         return string_format( string_to_format,
                               unit_to_string( total_capacity - actual_capacity, true, true ),
