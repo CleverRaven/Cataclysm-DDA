@@ -9,6 +9,7 @@
 #include <ghc/fs_std_fwd.hpp>
 
 #include "catacharset.h"
+#include "compatibility.h"
 
 bool assure_dir_exist( const std::string &path );
 bool dir_exist( const std::string &path );
@@ -93,8 +94,8 @@ class basic_ifstream : public std::basic_ifstream<charT, traits>
         }
         basic_ifstream( const basic_ifstream & ) = delete;
         const basic_ifstream &operator=( const basic_ifstream & ) = delete;
-        basic_ifstream( basic_ifstream && ) noexcept = default;
-        basic_ifstream &operator=( basic_ifstream && ) noexcept = default;
+        basic_ifstream( basic_ifstream && ) noexcept( basic_ifstream_is_noexcept ) = default;
+        basic_ifstream &operator=( basic_ifstream && ) noexcept( basic_ifstream_is_noexcept ) = default;
         ~basic_ifstream() override = default;
 };
 
@@ -111,8 +112,8 @@ class basic_ofstream : public std::basic_ofstream<charT, traits>
         }
         basic_ofstream( const basic_ofstream & ) = delete;
         const basic_ofstream &operator=( const basic_ofstream & ) = delete;
-        basic_ofstream( basic_ofstream && ) noexcept = default;
-        basic_ofstream &operator=( basic_ofstream && ) noexcept = default;
+        basic_ofstream( basic_ofstream && ) noexcept( basic_ofstream_is_noexcept ) = default;
+        basic_ofstream &operator=( basic_ofstream && ) noexcept( basic_ofstream_is_noexcept ) = default;
         ~basic_ofstream() override = default;
 };
 
