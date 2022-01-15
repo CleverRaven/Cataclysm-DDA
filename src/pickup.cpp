@@ -141,8 +141,21 @@ static std::vector<item_location *> get_pickup_list_from( item_location *contain
     }
     // all items in container were approved for pickup
     if( !contents.empty() && pick_all_items ) {
+        bool all_batteries = true;
+        bool powered_container = container_item->ammo_capacity( ammotype( "battery" ) );
+        if( powered_container ) {
+            // when dealing with battery powered tools there should only be one pocket
+            // and one battery inside but this could change in future so account for that here
+            for( size_t i = 0; i < pickup_list.size() && all_batteries; i++ ) {
+                item *ientry = pickup_list[i]->get_item();
+                if( ientry->type->magazine->default_ammo != itype_id( "battery" ) ) {
+                    all_batteries = false;
+                }
+            }
+        }
         // make sure container is allowed to be picked up
-        if( is_valid_auto_pickup( container_item ) ) {
+        // when picking up batteries from powered containers don't pick container
+        if( is_valid_auto_pickup( container_item ) && ( !powered_container || !all_batteries ) ) {
             // picking up whole container so delete all registered pickups
             for( item_location *dealoc : pickup_list ) {
                 delete( dealoc );
@@ -168,17 +181,21 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
     for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
         // iterate over all item stacks found in location
         for( size_t i = 0; i < here.size(); i++ ) {
-            item_stack::iterator begin_iterator = here[i].front();
-            if( begin_iterator->volume() / units::legacy_volume_factor == static_cast<int>( iVol ) ) {
+            item_stack::iterator iter = here[i].front();
+            if( iter->volume() / units::legacy_volume_factor == static_cast<int>( iVol ) ) {
                 iNumChecked++;
-                item *item_entry = &*begin_iterator;
+                item *item_entry = &*iter;
+
                 const std::string sItemName = item_entry->tname( 1, false );
 
                 // before checking contents check if item is on pickup list
-                if( should_auto_pickup( &*begin_iterator ) ) {
+                if( should_auto_pickup( &*iter ) ) {
                     getitem[i].pick = true;
                     bFoundSomething = true;
-                } else if( begin_iterator->is_container() && !begin_iterator->empty_container() ) {
+                    continue;
+                }
+                bool is_container = iter->is_container() && !iter->empty_container();
+                if( is_container || iter->ammo_capacity( ammotype( "battery" ) ) ) {
                     item_location *container_location = new item_location( map_location, item_entry );
                     for( item_location *add_item : get_pickup_list_from( container_location ) ) {
                         target_items.insert( target_items.begin(), *add_item );
