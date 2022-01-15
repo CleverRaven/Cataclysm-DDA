@@ -6,6 +6,7 @@
     "object": {
       "fill_ter": "t_rock_floor",
       "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
         { "chunks": [ "afs_tunnel_straight_tile" ], "x": 0, "y": 0 },
         { "chunks": [ "afs_tunnel_river_start_tile" ], "x": 0, "y": 0 }
       ]
@@ -18,6 +19,7 @@
     "object": {
       "fill_ter": "t_rock_floor",
       "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
         { "chunks": [ "afs_tunnel_end_tile" ], "x": 0, "y": 0 },
         { "chunks": [ "afs_tunnel_river_end_tile" ], "x": 0, "y": 0 }
       ]
@@ -30,6 +32,7 @@
     "object": {
       "fill_ter": "t_rock_floor",
       "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
         { "chunks": [ "afs_tunnel_straight_tile" ], "x": 0, "y": 0 },
         { "chunks": [ "afs_tunnel_river_straight_tile" ], "x": 0, "y": 0 }
       ]
@@ -42,6 +45,7 @@
     "object": {
       "fill_ter": "t_rock_floor",
       "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
         { "chunks": [ "afs_tunnel_curved_tile" ], "x": 0, "y": 0 },
         { "chunks": [ "afs_tunnel_river_curved_tile" ], "x": 0, "y": 0 }
       ]
@@ -63,6 +67,7 @@
     "object": {
       "fill_ter": "t_rock_floor",
       "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
         { "chunks": [ "afs_tunnel_four_way_tile" ], "x": 0, "y": 0 },
         { "chunks": [ "afs_tunnel_river_con" ], "x": 0, "y": 0 }
       ]
