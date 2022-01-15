@@ -87,7 +87,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FORGE_LORD_BOOKS_DELIVER",
-    "dynamic_line": "Excellent.  What new stories have you broght me?",
+    "dynamic_line": "Excellent.  What new stories have you brought me?",
     "repeat_responses": {
       "for_item": [
         "book_fict_soft_pulp_venus",

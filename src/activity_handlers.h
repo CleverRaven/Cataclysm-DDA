@@ -133,7 +133,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you );
 bool generic_multi_activity_handler( player_activity &act, Character &you,
                                      bool check_only = false );
 void activity_on_turn_fetch( player_activity &, Character *you );
-void activity_on_turn_wear( player_activity &act, Character &you );
 int get_auto_consume_moves( Character &you, bool food );
 bool try_fuel_fire( player_activity &act, Character &you, bool starting_fire = false );
 

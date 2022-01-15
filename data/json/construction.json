@@ -3041,6 +3041,18 @@
   },
   {
     "type": "construction",
+    "id": "app_wall_wiring",
+    "group": "reveal_wall_wiring",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "0 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "pliers", -1 ] ] ],
+    "pre_flags": "WIRED_WALL",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "constr_pontoon_dp",
     "group": "build_pontoon_bridge",
     "//": "Set up pontoon bridge",
@@ -3729,9 +3741,10 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "15 m",
+    "qualities": [ { "id": "DIG", "level": 1 } ],
     "components": [ [ [ "rock", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
-    "pre_terrain": "t_pit_shallow",
+    "pre_terrain": "t_dirt",
     "post_terrain": "f_firering"
   },
   {

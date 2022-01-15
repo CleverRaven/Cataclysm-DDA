@@ -332,7 +332,7 @@ static constexpr int DANGEROUS_PROXIMITY = 5;
 
 
 #if defined(__ANDROID__)
-extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
+extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back ); // NOLINT
 #endif
 
 //The one and only game instance
@@ -547,8 +547,8 @@ void game::load_data_from_dir( const std::string &path, const std::string &src, 
 
 #if !(defined(_WIN32) || defined(TILES))
 // in ncurses_def.cpp
-void check_encoding();
-void ensure_term_size();
+extern void check_encoding(); // NOLINT
+extern void ensure_term_size(); // NOLINT
 #endif
 
 void game_ui::init_ui()
@@ -5255,8 +5255,12 @@ bool game::npc_menu( npc &who )
             }
         }
     } else if( choice == sort_armor ) {
-        who.sort_armor();
-        u.mod_moves( -100 );
+        if( who.is_hallucination() ) {
+            who.say( SNIPPET.random_from_category( "<no>" ).value_or( translation() ).translated() );
+        } else {
+            who.sort_armor();
+            u.mod_moves( -100 );
+        }
     } else if( choice == attack ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
             u.melee_attack( who, true );
@@ -9802,8 +9806,8 @@ point game::place_player( const tripoint &dest_loc )
     // Drench the player if swimmable
     if( m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
-        u.drench( 80, { { body_part_foot_l, body_part_foot_r, body_part_leg_l, body_part_leg_r } },
-        false );
+        u.drench( 80, u.get_drenching_body_parts( false, false ),
+                  false );
     }
 
     // List items here
