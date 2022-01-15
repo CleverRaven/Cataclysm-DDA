@@ -17,13 +17,13 @@
       "solid_earth",
       "empty_rock",
       "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock"
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
@@ -47,7 +47,8 @@
           "t_shrub_grape": 1,
           "t_shrub_rose": 1,
           "t_shrub_hydrangea": 1,
-          "t_shrub_lilac": 1
+          "t_shrub_lilac": 1,
+          "t_shrub_peanut": 1
         },
         "t_region_shrub_fruit": {
           "t_shrub_blueberry": 2,
@@ -55,7 +56,8 @@
           "t_shrub_raspberry": 2,
           "t_shrub_grape": 1,
           "t_shrub_blackberry": 5,
-          "t_shrub_huckleberry": 5
+          "t_shrub_huckleberry": 5,
+          "t_shrub_peanut": 1
         },
         "t_region_shrub_decorative": { "t_shrub": 3, "t_fern": 1, "t_shrub_rose": 2, "t_shrub_hydrangea": 2, "t_shrub_lilac": 2 },
         "t_region_tree": {
@@ -64,6 +66,7 @@
           "t_tree_birch": 16,
           "t_tree_elm": 16,
           "t_tree_cottonwood": 16,
+          "t_tree_alder": 16,
           "t_tree_pine": 32,
           "t_tree_maple": 32,
           "t_tree_willow": 32,
@@ -93,6 +96,7 @@
           "t_tree_birch": 16,
           "t_tree_elm": 16,
           "t_tree_cottonwood": 16,
+          "t_tree_alder": 16,
           "t_tree_maple": 32,
           "t_tree_willow": 32,
           "t_tree_hickory": 16,
@@ -131,12 +135,17 @@
       "furniture": {
         "f_region_flower": {
           "f_black_eyed_susan": 1,
+          "f_lily": 1,
+          "f_flower_tulip": 1,
           "f_flower_spurge": 1,
+          "f_burdock": 1,
           "f_chamomile": 1,
           "f_dandelion": 1,
-          "f_burdock": 1,
           "f_datura": 1,
-          "f_dahlia": 1
+          "f_dahlia": 1,
+          "f_chicory": 1,
+          "f_bluebell": 1,
+          "f_sunflower": 1
         },
         "f_region_flower_decorative": {
           "f_lily": 4,
@@ -154,10 +163,16 @@
           "f_flower_spurge": 4,
           "f_chamomile": 4,
           "f_datura": 3,
+          "f_bluebell": 2,
           "f_dahlia": 1,
-          "f_mutpoppy": 1
+          "f_black_eyed_susan": 1,
+          "f_lily": 1,
+          "f_flower_tulip": 1,
+          "f_mutpoppy": 1,
+          "f_sunflower": 1,
+          "f_mustard": 1
         },
-        "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1 }
+        "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
     },
     "river_scale": 1.0,
@@ -181,6 +196,7 @@
         "t_tree_birch": 4.05,
         "t_tree_elm": 3.55,
         "t_tree_cottonwood": 0.05,
+        "t_tree_alder": 2,
         "t_tree_pine": 0.1,
         "t_tree_maple": 0.1,
         "t_tree_willow": 0.1,
@@ -208,17 +224,25 @@
         "t_shrub_blackberry": 5.0,
         "t_shrub_raspberry": 8.0,
         "t_shrub_huckleberry": 5.0,
-        "f_flower_spurge": 6.5,
+        "t_shrub_grape": 5.0,
+        "t_shrub_rose": 3,
+        "t_shrub_hydrangea": 3,
+        "t_shrub_lilac": 3,
+        "f_black_eyed_susan": 3,
+        "f_lily": 3,
+        "f_flower_tulip": 3,
+        "f_flower_spurge": 3.5,
+        "f_chicory": 3,
         "f_mutpoppy": 3.5,
         "f_bluebell": 3.5,
         "f_dahlia": 3.5,
         "f_datura": 0.2,
-        "f_burdock": 14.0,
-        "f_dandelion": 14.0
+        "f_dandelion": 5.0,
+        "f_sunflower": 3.5,
+        "f_mustard": 0.2
       },
       "boosted_other_percent": 50.0
     },
-    "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
@@ -231,6 +255,7 @@
         { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
       ]
     },
+    "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.1,
       "noise_threshold_forest_thick": 0.25,
@@ -241,6 +266,7 @@
     },
     "forest_mapgen_settings": {
       "forest": {
+        "terrains": [ "forest" ],
         "sparseness_adjacency_factor": 3,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -303,6 +329,7 @@
         "terrain_furniture": {  }
       },
       "forest_water": {
+        "terrains": [ "forest_water" ],
         "sparseness_adjacency_factor": 2,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -322,6 +349,7 @@
               "t_tree_birch": 20,
               "t_tree_elm": 20,
               "t_tree_cottonwood": 20,
+              "t_tree_alder": 80,
               "t_tree_maple": 40,
               "t_tree_willow": 40,
               "t_tree_walnut": 8,
@@ -385,15 +413,20 @@
           "mx_crater": 10,
           "mx_portal_in": 3,
           "mx_grass": 20,
+          "mx_grass2": 40,
           "mx_fallen_shed": 30,
           "mx_spider": 200,
+          "mx_nest_wasp": 100,
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
           "mx_pond": 125,
+          "mx_pond_forest": 125,
+          "mx_pond_forest_2": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500
+          "mx_point_burned_ground": 500,
+          "mx_mass_grave": 5
         }
       },
       "forest_thick": {
@@ -404,14 +437,18 @@
           "mx_crater": 10,
           "mx_portal_in": 3,
           "mx_grass": 10,
+          "mx_grass2": 20,
           "mx_fallen_shed": 5,
           "mx_shia": 1,
           "mx_spider": 200,
+          "mx_nest_wasp": 100,
           "mx_jabberwock": 1,
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
           "mx_pond": 125,
+          "mx_pond_forest": 125,
+          "mx_pond_forest_2": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500
@@ -424,13 +461,16 @@
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
-          "mx_grass": 20,
           "mx_fallen_shed": 5,
           "mx_spider": 200,
+          "mx_grass": 20,
+          "mx_grass2": 20,
+          "mx_pond": 125,
+          "mx_pond_swamp": 240,
+          "mx_pond_swamp_2": 240,
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
-          "mx_pond": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
@@ -446,7 +486,10 @@
           "mx_portal_in": 1,
           "mx_point_dead_vegetation": 50,
           "mx_grass": 700,
+          "mx_grass2": 350,
           "mx_trees": 100,
+          "mx_trees2": 80,
+          "mx_Trapdoor_spider_den": 4,
           "mx_fallen_shed": 5,
           "mx_pond": 20,
           "mx_point_burned_ground": 50,
@@ -497,6 +540,10 @@
       "houses": {
         "house_w_1": 50,
         "house_two_story_basement": 50,
+        "house_crack1": 5,
+        "house_crack2": 5,
+        "house_crack3": 5,
+        "house_wooded": 50,
         "house_prepper": 20,
         "house_prepper2": 10,
         "house_fortified": 20,
@@ -514,7 +561,8 @@
         "house_06": 50,
         "house_07": 50,
         "house_08": 50,
-        "house_09": 50,
+        "house_09": 20,
+        "house_09b": 50,
         "house_10": 50,
         "house_11": 50,
         "house_12": 50,
@@ -531,6 +579,23 @@
         "house_23": 50,
         "house_24": 50,
         "house_25": 50,
+        "house_26": 50,
+        "house_27": 50,
+        "house_28": 50,
+        "house_29": 50,
+        "house_30": 50,
+        "house_31": 50,
+        "house_32": 50,
+        "house_33": 50,
+        "house_34": 50,
+        "house_35": 50,
+        "house_36": 50,
+        "house_37": 50,
+        "house_38": 50,
+        "house_39": 50,
+        "house_40": 50,
+        "house_41": 50,
+        "house_42": 50,
         "house_garage": 50,
         "house_garage2": 50,
         "house_garage3": 50,
@@ -541,6 +606,7 @@
         "house_garage8": 50,
         "rural_house1": 50,
         "rural_house2": 50,
+        "garden_house_1": 50,
         "house_toolshed": 50,
         "house_suicide": 20,
         "house_quiverfull": 30,
@@ -647,7 +713,8 @@
         "lightning",
         "flurries",
         "snowing",
-        "snowstorm"
+        "snowstorm",
+        "portal_storm"
       ]
     },
     "overmap_feature_flag_settings": {
