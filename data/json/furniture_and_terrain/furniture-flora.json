@@ -282,7 +282,7 @@
     "type": "terrain",
     "id": "t_japanese_knotweed",
     "name": "japanese knotweed",
-    "description": "An invasive species originating from Japan.  The stem looks like it could contain some water.",
+    "description": "An invasive species originating from Japan.  The stem looks like it might contain some water.",
     "symbol": ",",
     "looks_like": "t_fern",
     "color": [ "brown_green", "green", "green", "green" ],
