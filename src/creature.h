@@ -512,6 +512,10 @@ class Creature : public viewer
 
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
+
+        // returns true if the creature has an electric field
+        virtual bool is_electrical() const = 0;
+
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
 

@@ -893,6 +893,13 @@ class npc : public Character
             return hallucination;
         }
 
+        // true if the NPC produces electrical radiation
+        // TODO: make this way less hard coded
+        bool is_electrical() const override {
+            // only beep on Rubik for now
+            return has_trait( trait_id( "EXODII_BODY_1" ) );
+        }
+
         // Ally of or traveling with p
         bool is_friendly( const Character &p ) const;
         // Leading the player

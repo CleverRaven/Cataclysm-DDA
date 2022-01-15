@@ -8780,21 +8780,6 @@ std::list<Creature *> map::get_creatures_in_radius( const tripoint &center, size
     return creature_list;
 }
 
-std::list<Creature *> map::get_creatures_in_radius_sorted( const tripoint &center, size_t radius,
-        size_t radiusz )
-{
-    creature_tracker &creatures = get_creature_tracker();
-    std::list<Creature *> creature_list;
-    for( const auto &loc : points_in_radius( center, radius, radiusz ) ) {
-        Creature *tmp_critter = creatures.creature_at( loc );
-        if( tmp_critter != nullptr ) {
-            creature_list.push_back( tmp_critter );
-        }
-
-    }
-    return creature_list;
-}
-
 level_cache &map::access_cache( int zlev )
 {
     if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {

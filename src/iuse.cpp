@@ -2636,13 +2636,27 @@ cata::optional<int> iuse::emf_passive_off( Character *p, item *it, bool, const t
 cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
-        // need to calculate the closest.
+        // need to calculate distance to closest thing electrical thing
 
-        for( const Creature *critter : get_map().get_creatures_in_radius( pos, 20 ) ) {
-            if( critter->in_species( species_ROBOT ) || critter->has_flag( MF_ELECTRIC ) ) {
-                //~ the sound of an EMF detector above threshold
-                sounds::sound( pos, 4, sounds::sound_t::alarm, _( "BEEP BEEP" ), true, "tool",
-                               "emf_detector" );
+        // set distance as farther than the radius
+        int distance = 21;
+
+        creature_tracker &creatures = get_creature_tracker();
+        for( const auto &loc : closest_points_first( pos, 10 ) ) {
+            const Creature *critter = creatures.creature_at( loc );
+            // if the creature exists and is either a robot or electric
+            if( critter != nullptr && critter->is_electrical() ) {
+                distance = rl_dist( pos, loc );
+                if( distance <= 3 ) {
+                    sounds::sound( pos, 4, sounds::sound_t::alarm, _( "BEEEEEEP BEEEEEEP" ), true, "tool",
+                                   "emf_detector" );
+                } else if( distance <= 7 ) {
+                    sounds::sound( pos, 2, sounds::sound_t::alarm, _( "BEEP BEEP" ), true, "tool",
+                                   "emf_detector" );
+                } else if( distance <= 10 ) {
+                    sounds::sound( pos, 2, sounds::sound_t::alarm, _( "beep... beep" ), true, "tool",
+                                   "emf_detector" );
+                }
                 // skip continuing to check for locations
                 return it->type->charges_to_use();
             }

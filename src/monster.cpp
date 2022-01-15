@@ -127,6 +127,7 @@ static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_wasp( "wasp" );
 
 static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
+static const species_id species_CYBORG( "CYBORG" );
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
@@ -2869,6 +2870,11 @@ void monster::add_item( const item &it )
 bool monster::is_hallucination() const
 {
     return hallucination;
+}
+
+bool monster::is_electrical() const
+{
+    return in_species( species_ROBOT ) || has_flag( MF_ELECTRIC ) || in_species( species_CYBORG );
 }
 
 field_type_id monster::bloodType() const
