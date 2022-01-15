@@ -272,7 +272,7 @@ jobs:
         path: tests/cata_test*
         if-no-files-found: ignore
     - name: cleanup ccache before upload
-      if: ${{ !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
+      if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
       run: |
         ccache --show-stats
         ccache -M ${{ env.CCACHE_LIMIT }}

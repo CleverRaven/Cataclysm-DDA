@@ -341,7 +341,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 -```ALWAYS_BLOCK``` This nonstandard bodypart is eligible to block in unarmed combat even if your martial arts don't allow such blocks. No effect without `NONSTANDARD_BLOCK`
 -```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
 -```LIMB_LOWER```  This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
--```LIMB_UPPER```  This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags
+-```LIMB_UPPER```  This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags`
+- ````MEND_LIMB``` This bodypart can heal from being broken without needing a splint.
 -```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`
 
 
@@ -1509,6 +1510,7 @@ Gun fault flags:
 - ```HYPEROPIC``` You are far-sighted - close combat is hampered and reading is impossible without glasses.
 - ```MYOPIC``` You are nearsighted - vision range is severely reduced without glasses.
 - ```MYOPIC_IN_LIGHT``` You are nearsighted in light, but can see normally in low-light conditions.
+- ````MEND_ALL```  You need no splint to heal broken bones.
 - ```NIGHT_VISION``` You can see in the dark.
 - ```INFRARED``` You can see infrared, aka heat vision.
 - ```SEESLEEP``` You can see while sleeping, and aren't bothered by light when trying to fall asleep.
