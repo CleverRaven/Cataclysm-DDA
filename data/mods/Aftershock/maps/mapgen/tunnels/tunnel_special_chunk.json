@@ -66,7 +66,7 @@
         "   ,,   ,,, ,,,         ",
         "         ,,,,           "
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {
@@ -89,7 +89,7 @@
         "   ,    ,,  ",
         "            "
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {
@@ -112,7 +112,7 @@
         "    ######  ",
         "      ##    "
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {
@@ -135,7 +135,7 @@
         "     I#,,#, ",
         "         ,, "
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {
@@ -170,7 +170,7 @@
         "   ,,   ,,, ,,,         ",
         "         ,,,,           "
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {
@@ -205,7 +205,7 @@
         "   s,   ,,, ,,, ,,      ",
         " ,       ,,,,    ,,     "
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {
@@ -240,7 +240,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {

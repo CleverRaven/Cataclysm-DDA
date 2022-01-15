@@ -105,7 +105,7 @@
         "     ,,,wwWWWWw,,,      ",
         "    ,,,,,wWWWWw,,,I,    "
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {
@@ -140,7 +140,7 @@
         "       ,,wWWWWw,,       ",
         "      ,,wWWWWw,         "
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {
@@ -175,7 +175,7 @@
         "      I,,wWWWWw,s,      ",
         "      ,,wWWWWw,,,       "
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {
@@ -210,7 +210,7 @@
         "      ,I,wWWWWw,,       ",
         "      ,,wWWWWw,,        "
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {
@@ -245,7 +245,7 @@
         "####,#IwwWWWWw,,      ##",
         "##   ,,,,wWWWWw,,,   ###"
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   },
   {
@@ -308,7 +308,7 @@
         ",,  s ,,wwwwww,,, ,,I,,,###############,,,###  ,,,###########ss#########",
         "##      ,wWWWWw,   ,,###################################################"
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ],
+      "palettes": [ "afs_tunnel_any" ],
       "place_items": [  ],
       "place_monsters": [  ]
     }
@@ -345,7 +345,7 @@
         "    ,,,I,wWWWWw,,       ",
         "      ,,wWWWWw,,        "
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+      "palettes": [ "afs_tunnel_any" ]
     }
   }
 ]

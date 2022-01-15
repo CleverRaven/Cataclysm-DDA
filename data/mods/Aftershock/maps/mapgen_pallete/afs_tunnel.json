@@ -1,6 +1,11 @@
 [
   {
     "type": "palette",
+    "id": "afs_tunnel_any",
+    "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+  },
+  {
+    "type": "palette",
     "id": "afs_tunnel",
     "terrain": {
       "#": "t_rock",

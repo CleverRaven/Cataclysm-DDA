@@ -31,7 +31,7 @@
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''"
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ],
+      "palettes": [ "afs_tunnel_any" ],
       "place_nested": [
         { "else_chunks": [ "tunnel_corner_l" ], "x": 0, "y": 15, "neighbors": { "west": "ravine" } },
         { "else_chunks": [ "tunnel_corner_r" ], "x": 16, "y": 15, "neighbors": { "east": "ravine" } }

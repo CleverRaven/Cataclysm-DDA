@@ -70,7 +70,7 @@
         "#####s,              ###",
         "######,             ####"
       ],
-      "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ],
+      "palettes": [ "afs_tunnel_any" ],
       "terrain": { "R": "t_snowslope_up" },
       "furniture": { "b": "f_boulder_medium" }
     }
