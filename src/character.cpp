@@ -2927,11 +2927,30 @@ units::mass Character::weight_capacity() const
 bool Character::can_pickVolume( const item &it, bool, const item *avoid ) const
 {
     const item weapon = get_wielded_item();
-    if( weapon.can_contain( it ).success() && ( avoid == nullptr || &weapon != avoid ) ) {
+    if( ( avoid == nullptr || &weapon != avoid ) && weapon.can_contain( it ).success() ) {
         return true;
     }
     for( const item &w : worn ) {
-        if( w.can_contain( it ).success() ) {
+        if( ( avoid == nullptr || &w != avoid ) && w.can_contain( it ).success() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid ) const
+{
+    item copy = it;
+    if( it.count_by_charges() ) {
+        copy.charges = 1;
+    }
+
+    const item weapon = get_wielded_item();
+    if( ( avoid == nullptr || &weapon != avoid ) && weapon.can_contain( copy ).success() ) {
+        return true;
+    }
+    for( const item &w : worn ) {
+        if( ( avoid == nullptr || &w != avoid ) && w.can_contain( copy ).success() ) {
             return true;
         }
     }

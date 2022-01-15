@@ -440,51 +440,6 @@ static std::list<act_item> convert_to_act_item( const player_activity &act, Char
     return res;
 }
 
-void activity_on_turn_wear( player_activity &act, Character &you )
-{
-    // ACT_WEAR has item_location targets, and int quantities
-    while( you.moves > 0 && !act.targets.empty() ) {
-        item_location target = std::move( act.targets.back() );
-        int quantity = act.values.back();
-        act.targets.pop_back();
-        act.values.pop_back();
-
-        if( !target ) {
-            debugmsg( "Lost target item of ACT_WEAR" );
-            continue;
-        }
-
-        // Make copies so the original remains untouched if wearing fails
-        item newit = *target;
-        item leftovers = newit;
-
-        // Handle charges, quantity == 0 means move all
-        if( quantity != 0 && newit.count_by_charges() ) {
-            leftovers.charges = newit.charges - quantity;
-            if( leftovers.charges > 0 ) {
-                newit.charges = quantity;
-            }
-        } else {
-            leftovers.charges = 0;
-        }
-
-        if( you.wear_item( newit ) ) {
-            // If we wore up a whole stack, remove the original item
-            // Otherwise, replace the item with the leftovers
-            if( leftovers.charges > 0 ) {
-                *target = std::move( leftovers );
-            } else {
-                target.remove_item();
-            }
-        }
-    }
-
-    // If there are no items left we are done
-    if( act.targets.empty() ) {
-        you.cancel_activity();
-    }
-}
-
 void activity_handlers::washing_finish( player_activity *act, Character *you )
 {
     std::list<act_item> items = convert_to_act_item( *act, *you );
