@@ -2627,7 +2627,7 @@ cata::optional<int> iuse::emf_passive_off( Character *p, item *it, bool, const t
         p->add_msg_if_player( _( "It's dead." ) );
         return cata::nullopt;
     } else {
-        p->add_msg_if_player( _( "You turn the emf detector on." ) );
+        p->add_msg_if_player( _( "You turn the EMF detector on." ) );
         it->convert( itype_emf_detector_on ).active = true;
     }
     return it->type->charges_to_use();
@@ -2636,7 +2636,7 @@ cata::optional<int> iuse::emf_passive_off( Character *p, item *it, bool, const t
 cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
-        // need to calculate distance to closest thing electrical thing
+        // need to calculate distance to closest electrical thing
 
         // set distance as farther than the radius
         const int max = 10;
@@ -2675,7 +2675,7 @@ cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const 
                     sounds::sound( pos, 4, sounds::sound_t::alarm, _( "BEEEEEEP BEEEEEEP" ), true, "tool",
                                    "emf_detector" );
                 } else if( distance <= 7 ) {
-                    sounds::sound( pos, 2, sounds::sound_t::alarm, _( "BEEP BEEP" ), true, "tool",
+                    sounds::sound( pos, 3, sounds::sound_t::alarm, _( "BEEP BEEP" ), true, "tool",
                                    "emf_detector" );
                 } else if( distance <= 10 ) {
                     sounds::sound( pos, 2, sounds::sound_t::alarm, _( "beep... beep" ), true, "tool",

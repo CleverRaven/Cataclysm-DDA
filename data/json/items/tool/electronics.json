@@ -431,7 +431,7 @@
     "//": "Based off the TRIFIELD EMF Meter Model TF2",
     "type": "TOOL",
     "name": { "str": "EMF detector (off)", "str_pl": "EMF detectors (off)" },
-    "description": "This device detects and reads out different wave lengths.  It beeps with proximity and is sensitive enough you could use it to get a sense of direction.",
+    "description": "This device detects and reads out different electromagnetic wave lengths.  It beeps with proximity and is sensitive enough you could use it to get a sense of direction.",
     "weight": "240 g",
     "volume": "355 ml",
     "price": 0,
