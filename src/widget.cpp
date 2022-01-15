@@ -334,7 +334,6 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
     optional( jo, was_loaded, "var_min", _var_min );
-    optional( jo, was_loaded, "var_norm", _var_norm );
     optional( jo, was_loaded, "var_max", _var_max );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
     optional( jo, was_loaded, "flags", _flags );
@@ -343,6 +342,21 @@ void widget::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_string( "var" ) ) {
         _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
+    }
+
+    // var_norm may be a single numerical value considered "normal",
+    // or a [ low, high ] pair representing a normal range (inclusive)
+    if( jo.has_number( "var_norm" ) ) {
+        const int normal = jo.get_int( "var_norm" );
+        _var_norm = std::make_pair( normal, normal );
+    } else if( jo.has_array( "var_norm" ) ) {
+        JsonArray norm_range = jo.get_array( "var_norm" );
+        if( norm_range.size() != 2 ) {
+            debugmsg( "var_norm must have exactly 2 elements" );
+        }
+        const int low = norm_range.get_int( 0 );
+        const int high = norm_range.get_int( 1 );
+        _var_norm = std::make_pair( low, high );
     }
 
     if( jo.has_string( "bodypart" ) ) {
@@ -386,31 +400,38 @@ int widget::get_var_min( const avatar & /* ava */ ) const
     return min_val;
 }
 
-int widget::get_var_norm( const avatar &ava )
+std::pair<int, int> widget::get_var_norm( const avatar &ava ) const
 {
-    int norm_val = 1;
+    int low_val = 0;
+    int high_val = 0;
     switch( _var ) {
         case widget_var::stat_str:
-            norm_val = ava.get_str_base();
+            low_val = ava.get_str_base();
+            high_val = low_val;
             break;
         case widget_var::stat_dex:
-            norm_val = ava.get_dex_base();
+            low_val = ava.get_dex_base();
+            high_val = low_val;
             break;
         case widget_var::stat_int:
-            norm_val = ava.get_int_base();
+            low_val = ava.get_int_base();
+            high_val = low_val;
             break;
         case widget_var::stat_per:
-            norm_val = ava.get_per_base();
+            low_val = ava.get_per_base();
+            high_val = low_val;
             break;
         default:
             break;
     }
 
-    // JSON-defined var_norm may override it
+    // TODO: JSON-defined var_norm may override it
+    /*
     if( _var_norm > 0 ) {
         norm_val = _var_norm;
     }
-    return norm_val;
+    */
+    return std::make_pair( low_val, high_val );
 }
 
 int widget::get_var_max( const avatar &ava ) const
@@ -925,7 +946,7 @@ nc_color widget::value_color( int value )
     }
     int var_range = _var_max - _var_min;
     if( var_range > 0 ) {
-        if( value == _var_norm ) {
+        if( _var_norm.first <= value && value <= _var_norm.second ) {
             // Special case: If value is _var_norm, use the middle color
             const int color_index = std::floor( _colors.size() / 2 );
             return _colors[color_index];
