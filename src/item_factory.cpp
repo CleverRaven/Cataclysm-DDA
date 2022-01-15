@@ -908,6 +908,7 @@ void Item_factory::finalize_post( itype &obj )
             if( armor_data.layers.empty() ) {
                 armor_data.layers = default_layers;
             } else {
+                armor_data.has_unique_layering = true;
                 // add any unique layer entries to the items total layer info
                 for( const layer_level &ll : armor_data.layers ) {
                     if( std::count( obj.armor->all_layers.begin(), obj.armor->all_layers.end(), ll ) == 0 ) {
@@ -920,6 +921,8 @@ void Item_factory::finalize_post( itype &obj )
             // if an item or location has no layer data then default to the flags for the item
             if( armor_data.layers.empty() ) {
                 armor_data.layers = default_layers;
+            } else {
+                armor_data.has_unique_layering = true;
             }
         }
 
