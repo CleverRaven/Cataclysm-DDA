@@ -2644,6 +2644,13 @@ cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const 
 
         creature_tracker &creatures = get_creature_tracker();
         map &here = get_map();
+        // can't get a reading during a portal storm
+        if( get_weather().weather_id == weather_type_id( "portal_storm" ) ) {
+            sounds::sound( pos, 6, sounds::sound_t::alarm, _( "BEEEEE-CHHHHHHH-eeEEEEEEE-CHHHHHHHHHHHH" ), true,
+                           "tool", "emf_detector" );
+            // skip continuing to check for locations
+            return it->type->charges_to_use();
+        }
 
         for( const auto &loc : closest_points_first( pos, max ) ) {
             const Creature *critter = creatures.creature_at( loc );

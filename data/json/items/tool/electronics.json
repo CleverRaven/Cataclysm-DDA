@@ -428,7 +428,7 @@
   },
   {
     "id": "emf_detector",
-    "//": "Based off the TRIFIELD EMF Meter Model TF2"
+    "//": "Based off the TRIFIELD EMF Meter Model TF2",
     "type": "TOOL",
     "name": { "str": "EMF detector (off)", "str_pl": "EMF detectors (off)" },
     "description": "This device detects and reads out different wave lengths.  It beeps with proximity and is sensitive enough you could use it to get a sense of direction.",
@@ -460,7 +460,8 @@
     "type": "TOOL",
     "name": { "str": "EMF detector (on)", "str_pl": "EMF detectors (on)" },
     "description": "This device detects and reads out different wave lengths.  It currently is humming and beeps with proximity.  It is sensitive enough you could use it to get a sense of direction.",
-    "power_draw": 10000,
+    "//": "lasts 12 hours with backlight off",
+    "power_draw": 6000,
     "revert_to": "emf_detector",
     "use_action": [ "EMF_PASSIVE_ON" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
