@@ -113,6 +113,8 @@ static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_MEND_ALL( "MEND_ALL" );
+static const json_character_flag json_flag_MEND_LIMB( "MEND_LIMB" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -148,7 +150,6 @@ static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
 static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
-static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -1737,7 +1738,7 @@ void Character::mend( int rate_multiplier )
 
     healing_factor *= mutation_value( "mending_modifier" );
 
-    if( has_trait( trait_REGEN_LIZ ) ) {
+    if( has_flag( json_flag_MEND_ALL ) ) {
         needs_splint = false;
     }
 
@@ -1753,9 +1754,15 @@ void Character::mend( int rate_multiplier )
             continue;
         }
 
+        if( bp->has_flag( json_flag_MEND_LIMB ) ) {
+            needs_splint = false;
+        }
+
         if( needs_splint && !worn_with_flag( flag_SPLINT,  bp ) ) {
             continue;
         }
+
+        healing_factor *= bp->mend_rate;
 
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
         auto &eff = get_effect( effect_mending, bp );
