@@ -1838,7 +1838,7 @@ void basecamp::worker_assignment_ui()
         followers.clear();
         for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-            if( !npc_to_get || !npc_to_get->is_following() ) {
+            if( !npc_to_get || !npc_to_get->is_following() || npc_to_get->is_hallucination() ) {
                 continue;
             }
             npc *npc_to_add = npc_to_get.get();
