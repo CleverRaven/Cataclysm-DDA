@@ -393,6 +393,8 @@ static const vitamin_id vitamin_redcells( "redcells" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
+static const weather_type_id weather_type_portal_storm( "portal_storm" );
+
 // how many characters per turn of radio
 static constexpr int RADIO_PER_TURN = 25;
 
@@ -2645,7 +2647,7 @@ cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const 
         creature_tracker &creatures = get_creature_tracker();
         map &here = get_map();
         // can't get a reading during a portal storm
-        if( get_weather().weather_id == weather_type_id( "portal_storm" ) ) {
+        if( get_weather().weather_id == weather_type_portal_storm ) {
             sounds::sound( pos, 6, sounds::sound_t::alarm, _( "BEEEEE-CHHHHHHH-eeEEEEEEE-CHHHHHHHHHHHH" ), true,
                            "tool", "emf_detector" );
             // skip continuing to check for locations
@@ -2678,7 +2680,7 @@ cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const 
                     sounds::sound( pos, 2, sounds::sound_t::alarm, _( "BEEP BEEP" ), true, "tool",
                                    "emf_detector" );
                 } else if( distance <= 10 ) {
-                    sounds::sound( pos, 2, sounds::sound_t::alarm, _( "beep... beep" ), true, "tool",
+                    sounds::sound( pos, 2, sounds::sound_t::alarm, _( "beep… beep" ), true, "tool",
                                    "emf_detector" );
                 }
                 // skip continuing to check for locations
