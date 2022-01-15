@@ -2525,11 +2525,14 @@ class jmapgen_terrain : public jmapgen_piece
                 std::string error;
                 trap_str_id trap_here = dat.m.tr_at( tp ).id;
                 if( dat.m.furn( p ) != f_null ) {
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
                     error = string_format( "furniture was %s", dat.m.furn( p ).id().str() );
                 } else if( !dat.m.i_at( p ).empty() ) {
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
                     error = string_format( "item %s existed",
                                            dat.m.i_at( p ).begin()->typeId().str() );
                 } else if( !trap_here.is_null() && trap_here.id() != terrain_here->trap ) {
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
                     error = string_format( "trap %s existed", trap_here.str() );
                 }
                 if( !error.empty() ) {
