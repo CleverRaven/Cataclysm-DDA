@@ -177,6 +177,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                                      const tripoint_abs_omt &global_omt, const point &start_input,
                                      const int width, const int height )
 {
+    // Map is centered on curs - typically player's global_omt_location
     const point_abs_omt curs = global_omt.xy();
     const tripoint_abs_omt targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
@@ -186,108 +187,39 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     map &here = get_map();
     const int sight_points = you.overmap_sight_range( g->light_level( you.posz() ) );
 
+    // i scans across width, with 0 in the middle(ish)
+    //     -(w/2) ... w-(w/2)-1
+    // w:9   -4 ... 4
+    // w:10  -5 ... 4
+    // w:11  -5 ... 5
+    // w:12  -6 ... 5
+    // w:13  -6 ... 6
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
+        // j scans across height, with 0 in the middle(ish)
+        // (same algorithm)
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
+            // omp is the current overmap point, at the current z-level
             const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z );
+            // Terrain color and symbol to use for this point
             nc_color ter_color;
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
             const bool vehicle_here = overmap_buffer.has_vehicle( omp );
             if( overmap_buffer.has_note( omp ) ) {
-
                 const std::string &note_text = overmap_buffer.note( omp );
-
-                ter_color = c_yellow;
-                ter_sym = "N";
-
-                int symbolIndex = note_text.find( ':' );
-                int colorIndex = note_text.find( ';' );
-
-                bool symbolFirst = symbolIndex < colorIndex;
-
-                if( colorIndex > -1 && symbolIndex > -1 ) {
-                    if( symbolFirst ) {
-                        if( colorIndex > 4 ) {
-                            colorIndex = -1;
-                        }
-                        if( symbolIndex > 1 ) {
-                            symbolIndex = -1;
-                            colorIndex = -1;
-                        }
-                    } else {
-                        if( symbolIndex > 4 ) {
-                            symbolIndex = -1;
-                        }
-                        if( colorIndex > 2 ) {
-                            colorIndex = -1;
-                        }
-                    }
-                } else if( colorIndex > 2 ) {
-                    colorIndex = -1;
-                } else if( symbolIndex > 1 ) {
-                    symbolIndex = -1;
-                }
-
-                if( symbolIndex > -1 ) {
-                    int symbolStart = 0;
-                    if( colorIndex > -1 && !symbolFirst ) {
-                        symbolStart = colorIndex + 1;
-                    }
-                    ter_sym = note_text.substr( symbolStart, symbolIndex - symbolStart );
-                }
-
-                if( colorIndex > -1 ) {
-
-                    int colorStart = 0;
-
-                    if( symbolIndex > -1 && symbolFirst ) {
-                        colorStart = symbolIndex + 1;
-                    }
-
-                    std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
-
-                    if( sym.length() == 2 ) {
-                        if( sym == "br" ) {
-                            ter_color = c_brown;
-                        } else if( sym == "lg" ) {
-                            ter_color = c_light_gray;
-                        } else if( sym == "dg" ) {
-                            ter_color = c_dark_gray;
-                        }
-                    } else {
-                        char colorID = sym.c_str()[0];
-                        if( colorID == 'r' ) {
-                            ter_color = c_light_red;
-                        } else if( colorID == 'R' ) {
-                            ter_color = c_red;
-                        } else if( colorID == 'g' ) {
-                            ter_color = c_light_green;
-                        } else if( colorID == 'G' ) {
-                            ter_color = c_green;
-                        } else if( colorID == 'b' ) {
-                            ter_color = c_light_blue;
-                        } else if( colorID == 'B' ) {
-                            ter_color = c_blue;
-                        } else if( colorID == 'W' ) {
-                            ter_color = c_white;
-                        } else if( colorID == 'C' ) {
-                            ter_color = c_cyan;
-                        } else if( colorID == 'c' ) {
-                            ter_color = c_light_cyan;
-                        } else if( colorID == 'P' ) {
-                            ter_color = c_pink;
-                        } else if( colorID == 'm' ) {
-                            ter_color = c_magenta;
-                        }
-                    }
-                }
+                std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
+                ter_sym = sym_color.first;
+                ter_color = sym_color.second;
             } else if( !seen ) {
+                // Always grey # for unseen
                 ter_sym = "#";
                 ter_color = c_dark_gray;
             } else if( vehicle_here ) {
+                // Always cyan c for vehicle
                 ter_color = c_cyan;
                 ter_sym = "c";
             } else {
+                // Otherwise, get symbol and color appropriate for the terrain
                 const oter_id &cur_ter = overmap_buffer.ter( omp );
                 ter_sym = cur_ter->get_symbol();
                 if( overmap_buffer.is_explored( omp ) ) {
@@ -305,6 +237,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                     ter_color = red_background( ter_color );
                 }
             }
+            // TODO: Build colorized string instead of writing directly to window
             if( i == 0 && j == 0 ) {
                 // Highlight player character position in center of minimap
                 mvwputch_hi( w_minimap, mid + point( start_x, start_y ), ter_color, ter_sym );
@@ -325,55 +258,18 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         }
     }
 
-    // Print arrow to mission if we have one!
+    // When the mission marker is not visible within the current overmap extents,
+    // draw an arrow at the edge of the map pointing in the general mission direction.
+    // TODO: Replace `drew_mission` with a function like `is_mission_on_map`
     if( !drew_mission ) {
-        // Use an extreme slope rather than dividing by zero
-        double slope = curs.x() == targ.x() ? 1000 :
-                       static_cast<double>( targ.y() - curs.y() ) / ( targ.x() - curs.x() );
-
-        if( std::fabs( slope ) > 12 ) {
-            // For any near-vertical slope, center the marker
-            if( targ.y() > curs.y() ) {
-                mvwputch( w_minimap, point( mid.x + start_x, height - 1 + start_y ), c_red, '*' );
-            } else {
-                mvwputch( w_minimap, point( mid.x + start_x, 1 + start_y ), c_red, '*' );
-            }
-        } else {
-            point arrow( point_north_west );
-            if( std::fabs( slope ) >= 1. ) {
-                // If target to the north or south, arrow on top or bottom edge of minimap
-                if( targ.y() > curs.y() ) {
-                    arrow.x = static_cast<int>( ( 1. + ( 1. / slope ) ) * mid.x );
-                    arrow.y = height - 1;
-                } else {
-                    arrow.x = static_cast<int>( ( 1. - ( 1. / slope ) ) * mid.x );
-                    arrow.y = 0;
-                }
-                // Clip to left/right edges
-                arrow.x = std::max( arrow.x, 0 );
-                arrow.x = std::min( arrow.x, width - 1 );
-            } else {
-                // If target to the east or west, arrow on left or right edge of minimap
-                if( targ.x() > curs.x() ) {
-                    arrow.x = width - 1;
-                    arrow.y = static_cast<int>( ( 1. + slope ) * mid.y );
-                } else {
-                    arrow.x = 0;
-                    arrow.y = static_cast<int>( ( 1. - slope ) * mid.y );
-                }
-                // Clip to top/bottom edges
-                arrow.y = std::max( arrow.y, 0 );
-                arrow.y = std::min( arrow.y, height - 1 );
-            }
-            char glyph = '*';
-            if( targ.z() > you.posz() ) {
-                glyph = '^';
-            } else if( targ.z() < you.posz() ) {
-                glyph = 'v';
-            }
-
-            mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
+        char glyph = '*';
+        if( targ.z() > you.posz() ) {
+            glyph = '^';
+        } else if( targ.z() < you.posz() ) {
+            glyph = 'v';
         }
+        const point arrow = display::mission_arrow_offset( you, width, height );
+        mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
     }
 }
 
@@ -2327,8 +2223,6 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
     ret.emplace_back( window_panel( draw_compass_padding_compact, "Compass",
                                     to_translation( "Compass" ),
                                     5, width, false ) );
-    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
-                                    7, width, false ) );
 
     return ret;
 }

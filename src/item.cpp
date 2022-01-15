@@ -3079,8 +3079,39 @@ static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
                            encumb_max );
     }
 
+    std::string layering;
+
+    // get the layers this bit of the armor covers if its unique compared to the rest of the armor
+    for( const layer_level &ll : it.get_layer( bp ) ) {
+        switch( ll ) {
+            case layer_level::PERSONAL:
+                layering += _( " <stat>Personal aura</stat>." );
+                break;
+            case layer_level::UNDERWEAR:
+                layering += _( " <stat>Close to skin</stat>." );
+                break;
+            case layer_level::REGULAR:
+                layering += _( " <stat>Normal</stat>." );
+                break;
+            case layer_level::WAIST:
+                layering += _( " <stat>Waist</stat>." );
+                break;
+            case layer_level::OUTER:
+                layering += _( " <stat>Outer</stat>." );
+                break;
+            case layer_level::BELTED:
+                layering += _( " <stat>Strapped</stat>." );
+                break;
+            case layer_level::AURA:
+                layering += _( " <stat>Outer aura</stat>." );
+                break;
+            default:
+                layering += _( " Should never see this." );
+        }
+    }
     //~ Limb-specific coverage (%s = name of limb)
-    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s Coverage</bold>:" ), bp_name ) );
+    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s Coverage</bold>:%s" ), bp_name,
+                       layering ) );
     //~ Regular/Default coverage
     info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Default:" ), space ), "",
                        iteminfo::no_flags, it.get_coverage( bp ) );

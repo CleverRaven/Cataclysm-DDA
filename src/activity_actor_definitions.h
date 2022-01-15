@@ -1575,6 +1575,85 @@ class haircut_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
+class wear_activity_actor : public activity_actor
+{
+    public:
+        wear_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities ) :
+            target_items( target_items ),
+            quantities( quantities ) {};
+        activity_id get_type() const override {
+            return activity_id( "ACT_WEAR" );
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wear_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut & ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+
+    private:
+        std::vector<item_location> target_items;
+        std::vector<int> quantities;
+        contents_change_handler handler;
+};
+
+class wield_activity_actor : public activity_actor
+{
+    public:
+        wield_activity_actor( item_location target_item, int quantity ) :
+            target_item( target_item ),
+            quantity( quantity ) {};
+        activity_id get_type() const override {
+            return activity_id( "ACT_WIELD" );
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wield_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut & ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+
+    private:
+        item_location target_item;
+        int quantity;
+        contents_change_handler handler;
+};
+
+class pickup_menu_activity_actor : public activity_actor
+{
+    public:
+        pickup_menu_activity_actor( cata::optional<tripoint> where,
+                                    std::vector<drop_location> selection ) : where( where ), selection( selection ) {};
+        activity_id get_type() const override {
+            return activity_id( "ACT_PICKUP_MENU" );
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<pickup_menu_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut & ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+
+    private:
+        cata::optional<tripoint> where;
+        std::vector<drop_location> selection;
+};
+
 class disable_activity_actor : public activity_actor
 {
     public:

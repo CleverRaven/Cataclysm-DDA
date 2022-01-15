@@ -739,6 +739,9 @@ class Creature : public viewer
         bodypart_id get_root_body_part() const;
         /* Returns all body parts with the given flag */
         std::vector<bodypart_id> get_all_body_parts_with_flag( const json_character_flag &flag ) const;
+        /* Returns the bodyparts to drench : upper/mid/lower correspond to the appropriate limb flag */
+        body_part_set get_drenching_body_parts( bool upper = true, bool mid = true,
+                                                bool lower = true ) const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
