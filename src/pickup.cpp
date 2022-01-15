@@ -111,25 +111,25 @@ static bool should_auto_pickup( const item *pickup_item )
     return false;
 }
 
-static std::vector<item_location *> get_pickup_list_from( item_location *container )
+static std::vector<item_location> get_pickup_list_from( item_location &container )
 {
-    item *container_item = container->get_item();
+    item *container_item = container.get_item();
     bool pick_all_items = true;
 
-    std::vector<item_location *> pickup_list;
+    std::vector<item_location> pickup_list;
     std::list<item *> contents = container_item->get_contents().all_items_top();
     pickup_list.reserve( contents.size() );
 
     for( item *item_to_check : contents ) {
         if( should_auto_pickup( item_to_check ) ) {
             // TODO: make check here for BLACKLIST
-            pickup_list.push_back( new item_location( *container, item_to_check ) );
+            pickup_list.push_back( item_location( container, item_to_check ) );
         } else if( item_to_check->is_container_empty() ) {
             pick_all_items = false;
         } else {
             // get pickup list from nested item container
-            item_location *location = new item_location( *container, item_to_check );
-            std::vector<item_location *> pickup_nested = get_pickup_list_from( location );
+            item_location location = item_location( container, item_to_check );
+            std::vector<item_location> pickup_nested = get_pickup_list_from( location );
 
             // container with content was marked for pickup
             if( pickup_nested.size() != 1 || pickup_nested[0] != location ) {
@@ -147,7 +147,7 @@ static std::vector<item_location *> get_pickup_list_from( item_location *contain
             // when dealing with battery powered tools there should only be one pocket
             // and one battery inside but this could change in future so account for that here
             for( size_t i = 0; i < pickup_list.size() && all_batteries; i++ ) {
-                item *ientry = pickup_list[i]->get_item();
+                item *ientry = pickup_list[i].get_item();
                 if( ientry->type->magazine->default_ammo != itype_id( "battery" ) ) {
                     all_batteries = false;
                 }
@@ -156,16 +156,9 @@ static std::vector<item_location *> get_pickup_list_from( item_location *contain
         // make sure container is allowed to be picked up
         // when picking up batteries from powered containers don't pick container
         if( is_valid_auto_pickup( container_item ) && ( !powered_container || !all_batteries ) ) {
-            // picking up whole container so delete all registered pickups
-            for( item_location *dealoc : pickup_list ) {
-                delete( dealoc );
-            }
             pickup_list.clear();
             pickup_list.push_back( container );
         }
-    } else {
-        // container will not be picked up
-        delete( container );
     }
     return pickup_list;
 }
@@ -196,9 +189,9 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
                 }
                 bool is_container = iter->is_container() && !iter->empty_container();
                 if( is_container || iter->ammo_capacity( ammotype( "battery" ) ) ) {
-                    item_location *container_location = new item_location( map_location, item_entry );
-                    for( item_location *add_item : get_pickup_list_from( container_location ) ) {
-                        target_items.insert( target_items.begin(), *add_item );
+                    item_location container_location = item_location( map_location, item_entry );
+                    for( item_location add_item : get_pickup_list_from( container_location ) ) {
+                        target_items.insert( target_items.begin(), add_item );
                         bFoundSomething = true;
                     }
                 }
