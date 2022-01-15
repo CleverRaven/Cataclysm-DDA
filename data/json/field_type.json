@@ -1595,9 +1595,7 @@
   {
     "id": "fd_direction",
     "type": "field_type",
-    "intensity_levels": [
-      { "name": "Detected something", "sym": "." }
-    ],
+    "intensity_levels": [ { "name": "Detected something", "sym": "." } ],
     "priority": 10,
     "half_life": "1 seconds",
     "accelerated_decay": true,
