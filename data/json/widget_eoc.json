@@ -1,0 +1,451 @@
+[
+  {
+    "id": "EOC_PORTAL_STORM_SIDEBAR_EFFECTS_1",
+    "type": "effect_on_condition",
+    "recurrence_min": "15 seconds",
+    "recurrence_max": "75 seconds",
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        { "not": "u_is_outside" },
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 2 } ], "op": "<=" }
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": {
+      "set_weighted_list_eocs": [
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_HP", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_OVERMAP", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_MOVEMENT", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_STATS", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_STAMINA", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_WEARINESS", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_NEEDS", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_MORALE", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_SAFETY", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_ENV", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_WARMTH", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_TIME", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_VEHICLE", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_COMPASS", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_HEALTH", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_WET", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_BPSTAT", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_MISC", 1 ]
+      ]
+    }
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SIDEBAR_EFFECTS_2",
+    "type": "effect_on_condition",
+    "recurrence_min": "10 seconds",
+    "recurrence_max": "60 seconds",
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        { "not": "u_is_outside" },
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 2 } ], "op": ">" },
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 4 } ], "op": "<=" }
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": {
+      "set_weighted_list_eocs": [
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_HP", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_OVERMAP", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_MOVEMENT", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_STATS", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_STAMINA", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_WEARINESS", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_NEEDS", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_MORALE", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_SAFETY", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_ENV", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_WARMTH", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_TIME", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_VEHICLE", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_COMPASS", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_HEALTH", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_WET", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_BPSTAT", 1 ],
+        [ "EOC_PORTAL_STORM_SPOOKY_WIDGETS_MISC", 1 ]
+      ]
+    }
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SIDEBAR_EFFECTS_3",
+    "type": "effect_on_condition",
+    "recurrence_min": "5 seconds",
+    "recurrence_max": "30 seconds",
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        { "not": "u_is_outside" },
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 4 } ], "op": ">" }
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": {
+      "set_queue_effect_on_condition": [
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_HP",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_OVERMAP",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_MOVEMENT",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_STATS",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_STAMINA",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_WEARINESS",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_NEEDS",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_MORALE",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_SAFETY",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_ENV",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_WARMTH",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_TIME",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_VEHICLE",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_COMPASS",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_HEALTH",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_WET",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_BPSTAT",
+        "EOC_PORTAL_STORM_SPOOKY_WIDGETS_MISC"
+      ]
+    }
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_SIDEBAR",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "color": "red", "text": { "snippet": "PORTAL_STORM_SIDEBAR_TEXT" } } }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_HP",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "hp_head_graph", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "hp_torso_graph", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "hp_left_arm_graph", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "hp_right_arm_graph", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "hp_left_leg_graph", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "hp_right_leg_graph", "color": "red", "text": "GET OUT" }
+      },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "hp_head_num", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "hp_torso_num", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "hp_left_arm_num", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "hp_right_arm_num", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "hp_left_leg_num", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "hp_right_leg_num", "color": "red", "text": "GET OUT" }
+      }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_OVERMAP",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "overmap_full_width", "color": "red", "text": { "snippet": "PORTAL_STORM_SIDEBAR_TEXT" } }
+      }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_MOVEMENT",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "move_mode_desc", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "move_mode_letter", "color": "red", "text": "GET OUT" }
+      },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "move_num", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "move_cost_num", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "speed_num", "color": "red", "text": "GET OUT" } }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_STATS",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "str_num", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "dex_num", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "int_num", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "per_num", "color": "red", "text": "GET OUT" } }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_STAMINA",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "stamina_graph_classic", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "stamina_graph", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "stamina_num", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "activity_desc", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "fatigue_num", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "fatigue_graph", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "fatigue_desc", "color": "red", "text": "GET OUT" } }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_WEARINESS",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "weariness_num", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "weariness_graph", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "weary_malus_desc", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "weariness_desc", "color": "red", "text": "GET OUT" }
+      }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_NEEDS",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "thirst_desc", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "hunger_desc", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "pain_num", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "pain_desc", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "body_temp_desc", "color": "red", "text": "GET OUT" }
+      }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_MORALE",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "morale_num", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "mood_desc", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "focus_num", "color": "red", "text": "GET OUT" } }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_SAFETY",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "safe_mode_desc", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "sound_num", "color": "red", "text": "GET OUT" } }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_ENV",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "weather_desc", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "rad_badge_desc", "color": "red", "text": "GET OUT" }
+      },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "place_desc", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "lighting_desc", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "moon_phase_desc", "color": "red", "text": "GET OUT" }
+      },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "env_temp_desc", "color": "red", "text": "GET OUT" } }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_WARMTH",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "warmth_head_num", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "warmth_torso_num", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "warmth_left_arm_num", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "warmth_right_arm_num", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "warmth_left_leg_num", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "warmth_right_leg_num", "color": "red", "text": "GET OUT" }
+      }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_TIME",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "time_desc", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "date_desc", "color": "red", "text": "GET OUT" } }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_VEHICLE",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "vehicle_azimuth_desc", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "vehicle_cruise_desc", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "vehicle_fuel_desc", "color": "red", "text": "GET OUT" }
+      }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_COMPASS",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "compass_N_text", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "compass_S_text", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "compass_E_text", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "compass_W_text", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "compass_NE_text", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "compass_NW_text", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "compass_SE_text", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "compass_SW_text", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "compass_local_text", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "compass_legend_text", "color": "red", "text": { "snippet": "PORTAL_STORM_SIDEBAR_TEXT" } }
+      }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_HEALTH",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "cardio_fit_num", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "cardio_acc_num", "color": "red", "text": "GET OUT" }
+      },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "health_num", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "health_desc", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "weight_desc", "color": "red", "text": "GET OUT" } }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_WET",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "wetness_head_num", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "wetness_torso_num", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "wetness_left_arm_num", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "wetness_right_arm_num", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "wetness_left_leg_num", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "wetness_right_leg_num", "color": "red", "text": "GET OUT" }
+      }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_BPSTAT",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "bp_status_head_text", "color": "red", "text": "GET OUT" } },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "bp_status_torso_text", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "bp_status_left_arm_text", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "bp_status_right_arm_text", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "bp_status_left_leg_text", "color": "red", "text": "GET OUT" }
+      },
+      {
+        "duration": "10 seconds",
+        "set_panel_text": { "widget": "bp_status_right_leg_text", "color": "red", "text": "GET OUT" }
+      }
+    ]
+  },
+  {
+    "id": "EOC_PORTAL_STORM_SPOOKY_WIDGETS_MISC",
+    "type": "effect_on_condition",
+    "effect": [
+      { "duration": "10 seconds", "set_panel_text": { "widget": "power_desc", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "style_desc", "color": "red", "text": "GET OUT" } },
+      { "duration": "10 seconds", "set_panel_text": { "widget": "wielding_desc", "color": "red", "text": "GET OUT" } }
+    ]
+  }
+]

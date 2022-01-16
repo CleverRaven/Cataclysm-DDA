@@ -428,5 +428,15 @@
       "The wall is carpeted by green-gray mushrooms, their caps turning towards you with anticipation.",
       "The wall's concrete is warped into a spiral relief, drawing your eye inexorably to its center.  You force yourself to look away, and feel something shift behind the wall."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_SIDEBAR_TEXT",
+    "//": "These are repeated to cover the sidebar in text. The trailing spaces are intentional.",
+    "text": [
+      "old habits die hard  ",
+      "What's even real anymore?  Come outside and find out.  ",
+      "You're not saℲe there.  You'll ne℣er be safe there.  You should ℟un away before sometℍing happens.  "
+    ]
   }
 ]
