@@ -246,16 +246,14 @@ jobs:
     - name: build
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/gha_compile_only.sh
-    - name: retrieve ccache debug files
+    - name: create ccache debug archive
       run: |
-        find . -type f -name "*cache-*" -exec tar -rvf ccache.debug.tar {} \;
-    - name: compress ccache debug files
-      run: xz -v ccache.debug.tar
+        find . -type f -name "*cache-*" | tar -c --files-from - | zstd -of ccache.debug.tar.zst
     - name: upload ccache debug files
       uses: actions/upload-artifact@v2
       with:
         name: ccache-debug-${{ runner.os }}-${{ matrix.compiler }}
-        path: ccache.debug.tar.xz
+        path: ccache.debug.tar.zst
         if-no-files-found: ignore
     - name: cleanup ccache before upload
       if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
