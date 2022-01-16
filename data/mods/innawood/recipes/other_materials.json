@@ -44,24 +44,6 @@
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ]
   },
   {
-    "result": "steel_lump",
-    "type": "recipe",
-    "id_suffix": "from ore",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "proficiencies": [ { "proficiency": "prof_metallurgy" } ],
-    "difficulty": 1,
-    "time": "9 h",
-    "batch_time_factors": [ 95, 2 ],
-    "reversible": true,
-    "autolearn": true,
-    "tools": [ [ [ "bloomery", -1 ] ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "iron_ore", 17 ] ], [ [ "charcoal", 41 ] ] ]
-  },
-  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "glass_shard",

@@ -686,6 +686,9 @@ class Character : public Creature, public visitable
         void recalc_speed_bonus();
         void set_underwater( bool );
         bool is_hallucination() const override;
+
+        // true if the character produces electrical radiation
+        bool is_electrical() const override;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** Returns the effect of pain on stats */
@@ -1944,6 +1947,7 @@ class Character : public Creature, public visitable
         int book_fun_for( const item &book, const Character &p ) const;
 
         bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr ) const;
+        bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
         /**

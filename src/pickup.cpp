@@ -63,7 +63,7 @@ static const itype_id itype_water( "water" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
 // Pickup helper functions
-static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
+static bool pick_one_up( item_location &loc, int quantity, bool &got_water,
                          PickupMap &mapPickup, bool autopickup );
 
 static void show_pickup_message( const PickupMap &mapPickup );
@@ -129,39 +129,19 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
 
 enum pickup_answer : int {
     CANCEL = -1,
-    WIELD,
-    WEAR,
     SPILL,
     STASH,
     NUM_ANSWERS
 };
 
-static pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
-        const std::string &explain )
+static pickup_answer handle_problematic_pickup( const item &it, const std::string &explain )
 {
-    if( offered_swap ) {
-        return CANCEL;
-    }
-
     Character &u = get_player_character();
 
     uilist amenu;
 
     amenu.text = explain;
 
-    offered_swap = true;
-    const item &weapon = u.get_wielded_item();
-    // TODO: Gray out if not enough hands
-    if( u.has_wield_conflicts( it ) ) {
-        amenu.addentry( WIELD, u.can_unwield( weapon ).success(), 'w',
-                        _( "Dispose of %s and wield %s" ), weapon.display_name(),
-                        it.display_name() );
-    } else {
-        amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name() );
-    }
-    if( it.is_armor() ) {
-        amenu.addentry( WEAR, u.can_wear( it ).success(), 'W', _( "Wear %s" ), it.display_name() );
-    }
     if( it.is_bucket_nonempty() ) {
         amenu.addentry( SPILL, u.can_stash( it ), 's', _( "Spill contents of %s, then pick up %s" ),
                         it.tname(), it.display_name() );
@@ -221,8 +201,8 @@ bool Pickup::query_thief()
 }
 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
-bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
-                  PickupMap &mapPickup, bool autopickup )
+bool pick_one_up( item_location &loc, int quantity, bool &got_water, PickupMap &mapPickup,
+                  bool autopickup )
 {
     Character &player_character = get_player_character();
     int moves_taken = loc.obtain_cost( player_character, quantity );
@@ -267,29 +247,14 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         }
     } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
         got_water = true;
-    } else if( !player_character.can_pickWeight_partial( newit, false ) ) {
-        if( !autopickup ) {
-            const std::string &explain = string_format( _( "The %s is too heavy!" ),
-                                         newit.display_name() );
-            option = handle_problematic_pickup( newit, offered_swap, explain );
-            did_prompt = true;
-        } else {
-            option = CANCEL;
-        }
+    } else if( !player_character.can_pickWeight_partial( newit, false ) ||
+               !player_character.can_stash_partial( newit ) ) {
+        option = CANCEL;
     } else if( newit.is_bucket_nonempty() ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
                                          newit.display_name() );
-            option = handle_problematic_pickup( newit, offered_swap, explain );
-            did_prompt = true;
-        } else {
-            option = CANCEL;
-        }
-    } else if( !player_character.can_stash_partial( newit ) ) {
-        if( !autopickup ) {
-            const std::string &explain = string_format( _( "Not enough capacity to stash %s" ),
-                                         newit.display_name() );
-            option = handle_problematic_pickup( newit, offered_swap, explain );
+            option = handle_problematic_pickup( newit, explain );
             did_prompt = true;
         } else {
             option = CANCEL;
@@ -305,25 +270,6 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         case CANCEL:
             picked_up = false;
             break;
-        case WEAR:
-            picked_up = !!player_character.wear_item( newit );
-            break;
-        case WIELD: {
-            const auto wield_check = player_character.can_wield( newit );
-            if( wield_check.success() ) {
-                picked_up = player_character.wield( newit );
-                const item &weapon = player_character.get_wielded_item();
-                if( weapon.invlet ) {
-                    add_msg( m_info, _( "Wielding %c - %s" ), weapon.invlet,
-                             weapon.display_name() );
-                } else {
-                    add_msg( m_info, _( "Wielding - %s" ), player_character.get_wielded_item().display_name() );
-                }
-            } else {
-                add_msg( m_neutral, wield_check.c_str() );
-            }
-            break;
-        }
         case SPILL:
             if( newit.is_container_empty() ) {
                 debugmsg( "Tried to spill contents from an empty container" );
@@ -340,8 +286,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             }
         // Intentional fallthrough
         case STASH: {
-            item &added_it = player_character.i_add( newit, true, nullptr, &it, /*allow_drop=*/false,
-                             !newit.count_by_charges() );
+            item &added_it = player_character.i_add( newit, true, nullptr,
+                             &it, /*allow_drop=*/false, /*allow_wield=*/false );
             if( added_it.is_null() ) {
                 // failed to add, fill pockets if it's a stack
                 if( newit.count_by_charges() ) {
@@ -408,7 +354,6 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     bool got_water = false;
     Character &player_character = get_player_character();
     bool weight_is_okay = ( player_character.weight_carried() <= player_character.weight_capacity() );
-    bool offered_swap = false;
 
     // Map of items picked up so we can output them all at the end and
     // merge dropping items with the same name.
@@ -428,7 +373,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
             continue;
         }
 
-        problem = !pick_one_up( target, quantity, got_water, offered_swap, mapPickup, autopickup );
+        problem = !pick_one_up( target, quantity, got_water, mapPickup, autopickup );
     }
 
     if( !mapPickup.empty() ) {

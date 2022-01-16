@@ -773,7 +773,7 @@ void game::chat()
             break;
         case NPC_CHAT_MOUNT:
             for( npc *them : followers ) {
-                if( them->has_effect( effect_riding ) ) {
+                if( them->has_effect( effect_riding ) || them->is_hallucination() ) {
                     continue;
                 }
                 talk_function::find_mount( *them );
@@ -1739,7 +1739,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     // Parse any tags in challenge
     parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(),
                 topic.item_type );
-    capitalize_letter( challenge );
+    challenge = uppercase_first_letter( challenge );
 
     d_win.clear_history_highlights();
     if( challenge[0] == '&' ) {

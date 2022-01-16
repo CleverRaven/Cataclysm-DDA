@@ -2,6 +2,7 @@
 
 #include <cstdint>
 
+#include "activity_actor_definitions.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -142,9 +143,9 @@ struct container_data {
     std::string to_formatted_string( const bool compact = true ) {
         std::string string_to_format;
         if( compact ) {
-            string_to_format = "%s/%s : %s/%s : max %s";
+            string_to_format = _( "%s/%s : %s/%s : max %s" );
         } else {
-            string_to_format = "(remains %s, %s) max length %s";
+            string_to_format = _( "(remains %s, %s) max length %s" );
         }
         return string_format( string_to_format,
                               unit_to_string( total_capacity - actual_capacity, true, true ),
@@ -312,6 +313,20 @@ inventory_entry *inventory_column::find_by_invlet( int invlet ) const
     for( const auto &elem : entries ) {
         if( elem.is_item() && elem.get_invlet() == invlet ) {
             return const_cast<inventory_entry *>( &elem );
+        }
+    }
+    return nullptr;
+}
+
+inventory_entry *inventory_column::find_by_location( item_location &loc ) const
+{
+    for( const inventory_entry &elem : entries ) {
+        if( elem.is_item() ) {
+            for( const item_location &it : elem.locations ) {
+                if( it == loc ) {
+                    return const_cast<inventory_entry *>( &elem );
+                }
+            }
         }
     }
     return nullptr;
@@ -1698,6 +1713,19 @@ inventory_entry *inventory_selector::find_entry_by_coordinate( const point &coor
     return nullptr;
 }
 
+inventory_entry *inventory_selector::find_entry_by_location( item_location &loc ) const
+{
+    for( const inventory_column *elem : columns ) {
+        if( elem->allows_selecting() ) {
+            inventory_entry *const res = elem->find_by_location( loc );
+            if( res != nullptr ) {
+                return res;
+            }
+        }
+    }
+    return nullptr;
+}
+
 // FIXME: if columns are merged due to low screen width, they will not be splitted
 // once screen width becomes enough for the columns.
 void inventory_selector::rearrange_columns( size_t client_width )
@@ -3044,13 +3072,29 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
 }
 
 pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
-                                  const std::string &selection_column_title ) :
-    inventory_multiselector( p, preset, selection_column_title )
+                                  const std::string &selection_column_title, const cata::optional<tripoint> &where ) :
+    inventory_multiselector( p, preset, selection_column_title ), where( where )
 {
+    ctxt.register_action( "WEAR" );
+    ctxt.register_action( "WIELD" );
 #if defined(__ANDROID__)
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
     ctxt.allow_text_entry = true;
 #endif
+
+    set_hint( string_format(
+                  _( "To pick x items, type a number before selecting.\nPress %s to examine, %s to wield, %s to wear." ),
+                  ctxt.get_desc( "EXAMINE" ),
+                  ctxt.get_desc( "WIELD" ),
+                  ctxt.get_desc( "WEAR" ) ) );
+}
+
+void pickup_selector::apply_selection( std::vector<drop_location> selection )
+{
+    for( drop_location &loc : selection ) {
+        inventory_entry *entry = find_entry_by_location( loc.first );
+        set_chosen_count( *entry, loc.second + entry->chosen_count );
+    }
 }
 
 drop_locations pickup_selector::execute()
@@ -3088,6 +3132,14 @@ drop_locations pickup_selector::execute()
                 continue;
             }
             break;
+        } else if( input.action == "WIELD" ) {
+            if( wield( count ) ) {
+                return drop_locations();
+            }
+        } else if( input.action == "WEAR" ) {
+            if( wear() ) {
+                return drop_locations();
+            }
         } else if( input.action == "QUIT" ) {
             return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
@@ -3104,6 +3156,65 @@ drop_locations pickup_selector::execute()
     }
 
     return dropped_pos_and_qty;
+}
+
+bool pickup_selector::wield( int &count )
+{
+    std::vector<inventory_entry *> selected = get_active_column().get_all_selected();
+
+    item_location it = selected.front()->any_item();
+    if( count == 0 ) {
+        count = INT_MAX;
+    }
+    int charges = std::min( it->charges, count );
+
+    if( u.can_wield( *it ).success() ) {
+        remove_from_to_use( it );
+        add_reopen_activity();
+        u.assign_activity( player_activity( wield_activity_actor( it, charges ) ) );
+        return true;
+    } else {
+        popup_getkey( _( "You can't wield the %s." ), it->display_name() );
+    }
+
+    return false;
+}
+
+bool pickup_selector::wear()
+{
+    std::vector<inventory_entry *> selected = get_active_column().get_all_selected();
+
+    std::vector<item_location> items{ selected.front()->any_item() };
+    std::vector<int> quantities{ 0 };
+
+    if( u.can_wear( *items.front() ).success() ) {
+        remove_from_to_use( items.front() );
+        add_reopen_activity();
+        u.assign_activity( player_activity( wear_activity_actor( items, quantities ) ) );
+        return true;
+    } else {
+        popup_getkey( _( "You can't wear the %s." ), items.front()->display_name() );
+    }
+
+    return false;
+}
+
+void pickup_selector::add_reopen_activity()
+{
+    u.assign_activity( player_activity( pickup_menu_activity_actor( where, to_use ) ) );
+    u.activity.auto_resume = true;
+}
+
+void pickup_selector::remove_from_to_use( item_location &it )
+{
+    for( auto iter = to_use.begin(); iter < to_use.end(); ) {
+        if( iter->first == it ) {
+            to_use.erase( iter );
+            return;
+        } else {
+            iter++;
+        }
+    }
 }
 
 void pickup_selector::reassign_custom_invlets()

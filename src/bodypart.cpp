@@ -294,8 +294,15 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "base_hp", base_hp );
     optional( jo, was_loaded, "stat_hp_mods", hp_mods );
+    optional( jo, was_loaded, "heal_bonus", heal_bonus, 0 );
+    optional( jo, was_loaded, "mend_rate", mend_rate, 1.0f );
 
     mandatory( jo, was_loaded, "drench_capacity", drench_max );
+    optional( jo, was_loaded, "drench_increment", drench_increment, 2 );
+    optional( jo, was_loaded, "drying_chance", drying_chance, drench_max );
+    optional( jo, was_loaded, "drying_increment", drying_increment, 1 );
+
+    optional( jo, was_loaded, "wet_morale", wet_morale, 0 );
 
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
@@ -354,6 +361,12 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
             bpls.max = jval.get_array().size() > 2 ? jval.get_array().get_float( 2 ) : bpls.score;
             limb_scores.emplace_back( bpls );
         }
+    }
+
+    if( jo.has_array( "temp_mod" ) ) {
+        JsonArray temp_array = jo.get_array( "temp_mod" );
+        temp_min = temp_array.get_int( 0 );
+        temp_max = temp_array.get_int( 1 );
     }
 
     if( jo.has_array( "unarmed_damage" ) ) {
@@ -566,7 +579,11 @@ bool bodypart::is_at_max_hp() const
 
 float bodypart::get_wetness_percentage() const
 {
-    return static_cast<float>( wetness ) / id->drench_max;
+    if( id->drench_max == 0 ) {
+        return 0.0f;
+    } else {
+        return static_cast<float>( wetness ) / id->drench_max;
+    }
 }
 
 int bodypart::get_encumbrance_threshold() const

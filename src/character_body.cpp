@@ -49,6 +49,7 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const json_character_flag json_flag_HEATPROOF( "HEATPROOF" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
+static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 
@@ -111,7 +112,7 @@ void Character::update_body_wetness( const w_point &weather )
             continue;
         }
         // This is to normalize drying times
-        int drying_chance = get_part_drench_capacity( bp );
+        int drying_chance = bp->drying_chance;
         const int temp_conv = get_part_temp_conv( bp );
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
@@ -134,7 +135,7 @@ void Character::update_body_wetness( const w_point &weather )
 
         // TODO: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {
-            mod_part_wetness( bp, -1 );
+            mod_part_wetness( bp, bp->drying_increment * -1 );
             if( get_part_wetness( bp ) < 0 ) {
                 set_part_wetness( bp, 0 );
             }
@@ -400,11 +401,12 @@ void Character::update_bodytemp()
                                              bp_windpower );
 
         static const auto is_lower = []( const bodypart_id & bp ) {
-            return bp == body_part_foot_l  ||
-                   bp ==  body_part_foot_r  ||
-                   bp ==  body_part_leg_l  ||
-                   bp ==  body_part_leg_r ;
+            return bp->has_flag( json_flag_LIMB_LOWER );
         };
+
+        // Intrinsic bp warmth is always applied
+        int bp_temp_min = bp->temp_min;
+        int bp_temp_bonus = bp->temp_max - bp_temp_min;
 
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         // Convert to 0.01C
@@ -417,7 +419,7 @@ void Character::update_bodytemp()
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         set_part_temp_conv( bp, BODYTEMP_NORM + adjusted_temp + windchill * 100 +
-                            clothing_warmth_adjustment );
+                            clothing_warmth_adjustment + bp_temp_min );
         // HUNGER / STARVATION
         mod_part_temp_conv( bp, hunger_warmth );
         // FATIGUE
@@ -498,7 +500,8 @@ void Character::update_bodytemp()
         }
 
         const int comfortable_warmth = bonus_fire_warmth + lying_warmth;
-        const int bonus_warmth = comfortable_warmth + metabolism_warmth + mutation_heat_bonus;
+        const int bonus_warmth = comfortable_warmth + metabolism_warmth + mutation_heat_bonus +
+                                 bp_temp_bonus;
         if( bonus_warmth > 0 ) {
             // Approximate temp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below

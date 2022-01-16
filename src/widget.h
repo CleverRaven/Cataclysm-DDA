@@ -27,6 +27,7 @@ enum class widget_var : int {
     fatigue,        // Current fatigue, integer
     health,         // Current hidden health value, -200 to +200
     mana,           // Current available mana, integer
+    max_mana,       // Current maximum mana, integer
     morale_level,   // Current morale level, integer (may be negative)
     weariness_level, // Current weariness level, integer
     stat_str,       // Base STR (strength) stat, integer
@@ -58,6 +59,8 @@ enum class widget_var : int {
     moon_phase_text,// Current phase of the moon
     move_mode_letter, // Movement mode, color letter (W/R/C/P)
     move_mode_text, // Movement mode, color text (walking/running/crouching/prone)
+    overmap_loc_text,// Local overmap position, pseudo latitude/longitude with Z-level
+    overmap_text,   // Local overmap and mission marker, multi-line color string
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string

@@ -180,7 +180,6 @@ static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
-static const activity_id ACT_WEAR( "ACT_WEAR" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -256,7 +255,6 @@ activity_handlers::do_turn_functions = {
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_VIBE, vibe_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
-    { ACT_WEAR, wear_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
     { ACT_MULTIPLE_MINE, multiple_mine_do_turn },
@@ -2787,11 +2785,6 @@ void activity_handlers::clear_rubble_finish( player_activity *act, Character *yo
     act->set_to_null();
 
     here.maybe_trigger_trap( pos, *you, true );
-}
-
-void activity_handlers::wear_do_turn( player_activity *act, Character *you )
-{
-    activity_on_turn_wear( *act, *you );
 }
 
 // This activity opens the menu (it's not meant to queue consumption of items)

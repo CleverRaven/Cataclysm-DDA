@@ -294,6 +294,14 @@
     "style": "text"
   },
   {
+    "id": "test_overmap_3x3_text",
+    "type": "widget",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 3,
+    "height": 3
+  },
+  {
     "id": "test_stat_panel",
     "type": "widget",
     "style": "layout",

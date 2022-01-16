@@ -9,6 +9,36 @@
 class avatar;
 class Character;
 
+struct disp_overmap_cache {
+    private:
+        tripoint_abs_omt _center;
+        tripoint_abs_omt _mission;
+        std::string _om_wgt_str;
+
+    public:
+        disp_overmap_cache();
+
+        // Returns true if the stored overmap string can be used with the given
+        // center (player) position and mission target.
+        bool is_valid_for( const tripoint_abs_omt &center, const tripoint_abs_omt &mission ) const {
+            return _center == center && _mission == mission;
+        }
+
+        // Rebuild the cache using the validation parameters "center" and "mission"
+        // and store the associated widget string.
+        void rebuild( const tripoint_abs_omt &center, const tripoint_abs_omt &mission,
+                      const std::string &om_wgt_str ) {
+            _center = center;
+            _mission = mission;
+            _om_wgt_str = om_wgt_str;
+        }
+
+        // Retreive the cached widget string
+        const std::string &get_val() const {
+            return _om_wgt_str;
+        }
+};
+
 // The display namespace contains UI string output and colorization functions
 // Some return plain strings or translations, some return a (string, color) pair,
 // and some return a string with colorization tags embedded.
@@ -106,6 +136,18 @@ std::string rad_badge_color_name( const int rad );
 nc_color rad_badge_color( const int rad );
 // Highlighted badge color for character's radiation badge, if they have one
 std::pair<std::string, nc_color> rad_badge_text_color( const Character &u );
+
+// Colorized symbol for the overmap tile at the given location
+std::pair<std::string, nc_color> overmap_tile_symbol_color( const avatar &u,
+        const tripoint_abs_omt &omt, const bool edge_tile, bool &found_mi );
+// Colorized symbol for an overmap note, given its full text
+std::pair<std::string, nc_color> overmap_note_symbol_color( const std::string note_text );
+// Mission marker position as an offset within an overmap of given width and height
+point mission_arrow_offset( const avatar &you, int width, int height );
+// Fully colorized newline-separated overmap string of the given size, centered on character
+std::string colorized_overmap_text( const avatar &u, const int width, const int height );
+// Current overmap position (coordinates)
+std::string overmap_position_text( const tripoint_abs_omt &loc );
 
 // Functions returning colorized string
 // gets the string that describes your weight

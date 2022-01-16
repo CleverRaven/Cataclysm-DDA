@@ -547,14 +547,6 @@
     "components": [ [ [ "silver_small", 20 ] ] ]
   },
   {
-    "result": "baseball",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "leather", 2 ] ], [ [ "string_6", 2 ] ] ]
-  },
-  {
     "result": "battery_car",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -1319,6 +1311,29 @@
       [ [ "power_supply", 1 ] ],
       [ [ "robot_controls", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_turret_artisans",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "m249", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ],
+      [ [ "steel_armor", 3 ] ]
     ]
   },
   {

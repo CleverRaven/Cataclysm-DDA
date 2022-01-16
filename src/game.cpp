@@ -160,6 +160,7 @@
 #include "string_input_popup.h"
 #include "submap.h"
 #include "talker.h"
+#include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
 #include "translations.h"
@@ -331,7 +332,7 @@ static constexpr int DANGEROUS_PROXIMITY = 5;
 
 
 #if defined(__ANDROID__)
-extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
+extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back ); // NOLINT
 #endif
 
 //The one and only game instance
@@ -546,8 +547,8 @@ void game::load_data_from_dir( const std::string &path, const std::string &src, 
 
 #if !(defined(_WIN32) || defined(TILES))
 // in ncurses_def.cpp
-void check_encoding();
-void ensure_term_size();
+extern void check_encoding(); // NOLINT
+extern void ensure_term_size(); // NOLINT
 #endif
 
 void game_ui::init_ui()
@@ -2556,24 +2557,15 @@ void game::death_screen()
 }
 
 // A timestamp that can be used to make unique file names
-// Date format is a somewhat ISO-8601 compliant GMT time date (except we use '-' instead of ':' probably because of Windows file name rules).
+// Date format is a somewhat ISO-8601 compliant local time date (except we use '-' instead of ':' probably because of Windows file name rules).
+// XXX: removed the timezone suffix due to an mxe bug
+// See: https://github.com/mxe/mxe/issues/2749
 static std::string timestamp_now()
 {
     std::time_t time = std::time( nullptr );
-    std::tm *timedate = std::gmtime( &time );
-    std::string date_buffer( 32, '\0' );
-#if defined(_WIN32)
-    std::strftime( &date_buffer[0], date_buffer.capacity(), "%Y-%m-%dT%H-%M-%S", timedate );
-    TIME_ZONE_INFORMATION tz_info;
-    if( GetTimeZoneInformation( &tz_info ) == TIME_ZONE_ID_INVALID ) {
-        return string_format( "%sZ", date_buffer );
-    }
-    const int bias = -static_cast<int>( tz_info.Bias );
-    return string_format( "%s%+.2d%02d", date_buffer, bias / 60, std::abs( bias ) % 60 );
-#else
-    std::strftime( &date_buffer[0], date_buffer.capacity(), "%Y-%m-%dT%H-%M-%S%z", timedate );
-#endif
-    return date_buffer;
+    std::stringstream date_buffer;
+    date_buffer << std::put_time( std::localtime( &time ), "%Y-%m-%dT%H-%M-%S" );
+    return date_buffer.str();
 }
 
 void game::move_save_to_graveyard()
@@ -5263,8 +5255,12 @@ bool game::npc_menu( npc &who )
             }
         }
     } else if( choice == sort_armor ) {
-        who.sort_armor();
-        u.mod_moves( -100 );
+        if( who.is_hallucination() ) {
+            who.say( SNIPPET.random_from_category( "<no>" ).value_or( translation() ).translated() );
+        } else {
+            who.sort_armor();
+            u.mod_moves( -100 );
+        }
     } else if( choice == attack ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
             u.melee_attack( who, true );
@@ -5277,7 +5273,12 @@ bool game::npc_menu( npc &who )
     } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
         u.steal( who );
     } else if( choice == trade ) {
-        npc_trading::trade( who, 0, _( "Trade" ) );
+        if( who.is_hallucination() ) {
+            who.say( SNIPPET.random_from_category( "<hallu_dont_trade>" ).value_or(
+                         translation() ).translated() );
+        } else {
+            npc_trading::trade( who, 0, _( "Trade" ) );
+        }
     }
 
     return true;
@@ -5768,10 +5769,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     // Print OMT type and terrain type on first two lines
     // if can't fit in one line.
-    std::string tile = m.tername( lp );
-    capitalize_letter( tile );
-    std::string area =  area_name;
-    capitalize_letter( area );
+    std::string tile = uppercase_first_letter( m.tername( lp ) );
+    std::string area = uppercase_first_letter( area_name );
     mvwprintz( w_look, point( column, line++ ), c_yellow, area );
     mvwprintz( w_look, point( column, line++ ), c_white, tile );
     std::string desc = string_format( m.ter( lp ).obj().description );
@@ -5783,8 +5782,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     // Furniture if any.
     if( m.has_furn( lp ) ) {
-        std::string desc = m.furnname( lp );
-        capitalize_letter( desc );
+        std::string desc = uppercase_first_letter( m.furnname( lp ) );
         mvwprintz( w_look, point( column, line++ ), c_white, desc );
         desc = string_format( m.furn( lp ).obj().description );
         lines = foldstring( desc, max_width );
@@ -9808,8 +9806,8 @@ point game::place_player( const tripoint &dest_loc )
     // Drench the player if swimmable
     if( m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
-        u.drench( 80, { { body_part_foot_l, body_part_foot_r, body_part_leg_l, body_part_leg_r } },
-        false );
+        u.drench( 80, u.get_drenching_body_parts( false, false ),
+                  false );
     }
 
     // List items here

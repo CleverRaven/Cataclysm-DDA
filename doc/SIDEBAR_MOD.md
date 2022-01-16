@@ -168,6 +168,7 @@ next.
 Variable widgets define a "var" field, with the name of a predefined widget variable. This tells the
 widget what information it should show. Most of the time, these are attributes of the player
 character, but they can also be attributes of the world, environment, or vehicle where they are.
+
 See the [Variables](#variables) section for a list of them.
 
 For example, a widget to show the current STR stat would define this "var":
@@ -551,6 +552,8 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `moon_phase_text`     | Phase of the moon - "New moon", "Waxing gibbous", "Full moon" etc.
 | `move_mode_letter`    | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
 | `move_mode_text`      | Movement mode - "walking", "running", "crouching", "prone"
+| `overmap_loc_text`    | Overmap coordinates, same as shown in the lower corner of overmap screen
+| `overmap_text`        | Colored text rendering of the local overmap; may define "width" and "height"
 | `pain_text`           | "Mild pain", "Distracting pain", "Intense pain", etc.
 | `place_text`          | Location place name
 | `power_text`          | Bionic power available
@@ -702,4 +705,30 @@ SW:   ddd  S:        SE:  zZZZ
 a 2 wasps  d 5 zombie dogs
 Z 6 zombies  z 2 zombie cops
 ```
+
+
+# Modding the Sidebar
+
+One great advantage of a data-driven, JSON-based sidebar is that it can be customized with mods. A
+mod may extend the main "custom" sidebar with mod-specific widgets, or define an entirely new
+sidebar if desired.
+
+For example, the Magiclysm mod extends the main custom sidebar with two optional mana widgets. It
+does this in a JSON file in the mod directory, `data/mods/Magiclysm/ui/sidebar.json`, by defining a
+few custom widgets, then using "copy-from" and "extend" on the custom sidebar object:
+
+```json
+[
+  {
+    "copy-from": "custom_sidebar",
+    "type": "widget",
+    "id": "custom_sidebar",
+    "//": "Extend the custom sidebar with Magiclysm-specific sections",
+    "extend": { "widgets": [ "current_max_mana_nums_layout", "mana_graph_layout" ] }
+  }
+]
+```
+
+These two extra widgets, "current_max_mana_nums_layout" and "mana_graph_layout", will be appended to
+the custom sidebar sections whenever a game with the Magiclysm mod is loaded.
 

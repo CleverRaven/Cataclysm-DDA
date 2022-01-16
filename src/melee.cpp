@@ -108,6 +108,7 @@ static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
+static const json_character_flag json_flag_NULL( "NULL" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 static const limb_score_id limb_score_block( "block" );
@@ -1792,7 +1793,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
             for( const tech_effect_data &eff : technique.tech_effects ) {
                 // Add the tech's effects if it rolls the chance and either did damage or ignores it
                 if( x_in_y( eff.chance, 100 ) && ( di.total_damage() != 0 || !eff.on_damage ) ) {
-                    t.add_effect( eff.id, time_duration::from_turns( eff.duration ), eff.permanent );
+                    if( eff.req_flag == json_flag_NULL || has_flag( eff.req_flag ) ) {
+                        t.add_effect( eff.id, time_duration::from_turns( eff.duration ), eff.permanent );
+                        add_msg_if_player( m_good, _( eff.message ), t.disp_name() );
+                    }
                 }
             }
         }
@@ -2839,7 +2843,7 @@ void avatar::steal( npc &target )
     int their_roll = dice( 5, target.get_per() );
 
     const item *it = loc.get_item();
-    if( my_roll >= their_roll ) {
+    if( my_roll >= their_roll && !target.is_hallucination() ) {
         add_msg( _( "You sneakily steal %1$s from %2$s!" ),
                  it->tname(), target.get_name() );
         i_add( target.i_rem( it ) );
