@@ -1023,6 +1023,8 @@ TEST_CASE( "when one pocket is better than another", "[pocket][better]" )
     // pockets restricted by ammo should try to get filled first
     // pockets restricted by flag should try to get filled first
     // if remaining volume is equal, lower obtain_cost is better
+    // pockets with less extra encumbrance should be prioritized (#53162)
+    // pockets without ripoff chance should be prioritized (#53162)
 
     // A and B: Two generic sets of pocket data for comparison
     pocket_data data_a( item_pocket::pocket_type::CONTAINER );
