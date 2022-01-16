@@ -1005,7 +1005,7 @@
     "comestible_type": "FOOD",
     "id": "press_cake",
     "name": { "str": "press cake" },
-    "description": "TODO",
+    "description": "Dry leftovers that remain after extracting the oil from nuts or seeds.",
     "weight": "250 g",
     "volume": "250 ml",
     "price": 100,

@@ -710,7 +710,7 @@
   {
     "id": "oil_press_manual",
     "type": "TOOL",
-    "name": { "str": "manual oil press" },
+    "name": { "str": "manual oil press", "str_pl": "manual oil presses" },
     "description": "This is a hand cranked press for creating vegetable oil.  A hotplate heats the raw material to increase extraction efficiency.",
     "weight": "2300 g",
     "volume": "1560 ml",
