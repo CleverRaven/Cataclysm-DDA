@@ -209,6 +209,8 @@ struct body_part_type {
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
         body_part_type::type limb_type = body_part_type::type::num_types;
+        cata::flat_set <body_part_type::type> secondary_types;
+        bool has_type( const body_part_type::type &type ) const;
 
         // Threshold to start encumbrance scaling
         int encumbrance_threshold = 0;

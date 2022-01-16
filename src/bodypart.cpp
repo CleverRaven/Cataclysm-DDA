@@ -235,6 +235,11 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     body_part_factory.load( jo, src );
 }
 
+bool body_part_type::has_type( const body_part_type::type &type ) const
+{
+    return limb_type == type || secondary_types.count( type ) > 0;
+}
+
 bool body_part_type::has_flag( const json_character_flag &flag ) const
 {
     return flags.count( flag ) > 0;
@@ -307,6 +312,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
     mandatory( jo, was_loaded, "limb_type", limb_type );
+    optional( jo, was_loaded, "secondary_types", secondary_types );
     optional( jo, was_loaded, "encumb_impacts_dodge", encumb_impacts_dodge, false );
 
     // tokens are actually legacy code that should be on their way out.
