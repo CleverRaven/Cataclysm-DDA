@@ -1181,67 +1181,7 @@
     "melee_cut": 0,
     "dodge": 5,
     "vision_day": 50,
-    "weakpoints": [
-      {
-        "name": "the head",
-        "armor_mult": { "physical": 0.75 },
-        "crit_mult": { "all": 1.1 },
-        "difficulty": { "melee": 2, "ranged": 2 },
-        "coverage_mult": { "ranged": 0.75 },
-        "coverage": 3,
-        "effects": [
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 5,
-            "message": "The %s is stunned!",
-            "damage_required": [ 1, 10 ]
-          },
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 25,
-            "message": "The %s is stunned!",
-            "damage_required": [ 11, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the belly",
-        "armor_mult": { "physical": 0.5 },
-        "crit_mult": { "all": 1.2 },
-        "difficulty": { "melee": 4, "ranged": 1 },
-        "coverage_mult": { "ranged": 0.75 },
-        "coverage": 3,
-        "required_effects": "downed"
-      },
-      {
-        "name": "the eye",
-        "armor_mult": { "physical": 0 },
-        "coverage": 1,
-        "crit_mult": { "all": 1.25 },
-        "coverage_mult": { "ranged": 0.5 },
-        "difficulty": { "point": 10, "broad": 10 },
-        "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
-          {
-            "effect": "blind",
-            "permanent": true,
-            "chance": 30,
-            "message": "The %s's eyes are obliterated!",
-            "damage_required": [ 26, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the wing",
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 1, "melee": 2 },
-        "coverage_mult": { "point": 0.75 },
-        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
-        "coverage": 8
-      }
-    ],
+    "weakpoint_sets": [ "wps_pterosaur_body" ],
     "hp": 2,
     "description": "A feathered flying reptile over three feet long, with short wings and a big colorful beak.",
     "reproduction": { "baby_egg": "egg_dimorphodon", "baby_count": 3, "baby_timer": 24 },
@@ -1316,57 +1256,7 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 6,
-    "weakpoints": [
-      {
-        "name": "the head",
-        "armor_mult": { "physical": 0.75 },
-        "crit_mult": { "all": 1.1 },
-        "difficulty": { "melee": 2, "ranged": 2 },
-        "coverage_mult": { "ranged": 0.75 },
-        "coverage": 3,
-        "effects": [
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 5,
-            "message": "The %s is stunned!",
-            "damage_required": [ 1, 10 ]
-          },
-          {
-            "effect": "stunned",
-            "duration": [ 1, 2 ],
-            "chance": 25,
-            "message": "The %s is stunned!",
-            "damage_required": [ 11, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the eye",
-        "armor_mult": { "physical": 0 },
-        "coverage": 1,
-        "crit_mult": { "all": 1.25 },
-        "coverage_mult": { "ranged": 0.5 },
-        "difficulty": { "point": 10, "broad": 10 },
-        "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
-          {
-            "effect": "blind",
-            "permanent": true,
-            "chance": 30,
-            "message": "The %s's eyes are obliterated!",
-            "damage_required": [ 26, 100 ]
-          }
-        ]
-      },
-      {
-        "name": "the fin",
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
-        "coverage_mult": { "point": 0.75 },
-        "coverage": 8
-      }
-    ],
+    "weakpoint_sets": [ "wps_mosasaur_body" ],
     "hp": 335,
     "zombify_into": "mon_zosasaurus",
     "description": "A huge aquatic reptile about the size of a small house, with a ferocious crocodile-like head and powerful swimming fins.",
