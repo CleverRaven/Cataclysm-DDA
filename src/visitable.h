@@ -56,6 +56,9 @@ class read_only_visitable
         /** Returns true if this visitable instance contains the item */
         bool has_item( const item &it ) const;
 
+        /** Returns true if this visitable instance contains the item or a copied instance of the item */
+        bool has_item_copy( const item &it ) const;
+
         /** Returns true if any item (including those within a container) matches the filter */
         bool has_item_with( const std::function<bool( const item & )> &filter ) const;
 

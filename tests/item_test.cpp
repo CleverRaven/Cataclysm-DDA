@@ -15,6 +15,8 @@
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "map.h"
+#include "map_helpers.h"
 #include "math_defines.h"
 #include "monstergenerator.h"
 #include "mtype.h"
@@ -698,5 +700,59 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
                 CHECK_FALSE( guy.has_item_with_flag( flag_WET ) );
             }
         }
+    }
+}
+
+TEST_CASE( "Comparing item objects by UUID", "[item]" )
+{
+    SECTION( "Items transferred to character worn/inventory" ) {
+        standard_npc c( "Test Char" );
+        item backpack( "backpack" );
+        clear_character( c, true );
+        c.wear_item( backpack );
+        REQUIRE( c.worn.size() == 1 );
+        // Wearing the same backpack
+        CHECK( c.worn.front() == backpack );
+        // Copy of the backpack == backpack
+        CHECK( item( backpack ) == backpack );
+        // Newly constructed backpack != backpack
+        CHECK( item( "backpack" ) != backpack );
+        // --------------------------------------
+        item towel1( "towel" );
+        item towel2( "towel" );
+        // 2 separately constructed items are not the same
+        REQUIRE( towel1 != towel2 );
+        item &t1 = c.i_add( towel1 );
+        c.i_add_or_drop( towel2 );
+        // Item reference returned from inventory is the same
+        // as the one we put in
+        CHECK( t1 == towel1 );
+        // Not the same as the separately constructed item
+        CHECK( t1 != towel2 );
+        // Fails because has_item requires the exact same mem address for object
+        CHECK( !c.has_item( towel2 ) );
+        // Succeeds because item is copy-constructed from towel2
+        CHECK( c.has_item_copy( towel2 ) );
+    }
+
+    SECTION( "Items transferred to the map" ) {
+        map &m = get_map();
+        item towel1( "towel" );
+        item towel2( "towel" );
+        clear_map();
+        m.add_item( point_zero, towel1 );
+        REQUIRE( m.i_at( point_zero ).size() == 1 );
+        // Item added to map stack matches the original item...
+        CHECK( m.i_at( point_zero ).only_item() == towel1 );
+        // ...and not the separately constructed item
+        CHECK( m.i_at( point_zero ).only_item() != towel2 );
+        // --------------------------------------
+        m.i_clear( point_zero );
+        m.add_item_or_charges( point_zero, towel2 );
+        REQUIRE( m.i_at( point_zero ).size() == 1 );
+        // Item added to map stack matches the original item...
+        CHECK( m.i_at( point_zero ).only_item() == towel2 );
+        // ...and not the separately constructed item
+        CHECK( m.i_at( point_zero ).only_item() != towel1 );
     }
 }

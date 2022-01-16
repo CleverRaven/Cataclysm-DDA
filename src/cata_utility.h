@@ -652,4 +652,12 @@ holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false 
  */
 int bucket_index_from_weight_list( const std::vector<int> &weights );
 
+/**
+ * Returns a 8-byte value representing a unique ID,
+ * which is based on the given hash and the system's
+ * random device (/dev/random on unix-y platforms).
+ * @param hash A 4-byte hash of an object
+ */
+uint64_t generate_unique_id( unsigned hash );
+
 #endif // CATA_SRC_CATA_UTILITY_H

@@ -265,6 +265,7 @@ item::item() : bday( calendar::start_of_cataclysm )
     charges = 0;
     contents = item_contents( type->pockets );
     select_itype_variant();
+    unique_id = generate_unique_id( djb2_hash( this, sizeof( *this ) ) );
 }
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
@@ -342,6 +343,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     if( type->relic_data ) {
         relic_data = type->relic_data;
     }
+
+    unique_id = generate_unique_id( djb2_hash( this, sizeof( *this ) ) );
 }
 
 item::item( const itype_id &id, time_point turn, int qty )
@@ -450,6 +453,16 @@ item::item( item && ) noexcept( map_is_noexcept ) = default;
 item::~item() = default;
 item &item::operator=( const item & ) = default;
 item &item::operator=( item && ) noexcept( list_is_noexcept ) = default;
+
+bool item::operator==( const item &i ) const
+{
+    return &i == this || ( unique_id != 0 && unique_id == i.unique_id );
+}
+
+bool item::operator!=( const item &i ) const
+{
+    return !( i == *this );
+}
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
                         const int upgrade_time )

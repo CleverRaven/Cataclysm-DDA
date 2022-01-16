@@ -191,6 +191,14 @@ class item : public visitable
         item( const item & );
         item &operator=( item && ) noexcept( list_is_noexcept );
         item &operator=( const item & );
+        /**
+         * Not exactly equality, matches with items that were
+         * copy-constructed or move-constructed from this item.
+         * Useful if the item is added to the inventory or the map,
+         * and we still need to compare it to the original.
+         */
+        bool operator==( const item &i ) const;
+        bool operator!=( const item &i ) const;
 
         explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
         explicit item( const itype *type, time_point turn = calendar::turn, int qty = -1 );
@@ -2700,6 +2708,16 @@ class item : public visitable
         std::set<fault_id> faults;
 
     private:
+        /**
+         * This identifies this item, and is carried over to
+         * copies of this item. This is useful for tracking an item
+         * after being added to the inventory or the map, which copies
+         * the item and throws away reference equality.
+         *
+         * Check that 2 items share a unique_id with the '==' operator:
+         *   item1 == item2
+         */
+        uint64_t unique_id = 0;
         item_contents contents;
         /** `true` if item has any of the flags that require processing in item::process_internal.
          * This flag is reset to `true` if item tags are changed.

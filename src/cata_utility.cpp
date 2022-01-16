@@ -689,3 +689,18 @@ int bucket_index_from_weight_list( const std::vector<int> &weights )
     }
     return index;
 }
+
+uint64_t generate_unique_id( unsigned hash )
+{
+    std::random_device rd;
+    uint64_t seed = rd();
+    seed = seed << 32;
+    seed |= hash;
+    // NOLINTNEXTLINE(cata-determinism)
+    std::mt19937_64 generator( seed );
+    // Derive the seed from both the object's hash
+    // and a random 32-bit number. Not exactly
+    // fullproof but gives us something resembling
+    // 2^64 bits of randomness.
+    return generator();
+}

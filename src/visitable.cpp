@@ -80,6 +80,14 @@ bool read_only_visitable::has_item( const item &it ) const
 }
 
 /** @relates visitable */
+bool read_only_visitable::has_item_copy( const item &it ) const
+{
+    return visit_items( [&it]( const item * node, item * ) {
+        return node == &it || *node == it ? VisitResponse::ABORT : VisitResponse::NEXT;
+    } ) == VisitResponse::ABORT;
+}
+
+/** @relates visitable */
 bool read_only_visitable::has_item_with( const std::function<bool( const item & )> &filter ) const
 {
     return visit_items( [&filter]( const item * node, item * ) {

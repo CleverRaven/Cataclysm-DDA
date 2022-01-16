@@ -113,6 +113,17 @@ int djb2_hash( const unsigned char *input )
     return hash;
 }
 
+// Same as above, but for general data
+int djb2_hash( const void *data, size_t size )
+{
+    uint32_t hash = 5381;
+    const uint8_t *bytes = static_cast<const uint8_t *>( data );
+    for( unsigned i = 0; i < size; bytes++, i++ ) {
+        hash = ( ( hash << 5 ) + hash ) + *bytes;
+    }
+    return hash;
+}
+
 double rng_normal( double lo, double hi )
 {
     if( lo > hi ) {
