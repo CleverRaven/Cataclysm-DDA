@@ -3014,7 +3014,7 @@ void item::serialize( JsonOut &json ) const
 
     io::JsonObjectOutputArchive archive( json );
     const_cast<item *>( this )->io( archive );
-    if( !contents.empty_real() || contents.has_additional_pockets() ) {
+    if( !contents.empty_with_no_mods() || contents.has_additional_pockets() ) {
         json.member( "contents", contents );
     }
 }
