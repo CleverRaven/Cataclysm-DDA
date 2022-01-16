@@ -473,22 +473,34 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
-    "difficulty": 4,
-    "charges": 1,
+    "difficulty": 2,
+    "charges": 16,
+    "byproducts": [ [ "press_cake" ] ],
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "oil_press_manual", 50 ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "//": "Oil extraction yield is around ~40% by weight, 600g input ~> 250 mL oil",
     "components": [
       [
-        [ "plant_sac", 2 ],
-        [ "seed_cotton_boll", 1 ],
-        [ "seed_pumpkin", 4 ],
-        [ "seed_sunflower", 2 ],
-        [ "seed_canola", 4 ],
-        [ "seed_grapes", 6 ],
-        [ "seed_weed", 6 ]
+        [ "almond_shelled", 20 ],
+        [ "peanut_shelled", 20 ],
+        [ "walnut_shelled", 20 ],
+        [ "pecan_shelled", 20 ],
+        [ "hazelnut_shelled", 20 ],
+        [ "pistachio_shelled", 20 ],
+        [ "hickory_nut_shelled", 20 ],
+        [ "acorns", 20 ],
+        [ "cashews", 20 ],
+        [ "beech_nuts", 20 ],
+        [ "soybean", 20 ],
+        [ "seed_cotton_boll", 80 ],
+        [ "seed_pumpkin", 80 ],
+        [ "seed_sunflower", 80 ],
+        [ "seed_canola", 80 ],
+        [ "seed_grapes", 80 ],
+        [ "seed_weed", 80 ]
       ]
     ]
   },
@@ -7566,7 +7578,8 @@
         [ "raw_beans", 5 ],
         [ "cabbage", 5 ],
         [ "veggy_wild", 5 ],
-        [ "veggy", 5 ]
+        [ "veggy", 5 ],
+        [ "press_cake", 1 ]
       ]
     ]
   },

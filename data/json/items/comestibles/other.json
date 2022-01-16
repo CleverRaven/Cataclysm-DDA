@@ -999,5 +999,25 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "press_cake",
+    "name": { "str": "press cake" },
+    "description": "TODO",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 100,
+    "price_postapoc": 25,
+    "to_hit": -5,
+    "material": [ "veggy" ],
+    "symbol": "%",
+    "color": "yellow",
+    "spoils_in": "300 days",
+    "calories": 200,
+    "quench": -15,
+    "fun": -15,
+    "freezing_point": -274
   }
 ]
