@@ -3499,22 +3499,29 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
-        def.mats_ordered.clear();
         def.mat_portion_total = 0;
         auto add_mat = [&def]( const material_id & m, int portion ) {
             const auto res = def.materials.emplace( m, portion );
             if( res.second ) {
-                def.mats_ordered.emplace_back( m );
                 def.mat_portion_total += portion;
             }
         };
+        bool first = true;
         if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
             for( JsonObject mat : jo.get_array( "material" ) ) {
                 add_mat( material_id( mat.get_string( "type" ) ), mat.get_int( "portion", 1 ) );
+                if( first ) {
+                    def.first_mat = material_id( mat.get_string( "type" ) );
+                    first = false;
+                }
             }
         } else {
             for( const std::string &mat : jo.get_tags( "material" ) ) {
                 add_mat( material_id( mat ), 1 );
+                if( first ) {
+                    def.first_mat = material_id( mat );
+                    first = false;
+                }
             }
         }
     }

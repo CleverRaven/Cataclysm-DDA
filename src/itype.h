@@ -1046,10 +1046,6 @@ struct itype {
         // A list of conditional names, in order of ascending priority.
         std::vector<conditional_name> conditional_names;
 
-        // Since the material list was converted to a map, keep track of the material insert order
-        // Do not use this for materials. Use the materials map above.
-        std::vector<material_id> mats_ordered;
-
         /** Base damage output when thrown */
         damage_instance thrown_damage;
 
@@ -1100,6 +1096,10 @@ struct itype {
         // Second -> the portion of item covered by the material (portion / total portions)
         // MATERIALS WORK IN PROGRESS.
         std::map<material_id, int> materials;
+
+        // This stores the first inserted material so that it can be used if all materials
+        // are equivalent in proportion
+        material_id first_mat;
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;

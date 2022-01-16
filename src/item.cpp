@@ -8382,8 +8382,8 @@ std::vector<const material_type *> item::made_of_types() const
             material_types_composed_of.push_back( &mat_id.first.obj() );
         }
     } else {
-        for( const material_id &mat_id : type->mats_ordered ) {
-            material_types_composed_of.push_back( &mat_id.obj() );
+        for( const auto &mat_id : type->materials ) {
+            material_types_composed_of.push_back( &mat_id.first.obj() );
         }
     }
     return material_types_composed_of;
@@ -9363,7 +9363,7 @@ const material_type &item::get_base_material() const
     }
     // Material portions all equal / not specified. Select first material.
     if( portion == 1 ) {
-        return *type->mats_ordered[0];
+        return *type->first_mat;
     }
     return *m;
 }
