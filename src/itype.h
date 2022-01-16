@@ -1098,9 +1098,8 @@ struct itype {
         std::map<material_id, int> materials;
 
         // This stores the first inserted material so that it can be used if all materials
-        // are equivalent in proportion as a default
-        // TODO: This is really legacy behavior and should maybe be removed
-        material_id default_mat;
+        // are equivalent in proportion
+        material_id first_mat;
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
