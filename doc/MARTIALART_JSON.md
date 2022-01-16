@@ -92,7 +92,9 @@
         "chance": 100,       // Percent chance to apply the effect on this attack
         "permanent": false,  // If true the effect won't decay (default false)
         "duration": 15,      // Duration of the effect in turns
-        "on_damage": true    // If true the effect will only be applied if the attack succeeded in doing damage (default true)
+        "on_damage": true,   // If true the effect will only be applied if the attack succeeded in doing damage (default true)
+        "req_flag": "ANY",   // A single arbitrary character flag (from traits, bionics, effects, or bodyparts) required to apply this effect
+        "message": "Example" // The message to print if you succesfully apply the effect, %s can be substituted for the target's name
     }
 ]
 ```
