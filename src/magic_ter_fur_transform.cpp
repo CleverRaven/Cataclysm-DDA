@@ -14,6 +14,8 @@
 #include "map.h"
 #include "mapdata.h"
 #include "optional.h"
+#include "submap.h"
+#include "trap.h"
 #include "type_id.h"
 
 struct tripoint;
@@ -111,6 +113,32 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
             }
         }
     }
+
+    if( jo.has_member( "field" ) ) {
+        for( JsonObject field_obj : jo.get_array( "field" ) ) {
+            ter_furn_data<field_type_id> cur_results = ter_furn_data<field_type_id>();
+            cur_results.load( field_obj );
+
+            for( const std::string valid_field : field_obj.get_array( "valid_field" ) ) {
+                field_transform.emplace( field_type_id( valid_field ), cur_results );
+            }
+        }
+    }
+
+    if( jo.has_member( "trap" ) ) {
+        for( JsonObject trap_obj : jo.get_array( "trap" ) ) {
+            ter_furn_data<trap_str_id> cur_results = ter_furn_data<trap_str_id>();
+            cur_results.load( trap_obj );
+
+            for( const std::string valid_trap : trap_obj.get_array( "valid_trap" ) ) {
+                trap_transform.emplace( trap_str_id( valid_trap ), cur_results );
+            }
+
+            for( const std::string valid_trap : trap_obj.get_array( "valid_flags" ) ) {
+                trap_flag_transform.emplace( valid_trap, cur_results );
+            }
+        }
+    }
 }
 
 template<class T, class K>
@@ -155,6 +183,21 @@ cata::optional<furn_str_id> ter_furn_transform::next_furn( const std::string &fl
     return next( furn_flag_transform, flag );
 }
 
+cata::optional<field_type_id> ter_furn_transform::next_field( const field_type_id &field ) const
+{
+    return next( field_transform, field );
+}
+
+cata::optional<trap_str_id> ter_furn_transform::next_trap( const trap_str_id &trap ) const
+{
+    return next( trap_transform, trap );
+}
+
+cata::optional<trap_str_id> ter_furn_transform::next_trap( const std::string &flag ) const
+{
+    return next( trap_flag_transform, flag );
+}
+
 template<class T, class K>
 bool ter_furn_transform::add_message( const std::map<K, ter_furn_data<T>> &list, const K &key,
                                       const Creature &critter, const tripoint &location ) const
@@ -196,6 +239,14 @@ void ter_furn_transform::add_all_messages( const map &m, const Creature &critter
             }
         }
     }
+
+    const field &field_at_loc = m.field_at( location );
+    for( auto &fld : field_at_loc ) {
+        add_message( field_transform, fld.first, critter, location );
+    }
+
+    const trap_str_id trap_at_loc = m.maptile_at( location ).get_trap().id();
+    add_message( trap_transform, trap_at_loc, critter, location );
 }
 
 void ter_furn_transform::transform( const tripoint &location ) const
@@ -209,6 +260,18 @@ void ter_furn_transform::transform( map &m, const tripoint &location ) const
     cata::optional<ter_str_id> ter_potential = next_ter( ter_at_loc->id );
     const furn_id furn_at_loc = m.furn( location );
     cata::optional<furn_str_id> furn_potential = next_furn( furn_at_loc->id );
+    const trap_str_id trap_at_loc = m.maptile_at( location ).get_trap().id();
+    cata::optional<trap_str_id> trap_potential = next_trap( trap_at_loc );
+
+    const field &field_at_loc = m.field_at( location );
+    for( auto &fld : field_at_loc ) {
+        cata::optional<field_type_id> field_potential = next_field( fld.first );
+        if( field_potential ) {
+            m.add_field( location, *field_potential, fld.second.get_field_intensity(),
+                         fld.second.get_field_age(), true );
+            m.remove_field( location, fld.first );
+        }
+    }
 
     if( !ter_potential ) {
         for( const std::pair<const std::string, ter_furn_data<ter_str_id>> &flag_result :
@@ -234,11 +297,26 @@ void ter_furn_transform::transform( map &m, const tripoint &location ) const
         }
     }
 
+    if( !trap_potential ) {
+        for( const std::pair<const std::string, ter_furn_data<trap_str_id>> &flag_result :
+             trap_flag_transform ) {
+            if( trap_at_loc->has_flag( flag_id( flag_result.first ) ) ) {
+                trap_potential = next_trap( flag_result.first );
+                if( trap_potential ) {
+                    break;
+                }
+            }
+        }
+    }
+
     if( ter_potential ) {
         m.ter_set( location, *ter_potential );
     }
     if( furn_potential ) {
         m.furn_set( location, *furn_potential );
+    }
+    if( trap_potential ) {
+        m.trap_set( location, *trap_potential );
     }
 }
 
