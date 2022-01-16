@@ -2378,7 +2378,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
         if( only_main && elem.first->main_part != elem.first ) {
             continue;
         }
-        if( elem.first->limb_type == part_type ) {
+        if( elem.first->has_type( part_type ) ) {
             bodyparts.emplace_back( elem.first );
         }
     }
