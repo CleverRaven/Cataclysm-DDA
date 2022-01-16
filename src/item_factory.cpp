@@ -3527,7 +3527,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
             for( JsonObject mat : jo.get_array( "material" ) ) {
                 add_mat( material_id( mat.get_string( "type" ) ), mat.get_int( "portion", 1 ) );
                 if( first ) {
-                    def.first_mat = material_id( mat.get_string( "type" ) );
+                    def.default_mat = material_id( mat.get_string( "type" ) );
                     first = false;
                 }
             }
@@ -3535,7 +3535,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
             for( const std::string &mat : jo.get_tags( "material" ) ) {
                 add_mat( material_id( mat ), 1 );
                 if( first ) {
-                    def.first_mat = material_id( mat );
+                    def.default_mat = material_id( mat );
                     first = false;
                 }
             }
