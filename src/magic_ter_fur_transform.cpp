@@ -240,13 +240,20 @@ void ter_furn_transform::add_all_messages( const map &m, const Creature &critter
         }
     }
 
+    const trap_str_id trap_at_loc = m.maptile_at( location ).get_trap().id();
+    if( !add_message( trap_transform, trap_at_loc->id, critter, location ) ) {
+        for( const std::pair<const std::string, ter_furn_data<trap_str_id>> &data : trap_flag_transform ) {
+            if( data.second.has_msg() && trap_at_loc->has_flag( flag_id( data.first ) ) ) {
+                data.second.add_msg( critter );
+                break;
+            }
+        }
+    }
+
     const field &field_at_loc = m.field_at( location );
     for( auto &fld : field_at_loc ) {
         add_message( field_transform, fld.first, critter, location );
     }
-
-    const trap_str_id trap_at_loc = m.maptile_at( location ).get_trap().id();
-    add_message( trap_transform, trap_at_loc, critter, location );
 }
 
 void ter_furn_transform::transform( const tripoint &location ) const
