@@ -364,7 +364,6 @@ static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
 static const species_id species_HUMAN( "HUMAN" );
-static const species_id species_ROBOT( "ROBOT" );
 
 static const start_location_id start_location_sloc_shelter( "sloc_shelter" );
 
@@ -5540,8 +5539,7 @@ float Character::active_light() const
 bool Character::sees_with_specials( const Creature &critter ) const
 {
     // electroreceptors grants vision of robots and electric monsters through walls
-    if( has_trait( trait_ELECTRORECEPTORS ) &&
-        ( critter.in_species( species_ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
+    if( has_trait( trait_ELECTRORECEPTORS ) && critter.is_electrical() ) {
         return true;
     }
 
@@ -10504,6 +10502,12 @@ double Character::recoil_total() const
 
 bool Character::is_hallucination() const
 {
+    return false;
+}
+
+bool Character::is_electrical() const
+{
+    // for now this is false. In the future should have rules
     return false;
 }
 
