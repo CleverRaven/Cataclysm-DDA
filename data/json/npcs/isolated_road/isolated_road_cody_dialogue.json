@@ -72,6 +72,26 @@
         "condition": { "u_has_var": "blacksmith_heard_the_deal", "type": "dialogue", "context": "artisans", "value": "yes" },
         "topic": "TALK_BLACKSMITH_SERVICES",
         "effect": "start_trade"
+      },
+      {
+        "text": "Could you make me a suit of armor?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "artisans_made_up", "type": "dialogue", "context": "artisans", "value": "yes" } },
+            { "u_has_var": "blacksmith_heard_the_deal", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_NOT_INTERESTED_FABRICATE"
+      },
+      {
+        "text": "Could you make me a suit of armor?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "blacksmith_making_armor", "type": "dialogue", "context": "artisans", "value": "yes" } },
+            { "u_has_var": "artisans_made_up", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_FABRICATE"
       }
     ]
   },
