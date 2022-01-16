@@ -192,9 +192,9 @@
       "boosted_percent_coverage": 2.5,
       "boosted_other": {
         "t_tree_young": 0.2,
-        "t_tree": 10.1,
-        "t_tree_birch": 4.05,
-        "t_tree_elm": 3.55,
+        "t_tree": 0.1,
+        "t_tree_birch": 0.05,
+        "t_tree_elm": 0.05,
         "t_tree_cottonwood": 0.05,
         "t_tree_alder": 2,
         "t_tree_pine": 0.1,
