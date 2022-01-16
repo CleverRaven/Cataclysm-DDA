@@ -143,7 +143,7 @@ struct container_data {
     std::string to_formatted_string( const bool compact = true ) {
         std::string string_to_format;
         if( compact ) {
-            string_to_format = "%s/%s : %s/%s : max %s";
+            string_to_format = _( "%s/%s : %s/%s : max %s" );
         } else {
             string_to_format = _( "(remains %s, %s) max length %s" );
         }
