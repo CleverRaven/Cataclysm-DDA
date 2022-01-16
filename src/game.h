@@ -1058,6 +1058,9 @@ class game
         bool auto_travel_mode = false;
         bool queue_screenshot = false; // NOLINT(cata-serialize)
         safe_mode_type safe_mode;
+        /** If set, draw this text over the sidebar */
+        cata::optional<std::pair<nc_color, std::string>> override_panel_colstr; // NOLINT(cata-serialize)
+        cata::optional<time_point> override_panel_end; // NOLINT(cata-serialize)
 
         // tracks time since last monster seen to allow automatically
         // reactivating safe mode.

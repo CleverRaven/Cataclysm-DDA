@@ -3417,6 +3417,22 @@ void game::draw_panels( bool force_draw )
             }
         }
     }
+    if( g->override_panel_end.has_value() && g->override_panel_end.value() <= calendar::turn ) {
+        g->override_panel_end.reset();
+        g->override_panel_colstr.reset();
+    }
+    // Draw override text on top of sidebar
+    if( g->override_panel_colstr.has_value() && !mgr.get_current_layout().panels().empty() ) {
+        int w = mgr.get_current_layout().panels().front().get_width();
+        std::pair<nc_color, std::string> colstr = g->override_panel_colstr.value();
+        const int repeat = ( TERMY * w ) / utf8_width( colstr.second ) + 1;
+        catacurses::window win = catacurses::newwin( TERMY, w, point( sidebar_right ? TERMX - w : 0, 0 ) );
+        wmove( win, point_zero );
+        for( int i = 0; i < repeat; i++ ) {
+            wprintz( win, colstr.first, colstr.second );
+        }
+        wnoutrefresh( win );
+    }
     previous_turn = current_turn;
 }
 

@@ -870,8 +870,24 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
     } else {
         // Get alignment
         int align = has_flag( json_flag_W_PAD_NONE ) ? 0 : has_flag( json_flag_W_PAD_CENTER ) ? 1 : 2;
-        // Get displayed value (colorized)
-        std::string shown = show( ava, max_width );
+        std::string shown;
+        if( override_end.has_value() && override_end.value() <= calendar::turn ) {
+            override_end.reset();
+            override_colstr.reset();
+        }
+        if( override_colstr.has_value() ) {
+            std::pair<nc_color, std::string> colstr = override_colstr.value();
+            unsigned str_len = utf8_width( colstr.second );
+            unsigned i = 0;
+            for( ; str_len > max_width; i++, str_len -= max_width ) {
+                shown += colorize( colstr.second.substr( i * max_width, ( i + 1 ) * max_width ), colstr.first );
+                shown += '\n';
+            }
+            shown += colorize( colstr.second.substr( i * max_width ), colstr.first );
+        } else {
+            // Get displayed value (colorized)
+            shown = show( ava, max_width );
+        }
         size_t strpos = 0;
         int row_num = 0;
         // For multi-line widgets, each line is separated by a '\n' character

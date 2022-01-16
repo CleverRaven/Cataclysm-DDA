@@ -80,6 +80,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "widget.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
@@ -3489,6 +3490,55 @@ void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo, const std:
     };
 }
 
+void talk_effect_fun_t::set_widget_string( const JsonObject &jo, const std::string &member )
+{
+    JsonObject jobj = jo.get_object( member );
+    std::string str;
+    if( jobj.has_object( "text" ) ) {
+        str = jobj.get_object( "text" ).get_string( "snippet" );
+    } else {
+        str = jobj.get_string( "text", "" );
+    }
+    nc_color col = color_from_string( jobj.get_string( "color", "white" ) );
+    time_duration dur;
+    if( jobj.has_member( "duration" ) ) {
+        assign( jobj, "duration", dur, false, 1_minutes );
+    } else if( jo.has_member( "duration" ) ) {
+        assign( jo, "duration", dur, false, 1_minutes );
+    }
+    widget_id wid( jobj.get_string( "widget", "" ) );
+    function = [str, col, dur, wid]( const dialogue & ) {
+        std::string wgt_str;
+        if( SNIPPET.has_category( str ) ) {
+            wgt_str = SNIPPET.random_from_category( str ).value_or( translation() ).translated();
+        } else if( SNIPPET.has_snippet_with_id( snippet_id( str ) ) ) {
+            wgt_str = SNIPPET.get_snippet_by_id( snippet_id( str ) ).value_or( translation() ).translated();
+        } else {
+            wgt_str = str;
+        }
+        if( wid.is_valid() ) {
+            const std::vector<widget> &wgts = widget::get_all();
+            auto iter = std::find_if( wgts.begin(), wgts.end(), [&wid]( const widget & w ) {
+                return wid == w.getId();
+            } );
+            if( iter != wgts.end() ) {
+                widget *i = const_cast<widget *>( &*iter );
+                i->override_end = calendar::turn + dur;
+                i->override_colstr = { col, wgt_str };
+                if( wgt_str.empty() ) {
+                    i->override_colstr.reset();
+                }
+            }
+        } else if( wid.str().empty() ) {
+            g->override_panel_end = calendar::turn + dur;
+            g->override_panel_colstr = { col, wgt_str };
+            if( wgt_str.empty() ) {
+                g->override_panel_colstr.reset();
+            }
+        }
+    };
+}
+
 void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo, const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member, true );
@@ -3980,6 +4030,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_teleport( jo, "npc_teleport", true );
     } else if( jo.has_int( "custom_light_level" ) || jo.has_object( "custom_light_level" ) ) {
         subeffect_fun.set_custom_light_level( jo, "custom_light_level" );
+    } else if( jo.has_object( "set_panel_text" ) ) {
+        subeffect_fun.set_widget_string( jo, "set_panel_text" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

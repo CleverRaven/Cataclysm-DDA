@@ -166,6 +166,9 @@ class widget
         cardinal_direction _direction;
         // Flags for special widget behaviors
         std::set<flag_id> _flags;
+        // If non-empty, replace the usual widget string with this one
+        cata::optional<std::pair<nc_color, std::string>> override_colstr;
+        cata::optional<time_point> override_end;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
@@ -176,6 +179,10 @@ class widget
         static void reset();
         // Get all widget instances from the factory
         static const std::vector<widget> &get_all();
+        // Get this widget's id
+        const widget_id &getId() const {
+            return id;
+        }
 
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the
