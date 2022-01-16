@@ -4819,6 +4819,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
+        bool not_rigid = false;
         if( const islot_armor *t = find_armor_data() ) {
             bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
             []( const armor_portion_data & data ) {
@@ -4828,11 +4829,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "BASE",
                                    _( "* This item is <info>not rigid</info>.  Its"
                                       " volume and encumbrance increase with contents." ) );
-            } else if( !contents.all_pockets_rigid() ) {
-                info.emplace_back( "BASE",
-                                   _( "* This item is <info>not rigid</info>.  Its"
-                                      " volume increases with contents." ) );
+                not_rigid = true;
             }
+        }
+        if( !not_rigid && !all_pockets_rigid() ) {
+            info.emplace_back( "BASE",
+                               _( "* This item is <info>not rigid</info>.  Its"
+                                  " volume increases with contents." ) );
         }
     }
 
