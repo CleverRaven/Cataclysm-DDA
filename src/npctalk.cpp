@@ -2643,6 +2643,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
                 return pop.get_window();
             };
             scrollable_text( new_win, "", replace_colors( translated_message ) );
+            g->cancel_activity_or_ignore_query( distraction_type::eoc, "" );
         }
         if( popup_w_interrupt_query_msg ) {
             if( interrupt_type == "portal_storm_popup" ) {
