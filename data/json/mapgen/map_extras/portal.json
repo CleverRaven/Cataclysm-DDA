@@ -7,12 +7,12 @@
       "mapgensize": [ 3, 3 ],
       "rows": [
         "   ",
-        " . ",
+        "   ",
         "   "
       ],
       "terrain": { " ": "t_null" },
-      "furniture": { ".": "f_rubble_rock", " ": "f_rubble_rock" },
-      "traps": { ".": "tr_portal" }
+      "furniture": { " ": "f_rubble_rock" },
+      "place_traps": [ { "trap": "tr_portal", "x": 1, "y": 1 } ]
     }
   },
   {
