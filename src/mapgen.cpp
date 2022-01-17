@@ -34,6 +34,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
+#include "global_vars.h"
 #include "init.h"
 #include "item.h"
 #include "item_factory.h"
@@ -853,6 +854,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     setmap_opmap[ "trap_remove" ] = JMAPGEN_SETMAP_TRAP_REMOVE;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
     setmap_opmap[ "bash" ] = JMAPGEN_SETMAP_BASH;
+    setmap_opmap[ "variable" ] = JMAPGEN_SETMAP_VARIABLE;
     std::map<std::string, jmapgen_setmap_op>::iterator sm_it;
     jmapgen_setmap_op tmpop;
     int setmap_optype = 0;
@@ -880,6 +882,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         jmapgen_int tmp_x2( 0, 0 );
         jmapgen_int tmp_y2( 0, 0 );
         jmapgen_int tmp_i( 0, 0 );
+        std::string string_val;
         int tmp_chance = 1;
         int tmp_rotation = 0;
         int tmp_fuel = -1;
@@ -903,6 +906,8 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
             tmp_i = jmapgen_int( pjo, "amount" );
         } else if( tmpop == JMAPGEN_SETMAP_BASH ) {
             //suppress warning
+        } else if( tmpop == JMAPGEN_SETMAP_VARIABLE ) {
+            string_val = "npctalk_var_" + pjo.get_string( "id" );
         } else {
             std::string tmpid = pjo.get_string( "id" );
             switch( tmpop ) {
@@ -952,7 +957,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         pjo.read( "status", tmp_status );
         jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2,
                             static_cast<jmapgen_setmap_op>( tmpop + setmap_optype ), tmp_i,
-                            tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
+                            tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status, string_val );
 
         setmap_points.push_back( tmp );
         tmpval.clear();
@@ -4006,6 +4011,7 @@ mapgen_phase jmapgen_setmap::phase() const
             return mapgen_phase::default_;
         case JMAPGEN_SETMAP_RADIATION:
         case JMAPGEN_SETMAP_BASH:
+        case JMAPGEN_SETMAP_VARIABLE:
         case JMAPGEN_SETMAP_LINE_RADIATION:
         case JMAPGEN_SETMAP_SQUARE_RADIATION:
             return mapgen_phase::transform;
@@ -4063,7 +4069,11 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 m.bash( tripoint( x_get(), y_get(), m.get_abs_sub().z ), 9999 );
             }
             break;
-
+            case JMAPGEN_SETMAP_VARIABLE: {
+                tripoint point( x_get(), y_get(), m.get_abs_sub().z );
+                get_globals().set_global_value( string_val, m.getabs( point ).to_string() );
+            }
+            break;
             case JMAPGEN_SETMAP_LINE_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
                 m.draw_line_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ) );

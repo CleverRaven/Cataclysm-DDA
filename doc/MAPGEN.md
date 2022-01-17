@@ -18,7 +18,7 @@
   * [ASCII map using "rows" array](#ascii-map-using-rows-array)
     * [Row terrains in "terrain"](#row-terrains-in-terrain)
     * [Furniture symbols in "furniture" array](#furniture-symbols-in-furniture-array)
-  * [Set terrain, furniture, or traps with a "set" array](#set-terrain-furniture-or-traps-with-a-set-array)
+  * [Set terrain, furniture, traps, or variables with a "set" array](#set-terrain-furniture-or-traps-with-a-set-array)
     * [Set things at a "point"](#set-things-at-a-point)
     * [Set things in a "line"](#set-things-in-a-line)
     * [Set things in a "square"](#set-things-in-a-square)
@@ -415,7 +415,8 @@ Example:
 "set": [
   { "point": "furniture", "id": "f_chair", "x": 5, "y": 10 },
   { "point": "radiation", "id": "f_chair", "x": 12, "y": 12, "amount": 20 },
-  { "point": "trap", "id": "tr_beartrap", "x": [ 0, 23 ], "y": [ 5, 18 ], "chance": 10, "repeat": [ 2, 5 ] }
+  { "point": "trap", "id": "tr_beartrap", "x": [ 0, 23 ], "y": [ 5, 18 ], "chance": 10, "repeat": [ 2, 5 ] },
+  { "point": "variable", "id": "nether_dungeon_door", "x": 4, "y": 2 }
 ]
 ```
 
@@ -431,12 +432,12 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 - Requires "point" type, and coordinates "x" and "y"
 - For "point" type "radiation", requires "amount"
-- For other types, requires "id" of terrain, furniture, trap, or trap_remove
+- For other types, requires "id" of terrain, furniture, trap, trap_remove, or variable name
 
 | Field  | Description
 | ---    | ---
-| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
+| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"variable"`
+| id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
