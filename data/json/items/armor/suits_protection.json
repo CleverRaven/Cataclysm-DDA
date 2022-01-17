@@ -244,7 +244,7 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 2,
-    "flags": [ "OUTER", "STURDY" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
     "armor_data": {
       "armor": [
         {
@@ -502,7 +502,7 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
     "armor_data": {
       "armor": [
         {
@@ -760,7 +760,7 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 6,
-    "flags": [ "OUTER", "STURDY" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
     "armor_data": {
       "armor": [
         {
@@ -957,7 +957,6 @@
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "tempered 6 mm plate armor" },
     "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "material": [ { "type": "tempered_steel", "portion": 9 }, { "type": "leather", "portion": 1 } ],
     "armor_data": {
       "armor": [
         {
@@ -994,10 +993,10 @@
     }
   },
   {
-    "id": "xl_armor_qt_lightplate",
+    "id": "xl_armor_qt_heavyplate",
     "type": "ARMOR",
     "name": { "str": "XL tempered 6 mm plate armor" },
-    "copy-from": "armor_qt_lightplate",
+    "copy-from": "armor_qt_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },

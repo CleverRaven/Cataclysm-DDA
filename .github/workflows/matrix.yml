@@ -243,9 +243,19 @@ jobs:
         restore-keys: |
           ccache-${{ runner.os }}-${{ matrix.compiler }}--
     - uses: ammaraskar/gcc-problem-matcher@master
-    - name: build and test
+    - name: build
       if: ${{ env.SKIP == 'false' }}
-      run: bash ./build-scripts/build.sh
+      run: bash ./build-scripts/gha_compile_only.sh
+    - name: cleanup ccache before upload
+      if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
+      run: |
+        ccache --show-stats
+        ccache -M ${{ env.CCACHE_LIMIT }}
+        ccache -c
+    # TODO: post ccache here, however actions/cache@v2 does not support manual upload step
+    - name: run tests
+      if: ${{ env.SKIP == 'false' }}
+      run: bash ./build-scripts/gha_test_only.sh
     - run: |
         echo ${{ github.event.number }} > pull_request_id
         echo "true" > ${{ env.ARCHIVE_SUCCESS }}
@@ -271,9 +281,3 @@ jobs:
         name: cata_test
         path: tests/cata_test*
         if-no-files-found: ignore
-    - name: cleanup ccache before upload
-      if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
-      run: |
-        ccache --show-stats
-        ccache -M ${{ env.CCACHE_LIMIT }}
-        ccache -c

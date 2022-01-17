@@ -355,6 +355,7 @@
     "name": { "str": "upcycled turret" },
     "description": "This hefty turret appears to be bolted together out of various scraps of technology, many of them extremely foreign-looking.  It is equipped with a hefty-looking machine gun.",
     "default_faction": "exodii",
+    "species": [ "ROBOT" ],
     "weight": "206 kg",
     "volume": "105 L",
     "hp": 240,

@@ -463,6 +463,8 @@ class monster : public Creature
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
 
+        bool is_electrical() const override;    // true if the monster produces electric radiation
+
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
 

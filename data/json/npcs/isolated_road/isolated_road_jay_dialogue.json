@@ -225,7 +225,7 @@
         "topic": "TALK_GUNSMITH_Q1_DETAILS"
       },
       { "text": "Not really interested.", "topic": "TALK_DONE" },
-      { "text": "I'll think about it", "topic": "TALK_GUNSMITH_SERVICES" }
+      { "text": "I'll think about it.", "topic": "TALK_GUNSMITH_SERVICES" }
     ]
   },
   {
