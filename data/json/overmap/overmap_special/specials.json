@@ -4597,7 +4597,6 @@
     "type": "overmap_special",
     "id": "4x4_microlab_rodent",
     "overmaps": [
-      { "point": [ 2, -2, -1 ], "overmap": "microlab_sub_connector_ratkin_north" },
       { "point": [ 2, -1, -1 ], "overmap": "microlab_sub_station_ratkin_north" },
       { "point": [ 0, -1, -1 ], "overmap": "microlab_rock_border" },
       { "point": [ 1, -1, -1 ], "overmap": "microlab_rock_border" },
@@ -4636,7 +4635,7 @@
     ],
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
-    "connections": [  { "point": [ 2, -3, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 2, -2, -1 ] } ],
+    "connections": [  { "point": [ 2, -2, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 2, -1, -1 ] } ],
     "occurrences": [ 20, 100 ],
     "flags": [ "LAB", "UNIQUE" ]
   },

@@ -311,7 +311,6 @@
     "default": "mon_big_rat",
     "monsters": [
       { "monster": "mon_big_rat", "pack_size": [ 2, 6 ]  },
-      { "monster": "mon_lab_rat", "weight": 200, "pack_size": [ 2, 4 ]  },
       { "monster": "mon_zap_rat", "weight": 280, "pack_size": [ 1, 3 ]  },
       { "monster": "mon_tunnel_rat", "weight": 180, "pack_size": [ 2, 5 ]  },
       { "monster": "mon_teke_mouse", "weight": 160, "pack_size": [ 1, 2 ]  },

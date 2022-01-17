@@ -33,6 +33,8 @@
     "color": "white",
     "melee_dice": 1,
     "melee_dice_sides": 1,
+    "special_when_hit": [ "ZAPBACK", 100 ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER_1" ],
     "emit_fields": [ { "emit_id": "emit_shock_burst", "delay": "5 s" } ]
   },
   {
@@ -67,7 +69,7 @@
         "infection_chance": 4
       }
     ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "CAN_DIG" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ]
   },
   {
     "id": "mon_teke_mouse",
@@ -80,19 +82,22 @@
     "volume": "20 L",
     "weight": "30 kg",
     "hp": 40,
-    "speed": 80,
+    "speed": 125,
     "symbol": "r",
     "color": "brown_green",
+    "aggression": 12,
+    "morale": 85,
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_cut": 1,
     "dodge": 3,
     "armor_bash": 15,
     "armor_cut": 3,
-    "armor_bullet": 16,
+    "armor_bullet": 26,
     "death_drops": "ratkin_death_drops_teke",
+    "special_when_hit": [ "ZAPBACK", 100 ],
     "special_attacks": [ { "id": "teke_push" } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "ELECTRIC", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE" ]
   },
   {
     "id": "mon_mausketeer",
@@ -103,19 +108,21 @@
     "copy-from": "mon_big_rat",
     "volume": "20 L",
     "weight": "30 kg",
-    "hp": 75,
-    "speed": 80,
+    "hp": 125,
+    "speed": 115,
     "symbol": "r",
     "color": "green",
+    "aggression": 17,
+    "morale": 85,
     "melee_dice": 6,
     "melee_dice_sides": 4,
     "melee_cut": 6,
     "dodge": 4,
     "armor_bash": 10,
     "armor_cut": 10,
-    "armor_bullet": 3,
+    "armor_bullet": 6,
     "death_drops": "ratkin_death_drops_mausketeer",
     "special_attacks": [ { "id": "impale" }, { "type": "bite", "cooldown": 15 }, { "id": "longswipe" } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER_1" ]
   }
 ]
