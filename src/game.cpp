@@ -728,6 +728,7 @@ void game::setup()
     remoteveh_cache = nullptr;
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
+    get_weather().weather_override = WEATHER_NULL;
     // back to menu for save loading, new game etc
 }
 
