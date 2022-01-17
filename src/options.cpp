@@ -480,7 +480,7 @@ bool options_manager::cOpt::checkPrerequisite() const
 bool options_manager::cOpt::is_hidden() const
 {
     switch( hide ) {
-        case COPT_NO_HIDE:
+        case COPT_NO_HIDE: // NOLINT(bugprone-branch-clone)
             return false;
 
         case COPT_SDL_HIDE:

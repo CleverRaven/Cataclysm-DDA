@@ -364,7 +364,6 @@ static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
 static const species_id species_HUMAN( "HUMAN" );
-static const species_id species_ROBOT( "ROBOT" );
 
 static const start_location_id start_location_sloc_shelter( "sloc_shelter" );
 
@@ -2927,11 +2926,30 @@ units::mass Character::weight_capacity() const
 bool Character::can_pickVolume( const item &it, bool, const item *avoid ) const
 {
     const item weapon = get_wielded_item();
-    if( weapon.can_contain( it ).success() && ( avoid == nullptr || &weapon != avoid ) ) {
+    if( ( avoid == nullptr || &weapon != avoid ) && weapon.can_contain( it ).success() ) {
         return true;
     }
     for( const item &w : worn ) {
-        if( w.can_contain( it ).success() ) {
+        if( ( avoid == nullptr || &w != avoid ) && w.can_contain( it ).success() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid ) const
+{
+    item copy = it;
+    if( it.count_by_charges() ) {
+        copy.charges = 1;
+    }
+
+    const item weapon = get_wielded_item();
+    if( ( avoid == nullptr || &weapon != avoid ) && weapon.can_contain( copy ).success() ) {
+        return true;
+    }
+    for( const item &w : worn ) {
+        if( ( avoid == nullptr || &w != avoid ) && w.can_contain( copy ).success() ) {
             return true;
         }
     }
@@ -5521,8 +5539,7 @@ float Character::active_light() const
 bool Character::sees_with_specials( const Creature &critter ) const
 {
     // electroreceptors grants vision of robots and electric monsters through walls
-    if( has_trait( trait_ELECTRORECEPTORS ) &&
-        ( critter.in_species( species_ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
+    if( has_trait( trait_ELECTRORECEPTORS ) && critter.is_electrical() ) {
         return true;
     }
 
@@ -7511,7 +7528,8 @@ void Character::heal_bp( bodypart_id bp, int dam )
 void Character::heal( const bodypart_id &healed, int dam )
 {
     if( !is_limb_broken( healed ) ) {
-        int effective_heal = std::min( dam, get_part_hp_max( healed ) - get_part_hp_cur( healed ) );
+        int effective_heal = std::min( dam + healed->heal_bonus,
+                                       get_part_hp_max( healed ) - get_part_hp_cur( healed ) ) ;
         mod_part_hp_cur( healed, effective_heal );
         get_event_bus().send<event_type::character_heals_damage>( getID(), effective_heal );
     }
@@ -10487,6 +10505,12 @@ bool Character::is_hallucination() const
     return false;
 }
 
+bool Character::is_electrical() const
+{
+    // for now this is false. In the future should have rules
+    return false;
+}
+
 void Character::set_underwater( bool u )
 {
     if( underwater != u ) {
@@ -11216,24 +11240,14 @@ void Character::pause()
     if( !in_vehicle ) {
         if( underwater ) {
             practice( skill_swimming, 1 );
-            drench( 100, { {
-                    body_part_leg_l, body_part_leg_r, body_part_torso, body_part_arm_l,
-                    body_part_arm_r, body_part_head, body_part_eyes, body_part_mouth,
-                    body_part_foot_l, body_part_foot_r, body_part_hand_l, body_part_hand_r
-                }
-            }, true );
+            drench( 100, get_drenching_body_parts(), false );
         } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
             practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
-            drench( 100, { {
-                    body_part_leg_l, body_part_leg_r, body_part_torso, body_part_arm_l,
-                    body_part_arm_r, body_part_foot_l, body_part_foot_r, body_part_hand_l,
-                    body_part_hand_r
-                }
-            }, true );
+            drench( 100, get_drenching_body_parts( false ), false );
         } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
-            drench( 80, { { body_part_foot_l, body_part_foot_r, body_part_leg_l, body_part_leg_r } },
-            false );
+            drench( 80, get_drenching_body_parts( false, false ),
+                    false );
         }
     }
 

@@ -338,11 +338,12 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ## Bodyparts
 
--```ALWAYS_BLOCK``` This nonstandard bodypart is eligible to block in unarmed combat even if your martial arts don't allow such blocks. No effect without `NONSTANDARD_BLOCK`
+-```ALWAYS_BLOCK``` This nonstandard bodypart is always eligible to block in unarmed combat even if your martial arts don't allow such blocks.
 -```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
 -```LIMB_LOWER```  This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
--```LIMB_UPPER```  This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags
--```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`
+-```LIMB_UPPER```  This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags`
+- ````MEND_LIMB``` This bodypart can heal from being broken without needing a splint.
+-```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`. Either block flag is **required** for non-arm / non-leg limbs to be eligible to block.
 
 
 ## Books
@@ -651,6 +652,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
 - ```WINDOW``` This terrain is a window, though it may be closed, broken, or covered up.  Used by the tiles code to align furniture sprites away from the window.
+- ```WIRED_WALL``` This terrain is a wall with electric wires inside. Allows the `Reveal wall wirings` construction.
 - ```WORKOUT_LEGS``` This furniture is for training your legs. Needed for checks like `is_limb_broken()`.
 - ```WORKOUT_ARMS``` This furniture is for training your arms. Needed for checks like `is_limb_broken()`.
 
@@ -1509,6 +1511,7 @@ Gun fault flags:
 - ```HYPEROPIC``` You are far-sighted - close combat is hampered and reading is impossible without glasses.
 - ```MYOPIC``` You are nearsighted - vision range is severely reduced without glasses.
 - ```MYOPIC_IN_LIGHT``` You are nearsighted in light, but can see normally in low-light conditions.
+- ````MEND_ALL```  You need no splint to heal broken bones.
 - ```NIGHT_VISION``` You can see in the dark.
 - ```INFRARED``` You can see infrared, aka heat vision.
 - ```SEESLEEP``` You can see while sleeping, and aren't bothered by light when trying to fall asleep.

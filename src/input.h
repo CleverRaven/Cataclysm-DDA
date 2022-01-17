@@ -60,6 +60,17 @@ inline constexpr bool IS_F_KEY( const int key )
 {
     return key >= KEY_F( F_KEY_NUM_BEG ) && key <= KEY_F( F_KEY_NUM_END );
 }
+/** @return true if the given character is in the range of basic ASCII control characters */
+inline constexpr bool IS_CTRL_CHAR( const int key )
+{
+    // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Basic_ASCII_control_codes
+    return key >= 0 && key < ' ';
+}
+/** @return true if the given character is an ASCII control char but should not be rendered with "CTRL+" */
+inline constexpr bool IS_NAMED_CTRL_CHAR( const int key )
+{
+    return key == '\t' || key == '\n' || key == KEY_ESCAPE || key == KEY_BACKSPACE;
+}
 inline constexpr int KEY_NUM( const int n )
 {
     return 0x30 + n;     /* Numbers 0, 1, ..., 9 */
@@ -376,7 +387,7 @@ class input_manager
          * Use `input_context::(re)set_timeout()` when possible so timeout will be properly
          * reset when entering a new input context.
          */
-        void set_timeout( int t );
+        void set_timeout( int delay );
         void reset_timeout() {
             set_timeout( -1 );
         }

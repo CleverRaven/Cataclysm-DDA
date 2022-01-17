@@ -190,11 +190,9 @@ static distribution load_distribution( const JsonObject &jo )
 
     if( jo.has_array( "sum" ) ) {
         JsonArray jarr = jo.get_array( "sum" );
-        JsonObject obj = jarr.next_object();
-        distribution ret = load_distribution( obj );
+        distribution ret = load_distribution( jarr.next_object() );
         while( jarr.has_more() ) {
-            obj = jarr.next_object();
-            ret = ret + load_distribution( obj );
+            ret = ret + load_distribution( jarr.next_object() );
         }
 
         return ret;
@@ -202,11 +200,9 @@ static distribution load_distribution( const JsonObject &jo )
 
     if( jo.has_array( "mul" ) ) {
         JsonArray jarr = jo.get_array( "mul" );
-        JsonObject obj = jarr.next_object();
-        distribution ret = load_distribution( obj );
+        distribution ret = load_distribution( jarr.next_object() );
         while( jarr.has_more() ) {
-            obj = jarr.next_object();
-            ret = ret * load_distribution( obj );
+            ret = ret * load_distribution( jarr.next_object() );
         }
 
         return ret;
