@@ -2959,12 +2959,12 @@ void Character::remove_bionic( const bionic &bio )
         lose_proficiency( lost );
     }
 
-    const bool has_enchantsments = !bio.id->enchantments.empty();
+    const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
     update_bionic_power_capacity();
     calc_encumbrance();
     recalc_sight_limits();
-    if( has_enchantsments ) {
+    if( has_enchantments ) {
         recalculate_enchantment_cache();
     }
     effect_on_conditions::process_reactivate( *this );
