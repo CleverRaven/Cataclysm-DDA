@@ -9788,7 +9788,7 @@ point game::place_player( const tripoint &dest_loc )
     if( !u.is_mounted() && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
         ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0 ) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
-        Pickup::pick_up( u.pos(), -1 );
+        Pickup::autopickup( u.pos() );
     }
 
     // If the new tile is a boardable part, board it

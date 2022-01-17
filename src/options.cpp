@@ -1659,12 +1659,6 @@ void options_manager::add_options_interface()
     "right"
        );
 
-    add( "PICKUP_POSITION", "interface", to_translation( "Pickup position" ),
-         to_translation( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
-    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) }, { "overlapping", to_translation( "Overlapping" ) } },
-    "left"
-       );
-
     add( "ACCURACY_DISPLAY", "interface", to_translation( "Aim window display style" ),
          to_translation( "How should confidence and steadiness be communicated to the player." ),
          //~ aim bar style - bars or numbers
