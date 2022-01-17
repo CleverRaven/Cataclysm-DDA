@@ -1039,7 +1039,7 @@
       { "item": "e_scrap", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
-    "size": "118",
+    "size": 118,
     "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "29L" },
     "damage_reduction": { "all": 29 }
   },
