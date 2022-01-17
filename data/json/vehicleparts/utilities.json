@@ -278,7 +278,7 @@
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
     "durability": 200,
-    "flags": [ "OBSTACLE" ],
+    "flags": [ "OBSTACLE", "CARGO" ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -289,6 +289,7 @@
       }
     },
     "pseudo_tools": [ { "id": "oil_press_mounted" } ],
+    "size": 20,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 3, 6 ] },

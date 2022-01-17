@@ -237,11 +237,13 @@
     "description": "A heavy duty press used to create vegetable oil from nuts or seeds.  It needs to be mounted on a vehicle due to its high power draw.",
     "weight": "140 kg",
     "volume": "370 L",
-    "longest_side": "105 cm",
+    "longest_side": "88 cm",
     "to_hit": -6,
     "material": [ "steel" ],
     "category": "veh_parts",
     "color": "green",
-    "symbol": "Y"
+    "symbol": "Y",
+    "price": 100000,
+    "price_postapoc": 1000
   }
 ]
