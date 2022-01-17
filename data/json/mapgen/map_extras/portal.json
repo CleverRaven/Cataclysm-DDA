@@ -10,7 +10,7 @@
         "   ",
         "   "
       ],
-      "terrain": { " ": "t_null" },
+      "terrain": { " ": "t_region_groundcover" },
       "furniture": { " ": "f_rubble_rock" },
       "place_traps": [ { "trap": "tr_portal", "x": 1, "y": 1 } ]
     }
