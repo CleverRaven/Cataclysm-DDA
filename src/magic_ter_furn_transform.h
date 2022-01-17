@@ -56,7 +56,7 @@ class ter_furn_transform
         cata::optional<ter_str_id> next_ter( const std::string &flag ) const;
         cata::optional<furn_str_id> next_furn( const furn_str_id &furn ) const;
         cata::optional<furn_str_id> next_furn( const std::string &flag ) const;
-        cata::optional<trap_str_id> next_trap( const trap_str_id &furn ) const;
+        cata::optional<trap_str_id> next_trap( const trap_str_id &trap ) const;
         cata::optional<trap_str_id> next_trap( const std::string &flag ) const;
         cata::optional<field_type_id> next_field( const field_type_id &field ) const;
 
