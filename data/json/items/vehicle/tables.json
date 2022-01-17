@@ -39,7 +39,7 @@
     "type": "GENERIC",
     "id": "workbench_with_recharger",
     "name": { "str": "workbench with a battery recharger", "str_pl": "workbenches with battery rechargers" },
-    "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things.  Also has inbuilt battery charger for your phone.",
+    "description": "A sturdy metal workbench, perfect for crafting large and heavy things.  Also has a built-in battery charger for your phone.",
     "weight": "23100 g",
     "flags": [ "TRADER_AVOID" ],
     "price": 40000,
