@@ -1480,8 +1480,13 @@ tab_direction set_traits( avatar &u, pool_type pool )
                            page_width - 2 ) );
             }
 
-            draw_scrollbar( w, iCurrentLine[iCurrentPage], iContentHeight, traits_size[iCurrentPage],
-                            point( page_width * iCurrentPage, 5 ) );
+            scrollbar()
+            .offset_x( page_width * iCurrentPage )
+            .offset_y( 5 )
+            .content_size( traits_size[iCurrentPage] )
+            .viewport_pos( start )
+            .viewport_size( iContentHeight )
+            .apply( w );
         }
 
         wnoutrefresh( w );
@@ -1972,7 +1977,13 @@ tab_direction set_profession( avatar &u, pool_type pool )
                             sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
         }
 
-        draw_scrollbar( w, cur_id, iContentHeight, profs_length, point( 0, 5 ) );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( profs_length )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w );
 
         wnoutrefresh( w );
         wnoutrefresh( w_description );
@@ -2336,7 +2347,13 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                             sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
         }
 
-        draw_scrollbar( w, cur_id, iContentHeight, profs_length, point( 0, 5 ) );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( profs_length )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w );
 
         wnoutrefresh( w );
         wnoutrefresh( w_description );
@@ -2719,9 +2736,6 @@ tab_direction set_skills( avatar &u, pool_type pool )
         fold_and_print_from( w_description, point_zero, getmaxx( w_description ),
                              selected, COL_SKILL_USED, rec_disp );
 
-        draw_scrollbar( w, selected, iContentHeight, iLines,
-                        point( getmaxx( w ) - 1, 5 ), BORDER_COLOR, true );
-
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
             const int y = 5 + i - cur_offset;
@@ -2761,7 +2775,13 @@ tab_direction set_skills( avatar &u, pool_type pool )
 
         }
 
-        draw_scrollbar( w, cur_pos, iContentHeight, num_skills, point( 0, 5 ) );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( num_skills )
+        .viewport_pos( cur_offset )
+        .viewport_size( iContentHeight )
+        .apply( w );
 
         wnoutrefresh( w );
         wnoutrefresh( w_description );
@@ -3109,6 +3129,14 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         }
 
         draw_scrollbar( w, cur_id, iContentHeight, scens_length, point( 0, 5 ) );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( scens_length )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w );
+
         wnoutrefresh( w );
         wnoutrefresh( w_description );
         wnoutrefresh( w_sorting );
