@@ -432,7 +432,7 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 - Requires "point" type, and coordinates "x" and "y"
 - For "point" type "radiation", requires "amount"
-- For other types, requires "id" of terrain, furniture, trap, trap_remove, or variable name
+- For other types, requires "id" of terrain, furniture, trap, trap_remove, or name of the global variable
 
 | Field  | Description
 | ---    | ---
