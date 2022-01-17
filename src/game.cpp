@@ -9080,7 +9080,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
     // Monsters around and we don't want to run
     std::string spotted_creature_text;
     const monster_visible_info &mon_visible = u.get_mon_visible();
-    const auto &new_seen_mon = mon_visible.new_seen_mon;
+    const std::vector<shared_ptr_fast<monster>> &new_seen_mon = mon_visible.new_seen_mon;
 
     const nc_color mon_color = c_red;
     const nc_color dir_color = c_light_blue;
@@ -9089,23 +9089,26 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         spotted_creature_text = colorize( _( "a survivor" ), mon_color );
         get_safemode().lastmon_whitelist = get_safemode().npc_type_name();
     } else if( new_seen_mon.size() == 1 ) {
-        const auto &mon = new_seen_mon.back();
+        const shared_ptr_fast<monster> &mon = new_seen_mon.back();
+        //~ %s: Cardinal/ordinal direction ("east")
         const std::string dir_text = string_format( _( "to the %s" ),
                                      colorize( direction_name( direction_from( u.pos(), mon->pos() ) ), dir_color ) );
-        spotted_creature_text = string_format( _( "%s %s" ), colorize( mon->name(), mon_color ), dir_text );
+        //~ %1$s: Monster name ("headless zombie"), %2$s: direction text ("to the east")
+        spotted_creature_text = string_format( _( "%1$s %2$s" ), colorize( mon->name(), mon_color ),
+                                               dir_text );
         get_safemode().lastmon_whitelist = mon->name();
     } else {
         // We've got multiple monsters to inform about. Find the most frequent type to call out by name.
         std::unordered_map<std::string, std::vector<const monster *>> mons_by_name;
-        for( const auto &mon : new_seen_mon ) {
+        for( const shared_ptr_fast<monster> &mon : new_seen_mon ) {
             mons_by_name[mon->name()].push_back( mon.get() );
         }
-        const auto most_frequent_mon = std::max_element( mons_by_name.begin(),
+        const std::vector<const monster *> &most_frequent_mon = std::max_element( mons_by_name.begin(),
         mons_by_name.end(), []( const auto & a, const auto & b ) {
             return a.second.size() < b.second.size();
         } )->second;
 
-        const auto &mon = most_frequent_mon.back();
+        const monster *const mon = most_frequent_mon.back();
         const std::string most_frequent_mon_text = colorize( most_frequent_mon.size() > 1 ?
                 string_format( "%d %s",
                                most_frequent_mon.size(), mon->name( most_frequent_mon.size() ) ) : mon->name(), mon_color );
@@ -9114,14 +9117,17 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         // Otherwise, we can say they're in "various directions", so it's clear they aren't clustered.
         std::set<direction> most_frequent_mon_dirs;
         std::transform( most_frequent_mon.begin(), most_frequent_mon.end(),
-        std::inserter( most_frequent_mon_dirs, most_frequent_mon_dirs.begin() ), [&]( const auto & mon ) {
+                        std::inserter( most_frequent_mon_dirs,
+        most_frequent_mon_dirs.begin() ), [&]( const monster * const mon ) {
             return direction_from( u.pos(), mon->pos() );
         } );
         std::string dir_text;
         if( most_frequent_mon_dirs.size() == 1 ) {
+            //~ %s: Cardinal/ordinal direction ("east")
             dir_text = string_format( _( "to the %s" ),
                                       colorize( direction_name( *most_frequent_mon_dirs.begin() ), dir_color ) );
         } else if( most_frequent_mon_dirs.size() == 2 ) {
+            //~ %s, %s: Cardinal/ordinal directions ("east"; "southwest")
             dir_text = string_format( _( "to the %s and %s" ),
                                       colorize( direction_name( *most_frequent_mon_dirs.begin() ), dir_color ),
                                       colorize( direction_name( *std::next( most_frequent_mon_dirs.begin() ) ), dir_color ) );
@@ -9133,12 +9139,16 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         const size_t other_mon_count = new_seen_mon.size() - most_frequent_mon.size();
         std::string other_mon_text;
         if( other_mon_count > 0 ) {
+            //~ %s: Description of other monster count ("4 others"), %d: How many other monsters there are
             other_mon_text = string_format( _( " and %s" ),
-                                            colorize( other_mon_count == 1 ? _( "1 other" ) : string_format( _( "%d others" ),
-                                                    other_mon_count ), mon_color ) );
+                                            colorize( string_format( n_gettext( _( "%d other" ),  _( "%d others" ),
+                                                    other_mon_count ), other_mon_count ), mon_color ) );
         }
 
-        spotted_creature_text = string_format( _( "%s %s%s" ),  most_frequent_mon_text,
+        //~ %1$s: Description of primary monster spotted ("3 fat zombies")
+        //~ %2$s: Description of where the primary monster is ("to the east and south")
+        //~ %3$s: Description of any other monsters spotted (" and 4 others")
+        spotted_creature_text = string_format( _( "%1$s %2$s%3$s" ),  most_frequent_mon_text,
                                                dir_text,
                                                other_mon_text );
         get_safemode().lastmon_whitelist = mon->name();
@@ -9152,7 +9162,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 
     const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
     add_msg( game_message_params{ m_warning, gmf_bypass_cooldown },
-             _( "Spotted %1$s--safe mode is on!  (%2$s to turn it off, %3$s to ignore monster%4$s)" ),
+             _( "Spotted %1$s -- safe mode is on!  (%2$s to turn it off, %3$s to ignore monster%4$s)" ),
              spotted_creature_text, msg_safe_mode, msg_ignore, whitelist );
     safe_mode_warning_logged = true;
     return false;
