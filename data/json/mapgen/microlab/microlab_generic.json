@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "microlab_generic" ], [ "microlab_ratkin" ] ],
+    "om_terrain": [ "microlab_generic", "microlab_ratkin" ],
     "object": {
       "fill_ter": "t_strconc_floor",
       "place_nested": [
