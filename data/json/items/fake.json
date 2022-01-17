@@ -298,5 +298,11 @@
     "symbol": "L",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "oil_press_mounted",
+    "copy-from": "fake_power_tool",
+    "type": "TOOL",
+    "name": { "str": "mounted electric oil press", "str_pl": "electric oil presses" }
   }
 ]

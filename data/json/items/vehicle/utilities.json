@@ -228,5 +228,20 @@
     "category": "veh_parts",
     "price": 3000,
     "price_postapoc": 50
+  },
+  {
+    "type": "GENERIC",
+    "id": "oil_press_electric",
+    "name": { "str": "electric oil press", "str_pl": "electric oil presses" },
+    "//": "based on YZS-68C oil press",
+    "description": "A heavy duty press used to create vegetable oil from nuts or seeds.  It needs to be mounted on a vehicle due to its high power draw.",
+    "weight": "140 kg",
+    "volume": "370 L",
+    "longest_side": "105 cm",
+    "to_hit": -6,
+    "material": [ "steel" ],
+    "category": "veh_parts",
+    "color": "green",
+    "symbol": "Y"
   }
 ]

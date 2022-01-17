@@ -468,7 +468,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "result": "cooking_oil",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -482,6 +482,46 @@
     "tools": [ [ [ "oil_press_manual", 50 ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "//": "Oil extraction yield is around ~40% by weight, 600g input ~> 250 mL oil",
+    "components": [
+      [
+        [ "almond_shelled", 20 ],
+        [ "peanut_shelled", 20 ],
+        [ "walnut_shelled", 20 ],
+        [ "pecan_shelled", 20 ],
+        [ "hazelnut_shelled", 20 ],
+        [ "pistachio_shelled", 20 ],
+        [ "hickory_nut_shelled", 20 ],
+        [ "acorns", 20 ],
+        [ "cashews", 20 ],
+        [ "beech_nuts", 20 ],
+        [ "soybean", 20 ],
+        [ "seed_cotton_boll", 80 ],
+        [ "seed_pumpkin", 80 ],
+        [ "seed_sunflower", 80 ],
+        [ "seed_canola", 80 ],
+        [ "seed_grapes", 80 ],
+        [ "seed_weed", 80 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "cooking_oil",
+    "id_suffix": "electric",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "charges": 16,
+    "byproducts": [ [ "press_cake" ] ],
+    "//": "capacity: 50kg/hour * 40% efficiency = 20 L/hour -> 45s / 250 mL",
+    "time": "45 s",
+    "//2": "45 s * 5.5kW = 250 kJ",
+    "tools": [ [ [ "oil_press_mounted", 250 ] ] ],
+    "autolearn": true,
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [
       [
         [ "almond_shelled", 20 ],
