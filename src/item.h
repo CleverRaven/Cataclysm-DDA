@@ -180,6 +180,23 @@ iteminfo weight_to_info( const std::string &type, const std::string &left,
 
 inline bool is_crafting_component( const item &component );
 
+namespace item_uid_generator
+{
+class uid_gen
+{
+    private:
+        uint64_t counter;
+
+    public:
+        uid_gen() : counter( 1 ) {}
+        void init( uint64_t cntr );
+        uint64_t get_uid();
+        uint64_t operator()();
+};
+
+extern std::unique_ptr<uid_gen> generate;
+} // namespace item_uid_generator
+
 class item : public visitable
 {
     public:

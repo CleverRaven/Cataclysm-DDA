@@ -55,8 +55,6 @@ inline int roll_remainder( float value )
 
 int djb2_hash( const unsigned char *input );
 
-int djb2_hash( const void *data, size_t size );
-
 double rng_normal( double lo, double hi );
 
 inline double rng_normal( double hi )

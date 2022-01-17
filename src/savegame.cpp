@@ -80,6 +80,7 @@ void game::serialize( std::ostream &fout )
     json.start_object();
     // basic game state information.
     json.member( "turn", calendar::turn );
+    json.member( "item_uid_counter", item_uid_generator::generate->get_uid() - 1 );
     json.member( "calendar_start", calendar::start_of_cataclysm );
     json.member( "game_start", calendar::start_of_game );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
@@ -191,6 +192,7 @@ void game::unserialize( std::istream &fin, const std::string &path )
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
+    int tmpitemuid = 1;
     tripoint_om_sm lev;
     point_abs_om com;
     JsonIn jsin( fin, path );
@@ -201,7 +203,7 @@ void game::unserialize( std::istream &fin, const std::string &path )
         data.read( "calendar_start", tmpcalstart );
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
-
+        data.read( "item_uid_counter", tmpitemuid );
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
@@ -217,6 +219,7 @@ void game::unserialize( std::istream &fin, const std::string &path )
 
         calendar::turn = time_point( tmpturn );
         calendar::start_of_cataclysm = time_point( tmpcalstart );
+        item_uid_generator::generate->init( tmpitemuid );
 
         if( !data.read( "game_start", calendar::start_of_game ) ) {
             calendar::start_of_game = calendar::start_of_cataclysm;

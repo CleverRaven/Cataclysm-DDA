@@ -2754,7 +2754,7 @@ void item::io( Archive &archive )
     // NB! field is named `irridation` in legacy files
     archive.io( "irridation", irradiation, 0 );
     archive.io( "bday", bday, calendar::start_of_cataclysm );
-    archive.io( "unique_id", unique_id, 0UL );
+    archive.io( "unique_id", unique_id, static_cast<decltype( unique_id )>( 0 ) );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );

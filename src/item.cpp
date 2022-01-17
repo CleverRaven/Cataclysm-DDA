@@ -201,10 +201,31 @@ static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
 static const std::string flag_SILENT( "SILENT" );
 
-
 class npc_class;
 
 using npc_class_id = string_id<npc_class>;
+
+namespace item_uid_generator
+{
+
+std::unique_ptr<uid_gen> generate = std::make_unique<uid_gen>();
+
+void uid_gen::init( uint64_t cntr )
+{
+    counter = cntr;
+}
+
+uint64_t uid_gen::get_uid()
+{
+    return counter++;
+}
+
+uint64_t uid_gen::operator()()
+{
+    return get_uid();
+}
+
+} // namespace item_uid_generator
 
 light_emission nolight = {0, 0, 0};
 
@@ -265,7 +286,7 @@ item::item() : bday( calendar::start_of_cataclysm )
     charges = 0;
     contents = item_contents( type->pockets );
     select_itype_variant();
-    unique_id = generate_unique_id( djb2_hash( this, sizeof( *this ) ) );
+    unique_id = ( *item_uid_generator::generate )();
 }
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
@@ -344,7 +365,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         relic_data = type->relic_data;
     }
 
-    unique_id = generate_unique_id( djb2_hash( this, sizeof( *this ) ) );
+    unique_id = ( *item_uid_generator::generate )();
 }
 
 item::item( const itype_id &id, time_point turn, int qty )
