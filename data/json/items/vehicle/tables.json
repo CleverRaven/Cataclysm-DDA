@@ -34,5 +34,16 @@
     "bashing": 8,
     "price": 40000,
     "copy-from": "v_table"
+  },
+  {
+    "type": "GENERIC",
+    "id": "workbench_with_recharger",
+    "name": { "str": "workbench with charging station", "str_pl": "workbenches with charging station" },
+    "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things.  Also has inbuilt battery charger for your phone.",
+    "weight": "23100 g",
+    "flags": [ "TRADER_AVOID" ],
+    "price": 40000,
+    "price_postapoc": 100,
+    "copy-from": "workbench"
   }
 ]
