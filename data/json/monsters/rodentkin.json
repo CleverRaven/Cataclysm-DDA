@@ -5,10 +5,13 @@
     "name": { "str": "big rat" },
     "description": "This cat sized rat snuffles along the ground looking for things to eat.  It hisses at anything that comes near it showing off large teeth.",
     "default_faction": "ratkin",
-    "copy-from": "mon_black_rat",
+    "bodytype": "pig",
+    "species": [ "MUTANT" ],
     "volume": "2 L",
     "weight": "2 kg",
     "hp": 25,
+    "speed": 100,
+    "attack_cost": 100,
     "material": [ "flesh" ],
     "symbol": "R",
     "color": "dark_gray",
@@ -17,8 +20,22 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 3,
+    "vision_day": 30,
+    "vision_night": 10,
+    "path_settings": { "max_dist": 50, "avoid_sharp": true },
     "upgrades": { "half_life": 23, "into_group": "GROUP_RATKIN_EVOLVED" },
-    "attack_effs": [ { "id": "rat_bite_fever", "chance": 10 } ],
+    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "regen_morale": true,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 10,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 6, "armor_multiplier": 0.7 } ]
+      },
+      { "id": "scratch", "max_mul": 1.5 }
+    ],
+    "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ],
     "harvest": "mutant_rodent"
   },
@@ -31,9 +48,11 @@
     "copy-from": "mon_big_rat",
     "symbol": "R",
     "color": "white",
+    "attack_cost": 90,
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "special_when_hit": [ "ZAPBACK", 100 ],
+    "upgrades": { "half_life": 23, "into_group": "GROUP_RATKIN_EVOLVED" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER_1" ],
     "emit_fields": [ { "emit_id": "emit_shock_burst", "delay": "5 s" } ]
   },
@@ -48,6 +67,7 @@
     "weight": "35 kg",
     "hp": 45,
     "speed": 80,
+    "attack_cost": 80,
     "symbol": "r",
     "color": "brown_green",
     "melee_dice": 4,
@@ -57,6 +77,8 @@
     "armor_bash": 5,
     "armor_cut": 6,
     "armor_bullet": 2,
+    "upgrades": { "half_life": 23, "into_group": "GROUP_RATKIN_EVOLVED" },
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 17, "armor_multiplier": 0.8 } ] },
       {
@@ -69,6 +91,7 @@
         "infection_chance": 4
       }
     ],
+    "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ]
   },
   {
@@ -95,9 +118,10 @@
     "armor_cut": 3,
     "armor_bullet": 26,
     "death_drops": "ratkin_death_drops_teke",
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_when_hit": [ "ZAPBACK", 100 ],
     "special_attacks": [ { "id": "teke_push" } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "ELECTRIC", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "ELECTRIC", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_mausketeer",
@@ -110,6 +134,7 @@
     "weight": "30 kg",
     "hp": 125,
     "speed": 115,
+    "attack_cost": 90,
     "symbol": "r",
     "color": "green",
     "aggression": 17,
@@ -121,6 +146,7 @@
     "armor_bash": 10,
     "armor_cut": 10,
     "armor_bullet": 6,
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "ratkin_death_drops_mausketeer",
     "special_attacks": [ { "id": "impale" }, { "type": "bite", "cooldown": 15 }, { "id": "longswipe" } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER_1" ]

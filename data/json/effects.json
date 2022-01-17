@@ -1884,6 +1884,9 @@
   {
     "type": "effect_type",
     "id": "rat_bite_fever",
+    "name": [ "puckered scratches" ],
+    "apply_message": "Your skin starts burning around some of your scratches.",
+    "remove_message": "The fever breaks.",
     "rating": "bad",
     "resist_effects": [ "aspirin" ],
     "base_mods": {

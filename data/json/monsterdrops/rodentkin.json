@@ -12,7 +12,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "ratkin_death_drops_teke",
-    "entries": [ { "item": "rapier", "prob": 100, "damage": [ 2, 4 ] }, { "group": "ratkin_teke_clothes", "prob": 100 } ]
+    "entries": [ { "group": "ratkin_teke_clothes", "prob": 100 } ]
   },
   {
     "type": "item_group",

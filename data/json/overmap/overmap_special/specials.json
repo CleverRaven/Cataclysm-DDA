@@ -4635,7 +4635,7 @@
     ],
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
-    "connections": [  { "point": [ 2, -2, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 2, -1, -1 ] } ],
+    "connections": [ { "point": [ 2, -2, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 2, -1, -1 ] } ],
     "occurrences": [ 20, 100 ],
     "flags": [ "LAB", "UNIQUE" ]
   },
