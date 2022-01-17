@@ -850,6 +850,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     setmap_opmap[ "terrain" ] = JMAPGEN_SETMAP_TER;
     setmap_opmap[ "furniture" ] = JMAPGEN_SETMAP_FURN;
     setmap_opmap[ "trap" ] = JMAPGEN_SETMAP_TRAP;
+    setmap_opmap[ "trap_remove" ] = JMAPGEN_SETMAP_TRAP_REMOVE;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
     setmap_opmap[ "bash" ] = JMAPGEN_SETMAP_BASH;
     std::map<std::string, jmapgen_setmap_op>::iterator sm_it;
@@ -925,6 +926,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
                     tmp_i.val = fid.id().to_i();
                 }
                 break;
+                case JMAPGEN_SETMAP_TRAP_REMOVE:
                 case JMAPGEN_SETMAP_TRAP: {
                     const trap_str_id sid( tmpid );
                     if( !sid.is_valid() ) {
@@ -3998,7 +4000,9 @@ mapgen_phase jmapgen_setmap::phase() const
             return mapgen_phase::furniture;
         case JMAPGEN_SETMAP_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP:
+        case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
+        case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE:
             return mapgen_phase::default_;
         case JMAPGEN_SETMAP_RADIATION:
         case JMAPGEN_SETMAP_BASH:
@@ -4078,6 +4082,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                     mtrap_set( &m, i, trap_id( val.get() ) );
                 }
             }
+            case JMAPGEN_SETMAP_LINE_TRAP_REMOVE: {
+                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                                0 );
+                for( const point &i : line ) {
+                    // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
+                    mremove_trap( &m, i, trap_id( val.get() ).id() );
+                }
+            }
             break;
             case JMAPGEN_SETMAP_LINE_RADIATION: {
                 const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
@@ -4105,6 +4117,17 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                     for( int ty = c.y; ty <= cy2; ty++ ) {
                         // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                         mtrap_set( &m, point( tx, ty ), trap_id( val.get() ) );
+                    }
+                }
+            }
+            case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE: {
+                const point c( x_get(), y_get() );
+                const int cx2 = x2_get();
+                const int cy2 = y2_get();
+                for( int tx = c.x; tx <= cx2; tx++ ) {
+                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                        // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
+                        mremove_trap( &m, point( tx, ty ), trap_id( val.get() ).id() );
                     }
                 }
             }
@@ -4149,9 +4172,11 @@ bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, const point &
         case JMAPGEN_SETMAP_LINE_TER:
         case JMAPGEN_SETMAP_LINE_FURN:
         case JMAPGEN_SETMAP_LINE_TRAP:
+        case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TER:
         case JMAPGEN_SETMAP_SQUARE_FURN:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
+        case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE:
             end.x = x2_get();
             end.y = y2_get();
             break;
@@ -6912,22 +6937,22 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 trap.y = rng( p1.y + 1, p2.y - 1 );
             } while( !one_in( 5 ) );
             if( rotate == 0 ) {
-                mremove_trap( m, point( p1.x, p2.y ) );
+                mremove_trap( m, point( p1.x, p2.y ), tr_null );
                 m->furn_set( point( p1.x, p2.y ), f_fridge );
                 m->place_items( Item_spawn_data_goo, 60, point( p1.x, p2.y ), point( p1.x, p2.y ),
                                 false, calendar::start_of_cataclysm );
             } else if( rotate == 1 ) {
-                mremove_trap( m, p1 );
+                mremove_trap( m, p1, tr_null );
                 m->furn_set( p1, f_fridge );
                 m->place_items( Item_spawn_data_goo, 60, p1, p1, false,
                                 calendar::start_of_cataclysm );
             } else if( rotate == 2 ) {
-                mremove_trap( m, point( p2.x, p1.y ) );
+                mremove_trap( m, point( p2.x, p1.y ), tr_null );
                 m->furn_set( point( p2.x, p1.y ), f_fridge );
                 m->place_items( Item_spawn_data_goo, 60, point( p2.x, p1.y ), point( p2.x, p1.y ),
                                 false, calendar::start_of_cataclysm );
             } else {
-                mremove_trap( m, p2 );
+                mremove_trap( m, p2, tr_null );
                 m->furn_set( p2, f_fridge );
                 m->place_items( Item_spawn_data_goo, 60, p2, p2, false,
                                 calendar::start_of_cataclysm );
@@ -7366,8 +7391,16 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
         debugmsg( "Mapgen update function called with overmap::invalid_tripoint" );
         return false;
     }
+
     tinymap update_tmap;
     const tripoint_abs_sm sm_pos = project_to<coords::sm>( omt_pos );
+
+    bool shifted = false;
+    tripoint_abs_omt origin = get_avatar().global_omt_location();
+    if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
+        g->place_player_overmap( origin + tripoint( 0, 10, 0 ) );
+        shifted = true;
+    }
     update_tmap.load( sm_pos, true );
     update_tmap.rotate( 4 - rotation );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
@@ -7377,6 +7410,11 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
     bool const u = update_map( md, offset, verify );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
     update_tmap.rotate( rotation );
+
+    if( shifted ) {
+        g->place_player_overmap( origin );
+    }
+
     return u;
 }
 

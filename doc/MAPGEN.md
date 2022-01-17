@@ -431,12 +431,12 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 - Requires "point" type, and coordinates "x" and "y"
 - For "point" type "radiation", requires "amount"
-- For other types, requires "id" of terrain, furniture, or trap
+- For other types, requires "id" of terrain, furniture, trap, or trap_remove
 
 | Field  | Description
 | ---    | ---
 | point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
@@ -447,7 +447,7 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 - Requires "line" type, and endpoints "x", "y" and "x2", "y2"
 - For "line" type "radiation", requires "amount"
-- For other types, requires "id" of terrain, furniture, or trap
+- For other types, requires "id" of terrain, furniture, trap, trap_remove
 
 Example:
 ```json
@@ -457,7 +457,7 @@ Example:
 | Field  | Description
 | ---    | ---
 | line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | x2, y2 | End X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 22, "y": [ 15, 20 ]`
 | amount | Radiation amount. Value from `0-100`.
@@ -469,7 +469,7 @@ Example:
 
 - Requires "square" type, and opposite corners at "x", "y" and "x2", "y2"
 - For "square" type "radiation", requires "amount"
-- For other types, requires "id" of terrain, furniture, or trap
+- For other types, requires "id" of terrain, furniture, trap, or trap_remove
 
 The "square" arguments are the same as for "line", but "x", "y" and "x2", "y2" define opposite corners.
 
@@ -481,7 +481,7 @@ Example:
 | Field  | Description
 | ---    | ---
 | square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | Top-left corner of square.
 | x2, y2 | Bottom-right corner of square.
 
