@@ -58,8 +58,6 @@
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
 
-static const itype_id itype_water( "water" );
-
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
 // Pickup helper functions
