@@ -515,7 +515,7 @@
           "mx_point_dead_vegetation": 60,
           "mx_casings": 60,
           "mx_corpses": 80,
-          "mx_nest_dermatik": 50,
+          "mx_nest_dermatik": 75,
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1
         }
