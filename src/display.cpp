@@ -1020,6 +1020,7 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
 static std::map<bodypart_status, nc_color> bodypart_status_colors( const Character &u,
         const bodypart_id &bp )
 {
+    // List of active statuses and associated colors
     std::map<bodypart_status, nc_color> ret;
 
     // Empty if no bodypart given
@@ -1027,27 +1028,36 @@ static std::map<bodypart_status, nc_color> bodypart_status_colors( const Charact
         return ret;
     }
 
+    const int bleed_intensity = u.get_effect_int( effect_bleed, bp );
+    const bool bleeding = bleed_intensity > 0;
+    const bool bitten = u.has_effect( effect_bite, bp.id() );
+    const bool infected = u.has_effect( effect_infected, bp.id() );
+    const bool broken = u.is_limb_broken( bp ) && bp->is_limb;
+    const bool splinted = u.worn_with_flag( json_flag_SPLINT,  bp );
+    const bool bandaged = u.has_effect( effect_bandaged,  bp.id() );
+    const bool disinfected = u.has_effect( effect_disinfected,  bp.id() );
+
     // Ailments
-    if( u.has_effect( effect_bite, bp ) ) {
-        ret[bodypart_status::BITEN] = c_yellow;
-    }
-    if( u.has_effect( effect_infected, bp ) ) {
-        ret[bodypart_status::INFECTED] = c_pink;
-    }
-    if( u.is_limb_broken( bp ) ) {
+    if( broken ) {
         ret[bodypart_status::BROKEN] = c_magenta;
     }
-    if( const int bleed = u.get_effect_int( effect_bleed, bp ) > 0 ) {
-        ret[bodypart_status::BLEEDING] = colorize_bleeding_intensity( bleed );
+    if( bitten ) {
+        ret[bodypart_status::BITEN] = c_yellow;
+    }
+    if( bleeding ) {
+        ret[bodypart_status::BLEEDING] = colorize_bleeding_intensity( bleed_intensity );
+    }
+    if( infected ) {
+        ret[bodypart_status::INFECTED] = c_pink;
     }
     // Treatments
-    if( u.worn_with_flag( json_flag_SPLINT, bp ) ) {
+    if( splinted ) {
         ret[bodypart_status::SPLINTED] = c_light_gray;
     }
-    if( u.has_effect( effect_bandaged, bp ) ) {
+    if( bandaged ) {
         ret[bodypart_status::BANDAGED] = c_white;
     }
-    if( u.has_effect( effect_disinfected, bp ) ) {
+    if( disinfected ) {
         ret[bodypart_status::DISINFECTED] = c_light_green;
     }
 
