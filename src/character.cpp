@@ -11282,6 +11282,12 @@ void Character::pause()
                                    _( "<npcname> attempts to put out the fire on them!" ) );
         }
     }
+
+    // Try to break free from grabs
+    if( has_effect( effect_grabbed ) ) {
+        try_remove_grab();
+    }
+
     // put pressure on bleeding wound, prioritizing most severe bleeding
     if( !is_armed() && has_effect( effect_bleed ) ) {
         int most = 0;

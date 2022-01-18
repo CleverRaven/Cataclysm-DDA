@@ -2111,7 +2111,7 @@ The `id` must be exact as it is hardcoded to look for that.
 "profession": true, //Trait is a starting profession special trait. (default: false)
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu
-"vanity": false, //Trait can be changed any time with no cost, like hair, eye colour and skin colour
+"vanity": false, //Trait can be changed any time with no cost, like hair, eye color and skin color
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 // prereqs and prereqs2 specify prerequisites of the current mutation
 // Both are optional, but if prereqs2 is specified prereqs must also be specified
@@ -2781,7 +2781,7 @@ What body parts this section of the armor covers. See the bodypart_ids defined i
 ##### Specifically Covers
 (array of strings)
 What sub body parts this section of the armor covers. See the sub_bodypart_ids defined in body_parts.json for valid values.
-These are used for wearing multiple armor pieces on a single layer without gaining encumberance penalties. They are not mandatory
+These are used for wearing multiple armor pieces on a single layer without gaining encumbrance penalties. They are not mandatory
 if you don't specify them it is assumed that the section covers all the body parts it covers entirely.
 strapped layer items, and outer layer armor should always have these specified otherwise it will conflict with other pieces.
 
@@ -3054,7 +3054,7 @@ CBMs can be defined like this:
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in C at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
-"parasites": 10,            // (Optional) Probability of becoming parasitised when eating
+"parasites": 10,            // (Optional) Probability of becoming parasitized when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  An integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitA, vitB, vitC, mutant_toxin, bad_food, blood, and redcells.  Note that vitB is B12.
 "material": [                     // All materials (IDs) this food is made of

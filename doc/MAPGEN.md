@@ -758,7 +758,7 @@ Places a vending machine (furniture) and fills it with items from an item group.
 | ---        | ---
 | item_group | (optional, string) the item group that is used to create items inside the machine. It defaults to either "vending_food" or "vending_drink" (randomly chosen).
 | reinforced | (optional, bool) setting which will make vending machine spawn as reinforced. Defaults to false.
-| lootable   | (optional, bool) setting which indicates whether this paricular vending machine should have a chance to spawn ransacked (i.e. broken and with no loot inside). The chance for this is increased with each day passed after the Cataclysm. Defaults to false.
+| lootable   | (optional, bool) setting which indicates whether this particular vending machine should have a chance to spawn ransacked (i.e. broken and with no loot inside). The chance for this is increased with each day passed after the Cataclysm. Defaults to false.
 
 
 ### Place a toilet with some amount of water with "toilets"

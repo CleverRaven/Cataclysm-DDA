@@ -495,7 +495,7 @@
     "id": "smart_phone",
     "type": "TOOL",
     "name": { "str": "smartphone" },
-    "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm and an app for tracking consumed calories.  Runs on a small, rechargeable power cell compatible with Unified Power Supply.",
+    "description": "A popular, fancy smartphone.  Capable of taking photos with its integrated camera and illuminating an area with its flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm and an app for tracking consumed calories.  Runs on a small, rechargeable power cell compatible with a Unified Power Supply.",
     "weight": "230 g",
     "volume": "100 ml",
     "price": 20000,

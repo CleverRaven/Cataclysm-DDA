@@ -968,7 +968,13 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             }
         }
 
-        draw_scrollbar( w_data, line, dataLines, recmax, point_zero );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 0 )
+        .content_size( recmax )
+        .viewport_pos( istart )
+        .viewport_size( dataLines ).apply( w_data );
+
         wnoutrefresh( w_data );
 
         if( isWide && !current.empty() ) {
