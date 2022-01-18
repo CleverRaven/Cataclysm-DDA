@@ -410,7 +410,6 @@ class zone_manager
                 const faction_id &fac = your_fac ) const;
         std::unordered_set<tripoint_abs_ms> get_vzone_set( const zone_type_id &type,
                 const faction_id &fac = your_fac ) const;
-        bool loaded = false; // NOLINT(cata-serialize)
     public:
         zone_manager();
         ~zone_manager() = default;

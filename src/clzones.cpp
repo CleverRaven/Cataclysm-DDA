@@ -18,7 +18,6 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "faction.h"
-#include "filesystem.h"
 #include "generic_factory.h"
 #include "iexamine.h"
 #include "item.h"
@@ -140,8 +139,6 @@ void zone_manager::clear()
     // Do not clear types since it is needed for the next games.
     area_cache.clear();
     vzone_cache.clear();
-    // Invalidate cache
-    loaded = false;
 }
 
 std::string zone_type::name() const
@@ -1055,7 +1052,8 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     //Create a regular zone
     zones.push_back( new_zone );
 
-    //If not player defined, save them immediately
+    // personal/faction zones are saved when the zone manager exits,
+    // but other-faction zones are not, so save them here.
     if( fac != faction_your_followers ) {
         save_world_zones();
     }
@@ -1207,28 +1205,25 @@ bool zone_manager::has_personal_zones() const
 
 void zone_manager::serialize( JsonOut &json ) const
 {
-    std::vector<zone_data> tmp;
-    std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( zone_data z ) {
-        return z.get_faction() == faction_your_followers;
-    } );
-    json.write( tmp );
+    json.write( zones );
 }
 
 void zone_manager::deserialize( const JsonValue &jv )
 {
     jv.read( zones );
-    for( auto it = zones.begin(); it != zones.end(); ++it ) {
+    for( auto it = zones.begin(); it != zones.end(); ) {
         // need to keep track of number of personal zones on reload
         if( it->get_is_personal() ) {
             num_personal_zones++;
         }
         const zone_type_id zone_type = it->get_type();
         if( !has_type( zone_type ) ) {
-            zones.erase( it );
+            it = zones.erase( it );
             debugmsg( "Invalid zone type: %s", zone_type.c_str() );
-        }
-        if( it->get_faction() != faction_your_followers ) {
-            zones.erase( it );
+        } else  if( it->get_faction() != faction_your_followers ) {
+            it = zones.erase( it );
+        } else {
+            it++;
         }
     }
 }
@@ -1298,7 +1293,7 @@ void zone_data::deserialize( const JsonObject &data )
 
 bool zone_manager::save_zones()
 {
-    std::string savefile = PATH_INFO::player_base_save_path() + ".zones_cache.json";
+    std::string savefile = PATH_INFO::player_base_save_path() + ".zones.json";
 
     added_vzones.clear();
     changed_vzones.clear();
@@ -1311,14 +1306,13 @@ bool zone_manager::save_zones()
 
 void zone_manager::load_zones()
 {
-    std::string cache = PATH_INFO::player_base_save_path() + ".zones_cache.json";
     std::string savefile = PATH_INFO::player_base_save_path() + ".zones.json";
 
-    const auto reader = [&]( std::istream & fin ) {
+    const auto reader = [this]( std::istream & fin ) {
         JsonIn jsin( fin );
         deserialize( jsin.get_value() );
     };
-    if( !read_from_file_optional( loaded ? cache : savefile, reader ) ) {
+    if( !read_from_file_optional( savefile, reader ) ) {
         // If no such file or failed to load, clear zones.
         zones.clear();
     }
@@ -1330,17 +1324,11 @@ void zone_manager::load_zones()
 
     cache_data();
     cache_vzones();
-    if( !loaded ) {
-        // validate cache.
-        remove_file( cache );
-        copy_file( savefile, cache );
-    }
-    loaded = true;
 }
 
 bool zone_manager::save_world_zones()
 {
-    std::string savefile = PATH_INFO::world_base_save_path() + "/zones_cache.json";
+    std::string savefile = PATH_INFO::world_base_save_path() + "/zones.json";
     std::vector<zone_data> tmp;
     std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( zone_data z ) {
         return z.get_faction() != faction_your_followers;
@@ -1354,9 +1342,8 @@ bool zone_manager::save_world_zones()
 void zone_manager::load_world_zones()
 {
     std::string savefile = PATH_INFO::world_base_save_path() + "/zones.json";
-    std::string cache = PATH_INFO::world_base_save_path() + "/zones_cache.json";
     std::vector<zone_data> tmp;
-    read_from_file_optional( loaded ? cache : savefile, [&]( std::istream & fin ) {
+    read_from_file_optional( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );
         jsin.read( tmp );
         for( auto it = tmp.begin(); it != tmp.end(); ++it ) {
@@ -1371,11 +1358,6 @@ void zone_manager::load_world_zones()
         }
         std::copy( tmp.begin(), tmp.end(), std::back_inserter( zones ) );
     } );
-    if( !loaded ) {
-        //validate cache
-        remove_file( cache );
-        copy_file( savefile, cache );
-    }
 }
 
 void zone_manager::zone_edited( zone_data &zone )

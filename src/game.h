@@ -778,7 +778,6 @@ class game
         void serialize_master( std::ostream &fout );
         // returns false if saving failed for whatever reason
         bool save_maps();
-        bool save_zones();
 #if defined(__ANDROID__)
         void save_shortcuts( std::ostream &fout );
 #endif
