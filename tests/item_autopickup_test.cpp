@@ -95,18 +95,16 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
     const tripoint ground = they.pos();
     const map_cursor location = map_cursor( ground );
 
-    // spawn container where items will go when picked up
-    item &backpack_item = here.add_item( ground, item( itype_backpack ) );
-
     // wear backpack from map and get the new item reference
-    they.worn.clear();
-    item &backpack = **( they.wear_item( backpack_item ) );
+    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
 
     // reset character auto-pickup rules
     get_auto_pickup().clear_character_rules();
 
     GIVEN( "avatar spots items on a tile near him" ) {
+        // make sure no items exist on the ground before we add them
+        REQUIRE( here.i_at( ground ).size() == 0 );
         // add items to the tile on the ground
         std::vector<item *> items_on_ground{
             &here.add_item( ground, item_with_qty( itype_codeine, 20 ) ),
