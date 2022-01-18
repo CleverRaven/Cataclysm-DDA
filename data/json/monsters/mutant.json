@@ -110,6 +110,7 @@
     "morale": 13,
     "regen_morale": true,
     "speed": 150,
+    "attack_cost": 130,
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 3,

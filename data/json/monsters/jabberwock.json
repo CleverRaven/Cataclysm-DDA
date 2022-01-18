@@ -10,6 +10,7 @@
     "weight": "90 kg",
     "hp": 100,
     "speed": 50,
+    "attack_cost": 50,
     "material": [ "flesh" ],
     "symbol": "j",
     "color": "dark_gray_red",

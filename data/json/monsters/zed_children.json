@@ -86,6 +86,7 @@
     "weight": "40750 g",
     "hp": 25,
     "speed": 55,
+    "attack_cost": 85,
     "material": [ "flesh" ],
     "symbol": "z",
     "color": "dark_gray",

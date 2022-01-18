@@ -49,6 +49,7 @@
     "weight": "200 kg",
     "hp": 400,
     "speed": 50,
+    "attack_cost": 80,
     "material": [ "slime" ],
     "symbol": "O",
     "color": "black_green",
@@ -123,6 +124,7 @@
     "weight": "40750 g",
     "hp": 40,
     "speed": 50,
+    "attack_cost": 80,
     "material": [ "slime" ],
     "symbol": "o",
     "color": "dark_gray",
@@ -155,6 +157,7 @@
     "weight": "120 kg",
     "hp": 200,
     "speed": 40,
+    "attack_cost": 60
     "material": [ "slime" ],
     "symbol": "O",
     "color": "light_gray",

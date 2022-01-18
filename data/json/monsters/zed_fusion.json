@@ -299,6 +299,7 @@
     "weight": "81500 g",
     "hp": 10,
     "speed": 250,
+    "attack_cost": 200,
     "material": [ "flesh" ],
     "symbol": "M",
     "color": "red_yellow",

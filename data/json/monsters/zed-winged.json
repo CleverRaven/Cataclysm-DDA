@@ -73,6 +73,7 @@
     "weight": "41 kg",
     "hp": 70,
     "speed": 65,
+    "attack_cost": 95,
     "//": "Slow at actual movement, made up for by its rapid leaps.  This should work to simulate its clumsy form.  When charge attacks are possible it should get one, and that will be its main damaging ability.",
     "material": [ "flesh" ],
     "symbol": "Z",
