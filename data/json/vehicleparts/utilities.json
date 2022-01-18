@@ -262,5 +262,41 @@
     "id": "veh_kiln",
     "symbol": "&",
     "type": "vehicle_part"
+  },
+  {
+    "abstract": "gas_grill_abstract",
+    "breaks_into": [
+      { "count": [ 4, 6 ], "item": "steel_lump" },
+      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 6 ], "item": "scrap" },
+      { "item": "pan", "prob": 50 },
+      { "item": "pot", "prob": 50 }
+    ],
+    "broken_color": "light_cyan",
+    "broken_symbol": "x",
+    "categories": [ "utility" ],
+    "color": "light_cyan",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "description": "A gas-fueled grill, powered by an attached tank.",
+    "durability": 80,
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
+    "pseudo_tools": [ { "id": "propane_cooker", "hotkey": "h" } ],
+    "item": "gas_cooker",
+    "location": "center",
+    "looks_like": "f_oven",
+    "name": { "str": "gas grill" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 10 ] ]
+      }
+    },
+    "size": 200,
+    "symbol": "&",
+    "type": "vehicle_part"
   }
 ]
