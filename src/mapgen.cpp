@@ -4004,6 +4004,7 @@ mapgen_phase jmapgen_setmap::phase() const
         case JMAPGEN_SETMAP_SQUARE_FURN:
             return mapgen_phase::furniture;
         case JMAPGEN_SETMAP_TRAP:
+        case JMAPGEN_SETMAP_TRAP_REMOVE:
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
@@ -4092,6 +4093,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                     mtrap_set( &m, i, trap_id( val.get() ) );
                 }
             }
+            break;
             case JMAPGEN_SETMAP_LINE_TRAP_REMOVE: {
                 const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
                                                 0 );
