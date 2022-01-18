@@ -73,6 +73,7 @@ TEST_CASE( "Autopickup single item", "[pickup][item]" )
             process_activity( they );
 
             THEN( "items matching autopickup rules should be in the backpack" ) {
+                REQUIRE( backpack.all_items_top().size() == autopickup_items.size() );
                 for( item *entry : autopickup_items ) {
                     CHECK( container_has_item( backpack, *entry ) );
                 }
