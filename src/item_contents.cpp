@@ -577,7 +577,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             ret.first = parent;
             ret.second = &pocket;
             // check all pockets within to see if they are better
-            for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            for( item *contained : pocket.all_items_top() ) {
                 if( contained == avoid ) {
                     continue;
                 }
@@ -1512,7 +1512,7 @@ void item_contents::add_pocket( const item &pocket_item )
         ( ++contents.rbegin() )->name_as_description = true;
         total_nonrigid_volume += i_pocket->max_contains_volume();
     }
-    additional_pockets_encumbrance += total_nonrigid_volume / 250_ml;
+    additional_pockets_volume += total_nonrigid_volume;
     additional_pockets_space_used += pocket_item.get_pocket_size();
     additional_pockets.push_back( pocket_item );
 
@@ -1541,7 +1541,7 @@ item item_contents::remove_pocket( int index )
         // finally remove the pocket data
         contents.erase( it++ );
     }
-    additional_pockets_encumbrance -= total_nonrigid_volume / 250_ml;
+    additional_pockets_volume -= total_nonrigid_volume;
     additional_pockets_space_used -= additional_pockets[index].get_pocket_size();
 
     // create a copy of the item to return and delete the old items entry
@@ -1557,9 +1557,9 @@ bool item_contents::has_additional_pockets() const
     return !additional_pockets.empty();
 }
 
-int item_contents::get_additional_pocket_encumbrance() const
+int item_contents::get_additional_pocket_encumbrance( float mod ) const
 {
-    return additional_pockets_encumbrance;
+    return additional_pockets_volume * mod / 250_ml;
 }
 
 int item_contents::get_additional_space_used() const

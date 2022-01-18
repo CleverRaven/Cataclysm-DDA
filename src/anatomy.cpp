@@ -25,6 +25,7 @@ static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 static const json_character_flag json_flag_ALWAYS_BLOCK( "ALWAYS_BLOCK" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
+static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK" );
 
 static const limb_score_id limb_score_block( "block" );
 
@@ -229,31 +230,38 @@ bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bo
             // Weigh shielded bodyparts higher
             block_score *= u->worn_with_flag( flag_BLOCK_WHILE_WORN, bp ) ? 5 : 1;
         }
-        body_part_type::type limb_type = bp->limb_type;
 
+        // Filter out nonblocking / broken limbs
         if( block_score == 0 ) {
             add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no blocking score",
                            body_part_name( bp ) );
             continue;
         }
 
-        // Filter out arm and leg types TODO consolidate into one if
-        if( limb_type == body_part_type::type::arm && !arm &&
-            !bp->has_flag( json_flag_ALWAYS_BLOCK ) )  {
+        // Always blocking limbs block always (if they have a block score)
+        if( bp->has_flag( json_flag_ALWAYS_BLOCK ) ) {
+            block_scores.add( bp, block_score );
+            add_msg_debug( debugmode::DF_MELEE, "BP %s always blocks",
+                           body_part_name( bp ) );
+            continue;
+        }
+
+        // Can we block with our normal boring arm?
+        if( bp->has_type( body_part_type::type::arm ) && !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
+            !arm ) {
             add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no arm blocks allowed",
                            body_part_name( bp ) );
             continue;
-        }
-
-        if( limb_type == body_part_type::type::leg && !leg &&
-            !bp->has_flag( json_flag_ALWAYS_BLOCK ) ) {
+            // Can we block with our normal boring legs?
+        } else if( bp->has_type( body_part_type::type::leg ) &&
+                   !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) && !leg ) {
             add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no leg blocks allowed",
                            body_part_name( bp ) );
             continue;
-        }
-
-        if( limb_type != body_part_type::type::arm && limb_type != body_part_type::type::leg &&
-            !nonstandard ) {
+            // Can we block with our non-normal non-arms/non-legs?
+        } else if( ( ( !bp->has_type( body_part_type::type::arm ) &&
+                       !bp->has_type( body_part_type::type::leg ) ) || bp->has_flag( json_flag_NONSTANDARD_BLOCK ) ) &&
+                   !nonstandard ) {
             add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no nonstandard blocks allowed",
                            body_part_name( bp ) );
             continue;

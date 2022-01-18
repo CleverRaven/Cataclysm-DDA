@@ -1859,7 +1859,8 @@
     "prereqs": [ "FASTHEALER" ],
     "threshreq": [ "THRESH_LIZARD" ],
     "category": [ "LIZARD" ],
-    "mending_modifier": 20.0
+    "mending_modifier": 20.0,
+    "flags": [ "MEND_ALL" ]
   },
   {
     "type": "mutation",
@@ -2100,7 +2101,7 @@
         "bash": 5
       }
     ],
-    "enchantments": [ "ENCH_TRAIT_MSKIN" ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",

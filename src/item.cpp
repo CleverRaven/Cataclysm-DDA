@@ -1994,6 +1994,20 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( snippet.has_value() ) {
             // Just use the dynamic description
             info.emplace_back( "DESCRIPTION", snippet.value().translated() );
+
+            // only ever do the effect for a snippet the first time you see it
+            if( !get_avatar().has_seen_snippet( snip_id ) ) {
+                // Have looked at the item so call the on examine EOC for the snippet
+                const cata::optional<talk_effect_t> examine_effect = SNIPPET.get_EOC_by_id( snip_id );
+                if( examine_effect.has_value() ) {
+                    // activate the effect
+                    dialogue d( get_talker_for( get_avatar() ), nullptr );
+                    examine_effect.value().apply( d );
+                }
+
+                //note that you have seen the snippet
+                get_avatar().add_snippet( snip_id );
+            }
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
         } else if( has_itype_variant() ) {
@@ -3079,8 +3093,39 @@ static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
                            encumb_max );
     }
 
+    std::string layering;
+
+    // get the layers this bit of the armor covers if its unique compared to the rest of the armor
+    for( const layer_level &ll : it.get_layer( bp ) ) {
+        switch( ll ) {
+            case layer_level::PERSONAL:
+                layering += _( " <stat>Personal aura</stat>." );
+                break;
+            case layer_level::UNDERWEAR:
+                layering += _( " <stat>Close to skin</stat>." );
+                break;
+            case layer_level::REGULAR:
+                layering += _( " <stat>Normal</stat>." );
+                break;
+            case layer_level::WAIST:
+                layering += _( " <stat>Waist</stat>." );
+                break;
+            case layer_level::OUTER:
+                layering += _( " <stat>Outer</stat>." );
+                break;
+            case layer_level::BELTED:
+                layering += _( " <stat>Strapped</stat>." );
+                break;
+            case layer_level::AURA:
+                layering += _( " <stat>Outer aura</stat>." );
+                break;
+            default:
+                layering += _( " Should never see this." );
+        }
+    }
     //~ Limb-specific coverage (%s = name of limb)
-    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s Coverage</bold>:" ), bp_name ) );
+    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s Coverage</bold>:%s" ), bp_name,
+                       layering ) );
     //~ Regular/Default coverage
     info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Default:" ), space ), "",
                        iteminfo::no_flags, it.get_coverage( bp ) );
@@ -4788,6 +4833,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
+        bool not_rigid = false;
         if( const islot_armor *t = find_armor_data() ) {
             bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
             []( const armor_portion_data & data ) {
@@ -4797,11 +4843,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "BASE",
                                    _( "* This item is <info>not rigid</info>.  Its"
                                       " volume and encumbrance increase with contents." ) );
-            } else if( !contents.all_pockets_rigid() ) {
-                info.emplace_back( "BASE",
-                                   _( "* This item is <info>not rigid</info>.  Its"
-                                      " volume increases with contents." ) );
+                not_rigid = true;
             }
+        }
+        if( !not_rigid && !all_pockets_rigid() ) {
+            info.emplace_back( "BASE",
+                               _( "* This item is <info>not rigid</info>.  Its"
+                                  " volume increases with contents." ) );
         }
     }
 
@@ -7064,9 +7112,12 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
 
     if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
         encumber = portion_data->encumber;
+
+        // encumbrance from added or modified pockets
+        int additional_encumbrance = get_contents().get_additional_pocket_encumbrance(
+                                         portion_data->volume_encumber_modifier );
         encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber +
-                               get_contents().get_additional_pocket_encumbrance() -
-                               portion_data->encumber ) );
+                               additional_encumbrance - portion_data->encumber ) );
 
         // add the encumbrance values of any ablative plates and additional encumbrance pockets
         if( is_ablative() || has_additional_encumbrance() ) {

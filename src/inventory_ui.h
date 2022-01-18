@@ -330,6 +330,7 @@ class inventory_column
         void order_by_parent();
 
         inventory_entry *find_by_invlet( int invlet ) const;
+        inventory_entry *find_by_location( item_location &loc ) const;
 
         void draw( const catacurses::window &win, const point &p,
                    std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
@@ -685,6 +686,7 @@ class inventory_selector
         inventory_entry *find_entry_by_invlet( int invlet ) const;
 
         inventory_entry *find_entry_by_coordinate( const point &coordinate ) const;
+        inventory_entry *find_entry_by_location( item_location &loc ) const;
 
         const std::vector<inventory_column *> &get_all_columns() const {
             return columns;
@@ -910,11 +912,19 @@ class pickup_selector : public inventory_multiselector
 {
     public:
         explicit pickup_selector( Character &p, const inventory_selector_preset &preset = default_preset,
-                                  const std::string &selection_column_title = _( "ITEMS TO PICK UP" ) );
+                                  const std::string &selection_column_title = _( "ITEMS TO PICK UP" ),
+                                  const cata::optional<tripoint> &where = cata::nullopt );
         drop_locations execute();
+        void apply_selection( std::vector<drop_location> selection );
     protected:
         stats get_raw_stats() const override;
         void reassign_custom_invlets() override;
+    private:
+        bool wield( int &count );
+        bool wear();
+        void remove_from_to_use( item_location &it );
+        void add_reopen_activity();
+        const cata::optional<tripoint> where;
 };
 
 /**

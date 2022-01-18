@@ -773,7 +773,7 @@ void game::chat()
             break;
         case NPC_CHAT_MOUNT:
             for( npc *them : followers ) {
-                if( them->has_effect( effect_riding ) ) {
+                if( them->has_effect( effect_riding ) || them->is_hallucination() ) {
                     continue;
                 }
                 talk_function::find_mount( *them );
@@ -2643,6 +2643,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
                 return pop.get_window();
             };
             scrollable_text( new_win, "", replace_colors( translated_message ) );
+            g->cancel_activity_or_ignore_query( distraction_type::eoc, "" );
         }
         if( popup_w_interrupt_query_msg ) {
             if( interrupt_type == "portal_storm_popup" ) {
@@ -3052,6 +3053,14 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
         } else if( checked_value == "exp" ) {
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_kill_xp( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "vitamin" ) {
+            std::string vitamin_name = jo.get_string( "name" );
+            return [is_npc, min, max, vitamin_name]( const dialogue & d, int input ) {
+                Character *you = d.actor( is_npc )->get_character();
+                if( you ) {
+                    you->vitamin_set( vitamin_id( vitamin_name ), handle_min_max( d, input, min, max ) );
+                }
             };
         }
     }

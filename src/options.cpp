@@ -480,7 +480,7 @@ bool options_manager::cOpt::checkPrerequisite() const
 bool options_manager::cOpt::is_hidden() const
 {
     switch( hide ) {
-        case COPT_NO_HIDE:
+        case COPT_NO_HIDE: // NOLINT(bugprone-branch-clone)
             return false;
 
         case COPT_SDL_HIDE:
@@ -1657,12 +1657,6 @@ void options_manager::add_options_interface()
          to_translation( "Switch between look around panel being left or right." ),
     { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) } },
     "right"
-       );
-
-    add( "PICKUP_POSITION", "interface", to_translation( "Pickup position" ),
-         to_translation( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
-    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) }, { "overlapping", to_translation( "Overlapping" ) } },
-    "left"
        );
 
     add( "ACCURACY_DISPLAY", "interface", to_translation( "Aim window display style" ),
@@ -2850,8 +2844,14 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                        value );
         }
 
-        draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
-                        page_items.size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( iTooltipHeight + 2 + iWorldOffset )
+        .content_size( page_items.size() )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w_options_border );
+
         wnoutrefresh( w_options_border );
 
         //Draw Tabs

@@ -435,11 +435,11 @@ void wet_character( Character &target, int amount )
         return;
     }
 
-    body_part_set drenched_parts{ { body_part_torso, body_part_arm_l, body_part_arm_r, body_part_head } };
-    if( get_player_character().get_part_wetness( body_part_torso ) * 100 >=
-        get_player_character().get_part_drench_capacity( body_part_torso ) * 50 ) {
-        // Once upper body is 50%+ drenched, start soaking the legs too
-        drenched_parts.unify_set( { { body_part_leg_l, body_part_leg_r } } );
+    // Start drenching the upper half of the body
+    body_part_set drenched_parts = target.get_drenching_body_parts( true, true, false );
+    // When the head is 50% saturated begin drenching the legs as well
+    if( target.get_part_wetness_percentage( target.get_root_body_part() ) >= 0.5f ) {
+        drenched_parts = target.get_drenching_body_parts();
     }
 
     target.drench( amount, drenched_parts, false );
