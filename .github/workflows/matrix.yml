@@ -252,6 +252,7 @@ jobs:
         ccache --show-stats
         ccache -M ${{ env.CCACHE_LIMIT }}
         ccache -c
+        ccache --show-stats
     # TODO: post ccache here, however actions/cache@v2 does not support manual upload step
     - name: run tests
       if: ${{ env.SKIP == 'false' }}

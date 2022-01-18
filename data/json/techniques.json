@@ -818,7 +818,7 @@
     "id": "tec_judo_disarm",
     "name": "Disarming Throw",
     "messages": [ "You disarm and throw %s", "<npcname> disarms and throws %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "unarmed_weapons_allowed": false,
@@ -849,7 +849,7 @@
       "The %s tries to grab you, but you break their feeble grapple!",
       "The %s tries to grab <npcname>, but they break its feeble grapple!"
     ],
-    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
