@@ -1016,48 +1016,39 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     return std::make_pair( fuel_text, fuel_color );
 }
 
-std::vector<std::pair<std::string, nc_color>> display::bodypart_status_colors( const Character &u,
+// Return status/color pairs for all statuses affecting body part (bleeding, bitten, bandaged, etc.)
+static std::map<bodypart_status, nc_color> bodypart_status_colors( const Character &u,
         const bodypart_id &bp )
 {
-    // List of status strings and colors
-    std::vector<std::pair<std::string, nc_color>> ret;
+    std::map<bodypart_status, nc_color> ret;
+
     // Empty if no bodypart given
     if( bp == bodypart_str_id::NULL_ID() ) {
         return ret;
     }
 
-    const int bleed_intensity = u.get_effect_int( effect_bleed, bp );
-    const bool bleeding = bleed_intensity > 0;
-    const bool bitten = u.has_effect( effect_bite, bp.id() );
-    const bool infected = u.has_effect( effect_infected, bp.id() );
-    const bool broken = u.is_limb_broken( bp ) && bp->is_limb;
-    const bool splinted = u.worn_with_flag( json_flag_SPLINT,  bp );
-    const bool bandaged = u.has_effect( effect_bandaged,  bp.id() );
-    const bool disinfected = u.has_effect( effect_disinfected,  bp.id() );
-
     // Ailments
-    if( broken ) {
-        ret.emplace_back( std::make_pair( "broken", c_magenta ) );
+    if( u.has_effect( effect_bite, bp ) ) {
+        ret[bodypart_status::BITEN] = c_yellow;
     }
-    if( bitten ) {
-        ret.emplace_back( std::make_pair( "bitten", c_yellow ) );
+    if( u.has_effect( effect_infected, bp ) ) {
+        ret[bodypart_status::INFECTED] = c_pink;
     }
-    if( bleeding ) {
-        ret.emplace_back( std::make_pair( "bleeding",
-                                          colorize_bleeding_intensity( bleed_intensity ) ) );
+    if( u.is_limb_broken( bp ) ) {
+        ret[bodypart_status::BROKEN] = c_magenta;
     }
-    if( infected ) {
-        ret.emplace_back( std::make_pair( "infected", c_pink ) );
+    if( const int bleed = u.get_effect_int( effect_bleed, bp ) > 0 ) {
+        ret[bodypart_status::BLEEDING] = colorize_bleeding_intensity( bleed );
     }
     // Treatments
-    if( splinted ) {
-        ret.emplace_back( std::make_pair( "splinted", c_light_gray ) );
+    if( u.worn_with_flag( json_flag_SPLINT, bp ) ) {
+        ret[bodypart_status::SPLINTED] = c_light_gray;
     }
-    if( bandaged ) {
-        ret.emplace_back( std::make_pair( "bandaged", c_white ) );
+    if( u.has_effect( effect_bandaged, bp ) ) {
+        ret[bodypart_status::BANDAGED] = c_white;
     }
-    if( disinfected ) {
-        ret.emplace_back( std::make_pair( "disinfected", c_light_green ) );
+    if( u.has_effect( effect_disinfected, bp ) ) {
+        ret[bodypart_status::DISINFECTED] = c_light_green;
     }
 
     return ret;
@@ -1068,11 +1059,81 @@ std::string display::colorized_bodypart_status_text( const Character &u, const b
     // Colorized strings for each status
     std::vector<std::string> color_strings;
     // Get all status strings and colorize them
-    for( const std::pair<std::string, nc_color> &sc : display::bodypart_status_colors( u, bp ) ) {
-        color_strings.emplace_back( colorize( sc.first, sc.second ) );
+    for( const auto &sc : bodypart_status_colors( u, bp ) ) {
+        color_strings.emplace_back( colorize( io::enum_to_string( sc.first ), sc.second ) );
     }
     // Join with commas, or return "--" if no statuses
     return color_strings.empty() ? "--" : join( color_strings, ", " );
+}
+
+static const std::string &sym_for_bp_status( const bodypart_status &stat )
+{
+    static const std::string none = ".";
+    static const std::map<bodypart_status, std::string> symmap {
+        { bodypart_status::BITEN, "B" },
+        { bodypart_status::INFECTED, "I" },
+        { bodypart_status::BROKEN, "%" },
+        { bodypart_status::BLEEDING, "b" },
+        { bodypart_status::SPLINTED, "=" },
+        { bodypart_status::BANDAGED, "+" },
+        { bodypart_status::DISINFECTED, "$" },
+        { bodypart_status::num_bodypart_status, none }
+    };
+    auto sym = symmap.find( stat );
+    return sym == symmap.end() ? none : sym->second;
+}
+
+std::string display::colorized_bodypart_status_sym_text( const Character &u, const bodypart_id &bp )
+{
+    std::string ret;
+    for( const auto &bpcol : bodypart_status_colors( u, bp ) ) {
+        ret += colorize( sym_for_bp_status( bpcol.first ), bpcol.second );
+    }
+    return ret;
+}
+
+std::string display::colorized_bodypart_status_legend_text( const Character &u,
+        const std::set<bodypart_id> &bplist, int width, int height )
+{
+    std::vector<std::string> keys;
+    std::set<bodypart_status> status;
+    for( const bodypart_id &bp : bplist ) {
+        for( const auto &bpcol : bodypart_status_colors( u, bp ) ) {
+            if( status.find( bpcol.first ) == status.end() ) {
+                status.emplace( bpcol.first );
+                std::string key = _( io::enum_to_string( bpcol.first ) );
+                std::string sym = colorize( sym_for_bp_status( bpcol.first ), bpcol.second );
+                keys.emplace_back( string_format( "%s %s", sym, key ) );
+            }
+        }
+    }
+    // Split legend keys into X lines, where X = height.
+    // Lines use the provided width.
+    // This effectively limits the text to a 'width'x'height' box.
+    std::string ret;
+    const int nsize = keys.size();
+    for( int row = 0, nidx = 0; row < height && nidx < nsize; row++ ) {
+        int wavail = width;
+        int nwidth = utf8_width( keys[nidx], true );
+        bool startofline = true;
+        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
+            startofline = false;
+            wavail -= nwidth;
+            ret += keys[nidx];
+            nidx++;
+            if( nidx < nsize ) {
+                nwidth = utf8_width( keys[nidx], true );
+                if( wavail > nwidth ) {
+                    ret += "  ";
+                    wavail -= 2;
+                }
+            }
+        }
+        if( row < height - 1 ) {
+            ret += "\n";
+        }
+    }
+    return ret;
 }
 
 // Single-letter move mode (W, R, C, P)

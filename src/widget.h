@@ -47,6 +47,8 @@ enum class widget_var : int {
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
     bp_status_text, // Status of bodypart (bleeding, bitten, and/or infected)
+    bp_status_sym_text, // Status of bodypart (same as above, but shortened to 1 char per status)
+    bp_status_legend_text, // Legend describing the status indicators from bp_status_sym_text
     compass_text,   // Compass / visible threats by cardinal direction
     compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
@@ -108,6 +110,23 @@ enum class cardinal_direction : int {
 template<>
 struct enum_traits<cardinal_direction> {
     static constexpr cardinal_direction last = cardinal_direction::num_cardinal_directions;
+};
+
+// Used when determining bodypart status indicators in sidebar widgets.
+enum class bodypart_status : int {
+    BITEN,
+    INFECTED,
+    BROKEN,
+    SPLINTED,
+    BANDAGED,
+    DISINFECTED,
+    BLEEDING,
+    num_bodypart_status
+};
+
+template<>
+struct enum_traits<bodypart_status> {
+    static constexpr bodypart_status last = bodypart_status::num_bodypart_status;
 };
 
 // Use generic_factory for loading JSON data.

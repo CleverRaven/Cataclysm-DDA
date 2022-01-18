@@ -86,6 +86,7 @@
     "label": "Compass Legend",
     "style": "text",
     "var": "compass_legend_text",
+    "width": 0,
     "height": 3,
     "flags": [ "W_LABEL_NONE", "W_PAD_NONE" ]
   },
@@ -95,6 +96,7 @@
     "label": "Compass Legend",
     "style": "text",
     "var": "compass_legend_text",
+    "width": 0,
     "height": 5,
     "flags": [ "W_LABEL_NONE", "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
   },

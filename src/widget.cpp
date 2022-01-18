@@ -125,6 +125,10 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "body_temp_text";
         case widget_var::bp_status_text:
             return "bp_status_text";
+        case widget_var::bp_status_sym_text:
+            return "bp_status_sym_text";
+        case widget_var::bp_status_legend_text:
+            return "bp_status_legend_text";
         case widget_var::date_text:
             return "date_text";
         case widget_var::env_temp_text:
@@ -217,6 +221,31 @@ std::string enum_to_string<cardinal_direction>( cardinal_direction dir )
             break;
     }
     cata_fatal( "Invalid cardinal_direction" );
+}
+
+template<>
+std::string enum_to_string<bodypart_status>( bodypart_status stat )
+{
+    switch( stat ) {
+        case bodypart_status::BITEN:
+            return translate_marker( "bitten" );
+        case bodypart_status::INFECTED:
+            return translate_marker( "infected" );
+        case bodypart_status::BROKEN:
+            return translate_marker( "broken" );
+        case bodypart_status::SPLINTED:
+            return translate_marker( "splinted" );
+        case bodypart_status::BANDAGED:
+            return translate_marker( "bandaged" );
+        case bodypart_status::DISINFECTED:
+            return translate_marker( "disinfected" );
+        case bodypart_status::BLEEDING:
+            return translate_marker( "bleeding" );
+        case bodypart_status::num_bodypart_status:
+        default:
+            break;
+    }
+    cata_fatal( "Invalid bodypart_status" );
 }
 } // namespace io
 
@@ -514,6 +543,8 @@ bool widget::uses_text_function()
         case widget_var::activity_text:
         case widget_var::body_temp_text:
         case widget_var::bp_status_text:
+        case widget_var::bp_status_sym_text:
+        case widget_var::bp_status_legend_text:
         case widget_var::compass_text:
         case widget_var::compass_legend_text:
         case widget_var::date_text:
@@ -563,6 +594,17 @@ static void set_height_for_widget( const widget_id &id, int height )
     }
 }
 
+static std::set<bodypart_id> get_bodyparts_from_status_widgets()
+{
+    std::set<bodypart_id> ret;
+    for( const widget &w : widget::get_all() ) {
+        if( w._var == widget_var::bp_status_sym_text ) {
+            ret.emplace( w._bp_id );
+        }
+    }
+    return ret;
+}
+
 // NOTE: Use max_width to split multi-line widgets across lines
 std::string widget::color_text_function_string( const avatar &ava, unsigned int max_width )
 {
@@ -588,6 +630,14 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::bp_status_text:
             desc.first = display::colorized_bodypart_status_text( ava, _bp_id );
             apply_color = false; // Has embedded color already
+            break;
+        case widget_var::bp_status_sym_text:
+            desc.first = display::colorized_bodypart_status_sym_text( ava, _bp_id );
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::bp_status_legend_text:
+            desc.first = display::colorized_bodypart_status_legend_text( ava,
+                         get_bodyparts_from_status_widgets(), _width == 0 ? max_width : _width, _height );
             break;
         case widget_var::date_text:
             desc.first = display::date_string();
@@ -682,7 +732,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             apply_color = false; // Already colorized
             break;
         case widget_var::compass_legend_text:
-            desc.first = display::colorized_compass_legend_text( max_width, _height_max, _height );
+            desc.first = display::colorized_compass_legend_text( _width == 0 ? max_width : _width, _height_max, _height );
             update_height = true;
             apply_color = false; // Already colorized
             break;
