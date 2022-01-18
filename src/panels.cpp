@@ -2111,16 +2111,16 @@ static void draw_left_win( catacurses::window &w, const std::map<size_t, size_t>
 
         const std::string name = panels[row_indx.second].get_name();
         if( swapping && source_index == row_indx.second ) {
-            mvwprintz( w, point( 4, current_row ), c_yellow, name );
+            mvwprintz( w, point( 4, current_row - start ), c_yellow, name );
         } else {
             int offset = 0;
             if( !swapping ) {
                 offset = 0;
-            } else if( current_row > source_row && row > source_row &&
-                       row <= current_row ) {
+            } else if( current_row > source_row && row_indx.first > source_row &&
+                       row_indx.first <= current_row ) {
                 offset = -1;
-            } else if( current_row < source_row && row < source_row &&
-                       row >= current_row ) {
+            } else if( current_row < source_row && row_indx.first < source_row &&
+                       row_indx.first >= current_row ) {
                 offset = 1;
             }
             const nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
@@ -2163,9 +2163,10 @@ static void draw_right_win( catacurses::window &w,
 static void draw_center_win( catacurses::window &w, int col_width, const input_context &ctxt )
 {
     werase( w );
-
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
                col_width - 1 ) + ":" );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_white, _( "Toggle panels on/off" ) );
     mvwprintz( w, point( 1, 2 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
                col_width - 1 ) + ":" );
@@ -2217,6 +2218,7 @@ void panel_manager::show_adm()
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         const point uipos( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 );
         w_border = catacurses::newwin( popup_height, 83, uipos );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
         w_left = catacurses::newwin( popup_height - 2, column_widths[0], uipos + point( 1, 1 ) );
         w_center = catacurses::newwin( popup_height - 2, column_widths[1],
                                        uipos + point( 2 + column_widths[0], 1 ) );
