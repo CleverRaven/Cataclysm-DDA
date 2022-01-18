@@ -13,7 +13,7 @@
   - [height](#height)
   - [colors](#colors)
   - [flags](#flags)
-  - [variable ranges](#variable-ranges)
+- [Variable ranges](#variable-ranges)
 - [Variables](#variables)
   - [Numeric variables](#numeric-variables)
   - [Text variables](#text-variables)
@@ -169,8 +169,6 @@ Variable widgets define a "var" field, with the name of a predefined widget vari
 widget what information it should show. Most of the time, these are attributes of the player
 character, but they can also be attributes of the world, environment, or vehicle where they are.
 
-See the [Variables](#variables) section for a list of them.
-
 For example, a widget to show the current STR stat would define this "var":
 
 ```json
@@ -187,6 +185,9 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
   "bodypart": "arm_r"
 }
 ```
+
+See [Variables](#variables) for a list of available "var" values.
+
 
 #### Number widget
 
@@ -288,8 +289,8 @@ with "=" and "#":
 ### 222
 ```
 
-See the [fill](#fill), [var_min and var_max](#variable-ranges), and [colors](#colors) fields for
-more ways to customize the graph.
+See the [fill](#fill) and [colors](#colors) fields for more ways to customize the graph.
+
 
 
 # Other fields
@@ -481,30 +482,35 @@ Here are some flags that can be included:
 | `W_DYNAMIC_HEIGHT` | Allows certain multi-line widgets to dynamically adjust their height
 
 
-## variable ranges
+# Variable ranges
 
-These optional fields may be defined for widgets having a numeric variable:
+Widgets using a numeric "var" (those without a `_text` suffix) have a predetermined absolute range
+(minimum and maximum), as well as a predermined normal value or range.  These limits are not
+customizable in widget JSON, but knowing about them will make it easier to understand how "graph"
+widgets are drawn, and how the "colors" list is mapped to the variable's numeric range.
 
-- `var_min`: Minimum value the `var` can ever have. Default is 0, unless var has a known minimum.
-- `var_norm`: Normal or baseline `var` value. No default, unless var has a known normal value.
-- `var_max`: Maximum value `var` can have. No default, unless var has a known maximum value.
+Within the code, these three `widget` class attributes store the variable range info:
 
-All these fields expect integer numeric values.
+- `var_min`: Minimum value `var` can have, the zero-point of graphs, the lowest-index color
+- `var_max`: Maximum value `var` can have, the full-point of graphs, the highest-index color
+- `var_norm`: Range (min, max) of normal or baseline `var` values
 
-Variables with a known "var_norm" include the stat attributes "stat_str", "stat_dex", "stat_int",
-and "stat_per".
+All these values are integer numbers only, not floating-point numbers. They may be negative.
 
-Variables with a known "var_max" include "stamina", "mana", "bp_hp", "bp_warmth", and "bp_wetness".
+Usually, `var_min` is simply 0, but some variables such as hidden health have a negative minimum
+value (-200 in this case). When using "colors", the `var_min` value is mapped to the first color.
 
-For "graph" style widgets, you should provide a "var_max" value for any "var" that doesn't have a
-known, inherent maximum. The "var_max" should be the point at which the graph is full.
+Most widgets have a nonzero `var_max` value. This helps graph widgets know whether they must show
+values up to 7000 or more (like stamina) or only up to 100 or 200 (like focus). It also determines
+the value mapped to the last color in "colors", if given.
 
-This helps the graph widget know whether it needs to show values up to 10000 (like stamina) or only
-up to 100 or 200 (like focus). If a var usually varies within a range `[low, high]`, select a
-"var_max" greater than `high` to be sure the normal variance is captured in the graph's range.
+These ranges may change dynamically during gameplay. For instance, as cardio fitness increases from
+day to day, the `var_max` of corresponding cardio widgets must reflect this. Other variables using
+"var_max" include "stamina", "mana", "bp_hp", "bp_warmth", and "bp_wetness".
 
-For both "graph" and "number" style widgets, these limits also determine how the range of colors are
-mapped to the numeric values shown.
+Likewise, when a character's STR stat increases from a mutation, the `var_norm` of corresponding
+widgets must adjust.  Variables using "var_norm" include the stat attributes "stat_str", "stat_dex",
+"stat_int", and "stat_per".
 
 
 # Variables
