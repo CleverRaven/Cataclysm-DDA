@@ -152,8 +152,13 @@ static const furn_str_id furn_f_safe_o( "f_safe_o" );
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
 static const item_group_id Item_spawn_data_allclothes( "allclothes" );
+static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
+static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
+static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
+static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
 static const item_group_id Item_spawn_data_grave( "grave" );
 static const item_group_id Item_spawn_data_jewelry_front( "jewelry_front" );
+static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -188,6 +193,11 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
+
+static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
+static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
+static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
+static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
@@ -3635,7 +3645,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
         here.ter_set( target, here.get_ter_transforms_into( target ) );
     }
 
-    iexamine::practice_survival_while_foraging( &who );
+    iexamine::practice_survival_while_foraging( who );
 }
 
 void harvest_activity_actor::serialize( JsonOut &jsout ) const
@@ -5377,6 +5387,121 @@ std::unique_ptr<activity_actor> pickup_menu_activity_actor::deserialize( JsonVal
 
     data.read( "where", actor.where );
     data.read( "selection", actor.selection );
+
+    return actor.clone();
+}
+
+void forage_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void forage_activity_actor::finish( player_activity &act, Character &who )
+{
+    // Don't forage if we aren't next to the bush - otherwise we get weird bugs
+    bool next_to_bush = false;
+    map &here = get_map();
+    for( const tripoint &pnt : here.points_in_radius( who.pos(), 1 ) ) {
+        // TODO: fix point types
+        if( here.getglobal( pnt ) == tripoint_abs_ms( act.placement ) ) {
+            next_to_bush = true;
+            break;
+        }
+    }
+
+    if( !next_to_bush ) {
+        act.set_to_null();
+        return;
+    }
+
+    const int veggy_chance = rng( 1, 100 );
+    bool found_something = false;
+
+    item_group_id group_id;
+    ter_str_id next_ter;
+
+    switch( season_of_year( calendar::turn ) ) {
+        case SPRING:
+            group_id = Item_spawn_data_forage_spring;
+            next_ter = ter_t_underbrush_harvested_spring;
+            break;
+        case SUMMER:
+            group_id = Item_spawn_data_forage_summer;
+            next_ter = ter_t_underbrush_harvested_summer;
+            break;
+        case AUTUMN:
+            group_id = Item_spawn_data_forage_autumn;
+            next_ter = ter_t_underbrush_harvested_autumn;
+            break;
+        case WINTER:
+            group_id = Item_spawn_data_forage_winter;
+            next_ter = ter_t_underbrush_harvested_winter;
+            break;
+        default:
+            debugmsg( "Invalid season" );
+    }
+
+    const tripoint bush_pos = here.getlocal( act.placement );
+    here.ter_set( bush_pos, next_ter );
+
+    // Survival gives a bigger boost, and Perception is leveled a bit.
+    // Both survival and perception affect time to forage
+
+    ///\EFFECT_PER slightly increases forage success chance
+    ///\EFFECT_SURVIVAL increases forage success chance
+    if( veggy_chance < who.get_skill_level( skill_survival ) * 3 + who.per_cur - 2 ) {
+        const std::vector<item *> dropped =
+            here.put_items_from_loc( group_id, who.pos(), calendar::turn );
+        for( item *it : dropped ) {
+            add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            found_something = true;
+            if( it->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
+                it->set_flag( flag_HIDDEN_POISON );
+                it->poison = rng( 2, 7 );
+            }
+            if( it->has_flag( flag_FORAGE_HALLU ) && !it->has_flag( flag_HIDDEN_POISON ) && one_in( 10 ) ) {
+                it->set_flag( flag_HIDDEN_HALLU );
+            }
+        }
+    }
+    // 10% to drop a item/items from this group.
+    if( one_in( 10 ) ) {
+        const std::vector<item *> dropped =
+            here.put_items_from_loc( Item_spawn_data_trash_forest, who.pos(), calendar::turn );
+        for( item * const &it : dropped ) {
+            add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            found_something = true;
+        }
+    }
+
+    if( !found_something ) {
+        add_msg( _( "You didn't find anything." ) );
+    }
+
+    iexamine::practice_survival_while_foraging( who );
+
+    act.set_to_null();
+
+    here.maybe_trigger_trap( bush_pos, who, true );
+}
+
+void forage_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> forage_activity_actor::deserialize( JsonValue &jsin )
+{
+    forage_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
 
     return actor.clone();
 }
