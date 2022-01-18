@@ -2087,6 +2087,82 @@ void panel_manager::deserialize( JsonIn &jsin )
     jsin.end_array();
 }
 
+static void draw_border_win( catacurses::window &w, const std::vector<int> &column_widths,
+                             int popup_height )
+{
+    werase( w );
+    decorate_panel( _( "SIDEBAR OPTIONS" ), w );
+    // Draw vertical separators
+    mvwvline( w, point( column_widths[0] + 1, 1 ), 0, popup_height - 2 );
+    mvwvline( w, point( column_widths[0] + column_widths[1] + 2, 1 ), 0, popup_height - 2 );
+    wnoutrefresh( w );
+}
+
+static void draw_left_win( catacurses::window &w, const std::map<size_t, size_t> &row_indices,
+                           const std::vector<window_panel> &panels, size_t source_index, size_t current_row, size_t source_row,
+                           bool cur_col, bool &swapping )
+{
+    werase( w );
+    for( std::pair<size_t, size_t> row_indx : row_indices ) {
+        const std::string name = panels[row_indx.second].get_name();
+        if( swapping && source_index == row_indx.second ) {
+            mvwprintz( w, point( 4, current_row ), c_yellow, name );
+        } else {
+            int offset = 0;
+            if( !swapping ) {
+                offset = 0;
+            } else if( current_row > source_row && row_indx.first > source_row &&
+                       row_indx.first <= current_row ) {
+                offset = -1;
+            } else if( current_row < source_row && row_indx.first < source_row &&
+                       row_indx.first >= current_row ) {
+                offset = 1;
+            }
+            const nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
+            mvwprintz( w, point( 3, row_indx.first + offset ), toggle_color, name );
+        }
+    }
+    if( cur_col ) {
+        mvwprintz( w, point( 0, current_row ), c_yellow, ">>" );
+    }
+    wnoutrefresh( w );
+}
+
+static void draw_right_win( catacurses::window &w,
+                            const std::map<std::string, panel_layout> &layouts,
+                            const std::string &current_layout_id,
+                            size_t current_row, bool cur_col )
+{
+    werase( w );
+    size_t i = 0;
+    for( const auto &layout : layouts ) {
+        mvwprintz( w, point( 3, i ), current_layout_id == layout.first ? c_light_blue : c_white,
+                   layout.second.name() );
+        i++;
+    }
+    if( cur_col ) {
+        mvwprintz( w, point( 0, current_row ), c_yellow, ">>" );
+    }
+    wnoutrefresh( w );
+}
+
+static void draw_center_win( catacurses::window &w, int col_width, const input_context &ctxt )
+{
+    werase( w );
+
+    mvwprintz( w, point( 1, 1 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
+               col_width - 1 ) + ":" );
+    mvwprintz( w, point( 1, 2 ), c_white, _( "Toggle panels on/off" ) );
+    mvwprintz( w, point( 1, 3 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
+               col_width - 1 ) + ":" );
+    mvwprintz( w, point( 1, 4 ), c_white, _( "Change display order" ) );
+    mvwprintz( w, point( 1, 5 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
+               col_width - 1 ) + ":" );
+    mvwprintz( w, point( 1, 6 ), c_white, _( "Exit" ) );
+
+    wnoutrefresh( w );
+}
+
 void panel_manager::show_adm()
 {
     input_context ctxt( "PANEL_MGMT" );
@@ -2116,71 +2192,33 @@ void panel_manager::show_adm()
     g->show_panel_adm = true;
     g->invalidate_main_ui_adaptor();
 
-    catacurses::window w;
+    catacurses::window w_border;
+    catacurses::window w_left;
+    catacurses::window w_center;
+    catacurses::window w_right;
 
     const int popup_height = 24;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w = catacurses::newwin( popup_height, 83,
-                                point( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 ) );
+        const point uipos( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 );
+        w_border = catacurses::newwin( popup_height, 83, uipos );
+        w_left = catacurses::newwin( popup_height - 2, column_widths[0], uipos + point( 1, 1 ) );
+        w_center = catacurses::newwin( popup_height - 2, column_widths[1],
+                                       uipos + point( 2 + column_widths[0], 1 ) );
+        w_right = catacurses::newwin( popup_height - 2, column_widths[2],
+                                      uipos + point( 3 + column_widths[0] + column_widths[1], 1 ) );
 
-        ui.position_from_window( w );
+        ui.position_from_window( w_border );
     } );
     ui.mark_resize();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border_win( w_border, column_widths, popup_height );
+        draw_right_win( w_right, layouts, current_layout_id, current_row, current_col == 2 );
         auto &panels = get_current_layout().panels();
-
-        werase( w );
-        decorate_panel( _( "SIDEBAR OPTIONS" ), w );
-
-        for( std::pair<size_t, size_t> row_indx : row_indices ) {
-            const std::string name = panels[row_indx.second].get_name();
-            if( swapping && source_index == row_indx.second ) {
-                mvwprintz( w, point( 5, current_row + 1 ), c_yellow, name );
-            } else {
-                int offset = 0;
-                if( !swapping ) {
-                    offset = 0;
-                } else if( current_row > source_row && row_indx.first > source_row &&
-                           row_indx.first <= current_row ) {
-                    offset = -1;
-                } else if( current_row < source_row && row_indx.first < source_row &&
-                           row_indx.first >= current_row ) {
-                    offset = 1;
-                }
-                const nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
-                mvwprintz( w, point( 4, row_indx.first + 1 + offset ), toggle_color, name );
-            }
-        }
-        size_t i = 1;
-        for( const auto &layout : layouts ) {
-            mvwprintz( w, point( column_widths[0] + column_widths[1] + 4, i ),
-                       current_layout_id == layout.first ? c_light_blue : c_white, layout.second.name() );
-            i++;
-        }
-        int col_offset = 0;
-        for( i = 0; i < current_col; i++ ) {
-            col_offset += column_widths[i];
-        }
-        mvwprintz( w, point( 1 + col_offset, current_row + 1 ), c_yellow, ">>" );
-        // Draw vertical separators
-        mvwvline( w, point( column_widths[0], 1 ), 0, popup_height - 2 );
-        mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, popup_height - 2 );
-
-        col_offset = column_widths[0] + 2;
-        int col_width = column_widths[1] - 4;
-        mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
-                   col_width ) + ":" );
-        mvwprintz( w, point( col_offset, 2 ), c_white, _( "Toggle panels on/off" ) );
-        mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
-                   col_width ) + ":" );
-        mvwprintz( w, point( col_offset, 4 ), c_white, _( "Change display order" ) );
-        mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
-                   col_width ) + ":" );
-        mvwprintz( w, point( col_offset, 6 ), c_white, _( "Exit" ) );
-
-        wnoutrefresh( w );
+        draw_left_win( w_left, row_indices, panels, source_index, current_row, source_row, current_col == 0,
+                       swapping );
+        draw_center_win( w_center, column_widths[1], ctxt );
     } );
 
     while( !exit ) {
