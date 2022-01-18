@@ -56,10 +56,21 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
+  matrix-variables:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    outputs:
+      skip_tests: ${{ steps.matrix_vars.outputs.skip_tests }}
+      max_parallel: ${{ steps.matrix_vars.outputs.max_parallel }}
+    steps:
+      - id: matrix_vars
+        run: |
+          echo "::set-output name=skip_tests::$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)"
+          echo "::set-output name=max_parallel::$([ "$GITHUB_REF_NAME" = "master" ] && echo 20 || echo 1)"
   varied_builds:
-    needs: [ skip-duplicates-code, skip-duplicates-data ]
+    needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
     strategy:
-      max-parallel: 1
+      max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
           - compiler: g++-9
@@ -193,6 +204,7 @@ jobs:
         ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
         CCACHE_LIMIT: ${{ matrix.ccache_limit }}
         SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (GCC 9, Curses, LTO)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
+        SKIP_TESTS: ${{ needs.matrix-variables.outputs.skip_tests }}
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
@@ -255,7 +267,7 @@ jobs:
         ccache --show-stats
     # TODO: post ccache here, however actions/cache@v2 does not support manual upload step
     - name: run tests
-      if: ${{ env.SKIP == 'false' }}
+      if: ${{ env.SKIP == 'false' && env.SKIP_TESTS == 'false' }}
       run: bash ./build-scripts/gha_test_only.sh
     - run: |
         echo ${{ github.event.number }} > pull_request_id
