@@ -137,7 +137,6 @@ static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
-static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -305,7 +304,6 @@ activity_handlers::finish_functions = {
     { ACT_FIRSTAID, firstaid_finish },
     { ACT_FISH, fish_finish },
     { ACT_PICKAXE, pickaxe_finish },
-    { ACT_MOP, mopping_finish },
     { ACT_START_FIRE, start_fire_finish },
     { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
@@ -1618,17 +1616,6 @@ void activity_handlers::generic_game_do_turn( player_activity *act, Character *y
 void activity_handlers::game_do_turn( player_activity *act, Character *you )
 {
     generic_game_turn_handler( act, you, 1, 100 );
-}
-
-void activity_handlers::mopping_finish( player_activity *act, Character *you )
-{
-    // blind character have a 1/3 chance of actually mopping
-    const bool will_mop = one_in( you->is_blind() ? 1 : 3 );
-    if( will_mop ) {
-        map &here = get_map();
-        here.mop_spills( here.getlocal( act->placement ) );
-    }
-    resume_for_multi_activities( *you );
 }
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )

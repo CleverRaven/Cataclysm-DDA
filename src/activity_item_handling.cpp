@@ -76,7 +76,6 @@ static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -2316,7 +2315,7 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
 static bool mop_activity( Character &you, const tripoint &src_loc )
 {
     // iuse::mop costs 15 moves per use
-    you.assign_activity( ACT_MOP, 15 );
+    you.assign_activity( player_activity( mop_activity_actor( 15 ) ) );
     you.activity.placement = get_map().getabs( src_loc );
     return true;
 }
