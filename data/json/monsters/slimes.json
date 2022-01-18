@@ -157,7 +157,7 @@
     "weight": "120 kg",
     "hp": 200,
     "speed": 40,
-    "attack_cost": 60
+    "attack_cost": 60,
     "material": [ "slime" ],
     "symbol": "O",
     "color": "light_gray",
