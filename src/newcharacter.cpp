@@ -1358,6 +1358,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "QUIT" );
 
@@ -1676,6 +1677,11 @@ tab_direction set_traits( avatar &u, pool_type pool )
             .description( _( "Search by trait name." ) )
             .edit( filterstring );
             recalc_traits = true;
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
+                filterstring = "";
+                recalc_traits = true;
+            }
         }
     } while( true );
 }
@@ -1740,6 +1746,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "RANDOMIZE" );
 
@@ -2116,6 +2123,11 @@ tab_direction set_profession( avatar &u, pool_type pool )
             .description( _( "Search by profession name." ) )
             .edit( filterstring );
             recalc_profs = true;
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
+                filterstring = "";
+                recalc_profs = true;
+            }
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
@@ -2165,6 +2177,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "RANDOMIZE" );
 
@@ -2504,6 +2517,11 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             .description( _( "Search by background name." ) )
             .edit( filterstring );
             recalc_profs = true;
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
+                filterstring = "";
+                recalc_profs = true;
+            }
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
@@ -2920,6 +2938,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "RANDOMIZE" );
 
@@ -3240,6 +3259,11 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             .description( _( "Search by scenario name." ) )
             .edit( filterstring );
             recalc_scens = true;
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
+                filterstring = "";
+                recalc_scens = true;
+            }
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
