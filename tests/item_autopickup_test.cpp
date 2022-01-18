@@ -7,6 +7,8 @@
 #include "pickup.h"
 
 static const itype_id itype_backpack( "backpack_hiking" );
+static const itype_id itype_aspirin( "aspirin" );
+
 static const flag_id flag_FROZEN = flag_id( "FROZEN" );
 
 // returns true if the container has an item with the same type and quantity
@@ -34,7 +36,7 @@ TEST_CASE( "Autopickup single item", "[pickup][item]" )
 
     // items to be spawned and autopicked up by player
     std::list<item *> autopickup_items{
-        &here.add_item( ground, item( "aspirin" ) ),
+        &here.add_item( ground, item( itype_aspirin, calendar::turn, 20 ) ),
     };
     for( item *entry : autopickup_items ) {
         // make sure item is not frozen in the world
