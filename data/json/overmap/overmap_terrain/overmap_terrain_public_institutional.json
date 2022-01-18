@@ -435,7 +435,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "town_hall_0_0_0", "town_hall_1_0_0", "town_hall_0_1_0", "town_hall_1_1_0","town_hall2_0_0_0", "town_hall2_1_0_0", "town_hall2_0_1_0", "town_hall2_1_1_0" ],
+    "id": [
+      "town_hall_0_0_0",
+      "town_hall_1_0_0",
+      "town_hall_0_1_0",
+      "town_hall_1_1_0",
+      "town_hall2_0_0_0",
+      "town_hall2_1_0_0",
+      "town_hall2_0_1_0",
+      "town_hall2_1_1_0"
+    ],
     "name": "town hall",
     "sym": "^",
     "color": "i_black",
@@ -444,7 +453,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "town_hall_0_0_1", "town_hall_1_0_1", "town_hall_0_1_1", "town_hall_1_1_1","town_hall2_0_0_1", "town_hall2_1_0_1", "town_hall2_0_1_1", "town_hall2_1_1_1" ],
+    "id": [
+      "town_hall_0_0_1",
+      "town_hall_1_0_1",
+      "town_hall_0_1_1",
+      "town_hall_1_1_1",
+      "town_hall2_0_0_1",
+      "town_hall2_1_0_1",
+      "town_hall2_0_1_1",
+      "town_hall2_1_1_1"
+    ],
     "name": "town hall",
     "sym": "^",
     "color": "i_black",

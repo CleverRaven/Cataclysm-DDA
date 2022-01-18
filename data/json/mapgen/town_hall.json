@@ -79,12 +79,10 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "town_hall2_0_0_0", "town_hall2_1_0_0" ],
-      [ "town_hall2_0_1_0", "town_hall2_1_1_0" ],
-      [ "town_hall2_0_0_1", "town_hall2_1_0_1" ],
-      [ "town_hall2_0_1_1", "town_hall2_1_1_1" ],
-      [ "town_hall2_0_0_roof", "town_hall2_1_0_roof" ],
-      [ "town_hall2_0_1_roof", "town_hall2_1_1_roof" ]
+      [ "town_hall_2_0_0_0", "town_hall_2_1_0_0" ],
+      [ "town_hall_2_0_1_0", "town_hall_2_1_1_0" ],
+      [ "town_hall_2_0_0_1", "town_hall_2_1_0_1" ],
+      [ "town_hall_2_0_1_1", "town_hall_2_1_1_1" ]
     ],
     "weight": 100,
     "object": {
