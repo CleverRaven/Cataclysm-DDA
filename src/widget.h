@@ -150,6 +150,8 @@ class widget
         int _width = 0;
         // Height in characters of widget, only matters for style == widget
         int _height = 0;
+        // Maximum height this widget can occupy (0 == no limit)
+        int _height_max = 0;
         // String of symbols for graph widgets, mapped in increasing order like "0123..."
         std::string _symbols;
         // Graph fill style ("bucket" or "pool")
@@ -176,6 +178,8 @@ class widget
         static void reset();
         // Get all widget instances from the factory
         static const std::vector<widget> &get_all();
+        // Get this widget's id
+        const widget_id &getId() const;
 
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the
