@@ -131,10 +131,9 @@ jobs:
             sound: 1
             localize: 1
             title: Clang 12, macOS 10.15, Tiles, Sound, UBSan
-            # ccache on mac has zstd built in
-            # ~120MB ccache-compressed in a clean build
-            # ~115 compressed
-            ccache_limit: 1G
+            # ~880MB ccache-compressed in a clean build
+            # ~100 compressed
+            ccache_limit: 2G
 
           - compiler: g++
             os: ubuntu-latest
@@ -203,6 +202,9 @@ jobs:
         RELEASE: ${{ matrix.release }}
         ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
         CCACHE_LIMIT: ${{ matrix.ccache_limit }}
+        CCACHE_FILECLONE: true
+        CCACHE_HARDLINK: true
+        CCACHE_NOCOMPRESS: true
         SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (GCC 9, Curses, LTO)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
         SKIP_TESTS: ${{ needs.matrix-variables.outputs.skip_tests }}
     steps:
