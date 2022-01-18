@@ -75,6 +75,10 @@ std::string trade_preset::get_denial( const item_location &loc ) const
 
 bool trade_preset::cat_sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const
 {
+    item_category const *const lcat = lhs.get_category_ptr();
+    if( lcat->get_id() == item_category_ITEMS_WORN or lcat->get_id() == item_category_WEAPON_HELD ) {
+        return false;
+    }
     item_category const *const rcat = rhs.get_category_ptr();
     if( rcat->get_id() == item_category_ITEMS_WORN or rcat->get_id() == item_category_WEAPON_HELD ) {
         return true;

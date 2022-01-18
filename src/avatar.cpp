@@ -27,6 +27,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "diary.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -211,6 +212,7 @@ void avatar::control_npc( npc &np )
     // center the map on the new avatar character
     const bool z_level_changed = g->vertical_shift( posz() );
     g->update_map( *this, z_level_changed );
+    character_mood_face( true );
 }
 
 void avatar::control_npc_menu()
@@ -817,6 +819,20 @@ void avatar::wake_up()
         }
     }
     Character::wake_up();
+}
+
+void avatar::add_snippet( snippet_id snippet )
+{
+    if( has_seen_snippet( snippet ) ) {
+        return;
+    }
+
+    snippets_read.emplace( snippet );
+}
+
+bool avatar::has_seen_snippet( const snippet_id &snippet ) const
+{
+    return snippets_read.count( snippet ) > 0;
 }
 
 void avatar::vomit()
@@ -1515,7 +1531,7 @@ std::string avatar::total_daily_calories_string() const
 
     std::string ret = header_string;
 
-    // Start with today in the first row, day number from start of cataclysm
+    // Start with today in the first row, day number from start of the Cataclysm
     int today = day_of_season<int>( calendar::turn ) + 1;
     int day_offset = 0;
     for( const daily_calories &day : calorie_diary ) {
@@ -1887,7 +1903,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     }
     if( !plantsleep && ( furn_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
-                         ter_at_pos == t_improvised_shelter ||
+                         ter_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
                          trap_at_pos.comfort > static_cast<int>( comfort_level::neutral ) ||
                          in_shell || websleeping || watersleep ||
                          vp.part_with_feature( "SEAT", true ) ||

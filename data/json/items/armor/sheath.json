@@ -214,7 +214,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_SMALL" ],
     "armor": [
       {
         "coverage": 5,

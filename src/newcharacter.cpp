@@ -89,7 +89,7 @@ static const trait_id trait_XXXL( "XXXL" );
 static bool isWide = false;
 
 // Colors used in this file: (Most else defaults to c_light_gray)
-#define COL_SELECT          h_light_gray   // Selected value
+#define COL_SELECT          h_white   // Selected value
 #define COL_STAT_BONUS      c_light_green // Bonus
 #define COL_STAT_NEUTRAL    c_white   // Neutral Property
 #define COL_STAT_PENALTY    c_light_red   // Penalty
@@ -104,7 +104,7 @@ static bool isWide = false;
 #define COL_TR_BAD_OFF_PAS  c_dark_gray  // A toggled-off bad trait
 #define COL_TR_BAD_ON_PAS   c_red     // A toggled-on bad trait
 #define COL_TR_NEUT         c_brown     // Neutral trait descriptive text
-#define COL_TR_NEUT_OFF_ACT c_dark_gray  // A toggled-off neutral trait
+#define COL_TR_NEUT_OFF_ACT c_light_gray  // A toggled-off neutral trait
 #define COL_TR_NEUT_ON_ACT  c_yellow   // A toggled-on neutral trait
 #define COL_TR_NEUT_OFF_PAS c_dark_gray  // A toggled-off neutral trait
 #define COL_TR_NEUT_ON_PAS  c_brown     // A toggled-on neutral trait
@@ -358,7 +358,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     while( true ) {
         menu.query( true );
         const matype_id &selected = styles[menu.ret];
-        if( query_yn( _( "Use this style?" ) ) ) {
+        if( query_yn( string_format( _( "Use the %s style?" ), selected.obj().name ) ) ) {
             return selected;
         }
     }
@@ -380,6 +380,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     init_age = rng( 16, 55 );
     randomize_height();
     randomize_blood();
+    randomize_heartrate();
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
@@ -756,6 +757,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // setup staring bank money
     cash = rng( -200000, 200000 );
+    randomize_heartrate();
 
     if( has_trait( trait_XS ) ) {
         set_stored_kcal( 10000 );
@@ -966,9 +968,11 @@ tab_direction set_points( avatar &u, pool_type &pool )
 
         const int opts_length = static_cast<int>( opts.size() );
         for( int i = 0; i < opts_length; i++ ) {
-            nc_color color = ( pool == std::get<0>( opts[i] ) ? COL_SKILL_USED : c_light_gray );
-            if( highlighted == i ) {
-                color = hilite( color );
+            nc_color color;
+            if( pool == std::get<0>( opts[i] ) ) {
+                color = highlighted == i ? hilite( c_light_green ) : c_green;
+            } else {
+                color = highlighted == i ? COL_SELECT : c_light_gray;
             }
             mvwprintz( w, point( 2, 5 + i ), color, std::get<1>( opts[i] ) );
         }
@@ -1356,6 +1360,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "QUIT" );
 
@@ -1420,7 +1425,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
                     break;
             }
             nc_color hi_on = hilite( col_on_act );
-            nc_color hi_off = hilite( col_off_act );
+            nc_color hi_off = hilite( c_white );
 
             int &start = iStartPos[iCurrentPage];
             int current = iCurrentLine[iCurrentPage];
@@ -1478,8 +1483,13 @@ tab_direction set_traits( avatar &u, pool_type pool )
                            page_width - 2 ) );
             }
 
-            draw_scrollbar( w, iCurrentLine[iCurrentPage], iContentHeight, traits_size[iCurrentPage],
-                            point( page_width * iCurrentPage, 5 ) );
+            scrollbar()
+            .offset_x( page_width * iCurrentPage )
+            .offset_y( 5 )
+            .content_size( traits_size[iCurrentPage] )
+            .viewport_pos( start )
+            .viewport_size( iContentHeight )
+            .apply( w );
         }
 
         wnoutrefresh( w );
@@ -1601,7 +1611,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
                 for( const profession *hobbies : u.hobbies ) {
                     if( hobbies->is_locked_trait( cur_trait ) ) {
                         inc_type = 0;
-                        popup( _( "Your hobby of %s prevents you from removing this trait." ),
+                        popup( _( "Your background of %s prevents you from removing this trait." ),
                                hobbies->gender_appropriate_name( u.male ) );
                     }
                 }
@@ -1669,6 +1679,11 @@ tab_direction set_traits( avatar &u, pool_type pool )
             .description( _( "Search by trait name." ) )
             .edit( filterstring );
             recalc_traits = true;
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
+                filterstring = "";
+                recalc_traits = true;
+            }
         }
     } while( true );
 }
@@ -1733,6 +1748,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "RANDOMIZE" );
 
@@ -1808,7 +1824,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 col = ( cur_id_is_valid && sorted_profs[i] == sorted_profs[cur_id] ? COL_SELECT : c_light_gray );
             } else {
                 col = ( cur_id_is_valid &&
-                        sorted_profs[i] == sorted_profs[cur_id] ? hilite( COL_SKILL_USED ) : COL_SKILL_USED );
+                        sorted_profs[i] == sorted_profs[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             }
             mvwprintz( w, point( 2, 5 + i - iStartPos ), col,
                        sorted_profs[i]->gender_appropriate_name( u.male ) );
@@ -1970,7 +1986,13 @@ tab_direction set_profession( avatar &u, pool_type pool )
                             sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
         }
 
-        draw_scrollbar( w, cur_id, iContentHeight, profs_length, point( 0, 5 ) );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( profs_length )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w );
 
         wnoutrefresh( w );
         wnoutrefresh( w_description );
@@ -2103,6 +2125,11 @@ tab_direction set_profession( avatar &u, pool_type pool )
             .description( _( "Search by profession name." ) )
             .edit( filterstring );
             recalc_profs = true;
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
+                filterstring = "";
+                recalc_profs = true;
+            }
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
@@ -2152,6 +2179,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "RANDOMIZE" );
 
@@ -2163,7 +2191,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
     int iheight = 0;
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_character_tabs( w, _( "HOBBIES" ) );
+        draw_character_tabs( w, _( "BACKGROUND" ) );
 
         // Draw filter indicator
         for( int i = 1; i < getmaxx( w ) - 1; i++ ) {
@@ -2194,13 +2222,13 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = n_gettext( "Hobby %1$s earns %2$d point",
-                                           "Hobby %1$s earns %2$d points",
+                prof_msg_temp = n_gettext( "Background %1$s earns %2$d point",
+                                           "Background %1$s earns %2$d points",
                                            pointsForProf );
             } else {
                 //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = n_gettext( "Hobby %1$s costs %2$d point",
-                                           "Hobby %1$s costs %2$d points",
+                prof_msg_temp = n_gettext( "Background %1$s costs %2$d point",
+                                           "Background %1$s costs %2$d points",
                                            pointsForProf );
             }
 
@@ -2225,7 +2253,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             nc_color col;
             if( u.hobbies.count( &sorted_profs[i].obj() ) != 0 ) {
                 col = ( cur_id_is_valid &&
-                        sorted_profs[i] == sorted_profs[cur_id] ? hilite( COL_SKILL_USED ) : COL_SKILL_USED );
+                        sorted_profs[i] == sorted_profs[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             } else {
                 col = ( cur_id_is_valid && sorted_profs[i] == sorted_profs[cur_id] ? COL_SELECT : c_light_gray );
             }
@@ -2258,7 +2286,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
 
             // Profession traits
             const auto prof_traits = sorted_profs[cur_id]->get_locked_traits();
-            buffer += colorize( _( "Hobby traits:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Background traits:" ), c_light_blue ) + "\n";
             if( prof_traits.empty() ) {
                 buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
             } else {
@@ -2269,7 +2297,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
 
             // Profession skills
             const auto prof_skills = sorted_profs[cur_id]->skills();
-            buffer += colorize( _( "Hobby skill experience:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Background skill experience:" ), c_light_blue ) + "\n";
             if( prof_skills.empty() ) {
                 buffer += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
             } else {
@@ -2297,9 +2325,9 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             // Proficiencies
             const std::string newline = "\n";
             std::vector<proficiency_id> prof_proficiencies = sorted_profs[cur_id]->proficiencies();
-            buffer += colorize( _( "Hobby proficiencies:" ), c_light_blue ) + newline;
+            buffer += colorize( _( "Background proficiencies:" ), c_light_blue ) + newline;
             if( prof_proficiencies.empty() ) {
-                buffer += pgettext( "Hobby has no proficiencies", "None" ) + newline;
+                buffer += pgettext( "Background has no proficiencies", "None" ) + newline;
             } else {
                 for( const proficiency_id &prof : prof_proficiencies ) {
                     buffer += prof->name() + newline;
@@ -2334,7 +2362,13 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                             sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
         }
 
-        draw_scrollbar( w, cur_id, iContentHeight, profs_length, point( 0, 5 ) );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( profs_length )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w );
 
         wnoutrefresh( w );
         wnoutrefresh( w_description );
@@ -2423,7 +2457,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                         for( const trait_id &suspect_trait : hobby->get_locked_traits() ) {
                             if( are_conflicting_traits( new_trait, suspect_trait ) ) {
                                 conflict_found = true;
-                                popup( _( "The trait [%1$s] conflicts with hobby [%2$s]'s trait [%3$s]." ), new_trait->name(),
+                                popup( _( "The trait [%1$s] conflicts with background [%2$s]'s trait [%3$s]." ), new_trait->name(),
                                        hobby->gender_appropriate_name( u.male ), suspect_trait->name() );
                             }
                         }
@@ -2482,9 +2516,14 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             string_input_popup()
             .title( _( "Search:" ) )
             .width( 60 )
-            .description( _( "Search by hobby name." ) )
+            .description( _( "Search by background name." ) )
             .edit( filterstring );
             recalc_profs = true;
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
+                filterstring = "";
+                recalc_profs = true;
+            }
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
@@ -2717,9 +2756,6 @@ tab_direction set_skills( avatar &u, pool_type pool )
         fold_and_print_from( w_description, point_zero, getmaxx( w_description ),
                              selected, COL_SKILL_USED, rec_disp );
 
-        draw_scrollbar( w, selected, iContentHeight, iLines,
-                        point( getmaxx( w ) - 1, 5 ), BORDER_COLOR, true );
-
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
             const int y = 5 + i - cur_offset;
@@ -2743,10 +2779,12 @@ tab_direction set_skills( avatar &u, pool_type pool )
             int skill_level = 0;
 
             // Grab skills from profession
-            for( auto &prof_skill : u.prof->skills() ) {
-                if( prof_skill.first == thisSkill->ident() ) {
-                    skill_level += prof_skill.second;
-                    break;
+            if( !!thisSkill ) {
+                for( auto &prof_skill : u.prof->skills() ) {
+                    if( prof_skill.first == thisSkill->ident() ) {
+                        skill_level += prof_skill.second;
+                        break;
+                    }
                 }
             }
 
@@ -2757,7 +2795,13 @@ tab_direction set_skills( avatar &u, pool_type pool )
 
         }
 
-        draw_scrollbar( w, cur_pos, iContentHeight, num_skills, point( 0, 5 ) );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( num_skills )
+        .viewport_pos( cur_offset )
+        .viewport_size( iContentHeight )
+        .apply( w );
 
         wnoutrefresh( w );
         wnoutrefresh( w_description );
@@ -2896,6 +2940,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "RANDOMIZE" );
 
@@ -3002,7 +3047,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                 }
             } else {
                 col = ( cur_id_is_valid &&
-                        sorted_scens[i] == sorted_scens[cur_id] ? hilite( COL_SKILL_USED ) : COL_SKILL_USED );
+                        sorted_scens[i] == sorted_scens[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             }
             mvwprintz( w, point( 2, 5 + i - iStartPos ), col,
                        sorted_scens[i]->gender_appropriate_name( u.male ) );
@@ -3105,6 +3150,14 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         }
 
         draw_scrollbar( w, cur_id, iContentHeight, scens_length, point( 0, 5 ) );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( scens_length )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w );
+
         wnoutrefresh( w );
         wnoutrefresh( w_description );
         wnoutrefresh( w_sorting );
@@ -3208,6 +3261,11 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             .description( _( "Search by scenario name." ) )
             .edit( filterstring );
             recalc_scens = true;
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
+                filterstring = "";
+                recalc_scens = true;
+            }
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
@@ -3764,7 +3822,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         wnoutrefresh( w_profession );
 
         werase( w_hobbies );
-        mvwprintz( w_hobbies, point_zero, COL_HEADER, _( "Hobbies: " ) );
+        mvwprintz( w_hobbies, point_zero, COL_HEADER, _( "Background: " ) );
         if( you.hobbies.empty() ) {
             mvwprintz( w_hobbies, point_south, c_light_red, _( "None!" ) );
         } else {
@@ -3955,6 +4013,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             you.set_base_age( rng( 16, 55 ) );
             you.randomize_height();
             you.randomize_blood();
+            you.randomize_heartrate();
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
         } else if( action == "CHOOSE_LOCATION" ) {

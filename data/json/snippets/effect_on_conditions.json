@@ -165,7 +165,7 @@
     "text": [
       "You smell an entirely new smell, like nothing you have smelled before.  It makes you gag.",
       "Your hair stands on end as a sharp electrical current washes over you.",
-      "A jagged hole opens in the sky and a vast cloud in the shape of an asymetrical person emerges.",
+      "A jagged hole opens in the sky and a vast cloud in the shape of an asymmetrical person emerges.",
       "A jagged hole that resembles an eye opens in the sky, then stares at you.",
       "For a split second, the world vanishes and you are in a vast, empty void.",
       "For a split second, the world vanishes and you are in a tiny, featureless, circular room.",
@@ -257,6 +257,20 @@
   },
   {
     "type": "snippet",
+    "category": "PORTAL_STORM_POPUP",
+    "//": "These are just proof of concept popups, would definitely prefer to get some more sophisticated ideas",
+    "text": [
+      "Your legs move on their own accord.  You need to go outside.  NOW.",
+      "This foolishness has lasted too long.  It's time to leave and embrace the cosmos.",
+      "Monsters spotted!  You need to leave, fast!",
+      "Heard footsteps!  Run outdoors to escape your fate.",
+      "Heard crash!  Your shelter is compromised, vacate it immediately!",
+      "The kevlar hulk is dangerously close!  Run outside, it's right behind you!",
+      "Ouch, somethings hurts!  You must leave the dreaded indoors to find reprieve."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "PORTAL_DEPENDENT_MESSAGES_VARIED_GOOD",
     "text": [
       "You suddenly smell the most delicious aroma in the world.",
@@ -321,7 +335,7 @@
     "text": [
       "For a moment your hand seems to get stuck in something.  You search around but can't find what it was.",
       "For a split second your hand seems to disappear in the air.",
-      "Your right hand suddendly trasspasses your left hand.  You separate them immediately.",
+      "Your right hand suddendly trespasses your left hand.  You separate them immediately.",
       "Your left hand suddenly gets stuck in your right hand.  After a second you are able to separate them again.",
       "For a split second your left and right hands seem to switch places.",
       "You try to touch your own face with your hand, but you can't feel the touch.",
@@ -348,13 +362,13 @@
     "category": "PORTAL_DEPENDENT_MESSAGES_INT_BAD",
     "text": [
       "You suddenly thought of a happy family playing in the woods.  A second later you realize you don't know the people you were thinking about.",
-      "You suddenly think of some kids having fun in the beach.  A second later you realize the kids didn't have faces and the beach was purple.",
-      "You suddenly seem to remember your own wedding.  A second later you realize the wedding was not yours and the bride was a squid-looking alien.",
-      "You suddenly seem to remember playing with your friends at the fields before all of this.  A second later you realize the fields around you were crawling with alien vermin.",
+      "You suddenly think of some kids having fun on the beach.  A second later you realize the kids didn't have faces and the beach was purple.",
+      "You suddenly seem to remember your own wedding.  A second later you realize the wedding was not yours and the bride was a squid-like alien.",
+      "You suddenly seem to remember playing with your friends in the fields before all of this.  A second later you realize the fields around you were crawling with alien vermin.",
       "You suddenly have the urge to lick your own hand.  A second later the urge fades.",
       "You suddenly feel like the whole world is a video game.  You dismiss the notion after a moment.",
       "You suddenly feel like if your entire being was being controlled by someone else.  The sensation fades after a moment.",
-      "You suddenly question whether zombies are bad.  Maybe they just need a hug.  The thought fades quickly and you shudder from it.",
+      "You suddenly question whether zombies are bad.  Maybe they just need a hug.  You shudder when the thought fades.",
       "You suddenly went right when you wanted to go left.",
       "Your right hand suddenly slaps your left hand.  Weird.",
       "Your left hand suddenly tries to strangle your right hand.  Weird."
@@ -371,11 +385,11 @@
       "You dream of yourself, there are strings attached to your body and you move like a puppet.",
       "You dream of yourself in a field in the middle of a portal storm, you seem to be uniting with the world.",
       "You dream of yourself in a house in the middle of a portal storm, you seem to be sad and alone.",
-      "You dream of a different version of yourself, there is blood in your mouth and your moves lack intelligence.",
+      "You dream of a different version of yourself, there is blood running from your mouth and your moves lack intelligence.",
       "You dream of a different version of yourself, you are as big as a tree and fight similarly giant zombies.",
       "You dream of a different version of yourself, you speak a language you have never heard and move in ways you should never had.",
-      "You dream of a family you never had, on a house you never knew.",
-      "You dream of traveling through an empty road under the moonlight, the only problem being that there are 2 moons on the sky, one blue and one green.",
+      "You dream of a family you never had, in a house you never knew.",
+      "You dream of traveling on an empty road under the moonlight, the only problem being that there are two moons on the sky, one blue and one green.",
       "You dream of a ruined city, with crumbling buildings and foreign symbols.",
       "You dream of a portal opening in the middle of nowhere.  You feel a strange calling from within."
     ]

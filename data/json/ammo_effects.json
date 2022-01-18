@@ -89,7 +89,7 @@
   {
     "id": "LIGHTNING",
     "type": "ammo_effect",
-    "aoe": { "field_type": "fd_electricity", "intensity_min": 3, "intensity_max": 3 }
+    "aoe": { "field_type": "fd_electricity", "intensity_min": 6, "intensity_max": 10, "chance": 25 }
   },
   {
     "id": "PLASMA",

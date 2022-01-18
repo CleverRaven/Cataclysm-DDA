@@ -15,7 +15,7 @@
 static const mtype_id debug_mon( "debug_mon" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_soldier_no_weakpoints( "mon_zombie_soldier_no_weakpoints" );
-static const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
+static const mtype_id mon_zombie_survivor_no_weakpoints( "mon_zombie_survivor_no_weakpoints" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
@@ -179,7 +179,7 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
 
     monster soldier( mon_zombie_soldier_no_weakpoints );
     monster smoker( mon_zombie_smoker );
-    monster survivor( mon_zombie_survivor );
+    monster survivor( mon_zombie_survivor_no_weakpoints );
 
     item clumsy_sword( "test_clumsy_sword" );
     item normal_sword( "test_normal_sword" );
@@ -211,7 +211,7 @@ TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
 
     monster soldier( mon_zombie_soldier_no_weakpoints );
     monster smoker( mon_zombie_smoker );
-    monster survivor( mon_zombie_survivor );
+    monster survivor( mon_zombie_survivor_no_weakpoints );
 
     item clumsy_sword( "test_clumsy_sword" );
     item normal_sword( "test_normal_sword" );

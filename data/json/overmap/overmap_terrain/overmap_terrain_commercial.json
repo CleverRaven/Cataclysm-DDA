@@ -89,6 +89,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "office_tower_roof_nw", "office_tower_roof_ne", "office_tower_roof_sw", "office_tower_roof_se" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "tower roof",
+    "sym": "t",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "office_tower_2_a1",
       "office_tower_2_a2",
@@ -1571,5 +1579,34 @@
     "id": "s_games_roof",
     "name": "gaming store roof",
     "copy-from": "s_games"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_g1", "s_gas_g0" ],
+    "name": "gas station",
+    "sym": "g",
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "land_use_code": "commercial"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_b11",
+    "name": "reception",
+    "sym": "R",
+    "color": "red",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_b20", "s_gas_b21" ],
+    "name": "bunker",
+    "sym": "B",
+    "color": "red",
+    "see_cost": 5,
+    "mondensity": 2
   }
 ]

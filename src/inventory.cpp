@@ -233,6 +233,7 @@ static bool stack_compare( const std::list<item> &lhs, const std::list<item> &rh
 void inventory::clear()
 {
     items.clear();
+    max_empty_liq_cont.clear();
     binned = false;
 }
 
@@ -449,12 +450,12 @@ void inventory::form_from_map( const tripoint &origin, int range, const Characte
     form_from_map( get_map(), origin, range, pl, assign_invlet, clear_path );
 }
 
-void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl,
-                                bool assign_invlet )
+void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
+                                const Character *pl, bool assign_invlet )
 {
     std::vector<tripoint> pts;
     pts.reserve( zone_pts.size() );
-    for( const tripoint &elem : zone_pts ) {
+    for( const tripoint_abs_ms &elem : zone_pts ) {
         pts.push_back( m.getlocal( elem ) );
     }
     form_from_map( m, pts, pl, assign_invlet );
@@ -507,6 +508,10 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                     continue;
                 }
                 if( !i.made_of( phase_id::LIQUID ) ) {
+                    if( i.empty_container() && i.is_watertight_container() ) {
+                        const int count = i.count_by_charges() ? i.charges : 1;
+                        update_liq_container_count( i.typeId(), count );
+                    }
                     add_item( i, false, assign_invlet );
                 }
             }
@@ -517,7 +522,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                 fire->charges = 1;
             }
         }
-        // Handle any water from infinite map sources.
+        // Handle any water from map sources.
         item water = m.water_from( p );
         if( !water.is_null() ) {
             add_item( water );
@@ -1123,4 +1128,30 @@ void inventory::copy_invlet_of( const inventory &other )
 {
     assigned_invlet = other.assigned_invlet;
     invlet_cache = other.invlet_cache;
+}
+
+void inventory::update_liq_container_count( const itype_id &id, int count )
+{
+    max_empty_liq_cont[id] += count;
+}
+
+bool inventory::must_use_liq_container( const itype_id &id, int to_use ) const
+{
+    const int total = count_item( id );
+    auto iter = max_empty_liq_cont.find( id );
+    if( iter == max_empty_liq_cont.end() ) {
+        return total > 0;
+    }
+    const int leftover = iter->second - to_use;
+    return leftover < 0 && leftover * -1 <= total - iter->second;
+}
+
+void inventory::replace_liq_container_count( const std::map<itype_id, int> newmap, bool use_max )
+{
+    for( const auto &it : newmap ) {
+        if( !use_max || max_empty_liq_cont.find( it.first ) == max_empty_liq_cont.end() ||
+            max_empty_liq_cont.at( it.first ) < it.second ) {
+            max_empty_liq_cont[it.first] = it.second;
+        }
+    }
 }

@@ -153,7 +153,7 @@ void diary::mission_changes()
         };
         add_missions( _( "Active missions:" ), &currpage->mission_active );
         add_missions( _( "Completed missions:" ), &currpage->mission_completed );
-        add_missions( _( "Faild missions:" ), &currpage->mission_faild );
+        add_missions( _( "Failed missions:" ), &currpage->mission_failed );
 
     } else {
         auto add_missions = [&]( const std::string name, const std::vector<int> *missions,
@@ -179,7 +179,7 @@ void diary::mission_changes()
         add_missions( _( "New missions:" ), &currpage->mission_active, &prevpage->mission_active );
         add_missions( _( "New completed missions:" ), &currpage->mission_completed,
                       &prevpage->mission_completed );
-        add_missions( _( "New faild:" ), &currpage->mission_faild, &prevpage->mission_faild );
+        add_missions( _( "New failed:" ), &currpage->mission_failed, &prevpage->mission_failed );
 
     }
 }
@@ -589,15 +589,30 @@ std::string diary::get_head_text()
         const int days = to_days<int>( turn_diff );
         const int hours = to_hours<int>( turn_diff ) % 24;
         const int minutes = to_minutes<int>( turn_diff ) % 60;
-        std::string headtext = string_format( _( "Entry: %d/%d, %s, %s" ),
-                                              opened_page + 1, pages.size(),
-                                              to_string( get_page_ptr()->turn ),
-                                              ( opened_page != 0 ) ? string_format( _( "%s%s%d minutes since last entry" ),
-                                                      ( days > 0 ) ? string_format( _( "%d days, " ), days ) : "",
-                                                      ( hours > 0 ) ? string_format( _( "%d hours, " ), hours ) : "",
-                                                      minutes ) : "" );
-
-        return headtext;
+        std::string time_diff_text;
+        if( opened_page != 0 ) {
+            std::string days_text;
+            std::string hours_text;
+            std::string minutes_text;
+            if( days > 0 ) {
+                days_text = string_format( n_gettext( "%d day, ", "%d days, ", days ), days );
+            }
+            if( hours > 0 ) {
+                hours_text = string_format( n_gettext( "%d hour, ", "%d hours, ", hours ), hours );
+            }
+            minutes_text = string_format( n_gettext( "%d minute", "%d minutes", minutes ), minutes );
+            //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
+            time_diff_text = string_format( _( "%1$s%2$s%3$s since last entry" ),
+                                            days_text, hours_text, minutes_text );
+        }
+        //~ Head text of a diary page
+        //~ %1$d is the current page number, %2$d is the number of pages in total
+        //~ %3$s is the time point when the current page was created
+        //~ %4$s is time relative to the previous page
+        return string_format( _( "Entry: %1$d/%2$d, %3$s, %4$s" ),
+                              opened_page + 1, pages.size(),
+                              to_string( get_page_ptr()->turn ),
+                              time_diff_text );
     }
     return "";
 }
@@ -630,7 +645,7 @@ void diary::new_page()
     avatar *u = &get_avatar();
     page -> mission_completed = mission::to_uid_vector( u->get_completed_missions() );
     page -> mission_active = mission::to_uid_vector( u->get_active_missions() );
-    page -> mission_faild = mission::to_uid_vector( u->get_failed_missions() );
+    page -> mission_failed = mission::to_uid_vector( u->get_failed_missions() );
     page -> male = u->male;
     page->strength = u->get_str_base();
     page->dexterity = u->get_dex_base();
@@ -715,7 +730,8 @@ void diary::serialize( JsonOut &jsout )
         jsout.member( "turn", n->turn );
         jsout.member( "completed", n->mission_completed );
         jsout.member( "active", n->mission_active );
-        jsout.member( "faild", n->mission_faild );
+        // TODO: migrate "faild" to "failed"?
+        jsout.member( "faild", n->mission_failed );
         jsout.member( "kills", n->kills );
         jsout.member( "npc_kills", n->npc_kills );
         jsout.member( "male", n->male );
@@ -767,7 +783,8 @@ void diary::deserialize( JsonIn &jsin )
             elem.read( "turn", page->turn );
             elem.read( "active", page->mission_active );
             elem.read( "completed", page->mission_completed );
-            elem.read( "faild", page->mission_faild );
+            // TODO: migrate "faild" to "failed"?
+            elem.read( "faild", page->mission_failed );
             elem.read( "kills", page->kills );
             elem.read( "npc_kills", page->npc_kills );
             elem.read( "male", page->male );

@@ -276,6 +276,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_parkour_bars",
+    "name": "Build Parkour Bars"
+  },
+  {
+    "type": "construction_group",
     "id": "build_fence",
     "name": "Build Fence"
   },
@@ -511,6 +516,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_reinforced_concrete_wall_ropes",
+    "name": "Build Reinforced Concrete Wall with Ropes"
+  },
+  {
+    "type": "construction_group",
     "id": "build_brick_wall_embrasure",
     "name": "Build Brick Wall with Embrasure"
   },
@@ -713,6 +723,11 @@
     "type": "construction_group",
     "id": "build_sofa",
     "name": "Build Sofa"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_spinwheel",
+    "name": "Build Spinwheel"
   },
   {
     "type": "construction_group",
@@ -1006,6 +1021,11 @@
   },
   {
     "type": "construction_group",
+    "id": "make_rubber_mulch",
+    "name": "Make Rubber Mulch Floor"
+  },
+  {
+    "type": "construction_group",
     "id": "make_woodchip_floor",
     "name": "Make Woodchip Floor"
   },
@@ -1073,6 +1093,21 @@
     "type": "construction_group",
     "id": "place_fridge",
     "name": "Place Fridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_oven",
+    "name": "Place Oven"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_standing_lamp",
+    "name": "Place Standing Lamp"
+  },
+  {
+    "type": "construction_group",
+    "id": "reveal_wall_wiring",
+    "name": "Reveal Wall Wirings"
   },
   {
     "type": "construction_group",
@@ -1213,6 +1248,11 @@
     "type": "construction_group",
     "id": "remove_gravel",
     "name": "Remove Gravel"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_rubber_mulch",
+    "name": "Remove Rubber Mulch"
   },
   {
     "type": "construction_group",

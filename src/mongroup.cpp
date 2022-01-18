@@ -417,8 +417,14 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
         g = monsterGroupMap[g.name];
         extending = true;
     }
+    bool explicit_def_null = false;
     if( !extending || jo.has_string( "default" ) ) {
         g.defaultMonster = mtype_id( jo.get_string( "default", "mon_null" ) );
+        if( jo.has_string( "default" ) && g.defaultMonster == mon_null ) {
+            explicit_def_null = true;
+        }
+    } else if( extending && !jo.has_string( "default" ) && g.defaultMonster == mon_null ) {
+        explicit_def_null = true;
     }
     g.is_animal = jo.get_bool( "is_animal", false );
     if( jo.has_array( "monsters" ) ) {
@@ -490,7 +496,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
             g.monsters.push_back( new_mon_group );
         }
         // If no default monster specified, use the highest frequency spawn as the default
-        if( g.defaultMonster == mon_null ) {
+        if( g.defaultMonster == mon_null && !explicit_def_null ) {
             g.defaultMonster = max_freq.first;
         }
     }

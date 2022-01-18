@@ -6,10 +6,12 @@
 #include <cstddef>
 #include <initializer_list>
 #include <iosfwd>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "int_id.h"
@@ -207,6 +209,8 @@ struct body_part_type {
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
         body_part_type::type limb_type = body_part_type::type::num_types;
+        cata::flat_set <body_part_type::type> secondary_types;
+        bool has_type( const body_part_type::type &type ) const;
 
         // Threshold to start encumbrance scaling
         int encumbrance_threshold = 0;
@@ -231,14 +235,31 @@ struct body_part_type {
 
         int base_hp = 60;
         stat_hp_mods hp_mods;
+        // Innate healing rate of the bodypart
+        int heal_bonus = 0;
+        float mend_rate = 1.0f;
 
         // if a limb is vital and at 0 hp, you die.
         bool is_vital = false;
         bool is_limb = false;
 
+        // Intrinsic temperature bonus of the bodypart
+        int temp_min = 0;
+        // Temperature bonus to apply when not overheated
+        int temp_max = 0;
         int drench_max = 0;
+        int drench_increment = 2;
+        int drying_chance = 1;
+        int drying_increment = 1;
+        // Wetness morale bonus/malus of the limb
+        int wet_morale = 0;
         cata::flat_set<json_character_flag> flags;
         bool has_flag( const json_character_flag &flag ) const;
+
+        // Limb-specific attacks
+        std::set<matec_id> techniques;
+        int technique_enc_limit = 50;
+        bool unarmed_bonus = false;
 
 
         // return a random sub part from the weighted list of subparts
@@ -289,10 +310,19 @@ struct body_part_type {
         int bionic_slots() const {
             return bionic_slots_;
         }
+
+        float unarmed_damage( const damage_type &dt ) const;
+        float unarmed_arpen( const damage_type &dt ) const;
+
+        float damage_resistance( const damage_type &dt ) const;
+        float damage_resistance( const damage_unit &du ) const;
     private:
         int bionic_slots_ = 0;
         // limb score values
         std::vector<bp_limb_score> limb_scores;
+        damage_instance damage;
+        // Protection from various damage types
+        resistances armor;
 };
 
 
@@ -435,7 +465,11 @@ class bodypart
         float get_wetness_percentage() const;
 
         int get_encumbrance_threshold() const;
-        int get_encumbrance_limit() const;
+        // Check if we're above our encumbrance limit
+        bool is_limb_overencumbered() const;
+
+        // Get our limb attacks
+        std::set<matec_id> get_limb_techs() const;
 
         // Get modified limb score as defined in limb_scores.json.
         // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).

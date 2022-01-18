@@ -235,6 +235,11 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     body_part_factory.load( jo, src );
 }
 
+bool body_part_type::has_type( const body_part_type::type &type ) const
+{
+    return limb_type == type || secondary_types.count( type ) > 0;
+}
+
 bool body_part_type::has_flag( const json_character_flag &flag ) const
 {
     return flags.count( flag ) > 0;
@@ -294,12 +299,20 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "base_hp", base_hp );
     optional( jo, was_loaded, "stat_hp_mods", hp_mods );
+    optional( jo, was_loaded, "heal_bonus", heal_bonus, 0 );
+    optional( jo, was_loaded, "mend_rate", mend_rate, 1.0f );
 
     mandatory( jo, was_loaded, "drench_capacity", drench_max );
+    optional( jo, was_loaded, "drench_increment", drench_increment, 2 );
+    optional( jo, was_loaded, "drying_chance", drying_chance, drench_max );
+    optional( jo, was_loaded, "drying_increment", drying_increment, 1 );
+
+    optional( jo, was_loaded, "wet_morale", wet_morale, 0 );
 
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
     mandatory( jo, was_loaded, "limb_type", limb_type );
+    optional( jo, was_loaded, "secondary_types", secondary_types );
     optional( jo, was_loaded, "encumb_impacts_dodge", encumb_impacts_dodge, false );
 
     // tokens are actually legacy code that should be on their way out.
@@ -341,6 +354,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "encumbrance_threshold", encumbrance_threshold, 0 );
     optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
+    optional( jo, was_loaded, "techniques", techniques );
+    optional( jo, was_loaded, "technique_encumbrance_limit", technique_enc_limit, 50 );
 
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
@@ -352,6 +367,23 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
             bpls.max = jval.get_array().size() > 2 ? jval.get_array().get_float( 2 ) : bpls.score;
             limb_scores.emplace_back( bpls );
         }
+    }
+
+    if( jo.has_array( "temp_mod" ) ) {
+        JsonArray temp_array = jo.get_array( "temp_mod" );
+        temp_min = temp_array.get_int( 0 );
+        temp_max = temp_array.get_int( 1 );
+    }
+
+    if( jo.has_array( "unarmed_damage" ) ) {
+        unarmed_bonus = true;
+        damage = damage_instance();
+        damage = load_damage_instance( jo.get_array( "unarmed_damage" ) );
+    }
+
+    if( jo.has_object( "armor" ) ) {
+        armor = resistances();
+        armor = load_resistances_instance( jo.get_object( "armor" ) );
     }
 
     mandatory( jo, was_loaded, "side", part_side );
@@ -436,6 +468,26 @@ void body_part_type::check() const
     if( next != next->connected_to ) {
         debugmsg( "Loop in body part connectedness starting from %s", id.str() );
     }
+}
+
+float body_part_type::unarmed_damage( const damage_type &dt ) const
+{
+    return damage.type_damage( dt );
+}
+
+float body_part_type::unarmed_arpen( const damage_type &dt ) const
+{
+    return damage.type_arpen( dt );
+}
+
+float body_part_type::damage_resistance( const damage_type &dt ) const
+{
+    return armor.type_resist( dt );
+}
+
+float body_part_type::damage_resistance( const damage_unit &du ) const
+{
+    return armor.get_effective_resist( du );
 }
 
 std::string body_part_name( const bodypart_id &bp, int number )
@@ -533,7 +585,11 @@ bool bodypart::is_at_max_hp() const
 
 float bodypart::get_wetness_percentage() const
 {
-    return static_cast<float>( wetness ) / id->drench_max;
+    if( id->drench_max == 0 ) {
+        return 0.0f;
+    } else {
+        return static_cast<float>( wetness ) / id->drench_max;
+    }
 }
 
 int bodypart::get_encumbrance_threshold() const
@@ -541,9 +597,18 @@ int bodypart::get_encumbrance_threshold() const
     return id->encumbrance_threshold;
 }
 
-int bodypart::get_encumbrance_limit() const
+bool bodypart::is_limb_overencumbered() const
 {
-    return id->encumbrance_limit;
+    return get_encumbrance_data().encumbrance >= id->encumbrance_limit;
+}
+
+std::set<matec_id> bodypart::get_limb_techs() const
+{
+    std::set<matec_id> result;
+    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit ) ) {
+        result.insert( id->techniques.begin(), id->techniques.end() );
+    }
+    return result;
 }
 
 float bodypart::wound_adjusted_limb_value( const float val ) const
@@ -561,7 +626,7 @@ float bodypart::encumb_adjusted_limb_value( const float val ) const
 {
     int enc = get_encumbrance_data().encumbrance;
     // Check if we're over our encumbrance limit, return 0 if so
-    if( enc >= get_encumbrance_limit() ) {
+    if( is_limb_overencumbered() ) {
         return 0;
     }
     // Reduce encumbrance by the limb's encumbrance threshold, limiting to 0

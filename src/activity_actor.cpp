@@ -35,6 +35,7 @@
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "gates.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
@@ -112,6 +113,7 @@ static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_READ( "ACT_READ" );
@@ -123,6 +125,8 @@ static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
+static const activity_id ACT_WEAR( "ACT_WEAR" );
+static const activity_id ACT_WIELD( "ACT_WIELD" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
 static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
 static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
@@ -568,6 +572,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             if( it->is_armor() ) {
                 it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
+                it->rand_degradation();
             }
         }
         get_event_bus().send<event_type::exhumes_grave>( who.getID() );
@@ -1961,6 +1966,7 @@ static void cancel_pickup( Character &who )
     if( who.is_hauling() && !get_map().has_haulable_items( who.pos() ) ) {
         who.stop_hauling();
     }
+    who.drop_invalid_inventory();
 }
 
 void pickup_activity_actor::do_turn( player_activity &, Character &who )
@@ -2312,9 +2318,11 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             // Increase your XP if you successfully pick the lock, unless you were using a Perfect Lockpick.
             xp_gain = xp_gain * 2;
         }
-        here.has_furn( target ) ?
-        here.furn_set( target, new_furn_type ) :
-        static_cast<void>( here.ter_set( target, new_ter_type ) );
+        if( here.has_furn( target ) ) {
+            here.furn_set( target, new_furn_type );
+        } else {
+            here.ter_set( target, new_ter_type );
+        }
         who.add_msg_if_player( m_good, open_message );
     } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
@@ -2900,7 +2908,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.is_container() ) {
         contents_change_handler handler;
         bool changed = false;
-        for( item *contained : it.all_items_top() ) {
+        for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
             int old_charges = contained->charges;
             const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
             if( consumed || contained->charges != old_charges ) {
@@ -4833,8 +4841,8 @@ time_duration prying_activity_actor::prying_time( const activity_data_common &da
     int difficulty = pdata.difficulty;
     difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
     return time_duration::from_moves(
-               /** @EFFECT_STR speeds up crowbar prying attempts */
-               std::max( 20, 5 * ( 4 * difficulty - who.get_str() ) ) );
+               /** @ARM_STR speeds up crowbar prying attempts */
+               std::max( 20, 5 * ( 4 * difficulty - who.get_arm_str() ) ) );
 }
 
 void prying_activity_actor::start( player_activity &act, Character &who )
@@ -4915,8 +4923,8 @@ void prying_activity_actor::handle_prying( Character &who )
         int difficulty = pdata.difficulty;
         difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
 
-        /** @EFFECT_STR increases chance of prying success */
-        const int dice_str = dice( 4, who.get_str() );
+        /** @ARM_STR increases chance of prying success */
+        const int dice_str = dice( 4, who.get_arm_str() );
 
         return dice( 4, difficulty ) < dice_str;
     };
@@ -4932,8 +4940,8 @@ void prying_activity_actor::handle_prying( Character &who )
 
         /** @EFFECT_MECHANICS reduces chance of breaking when prying */
         const int dice_mech = dice( 2, who.get_skill_level( skill_mechanics ) );
-        /** @EFFECT_STR reduces chance of breaking when prying */
-        const int dice_str = dice( 2, who.get_str() );
+        /** @ARM_STR reduces chance of breaking when prying */
+        const int dice_str = dice( 2, who.get_arm_str() );
 
         if( dice( 4, difficulty ) > dice_mech + dice_str )
         {
@@ -5194,6 +5202,185 @@ std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonValue &
     return haircut_activity_actor().clone();
 }
 
+static bool check_stealing( Character &who, item &it )
+{
+    if( !it.is_owned_by( who, true ) ) {
+        // Has the player given input on if stealing is ok?
+        if( who.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+            Pickup::query_thief();
+        }
+        if( who.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void wield_activity_actor::do_turn( player_activity &, Character &who )
+{
+    if( who.moves > 0 ) {
+        if( target_item ) {
+            // Make copies so the original remains untouched if wielding fails
+            item newit = *target_item;
+            item leftovers = newit;
+
+            // Handle charges, quantity == 0 means move all
+            if( quantity != 0 && newit.count_by_charges() ) {
+                leftovers.charges = newit.charges - quantity;
+                if( leftovers.charges > 0 ) {
+                    newit.charges = quantity;
+                }
+            } else {
+                leftovers.charges = 0;
+            }
+
+            if( check_stealing( who, newit ) ) {
+                handler.unseal_pocket_containing( target_item );
+                if( who.wield( newit ) ) {
+                    // If we wielded up a whole stack, remove the original item
+                    // Otherwise, replace the item with the leftovers
+                    if( leftovers.charges > 0 ) {
+                        *target_item = std::move( leftovers );
+                    } else {
+                        target_item.remove_item();
+                    }
+                }
+                handler.handle_by( who );
+            }
+        }
+
+        who.cancel_activity();
+    }
+}
+
+void wield_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "target_items", target_item );
+    jsout.member( "quantities", quantity );
+    jsout.member( "handler", handler );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> wield_activity_actor::deserialize( JsonValue &jsin )
+{
+    wield_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target_items", actor.target_item );
+    data.read( "quantities", actor.quantity );
+    data.read( "handler", actor.handler );
+
+    return actor.clone();
+}
+
+void wear_activity_actor::do_turn( player_activity &, Character &who )
+{
+    // ACT_WEAR has item_location targets, and int quantities
+    while( who.moves > 0 && !target_items.empty() ) {
+        item_location target = std::move( target_items.back() );
+        int quantity = quantities.back();
+        target_items.pop_back();
+        quantities.pop_back();
+
+        if( !target ) {
+            debugmsg( "Lost target item of ACT_WEAR" );
+            continue;
+        }
+
+        // Make copies so the original remains untouched if wearing fails
+        item newit = *target;
+        item leftovers = newit;
+
+        // Handle charges, quantity == 0 means move all
+        if( quantity != 0 && newit.count_by_charges() ) {
+            leftovers.charges = newit.charges - quantity;
+            if( leftovers.charges > 0 ) {
+                newit.charges = quantity;
+            }
+        } else {
+            leftovers.charges = 0;
+        }
+
+        if( check_stealing( who, newit ) ) {
+            handler.unseal_pocket_containing( target );
+            if( who.wear_item( newit ) ) {
+                // If we wore up a whole stack, remove the original item
+                // Otherwise, replace the item with the leftovers
+                if( leftovers.charges > 0 ) {
+                    *target = std::move( leftovers );
+                } else {
+                    target.remove_item();
+                }
+            }
+        }
+    }
+
+    // If there are no items left we are done
+    if( target_items.empty() ) {
+        handler.handle_by( who );
+        who.cancel_activity();
+    }
+}
+
+void wear_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "target_items", target_items );
+    jsout.member( "quantities", quantities );
+    jsout.member( "handler", handler );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> wear_activity_actor::deserialize( JsonValue &jsin )
+{
+    wear_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target_items", actor.target_items );
+    data.read( "quantities", actor.quantities );
+    data.read( "handler", actor.handler );
+
+    return actor.clone();
+}
+
+void pickup_menu_activity_actor::do_turn( player_activity &, Character &who )
+{
+    cata::optional<tripoint> p( where );
+    std::vector<drop_location> s( selection );
+    who.cancel_activity();
+    who.pick_up( game_menus::inv::pickup( *who.as_avatar(), p, s ) );
+}
+
+void pickup_menu_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "where", where );
+    jsout.member( "selection", selection );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> pickup_menu_activity_actor::deserialize( JsonValue &jsin )
+{
+    pickup_menu_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "where", actor.where );
+    data.read( "selection", actor.selection );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -5215,6 +5402,7 @@ deserialize_functions = {
     { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
     { ACT_DROP, &drop_activity_actor::deserialize },
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
+    { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
     { ACT_GUNMOD_REMOVE, &gunmod_remove_activity_actor::deserialize },
     { ACT_HACKING, &hacking_activity_actor::deserialize },
     { ACT_HACKSAW, &hacksaw_activity_actor::deserialize },
@@ -5230,8 +5418,9 @@ deserialize_functions = {
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
     { ACT_PICKUP, &pickup_activity_actor::deserialize },
-    { ACT_PRYING, &prying_activity_actor::deserialize },
+    { ACT_PICKUP_MENU, &pickup_menu_activity_actor::deserialize },
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
+    { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_READ, &read_activity_actor::deserialize },
     { ACT_RELOAD, &reload_activity_actor::deserialize },
     { ACT_SHAVE, &shave_activity_actor::deserialize },
@@ -5241,11 +5430,12 @@ deserialize_functions = {
     { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
     { ACT_TRY_SLEEP, &try_sleep_activity_actor::deserialize },
     { ACT_UNLOAD, &unload_activity_actor::deserialize },
-    { ACT_WORKOUT_HARD, &workout_activity_actor::deserialize },
+    { ACT_WEAR, &wear_activity_actor::deserialize },
+    { ACT_WIELD, &wield_activity_actor::deserialize},
     { ACT_WORKOUT_ACTIVE, &workout_activity_actor::deserialize },
-    { ACT_WORKOUT_MODERATE, &workout_activity_actor::deserialize },
+    { ACT_WORKOUT_HARD, &workout_activity_actor::deserialize },
     { ACT_WORKOUT_LIGHT, &workout_activity_actor::deserialize },
-    { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
+    { ACT_WORKOUT_MODERATE, &workout_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

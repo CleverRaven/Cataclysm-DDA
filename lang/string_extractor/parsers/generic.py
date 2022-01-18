@@ -5,16 +5,22 @@ from ..write_text import write_text
 
 def parse_generic(json, origin):
     name = ""
+    comment = []
+    if "//" in json:
+        comment.append(json["//"])
+    if "//isbn13" in json:
+        comment.append("ISBN {}".format(json["//isbn13"]))
+
     if "name" in json:
         name = get_singular_name(json["name"])
-        write_text(json["name"], origin, comment="Item name",
+        write_text(json["name"], origin, comment=comment + ["Item name"],
                    plural=True, c_format=False)
     elif "id" in json:
         name = json["id"]
 
     if "description" in json:
         write_text(json["description"], origin, c_format=False,
-                   comment="Description of \"{}\"".format(name))
+                   comment=comment + ["Description of \"{}\"".format(name)])
 
     if "use_action" in json:
         parse_use_action(json["use_action"], origin, name)
@@ -44,17 +50,13 @@ def parse_generic(json, origin):
         write_text(json["revert_msg"], origin,
                    comment="Dying message of tool \"{}\"".format(name))
 
-
-#     if "message" in item:
-#         writestr(outfile, item["message"], format_strings=True,
-#                     comment="Message for {} '{}'".format(object_type, name),
-#                     **kwargs)
-#         wrote = True
-#     if "messages" in item:
-#         for message in item["messages"]:
-#             writestr(outfile, message, **kwargs)
-#             wrote = True
-#     if "valid_mod_locations" in item:
-#         for mod_loc in item["valid_mod_locations"]:
-#             writestr(outfile, mod_loc[0], **kwargs)
-#             wrote = True
+    if "pocket_data" in json:
+        for pocket in json["pocket_data"]:
+            if "description" in pocket:
+                write_text(pocket["description"], origin,
+                           comment="Description of a pocket in item \"{}\""
+                           .format(name))
+            if "name" in pocket:
+                write_text(pocket["name"], origin,
+                           comment="Brief name of a pocket in item \"{}\""
+                           .format(name))

@@ -25,6 +25,7 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "display.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
@@ -40,7 +41,6 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "recipe.h"
@@ -67,10 +67,9 @@ static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
+
 static const itype_id itype_fitness_band( "fitness_band" );
-static const itype_id itype_smart_phone( "smart_phone" );
-static const itype_id itype_smart_phone_flashlight( "smart_phone_flashlight" );
-static const itype_id itype_smart_phone_music( "smart_phone_music" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
@@ -473,7 +472,9 @@ item_location game_menus::inv::container_for( Character &you, const item &liquid
 class pickup_inventory_preset : public inventory_selector_preset
 {
     public:
-        explicit pickup_inventory_preset( const Character &you ) : you( you ) {}
+        explicit pickup_inventory_preset( const Character &you,
+                                          bool skip_wield_check = false ) : you( you ),
+            skip_wield_check( skip_wield_check ) {}
 
         std::string get_denial( const item_location &loc ) const override {
             if( !you.has_item( *loc ) ) {
@@ -483,8 +484,9 @@ class pickup_inventory_preset : public inventory_selector_preset
                     } else {
                         return _( "Can't pick up spilt liquids." );
                     }
-                } else if( !you.can_pickVolume( *loc ) && you.has_wield_conflicts( *loc ) ) {
-                    return _( "Too big to pick up!" );
+                } else if( !you.can_pickVolume_partial( *loc ) &&
+                           ( skip_wield_check || you.has_wield_conflicts( *loc ) ) ) {
+                    return _( "Does not fit in any pocket!" );
                 } else if( !you.can_pickWeight_partial( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                     return _( "Too heavy to pick up!" );
                 }
@@ -499,6 +501,7 @@ class pickup_inventory_preset : public inventory_selector_preset
 
     private:
         const Character &you;
+        bool skip_wield_check;
 };
 
 class disassemble_inventory_preset : public pickup_inventory_preset
@@ -729,9 +732,12 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( you.has_trait( trait_SAPROPHAGE ) || you.has_trait( trait_SAPROVORE ) ) {
                     return 1;
                 } else {
-                    return 4;
+                    return 5;
                 }
             } else if( time == 0_turns ) {
+                return 4;
+            } else if( loc.has_parent() &&
+                       loc.parent_item()->contained_where( *loc )->spoil_multiplier() == 0.0f ) {
                 return 3;
             } else {
                 return 2;
@@ -1003,8 +1009,7 @@ static std::string get_consume_needs_hint( Character &you )
     int kcal_spent_today = you.as_avatar()->get_daily_spent_kcal( false );
     int kcal_spent_yesterday = you.as_avatar()->get_daily_spent_kcal( true );
     bool has_fitness_band =  you.is_wearing( itype_fitness_band );
-    bool has_tracker = has_fitness_band || you.has_amount( itype_smart_phone, 1 ) ||
-                       you.has_amount( itype_smart_phone_flashlight, 1 ) || you.has_amount( itype_smart_phone_music, 1 );
+    bool has_tracker = has_fitness_band || you.has_item_with_flag( json_flag_CALORIES_INTAKE );
 
     std::string kcal_estimated_intake;
     if( kcal_ingested_today == 0 ) {
@@ -1780,9 +1785,9 @@ drop_locations game_menus::inv::unload_container( avatar &you )
 
     drop_locations dropped;
     for( drop_location &droplc : insert_menu.execute() ) {
-        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            // no liquids
-            if( !it->made_of( phase_id::LIQUID ) ) {
+        for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
+            // no liquids and no items marked as favorite
+            if( !it->made_of( phase_id::LIQUID ) && !it->is_favorite ) {
                 dropped.emplace_back( item_location( droplc.first, it ), it->count() );
                 // When item_location gets updated to get items inside containers outside the player inventory
                 // uncomment this
@@ -1822,6 +1827,38 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         const Character &you;
         const item &tool;
         const saw_barrel_actor &actor;
+};
+
+class attach_molle_inventory_preset : public inventory_selector_preset
+{
+    public:
+        attach_molle_inventory_preset( const molle_attach_actor *actor, const item *vest ) :
+            actor( actor ), vest( vest ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->has_flag( flag_PALS_SMALL ) || loc->has_flag( flag_PALS_MEDIUM ) ||
+                   loc->has_flag( flag_PALS_LARGE );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+
+            if( !loc.get_item()->empty() ) {
+                return "item needs to be empty.";
+            }
+
+            if( actor->size - vest->get_contents().get_additional_space_used() < loc->get_pocket_size() ) {
+                return "not enough space left on the vest.";
+            }
+
+            {
+                return std::string();
+            }
+        }
+
+    private:
+        const molle_attach_actor *actor;
+        const item *vest;
 };
 
 class salvage_inventory_preset: public inventory_selector_preset
@@ -1896,6 +1933,31 @@ item_location game_menus::inv::saw_barrel( Character &you, item &tool )
                        );
 }
 
+item_location game_menus::inv::molle_attach( Character &you, item &tool )
+{
+    const molle_attach_actor *actor = dynamic_cast<const molle_attach_actor *>
+                                      ( tool.type->get_use( "attach_molle" )->get_actor_ptr() );
+
+    if( !actor ) {
+        debugmsg( "Tried to use a wrong item." );
+        return item_location();
+    }
+
+    const int vacancies = actor->size - tool.get_contents().get_additional_space_used();
+
+    return inv_internal( you, attach_molle_inventory_preset( actor, &tool ),
+                         _( "Attach an item to the vest" ), 1,
+                         _( "You don't have any MOLLE compatible items." ),
+                         string_format( "%s\n%s",
+                                        string_format( _( "Choose an accessory to attach to your %s" ),
+                                                tool.tname( 1, false ) ),
+                                        string_format( n_gettext( "There is space for %d small item",
+                                                "There is space for %d small items",
+                                                vacancies ), vacancies )
+                                      )
+                       );
+}
+
 drop_locations game_menus::inv::multidrop( avatar &you )
 {
     you.inv->restack( you );
@@ -1918,11 +1980,12 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     return inv_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( avatar &you, const cata::optional<tripoint> &target )
+drop_locations game_menus::inv::pickup( avatar &you,
+                                        const cata::optional<tripoint> &target, std::vector<drop_location> selection )
 {
-    const pickup_inventory_preset preset( you );
+    const pickup_inventory_preset preset( you, /*skip_wield_check=*/true );
 
-    pickup_selector pick_s( you, preset );
+    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), target );
 
     // Add items from the selected tile, or from current and all surrounding tiles
     if( target ) {
@@ -1932,11 +1995,14 @@ drop_locations game_menus::inv::pickup( avatar &you, const cata::optional<tripoi
         pick_s.add_nearby_items();
     }
     pick_s.set_title( _( "Pickup" ) );
-    pick_s.set_hint( _( "To pick x items, type a number before selecting." ) );
 
     if( pick_s.empty() ) {
         popup( std::string( _( "There is nothing to pick up." ) ), PF_GET_KEY );
         return drop_locations();
+    }
+
+    if( !selection.empty() ) {
+        pick_s.apply_selection( selection );
     }
 
     return pick_s.execute();

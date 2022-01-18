@@ -85,6 +85,13 @@
   },
   {
     "type": "character_mod",
+    "id": "crawl_speed_movecost_mod",
+    "description": "Crawl speed movecost modifier",
+    "mod_type": "x",
+    "value": { "limb_score": "crawl", "nominator": 1.2 }
+  },
+  {
+    "type": "character_mod",
     "id": "limb_speed_movecost_mod",
     "description": "Limb speed movecost modifier",
     "mod_type": "x",
@@ -96,6 +103,13 @@
     "description": "Footing movecost modifier",
     "mod_type": "x",
     "value": { "limb_score": "footing", "max": "max_move_cost", "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "limb_str_mod",
+    "description": "Strength modifier",
+    "mod_type": "x",
+    "value": { "limb_score": "lift" }
   },
   {
     "type": "character_mod",

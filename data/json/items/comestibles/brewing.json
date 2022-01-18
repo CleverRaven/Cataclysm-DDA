@@ -497,7 +497,7 @@
     "id": "young_yeast",
     "looks_like": "yeast",
     "name": { "str": "growing wild yeast" },
-    "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizeable yeast culture.",
+    "description": "Sugary solution with some naturally occurring yeast.  If placed in a fermenting vat and given time, it will eventually produce a more sizeable yeast culture.",
     "weight": "16 g",
     "color": "yellow",
     "container": "jug_plastic",

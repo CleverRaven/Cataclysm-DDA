@@ -147,7 +147,7 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -3,
-    "qualities": [ [ "BUTCHER", -50 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ] ]
   },
   {
     "id": "sole_rubber",

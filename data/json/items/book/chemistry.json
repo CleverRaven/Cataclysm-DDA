@@ -2,6 +2,7 @@
   {
     "id": "adv_chemistry",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Advanced Physical Chemistry", "str_pl": "copies of Advanced Physical Chemistry" },
     "description": "A university-level textbook on advanced principles of physical chemistry and all its branches: thermochemistry, electrochemistry, solid-state chemistry, photochemistry, quantum chemistry et cetera.",
     "weight": "1712 g",
@@ -22,6 +23,7 @@
   {
     "id": "modern_tanner",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Modern Tanner", "str_pl": "copies of The Modern Tanner" },
     "description": "An in-depth and easy to read guide that details a very modern take on the ancient art of leather tanning.",
     "weight": "568 g",
@@ -40,6 +42,7 @@
   {
     "id": "recipe_alpha",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "PE050 \"Alpha\": Preliminary Report", "str_pl": "copies of PE050 \"Alpha\": Preliminary Report" },
     "description": "This sheaf of papers--dated two weeks before all this started--describes some new chemical formula, and its effects on human subjects.  It's stamped \"APPROVED\"…",
     "weight": "50 g",
@@ -59,6 +62,7 @@
   {
     "id": "recipe_animal",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "lab journal-Dionne", "str_pl": "lab journals-Dionne" },
     "description": "This team logbook details several varieties of mutagenic experiments, focusing on those derived from various Earth fauna.  The team seems quite enthusiastic--if not eager--about their results.",
     "weight": "1700 g",
@@ -78,6 +82,7 @@
   {
     "id": "recipe_chimera",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "PE065 \"Chimera\": Best Practices", "str_pl": "copies of PE065 \"Chimera\": Best Practices" },
     "description": "This sheaf of papers describes a new chemical formula in detail and supplies instructions for its use as some sort of… crowd-control catalyst?  That can't be right…",
     "weight": "50 g",
@@ -97,6 +102,7 @@
   {
     "id": "recipe_creepy",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "lab journal-Smythe", "str_pl": "lab journals-Smythe" },
     "description": "This team logbook details several varieties of mutagenic experiments, focusing on those derived from flesh contaminated with XE037.  The results look promising but the procurement methods seem awfully vague…",
     "weight": "1700 g",
@@ -116,6 +122,7 @@
   {
     "id": "recipe_elfa",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "standpipe maintenance log" },
     "description": "This binder details the scheduled maintenance for several plumbing systems throughout the facility.  However, some of the log sheets seem to be filled with… a chemical formula?",
     "weight": "400 g",
@@ -127,7 +134,6 @@
     "color": "light_green",
     "skill": "chemistry",
     "required_level": 7,
-    "max_level": 7,
     "intelligence": 13,
     "time": "45 m",
     "fun": -2
@@ -135,6 +141,7 @@
   {
     "id": "recipe_labchem",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "chemical reference-CLASSIFIED", "str_pl": "chemical references-CLASSIFIED" },
     "description": "This somewhat technical binder has several intimidating security warnings on the cover, yet guarantees unauthorized readers \"permanent employment, for life\".  It contains useful information on \"basic\" chemical projects like methamphetamine and heroin, along with briefing on things called \"XE037\" and \"PE012\".",
     "weight": "2000 g",
@@ -154,6 +161,7 @@
   {
     "id": "recipe_maiar",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "lab journal-x-|xp", "str_pl": "lab journals-x-|xp" },
     "description": "This damaged team logbook lacks (deliberately?) any identifying information, but still contains useful information on several types of mutagen and their development.",
     "weight": "1700 g",
@@ -173,6 +181,7 @@
   {
     "id": "recipe_medicalmut",
     "type": "BOOK",
+    "category": "manuals",
     "name": {
       "str": "PE023 \"Medical\": Application and Findings",
       "str_pl": "copies of PE023 \"Medical\": Application and Findings"
@@ -196,6 +205,7 @@
   {
     "id": "recipe_raptor",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "PE070 \"Raptor\": Proposal", "str_pl": "copies of PE070 \"Raptor\": Proposal" },
     "description": "This sheaf of papers is a highly speculative proposal for focusing \"PE065\".  Scribbled notes throughout seem to think that it might work, but that there's no time.",
     "weight": "50 g",
@@ -207,7 +217,6 @@
     "color": "light_green",
     "skill": "chemistry",
     "required_level": 8,
-    "max_level": 8,
     "intelligence": 13,
     "time": "45 m",
     "fun": -2
@@ -215,6 +224,7 @@
   {
     "id": "recipe_serum",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Best Practices for Compound Delivery", "str_pl": "copies of Best Practices for Compound Delivery" },
     "description": "This internal manual details several varieties of mutagenic experiments, as well as describing the protocols used to concentrate mutagens for quicker results.  The authors recommend that researchers ensure that their subjects are well-fed and in good health, as the concentrated serums draw heavily on subjects' bodies.",
     "weight": "1700 g",
@@ -234,6 +244,7 @@
   {
     "id": "reference_cooking",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "CRC-Merck Handbook, 4th edition", "str_pl": "copies of CRC-Merck Handbook, 4th edition" },
     "description": "This huge hardbound book is a collection of reference data and formulae pertinent to many technical disciplines.  If poring over tables of chemical and physical data is your thing, this is the book for you.",
     "weight": "5790 g",
@@ -252,6 +263,7 @@
   {
     "id": "textbook_chemistry",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "chemistry textbook" },
     "description": "A college textbook on chemistry.",
     "weight": "1587 g",
@@ -274,6 +286,7 @@
   {
     "id": "textbook_extraction",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Essential Oil Enthusiasts Handbook", "str_pl": "copies of The Essential Oil Enthusiasts Handbook" },
     "description": "A heavy hardback book explaining the process of essential oil making, with schematics for the equipment to do it.  Good luck, and don't blow yourself up!",
     "looks_like": "textbook_chemistry",
@@ -294,6 +307,7 @@
   {
     "id": "textbook_gaswarfare",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Art and Science of Chemical Warfare", "str_pl": "copies of Art and Science of Chemical Warfare" },
     "description": "This in-depth and technical text covers the design, development, dissemination of, and defenses against various chemical weapons throughout the centuries.  The photographs the author chose make it a difficult read at times, though the information is top-notch.",
     "weight": "854 g",
@@ -313,6 +327,7 @@
   {
     "id": "basic_chemistry",
     "type": "BOOK",
+    "category": "manuals",
     "name": {
       "str": "Chemistry for Kids: Awesome Science Experiments that Really Work",
       "str_pl": "copies of Chemistry for Kids: Awesome Science Experiments that Really Work"
@@ -335,6 +350,7 @@
   {
     "id": "textbook_biodiesel",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Biodiesel: Renewable Fuel Resource", "str_pl": "copies of Biodiesel: Renewable Fuel Resource" },
     "description": "A large textbook for college students about biodiesel.",
     "weight": "1200 g",

@@ -41,6 +41,7 @@
       "GROUP_MORALE"
     ],
     "vision_day": 50,
+    "death_drops": {  },
     "harvest": "dino_feather_leather"
   },
   {

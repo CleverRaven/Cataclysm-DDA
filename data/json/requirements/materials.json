@@ -195,7 +195,7 @@
   {
     "id": "fabric_nomex",
     "type": "requirement",
-    "//": "Materials used for crafting nomex clothing",
+    "//": "Materials used for crafting Nomex clothing",
     "components": [ [ [ "nomex", 1 ], [ "sheet_nomex_patchwork", 1 ], [ "sheet_nomex", 1 ] ] ]
   },
   {
@@ -354,5 +354,23 @@
     "type": "requirement",
     "//": "Materials used for joining soft, flexible material where regular brittle superglue would be inappropriate.",
     "components": [ [ [ "rubber_cement", 1 ] ] ]
+  },
+  {
+    "id": "lc_steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ [ "lc_steel_lump", 1 ], [ "lc_steel_chunk", 4 ] ] ]
+  },
+  {
+    "id": "mc_steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ [ "mc_steel_lump", 1 ], [ "mc_steel_chunk", 4 ] ] ]
+  },
+  {
+    "id": "hc_steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ [ "hc_steel_lump", 1 ], [ "hc_steel_chunk", 4 ] ] ]
   }
 ]

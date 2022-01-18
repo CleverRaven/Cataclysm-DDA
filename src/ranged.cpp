@@ -990,9 +990,9 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     // TODO: Except javelin type items
     throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1_liter ) );
     // 1 penalty for gram above str*100 grams (at 0 skill)
-    ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
+    ///\ARM_STR decreases throwing dispersion when throwing heavy objects
     const int weight_in_gram = units::to_gram( weight );
-    throw_difficulty += std::max( 0, weight_in_gram - get_str() * 100 );
+    throw_difficulty += std::max( 0, weight_in_gram - get_arm_str() * 100 );
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
@@ -1052,8 +1052,8 @@ int Character::thrown_item_adjusted_damage( const item &thrown ) const
     // The damage dealt due to item's weight, player's strength, and skill level
     // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
     // Railgun doubles the effective strength
-    ///\EFFECT_STR increases throwing damage
-    double stats_mod = do_railgun ? get_str() : ( get_str() / 2.0 );
+    ///\ARM_STR increases throwing damage
+    double stats_mod = do_railgun ? get_str() : ( get_arm_str() / 2.0 );
     stats_mod = throw_assist ? *throw_assist / 2.0 : stats_mod;
     // modify strength impact based on skill level, clamped to [0.15 - 1]
     // mod = mod * [ ( ( skill / max_skill ) * 0.85 ) + 0.15 ]
@@ -1082,7 +1082,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
     const units::volume volume = thrown.volume() * glass_fraction;
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     if( !thrown.active && glass_portion &&
-        rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100 ) {
+        rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_arm_str() * 100 ) {
         proj.impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
     }
     // Some minor (skill/2) armor piercing for skillful throws
@@ -1138,9 +1138,9 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const int glass_portion = thrown.made_of( material_glass );
     const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
     const units::volume glass_vol = volume * glass_fraction;
-    /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
+    /** @ARM_STR increases chance of shattering thrown glass items (NEGATIVE) */
     const bool shatter = !thrown.active && glass_portion &&
-                         rng( 0, units::to_milliliter( 2_liter - glass_vol ) ) < get_str() * 100;
+                         rng( 0, units::to_milliliter( 2_liter - glass_vol ) ) < get_arm_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
@@ -1402,25 +1402,42 @@ static std::string get_colored_bar( const double val, const int width, const std
     return result;
 }
 
-double target_size_in_moa( int range, double size )
+static double target_size_in_moa( int range, double size )
 {
     return atan2( size, range ) * 60 * 180 / M_PI;
 }
 
-double target_size_in_moa( tripoint src, tripoint target )
+Target_attributes::Target_attributes( tripoint src, tripoint target )
 {
     Creature *target_critter = get_creature_tracker().creature_at( target );
-    double target_size = target_critter != nullptr ?
-                         target_critter->ranged_target_size() :
-                         get_map().ranged_target_size( target );
-    return target_size_in_moa( rl_dist( src, target ), target_size );
+    Creature *shooter = get_creature_tracker().creature_at( src );
+    range = rl_dist( src, target );
+    size = target_critter != nullptr ?
+           target_critter->ranged_target_size() :
+           get_map().ranged_target_size( target );
+    size_in_moa = target_size_in_moa( range, size ) ;
+    light = get_map().ambient_light_at( target );
+    visible = shooter->sees( target );
+
 }
+Target_attributes::Target_attributes( int rng, double target_size, float light_target,
+                                      bool can_see )
+{
+    range = rng;
+    size = target_size;
+    size_in_moa = target_size_in_moa( range, size );
+    light = light_target;
+    visible = can_see;
+}
+
 
 static int print_ranged_chance( const Character &you, const catacurses::window &w, int line_number,
                                 target_ui::TargetMode mode, input_context &ctxt, const item &ranged_weapon,
                                 const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
-                                double range, double target_size, int recoil = 0 )
+                                Target_attributes target_attributes, int recoil = 0 )
 {
+    double target_size = target_attributes.size;
+    int range = target_attributes.range;
     int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
     std::string panel_type = panel_manager::get_manager().get_current_layout_id();
@@ -1502,7 +1519,7 @@ static int print_ranged_chance( const Character &you, const catacurses::window &
             moves_to_fire = throw_cost( you, ranged_weapon );
         } else {
             moves_to_fire = you.gun_engagement_moves( ranged_weapon, threshold, recoil,
-                            Target_attributes( target_size_in_moa( range, target_size ) ) ) + time_to_attack( you,
+                            target_attributes ) + time_to_attack( you,
                                     *ranged_weapon.type );
         }
 
@@ -1603,7 +1620,7 @@ static double calculate_aim_cap( const Character &you, const tripoint &target )
     if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
         const int range = rl_dist( you.pos(), target );
         // Get angle of triangle that spans the target square.
-        const double angle = atan2( 1, range );
+        const double angle = 2 * atan2( 0.5, range );
         // Convert from radians to arcmin.
         min_recoil = 60 * 180 * angle / M_PI;
     }
@@ -1645,7 +1662,8 @@ static int print_aim( const Character &you, const catacurses::window &w, int lin
     return print_ranged_chance( you, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
                                 dispersion,
                                 confidence_config,
-                                range, target_size, predicted_recoil );
+                                Target_attributes( range, target_size, get_map().ambient_light_at( pos ), you.sees( pos ) ),
+                                predicted_recoil );
 }
 
 static void draw_throw_aim( const Character &you, const catacurses::window &w, int &text_y,
@@ -1680,7 +1698,8 @@ static void draw_throw_aim( const Character &you, const catacurses::window &w, i
             target_ui::TargetMode::Throw;
     text_y = print_ranged_chance( you, w, text_y, throwing_target_mode, ctxt, weapon, dispersion,
                                   confidence_config,
-                                  range, target_size );
+                                  Target_attributes( range, target_size, get_map().ambient_light_at( target_pos ),
+                                          you.sees( target_pos ) ) );
 }
 
 std::vector<aim_type> Character::get_aim_types( const item &gun ) const
@@ -1694,7 +1713,7 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
     // at 10%, 5% and 0% of the difference between MAX_RECOIL and sight dispersion.
     std::vector<int> thresholds = {
         static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 10.0 ) + sight_dispersion ),
-        static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 20.0 ) + sight_dispersion ),
+        static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 40.0 ) + sight_dispersion ),
         static_cast<int>( sight_dispersion )
     };
     // Remove duplicate thresholds.
@@ -1975,7 +1994,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
     // So use a constant instead.
     if( obj.gun_skill() == skill_archery ) {
         dispersion.add_range( dispersion_from_skill( avgSkill,
-                              600 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
+                              450 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
     } else {
         dispersion.add_range( dispersion_from_skill( avgSkill,
                               300 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
@@ -2974,7 +2993,8 @@ bool target_ui::action_switch_mode()
 
             text += ( active_gun_mode ? _( " (active)" ) : "" );
 
-            menu.entries.emplace_back( firing_modes_range.first + std::distance( gun_modes.begin(), it ),
+            menu.entries.emplace_back( firing_modes_range.first + static_cast<int>( std::distance(
+                                           gun_modes.begin(), it ) ),
                                        true, MENU_AUTOASSIGN, text );
             if( active_gun_mode ) {
                 menu.entries.back().text_color = c_light_green;
@@ -3090,8 +3110,8 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     // Also fire if we're at our best aim level already.
     // If no critter is at dst then sight dispersion does not apply,
     // so it would lock into an infinite loop.
-    bool done_aiming = you->recoil <= aim_threshold || you->recoil - sight_dispersion == min_recoil ||
-                       ( !get_creature_tracker().creature_at( dst ) && you->recoil == min_recoil );
+    bool done_aiming = you->recoil <= aim_threshold || you->recoil - sight_dispersion <= min_recoil ||
+                       ( !get_creature_tracker().creature_at( dst ) && you->recoil <= min_recoil );
     return done_aiming;
 }
 
@@ -3561,7 +3581,7 @@ void target_ui::panel_fire_mode_aim( int &text_y )
     if( aim_mode->has_threshold && aim_mode->threshold < you->recoil ) {
         do {
             const double aim_amount = you->aim_per_move( *relevant, predicted_recoil,
-                                      Target_attributes( target_size_in_moa( src, dst ) ) );
+                                      Target_attributes( src, dst ) );
             if( aim_amount > 0 ) {
                 predicted_delay++;
                 predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );

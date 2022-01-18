@@ -62,7 +62,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_red",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 3 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 3 ], [ "FABRIC_CUT", 1 ] ],
     "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ],
     "weapon_category": [ "SHIVS" ]
   },

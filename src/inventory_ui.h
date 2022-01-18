@@ -26,6 +26,7 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "translations.h"
+#include "units.h"
 #include "units_fwd.h"
 
 class Character;
@@ -51,6 +52,7 @@ enum class toggle_mode : int {
 };
 
 struct inventory_input;
+struct container_data;
 struct navigation_mode_data;
 
 using drop_location = std::pair<item_location, int>;
@@ -64,6 +66,7 @@ class inventory_entry
         size_t chosen_count = 0;
         int custom_invlet = INT_MIN;
         std::string cached_name;
+        std::string cached_name_full;
 
         inventory_entry() = default;
 
@@ -318,13 +321,16 @@ class inventory_column
         const inventory_entry &get_highlighted() const;
         inventory_entry &get_highlighted();
         std::vector<inventory_entry *> get_all_selected() const;
-        std::vector<inventory_entry *> get_entries(
-            const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
+        using get_entries_t = std::vector<inventory_entry *>;
+        using ffilter_t = std::function<bool( const inventory_entry &entry )>;
+        get_entries_t get_entries( const ffilter_t &filter_func,
+                                   bool include_hidden = false ) const;
 
         // orders the child entries in this column to be under their parent
         void order_by_parent();
 
         inventory_entry *find_by_invlet( int invlet ) const;
+        inventory_entry *find_by_location( item_location &loc ) const;
 
         void draw( const catacurses::window &win, const point &p,
                    std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
@@ -443,6 +449,7 @@ class inventory_column
         size_t page_of( const inventory_entry &entry ) const;
 
         bool sort_compare( inventory_entry const &lhs, inventory_entry const &rhs );
+        bool indented_sort_compare( inventory_entry const &lhs, inventory_entry const &rhs );
 
         /**
          * Indentation of the entry.
@@ -465,8 +472,9 @@ class inventory_column
 
         const inventory_selector_preset &preset;
 
-        std::vector<inventory_entry> entries;
-        std::vector<inventory_entry> entries_hidden;
+        using entries_t = std::vector<inventory_entry>;
+        entries_t entries;
+        entries_t entries_hidden;
         navigation_mode mode = navigation_mode::ITEM;
         bool active = false;
         bool multiselect = false;
@@ -500,6 +508,9 @@ class inventory_column
         size_t parent_indentation = 0;
         /** @return Number of visible cells */
         size_t visible_cells() const;
+        void _get_entries( get_entries_t *res, entries_t const &ent,
+                           const ffilter_t &filter_func ) const;
+        static void _move_entries_to( entries_t const &ent, inventory_column &dest );
 
         bool skip_unselectable = false;
 };
@@ -675,6 +686,7 @@ class inventory_selector
         inventory_entry *find_entry_by_invlet( int invlet ) const;
 
         inventory_entry *find_entry_by_coordinate( const point &coordinate ) const;
+        inventory_entry *find_entry_by_location( item_location &loc ) const;
 
         const std::vector<inventory_column *> &get_all_columns() const {
             return columns;
@@ -843,6 +855,7 @@ class inventory_multiselector : public inventory_selector
         std::vector<std::pair<item_location, int>> to_use;
         std::vector<item_location> usable_locs;
         bool allow_select_contained;
+        virtual void on_toggle() {};
     private:
         std::unique_ptr<inventory_column> selection_col;
 };
@@ -899,11 +912,19 @@ class pickup_selector : public inventory_multiselector
 {
     public:
         explicit pickup_selector( Character &p, const inventory_selector_preset &preset = default_preset,
-                                  const std::string &selection_column_title = _( "ITEMS TO PICK UP" ) );
+                                  const std::string &selection_column_title = _( "ITEMS TO PICK UP" ),
+                                  const cata::optional<tripoint> &where = cata::nullopt );
         drop_locations execute();
+        void apply_selection( std::vector<drop_location> selection );
     protected:
         stats get_raw_stats() const override;
         void reassign_custom_invlets() override;
+    private:
+        bool wield( int &count );
+        bool wear();
+        void remove_from_to_use( item_location &it );
+        void add_reopen_activity();
+        const cata::optional<tripoint> where;
 };
 
 /**

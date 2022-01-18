@@ -240,6 +240,7 @@
     "name": { "str": "Soldier" },
     "job_description": "I'm just here for the paycheck.",
     "traits": [ { "group": "BG_survival_story_SOLDIER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
     "bonus_str": { "rng": [ 0, 2 ] },
     "bonus_dex": { "one_in": 2 },
     "bonus_int": { "rng": [ 0, -2 ] },

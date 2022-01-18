@@ -152,7 +152,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
                                  Character const &seller )
 {
     double const adjust = npc_trading::net_price_adjustment( buyer, seller );
-    faction const *const fac = buyer.get_faction();
+    faction const *const fac = buyer.is_npc() ? buyer.get_faction() : seller.get_faction();
 
     int price = it->price_no_contents( true );
     if( it->count_by_charges() and amount >= 0 ) {

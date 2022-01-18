@@ -714,6 +714,7 @@ Same as
 | density   | (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
 | intensity | (optional, integer) how concentrated the field is, from 1 to 3 or more. See `data/json/field_type.json`
 | age       | (optional, integer) field age. Defaults to 0.
+| remove    | (optional, bool) If true the given field will be removed rather than added. Defaults to false.
 
 
 ### Place NPCs with "npcs"
@@ -757,7 +758,7 @@ Places a vending machine (furniture) and fills it with items from an item group.
 | ---        | ---
 | item_group | (optional, string) the item group that is used to create items inside the machine. It defaults to either "vending_food" or "vending_drink" (randomly chosen).
 | reinforced | (optional, bool) setting which will make vending machine spawn as reinforced. Defaults to false.
-| lootable   | (optional, bool) setting which indicates whether this paricular vending machine should have a chance to spawn ransacked (i.e. broken and with no loot inside). The chance for this is increased with each day passed after the Cataclysm. Defaults to false.
+| lootable   | (optional, bool) setting which indicates whether this particular vending machine should have a chance to spawn ransacked (i.e. broken and with no loot inside). The chance for this is increased with each day passed after the Cataclysm. Defaults to false.
 
 
 ### Place a toilet with some amount of water with "toilets"
@@ -817,6 +818,18 @@ Note that vehicles cannot be placed over overmap boundaries. So it needs to be 2
 ]
 ```
 
+### Remove vehicles by type
+
+| Field    | Description
+| ---      | ---
+| vehicles  | (optional, string array) types of vehicle to be removed. If left empty all vehicles will be removed.
+
+```json 
+"remove_vehicles": [ 
+    { "vehicles": ["fire_engine"], "x": [10,15], "y": [10,15] }
+]
+```
+
 ### Place a specific item with "item"
 
 | Field  | Description
@@ -837,6 +850,18 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 ]
 ```
 
+### Remove items by type
+
+| Field    | Description
+| ---      | ---
+| items    | (optional, string array) types of items to be removed. If left empty all items will be removed.
+
+```json 
+"remove_items": [ 
+    { "items": ["rock"], "x": [10,15], "y": [10,15] }
+]
+```
+
 ### Place a specific monster with "monster"
 
 | Field    | Description
@@ -852,7 +877,7 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 | Field | Description
 | ---   | ---
 | trap  | (required, string) type id of the trap (e.g. `tr_beartrap`).
-
+| remove| (optional, bool) If true the given trap will be removed rather than added. Defaults to false.
 
 ### Place furniture with "furniture"
 
@@ -1042,6 +1067,25 @@ The code excerpt above will place chunks as follows:
   during mutable overmap placement.
 * `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab overmaps.
 
+
+### Place monster corpse from a monster group with "place_corpses"
+
+Creates a corpse of a random monster from a monster group.  Note that corpse's age is always `start_of_cataclysm`.
+
+| Field  | Description
+| ---    | ---
+| group | (required, string) a monster group id from which random monster will be selected
+
+Example for placing a monster corpse (either by using a character in the rows array or explicit coordinates):
+
+```json
+"corpses": {
+    "g": { "group": "GROUP_PETS" }
+},
+"place_corpses": [
+    { "group": "GROUP_PETS", "x": 3, "y": 5 }
+],
+```
 
 ## Mapgen values
 

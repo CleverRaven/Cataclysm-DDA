@@ -132,11 +132,6 @@ static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const bionic_id bio_blindfold( "bio_blindfold" );
-static const bionic_id bio_earplugs( "bio_earplugs" );
-static const bionic_id bio_ears( "bio_ears" );
-static const bionic_id bio_sunglasses( "bio_sunglasses" );
-
 static const efftype_id effect_hypocalcemia( "hypocalcemia" );
 static const efftype_id effect_hypovitA( "hypovitA" );
 static const efftype_id effect_hypovitB( "hypovitB" );
@@ -231,6 +226,8 @@ void item_contents::serialize( JsonOut &json ) const
         json.start_object();
 
         json.member( "contents", contents );
+        json.member( "additional_pockets", additional_pockets );
+
 
         json.end_object();
     }
@@ -240,6 +237,8 @@ void item_contents::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
     data.read( "contents", contents );
+    data.read( "additional_pockets", additional_pockets );
+
 }
 
 void item_pocket::serialize( JsonOut &json ) const
@@ -281,6 +280,8 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
     json.member( "category_whitelist", category_whitelist );
     json.member( "category_blacklist", category_blacklist );
     json.member( "collapsed", collapsed );
+    json.member( "disabled", disabled );
+    json.member( "unload", unload );
     json.end_object();
 }
 
@@ -294,6 +295,12 @@ void item_pocket::favorite_settings::deserialize( const JsonObject &data )
     data.read( "category_blacklist", category_blacklist );
     if( data.has_member( "collapsed" ) ) {
         data.read( "collapsed", collapsed );
+    }
+    if( data.has_member( "disabled" ) ) {
+        data.read( "disabled", disabled );
+    }
+    if( data.has_member( "unload" ) ) {
+        data.read( "unload", unload );
     }
 }
 
@@ -628,6 +635,7 @@ void Character::load( const JsonObject &data )
         !data.read( "blood_rh_factor", blood_rh_factor ) ) {
         randomize_blood();
     }
+    data.read( "avg_nat_bpm", avg_nat_bpm );
 
     data.read( "custom_profession", custom_profession );
 
@@ -677,7 +685,6 @@ void Character::load( const JsonObject &data )
         }
     }
     data.read( "consumption_history", consumption_history );
-    data.read( "activity", activity );
     data.read( "destination_activity", destination_activity );
     data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
     data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
@@ -769,6 +776,7 @@ void Character::load( const JsonObject &data )
     recalculate_size();
 
     data.read( "my_bionics", *my_bionics );
+
     invalidate_pseudo_items();
     update_bionic_power_capacity();
     data.read( "death_eocs", death_eocs );
@@ -1022,16 +1030,73 @@ void Character::load( const JsonObject &data )
         setID( tmpid );
     }
 
+    data.read( "activity", activity );
     data.read( "addictions", addictions );
 
-    // Add the earplugs.
-    if( has_bionic( bio_ears ) && !has_bionic( bio_earplugs ) ) {
-        add_bionic( bio_earplugs );
+    for( bionic &bio : *my_bionics ) {
+        // Assign UID if missing before applying other migrations
+        if( !bio.get_uid() ) {
+            bio.set_uid( generate_bionic_uid() );
+            // Migrated bionics might not have their initial weapon yet
+            if( !bio.has_weapon() && bio.id->fake_weapon.is_valid() ) {
+                const item new_weapon = item( bio.id->fake_weapon );
+                bio.install_weapon( new_weapon, true );
+            }
+        }
     }
 
-    // Add the blindfold.
-    if( has_bionic( bio_sunglasses ) && !has_bionic( bio_blindfold ) ) {
-        add_bionic( bio_blindfold );
+    bool has_old_bionic_weapon = !is_using_bionic_weapon() &&
+                                 get_wielded_item().has_flag( flag_NO_UNWIELD ) &&
+                                 !get_wielded_item().ethereal;
+
+    const auto find_parent = [this]( bionic_id & bio_id ) {
+        for( const bionic &bio : *this->my_bionics ) {
+            if( std::find( bio.id->included_bionics.begin(), bio.id->included_bionics.end(),
+                           bio_id ) != bio.id->included_bionics.end() ) {
+                return bio.get_uid();
+            }
+        }
+        return bionic_uid( 0 );
+    };
+
+    // Migrations that depend on UIDs
+    for( bionic &bio : *my_bionics ) {
+        if( has_old_bionic_weapon && bio.powered && bio.has_weapon() &&
+            bio.get_weapon().typeId() == get_wielded_item().typeId() ) {
+            weapon_bionic_uid = bio.get_uid();
+            has_old_bionic_weapon = false;
+        }
+        // Assign parent if missing
+        if( bio.id->included ) {
+            if( !bio.get_parent_uid() ) {
+                if( bionic_uid parent_uid = find_parent( bio.id ) ) {
+                    bio.set_parent_uid( parent_uid );
+                } else {
+                    debugmsg( "Migration failed when trying to find a candidate parent bionic for \"%s\"",
+                              bio.id.str() );
+                }
+            }
+        } else {
+            if( bio.get_parent_uid() ) {
+                // Previously integrated CBM is now standalone
+                bio.set_parent_uid( 0 );
+            }
+        }
+    }
+
+    if( has_old_bionic_weapon ) {
+        debugmsg( "Couldn't find the bionic UID for the current bionic weapon.  You will need to reactivate it." );
+        set_wielded_item( item() );
+    }
+
+    // Add included bionics that somehow hadn't been added on install
+    // or are missing after a save migration
+    for( const bionic &bio : *my_bionics ) {
+        for( const bionic_id &bid : bio.id->included_bionics ) {
+            if( !has_bionic( bid ) ) {
+                add_bionic( bid, bio.get_uid() );
+            }
+        }
     }
 
     // Fixes bugged characters for CBM's preventing mutations.
@@ -1123,6 +1188,7 @@ void Character::store( JsonOut &json ) const
     json.member( "base_height", init_height );
     json.member_as_string( "blood_type", my_blood_type );
     json.member( "blood_rh_factor", blood_rh_factor );
+    json.member( "avg_nat_bpm", avg_nat_bpm );
 
     json.member( "custom_profession", custom_profession );
 
@@ -2150,8 +2216,6 @@ void npc::load( const JsonObject &data )
     }
     real_weapon = item();
     data.read( "real_weapon", real_weapon );
-    cbm_weapon_index = -1;
-    data.read( "cbm_weapon_index", cbm_weapon_index );
 
     complaints.clear();
     for( const JsonMember member : data.get_object( "complaints" ) ) {
@@ -2214,7 +2278,6 @@ void npc::store( JsonOut &json ) const
     if( !real_weapon.is_null() ) {
         json.member( "real_weapon", real_weapon ); // also saves contents
     }
-    json.member( "cbm_weapon_index", cbm_weapon_index );
 
     json.member( "comp_mission_id", comp_mission.mission_id );
     json.member( "comp_mission_pt", comp_mission.position );
@@ -2665,9 +2728,6 @@ void item::io( Archive &archive )
         convert( item_controller->migrate_id( orig ) );
     };
 
-    const auto load_curammo = [this]( const std::string & id ) {
-        curammo = item::find_type( item_controller->migrate_id( itype_id( id ) ) );
-    };
     const auto load_corpse = [this]( const std::string & id ) {
         if( itype_id( id ).is_null() ) {
             // backwards compatibility, nullptr should not be stored at all
@@ -2703,6 +2763,7 @@ void item::io( Archive &archive )
     archive.io( "old_owner", old_owner, old_owner.NULL_ID() );
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damaged", damage_, 0 );
+    archive.io( "degradation", degradation_, 0 );
     archive.io( "active", active, false );
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
@@ -2720,10 +2781,6 @@ void item::io( Archive &archive )
     // Legacy: remove flag check/unset after 0.F
     archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
     unset_flag( flag_ETHEREAL_ITEM );
-    archive.template io<const itype>( "curammo", curammo, load_curammo,
-    []( const itype & i ) {
-        return i.get_id().str();
-    } );
     archive.template io<const mtype>( "corpse", corpse, load_corpse,
     []( const mtype & i ) {
         return i.id.str();
@@ -2878,6 +2935,7 @@ void item::deserialize( const JsonObject &data )
     io( archive );
     archive.allow_omitted_members();
     data.copy_visited_members( archive );
+
     // first half of the if statement is for migration to nested containers. remove after 0.F
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
@@ -2888,6 +2946,7 @@ void item::deserialize( const JsonObject &data )
     } else if( data.has_object( "contents" ) ) { // non-empty contents
         item_contents read_contents;
         data.read( "contents", read_contents );
+
         contents.read_mods( read_contents );
         update_modified_pockets();
         contents.combine( read_contents );
@@ -2955,7 +3014,7 @@ void item::serialize( JsonOut &json ) const
 
     io::JsonObjectOutputArchive archive( json );
     const_cast<item *>( this )->io( archive );
-    if( !contents.empty_real() ) {
+    if( !contents.empty_real() || contents.has_additional_pockets() ) {
         json.member( "contents", contents );
     }
 }

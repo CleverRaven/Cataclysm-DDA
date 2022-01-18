@@ -57,11 +57,11 @@ TEST_CASE( "item_volume", "[item]" )
 
 TEST_CASE( "simple_item_layers", "[item]" )
 {
-    CHECK( item( "arm_warmers" ).get_layer() == layer_level::UNDERWEAR );
-    CHECK( item( "10gal_hat" ).get_layer() == layer_level::REGULAR );
-    CHECK( item( "baldric" ).get_layer() == layer_level::WAIST );
-    CHECK( item( "armor_lightplate" ).get_layer() == layer_level::OUTER );
-    CHECK( item( "legrig" ).get_layer() == layer_level::BELTED );
+    CHECK( item( "arm_warmers" ).get_layer().front() == layer_level::UNDERWEAR );
+    CHECK( item( "10gal_hat" ).get_layer().front() == layer_level::REGULAR );
+    CHECK( item( "baldric" ).get_layer().front() == layer_level::WAIST );
+    CHECK( item( "armor_lightplate" ).get_layer().front() == layer_level::OUTER );
+    CHECK( item( "legrig" ).get_layer().front() == layer_level::BELTED );
 }
 
 TEST_CASE( "gun_layer", "[item]" )
@@ -70,7 +70,7 @@ TEST_CASE( "gun_layer", "[item]" )
     item mod( "shoulder_strap" );
     CHECK( gun.is_gunmod_compatible( mod ).success() );
     gun.put_in( mod, item_pocket::pocket_type::MOD );
-    CHECK( gun.get_layer() == layer_level::BELTED );
+    CHECK( gun.get_layer().front() == layer_level::BELTED );
 }
 
 TEST_CASE( "stacking_cash_cards", "[item]" )

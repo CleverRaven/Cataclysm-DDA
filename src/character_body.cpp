@@ -1,5 +1,6 @@
 #include "avatar.h"
 #include "character.h"
+#include "display.h"
 #include "flag.h"
 #include "game.h"
 #include "map.h"
@@ -8,7 +9,6 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "panels.h"
 #include "type_id.h"
 #include "vitamin.h"
 #include "veh_type.h"
@@ -20,6 +20,7 @@ static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blisters( "blisters" );
+static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_common_cold( "common_cold" );
 static const efftype_id effect_disinfected( "disinfected" );
@@ -48,6 +49,7 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const json_character_flag json_flag_HEATPROOF( "HEATPROOF" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
+static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 
@@ -55,6 +57,10 @@ static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+static const trait_id trait_COLDBLOOD( "COLDBLOOD" );
+static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
+static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
+static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
@@ -67,6 +73,7 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
+
 
 static const vitamin_id vitamin_blood( "blood" );
 
@@ -105,7 +112,7 @@ void Character::update_body_wetness( const w_point &weather )
             continue;
         }
         // This is to normalize drying times
-        int drying_chance = get_part_drench_capacity( bp );
+        int drying_chance = bp->drying_chance;
         const int temp_conv = get_part_temp_conv( bp );
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
@@ -128,7 +135,7 @@ void Character::update_body_wetness( const w_point &weather )
 
         // TODO: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {
-            mod_part_wetness( bp, -1 );
+            mod_part_wetness( bp, bp->drying_increment * -1 );
             if( get_part_wetness( bp ) < 0 ) {
                 set_part_wetness( bp, 0 );
             }
@@ -219,6 +226,12 @@ void Character::update_body( const time_point &from, const time_point &to )
                 vitamin_mod( v.first, qty );
             }
         }
+    }
+
+    if( calendar::once_every( 10_minutes ) ) {
+        update_bloodvol_index();
+        update_heartrate_index();
+        update_circulation();
     }
 
     if( is_avatar() && ticks_between( from, to, 24_hours ) > 0 ) {
@@ -388,11 +401,12 @@ void Character::update_bodytemp()
                                              bp_windpower );
 
         static const auto is_lower = []( const bodypart_id & bp ) {
-            return bp == body_part_foot_l  ||
-                   bp ==  body_part_foot_r  ||
-                   bp ==  body_part_leg_l  ||
-                   bp ==  body_part_leg_r ;
+            return bp->has_flag( json_flag_LIMB_LOWER );
         };
+
+        // Intrinsic bp warmth is always applied
+        int bp_temp_min = bp->temp_min;
+        int bp_temp_bonus = bp->temp_max - bp_temp_min;
 
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         // Convert to 0.01C
@@ -405,7 +419,7 @@ void Character::update_bodytemp()
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         set_part_temp_conv( bp, BODYTEMP_NORM + adjusted_temp + windchill * 100 +
-                            clothing_warmth_adjustment );
+                            clothing_warmth_adjustment + bp_temp_min );
         // HUNGER / STARVATION
         mod_part_temp_conv( bp, hunger_warmth );
         // FATIGUE
@@ -486,7 +500,8 @@ void Character::update_bodytemp()
         }
 
         const int comfortable_warmth = bonus_fire_warmth + lying_warmth;
-        const int bonus_warmth = comfortable_warmth + metabolism_warmth + mutation_heat_bonus;
+        const int bonus_warmth = comfortable_warmth + metabolism_warmth + mutation_heat_bonus +
+                                 bp_temp_bonus;
         if( bonus_warmth > 0 ) {
             // Approximate temp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below
@@ -1124,3 +1139,110 @@ bodypart_id Character::body_window( const std::string &menu_header,
     }
 }
 
+
+float Character::get_heartrate_index() const
+{
+    return heart_rate_index;
+}
+
+void Character::update_heartrate_index()
+{
+    // The following code was adapted from the heartrate function, which will now probably need to be rewritten to be based on the heartrate index.
+
+    //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
+    const int player_local_temp = get_weather().get_temperature( pos() );
+    float temperature_modifier = 0.0f;
+    if( has_trait( trait_COLDBLOOD ) ) {
+        temperature_modifier = 0.002f;
+    }
+    if( has_trait( trait_COLDBLOOD2 ) ) {
+        temperature_modifier = 0.00333f;
+    }
+    if( has_trait( trait_COLDBLOOD3 ) || has_trait( trait_COLDBLOOD4 ) ) {
+        temperature_modifier = 0.005f;
+    }
+    const float hr_temp_mod = ( player_local_temp - 65 ) * temperature_modifier;
+    const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
+    // The influence of stamina on heartrate seemeed excessive and was toned down.
+    const float hr_stamina_mod = 1.6f * ( 1.0f - stamina_level );
+
+    const int stim_level = get_stim();
+    float hr_stim_mod = 0.0f;
+    if( stim_level > 0 ) {
+        //that's asymptotical function that is equal to 1 at around 30 stim level
+        //and slows down all the time almost reaching 2.
+        //Tweaking x*x multiplier will accordingly change effect accumulation
+        hr_stim_mod = 2 - 2 / ( 1 + 0.001 * stim_level * stim_level );
+    }
+    float hr_nicotine_mod = 0.0f;
+    if( get_effect_dur( effect_cig ) > 0_turns ) {
+        //Nicotine-induced tachycardia
+        if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( add_type::CIG ) + 1 ) ) {
+            hr_nicotine_mod = 0.4f;
+        } else {
+            hr_nicotine_mod = 0.1f;
+        }
+    }
+    // Todo: Implement cardio effect (lowers HR?)
+    float hr_health_mod = 0;
+
+    //Pain simply adds 1% per point after it reaches 5 (that's arbitrary)
+    // this seems weird -- A character with brachycardia shouldn't be able to just hurt themselves to fix it.
+    const int cur_pain = get_perceived_pain();
+    float hr_pain_mod = 0.0f;
+    if( cur_pain > 5 ) {
+        hr_pain_mod = 0.01 * ( cur_pain - 5 );
+    }
+    // TODO: Add support for adrenaline trait
+    const float hr_trait_mod = 0.0f;
+
+    // TODO: implement support for HR increasing to compensate for low BP.
+    // it seems that heart rate and blood pressure changes are not linear - the heart is unreasonably efficient at
+    // increasing/decreasing blood pressure, as the geometry of blood vessels also changes. This means that at low
+    // bp, we can consider that a rise in x in heart rate index might cause more than x blood pressure index change as
+    // blood vessels constrict, but at higher bp, a rise in x in heart rate index might cause less than x blood pressure
+    // index change as blood vessels dilate. In other words, your blood pressure doesn't double when you're exercising.
+    const float hr_bp_loss_mod = 0.0f;
+
+
+    heart_rate_index = 1.0f + hr_temp_mod + hr_stamina_mod + hr_stim_mod + hr_nicotine_mod +
+                       hr_health_mod + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod;
+    // update_circulation();
+}
+
+float Character::get_bloodvol_index() const
+{
+    return blood_vol_index;
+}
+
+void Character::update_bloodvol_index()
+{
+    // vitamin_blood ranges from -50k(death) to 0(no hypovolemia).
+    blood_vol_index = 1.0f - ( static_cast<float>( vitamin_get( vitamin_blood ) ) / static_cast<float>
+                               ( vitamin_blood->min() ) );
+    // update_circulation();
+}
+
+float Character::get_circulation_resistance() const
+{
+    return circulation_resistance;
+}
+
+void Character::set_circulation_resistance( float ncirculation_resistance )
+{
+    circulation_resistance = ncirculation_resistance;
+    update_circulation();
+}
+
+void Character::update_circulation()
+{
+    circulation = get_bloodvol_index() * get_heartrate_index() * get_circulation_resistance();
+    // Incredibly annoying debug function - don't forget to comment out before merge!
+    //if( circulation < 0.8 ) {
+    //    debugmsg( "Low blood pressure: " + std::to_string( circulation ) + " " + std::to_string(
+    //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
+    //} else if( circulation > 2.0 ) {
+    //    debugmsg( "High blood pressure" + std::to_string( circulation ) + " " + std::to_string(
+    //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
+    //}
+}

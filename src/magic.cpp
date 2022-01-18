@@ -245,7 +245,7 @@ void spell_type::load_spell( const JsonObject &jo, const std::string &src )
 static std::string moves_to_string( const int moves )
 {
     if( moves < to_moves<int>( 2_seconds ) ) {
-        return string_format( _( "%d moves" ), moves );
+        return string_format( n_gettext( "%d move", "%d moves", moves ), moves );
     } else {
         return to_string( time_duration::from_moves( moves ) );
     }

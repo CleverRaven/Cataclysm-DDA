@@ -3,7 +3,7 @@
     "id": "anesthetic_kit",
     "type": "TOOL",
     "name": { "str": "anesthesia kit" },
-    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
+    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgesic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
     "weight": "100 g",
     "volume": "3250 ml",
     "price": 1000,
@@ -109,7 +109,7 @@
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ], [ "BUTCHER", 8 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 3 ], [ "BUTCHER", 8 ], [ "FABRIC_CUT", 1 ] ],
     "flags": [ "FRAGILE_MELEE" ]
   },
   {

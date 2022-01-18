@@ -15,7 +15,7 @@
     "reversible": true,
     "using": [ [ "ammo_bullet", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "paper", 1 ] ] ]
   },
   {
@@ -34,7 +34,7 @@
     "reversible": true,
     "using": [ [ "ammo_bullet", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "paper", 1 ] ] ]
   },
   {

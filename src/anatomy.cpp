@@ -9,8 +9,10 @@
 #include <unordered_set>
 
 #include "cata_utility.h"
+#include "character.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "flag.h"
 #include "json.h"
 #include "messages.h"
 #include "output.h"
@@ -20,8 +22,12 @@
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
+static const json_character_flag json_flag_ALWAYS_BLOCK( "ALWAYS_BLOCK" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
+static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK" );
+
+static const limb_score_id limb_score_block( "block" );
 
 namespace
 {
@@ -190,8 +196,8 @@ bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack
             }
         }
 
-        if( hit_roll != 0 ) {
-            weight *= std::pow( hit_roll, bp->hit_difficulty );
+        if( hit_roll > 0 ) {
+            weight *= std::pow( static_cast<float>( hit_roll ), bp->hit_difficulty );
         }
 
         hit_weights.add( bp, weight );
@@ -209,5 +215,72 @@ bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack
     }
 
     add_msg_debug( debugmode::DF_ANATOMY_BP, "selected part: %s", ret->id().obj().name );
+    return *ret;
+}
+
+
+bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bool leg,
+        bool nonstandard ) const
+{
+    weighted_float_list<bodypart_id> block_scores;
+    for( const bodypart_id &bp : cached_bps ) {
+        float block_score = bp->get_limb_score( limb_score_block );
+        if( const Character *u = dynamic_cast<const Character *>( blocker ) ) {
+            block_score = u->get_part( bp )->get_limb_score( limb_score_block );
+            // Weigh shielded bodyparts higher
+            block_score *= u->worn_with_flag( flag_BLOCK_WHILE_WORN, bp ) ? 5 : 1;
+        }
+
+        // Filter out nonblocking / broken limbs
+        if( block_score == 0 ) {
+            add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no blocking score",
+                           body_part_name( bp ) );
+            continue;
+        }
+
+        // Always blocking limbs block always (if they have a block score)
+        if( bp->has_flag( json_flag_ALWAYS_BLOCK ) ) {
+            block_scores.add( bp, block_score );
+            add_msg_debug( debugmode::DF_MELEE, "BP %s always blocks",
+                           body_part_name( bp ) );
+            continue;
+        }
+
+        // Can we block with our normal boring arm?
+        if( bp->has_type( body_part_type::type::arm ) && !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
+            !arm ) {
+            add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no arm blocks allowed",
+                           body_part_name( bp ) );
+            continue;
+            // Can we block with our normal boring legs?
+        } else if( bp->has_type( body_part_type::type::leg ) &&
+                   !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) && !leg ) {
+            add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no leg blocks allowed",
+                           body_part_name( bp ) );
+            continue;
+            // Can we block with our non-normal non-arms/non-legs?
+        } else if( ( ( !bp->has_type( body_part_type::type::arm ) &&
+                       !bp->has_type( body_part_type::type::leg ) ) || bp->has_flag( json_flag_NONSTANDARD_BLOCK ) ) &&
+                   !nonstandard ) {
+            add_msg_debug( debugmode::DF_MELEE, "BP %s discarded, no nonstandard blocks allowed",
+                           body_part_name( bp ) );
+            continue;
+        }
+
+        block_scores.add( bp, block_score );
+    }
+
+    // Debug for seeing weights.
+    for( const weighted_object<double, bodypart_id> &pr : block_scores ) {
+        add_msg_debug( debugmode::DF_MELEE, "%s = %.3f", pr.obj.obj().name, pr.weight );
+    }
+
+    const bodypart_id *ret = block_scores.pick();
+    if( ret == nullptr ) {
+        debugmsg( "Attempted to select body part from empty anatomy %s", id.c_str() );
+        return bodypart_str_id::NULL_ID().id();
+    }
+
+    add_msg_debug( debugmode::DF_MELEE, "selected part: %s", ret->id().obj().name );
     return *ret;
 }

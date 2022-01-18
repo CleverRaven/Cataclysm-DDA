@@ -206,7 +206,7 @@
     "sided": true,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "40x46mm": 4, "40x53mm": 4 }, "moves": 20 } ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
     "armor": [
       {
         "encumbrance": 4,

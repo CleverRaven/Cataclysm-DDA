@@ -24,7 +24,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
     "bashing": 2,
     "cutting": 10,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -44,7 +44,7 @@
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
     "bashing": 2,
     "cutting": 7,
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -65,7 +65,7 @@
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
     "bashing": 1,
     "cutting": 6,
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -85,7 +85,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
     "bashing": 1,
     "cutting": 10,
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -106,7 +106,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
     "bashing": 1,
     "cutting": 8,
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -127,7 +127,7 @@
     "bashing": 4,
     "cutting": 6,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 8 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE" ]
   },
   {
@@ -147,7 +147,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "bashing": 2,
     "cutting": 10,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
     "flags": [ "SHEATH_KNIFE" ]
   },
   {
@@ -167,7 +167,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "uneven" },
     "bashing": 2,
     "cutting": 12,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "flags": [ "SHEATH_KNIFE" ]
   }
 ]

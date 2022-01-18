@@ -149,17 +149,33 @@ struct weakpoint {
 };
 
 struct weakpoints {
+    // id of this set of weakpoints (inline weakpoints have a null id)
+    weakpoints_id id;
     // List of weakpoints. Each weakpoint should have a unique id.
     std::vector<weakpoint> weakpoint_list;
     // Default weakpoint to return.
     weakpoint default_weakpoint;
+    // TODO: make private
+    bool was_loaded = false;
 
     // Selects a weakpoint to hit.
     const weakpoint *select_weakpoint( const weakpoint_attack &attack ) const;
 
     void clear();
+    // load inline definition
     void load( const JsonArray &ja );
     void remove( const JsonArray &ja );
+
+    /********************* weakpoint_set handling ****************************/
+    // load standalone JSON type
+    void load( const JsonObject &jo, const std::string &src );
+    void add_from_set( const weakpoints_id &set_id, bool replace_id );
+    void add_from_set( const weakpoints &set, bool replace_id );
+    void del_from_set( const weakpoints_id &set_id );
+    void del_from_set( const weakpoints &set );
+    static void load_weakpoint_sets( const JsonObject &jo, const std::string &src );
+    static void reset();
+    static const std::vector<weakpoints> &get_all();
 };
 
 #endif // CATA_SRC_WEAKPOINT_H

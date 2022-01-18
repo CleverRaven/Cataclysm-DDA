@@ -872,6 +872,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_WIELD",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "wielding item",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_TREE_COMMUNION",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -886,6 +895,16 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "eating",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_PICKUP_MENU",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "picking up",
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",

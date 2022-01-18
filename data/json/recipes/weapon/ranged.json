@@ -36,7 +36,7 @@
     "time": "1 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "sling", 1 ] ] ]
   },
   {
@@ -116,7 +116,7 @@
     "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "HAMMER", "level": 3 },
       { "id": "SCREW_FINE", "level": 1 },
       { "id": "CHISEL", "level": 3 }
@@ -145,7 +145,7 @@
     "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "HAMMER", "level": 3 },
       { "id": "SCREW_FINE", "level": 1 },
       { "id": "CHISEL", "level": 3 }
@@ -174,7 +174,7 @@
     "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "HAMMER", "level": 3 },
       { "id": "SCREW_FINE", "level": 1 },
       { "id": "CHISEL", "level": 3 }
@@ -203,7 +203,7 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "mag_pistol", 6 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "HAMMER", "level": 3 },
       { "id": "SCREW_FINE", "level": 1 },
       { "id": "CHISEL", "level": 3 }
@@ -586,7 +586,7 @@
     "time": "1 h 10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_fibers", "time_multiplier": 4, "fail_multiplier": 1 } ],
     "components": [ [ [ "cordage", 32, "LIST" ] ], [ [ "rock", 8 ] ] ]
   },
@@ -602,7 +602,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "filament", 20, "LIST" ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
   {
@@ -631,7 +631,7 @@
     "time": "15 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "hose", 1 ] ] ]
   },
   {
@@ -646,7 +646,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "leather", 20 ] ], [ [ "rope_superior_short", 2, "LIST" ] ] ]
   },
   {
@@ -663,7 +663,7 @@
     "decomp_learn": 1,
     "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
     "book_learn": [ [ "manual_archery", 4 ], [ "recipe_bows", 3 ], [ "book_archery", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "stick_long", 1 ], [ "2x4", 1 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
   {
@@ -680,7 +680,7 @@
     "decomp_learn": 1,
     "book_learn": [ [ "manual_archery", 6 ], [ "recipe_bows", 5 ], [ "book_archery", 7 ] ],
     "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "stick_long", 4 ], [ "2x4", 4 ] ], [ [ "cordage_superior", 6, "LIST" ] ] ]
   },
   {
@@ -713,7 +713,7 @@
     "decomp_learn": 1,
     "autolearn": true,
     "book_learn": [ [ "recipe_bows", 1 ], [ "manual_archery", 2 ], [ "book_archery", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
@@ -731,7 +731,7 @@
     "book_learn": [ [ "recipe_bows", 4 ], [ "manual_archery", 5 ] ],
     "using": [ [ "adhesive", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone_sturdy", 3, "LIST" ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
   {
@@ -754,7 +754,7 @@
       { "proficiency": "prof_plasticworking", "time_multiplier": 1.5, "learning_time_multiplier": 0.25 }
     ],
     "qualities": [
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 },
@@ -851,7 +851,7 @@
     "decomp_learn": 3,
     "book_learn": [ [ "recipe_bows", 3 ], [ "manual_archery", 5 ], [ "book_archery", 4 ] ],
     "qualities": [
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "HAMMER", "level": 2 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
@@ -905,7 +905,7 @@
     "time": "10 h",
     "using": [ [ "adhesive", 3 ] ],
     "book_learn": [ [ "recipe_bows", 5 ], [ "manual_archery", 6 ], [ "book_archery", 6 ], [ "textbook_armschina", 6 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "stick", 5 ], [ "2x4", 3 ] ], [ [ "bone_sturdy", 3, "LIST" ] ], [ [ "cordage_superior", 1, "LIST" ] ] ]
   },
   {
@@ -1168,7 +1168,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -1202,7 +1202,7 @@
     "decomp_learn": 5,
     "book_learn": [ [ "recipe_bows", 6 ], [ "textbook_weapwest", 6 ] ],
     "qualities": [
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "HAMMER", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
@@ -1241,7 +1241,7 @@
       { "proficiency": "prof_gunsmithing_spring" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5 }
     ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ], [ [ "spring", 1 ] ], [ [ "cordage_superior", 1, "LIST" ] ], [ [ "nail", 20 ] ] ]
   },
   {
@@ -1298,7 +1298,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "leather", 30 ], [ "rope_superior_short", 2, "LIST" ] ], [ [ "scrap", 9 ], [ "razor_blade", 9 ] ] ]
   },
   {
@@ -1332,5 +1332,22 @@
       [ [ "scrap", 10 ] ],
       [ [ "cable", 100 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "pamd68mountable",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
+    "difficulty": 3,
+    "time": "25 m",
+    "using": [ [ "welding_standard", 10 ] ],
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ],
+    "tools": [ [ [ "drift", -1 ] ] ],
+    "components": [ [ [ "scrap", 3 ] ], [ [ "pamd68", 1 ] ] ]
   }
 ]

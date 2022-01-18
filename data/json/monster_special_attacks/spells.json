@@ -333,8 +333,8 @@
   },
   {
     "type": "SPELL",
-    "id": "wraith_attack",
-    "name": { "str": "Wraith Attack" },
+    "id": "shifting_mass",
+    "name": { "str": "Shifting Mass Attack" },
     "description": "Drains some of your essence.",
     "valid_targets": [ "hostile", "ground" ],
     "max_level": 1,
@@ -348,7 +348,7 @@
     "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
     "shape": "blast",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_wraith_attack"
+    "effect_str": "EOC_shifting_mass_attack"
   },
   {
     "type": "SPELL",
@@ -365,39 +365,31 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_wraith_attack",
+    "id": "EOC_shifting_mass_attack",
     "effect": [
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_wraith_fatigue", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "+",
           { "const": 20 }
         ]
       },
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_wraith_stamina", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_shifting_mass_stamina" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "+",
           { "const": 50 }
         ]
       },
       {
-        "arithmetic": [
-          { "u_val": "fatigue" },
-          "+=",
-          { "global_val": "var", "var_name": "ps_wraith_fatigue", "type": "weather", "context": "ps" }
-        ]
+        "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" } ]
       },
       {
-        "arithmetic": [
-          { "u_val": "stamina" },
-          "+=",
-          { "global_val": "var", "var_name": "ps_wraith_stamina", "type": "weather", "context": "ps" }
-        ]
+        "arithmetic": [ { "u_val": "stamina" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_stamina" } ]
       },
       { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
     ]
@@ -453,29 +445,26 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_absence_capture_attack",
+    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, { "const": 3 } ], "op": ">" },
     "effect": [
-      { "u_location_variable": { "value": "cage", "type": "eoc", "context": "transform", "global": true } },
+      { "u_location_variable": { "global_val": "portal_cage" } },
       {
         "u_transform_radius": 2,
         "ter_furn_transform": "portal_cage_transform",
-        "target_var": { "value": "cage", "type": "eoc", "context": "transform", "global": true }
+        "target_var": { "global_val": "portal_cage" }
       },
       {
-        "set_queue_effect_on_condition": [
-          {
-            "id": "EOC_PORTAL_ABSENCE_CHANGE",
-            "effect": [
-              {
-                "u_transform_radius": 2,
-                "ter_furn_transform": "portal_cage_revert_transform",
-                "target_var": { "value": "cage", "type": "eoc", "context": "transform", "global": true }
-              }
-            ]
-          }
-        ],
+        "u_transform_radius": 2,
+        "ter_furn_transform": "portal_cage_revert_transform",
+        "target_var": { "global_val": "portal_cage" },
         "time_in_future_min": "3 seconds",
         "time_in_future_max": "5 seconds"
-      }
+      },
+      { "u_message": "All the empty space around you is suddenly even emptier than should be possible." }
+    ],
+    "false_effect": [
+      { "set_queue_effect_on_condition": [ "EOC_impossible_shape_attack", "EOC_shifting_mass_attack" ] },
+      { "u_message": "For an instant you feel the absence's hunger upon you." }
     ]
   },
   {

@@ -32,7 +32,7 @@
     "//": "butcher knives and carving knives are between 30-40cm.",
     "price": 8000,
     "price_postapoc": 150,
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
   },
   {
     "id": "butter_churn",
@@ -107,7 +107,7 @@
     "power_draw": 150000,
     "charges_per_use": 0,
     "revert_to": "carver_off",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "use_action": [ "CARVER_ON" ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -988,5 +988,30 @@
         "default_magazine": "light_battery_cell"
       }
     ]
+  },
+  {
+    "id": "propane_cooker",
+    "type": "TOOL",
+    "name": { "str": "propane cooker" },
+    "description": "This is a simple heater powered by propane.  It is designed for cooking food.",
+    "weight": "800 g",
+    "volume": "1250 ml",
+    "price": 5000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "propane" ],
+    "sub": "hotplate",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "small_propane_tank", "medium_propane_tank", "large_propane_tank" ]
+      }
+    ],
+    "charges_per_use": 1,
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   }
 ]

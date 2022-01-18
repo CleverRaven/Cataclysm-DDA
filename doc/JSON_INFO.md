@@ -89,6 +89,7 @@ Use the `Home` key to return to the top.
     - [Vehicle Placement](#vehicle-placement)
     - [Vehicle Spawn](#vehicle-spawn)
     - [Vehicles](#vehicles)
+    - [Weakpoint Sets](#weakpoint-sets)
 - [`data/json/items/` JSONs](#datajsonitems-jsons)
     - [Generic Items](#generic-items)
       - [To hit object](#to-hit-object)
@@ -619,6 +620,8 @@ For information about tools with option to export ASCII art in format ready to b
 |---                     |---
 | `id`                   | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
 | `name`                 | (_mandatory_) In-game name displayed.
+| `limb_type`            | (_mandatory_) Type of limb, as defined by `bodypart.h`. Certain functions will check only a given bodypart type for their purposes. Currently implemented types are: `head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other`.
+| `secondary_types`      | (_optional_) List of secondary limb types for the bodypart, to include it in relevant calculations.
 | `accusative`           | (_mandatory_) Accusative form for this bodypart.
 | `heading`              | (_mandatory_) How it's displayed in headings.
 | `heading_multiple`     | (_mandatory_) Plural form of heading.
@@ -633,20 +636,31 @@ For information about tools with option to export ASCII art in format ready to b
 | `opposite_part`        | (_mandatory_) What is the opposite part of this one in case of a pair.
 | `hit_size`             | (_mandatory_) Size of the body part for (melee) attack targeting.  Monster special attacks are capable of targeting set bodypart hitsizes (see `hitsize_min/max` in `MONSTERS.md`)
 | `hit_difficulty`       | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
-| `drench_capacity`      | (_mandatory_) How wet this part can get before being 100% drenched.
+| `drench_capacity`      | (_mandatory_) How wet this part can get before being 100% drenched. 0 makes the limb waterproof, morale checks for absolute wetness while other effects for wetness percentage - making a high `drench_capacity` prevent the penalties longer.
+| `drench_increment`     | (_optional_) Units of "wetness" applied each time the limb gets drenched. Default 2, ignored by diving underwater.
+| `drying_chance`        | (_optional_) Base chance the bodypart will succeed in the drying roll ( `x/80` chance, modified by ambient temperature etc)
+| `drying_increment`     | (_optonal_) Units of wetness the limb will dry each turn, if it succeeds in the drying roll (base chance `drench_capacity / 80`, modified by ambient temperature).
+| `wet_morale`           | (_optional_) Mood bonus/malus when the limb gets wet, representing the morale effect at 100% limb saturation. Modified by worn clothing and ambient temperature.
 | `stylish_bonus`        | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
 | `hot_morale_mod`       | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | `cold_morale_mod`      | (_optional_) Mood effect of being too cold on this part. (default: `0`)
 | `squeamish_penalty`    | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
 | `fire_warmth_bonus`    | (_optional_) How effectively you can warm yourself at a fire with this part. (default: `0`)
+| `temp_mod`             | (_optional array_) Intrinsic temperature modifier of the bodypart.  The first value (in the same "temperature unit" as mutations' `bodytemp_modifier`) is always applied, the second value is apllied on top when the bodypart isn't overheated.
 | `env_protection`       | (_optional_) Innate environmental protection of this part. (default: `0`)
 | `stat_hp_mods`         | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
+| `heal_bonus`           | (_optional_) Innate amount of HP the bodypart heals every healing roll ( 5 minutes, currently ).
+| `mend_rate`            | (_optional_) Innate mending rate of the limb, should it get broken. Default `1.0`, used as a multiplier on the healing factor after other factors are calculated. 
 | `bionic_slots`         | (_optional_) How many bionic slots does this part have.
 | `is_limb`              | (_optional_) Is this bodypart a limb and capable of breaking. (default: `false`)
 | `smash_message`        | (_optional_) The message displayed when using that part to smash something.
 | `smash_efficiency`     | (_optional_) Modifier applied to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 | `flags`                | (_optional_) List of bodypart flags.  These are considered character flags, similar to bionic/trait/effect flags.
+| `techniques`           | (_optional_) List of melee techniques granted by this limb.  The chance for the technique to be included in each attack's tech list is dependent on limb encumbrance. ( `!x_in_y(current encumbrance / technique_encumbrance_limit`)
+| `technique_encumbrance_limit` | (_optional_) Level of encumbrance that disables the given techniques for this limb completely, lower encumbrance still reduces the chances of the technique being chosen (see above).
 | `limb_scores`          | (_optional_) List of arrays defining limb scores. Each array contains 2 mandatory values and 1 optional value. Value 1 is a reference to a `limb_score` id. Value 2 is a float defining the limb score's value. (optional) Value 3 is a float defining the limb score's maximum value (mostly just used for manipulator score).
+| `unarmed_damage`       | (_optional_) An array of objects, each detailing the amount of unarmed damage the bodypart contributes to unarmed attacks and their armor penetration. The unarmed damages of each limb are summed and added to the base unarmed damage. Should be used for limbs the character is expected to *always* attack with, for special attacks use a dedicated technique.
+| `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
 
 ```json
 {
@@ -668,6 +682,7 @@ For information about tools with option to export ASCII art in format ready to b
   "hit_difficulty": 0.95,
   "limb_type": "arm",
   "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
+  "armor": { "electric": 2, "stab": 1 },
   "side": "left",
   "legacy_id": "ARM_L",
   "hot_morale_mod": 0.5,
@@ -707,12 +722,12 @@ Here are the currently defined limb scores:
 |------                  |------
 | `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.
 | `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
-| `lifting_score`        | Modifies melee attack stamina cost on arm-type limbs, a sum above 0.5 qualifies for wielding two-handed weapons and similar checks.
-| `blocking_score`       | If the sum of blocking scores on arm-type limbs is above 1 the character can use arm blocks provided they have a relevant martial art.  Blocking score below 1 prevents using any martial arts and reduces damage to 10% (used as a surrogate for broken arms)
+| `lifting_score`        | Modifies melee attack stamina cost on arm-type limbs, a sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
+| `blocking_score`       | The blocking limb is chosen by a roll weighted by eligable limbs' block score, and blocking efficiency is multiplied by the target limb's score.
 | `breathing_score`      | Modifies stamina recovery speed and shout volume.
 | `vision_score`         | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
 | `nightvision_score`    | Modifies night vision range (multiplier on the calculated range).
-| `reaction_score`       | Modifies dodge chance, block effectivity, melee weakpoint hit chances.
+| `reaction_score`       | Modifies dodge chance, block chance, melee weakpoint hit chances.
 | `balance_score`        | Modifies thrown attack speed, movement cost and melee attack rolls.
 | `footing_score`        | Modifies movement cost.
 | `movement_speed_score` | Modifies movement cost.
@@ -823,6 +838,7 @@ mod = min( max, ( nominator / limb_score ) - subtract );
 | cant_remove_reason          | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`)
 | social_modifiers			  | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
 | dispersion_mod              | (_optional_) Modifier to change firearm dispersion.
+| activated_on_install        | (_optional_) Auto-activates this bionic when installed.
 
 ```C++
 {
@@ -1664,6 +1680,7 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
 "pre_special": "check_empty",                                       // Required something that isn't terrain
 "pre_terrain": "t_pit",                                             // Alternative to pre_special; Required terrain to build on
+"pre_flags": [ "WALL" ],                                            // Flags beginning terrain must have
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
 ```
 
@@ -2094,7 +2111,7 @@ The `id` must be exact as it is hardcoded to look for that.
 "profession": true, //Trait is a starting profession special trait. (default: false)
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu
-"vanity": false, //Trait can be changed any time with no cost, like hair, eye colour and skin colour
+"vanity": false, //Trait can be changed any time with no cost, like hair, eye color and skin color
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 // prereqs and prereqs2 specify prerequisites of the current mutation
 // Both are optional, but if prereqs2 is specified prereqs must also be specified
@@ -2130,14 +2147,16 @@ The `id` must be exact as it is hardcoded to look for that.
   "arm_r": 0.75
 },
 "armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
-    [
-        [ "head" ],
-        { "bash" : 2 } // The resistance provided to the body part(s) selected above
-    ],
-    [   // NOTE: Resistances are applies in order and ZEROED between applications!
-        [ "arm_l", "arm_r" ], // Overrides the above settings for those body parts
-        { "bash" : 1 }        // ...and gives them those resistances instead
-    ]
+  {
+    "part_types": [ "arm", "leg" ],
+    "bash": 2,
+    "electric": 5                  // The resistance provided to the body part type(s) selected above
+  },
+  {
+    "parts": [ "arm_l", "arm_r" ], // Overrides the above settings for those specific body parts
+    "bash": 1,                     // ...and gives them those resistances instead
+    "cut": 2
+  }
 ],
 "stealth_modifier" : 0, // Percentage to be subtracted from player's visibility range, capped to 60. Negative values work, but are not very effective due to the way vision ranges are capped
 "active" : true, //When set the mutation is an active mutation that the player needs to activate (default: false)
@@ -2167,6 +2186,8 @@ The `id` must be exact as it is hardcoded to look for that.
 "metabolism_modifier": 0.333, // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_modifier": 0.5, // Extra fatigue rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
+"stamina_regen_modifier": 0.1, // Increase stamina regen by this proportion (1.0 being 100% of normal regen)
+"cardio_multiplier": 1.5, // Multiply total cardio fitness by this amount
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
 "mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
@@ -2499,6 +2520,51 @@ See also VEHICLE_JSON.md
                                             * (you can't stack non-stackable part flags). */
 ```
 
+### Weakpoint Sets
+A thin container for weakpoint definitions. The only unique fields for this object are `"id"` and `"type"`. The `"weakpoints"` array contains weakpoints that are defined the same way as in monster definitions. See [Weakpoints](MONSTERS.md#weakpoints) for details.
+
+```json
+{
+  "type": "weakpoint_set",
+  "id": "wps_zombie_headshot",
+  "weakpoints": [
+    {
+      "id": "wp_head_stun",
+      "name": "the head",
+      "coverage": 5,
+      "crit_mult": { "all": 1.1 },
+      "armor_mult": { "physical": 0.75 },
+      "difficulty": { "melee": 1, "ranged": 3 },
+      "effects": [
+        {
+          "effect": "stunned",
+          "duration": [ 1, 2 ],
+          "chance": 5,
+          "message": "The %s is stunned!",
+          "damage_required": [ 1, 10 ]
+        },
+        {
+          "effect": "stunned",
+          "duration": [ 1, 2 ],
+          "chance": 25,
+          "message": "The %s is stunned!",
+          "damage_required": [ 11, 100 ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+Weakpoint sets are applied to a monster using the monster's `"weakpoint_sets"` field. Each subsequent weakpoint set overwrites weakpoints with the same id from the previous set. This allows hierarchical sets that can be applied from general -> specific, so that general weakpoint sets can be reused for many different monsters, and more specific sets can override some general weakpoints for specific monsters. For example:
+```json
+"//": "(in MONSTER type)",
+"weakpoint_sets": [ "humanoid", "zombie_headshot", "riot_gear" ]
+```
+In the example above, the `"humanoid"` weakpoint set is applied as a base, then the `"zombie_headshot"` set overwrites any previously defined weakpoints with the same id (ex: "wp_head_stun"). Then the `"riot_gear"` set overwrites any matching weakpoints from the previous sets with armour-specific weakpoints. Finally, if the monster type has an inline `"weakpoints"` definition, those weakpoints overwrite any matching weakpoints from all sets.
+
+Weakpoints only match if they share the same id, so it's important to define the weakpoint's id field if you plan to overwrite previous weakpoints.
+
 # `data/json/items/` JSONs
 
 ### Generic Items
@@ -2533,6 +2599,7 @@ See also VEHICLE_JSON.md
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
 "price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"degradation_multiplier": 0.8,               // Controls how quickly an item degrades when taking damage. 0 = no degradation. Defaults to 1.0.
 "material": [                                // Material types, can be as many as you want.  See materials.json for possible options
   { "type": "cotton", "portion": 9 },        // type indicates the material's ID, portion indicates proportionally how much of the item is composed of that material
   { "type": "plastic" }                      // portion can be omitted and will default to 1. In this case, the item is 90% cotton and 10% plastic.
@@ -2714,7 +2781,7 @@ What body parts this section of the armor covers. See the bodypart_ids defined i
 ##### Specifically Covers
 (array of strings)
 What sub body parts this section of the armor covers. See the sub_bodypart_ids defined in body_parts.json for valid values.
-These are used for wearing multiple armor pieces on a single layer without gaining encumberance penalties. They are not mandatory
+These are used for wearing multiple armor pieces on a single layer without gaining encumbrance penalties. They are not mandatory
 if you don't specify them it is assumed that the section covers all the body parts it covers entirely.
 strapped layer items, and outer layer armor should always have these specified otherwise it will conflict with other pieces.
 
@@ -2850,6 +2917,8 @@ Books can be defined like this:
 "chapters" : 4,       // Number of chapters (for fun only books), each reading "consumes" a chapter. Books with no chapters left are less fun (because the content is already known to the character).
 "required_level" : 2  // Minimum skill level required to learn
 ```
+It is possible to omit the `max_level` field if the book you're creating contains only recipes and it's not supposed to level up any skill. In this case the `skill` field will just refer to the skill required to learn the recipes.
+
 Alternately, every item (tool, gun, even food) can be used as book if it has book_data:
 ```C++
 "type" : "TOOL",      // Or any other item type
@@ -2985,7 +3054,7 @@ CBMs can be defined like this:
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in C at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
-"parasites": 10,            // (Optional) Probability of becoming parasitised when eating
+"parasites": 10,            // (Optional) Probability of becoming parasitized when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  An integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitA, vitB, vitC, mutant_toxin, bad_food, blood, and redcells.  Note that vitB is B12.
 "material": [                     // All materials (IDs) this food is made of
@@ -3169,7 +3238,9 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "cutting": 0,         // Cutting damage caused by using it as a melee weapon
 "to_hit": 3,          // To-hit bonus if using it as a melee weapon
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
-"use_action": [ "firestarter" ] // Action performed when tool is used, see special definition below
+"use_action": [ "firestarter" ], // Action performed when tool is used, see special definition below
+"qualities": [ [ "SCREW", 1 ] ], // Inherent item qualities like hammering, sawing, screwing (see tool_qualities.json)
+"charged_qualities": [ [ "DRILL", 3 ] ], // Qualities available if tool has at least charges_per_use charges left
 // Only TOOL type items may define the following fields:
 "ammo": [ "NULL" ],        // Ammo types used for reloading
 "charge_factor": 5,        // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool

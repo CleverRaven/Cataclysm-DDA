@@ -94,6 +94,8 @@ static std::string keys_text()
 {
     return
         colorize( "p", c_light_green ) + _( " priority, " ) +
+        colorize( "d", c_light_green ) + _( " toggle auto pickup, " ) +
+        colorize( "u", c_light_green ) + _( " toggle auto unload, " ) +
         colorize( "i", c_light_green ) + _( " item, " ) +
         colorize( "c", c_light_green ) + _( " category, " ) +
         colorize( "w", c_light_green ) + _( " whitelist, " ) +
@@ -132,6 +134,12 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         popup.title( string_format( _( "Enter Priority (current priority %d)" ),
                                     selected_pocket->settings.priority() ) );
         selected_pocket->settings.set_priority( popup.query_int() );
+    } else if( input == 'd' ) {
+        selected_pocket->settings.set_disabled( !selected_pocket->settings.is_disabled() );
+        return true;
+    } else if( input == 'u' ) {
+        selected_pocket->settings.set_unloadable( !selected_pocket->settings.is_unloadable() );
+        return true;
     }
 
     const bool item_id = input == 'i';
@@ -350,6 +358,10 @@ void item_contents::combine( const item_contents &read_input, const bool convert
 {
     std::vector<item> uninserted_items;
     size_t pocket_index = 0;
+
+    for( const item &pocket : read_input.additional_pockets ) {
+        add_pocket( pocket );
+    }
 
     for( const item_pocket &pocket : read_input.contents ) {
         if( pocket_index < contents.size() ) {
@@ -591,12 +603,16 @@ item_pocket *item_contents::contained_where( const item &contained )
     return nullptr;
 }
 
-units::length item_contents::max_containable_length() const
+units::length item_contents::max_containable_length( const bool unrestricted_pockets_only ) const
 {
     units::length ret = 0_mm;
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) || pocket.is_ablative() ||
-            pocket.holster_full() ) {
+        bool restriction_condition = !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
+                                     pocket.is_ablative() || pocket.holster_full();
+        if( unrestricted_pockets_only ) {
+            restriction_condition = restriction_condition && pocket.is_restricted();
+        }
+        if( restriction_condition ) {
             continue;
         }
         units::length candidate = pocket.max_containable_length();
@@ -634,14 +650,17 @@ std::set<flag_id> item_contents::magazine_flag_restrictions() const
     return ret;
 }
 
-units::volume item_contents::max_containable_volume() const
+units::volume item_contents::max_containable_volume( const bool unrestricted_pockets_only ) const
 {
     units::volume ret = 0_ml;
     for( const item_pocket &pocket : contents ) {
-        // pockets that aren't traditional containers or don't have a default value shouldn't be counted for this
-        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) || pocket.is_ablative() ||
-            pocket.holster_full() ||
-            pocket.volume_capacity() >= pocket_data::max_volume_for_container ) {
+        bool restriction_condition = !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
+                                     pocket.is_ablative() || pocket.holster_full() ||
+                                     pocket.volume_capacity() >= pocket_data::max_volume_for_container;
+        if( unrestricted_pockets_only ) {
+            restriction_condition = restriction_condition && pocket.is_restricted();
+        }
+        if( restriction_condition ) {
             continue;
         }
         units::volume candidate = pocket.remaining_volume();
@@ -1033,6 +1052,17 @@ bool item_contents::has_pocket_type( const item_pocket::pocket_type pk_type ) co
     return false;
 }
 
+bool item_contents::has_unrestricted_pockets() const
+{
+    int restricted_pockets_qty = 0;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_restricted() ) {
+            restricted_pockets_qty++;
+        }
+    }
+    return restricted_pockets_qty < static_cast <int>( get_all_contained_pockets().value().size() );
+}
+
 bool item_contents::has_any_with( const std::function<bool( const item &it )> &filter,
                                   item_pocket::pocket_type pk_type ) const
 {
@@ -1082,6 +1112,22 @@ bool item_contents::is_funnel_container( units::volume &bigger_than ) const
         }
     }
     return false;
+}
+
+bool item_contents::is_restricted_container() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_restricted() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool item_contents::is_single_restricted_container() const
+{
+    std::vector<const item_pocket *> contained_pockets = get_all_contained_pockets().value();
+    return contained_pockets.size() == 1 && contained_pockets[0]->is_restricted();
 }
 
 item &item_contents::only_item()
@@ -1149,11 +1195,18 @@ std::list<item *> item_contents::all_items_top( const std::function<bool( item_p
     return all_items_internal;
 }
 
-std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type )
+std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type,
+        bool unloading )
 {
+    if( unloading ) {
+        return all_items_top( [pk_type]( item_pocket & pocket ) {
+            return pocket.is_type( pk_type ) && pocket.settings.is_unloadable();
+        } );
+    }
     return all_items_top( [pk_type]( item_pocket & pocket ) {
         return pocket.is_type( pk_type );
     } );
+
 }
 
 std::list<const item *> item_contents::all_items_top( const
@@ -1382,12 +1435,18 @@ itype_id item_contents::magazine_default() const
     return itype_id::NULL_ID();
 }
 
-units::mass item_contents::total_container_weight_capacity() const
+units::mass item_contents::total_container_weight_capacity( const bool unrestricted_pockets_only )
+const
 {
     units::mass total_weight = 0_gram;
+
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && !pocket.is_ablative() &&
-            pocket.weight_capacity() < pocket_data::max_weight_for_container ) {
+        bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER ) &&
+                                     !pocket.is_ablative() && pocket.weight_capacity() < pocket_data::max_weight_for_container;
+        if( unrestricted_pockets_only ) {
+            restriction_condition = restriction_condition && !pocket.is_restricted();
+        }
+        if( restriction_condition ) {
             total_weight += pocket.weight_capacity();
         }
     }
@@ -1430,6 +1489,102 @@ ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
     }
 }
 
+std::vector<const item *> item_contents::get_added_pockets() const
+{
+    std::vector<const item *> items_added;
+
+    for( const item &it : additional_pockets ) {
+        items_added.push_back( &it );
+    }
+
+    return items_added;
+}
+
+void item_contents::add_pocket( const item &pocket_item )
+{
+    units::volume total_nonrigid_volume = 0_ml;
+    for( const item_pocket *i_pocket : pocket_item.get_all_contained_pockets().value() ) {
+
+        // need to insert before the end since the final pocket is the migration pocket
+        contents.insert( --contents.end(), *i_pocket );
+        // these pockets should fallback to using the item name as a description
+        // need to update it once it's stored in the contents list
+        ( ++contents.rbegin() )->name_as_description = true;
+        total_nonrigid_volume += i_pocket->max_contains_volume();
+    }
+    additional_pockets_volume += total_nonrigid_volume;
+    additional_pockets_space_used += pocket_item.get_pocket_size();
+    additional_pockets.push_back( pocket_item );
+
+}
+
+item item_contents::remove_pocket( int index )
+{
+    // start at the first pocket
+    auto it = contents.begin();
+
+    // find the pockets to remove from the item
+    for( int i = 0; i < index; ++i ) {
+        // move the iterator past all the pockets we aren't removing
+        std::advance( it, additional_pockets[i].get_all_contained_pockets().value().size() );
+    }
+
+    units::volume total_nonrigid_volume = 0_ml;
+    for( item_pocket *i_pocket : additional_pockets[index].get_all_contained_pockets().value() ) {
+        total_nonrigid_volume += i_pocket->max_contains_volume();
+
+        // move items from the consolidated pockets to the item that will be returned
+        for( const item *item_to_move : it->all_items_top() ) {
+            i_pocket->add( *item_to_move );
+        }
+
+        // finally remove the pocket data
+        contents.erase( it++ );
+    }
+    additional_pockets_volume -= total_nonrigid_volume;
+    additional_pockets_space_used -= additional_pockets[index].get_pocket_size();
+
+    // create a copy of the item to return and delete the old items entry
+    item it_return( additional_pockets[index] );
+    additional_pockets.erase( additional_pockets.begin() + index );
+
+    return it_return;
+}
+
+bool item_contents::has_additional_pockets() const
+{
+    // if there are additional pockets return true
+    return !additional_pockets.empty();
+}
+
+int item_contents::get_additional_pocket_encumbrance( float mod ) const
+{
+    return additional_pockets_volume * mod / 250_ml;
+}
+
+int item_contents::get_additional_space_used() const
+{
+    return additional_pockets_space_used;
+}
+
+units::mass item_contents::get_additional_weight() const
+{
+    units::mass ret = 0_kilogram;
+    for( const item &it : additional_pockets ) {
+        ret += it.weight( false );
+    }
+    return ret;
+}
+
+units::volume item_contents::get_additional_volume() const
+{
+    units::volume ret = 0_ml;
+    for( const item &it : additional_pockets ) {
+        ret += it.volume( false, true );
+    }
+    return ret;
+}
+
 std::vector< const item_pocket *> item_contents::get_all_reloadable_pockets() const
 {
     std::vector<const item_pocket *> pockets;
@@ -1444,16 +1599,21 @@ std::vector< const item_pocket *> item_contents::get_all_reloadable_pockets() co
     return pockets;
 }
 
-units::volume item_contents::total_container_capacity() const
+units::volume item_contents::total_container_capacity( const bool unrestricted_pockets_only ) const
 {
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
+        if( unrestricted_pockets_only ) {
+            restriction_condition = restriction_condition && !pocket.is_restricted();
+        }
+        if( restriction_condition ) {
             const pocket_data *p_data = pocket.get_pocket_data();
             // if the pocket has default volume or is a holster that has an
-            // item in it instead of returning the volume return the volume of things contained
-            if( pocket.volume_capacity() >= pocket_data::max_volume_for_container || ( p_data->holster &&
-                    !pocket.all_items_top().empty() ) ) {
+            // item in it or is a pocket that has normal pickup disabled
+            // instead of returning the volume return the volume of things contained
+            if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
+                pocket.settings.is_disabled() || ( p_data->holster && !pocket.all_items_top().empty() ) ) {
                 total_vol += pocket.contains_volume();
             } else {
                 total_vol += pocket.volume_capacity();
@@ -1463,37 +1623,81 @@ units::volume item_contents::total_container_capacity() const
     return total_vol;
 }
 
-units::volume item_contents::total_standard_capacity() const
+units::volume item_contents::total_standard_capacity( const bool unrestricted_pockets_only ) const
 {
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_standard_type() ) {
+        bool restriction_condition = pocket.is_standard_type();
+        if( unrestricted_pockets_only ) {
+            restriction_condition = restriction_condition && !pocket.is_restricted();
+        }
+        if( restriction_condition ) {
             total_vol += pocket.volume_capacity();
         }
     }
     return total_vol;
 }
 
-units::volume item_contents::remaining_container_capacity() const
+units::volume item_contents::remaining_container_capacity( const bool unrestricted_pockets_only )
+const
 {
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
+        if( unrestricted_pockets_only ) {
+            restriction_condition = restriction_condition && !pocket.is_restricted();
+        }
+        if( restriction_condition ) {
             total_vol += pocket.remaining_volume();
         }
     }
     return total_vol;
 }
 
-units::volume item_contents::total_contained_volume() const
+units::volume item_contents::total_contained_volume( const bool unrestricted_pockets_only ) const
 {
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
+        if( unrestricted_pockets_only ) {
+            restriction_condition = restriction_condition && !pocket.is_restricted();
+        }
+        if( restriction_condition ) {
             total_vol += pocket.contains_volume();
         }
     }
     return total_vol;
+}
+
+units::mass item_contents::remaining_container_capacity_weight( const bool
+        unrestricted_pockets_only ) const
+{
+    units::mass total_weight = 0_gram;
+    for( const item_pocket &pocket : contents ) {
+        bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
+        if( unrestricted_pockets_only ) {
+            restriction_condition = restriction_condition && !pocket.is_restricted();
+        }
+        if( restriction_condition ) {
+            total_weight += pocket.remaining_weight();
+        }
+    }
+    return total_weight;
+}
+
+units::mass item_contents::total_contained_weight( const bool unrestricted_pockets_only ) const
+{
+    units::mass total_weight = 0_gram;
+    for( const item_pocket &pocket : contents ) {
+        bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
+        if( unrestricted_pockets_only ) {
+            restriction_condition = restriction_condition && !pocket.is_restricted();
+        }
+        if( restriction_condition ) {
+            total_weight += pocket.contains_weight();
+        }
+    }
+    return total_weight;
 }
 
 units::volume item_contents::get_contents_volume_with_tweaks( const std::map<const item *, int>
@@ -1600,8 +1804,10 @@ float item_contents::relative_encumbrance() const
         if( pocket.rigid() ) {
             continue;
         }
-        nonrigid_volume += pocket.contains_volume();
-        nonrigid_max_volume += pocket.max_contains_volume();
+        // need to modify by pockets volume encumbrance modifier since some pockets may have less effect than others
+        float modifier = pocket.get_pocket_data()->volume_encumber_modifier;
+        nonrigid_volume += pocket.contains_volume() * modifier;
+        nonrigid_max_volume += pocket.max_contains_volume() * modifier;
     }
     if( nonrigid_volume > nonrigid_max_volume ) {
         debugmsg( "volume exceeds capacity (%sml > %sml)",
@@ -1696,6 +1902,17 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
         }
     }
     if( parts->test( iteminfo_parts::DESCRIPTION_POCKETS ) ) {
+        // start by saying what items are attached to this directly
+        if( !additional_pockets.empty() ) {
+            insert_separation_line( info );
+            info.emplace_back( "CONTAINER", _( "<bold>This item incorporates</bold>:" ) );
+            for( const item &it : additional_pockets ) {
+                info.emplace_back( "CONTAINER", string_format( _( "%s." ),
+                                   it.display_name() ) );
+            }
+            info.back().bNewLine = true;
+        }
+
         // If multiple pockets and/or multiple kinds of pocket, show total capacity section
         units::volume capacity = total_container_capacity();
         units::mass weight = total_container_weight_capacity();

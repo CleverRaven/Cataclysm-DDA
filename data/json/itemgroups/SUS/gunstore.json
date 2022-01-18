@@ -127,6 +127,7 @@
       { "item": "beret", "prob": 30 },
       { "item": "beret_wool", "prob": 30 },
       { "item": "bandolier_shotgun", "prob": 15 },
+      { "group": "loaded_lbv", "prob": 15 },
       { "item": "goggles_nv", "prob": 1 },
       { "item": "goggles_ir", "prob": 1 },
       { "item": "bootsheath", "prob": 10 },

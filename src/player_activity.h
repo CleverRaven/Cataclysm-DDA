@@ -173,6 +173,10 @@ class player_activity
         void inherit_distractions( const player_activity & );
 
         float exertion_level() const;
+
+        bool do_drop_invalid_inventory() const {
+            return !actor || actor->do_drop_invalid_inventory();
+        }
 };
 
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

@@ -194,7 +194,7 @@
     "time": "25 m",
     "book_learn": [ [ "manual_traps_mil", 3 ] ],
     "using": [ [ "cordage_short", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_traps" }, { "proficiency": "prof_trapsetting" } ],
     "components": [ [ [ "grenade", 1 ] ], [ [ "clay_canister", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ] ]
   },

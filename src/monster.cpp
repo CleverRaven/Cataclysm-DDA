@@ -127,6 +127,7 @@ static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_wasp( "wasp" );
 
 static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
+static const species_id species_CYBORG( "CYBORG" );
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
@@ -1078,6 +1079,11 @@ bool monster::made_of( phase_id p ) const
     return type->phase == p;
 }
 
+std::vector<material_id> monster::get_absorb_material() const
+{
+    return type->absorb_material;
+}
+
 void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
 {
     const tripoint_abs_ms base_abs_ms = project_to<coords::ms>( global_omt_location() );
@@ -1562,8 +1568,9 @@ const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const body
     const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
-        add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
-                       io::enum_to_string( elem.type ), elem.res_pen, elem.res_mult );
+        add_msg_debug( debugmode::DF_MONSTER,
+                       "Dam Type: %s :: Dam Amt: %.1f :: Ar Pen: %.1f :: Armor Mult: %.1f",
+                       io::enum_to_string( elem.type ), elem.amount, elem.res_pen, elem.res_mult );
         add_msg_debug( debugmode::DF_MONSTER,
                        "Weakpoint: %s :: Armor Mult: %.1f :: Armor Penalty: %.1f :: Resist: %.1f",
                        wp->id, wp->armor_mult[static_cast<int>( elem.type )],
@@ -1589,7 +1596,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( /*This happens sometimes*/ this == &target || !is_adjacent( &target, true ) ) {
         return false;
     }
-    if( !sees( target ) ) {
+    if( !sees( target ) && !target.is_hallucination() ) {
         debugmsg( "Z-Level view violation: %s tried to attack %s.", disp_name(), target.disp_name() );
         return false;
     }
@@ -2107,8 +2114,9 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
         case damage_type::HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
         case damage_type::COLD:
-        case damage_type::ELECTRIC:
             return worn_armor;
+        case damage_type::ELECTRIC:
+            return worn_armor + static_cast<int>( type->armor_elec );
         case damage_type::NONE:
         case damage_type::NUM:
             // Let it error below
@@ -2300,6 +2308,14 @@ bool monster::special_available( const std::string &special_name ) const
                 special_name );
     return iter != special_attacks.end() && iter->second.enabled && iter->second.cooldown == 0;
 }
+
+bool monster::has_special( const std::string &special_name ) const
+{
+    std::map<std::string, mon_special_attack>::const_iterator iter = special_attacks.find(
+                special_name );
+    return iter != special_attacks.end() && iter->second.enabled;
+}
+
 
 void monster::explode()
 {
@@ -2854,6 +2870,11 @@ void monster::add_item( const item &it )
 bool monster::is_hallucination() const
 {
     return hallucination;
+}
+
+bool monster::is_electrical() const
+{
+    return in_species( species_ROBOT ) || has_flag( MF_ELECTRIC ) || in_species( species_CYBORG );
 }
 
 field_type_id monster::bloodType() const

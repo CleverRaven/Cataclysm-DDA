@@ -128,7 +128,7 @@ static dispersion_sources get_dispersion( npc &shooter, const int aim_time, int 
     shooter.moves = aim_time;
     shooter.recoil = MAX_RECOIL;
     // Aim as well as possible within the provided time.
-    shooter.aim( Target_attributes( target_size_in_moa( range, 0.5 ) ) );
+    shooter.aim( Target_attributes( range, 0.5, 0.0f, true ) );
     if( aim_time > 0 ) {
         REQUIRE( shooter.recoil < MAX_RECOIL );
     }
@@ -531,7 +531,7 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
 
 TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
 {
-    clear_map();
+    clear_map_and_put_player_underground();
     // Unarmored target
     // This test result is difficult to converge
     // After more attempts, the average value is about 7

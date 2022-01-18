@@ -160,7 +160,7 @@
     "time": "45 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.5 } ],
     "components": [
       [ [ "duct_tape", 100 ] ],

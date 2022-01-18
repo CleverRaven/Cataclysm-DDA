@@ -918,6 +918,83 @@
     ]
   },
   {
+    "id": "santa_shorts",
+    "type": "ARMOR",
+    "name": { "str_sp": "shorts" },
+    "description": "A pair of red shorts with a white trim.  For when Santa is on summer vacation.",
+    "weight": "230 g",
+    "volume": "1 L",
+    "price": 2200,
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "shorts",
+    "color": "red",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      { "coverage": 40, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "id": "santa_pants",
+    "type": "ARMOR",
+    "name": { "str_sp": "santa pants" },
+    "description": "A pair of red pants with white faux fur trim, commonly used by bearded men on Christmas.  Somewhat warm and has two deep pockets.",
+    "weight": "800 g",
+    "volume": "3 L",
+    "price": 20000,
+    "price_postapoc": 100,
+    "to_hit": 1,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 30,
+    "material_thickness": 1,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 13, 17 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
     "id": "shorts",
     "type": "ARMOR",
     "name": { "str_sp": "shorts" },
@@ -1129,6 +1206,7 @@
     "symbol": "[",
     "looks_like": "kilt",
     "color": "yellow",
+    "warmth": 1,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [

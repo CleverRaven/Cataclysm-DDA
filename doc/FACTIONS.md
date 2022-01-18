@@ -62,6 +62,19 @@ Field | Meaning
 `"mon_faction"` | string, optional.  The monster faction `"name"` of the monster faction that this faction counts as.  Defaults to "human" if unspecified.
 `"lone_wolf_faction"` | bool, optional. This is a proto/micro faction template that is used to generate 1-person factions for dynamically spawned NPCs, defaults to "false" if unspecified.
 
+## Scale of faction values
+Interacting with factions has certain effects on how the faction sees the player. These are reflected in values like `likes_u`, `respects_u` and `trusts_u`. Here's a (non-comprehensive) list to provide some context on how much these values are worth:
+
+| Type of interaction | Effect on `likes_u` | Effect on `respects_u` | Effect on `trusts_u` |
+| ------------------- | ------------------- | ---------------------- | -------------------- |
+| Neutral state       |                   0 |                      0 |                    0 |
+| Player is warned by faction |         - 1 |                    - 1 |                  - 1 |
+| Player delivers food supply to faction camp | + food nutritional value / 1250 | + food nutritional value / 625 | + food nutritional value / 625 |
+| Player triggers a mutiny | `likes_u` / 2 + 10 |                - 5 |                  - 5 |
+| Player angers an NPC |                - 5 |                    - 5 |                  - 5 |
+| Player completes a mission |         + 10 |                   + 10 |                 + 10 |
+
+
 ## Faction relations
 Factions can have relations with each other that apply to each member of the faction.  Faction relationships are not reciprocal: members of the Free Merchants will defend members of the Lobby Beggars, but members of the Lobby Beggars will not defend members of the Free Merchants.
 

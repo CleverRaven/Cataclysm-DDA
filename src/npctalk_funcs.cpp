@@ -512,6 +512,7 @@ void talk_function::bionic_remove( npc &p )
 
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
+    std::vector<const bionic *> bionics;
     for( const bionic &bio : all_bio ) {
         if( std::find( bionic_types.begin(), bionic_types.end(),
                        bio.info().itype() ) == bionic_types.end() ) {
@@ -522,6 +523,7 @@ void talk_function::bionic_remove( npc &p )
             } else {
                 bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
             }
+            bionics.push_back( &bio );
         }
     }
     // Choose bionic if applicable
@@ -544,11 +546,11 @@ void talk_function::bionic_remove( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( player_character.can_uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p,
+    if( player_character.can_uninstall_bionic( *bionics[bionic_index], p,
             false ) ) {
         player_character.amount_of(
             bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
-        player_character.uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false );
+        player_character.uninstall_bionic( *bionics[bionic_index], p, false );
     }
 
 }

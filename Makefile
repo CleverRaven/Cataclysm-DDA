@@ -80,6 +80,8 @@
 #  make style-json
 # Style all json files using the current rules (don't PR this, it's too many changes at once).
 #  make style-all-json
+# Style all json files in parallel using all available CPU cores (don't make -jX on this, just make)
+#  make style-all-json-parallel
 # Disable astyle of source files.
 # make ASTYLE=0
 # Disable format check of whitelisted json files.
@@ -297,10 +299,6 @@ ifneq ($(CLANG), 0)
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
-  else
-    # clang with glibc 2.31+ will cause linking error on math functions
-    # this is a workaround (see https://github.com/google/filament/issues/2146)
-    CXXFLAGS += -fno-builtin
   endif
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
@@ -966,7 +964,7 @@ $(TEST_MO): data/mods/TEST_DATA/lang/po/ru.po
 
 MO_DEPS := \
   $(wildcard lang/*.sh lang/*.py src/*.cpp src/*.h) \
-  $(shell find data/{raw,json,mods,core,help} -type f -name '*.json')
+  $(shell find data/raw data/json data/mods data/core data/help -type f -name '*.json')
 
 lang/mo_built.stamp: $(MO_DEPS)
 	$(MAKE) -C lang
@@ -1231,6 +1229,9 @@ endif
 
 style-all-json: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
+
+style-all-json-parallel: $(JSON_FORMATTER_BIN)
+	find data -name "*.json" -print0 | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \

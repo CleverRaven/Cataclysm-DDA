@@ -1112,7 +1112,7 @@ std::string caravan_category_name( caravan_category cat )
         case CARAVAN_RANGED:
             return _( "Ranged Weapons" );
         case CARAVAN_AMMUNITION:
-            return _( "Ammuniton" );
+            return _( "Ammunition" );
         case CARAVAN_COMPONENTS:
             return _( "Crafting & Construction Components" );
         case CARAVAN_FOOD:
@@ -1418,12 +1418,14 @@ std::string defense_game::special_wave_message( std::string name )
     std::string ret;
     ret += string_format( _( "Wave %d: " ), current_wave );
 
-    // Capitalize
-    capitalize_letter( name );
-    for( size_t i = 2; i < name.size(); i++ ) {
-        if( name[i - 1] == ' ' ) {
-            capitalize_letter( name, i );
+    std::vector<std::string> words = string_split( name, ' ' );
+    std::transform( words.begin(), words.end(), words.begin(), uppercase_first_letter );
+    name = "";
+    if( !words.empty() ) {
+        for( std::string &word : words ) {
+            str_append( name, word, " " );
         }
+        name.pop_back();
     }
 
     switch( rng( 1, 8 ) ) {
