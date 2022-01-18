@@ -9,11 +9,11 @@
 static const itype_id itype_backpack( "backpack_hiking" );
 static const flag_id flag_FROZEN = flag_id( "FROZEN" );
 
-// Return true if the container has an item of the given type inside
-static bool container_has_item_type( const item &container, const itype_id it_type )
+// returns true if the container has an item with the same type and quantity
+static bool container_has_item( const item &container, const item &the_item )
 {
-    return container.is_container() && container.has_item_with( [&it_type]( const item & it ) {
-        return it.typeId() == it_type;
+    return container.is_container() && container.has_item_with( [&the_item]( const item & it ) {
+        return it.typeId() == the_item.typeId() && it.charges == the_item.charges;
     } );
 }
 
@@ -72,7 +72,7 @@ TEST_CASE( "Autopickup single item", "[pickup][item]" )
 
             THEN( "items matching autopickup rules should be in the backpack" ) {
                 for( item *entry : autopickup_items ) {
-                    CHECK( container_has_item_type( backpack, entry->typeId() ) );
+                    CHECK( container_has_item( backpack, *entry ) );
                 }
             }
         }
