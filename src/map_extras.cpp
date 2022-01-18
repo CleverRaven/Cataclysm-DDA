@@ -134,7 +134,6 @@ static const map_extra_id map_extra_mx_null( "mx_null" );
 static const map_extra_id map_extra_mx_point_burned_ground( "mx_point_burned_ground" );
 static const map_extra_id map_extra_mx_point_dead_vegetation( "mx_point_dead_vegetation" );
 static const map_extra_id map_extra_mx_pond( "mx_pond" );
-static const map_extra_id map_extra_mx_portal( "mx_portal" );
 static const map_extra_id map_extra_mx_portal_in( "mx_portal_in" );
 static const map_extra_id map_extra_mx_reed( "mx_reed" );
 static const map_extra_id map_extra_mx_roadblock( "mx_roadblock" );
@@ -944,64 +943,6 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
         } else {
             m.furn_set( p->xy(), f_crate_o );
         }
-    }
-
-    return true;
-}
-
-static bool mx_portal( map &m, const tripoint &abs_sub )
-{
-    // All points except the borders are valid--we need the 1 square buffer so that we can do a 1 unit radius
-    // around our chosen portal point without clipping against the edge of the map.
-    const tripoint_range<tripoint> points =
-        m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
-
-    // Get a random point in our collection that does not have a trap and does not have the NO_FLOOR flag.
-    auto good_portal_pos = [&]( const tripoint & p ) {
-        return !m.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) && m.tr_at( p ).is_null();
-    };
-    const cata::optional<tripoint> portal_pos = random_point( points, good_portal_pos );
-
-    // If we can't get a point to spawn the portal (e.g. we're triggered in entirely open air) we're done here.
-    if( !portal_pos ) {
-        return false;
-    }
-
-    // For our portal point and every adjacent location, make rubble if it doesn't have the NO_FLOOR flag.
-    for( const tripoint &p : m.points_in_radius( *portal_pos, 1 ) ) {
-        if( !m.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-            m.make_rubble( p, f_rubble_rock, true );
-        }
-    }
-
-    // Creating rubble can change the terrain type so check that again
-    if( good_portal_pos( *portal_pos ) ) {
-        m.trap_set( *portal_pos, tr_portal );
-    }
-
-    // We'll make between 0 and 4 attempts to spawn monsters here.
-    int num_monsters = rng( 0, 4 );
-    creature_tracker &creatures = get_creature_tracker();
-    for( int i = 0; i < num_monsters; i++ ) {
-        // Get a random location from our points that is not the portal location, does not have the
-        // NO_FLOOR flag, and isn't currently occupied by a creature.
-        const cata::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
-            /// TODO: wrong: this checks for creatures on the main game map. Not within the map m.
-            return !m.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) && *portal_pos != p &&
-                   !creatures.creature_at( p );
-        } );
-
-        // If we couldn't get a random location, we can't place a monster and we know that there are no
-        // more possible valid locations, so just bail.
-        if( !mon_pos ) {
-            break;
-        }
-
-        // Make rubble here--it's not necessarily a location that is directly adjacent to the portal.
-        m.make_rubble( *mon_pos, f_rubble_rock, true );
-
-        // Spawn a single monster from our group here.
-        m.place_spawns( GROUP_NETHER_PORTAL, 1, mon_pos->xy(), mon_pos->xy(), 1, true );
     }
 
     return true;
@@ -2882,7 +2823,6 @@ FunctionMap builtin_functions = {
     { map_extra_mx_supplydrop, mx_supplydrop },
     { map_extra_mx_military, mx_military },
     { map_extra_mx_helicopter, mx_helicopter },
-    { map_extra_mx_portal, mx_portal },
     { map_extra_mx_portal_in, mx_portal_in },
     { map_extra_mx_house_spider, mx_house_spider },
     { map_extra_mx_house_wasp, mx_house_wasp },
