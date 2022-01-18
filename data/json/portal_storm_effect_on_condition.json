@@ -165,7 +165,10 @@
           { "is_weather": "portal_storm" },
           { "is_weather": "early_portal_storm" },
           { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" },
-          { "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, { "const": 1 } ], "op": "=" }
+          {
+            "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, { "const": 1 } ],
+            "op": "="
+          }
         ]
       }
     },
@@ -228,7 +231,10 @@
         { "is_weather": "portal_storm" },
         { "is_weather": "early_portal_storm" },
         { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" },
-        { "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, { "const": 1 } ], "op": "=" }
+        {
+          "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, { "const": 1 } ],
+          "op": "="
+        }
       ]
     },
     "effect": [
