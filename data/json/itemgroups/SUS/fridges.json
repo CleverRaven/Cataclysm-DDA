@@ -1090,27 +1090,22 @@
     "subtype": "collection",
     "entries": [
       {
-        "item": "big_canned_food",
+        "group": "big_canned_food",
         "count": [ 3, 6 ],
         "prob": 40
       },
       {
-        "item": "cannedfood",
-        "count": [ 3, 6 ],
+        "group": "foodintincan",
+        "count": [ 4, 8 ],
         "prob": 80
       },
       {
-        "item": "foodintincan",
-        "count": [ 3, 6 ],
-        "prob": 80
-      },
-      {
-        "item": "condiments",
+        "group": "condiments",
         "count": [ 1, 2 ],
         "prob": 25
       },
       {
-        "item": "preserved_food",
+        "group": "preserved_food",
         "count": [ 3, 6 ],
         "prob": 40
       },
