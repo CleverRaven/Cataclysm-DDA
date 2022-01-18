@@ -4130,6 +4130,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                     }
                 }
             }
+            break;
             case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE: {
                 const point c( x_get(), y_get() );
                 const int cx2 = x2_get();
