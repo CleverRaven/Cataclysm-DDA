@@ -499,7 +499,7 @@
     "bodytype": "bird",
     "default_faction": "corvid",
     "categories": [ "WILDLIFE" ],
-    "species": [ "MUTANT" ],
+    "species": [ "BIRD" ],
     "volume": "3000 ml",
     "weight": "4000 g",
     "hp": 8,
