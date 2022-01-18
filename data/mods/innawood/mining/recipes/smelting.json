@@ -13,9 +13,9 @@
     "batch_time_factors": [ 95, 2 ],
     "reversible": true,
     "autolearn": true,
-    "tools": [ [ [ "bloomery", -1 ] ] ],
+    "tools": [ [ [ "bloomery", 41 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "iron_ore", 17 ] ], [ [ "charcoal", 41 ] ] ]
+    "components": [ [ [ "iron_ore", 17 ] ] ]
   },
   {
     "result": "copper",
