@@ -4,6 +4,8 @@
     "type": "GENERIC",
     "name": { "str": "fake item" },
     "description": "Dummy item.  If you see this, then something went wrong.",
+    "//": "Include ZERO_WEIGHT flag to avoid errors when instantiating pseudo items.",
+    "flags": [ "ZERO_WEIGHT" ],
     "weight": "1 g",
     "volume": "1 ml",
     "symbol": "@",
@@ -185,9 +187,10 @@
   },
   {
     "id": "fake_beverly_shear",
+    "copy-from": "fake_item",
     "type": "TOOL",
-    "copy-from": "fake_power_tool",
     "name": { "str": "Beverly shear" },
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "qualities": [ [ "SAW_M", 2 ] ]
   },
   {
