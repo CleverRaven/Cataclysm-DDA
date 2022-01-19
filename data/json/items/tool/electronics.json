@@ -624,7 +624,7 @@
     "id": "gas_charger",
     "type": "TOOL",
     "name": { "str": "gas-powered UPS (off)", "str_pl": "fueled UPS's (off)" },
-    "description": "This is a compact thermoelectric generator.  Burns gas to charge UPS devices. Use it to turn it on.",
+    "description": "This is a compact thermoelectric generator.  Burns gas to charge UPS devices.  Use it to turn it on.",
     "weight": "680 g",
     "volume": "2500 ml",
     "price": 280000,
