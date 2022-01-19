@@ -4,9 +4,11 @@
 - [Widgets](#widgets)
   - [Sidebar widgets](#sidebar-widgets)
   - [Layout widgets](#layout-widgets)
-  - [Variable widgets](#variable-widgets)
-    - [Number widget](#number-widget)
-    - [Graph widget](#graph-widget)
+- [Variable widgets](#variable-widgets)
+  - [Number widget](#number-widget)
+  - [Graph widget](#graph-widget)
+  - [Text widget](#text-widget)
+  - [Phrase widget](#phrase-widget)
 - [Other fields](#other-fields)
   - [fill](#fill)
   - [var_max](#var_max)
@@ -163,7 +165,7 @@ Where do all these numeric widgets and their values come from? These are variabl
 next.
 
 
-### Variable widgets
+## Variable widgets
 
 Variable widgets define a "var" field, with the name of a predefined widget variable. This tells the
 widget what information it should show. Most of the time, these are attributes of the player
@@ -188,7 +190,8 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
 }
 ```
 
-#### Number widget
+
+### Number widget
 
 The simplest and usually most compact widget for displaying a value, "style": "number" appears as a
 label with an integer number.
@@ -209,7 +212,7 @@ Focus: 100
 The numeric value comes from the given "var", displayed as a decimal integer.
 
 
-#### Graph widget
+### Graph widget
 
 The graph shows an arrangement of symbols. It has two important parameters:
 
@@ -289,7 +292,75 @@ with "=" and "#":
 ```
 
 See the [fill](#fill), [var_max](#var_max), and [colors](#colors) fields for more ways to customize
-the graph.
+the graph. And see [Graph widgets](#graph-widgets) for a list of predefined widgets using "graph"
+style.
+
+
+### Text widget
+
+Many of the widgets you see in-game are colorized text descriptions - "Chilly", "Dead Tired",
+"Cloudy", "Waxing Gibbous". Most of these use "text" style, with a "var" that is designed to return
+colorized text.
+
+For example, here is a widget using style "text" to display the "pain_text" variable:
+
+```json
+{
+  "id": "pain_desc",
+  "type": "widget",
+  "label": "Pain",
+  "style": "text",
+  "var": "pain_text",
+  "//": "Uses display::pain_text_color"
+}
+```
+
+This is how it might render (sans color):
+
+```
+Pain: Distracting pain
+```
+
+The "pain_text" variable is associated with a specific function, `display::pain_text_color`, which
+is the piece of code that determines which text and color to show for the avatar's current pain
+level. All of this is hidden behind the scenes, and hard-coded, making it somewhat inflexible (but
+there is another option, see the [Phrase widget](#phrase-widget) below).
+
+See [Text variables](#text-variables) for a list of available text variables you can pass to "var"
+for use with "text" style, and see [Text widgets](#text-widgets) for a list of predefined widgets
+using "text" style.
+
+
+### Phrase widget
+
+Like the "text" style, the "phrase" style displays a string of colorized text. However, the "phrase"
+style gives more control over customizing the mapping from numeric values to text phrases.
+
+- Has a "var" just like widget_var
+- The var may return a number (or text?)
+- "mappings" associates var values with text and/or color descriptions
+- "value" means "starting at value"
+
+For example, this widget associates "pain" values with short descriptions, and a custom color:
+
+```json
+{
+  "id": "pain_description",
+  "type": "widget",
+  "var": "pain",
+  "//": "Uses get_perceived_pain(), 0-60+",
+  "style": "phrase",
+  "phrases": [
+      { "value": 0, "text": "No pain", "color": "c_light_gray" },
+      { "value": 10, "text": "Mild pain", "color": "c_yellow" },
+      { "value": 20, "text": "Moderate pain", "color": "c_yellow" },
+      { "value": 30, "text": "Distracting pain", "color": "c_yellow" },
+      { "value": 40, "text": "Unmanageable pain", "color": "c_light_red" },
+      { "value": 50, "text": "Intense pain", "color": "c_light_red" },
+      { "value": 60, "text": "Severe pain", "color": "c_red" }
+  ]
+}
+```
 
 
 # Other fields
