@@ -1591,13 +1591,13 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             phrase.replace( fa, l, format_money( tmp.price( true ) ) );
         } else if( tag.find( "<u_val:" ) != std::string::npos ) {
             //adding a user variable to the string
-            std::string var = tag.substr( tag.find( ":" ) + 1 );
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
             phrase.replace( fa, l, u.get_value( var ) );
         } else if( tag.find( "<npc_val:" ) != std::string::npos ) {
             //adding a npc variable to the string
-            std::string var = tag.substr( tag.find( ":" ) + 1 );
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
             phrase.replace( fa, l, me.get_value( var ) );
