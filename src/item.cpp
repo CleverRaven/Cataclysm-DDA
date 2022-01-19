@@ -8766,6 +8766,11 @@ bool item::is_magazine() const
     return !!type->magazine || contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE );
 }
 
+bool item::is_battery() const
+{
+    return is_magazine() && ammo_capacity( ammotype( "battery" ) );
+}
+
 bool item::is_vehicle_battery() const
 {
     return !!type->battery;
