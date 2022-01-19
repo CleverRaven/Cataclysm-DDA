@@ -17,12 +17,7 @@
     "description": "A small but complete kitchen unit, powered from the vehicle's batteries.",
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
-    "pseudo_tools": [
-      { "id": "hotplate", "hotkey": "h" },
-      { "id": "pot" },
-      { "id": "pan" },
-      { "id": "water_faucet" }
-    ],
+    "pseudo_tools": [ { "id": "hotplate", "hotkey": "h" }, { "id": "pot" }, { "id": "pan" }, { "id": "water_faucet" } ],
     "item": "kitchen_unit",
     "location": "center",
     "looks_like": "f_oven",
