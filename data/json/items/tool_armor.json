@@ -44,8 +44,8 @@
     "volume": "500 ml",
     "price": 15000,
     "price_postapoc": 50,
-    "encumbrance": 35,
-    "flags": [ "UNDERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+    "flags": [ "UNDERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ],
+    "armor": [ { "encumbrance": 35 } ]
   },
   {
     "id": "tourniquet_upper",
@@ -269,8 +269,8 @@
     "volume": "500 ml",
     "price": 25000,
     "price_postapoc": 50,
-    "encumbrance": 35,
-    "flags": [ "UNDERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ]
+    "flags": [ "UNDERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 35 } ]
   },
   {
     "id": "miner_hat",
@@ -1284,9 +1284,9 @@
     "covers": [ "mouth" ],
     "warmth": 10,
     "environmental_protection": 1,
-    "encumbrance": 30,
     "coverage": 75,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 30 } ]
   },
   {
     "id": "rebreather_xs_on",
@@ -1301,7 +1301,7 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "rebreather_xs" },
     "covers": [ "mouth" ],
     "environmental_protection": 15,
-    "encumbrance": 20
+    "armor": [ { "encumbrance": 20 } ]
   },
   {
     "id": "mask_filter",
