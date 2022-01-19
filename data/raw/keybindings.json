@@ -184,6 +184,18 @@
   },
   {
     "type": "keybinding",
+    "id": "HOME",
+    "name": "Home",
+    "bindings": [ { "input_method": "keyboard_any", "key": "HOME" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "END",
+    "name": "End",
+    "bindings": [ { "input_method": "keyboard_any", "key": "END" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "PAGE_UP",
     "name": "Page up",
     "bindings": [ { "input_method": "keyboard_any", "key": "PPAGE" } ]
