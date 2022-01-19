@@ -218,7 +218,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id::NULL_ID(), // ACT_LONGCRAFT is deprecated
         ACT_DISASSEMBLE,
         ACT_BUTCHER,
-        activity_id::NULL_ID(). // ACT_LONGSALVAGE is an actor now
+        activity_id::NULL_ID(), // ACT_LONGSALVAGE is an actor now
         activity_id::NULL_ID(), // ACT_FORAGE is an actor now
         ACT_BUILD,
         ACT_VEHICLE,
