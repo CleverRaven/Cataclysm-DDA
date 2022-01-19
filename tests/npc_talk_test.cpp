@@ -1066,12 +1066,18 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
+    global_variables &globvars = get_globals();
+    globvars.set_global_value( "test_var", "It's global" );
+
     d.add_topic( "TALK_TEST_TAGS" );
-    gen_response_lines( d, 2 );
+    gen_response_lines( d, 3 );
     CHECK( d.responses[0].create_option_line( d, input_event() ).text ==
-           "Your tag is set to It's avatar." );
+           "Avatar tag is set to It's avatar." );
     CHECK( d.responses[1].create_option_line( d, input_event() ).text ==
-           "My tag is set to It's npc." );
+           "NPC tag is set to It's npc." );
+    CHECK( d.responses[2].create_option_line( d, input_event() ).text ==
+           "Global tag is set to It's global." );
+    globvars.clear_global_values();
 }
 
 TEST_CASE( "npc_compare_int", "[npc_talk]" )

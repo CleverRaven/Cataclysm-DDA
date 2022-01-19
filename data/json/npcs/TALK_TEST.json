@@ -989,8 +989,9 @@
     "id": "TALK_TEST_TAGS",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
-      { "text": "Your tag is set to <u_val:test_var>.", "topic": "TALK_DONE" },
-      { "text": "My tag is set to <npc_val:test_var>.", "topic": "TALK_DONE" }
+      { "text": "Avatar tag is set to <u_val:test_var>.", "topic": "TALK_DONE" },
+      { "text": "NPC tag is set to <npc_val:test_var>.", "topic": "TALK_DONE" },
+      { "text": "Global tag is set to <global_val:test_var>.", "topic": "TALK_DONE" }
     ]
   },
   {

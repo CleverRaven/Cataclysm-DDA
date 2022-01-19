@@ -1601,6 +1601,13 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             // remove the trailing >
             var.pop_back();
             phrase.replace( fa, l, me.get_value( var ) );
+        } else if( tag.find( "<global_val:" ) != std::string::npos ) {
+            //adding a global variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            global_variables &globvars = get_globals();
+            phrase.replace( fa, l, globvars.get_global_value( var ) );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
