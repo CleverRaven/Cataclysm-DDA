@@ -54,7 +54,7 @@
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
     "pseudo_tools": [ { "id": "propane_cooker" }, { "id": "pot" }, { "id": "pan" }, { "id": "water_faucet" } ],
-    "item": "kitchen_unit",
+    "item": "gas_kitchen_unit",
     "location": "center",
     "looks_like": "f_oven",
     "name": { "str": "propane kitchen unit" },
