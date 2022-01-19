@@ -98,6 +98,7 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
+#include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -5781,17 +5782,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
     }
 
-    // Furniture if any.
-    if( m.has_furn( lp ) ) {
-        std::string desc = uppercase_first_letter( m.furnname( lp ) );
-        mvwprintz( w_look, point( column, line++ ), c_white, desc );
-        desc = string_format( m.furn( lp ).obj().description );
-        lines = foldstring( desc, max_width );
-        numlines = lines.size();
-        for( int i = 0; i < numlines; i++ ) {
-            mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
-        }
-    }
+    // Furniture, if any
+    print_furniture_info( lp, w_look, column, line );
 
     // Cover percentage from terrain and furniture next.
     fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Cover: %d%%" ),
@@ -5846,6 +5838,49 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     }
 
     ++line;
+}
+
+void game::print_furniture_info( const tripoint &lp, const catacurses::window &w_look, int column,
+                                 int &line )
+{
+    // Do nothing if there is no furniture here
+    if( !m.has_furn( lp ) ) {
+        return;
+    }
+    const int max_width = getmaxx( w_look ) - column - 1;
+
+    // Print furniture name in white
+    std::string desc = uppercase_first_letter( m.furnname( lp ) );
+    mvwprintz( w_look, point( column, line++ ), c_white, desc );
+
+    // Print each line of furniture description in gray
+    desc = string_format( m.furn( lp ).obj().description );
+    std::vector<std::string> lines = foldstring( desc, max_width );
+    int numlines = lines.size();
+    for( int i = 0; i < numlines; i++ ) {
+        mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
+    }
+
+    // If this furniture has a crafting pseudo item, check for tool qualities and print them
+    if( !m.furn( lp )->crafting_pseudo_item.is_empty() ) {
+        // Make a pseudo item instance so we can use qualities_info later
+        const item pseudo( m.furn( lp )->crafting_pseudo_item );
+        // Set up iteminfo query to show qualities
+        std::vector<iteminfo_parts> quality_part = { iteminfo_parts::QUALITIES };
+        const iteminfo_query quality_query( quality_part );
+        // Render info into info_vec
+        std::vector<iteminfo> info_vec;
+        pseudo.qualities_info( info_vec, &quality_query, 1, false );
+        // Get a newline-separated string of quality info, then parse and print each line
+        std::string quality_string = format_item_info( info_vec, {} );
+        size_t strpos = 0;
+        while( ( strpos = quality_string.find( '\n' ) ) != std::string::npos ) {
+            trim_and_print( w_look, point( column, line++ ), max_width, c_light_gray,
+                            quality_string.substr( 0, strpos + 1 ) );
+            // Delete used token
+            quality_string.erase( 0, strpos + 1 );
+        }
+    }
 }
 
 void game::print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
