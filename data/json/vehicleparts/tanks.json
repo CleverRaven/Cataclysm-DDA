@@ -290,7 +290,38 @@
     "damage_reduction": { "all": 24, "stab": 18 }
   },
   {
-    "id": "gas_tank",
+    "id": "small_gas_tank",
+    "type": "vehicle_part",
+    "name": { "str": "gas tank" },
+	"//": "1 gallon tank.",
+    "item": "small_propane_tank",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "durability": 150,
+    "description": "A small tank for pressurized gasses.",
+    "size": 6,
+    "categories": [ "movement" ],
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ],
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "90 m",
+        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "flags": [ "GASTANK" ],
+    "damage_reduction": { "all": 28, "stab": 12 }
+  },
+  {
+    "id": "xl_gas_tank",
     "type": "vehicle_part",
     "name": { "str": "gas tank" },
 	"//": "100 gallon ASME tank.",
