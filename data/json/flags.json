@@ -1848,9 +1848,9 @@
     "name": "laser sight"
   },
   {
-  "id": "GAS_TANK",
-  "type": "json_flag",
-  "info": "Airtight tanks for propane, natural gas, etc.",
-  "name": "gas tank"
+    "id": "GAS_TANK",
+    "type": "json_flag",
+    "info": "Airtight tanks for propane, natural gas, etc.",
+    "name": "gas tank"
   }
 ]

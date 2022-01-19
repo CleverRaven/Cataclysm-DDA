@@ -229,7 +229,7 @@
     "price": 3000,
     "price_postapoc": 50
   },
-	{
+  {
     "type": "GENERIC",
     "id": "gas_cooker",
     "name": { "str": "gas cooker" },
