@@ -1935,9 +1935,6 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, width, true, default_render, true ) );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_compass_padding_compact, "Compass",
-                                    to_translation( "Compass" ),
-                                    5, width, false ) );
 
     return ret;
 }
