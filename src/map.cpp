@@ -4808,7 +4808,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         const int missing = cur_veh.discharge_battery( 1, false );
                         // Around 85% efficient; a few of the discharges don't actually recharge
                         if( missing == 0 && !one_in( 7 ) ) {
-                            if( n.is_battery() ) {
+                            if( n.is_vehicle_battery() ) {
                                 n.set_energy( 1_kJ );
                             } else {
                                 n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
