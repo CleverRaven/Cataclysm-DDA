@@ -48,6 +48,7 @@ static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
@@ -158,6 +159,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         type == ACT_CONSUME_FOOD_MENU ||
         type == ACT_CONSUME_MEDS_MENU ||
         type == ACT_EAT_MENU ||
+        type == ACT_PICKUP_MENU ||
         type == ACT_VIEW_RECIPE ) {
         return cata::nullopt;
     }

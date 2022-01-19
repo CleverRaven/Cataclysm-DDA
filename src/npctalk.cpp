@@ -773,7 +773,7 @@ void game::chat()
             break;
         case NPC_CHAT_MOUNT:
             for( npc *them : followers ) {
-                if( them->has_effect( effect_riding ) ) {
+                if( them->has_effect( effect_riding ) || them->is_hallucination() ) {
                     continue;
                 }
                 talk_function::find_mount( *them );
@@ -1739,7 +1739,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     // Parse any tags in challenge
     parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(),
                 topic.item_type );
-    capitalize_letter( challenge );
+    challenge = uppercase_first_letter( challenge );
 
     d_win.clear_history_highlights();
     if( challenge[0] == '&' ) {
@@ -2394,7 +2394,10 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
     std::vector<update_mapgen_id> update_ids;
-
+    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
+            0_seconds );
+    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
+            0_seconds );
     if( jo.has_string( member ) ) {
         update_ids.emplace_back( update_mapgen_id( jo.get_string( member ) ) );
     } else if( jo.has_array( member ) ) {
@@ -2409,7 +2412,8 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         type = var.type;
         target_var = var.name;
     }
-    function = [target_params, update_ids, target_var, type]( const dialogue & d ) {
+    function = [target_params, update_ids, target_var, type, dov_time_in_future_min,
+                   dov_time_in_future_max]( const dialogue & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
             const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( type == var_type::npc ), target_var,
@@ -2422,9 +2426,20 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             }
             omt_pos = mission_util::get_om_terrain_pos( update_params );
         }
-        for( const update_mapgen_id &mapgen_update_id : update_ids ) {
-            run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
+        time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
+        if( min > 0_seconds ) {
+            for( const update_mapgen_id &mapgen_update_id : update_ids ) {
+                get_timed_events().add( timed_event_type::UPDATE_MAPGEN,
+                                        calendar::turn + rng( min, dov_time_in_future_max.evaluate( d.actor(
+                                                    dov_time_in_future_max.is_npc() ) ) ),
+                                        -1, project_to<coords::sm>( omt_pos ), 0, mapgen_update_id.str() );
+            }
+        } else {
+            for( const update_mapgen_id &mapgen_update_id : update_ids ) {
+                run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
+            }
         }
+
     };
 }
 
@@ -2643,6 +2658,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
                 return pop.get_window();
             };
             scrollable_text( new_win, "", replace_colors( translated_message ) );
+            g->cancel_activity_or_ignore_query( distraction_type::eoc, "" );
         }
         if( popup_w_interrupt_query_msg ) {
             if( interrupt_type == "portal_storm_popup" ) {
@@ -3052,6 +3068,14 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
         } else if( checked_value == "exp" ) {
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_kill_xp( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "vitamin" ) {
+            std::string vitamin_name = jo.get_string( "name" );
+            return [is_npc, min, max, vitamin_name]( const dialogue & d, int input ) {
+                Character *you = d.actor( is_npc )->get_character();
+                if( you ) {
+                    you->vitamin_set( vitamin_id( vitamin_name ), handle_min_max( d, input, min, max ) );
+                }
             };
         }
     }

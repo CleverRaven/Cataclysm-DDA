@@ -574,7 +574,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         // add containers separately from their contents
         if( !it->empty_container() ) {
             // is the non-empty container used for BOIL?
-            if( !it->is_watertight_container() || it->get_raw_quality( qual_BOIL ) <= 0 ) {
+            if( !it->is_watertight_container() || it->get_quality( qual_BOIL, false ) <= 0 ) {
                 item tmp = item( it->typeId(), it->birthday() );
                 tmp.is_favorite = it->is_favorite;
                 *crafting_cache.crafting_inventory += tmp;

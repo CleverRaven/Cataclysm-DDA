@@ -821,6 +821,20 @@ void avatar::wake_up()
     Character::wake_up();
 }
 
+void avatar::add_snippet( snippet_id snippet )
+{
+    if( has_seen_snippet( snippet ) ) {
+        return;
+    }
+
+    snippets_read.emplace( snippet );
+}
+
+bool avatar::has_seen_snippet( const snippet_id &snippet ) const
+{
+    return snippets_read.count( snippet ) > 0;
+}
+
 void avatar::vomit()
 {
     if( stomach.contains() != 0_ml ) {

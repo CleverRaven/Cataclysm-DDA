@@ -235,6 +235,11 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     body_part_factory.load( jo, src );
 }
 
+bool body_part_type::has_type( const body_part_type::type &type ) const
+{
+    return limb_type == type || secondary_types.count( type ) > 0;
+}
+
 bool body_part_type::has_flag( const json_character_flag &flag ) const
 {
     return flags.count( flag ) > 0;
@@ -294,12 +299,20 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "base_hp", base_hp );
     optional( jo, was_loaded, "stat_hp_mods", hp_mods );
+    optional( jo, was_loaded, "heal_bonus", heal_bonus, 0 );
+    optional( jo, was_loaded, "mend_rate", mend_rate, 1.0f );
 
     mandatory( jo, was_loaded, "drench_capacity", drench_max );
+    optional( jo, was_loaded, "drench_increment", drench_increment, 2 );
+    optional( jo, was_loaded, "drying_chance", drying_chance, drench_max );
+    optional( jo, was_loaded, "drying_increment", drying_increment, 1 );
+
+    optional( jo, was_loaded, "wet_morale", wet_morale, 0 );
 
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
     mandatory( jo, was_loaded, "limb_type", limb_type );
+    optional( jo, was_loaded, "secondary_types", secondary_types );
     optional( jo, was_loaded, "encumb_impacts_dodge", encumb_impacts_dodge, false );
 
     // tokens are actually legacy code that should be on their way out.
@@ -572,7 +585,11 @@ bool bodypart::is_at_max_hp() const
 
 float bodypart::get_wetness_percentage() const
 {
-    return static_cast<float>( wetness ) / id->drench_max;
+    if( id->drench_max == 0 ) {
+        return 0.0f;
+    } else {
+        return static_cast<float>( wetness ) / id->drench_max;
+    }
 }
 
 int bodypart::get_encumbrance_threshold() const

@@ -1,4 +1,5 @@
 #include "avatar.h"
+#include "avatar_action.h"
 #include "cata_catch.h"
 #include "flag.h"
 #include "map.h"
@@ -27,6 +28,10 @@ static const character_modifier_id
 character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
 
 static const efftype_id effect_downed( "downed" );
+
+static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_prone( "prone" );
+static const move_mode_id move_mode_walk( "walk" );
 
 static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
@@ -208,3 +213,276 @@ TEST_CASE( "mutations may affect movement cost", "[move_cost][mutation]" )
     }
 }
 
+TEST_CASE( "Crawl score effects on movement cost", "[move_cost]" )
+{
+    // No limb damage
+    GIVEN( "Character is uninjured and unencumbered" ) {
+        avatar &u = get_avatar();
+        clear_avatar();
+        u.wear_item( item( "sneakers" ) );
+        u.moves = 0;
+
+        WHEN( "is walking" ) {
+            u.set_movement_mode( move_mode_walk );
+            REQUIRE( u.moves == 0 );
+            THEN( "no crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 100 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -100 );
+            }
+        }
+        WHEN( "is crouching" ) {
+            u.set_movement_mode( move_mode_crouch );
+            REQUIRE( u.moves == 0 );
+            THEN( "no crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 200 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -200 );
+            }
+        }
+        WHEN( "is prone" ) {
+            u.set_movement_mode( move_mode_prone );
+            REQUIRE( u.moves == 0 );
+            THEN( "apply crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 600 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -600 );
+            }
+        }
+    }
+    GIVEN( "Character is uninjured and has 30 arm encumbrance" ) {
+        avatar &u = get_avatar();
+        clear_avatar();
+        u.wear_item( item( "sneakers" ) );
+        u.wear_item( item( "test_briefcase" ) );
+        u.moves = 0;
+
+        WHEN( "is walking" ) {
+            u.set_movement_mode( move_mode_walk );
+            REQUIRE( u.moves == 0 );
+            THEN( "no crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 100 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -100 );
+            }
+        }
+        WHEN( "is crouching" ) {
+            u.set_movement_mode( move_mode_crouch );
+            REQUIRE( u.moves == 0 );
+            THEN( "no crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 200 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -200 );
+            }
+        }
+        WHEN( "is prone" ) {
+            u.set_movement_mode( move_mode_prone );
+            REQUIRE( u.moves == 0 );
+            THEN( "apply crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 660 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -660 );
+            }
+        }
+    }
+    GIVEN( "Character is uninjured and has 37 encumbrance, all limbs" ) {
+        avatar &u = get_avatar();
+        clear_avatar();
+        u.wear_item( item( "test_hazmat_suit" ) );
+        u.moves = 0;
+
+        WHEN( "is walking" ) {
+            u.set_movement_mode( move_mode_walk );
+            REQUIRE( u.moves == 0 );
+            THEN( "no crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 154 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -154 );
+            }
+        }
+        WHEN( "is crouching" ) {
+            u.set_movement_mode( move_mode_crouch );
+            REQUIRE( u.moves == 0 );
+            THEN( "no crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 309 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -309 );
+            }
+        }
+        WHEN( "is prone" ) {
+            u.set_movement_mode( move_mode_prone );
+            REQUIRE( u.moves == 0 );
+            THEN( "apply crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 932 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -932 );
+            }
+        }
+    }
+    // Damaged arm
+    GIVEN( "Character has damaged arm and is unencumbered" ) {
+        avatar &u = get_avatar();
+        clear_avatar();
+        u.wear_item( item( "sneakers" ) );
+        u.set_part_hp_cur( body_part_arm_l, 10 );
+        u.moves = 0;
+
+        WHEN( "is walking" ) {
+            u.set_movement_mode( move_mode_walk );
+            REQUIRE( u.moves == 0 );
+            THEN( "no crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 100 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -100 );
+            }
+        }
+        WHEN( "is crouching" ) {
+            u.set_movement_mode( move_mode_crouch );
+            REQUIRE( u.moves == 0 );
+            THEN( "no crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 200 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -200 );
+            }
+        }
+        WHEN( "is prone" ) {
+            u.set_movement_mode( move_mode_prone );
+            REQUIRE( u.moves == 0 );
+            THEN( "apply crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 802 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -802 );
+            }
+        }
+    }
+    GIVEN( "Character has damaged arm and 30 arm encumbrance" ) {
+        avatar &u = get_avatar();
+        clear_avatar();
+        u.wear_item( item( "sneakers" ) );
+        u.wear_item( item( "test_briefcase" ) );
+        u.set_part_hp_cur( body_part_arm_l, 10 );
+        u.moves = 0;
+
+        WHEN( "is walking" ) {
+            u.set_movement_mode( move_mode_walk );
+            REQUIRE( u.moves == 0 );
+            THEN( "no crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 100 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -100 );
+            }
+        }
+        WHEN( "is crouching" ) {
+            u.set_movement_mode( move_mode_crouch );
+            REQUIRE( u.moves == 0 );
+            THEN( "no crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 200 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -200 );
+            }
+        }
+        WHEN( "is prone" ) {
+            u.set_movement_mode( move_mode_prone );
+            REQUIRE( u.moves == 0 );
+            THEN( "apply crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 818 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -818 );
+            }
+        }
+    }
+    GIVEN( "Character has damaged arm and 37 encumbrance, all limbs" ) {
+        avatar &u = get_avatar();
+        clear_avatar();
+        u.wear_item( item( "test_hazmat_suit" ) );
+        u.set_part_hp_cur( body_part_arm_l, 10 );
+        u.moves = 0;
+
+        WHEN( "is walking" ) {
+            u.set_movement_mode( move_mode_walk );
+            REQUIRE( u.moves == 0 );
+            THEN( "no crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 154 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -154 );
+            }
+        }
+        WHEN( "is crouching" ) {
+            u.set_movement_mode( move_mode_crouch );
+            REQUIRE( u.moves == 0 );
+            THEN( "no crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 309 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -309 );
+            }
+        }
+        WHEN( "is prone" ) {
+            u.set_movement_mode( move_mode_prone );
+            REQUIRE( u.moves == 0 );
+            THEN( "apply crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 1245 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -1245 );
+            }
+        }
+    }
+    // Broken legs
+    GIVEN( "Character has 2 broken legs and is unencumbered" ) {
+        avatar &u = get_avatar();
+        clear_avatar();
+        u.wear_item( item( "sneakers" ) );
+        u.set_part_hp_cur( body_part_leg_l, 0 );
+        u.set_part_hp_cur( body_part_leg_r, 0 );
+        u.moves = 0;
+
+        // Can't walk or couch w/ broken legs
+        WHEN( "is prone" ) {
+            u.set_movement_mode( move_mode_prone );
+            REQUIRE( u.moves == 0 );
+            THEN( "apply crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 1000 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -1000 );
+            }
+        }
+    }
+    GIVEN( "Character has 2 broken legs arm and 30 arm encumbrance" ) {
+        avatar &u = get_avatar();
+        clear_avatar();
+        u.wear_item( item( "sneakers" ) );
+        u.wear_item( item( "test_briefcase" ) );
+        u.set_part_hp_cur( body_part_leg_l, 0 );
+        u.set_part_hp_cur( body_part_leg_r, 0 );
+        u.moves = 0;
+
+        // Can't walk or couch w/ broken legs
+        WHEN( "is prone" ) {
+            u.set_movement_mode( move_mode_prone );
+            REQUIRE( u.moves == 0 );
+            THEN( "apply crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 1179 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -1179 );
+            }
+        }
+    }
+    GIVEN( "Character has 2 broken legs and 37 encumbrance, all limbs" ) {
+        avatar &u = get_avatar();
+        clear_avatar();
+        u.wear_item( item( "test_hazmat_suit" ) );
+        u.set_part_hp_cur( body_part_leg_l, 0 );
+        u.set_part_hp_cur( body_part_leg_r, 0 );
+        u.moves = 0;
+
+        // Can't walk or couch w/ broken legs
+        WHEN( "is prone" ) {
+            u.set_movement_mode( move_mode_prone );
+            REQUIRE( u.moves == 0 );
+            THEN( "apply crawling modifier" ) {
+                CHECK( u.run_cost( 100 ) == 1561 );
+                avatar_action::move( u, get_map(), point_south );
+                CHECK( u.moves == -1561 );
+            }
+        }
+    }
+}

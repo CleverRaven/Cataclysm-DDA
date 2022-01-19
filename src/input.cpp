@@ -510,10 +510,18 @@ void input_manager::init_keycode_mapping()
     add_keyboard_char_keycode_pair( KEY_END,       translate_marker_context( "key name", "END" ) );
     add_keyboard_char_keycode_pair( '\n',          translate_marker_context( "key name", "RETURN" ) );
 
+    for( int c = 0; IS_CTRL_CHAR( c ); c++ ) {
+        // Some codes fall into this range but have more common names we'd prefer to use.
+        if( !IS_NAMED_CTRL_CHAR( c ) ) {
+            // These are directly translated in `get_keyname()`
+            // NOLINTNEXTLINE(cata-translate-string-literal)
+            add_keyboard_char_keycode_pair( c, string_format( "CTRL+%c", c + 64 ) );
+        }
+    }
+
     // function keys, as defined by ncurses
     for( int i = F_KEY_NUM_BEG; i <= F_KEY_NUM_END; i++ ) {
-        // not marked for translation here, but specially handled in get_keyname so
-        // it gets properly translated.
+        // These are directly translated in `get_keyname()`
         // NOLINTNEXTLINE(cata-translate-string-literal)
         add_keyboard_char_keycode_pair( KEY_F( i ), string_format( "F%d", i ) );
     }
@@ -688,6 +696,12 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
                             return it->second;
                         } else {
                             return string_format( pgettext( "function key name", "F%d" ), F_KEY_NUM( ch ) );
+                        }
+                    } else if( IS_CTRL_CHAR( ch ) && !IS_NAMED_CTRL_CHAR( ch ) ) {
+                        if( portable ) {
+                            return it->second;
+                        } else {
+                            return string_format( pgettext( "control key name", "CTRL+%c" ), ch + 64 );
                         }
                     } else if( ch >= char_key_beg && ch <= char_key_end && ch != ' ' ) {
                         // character keys except space need no translation
@@ -928,7 +942,8 @@ void input_context::register_action( const std::string &action_descriptor )
     register_action( action_descriptor, translation() );
 }
 
-void input_context::register_action( const std::string &action_descriptor, const translation &name )
+void input_context::register_action( const std::string &action_descriptor,
+                                     const translation &name )
 {
     if( action_descriptor == "ANY_INPUT" ) {
         registered_any_input = true;
@@ -1040,7 +1055,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
         return pgettext( "keybinding", "Disabled" );
     }
 
-    const std::string separator = _( " or " );
+    const std::string separator = inputs_to_show.size() > 2 ? _( ", or " ) : _( " or " );
     std::string rval;
     for( size_t i = 0; i < inputs_to_show.size(); ++i ) {
         rval += inputs_to_show[i].long_description();
@@ -1694,7 +1709,8 @@ std::string input_context::press_x( const std::string &action_id, const std::str
 }
 
 // TODO: merge this with input_context::get_desc
-std::string input_context::press_x( const std::string &action_id, const std::string &key_bound_pre,
+std::string input_context::press_x( const std::string &action_id,
+                                    const std::string &key_bound_pre,
                                     const std::string &key_bound_suf, const std::string &key_unbound ) const
 {
     if( action_id == "ANY_INPUT" ) {

@@ -569,7 +569,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK_LOOP",
-    "condition": { "x_in_y_chance": { "x": 3, "y": 4 } },
+    "condition": { "and": [ { "x_in_y_chance": { "x": 3, "y": 4 } }, { "not": "u_driving" } ] },
     "effect": [ { "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK" ] } ],
     "false_effect": { "u_make_sound": "a loud tearing sound.", "target_var": { "u_val": "stuck_teleport" }, "volume": 80, "type": "alert" }
   },
@@ -787,6 +787,11 @@
       { "u_location_variable": { "global_val": "portal_dungeon" }, "target_params": { "om_terrain": "field" } },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "portal_dungeon" } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_MAPGEN_TRAP_CHANGE",
+    "effect": [ { "mapgen_update": "portal_dungeon_trap_change", "target_var": { "global_val": "portal_dungeon" } } ]
   },
   {
     "type": "effect_on_condition",

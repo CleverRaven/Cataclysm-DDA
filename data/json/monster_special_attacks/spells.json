@@ -454,18 +454,9 @@
         "target_var": { "global_val": "portal_cage" }
       },
       {
-        "set_queue_effect_on_condition": [
-          {
-            "id": "EOC_PORTAL_ABSENCE_CHANGE",
-            "effect": [
-              {
-                "u_transform_radius": 2,
-                "ter_furn_transform": "portal_cage_revert_transform",
-                "target_var": { "global_val": "portal_cage" }
-              }
-            ]
-          }
-        ],
+        "u_transform_radius": 2,
+        "ter_furn_transform": "portal_cage_revert_transform",
+        "target_var": { "global_val": "portal_cage" },
         "time_in_future_min": "3 seconds",
         "time_in_future_max": "5 seconds"
       },

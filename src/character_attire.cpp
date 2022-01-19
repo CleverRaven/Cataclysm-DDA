@@ -555,7 +555,7 @@ bool Character::is_wearing_shoes( const side &check_side ) const
 
     for( const bodypart_id &part : get_all_body_parts() ) {
         // Is any right|left foot...
-        if( part->limb_type != body_part_type::type::foot ) {
+        if( !part->has_type( body_part_type::type::foot ) ) {
             continue;
         }
         for( const item &worn_item : worn ) {

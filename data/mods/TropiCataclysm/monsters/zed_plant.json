@@ -67,6 +67,7 @@
       "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ],
       "//": "default zombie children clothing (always), additional items from child_items (sometimes)"
     },
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 4 } },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "upgrades": { "half_life": 20, "into": "mon_czombie_poison" },

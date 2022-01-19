@@ -113,6 +113,8 @@ static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_MEND_ALL( "MEND_ALL" );
+static const json_character_flag json_flag_MEND_LIMB( "MEND_LIMB" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -148,7 +150,6 @@ static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
 static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
-static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -547,10 +548,7 @@ void suffer::from_schizophrenia( Character &you )
     if( one_turn_in( 2_days ) && !you.get_wielded_item().is_null() ) {
         const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
                                      translation() );
-        std::string str = string_format( snip, i_name_w );
-        str[0] = toupper( str[0] );
-
-        you.add_msg_if_player( m_bad, "%s", str );
+        you.add_msg_if_player( m_bad, "%s", uppercase_first_letter( string_format( snip, i_name_w ) ) );
         item_location loc( you, &you.get_wielded_item() );
         you.drop( loc, you.pos() );
         return;
@@ -1557,7 +1555,7 @@ void Character::suffer()
     }
 
     for( const trait_id &mut_id : get_mutations() ) {
-        if( calendar::once_every( 1_minutes ) ) {
+        if( calendar::once_every( 1_minutes ) && mut_id->weakness_to_water != 0 ) {
             suffer::water_damage( *this, mut_id );
         }
         if( has_active_mutation( mut_id ) ) {
@@ -1740,7 +1738,7 @@ void Character::mend( int rate_multiplier )
 
     healing_factor *= mutation_value( "mending_modifier" );
 
-    if( has_trait( trait_REGEN_LIZ ) ) {
+    if( has_flag( json_flag_MEND_ALL ) ) {
         needs_splint = false;
     }
 
@@ -1756,9 +1754,15 @@ void Character::mend( int rate_multiplier )
             continue;
         }
 
+        if( bp->has_flag( json_flag_MEND_LIMB ) ) {
+            needs_splint = false;
+        }
+
         if( needs_splint && !worn_with_flag( flag_SPLINT,  bp ) ) {
             continue;
         }
+
+        healing_factor *= bp->mend_rate;
 
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
         auto &eff = get_effect( effect_mending, bp );
@@ -1854,7 +1858,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         }
         // Different sources will only make the bodypart wet to a limit
         int source_wet_max = saturation * bp_wetness_max / 100;
-        int wetness_increment = ignore_waterproof ? 100 : 2;
+        int wetness_increment = ignore_waterproof ? 100 : bp->drench_increment;
         // Respect maximums
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
         const int curr_wetness = get_part_wetness( bp );
@@ -1935,6 +1939,7 @@ void Character::apply_wetness_morale( int temperature )
         // Average of global and part temperature modifiers, each in range [-1.0, 1.0]
         double scaled_temperature = ( global_temperature_mod + part_mod ) / 2;
 
+        bp_morale += bp->wet_morale;
         if( bp_morale < 0 ) {
             // Damp, hot clothing on hot skin feels bad
             scaled_temperature = std::fabs( scaled_temperature );
