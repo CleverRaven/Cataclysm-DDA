@@ -3198,5 +3198,30 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": "ig_vp_device"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "gas_cooker",
+    "name": { "str": "gas cooker" },
+    "symbol": "u",
+    "looks_like": "f_stove",
+    "categories": [ "utility" ],
+    "color": "light_gray",
+    "broken_symbol": "-",
+    "broken_color": "light_gray",
+    "damage_modifier": 10,
+    "description": "A compact single burner gas cooker.",
+    "durability": 45,
+    "folded_volume": "2 L",
+    "item": "gas_cooker",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "2 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+    },
+    "pseudo_tools": [ { "id": "gas_cooker" } ],
+    "flags": [ "FOLDABLE" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] } ],
+    "damage_reduction": { "all": 6 }
   }
 ]

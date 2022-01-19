@@ -232,7 +232,7 @@
 	{
     "type": "GENERIC",
     "id": "gas_cooker",
-    "name": { "str": "gas coker" },
+    "name": { "str": "gas cooker" },
     "description": "A gas-fueled grill, powered by an attached tank.",
     "weight": "900 g",
     "to_hit": -1,

@@ -2165,7 +2165,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "GAS_TANK" ]
+    "flags": [ "GAS_TANK" ]
   },
   {
     "id": "medium_propane_tank",
@@ -2193,7 +2193,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "GAS_TANK" ]
+    "flags": [ "GAS_TANK" ]
   },
   {
     "id": "large_propane_tank",
@@ -2221,7 +2221,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "GAS_TANK" ]
+    "flags": [ "GAS_TANK" ]
   },
   {
     "id": "xl_propane_tank",
@@ -2249,6 +2249,6 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "GAS_TANK" ]
+    "flags": [ "GAS_TANK" ]
   }
 ]
