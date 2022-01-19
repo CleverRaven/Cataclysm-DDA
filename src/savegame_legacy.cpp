@@ -25,7 +25,6 @@ static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
-static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
@@ -219,7 +218,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id::NULL_ID(), // ACT_LONGCRAFT is deprecated
         ACT_DISASSEMBLE,
         ACT_BUTCHER,
-        ACT_LONGSALVAGE,
+        activity_id::NULL_ID(). // ACT_LONGSALVAGE is an actor now
         activity_id::NULL_ID(), // ACT_FORAGE is an actor now
         ACT_BUILD,
         ACT_VEHICLE,

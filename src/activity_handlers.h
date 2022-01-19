@@ -235,7 +235,6 @@ void gunmod_add_finish( player_activity *act, Character *you );
 void hand_crank_finish( player_activity *act, Character *you );
 void heat_item_finish( player_activity *act, Character *you );
 void jackhammer_finish( player_activity *act, Character *you );
-void longsalvage_finish( player_activity *act, Character *you );
 void mend_item_finish( player_activity *act, Character *you );
 void mind_splicer_finish( player_activity *act, Character *you );
 void mopping_finish( player_activity *act, Character *you );

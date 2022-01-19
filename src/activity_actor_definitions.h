@@ -1712,4 +1712,29 @@ class forage_activity_actor : public activity_actor
         int moves;
 };
 
+class longsalvage_activity_actor : public activity_actor
+{
+    public:
+        longsalvage_activity_actor() = default;
+        explicit longsalvage_activity_actor( int index ) : index( index ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_LONGSALVAGE" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<longsalvage_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int index;
+};
+
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
