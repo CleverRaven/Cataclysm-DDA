@@ -129,6 +129,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     clear_vehicles();
     clear_map();
     avatar &player_character = get_avatar();
+    player_character.set_value( "test_var", "It's avatar" );
     player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
 
@@ -138,6 +139,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     g->faction_manager_ptr->create_if_needed();
 
     npc &beta = create_test_talker( shopkeep );
+    beta.set_value( "test_var", "It's npc" );
     d = dialogue( get_talker_for( player_character ), get_talker_for( beta ) );
     return beta;
 }
@@ -1057,6 +1059,19 @@ TEST_CASE( "npc_compare_int_op", "[npc_talk]" )
     CHECK( d.responses[ 7 ].text == "Five != two." );
     CHECK( d.responses[ 8 ].text == "Five >= two." );
     CHECK( d.responses[ 9 ].text == "Five > two." );
+}
+
+TEST_CASE( "npc_test_tags", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+
+    d.add_topic( "TALK_TEST_TAGS" );
+    gen_response_lines( d, 2 );
+    CHECK( d.responses[0].create_option_line( d, input_event() ).text ==
+           "Your tag is set to It's avatar." );
+    CHECK( d.responses[1].create_option_line( d, input_event() ).text ==
+           "My tag is set to It's npc." );
 }
 
 TEST_CASE( "npc_compare_int", "[npc_talk]" )

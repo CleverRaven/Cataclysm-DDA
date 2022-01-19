@@ -986,6 +986,21 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_TEST_TAGS",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "text": "Your tag is set to <u_val:test_var>.",
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "My tag is set to <npc_val:test_var>.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_TEST_COMPARE_INT",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
