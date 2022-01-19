@@ -7,6 +7,7 @@
 #include "pickup.h"
 #include "item_pocket.h"
 
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
 static const itype_id itype_marble( "marble" );
 static const itype_id itype_pebble( "pebble" );
@@ -17,9 +18,11 @@ static const itype_id itype_plastic_bag( "bag_plastic" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_paper_wrapper( "wrapper" );
 static const itype_id itype_chocolate_candy( "candy2" );
+static const itype_id itype_flashlight( "flashlight" );
+static const itype_id itype_light_battery( "light_battery_cell" );
 
 enum Item {
-    CODEINE, ASPIRIN, CHOCOLATE
+    CODEINE, ASPIRIN, CHOCOLATE, BATTERY, FLASHLIGHT
 };
 
 // Returns true if the container has an item with the same type and quantity
@@ -126,6 +129,10 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             &here.add_item( ground, item_with_content( itype_plastic_bag, std::list<item *> {
                 &item_with_qty( itype_paper, 4 ), &chocolate_wrapper
             } ) ),
+            &here.add_item( ground, item( itype_light_battery ) ),
+            &here.add_item( ground, item_with_content( itype_backpack, std::list<item *> {
+                &item_with_qty( itype_flashlight, 1 )
+            } ) ),
             &here.add_item( ground, item_with_qty( itype_marble, 10 ) ),
             &here.add_item( ground, item_with_qty( itype_pebble, 15 ) )
         };
@@ -164,6 +171,21 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, std::list<const item *> {
                     &chocolate_wrapper
+                } );
+            }
+        }
+        WHEN( "they have light battery in auto-pickup rules" ) {
+            item *light_battery = items_on_ground[Item::BATTERY];
+            item *flashlight = *items_on_ground[Item::FLASHLIGHT]->all_items_top().begin();
+            add_autopickup_rules( std::list<const item *> {
+                light_battery
+            } );
+            REQUIRE( flashlight->reload( they, item_location( location, light_battery ), 1 ) );
+            //printf( "battery charge: %d", flashlight.ammo_remaining() );
+            THEN( "light battery from flashlight should be picked up" ) {
+                simulate_auto_pickup( ground, they );
+                expect_to_find( backpack, std::list<const item *> {
+                    light_battery
                 } );
             }
         }
