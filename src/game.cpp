@@ -227,6 +227,9 @@ static const faction_id faction_your_followers( "your_followers" );
 static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 
+static const furn_str_id furn_f_rope_up( "f_rope_up" );
+static const furn_str_id furn_f_web_up( "f_web_up" );
+
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
 static const harvest_drop_type_id harvest_drop_offal( "offal" );
 static const harvest_drop_type_id harvest_drop_skin( "skin" );
@@ -10943,7 +10946,11 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( rope_ladder ) {
-        here.ter_set( u.pos(), t_rope_up );
+        if( u.has_flag( json_flag_WEB_RAPPEL ) ) {
+            here.furn_set( u.pos(), furn_f_web_up );
+        } else {
+            here.furn_set( u.pos(), furn_f_rope_up );
+        }
     }
 
     if( here.ter( stairs ) == t_manhole_cover ) {

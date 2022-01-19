@@ -1435,7 +1435,7 @@
     "symbol": "<",
     "color": "white",
     "move_cost_mod": 1,
-    "required_str": 10,
+    "required_str": -1,
     "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "grapnel",
@@ -1445,6 +1445,27 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "grip_hook", "count": [ 4, 4 ] }, { "item": "rope_30", "count": [ 1, 1 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_web_up",
+    "name": "web leading up",
+    "looks_like": "fd_web",
+    "description": "A long, thick strand of slightly sticky web.  You could climb it up.",
+    "symbol": "<",
+    "color": "white",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "ALLOW_ON_OPEN_AIR" ],
+    "examine_action": "deployed_furniture",
+    "deployed_item": "rope_30",
+    "bash": {
+      "str_min": 1,
+      "str_max": 10,
+      "sound": "rrrrip!",
+      "sound_fail": "twang.",
+      "items": [ { "item": "rope_30", "count": [ 1, 1 ] } ]
     }
   }
 ]

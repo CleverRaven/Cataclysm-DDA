@@ -136,9 +136,11 @@ static const furn_str_id furn_f_diesel_tank( "f_diesel_tank" );
 static const furn_str_id furn_f_gas_tank( "f_gas_tank" );
 static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
+static const furn_str_id furn_f_rope_up( "f_rope_up" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill( "f_water_mill" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
+static const furn_str_id furn_f_web_up( "f_web_up" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
@@ -4670,7 +4672,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 return;
             }
 
-            const bool has_grapnel = you.has_amount( itype_grapnel, 1 );
+            bool has_grapnel = you.has_amount( itype_grapnel, 1 );
             const bool web_rappel = you.has_flag( json_flag_WEB_RAPPEL );
             const int climb_cost = you.climbing_cost( where, examp );
             const float fall_mod = you.fall_damage_mod();
@@ -4690,8 +4692,15 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 return;
             } else if( height == 1 ) {
                 const char *query;
-                you.set_activity_level( MODERATE_EXERCISE );
-                weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
+                you.set_activity_level( ACTIVE_EXERCISE );
+                weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
+
+                if( has_grapnel ) {
+                    query = _( "Use your grappling hook to climb down?" );
+                    if( !query_yn( query ) ) {
+                        has_grapnel = false;
+                    }
+                }
 
                 if( !has_grapnel && !web_rappel ) {
                     if( climb_cost <= 0 && fall_mod > 0.8 ) {
@@ -4703,9 +4712,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                     } else {
                         query = _( "You may have problems climbing back up.  Climb down?" );
                     }
-                } else if( has_grapnel ) {
-                    query = _( "Use your grappling hook to climb down?" );
-                } else {
+                } else if( web_rappel ) {
                     query = _( "Use your webs to descend?" );
                 }
 
@@ -4720,9 +4727,19 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             if( web_rappel ) {
                 you.add_msg_if_player(
                     _( "You affix a long, sticky strand on the ledge and begin your descent." ) );
+                tripoint web = examp;
+                web.z--;
+                // Leave a web rope on each step
+                for( int i = 0; i < height; i++ ) {
+                    here.furn_set( web, furn_f_web_up );
+                    web.z--;
+                }
                 g->vertical_move( -height, true );
             } else if( has_grapnel ) {
                 you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
+                g->vertical_move( -1, true );
+                you.use_amount( itype_grapnel, 1 );
+                here.furn_set( you.pos(), furn_f_rope_up );
             } else if( !g->slip_down( true ) ) {
                 // One tile of falling less (possibly zero)
                 add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
