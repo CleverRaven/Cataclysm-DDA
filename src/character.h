@@ -2002,6 +2002,9 @@ class Character : public Creature, public visitable
         /** Drops an item to the specified location */
         void drop( item_location loc, const tripoint &where );
         virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
+        /** Assigns character activity to pick up items from the given drop_locations.
+         *  Requires sufficient storage; items cannot be wielded or worn from this activity.
+         */
         void pick_up( const drop_locations &what );
 
         bool is_wielding( const item &target ) const;
