@@ -421,6 +421,9 @@ line individually for drawing in `widget::custom_draw_multiline()`.
 Adding new multi-line-capable widgets involves ensuring the new display function formats the
 widget's text according to the available width and height.
 
+Some multi-line widgets can dynamically adjust their height based on how many lines they are using.
+To enable this behavior, add the `W_DYNAMIC_HEIGHT` flag to the widget (ex: see the compass legend).
+
 
 ## `colors`
 
@@ -479,12 +482,13 @@ Widgets can use flags to specify special behaviors:
 
 Here are some flags that can be included:
 
-| Flag id        | Description
-|---             |---
-| `W_LABEL_NONE` | Prevents the widget's label from being displayed in the sidebar
-| `W_DISABLED`   | Makes this widget disabled by default (only applies to top-level widgets/layouts)
-| `W_PAD_CENTER` | Adds enough left-padding to center the widget text (widget is center-aligned)
-| `W_PAD_NONE`   | Omits the left-padding altogether (widget is left-aligned)
+| Flag id            | Description
+|---                 |---
+| `W_LABEL_NONE`     | Prevents the widget's label from being displayed in the sidebar
+| `W_DISABLED`       | Makes this widget disabled by default (only applies to top-level widgets/layouts)
+| `W_PAD_CENTER`     | Adds enough left-padding to center the widget text (widget is center-aligned)
+| `W_PAD_NONE`       | Omits the left-padding altogether (widget is left-aligned)
+| `W_DYNAMIC_HEIGHT` | Allows certain multi-line widgets to dynamically adjust their height
 
 
 # Variables

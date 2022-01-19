@@ -9,6 +9,7 @@
 #include "overmapbuffer.h"
 
 const static flag_id json_flag_W_DISABLED( "W_DISABLED" );
+const static flag_id json_flag_W_DYNAMIC_HEIGHT( "W_DYNAMIC_HEIGHT" );
 const static flag_id json_flag_W_LABEL_NONE( "W_LABEL_NONE" );
 const static flag_id json_flag_W_PAD_CENTER( "W_PAD_CENTER" );
 const static flag_id json_flag_W_PAD_NONE( "W_PAD_NONE" );
@@ -573,6 +574,8 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
     desc.second = c_light_gray;
     // By default, colorize the string in desc.first with the color in desc.second.
     bool apply_color = true;
+    // Don't bother updating the widget's height by default
+    bool update_height = false;
     // Some helper display:: functions do their own internal colorization of the string.
     // For those, desc.first is the already-colorized string, and apply_color is set to false.
     switch( _var ) {
@@ -680,7 +683,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::compass_legend_text:
             desc.first = display::colorized_compass_legend_text( max_width, _height_max, _height );
-            set_height_for_widget( id, _height );
+            update_height = true;
             apply_color = false; // Already colorized
             break;
         default:
@@ -688,6 +691,13 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
                       io::enum_to_string<widget_var>( _var ) );
             return _( "???" );
     }
+    // Update height dynamically for widgets that support it
+    if( update_height && has_flag( json_flag_W_DYNAMIC_HEIGHT ) ) {
+        set_height_for_widget( id, _height ); // Set within widget factory
+    } else {
+        _height = _height_max; // reset height
+    }
+    // Colorize if applicable
     ret += apply_color ? colorize( desc.first, desc.second ) : desc.first;
     return ret;
 }
