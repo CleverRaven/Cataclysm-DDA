@@ -11,7 +11,7 @@
         [ "toolset", 1 ],
         [ "fake_oven", 1 ],
         [ "fire", -1 ],
-        [ "propane_cooker", -1 ]
+        [ "propane_cooker", 1 ]
       ]
     ]
   },
@@ -30,7 +30,7 @@
         [ "hotplate", 1 ],
         [ "multi_cooker", 1 ],
         [ "char_smoker", 1 ],
-        [ "propane_cooker", -1 ],
+        [ "propane_cooker", 1 ],
         [ "toolset", 1 ],
         [ "coffeemaker", 1 ],
         [ "fake_oven", 1 ],

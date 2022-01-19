@@ -17,17 +17,47 @@
     "description": "A small but complete kitchen unit, powered from the vehicle's batteries.",
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
-    "pseudo_tools": [
-      { "id": "hotplate", "hotkey": "h" },
-      { "id": "propane_cooker" },
-      { "id": "pot" },
-      { "id": "pan" },
-      { "id": "water_faucet" }
-    ],
+    "pseudo_tools": [ { "id": "hotplate", "hotkey": "h" }, { "id": "pot" }, { "id": "pan" }, { "id": "water_faucet" } ],
     "item": "kitchen_unit",
     "location": "center",
     "looks_like": "f_oven",
     "name": { "str": "kitchen unit" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 10 ] ]
+      }
+    },
+    "size": 200,
+    "symbol": "&",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "kitchen_unit_abstract",
+    "breaks_into": [
+      { "count": [ 4, 6 ], "item": "steel_lump" },
+      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 6 ], "item": "scrap" },
+      { "item": "pan", "prob": 50 },
+      { "item": "pot", "prob": 50 }
+    ],
+    "broken_color": "light_cyan",
+    "broken_symbol": "x",
+    "categories": [ "utility" ],
+    "color": "light_cyan",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "description": "A small but complete kitchen unit, powered from the vehicle's propane tanks.",
+    "durability": 80,
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
+    "pseudo_tools": [ { "id": "propane_cooker" }, { "id": "pot" }, { "id": "pan" }, { "id": "water_faucet" } ],
+    "item": "kitchen_unit",
+    "location": "center",
+    "looks_like": "f_oven",
+    "name": { "str": "propane kitchen unit" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
