@@ -1,0 +1,45 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spider_webs",
+    "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_web", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_spider",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           X            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_null", "X": "t_dirt" },
+      "furniture": { "X": "f_egg_sackws" },
+      "monster": { "X": { "monster": "mon_spider_web" } },
+      "nested": { " ": { "chunks": [ [ "spider_webs", 10 ], [ "null", 1 ] ] } }
+    }
+  }
+]
