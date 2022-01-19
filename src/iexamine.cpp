@@ -4691,33 +4691,37 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             if( height > 1 && !query_yn( query_str, height ) ) {
                 return;
             } else if( height == 1 ) {
-                const char *query;
+                bool asked = false;
                 you.set_activity_level( ACTIVE_EXERCISE );
                 weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
 
                 if( has_grapnel ) {
-                    query = _( "Use your grappling hook to climb down?" );
-                    if( !query_yn( query ) ) {
+                    if( !query_yn( _( "Use your grappling hook to climb down?" ) ) ) {
                         has_grapnel = false;
-                    }
-                }
-
-                if( !has_grapnel && !web_rappel ) {
-                    if( climb_cost <= 0 && fall_mod > 0.8 ) {
-                        query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
-                    } else if( climb_cost <= 0 ) {
-                        query = _( "You probably won't be able to get back up.  Climb down?" );
-                    } else if( climb_cost < 200 ) {
-                        query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
                     } else {
-                        query = _( "You may have problems climbing back up.  Climb down?" );
+                        asked = true;
                     }
-                } else if( web_rappel ) {
-                    query = _( "Use your webs to descend?" );
                 }
 
-                if( !query_yn( query ) ) {
-                    return;
+                if( !asked ) {
+                    const char *query;
+                    if( !has_grapnel && !web_rappel ) {
+                        if( climb_cost <= 0 && fall_mod > 0.8 ) {
+                            query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
+                        } else if( climb_cost <= 0 ) {
+                            query = _( "You probably won't be able to get back up.  Climb down?" );
+                        } else if( climb_cost < 200 ) {
+                            query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
+                        } else {
+                            query = _( "You may have problems climbing back up.  Climb down?" );
+                        }
+                    } else if( web_rappel ) {
+                        query = _( "Use your webs to descend?" );
+                    }
+
+                    if( !query_yn( query ) ) {
+                        return;
+                    }
                 }
             }
 
