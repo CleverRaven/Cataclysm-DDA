@@ -1681,6 +1681,14 @@
   },
   {
     "type": "effect_type",
+    "id": "pkill_wintergreen",
+    "pkill_addict_reduces": true,
+    "base_mods": { "pkill_max_val": [ 20 ], "pkill_tick": [ 20 ], "pkill_min": [ 1 ], "pkill_chance": [ 45 ] },
+    "rating": "good",
+    "blood_analysis_description": "Ate wintergreen leaves"
+  },
+  {
+    "type": "effect_type",
     "id": "webbed",
     "name": [ "Webbed" ],
     "desc": [ "You are covered in webs!" ],

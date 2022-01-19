@@ -277,6 +277,11 @@
     "entries": [ { "drop": "japanese_knotweed_stem", "base_num": [ 1, 3 ] } ]
   },
   {
+    "id": "wintergreen_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "wintergreen_berry", "base_num": [ 1, 4 ] }, { "drop": "wintergreen_leaves", "base_num": [ 1, 2 ] } ]
+  },
+  {
     "id": "fish_tiny",
     "type": "harvest",
     "entries": [
