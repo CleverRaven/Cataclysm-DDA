@@ -798,6 +798,7 @@ bool game::start_game()
     load_map( lev, /*pump_events=*/true );
 
     int level = m.get_abs_sub().z;
+    u.setpos( tripoint_south );
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
     // Do this after the map cache has been built!
