@@ -7,13 +7,9 @@
 #include "pickup.h"
 #include "item_pocket.h"
 
-static const flag_id flag_FROZEN = flag_id( "FROZEN" );
-
 static const itype_id itype_backpack( "backpack_hiking" );
-
 static const itype_id itype_marble( "marble" );
 static const itype_id itype_pebble( "pebble" );
-
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_pbottle( "bottle_plastic_pill_prescription" );
@@ -30,14 +26,6 @@ static bool container_has_item( const item &container, const item &what )
     } );
 }
 
-// Remove FROZEN flag from item to allow for easy rule matching.
-// When frozen items will have '(frozen)' in their name making matching more difficult.
-static void unfreeze_item( item *which )
-{
-    which->unset_flag( flag_FROZEN );
-    REQUIRE_FALSE( which->has_flag( flag_FROZEN ) );
-}
-
 // Add the given items to auto-pickup character rules and check rules.
 static void add_autopickup_rules( const std::list<item *> what )
 {
@@ -45,7 +33,9 @@ static void add_autopickup_rules( const std::list<item *> what )
     for( item *entry : what ) {
         rules.add_rule( entry );
         REQUIRE( rules.has_rule( entry ) );
-        REQUIRE( rules.check_item( entry->tname( 1, false ) ) == rule_state::WHITELISTED );
+        std::string item_name = entry->tname( 1, false );
+        rule_state pickup_state = rules.check_item( item_name );
+        REQUIRE( pickup_state == rule_state::WHITELISTED );
     }
 }
 
@@ -100,7 +90,9 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
     REQUIRE( they.has_item( backpack ) );
 
     // reset character auto-pickup rules
-    get_auto_pickup().clear_character_rules();
+    auto_pickup::player_settings &rules = get_auto_pickup();
+    rules.clear_character_rules();
+    rules.check_item( "" );
 
     GIVEN( "avatar spots items on a tile near him" ) {
         // make sure no items exist on the ground before we add them
@@ -113,7 +105,6 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             &here.add_item( ground, item_with_qty( itype_pebble, 15 ) )
         };
         for( item *entry : items_on_ground ) {
-            unfreeze_item( entry );
             CHECK_FALSE( backpack.has_item( *entry ) );
         }
         WHEN( "they have codeine pills in auto-pickup rules" ) {
