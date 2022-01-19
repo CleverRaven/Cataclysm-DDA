@@ -119,7 +119,7 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
     bool pick_all_items = true;
 
     std::vector<item_location> pickup_list;
-    std::list<item *> contents = container_item->get_contents().all_items_top();
+    std::list<item *> contents = container_item->all_items_top();
     pickup_list.reserve( contents.size() );
 
     for( item *item_to_check : contents ) {
@@ -149,8 +149,8 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
             // when dealing with battery powered tools there should only be one pocket
             // and one battery inside but this could change in future so account for that here
             for( size_t i = 0; i < pickup_list.size() && all_batteries; i++ ) {
-                item *ientry = pickup_list[i].get_item();
-                if( ientry->type->magazine->default_ammo != itype_id( "battery" ) ) {
+                item *entry = pickup_list[i].get_item();
+                if( !entry->is_battery() ) {
                     all_batteries = false;
                 }
             }
