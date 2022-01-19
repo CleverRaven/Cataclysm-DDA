@@ -13,9 +13,13 @@ static const itype_id itype_pebble( "pebble" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_pbottle( "bottle_plastic_pill_prescription" );
+static const itype_id itype_pbag( "bag_plastic" );
+static const itype_id itype_paper( "paper" );
+static const itype_id itype_paper_wrapper( "wrapper" );
+static const itype_id itype_chocolate_candy( "candy2" );
 
 enum Item {
-    CODEINE, PRESCRIPTION_BOTTLE
+    CODEINE, PRESCRIPTION_BOTTLE, PLASTIC_BAG
 };
 
 // Returns true if the container has an item with the same type and quantity
@@ -67,6 +71,18 @@ static item item_with_content( itype_id what, itype_id content, int qty )
     return result;
 }
 
+// Constructs item with given list of items contained inside the item pocket.
+// Use this function to create a container filled with nested containers.
+static item item_with_content( itype_id what, std::list<item> content )
+{
+    item result = item( what );
+    for( item entry : content ) {
+        result.force_insert_item( entry, item_pocket::pocket_type::CONTAINER );
+        REQUIRE( container_has_item( result, entry ) );
+    }
+    return result;
+}
+
 // Shorthand method to construct items with specific quantity.
 static item item_with_qty( itype_id what, int qty )
 {
@@ -94,13 +110,23 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
     rules.clear_character_rules();
     rules.check_item( "" );
 
+    // declare items needed by tests
+    item aspirin = item( itype_aspirin );
+    item chocolate_wrapper = item_with_content( itype_paper_wrapper, itype_chocolate_candy, 1 );
+    item chocolate_candy = item( itype_chocolate_candy );
+
     GIVEN( "avatar spots items on a tile near him" ) {
         // make sure no items exist on the ground before we add them
         REQUIRE( here.i_at( ground ).size() == 0 );
         // add items to the tile on the ground
         std::vector<item *> items_on_ground{
             &here.add_item( ground, item_with_qty( itype_codeine, 20 ) ),
+            // plastic prescription bottle > aspirin (12)
             &here.add_item( ground, item_with_content( itype_pbottle, itype_aspirin, 12 ) ),
+            // plastic bag > paper (4), paper wrapper > chocolate candy
+            &here.add_item( ground, item_with_content( itype_pbag, std::list<item> {
+                item_with_qty( itype_paper, 4 ), chocolate_wrapper
+            } ) ),
             &here.add_item( ground, item_with_qty( itype_marble, 10 ) ),
             &here.add_item( ground, item_with_qty( itype_pebble, 15 ) )
         };
@@ -115,6 +141,29 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, std::list<item *> {
                     items_on_ground[Item::CODEINE]
+                } );
+            }
+        }
+        WHEN( "they have aspirin pills in auto-pickup rules" ) {
+            add_autopickup_rules( std::list<item *> {
+                items_on_ground[Item::CODEINE], &aspirin
+            } );
+            THEN( "prescription bottle with aspirin pills should be picked up" ) {
+                simulate_auto_pickup( ground, they );
+                expect_to_find( backpack, std::list<item *> {
+                    items_on_ground[Item::CODEINE],
+                    items_on_ground[Item::PRESCRIPTION_BOTTLE]
+                } );
+            }
+        }
+        WHEN( "they have chocolate candy in auto-pickup rules" ) {
+            add_autopickup_rules( std::list<item *> {
+                &chocolate_candy
+            } );
+            THEN( "paper wrapper with chocolate candy should be picked up" ) {
+                simulate_auto_pickup( ground, they );
+                expect_to_find( backpack, std::list<item *> {
+                    &chocolate_wrapper
                 } );
             }
         }
