@@ -2259,7 +2259,8 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
         if( !player_descriptions.empty() && p.is_avatar() ) {
             desc = random_entry( player_descriptions ).translated();
         } else if( !npc_descriptions.empty() && p.is_npc() ) {
-            desc = string_format( _( "%1$s %2$s" ), p.disp_name( false ),
+            //~ %1$s: npc name, %2$s: npc action description
+            desc = string_format( pgettext( "play music", "%1$s %2$s" ), p.disp_name( false ),
                                   random_entry( npc_descriptions ) );
         }
     } else if( morale_effect < 0 && calendar::once_every( 1_minutes ) ) {

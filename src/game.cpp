@@ -9134,7 +9134,8 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         const std::string dir_text = string_format( _( "to the %s" ),
                                      colorize( direction_name( direction_from( u.pos(), mon->pos() ) ), dir_color ) );
         //~ %1$s: Monster name ("headless zombie"), %2$s: direction text ("to the east")
-        spotted_creature_text = string_format( _( "%1$s %2$s" ), colorize( mon->name(), mon_color ),
+        spotted_creature_text = string_format( pgettext( "monster description", "%1$s %2$s" ),
+                                               colorize( mon->name(), mon_color ),
                                                dir_text );
         get_safemode().lastmon_whitelist = mon->name();
     } else {
