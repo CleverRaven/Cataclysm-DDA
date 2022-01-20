@@ -30,10 +30,13 @@ def add_mods(mods):
                 return False
     return True
 
-def print_modlist():
-    print(','.join(mods_this_time))
-    mods_remaining = mods_remaining - set(mods_this_time)
-    mods_this_time = []
+
+def print_modlist(modlist, master_list):
+    print(','.join(modlist))
+    for mod in set(modlist):
+        master_list.remove(mod)
+    modlist.clear()
+
 
 all_mod_dependencies = {}
 total_conversions = set()
@@ -52,7 +55,7 @@ mods_remaining = set(all_mod_dependencies)
 
 # Make sure aftershock can load by itself.
 add_mods(["aftershock"])
-print_modlist()
+print_modlist(mods_this_time, mods_remaining)
 
 while mods_remaining:
     for mod in mods_remaining:
@@ -61,4 +64,4 @@ while mods_remaining:
     if not mods_remaining & set(mods_this_time):
         raise RuntimeError(
             'mods remain ({}) but none could be added'.format(mods_remaining))
-    print_modlist()
+    print_modlist(mods_this_time, mods_remaining)
