@@ -7493,8 +7493,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 100 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC" ]
+    "occurrences": [ 20, 100 ],
+    "flags": [ "CLASSIC","UNIQUE" ]
   },
   {
     "type": "overmap_special",
