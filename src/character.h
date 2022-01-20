@@ -2762,11 +2762,10 @@ class Character : public Creature, public visitable
           * Add or subtract vitamins from character storage pools
          * @param vit ID of vitamin to modify
          * @param qty amount by which to adjust vitamin (negative values are permitted)
-         * @param capped if true prevent vitamins which can accumulate in excess from doing so
          * @return adjusted level for the vitamin or zero if vitamin does not exist
          */
-        int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
-        void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
+        int vitamin_mod( const vitamin_id &vit, int qty );
+        void vitamins_mod( const std::map<vitamin_id, int> & );
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
         time_duration vitamin_rate( const vitamin_id &vit ) const;
         /** Modify vitamin intake (e.g. due to effects) */
