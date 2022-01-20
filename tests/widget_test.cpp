@@ -509,6 +509,16 @@ TEST_CASE( "widgets showing movement cost", "[widget][move_cost]" )
     }
 }
 
+// Bodypart status strings are pulled from a std::map, which is
+// not guaranteed to be sorted in a deterministic way.
+// Just check if the layout string contains the specified status conditions.
+static void check_bp_has_status( const std::string &layout, std::vector<std::string> stat_str )
+{
+    for( const std::string &stat : stat_str ) {
+        CHECK( layout.find( stat ) != std::string::npos );
+    }
+}
+
 TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
 {
     avatar &ava = get_avatar();
@@ -565,9 +575,8 @@ TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
         ava.wear_item( item( "arm_splint" ) );
         REQUIRE( ava.is_limb_broken( arm ) );
         REQUIRE( ava.worn_with_flag( json_flag_SPLINT, arm ) );
-        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
-               " <color_c_magenta>broken</color>"
-               ", <color_c_light_gray>splinted</color>" );
+        check_bp_has_status( arm_status_w.layout( ava ),
+        { "LEFT ARM STATUS:", "<color_c_magenta>broken</color>", "<color_c_light_gray>splinted</color>" } );
         CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
     }
 
@@ -586,27 +595,24 @@ TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
     WHEN( "bitten and bleeding" ) {
         ava.add_effect( effect_bite, 1_minutes, arm );
         ava.add_effect( effect_bleed, 1_minutes, arm );
-        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
-               " <color_c_yellow>bitten</color>"
-               ", <color_c_light_red>bleeding</color>" );
+        check_bp_has_status( arm_status_w.layout( ava ),
+        { "LEFT ARM STATUS:", "<color_c_yellow>bitten</color>", "<color_c_light_red>bleeding</color>" } );
         CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
     }
 
     WHEN( "bitten and infected" ) {
         ava.add_effect( effect_bite, 1_minutes, arm );
         ava.add_effect( effect_infected, 1_minutes, arm );
-        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
-               " <color_c_yellow>bitten</color>"
-               ", <color_c_pink>infected</color>" );
+        check_bp_has_status( arm_status_w.layout( ava ),
+        { "LEFT ARM STATUS:", "<color_c_yellow>bitten</color>", "<color_c_pink>infected</color>" } );
         CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
     }
 
     WHEN( "bleeding and infected" ) {
         ava.add_effect( effect_bleed, 1_minutes, arm );
         ava.add_effect( effect_infected, 1_minutes, arm );
-        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
-               " <color_c_light_red>bleeding</color>"
-               ", <color_c_pink>infected</color>" );
+        check_bp_has_status( arm_status_w.layout( ava ),
+        { "LEFT ARM STATUS:", "<color_c_light_red>bleeding</color>", "<color_c_pink>infected</color>" } );
         CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
     }
 
@@ -614,10 +620,8 @@ TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
         ava.add_effect( effect_bite, 1_minutes, arm );
         ava.add_effect( effect_bleed, 1_minutes, arm );
         ava.add_effect( effect_infected, 1_minutes, arm );
-        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS:"
-               " <color_c_yellow>bitten</color>"
-               ", <color_c_light_red>bleeding</color>"
-               ", <color_c_pink>infected</color>" );
+        check_bp_has_status( arm_status_w.layout( ava ),
+        { "LEFT ARM STATUS:", "<color_c_yellow>bitten</color>", "<color_c_light_red>bleeding</color>", "<color_c_pink>infected</color>" } );
         CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
     }
 }
