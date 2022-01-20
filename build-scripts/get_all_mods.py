@@ -33,8 +33,7 @@ def add_mods(mods):
 
 def print_modlist(modlist, master_list):
     print(','.join(modlist))
-    for mod in set(modlist):
-        del master_list[mod]
+    master_list -= set(modlist)
     modlist.clear()
 
 
