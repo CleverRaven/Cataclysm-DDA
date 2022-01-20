@@ -7409,9 +7409,9 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
     const tripoint_abs_sm sm_pos = project_to<coords::sm>( omt_pos );
 
     bool shifted = false;
-    tripoint_abs_omt origin = get_avatar().global_omt_location();
+    tripoint_abs_ms avatar_pos = get_avatar().get_location();
     if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
-        g->place_player_overmap( origin + tripoint( 0, 10, 0 ) );
+        g->place_player_overmap( project_to<coords::omt>( avatar_pos ) + tripoint( 0, 10, 0 ) );
         shifted = true;
     }
     update_tmap.load( sm_pos, true );
@@ -7425,7 +7425,8 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
     update_tmap.rotate( rotation );
 
     if( shifted ) {
-        g->place_player_overmap( origin );
+        g->place_player_overmap( project_to<coords::omt>( avatar_pos ) );
+        get_avatar().set_location( avatar_pos );
     }
 
     return u;
