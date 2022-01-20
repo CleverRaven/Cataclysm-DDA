@@ -201,7 +201,8 @@
       { "monster": "mon_boomer_huge", "weight": 310 },
       { "monster": "mon_zombie_necro_boomer", "weight": 25 },
       { "monster": "mon_gas_zombie", "weight": 110 },
-      { "monster": "mon_zombie_gasbag", "weight": 310 }
+      { "monster": "mon_zombie_gasbag", "weight": 310 },
+      { "monster": "mon_boomer_claymore", "weight": 50 }
     ]
   }
 ]
