@@ -11,7 +11,7 @@
     "weight": "2 kg",
     "hp": 25,
     "speed": 100,
-    "attack_cost": 100,
+    "attack_cost": 95,
     "material": [ "flesh" ],
     "symbol": "R",
     "color": "dark_gray",
