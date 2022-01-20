@@ -1,6 +1,12 @@
 [
   {
     "type": "start_location",
+    "id": "sloc_fort",
+    "name": "Bastion Fort",
+    "terrain": [ "Bastion Fort" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_shelter_a",
     "name": "Shelter - Open Floorplan",
     "terrain": [ "shelter" ]
