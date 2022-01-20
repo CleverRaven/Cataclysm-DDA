@@ -106,7 +106,8 @@ std::string colorized_bodypart_status_text( const Character &u, const bodypart_i
 std::string colorized_bodypart_status_sym_text( const Character &u, const bodypart_id &bp,
         const std::string &wgt_id );
 std::string colorized_bodypart_status_legend_text( const Character &u,
-        const std::set<bodypart_id> &bplist, const std::string &wgt_id, int width, int height );
+        const std::set<bodypart_id> &bplist, const std::string &wgt_id, int width, int max_height,
+        int &height );
 
 std::pair<std::string, nc_color> temp_text_color( const Character &u );
 std::pair<std::string, nc_color> power_text_color( const Character &u );

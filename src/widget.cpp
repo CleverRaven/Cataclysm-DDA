@@ -284,7 +284,7 @@ const translation &widget_phrase::get_text_for_id( const std::string &phrase_id,
 const std::string &widget_phrase::get_sym_for_id( const std::string &phrase_id,
         const widget_id &wgt )
 {
-    static const std::string none = "";
+    static const std::string none;
     auto iter = std::find_if( wgt->_phrases.begin(), wgt->_phrases.end(),
     [&phrase_id]( const widget_phrase & wp ) {
         return wp.id == phrase_id;
@@ -720,7 +720,9 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::bp_status_legend_text:
             desc.first = display::colorized_bodypart_status_legend_text( ava,
                          get_bodyparts_from_status_widgets(), id.str(),
-                         _width == 0 ? max_width : _width, _height );
+                         _width == 0 ? max_width : _width, _height_max, _height );
+            update_height = true; // Dynamically adjusted height
+            apply_color = false; // Already colorized
             break;
         case widget_var::date_text:
             desc.first = display::date_string();
@@ -817,7 +819,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::compass_legend_text:
             desc.first = display::colorized_compass_legend_text( _width == 0 ? max_width : _width, _height_max,
                          _height );
-            update_height = true;
+            update_height = true; // Dynamically adjusted height
             apply_color = false; // Already colorized
             break;
         default:

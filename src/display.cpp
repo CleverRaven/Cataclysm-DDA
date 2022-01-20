@@ -1127,7 +1127,8 @@ std::string display::colorized_bodypart_status_sym_text( const Character &u, con
 }
 
 std::string display::colorized_bodypart_status_legend_text( const Character &u,
-        const std::set<bodypart_id> &bplist, const std::string &wgt_id, int width, int height )
+        const std::set<bodypart_id> &bplist, const std::string &wgt_id, int width, int max_height,
+        int &height )
 {
     std::vector<std::string> keys;
     std::set<bodypart_status> status;
@@ -1153,8 +1154,10 @@ std::string display::colorized_bodypart_status_legend_text( const Character &u,
     // Lines use the provided width.
     // This effectively limits the text to a 'width'x'height' box.
     std::string ret;
+    height = 0;
+    const int h_max = max_height == 0 ? INT_MAX : max_height;
     const int nsize = keys.size();
-    for( int row = 0, nidx = 0; row < height && nidx < nsize; row++ ) {
+    for( int row = 0, nidx = 0; row < h_max && nidx < nsize; row++ ) {
         int wavail = width;
         int nwidth = utf8_width( keys[nidx], true );
         bool startofline = true;
@@ -1171,9 +1174,10 @@ std::string display::colorized_bodypart_status_legend_text( const Character &u,
                 }
             }
         }
-        if( row < height - 1 ) {
+        if( row < h_max - 1 ) {
             ret += "\n";
         }
+        height++;
     }
     return ret;
 }

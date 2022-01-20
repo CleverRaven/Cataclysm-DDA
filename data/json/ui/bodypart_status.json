@@ -124,7 +124,7 @@
     "copy-from": "bodypart_status_indicator_template",
     "width": 0,
     "height": 3,
-    "flags": [ "W_LABEL_NONE", "W_PAD_NONE" ]
+    "flags": [ "W_LABEL_NONE", "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "bodypart_status_top_layout",

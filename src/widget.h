@@ -114,13 +114,13 @@ struct enum_traits<cardinal_direction> {
 
 // Used when determining bodypart status indicators in sidebar widgets.
 enum class bodypart_status : int {
-    BITTEN = 0,
-    INFECTED = 1,
-    BROKEN = 2,
-    SPLINTED = 3,
-    BANDAGED = 4,
-    DISINFECTED = 5,
-    BLEEDING = 6,
+    BITTEN,
+    INFECTED,
+    BROKEN,
+    SPLINTED,
+    BANDAGED,
+    DISINFECTED,
+    BLEEDING,
     num_bodypart_status
 };
 
