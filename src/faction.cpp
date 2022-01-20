@@ -903,7 +903,7 @@ void faction_manager::display() const
         }
         guy = nullptr;
         cur_fac = nullptr;
-        snippet;
+        snippet = nullptr;
         interactable = false;
         radio_interactable = false;
         camp = nullptr;
