@@ -1550,7 +1550,7 @@ Gun fault flags:
 - ```THERMOMETER``` You always know what temperature it is.
 - ```CBQ_LEARN_BONUS``` You learn CBQ from the bionic bio_cqb faster.
 - ```GILLS``` You can breathe underwater.
-- ````WEB_RAPPEL``` You can rappel down staircases and sheer drops of any height.
+- ```WEB_RAPPEL``` You can rappel down staircases and sheer drops of any height.
 - ```WALL_CLING``` You can ascend/descend sheer cliffs as long as the tile above borders at least one wall. Chance to slip and fall each step.
 - ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
 - ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).

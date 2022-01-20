@@ -4613,7 +4613,7 @@
     "id": "WEB_RAPPEL",
     "name": { "str": "Web Diver" },
     "points": 2,
-    "description": "Your webbing is easily strong enough to support your weight.  Activate to rappel down any drop you encounter, at the cost of nutrition.",
+    "description": "Your webbing is strong enough to support your weight.  Activate to rappel down any drop you encounter, at the cost of nutrition.",
     "prereqs": [ "WEB_WEAVER" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
