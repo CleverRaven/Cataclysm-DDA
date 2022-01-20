@@ -998,7 +998,7 @@ class game
 
         event_bus &events();
         stats_tracker &stats();
-        timed_event_manager &timed_events; // NOLINT(cata-serialize)
+        timed_event_manager &timed_events;
         achievements_tracker &achievements();
         memorial_logger &memorial();
 
