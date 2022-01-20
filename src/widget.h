@@ -114,13 +114,13 @@ struct enum_traits<cardinal_direction> {
 
 // Used when determining bodypart status indicators in sidebar widgets.
 enum class bodypart_status : int {
-    BITEN,
-    INFECTED,
-    BROKEN,
-    SPLINTED,
-    BANDAGED,
-    DISINFECTED,
-    BLEEDING,
+    BITTEN = 0,
+    INFECTED = 1,
+    BROKEN = 2,
+    SPLINTED = 3,
+    BANDAGED = 4,
+    DISINFECTED = 5,
+    BLEEDING = 6,
     num_bodypart_status
 };
 
@@ -136,6 +136,24 @@ class generic_factory;
 
 // Forward declaration, due to codependency on panels.h
 class window_panel;
+
+struct widget_phrase {
+    private:
+        std::string id;
+        std::string sym;
+        translation text;
+        nc_color color;
+        int value;
+
+    public:
+        void load( const JsonObject &jo );
+
+        static int get_val_for_id( const std::string &phrase_id, const widget_id &wgt );
+        static const translation &get_text_for_id( const std::string &phrase_id, const widget_id &wgt );
+        static const std::string &get_sym_for_id( const std::string &phrase_id, const widget_id &wgt );
+        static nc_color get_color_for_id( const std::string &phrase_id,
+                                          const widget_id &wgt, int val = INT_MIN );
+};
 
 // A widget is a UI element displaying information from the underlying value of a widget_var.
 // It may be loaded from a JSON object having "type": "widget".
@@ -187,6 +205,8 @@ class widget
         cardinal_direction _direction;
         // Flags for special widget behaviors
         std::set<flag_id> _flags;
+        // Phrases used to define text, colors and values
+        std::vector<widget_phrase> _phrases;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
