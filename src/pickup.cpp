@@ -116,6 +116,20 @@ static rule_state should_auto_pickup( const item *pickup_item )
     return rule_state::NONE;
 }
 
+static void process_whitelisted_autopick( item *what, tripoint where )
+{
+    if( !what->is_container() ) {
+        return;
+    }
+    for( item *entry : what->all_items_top() ) {
+        if( should_auto_pickup( entry ) == rule_state::BLACKLISTED ) {
+            // blacklisted items should be removed from the container
+            // and dropped on the same tile the container is on
+            get_map().add_item( where, what->remove_item( *entry ) );
+        }
+    }
+}
+
 static std::vector<item_location> get_pickup_list_from( item_location &container )
 {
     item *container_item = container.get_item();
@@ -128,6 +142,9 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
     for( item *item_to_check : contents ) {
         const rule_state pickup_state = should_auto_pickup( item_to_check );
         if( pickup_state == rule_state::WHITELISTED ) {
+            // whitelisted containers should exclude contained blacklisted items
+            process_whitelisted_autopick( item_to_check, container.position() );
+            // pick up the whitelisted item
             pickup_list.push_back( item_location( container, item_to_check ) );
         } else if( pickup_state == rule_state::BLACKLISTED || item_to_check->is_container_empty() ) {
             // skip empty containers and blacklisted items
@@ -190,6 +207,7 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
 
                 // before checking contents check if item is on pickup list
                 if( pickup_state == rule_state::WHITELISTED ) {
+                    process_whitelisted_autopick( item_entry, location );
                     getitem[i].pick = true;
                     bFoundSomething = true;
                     continue;
