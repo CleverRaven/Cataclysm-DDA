@@ -3,7 +3,20 @@
     "type": "start_location",
     "id": "sloc_fort",
     "name": "Bastion Fort",
-    "terrain": [ "fort_1a", "fort_2a", "fort_3a", "fort_4a", "fort_1b", "fort_2b", "fort_3b", "fort_4b","fort_1c", "fort_2c", "fort_3c", "fort_4c" ]
+    "terrain": [
+      "fort_1a",
+      "fort_2a",
+      "fort_3a",
+      "fort_4a",
+      "fort_1b",
+      "fort_2b",
+      "fort_3b",
+      "fort_4b",
+      "fort_1c",
+      "fort_2c",
+      "fort_3c",
+      "fort_4c"
+    ]
   },
   {
     "type": "start_location",

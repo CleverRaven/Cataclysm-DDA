@@ -229,9 +229,7 @@
     "id": "BastionFortStart",
     "points": -2,
     "start_name": "Bastion Fort",
-    "allowed_locs": [
-      "sloc_fort"
-    ]
+    "allowed_locs": [ "sloc_fort" ]
   },
   {
     "type": "scenario",
