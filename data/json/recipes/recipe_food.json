@@ -7399,7 +7399,7 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] [ "powder_eggs", 1 ] ],
+      [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "powder_eggs", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "con_milk", 1 ] ],
@@ -7420,7 +7420,7 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] [ "powder_eggs", 1 ] ],
+      [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "powder_eggs", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "con_milk", 1 ] ],
