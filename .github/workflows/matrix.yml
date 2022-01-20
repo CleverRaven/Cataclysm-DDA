@@ -9,6 +9,7 @@ on:
     - master
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
+# Allow running master builds to complete to help with ccache refreshes.
 concurrency:
   group: general-build-${{ github.event.pull_request.number || github.ref_name }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
