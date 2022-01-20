@@ -1,3 +1,4 @@
+#include "avatar.h"
 #include "cata_catch.h"
 #include "itype.h"
 #include "player_helpers.h"
@@ -5,25 +6,61 @@
 
 static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_DRILL( "DRILL" );
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_SCREW( "SCREW" );
+static const quality_id qual_SCREW_FINE( "SCREW_FINE" );
+static const quality_id qual_WRENCH( "WRENCH" );
 
-// Tools may have a list of "qualities" with things they can do
-TEST_CASE( "check-tool_qualities", "[tool][quality]" )
+// item::get_quality
+//
+// Returns the best quality level provided by:
+//
+// - inherent qualities from the "qualities" field
+// - charged qualities from the "charged_qualities" field (only if item has sufficient charge)
+// - inherent or charged qualities of any items contained within this item
+//
+// The BOIL quality requires the item (container) to be empty, unless strict_boiling = false.
+//
+TEST_CASE( "get_quality", "[tool][quality]" )
 {
-    item mess_kit = tool_with_ammo( "mess_kit", 20 );
-    item surv_mess_kit = tool_with_ammo( "survivor_mess_kit", 20 );
+    SECTION( "get_quality returns numeric level of given quality" ) {
+        item sonic( "test_sonic_screwdriver" );
+        CHECK( sonic.get_quality( qual_LOCKPICK ) == 30 );
+        CHECK( sonic.get_quality( qual_PRY ) == 2 );
+        CHECK( sonic.get_quality( qual_SCREW ) == 2 );
+        CHECK( sonic.get_quality( qual_SCREW_FINE ) == 1 );
+        CHECK( sonic.get_quality( qual_WRENCH ) == 1 );
+    }
 
-    // Tools that can BOIL and CONTAIN will have BOIL quality only when empty
-    REQUIRE( mess_kit.empty_container() );
-    REQUIRE( surv_mess_kit.empty_container() );
-    CHECK( mess_kit.get_quality( qual_BOIL ) == 2 );
-    CHECK( surv_mess_kit.get_quality( qual_BOIL ) == 2 );
-    // TODO: When they contain something, they lose their BOIL quality
+    SECTION( "charged_qualities" ) {
+        // Without charges, the cordless drill cannot drill, but with charges, it can drill
+        SECTION( "with 0 charge, get_quality returns 0" ) {
+            CHECK( tool_with_ammo( "test_cordless_drill", 0 ).get_quality( qual_DRILL ) == 0 );
+        }
+        SECTION( "with sufficient charge, get_quality returns quality level" ) {
+            CHECK( tool_with_ammo( "test_cordless_drill", 20 ).get_quality( qual_DRILL ) == 3 );
+        }
+    }
 
-    // Without charges, the cordless drill cannot drill
-    CHECK( tool_with_ammo( "test_cordless_drill", 0 ).get_quality( qual_DRILL ) == 0 );
-    // But with charges, it can drill
-    CHECK( tool_with_ammo( "test_cordless_drill", 20 ).get_quality( qual_DRILL ) == 3 );
+    SECTION( "BOIL quality" ) {
+        // Tools that can BOIL and have a CONTAINER pocket have BOIL quality only when empty
+        item tin_can( "test_can_food" );
+        SECTION( "get_quality returns BOIL quality if container is empty" ) {
+            REQUIRE( tin_can.empty_container() );
+
+            CHECK( tin_can.get_quality( qual_BOIL ) == 1 );
+        }
+        SECTION( "get_quality returns INT_MIN for BOIL quality if container is not empty" ) {
+            item broth( "test_liquid" );
+            tin_can.put_in( broth, item_pocket::pocket_type::CONTAINER );
+            REQUIRE_FALSE( tin_can.empty_container() );
+
+            CHECK( tin_can.get_quality( qual_BOIL ) == INT_MIN );
+            // Passing strict_boiling = false to get_quality ignores the emptiness rule
+            CHECK( tin_can.get_quality( qual_BOIL, false ) == 1 );
+        }
+    }
 }
 
 // Tools that run on battery power (or are otherwise "charged") may have "charged_qualities"
@@ -116,6 +153,55 @@ TEST_CASE( "battery-powered tool qualities", "[tool][battery][quality]" )
         }
         THEN( "charged tool qualities cannot be used" ) {
             CHECK_FALSE( drill.has_quality( qual_DRILL, 3, 1 ) );
+        }
+    }
+
+    SECTION( "charged tool qualities with UPS conversion mod" ) {
+        // Need avatar as "carrier" for the UPS
+        Character &they = get_player_character();
+        clear_character( they );
+        they.worn.emplace_back( "debug_backpack" );
+
+        // Use i_add to place everything in the avatar's inventory (backpack)
+        // so the UPS power will be available to the cordless drill after modding
+        item &drill = they.i_add( item( "test_cordless_drill" ) );
+        item &bat_cell = they.i_add( item( "heavy_battery_cell" ) );
+        item &ups_mod = they.i_add( item( "battery_ups" ) );
+        item &ups = they.i_add( item( "UPS_off" ) );
+
+        GIVEN( "UPS has battery with enough charge, equal to drill's charges_per_use" ) {
+            // Charge the battery
+            int bat_charges = drill.type->charges_to_use();
+            REQUIRE( bat_charges > 0 );
+            bat_cell.ammo_set( bat_cell.ammo_default(), bat_charges );
+            REQUIRE( bat_cell.ammo_remaining() == bat_charges );
+            // Install heavy battery into UPS
+            REQUIRE( ups.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL ).success() );
+            REQUIRE( ups.ammo_remaining( &they ) == bat_charges );
+
+            WHEN( "UPS battery mod is installed into the drill" ) {
+                // Ensure drill currently has no mods
+                REQUIRE( drill.toolmods().empty() );
+                REQUIRE( drill.tname() == "test cordless drill" );
+                // Install the UPS mod and ensure it worked
+                drill.put_in( ups_mod, item_pocket::pocket_type::MOD );
+                REQUIRE_FALSE( drill.toolmods().empty() );
+                REQUIRE( drill.tname() == "test cordless drill+1 (UPS)" );
+                // Ensure avatar actually has the drill and UPS in possession
+                CHECK( they.has_item( drill ) );
+                CHECK( they.has_item( ups ) );
+
+                THEN( "the drill has the same charge as the UPS" ) {
+                    CHECK( drill.ammo_remaining( &they ) == bat_charges );
+                }
+                THEN( "inherent qualities of the drill can be used" ) {
+                    CHECK( drill.has_quality( qual_SCREW, 1, 1 ) );
+                }
+                // Regression test for #54471
+                THEN( "charged qualities of the drill can be used" ) {
+                    CHECK( drill.has_quality( qual_DRILL, 3, 1 ) );
+                }
+            }
         }
     }
 }

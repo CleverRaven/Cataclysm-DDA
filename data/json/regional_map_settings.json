@@ -440,7 +440,7 @@
           "mx_grass2": 40,
           "mx_fallen_shed": 30,
           "mx_spider": 200,
-          "mx_nest_wasp": 100,
+          "mx_nest_wasp": 50,
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
@@ -474,7 +474,7 @@
           "mx_fallen_shed": 20,
           "mx_shia": 1,
           "mx_spider": 200,
-          "mx_nest_wasp": 100,
+          "mx_nest_wasp": 25,
           "mx_jabberwock": 1,
           "mx_grove": 500,
           "mx_shrubbery": 500,
@@ -515,7 +515,7 @@
           "mx_point_dead_vegetation": 60,
           "mx_casings": 60,
           "mx_corpses": 80,
-          "mx_nest_dermatik": 50,
+          "mx_nest_dermatik": 75,
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1
         }
@@ -1069,6 +1069,7 @@
         "flurries",
         "snowing",
         "snowstorm",
+        "early_portal_storm",
         "portal_storm"
       ]
     },

@@ -114,7 +114,7 @@
     "type": "widget",
     "style": "text",
     "var": "compass_legend_text",
-    "flags": [ "W_PAD_NONE" ]
+    "flags": [ "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_compass_legend_3",
@@ -122,7 +122,7 @@
     "style": "text",
     "var": "compass_legend_text",
     "height": 3,
-    "flags": [ "W_PAD_NONE" ]
+    "flags": [ "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_compass_legend_5",
@@ -130,7 +130,7 @@
     "style": "text",
     "var": "compass_legend_text",
     "height": 5,
-    "flags": [ "W_PAD_NONE" ]
+    "flags": [ "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_speed_num",
@@ -292,6 +292,14 @@
     "var": "bp_status_text",
     "bodypart": "arm_l",
     "style": "text"
+  },
+  {
+    "id": "test_overmap_3x3_text",
+    "type": "widget",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 3,
+    "height": 3
   },
   {
     "id": "test_stat_panel",

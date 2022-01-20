@@ -170,7 +170,8 @@ tech_effect_data load_tech_effect_data( const JsonObject &e )
 {
     return tech_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
                              e.get_bool( "permanent", false ), e.get_bool( "on_damage", true ),
-                             e.get_int( "chance", 100 ) );
+                             e.get_int( "chance", 100 ), e.get_string( "message", "" ),
+                             json_character_flag( e.get_string( "req_flag", "NULL" ) ) );
 }
 
 class tech_effect_reader : public generic_typed_reader<tech_effect_reader>

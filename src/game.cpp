@@ -98,6 +98,7 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
+#include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -189,7 +190,6 @@ static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
-static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
@@ -728,6 +728,7 @@ void game::setup()
     remoteveh_cache = nullptr;
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
+    get_weather().weather_override = WEATHER_NULL;
     // back to menu for save loading, new game etc
 }
 
@@ -3369,9 +3370,14 @@ void game::draw_panels( bool force_draw )
     // Total up height used by all panels, and see what is left over for log
     int log_height = 0;
     for( const window_panel &panel : mgr.get_current_layout().panels() ) {
+        // Skip height processing
+        if( !panel.toggle || !panel.render() ) {
+            continue;
+        }
         // The panel with height -2 is the message log panel
-        if( panel.get_height() != -2 && panel.toggle && panel.render() ) {
-            log_height += panel.get_height() + spacer;
+        const int p_height = panel.get_height();
+        if( p_height != -2 ) {
+            log_height += p_height + spacer;
         }
     }
     log_height = std::max( TERMY - log_height, 3 );
@@ -5255,8 +5261,12 @@ bool game::npc_menu( npc &who )
             }
         }
     } else if( choice == sort_armor ) {
-        who.sort_armor();
-        u.mod_moves( -100 );
+        if( who.is_hallucination() ) {
+            who.say( SNIPPET.random_from_category( "<no>" ).value_or( translation() ).translated() );
+        } else {
+            who.sort_armor();
+            u.mod_moves( -100 );
+        }
     } else if( choice == attack ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
             u.melee_attack( who, true );
@@ -5776,17 +5786,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
     }
 
-    // Furniture if any.
-    if( m.has_furn( lp ) ) {
-        std::string desc = uppercase_first_letter( m.furnname( lp ) );
-        mvwprintz( w_look, point( column, line++ ), c_white, desc );
-        desc = string_format( m.furn( lp ).obj().description );
-        lines = foldstring( desc, max_width );
-        numlines = lines.size();
-        for( int i = 0; i < numlines; i++ ) {
-            mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
-        }
-    }
+    // Furniture, if any
+    print_furniture_info( lp, w_look, column, line );
 
     // Cover percentage from terrain and furniture next.
     fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Cover: %d%%" ),
@@ -5841,6 +5842,49 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     }
 
     ++line;
+}
+
+void game::print_furniture_info( const tripoint &lp, const catacurses::window &w_look, int column,
+                                 int &line )
+{
+    // Do nothing if there is no furniture here
+    if( !m.has_furn( lp ) ) {
+        return;
+    }
+    const int max_width = getmaxx( w_look ) - column - 1;
+
+    // Print furniture name in white
+    std::string desc = uppercase_first_letter( m.furnname( lp ) );
+    mvwprintz( w_look, point( column, line++ ), c_white, desc );
+
+    // Print each line of furniture description in gray
+    desc = string_format( m.furn( lp ).obj().description );
+    std::vector<std::string> lines = foldstring( desc, max_width );
+    int numlines = lines.size();
+    for( int i = 0; i < numlines; i++ ) {
+        mvwprintz( w_look, point( column, line++ ), c_light_gray, lines[i] );
+    }
+
+    // If this furniture has a crafting pseudo item, check for tool qualities and print them
+    if( !m.furn( lp )->crafting_pseudo_item.is_empty() ) {
+        // Make a pseudo item instance so we can use qualities_info later
+        const item pseudo( m.furn( lp )->crafting_pseudo_item );
+        // Set up iteminfo query to show qualities
+        std::vector<iteminfo_parts> quality_part = { iteminfo_parts::QUALITIES };
+        const iteminfo_query quality_query( quality_part );
+        // Render info into info_vec
+        std::vector<iteminfo> info_vec;
+        pseudo.qualities_info( info_vec, &quality_query, 1, false );
+        // Get a newline-separated string of quality info, then parse and print each line
+        std::string quality_string = format_item_info( info_vec, {} );
+        size_t strpos = 0;
+        while( ( strpos = quality_string.find( '\n' ) ) != std::string::npos ) {
+            trim_and_print( w_look, point( column, line++ ), max_width, c_light_gray,
+                            quality_string.substr( 0, strpos + 1 ) );
+            // Delete used token
+            quality_string.erase( 0, strpos + 1 );
+        }
+    }
 }
 
 void game::print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
@@ -8694,7 +8738,7 @@ void game::butcher()
         case BUTCHER_OTHER:
             switch( indexer_index ) {
                 case MULTISALVAGE:
-                    u.assign_activity( ACT_LONGSALVAGE, 0, salvage_tool_index );
+                    u.assign_activity( player_activity( longsalvage_activity_actor( salvage_tool_index ) ) );
                     break;
                 case MULTIBUTCHER:
                     butcher_submenu( corpses );
@@ -9074,29 +9118,93 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         return true;
     }
     // Monsters around and we don't want to run
-    std::string spotted_creature_name;
+    std::string spotted_creature_text;
     const monster_visible_info &mon_visible = u.get_mon_visible();
-    const auto &new_seen_mon = mon_visible.new_seen_mon;
+    const std::vector<shared_ptr_fast<monster>> &new_seen_mon = mon_visible.new_seen_mon;
 
+    const nc_color mon_color = c_red;
+    const nc_color dir_color = c_light_blue;
     if( new_seen_mon.empty() ) {
         // naming consistent with code in game::mon_info
-        spotted_creature_name = _( "a survivor" );
+        spotted_creature_text = colorize( _( "a survivor" ), mon_color );
         get_safemode().lastmon_whitelist = get_safemode().npc_type_name();
+    } else if( new_seen_mon.size() == 1 ) {
+        const shared_ptr_fast<monster> &mon = new_seen_mon.back();
+        //~ %s: Cardinal/ordinal direction ("east")
+        const std::string dir_text = string_format( _( "to the %s" ),
+                                     colorize( direction_name( direction_from( u.pos(), mon->pos() ) ), dir_color ) );
+        //~ %1$s: Monster name ("headless zombie"), %2$s: direction text ("to the east")
+        spotted_creature_text = string_format( pgettext( "monster description", "%1$s %2$s" ),
+                                               colorize( mon->name(), mon_color ),
+                                               dir_text );
+        get_safemode().lastmon_whitelist = mon->name();
     } else {
-        spotted_creature_name = new_seen_mon.back()->name();
-        get_safemode().lastmon_whitelist = spotted_creature_name;
+        // We've got multiple monsters to inform about. Find the most frequent type to call out by name.
+        std::unordered_map<std::string, std::vector<const monster *>> mons_by_name;
+        for( const shared_ptr_fast<monster> &mon : new_seen_mon ) {
+            mons_by_name[mon->name()].push_back( mon.get() );
+        }
+        const std::vector<const monster *> &most_frequent_mon = std::max_element( mons_by_name.begin(),
+        mons_by_name.end(), []( const auto & a, const auto & b ) {
+            return a.second.size() < b.second.size();
+        } )->second;
+
+        const monster *const mon = most_frequent_mon.back();
+        const std::string most_frequent_mon_text = colorize( most_frequent_mon.size() > 1 ?
+                string_format( "%d %s",
+                               most_frequent_mon.size(), mon->name( most_frequent_mon.size() ) ) : mon->name(), mon_color );
+
+        // If they're all in one or two directions, let's call that out.
+        // Otherwise, we can say they're in "various directions", so it's clear they aren't clustered.
+        std::set<direction> most_frequent_mon_dirs;
+        std::transform( most_frequent_mon.begin(), most_frequent_mon.end(),
+                        std::inserter( most_frequent_mon_dirs,
+        most_frequent_mon_dirs.begin() ), [&]( const monster * const mon ) {
+            return direction_from( u.pos(), mon->pos() );
+        } );
+        std::string dir_text;
+        if( most_frequent_mon_dirs.size() == 1 ) {
+            //~ %s: Cardinal/ordinal direction ("east")
+            dir_text = string_format( _( "to the %s" ),
+                                      colorize( direction_name( *most_frequent_mon_dirs.begin() ), dir_color ) );
+        } else if( most_frequent_mon_dirs.size() == 2 ) {
+            //~ %s, %s: Cardinal/ordinal directions ("east"; "southwest")
+            dir_text = string_format( _( "to the %s and %s" ),
+                                      colorize( direction_name( *most_frequent_mon_dirs.begin() ), dir_color ),
+                                      colorize( direction_name( *std::next( most_frequent_mon_dirs.begin() ) ), dir_color ) );
+        } else {
+            dir_text = colorize( _( "in various directions" ), dir_color );
+        }
+
+        // Finally, let's mention that there are other monsters around that we didn't name explicitly.
+        const size_t other_mon_count = new_seen_mon.size() - most_frequent_mon.size();
+        std::string other_mon_text;
+        if( other_mon_count > 0 ) {
+            //~ %s: Description of other monster count ("4 others"), %d: How many other monsters there are
+            other_mon_text = string_format( _( " and %s" ),
+                                            colorize( string_format( n_gettext( _( "%d other" ),  _( "%d others" ),
+                                                    other_mon_count ), other_mon_count ), mon_color ) );
+        }
+
+        //~ %1$s: Description of primary monster spotted ("3 fat zombies")
+        //~ %2$s: Description of where the primary monster is ("to the east and south")
+        //~ %3$s: Description of any other monsters spotted (" and 4 others")
+        spotted_creature_text = string_format( _( "%1$s %2$s%3$s" ),  most_frequent_mon_text,
+                                               dir_text,
+                                               other_mon_text );
+        get_safemode().lastmon_whitelist = mon->name();
     }
 
     std::string whitelist;
     if( !get_safemode().empty() ) {
-        whitelist = string_format( _( " or %s to whitelist the monster" ),
+        whitelist = string_format( _( ", or %s to whitelist the monster" ),
                                    press_x( ACTION_WHITELIST_ENEMY ) );
     }
 
     const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
     add_msg( game_message_params{ m_warning, gmf_bypass_cooldown },
-             _( "Spotted %1$s--safe mode is on!  (%2$s to turn it off, %3$s to ignore monster%4$s)" ),
-             spotted_creature_name, msg_safe_mode, msg_ignore, whitelist );
+             _( "Spotted %1$s -- safe mode is on!  (%2$s to turn it off, %3$s to ignore monster%4$s)" ),
+             spotted_creature_text, msg_safe_mode, msg_ignore, whitelist );
     safe_mode_warning_logged = true;
     return false;
 }
@@ -9783,7 +9891,7 @@ point game::place_player( const tripoint &dest_loc )
     if( !u.is_mounted() && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
         ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0 ) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
-        Pickup::pick_up( u.pos(), -1 );
+        Pickup::autopickup( u.pos() );
     }
 
     // If the new tile is a boardable part, board it
@@ -9802,8 +9910,8 @@ point game::place_player( const tripoint &dest_loc )
     // Drench the player if swimmable
     if( m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
-        u.drench( 80, { { body_part_foot_l, body_part_foot_r, body_part_leg_l, body_part_leg_r } },
-        false );
+        u.drench( 80, u.get_drenching_body_parts( false, false ),
+                  false );
     }
 
     // List items here
@@ -10556,10 +10664,11 @@ static cata::optional<tripoint> point_selection_menu( const std::vector<tripoint
     int num = 0;
     for( const tripoint &pt : pts ) {
         // TODO: Sort the menu so that it can be used with numpad directions
-        const std::string &direction = direction_name( direction_from( upos.xy(), pt.xy() ) );
+        const std::string &dir_arrow = direction_arrow( direction_from( upos.xy(), pt.xy() ) );
+        const std::string &dir_name = direction_name( direction_from( upos.xy(), pt.xy() ) );
         // TODO: Inform player what is on said tile
         // But don't just print terrain name (in many cases it will be "open air")
-        pmenu.addentry( num++, true, MENU_AUTOASSIGN, _( "Climb %s" ), direction );
+        pmenu.addentry( num++, true, MENU_AUTOASSIGN, _( "Climb %s (%s)" ), dir_name, dir_arrow );
     }
 
     pmenu.query();

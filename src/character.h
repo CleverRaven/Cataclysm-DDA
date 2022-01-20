@@ -686,6 +686,9 @@ class Character : public Creature, public visitable
         void recalc_speed_bonus();
         void set_underwater( bool );
         bool is_hallucination() const override;
+
+        // true if the character produces electrical radiation
+        bool is_electrical() const override;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** Returns the effect of pain on stats */
@@ -1944,6 +1947,7 @@ class Character : public Creature, public visitable
         int book_fun_for( const item &book, const Character &p ) const;
 
         bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr ) const;
+        bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
         /**
@@ -1998,6 +2002,9 @@ class Character : public Creature, public visitable
         /** Drops an item to the specified location */
         void drop( item_location loc, const tripoint &where );
         virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
+        /** Assigns character activity to pick up items from the given drop_locations.
+         *  Requires sufficient storage; items cannot be wielded or worn from this activity.
+         */
         void pick_up( const drop_locations &what );
 
         bool is_wielding( const item &target ) const;

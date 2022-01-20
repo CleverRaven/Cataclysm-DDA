@@ -129,14 +129,12 @@ static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
-static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_MOP( "ACT_MOP" );
@@ -180,7 +178,6 @@ static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
-static const activity_id ACT_WEAR( "ACT_WEAR" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -198,12 +195,6 @@ static const harvest_drop_type_id harvest_drop_bone( "bone" );
 static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
 static const harvest_drop_type_id harvest_drop_offal( "offal" );
 static const harvest_drop_type_id harvest_drop_skin( "skin" );
-
-static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
-static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
-static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
-static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
-static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
@@ -232,11 +223,6 @@ static const skill_id skill_survival( "survival" );
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
-static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
-static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
-static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
-static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
-
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -256,7 +242,6 @@ activity_handlers::do_turn_functions = {
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_VIBE, vibe_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
-    { ACT_WEAR, wear_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
     { ACT_MULTIPLE_MINE, multiple_mine_do_turn },
@@ -319,8 +304,6 @@ activity_handlers::finish_functions = {
     { ACT_DISSECT, butcher_finish },
     { ACT_FIRSTAID, firstaid_finish },
     { ACT_FISH, fish_finish },
-    { ACT_FORAGE, forage_finish },
-    { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_PICKAXE, pickaxe_finish },
     { ACT_MOP, mopping_finish },
     { ACT_START_FIRE, start_fire_finish },
@@ -1575,95 +1558,6 @@ void activity_handlers::firstaid_finish( player_activity *act, Character *you )
     act->values.clear();
 }
 
-void activity_handlers::forage_finish( player_activity *act, Character *you )
-{
-    // Don't forage if we aren't next to the bush - otherwise we get weird bugs
-    bool next_to_bush = false;
-    map &here = get_map();
-    for( const tripoint &pnt : here.points_in_radius( you->pos(), 1 ) ) {
-        // TODO: fix point types
-        if( here.getglobal( pnt ) == tripoint_abs_ms( act->placement ) ) {
-            next_to_bush = true;
-            break;
-        }
-    }
-
-    if( !next_to_bush ) {
-        act->set_to_null();
-        return;
-    }
-
-    const int veggy_chance = rng( 1, 100 );
-    bool found_something = false;
-
-    item_group_id group_id;
-    ter_str_id next_ter;
-
-    switch( season_of_year( calendar::turn ) ) {
-        case SPRING:
-            group_id = Item_spawn_data_forage_spring;
-            next_ter = ter_t_underbrush_harvested_spring;
-            break;
-        case SUMMER:
-            group_id = Item_spawn_data_forage_summer;
-            next_ter = ter_t_underbrush_harvested_summer;
-            break;
-        case AUTUMN:
-            group_id = Item_spawn_data_forage_autumn;
-            next_ter = ter_t_underbrush_harvested_autumn;
-            break;
-        case WINTER:
-            group_id = Item_spawn_data_forage_winter;
-            next_ter = ter_t_underbrush_harvested_winter;
-            break;
-        default:
-            debugmsg( "Invalid season" );
-    }
-
-    const tripoint bush_pos = here.getlocal( act->placement );
-    here.ter_set( bush_pos, next_ter );
-
-    // Survival gives a bigger boost, and Perception is leveled a bit.
-    // Both survival and perception affect time to forage
-
-    ///\EFFECT_PER slightly increases forage success chance
-    ///\EFFECT_SURVIVAL increases forage success chance
-    if( veggy_chance < you->get_skill_level( skill_survival ) * 3 + you->per_cur - 2 ) {
-        const std::vector<item *> dropped =
-            here.put_items_from_loc( group_id, you->pos(), calendar::turn );
-        for( item *it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname() );
-            found_something = true;
-            if( it->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
-                it->set_flag( flag_HIDDEN_POISON );
-                it->poison = rng( 2, 7 );
-            }
-            if( it->has_flag( flag_FORAGE_HALLU ) && !it->has_flag( flag_HIDDEN_POISON ) && one_in( 10 ) ) {
-                it->set_flag( flag_HIDDEN_HALLU );
-            }
-        }
-    }
-    // 10% to drop a item/items from this group.
-    if( one_in( 10 ) ) {
-        const std::vector<item *> dropped =
-            here.put_items_from_loc( Item_spawn_data_trash_forest, you->pos(), calendar::turn );
-        for( item * const &it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname() );
-            found_something = true;
-        }
-    }
-
-    if( !found_something ) {
-        add_msg( _( "You didn't find anything." ) );
-    }
-
-    iexamine::practice_survival_while_foraging( you );
-
-    act->set_to_null();
-
-    here.maybe_trigger_trap( bush_pos, *you, true );
-}
-
 // Repurposing the activity's index to convey the number of friends participating
 void activity_handlers::generic_game_turn_handler( player_activity *act, Character *you,
         int morale_bonus, int morale_max_bonus )
@@ -1724,39 +1618,6 @@ void activity_handlers::generic_game_do_turn( player_activity *act, Character *y
 void activity_handlers::game_do_turn( player_activity *act, Character *you )
 {
     generic_game_turn_handler( act, you, 1, 100 );
-}
-
-void activity_handlers::longsalvage_finish( player_activity *act, Character *you )
-{
-    static const std::string salvage_string = "salvage";
-    item &main_tool = you->i_at( act->index );
-    map &here = get_map();
-    map_stack items = here.i_at( you->pos() );
-    item *salvage_tool = main_tool.get_usable_item( salvage_string );
-    if( salvage_tool == nullptr ) {
-        debugmsg( "Lost tool used for long salvage" );
-        act->set_to_null();
-        return;
-    }
-
-    const use_function *use_fun = salvage_tool->get_use( salvage_string );
-    const salvage_actor *actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
-    if( actor == nullptr ) {
-        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-        act->set_to_null();
-        return;
-    }
-
-    for( item &it : items ) {
-        if( actor->valid_to_cut_up( it ) ) {
-            item_location item_loc( map_cursor( you->pos() ), &it );
-            actor->cut_up( *you, *salvage_tool, item_loc );
-            return;
-        }
-    }
-
-    add_msg( _( "You finish salvaging." ) );
-    act->set_to_null();
 }
 
 void activity_handlers::mopping_finish( player_activity *act, Character *you )
@@ -2787,11 +2648,6 @@ void activity_handlers::clear_rubble_finish( player_activity *act, Character *yo
     act->set_to_null();
 
     here.maybe_trigger_trap( pos, *you, true );
-}
-
-void activity_handlers::wear_do_turn( player_activity *act, Character *you )
-{
-    activity_on_turn_wear( *act, *you );
 }
 
 // This activity opens the menu (it's not meant to queue consumption of items)

@@ -59,6 +59,8 @@ enum class widget_var : int {
     moon_phase_text,// Current phase of the moon
     move_mode_letter, // Movement mode, color letter (W/R/C/P)
     move_mode_text, // Movement mode, color text (walking/running/crouching/prone)
+    overmap_loc_text,// Local overmap position, pseudo latitude/longitude with Z-level
+    overmap_text,   // Local overmap and mission marker, multi-line color string
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
@@ -148,6 +150,8 @@ class widget
         int _width = 0;
         // Height in characters of widget, only matters for style == widget
         int _height = 0;
+        // Maximum height this widget can occupy (0 == no limit)
+        int _height_max = 0;
         // String of symbols for graph widgets, mapped in increasing order like "0123..."
         std::string _symbols;
         // Graph fill style ("bucket" or "pool")
@@ -174,6 +178,8 @@ class widget
         static void reset();
         // Get all widget instances from the factory
         static const std::vector<widget> &get_all();
+        // Get this widget's id
+        const widget_id &getId() const;
 
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the

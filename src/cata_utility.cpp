@@ -437,10 +437,12 @@ bool read_from_file_json( const std::string &path, const std::function<void( Jso
     } );
 }
 
-bool read_from_file( const std::string &path, JsonDeserializer &reader )
+bool read_from_file_json( const std::string &path,
+                          const std::function<void( const JsonValue & )> &reader )
 {
-    return read_from_file_json( path, [&reader]( JsonIn & jsin ) {
-        reader.deserialize( jsin );
+    return read_from_file( path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
+        reader( jsin.get_value() );
     } );
 }
 
@@ -462,10 +464,12 @@ bool read_from_file_optional_json( const std::string &path,
     } );
 }
 
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader )
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( const JsonValue & )> &reader )
 {
-    return read_from_file_optional_json( path, [&reader]( JsonIn & jsin ) {
-        reader.deserialize( jsin );
+    return read_from_file_optional( path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
+        reader( jsin.get_value() );
     } );
 }
 

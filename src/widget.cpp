@@ -9,6 +9,7 @@
 #include "overmapbuffer.h"
 
 const static flag_id json_flag_W_DISABLED( "W_DISABLED" );
+const static flag_id json_flag_W_DYNAMIC_HEIGHT( "W_DYNAMIC_HEIGHT" );
 const static flag_id json_flag_W_LABEL_NONE( "W_LABEL_NONE" );
 const static flag_id json_flag_W_PAD_CENTER( "W_PAD_CENTER" );
 const static flag_id json_flag_W_PAD_NONE( "W_PAD_NONE" );
@@ -44,6 +45,11 @@ void widget::reset()
 const std::vector<widget> &widget::get_all()
 {
     return widget_factory.get_all();
+}
+
+const widget_id &widget::getId() const
+{
+    return id;
 }
 
 // Convert widget "var" enums to string equivalents
@@ -141,6 +147,10 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "move_mode_text";
         case widget_var::pain_text:
             return "pain_text";
+        case widget_var::overmap_loc_text:
+            return "overmap_loc_text";
+        case widget_var::overmap_text:
+            return "overmap_text";
         case widget_var::place_text:
             return "place_text";
         case widget_var::power_text:
@@ -214,7 +224,7 @@ void widget::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "strings", _strings );
     optional( jo, was_loaded, "width", _width, 1 );
-    optional( jo, was_loaded, "height", _height, 1 );
+    optional( jo, was_loaded, "height", _height_max, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
     optional( jo, was_loaded, "fill", _fill, "bucket" );
     optional( jo, was_loaded, "label", _label, translation() );
@@ -224,6 +234,8 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "var_max", _var_max );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
     optional( jo, was_loaded, "flags", _flags );
+
+    _height = _height_max;
 
     if( jo.has_string( "var" ) ) {
         _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
@@ -484,7 +496,7 @@ window_panel widget::get_window_panel( const int width, const int req_height )
         for( const widget_id &wid : _widgets ) {
             height += wid->_height > 0 ? wid->_height : 1;
         }
-    } else if( _style == "widget" ) {
+    } else if( _style == "widget" || _style == "text" ) {
         height = _height > 1 ? _height : req_height;
     }
     // Minimap and log do not have a predetermined height
@@ -515,6 +527,8 @@ bool widget::uses_text_function()
         case widget_var::move_mode_letter:
         case widget_var::move_mode_text:
         case widget_var::pain_text:
+        case widget_var::overmap_loc_text:
+        case widget_var::overmap_text:
         case widget_var::place_text:
         case widget_var::power_text:
         case widget_var::rad_badge_text:
@@ -537,14 +551,33 @@ bool widget::uses_text_function()
     }
 }
 
+// Simple workaround from the copied widget from the panel to set the widget's height globally
+static void set_height_for_widget( const widget_id &id, int height )
+{
+    const std::vector<widget> &wlist = widget::get_all();
+    auto iter = std::find_if( wlist.begin(), wlist.end(), [&id]( const widget & w ) {
+        return w.getId() == id;
+    } );
+    if( iter != wlist.end() ) {
+        const_cast<widget *>( &*iter )->_height = height;
+    }
+}
+
 // NOTE: Use max_width to split multi-line widgets across lines
 std::string widget::color_text_function_string( const avatar &ava, unsigned int max_width )
 {
     std::string ret;
-    bool apply_color = true;
+    // Most text variables have both a string and a color.
+    // The string and color in `desc` will be converted to colorized text with markup.
     std::pair<std::string, nc_color> desc;
-    // Give a default color (some widget_vars do not define one)
+    // Set a default color
     desc.second = c_light_gray;
+    // By default, colorize the string in desc.first with the color in desc.second.
+    bool apply_color = true;
+    // Don't bother updating the widget's height by default
+    bool update_height = false;
+    // Some helper display:: functions do their own internal colorization of the string.
+    // For those, desc.first is the already-colorized string, and apply_color is set to false.
     switch( _var ) {
         case widget_var::activity_text:
             desc = display::activity_text_color( ava );
@@ -588,6 +621,13 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::pain_text:
             desc = display::pain_text_color( ava );
+            break;
+        case widget_var::overmap_loc_text:
+            desc.first = display::overmap_position_text( ava.global_omt_location() );
+            break;
+        case widget_var::overmap_text:
+            desc.first = display::colorized_overmap_text( ava, _width == 0 ? max_width : _width, _height );
+            apply_color = false;
             break;
         case widget_var::place_text:
             desc.first = overmap_buffer.ter( ava.global_omt_location() )->get_name();
@@ -642,7 +682,8 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             apply_color = false; // Already colorized
             break;
         case widget_var::compass_legend_text:
-            desc.first = display::colorized_compass_legend_text( max_width, _height );
+            desc.first = display::colorized_compass_legend_text( max_width, _height_max, _height );
+            update_height = true;
             apply_color = false; // Already colorized
             break;
         default:
@@ -650,6 +691,13 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
                       io::enum_to_string<widget_var>( _var ) );
             return _( "???" );
     }
+    // Update height dynamically for widgets that support it
+    if( update_height && has_flag( json_flag_W_DYNAMIC_HEIGHT ) ) {
+        set_height_for_widget( id, _height ); // Set within widget factory
+    } else {
+        _height = _height_max; // reset height
+    }
+    // Colorize if applicable
     ret += apply_color ? colorize( desc.first, desc.second ) : desc.first;
     return ret;
 }
@@ -787,6 +835,10 @@ static std::string append_line( const std::string &line, bool first_row, unsigne
     std::string ret;
     // Width used by label, ": " and value, using utf8_width to ignore color tags
     unsigned int used_width = utf8_width( line, true );
+    // utf8_width subtracts 1 for each newline; add it back for multiline widgets
+    if( !line.empty() && line.back() == '\n' ) {
+        used_width += 1;
+    }
     if( first_row ) {
         const std::string tlabel = label.translated();
         // If label is empty or omitted, don't reserve space for it

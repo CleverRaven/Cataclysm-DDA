@@ -547,14 +547,6 @@
     "components": [ [ [ "silver_small", 20 ] ] ]
   },
   {
-    "result": "baseball",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "leather", 2 ] ], [ [ "string_6", 2 ] ] ]
-  },
-  {
     "result": "battery_car",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

@@ -445,6 +445,7 @@
       [ "waffleiron", 25 ],
       [ "pastaextruder", 10 ],
       [ "can_sealer", 5 ],
+      [ "oil_press_manual", 5 ],
       [ "knife_butter", 90 ],
       [ "knife_steak", 85 ],
       [ "fork", 90 ],
