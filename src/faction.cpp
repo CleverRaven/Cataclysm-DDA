@@ -758,8 +758,8 @@ void faction_manager::display() const
     basecamp *camp = nullptr;
     std::vector<basecamp *> camps;
     size_t active_vec_size = 0;
-    std::vector<std::string> lore; // Lore we have seen
-    std::string snippet;
+    std::vector<std::pair<snippet_id, std::string>> lore; // Lore we have seen
+    std::pair<snippet_id, std::string> *snippet = nullptr;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_missions );
@@ -859,15 +859,15 @@ void faction_manager::display() const
                 if( active_vec_size > 0 ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
-                                        _( lore[i] ) );
+                                        _( lore[i].second ) );
                     }
-                    if( !snippet.empty() ) {
+                    if( snippet != nullptr ) {
                         int y = 2;
                         fold_and_print( w_missions, point( 31, ++y ), getmaxx( w_missions ) - 31 - 2, c_light_gray,
-                                        SNIPPET.get_snippet_by_id( snippet_id( snippet ) ).value().translated() );
+                                        SNIPPET.get_snippet_by_id( snippet->first ).value().translated() );
                     } else {
                         mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_lore );
                     }
@@ -919,9 +919,19 @@ void faction_manager::display() const
         }
         lore.clear();
         for( const auto &elem : player_character.get_snippets() ) {
-            lore.push_back( elem.str() );
+            cata::optional<translation> name = SNIPPET.get_name_by_id( elem );
+            if( !name->empty() ) {
+                lore.push_back( std::pair<snippet_id, std::string>( elem, name->translated() ) );
+            } else {
+                lore.push_back( std::pair<snippet_id, std::string>( elem, elem.str() ) );
+            }
         }
-        std::sort( lore.begin(), lore.end(), localized_compare );
+        auto compare_second =
+            []( const std::pair<snippet_id, std::string> &a,
+        const std::pair<snippet_id, std::string> &b ) {
+            return localized_compare( a.second, b.second );
+        };
+        std::sort( lore.begin(), lore.end(), compare_second );
         if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
             debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
@@ -944,7 +954,7 @@ void faction_manager::display() const
             active_vec_size = valfac.size();
         } else if( tab == tab_mode::TAB_LORE ) {
             if( selection < lore.size() ) {
-                snippet = lore[selection];
+                snippet = &lore[selection];
             }
             active_vec_size = lore.size();
         }
