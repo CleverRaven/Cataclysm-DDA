@@ -8,7 +8,7 @@
     "type": "palette",
     "id": "afs_tunnel",
     "terrain": {
-      "#": "t_rock",
+      "#": "t_ice_wall",
       "'": "t_open_air",
       ",": "t_open_air",
       ".": "t_rock_floor",
