@@ -1416,7 +1416,7 @@ std::string display::colorized_compass_text( const cardinal_direction dir, int w
     return get_compass_for_direction( dir, width );
 }
 
-std::string display::colorized_compass_legend_text( int width, int height )
+std::string display::colorized_compass_legend_text( int width, int max_height, int &height )
 {
     const monster_visible_info &mon_visible = get_avatar().get_mon_visible();
     std::vector<std::string> names;
@@ -1464,8 +1464,10 @@ std::string display::colorized_compass_legend_text( int width, int height )
     // Lines use the provided width.
     // This effectively limits the text to a 'width'x'height' box.
     std::string ret;
+    height = 0;
+    const int h_max = max_height == 0 ? INT_MAX : max_height;
     const int nsize = names.size();
-    for( int row = 0, nidx = 0; row < height && nidx < nsize; row++ ) {
+    for( int row = 0, nidx = 0; row < h_max && nidx < nsize; row++ ) {
         int wavail = width;
         int nwidth = utf8_width( names[nidx], true );
         bool startofline = true;
@@ -1482,9 +1484,10 @@ std::string display::colorized_compass_legend_text( int width, int height )
                 }
             }
         }
-        if( row < height - 1 ) {
+        if( row < h_max - 1 ) {
             ret += "\n";
         }
+        height++;
     }
     return ret;
 }

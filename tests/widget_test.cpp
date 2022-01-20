@@ -673,6 +673,7 @@ TEST_CASE( "compass widget", "[widget][compass]" )
     SECTION( "No monsters" ) {
         clear_map();
         set_time( calendar::turn_zero + 12_hours );
+        g->mon_info_update();
         CHECK( c5s_N.layout( ava, sidebar_width ) ==
                "N:                                  " );
         CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
@@ -1087,5 +1088,85 @@ TEST_CASE( "Custom widget height and multiline formatting", "[widget]" )
             cata_curses_test::endwin();
         }
 #endif
+    }
+}
+
+static int get_height_from_widget_factory( const widget_id &id )
+{
+    for( const widget &w : widget::get_all() ) {
+        if( w.getId() == id ) {
+            return w._height;
+        }
+    }
+    return -1;
+}
+
+// Use the compass legend as a proof-of-concept
+TEST_CASE( "Dynamic height for multiline widgets", "[widget]" )
+{
+    const int sidebar_width = 36;
+    widget c5s_legend3 = widget_test_compass_legend_3.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+
+    SECTION( "No monsters (0 lines, bumped to 1 line when drawing)" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        g->mon_info_update();
+        CHECK( c5s_legend3.layout( ava, sidebar_width ).empty() );
+        CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 0 );
+    }
+
+    SECTION( "1 monster N (1 line)" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 1 );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+        CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 1 );
+    }
+
+    SECTION( "2 different monsters N (2 lines)" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        monster &mon2 = spawn_test_monster( "mon_test_bovine", north + tripoint( 0, -1, 0 ) );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( mon2 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 2 );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+        CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 2 );
+    }
+
+    SECTION( "3 different monsters N (3 lines)" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        monster &mon2 = spawn_test_monster( "mon_test_bovine", north + tripoint( 0, -1, 0 ) );
+        monster &mon3 = spawn_test_monster( "mon_test_shearable", north + tripoint( 0, -2, 0 ) );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( mon2 ) );
+        REQUIRE( ava.sees( mon3 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 3 );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
+        CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 3 );
     }
 }

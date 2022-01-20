@@ -114,6 +114,18 @@ static nc_color focus_color( int focus )
     }
 }
 
+static int get_wgt_height( const widget_id &wgt )
+{
+    if( wgt->_widgets.empty() || wgt->_arrange == "columns" ) {
+        return wgt->_height > 0 ? wgt->_height : 1;
+    }
+    int h = 0;
+    for( const widget_id &w : wgt->_widgets ) {
+        h += get_wgt_height( w );
+    }
+    return h;
+}
+
 int window_panel::get_height() const
 {
     if( height == -1 ) {
@@ -124,6 +136,9 @@ int window_panel::get_height() const
         } else {
             return 0;
         }
+    }
+    if( wgt.is_valid() && wgt->_arrange != "columns" ) {
+        return get_wgt_height( wgt );
     }
     return height;
 }
@@ -1920,9 +1935,6 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, width, true, default_render, true ) );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_compass_padding_compact, "Compass",
-                                    to_translation( "Compass" ),
-                                    5, width, false ) );
 
     return ret;
 }

@@ -3370,9 +3370,14 @@ void game::draw_panels( bool force_draw )
     // Total up height used by all panels, and see what is left over for log
     int log_height = 0;
     for( const window_panel &panel : mgr.get_current_layout().panels() ) {
+        // Skip height processing
+        if( !panel.toggle || !panel.render() ) {
+            continue;
+        }
         // The panel with height -2 is the message log panel
-        if( panel.get_height() != -2 && panel.toggle && panel.render() ) {
-            log_height += panel.get_height() + spacer;
+        const int p_height = panel.get_height();
+        if( p_height != -2 ) {
+            log_height += p_height + spacer;
         }
     }
     log_height = std::max( TERMY - log_height, 3 );

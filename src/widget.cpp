@@ -9,6 +9,7 @@
 #include "overmapbuffer.h"
 
 const static flag_id json_flag_W_DISABLED( "W_DISABLED" );
+const static flag_id json_flag_W_DYNAMIC_HEIGHT( "W_DYNAMIC_HEIGHT" );
 const static flag_id json_flag_W_LABEL_NONE( "W_LABEL_NONE" );
 const static flag_id json_flag_W_PAD_CENTER( "W_PAD_CENTER" );
 const static flag_id json_flag_W_PAD_NONE( "W_PAD_NONE" );
@@ -44,6 +45,11 @@ void widget::reset()
 const std::vector<widget> &widget::get_all()
 {
     return widget_factory.get_all();
+}
+
+const widget_id &widget::getId() const
+{
+    return id;
 }
 
 // Convert widget "var" enums to string equivalents
@@ -218,7 +224,7 @@ void widget::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "strings", _strings );
     optional( jo, was_loaded, "width", _width, 1 );
-    optional( jo, was_loaded, "height", _height, 1 );
+    optional( jo, was_loaded, "height", _height_max, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
     optional( jo, was_loaded, "fill", _fill, "bucket" );
     optional( jo, was_loaded, "label", _label, translation() );
@@ -228,6 +234,8 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "var_max", _var_max );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
     optional( jo, was_loaded, "flags", _flags );
+
+    _height = _height_max;
 
     if( jo.has_string( "var" ) ) {
         _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
@@ -543,6 +551,18 @@ bool widget::uses_text_function()
     }
 }
 
+// Simple workaround from the copied widget from the panel to set the widget's height globally
+static void set_height_for_widget( const widget_id &id, int height )
+{
+    const std::vector<widget> &wlist = widget::get_all();
+    auto iter = std::find_if( wlist.begin(), wlist.end(), [&id]( const widget & w ) {
+        return w.getId() == id;
+    } );
+    if( iter != wlist.end() ) {
+        const_cast<widget *>( &*iter )->_height = height;
+    }
+}
+
 // NOTE: Use max_width to split multi-line widgets across lines
 std::string widget::color_text_function_string( const avatar &ava, unsigned int max_width )
 {
@@ -554,6 +574,8 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
     desc.second = c_light_gray;
     // By default, colorize the string in desc.first with the color in desc.second.
     bool apply_color = true;
+    // Don't bother updating the widget's height by default
+    bool update_height = false;
     // Some helper display:: functions do their own internal colorization of the string.
     // For those, desc.first is the already-colorized string, and apply_color is set to false.
     switch( _var ) {
@@ -660,7 +682,8 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             apply_color = false; // Already colorized
             break;
         case widget_var::compass_legend_text:
-            desc.first = display::colorized_compass_legend_text( max_width, _height );
+            desc.first = display::colorized_compass_legend_text( max_width, _height_max, _height );
+            update_height = true;
             apply_color = false; // Already colorized
             break;
         default:
@@ -668,6 +691,13 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
                       io::enum_to_string<widget_var>( _var ) );
             return _( "???" );
     }
+    // Update height dynamically for widgets that support it
+    if( update_height && has_flag( json_flag_W_DYNAMIC_HEIGHT ) ) {
+        set_height_for_widget( id, _height ); // Set within widget factory
+    } else {
+        _height = _height_max; // reset height
+    }
+    // Colorize if applicable
     ret += apply_color ? colorize( desc.first, desc.second ) : desc.first;
     return ret;
 }
