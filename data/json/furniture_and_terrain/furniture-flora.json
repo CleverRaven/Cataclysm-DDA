@@ -217,7 +217,7 @@
     "description": "A blue flower imported from Europe, also known as a Cornflower.",
     "symbol": "f",
     "color": "cyan",
-    "looks_like": "f_dandelion",
+    "looks_like": "f_bluebell",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
