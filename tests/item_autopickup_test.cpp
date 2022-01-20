@@ -49,7 +49,7 @@ static void add_autopickup_rules( const std::list<const item *> what )
 // Simulate character moving over a tile that contains items.
 static void simulate_auto_pickup( const tripoint &pos, avatar &they )
 {
-    Pickup::pick_up( pos, -1 );
+    Pickup::autopickup( pos );
     process_activity( they );
 }
 
@@ -120,6 +120,11 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
     GIVEN( "avatar spots items on a tile near him" ) {
         // make sure no items exist on the ground before we add them
         REQUIRE( here.i_at( ground ).size() == 0 );
+
+        // define items here so we can reference them
+        item item_paper = item_with_qty( itype_paper, 4 );
+        item item_flashlight = item_with_qty( itype_flashlight, 1 );
+
         // add items to the tile on the ground
         std::vector<item *> items_on_ground{
             &here.add_item( ground, item_with_qty( itype_codeine, 20 ) ),
@@ -127,11 +132,11 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             &here.add_item( ground, item_with_content( itype_prescription, itype_aspirin, 12 ) ),
             // plastic bag > paper (4), paper wrapper > chocolate candy
             &here.add_item( ground, item_with_content( itype_plastic_bag, std::list<item *> {
-                &item_with_qty( itype_paper, 4 ), &chocolate_wrapper
+                &item_paper, &chocolate_wrapper
             } ) ),
             &here.add_item( ground, item( itype_light_battery ) ),
             &here.add_item( ground, item_with_content( itype_backpack, std::list<item *> {
-                &item_with_qty( itype_flashlight, 1 )
+                &item_flashlight
             } ) ),
             &here.add_item( ground, item_with_qty( itype_marble, 10 ) ),
             &here.add_item( ground, item_with_qty( itype_pebble, 15 ) )
