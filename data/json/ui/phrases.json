@@ -49,5 +49,43 @@
         { "value": 520, "text": "Dehydrated", "color": "c_light_red" },
         { "value": 1000, "text": "Parched", "color": "c_red" }
     ]
+  },
+  {
+    "id": "weight_description",
+    "type": "widget",
+    "label": "Weight",
+    "var": "thirst",
+    "style": "phrase",
+    "//": "Based on display::weight_text_color(), get_bmi, and character_weight_category constants",
+    "phrases": [
+        { "value": 0, "text": "Skeletal", "color": "c_red" },
+        { "value": 14, "text": "Emaciated", "color": "c_light_red" },
+        { "value": 16, "text": "Underweight", "color": "c_yellow" },
+        { "value": 18.5, "text": "Normal", "color": "c_light_gray" },
+        { "value": 25, "text": "Overweight", "color": "c_yellow" },
+        { "value": 30, "text": "Obese", "color": "c_light_red" },
+        { "value": 35, "text": "Very Obese", "color": "c_red" },
+        { "value": 40, "text": "Morbidly Obese", "color": "c_red" }
+    ]
+  },
+  {
+    "id": "weight_crazycata_description",
+    "type": "widget",
+    "label": "Weight",
+    "var": "thirst",
+    "style": "phrase",
+    "//": "Based on display::weight_text_color(), get_bmi, and character_weight_category constants",
+    "phrases": [
+        { "value": 0, "text": "Spooky Scary Skeleton", "color": "c_red" },
+        { "value": 14, "text": "Emaciated", "color": "c_light_red" },
+        { "value": 16, "text": "Bean Pol", "color": "c_yellow" },
+        { "value": 18.5, "text": "Normal", "color": "c_light_gray" },
+        { "value": 25, "text": "Big", "color": "c_yellow" },
+        { "value": 30, "text": "Healthy", "color": "c_light_red" },
+        { "value": 35, "text": "Husky", "color": "c_red" },
+        { "value": 40, "text": "Fluffy", "color": "c_red" },
+        { "value": 45, "text": "DAYUM", "color": "c_red" },
+        { "value": 50, "text": "AW HELL NAH", "color": "c_red" }
+    ]
   }
 ]
