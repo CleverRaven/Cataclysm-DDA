@@ -59,7 +59,7 @@ using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
 
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
-static const ammotype ammo_battery = ammotype( "battery" );
+static const ammotype ammo_battery( "battery" );
 
 //helper function for Pickup::autopickup
 static void show_pickup_message( const PickupMap &mapPickup )
@@ -145,7 +145,7 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
             // whitelisted containers should exclude contained blacklisted items
             process_whitelisted_autopick( item_to_check, container.position() );
             // pick up the whitelisted item
-            pickup_list.push_back( item_location( container, item_to_check ) );
+            pickup_list.emplace_back( container, item_to_check );
         } else if( pickup_state == rule_state::BLACKLISTED || item_to_check->is_container_empty() ) {
             // skip empty containers and blacklisted items
             pick_all_items = false;
@@ -196,7 +196,7 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
 
     // iterate over all item stacks found in location
     for( size_t i = 0; i < here.size(); i++ ) {
-        item *item_entry = &*( here[i].front() );
+        item *item_entry = &*here[i].front();
         std::string sItemName = item_entry->tname( 1, false );
         rule_state pickup_state = should_auto_pickup( item_entry );
         bool is_container = item_entry->is_container() && !item_entry->empty_container();
@@ -209,7 +209,7 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
         } else if( pickup_state != rule_state::BLACKLISTED &&
                    ( is_container || item_entry->ammo_capacity( ammo_battery ) ) ) {
             item_location container_location = item_location( map_location, item_entry );
-            for( item_location add_item : get_pickup_list_from( container_location ) ) {
+            for( const item_location &add_item : get_pickup_list_from( container_location ) ) {
                 target_items.insert( target_items.begin(), add_item );
                 bFoundSomething = true;
             }

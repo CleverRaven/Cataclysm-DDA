@@ -8768,7 +8768,7 @@ bool item::is_magazine() const
 
 bool item::is_battery() const
 {
-    return is_magazine() && ammo_capacity( ammotype( "battery" ) );
+    return is_magazine() && ammo_capacity( ammo_battery );
 }
 
 bool item::is_vehicle_battery() const
