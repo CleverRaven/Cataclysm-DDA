@@ -48,6 +48,13 @@
     "description": "A vehicle mountable electric range and sink unit with integrated tool storage for cooking utensils."
   },
   {
+    "id": "gas_kitchen_unit",
+    "copy-from": "vehicle_rig",
+    "type": "GENERIC",
+    "name": { "str": "RV gas kitchen unit" },
+    "description": "A vehicle mountable gas range and sink unit with integrated tool storage for cooking utensils."
+  },
+  {
     "id": "weldrig",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
