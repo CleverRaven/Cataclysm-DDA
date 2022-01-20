@@ -260,7 +260,7 @@ item_contents::item_contents( const std::vector<pocket_data> &pockets )
     }
 }
 
-bool item_contents::empty_real() const
+bool item_contents::empty_with_no_mods() const
 {
     return contents.empty() ||
     std::all_of( contents.begin(), contents.end(), []( const item_pocket & p ) {
