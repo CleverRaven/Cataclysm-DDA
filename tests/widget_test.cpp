@@ -90,6 +90,9 @@ static const widget_id widget_test_stamina_graph( "test_stamina_graph" );
 static const widget_id widget_test_stamina_num( "test_stamina_num" );
 static const widget_id widget_test_stat_panel( "test_stat_panel" );
 static const widget_id widget_test_status_left_arm_text( "test_status_left_arm_text" );
+static const widget_id widget_test_status_legend_text( "test_status_legend_text" );
+static const widget_id widget_test_status_sym_left_arm_text( "test_status_sym_left_arm_text" );
+static const widget_id widget_test_status_sym_torso_text( "test_status_sym_torso_text" );
 static const widget_id widget_test_status_torso_text( "test_status_torso_text" );
 static const widget_id widget_test_str_num( "test_str_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
@@ -623,6 +626,139 @@ TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
         check_bp_has_status( arm_status_w.layout( ava ),
         { "LEFT ARM STATUS:", "<color_c_yellow>bitten</color>", "<color_c_light_red>bleeding</color>", "<color_c_pink>infected</color>" } );
         CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+}
+
+TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
+{
+    const int sidebar_width = 36;
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    bodypart_id arm( "arm_l" );
+    bodypart_id torso( "torso" );
+    widget bp_legend = widget_test_status_legend_text.obj();
+    widget arm_stat = widget_test_status_sym_left_arm_text.obj();
+    widget torso_stat = widget_test_status_sym_torso_text.obj();
+
+    CHECK( arm_stat.layout( ava, sidebar_width ) == "L ARM:                              " );
+    CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+    CHECK( bp_legend.layout( ava, sidebar_width ).empty() );
+
+    WHEN( "bitten" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_yellow>B</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_yellow>B</color> bitten\n" );
+    }
+
+    WHEN( "bleeding" ) {
+        // low-intensity
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.get_effect( effect_bleed, arm ).set_intensity( 5 );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_light_red>b</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_light_red>b</color> bleeding\n" );
+        // medium-intensity
+        ava.get_effect( effect_bleed, arm ).set_intensity( 15 );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_red>b</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_red>b</color> bleeding\n" );
+        // high-intensity
+        ava.get_effect( effect_bleed, arm ).set_intensity( 25 );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_red_red>b</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_red_red>b</color> bleeding\n" );
+    }
+
+    WHEN( "bandaged" ) {
+        ava.add_effect( effect_bandaged, 1_minutes, arm );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_white>+</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_white>+</color> bandaged\n" );
+    }
+
+    WHEN( "broken" ) {
+        ava.set_part_hp_cur( arm, 0 );
+        REQUIRE( ava.is_limb_broken( arm ) );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_magenta>%</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_magenta>%</color> broken\n" );
+    }
+
+    WHEN( "broken and splinted" ) {
+        ava.set_part_hp_cur( arm, 0 );
+        ava.wear_item( item( "arm_splint" ) );
+        REQUIRE( ava.is_limb_broken( arm ) );
+        REQUIRE( ava.worn_with_flag( json_flag_SPLINT, arm ) );
+        check_bp_has_status( arm_stat.layout( ava, sidebar_width ),
+        { "L ARM:", "<color_c_magenta>%</color>", "<color_c_light_gray>=</color>" } );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        check_bp_has_status( bp_legend.layout( ava, sidebar_width ),
+        { "<color_c_magenta>%</color> broken", "<color_c_light_gray>=</color> splinted" } );
+    }
+
+    WHEN( "infected" ) {
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_pink>I</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_pink>I</color> infected\n" );
+    }
+
+    WHEN( "disinfected" ) {
+        ava.add_effect( effect_disinfected, 1_minutes, arm );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_light_green>$</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_light_green>$</color> disinfected\n" );
+    }
+
+    WHEN( "bitten and bleeding" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        check_bp_has_status( arm_stat.layout( ava, sidebar_width ),
+        { "L ARM:", "<color_c_yellow>B</color>", "<color_c_light_red>b</color>" } );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        check_bp_has_status( bp_legend.layout( ava, sidebar_width ),
+        { "<color_c_yellow>B</color> bitten", "<color_c_light_red>b</color> bleeding" } );
+    }
+
+    WHEN( "bitten and infected" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        check_bp_has_status( arm_stat.layout( ava, sidebar_width ),
+        { "L ARM:", "<color_c_yellow>B</color>", "<color_c_pink>I</color>" } );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        check_bp_has_status( bp_legend.layout( ava, sidebar_width ),
+        { "<color_c_yellow>B</color> bitten", "<color_c_pink>I</color> infected" } );
+    }
+
+    WHEN( "bleeding and infected" ) {
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        check_bp_has_status( arm_stat.layout( ava, sidebar_width ),
+        { "L ARM:", "<color_c_pink>I</color>", "<color_c_light_red>b</color>" } );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        check_bp_has_status( bp_legend.layout( ava, sidebar_width ),
+        { "<color_c_pink>I</color> infected", "<color_c_light_red>b</color> bleeding" } );
+    }
+
+    WHEN( "bitten, bleeding, and infected" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        check_bp_has_status( arm_stat.layout( ava, sidebar_width ),
+        { "L ARM:", "<color_c_yellow>B</color>", "<color_c_pink>I</color>", "<color_c_light_red>b</color>" } );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        check_bp_has_status( bp_legend.layout( ava, sidebar_width ),
+        { "<color_c_yellow>B</color> bitten", "<color_c_pink>I</color> infected", "<color_c_light_red>b</color> bleeding" } );
     }
 }
 
