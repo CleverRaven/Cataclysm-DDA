@@ -194,35 +194,28 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
     bool bFoundSomething = false;
     const map_cursor map_location = map_cursor( location );
 
-    for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
-        // iterate over all item stacks found in location
-        for( size_t i = 0; i < here.size(); i++ ) {
-            item_stack::iterator iter = here[i].front();
-            if( iter->volume() / units::legacy_volume_factor == static_cast<int>( iVol ) ) {
-                iNumChecked++;
-                item *item_entry = &*iter;
+    // iterate over all item stacks found in location
+    for( size_t i = 0; i < here.size(); i++ ) {
+        item *item_entry = &*( here[i].front() );
+        const std::string sItemName = item_entry->tname( 1, false );
+        rule_state pickup_state = should_auto_pickup( item_entry );
 
-                const std::string sItemName = item_entry->tname( 1, false );
-                rule_state pickup_state = should_auto_pickup( &*iter );
-
-                // before checking contents check if item is on pickup list
-                if( pickup_state == rule_state::WHITELISTED ) {
-                    process_whitelisted_autopick( item_entry, location );
-                    getitem[i].pick = true;
-                    bFoundSomething = true;
-                    continue;
-                } else if( pickup_state == rule_state::BLACKLISTED ) {
-                    // skip blacklisted items and containers
-                    continue;
-                }
-                bool is_container = iter->is_container() && !iter->empty_container();
-                if( is_container || iter->ammo_capacity( ammo_battery ) ) {
-                    item_location container_location = item_location( map_location, item_entry );
-                    for( item_location add_item : get_pickup_list_from( container_location ) ) {
-                        target_items.insert( target_items.begin(), add_item );
-                        bFoundSomething = true;
-                    }
-                }
+        // before checking contents check if item is on pickup list
+        if( pickup_state == rule_state::WHITELISTED ) {
+            process_whitelisted_autopick( item_entry, location );
+            getitem[i].pick = true;
+            bFoundSomething = true;
+            continue;
+        } else if( pickup_state == rule_state::BLACKLISTED ) {
+            // skip blacklisted items and containers
+            continue;
+        }
+        bool is_container = item_entry->is_container() && !item_entry->empty_container();
+        if( is_container || item_entry->ammo_capacity( ammo_battery ) ) {
+            item_location container_location = item_location( map_location, item_entry );
+            for( item_location add_item : get_pickup_list_from( container_location ) ) {
+                target_items.insert( target_items.begin(), add_item );
+                bFoundSomething = true;
             }
         }
     }
