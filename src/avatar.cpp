@@ -835,7 +835,7 @@ bool avatar::has_seen_snippet( const snippet_id &snippet ) const
     return snippets_read.count( snippet ) > 0;
 }
 
-const std::unordered_set<snippet_id> avatar::get_snippets()
+const std::set<snippet_id> &avatar::get_snippets()
 {
     return snippets_read;
 }

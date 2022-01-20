@@ -758,8 +758,8 @@ void faction_manager::display() const
     basecamp *camp = nullptr;
     std::vector<basecamp *> camps;
     size_t active_vec_size = 0;
-    std::vector<snippet_id> lore; // Lore we have seen
-    snippet_id snippet;
+    std::vector<std::string> lore; // Lore we have seen
+    std::string snippet;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_missions );
@@ -862,13 +862,12 @@ void faction_manager::display() const
                     for( size_t i = top_of_page; i < active_vec_size; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
-                                        _( lore[i].str() ) );
+                                        _( lore[i] ) );
                     }
-                    if( snippet ) {
+                    if( !snippet.empty() ) {
                         int y = 2;
-                        const nc_color col = c_white;
                         fold_and_print( w_missions, point( 31, ++y ), getmaxx( w_missions ) - 31 - 2, c_light_gray,
-                                        SNIPPET.get_snippet_by_id( snippet ).value().translated() );
+                                        SNIPPET.get_snippet_by_id( snippet_id( snippet ) ).value().translated() );
                     } else {
                         mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_lore );
                     }
@@ -904,7 +903,7 @@ void faction_manager::display() const
         }
         guy = nullptr;
         cur_fac = nullptr;
-        snippet = snippet_id();
+        snippet;
         interactable = false;
         radio_interactable = false;
         camp = nullptr;
@@ -920,8 +919,9 @@ void faction_manager::display() const
         }
         lore.clear();
         for( const auto &elem : player_character.get_snippets() ) {
-            lore.push_back( elem );
+            lore.push_back( elem.str() );
         }
+        std::sort( lore.begin(), lore.end(), localized_compare );
         if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
             debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
