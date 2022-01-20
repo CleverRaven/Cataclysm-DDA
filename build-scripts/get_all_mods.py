@@ -30,6 +30,10 @@ def add_mods(mods):
                 return False
     return True
 
+def print_modlist():
+    print(','.join(mods_this_time))
+    mods_remaining = mods_remaining - set(mods_this_time)
+    mods_this_time = []
 
 all_mod_dependencies = {}
 total_conversions = set()
@@ -46,6 +50,10 @@ for info in glob.glob('data/mods/*/modinfo.json'):
 
 mods_remaining = set(all_mod_dependencies)
 
+# Make sure aftershock can load by itself.
+add_mods(["aftershock"])
+print_modlist()
+
 while mods_remaining:
     for mod in mods_remaining:
         if mod not in mods_this_time:
@@ -53,7 +61,4 @@ while mods_remaining:
     if not mods_remaining & set(mods_this_time):
         raise RuntimeError(
             'mods remain ({}) but none could be added'.format(mods_remaining))
-
-    print(','.join(mods_this_time))
-    mods_remaining = mods_remaining - set(mods_this_time)
-    mods_this_time = []
+    print_modlist()
