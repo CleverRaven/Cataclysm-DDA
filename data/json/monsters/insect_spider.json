@@ -2519,7 +2519,7 @@
     "name": { "str": "great mantis", "str_pl": "great mantises" },
     "description": "This ferocious cow-sized mantis stalks the fields of New England.  It's probably capable of killing a moose with its powerful arms.",
     "copy-from": "mon_mantis_giant",
-    "proportional": { "hp": 20, "speed": 0.25, "attack_cost": 0.25, "vision_day": 2 },
+    "proportional": { "hp": 20, "speed": 0.25, "vision_day": 2 },
     "volume": "625 L",
     "symbol": "M",
     "color": "red_green",
@@ -2684,7 +2684,7 @@
     "name": { "str": "grasshopper" },
     "description": "A large grasshopper a few times bigger than a regular one.",
     "copy-from": "mon_grasshopper_giant",
-    "proportional": { "hp": 0.5, "speed": 1.1, "attack_cost":1.1 },
+    "proportional": { "hp": 0.5, "speed": 1.1, "attack_cost": 1.1 },
     "volume": "750 ml",
     "weight": "1 kg",
     "delete": {
