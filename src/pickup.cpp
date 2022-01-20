@@ -154,7 +154,7 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
             item_location location = item_location( container, item_to_check );
             std::vector<item_location> pickup_nested = get_pickup_list_from( location );
 
-            // container with content was marked for pickup
+            // container with content was NOT marked for pickup
             if( pickup_nested.size() != 1 || pickup_nested[0] != location ) {
                 pick_all_items = false;
             }
@@ -197,21 +197,17 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
     // iterate over all item stacks found in location
     for( size_t i = 0; i < here.size(); i++ ) {
         item *item_entry = &*( here[i].front() );
-        const std::string sItemName = item_entry->tname( 1, false );
+        std::string sItemName = item_entry->tname( 1, false );
         rule_state pickup_state = should_auto_pickup( item_entry );
+        bool is_container = item_entry->is_container() && !item_entry->empty_container();
 
         // before checking contents check if item is on pickup list
         if( pickup_state == rule_state::WHITELISTED ) {
             process_whitelisted_autopick( item_entry, location );
             getitem[i].pick = true;
             bFoundSomething = true;
-            continue;
-        } else if( pickup_state == rule_state::BLACKLISTED ) {
-            // skip blacklisted items and containers
-            continue;
-        }
-        bool is_container = item_entry->is_container() && !item_entry->empty_container();
-        if( is_container || item_entry->ammo_capacity( ammo_battery ) ) {
+        } else if( pickup_state != rule_state::BLACKLISTED &&
+                   ( is_container || item_entry->ammo_capacity( ammo_battery ) ) ) {
             item_location container_location = item_location( map_location, item_entry );
             for( item_location add_item : get_pickup_list_from( container_location ) ) {
                 target_items.insert( target_items.begin(), add_item );
