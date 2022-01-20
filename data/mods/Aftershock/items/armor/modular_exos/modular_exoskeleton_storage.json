@@ -34,7 +34,7 @@
     "copy-from": "backpack_tactical_large",
     "repairs_like": "backpack_tactical_large",
     "type": "ARMOR",
-    "name": { "str": "large storage pack (exosuit)" },
+    "name": { "str": "large storage pack (exosuit)", "str_pl": "large storage packs (exosuit)" },
     "description": "A large storage pack, mountable on a hardpoint.",
     "weight": "2291 g",
     "volume": "15 L",
