@@ -89,7 +89,8 @@ jobs:
             title: Basic Build and Test (GCC 9, Curses, LTO)
             # ~850MB in a clean build
             # ~370MB compressed
-            ccache_limit: 3G
+            # .44 : 1 -> max ~1.8G
+            ccache_limit: 4G
 
           - compiler: clang++-12
             os: ubuntu-latest
@@ -105,7 +106,8 @@ jobs:
             title: Clang 12, Ubuntu, Tiles, ASan
             # ~390MB in a clean build
             # ~50MB compressed
-            ccache_limit: 2G
+            # .13 : 1 -> max ~540MB
+            ccache_limit: 4G
 
           - compiler: g++-11
             os: ubuntu-latest
@@ -119,7 +121,8 @@ jobs:
             title: GCC 11, Ubuntu, Curses, ASan
             # ~480MB in a clean build
             # ~50MB compressed
-            ccache_limit: 2G
+            # .10 : 1 -> max ~530MB
+            ccache_limit: 5G
 
           - compiler: clang++
             os: macos-10.15
@@ -133,7 +136,8 @@ jobs:
             title: Clang 12, macOS 10.15, Tiles, Sound, UBSan
             # ~880MB ccache-compressed in a clean build
             # ~100 compressed
-            ccache_limit: 2G
+            # .11 : 1 -> max ~450MB
+            ccache_limit: 4G
 
           - compiler: g++
             os: ubuntu-latest
@@ -150,7 +154,8 @@ jobs:
             wine: wine
             # ~285MB in a clean build
             # ~36MB compressed
-            ccache_limit: 2G
+            # .12 : 1 -> max ~390MB
+            ccache_limit: 3G
 
           - compiler: clang++-6.0
             os: ubuntu-18.04
@@ -163,7 +168,8 @@ jobs:
             title: Clang 6, Ubuntu, Curses, Release
             # ~190MB in a clean build
             # ~30MB compressed
-            ccache_limit: 2G
+            # .16 : 1 -> max ~485MB
+            ccache_limit: 3G
 
           - compiler: g++-7
             os: ubuntu-18.04
@@ -176,7 +182,8 @@ jobs:
             title: GCC 7, Ubuntu, Tiles, Sound, CMake
             # ~180MB in a clean build
             # ~25MB compressed
-            ccache_limit: 2G
+            # .14 : 1 -> max ~430MB
+            ccache_limit: 3G
 
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
