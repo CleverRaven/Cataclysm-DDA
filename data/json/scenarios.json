@@ -230,7 +230,7 @@
     "points": -2,
     "start_name": "Bastion Fort",
     "allowed_locs": [
-      "fort_2c"
+      "sloc_fort"
     ]
   },
   {
