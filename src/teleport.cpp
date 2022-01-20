@@ -79,7 +79,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             if( c_is_u && display_message ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
             }
-            if( shifted ) {                
+            if( shifted ) {
                 g->place_player_overmap( project_to<coords::omt>( avatar_pos ) );
                 get_avatar().set_location( avatar_pos );
             }
