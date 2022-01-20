@@ -228,9 +228,9 @@
     "description": "",
     "id": "BastionFortStart",
     "points": -2,
-    "start_name": "BastionFort",
+    "start_name": "Bastion Fort",
     "allowed_locs": [
-      "Bastion Fort"
+      "fort_2c"
     ]
   },
   {
