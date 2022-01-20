@@ -59,6 +59,7 @@ using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
 
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
+static const ammotype ammo_battery = ammotype( "battery" );
 
 //helper function for Pickup::autopickup
 static void show_pickup_message( const PickupMap &mapPickup )
@@ -147,7 +148,7 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
     // all items in container were approved for pickup
     if( !contents.empty() && pick_all_items ) {
         bool all_batteries = true;
-        bool powered_container = container_item->ammo_capacity( ammotype( "battery" ) );
+        bool powered_container = container_item->ammo_capacity( ammo_battery );
         if( powered_container ) {
             // when dealing with battery powered tools there should only be one pocket
             // and one battery inside but this could change in future so account for that here
@@ -197,7 +198,7 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
                     continue;
                 }
                 bool is_container = iter->is_container() && !iter->empty_container();
-                if( is_container || iter->ammo_capacity( ammotype( "battery" ) ) ) {
+                if( is_container || iter->ammo_capacity( ammo_battery ) ) {
                     item_location container_location = item_location( map_location, item_entry );
                     for( item_location add_item : get_pickup_list_from( container_location ) ) {
                         target_items.insert( target_items.begin(), add_item );
