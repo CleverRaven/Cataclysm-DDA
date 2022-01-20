@@ -7491,7 +7491,7 @@
       { "point": [ 3, 2, 1 ], "overmap": "fort_4c_1_north" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 0, -1 ],
+    "city_distance": [ 0, 100 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 20, 100 ],
     "flags": [ "CLASSIC", "UNIQUE" ]
