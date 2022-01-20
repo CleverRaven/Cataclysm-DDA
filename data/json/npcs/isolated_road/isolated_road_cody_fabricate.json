@@ -50,7 +50,7 @@
     "//": "this is all the dialogue related to working on armor with Cody",
     "type": "talk_topic",
     "dynamic_line": [
-      "Alright, so the next question is time.  Currently, it's the classic problem if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel or, I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four."
+      "Alright <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel or, I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four."
     ],
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
@@ -61,7 +61,7 @@
       },
       {
         "text": "[4 weeks exceptional protection] I'll wait for the best you can do.",
-        "effect": [ { "u_add_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "3" } ],
+        "effect": [ { "u_add_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "4" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
       }
     ]
@@ -71,20 +71,41 @@
     "//": "this is all the dialogue related to working on armor with Cody",
     "type": "talk_topic",
     "dynamic_line": [
-      "If you're good with that I'll take the merch up front and start taking some very invasive measurements."
+      "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor.  If you're good with that I'll take the merch up front and start taking some very invasive measurements."
     ],
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
-        "text": "[100 merch] Sounds good see you in <blacksmith_wait> weeks.",
+        "text": "[100 merch] Sounds good see you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
             {"u_has_items": { "item": "FMCNote", "count": 100 }},
             { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" }
           ]
-
         },
-        "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" } ],
+        "effect": [ { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
+      },
+      {
+        "text": "[200 merch] Sounds good see you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
+        "condition": {
+          "and": [
+            {"u_has_items": { "item": "FMCNote", "count": 200 }},
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" }
+          ]
+        },
+        "effect": [ { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
+      },
+      {
+        "text": "[300 merch] Sounds good see you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
+        "condition": {
+          "and": [
+            {"u_has_items": { "item": "FMCNote", "count": 300 }},
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" }
+          ]
+        },
+        "effect": [ { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       }
     ]
