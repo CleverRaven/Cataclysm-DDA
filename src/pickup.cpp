@@ -93,24 +93,26 @@ static bool is_valid_auto_pickup( const item *pickup_item )
     return ( volume_limit <= 0 || valid_volume ) && ( weight_limit <= 0 || valid_weight );
 }
 
-static bool should_auto_pickup( const item *pickup_item )
+static rule_state should_auto_pickup( const item *pickup_item )
 {
     std::string item_name = pickup_item->tname( 1, false );
     rule_state pickup_state = get_auto_pickup().check_item( item_name );
 
     if( !is_valid_auto_pickup( pickup_item ) ) {
-        return false;
+        return rule_state::NONE;
     } else if( pickup_state == rule_state::WHITELISTED ) {
-        return true;
+        return rule_state::WHITELISTED;
     } else if( pickup_state != rule_state::BLACKLISTED ) {
         //No prematched pickup rule found, check rules in more detail
         get_auto_pickup().create_rule( pickup_item );
 
         if( get_auto_pickup().check_item( item_name ) == rule_state::WHITELISTED ) {
-            return true;
+            return rule_state::WHITELISTED;
         }
+    } else {
+        return rule_state::BLACKLISTED;
     }
-    return false;
+    return rule_state::NONE;
 }
 
 static std::vector<item_location> get_pickup_list_from( item_location &container )
@@ -123,10 +125,11 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
     pickup_list.reserve( contents.size() );
 
     for( item *item_to_check : contents ) {
-        if( should_auto_pickup( item_to_check ) ) {
-            // TODO: make check here for BLACKLIST
+        const rule_state pickup_state = should_auto_pickup( item_to_check );
+        if( pickup_state == rule_state::WHITELISTED ) {
             pickup_list.push_back( item_location( container, item_to_check ) );
-        } else if( item_to_check->is_container_empty() ) {
+        } else if( pickup_state == rule_state::BLACKLISTED || item_to_check->is_container_empty() ) {
+            // skip empty containers and blacklisted items
             pick_all_items = false;
         } else {
             // get pickup list from nested item container
@@ -182,11 +185,15 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
                 item *item_entry = &*iter;
 
                 const std::string sItemName = item_entry->tname( 1, false );
+                rule_state pickup_state = should_auto_pickup( &*iter );
 
                 // before checking contents check if item is on pickup list
-                if( should_auto_pickup( &*iter ) ) {
+                if( pickup_state == rule_state::WHITELISTED ) {
                     getitem[i].pick = true;
                     bFoundSomething = true;
+                    continue;
+                } else if( pickup_state == rule_state::BLACKLISTED ) {
+                    // skip blacklisted items and containers
                     continue;
                 }
                 bool is_container = iter->is_container() && !iter->empty_container();
