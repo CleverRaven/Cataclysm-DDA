@@ -1,0 +1,53 @@
+[
+  {
+    "id": "health_description",
+    "type": "widget",
+    "var": "health",
+    "//": "Uses get_healthy(), -200 to +200.  Based on display::health_text_color()",
+    "style": "phrase",
+    "//TODO": "Swap green and light green",
+    "phrases": [
+        { "value": -200, "text": "Horrible", "color": "c_red" },
+        { "value": -100, "text": "Very bad", "color": "c_light_red" },
+        { "value": -50, "text": "Bad", "color": "c_light_red" },
+        { "value": -10, "text": "OK", "color": "c_yellow" },
+        { "value": 10, "text": "Good", "color": "c_white" },
+        { "value": 50, "text": "Very good", "color": "c_green" },
+        { "value": 100, "text": "Excellent", "color": "c_light_green" }
+    ]
+  },
+  {
+    "id": "pain_description",
+    "type": "widget",
+    "var": "pain",
+    "//": "Uses get_perceived_pain(), 0-60+.  Based on display::pain_text_color()",
+    "style": "phrase",
+    "phrases": [
+        { "value": 0, "text": "No pain", "color": "c_light_gray" },
+        { "value": 10, "text": "Mild pain", "color": "c_yellow" },
+        { "value": 20, "text": "Moderate pain", "color": "c_yellow" },
+        { "value": 30, "text": "Distracting pain", "color": "c_yellow" },
+        { "value": 40, "text": "Unmanageable pain", "color": "c_light_red" },
+        { "value": 50, "text": "Intense pain", "color": "c_light_red" },
+        { "value": 60, "text": "Severe pain", "color": "c_red" }
+    ]
+  },
+  {
+    "id": "thirst_description",
+    "type": "widget",
+    "label": "Thirst",
+    "var": "thirst",
+    "style": "phrase",
+    "//": "Based on display::thirst_text_color()",
+    "phrases": [
+        { "value": -60, "text": "Turgid", "color": "c_green" },
+        { "value": -40, "text": "Hydrated", "color": "c_green" },
+        { "value": 0, "text": "Slaked", "color": "c_green" },
+        { "value": 40, "text": "--", "color": "c_light_gray" },
+        { "value": 80, "text": "Thirsty", "color": "c_yellow" },
+        { "value": 240, "text": "Very thirsty", "color": "c_yellow" },
+        { "value": 520, "text": "Dehydrated", "color": "c_light_red" },
+        { "value": 1000, "text": "Parched", "color": "c_red" }
+    ]
+  }
+]
