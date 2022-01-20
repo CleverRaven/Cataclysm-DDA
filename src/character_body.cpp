@@ -791,7 +791,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         guts.ingest( digested_to_guts );
 
         mod_stored_kcal( digested_to_body.nutr.kcal() );
-        vitamins_mod( effect_vitamin_mod( digested_to_body.nutr.vitamins ), false );
+        vitamins_mod( effect_vitamin_mod( digested_to_body.nutr.vitamins ) );
         log_activity_level( activity_history.average_activity() );
 
         if( !foodless && rates.hunger > 0.0f ) {
