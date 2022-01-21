@@ -81,8 +81,8 @@ item *mdeath::normal( monster &z )
         if( pulverized ) {
             return splatter( z );
         } else {
-            item *corpse = make_mon_corpse( z,
-                                            static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+            const float damage = std::floor( corpse_damage * itype::damage_scale );
+            item *corpse = make_mon_corpse( z, static_cast<int>( damage ) );
             if( corpse->is_null() ) {
                 return nullptr;
             }
