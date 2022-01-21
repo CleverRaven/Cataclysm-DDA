@@ -13,13 +13,13 @@ static const itype_id itype_marble( "marble" );
 static const itype_id itype_pebble( "pebble" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_aspirin( "aspirin" );
-static const itype_id itype_prescription( "bottle_plastic_pill_prescription" );
-static const itype_id itype_plastic_bag( "bag_plastic" );
+static const itype_id itype_bottle_plastic_pill_prescription( "bottle_plastic_pill_prescription" );
+static const itype_id itype_bag_plastic( "bag_plastic" );
 static const itype_id itype_paper( "paper" );
-static const itype_id itype_paper_wrapper( "wrapper" );
-static const itype_id itype_chocolate_candy( "candy2" );
+static const itype_id itype_wrapper( "wrapper" );
+static const itype_id itype_candy2( "candy2" );
 static const itype_id itype_flashlight( "flashlight" );
-static const itype_id itype_light_battery( "light_battery_cell" );
+static const itype_id itype_light_battery_cell( "light_battery_cell" );
 
 class unique_item
 {
@@ -176,12 +176,12 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
         // plastic bag > paper (5), paper wrapper > chocolate candy (3)
         WHEN( "they have chocolate candy in auto-pickup rules" ) {
             const unique_item item_paper = unique_item( itype_paper, 5 );
-            const unique_item item_chocolate_candy = unique_item( itype_chocolate_candy, 3 );
-            const unique_item item_paper_wrapper = unique_item( itype_paper_wrapper,
+            const unique_item item_chocolate_candy = unique_item( itype_candy2, 3 );
+            const unique_item item_paper_wrapper = unique_item( itype_wrapper,
             std::vector<const unique_item *> {
                 &item_chocolate_candy
             } );
-            unique_item item_plastic_bag = unique_item( itype_plastic_bag,
+            unique_item item_plastic_bag = unique_item( itype_bag_plastic,
             std::vector<const unique_item *> {
                 &item_paper, &item_paper_wrapper
             } );
@@ -197,7 +197,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
         }
         // flashlight > light battery
         WHEN( "they have light battery in auto-pickup rules" ) {
-            item *item_light_battery = &here.add_item( ground, item( itype_light_battery ) );
+            item *item_light_battery = &here.add_item( ground, item( itype_light_battery_cell ) );
             REQUIRE( item_light_battery != &null_item_reference() );
 
             item &item_flashlight = here.add_item( ground, item( itype_flashlight ) );

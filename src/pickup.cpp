@@ -58,8 +58,8 @@
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
 
-static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 static const ammotype ammo_battery( "battery" );
+static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
 //helper function for Pickup::autopickup
 static void show_pickup_message( const PickupMap &mapPickup )
