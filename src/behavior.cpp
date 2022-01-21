@@ -1,6 +1,5 @@
 #include "behavior.h"
 
-#include <cassert>
 #include <list>
 #include <set>
 #include <unordered_map>
@@ -8,6 +7,7 @@
 
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
+#include "cata_assert.h"
 #include "generic_factory.h"
 #include "debug.h"
 #include "json.h"
@@ -19,9 +19,9 @@ void node_t::set_strategy( const strategy_t *new_strategy )
     strategy = new_strategy;
 }
 void node_t::add_predicate( std::function<status_t ( const oracle_t *, const std::string & )>
-                            new_predicate, const std::string &argument )
+                            new_predicate, const std::string &argument, const bool &invert_result )
 {
-    conditions.emplace_back( std::make_pair( new_predicate, argument ) );
+    conditions.emplace_back( std::make_tuple( new_predicate, argument, invert_result ) );
 }
 void node_t::set_goal( const std::string &new_goal )
 {
@@ -32,26 +32,42 @@ void node_t::add_child( const node_t *new_child )
     children.push_back( new_child );
 }
 
+status_t node_t::process_predicates( const oracle_t *subject ) const
+{
+    status_t result = status_t::running;
+
+    for( const std::tuple< predicate_type, std::string, bool > &predicate_tuple : conditions ) {
+        predicate_type pt = std::get<0>( predicate_tuple );
+        std::string pargs = std::get<1>( predicate_tuple );
+        bool pinvert = std::get<2>( predicate_tuple );
+
+        result = pt( subject, pargs );
+
+        if( pinvert ) {
+            if( result == status_t::running ) {
+                result = status_t::failure;
+            } else if( result == status_t::failure ) {
+                result = status_t::running;
+            }
+        }
+
+        if( result != status_t::running ) {
+            break;
+        }
+    }
+
+    return result;
+}
+
 behavior_return node_t::tick( const oracle_t *subject ) const
 {
     if( children.empty() ) {
-        status_t result = status_t::running;
-        for( const std::pair< predicate_type, std::string > &predicate_pair : conditions ) {
-            result = predicate_pair.first( subject, predicate_pair.second );
-            if( result != status_t::running ) {
-                break;
-            }
-        }
+        status_t result = process_predicates( subject );
+
         return { result, this };
     } else {
-        assert( strategy != nullptr );
-        status_t result = status_t::running;
-        for( const std::pair< predicate_type, std::string > &predicate_pair : conditions ) {
-            result = predicate_pair.first( subject, predicate_pair.second );
-            if( result != status_t::running ) {
-                break;
-            }
-        }
+        cata_assert( strategy != nullptr );
+        status_t result = process_predicates( subject );
         if( result == status_t::running ) {
             return strategy->evaluate( subject, children );
         } else {
@@ -135,7 +151,7 @@ void node_t::load( const JsonObject &jo, const std::string & )
             jo.throw_error( "Invalid strategy in behavior." );
         }
     }
-    for( const JsonObject &predicate_object : jo.get_array( "conditions" ) ) {
+    for( const JsonObject predicate_object : jo.get_array( "conditions" ) ) {
         const std::string predicate_id = predicate_object.get_string( "predicate" );
         auto new_predicate = predicate_map.find( predicate_id );
         if( new_predicate == predicate_map.end() ) {
@@ -144,7 +160,9 @@ void node_t::load( const JsonObject &jo, const std::string & )
             jo.throw_error( "Invalid predicate in behavior." );
         }
         const std::string predicate_argument = predicate_object.get_string( "argument", "" );
-        conditions.emplace_back( std::make_pair( new_predicate->second, predicate_argument ) );
+        const bool invert_result = predicate_object.get_bool( "invert_result", false );
+        conditions.emplace_back( std::make_tuple( new_predicate->second, predicate_argument,
+                                 invert_result ) );
     }
     optional( jo, was_loaded, "goal", _goal );
 }

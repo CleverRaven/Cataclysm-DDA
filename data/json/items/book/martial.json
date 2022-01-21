@@ -9,6 +9,21 @@
     "martial_art": "style_aikido"
   },
   {
+    "id": "manual_barbaran",
+    "copy-from": "book_martial",
+    "type": "BOOK",
+    "name": {
+      "str": "Las Nueve Reglas de la Montante",
+      "str_pl": "copies of Las Nueve Reglas de la Montante",
+      "//~": "Don't translate name, this book is in archaic Spanish with translations in the margins."
+    },
+    "price": 11000,
+    "price_postapoc": 3000,
+    "//~": "Spanish description should change to say that this is archaic text and should mention explanations of archaic words instead of translations.",
+    "description": "Thankfully, someone has scrawled translations in the margins of this guide to Barbaran Montante.  Judging by the notation, this greatsword and war hammer training manual is also a form of poem.",
+    "martial_art": "style_barbaran"
+  },
+  {
     "id": "manual_boxing",
     "copy-from": "book_martial",
     "type": "BOOK",
@@ -266,7 +281,7 @@
     "type": "BOOK",
     "name": { "str_sp": "Historic European Swordfighting" },
     "price_postapoc": 3000,
-    "description": "A complete guide to medieval swordsmanship.  Compares the German and Italian traditions for longsword and side sword, in and out of armor, with and without shield.",
+    "description": "A complete guide to medieval swordsmanship.  Compares the German and Italian traditions for a multitude of swords, in and out of armor, with and without shield.",
     "martial_art": "style_swordsmanship"
   }
 ]

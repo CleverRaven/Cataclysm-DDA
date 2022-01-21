@@ -2,22 +2,28 @@
 #ifndef CATA_SRC_RELIC_H
 #define CATA_SRC_RELIC_H
 
-#include <string>
+#include <climits>
+#include <cmath>
+#include <iosfwd>
+#include <utility>
 #include <vector>
 
+#include "calendar.h"
+#include "item.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "translations.h"
+#include "type_id.h"
 #include "weighted_list.h"
 
+class Character;
 class Creature;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class relic;
+class relic_procgen_data;
 struct relic_charge_info;
 struct relic_charge_template;
-class relic_procgen_data;
 struct tripoint;
 
 using relic_procgen_id = string_id<relic_procgen_data>;
@@ -50,7 +56,7 @@ class relic_procgen_data
             bool was_loaded = false;
 
             void load( const JsonObject &jo );
-            void deserialize( JsonIn &jsin );
+            void deserialize( const JsonObject &jo );
         };
 
         struct enchantment_active {
@@ -74,7 +80,7 @@ class relic_procgen_data
             bool was_loaded = false;
 
             void load( const JsonObject &jo );
-            void deserialize( JsonIn &jsin );
+            void deserialize( const JsonObject &jobj );
         };
 
         struct generation_rules {
@@ -87,7 +93,7 @@ class relic_procgen_data
 
             bool was_loaded = false;
             void load( const JsonObject &jo );
-            void deserialize( JsonIn &jsin );
+            void deserialize( const JsonObject &jo );
         };
 
         enum type {
@@ -123,13 +129,21 @@ class relic_procgen_data
 
         static void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & = "" );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jobj );
 };
 
-enum class relic_recharge : int {
-    none,
-    periodic,
-    num
+enum class relic_recharge_has : int {
+    WIELD,
+    WORN,
+    HELD,
+    NUM
+};
+
+enum class relic_recharge_type : int {
+    NONE,
+    PERIODIC,
+    SOLAR_SUNNY,
+    NUM
 };
 
 struct relic_charge_template {
@@ -137,32 +151,39 @@ struct relic_charge_template {
     std::pair<int, int> init_charges;
     std::pair<int, int> charges_per_use;
     std::pair<time_duration, time_duration> time;
-    relic_recharge type;
+    relic_recharge_type type = relic_recharge_type::NUM;
+    relic_recharge_has has = relic_recharge_has::NUM;
 
     int power_level = 0;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
     relic_charge_info generate() const;
 };
 
 struct relic_charge_info {
 
+    bool regenerate_ammo = false;
     int charges = 0;
     int charges_per_use = 0;
     int max_charges = 0;
-    relic_recharge type = relic_recharge::num;
+    relic_recharge_type type = relic_recharge_type::NUM;
+    relic_recharge_has has = relic_recharge_has::NUM;
 
-    time_point last_charge;
+    time_duration activation_accumulator = 0_seconds;
     time_duration activation_time = 0_seconds;
 
-    relic_charge_info();
+    relic_charge_info() = default;
 
     // Because multiple different charge types can overlap, cache the power
     // level from the charge type we were generated from here to avoid confusion
-    int power = 0;
+    int power = 0; // NOLINT(cata-serialize)
 
-    void deserialize( JsonIn &jsin );
+    // accumulates time for charge, and increases charge if it has enough accumulated.
+    // assumes exactly one second has passed.
+    void accumulate_charge( item &parent );
+
+    void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
     void serialize( JsonOut &jsout ) const;
 };
@@ -174,7 +195,7 @@ class relic
         std::vector<enchantment> passive_effects;
 
         // the item's name will be replaced with this if the string is not empty
-        translation item_name_override;
+        translation item_name_override; // NOLINT(cata-serialize)
 
         relic_charge_info charge;
 
@@ -187,12 +208,19 @@ class relic
         int charges() const;
         int charges_per_use() const;
         int max_charges() const;
-        void try_recharge();
+
+        bool has_activation() const;
+        // has a recharge type (which needs to be actively processed)
+        bool has_recharge() const;
+
+        void try_recharge( item &parent, Character *carrier, const tripoint &pos );
+
+        bool can_recharge( item &parent, Character *carrier );
 
         void load( const JsonObject &jo );
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jobj );
 
         void add_passive_effect( const enchantment &ench );
         void add_active_effect( const fake_spell &sp );
@@ -204,6 +232,8 @@ class relic
 
         // what is the power level of this artifact, given a specific ruleset
         int power_level( const relic_procgen_id &ruleset ) const;
+
+        friend bool operator==( const relic &source_relic, const relic &target_relic );
 };
 
 template <typename E> struct enum_traits;
@@ -214,8 +244,13 @@ struct enum_traits<relic_procgen_data::type> {
 };
 
 template<>
-struct enum_traits<relic_recharge> {
-    static constexpr relic_recharge last = relic_recharge::num;
+struct enum_traits<relic_recharge_type> {
+    static constexpr relic_recharge_type last = relic_recharge_type::NUM;
+};
+
+template<>
+struct enum_traits<relic_recharge_has> {
+    static constexpr relic_recharge_has last = relic_recharge_has::NUM;
 };
 
 #endif // CATA_SRC_RELIC_H

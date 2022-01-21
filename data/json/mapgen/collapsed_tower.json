@@ -2,24 +2,24 @@
   {
     "name": "GROUP_COLLAPSED_TOWER",
     "type": "monstergroup",
-    "default": "mon_zombie",
     "monsters": [
-      { "monster": "mon_zombie_gasbag_immobile", "freq": 150, "cost_multiplier": 1, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_zombie_gasbag_crawler", "freq": 150, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_scissorlimbs", "freq": 50, "cost_multiplier": 9, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_gasbag_impaler", "freq": 50, "cost_multiplier": 6, "pack_size": [ 1, 4 ] }
+      { "monster": "mon_zombie", "weight": 600 },
+      { "monster": "mon_zombie_gasbag_immobile", "weight": 150, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_zombie_gasbag_crawler", "weight": 150, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_scissorlimbs", "weight": 50, "cost_multiplier": 9, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_gasbag_impaler", "weight": 50, "cost_multiplier": 6, "pack_size": [ 1, 4 ] }
     ]
   },
   {
     "name": "GROUP_COLLAPSED_TOWER_BASEMENT",
     "type": "monstergroup",
-    "default": "mon_zombie_gasbag_immobile",
     "monsters": [
-      { "monster": "mon_zombie_hanging_innards", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_giant_heart", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_gasbag_crawler", "freq": 150, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_scissorlimbs", "freq": 50, "cost_multiplier": 9, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_gasbag_impaler", "freq": 50, "cost_multiplier": 6, "pack_size": [ 1, 4 ] }
+      { "monster": "mon_zombie_gasbag_immobile", "weight": 650 },
+      { "monster": "mon_zombie_hanging_innards", "weight": 50 },
+      { "monster": "mon_zombie_giant_heart", "weight": 50 },
+      { "monster": "mon_zombie_gasbag_crawler", "weight": 150, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_scissorlimbs", "weight": 50, "cost_multiplier": 9, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_gasbag_impaler", "weight": 50, "cost_multiplier": 6, "pack_size": [ 1, 4 ] }
     ]
   },
   {
@@ -139,16 +139,16 @@
         "#####|xppCCppppCCppp|| #|##  ####  |# ~~~~~######|#~~#|22{{22222222|####",
         "#####|xppppppppppppp|| #|#  ####  #|# ~#~~~######|####|        6666|####",
         "#####|222222ppY66ppp||  |##########|   # ~~~    # ~~~~##           |####",
-        "#####|ppppp2pppppppp||# |||   ## ##|# ~~#~~~~~~ #~~~#          BB  |####",
+        "#####|ppppp2pppppppp||# |||   ## ##|# ~~#~~~~~~ #~~~           BB  |####",
         "#####|p//pp{pppppppp33# 3##| ##|   {~~~~~~~~~~~~~~~~##||||||BB#||  |####",
         "#####|ppppp2pppppppp33  3 #| # +   { ##   ########~~ #|#########   |####",
-        "#####|222222ppY66ppp|| #|##|###|   |||||||||||||||~~~~|###|#   #   |####",
+        "#####|222222ppY66ppp|| #|##|###|   |||||||||||||||~~~~|###|#       |####",
         "#####|xppppppppppppp||  |#|||||| ##|##########~~#|##~~|###|#   # ##|####",
         "#####|xppCCppppppppp||  |##  ##|   |#########~~~~~####||||||||||###|####",
         "#####||||||||||#pppp|| #|  # 66|# #|#~~~~~~~~~~~~~~~~#|########### |####",
         "##############|#2{{2||  +     B||  ||######~~~~~~|       ########  |####",
         "################ppppr|# |      |         ##~~~~~~|    |#    ####   |####",
-        "#################pppr|33|  ####|###||   ##### ~~~||33||##         #|####",
+        "#################pppr|33|  ####|  #||   ##### ~~~||33||##         #|####",
         "###############pppppp|##||||###|  ########~~~~~~~|#      #   6#####|####",
         "################p##pR|# |######|     # ##~~~~####|#           #####|####",
         "#############|||||||||  |######|    ######~~~####|  ##|#66#########|####",
@@ -159,8 +159,8 @@
         "#####||||||||||||||||#  |######|     | 6   |||||      |||||#############",
         "##### #  |R         |#  |######|||   +     #####     #wpp||#############",
         "#########|#######  #||  |||     ##   +    #|||||     |||||||############",
-        "#########|######  ## #    +      #   |#   #|ppp3     3ppp||#############",
-        "#########|#######   ###   +  # ######|||###|ppp##    ||||||#############",
+        "#########|######  #####   +          |#   #|ppp3     3ppp||#############",
+        "#########|#######         +  # ######|||###|ppp##    ||||||#############",
         "#########|########  |||||||  #||||||||#   #|ppp|##|||###################",
         "#########|##       R|#####   ########|     ||||||||#####################",
         "#########||||||||||||####### ########|    ||############################",

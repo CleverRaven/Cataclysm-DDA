@@ -9,7 +9,6 @@
       [ "sports_drink", 60 ],
       [ "bottle_plastic", 80 ],
       [ "towel", 80 ],
-      [ "towel_soiled", 20 ],
       [ "heatpack", 40 ],
       [ "heatpack_used", 60 ],
       [ "bandages", 20 ],
@@ -25,10 +24,10 @@
       [ "duffelbag", 30 ],
       [ "backpack", 40 ],
       [ "energy_drink", 30 ],
-      [ "cell_phone", 20 ],
-      [ "smart_phone", 30 ],
+      { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 44, "charges-min": 0 },
       [ "mp3", 50 ],
-      [ "inhaler", 10 ]
+      { "item": "inhaler", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -39,11 +38,11 @@
   {
     "name": "GROUP_FOOTBALL",
     "type": "monstergroup",
-    "default": "mon_null",
     "monsters": [
-      { "monster": "mon_zombie_tough", "freq": 150, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_runner", "freq": 150, "cost_multiplier": 1, "pack_size": [ 1, 1 ] },
-      { "monster": "mon_zombie_fat", "freq": 100, "cost_multiplier": 1, "pack_size": [ 4, 6 ] }
+      { "monster": "mon_null", "weight": 300 },
+      { "monster": "mon_zombie_tough", "weight": 150, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_runner", "weight": 150, "pack_size": [ 1, 1 ] },
+      { "monster": "mon_zombie_fat", "weight": 100, "pack_size": [ 4, 6 ] }
     ]
   },
   {
@@ -103,12 +102,12 @@
         { "point": "terrain", "id": "t_dirt", "x": [ 116, 119 ], "y": [ 0, 23 ], "repeat": [ 24, 32 ] }
       ],
       "place_items": [
-        { "item": "football_items", "x": [ 38, 47 ], "y": [ 11, 13 ], "chance": 60, "repeat": [ 1, 2 ] },
-        { "item": "football_items", "x": [ 48, 71 ], "y": [ 11, 13 ], "chance": 80, "repeat": [ 1, 2 ] },
-        { "item": "football_items", "x": [ 72, 80 ], "y": [ 11, 13 ], "chance": 60, "repeat": [ 1, 2 ] }
+        { "item": "football_items", "x": [ 38, 47 ], "y": [ 11, 13 ], "chance": 5, "repeat": [ 1, 2 ] },
+        { "item": "football_items", "x": [ 48, 71 ], "y": [ 11, 13 ], "chance": 4, "repeat": [ 1, 2 ] },
+        { "item": "football_items", "x": [ 72, 80 ], "y": [ 11, 13 ], "chance": 5, "repeat": [ 1, 2 ] }
       ],
-      "place_monsters": [ { "monster": "GROUP_FOOTBALL", "x": [ 48, 71 ], "y": [ 11, 13 ], "chance": 1 } ],
-      "place_vehicles": [ { "vehicle": "football_vehicles", "x": 59, "y": 12, "chance": 60 } ]
+      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": [ 48, 71 ], "y": [ 4, 20 ], "repeat": [ 8, 12 ] } ],
+      "place_vehicles": [ { "vehicle": "football_vehicles", "x": 59, "y": 12, "chance": 5 } ]
     },
     "om_terrain": [ [ "football_field_a1", "football_field_a2", "football_field_a3", "football_field_a4", "football_field_a5" ] ],
     "type": "mapgen",
@@ -149,7 +148,7 @@
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 2 ], "y": [ 0, 23 ], "repeat": [ 18, 24 ] },
         { "point": "terrain", "id": "t_dirt", "x": [ 116, 119 ], "y": [ 0, 23 ], "repeat": [ 24, 32 ] }
       ],
-      "place_monsters": [ { "monster": "GROUP_FOOTBALL", "x": [ 55, 63 ], "y": [ 3, 19 ], "chance": 1, "repeat": [ 3, 4 ] } ],
+      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": [ 55, 63 ], "y": [ 3, 19 ], "chance": 1, "repeat": [ 8, 12 ] } ],
       "place_item": [ { "item": "football", "x": 59, "y": 11, "repeat": 1 } ]
     },
     "om_terrain": [ [ "football_field_b1", "football_field_b2", "football_field_b3", "football_field_b4", "football_field_b5" ] ],
@@ -187,7 +186,7 @@
         "                                                                                                                        "
       ],
       "palettes": [ "field_football" ],
-      "vendingmachines": { "V": { "item_group": "vending_drink" } },
+      "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true } },
       "toilets": { ";": {  } },
       "set": [
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 2 ], "y": [ 0, 23 ], "repeat": [ 18, 24 ] },
@@ -217,12 +216,12 @@
         { "point": "terrain", "id": "t_dirt", "x": 119, "y": [ 0, 23 ], "repeat": [ 6, 8 ] }
       ],
       "place_items": [
-        { "item": "football_items", "x": [ 38, 47 ], "y": [ 9, 11 ], "chance": 60, "repeat": [ 1, 2 ] },
-        { "item": "football_items", "x": [ 48, 71 ], "y": [ 9, 11 ], "chance": 80, "repeat": [ 1, 2 ] },
-        { "item": "football_items", "x": [ 72, 80 ], "y": [ 9, 11 ], "chance": 60, "repeat": [ 1, 2 ] }
+        { "item": "football_items", "x": [ 38, 47 ], "y": [ 9, 11 ], "chance": 5, "repeat": [ 1, 2 ] },
+        { "item": "football_items", "x": [ 48, 71 ], "y": [ 9, 11 ], "chance": 4, "repeat": [ 1, 2 ] },
+        { "item": "football_items", "x": [ 72, 80 ], "y": [ 9, 11 ], "chance": 5, "repeat": [ 1, 2 ] }
       ],
-      "place_monsters": [ { "monster": "GROUP_FOOTBALL", "x": [ 48, 71 ], "y": [ 9, 11 ], "chance": 1 } ],
-      "place_vehicles": [ { "vehicle": "football_vehicles", "x": 59, "y": 10, "chance": 60 } ]
+      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": [ 48, 71 ], "y": [ 4, 20 ], "repeat": [ 8, 12 ] } ],
+      "place_vehicles": [ { "vehicle": "football_vehicles", "x": 59, "y": 10, "chance": 5 } ]
     },
     "om_terrain": [ [ "football_field_c1", "football_field_c2", "football_field_c3", "football_field_c4", "football_field_c5" ] ],
     "type": "mapgen",

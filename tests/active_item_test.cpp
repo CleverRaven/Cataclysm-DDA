@@ -1,11 +1,14 @@
-#include "catch/catch.hpp"
+#include <list>
+#include <new>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_catch.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "optional.h"
 #include "player_helpers.h"
-#include "point.h"
 
 TEST_CASE( "active_items_processed_regularly", "[item]" )
 {
@@ -14,10 +17,10 @@ TEST_CASE( "active_items_processed_regularly", "[item]" )
     avatar &player_character = get_avatar();
     map &here = get_map();
     // An arbitrary active item that ticks every turn.
-    item active_item( "firecracker_act", 0, 5 );
+    item active_item( "firecracker_act", calendar::turn_zero, 5 );
     active_item.activate();
     const int active_item_ticks = active_item.charges;
-    item storage( "backpack", 0 );
+    item storage( "backpack", calendar::turn_zero );
     cata::optional<std::list<item>::iterator> wear_success = player_character.wear_item( storage );
     REQUIRE( wear_success );
 
@@ -27,7 +30,7 @@ TEST_CASE( "active_items_processed_regularly", "[item]" )
 
     bool wield_success = player_character.wield( active_item );
     REQUIRE( wield_success );
-    REQUIRE( player_character.weapon.charges == active_item_ticks );
+    REQUIRE( player_character.get_wielded_item().charges == active_item_ticks );
 
     here.add_item( player_character.pos(), active_item );
     REQUIRE( here.i_at( player_character.pos() ).only_item().charges == active_item_ticks );
@@ -39,6 +42,6 @@ TEST_CASE( "active_items_processed_regularly", "[item]" )
 
     const int expected_ticks = active_item_ticks - 1;
     CHECK( inventory_item->charges == expected_ticks );
-    CHECK( player_character.weapon.charges == expected_ticks );
+    CHECK( player_character.get_wielded_item().charges == expected_ticks );
     CHECK( here.i_at( player_character.pos() ).only_item().charges == expected_ticks );
 }

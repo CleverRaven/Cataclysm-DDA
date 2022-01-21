@@ -25,7 +25,7 @@
         "|.ccccccc.|..|xh..h..hx|",
         "|.........|7.|d..dxd..d|",
         "|---------|..|---------|",
-        "########--|LL6--########",
+        "########--|LL!--########",
         "########=,,,,,,=########",
         "########=,,,,,,=########",
         "########=,,,,,,=########",
@@ -37,9 +37,9 @@
       "palettes": [ "lab_palette" ],
       "terrain": {
         "=": "t_wall",
-        ",": "t_rock_floor",
-        "6": "t_card_science",
-        "7": "t_rock_floor",
+        ",": "t_thconc_floor",
+        "!": "t_card_science",
+        "7": "t_thconc_floor",
         "<": "t_stairs_up",
         ">": "t_stairs_down"
       },
@@ -90,11 +90,11 @@
       "furniture": { "X": "f_crate_c" },
       "terrain": {
         "=": "t_concrete_wall",
-        "7": "t_rock_floor",
+        "7": "t_thconc_floor",
         "D": "t_door_metal_locked",
         ">": "t_stairs_down",
         "6": "t_card_science",
-        "X": "t_rock_floor"
+        "X": "t_thconc_floor"
       },
       "place_loot": [
         { "group": "alcohol", "x": [ 16, 20 ], "y": 6, "chance": 96 },

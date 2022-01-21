@@ -2,18 +2,18 @@
 
 #include <algorithm>
 #include <memory>
+#include <string>
 
 #include "avatar.h"
+#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "gun_mode.h"
 #include "item.h"
 #include "itype.h"
 #include "messages.h"
 #include "npc.h"
-#include "player.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "string_formatter.h"
@@ -25,16 +25,19 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const efftype_id effect_on_roof( "on_roof" );
+
 static const itype_id fuel_type_battery( "battery" );
 
-static const efftype_id effect_on_roof( "on_roof" );
+static const skill_id skill_gun( "gun" );
 
 std::vector<vehicle_part *> vehicle::turrets()
 {
     std::vector<vehicle_part *> res;
 
-    for( auto &e : parts ) {
-        if( !e.is_broken() && e.base.is_gun() ) {
+    for( int index : turret_locations ) {
+        vehicle_part &e = parts[index];
+        if( !e.is_broken() && e.is_turret() ) {
             res.push_back( &e );
         }
     }
@@ -241,46 +244,45 @@ turret_data::status turret_data::query() const
         if( veh->fuel_left( ammo_current() ) < part->base.ammo_required() ) {
             return status::no_ammo;
         }
-
+    } else if( part->base.get_gun_ups_drain() ) {
+        int ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
+        if( ups > veh->fuel_left( fuel_type_battery ) ) {
+            return status::no_power;
+        }
     } else {
-        if( !part->base.ammo_sufficient() ) {
+        if( !part->base.ammo_sufficient( nullptr ) ) {
             return status::no_ammo;
         }
-    }
-
-    auto ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
-    if( ups > veh->fuel_left( fuel_type_battery ) ) {
-        return status::no_power;
     }
 
     return status::ready;
 }
 
-void turret_data::prepare_fire( player &p )
+void turret_data::prepare_fire( Character &you )
 {
     // prevent turrets from shooting their own vehicles
-    p.add_effect( effect_on_roof, 1_turns );
+    you.add_effect( effect_on_roof, 1_turns );
 
     // turrets are subject only to recoil_vehicle()
-    cached_recoil = p.recoil;
-    p.recoil = 0;
+    cached_recoil = you.recoil;
+    you.recoil = 0;
 
     // set fuel tank fluid as ammo, if appropriate
     if( part->info().has_flag( "USE_TANKS" ) ) {
-        auto mode = base()->gun_current_mode();
+        gun_mode mode = base()->gun_current_mode();
         int qty  = mode->ammo_required();
         int fuel_left = veh->fuel_left( ammo_current() );
         mode->ammo_set( ammo_current(), std::min( qty * mode.qty, fuel_left ) );
     }
 }
 
-void turret_data::post_fire( player &p, int shots )
+void turret_data::post_fire( Character &you, int shots )
 {
     // remove any temporary recoil adjustments
-    p.remove_effect( effect_on_roof );
-    p.recoil = cached_recoil;
+    you.remove_effect( effect_on_roof );
+    you.recoil = cached_recoil;
 
-    auto mode = base()->gun_current_mode();
+    gun_mode mode = base()->gun_current_mode();
 
     // handle draining of vehicle tanks and UPS charges, if applicable
     if( part->info().has_flag( "USE_TANKS" ) ) {
@@ -297,15 +299,11 @@ int turret_data::fire( Character &c, const tripoint &target )
         return 0;
     }
     int shots = 0;
-    auto mode = base()->gun_current_mode();
-    player *player_character = c.as_player();
-    if( player_character == nullptr ) {
-        return 0;
-    }
+    gun_mode mode = base()->gun_current_mode();
 
-    prepare_fire( *player_character );
-    shots = player_character->fire_gun( target, mode.qty, *mode );
-    post_fire( *player_character, shots );
+    prepare_fire( c );
+    shots = c.fire_gun( target, mode.qty, *mode );
+    post_fire( c, shots );
     return shots;
 }
 
@@ -529,6 +527,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
 {
     // Make a fake NPC to represent the targeting system
     npc cpu;
+    cpu.set_body();
     cpu.set_fake( true );
     cpu.name = string_format( _( "The %s turret" ), pt.get_base().tname( 1 ) );
     // turrets are subject only to recoil_vehicle()
@@ -536,12 +535,13 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
 
     // These might all be affected by vehicle part damage, weather effects, etc.
     cpu.set_skill_level( pt.get_base().gun_skill(), 8 );
-    cpu.set_skill_level( skill_id( "gun" ), 4 );
+    cpu.set_skill_level( skill_gun, 4 );
 
     cpu.str_cur = 16;
     cpu.dex_cur = 8;
     cpu.per_cur = 12;
     cpu.setpos( global_part_pos3( pt ) );
+    cpu.recalc_sight_limits();
     // Assume vehicle turrets are friendly to the player.
     cpu.set_attitude( NPCATT_FOLLOW );
     cpu.set_fac( get_owner() );
@@ -572,6 +572,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     Character &player_character = get_player_character();
     const bool u_see = player_character.sees( pos );
+    const bool u_hear = !player_character.is_deaf();
     // The current target of the turret.
     auto &target = pt.target;
     if( target.first == target.second ) {
@@ -587,17 +588,19 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         Creature *auto_target = cpu.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
             if( boo_hoo ) {
-                cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
-                if( u_see ) {
-                    add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
-                                                  "%s points in your direction and emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
-                             cpu.name, boo_hoo );
-                } else {
-                    add_msg( m_warning, ngettext( "%s emits an IFF warning beep.",
-                                                  "%s emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
-                             cpu.name, boo_hoo );
+                cpu.get_name() = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
+                // check if the player can see or hear then print chooses a message accordingly
+                if( u_see & u_hear ) {
+                    add_msg( m_warning, n_gettext( "%s points in your direction and emits an IFF warning beep.",
+                                                   "%s points in your direction and emits %d annoyed sounding beeps.",
+                                                   boo_hoo ),
+                             cpu.get_name(), boo_hoo );
+                } else if( !u_see & u_hear ) {
+                    add_msg( m_warning, n_gettext( "You hear a warning beep.",
+                                                   "You hear %d annoyed sounding beeps.",
+                                                   boo_hoo ), boo_hoo );
+                } else if( u_see & !u_hear ) {
+                    add_msg( m_warning, _( "%s points in your direction." ), cpu.get_name() );
                 }
             }
             return shots;
@@ -609,7 +612,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         // Target is already set, make sure we didn't move after aiming (it's a bug if we did).
         if( pos != target.first ) {
             target.second = target.first;
-            debugmsg( "%s moved after aiming but before it could fire.", cpu.name );
+            debugmsg( "%s moved after aiming but before it could fire.", cpu.get_name() );
             return shots;
         }
     }

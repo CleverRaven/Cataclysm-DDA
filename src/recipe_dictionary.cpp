@@ -3,25 +3,31 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <new>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
 #include "cata_algo.h"
 #include "cata_utility.h"
+#include "crafting_gui.h"
 #include "debug.h"
 #include "init.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
+#include "mapgen.h"
 #include "output.h"
-#include "player.h"
 #include "requirements.h"
 #include "skill.h"
-#include "string_id.h"
+#include "translations.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+
+static const requirement_id requirement_data_uncraft_book( "uncraft_book" );
 
 recipe_dictionary recipe_dict;
 
@@ -73,6 +79,12 @@ const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
 {
     auto iter = recipe_dict.uncraft.find( recipe_id( id.str() ) );
     return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
+}
+
+const recipe &recipe_dictionary::get_craft( const itype_id &id )
+{
+    auto iter = recipe_dict.recipes.find( recipe_id( id.str() ) );
+    return iter != recipe_dict.recipes.end() ? iter->second : null_recipe;
 }
 
 // searches for left-anchored partial match in the relevant recipe requirements set
@@ -140,12 +152,11 @@ std::vector<const recipe *> recipe_subset::recent() const
 
     return res;
 }
-std::vector<const recipe *> recipe_subset::search( const std::string &txt,
-        const search_type key ) const
+std::vector<const recipe *> recipe_subset::search(
+    const std::string &txt, const search_type key,
+    const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    std::vector<const recipe *> res;
-
-    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+    auto predicate = [&]( const recipe * r ) {
         if( !*r || r->obsolete ) {
             return false;
         }
@@ -153,8 +164,18 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
             case search_type::name:
                 return lcmatch( r->result_name(), txt );
 
-            case search_type::skill:
-                return lcmatch( r->required_skills_string( nullptr, true, false ), txt );
+            case search_type::exclude_name:
+                return !lcmatch( r->result_name(), txt );
+
+            case search_type::skill: {
+                if( r->skill_used && lcmatch( r->skill_used->name(), txt ) ) {
+                    return true;
+                }
+                const auto &skills = r->required_skills;
+                return std::any_of( skills.begin(), skills.end(), [&]( const std::pair<skill_id, int> &e ) {
+                    return lcmatch( e.first->name(), txt );
+                } );
+            }
 
             case search_type::primary_skill:
                 return lcmatch( r->skill_used->name(), txt );
@@ -176,14 +197,91 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
             }
 
             case search_type::description_result: {
-                const item result = r->create_result();
-                return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                if( r->is_practice() ) {
+                    return lcmatch( r->description.translated(), txt );
+                } else {
+                    const item result = r->create_result();
+                    return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                }
+            }
+
+            case search_type::proficiency:
+                return lcmatch( r->recipe_proficiencies_string(), txt );
+
+            case search_type::difficulty: {
+                std::string range_start;
+                std::string range_end;
+                bool use_range = false;
+                for( const char &chr : txt ) {
+                    if( std::isdigit( chr ) ) {
+                        if( use_range ) {
+                            range_end += chr;
+                        } else {
+                            range_start += chr;
+                        }
+                    } else if( chr == '~' ) {
+                        use_range = true;
+                    } else {
+                        // unexpected character
+                        return true;
+                    }
+                }
+
+                int start = 0;
+                int end = INT_MAX;
+
+                if( use_range ) {
+                    if( !range_start.empty() ) {
+                        start = std::stoi( range_start );
+                    }
+
+                    if( !range_end.empty() ) {
+                        end = std::stoi( range_end );
+                    }
+
+                    if( range_start.empty() && range_end.empty() ) {
+                        return true;
+                    }
+                } else {
+                    if( !range_start.empty() ) {
+                        start = std::stoi( range_start );
+                    }
+
+                    if( range_start.empty() && range_end.empty() ) {
+                        return true;
+                    }
+                }
+
+                if( use_range && start > end ) {
+                    int swap = start;
+                    start = end;
+                    end = swap;
+                }
+
+                if( use_range ) {
+                    // check if number is between two numbers inclusive
+                    return r->difficulty == clamp( r->difficulty, start, end );
+                } else {
+                    return r->difficulty == start;
+                }
             }
 
             default:
                 return false;
         }
-    } );
+    };
+
+    std::vector<const recipe *> res;
+    size_t i = 0;
+    for( const recipe *r : recipes ) {
+        if( progress_callback ) {
+            progress_callback( i, recipes.size() );
+        }
+        if( predicate( r ) ) {
+            res.push_back( r );
+        }
+        ++i;
+    }
 
     return res;
 }
@@ -195,9 +293,11 @@ recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const 
     }
 }
 
-recipe_subset recipe_subset::reduce( const std::string &txt, const search_type key ) const
+recipe_subset recipe_subset::reduce(
+    const std::string &txt, const search_type key,
+    const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    return recipe_subset( *this, search( txt, key ) );
+    return recipe_subset( *this, search( txt, key, progress_callback ) );
 }
 recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
 {
@@ -294,6 +394,11 @@ void recipe_dictionary::load_uncraft( const JsonObject &jo, const std::string &s
     load( jo, src, recipe_dict.uncraft );
 }
 
+void recipe_dictionary::load_practice( const JsonObject &jo, const std::string &src )
+{
+    load( jo, src, recipe_dict.recipes );
+}
+
 recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
                                  std::map<recipe_id, recipe> &out )
 {
@@ -303,13 +408,15 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     if( jo.has_string( "copy-from" ) ) {
         auto base = recipe_id( jo.get_string( "copy-from" ) );
         if( !out.count( base ) ) {
-            deferred.emplace_back( jo.str(), src );
+            deferred.emplace_back( jo.get_source_location(), src );
+            jo.allow_omitted_members();
             return null_recipe;
         }
         r = out[ base ];
     }
 
     r.load( jo, src );
+    r.was_loaded = true;
 
     return out[ r.ident() ] = std::move( r );
 }
@@ -338,6 +445,7 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 {
     for( auto &elem : obj ) {
         elem.second.finalize();
+        inp_mngr.pump_events();
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {
@@ -369,7 +477,7 @@ void recipe_dictionary::find_items_on_loops()
     items_on_loops.clear();
     std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
     for( const itype *i : item_controller->all() ) {
-        if( !i->comestible || i->item_tags.count( "NUTRIENT_OVERRIDE" ) ) {
+        if( !i->comestible || i->has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) ) ) {
             continue;
         }
         std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];
@@ -425,7 +533,7 @@ void recipe_dictionary::finalize()
             const itype *booktype = item::find_type( bk.first );
             int req = bk.second.skill_req > 0 ? bk.second.skill_req : std::max( booktype->book->req,
                       r.difficulty );
-            islot_book::recipe_with_description_t desc{ &r, req, bk.second.alt_name.has_value() ? bk.second.alt_name.value().translated() : r.result_name(), bk.second.hidden };
+            islot_book::recipe_with_description_t desc{ &r, req, bk.second.alt_name, bk.second.hidden };
             const_cast<islot_book &>( *booktype->book ).recipes.insert( desc );
         }
 
@@ -447,7 +555,7 @@ void recipe_dictionary::finalize()
             bk.ident_ = rid;
             bk.result_ = id;
             bk.reversible = true;
-            bk.requirements_ = *requirement_id( "uncraft_book" ) * pages;
+            bk.requirements_ = *requirement_data_uncraft_book * pages;
             // TODO: allow specifying time in requirement_data
             bk.time = pages * 10;
         }
@@ -464,6 +572,45 @@ void recipe_dictionary::finalize()
     }
 
     recipe_dict.find_items_on_loops();
+}
+
+void recipe_dictionary::check_consistency()
+{
+    for( auto &e : recipe_dict.recipes ) {
+        recipe &r = e.second;
+
+        if( r.category.empty() ) {
+            if( !r.subcategory.empty() ) {
+                debugmsg( "recipe %s has subcategory but no category", r.ident().str() );
+            }
+
+            continue;
+        }
+
+        const std::vector<std::string> *subcategories = subcategories_for_category( r.category );
+        if( !subcategories ) {
+            debugmsg( "recipe %s has invalid category %s", r.ident().str(), r.category );
+            continue;
+        }
+
+        if( !r.subcategory.empty() ) {
+            auto it = std::find( subcategories->begin(), subcategories->end(), r.subcategory );
+            if( it == subcategories->end() ) {
+                debugmsg(
+                    "recipe %s has subcategory %s which is invalid or doesn't match category %s",
+                    r.ident().str(), r.subcategory, r.category );
+            }
+        }
+    }
+
+    for( auto &e : recipe_dict.recipes ) {
+        recipe &r = e.second;
+
+        if( !r.blueprint.is_empty() && !has_update_mapgen_for( r.blueprint ) ) {
+            debugmsg( "recipe %s specifies invalid construction_blueprint %s; that should be a "
+                      "defined update_mapgen_id but is not", r.ident().str(), r.blueprint.str() );
+        }
+    }
 }
 
 void recipe_dictionary::reset()

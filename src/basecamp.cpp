@@ -1,7 +1,9 @@
 #include "basecamp.h"
 
 #include <algorithm>
+#include <functional>
 #include <map>
+#include <new>
 #include <sstream>
 #include <string>
 #include <unordered_set>
@@ -10,34 +12,34 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
 #include "color.h"
-#include "compatibility.h"
-#include "coordinate_conversions.h"
 #include "debug.h"
 #include "faction_camp.h"
-#include "flat_set.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "npc.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
+
+static const item_group_id Item_spawn_data_forest( "forest" );
 
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
@@ -71,7 +73,7 @@ std::string base_camps::faction_encode_short( const std::string &type )
 
 std::string base_camps::faction_encode_abs( const expansion_data &e, int number )
 {
-    return faction_encode_short( e.type ) + to_string( number );
+    return faction_encode_short( e.type ) + std::to_string( number );
 }
 
 std::string base_camps::faction_decode( const std::string &full_type )
@@ -101,7 +103,7 @@ int base_camps::max_upgrade_by_type( const std::string &type )
     if( max_upgrade_cache.find( type ) == max_upgrade_cache.end() ) {
         int max = -1;
         const std::string faction_base = faction_encode_short( type );
-        while( recipe_id( faction_base + to_string( max + 1 ) ).is_valid() ) {
+        while( recipe_id( faction_base + std::to_string( max + 1 ) ).is_valid() ) {
             max += 1;
         }
         max_upgrade_cache[type] = max;
@@ -219,7 +221,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
     std::string comp;
     for( auto &elem : component_print_buffer ) {
-        comp = comp + elem + "\n";
+        str_append( comp, elem, "\n" );
     }
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
                           making.description, making.required_all_skills_string(), comp );
@@ -378,24 +380,24 @@ std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &bldg 
     return recipes;
 }
 
-std::string basecamp::get_gatherlist() const
+item_group_id basecamp::get_gatherlist() const
 {
     const auto &e = expansions.find( base_camps::base_dir );
     if( e != expansions.end() ) {
-        const std::string gatherlist = "gathering_" +
-                                       base_camps::faction_encode_abs( e->second, 4 );
+        const item_group_id gatherlist(
+            "gathering_" + base_camps::faction_encode_abs( e->second, 4 ) );
         if( item_group::group_is_defined( gatherlist ) ) {
             return gatherlist;
         }
     }
-    return "forest";
+    return Item_spawn_data_forest;
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )
 {
     basecamp_resource bcp_r;
     bcp_r.fake_id = camp_resource;
-    item camp_item( bcp_r.fake_id, 0 );
+    item camp_item( bcp_r.fake_id, calendar::turn_zero );
     bcp_r.ammo_id = camp_item.ammo_default();
     resources.emplace_back( bcp_r );
     fuel_types.insert( bcp_r.ammo_id );
@@ -557,19 +559,16 @@ comp_list basecamp::get_mission_workers( const std::string &mission_id, bool con
 
 void basecamp::query_new_name()
 {
-    std::string camp_name;
     string_input_popup popup;
-    popup.title( _( "Name this camp" ) )
-    .width( 40 )
-    .text( "" )
-    .max_length( 25 )
-    .query();
-    if( popup.canceled() || popup.text().empty() ) {
-        camp_name = "faction_camp";
-    } else {
-        camp_name = popup.text();
-    }
-    name = camp_name;
+    do {
+        popup.title( _( "Name this camp" ) )
+        .width( 40 )
+        .text( "" )
+        .max_length( 25 )
+        .query();
+    } while( popup.canceled() || popup.text().empty() );
+
+    name = popup.text();
 }
 
 void basecamp::set_name( const std::string &new_name )
@@ -589,7 +588,7 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
     }
     for( basecamp_resource &bcp_r : resources ) {
         if( bcp_r.fake_id == fake_id ) {
-            item camp_item( bcp_r.fake_id, 0 );
+            item camp_item( bcp_r.fake_id, calendar::turn_zero );
             camp_item.charges = std::min( bcp_r.available, quantity );
             quantity -= camp_item.charges;
             bcp_r.available -= camp_item.charges;
@@ -606,7 +605,7 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
 void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
-    const tripoint &dump_spot = get_dumping_spot();
+    const tripoint_abs_ms &dump_spot = get_dumping_spot();
     const tripoint &origin = target_map.getlocal( dump_spot );
     auto &mgr = zone_manager::get_manager();
     map &here = get_map();
@@ -614,7 +613,8 @@ void basecamp::form_crafting_inventory( map &target_map )
         mgr.cache_vzones();
     }
     if( mgr.has_near( zone_type_CAMP_STORAGE, dump_spot, 60 ) ) {
-        std::unordered_set<tripoint> src_set = mgr.get_near( zone_type_CAMP_STORAGE, dump_spot, 60 );
+        std::unordered_set<tripoint_abs_ms> src_set =
+            mgr.get_near( zone_type_CAMP_STORAGE, dump_spot, 60 );
         _inv.form_from_zone( target_map, src_set, nullptr, false );
     }
     /*
@@ -646,8 +646,8 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
-        item camp_item( bcp_r.fake_id, 0 );
-        camp_item.item_tags.insert( "PSEUDO" );
+        item camp_item( bcp_r.fake_id, calendar::turn_zero );
+        camp_item.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
         if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
@@ -693,6 +693,13 @@ std::string basecamp::expansion_tab( const point &dir ) const
     return _( "Empty Expansion" );
 }
 
+bool basecamp::point_within_camp( const tripoint_abs_omt &p ) const
+{
+    return std::any_of( expansions.begin(), expansions.end(), [ p ]( auto & e ) {
+        return p == e.second.pos;
+    } );
+}
+
 // legacy load and save
 void basecamp::load_data( const std::string &data )
 {
@@ -736,7 +743,7 @@ bool basecamp_action_components::choose_components()
     // this may consume pseudo-resources from fake items
     for( const auto &it : req->get_tools() ) {
         comp_selection<tool_comp> ts =
-            player_character.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
+            player_character.select_tool_component( it, batch_size_, base_._inv, true,
                     !base_.by_radio );
         if( ts.use_from == usage_from::cancel ) {
             return false;

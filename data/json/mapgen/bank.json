@@ -129,7 +129,7 @@
         {
           "chunks": [ [ "null", 20 ], [ "roof_2x2_utilities_b", 15 ], [ "roof_2x2_utilities_c", 5 ], [ "roof_2x2_utilities_d", 40 ] ],
           "x": [ 4, 16 ],
-          "y": [ 4, 14 ]
+          "y": [ 5, 14 ]
         }
       ]
     }
@@ -214,7 +214,7 @@
         "o": { "item": "novels", "chance": 70 },
         "$": { "item": "vault", "chance": 95, "repeat": 5 },
         "T": { "item": "vault", "chance": 20, "repeat": 5 },
-        "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "d": { "item": "office", "chance": 50 },
         "L": { "item": "cop_weapons", "chance": 40 }
       },

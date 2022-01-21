@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""Update a tags file with locations of the definitions of CDDA json entities.
+
+If you already have a tags file with some data in, this will only
+replace tags in json files, not e.g. cpp files, so it should be safe
+to use after running e.g. ctags.
+"""
 
 import argparse
 import json
@@ -11,8 +17,20 @@ JSON_DIR = os.path.join(TOP_DIR, "data")
 TAGS_FILE = os.path.join(TOP_DIR, "tags")
 
 
-def make_tags_line(id_key, id, filename):
-    pattern = '/"{id_key}": "{id}"/'.format(id_key=id_key, id=id)
+def cdda_style_json(v):
+    if type(v) == str:
+        return json.dumps(v)
+    elif type(v) == list:
+        return f'[ {", ".join(cdda_style_json(e) for e in v)} ]'
+    else:
+        raise RuntimeError('Unexpected type')
+
+
+def make_tags_line(id_key, id, full_id, filename):
+    length_limit = 120
+    pattern = f'/"{id_key}": {cdda_style_json(full_id)}/'
+    if len(pattern) > length_limit - 5:
+        pattern = f'/"{id}"/'
     return '\t'.join((id, filename, pattern)).encode('utf-8')
 
 
@@ -21,16 +39,25 @@ def is_json_tag_line(line):
 
 
 def main(args):
-    parser = argparse.ArgumentParser(description="""
-Update a tags file with locations of the definitions of CDDA json entities.
-
-If you already have a tags file with some data in, this will only replace tags
-in json files, not e.g. cpp files, so it should be safe to use after running
-e.g. ctags.""")
+    parser = argparse.ArgumentParser(description=__doc__)
 
     parser.parse_args(args)
 
     definitions = []
+
+    # JSON keys to generate tags for
+    id_keys = (
+        'id', 'abstract', 'ident',
+        'nested_mapgen_id', 'om_terrain', 'update_mapgen_id', 'result')
+
+    def add_definition(id_key, id, full_id, relative_path):
+        if not id:
+            return
+        if type(id) == str:
+            definitions.append((id_key, id, full_id, relative_path))
+        elif type(id) == list:
+            for i in id:
+                add_definition(id_key, i, full_id, relative_path)
 
     for dirpath, dirnames, filenames in os.walk(JSON_DIR):
         for filename in filenames:
@@ -54,12 +81,12 @@ e.g. ctags.""")
                             "expected a list." % filename)
                         continue
 
+                    # Check each object in json_data for taggable keys
                     for obj in json_data:
-                        for id_key in ('id', 'abstract', 'ident', 'nested_mapgen_id'):
+                        for id_key in id_keys:
                             if id_key in obj:
                                 id = obj[id_key]
-                                if type(id) == str and id:
-                                    definitions.append((id_key, id, relative_path))
+                                add_definition(id_key, id, id, relative_path)
 
     json_tags_lines = [make_tags_line(*d) for d in definitions]
     existing_tags_lines = []

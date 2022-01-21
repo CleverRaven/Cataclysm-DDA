@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <tuple>
@@ -12,25 +13,29 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "mapdata.h"
+#include "map_field.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;
 
+class field_entry;
+struct field_proc_data;
+
 enum class description_affix : int {
     DESCRIPTION_AFFIX_IN,
     DESCRIPTION_AFFIX_COVERED_IN,
     DESCRIPTION_AFFIX_ON,
     DESCRIPTION_AFFIX_UNDER,
-    DESCRIPTION_AFFIX_ILLUMINTED_BY,
+    DESCRIPTION_AFFIX_ILLUMINATED_BY,
     DESCRIPTION_AFFIX_NUM
 };
 
@@ -44,14 +49,6 @@ struct hash<description_affix> {
 };
 } // namespace std
 
-static const std::unordered_map<description_affix, std::string> description_affixes = {
-    { description_affix::DESCRIPTION_AFFIX_IN, translate_marker( " in %s" ) },
-    { description_affix::DESCRIPTION_AFFIX_COVERED_IN, translate_marker( " covered in %s" ) },
-    { description_affix::DESCRIPTION_AFFIX_ON, translate_marker( " on %s" ) },
-    { description_affix::DESCRIPTION_AFFIX_UNDER, translate_marker( " under %s" ) },
-    { description_affix::DESCRIPTION_AFFIX_ILLUMINTED_BY, translate_marker( " in %s" ) },
-};
-
 template<>
 struct enum_traits<description_affix> {
     static constexpr description_affix last = description_affix::DESCRIPTION_AFFIX_NUM;
@@ -62,7 +59,7 @@ struct field_effect {
     time_duration min_duration = 0_seconds;
     time_duration max_duration = 0_seconds;
     int intensity = 0;
-    body_part bp = num_bp;
+    bodypart_str_id bp;
     bool is_environmental = true;
     bool immune_in_vehicle  = false;
     bool immune_inside_vehicle  = false;
@@ -83,7 +80,8 @@ struct field_effect {
         return message_npc.translated();
     }
     effect get_effect( const time_point &start_time = calendar::turn ) const {
-        return effect( &id.obj(), get_duration(), convert_bp( bp ), false, intensity, start_time );
+        return effect( effect_source::empty(), &id.obj(), get_duration(), bp, false, intensity,
+                       start_time );
     }
 };
 
@@ -113,21 +111,69 @@ struct field_intensity_level {
     std::vector<field_effect> field_effects;
 };
 
+// NOLINTNEXTLINE(cata-static-int_id-constants)
+const field_type_id INVALID_FIELD_TYPE_ID = field_type_id( -1 );
+extern const field_type_str_id fd_null;
+extern const field_type_str_id fd_fire;
+extern const field_type_str_id fd_blood;
+extern const field_type_str_id fd_bile;
+extern const field_type_str_id fd_extinguisher;
+extern const field_type_str_id fd_gibs_flesh;
+extern const field_type_str_id fd_gibs_veggy;
+extern const field_type_str_id fd_web;
+extern const field_type_str_id fd_slime;
+extern const field_type_str_id fd_acid;
+extern const field_type_str_id fd_sap;
+extern const field_type_str_id fd_sludge;
+extern const field_type_str_id fd_smoke;
+extern const field_type_str_id fd_toxic_gas;
+extern const field_type_str_id fd_tear_gas;
+extern const field_type_str_id fd_nuke_gas;
+extern const field_type_str_id fd_gas_vent;
+extern const field_type_str_id fd_fire_vent;
+extern const field_type_str_id fd_flame_burst;
+extern const field_type_str_id fd_electricity;
+extern const field_type_str_id fd_electricity_unlit;
+extern const field_type_str_id fd_fatigue;
+extern const field_type_str_id fd_push_items;
+extern const field_type_str_id fd_shock_vent;
+extern const field_type_str_id fd_acid_vent;
+extern const field_type_str_id fd_plasma;
+extern const field_type_str_id fd_laser;
+extern const field_type_str_id fd_dazzling;
+extern const field_type_str_id fd_blood_veggy;
+extern const field_type_str_id fd_blood_insect;
+extern const field_type_str_id fd_blood_invertebrate;
+extern const field_type_str_id fd_gibs_insect;
+extern const field_type_str_id fd_gibs_invertebrate;
+extern const field_type_str_id fd_bees;
+extern const field_type_str_id fd_incendiary;
+extern const field_type_str_id fd_relax_gas;
+extern const field_type_str_id fd_fungal_haze;
+extern const field_type_str_id fd_cold_air2;
+extern const field_type_str_id fd_cold_air3;
+extern const field_type_str_id fd_cold_air4;
+extern const field_type_str_id fd_hot_air1;
+extern const field_type_str_id fd_hot_air2;
+extern const field_type_str_id fd_hot_air3;
+extern const field_type_str_id fd_hot_air4;
+extern const field_type_str_id fd_fungicidal_gas;
+extern const field_type_str_id fd_insecticidal_gas;
+extern const field_type_str_id fd_smoke_vent;
+extern const field_type_str_id fd_tindalos_rift;
+
+struct field_type;
+
 struct field_type {
     public:
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
 
-    public:
         // Used by generic_factory
         field_type_str_id id;
         bool was_loaded = false;
 
-        // Used only during loading
-        std::string wandering_field_id = "fd_null";
-
-    public:
         int legacy_enum_id = -1;
 
         std::vector<field_intensity_level> intensity_levels;
@@ -151,7 +197,7 @@ struct field_type {
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
 
         std::vector<trait_id> immunity_data_traits;
-        std::vector<std::pair<body_part, int>> immunity_data_body_part_env_resistance;
+        std::vector<std::pair<bodypart_str_id, int>> immunity_data_body_part_env_resistance;
         std::set<mtype_id> immune_mtypes;
 
         int priority = 0;
@@ -161,94 +207,45 @@ struct field_type {
         bool display_items = true;
         bool display_field = false;
         bool legacy_make_rubble = false;
-        field_type_id wandering_field;
+        field_type_str_id wandering_field;
         std::string looks_like;
 
+        bool mopsafe = false;
+
         bool decrease_intensity_on_contact = false;
+
+    private:
+        // any_of( intensity_levels::dangerous )
+        bool dangerous = false;
+        // all_of( intensity_levels::transparent )
+        bool transparent = false;
+
+        std::vector<map_field_processing::FieldProcessorPtr> processors;
 
     public:
         const field_intensity_level &get_intensity_level( int level = 0 ) const;
         std::string get_name( int level = 0 ) const {
             return get_intensity_level( level ).name.translated();
         }
-        uint32_t get_codepoint( int level = 0 ) const {
-            return get_intensity_level( level ).symbol;
-        }
         std::string get_symbol( int level = 0 ) const {
             return utf32_to_utf8( get_intensity_level( level ).symbol );
         }
-        nc_color get_color( int level = 0 ) const {
-            return get_intensity_level( level ).color;
+        // any_of( intensity_levels::dangerous )
+        inline bool is_dangerous() const {
+            return dangerous;
         }
-        bool get_dangerous( int level = 0 ) const {
-            return get_intensity_level( level ).dangerous;
+        // all_of( intensity_levels::transparent )
+        inline bool is_transparent() const {
+            return transparent;
         }
-        bool get_transparent( int level = 0 ) const {
-            return get_intensity_level( level ).transparent;
-        }
-        int get_move_cost( int level = 0 ) const {
-            return get_intensity_level( level ).move_cost;
-        }
-        int get_extra_radiation_min( int level = 0 ) const {
-            return get_intensity_level( level ).extra_radiation_min;
-        }
-        int get_extra_radiation_max( int level = 0 ) const {
-            return get_intensity_level( level ).extra_radiation_max;
-        }
-        int get_radiation_hurt_damage_min( int level = 0 ) const {
-            return get_intensity_level( level ).radiation_hurt_damage_min;
-        }
-        int get_radiation_hurt_damage_max( int level = 0 ) const {
-            return get_intensity_level( level ).radiation_hurt_damage_max;
-        }
-        std::string get_radiation_hurt_message( int level = 0 ) const {
-            return get_intensity_level( level ).radiation_hurt_message.translated();
-        }
-        int get_intensity_upgrade_chance( int level = 0 ) const {
-            return get_intensity_level( level ).intensity_upgrade_chance;
-        }
-        time_duration get_intensity_upgrade_duration( int level = 0 ) const {
-            return get_intensity_level( level ).intensity_upgrade_duration;
-        }
-        int get_monster_spawn_chance( int level = 0 ) const {
-            return get_intensity_level( level ).monster_spawn_chance;
-        }
-        int get_monster_spawn_count( int level = 0 ) const {
-            return get_intensity_level( level ).monster_spawn_count;
-        }
-        int get_monster_spawn_radius( int level = 0 ) const {
-            return get_intensity_level( level ).monster_spawn_radius;
-        }
-        mongroup_id get_monster_spawn_group( int level = 0 ) const {
-            return get_intensity_level( level ).monster_spawn_group;
-        }
-        float get_light_emitted( int level = 0 ) const {
-            return get_intensity_level( level ).light_emitted;
-        }
-        float get_local_light_override( int level = 0 )const {
-            return get_intensity_level( level ).local_light_override;
-        }
-        float get_translucency( int level = 0 ) const {
-            return get_intensity_level( level ).translucency;
-        }
-        int get_convection_temperature_mod( int level = 0 ) const {
-            return get_intensity_level( level ).convection_temperature_mod;
-        }
-
-        bool is_dangerous() const {
-            return std::any_of( intensity_levels.begin(), intensity_levels.end(),
-            []( const field_intensity_level & elem ) {
-                return elem.dangerous;
-            } );
-        }
-        bool is_transparent() const {
-            return std::all_of( intensity_levels.begin(), intensity_levels.end(),
-            []( const field_intensity_level & elem ) {
-                return elem.transparent;
-            } );
-        }
-        int get_max_intensity() const {
+        inline int get_max_intensity() const {
             return intensity_levels.size();
+        }
+        bool gas_can_spread() const {
+            return phase == phase_id::GAS && percent_spread > 0;
+        }
+        const std::vector<map_field_processing::FieldProcessorPtr> &get_processors() const {
+            return processors;
         }
 
         static size_t count();
@@ -263,59 +260,8 @@ void check_consistency();
 void reset();
 
 const std::vector<field_type> &get_all();
-void set_field_type_ids();
 field_type get_field_type_by_legacy_enum( int legacy_enum_id );
 
 } // namespace field_types
-
-extern field_type_id fd_null,
-       fd_blood,
-       fd_bile,
-       fd_extinguisher,
-       fd_gibs_flesh,
-       fd_gibs_veggy,
-       fd_web,
-       fd_slime,
-       fd_acid,
-       fd_sap,
-       fd_sludge,
-       fd_fire,
-       fd_smoke,
-       fd_toxic_gas,
-       fd_tear_gas,
-       fd_nuke_gas,
-       fd_gas_vent,
-       fd_fire_vent,
-       fd_flame_burst,
-       fd_electricity,
-       fd_fatigue,
-       fd_push_items,
-       fd_shock_vent,
-       fd_acid_vent,
-       fd_plasma,
-       fd_laser,
-       fd_dazzling,
-       fd_blood_veggy,
-       fd_blood_insect,
-       fd_blood_invertebrate,
-       fd_gibs_insect,
-       fd_gibs_invertebrate,
-       fd_bees,
-       fd_incendiary,
-       fd_relax_gas,
-       fd_fungal_haze,
-       fd_cold_air1,
-       fd_cold_air2,
-       fd_cold_air3,
-       fd_cold_air4,
-       fd_hot_air1,
-       fd_hot_air2,
-       fd_hot_air3,
-       fd_hot_air4,
-       fd_fungicidal_gas,
-       fd_insecticidal_gas,
-       fd_smoke_vent,
-       fd_tindalos_rift
-       ;
 
 #endif // CATA_SRC_FIELD_TYPE_H

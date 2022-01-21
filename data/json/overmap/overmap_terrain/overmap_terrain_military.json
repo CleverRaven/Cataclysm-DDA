@@ -23,7 +23,7 @@
     "type": "overmap_terrain",
     "id": [ "FEMA_tlc", "FEMA_te", "FEMA_trc", "FEMA_le", "FEMA_mid", "FEMA_re", "FEMA_blc", "FEMA_brc" ],
     "name": "FEMA refugee camp",
-    "sym": "f",
+    "sym": "F",
     "color": "i_blue",
     "extras": "build",
     "see_cost": 2,
@@ -124,7 +124,7 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [ "KNOWN_UP", "SHOULD_NOT_SPAWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -134,6 +134,33 @@
     "color": "red",
     "see_cost": 2,
     "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lmoe_zombie",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lmoe_zombie_under_empty",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_prepper_shelter",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -155,7 +182,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "bunker_basement_1",
+    "name": "military bunker",
+    "sym": "B",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP", "NO_ROTATE", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "outpost",
+    "name": "military outpost",
+    "sym": "M",
+    "color": "red",
+    "see_cost": 2,
+    "extras": "build",
+    "flags": [ "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "outpost_cross",
     "name": "military outpost",
     "sym": "M",
     "color": "red",

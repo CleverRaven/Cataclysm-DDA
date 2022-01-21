@@ -2,6 +2,7 @@
   {
     "id": "emergency_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Guide to Advanced Emergency Care", "str_pl": "copies of Guide to Advanced Emergency Care" },
     "description": "A thick textbook for paramedics describing advanced lifesaving procedures and field-expedient care methods.",
     "weight": "2063 g",
@@ -16,12 +17,14 @@
     "required_level": 5,
     "max_level": 8,
     "intelligence": 10,
+    "proficiencies": [ { "proficiency": "prof_wound_care_expert", "time_factor": 0.75, "fail_factor": 0.5 } ],
     "time": "55 m",
     "fun": -1
   },
   {
     "id": "mag_firstaid",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Paramedics", "str_pl": "issues of Paramedics" },
     "description": "An educational magazine for EMTs.",
     "weight": "60 g",
@@ -30,16 +33,19 @@
     "price_postapoc": 250,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "mag_glam",
     "color": "pink",
     "skill": "firstaid",
     "max_level": 1,
-    "intelligence": 1,
+    "intelligence": 6,
+    "proficiencies": [ { "proficiency": "prof_wound_care", "time_factor": 0.75, "fail_factor": 0.5 } ],
     "time": "8 m",
     "fun": 1
   },
   {
     "id": "manual_first_aid",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Big Book of First Aid", "str_pl": "copies of The Big Book of First Aid" },
     "description": "It's big and heavy, but full of great information about first aid.",
     "weight": "454 g",
@@ -52,12 +58,17 @@
     "color": "green",
     "skill": "firstaid",
     "max_level": 3,
-    "intelligence": 7,
+    "intelligence": 8,
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_factor": 0.75, "fail_factor": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_factor": 0.75, "fail_factor": 0.5 }
+    ],
     "time": "20 m"
   },
   {
     "id": "pocket_firstaid",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Pocket Guide to First Aid", "str_pl": "copies of Pocket Guide to First Aid" },
     "description": "This pocket-sized leather-bound guide to first aid combines a wealth of concise information with simple to follow instructions and easy to read illustrations.",
     "weight": "192 g",
@@ -70,11 +81,13 @@
     "skill": "firstaid",
     "max_level": 2,
     "intelligence": 6,
+    "proficiencies": [ { "proficiency": "prof_wound_care", "time_factor": 0.75, "fail_factor": 0.5 } ],
     "time": "20 m"
   },
   {
     "id": "textbook_firstaid",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "First Responder Handbook", "str_pl": "copies of First Responder Handbook" },
     "//": "College-level textbooks are Cheap at $60.  Med book is likely more expensive.",
     "description": "A hardbound book detailing advanced first aid techniques and field-expedient medical care.",
@@ -90,11 +103,13 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
+    "proficiencies": [ { "proficiency": "prof_wound_care_expert", "time_factor": 0.75, "fail_factor": 0.5 } ],
     "time": "30 m"
   },
   {
     "id": "booklet_firstaid",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "First Aid Kit Instruction Booklet", "str_pl": "copies of First Aid Kit Instruction Booklet" },
     "description": "Illustrated how-to guide for your first aid kit.",
     "weight": "60 g",
@@ -103,6 +118,7 @@
     "price_postapoc": 50,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "pocket_firstaid",
     "color": "pink",
     "skill": "firstaid",
     "max_level": 1,
@@ -112,6 +128,7 @@
   {
     "id": "reference_firstaid1",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Physicians' Desk Reference", "str_pl": "copies of Physicians' Desk Reference" },
     "description": "This hefty volume contains all the legally mandated information relevant to physicians for writing prescriptions, generously supported by the efforts and contributions of major pharmaceutical companies.  For the most part, it provides information identical to what is available on that of medication packaging inserts, and cannot match the completeness of digital pharmaceutical references like Medisoft.  At least it doesn't need power to be used.",
     "weight": "2268 g",
@@ -121,6 +138,7 @@
     "bashing": 7,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "textbook_firstaid",
     "color": "blue",
     "intelligence": 4,
     "time": "30 m",
@@ -129,6 +147,7 @@
   {
     "id": "reference_firstaid2",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Merck Veterinary Manual", "str_pl": "copies of Merck Veterinary Manual" },
     "description": "This expansive text covers 'all domestic species and diseases in veterinary medicine worldwide'.  Should you need information regarding zoonotic diseases, off-label use of medication for animals, common dysfunctions and diseases of animals, or any other veterinary reference info, this is your book.  There are some interesting new chapters on animal cloning in this edition.",
     "weight": "5790 g",
@@ -138,8 +157,30 @@
     "bashing": 7,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "textbook_firstaid",
     "color": "blue",
     "intelligence": 4,
     "time": "30 m"
+  },
+  {
+    "id": "textbook_toxicology",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Textbook of Advanced Toxicology", "str_pl": "copies of Textbook of Advanced Toxicology" },
+    "description": "This unassuming volume details the broad spectrum of chemical and biological toxins known to modern medicine.  While the obvious focus of the book is the therapy of such poisonings, there are lengthy sections describing the structure and synthesis of some compounds of interest.",
+    "weight": "3000 g",
+    "volume": "1200 ml",
+    "price": 30000,
+    "price_postapoc": 5000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "textbook_firstaid",
+    "color": "green",
+    "skill": "firstaid",
+    "required_level": 5,
+    "max_level": 6,
+    "intelligence": 11,
+    "time": "45 m",
+    "fun": -2
   }
 ]

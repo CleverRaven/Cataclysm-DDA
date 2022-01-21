@@ -5,20 +5,21 @@
 #include <exception>
 #include <iostream>
 #include <iterator>
+#include <map>
 #include <set>
+#include <string>
 #include <utility>
 
-#include "bodypart.h"
 #include "character.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "damage.h"
-#include "flat_set.h"
 #include "init.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "loading_ui.h"
-#include "material.h"
+#include "localized_comparator.h"
+#include "make_static.h"
 #include "npc.h"
 #include "output.h"
 #include "recipe.h"
@@ -33,7 +34,11 @@
 #include "vehicle.h"
 #include "vitamin.h"
 
-static const std::string flag_VARSIZE( "VARSIZE" );
+static const itype_id itype_223( "223" );
+static const itype_id itype_270( "270" );
+static const itype_id itype_9mm( "9mm" );
+
+static const mod_id MOD_INFORMATION_dda( "dda" );
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -41,7 +46,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     try {
         loading_ui ui( false );
         load_core_data( ui );
-        load_packs( _( "Loading content packs" ), { mod_id( "dda" ) }, ui );
+        load_packs( _( "Loading content packs" ), { MOD_INFORMATION_dda }, ui );
         DynamicDataLoader::get_instance().finalize_loaded_data( ui );
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;
@@ -70,10 +75,10 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                             4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
 
     std::map<std::string, item> test_items;
-    test_items[ "G1" ] = item( "glock_19" ).ammo_set( itype_id( "9mm" ) );
-    test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( itype_id( "9mm" ) );
-    test_items[ "G3" ] = item( "ar15" ).ammo_set( itype_id( "223" ) );
-    test_items[ "G4" ] = item( "remington_700" ).ammo_set( itype_id( "270" ) );
+    test_items[ "G1" ] = item( "glock_19" ).ammo_set( itype_9mm );
+    test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( itype_9mm );
+    test_items[ "G3" ] = item( "ar15" ).ammo_set( itype_223 );
+    test_items[ "G4" ] = item( "remington_700" ).ammo_set( itype_270 );
     test_items[ "G4" ].put_in( item( "rifle_scope" ), item_pocket::pocket_type::MOD );
 
     if( what == "AMMO" ) {
@@ -85,15 +90,15 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
             r.push_back( obj.ammo_type().str() );
-            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
-            r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.type->stack_size ) );
-            r.push_back( to_string( obj.type->ammo->range ) );
-            r.push_back( to_string( obj.type->ammo->dispersion ) );
-            r.push_back( to_string( obj.type->ammo->recoil ) );
+            r.push_back( std::to_string( obj.volume() / units::legacy_volume_factor ) );
+            r.push_back( std::to_string( to_gram( obj.weight() ) ) );
+            r.push_back( std::to_string( obj.type->stack_size ) );
+            r.push_back( std::to_string( obj.type->ammo->range ) );
+            r.push_back( std::to_string( obj.type->ammo->dispersion ) );
+            r.push_back( std::to_string( obj.type->ammo->recoil ) );
             damage_instance damage = obj.type->ammo->damage;
-            r.push_back( to_string( damage.total_damage() ) );
-            r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
+            r.push_back( std::to_string( damage.total_damage() ) );
+            r.push_back( std::to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
             rows.push_back( r );
         };
         for( const itype *e : item_controller->all() ) {
@@ -104,30 +109,46 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
     } else if( what == "ARMOR" ) {
         header = {
-            "Name", "Encumber (fit)", "Warmth", "Weight", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
+            "Name",
+            "Encumber (fit)",
+            "Warmth",
+            "Weight",
+            "Coverage",
+            "Coverage (M)",
+            "Coverage (R)",
+            "Coverage (V)",
+            "Bash",
+            "Cut",
+            "Bullet",
+            "Acid",
+            "Fire"
         };
-        body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
+        const bodypart_id bp_null( "bp_null" );
+        bodypart_id bp = opts.empty() ? bp_null : bodypart_id( opts.front() );
         auto dump = [&rows, &bp]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( to_string( obj.get_encumber( get_player_character(), convert_bp( bp ).id() ) ) );
-            r.push_back( to_string( obj.get_warmth() ) );
-            r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.get_coverage( convert_bp( bp ).id() ) ) );
-            r.push_back( to_string( obj.bash_resist() ) );
-            r.push_back( to_string( obj.cut_resist() ) );
-            r.push_back( to_string( obj.bullet_resist() ) );
-            r.push_back( to_string( obj.acid_resist() ) );
-            r.push_back( to_string( obj.fire_resist() ) );
+            r.push_back( std::to_string( obj.get_encumber( get_player_character(),  bp ) ) );
+            r.push_back( std::to_string( obj.get_warmth() ) );
+            r.push_back( std::to_string( to_gram( obj.weight() ) ) );
+            r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_DEFAULT ) ) );
+            r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_MELEE ) ) );
+            r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_RANGED ) ) );
+            r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_VITALS ) ) );
+            r.push_back( std::to_string( obj.bash_resist() ) );
+            r.push_back( std::to_string( obj.cut_resist() ) );
+            r.push_back( std::to_string( obj.bullet_resist() ) );
+            r.push_back( std::to_string( obj.acid_resist() ) );
+            r.push_back( std::to_string( obj.fire_resist() ) );
             rows.push_back( r );
         };
 
         for( const itype *e : item_controller->all() ) {
             if( e->armor ) {
                 item obj( e );
-                if( bp == num_bp || obj.covers( convert_bp( bp ).id() ) ) {
-                    if( obj.has_flag( flag_VARSIZE ) ) {
-                        obj.item_tags.insert( "FIT" );
+                if( bp == bp_null || obj.covers( bp ) ) {
+                    if( obj.has_flag( STATIC( flag_id( "VARSIZE" ) ) ) ) {
+                        obj.set_flag( STATIC( flag_id( "FIT" ) ) );
                     }
                     dump( obj );
                 }
@@ -144,15 +165,15 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         auto dump = [&rows]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
-            r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.type->stack_size ) );
-            r.push_back( to_string( obj.get_comestible()->default_nutrition.kcal ) );
-            r.push_back( to_string( obj.get_comestible()->quench ) );
-            r.push_back( to_string( obj.get_comestible()->healthy ) );
+            r.push_back( std::to_string( obj.volume() / units::legacy_volume_factor ) );
+            r.push_back( std::to_string( to_gram( obj.weight() ) ) );
+            r.push_back( std::to_string( obj.type->stack_size ) );
+            r.push_back( std::to_string( obj.get_comestible()->default_nutrition.kcal() ) );
+            r.push_back( std::to_string( obj.get_comestible()->quench ) );
+            r.push_back( std::to_string( obj.get_comestible()->healthy ) );
             auto vits = obj.get_comestible()->default_nutrition.vitamins;
             for( const auto &v : vitamin::all() ) {
-                r.push_back( to_string( vits[ v.first ] ) );
+                r.push_back( std::to_string( vits[ v.first ] ) );
             }
             rows.push_back( r );
         };
@@ -172,19 +193,19 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Aim time", "Effective range", "Snapshot range", "Max range"
         };
 
-        std::set<std::string> locations;
+        std::set<gunmod_location> locations;
         for( const itype *e : item_controller->all() ) {
             if( e->gun ) {
                 std::transform( e->gun->valid_mod_locations.begin(),
                                 e->gun->valid_mod_locations.end(),
                                 std::inserter( locations, locations.begin() ),
                 []( const std::pair<gunmod_location, int> &q ) {
-                    return q.first.name();
+                    return q.first;
                 } );
             }
         }
         for( const auto &e : locations ) {
-            header.push_back( e );
+            header.push_back( e.name() );
         }
 
         auto dump = [&rows, &locations]( const standard_npc & who, const item & obj ) {
@@ -194,21 +215,21 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             obj.ammo_types().end(), []( const ammotype & at ) {
                 return at.str();
             }, enumeration_conjunction::none ) : "" );
-            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
-            r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.gun_range() ) );
-            r.push_back( to_string( obj.gun_dispersion() ) );
-            r.push_back( to_string( obj.gun_recoil( who ) ) );
+            r.push_back( std::to_string( obj.volume() / units::legacy_volume_factor ) );
+            r.push_back( std::to_string( to_gram( obj.weight() ) ) );
+            r.push_back( std::to_string( obj.gun_range() ) );
+            r.push_back( std::to_string( obj.gun_dispersion() ) );
+            r.push_back( std::to_string( obj.gun_recoil( who ) ) );
             damage_instance damage = obj.gun_damage();
-            r.push_back( to_string( damage.total_damage() ) );
-            r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
+            r.push_back( std::to_string( damage.total_damage() ) );
+            r.push_back( std::to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
 
-            r.push_back( to_string( who.gun_engagement_moves( obj ) ) );
+            r.push_back( std::to_string( who.gun_engagement_moves( obj ) ) );
 
             for( const auto &e : locations ) {
                 const auto &vml = obj.type->gun->valid_mod_locations;
                 const auto iter = vml.find( e );
-                r.push_back( to_string( iter != vml.end() ? iter->second : 0 ) );
+                r.push_back( std::to_string( iter != vml.end() ? iter->second : 0 ) );
             }
             rows.push_back( r );
         };
@@ -263,13 +284,13 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
         for( const recipe *e : dict ) {
             std::vector<std::string> r;
-            r.push_back( e->result_name() );
+            r.push_back( e->result_name( /*decorated=*/true ) );
             for( const auto &s : sk ) {
                 if( e->skill_used == s.ident() ) {
-                    r.push_back( to_string( e->difficulty ) );
+                    r.push_back( std::to_string( e->difficulty ) );
                 } else {
                     auto iter = e->required_skills.find( s.ident() );
-                    r.push_back( to_string( iter != e->required_skills.end() ? iter->second : 0 ) );
+                    r.push_back( std::to_string( iter != e->required_skills.end() ? iter->second : 0 ) );
                 }
             }
             rows.push_back( r );
@@ -282,21 +303,21 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Aerodynamics coeff", "Rolling coeff", "Static Drag", "Offroad %"
         };
         auto dump = [&rows]( const vproto_id & obj ) {
-            auto veh_empty = vehicle( obj, 0, 0 );
-            auto veh_fueled = vehicle( obj, 100, 0 );
+            vehicle veh_empty( obj, 0, 0 );
+            vehicle veh_fueled( obj, 100, 0 );
 
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
-            r.push_back( to_string( to_kilogram( veh_empty.total_mass() ) ) );
-            r.push_back( to_string( to_kilogram( veh_fueled.total_mass() ) ) );
-            r.push_back( to_string( veh_fueled.max_velocity() / 100 ) );
-            r.push_back( to_string( veh_fueled.safe_velocity() / 100 ) );
-            r.push_back( to_string( veh_fueled.acceleration() / 100 ) );
-            r.push_back( to_string( veh_fueled.coeff_air_drag() ) );
-            r.push_back( to_string( veh_fueled.coeff_rolling_drag() ) );
-            r.push_back( to_string( veh_fueled.static_drag( false ) ) );
-            r.push_back( to_string( static_cast<int>( 50 *
-                                    veh_fueled.k_traction( veh_fueled.wheel_area() ) ) ) );
+            r.push_back( std::to_string( to_kilogram( veh_empty.total_mass() ) ) );
+            r.push_back( std::to_string( to_kilogram( veh_fueled.total_mass() ) ) );
+            r.push_back( std::to_string( veh_fueled.max_velocity() / 100 ) );
+            r.push_back( std::to_string( veh_fueled.safe_velocity() / 100 ) );
+            r.push_back( std::to_string( veh_fueled.acceleration() / 100 ) );
+            r.push_back( std::to_string( veh_fueled.coeff_air_drag() ) );
+            r.push_back( std::to_string( veh_fueled.coeff_rolling_drag() ) );
+            r.push_back( std::to_string( veh_fueled.static_drag( false ) ) );
+            r.push_back( std::to_string( static_cast<int>( 50 *
+                                         veh_fueled.k_traction( veh_fueled.wheel_area() ) ) ) );
             rows.push_back( r );
         };
         for( auto &e : vehicle_prototype::get_all() ) {
@@ -311,9 +332,10 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             std::vector<std::string> r;
             r.push_back( obj.name() );
             r.push_back( obj.location );
-            r.push_back( to_string( static_cast<int>( std::ceil( to_gram( item( obj.item ).weight() ) /
-                                    1000.0 ) ) ) );
-            r.push_back( to_string( obj.size / units::legacy_volume_factor ) );
+            r.push_back( std::to_string( static_cast<int>( std::ceil( to_gram( item(
+                                             obj.base_item ).weight() ) /
+                                         1000.0 ) ) ) );
+            r.push_back( std::to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );
         };
         for( const auto &e : vpart_info::all() ) {

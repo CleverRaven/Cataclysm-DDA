@@ -16,10 +16,10 @@
     "container": "flask_glass",
     "color": "light_blue",
     "comestible_type": "DRINK",
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "phase": "liquid",
     "price": 2500,
-    "freezing_point": 40
+    "freezing_point": 4
   },
   {
     "id": "mana_potion",
@@ -53,10 +53,10 @@
     "container": "flask_glass",
     "color": "yellow",
     "comestible_type": "DRINK",
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "phase": "liquid",
     "price": 3000,
-    "freezing_point": 40
+    "freezing_point": 4
   },
   {
     "id": "ogres_strength_potion",
@@ -139,7 +139,7 @@
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
     "price": 2500,
-    "freezing_point": 10
+    "freezing_point": -12
   },
   {
     "id": "twisted_restore_potion_improved",

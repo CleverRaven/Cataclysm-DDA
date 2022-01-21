@@ -2,20 +2,9 @@
   {
     "type": "npc",
     "id": "old_guard_rep",
-    "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
-    "//2": "name_suffix is appended to the end of the npc's name.",
-    "//3": "using 'name_unique' instead will set the guy's name as is.",
     "name_suffix": "Representative",
-    "//4": "Class is based on the enum in npc.h.  The important ones are 0=NC_NONE, 2=NC_SHOPKEEP,",
-    "//5": "3=NC_HACKER, 4=NC_DOCTOR, 5=NC_TRADER, 6=NC_NINJA, 7=NC_COWBOY, 8=NC_SCIENTIST,",
-    "//6": "9=NC_BOUNTY_HUNTER, 10=NC_THUG, 11=NC_SCAVENGER, 13=NC_HUNTER, 14=NC_SOLDIER.",
     "class": "NC_COWBOY",
-    "//7": "Attitude is based on the enum in npc.h.  The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK",
-    "//8": "3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE",
     "attitude": 0,
-    "//9": "Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP",
-    "//10": "and 7=NPC_MISSION_GUARD",
-    "//11": "8 = NPC_MISSION_GUARD_PATROL will actively investigate noises",
     "mission": 7,
     "chat": "TALK_OLD_GUARD_REP",
     "faction": "old_guard",
@@ -26,9 +15,48 @@
     "type": "talk_topic",
     "dynamic_line": { "u_has_any_trait": [ "PROF_FED" ], "yes": "Marshal…", "no": "Citizen…" },
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "failure": { "topic": "TALK_OLD_GUARD_REP_Refuse_Boris_Mission_1" },
+        "success": { "topic": "TALK_OLD_GUARD_REP_Accept_Boris_Mission_1" }
+      },
       { "text": "Who are you?", "topic": "TALK_OLD_GUARD_REP_NEW" },
       { "text": "Heard anything about the outside world?", "topic": "TALK_OLD_GUARD_REP_WORLD" },
       { "text": "Is there any way I can join the 'Old Guard'?", "topic": "TALK_OLD_GUARD_REP_ASK_JOIN" },
+      {
+        "text": "I've got some questions for you about those weird robots.",
+        "topic": "TALK_OLD_GUARD_REP_EXODII_1",
+        "condition": {
+          "or": [
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
+            {
+              "u_has_var": "oldguard-exodii",
+              "type": "factional_questline",
+              "context": "mission",
+              "value": "encountered_base"
+            }
+          ]
+        }
+      },
+      {
+        "text": "I think I can already tell you what you want to know about those 'robots'.",
+        "topic": "TALK_OLD_GUARD_REP_MISSION_3_Predone",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
       { "text": "Does the Old Guard need anything?", "topic": "TALK_MISSION_LIST" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ],
@@ -88,6 +116,64 @@
     "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
+    "id": "TALK_OLD_GUARD_REP_EXODII_1",
+    "type": "talk_topic",
+    "dynamic_line": "If you want to know what our next steps are, I'm not at liberty to tell you.  Truth be told, I don't even know myself.  They don't share that sort of information with me.",
+    "responses": [
+      {
+        "text": "Actually, I've met them.  They seem open to trade and things.  Thought you might want to know.",
+        "topic": "TALK_OLD_GUARD_REP_EXODII_2",
+        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_EXODII_2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, that's interesting.  It's not something I'm in a position to do something about, but you might want to take that information to one of the teamsters for the Free Merchants.  Maybe that's a way we could establish some friendlier relationships.",
+    "responses": [
+      { "text": "Good idea.  I'll go do that.", "topic": "TALK_DONE" },
+      { "text": "Huh, maybe.  Can we talk about something else?", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_MISSION_3_Predone",
+    "type": "talk_topic",
+    "dynamic_line": "Oh, well.  In that case, I would be interested in hearing what you know about them.  I can relay it to command.  Let's see what I have to trade… how about some antibiotics from our stores?  You can never have too many of them out there.",
+    "responses": [
+      {
+        "text": "Yeah, I've met them.  They seem open to trade and things.  Not hostile, at least not to me.",
+        "topic": "TALK_OLD_GUARD_REP_EXODII_2",
+        "effect": [ { "u_spawn_item": "antibiotics" }, "mission_success", "clear_mission" ]
+      },
+      {
+        "text": "I'll have to think about it.  Let's talk about something else, for now.",
+        "topic": "TALK_OLD_GUARD_REP"
+      },
+      { "text": "On second thought, I should go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_Refuse_Boris_Mission_1",
+    "type": "talk_topic",
+    "dynamic_line": "I'm sorry, but I can't leave my post here, and I just don't have the human resources even for a project like that.",
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "responses": [ { "text": "Well, thanks anyway…", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_Accept_Boris_Mission_1",
+    "type": "talk_topic",
+    "dynamic_line": "It's your lucky day: I just made contact with a couple volunteers like yourself, and that's exactly the sort of project I can put them to.",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 2 }
+      ]
+    },
+    "responses": [ { "text": "Thanks, that's great news!", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
     "id": "MISSION_OLD_GUARD_REP_1",
     "type": "mission_definition",
     "name": { "str": "Kill Bandits" },
@@ -96,7 +182,7 @@
     "difficulty": 5,
     "value": 50000,
     "start": {
-      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1 },
+      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1, "search_range": 60 },
       "update_mapgen": {
         "set": [
           { "point": "trap", "id": "tr_landmine_buried", "x": 7, "y": 6 },
@@ -155,6 +241,32 @@
   {
     "id": "MISSION_OLD_GUARD_REP_3",
     "type": "mission_definition",
+    "name": { "str": "Find Source of Robots" },
+    "description": "I don't usually hear much from command, but we got a message by radio recently.  You might be the right choice to look into it for me.  There've been reports of weird robots and things wandering around since things went south.  Dunno how, but apparently command tracked down what they think is the source.  They want someone to go check out who is making these, and if we can get any tech or assistance from them.  This is strictly recon, you understand: could be a hostile entity, so do not engage directly.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 10000,
+    "start": { "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "reveal_radius": 5, "search_range": 400 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_REP_4",
+    "dialogue": {
+      "describe": "Got a weird one for you this time…",
+      "offer": "I don't usually hear much from command, but we got a message by radio recently.  You might be the right choice to look into it for me.  There've been reports of weird robots and things wandering around since things went south.  Dunno how, but apparently command tracked down what they think is the source.  They want someone to go check out who is making these, and if we can get any tech or assistance from them.  This is strictly recon, you understand: could be a hostile entity, so do not engage directly.",
+      "accepted": "Thanks, once you know who it is, report back to me and I'll pass that on.",
+      "rejected": "Come back when you get a chance, if there's any chance these things are on our side, we need all the help we can get.",
+      "advice": "If you see any weird machines around, do not engage.  Sneak away, I'd say.  They seem to be hostile to zombies, but that doesn't mean they can tell you aren't one.",
+      "inquire": "How is the search going?",
+      "success": "Great work, wasn't sure what I was sending you after.",
+      "success_lie": "That's a shame, a damn shame.  Wish you could have learned more.  Thanks for trying.",
+      "failure": "Damn… let's hope we can try again sometime."
+    },
+    "end": {
+      "effect": [ { "u_add_var": "oldguard-exodii", "type": "factional_questline", "context": "mission", "value": "encountered_base" } ]
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REP_4",
+    "type": "mission_definition",
     "name": { "str": "Secure Trade Route" },
     "description": "One of the Free Merchants silently disappeared while escorting a trade caravan.  Whoever or whatever is responsible must be quick and quiet - investigate the trade route and eliminate the threat.",
     "goal": "MGOAL_KILL_MONSTER",
@@ -170,7 +282,7 @@
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_REP_4",
+    "followup": "MISSION_OLD_GUARD_REP_5",
     "dialogue": {
       "describe": "We need help…",
       "offer": "There is another monster troubling the merchants but this time it isn't human… at least I don't think.  Guy just disappeared while walking behind a packed caravan.  They didn't hear any shots but I suppose some raider may have been real sneaky.  Check out the area and report anything you find.",
@@ -184,7 +296,7 @@
     }
   },
   {
-    "id": "MISSION_OLD_GUARD_REP_4",
+    "id": "MISSION_OLD_GUARD_REP_5",
     "type": "mission_definition",
     "name": { "str": "Assassinate Raider Leader" },
     "description": "The Old Guard have located a Hell's Raiders encampment that is coordinating attacks on the Free Merchants.  Pay them a visit and execute the area leadership.",
@@ -195,17 +307,16 @@
       "assign_mission_target": {
         "om_terrain": "bandit_camp_1",
         "om_special": "bandit_camp",
-        "om_terrain_replace": "forest",
         "reveal_radius": 1,
         "min_distance": 10,
-        "search_range": 50
+        "search_range": 120
       },
       "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": 17, "y": 9, "target": true } ] },
       "effect": [
-        { "u_buy_item": "ruger_redhawk" },
-        { "u_buy_item": "44magnum", "count": 17 },
-        { "u_buy_item": "holster" },
-        { "u_buy_item": "badge_marshal" },
+        { "u_spawn_item": "ruger_redhawk" },
+        { "u_spawn_item": "44magnum", "count": 17 },
+        { "u_spawn_item": "holster" },
+        { "u_spawn_item": "badge_marshal" },
         { "u_add_trait": "PROF_FED" }
       ]
     },
@@ -213,7 +324,7 @@
     "dialogue": {
       "describe": "We need help…",
       "offer": "I've located a Hell's Raiders encampment in the region that appears to be coordinating operations against the Free Merchants.  We know almost nothing about the command structure in the 'gang' so I need to send someone in to decapitate the leadership.  The raid will be held under orders of the U.S. Marshals Service and by agreeing to the mission you will become a marshal, swearing to assist the federal government in regaining order.",
-      "accepted": "Now repeat after me…  I do solemnly swear that I will support and defend the Constitution of the United States against all enemies, foreign and domestic…… that I will bear true faith and allegiance to the same…… that I take this obligation freely, without any mental reservation or purpose of evasion…… and that I will well and faithfully discharge the duties of the office on which I am about to enter.  To establish justice, insure domestic tranquility, provide for the common defense, promote the general welfare and secure the blessings of liberty.  So help me God.  Congratulations Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are considered deputy marshals so keep them in line.",
+      "accepted": "Now repeat after me… I do solemnly swear that I will support and defend the Constitution of the United States against all enemies, foreign and domestic… that I will bear true faith and allegiance to the same… that I take this obligation freely, without any mental reservation or purpose of evasion… and that I will well and faithfully discharge the duties of the office on which I am about to enter.  To establish justice, insure domestic tranquility, provide for the common defense, promote the general welfare and secure the blessings of liberty.  So help me God.  Congratulations Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are considered deputy marshals so keep them in line.",
       "rejected": "Come back when you get a chance, we could use a few good men.",
       "advice": "I'd recommend having two deputies… it would be a death trap if a single man got surrounded.",
       "inquire": "Has the leadership been dealt with?",

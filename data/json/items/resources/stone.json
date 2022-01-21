@@ -5,11 +5,11 @@
     "symbol": "*",
     "color": "light_gray",
     "name": { "str": "flaking rock" },
-    "description": "A rock the size of a baseball, which chips in a semi-predictable way if stuck, leaving a sharp edge.  Makes a decent melee weapon, and is also good for throwing at enemies.",
+    "description": "A rock the size of a baseball, which chips in a semi-predictable way if struck, leaving a sharp edge.  Makes a decent melee weapon, and is also good for throwing at enemies.",
     "category": "spare_parts",
     "material": [ "stone" ],
     "ammo_type": "rock",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
     "weight": "657 g",
     "volume": "250 ml",
     "longest_side": "8 cm",
@@ -19,7 +19,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_60" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
   },
   {
     "type": "GENERIC",
@@ -36,5 +36,18 @@
     "bashing": 28,
     "to_hit": -2,
     "qualities": [ [ "ANVIL", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "rock_wool_bat",
+    "symbol": "#",
+    "color": "brown",
+    "name": { "str": "fiber insulation bat" },
+    "//": "I am assuming this is made of rock wool, but it could also be fiberglass.  There is almost no practical difference for our purposes.",
+    "description": "A foil-wrapped bat of fibrous insulation: fire and moisture resistant, used for hot appliances like dishwashers and ovens.",
+    "category": "spare_parts",
+    "material": "epoxy",
+    "weight": "150 g",
+    "volume": "3 L"
   }
 ]

@@ -6,10 +6,11 @@
     "name": { "str_sp": "Mosin-Nagant M44" },
     "description": "The Model 44 is the carbine sized variant of the standard 1891/30.  It has a shorter barrel, therefore it is weaker than the 1891/30, but easier to carry.",
     "weight": "4100 g",
+    "volume": "2720 ml",
+    "longest_side": "1015 mm",
     "price": 23000,
     "price_postapoc": 3000,
     "relative": {
-      "volume": "-500 ml",
       "range": -6,
       "ranged_damage": { "damage_type": "bullet", "amount": -3 },
       "dispersion": 60,
@@ -23,6 +24,8 @@
     "name": { "str_sp": "Mosin-Nagant M44-EBR" },
     "description": "This carbine packs the classic Mosin-Nagant model 44 action in a modern-day stock capable of accepting modifications.",
     "weight": "4330 g",
+    "volume": "2870 ml",
+    "longest_side": "1015 mm",
     "price_postapoc": 3500,
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
@@ -49,7 +52,8 @@
     "name": { "str_sp": "Mosin-Nagant 1891/30" },
     "description": "The Mosin-Nagant 1891/30 is a bolt action, internal magazine-fed, military rifle, developed by the Russian Empire, and later used and perfected by the Soviet Union.",
     "weight": "4000 g",
-    "volume": "3 L",
+    "volume": "3120 ml",
+    "longest_side": "1241 mm",
     "price": 19000,
     "price_postapoc": 3000,
     "to_hit": -1,
@@ -60,27 +64,25 @@
     "range": 3,
     "dispersion": 90,
     "durability": 10,
+    "blackpowder_tolerance": 48,
     "clip_size": 5,
     "barrel_volume": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "ammo_restriction": { "762R": 5 } },
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "762R_clip" ]
-      }
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] }
     ]
   },
   {
@@ -90,6 +92,8 @@
     "name": { "str_sp": "Mosin-Nagant 1891/30-EBR" },
     "description": "This Mosin-Nagant has exchanged the classic wooden stock for a modern synthetic model, carefully balanced to the same weight and handling yet offering support for modern accessories.",
     "weight": "4230 g",
+    "volume": "3300 ml",
+    "longest_side": "1241 mm",
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
     "price_postapoc": 3500,

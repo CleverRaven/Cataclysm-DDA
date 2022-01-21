@@ -12,13 +12,10 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 5,
-    "encumbrance": 2,
     "material_thickness": 1,
     "pocket_data": [
       {
-        "moves": 10,
+        "moves": 30,
         "max_contains_volume": "3250 ml",
         "max_contains_weight": "5 kg",
         "max_item_length": "100 cm",
@@ -27,7 +24,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath axe", "holster_msg": "You sheath your %s" },
-    "flags": [ "NONCONDUCTIVE", "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "NONCONDUCTIVE", "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "id": "baldric",
@@ -43,22 +41,21 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [
       {
+        "magazine_well": "1500 ml",
         "max_contains_volume": "3 L",
         "max_contains_weight": "4 kg",
         "max_item_length": "130 cm",
-        "moves": 10,
+        "moves": 30,
         "holster": true,
         "flag_restriction": [ "SHEATH_SWORD" ]
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "bootsheath",
@@ -74,13 +71,11 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "foot_l", "foot_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [
       {
+        "magazine_well": "200 ml",
         "holster": true,
         "flag_restriction": [ "SHEATH_KNIFE" ],
         "moves": 30,
@@ -90,7 +85,39 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
+    "armor": [ { "encumbrance": [ 2, 3 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
+  },
+  {
+    "id": "bootsheath_birchbark",
+    "type": "ARMOR",
+    "name": { "str": "birchbark ankle sheath", "str_pl": "birchbark ankle sheathes" },
+    "description": "A handcrafted small concealed knife sheath worn on the ankle, made from birch bark.  It is awkward to use without practice.  Activate to sheathe/draw a weapon.",
+    "weight": "190 g",
+    "volume": "500 ml",
+    "price": 1200,
+    "price_postapoc": 150,
+    "to_hit": -1,
+    "material": [ "wood" ],
+    "symbol": "[",
+    "looks_like": "bootsheath",
+    "color": "brown",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "magazine_well": "200 ml",
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 35,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "30 cm"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
+    "armor": [ { "encumbrance": [ 2, 3 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "bscabbard",
@@ -106,22 +133,21 @@
     "symbol": "[",
     "looks_like": "baldric",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [
       {
+        "magazine_well": "1750 ml",
         "max_contains_volume": "3750 ml",
         "max_contains_weight": "5 kg",
-        "max_item_length": "140 cm",
+        "max_item_length": "180 cm",
         "holster": true,
-        "moves": 20,
+        "moves": 60,
         "flag_restriction": [ "SHEATH_SWORD" ]
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "scabbard",
@@ -137,22 +163,29 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 15,
-    "encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [
       {
+        "magazine_well": "1250 ml",
         "max_contains_volume": "2 L",
         "max_contains_weight": "4 kg",
         "max_item_length": "100 cm",
         "holster": true,
+        "moves": 30,
         "flag_restriction": [ "SHEATH_SWORD" ]
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 4 ],
+        "coverage": 15,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
   },
   {
     "id": "sheath",
@@ -167,22 +200,66 @@
     "symbol": "|",
     "looks_like": "scabbard",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 5,
     "material_thickness": 1,
     "pocket_data": [
       {
+        "magazine_well": "350 ml",
         "holster": true,
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
-        "moves": 3,
+        "moves": 20,
         "flag_restriction": [ "SHEATH_KNIFE" ]
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [
+      {
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": [ 0, 1 ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
+  },
+  {
+    "id": "sheath_birchbark",
+    "type": "ARMOR",
+    "name": { "str": "birchbark sheath", "str_pl": "birchbark sheathes" },
+    "description": "A handcrafted sheath made from birch bark, for holding knives and other small blades, with a strap attached.  Activate to sheathe/draw a weapon.",
+    "weight": "250 g",
+    "volume": "500 ml",
+    "price": 1500,
+    "price_postapoc": 200,
+    "material": [ "wood" ],
+    "symbol": "|",
+    "looks_like": "sheath",
+    "color": "brown",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "holster": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
+        "moves": 25,
+        "flag_restriction": [ "SHEATH_KNIFE" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": [ 0, 1 ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
   },
   {
     "id": "spearsling",
@@ -198,21 +275,19 @@
     "symbol": "[",
     "looks_like": "bscabbard",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 5,
-    "encumbrance": 4,
     "material_thickness": 1,
     "pocket_data": [
       {
         "holster": true,
         "moves": 30,
         "flag_restriction": [ "SHEATH_SPEAR" ],
-        "max_contains_volume": "3500 ml",
+        "max_contains_volume": "4000 ml",
         "max_contains_weight": "4 kg",
         "max_item_length": "200 cm"
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Holster spear", "holster_msg": "You holster your %s." },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   }
 ]

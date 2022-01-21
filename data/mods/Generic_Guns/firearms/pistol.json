@@ -7,7 +7,7 @@
     "ammo": [ "ammo_pistol" ],
     "description": "Since the early days of western expansion, when ammunition supply was infrequent, shooters sought to share ammo between their sidearms and long arms.  This tube magazine lever action carbine allows the shooter to reduce the number of calibers carried and squeeze more power from their pistol ammunition.",
     "clip_size": 10,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol": 10 }, "rigid": true } ]
   },
   {
     "id": "pistol_machine",
@@ -15,14 +15,15 @@
     "type": "GUN",
     "name": { "str": "machine pistol" },
     "ammo": [ "ammo_pistol" ],
-    "description": "This pistol is a tiny machinegun you can stuff into a holster, with which you could dump its magazine at a blistering rate into any close range foes.  Machine pistols mostly see use by vehicle crewmen or bodygaurds of VIPs.  Due to its preposterous rate of fire it is difficult to control.",
+    "description": "This pistol is a tiny machinegun you can stuff into a holster, with which you could dump its magazine at a blistering rate into any close range foes.  Machine pistols mostly see use by vehicle crewmen or bodyguards of VIPs.  Due to its preposterous rate of fire it is difficult to control.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ]
+        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -39,7 +40,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ]
+        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -56,7 +58,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ]
+        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -67,8 +70,10 @@
     "name": { "str": "police revolver" },
     "ammo": [ "ammo_pistol" ],
     "description": "Revolvers like this, chambered for standard defensive calibers, were a favorite of police departments for nearly a century, up until the 1986 Miami shootout.  Afterwards, the slow reloading and shooting of revolvers were considered liabilities; still, this model's accuracy and moderate recoil make for a serviceable sidearm, and there are no magazines for you to lose or damage.",
+    "volume": "400 ml",
+    "longest_side": "25 cm",
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "ammo_pistol": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "ammo_pistol": 6 }, "rigid": true } ]
   },
   {
     "id": "pistol_smg",
@@ -83,7 +88,8 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ]
+        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ],
+        "rigid": true
       }
     ]
   },
@@ -93,14 +99,15 @@
     "type": "GUN",
     "name": "survivor subgun",
     "ammo": [ "ammo_pistol" ],
-    "description": "A crudely constructed fully automatic submachinegun, accepting standard pistol and submachine gun magazines.  The heavy bolt makes accurate fire difficult, and its questionable construction makes for poor reliability and longevity.  Similar designs of desperation from the Second World War served their nations well enough, so this should be good for zombies... right?  Accepts standard pistol ammunition.",
+    "description": "A crudely constructed fully automatic submachinegun, accepting standard pistol and submachine gun magazines.  The heavy bolt makes accurate fire difficult, and its questionable construction makes for poor reliability and longevity.  Similar designs of desperation from the Second World War served their nations well enough, so this should be good for zombies… right?  Accepts standard pistol ammunition.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ]
+        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ],
+        "rigid": true
       }
     ]
   }

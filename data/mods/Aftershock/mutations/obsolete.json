@@ -39,11 +39,11 @@
     "valid": false,
     "cancels": [ "THINSKIN" ],
     "wet_protection": [
-      { "part": "LEG_L", "neutral": 2 },
-      { "part": "LEG_R", "neutral": 2 },
-      { "part": "ARM_L", "neutral": 2 },
-      { "part": "ARM_R", "neutral": 2 },
-      { "part": "TORSO", "neutral": 4 }
+      { "part": "leg_l", "neutral": 2 },
+      { "part": "leg_r", "neutral": 2 },
+      { "part": "arm_l", "neutral": 2 },
+      { "part": "arm_r", "neutral": 2 },
+      { "part": "torso", "neutral": 4 }
     ],
     "armor": [
       {
@@ -59,7 +59,6 @@
     "points": -1,
     "description": "A common flaw in your genemod, brought on by increased muscle mass and bone density.  Moving over rough terrain will slow you down more than normal.",
     "valid": false,
-    "cancels": [ "PARKOUR" ],
     "movecost_obstacle_modifier": 1.15
   },
   {
@@ -210,7 +209,7 @@
     "visibility": 1,
     "ugliness": 1,
     "mixed_effect": true,
-    "encumbrance_always": [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ] ],
+    "encumbrance_always": [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ] ],
     "description": "You have grown noticeably taller and broader.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance).",
     "valid": false,
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
@@ -253,7 +252,7 @@
     "passive_mods": { "str_mod": 4 },
     "hp_adjustment": -6,
     "fatigue_modifier": 0.15,
-    "restricts_gear": [ "TORSO", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1
   },
@@ -273,7 +272,7 @@
     "threshreq": [ "THRESH_MASTODON" ],
     "leads_to": [ "MUT_TANK" ],
     "passive_mods": { "str_mod": 4 },
-    "restricts_gear": [ "TORSO", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1
   },
@@ -284,7 +283,7 @@
     "points": -2,
     "visibility": 4,
     "ugliness": 5,
-    "description": "You smell like exactly like a shaggy elephant would, assuming it sweated, which you do.  Monsters that track scent will find you very easily, and humans will react poorly.",
+    "description": "You smell exactly like a shaggy elephant would, assuming it sweated, which you do.  Monsters that track scent will find you very easily, and humans will react poorly.",
     "valid": false,
     "scent_intensity": 1200,
     "prereqs": [ "ELEPHANTINE_SMELL" ],

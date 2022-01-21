@@ -131,7 +131,8 @@
     "size": 5,
     "power": 100,
     "food_supply": 115200,
-    "wealth": 1000000,
+    "wealth": 75000000,
+    "currency": "denarius",
     "relations": {
       "lobby_beggars": {
         "kill on sight": false,

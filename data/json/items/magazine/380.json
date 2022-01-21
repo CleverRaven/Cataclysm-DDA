@@ -3,8 +3,8 @@
     "id": "kp3atmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Kel-Tec P3AT magazine" },
-    "description": "A standard 6-round steel box magazine for the Kel-Tec P3AT.",
+    "name": { "str": "P-3AT 6-round magazine" },
+    "description": "A standard 6-round steel box magazine for the Kel-Tec P-3AT.",
     "weight": "60 g",
     "volume": "44 ml",
     "price": 1900,
@@ -13,7 +13,6 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "380" ],
-    "capacity": 6,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 6 } } ]
   },
@@ -21,7 +20,7 @@
     "id": "fn1910mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "FN 1910 magazine" },
+    "name": { "str": "FN 1910 6-round magazine" },
     "description": "A standard 6-round steel box magazine for the FN 1910.  It looks a bit old.",
     "weight": "80 g",
     "volume": "60ml",
@@ -31,7 +30,6 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "380" ],
-    "capacity": 6,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 6 } } ]
   },
@@ -39,7 +37,7 @@
     "id": "rugerlcpmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger LCP magazine" },
+    "name": { "str": "LCP 6-round magazine" },
     "description": "A standard 6-round capacity magazine for the Ruger LCP pistol.",
     "weight": "65 g",
     "volume": "60ml",
@@ -49,7 +47,6 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "380" ],
-    "capacity": 6,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 6 } } ]
   },
@@ -57,7 +54,7 @@
     "id": "mac11mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "MAC-11 magazine" },
+    "name": { "str": "MAC-11 32-round magazine" },
     "description": "A cheap 32-round steel box magazine for use with the MAC-11 SMG.",
     "weight": "200 g",
     "volume": "737ml",
@@ -67,7 +64,6 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "380" ],
-    "capacity": 32,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 32 } } ]
   },
@@ -85,7 +81,6 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "380" ],
-    "capacity": 8,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 8 } } ]
   },
@@ -103,7 +98,6 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "380" ],
-    "capacity": 10,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 10 } } ]
   },
@@ -111,7 +105,7 @@
     "id": "taurus_spectrum_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Taurus Spectrum magazine" },
+    "name": { "str": "Taurus Spectrum 6-round magazine" },
     "description": "A compact, 6-round steel box magazine for use with the Taurus Spectrum.",
     "weight": "65 g",
     "volume": "74 ml",
@@ -121,7 +115,6 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "380" ],
-    "capacity": 6,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 6 } } ]
   }

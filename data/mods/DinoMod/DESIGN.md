@@ -13,3 +13,38 @@ This mod is about adding content. In general it should have as light a touch on 
 
 # How to contribute
 This mod is distributed with the base game, so any content contributed will have to be submitted to the Github site. You can talk with the mod maintainers about your ideas on Discord.
+
+# Where should new dinosaurs spawn?
+North American dinos should be added to dinosaur and wilderness monster groups. Zombie variants should be added to the zinosaur monster groups. Dinos from other parts of the world should be added to the labs monster group and/or get a new dedicated lab finale variant just for them, especially good for finales if they're very dangerous. Small dinos that can't zombify are good options for CBM dinos. Fungal zombie variants get added to fungal spawn lists.
+
+# How to add a dinosaur
+As of this writing, each dinosaur touches at least ten different JSON files, listed here by folder. Please put the new dino in the same order in all files, near similar dinos, organized by real world taxonomy. 
+
+Main DinoMod folder: 
+
+* cooking_components.json is where you add the dinosaur egg to allow it to be cooked, 
+* monster_factions.json is where custom dino factions go. Plant eaters are pretty simple but predators have three each usually to manage famiies
+
+items folder:
+
+* egg.json is where you create the dino egg
+
+monstergroups folder:
+
+* dinosaur.json is where you add the dinosaur to spawn in special DinoMod locations
+* fungi.json is where you add the fungal variant to spawn in fungal locations
+* lab.json is where you add the dinosaur if it is not native to North America
+* misc.json has all kinds of odd lists, especially for safe, scaveninging, and underground dinos
+* monstergroups_egg.json is where you add the hatchling to be spawned from its own egg, and from random eggs
+* wilderness.json is where your dino will be spawned in natural settings. Forests should stay safe.
+* zinosaur.json  adds the zombified version to zombie spawn lists and is where the zombie upgrade groups go for now
+
+monsters folder:
+
+* dinosaur.json is where you finally create the dino itself. copy-from can be a good move to keep things tidy if there is already a similar dino
+* fungus.json is where you add the fungal variant
+* hatchling.json is where freshly hatched dinos go. Tiny dinos grow to adults directly, but larger ones (15 kg or greater) grow into...
+* juvenile.json is where juveniles go. They should be about half adult size and HP. They grow to be adults in adult weight in kg divided by six days or one year, whichever is shorter.
+* zed-dinosaur.json is where new zombified dinos go. copy-from can be very helpful here.
+* zinosaur_burned.json is where the burned zombie variant goes
+* zinosaur_upgrade.json is where upgraded versions go

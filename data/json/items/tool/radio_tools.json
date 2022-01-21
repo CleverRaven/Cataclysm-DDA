@@ -1,71 +1,56 @@
 [
   {
-    "id": "radio_car_box",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "radio car box", "str_pl": "radio car boxes" },
-    "description": "An RC car, with radio-control and batteries included!  Disassemble to unpack and enjoy.",
-    "weight": "3200 g",
-    "volume": "2 L",
-    "price": 30000,
-    "price_postapoc": 250,
-    "to_hit": -1,
-    "material": [ "plastic" ],
-    "symbol": ")",
-    "color": "red"
-  },
-  {
     "id": "radiocontrol",
-    "copy-from": "radio_car_box",
     "type": "TOOL",
     "name": { "str": "RC control" },
     "description": "A remote control for RC cars, with joystick to steer the car and colorful buttons that don't seem to do anything.  Perhaps they were for the deluxe model?",
     "symbol": "#",
     "color": "yellow",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 1,
     "turns_per_charge": 5,
-    "proportional": { "weight": 0.21, "volume": 0.25, "price": 0.2 },
+    "weight": "670 g",
+    "volume": "500 ml",
+    "price": 6000,
+    "price_postapoc": 250,
     "use_action": [ "RADIOCONTROL" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
       }
     ]
   },
   {
     "id": "radio_car",
-    "copy-from": "radio_car_box",
     "type": "TOOL",
     "name": { "str": "RC car" },
     "description": "A remote-controlled car.  Fun for young and old alike.",
     "symbol": "#",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
+    "weight": "2340 g",
+    "volume": "1500 ml",
+    "price": 24000,
+    "price_postapoc": 250,
     "use_action": [ "RADIOCAR" ],
-    "flags": [ "RADIO_CONTAINER" ],
+    "flags": [ "RADIO_CONTAINER", "WATER_BREAK" ],
     "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "flag_restriction": [ "RADIOCARITEM" ]
+      },
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ]
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_disposable_cell"
       }
     ]
   },
@@ -110,24 +95,15 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 1,
     "use_action": [ "RADIO_OFF" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
       }
     ]
   },
@@ -157,23 +133,13 @@
     "color": "green",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "flags": [ "TWO_WAY_RADIO" ],
+    "flags": [ "TWO_WAY_RADIO", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
       }
     ]
   },
@@ -191,6 +157,7 @@
     "symbol": "#",
     "color": "yellow",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 1,
     "turns_per_charge": 10,
     "use_action": [ "REMOTEVEH" ],
@@ -198,18 +165,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ]
   }

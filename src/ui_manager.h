@@ -24,7 +24,7 @@ class ui_adaptor
         ui_adaptor();
         // ui_adaptor constructed this way will block any uis below from being
         // redrawn or resized until it is deconstructed. It is used for `debug_msg`.
-        ui_adaptor( disable_uis_below );
+        explicit ui_adaptor( disable_uis_below );
         ui_adaptor( const ui_adaptor &rhs ) = delete;
         ui_adaptor( ui_adaptor &&rhs ) = delete;
         ~ui_adaptor();
@@ -65,7 +65,7 @@ class ui_adaptor
         // Reset all callbacks and dimensions
         void reset();
 
-        static void invalidate( const rectangle<point> &rect );
+        static void invalidate( const rectangle<point> &rect, bool reenable_uis_below );
         static void redraw();
         static void redraw_invalidated();
         static void screen_resized();
@@ -97,8 +97,14 @@ class background_pane
 namespace ui_manager
 {
 // rect is the pixel dimensions in tiles or console cell dimensions in curses
-void invalidate( const rectangle<point> &rect );
-// invalidate the top window and redraw all invalidated windows
+void invalidate( const rectangle<point> &rect, bool reenable_uis_below );
+/*
+ * Invalidate the top window and redraw all invalidated windows.
+ * Note that `ui_manager` may redraw multiple times when the game window is
+ * resized or the system requests a redraw during input calls, so any drawing
+ * code and other code that generates non-persistent UI info should be called
+ * inside the redraw callbacks of `ui_adaptor`, instead of being called directly.
+ */
 void redraw();
 // redraw all invalidated windows without invalidating the top window
 void redraw_invalidated();

@@ -1,0 +1,111 @@
+[
+  {
+    "type": "palette",
+    "id": "fbmsw_log_palette",
+    "terrain": {
+      ".": "t_floor_primitive",
+      "b": "t_floor_primitive",
+      "r": "t_floor_primitive",
+      "t": "t_floor_primitive",
+      "#": "t_floor_primitive",
+      "c": "t_floor_primitive",
+      "H": "t_floor_primitive",
+      "O": "t_floor_primitive",
+      "~": "t_swater_sh",
+      "o": "t_window_no_curtains",
+      "w": "t_wall_log",
+      "+": "t_door_c"
+    },
+    "furniture": {
+      ".": "f_clear",
+      "b": "f_bench",
+      "r": "f_rack",
+      "t": "f_table",
+      "#": "f_stool",
+      "c": "f_counter",
+      "H": "f_wood_keg",
+      "O": "f_fvat_empty",
+      "~": "f_clear",
+      "o": "f_clear",
+      "w": "f_clear",
+      "+": "f_clear"
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_saltworks_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_0" ], "x": 15, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_saltpan_log",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwowww",
+        "w.....w",
+        "w.c.c.w",
+        "o.~t~.o",
+        "w.~#~.w",
+        "w.....w",
+        "www+www"
+      ],
+      "palettes": [ "fbmsw_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_saltpan_log_northeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_saltpan_log" ], "x": 14, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_shack_log",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "  woww",
+        " wwrrw",
+        " +..to",
+        " orrrw",
+        " wwoww"
+      ],
+      "palettes": [ "fbmsw_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_shack_log_southeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_shack_log" ], "x": 15, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_brewery0_log",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwwww",
+        "w.rrr.w",
+        "oH....+",
+        "wO....w",
+        "o.....w",
+        "w.....w",
+        "wwwwwww"
+      ],
+      "palettes": [ "fbmsw_log_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_brewery0_log_southwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery0_log" ], "x": 3, "y": 14 } ] }
+  }
+]

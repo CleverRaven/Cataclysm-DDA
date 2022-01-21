@@ -4,6 +4,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <new>
 #include <set>
 #include <tuple>
 #include <unordered_set>
@@ -12,20 +13,24 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "catacharset.h"
+#include "character.h"
 #include "clone_ptr.h"
-#include "cursesdef.h"
 #include "debug.h"
+#include "flag.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "make_static.h"
+#include "optional.h"
 #include "output.h"
-#include "player.h"
+#include "pimpl.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -36,20 +41,19 @@ class Character;
 
 static const std::string errstring( "ERROR" );
 
-static const bionic_id bio_tools( "bio_tools" );
-static const bionic_id bio_claws( "bio_claws" );
-static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
-
-static const itype_id itype_UPS( "UPS" );
-
 struct tripoint;
 
 static item_action nullaction;
 
-static char key_bound_to( const input_context &ctxt, const item_action_id &act )
+static cata::optional<input_event> key_bound_to( const input_context &ctxt,
+        const item_action_id &act )
 {
-    auto keys = ctxt.keys_bound_to( act );
-    return keys.empty() ? '\0' : keys[0];
+    const std::vector<input_event> keys = ctxt.keys_bound_to( act, /*maximum_modifier_count=*/1 );
+    if( keys.empty() ) {
+        return cata::nullopt;
+    } else {
+        return keys.front();
+    }
 }
 
 class actmenu_cb : public uilist_callback
@@ -57,7 +61,7 @@ class actmenu_cb : public uilist_callback
     private:
         const action_map am;
     public:
-        actmenu_cb( const action_map &acm ) : am( acm ) { }
+        explicit actmenu_cb( const action_map &acm ) : am( acm ) { }
         ~actmenu_cb() override = default;
 
         bool key( const input_context &ctxt, const input_event &event, int /*idx*/,
@@ -78,10 +82,9 @@ item_action_generator::item_action_generator() = default;
 
 item_action_generator::~item_action_generator() = default;
 
-// Get use methods of this item and its contents
-bool item::item_has_uses_recursive() const
+bool item::item_has_uses_recursive( bool contents_only ) const
 {
-    if( !type->use_methods.empty() ) {
+    if( !contents_only && !type->use_methods.empty() ) {
         return true;
     }
 
@@ -111,13 +114,13 @@ bool item_pocket::item_has_uses_recursive() const
     return false;
 }
 
-item_action_map item_action_generator::map_actions_to_items( player &p ) const
+item_action_map item_action_generator::map_actions_to_items( Character &you ) const
 {
-    return map_actions_to_items( p, std::vector<item *>() );
+    return map_actions_to_items( you, std::vector<item *>() );
 }
 
-item_action_map item_action_generator::map_actions_to_items( player &p,
-        const std::vector<item *> &pseudos ) const
+item_action_map item_action_generator::map_actions_to_items( Character &you,
+        const std::vector<item *> &pseudos, const bool use_player_inventory ) const
 {
     std::set< item_action_id > unmapped_actions;
     for( const auto &ia_ptr : item_actions ) { // Get ids of wanted actions
@@ -125,9 +128,15 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
     }
 
     item_action_map candidates;
-    std::vector< item * > items = p.inv_dump();
-    items.reserve( items.size() + pseudos.size() );
-    items.insert( items.end(), pseudos.begin(), pseudos.end() );
+    std::vector< item * > items;
+    // Default behavior
+    if( use_player_inventory ) {
+        items = you.inv_dump();
+        items.reserve( items.size() + pseudos.size() );
+        items.insert( items.end(), pseudos.begin(), pseudos.end() );
+    } else {
+        items = pseudos;
+    }
 
     std::unordered_set< item_action_id > to_remove;
     for( item *i : items ) {
@@ -145,18 +154,22 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
 
             const use_function *func = actual_item->get_use( use );
             if( !( func && func->get_actor_ptr() &&
-                   func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ).success() ) ) {
+                   func->get_actor_ptr()->can_use( you, *actual_item, false, you.pos() ).success() ) ) {
                 continue;
             }
-            if( !actual_item->ammo_sufficient() &&
-                ( !actual_item->has_flag( "USE_UPS" ) ||
-                  p.charges_of( itype_UPS ) < actual_item->ammo_required() ) ) {
+
+            if( !actual_item->ammo_sufficient( &you, use ) ) {
                 continue;
             }
 
             // Don't try to remove 'irremovable' toolmods
-            if( actual_item->is_toolmod() && use == item_action_id( "TOOLMOD_ATTACH" ) &&
-                actual_item->has_flag( "IRREMOVABLE" ) ) {
+            if( actual_item->is_toolmod() && use == STATIC( item_action_id( "TOOLMOD_ATTACH" ) ) &&
+                actual_item->has_flag( STATIC( flag_id( "IRREMOVABLE" ) ) ) ) {
+                continue;
+            }
+
+            // Prevent drinking frozen liquids that have specific use actions (ex: ALCOHOL)
+            if( actual_item->is_frozen_liquid() ) {
                 continue;
             }
 
@@ -240,23 +253,33 @@ void item_action_generator::check_consistency() const
     }
 }
 
-void game::item_action_menu()
+void game::item_action_menu( item_location loc )
 {
     const auto &gen = item_action_generator::generator();
     const action_map &item_actions = gen.get_item_action_map();
-
-    // HACK: A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
     std::vector<item *> pseudos;
-    item toolset( "toolset", calendar::turn );
-    if( u.has_active_bionic( bio_tools ) ) {
-        pseudos.push_back( &toolset );
+    bool use_player_inventory = false;
+    if( !loc ) {
+        use_player_inventory = true;
+        // Ugly const_cast because the menu needs non-const pointers
+        std::vector<const item *> pseudo_items = get_player_character().get_pseudo_items();
+        pseudos.reserve( pseudo_items.size() );
+        for( const item *pseudo : pseudo_items ) {
+            pseudos.push_back( const_cast<item *>( pseudo ) );
+        }
+    } else {
+        if( loc.get_item()->type->has_use() ) {
+            pseudos.push_back( const_cast< item * >( loc.get_item() ) );
+        }
+        loc.get_item()->visit_contents( [&pseudos]( item * node, item * ) {
+            if( node->type->use_methods.empty() ) {
+                return VisitResponse::NEXT;
+            }
+            pseudos.push_back( const_cast<item *>( node ) );
+            return VisitResponse::NEXT;
+        } );
     }
-    item bio_claws_item( static_cast<std::string>( bio_claws_weapon ), calendar::turn );
-    if( u.has_active_bionic( bio_claws ) ) {
-        pseudos.push_back( &bio_claws_item );
-    }
-
-    item_action_map iactions = gen.map_actions_to_items( u, pseudos );
+    item_action_map iactions = gen.map_actions_to_items( u, pseudos, use_player_inventory );
     if( iactions.empty() ) {
         popup( _( "You don't have any items with registered uses" ) );
     }
@@ -264,7 +287,7 @@ void game::item_action_menu()
     uilist kmenu;
     kmenu.text = _( "Execute which action?" );
     kmenu.input_category = "ITEM_ACTIONS";
-    input_context ctxt( "ITEM_ACTIONS", keyboard_mode::keychar );
+    input_context ctxt( "ITEM_ACTIONS", keyboard_mode::keycode );
     for( const std::pair<const item_action_id, item_action> &id : item_actions ) {
         ctxt.register_action( id.first, id.second.name );
         kmenu.additional_actions.emplace_back( id.first, id.second.name );
@@ -291,7 +314,15 @@ void game::item_action_menu()
     []( const std::pair<item_action_id, item *> &elem ) {
         std::string ss = elem.second->display_name();
         if( elem.second->ammo_required() ) {
-            ss += string_format( "(-%d)", elem.second->ammo_required() );
+
+            if( elem.second->has_flag( flag_USES_BIONIC_POWER ) ) {
+                ss += string_format( "(%d kJ)", elem.second->ammo_required() );
+            } else {
+                auto iter = elem.second->type->ammo_scale.find( elem.first );
+                ss += string_format( "(-%d)", int( elem.second->ammo_required() * ( iter ==
+                                                   elem.second->type->ammo_scale.end() ? 1 : double( iter->second ) ) ) );
+            }
+
         }
 
         const use_function *method = elem.second->get_use( elem.first );
@@ -303,10 +334,12 @@ void game::item_action_menu()
     } );
     // Sort mapped actions.
     sort_menu( menu_items.begin(), menu_items.end() );
-    // Add unmapped but binded actions to the menu vector.
-    for( const auto &elem : item_actions ) {
-        if( key_bound_to( ctxt, elem.first ) != '\0' && !assigned_action( elem.first ) ) {
-            menu_items.emplace_back( elem.first, gen.get_action_name( elem.first ), "-" );
+    if( !loc ) {
+        // Add unmapped but binded actions to the menu vector.
+        for( const auto &elem : item_actions ) {
+            if( key_bound_to( ctxt, elem.first ).has_value() && !assigned_action( elem.first ) ) {
+                menu_items.emplace_back( elem.first, gen.get_action_name( elem.first ), "-" );
+            }
         }
     }
     // Sort unmapped actions.
@@ -329,7 +362,7 @@ void game::item_action_menu()
         ss += std::get<2>( elem );
         ss += std::string( max_len.second - utf8_width( std::get<2>( elem ), true ), ' ' );
 
-        const char bind = key_bound_to( ctxt, std::get<0>( elem ) );
+        const cata::optional<input_event> bind = key_bound_to( ctxt, std::get<0>( elem ) );
         const bool enabled = assigned_action( std::get<0>( elem ) );
 
         kmenu.addentry( num, enabled, bind, ss );

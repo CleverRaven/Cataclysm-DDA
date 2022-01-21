@@ -1,6 +1,6 @@
 [
   {
-    "//": "mostly removes areas with their own storylines, static NPCs, and the like. some will be readded with time",
+    "//": "mostly removes areas with their own storylines, static NPCs, and the like. some will be returned with time",
     "type": "overmap_special",
     "id": "Necropolis",
     "overmaps": [  ],

@@ -38,15 +38,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "blrmag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "blrmag" ] } ]
   },
   {
     "id": "garand",
@@ -55,6 +47,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "M1 Garand" },
     "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
+    "ascii_picture": "m1_garand",
     "weight": "4280 g",
     "volume": "3160 ml",
     "longest_side": "1107 mm",
@@ -85,15 +78,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "garandclip" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "garandclip" ] } ]
   },
   {
     "id": "m1903",
@@ -133,14 +118,7 @@
     ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 5 } },
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "3006_clip" ]
-      }
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 5 }, "allowed_speedloaders": [ "3006_clip" ] }
     ]
   },
   {
@@ -150,6 +128,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "Browning Automatic Rifle" },
     "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield.",
+    "ascii_picture": "1918_BAR",
     "weight": "8820 g",
     "volume": "4450 ml",
     "longest_side": "1216 mm",
@@ -182,15 +161,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "m1918mag", "m1918bigmag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1918mag", "m1918bigmag" ] } ]
   },
   {
     "id": "remington_700",
@@ -199,6 +170,7 @@
     "type": "GUN",
     "name": { "str_sp": "Remington 700 .30-06" },
     "description": "A very popular and durable hunting or sniping rifle.  Popular among SWAT and US Marine snipers.  Highly damaging, but perhaps not as accurate as the competing Browning BLR.",
+    "ascii_picture": "rem700_3006",
     "weight": "3350 g",
     "volume": "3190 ml",
     "longest_side": "1141 mm",

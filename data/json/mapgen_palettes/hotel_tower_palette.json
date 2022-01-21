@@ -55,7 +55,7 @@
       "~": "t_thconc_floor",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
-      "#": "t_rock",
+      "#": "t_soil",
       "$": "t_sewage_pipe",
       "4": "t_gutter_downspout",
       "P": "t_sewage_pump"

@@ -1,0 +1,25 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_helipad_garage_0",
+    "description": "Survey military helipad garage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "180 m",
+    "construction_blueprint": "faction_base_helipad_garage_0",
+    "blueprint_provides": [
+      { "id": "fbmc_helipad_garage_0" },
+      { "id": "tool_storage" },
+      { "id": "dismantling" },
+      { "id": "blacksmith" },
+      { "id": "power_saw_recipes" }
+    ],
+    "blueprint_resources": [ "fake_planer", "fake_drill_press" ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "military helipad garage survey",
+    "check_blueprint_needs": false
+  }
+]

@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_MONSTER_ORACLE_H
 #define CATA_SRC_MONSTER_ORACLE_H
 
-#include <string>
+#include <iosfwd>
 
 #include "behavior_oracle.h"
 
@@ -10,11 +10,12 @@ class monster;
 
 namespace behavior
 {
+enum class status_t : char;
 
 class monster_oracle_t : public oracle_t
 {
     public:
-        monster_oracle_t( const monster *subject ) {
+        explicit monster_oracle_t( const monster *subject ) {
             this->subject = subject;
         }
         /**
@@ -24,6 +25,7 @@ class monster_oracle_t : public oracle_t
         status_t items_available( const std::string & ) const;
         status_t adjacent_plants( const std::string & ) const;
         status_t special_available( const std::string &special_name ) const;
+        status_t split_possible( const std::string & ) const;
     private:
         const monster *subject;
 };

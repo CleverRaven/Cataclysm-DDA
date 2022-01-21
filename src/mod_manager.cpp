@@ -1,10 +1,12 @@
 #include "mod_manager.h"
 
 #include <algorithm>
+#include <functional>
 #include <iterator>
 #include <memory>
 #include <ostream>
 #include <queue>
+#include <type_traits>
 
 #include "assign.h"
 #include "cata_utility.h"
@@ -12,11 +14,13 @@
 #include "dependency_tree.h"
 #include "filesystem.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "path_info.h"
 #include "string_formatter.h"
-#include "string_id.h"
-#include "translations.h"
 #include "worldfactory.h"
+
+static const mod_id MOD_INFORMATION_dev_default( "dev:default" );
+static const mod_id MOD_INFORMATION_user_default( "user:default" );
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
@@ -46,37 +50,38 @@ std::string MOD_INFORMATION::name() const
         //~ name of a mod that has no name entry, (%s is the mods identifier)
         return string_format( _( "No name (%s)" ), ident.c_str() );
     } else {
-        return _( name_ );
+        return name_.translated();
     }
 }
 
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories()
+const std::vector<std::pair<std::string, translation>> &get_mod_list_categories()
 {
-    static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
-        {"content", translate_marker( "CORE CONTENT PACKS" )},
-        {"items", translate_marker( "ITEM ADDITION MODS" )},
-        {"creatures", translate_marker( "CREATURE MODS" )},
-        {"misc_additions", translate_marker( "MISC ADDITIONS" )},
-        {"buildings", translate_marker( "BUILDINGS MODS" )},
-        {"vehicles", translate_marker( "VEHICLE MODS" )},
-        {"rebalance", translate_marker( "REBALANCING MODS" )},
-        {"magical", translate_marker( "MAGICAL MODS" )},
-        {"item_exclude", translate_marker( "ITEM EXCLUSION MODS" )},
-        {"monster_exclude", translate_marker( "MONSTER EXCLUSION MODS" )},
-        {"graphical", translate_marker( "GRAPHICAL MODS" )},
-        {"", translate_marker( "NO CATEGORY" )}
+    static const std::vector<std::pair<std::string, translation>> mod_list_categories = {
+        {"total_conversion", to_translation( "TOTAL CONVERSIONS" )},
+        {"content", to_translation( "CORE CONTENT PACKS" )},
+        {"items", to_translation( "ITEM ADDITION MODS" )},
+        {"creatures", to_translation( "CREATURE MODS" )},
+        {"misc_additions", to_translation( "MISC ADDITIONS" )},
+        {"buildings", to_translation( "BUILDINGS MODS" )},
+        {"vehicles", to_translation( "VEHICLE MODS" )},
+        {"rebalance", to_translation( "REBALANCING MODS" )},
+        {"magical", to_translation( "MAGICAL MODS" )},
+        {"item_exclude", to_translation( "ITEM EXCLUSION MODS" )},
+        {"monster_exclude", to_translation( "MONSTER EXCLUSION MODS" )},
+        {"graphical", to_translation( "GRAPHICAL MODS" )},
+        {"", to_translation( "NO CATEGORY" )}
     };
 
     return mod_list_categories;
 }
 
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs()
+const std::vector<std::pair<std::string, translation>> &get_mod_list_tabs()
 {
-    static const std::vector<std::pair<std::string, std::string> > mod_list_tabs = {
-        {"tab_default", translate_marker( "Default" )},
-        {"tab_blacklist", translate_marker( "Blacklist" )},
-        {"tab_balance", translate_marker( "Balance" )}
+    static const std::vector<std::pair<std::string, translation>> mod_list_tabs = {
+        {"tab_default", to_translation( "Default" )},
+        {"tab_blacklist", to_translation( "Blacklist" )},
+        {"tab_balance", to_translation( "Balance" )}
     };
 
     return mod_list_tabs;
@@ -98,7 +103,7 @@ void mod_manager::load_replacement_mods( const std::string &path )
     read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
         jsin.start_array();
         while( !jsin.end_array() ) {
-            auto arr = jsin.get_array();
+            JsonArray arr = jsin.get_array();
             mod_replacements.emplace( mod_id( arr.get_string( 0 ) ),
                                       mod_id( arr.size() > 1 ? arr.get_string( 1 ) : "" ) );
         }
@@ -151,12 +156,12 @@ void mod_manager::refresh_mod_list()
         load_mod_info( PATH_INFO::mods_user_default() );
     }
 
-    if( !set_default_mods( mod_id( "user:default" ) ) ) {
-        set_default_mods( mod_id( "dev:default" ) );
+    if( !set_default_mods( MOD_INFORMATION_user_default ) ) {
+        set_default_mods( MOD_INFORMATION_dev_default );
     }
     // remove these mods from the list, so they do not appear to the user
-    remove_mod( mod_id( "user:default" ) );
-    remove_mod( mod_id( "dev:default" ) );
+    remove_mod( MOD_INFORMATION_user_default );
+    remove_mod( MOD_INFORMATION_dev_default );
     for( auto &elem : mod_map ) {
         const auto &deps = elem.second.dependencies;
         mod_dependency_map[elem.second.ident] = std::vector<mod_id>( deps.begin(), deps.end() );
@@ -218,10 +223,11 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
         return;
     }
 
-    const std::string m_name = jo.get_string( "name", "" );
+    translation m_name;
+    jo.read( "name", m_name );
 
     std::string m_cat = jo.get_string( "category", "" );
-    std::pair<int, std::string> p_cat = {-1, ""};
+    std::pair<int, translation> p_cat = {-1, translation()};
     bool bCatFound = false;
 
     do {
@@ -249,9 +255,6 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
         modfile.path = path + "/" + modfile.path;
     } else {
         modfile.path = path;
-    }
-    if( assign( jo, "legacy", modfile.legacy ) ) {
-        modfile.legacy = path + "/" + modfile.legacy;
     }
 
     assign( jo, "authors", modfile.authors );
@@ -292,7 +295,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         return true;
     }
     std::vector<std::string> search_extensions;
-    search_extensions.push_back( ".json" );
+    search_extensions.emplace_back( ".json" );
 
     DebugLog( D_INFO, DC_ALL ) << "Copying mod contents into directory: " << output_base_path;
 
@@ -343,8 +346,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
 
         // trim file paths from full length down to just /data forward
         for( auto &input_file : input_files ) {
-            std::string output_path = input_file;
-            output_path = cur_mod_dir + output_path.substr( start_index );
+            std::string output_path = cur_mod_dir + input_file.substr( start_index );
             copy_file( input_file, output_path );
         }
     }
@@ -434,7 +436,7 @@ const mod_manager::t_mod_list &mod_manager::get_default_mods() const
     return default_mods;
 }
 
-inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
+static inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
         const MOD_INFORMATION *const b )
 {
     return localized_compare( std::make_pair( a->category, a->name() ),
@@ -443,7 +445,8 @@ inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
 
 void mod_manager::set_usable_mods()
 {
-    std::vector<mod_id> available_cores, available_supplementals;
+    std::vector<mod_id> available_cores;
+    std::vector<mod_id> available_supplementals;
     std::vector<mod_id> ordered_mods;
 
     std::vector<const MOD_INFORMATION *> mods;

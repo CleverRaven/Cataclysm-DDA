@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_RECIPE_GROUPS_H
 #define CATA_SRC_RECIPE_GROUPS_H
 
+#include <iosfwd>
 #include <map>
-#include <string>
 
 #include "type_id.h"
 

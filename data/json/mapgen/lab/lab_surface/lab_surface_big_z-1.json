@@ -165,7 +165,7 @@
       ],
       "terrain": {
         "|": "t_strconc_wall",
-        "#": "t_rock",
+        "#": "t_soil",
         "<": "t_stairs_up",
         ">": "t_stairs_down",
         "@": "t_elevator_control_off",

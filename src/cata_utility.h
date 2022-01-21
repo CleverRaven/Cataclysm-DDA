@@ -3,15 +3,23 @@
 #define CATA_SRC_CATA_UTILITY_H
 
 #include <algorithm>
+#include <cstddef>
+#include <ctime>
 #include <functional>
 #include <iosfwd>
-#include <string>
+#include <map>
+#include <string> // IWYU pragma: keep
 #include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "enums.h"
+#include "json.h"
+
 class JsonIn;
 class JsonOut;
+class JsonValue;
 class translation;
 
 /**
@@ -71,7 +79,6 @@ T divide_round_up( T num, T den )
 {
     return ( num + den - 1 ) / den;
 }
-
 
 int divide_round_down( int a, int b );
 
@@ -199,6 +206,13 @@ double temp_to_celsius( double fahrenheit );
 double temp_to_kelvin( double fahrenheit );
 
 /**
+ * Convert a temperature from degrees Celsius to Kelvin.
+ *
+ * @return Temperature in degrees K.
+ */
+double celsius_to_kelvin( double celsius );
+
+/**
  * Convert a temperature from Kelvin to degrees Fahrenheit.
  *
  * @return Temperature in degrees C.
@@ -266,7 +280,7 @@ class list_circularizer
         std::vector<T> *_list;
     public:
         /** Construct list_circularizer from an existing std::vector. */
-        list_circularizer( std::vector<T> &_list ) : _list( &_list ) {
+        explicit list_circularizer( std::vector<T> &_list ) : _list( &_list ) {
         }
 
         /** Advance list to next item, wrapping back to 0 at end of list */
@@ -303,8 +317,6 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
 ///@}
 
-class JsonDeserializer;
-
 /**
  * Try to open and read from given file using the given callback.
  *
@@ -314,9 +326,8 @@ class JsonDeserializer;
  * If the stream is in a fail state (other than EOF) after the callback returns, it is handled as
  * error as well.
  *
- * The callback can either be a generic `std::istream`, a @ref JsonIn stream (which has been
- * initialized from the `std::istream`) or a @ref JsonDeserializer object (in case of the later,
- * it's `JsonDeserializer::deserialize` method will be invoked).
+ * The callback can either be a generic `std::istream` or a @ref JsonIn stream (which has been
+ * initialized from the `std::istream`) or a @ref JsonValue object.
  *
  * The functions with the "_optional" prefix do not show a debug message when the file does not
  * exist. They simply ignore the call and return `false` immediately (without calling the callback).
@@ -327,13 +338,15 @@ class JsonDeserializer;
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
 bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
-bool read_from_file( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_json( const std::string &path,
+                          const std::function<void( const JsonValue & )> &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
 bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( JsonIn & )> &reader );
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( const JsonValue & )> &reader );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
@@ -359,7 +372,7 @@ std::string obscure_message( const std::string &str, const std::function<char()>
  *
  * The functions here provide a way to (de)serialize objects without actually
  * including "json.h". The `*_wrapper` function create the JSON stream instances
- * and therefor require "json.h", but the caller doesn't. Callers should just
+ * and therefore require "json.h", but the caller doesn't. Callers should just
  * forward the stream reference to the actual (de)serialization function.
  *
  * The inline function do this by calling `T::(de)serialize` (which is assumed
@@ -381,11 +394,21 @@ inline std::string serialize( const T &obj )
     } );
 }
 
-template<typename T>
-inline void deserialize( T &obj, const std::string &data )
+template < typename T, std::enable_if_t < detail::IsJsonInDeserializable<T>::value &&
+           !detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+inline void deserialize_from_string( T &obj, const std::string &data )
 {
     deserialize_wrapper( [&obj]( JsonIn & jsin ) {
         obj.deserialize( jsin );
+    }, data );
+}
+
+template < typename T, std::enable_if_t < !detail::IsJsonInDeserializable<T>::value &&
+           detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+inline void deserialize_from_string( T &obj, const std::string &data )
+{
+    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
+        obj.deserialize( jsin.get_value() );
     }, data );
 }
 /**@}*/
@@ -396,9 +419,31 @@ inline void deserialize( T &obj, const std::string &data )
 bool string_starts_with( const std::string &s1, const std::string &s2 );
 
 /**
+ * Returns true iff s1 starts with s2.
+ * This version accepts constant string literals and is ≈1.5 times faster than std::string version.
+ * Note: N is (size+1) for null-terminated strings.
+ */
+template <std::size_t N>
+inline bool string_starts_with( const std::string &s1, const char( &s2 )[N] )
+{
+    return s1.compare( 0, N - 1, s2, N - 1 ) == 0;
+}
+
+/**
  * \brief Returns true iff s1 ends with s2
  */
 bool string_ends_with( const std::string &s1, const std::string &s2 );
+
+/**
+ *  Returns true iff s1 ends with s2.
+ *  This version accepts constant string literals and is ≈1.5 times faster than std::string version.
+ *  Note: N is (size+1) for null-terminated strings.
+ */
+template <std::size_t N>
+inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
+{
+    return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;
+}
 
 /** Used as a default filter in various functions */
 template<typename T>
@@ -412,6 +457,118 @@ bool return_true( const T & )
  */
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
 
+/**
+ * Append all arguments after the first to the first.
+ *
+ * This provides a way to append several strings to a single root string
+ * in a single line without an expression like 'a += b + c' which can cause an
+ * unnecessary allocation in the 'b + c' expression.
+ */
+template<typename... T>
+std::string &str_append( std::string &root, T &&...a )
+{
+    // Using initializer list as a poor man's fold expression until C++17.
+    static_cast<void>(
+    std::array<bool, sizeof...( T )> { {
+            ( root.append( std::forward<T>( a ) ), false )...
+        }
+    } );
+    return root;
+}
+
+/**
+ * Concatenates a bunch of strings with append, to minimze unnecessary
+ * allocations
+ */
+template<typename T0, typename... T>
+std::string str_cat( T0 &&a0, T &&...a )
+{
+    std::string result( std::forward<T0>( a0 ) );
+    return str_append( result, std::forward<T>( a )... );
+}
+
+/**
+ * Erases elements from a set that match given predicate function.
+ * Will work on vector, albeit not optimally performance-wise.
+ * @return true if set was changed
+ */
+//bool erase_if( const std::function<bool( const value_type & )> &predicate ) {
+template<typename Col, class Pred>
+bool erase_if( Col &set, Pred predicate )
+{
+    bool ret = false;
+    auto iter = set.begin();
+    for( ; iter != set.end(); ) {
+        if( predicate( *iter ) ) {
+            iter = set.erase( iter );
+            ret = true;
+        } else {
+            ++iter;
+        }
+    }
+    return ret;
+}
+
+/**
+ * Checks if two sets are equal, ignoring specified elements.
+ * Works as if `ignored_elements` were temporarily erased from both sets before comparison.
+ * @tparam Set type of the set (must be ordered, i.e. std::set, cata::flat_set)
+ * @param set first set to compare
+ * @param set2 second set to compare
+ * @param ignored_elements elements from both sets to ignore
+ * @return true, if sets without ignored elements are equal, false otherwise
+ */
+template<typename Set, typename T = std::decay_t<decltype( *std::declval<const Set &>().begin() )>>
+bool equal_ignoring_elements( const Set &set, const Set &set2, const Set &ignored_elements )
+{
+    // general idea: splits both sets into the ranges bounded by elements from `ignored_elements`
+    // and checks that these ranges are equal
+
+    // traverses ignored elements in
+    if( ignored_elements.empty() ) {
+        return set == set2;
+    }
+
+    using Iter = typename Set::iterator;
+    Iter end = ignored_elements.end();
+    Iter cur = ignored_elements.begin();
+    Iter prev = cur;
+    cur++;
+
+    // first comparing the sets range [set.begin() .. ignored_elements.begin()]
+    if( !std::equal( set.begin(), set.lower_bound( *prev ),
+                     set2.begin(), set2.lower_bound( *prev ) ) ) {
+        return false;
+    }
+
+    // compare ranges bounded by two elements: [`prev` .. `cur`]
+    while( cur != end ) {
+        if( !std::equal( set.upper_bound( *prev ), set.lower_bound( *cur ),
+                         set2.upper_bound( *prev ), set2.lower_bound( *cur ) ) ) {
+            return false;
+        }
+        prev = cur;
+        cur++;
+    }
+
+    // compare the range after the last element of ignored_elements: [ignored_elements.back() .. set.end()]
+    return static_cast<bool>( std::equal( set.upper_bound( *prev ), set.end(),
+                                          set2.upper_bound( *prev ), set2.end() ) );
+}
+
+/**
+ * Return a copy of a std::map with some keys removed.
+ */
+template<typename K, typename V>
+std::map<K, V> map_without_keys( const std::map<K, V> &original, const std::vector<K> &remove_keys )
+{
+    std::map<K, V> filtered( original );
+    for( const K &key : remove_keys ) {
+        filtered.erase( key );
+    }
+    return filtered;
+}
+
 int modulo( int v, int m );
 
 class on_out_of_scope
@@ -419,8 +576,13 @@ class on_out_of_scope
     private:
         std::function<void()> func;
     public:
-        on_out_of_scope( const std::function<void()> &func ) : func( func ) {
+        explicit on_out_of_scope( const std::function<void()> &func ) : func( func ) {
         }
+
+        on_out_of_scope( const on_out_of_scope & ) = delete;
+        on_out_of_scope( on_out_of_scope && ) = delete;
+        on_out_of_scope &operator=( const on_out_of_scope & ) = delete;
+        on_out_of_scope &operator=( on_out_of_scope && ) = delete;
 
         ~on_out_of_scope() {
             if( func ) {
@@ -442,14 +604,52 @@ class restore_on_out_of_scope
         on_out_of_scope impl;
     public:
         // *INDENT-OFF*
-        restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
+        explicit restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
             impl( [this]() { t = std::move( orig_t ); } ) {
         }
 
-        restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
+        explicit restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
             impl( [this]() { t = std::move( orig_t ); } ) {
         }
         // *INDENT-ON*
+
+        restore_on_out_of_scope( const restore_on_out_of_scope<T> & ) = delete;
+        restore_on_out_of_scope( restore_on_out_of_scope<T> && ) = delete;
+        restore_on_out_of_scope &operator=( const restore_on_out_of_scope<T> & ) = delete;
+        restore_on_out_of_scope &operator=( restore_on_out_of_scope<T> && ) = delete;
 };
+
+/** Add elements from one set to another */
+template <typename T>
+std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, const std::unordered_set<T> &rhv )
+{
+    lhv.insert( rhv.begin(), rhv.end() );
+    return lhv;
+}
+
+/** Move elements from one set to another */
+template <typename T>
+std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, std::unordered_set<T> &&rhv )
+{
+    for( const T &value : rhv ) {
+        lhv.insert( std::move( value ) );
+    }
+    rhv.clear();
+    return lhv;
+}
+
+/**
+ * Get the current holiday based on the given time, or based on current time if time = 0
+ * @param time The timestampt to assess
+ * @param force_refresh Force recalculation of current holiday, otherwise use cached value
+*/
+holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false );
+
+/**
+ * Returns a random (weighted) bucket index from a list of weights
+ * @param weights vector with a list of int weights
+ * @return random bucket index
+ */
+int bucket_index_from_weight_list( const std::vector<int> &weights );
 
 #endif // CATA_SRC_CATA_UTILITY_H

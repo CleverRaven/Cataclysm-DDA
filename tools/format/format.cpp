@@ -1,37 +1,16 @@
+#include "format.h"
 #include "json.h"
 
-#include "getpost.h"
-
-#if defined(_MSC_VER)
-#include <io.h>
-#else
-#include <unistd.h>
-#endif
-#include <cstdlib>
-#include <fstream>
 #include <functional>
-#include <map>
 #include <sstream>
 #include <string>
-
-static void format( JsonIn &jsin, JsonOut &jsout, int depth = -1, bool force_wrap = false );
-
-#if defined(MSYS2) || defined(_MSC_VER)
-static void erase_char( std::string &s, const char &c )
-{
-    size_t pos = std::string::npos;
-    while( ( pos  = s.find( c ) ) != std::string::npos ) {
-        s.erase( pos, 1 );
-    }
-}
-#endif
 
 static void write_array( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
 {
     jsout.start_array( force_wrap );
     jsin.start_array();
     while( !jsin.end_array() ) {
-        format( jsin, jsout, depth );
+        formatter::format( jsin, jsout, depth );
     }
     jsout.end_array();
 }
@@ -47,7 +26,7 @@ static void write_object( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wr
         if( name == "rows" || name == "blueprint" ) {
             // Introspect into the row, if it has more than one element, force it to wrap.
             int in_start_pos = jsin.tell();
-            bool ate_seperator = jsin.get_ate_separator();
+            bool ate_separator = jsin.get_ate_separator();
             {
                 JsonArray arr = jsin.get_array();
                 if( arr.size() > 1 ) {
@@ -55,9 +34,9 @@ static void write_object( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wr
                 }
             }
             jsin.seek( in_start_pos );
-            jsin.set_ate_separator( ate_seperator );
+            jsin.set_ate_separator( ate_separator );
         }
-        format( jsin, jsout, depth, override_wrap );
+        formatter::format( jsin, jsout, depth, override_wrap );
     }
     jsout.end_object();
 }
@@ -70,7 +49,7 @@ static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
         // We're backtracking by storing jsin and jsout state before formatting
         // and restoring it afterwards if necessary.
         int in_start_pos = jsin.tell();
-        bool ate_seperator = jsin.get_ate_separator();
+        bool ate_separator = jsin.get_ate_separator();
         int out_start_pos = jsout.tell();
         bool need_separator = jsout.get_need_separator();
         write_func( jsin, jsout, depth, false );
@@ -81,7 +60,7 @@ static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
             // Reset jsin and jsout to their initial state,
             // and we'll serialize while forcing wrapping.
             jsin.seek( in_start_pos );
-            jsin.set_ate_separator( ate_seperator );
+            jsin.set_ate_separator( ate_separator );
             jsout.seek( out_start_pos );
             if( need_separator ) {
                 jsout.set_need_separator();
@@ -91,7 +70,7 @@ static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
     write_func( jsin, jsout, depth, true );
 }
 
-static void format( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
+void formatter::format( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
 {
     depth++;
     if( jsin.test_array() ) {
@@ -156,84 +135,5 @@ static void format( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
             std::cerr << jsin.peek();
         }
         std::cerr << "\"" << std::endl;
-    }
-}
-
-int main( int argc, char *argv[] )
-{
-    std::stringstream in;
-    std::stringstream out;
-    std::string filename;
-    std::string header;
-
-    char *gateway_var = getenv( "GATEWAY_INTERFACE" );
-    if( gateway_var == nullptr ) {
-        // Expect a single filename for now.
-        if( argc == 2 ) {
-            filename = argv[1];
-        } else if( argc != 1 ) {
-            std::cout << "Supply a filename to style or no arguments." << std::endl;
-            exit( EXIT_FAILURE );
-        }
-
-        if( filename.empty() ) {
-            in << std::cin.rdbuf();
-        } else {
-            std::ifstream fin( filename, std::ios::binary );
-            if( !fin.good() ) {
-                std::cout << "Failed to open " << filename << std::endl;
-                exit( EXIT_FAILURE );
-            }
-            in << fin.rdbuf();
-            fin.close();
-        }
-    } else {
-        std::map<std::string, std::string> params;
-        initializePost( params );
-        std::string data = params[ "data" ];
-        if( data.empty() ) {
-            exit( -255 );
-        }
-        in.str( data );
-        header = "Content-type: application/json\n\n";
-    }
-
-    if( in.str().empty() ) {
-        std::cout << "Error, input empty." << std::endl;
-        exit( EXIT_FAILURE );
-    }
-    JsonOut jsout( out, true );
-    JsonIn jsin( in );
-
-    format( jsin, jsout );
-
-    out << std::endl;
-
-    if( filename.empty() ) {
-        std::cout << header;
-        std::cout << out.str();
-    } else {
-        std::string in_str = in.str();
-#if defined(MSYS2) || defined(_MSC_VER)
-        erase_char( in_str, '\r' );
-#endif
-
-#if defined(_MSC_VER)
-        bool supports_color = _isatty( _fileno( stdout ) );
-#else
-        bool supports_color = isatty( STDOUT_FILENO );
-#endif
-        std::string color_bad = supports_color ? "\x1b[31m" : std::string();
-        std::string color_end = supports_color ? "\x1b[0m" : std::string();
-        if( in_str == out.str() ) {
-            exit( EXIT_SUCCESS );
-        } else {
-            std::ofstream fout( filename, std::ios::binary | std::ios::trunc );
-            fout << out.str();
-            fout.close();
-            std::cout << color_bad << "Needs linting : " << color_end << filename << std::endl;
-            std::cout << "Please read doc/JSON_STYLE.md" << std::endl;
-            exit( EXIT_FAILURE );
-        }
     }
 }

@@ -1,0 +1,194 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for an average human moxie",
+    "id": "default_moxie_human_clothes",
+    "entries": [
+      { "group": "coats_unisex_afs", "damage": [ 1, 4 ], "prob": 20 },
+      { "item": "thermal_shirt", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "common_gloves_afs", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "hatstore_hats_afs", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "scarfs_unisex_afs", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "accesories_personal_unisex_afs", "damage": [ 1, 4 ], "prob": 15 },
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 10, "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 90, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_unisex_afs", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex_afs", "prob": 60, "damage": [ 1, 4 ] },
+                      { "item": "leather_belt", "prob": 30, "damage": [ 1, 4 ] }
+                    ]
+                  }
+                ]
+              },
+              { "group": "shoes_unisex_afs", "prob": 30, "damage": [ 1, 4 ] },
+              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+              { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_unisex_afs", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shoes_unisex_afs", "prob": 30, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex_afs", "prob": 60, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          { "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] } ] },
+                          { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
+                      }
+                    ],
+                    "prob": 70
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "items people could have carried in their bags prior to the moxification, that word is a WIP, haha",
+    "id": "default_moxie_human_item_bags",
+    "entries": [
+      { "group": "bags", "damage": [ 1, 4 ] },
+      { "group": "default_moxie_human_items_pockets", "prob": 50 },
+      { "group": "homebooks", "prob": 30 },
+      { "group": "alcohol_bottled_canned", "prob": 10 },
+      { "group": "vending_drink_items", "prob": 25 },
+      { "item": "laptop", "prob": 10, "charges-min": 0, "charges-max": 500 },
+      { "item": "eink_tablet_pc", "prob": 10, "charges-min": 0, "charges-max": 50 },
+      { "item": "vibrator", "prob": 5, "charges-min": 0, "charges-max": 50 },
+      { "item": "file", "prob": 10 },
+      { "item": "thermos", "prob": 10 },
+      { "item": "spray_can", "prob": 10 },
+      {
+        "distribution": [
+          { "group": "tools_carpentry", "prob": 33 },
+          { "group": "tools_home", "prob": 33 },
+          { "group": "tools_electronics", "prob": 33 }
+        ],
+        "prob": 5
+      },
+      {
+        "distribution": [
+          { "item": "camera", "prob": 70, "charges-min": 0, "charges-max": 50 },
+          { "item": "camera_pro", "prob": 30, "charges-min": 0, "charges-max": 50 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "items people could have carried in their pockets prior to moxieification",
+    "id": "default_moxie_human_items_pockets",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "pockknife", "prob": 50 },
+          { "item": "knife_folding", "prob": 30 },
+          { "item": "knife_swissarmy", "prob": 10 },
+          { "item": "switchblade", "prob": 10 }
+        ],
+        "prob": 5
+      },
+      {
+        "distribution": [
+          { "item": "cig", "prob": 65, "charges-min": 0, "charges-max": 20 },
+          { "item": "chaw", "prob": 5 },
+          { "item": "cigar", "prob": 10 },
+          { "item": "handrolled_cig", "prob": 10 },
+          { "item": "nic_gum", "prob": 20 },
+          { "item": "ecig", "prob": 15 },
+          { "collection": [ { "item": "weed" }, { "item": "pipe_glass", "prob": 50 } ], "prob": 10 },
+          { "distribution": [ { "item": "joint", "prob": 80 }, { "item": "joint_roach", "prob": 20 } ], "prob": 10 },
+          {
+            "collection": [
+              { "item": "tobacco" },
+              { "distribution": [ { "item": "rolling_paper", "prob": 80 }, { "item": "pipe_tobacco", "prob": 20 } ] }
+            ],
+            "prob": 10
+          },
+          { "collection": [ { "item": "advanced_ecig" }, { "item": "nicotine_liquid" } ], "prob": 10 },
+          { "collection": [ { "item": "crackpipe" }, { "item": "crack" } ], "prob": 5 }
+        ],
+        "prob": 50
+      },
+      {
+        "distribution": [
+          { "item": "lighter", "prob": 100, "charges": [ 0, 100 ] },
+          { "item": "ref_lighter", "prob": 40, "charges": [ 0, 50 ] },
+          { "item": "matches", "prob": 20, "charges": [ 0, 20 ] }
+        ],
+        "prob": 30
+      },
+      { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
+      { "item": "mp3", "prob": 18, "charges-min": 0, "charges-max": 15 },
+      { "item": "portable_game", "prob": 10, "charges-min": 0, "charges-max": 50 },
+      { "item": "game_watch", "prob": 10, "damage": [ 1, 4 ], "charges-min": 0, "charges-max": 50 },
+      { "item": "usb_drive", "prob": 10 },
+      { "item": "meth", "prob": 2 },
+      { "item": "coke", "prob": 2 },
+      { "item": "lsd", "prob": 2 },
+      { "item": "heroin", "prob": 2 },
+      { "item": "mobile_memory_card", "prob": 10 },
+      { "item": "flyer", "prob": 30 },
+      { "item": "multitool", "prob": 5 },
+      { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },
+      { "group": "softdrugs", "prob": 10 },
+      { "group": "harddrugs", "prob": 5 },
+      { "group": "phones", "prob": 85 },
+      { "group": "vending_food_items", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "items that an average zombie carries around and drops on death",
+    "id": "default_moxie_human_items",
+    "ammo": 30,
+    "magazine": 100,
+    "entries": [
+      { "group": "default_moxie_human_item_bags", "prob": 16 },
+      { "group": "default_moxie_human_items_pockets", "prob": 20 },
+      { "group": "ammo_pistol_common", "prob": 2 },
+      { "group": "ammo_shotgun_common", "prob": 1 },
+      { "group": "guns_pistol_common", "prob": 2 },
+      { "group": "guns_shotgun_common", "prob": 1, "contents-item": "shoulder_strap" },
+      { "group": "postman_gear", "prob": 5 },
+      { "group": "hardware_plumbing", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth (always), a cash card (10% chance), and a random item (50% chance)",
+    "id": "default_moxie_human_death_drops",
+    "entries": [
+      { "group": "default_moxie_human_clothes" },
+      { "group": "default_moxie_human_items", "prob": 50 },
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 }
+    ]
+  }
+]

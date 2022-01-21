@@ -49,8 +49,8 @@ Mandatory. The color shown on the panels when this mode is selected.
 ### `symbol_color`
 Mandatory. The color shown in curses when your character is in this move mode.
 
-### `extertion_level`
-Mandatory. What extertion level this move mode will put you into. The options are, from least to most exercise:
+### `exertion_level`
+Mandatory. What exertion level this move mode will put you into. The options are, from least to most exercise:
 ```
 NO_EXERCISE
 LIGHT_EXERCISE

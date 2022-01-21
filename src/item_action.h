@@ -2,16 +2,17 @@
 #ifndef CATA_SRC_ITEM_ACTION_H
 #define CATA_SRC_ITEM_ACTION_H
 
+#include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
 
 #include "translations.h"
 
-class item_action;
-class player;
-class item;
 class JsonObject;
+class item;
+class item_action;
+class Character;
 
 using item_action_id = std::string;
 using item_action_map = std::map< item_action_id, item * >;
@@ -41,8 +42,17 @@ class item_action_generator
         // Assigns items to actions they perform on use
         // Prefers items with smaller charge_per_use
         // "pseudos" are extra items not in player's inventory that should still be mapped
-        item_action_map map_actions_to_items( player &p ) const;
-        item_action_map map_actions_to_items( player &p, const std::vector<item *> &pseudos ) const;
+        item_action_map map_actions_to_items( Character &you ) const;
+
+        /**
+        * Assigns items to actions they perform on use.
+        * Prefers items with smaller charge_per_use.
+        * "pseudos" are extra items not in player's inventory that should still be mapped.
+        * @param use_player_inventory If true then include all of player inventory.
+        * @return actions mapped to items
+        */
+        item_action_map map_actions_to_items( Character &you, const std::vector<item *> &pseudos,
+                                              const bool use_player_inventory = true ) const;
 
         // Returns (translated) name of action
         std::string get_action_name( const item_action_id &id ) const;

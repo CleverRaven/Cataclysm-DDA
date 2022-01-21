@@ -3,6 +3,7 @@
 #define CATA_SRC_BASECAMP_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -10,9 +11,9 @@
 #include <string>
 #include <vector>
 
+#include "coordinates.h"
 #include "craft_command.h"
 #include "inventory.h"
-#include "map.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
@@ -20,8 +21,8 @@
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonOut;
+class JsonObject;
 class character_id;
 class npc;
 class time_duration;
@@ -30,6 +31,7 @@ enum class farm_ops : int;
 class item;
 class mission_data;
 class recipe;
+class tinymap;
 
 struct expansion_data {
     std::string type;
@@ -37,13 +39,12 @@ struct expansion_data {
     std::map<std::string, int> in_progress;
     tripoint_abs_omt pos;
     // legacy camp level, replaced by provides map and set to -1
-    int cur_level;
+    int cur_level = 0;
 
 };
 
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
-using Group_tag = std::string;
 
 namespace catacurses
 {
@@ -53,7 +54,7 @@ class window;
 namespace base_camps
 {
 
-enum tab_mode {
+enum tab_mode : int {
     TAB_MAIN,
     TAB_N,
     TAB_NE,
@@ -81,7 +82,7 @@ extern const std::map<point, direction_data> all_directions;
 
 point direction_from_id( const std::string &id );
 
-const point base_dir{};
+constexpr point base_dir;
 const std::string prefix = "faction_base_";
 const std::string id = "FACTION_CAMP";
 const int prefix_len = 13;
@@ -150,7 +151,7 @@ class basecamp
         void set_by_radio( bool access_by_radio );
 
         std::string board_name() const;
-        std::vector<point> directions;
+        std::vector<point> directions; // NOLINT(cata-serialize)
         std::vector<tripoint_abs_omt> fortifications;
         std::string name;
         void faction_display( const catacurses::window &fac_w, int width ) const;
@@ -165,6 +166,8 @@ class basecamp
         void define_camp( const tripoint_abs_omt &p, const std::string &camp_type = "default" );
 
         std::string expansion_tab( const point &dir ) const;
+        // check whether the point is the part of camp
+        bool point_within_camp( const tripoint_abs_omt &p ) const;
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
         bool has_provides( const std::string &req, const cata::optional<point> &dir = cata::nullopt,
@@ -207,7 +210,7 @@ class basecamp
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
         std::list<item> use_charges( const itype_id &fake_id, int &quantity );
-        std::string get_gatherlist() const;
+        item_group_id get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search
@@ -216,7 +219,7 @@ class basecamp
          * @param difficulty a random number from 0 to difficulty is created for each attempt, and
          * if skill is higher, an item or corpse is spawned
          */
-        void search_results( int skill, const Group_tag &group_id, int attempts, int difficulty );
+        void search_results( int skill, const item_group_id &, int attempts, int difficulty );
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search
@@ -227,11 +230,11 @@ class basecamp
          * if skill is higher, an item or corpse is spawned
          */
         void hunting_results( int skill, const std::string &task, int attempts, int difficulty );
-        inline const tripoint &get_dumping_spot() const {
+        inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
         }
         // dumping spot in absolute co-ords
-        inline void set_dumping_spot( const tripoint &spot ) {
+        inline void set_dumping_spot( const tripoint_abs_ms &spot ) {
             dumping_spot = spot;
         }
         void place_results( const item &result );
@@ -284,11 +287,9 @@ class basecamp
         void start_clearcut();
         void start_setup_hide_site();
         void start_relay_hide_site();
-        /// Called when a compansion is sent to start fortifications
+        /// Called when a companion is sent to start fortifications
         void start_fortifications( std::string &bldg_exp );
         void start_combat_mission( const std::string &miss );
-        /// Called when a companion starts a chop shop @ref task mission
-        bool start_garage_chop( const point &dir, const tripoint_abs_omt &omt_tgt );
         void start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
@@ -336,7 +337,7 @@ class basecamp
         std::vector<npc_ptr> get_npcs_assigned();
         // Save/load
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         void load_data( const std::string &data );
 
         static constexpr int inv_range = 20;
@@ -346,21 +347,21 @@ class basecamp
         // lazy re-evaluation of available camp resources
         void reset_camp_resources();
         void add_resource( const itype_id &camp_resource );
-        bool resources_updated = false;
+        bool resources_updated = false; // NOLINT(cata-serialize)
         // omt pos
         tripoint_abs_omt omt_pos;
-        std::vector<npc_ptr> assigned_npcs;
+        std::vector<npc_ptr> assigned_npcs; // NOLINT(cata-serialize)
         // location of associated bulletin board in abs coords
         tripoint bb_pos;
         std::map<point, expansion_data> expansions;
-        comp_list camp_workers;
-        tripoint dumping_spot;
+        comp_list camp_workers; // NOLINT(cata-serialize)
+        tripoint_abs_ms dumping_spot;
 
-        std::set<itype_id> fuel_types;
-        std::vector<basecamp_fuel> fuels;
-        std::vector<basecamp_resource> resources;
-        inventory _inv;
-        bool by_radio = false;
+        std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
+        std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)
+        std::vector<basecamp_resource> resources; // NOLINT(cata-serialize)
+        inventory _inv; // NOLINT(cata-serialize)
+        bool by_radio = false; // NOLINT(cata-serialize)
 };
 
 class basecamp_action_components

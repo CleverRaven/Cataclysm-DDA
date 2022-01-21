@@ -6,7 +6,7 @@
     "description": "Crystallizes mana into solid form.  Your physiological changes have made this spell much more efficient and easier to cast.",
     "valid_targets": [ "self" ],
     "spell_class": "MANA_CRYST_MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE", "NO_HANDS" ],
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "max_level": 5,
     "difficulty": 3,
     "min_damage": 4,
@@ -14,6 +14,7 @@
     "duration_increment": 1,
     "effect": "spawn_item",
     "effect_str": "crystallized_mana",
+    "shape": "blast",
     "energy_source": "MANA",
     "base_energy_cost": 1000,
     "final_energy_cost": 1000,
@@ -25,7 +26,8 @@
     "id": "manatouched_seeker_bolts",
     "type": "SPELL",
     "name": "Seeker Bolts",
-    "effect": "projectile_attack",
+    "effect": "attack",
+    "shape": "blast",
     "description": "Fires bolts of mana from your fingertips that home in on randomly selected targets in range.",
     "valid_targets": [ "hostile" ],
     "spell_class": "MANA_SEEKER_BOLTS",
@@ -40,8 +42,9 @@
     "base_energy_cost": 250,
     "base_casting_time": 85,
     "final_casting_time": 85,
+    "damage_type": "pure",
     "sound_description": "a zing",
-    "flags": [ "RANDOM_TARGET", "SOMATIC", "NO_LEGS" ],
+    "flags": [ "RANDOM_TARGET", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" } ]
   }
 ]

@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_PROFESSION_H
 #define CATA_SRC_PROFESSION_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <set>
@@ -11,18 +11,15 @@
 #include <vector>
 
 #include "pldata.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
-template<typename T>
-class generic_factory;
-
-using Group_tag = std::string;
-class item;
 class JsonObject;
 class avatar;
-class player;
+class item;
+class Character;
+template<typename T>
+class generic_factory;
 
 class profession
 {
@@ -34,7 +31,8 @@ class profession
             /** Snippet id, @see snippet_library. */
             snippet_id snip_id;
             // compatible with when this was just a std::string
-            itypedec( const std::string &t ) : type_id( t ), snip_id( snippet_id::NULL_ID() ) {
+            explicit itypedec( const std::string &t ) :
+                type_id( t ), snip_id( snippet_id::NULL_ID() ) {
             }
             itypedec( const std::string &t, const snippet_id &d ) : type_id( t ), snip_id( d ) {
             }
@@ -57,9 +55,9 @@ class profession
         itypedecvec legacy_starting_items;
         itypedecvec legacy_starting_items_male;
         itypedecvec legacy_starting_items_female;
-        Group_tag _starting_items = "EMPTY_GROUP";
-        Group_tag _starting_items_male = "EMPTY_GROUP";
-        Group_tag _starting_items_female = "EMPTY_GROUP";
+        item_group_id _starting_items = item_group_id( "EMPTY_GROUP" );
+        item_group_id _starting_items_male = item_group_id( "EMPTY_GROUP" );
+        item_group_id _starting_items_female = item_group_id( "EMPTY_GROUP" );
         itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
         std::vector<addiction> _starting_addictions;
@@ -73,6 +71,8 @@ class profession
         std::map<spell_id, int> _starting_spells;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
+
+        std::string _subtype;
 
         void check_item_definitions( const itypedecvec &items ) const;
 
@@ -88,6 +88,7 @@ class profession
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession
         static const std::vector<profession> &get_all();
+        static std::vector<string_id<profession>> get_all_hobbies();
 
         static bool has_initialized();
         // clear profession map, every profession pointer becomes invalid!
@@ -125,11 +126,13 @@ class profession
          *
          * @return true, if player can pick profession. Otherwise - false.
          */
-        bool can_pick( const player &u, int points ) const;
+        bool can_pick( const Character &you, int points ) const;
         bool is_locked_trait( const trait_id &trait ) const;
         bool is_forbidden_trait( const trait_id &trait ) const;
         std::vector<trait_id> get_locked_traits() const;
         std::set<trait_id> get_forbidden_traits() const;
+
+        bool is_hobby() const;
 };
 
 #endif // CATA_SRC_PROFESSION_H

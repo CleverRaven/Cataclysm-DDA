@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "potion_starter",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
@@ -13,10 +14,12 @@
     "book_learn": [ [ "alchemy_basic", 3 ], [ "necro_basic", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5 } ],
     "using": [ [ "hard_liquor", 7 ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "potion_starter_superior",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
@@ -29,10 +32,12 @@
     "book_learn": [ [ "alchemy_basic", 3 ], [ "necro_basic", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "components": [ [ [ "chem_ethanol", 7 ] ], [ [ "alumentum", 1 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mana_potion_lesser",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ] ] ],
@@ -42,12 +47,14 @@
     "skill_used": "chemistry",
     "difficulty": 3,
     "skills_required": [ "spellcraft", 3 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "autolearn": true
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mana_potion",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ] ] ],
@@ -57,12 +64,14 @@
     "skill_used": "chemistry",
     "difficulty": 4,
     "skills_required": [ "spellcraft", 4 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "autolearn": true
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mana_potion_greater",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ] ] ],
@@ -72,18 +81,21 @@
     "skill_used": "chemistry",
     "difficulty": 5,
     "skills_required": [ "spellcraft", 5 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "autolearn": true
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "manatouched_serum",
     "qualities": [ { "id": "MAGIC_MUTAGEN", "level": 1 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CONCENTRATE", "level": 1 } ],
     "components": [ [ [ "mana_dust", 20 ] ], [ [ "mana_potion", 4 ], [ "mana_potion_greater", 1 ], [ "mana_infused_blood", 6 ] ] ],
     "skill_used": "chemistry",
     "difficulty": 4,
     "skills_required": [ "spellcraft", 6 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "time": "4 h",
     "batch_time_factors": [ 80, 5 ],
     "category": "CC_ENCHANTED",
@@ -92,6 +104,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cats_grace_potion",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
@@ -103,6 +116,7 @@
     "book_learn": [ [ "alchemy_basic", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ], [ "rune_magus_weapon", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "components": [
       [ [ "potion_starter", 5 ] ],
       [ [ "hairball", 2 ] ],
@@ -124,11 +138,13 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "ogres_strength_potion",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "skill_used": "chemistry",
     "skills_required": [ "spellcraft", 5 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "difficulty": 5,
     "time": "60 m",
     "batch_time_factors": [ 50, 4 ],
@@ -139,11 +155,13 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "eagles_sight_potion",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "skill_used": "chemistry",
     "skills_required": [ "spellcraft", 5 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "difficulty": 5,
     "time": "60 m",
     "batch_time_factors": [ 50, 4 ],
@@ -158,6 +176,11 @@
         [ "egg_grouse", 5 ],
         [ "egg_duck", 3 ],
         [ "egg_crow", 5 ],
+        [ "egg_raven", 5 ],
+        [ "egg_bluejay", 5 ],
+        [ "egg_cardinal", 5 ],
+        [ "egg_robin", 5 ],
+        [ "egg_sparrow", 7 ],
         [ "egg_chicken", 5 ],
         [ "egg_pheasant", 5 ],
         [ "egg_cockatrice", 5 ],
@@ -182,11 +205,13 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "foxs_cunning_potion",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "skill_used": "chemistry",
     "skills_required": [ "spellcraft", 5 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "difficulty": 5,
     "time": "60 m",
     "batch_time_factors": [ 50, 4 ],
@@ -208,11 +233,13 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "twisted_restore_potion",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "skill_used": "chemistry",
     "skills_required": [ "spellcraft", 4 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "difficulty": 4,
     "time": "60 m",
     "result_mult": 5,
@@ -223,15 +250,17 @@
       [ [ "surface_heat", 10, "LIST" ] ],
       [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ]
     ],
-    "components": [ [ [ "potion_starter", 5 ] ], [ [ "blood", 3 ] ], [ [ "slime_scrap", 4 ], [ "meat_tainted", 12 ] ] ]
+    "components": [ [ [ "potion_starter", 5 ] ], [ [ "edible_blood", 3, "LIST" ] ], [ [ "slime_scrap", 4 ], [ "meat_tainted", 12 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "twisted_restore_potion_improved",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
     "skill_used": "chemistry",
     "skills_required": [ "spellcraft", 6 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "difficulty": 6,
     "time": "60 m",
     "result_mult": 5,
@@ -241,9 +270,31 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
     "components": [
       [ [ "potion_starter", 5 ] ],
-      [ [ "blood", 5 ] ],
+      [ [ "edible_blood", 5, "LIST" ] ],
       [ [ "slime_scrap", 5 ], [ "meat_tainted", 15 ] ],
       [ [ "bandages", 5 ], [ "bandages_makeshift_bleached", 7 ], [ "bandages_makeshift_boiled", 7 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "alchemist_bomb",
+    "qualities": [
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "MAGIC_CAULDRON", "level": 1 }
+    ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [ [ [ "potion_starter", 6 ] ], [ [ "crystallized_mana", 25 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": true } ],
+    "time": "30 m",
+    "skill_used": "chemistry",
+    "batch_time_factors": [ 65, 4 ],
+    "difficulty": 6,
+    "skills_required": [ "spellcraft", 4 ],
+    "book_learn": [ [ "alchemy_basic", 4 ] ],
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_OTHER"
   }
 ]

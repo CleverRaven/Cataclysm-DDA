@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "char_validity_check.h"
 
 TEST_CASE( "char_validity_check" )

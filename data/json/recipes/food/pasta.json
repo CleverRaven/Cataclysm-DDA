@@ -2,6 +2,7 @@
   {
     "result": "spaghetti_cooked",
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -17,6 +18,7 @@
   {
     "result": "macaroni_cooked",
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -34,6 +36,7 @@
   {
     "result": "spaghetti_bolognese",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -41,7 +44,7 @@
     "time": "20 m",
     "charges": 3,
     "book_learn": [ [ "cookbook_italian", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "spaghetti_raw", 1 ] ],
@@ -60,6 +63,7 @@
   {
     "result": "lasagne",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -67,7 +71,7 @@
     "time": "20 m",
     "charges": 4,
     "book_learn": [ [ "cookbook_italian", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "lasagne_raw", 1 ] ],
@@ -87,14 +91,18 @@
   {
     "result": "spaghetti_pesto",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
     "difficulty": 4,
     "charges": 1,
     "time": "20 m",
-    "book_learn": [ [ "cookbook_italian", 3 ], [ "cookbook_foodfashions", 4, "Spaghetti Luchetto" ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "book_learn": {
+      "cookbook_italian": { "skill_level": 3 },
+      "cookbook_foodfashions": { "skill_level": 4, "recipe_name": "Spaghetti Luchetto" }
+    },
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [
       [ [ "spaghetti_raw", 1 ] ],
@@ -104,7 +112,9 @@
         [ "veggy", 2 ],
         [ "veggy_wild", 2 ],
         [ "rehydrated_veggy", 2 ],
+        [ "rehydrated_corn_kernels", 2 ],
         [ "dry_veggy", 2 ],
+        [ "dry_corn", 2 ],
         [ "mushroom", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "morel_cooked", 2 ],
@@ -115,6 +125,7 @@
   {
     "result": "noodles_fast",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -122,11 +133,12 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 7 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 7 ], [ "flour_wheat_free", 7 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "result": "spaghetti_raw",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -134,11 +146,12 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 5 ], [ "flour_wheat_free", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "result": "lasagne_raw",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -146,11 +159,12 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 5 ], [ "flour_wheat_free", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "result": "macaroni_raw",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -158,11 +172,12 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 5 ], [ "flour_wheat_free", 5 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "result": "macaroni_helper",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",

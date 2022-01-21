@@ -3,10 +3,10 @@
     "type": "snippet",
     "category": "epilogue_factions",
     "text": [
-      { "id": "epilogue_faction_default", "text": "    You are forgotten among the billions lost in the cataclysm…" },
+      { "id": "epilogue_faction_default", "text": "    You are forgotten among the billions lost in the Cataclysm…" },
       {
         "id": "epilogue_faction_your_followers_0",
-        "text": "    You are forgotten among the billions lost in the cataclysm…"
+        "text": "    You are forgotten among the billions lost in the Cataclysm…"
       },
       {
         "id": "epilogue_faction_old_guard_0",
@@ -14,7 +14,7 @@
       },
       {
         "id": "epilogue_faction_old_guard_150",
-        "text": "    The steadfastness of individual survivors after the cataclysm impressed the tattered remains of the once glorious union.  Spurred on by small successes, a number of operations to re-secure facilities met with limited success.  Forced to eventually consolidate to large bases, the Old Guard left these facilities in the hands of the few survivors that remained.  As the years passed, little materialized from the hopes of rebuilding civilization…"
+        "text": "    The steadfastness of individual survivors after the Cataclysm impressed the tattered remains of the once glorious union.  Spurred on by small successes, a number of operations to re-secure facilities met with limited success.  Forced to eventually consolidate to large bases, the Old Guard left these facilities in the hands of the few survivors that remained.  As the years passed, little materialized from the hopes of rebuilding civilization…"
       },
       {
         "id": "epilogue_faction_free_merchants_0",
@@ -22,7 +22,7 @@
       },
       {
         "id": "epilogue_faction_free_merchants_150",
-        "text": "    The Free Merchants struggled for years to keep themselves fed but their once profitable trade routes were plundered by bandits and thugs.  In squalor and filth the first generations born after the cataclysm are told stories of the old days when food was abundant and the children were allowed to play in the sun…"
+        "text": "    The Free Merchants struggled for years to keep themselves fed but their once profitable trade routes were plundered by bandits and thugs.  In squalor and filth the first generations born after the Cataclysm are told stories of the old days when food was abundant and the children were allowed to play in the sun…"
       },
       {
         "id": "epilogue_faction_tacoma_commune_0",
@@ -33,12 +33,20 @@
         "text": "    The commune continued to grow rapidly through the years despite constant external threat.  While maintaining a reputation as a haven for all law-abiding citizens, the commune's leadership remained loyal to the interests of the Free Merchants.  Hard labor for little reward remained the price to be paid for those who sought the safety of the community."
       },
       {
+        "id": "epilogue_faction_isolated_road_0",
+        "text": "    The artisans continued to work for a time.  However a lack of trade and connection left them doomed from the begining.  At some point the properties became abandoned with no signs of the former inhabitants."
+      },
+      {
+        "id": "epilogue_faction_isolated_road_150",
+        "text": "    The artisans became a corner stone of the survivor community and economy.  Cody's infectious desire for sharing helped bridge gaps with other groups and Jay's 'banking' service became crucial to maintaining security."
+      },
+      {
         "id": "epilogue_faction_wasteland_scavengers_0",
         "text": "    The lone bands of survivors who wandered the now alien world dwindled in number through the years.  Unable to compete with the growing number of monstrosities that had adapted to live in their world, those who did survive lived in dejected poverty and hopelessness…"
       },
       {
         "id": "epilogue_faction_wasteland_scavengers_150",
-        "text": "    The scavengers who flourished in the opening days of the cataclysm found an ever increasing challenge in finding and maintaining equipment from the old world.  Enormous hordes made cities impossible to enter while new eldritch horrors appeared mysteriously near old research labs.  But on the fringes of where civilization once ended, bands of hunter-gatherers began to adopt agrarian lifestyles in fortified enclaves…"
+        "text": "    The scavengers who flourished in the opening days of the Cataclysm found an ever increasing challenge in finding and maintaining equipment from the old world.  Enormous hordes made cities impossible to enter while new eldritch horrors appeared mysteriously near old research labs.  But on the fringes of where civilization once ended, bands of hunter-gatherers began to adopt agrarian lifestyles in fortified enclaves…"
       },
       {
         "id": "epilogue_faction_hells_raiders_0",
@@ -47,6 +55,14 @@
       {
         "id": "epilogue_faction_hells_raiders_150",
         "text": "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to overthrow the last strongholds of the Old Guard.  The costly victories brought the warlords abundant territory and slaves but little in the way of stability.  Within weeks, infighting led to civil war as tribes vied for leadership of the faction.  When only one warlord finally secured control, there was nothing left to fight for… just endless cities full of the dead."
+      },
+      {
+        "id": "epilogue_faction_robofac_0",
+        "text": "    Despite Melchior's enlightened leadership, shortages and crises plagued Hub-01 from the first day of the Cataclysm.  The researchers and administrators among the surviving staff lacked the practical skills to survive in the savage new world.  As Hub-01's systems collapsed from a lack of maintenance, the few survivors fled the building to be killed by the zombies and bandits."
+      },
+      {
+        "id": "epilogue_faction_robofac_150",
+        "text": "       Melchior's enlightened leadership, combined with practical skills provided by mercenary survivors, allowed Hub-01 to flourish briefly.  It became a mecca for advanced technology, selling off devices and equipment that could no longer be reproduced.  Despite this, Hub-01 was never able to expand sufficiently to renew its own population, nor was it able to unite with any other prosperous community, nor could enough trustworthy mercenaries (or staff) be recruited to replace those who died in its defense.  Hub-01 fell into disrepair and ruin.  After the air processing facility was overtaken by mold, the remaining staff of Hub-01 fled the building and were killed by zombies and bandits.  Melchior's drones - possibly by design - were incapable of maintaining themselves without human hands, and stopped working a few months later.  Without regular maintenance, Melchior's own systems also fell to ruin, and less than a decade after the Cataclysm, humanity's first AI powered down and was forgotten."
       }
     ]
   }

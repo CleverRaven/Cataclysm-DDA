@@ -63,7 +63,7 @@
     "color": "light_blue",
     "looks_like": "t_water_sh",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "SHALLOW_WATER" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "SHALLOW_WATER", "MURKY" ],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -78,7 +78,7 @@
     "looks_like": "t_water_sh",
     "move_cost": 5,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER", "MURKY" ],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -267,6 +267,7 @@
     "color": "red",
     "move_cost": 4,
     "light_emitted": 50,
+    "heat_radiation": 3,
     "trap": "tr_lava",
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "DESTROY_ITEM", "USABLE_FIRE" ],
     "//": "lava-seared moose meat? yes, please"
@@ -335,7 +336,7 @@
     "symbol": "#",
     "looks_like": "t_metal_floor",
     "color": "light_gray",
-    "move_cost": 8,
+    "move_cost": 3,
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
       "sound": "thump",
@@ -376,7 +377,7 @@
     "id": "t_lake_bed_concrete_yellow",
     "//": "for eventual use with water z levels.  Currently non-functional.  Cement on the lake floor.",
     "name": "submerged concrete",
-    "description": "You are standing at the bottom of a body of fresh water on a pad of concrete with yelllow paint.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "description": "You are standing at the bottom of a body of fresh water on a pad of yellow-painted concrete.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "#",
     "looks_like": "t_pavement_y",
     "color": "yellow",
@@ -391,5 +392,42 @@
     },
     "connects_to": "WATER",
     "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_hot",
+    "name": "hot spring water",
+    "description": "Scalding hot water, not particularly safe for swimming.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 5,
+    "heat_radiation": 1,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_puddle",
+    "name": "recess",
+    "description": "A shallow pit in the ground.",
+    "looks_like": "t_dirt",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "FRESH_WATER", "MURKY" ],
+    "examine_action": "finite_water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_puddle_underground",
+    "name": "recess",
+    "description": "A shallow pit in the ground.",
+    "looks_like": "t_rock_floor",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "FRESH_WATER", "MURKY", "INDOORS" ],
+    "examine_action": "finite_water_source"
   }
 ]

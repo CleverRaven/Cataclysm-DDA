@@ -121,11 +121,15 @@
         { "monster": "GROUP_ZOMBIE", "x": [ 49, 70 ], "y": [ 73, 94 ], "repeat": [ 0, 1 ], "density": 1 }
       ],
       "vendingmachines": {
-        "6": { "item_group": "vending_drink" },
-        "7": { "item_group": "vending_food" },
-        "8": { "item_group": "vending_drink" },
-        "9": { "item_group": "vending_food" }
-      }
+        "6": { "item_group": "vending_drink", "lootable": true },
+        "7": { "item_group": "vending_food", "lootable": true },
+        "8": { "item_group": "vending_drink", "lootable": true },
+        "9": { "item_group": "vending_food", "lootable": true }
+      },
+      "place_vehicles": [
+        { "vehicle": "train_electrical_loco1300", "x": 5, "y": 90, "chance": 5, "rotation": 90, "status": -1 },
+        { "vehicle": "train_electrical_loco1300", "x": 18, "y": 9, "chance": 12, "rotation": 270, "status": 1 }
+      ]
     }
   },
   {
@@ -138,7 +142,7 @@
     ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_rock",
+      "fill_ter": "t_soil",
       "rows": [
         "                                                ",
         "                                                ",

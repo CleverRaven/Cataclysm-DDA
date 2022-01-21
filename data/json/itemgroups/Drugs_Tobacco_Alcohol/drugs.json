@@ -10,8 +10,9 @@
     "type": "item_group",
     "//": "Common healing items found almost everywhere",
     "items": [
-      [ "1st_aid", 5 ],
+      { "group": "used_1st_aid", "prob": 5 },
       [ "aspirin", 50 ],
+      [ "alcohol_wipes", 40 ],
       [ "bandages", 30 ],
       [ "adhesive_bandages", 30 ],
       [ "cotton_ball", 40 ],
@@ -21,7 +22,8 @@
       [ "medical_tape", 20 ],
       [ "pepto", 20 ],
       [ "saline", 10 ],
-      [ "weak_antibiotic", 30 ]
+      [ "weak_antibiotic", 30 ],
+      [ "homeopathic_pills", 10 ]
     ]
   },
   {
@@ -30,11 +32,12 @@
     "items": [
       [ "blood", 300 ],
       [ "vacutainer", 100 ],
-      [ "jar_glass", 30 ],
-      [ "jar_3l_glass", 15 ],
+      [ "jar_glass_sealed", 30 ],
+      [ "jar_3l_glass_sealed", 15 ],
       [ "hygrometer", 3 ],
       [ "chem_nitric_acid", 15 ],
-      [ "denat_alcohol", 100 ],
+      [ "denat_alcohol", 60 ],
+      [ "methed_alcohol", 40 ],
       [ "thermometer", 50 ],
       [ "vaccine_shot", 50 ],
       [ "flu_shot", 50 ],
@@ -44,8 +47,14 @@
   {
     "id": "drugs_emergency",
     "type": "item_group",
-    "//": "Medical consumables for emergency use excluduing painkillers",
-    "items": [ [ "adrenaline_injector", 50 ], [ "inhaler", 100 ], [ "quikclot", 50 ], [ "smoxygen_tank", 70 ], [ "ifak", 40 ] ]
+    "//": "Medical consumables for emergency use excluding painkillers",
+    "items": [
+      [ "adrenaline_injector", 50 ],
+      { "item": "inhaler", "prob": 100, "charges-min": 10, "charges-max": 100 },
+      { "item": "quikclot", "prob": 50, "charges": [ 1, 6 ] },
+      { "item": "smoxygen_tank", "prob": 70, "charges": [ 0, 12 ] },
+      { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 40 }
+    ]
   },
   {
     "id": "drugs_misc",
@@ -89,13 +98,13 @@
     "subtype": "distribution",
     "//": "Healing items appropriate for soldiers and other paramilitary forces",
     "entries": [
-      { "item": "ifak", "prob": 50 },
-      { "item": "antibiotics", "prob": 20 },
-      { "item": "bandages", "prob": 100 },
-      { "item": "morphine", "prob": 20 },
-      { "item": "quikclot", "prob": 20 },
-      { "item": "smoxygen_tank", "prob": 20 },
-      { "item": "tramadol", "prob": 20 }
+      { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 50 },
+      { "item": "antibiotics", "prob": 20, "charges": [ 1, 15 ] },
+      { "item": "bandages", "prob": 100, "charges": [ 1, 3 ] },
+      { "item": "morphine", "prob": 20, "charges": [ 1, 4 ] },
+      { "item": "quikclot", "prob": 20, "charges": [ 1, 6 ] },
+      { "item": "smoxygen_tank", "prob": 20, "charges": [ 0, 12 ] },
+      { "item": "tramadol", "prob": 20, "charges": [ 1, 10 ] }
     ]
   },
   {
@@ -133,24 +142,27 @@
     "type": "item_group",
     "id": "softdrugs",
     "items": [
-      [ "bandages", 30 ],
+      { "item": "bandages", "prob": 30, "charges": [ 1, 3 ] },
       [ "adhesive_bandages", 30 ],
-      [ "cotton_ball", 50 ],
-      [ "1st_aid", 35 ],
-      [ "saline", 25 ],
+      { "item": "cotton_ball", "prob": 50, "charges": [ 1, 10 ] },
+      { "group": "used_1st_aid", "prob": 35 },
+      { "item": "saline", "prob": 25, "charges": [ 1, 5 ] },
       [ "contacts", 10 ],
-      [ "vitamins", 75 ],
-      [ "gummy_vitamins", 25 ],
-      [ "calcium_tablet", 75 ],
-      [ "aspirin", 85 ],
-      [ "caffeine", 25 ],
-      [ "pills_sleep", 15 ],
-      [ "iodine", 5 ],
-      [ "prussian_blue", 5 ],
-      [ "dayquil", 70 ],
-      [ "nyquil", 70 ],
-      [ "disinfectant", 35 ],
+      { "item": "vitamins", "prob": 75, "charges": [ 1, 20 ] },
+      { "item": "gummy_vitamins", "prob": 25, "charges": [ 1, 10 ] },
+      { "item": "calcium_tablet", "prob": 75, "charges": [ 1, 20 ] },
+      { "item": "aspirin", "prob": 85, "charges": [ 1, 20 ] },
+      { "item": "caffeine", "prob": 25, "charges": [ 1, 10 ] },
+      { "item": "pills_sleep", "prob": 15, "charges": [ 1, 10 ] },
+      { "item": "melatonin_tablet", "prob": 10, "charges": [ 1, 30 ] },
+      { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
+      { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
+      { "item": "dayquil", "prob": 70, "charges": [ 1, 5 ] },
+      { "item": "nyquil", "prob": 70, "charges": [ 1, 5 ] },
+      { "item": "alcohol_wipes", "prob": 75, "charges": [ 1, 40 ] },
+      { "item": "disinfectant", "prob": 35, "charges": [ 1, 10 ] },
       [ "vaccine_shot", 10 ],
+      { "item": "homeopathic_pills", "prob": 10, "charges": [ 1, 20 ] },
       {
         "item": "protein_powder",
         "prob": 12,
@@ -158,42 +170,66 @@
         "charges-min": 1,
         "charges-max": 9
       },
-      [ "caff_gum", 10 ],
-      [ "oxygen_tank", 20 ],
-      [ "smoxygen_tank", 5 ],
+      { "item": "caff_gum", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "oxygen_tank", "prob": 20, "charges": [ 0, 24 ] },
+      { "item": "smoxygen_tank", "prob": 5, "charges": [ 0, 12 ] },
       [ "eyedrops", 35 ],
-      [ "shavingkit", 5 ],
-      [ "elec_hairtrimmer", 2 ],
-      [ "nic_gum", 25 ],
-      [ "weak_antibiotic", 30 ]
+      { "item": "shavingkit", "prob": 5, "charges": [ 0, 10 ] },
+      { "item": "elec_hairtrimmer", "prob": 2, "charges": [ 0, 50 ] },
+      { "item": "nic_gum", "prob": 25, "charges": [ 1, 10 ] },
+      { "item": "weak_antibiotic", "prob": 30, "charges": [ 1, 5 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "harddrugs",
     "items": [
-      [ "inhaler", 14 ],
-      [ "codeine", 15 ],
-      [ "oxycodone", 4 ],
-      [ "morphine", 4 ],
-      [ "tramadol", 11 ],
-      [ "xanax", 10 ],
-      [ "adderall", 10 ],
-      [ "thorazine", 7 ],
-      [ "prozac", 10 ],
-      [ "antibiotics", 25 ],
-      [ "strong_antibiotic", 5 ],
-      [ "antifungal", 2 ],
-      [ "antiparasitic", 3 ],
+      { "item": "inhaler", "prob": 14, "charges-min": 10, "charges-max": 100 },
+      { "item": "codeine", "prob": 15, "charges": [ 1, 10 ] },
+      { "item": "oxycodone", "prob": 4, "charges": [ 1, 10 ] },
+      { "item": "morphine", "prob": 4, "charges": [ 1, 4 ] },
+      { "item": "tramadol", "prob": 11, "charges": [ 1, 10 ] },
+      { "item": "xanax", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "adderall", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "thorazine", "prob": 7, "charges": [ 1, 10 ] },
+      { "item": "prozac", "prob": 10, "charges": [ 1, 15 ] },
+      { "item": "antibiotics", "prob": 25, "charges": [ 1, 15 ] },
+      { "item": "strong_antibiotic", "prob": 5, "charges": [ 1, 5 ] },
+      { "item": "antifungal", "prob": 2, "charges": [ 1, 5 ] },
+      { "item": "antiparasitic", "prob": 3, "charges": [ 1, 10 ] },
       [ "survnote", 1 ],
-      [ "diazepam", 4 ],
+      { "item": "diazepam", "prob": 4, "charges": [ 1, 10 ] },
       [ "flu_shot", 5 ],
       [ "syringe", 8 ]
     ]
   },
   {
     "type": "item_group",
+    "id": "mobile_meth_lab",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "adderall", "count": [ 0, 2 ], "charges": [ 1, 10 ] },
+          { "item": "energy_drink", "count": [ 0, 2 ] },
+          { "item": "caffeine", "count": [ 0, 2 ], "charges": [ 1, 10 ] }
+        ]
+      },
+      { "item": "dayquil", "count": [ 0, 2 ], "charges": [ 1, 5 ] },
+      { "item": "red_phosphorous", "prob": 40, "count": [ 0, 1 ] },
+      { "item": "iodine_crystal", "prob": 40, "count": [ 0, 1 ] },
+      { "item": "meth", "count": [ 0, 2 ], "charges": [ 1, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "meth_ingredients",
-    "items": [ [ "dayquil", 2 ], [ "aspirin", 40 ], [ "adderall", 5 ], [ "energy_drink", 2 ], [ "caffeine", 20 ] ]
+    "items": [
+      { "item": "dayquil", "prob": 2, "charges": [ 1, 5 ] },
+      { "item": "red_phosphorous", "prob": 25, "charges": [ 1, 20 ] },
+      { "item": "iodine_crystal", "prob": 10, "charges": [ 1, 10 ] },
+      [ "energy_drink", 2 ],
+      { "item": "caffeine", "prob": 20, "charges": [ 1, 10 ] }
+    ]
   }
 ]

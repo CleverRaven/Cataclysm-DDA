@@ -5,7 +5,6 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
-#include "string_id.h"
 
 namespace
 {
@@ -24,13 +23,12 @@ bool string_id<item_category>::is_valid() const
     return item_category_factory.is_valid( *this );
 }
 
-void zone_priority_data::deserialize( JsonIn &jsin )
+void zone_priority_data::deserialize( const JsonObject &jo )
 {
-    JsonObject data = jsin.get_object();
-    load( data );
+    load( jo );
 }
 
-void zone_priority_data::load( JsonObject &jo )
+void zone_priority_data::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "flags", flags );
@@ -103,10 +101,8 @@ cata::optional<zone_type_id> item_category::priority_zone( const item &it ) cons
                 continue;
             }
         }
-        for( const std::string &flag : zone_dat.flags ) {
-            if( it.has_flag( flag ) ) {
-                return zone_dat.id;
-            }
+        if( it.has_any_flag( zone_dat.flags ) ) {
+            return zone_dat.id;
         }
     }
     return cata::nullopt;

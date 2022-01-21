@@ -7,8 +7,10 @@
 #include <iterator>
 
 #include "coordinate_conversions.h"
+#include "cuboid_rectangle.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "line.h"
 #include "point.h"
 #include "debug.h"
 
@@ -139,6 +141,9 @@ class coord_point
         std::string to_string() const {
             return raw_.to_string();
         }
+        std::string to_string_writable() const {
+            return raw_.to_string_writable();
+        }
 
         void serialize( JsonOut &jsout ) const {
             raw().serialize( jsout );
@@ -183,6 +188,14 @@ class coord_point
 
         friend inline coord_point operator+( const coord_point &l, const tripoint &r ) {
             return coord_point( l.raw() + r );
+        }
+
+        friend inline coord_point operator+( const point &l, const coord_point &r ) {
+            return coord_point( l + r.raw() );
+        }
+
+        friend inline coord_point operator+( const tripoint &l, const coord_point &r ) {
+            return coord_point( l + r.raw() );
         }
 
         friend inline coord_point operator-( const coord_point &l, const point &r ) {
@@ -330,6 +343,7 @@ struct quotient_remainder_point {
     remainder_type remainder;
 
     // For assigning to std::tie( q, r );
+    // NOLINTNEXTLINE(google-explicit-constructor)
     operator std::tuple<quotient_type &, remainder_type &>() {
         return std::tie( quotient, remainder );
     }
@@ -357,9 +371,11 @@ struct quotient_remainder_tripoint {
     // For assigning to std::tie( q, r );
     // Exactly one of the two resulting types should be a tripoint, so that the
     // z-coordinate doesn't get duplicated.
+    // NOLINTNEXTLINE(google-explicit-constructor)
     operator std::tuple<quotient_type_tripoint &, remainder_type &>() {
         return std::tie( quotient_tripoint, remainder );
     }
+    // NOLINTNEXTLINE(google-explicit-constructor)
     operator std::tuple<quotient_type &, remainder_type_tripoint &>() {
         return std::tie( quotient, remainder_tripoint );
     }
@@ -423,6 +439,22 @@ inline auto project_combine(
     return coord_point<PointResult, CoarseOrigin, FineScale>( refined_coarse.raw() + fine.raw() );
 }
 
+template<scale FineScale, origin Origin, scale CoarseScale>
+inline auto project_bounds( const coord_point<point, Origin, CoarseScale> &coarse )
+{
+    constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
+    return half_open_rectangle<coord_point<point, Origin, FineScale>>(
+               project_to<FineScale>( coarse ), project_to<FineScale>( coarse + one ) );
+}
+
+template<scale FineScale, origin Origin, scale CoarseScale>
+inline auto project_bounds( const coord_point<tripoint, Origin, CoarseScale> &coarse )
+{
+    constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
+    return half_open_cuboid<coord_point<tripoint, Origin, FineScale>>(
+               project_to<FineScale>( coarse ), project_to<FineScale>( coarse + one ) );
+}
+
 } // namespace coords
 
 namespace std
@@ -482,6 +514,7 @@ using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coord
 using coords::project_to;
 using coords::project_remain;
 using coords::project_combine;
+using coords::project_bounds;
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
 inline int square_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
@@ -512,6 +545,13 @@ inline int manhattan_dist( const coords::coord_point<Point, Origin, Scale> &loc1
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int octile_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                        const coords::coord_point<Point, Origin, Scale> &loc2, int multiplier = 1 )
+{
+    return octile_dist( loc1.raw(), loc2.raw(), multiplier );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
 direction direction_from( const coords::coord_point<Point, Origin, Scale> &loc1,
                           const coords::coord_point<Point, Origin, Scale> &loc2 )
 {
@@ -538,6 +578,32 @@ midpoint( const coords::coord_point<Point, Origin, Scale> &loc1,
           const coords::coord_point<Point, Origin, Scale> &loc2 )
 {
     return coords::coord_point<Point, Origin, Scale>( ( loc1.raw() + loc2.raw() ) / 2 );
+}
+
+template<typename Point>
+Point midpoint( const inclusive_rectangle<Point> &box )
+{
+    constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
+    return midpoint( box.p_min, box.p_max + one );
+}
+
+template<typename Point>
+Point midpoint( const half_open_rectangle<Point> &box )
+{
+    return midpoint( box.p_min, box.p_max );
+}
+
+template<typename Tripoint>
+Tripoint midpoint( const inclusive_cuboid<Tripoint> &box )
+{
+    constexpr tripoint one( 1, 1, 1 );
+    return midpoint( box.p_min, box.p_max + one );
+}
+
+template<typename Tripoint>
+Tripoint midpoint( const half_open_cuboid<Tripoint> &box )
+{
+    return midpoint( box.p_min, box.p_max );
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
@@ -588,7 +654,7 @@ struct real_coords {
 
     real_coords() = default;
 
-    real_coords( const point &ap ) {
+    explicit real_coords( const point &ap ) {
         fromabs( ap );
     }
 

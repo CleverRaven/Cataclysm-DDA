@@ -9,7 +9,13 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
-    "use_action": { "target": "afs_cam_spy_on", "msg": "You activate the cam-spy rover.", "active": true, "type": "transform" },
+    "use_action": {
+      "target": "afs_cam_spy_on",
+      "menu_text": "Activate cam-spy",
+      "msg": "You activate the cam-spy rover.",
+      "active": true,
+      "type": "transform"
+    },
     "flags": [ "RADIO_CONTAINER" ],
     "pocket_data": [
       {
@@ -30,7 +36,12 @@
     "description": "This cam-spy rover is on, and continuously transmitting a video-feed of its immediate surroundings.  Use a remote control to drive it around.",
     "turns_per_charge": 5,
     "revert_to": "afs_cam_spy",
-    "use_action": { "target": "afs_cam_spy", "msg": "You deactivate the cam-spy.", "type": "transform" },
+    "use_action": {
+      "target": "afs_cam_spy",
+      "menu_text": "Deactivate cam-spy",
+      "msg": "You deactivate the cam-spy.",
+      "type": "transform"
+    },
     "emits": [ "emit_clairvoyant" ],
     "flags": [ "LIGHT_15", "RADIO_CONTAINER", "RADIOCAR" ]
   }

@@ -7,8 +7,10 @@
     "name": { "str": "2 Shot Special" },
     "//": "It's hard to say just how big this is, although it's (very large) pistol sized. But it is a handmade weapon.",
     "description": "A crudely made double barrel pistol firing 38 special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
+    "ascii_picture": "2_shot_special",
     "weight": "750 g",
     "volume": "700 ml",
+    "longest_side": "475 mm",
     "price": 2000,
     "price_postapoc": 500,
     "to_hit": -1,
@@ -92,7 +94,14 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "38": 6 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "38": 6 },
+        "allowed_speedloaders": [ "38_speedloader6" ]
+      }
+    ]
   },
   {
     "id": "rifle_38",
@@ -101,8 +110,10 @@
     "type": "GUN",
     "name": { "str": "pipe rifle: .38 Special", "str_pl": "pipe rifles: .38 Special" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "ascii_picture": "ps_pipe_gun",
     "weight": "2114 g",
     "volume": "2 L",
+    "longest_side": "100 cm",
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
@@ -142,7 +153,7 @@
     "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.",
     "weight": "382 g",
     "volume": "321 ml",
-    "longest_side": "191 mm",
+    "longest_side": "192 mm",
     "price": 54500,
     "price_postapoc": 1000,
     "to_hit": -2,
@@ -167,7 +178,14 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "38": 5 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "38": 5 },
+        "allowed_speedloaders": [ "38_speedloader5" ]
+      }
+    ]
   },
   {
     "id": "sw_619",
@@ -202,6 +220,13 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "357mag": 7, "38": 7 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "357mag": 7, "38": 7 },
+        "allowed_speedloaders": [ "38_speedloader" ]
+      }
+    ]
   }
 ]

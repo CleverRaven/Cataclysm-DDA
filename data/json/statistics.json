@@ -48,6 +48,36 @@
     "value_constraints": { "species": { "equals": [ "species_id", "ZOMBIE" ] } }
   },
   {
+    "id": "avatar_cyborg_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "CYBORG" ] } }
+  },
+  {
+    "id": "avatar_nether_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "NETHER" ] } }
+  },
+  {
+    "id": "avatar_fungus_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "FUNGUS" ] } }
+  },
+  {
+    "id": "avatar_insect_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "INSECT" ] } }
+  },
+  {
+    "id": "avatar_robot_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "ROBOT" ] } }
+  },
+  {
     "id": "num_avatar_monster_kills",
     "type": "event_statistic",
     "stat_type": "count",
@@ -67,6 +97,111 @@
     "stat_type": "count",
     "event_transformation": "avatar_zombie_kills",
     "description": { "str": "zombie killed", "str_pl": "zombies killed" }
+  },
+  {
+    "id": "num_avatar_cyborg_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_cyborg_kills",
+    "description": { "str": "cyborg killed", "str_pl": "cyborgs killed" }
+  },
+  {
+    "id": "num_avatar_nether_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_nether_kills",
+    "description": { "str": "nether monster killed", "str_pl": "nether monsters killed" }
+  },
+  {
+    "id": "num_avatar_fungus_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_fungus_kills",
+    "description": { "str": "fungus monster killed", "str_pl": "fungus monsters killed" }
+  },
+  {
+    "id": "num_avatar_insect_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_insect_kills",
+    "description": { "str": "insect killed", "str_pl": "insects killed" }
+  },
+  {
+    "id": "num_avatar_robot_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_robot_kills",
+    "description": { "str": "robot killed", "str_pl": "robots killed" }
+  },
+  {
+    "id": "avatar_melee_attacks_monster",
+    "type": "event_transformation",
+    "event_type": "character_melee_attacks_monster",
+    "value_constraints": { "attacker": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "attacker" ]
+  },
+  {
+    "id": "num_avatar_melee_attacks_monster",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_melee_attacks_monster",
+    "description": { "str": "melee attack made against monsters", "str_pl": "melee attacks made against monsters" }
+  },
+  {
+    "id": "avatar_melee_attacks_character",
+    "type": "event_transformation",
+    "event_type": "character_melee_attacks_character",
+    "value_constraints": { "attacker": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "attacker" ]
+  },
+  {
+    "id": "num_avatar_melee_attacks_character",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_melee_attacks_character",
+    "description": { "str": "melee attack made against characters", "str_pl": "melee attacks made against characters" }
+  },
+  {
+    "id": "avatar_ranged_attacks_monster",
+    "type": "event_transformation",
+    "event_type": "character_ranged_attacks_monster",
+    "value_constraints": { "attacker": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "attacker" ]
+  },
+  {
+    "id": "num_avatar_ranged_attacks_monster",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_ranged_attacks_monster",
+    "description": { "str": "ranged attack made against monsters", "str_pl": "ranged attacks made against monsters" }
+  },
+  {
+    "id": "avatar_ranged_attacks_character",
+    "type": "event_transformation",
+    "event_type": "character_ranged_attacks_character",
+    "value_constraints": { "attacker": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "attacker" ]
+  },
+  {
+    "id": "num_avatar_ranged_attacks_character",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_ranged_attacks_character",
+    "description": { "str": "ranged attack made against characters", "str_pl": "ranged attacks made against characters" }
+  },
+  {
+    "id": "avatar_smashes_tile",
+    "type": "event_transformation",
+    "event_type": "character_smashes_tile",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_avatar_smash",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_smashes_tile",
+    "description": { "str": "smash", "str_pl": "smashes" }
   },
   {
     "id": "avatar_takes_damage",
@@ -291,6 +426,13 @@
     "drop_fields": [ "character" ]
   },
   {
+    "id": "num_avatar_wears_item",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_wears_item",
+    "description": { "str": "time worn an item", "str_pl": "times worn an item" }
+  },
+  {
     "id": "avatar_wears_power_armor_heavy",
     "type": "event_transformation",
     "event_transformation": "avatar_wears_item",
@@ -303,6 +445,76 @@
     "stat_type": "count",
     "event_transformation": "avatar_wears_power_armor_heavy",
     "description": { "str": "time worn tank suit", "str_pl": "times worn tank suit" }
+  },
+  {
+    "id": "avatar_eats_item",
+    "type": "event_transformation",
+    "event_type": "character_eats_item",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_avatar_eats_item",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_eats_item",
+    "description": { "str": "item consumed", "str_pl": "items consumed" }
+  },
+  {
+    "id": "avatar_consumes_item",
+    "type": "event_transformation",
+    "event_type": "character_consumes_item",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "avatar_consumes_item_flag",
+    "type": "event_transformation",
+    "event_transformation": "avatar_consumes_item",
+    "new_fields": { "flag": { "flags_of_itype": "itype" } },
+    "drop_fields": [ "itype" ]
+  },
+  {
+    "id": "avatar_consumes_allergen_milk",
+    "type": "event_transformation",
+    "event_transformation": "avatar_consumes_item_flag",
+    "value_constraints": { "flag": { "equals": [ "flag_id", "ALLERGEN_MILK" ] } },
+    "drop_fields": [ "flag" ]
+  },
+  {
+    "id": "num_avatar_consumes_allergen_milk",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_consumes_allergen_milk",
+    "description": { "str": "dairy item consumed", "str_pl": "dairy items consumed" }
+  },
+  {
+    "id": "avatar_consumes_allergen_eggs",
+    "type": "event_transformation",
+    "event_transformation": "avatar_consumes_item_flag",
+    "value_constraints": { "flag": { "equals": [ "flag_id", "ALLERGEN_EGG" ] } },
+    "drop_fields": [ "flag" ]
+  },
+  {
+    "id": "num_avatar_consumes_allergen_eggs",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_consumes_allergen_eggs",
+    "description": { "str": "egg-based item consumed", "str_pl": "egg-based items consumed" }
+  },
+  {
+    "id": "avatar_consumes_allergen_meat",
+    "type": "event_transformation",
+    "event_transformation": "avatar_consumes_item_flag",
+    "value_constraints": { "flag": { "equals": [ "flag_id", "ALLERGEN_MEAT" ] } },
+    "drop_fields": [ "flag" ]
+  },
+  {
+    "id": "num_avatar_consumes_allergen_meat",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_consumes_allergen_meat",
+    "description": { "str": "meat item consumed", "str_pl": "meat items consumed" }
   },
   {
     "id": "first_omt",
@@ -427,7 +639,14 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
-    "drop_fields": [ "character", "category" ]
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "avatar_last_crosses_mutation_threshold",
+    "type": "event_statistic",
+    "stat_type": "last_value",
+    "event_transformation": "avatar_crosses_mutation_threshold",
+    "field": "category"
   },
   {
     "id": "num_crosses_mutation_threshold",
@@ -454,32 +673,25 @@
     "id": "avatar_broken_right_leg",
     "type": "event_transformation",
     "event_type": "broken_bone",
-    "value_constraints": { "part": { "equals": [ "body_part", "bp_leg_r" ] } }
+    "value_constraints": { "part": { "equals": [ "body_part", "leg_r" ] } }
   },
   {
     "id": "avatar_broken_left_leg",
     "type": "event_transformation",
     "event_type": "broken_bone",
-    "value_constraints": { "part": { "equals": [ "body_part", "bp_leg_l" ] } }
+    "value_constraints": { "part": { "equals": [ "body_part", "leg_l" ] } }
   },
   {
     "id": "avatar_broken_right_arm",
     "type": "event_transformation",
     "event_type": "broken_bone",
-    "value_constraints": { "part": { "equals": [ "body_part", "bp_arm_r" ] } }
+    "value_constraints": { "part": { "equals": [ "body_part", "arm_r" ] } }
   },
   {
     "id": "avatar_broken_left_arm",
     "type": "event_transformation",
     "event_type": "broken_bone",
-    "value_constraints": { "part": { "equals": [ "body_part", "bp_arm_l" ] } }
-  },
-  {
-    "id": "num_broken_bone",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_broken_bone",
-    "description": { "str": "bone broken", "str_pl": "bones broken" }
+    "value_constraints": { "part": { "equals": [ "body_part", "arm_l" ] } }
   },
   {
     "id": "num_broken_right_leg",
@@ -524,24 +736,6 @@
     "description": { "str": "skill level gained", "str_pl": "skill levels gained" }
   },
   {
-    "id": "avatar_gains_barter_level_7",
-    "type": "event_transformation",
-    "event_type": "gains_skill_level",
-    "value_constraints": {
-      "character": { "equals_statistic": "avatar_id" },
-      "skill": { "equals": [ "skill_id", "barter" ] },
-      "new_level": { "equals": [ "int", "7" ] }
-    },
-    "drop_fields": [ "character", "skill", "new_level" ]
-  },
-  {
-    "id": "num_gains_barter_level_7",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_gains_barter_level_7",
-    "description": { "str_sp": "bartering skill level 7 gained" }
-  },
-  {
     "id": "avatar_gains_speech_level_7",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
@@ -557,7 +751,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_speech_level_7",
-    "description": { "str_sp": "speaking skill level 7 gained" }
+    "description": { "str_sp": "social skill level 7 gained" }
   },
   {
     "id": "avatar_gains_computer_level_7",
@@ -593,7 +787,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_firstaid_level_7",
-    "description": { "str_sp": "first aid skill level 7 gained" }
+    "description": { "str_sp": "health care skill level 7 gained" }
   },
   {
     "id": "avatar_gains_mechanics_level_7",
@@ -629,7 +823,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_traps_level_7",
-    "description": { "str_sp": "trapping skill level 7 gained" }
+    "description": { "str_sp": "devices skill level 7 gained" }
   },
   {
     "id": "avatar_gains_driving_level_7",
@@ -647,7 +841,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_driving_level_7",
-    "description": { "str_sp": "driving skill level 7 gained" }
+    "description": { "str_sp": "vehicles skill level 7 gained" }
   },
   {
     "id": "avatar_gains_swimming_level_7",
@@ -665,7 +859,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_swimming_level_7",
-    "description": { "str_sp": "swimming skill level 7 gained" }
+    "description": { "str_sp": "athletics skill level 7 gained" }
   },
   {
     "id": "avatar_gains_fabrication_level_7",
@@ -701,7 +895,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_cooking_level_7",
-    "description": { "str_sp": "cooking skill level 7 gained" }
+    "description": { "str_sp": "food handling skill level 7 gained" }
   },
   {
     "id": "avatar_gains_tailor_level_7",
@@ -1007,25 +1201,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_unarmed_level_7",
-    "description": { "str_sp": "unarmed skill level 7 gained" }
-  },
-  {
-    "id": "avatar_gains_lockpick_level_7",
-    "type": "event_transformation",
-    "event_type": "gains_skill_level",
-    "value_constraints": {
-      "character": { "equals_statistic": "avatar_id" },
-      "skill": { "equals": [ "skill_id", "lockpick" ] },
-      "new_level": { "equals": [ "int", "7" ] }
-    },
-    "drop_fields": [ "character", "skill", "new_level" ]
-  },
-  {
-    "id": "num_gains_lockpick_level_7",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_gains_lockpick_level_7",
-    "description": { "str_sp": "lock picking skill level 7 gained" }
+    "description": { "str_sp": "unarmed combat skill level 7 gained" }
   },
   {
     "id": "avatar_gains_chemistry_level_7",
@@ -1043,25 +1219,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_chemistry_level_7",
-    "description": { "str_sp": "chemistry skill level 7 gained" }
-  },
-  {
-    "id": "avatar_gains_barter_level_10",
-    "type": "event_transformation",
-    "event_type": "gains_skill_level",
-    "value_constraints": {
-      "character": { "equals_statistic": "avatar_id" },
-      "skill": { "equals": [ "skill_id", "barter" ] },
-      "new_level": { "equals": [ "int", "10" ] }
-    },
-    "drop_fields": [ "character", "skill", "new_level" ]
-  },
-  {
-    "id": "num_gains_barter_level_10",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_gains_barter_level_10",
-    "description": { "str_sp": "bartering skill level 10 gained" }
+    "description": { "str_sp": "applied science skill level 7 gained" }
   },
   {
     "id": "avatar_gains_speech_level_10",
@@ -1079,7 +1237,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_speech_level_10",
-    "description": { "str_sp": "speaking skill level 10 gained" }
+    "description": { "str_sp": "social skill level 10 gained" }
   },
   {
     "id": "avatar_gains_computer_level_10",
@@ -1115,7 +1273,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_firstaid_level_10",
-    "description": { "str_sp": "first aid skill level 10 gained" }
+    "description": { "str_sp": "health care skill level 10 gained" }
   },
   {
     "id": "avatar_gains_mechanics_level_10",
@@ -1151,7 +1309,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_traps_level_10",
-    "description": { "str_sp": "trapping skill level 10 gained" }
+    "description": { "str_sp": "devices skill level 10 gained" }
   },
   {
     "id": "avatar_gains_driving_level_10",
@@ -1169,7 +1327,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_driving_level_10",
-    "description": { "str_sp": "driving skill level 10 gained" }
+    "description": { "str_sp": "vehicles skill level 10 gained" }
   },
   {
     "id": "avatar_gains_swimming_level_10",
@@ -1187,7 +1345,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_swimming_level_10",
-    "description": { "str_sp": "swimming skill level 10 gained" }
+    "description": { "str_sp": "athletics skill level 10 gained" }
   },
   {
     "id": "avatar_gains_fabrication_level_10",
@@ -1223,7 +1381,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_cooking_level_10",
-    "description": { "str_sp": "cooking skill level 10 gained" }
+    "description": { "str_sp": "food handling skill level 10 gained" }
   },
   {
     "id": "avatar_gains_tailor_level_10",
@@ -1529,25 +1687,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_unarmed_level_10",
-    "description": { "str_sp": "unarmed skill level 10 gained" }
-  },
-  {
-    "id": "avatar_gains_lockpick_level_10",
-    "type": "event_transformation",
-    "event_type": "gains_skill_level",
-    "value_constraints": {
-      "character": { "equals_statistic": "avatar_id" },
-      "skill": { "equals": [ "skill_id", "lockpick" ] },
-      "new_level": { "equals": [ "int", "10" ] }
-    },
-    "drop_fields": [ "character", "skill", "new_level" ]
-  },
-  {
-    "id": "num_gains_lockpick_level_10",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_gains_lockpick_level_10",
-    "description": { "str_sp": "lock picking skill level 10 gained" }
+    "description": { "str_sp": "unarmed combat skill level 10 gained" }
   },
   {
     "id": "avatar_gains_chemistry_level_10",
@@ -1565,7 +1705,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_chemistry_level_10",
-    "description": { "str_sp": "chemistry skill level 10 gained" }
+    "description": { "str_sp": "applied science skill level 10 gained" }
   },
   {
     "id": "avatar_reads_book",

@@ -1,24 +1,9 @@
-#ifdef _GLIBCXX_DEBUG
-// Workaround to allow randomly ordered tests.  See
-// https://github.com/catchorg/Catch2/issues/1384
-// https://stackoverflow.com/questions/22915325/avoiding-self-assignment-in-stdshuffle/23691322
-// https://gcc.gnu.org/bugzilla/show_bug.cgi?id=85828
-#include <iosfwd> // Any cheap-to-include stdlib header
-#ifdef __GLIBCXX__
-#include <debug/macros.h> // IWYU pragma: keep
-
-#undef __glibcxx_check_self_move_assign
-#define __glibcxx_check_self_move_assign(x)
-#endif // __GLIBCXX__
-#endif // _GLIBCXX_DEBUG
-
 #ifdef CATA_CATCH_PCH
 #undef TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
 #define CATCH_CONFIG_IMPL_ONLY
 #endif
 #define CATCH_CONFIG_RUNNER
 #include <algorithm>
-#include <cassert>
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
@@ -31,27 +16,38 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
+#include "coordinates.h"
+#ifndef _WIN32
+#include <unistd.h>
+#endif
+
+#include "avatar.h"
+#include "cached_options.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "color.h"
+#include "compatibility.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "help.h"
 #include "loading_ui.h"
 #include "map.h"
+#include "messages.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
 #include "pldata.h"
-#include "point.h"
 #include "rng.h"
 #include "type_id.h"
 #include "weather.h"
 #include "worldfactory.h"
+
+static const mod_id MOD_INFORMATION_dda( "dda" );
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -94,7 +90,8 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
                                     const std::string &user_dir )
 {
     if( !assure_dir_exist( user_dir ) ) {
-        assert( !"Unable to make user_dir directory.  Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_fatal( "Unable to make user_dir directory.  Check permissions." );
     }
 
     PATH_INFO::init_base_path( "" );
@@ -102,15 +99,18 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     PATH_INFO::set_standard_filenames();
 
     if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
-        assert( !"Unable to make config directory.  Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_fatal( "Unable to make config directory.  Check permissions." );
     }
 
     if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
-        assert( !"Unable to make save directory.  Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_fatal( "Unable to make save directory.  Check permissions." );
     }
 
     if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
-        assert( !"Unable to make templates directory.  Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_fatal( "Unable to make templates directory.  Check permissions." );
     }
 
     get_options().init();
@@ -131,12 +131,19 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->new_game = true;
     g->load_static_data();
 
+    get_help().load();
+
     world_generator->set_active_world( nullptr );
     world_generator->init();
-    WORLDPTR test_world = world_generator->make_new_world( mods );
-    assert( test_world != nullptr );
+#ifndef _WIN32
+    const std::string test_world_name = "Test World " + std::to_string( getpid() );
+#else
+    const std::string test_world_name = "Test World";
+#endif
+    WORLDPTR test_world = world_generator->make_new_world( test_world_name, mods );
+    cata_assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
-    assert( world_generator->active_world != nullptr );
+    cata_assert( world_generator->active_world != nullptr );
 
     calendar::set_eternal_season( get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( get_option<int>( "SEASON_LENGTH" ) );
@@ -147,6 +154,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     get_avatar() = avatar();
     get_avatar().create( character_type::NOW );
+    get_avatar().setID( g->assign_npc_id(), false );
 
     get_map() = map();
 
@@ -156,6 +164,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     map &here = get_map();
     // TODO: fix point types
     here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
+    get_avatar().move_to( tripoint_abs_ms( tripoint_zero ) );
 
     get_weather().update_weather();
 }
@@ -236,6 +245,29 @@ struct CataListener : Catch::TestEventListenerBase {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );
+        // Clear the message log so on test failures we see only messages from
+        // during that test
+        Messages::clear_messages();
+    }
+
+    void sectionEnded( Catch::SectionStats const &sectionStats ) override {
+        TestEventListenerBase::sectionEnded( sectionStats );
+        if( !sectionStats.assertions.allPassed() ||
+            m_config->includeSuccessfulResults() ) {
+            std::vector<std::pair<std::string, std::string>> messages =
+                        Messages::recent_messages( 0 );
+            if( !messages.empty() ) {
+                if( !sectionStats.assertions.allPassed() ) {
+                    stream << "Log messages during failed test:\n";
+                } else {
+                    stream << "Log messages during successful test:\n";
+                }
+            }
+            for( const std::pair<std::string, std::string> &message : messages ) {
+                stream << message.first << ": " << message.second << '\n';
+            }
+            Messages::clear_messages();
+        }
     }
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
@@ -258,13 +290,14 @@ CATCH_REGISTER_LISTENER( CataListener )
 
 int main( int argc, const char *argv[] )
 {
+    reset_floating_point_mode();
     Catch::Session session;
 
     std::vector<const char *> arg_vec( argv, argv + argc );
 
     std::vector<mod_id> mods = extract_mod_selection( arg_vec );
-    if( std::find( mods.begin(), mods.end(), mod_id( "dda" ) ) == mods.end() ) {
-        mods.insert( mods.begin(), mod_id( "dda" ) ); // @todo move unit test items to core
+    if( std::find( mods.begin(), mods.end(), MOD_INFORMATION_dda ) == mods.end() ) {
+        mods.insert( mods.begin(), MOD_INFORMATION_dda ); // @todo move unit test items to core
     }
 
     option_overrides_t option_overrides_for_test_suite = extract_option_overrides( arg_vec );
@@ -272,6 +305,33 @@ int main( int argc, const char *argv[] )
     const bool dont_save = check_remove_flags( arg_vec, { "-D", "--drop-world" } );
 
     std::string user_dir = extract_user_dir( arg_vec );
+
+    std::string error_fmt = extract_argument( arg_vec, "--error-format=" );
+    if( error_fmt == "github-action" ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        error_log_format = error_log_format_t::github_action;
+    } else if( error_fmt == "human-readable" || error_fmt.empty() ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        error_log_format = error_log_format_t::human_readable;
+    } else {
+        printf( "Unknown format %s", error_fmt.c_str() );
+        return EXIT_FAILURE;
+    }
+
+    std::string check_plural_str = extract_argument( arg_vec, "--check-plural=" );
+    if( check_plural_str == "none" ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        check_plural = check_plural_t::none;
+    } else if( check_plural_str == "certain" || check_plural_str.empty() ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        check_plural = check_plural_t::certain;
+    } else if( check_plural_str == "possible" ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        check_plural = check_plural_t::possible;
+    } else {
+        printf( "Unknown check_plural value %s", check_plural_str.c_str() );
+        return EXIT_FAILURE;
+    }
 
     // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!
     int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
@@ -282,31 +342,38 @@ int main( int argc, const char *argv[] )
         printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
         printf( "  --option_overrides=n:v[,…]   Name-value pairs of game options for tests.\n" );
         printf( "                               (overrides config/options.json values)\n" );
+        printf( "  --error-format=<value>       Format of error messages.  Possible values are:\n" );
+        printf( "                                   human-readable (default)\n" );
+        printf( "                                   github-action\n" );
         return result;
     }
 
+    // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
     test_mode = true;
+
+    on_out_of_scope print_newline( []() {
+        printf( "\n" );
+    } );
 
     setupDebug( DebugOutput::std_err );
 
     // Set the seed for mapgen (the seed will also be reset before each test)
     const unsigned int seed = session.config().rngSeed();
     if( seed ) {
-        srand( seed );
         rng_set_engine_seed( seed );
 
         // If the run is terminated due to a crash during initialization, we won't
         // see the seed unless it's printed out in advance, so do that here.
-        printf( "Randomness seeded to: %u\n", seed );
+        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
     }
 
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
     } catch( const std::exception &err ) {
-        fprintf( stderr, "Terminated: %s\n", err.what() );
-        fprintf( stderr,
-                 "Make sure that you're in the correct working directory and your data isn't corrupted.\n" );
+        DebugLog( D_ERROR, DC_ALL ) << "Terminated:\n" << err.what();
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Make sure that you're in the correct working directory and your data isn't corrupted.";
         return EXIT_FAILURE;
     }
 
@@ -316,7 +383,7 @@ int main( int argc, const char *argv[] )
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
     // Leading newline in case there were debug messages during
     // initialization.
-    printf( "\nStarting the actual test at %s", std::ctime( &start_time ) );
+    DebugLog( D_INFO, DC_ALL ) << "Starting the actual test at " << std::ctime( &start_time );
     result = session.run();
     const auto end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t( end );
@@ -325,22 +392,26 @@ int main( int argc, const char *argv[] )
     if( result == 0 || dont_save ) {
         world_generator->delete_world( world_name, true );
     } else {
-        printf( "Test world \"%s\" left for inspection.\n", world_name.c_str() );
+        DebugLog( D_INFO, DC_ALL ) << "Test world " << world_name << " left for inspection.";
     }
 
     std::chrono::duration<double> elapsed_seconds = end - start;
-    printf( "Ended test at %sThe test took %.3f seconds\n", std::ctime( &end_time ),
-            elapsed_seconds.count() );
+    DebugLog( D_INFO, DC_ALL ) << "Ended test at " << std::ctime( &end_time );
+    DebugLog( D_INFO, DC_ALL ) << "The test took " << elapsed_seconds.count() << " seconds";
+
+    if( seed ) {
+        // Also print the seed at the end so it can be easily found
+        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
+    }
 
     if( error_during_initialization ) {
-        printf( "\nTreating result as failure due to error logged during initialization.\n" );
-        printf( "Randomness seeded to: %u\n", seed );
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Treating result as failure due to error logged during initialization.";
         return 1;
     }
 
     if( debug_has_error_been_observed() ) {
-        printf( "\nTreating result as failure due to error logged during tests.\n" );
-        printf( "Randomness seeded to: %u\n", seed );
+        DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
         return 1;
     }
 

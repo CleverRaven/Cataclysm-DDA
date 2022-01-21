@@ -11,6 +11,7 @@
 #include "enums.h"
 
 class JsonIn;
+class JsonObject;
 class JsonOut;
 class item;
 struct itype;
@@ -51,7 +52,7 @@ class rule
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 
         void test_pattern() const;
 };
@@ -64,8 +65,6 @@ class rule_list : public std::vector<rule>
     public:
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
-
-        void load_legacy_rules( std::istream &fin );
 
         void refresh_map_items( cache &map_items ) const;
 
@@ -117,7 +116,6 @@ class player_settings : public base_settings
     private:
         void load( bool bCharacter );
         bool save( bool bCharacter );
-        bool load_legacy( bool bCharacter );
 
         rule_list global_rules;
         rule_list character_rules;

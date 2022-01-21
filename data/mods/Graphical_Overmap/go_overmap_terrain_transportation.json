@@ -58,14 +58,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "dirtroad",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "dirt road",
-    "sym": "#",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
     "abstract": "generic_railroad_station",
     "copy-from": "generic_railroad_station",
     "sym": "\u00FF",

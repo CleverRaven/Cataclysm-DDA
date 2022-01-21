@@ -23,14 +23,14 @@
     "revert_to_itype": "bot_eyebot",
     "special_attacks": [ [ "PHOTOGRAPH", 30 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS" ]
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_grocerybot",
     "type": "MONSTER",
     "name": { "str": "grocery bot" },
-    "description": "A popular product from Uncanny, this friendly android can carry your bag or push your Grocery Cart for you.  You know it's friendly because its human face is constantly smiling at you.  According to the ads it uses a state-machine of a complexity never seen before, Uncanny even hired professional actors to record its lines.  Examine to befriend.",
+    "description": "A popular product from Uncanny, this friendly android can carry your bag or push your grocery cart for you.  You know it's friendly because its human-esque face is constantly smiling at you.  According to the ads, it uses state-of-the-art artificial intelligence of a complexity never seen before.  Uncanny even hired professional actors to record its lines.  Examine to befriend.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
     "volume": "62500 ml",
@@ -49,7 +49,8 @@
     "revert_to_itype": "bot_grocerybot",
     "special_attacks": [ [ "PAID_BOT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "ELECTRONIC",
@@ -61,14 +62,15 @@
       "PACIFIST",
       "PAY_BOT",
       "PET_HARNESSABLE",
-      "PATH_AVOID_DANGER_2"
+      "PATH_AVOID_DANGER_1",
+      "STUN_IMMUNE"
     ]
   },
   {
     "id": "mon_grocerybot_busted",
     "type": "MONSTER",
     "name": { "str": "busted grocery bot" },
-    "description": "A busted grocery bot, it can still carry your bag but its arms are too damaged to push a Grocery Cart.  Despite its current state it's still smiling at you.  Examine to befriend.",
+    "description": "A busted grocery bot, it can still carry your bag but its arms are too damaged to push a grocery cart.  Despite its current state, it's still smiling at you.  Examine to befriend.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
     "volume": "62500 ml",
@@ -87,8 +89,19 @@
     "revert_to_itype": "bot_grocerybot_busted",
     "special_attacks": [ [ "PAID_BOT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST", "PAY_BOT" ]
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [
+      "SEES",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "FIREPROOF",
+      "PUSH_MON",
+      "HEARS",
+      "PACIFIST",
+      "PAY_BOT",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_hazmatbot",
@@ -112,8 +125,22 @@
     "armor_bullet": 10,
     "vision_day": 50,
     "revert_to_itype": "bot_hazmatbot",
-    "death_function": [ "EXPLODE" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_explosion_mon_hazmatbot", "hit_self": true },
+      "message": "The %s explodes!"
+    },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_molebot",
@@ -140,15 +167,15 @@
     "armor_bullet": 10,
     "revert_to_itype": "bot_molebot",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "molebot", 1 ] ] },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC", "COLDPROOF", "PATH_AVOID_DANGER_1" ]
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [ "HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC", "COLDPROOF", "PATH_AVOID_DANGER_1", "STUN_IMMUNE" ]
   },
   {
     "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediately",
     "id": "mon_nursebot",
     "type": "MONSTER",
     "name": { "str": "nurse bot" },
-    "description": "The first product from Uncanny, a towering four-armed humanoid with a gentle face.  The details of its visage are striking, but the stiffness of it makes you really uncomfortable.  The end of the world did not stop it from looking for patient to assist.",
+    "description": "The first product from Uncanny, a towering four-armed humanoid with a gentle face.  The details of its visage are striking, but the stiffness of it makes you really uncomfortable.  The end of the world did not stop it from looking for patients to assist.",
     "default_faction": "nurse_bot",
     "species": [ "ROBOT" ],
     "volume": "62500 ml",
@@ -170,8 +197,8 @@
     "revert_to_itype": "bot_nursebot",
     "special_attacks": [ [ "ASSIST", 30 ], [ "CHECK_UP", 120 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST" ]
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST", "STUN_IMMUNE" ]
   },
   {
     "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediatly",
@@ -179,7 +206,7 @@
     "type": "MONSTER",
     "name": { "str": "nurse bot" },
     "looks_like": "mon_nursebot",
-    "description": "The first product from Uncanny, a towering four-armed humanoid with a gentle face.  The details of its visage are striking, but the stiffness of it makes you really uncomfortable.  The end of the world did not stop it from looking for patient to assist.",
+    "description": "The first product from Uncanny, a towering four-armed humanoid with a gentle face.  The details of its visage are striking, but the stiffness of it makes you really uncomfortable.  The end of the world did not stop it from looking for patients to assist.",
     "default_faction": "nurse_bot",
     "species": [ "ROBOT" ],
     "volume": "62500 ml",
@@ -203,7 +230,7 @@
     "revert_to_itype": "bot_nursebot",
     "special_attacks": [ [ "OPERATE", 30 ], [ "PARROT", 20 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "ELECTRONIC",
@@ -214,7 +241,8 @@
       "HEARS",
       "PACIFIST",
       "GRABS",
-      "INTERIOR_AMMO"
+      "INTERIOR_AMMO",
+      "STUN_IMMUNE"
     ]
   }
 ]

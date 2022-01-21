@@ -4,9 +4,10 @@
     "name": "GROUP_ZOMBIE_FIRELOOKOUTTOWER",
     "default": "mon_zombie",
     "monsters": [
-      { "monster": "mon_zombie_cop", "freq": 500, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier", "freq": 150, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_survivor", "freq": 150, "cost_multiplier": 1 }
+      { "monster": "mon_zombie", "weight": 200 },
+      { "monster": "mon_zombie_cop", "weight": 500, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier", "weight": 150 },
+      { "monster": "mon_zombie_survivor", "weight": 150 }
     ]
   },
   {
@@ -44,6 +45,7 @@
       [ "coffee", 20 ],
       [ "atomic_coffee", 20 ],
       [ "coffee_raw", 20 ],
+      [ "instant_coffee", 20 ],
       [ "coffee_syrup", 20 ],
       [ "water_mineral", 20 ]
     ]
@@ -93,15 +95,15 @@
     "id": "flt_loot_misc",
     "items": [
       { "group": "ammo_pocket_batteries_full", "prob": 20 },
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 20 ],
+      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 20, "charges": [ 0, 300 ] },
       [ "crowbar", 20 ],
       [ "shovel", 20 ],
       [ "e_tool", 20 ],
-      [ "cell_phone", 20 ],
+      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
       [ "radio", 20 ],
       [ "two_way_radio", 20 ],
-      [ "handflare", 20 ],
+      { "item": "handflare", "prob": 20, "charges": 300 },
       [ "signal_flare", 20 ],
       [ "flaregun", 20 ],
       [ "holster", 20 ],
@@ -165,7 +167,7 @@
         { "monster": "GROUP_ZOMBIE", "x": 12, "y": 9, "repeat": [ 2, 4 ] },
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9, "repeat": [ 2, 3 ] },
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 3, 2 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 7, 6 ], "y": [ 9, 15 ], "repeat": [ 3, 2 ] }
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 6, 7 ], "y": [ 9, 15 ], "repeat": [ 3, 2 ] }
       ]
     }
   },
@@ -187,8 +189,8 @@
         "....X,,,,,XXXXt,,,,X....",
         "....G,,,,,D,TXt,,,,G....",
         "....G,,,,dXXXXO,,,,G....",
-        "....G,,,HdX>>XS,,,,G....",
-        "....G,,,,dX<<XF,,,,G....",
+        "....G,,,HdX≷≷XS,,,,G....",
+        "....G,,,,dX,,XF,,,,G....",
         "....G,,,,cXDDX,,,,,G....",
         "....G,,,,,,,,,,,,,,G....",
         "....X,,,,,hhhh,,,,,X....",
@@ -207,8 +209,7 @@
         ",": "t_floor",
         "G": "t_wall_glass",
         "D": "t_door_locked_interior",
-        "<": "t_ladder_up",
-        ">": "t_ladder_down",
+        "≷": "t_ladder_up_down",
         "u": "t_floor",
         "S": "t_floor",
         "B": "t_floor",
@@ -262,7 +263,7 @@
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9 },
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 7, 6 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 6, 7 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
       ]
     }
   },
@@ -285,8 +286,8 @@
         "....|,s,,,,,,,,,,,,|....",
         "....|,,,,,,,,,,,,,,|....",
         "....|,,,,,XDDX,,,,,|....",
-        "....|,,,,,X++X,,,,,|....",
         "....|,,,,,X>>X,,,,,|....",
+        "....|,,,,,X++X,,,,,|....",
         "....|,,,,,XXXX,,,,,|....",
         "....|,,,,,,gg,,,,,,|....",
         "....|,,,,,,,,,,,,,,|....",
@@ -316,7 +317,7 @@
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9 },
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 7, 6 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 6, 7 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
       ]
     }
   },

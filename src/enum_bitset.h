@@ -6,6 +6,7 @@
 #include <type_traits>
 
 #include "enum_traits.h"
+#include "json.h"
 
 template<typename E>
 class enum_bitset
@@ -13,7 +14,7 @@ class enum_bitset
         static_assert( std::is_enum<E>::value, "the template argument is not an enum." );
         static_assert( has_enum_traits<E>::value,
                        "a specialization of 'enum_traits<E>' template containing 'last' element of the enum must be defined somewhere.  "
-                       "The `last` constant must be of the same type as the enum iteslf."
+                       "The `last` constant must be of the same type as the enum itself."
                      );
 
     public:
@@ -43,10 +44,6 @@ class enum_bitset
             return bits[ get_pos( e ) ];
         }
 
-        enum_bitset &operator[]( E e ) {
-            return bits[ get_pos( e ) ];
-        }
-
         enum_bitset &set( E e, bool val = true ) {
             bits.set( get_pos( e ), val );
             return *this;
@@ -70,6 +67,18 @@ class enum_bitset
             return get_pos( enum_traits<E>::last );
         }
 
+        void serialize( JsonOut &json ) const {
+            json.start_array();
+
+            for( size_t i = 0; i < size(); i++ ) {
+                const E cast_num = static_cast<E>( i );
+                if( test( cast_num ) ) {
+                    json.write_as_string( cast_num );
+                }
+            }
+
+            json.end_array();
+        }
     private:
         static constexpr size_t get_pos( E e ) noexcept {
             return static_cast<size_t>( static_cast<typename std::underlying_type<E>::type>( e ) );

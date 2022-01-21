@@ -12,6 +12,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "pistol", "rifle", "smg" ],
+    "install_time": "30 m",
     "gun_data": { "ammo": "signal_flare", "skill": "launcher", "dispersion": 250, "durability": 8, "clip_size": 1 },
     "dispersion_modifier": 30,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
@@ -31,29 +32,20 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "smg" ],
+    "install_time": "0 s",
     "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 3, "dispersion": 345, "durability": 10, "clip_size": 1 },
     "dispersion_modifier": 15,
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
-    "id": "bthk_stock",
+    "id": "folding_bthk_stock",
     "type": "GUNMOD",
-    "name": "butt hook stock",
-    "description": ", A military-grade stock which folds reducing the guns volume.  The weight and the pivoting hook which latches onto your forearm allows for greater stability.  ",
-    "weight": "500 g",
-    "volume": "125 ml",
-    "integral_volume": "0 L",
-    "price": 42000,
-    "material": [ "plastic", "steel" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "stock",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
-    "dispersion_modifier": -20,
-    "handling_modifier": 2,
-    "min_skills": [ [ "weapon", 1 ] ],
-    "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
+    "name": "folding butt hook stock",
+    "copy-from": "bthk_stock",
+    "looks_like": "bthk_stock",
+    "description": "A replacement folding stock that partially encloses arm allowing for greater stability.  Good fit and padding also helps with recoil control.",
+    "extend": { "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ] }
   },
   {
     "id": "beam_difractor",
@@ -69,7 +61,7 @@
   },
   {
     "id": "flash_acc",
-    "type": "GUNMOD",
+    "type": "TOOL",
     "name": "tactical flashlight",
     "description": "A compact flashlight which is mounted to the side of your weapon, not powerful, but good enough for tight hallways.",
     "weight": "250 g",
@@ -79,11 +71,12 @@
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
-    "location": "accessories",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
-    "dispersion_modifier": 10,
-    "max_charges": 200,
-    "initial_charges": 200,
+    "gunmod_data": {
+      "location": "accessories",
+      "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
+      "install_time": "10 s",
+      "dispersion_modifier": 10
+    },
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -93,30 +86,35 @@
       "active": true,
       "need_charges": 1,
       "need_charges_msg": "The tactical flashlight's batteries are dead."
-    }
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      }
+    ]
   },
   {
     "id": "flash_acc_on",
-    "type": "GUNMOD",
+    "copy-from": "flash_acc",
+    "type": "TOOL",
     "name": { "str": "tactical flashlight (on)", "str_pl": "tactical flashlights (on)" },
     "description": "A compact flashlight which is attached to the side of your weapon, not powerful, but good enough for tight hallways.",
-    "weight": "250 g",
-    "volume": "125 ml",
-    "integral_volume": "0 L",
-    "price": 42000,
-    "material": [ "plastic", "steel" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "accessories",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
-    "dispersion_modifier": 10,
     "revert_to": "flash_acc",
-    "max_charges": 200,
-    "initial_charges": 200,
-    "charges_per_use": 1,
-    "turns_per_charge": 12,
-    "flags": [ "LIGHT_75", "CHARGEDIM" ],
+    "flags": [ "LIGHT_75", "CHARGEDIM", "TRADER_AVOID" ],
     "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "You turn the tactical flashlight off.", "target": "flash_acc" }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "You turn the tactical flashlight off.", "target": "flash_acc" }
   }
 ]

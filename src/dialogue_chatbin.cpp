@@ -1,4 +1,8 @@
 #include "dialogue_chatbin.h"
+
+#include <algorithm>
+#include <iterator>
+
 #include "mission.h"
 
 void dialogue_chatbin::add_new_mission( mission *miss )

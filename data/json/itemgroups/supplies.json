@@ -6,6 +6,9 @@
     "items": [
       { "item": "cable", "prob": 40, "count": [ 1, 2 ] },
       { "item": "cable", "prob": 25, "count": [ 2, 4 ] },
+      { "item": "voltmeter", "prob": 40, "charges": [ 0, 100 ] },
+      { "item": "multimeter", "prob": 40, "charges": [ 0, 100 ] },
+      { "item": "emf_detector", "prob": 20, "charges": [ 0, 100 ] },
       [ "light_detector", 5 ],
       [ "amplifier", 40 ],
       [ "antenna", 40 ],
@@ -28,7 +31,9 @@
       [ "jumper_cable", 15 ],
       [ "jumper_cable_heavy", 5 ],
       [ "recharge_station", 20 ],
-      [ "hand_crank_charger", 30 ]
+      [ "hand_crank_charger", 30 ],
+      [ "polycarbonate_sheet", 15 ],
+      [ "vac_mold", 3 ]
     ]
   },
   {
@@ -74,6 +79,7 @@
       { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
       { "item": "material_cement", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
       { "item": "material_sand", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
+      { "item": "material_gravel", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
       [ "material_shrd_limestone", 70 ],
       [ "fertilizer_commercial", 100 ],
       [ "material_quicklime", 70 ],
@@ -82,6 +88,7 @@
       { "item": "sheet_metal", "prob": 10 },
       { "item": "sheet_metal_small", "prob": 10 },
       { "item": "plastic_sheet", "prob": 30, "count": [ 5, 15 ] },
+      { "item": "polycarbonate_sheet", "prob": 20, "count": [ 3, 12 ] },
       { "item": "rebar", "prob": 40, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 40, "count": [ 5, 10 ] },
       { "item": "pipe", "prob": 40, "count": [ 5, 10 ] },
@@ -92,6 +99,22 @@
       { "item": "hinge", "prob": 60, "count": [ 5, 10 ] },
       { "item": "tempered_glass_sheet", "prob": 30, "count": [ 5, 20 ] },
       { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] }
+    ]
+  },
+  {
+    "id": "hardware_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 50 ],
+      [ "bottle_glass", 50 ],
+      [ "bottle_plastic", 70 ],
+      [ "can_drink", 60 ],
+      [ "flyer", 30 ],
+      [ "box_small", 30 ],
+      [ "rag", 20 ],
+      [ "bag_plastic", 20 ],
+      [ "news_regional", 15 ],
+      [ "mag_news", 15 ]
     ]
   },
   {
@@ -110,10 +133,11 @@
       [ "wire", 10 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "pilot_light", 50 ],
-      [ "duct_tape", 200 ],
+      { "item": "duct_tape", "prob": 200, "charges": [ 50, 200 ] },
       [ "superglue", 100 ],
       [ "string_6", 100 ],
       [ "string_36", 100 ],
+      [ "rubber_cement", 50 ],
       [ "rope_6", 100 ],
       [ "rope_30", 50 ],
       [ "water_faucet", 100 ],
@@ -141,9 +165,10 @@
       { "item": "metal_tank_little", "prob": 50, "count": [ 1, 2 ] },
       [ "metal_tank", 10 ],
       [ "jerrycan", 10 ],
+      [ "rubber_cement", 50 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 10 ],
-      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] },
+      { "item": "scrap_copper", "prob": 15, "count": [ 1, 12 ] },
       { "item": "plunger_toilet", "prob": 90, "count": [ 1, 2 ] },
       [ "plunger_futuristic", 50 ]
     ]
@@ -189,10 +214,16 @@
         ],
         "prob": 100
       },
+      { "item": "pencil", "prob": 20, "charges": [ 0, 100 ] },
       [ "rigid_plastic_sheet", 5 ],
       [ "plastic_sheet", 5 ],
       [ "pine_bough", 3 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "supplies_woodcrafts",
+    "items": [ [ "superglue", 40 ], [ "sandpaper", 40 ], [ "screwdriver", 5 ], [ "chisel", 10 ], [ "hammer", 5 ] ]
   },
   {
     "id": "supplies_hardware",
@@ -205,6 +236,7 @@
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
       [ "solder_wire", 20 ],
       [ "superglue", 30 ],
+      [ "rubber_cement", 25 ],
       [ "chain", 20 ],
       [ "rope_6", 4 ],
       [ "rope_30", 35 ],
@@ -215,6 +247,8 @@
       [ "box_large", 10 ],
       [ "plastic_sheet", 30 ],
       { "item": "pipe", "prob": 20, "count": [ 5, 10 ] },
+      { "item": "polycarbonate_sheet", "prob": 10, "count": [ 1, 3 ] },
+      [ "vac_mold", 3 ],
       { "item": "nail", "prob": 60, "count": [ 2, 4 ] },
       [ "hose", 15 ],
       [ "string_36", 40 ],
@@ -231,11 +265,11 @@
       [ "foot_crank", 10 ],
       [ "spray_can", 50 ],
       [ "bearing", 1 ],
-      [ "permanent_marker", 20 ],
+      { "group": "writing_utensils", "prob": 25 },
       [ "cu_pipe", 50 ],
       [ "fungicide", 5 ],
       [ "insecticide", 5 ],
-      [ "charcoal", 5 ],
+      { "item": "charcoal", "prob": 5, "charges": [ 25, 50 ] },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "solar_cell", 5 ],
       [ "fertilizer_commercial", 30 ],
@@ -244,11 +278,13 @@
       [ "peephole", 25 ],
       { "item": "chem_chromium_oxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_zinc_powder", "prob": 5, "charges-min": 100 },
-      [ "denat_alcohol", 5 ],
+      [ "denat_alcohol", 3 ],
+      [ "methed_alcohol", 2 ],
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
-      [ "rigid_plastic_sheet", 30 ]
+      [ "rigid_plastic_sheet", 30 ],
+      [ "gas_forge", 15 ]
     ]
   },
   {
@@ -256,51 +292,55 @@
     "id": "supplies_reagents_lab",
     "//": "General laboratory reagents and expendibles.  This list contains most conceivable chemicals in the game.  More specific lists for each type of lab would be reasonable eventually.",
     "items": [
-      [ "water_clean", 90 ],
-      [ "salt_water", 20 ],
-      [ "detergent", 10 ],
+      { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "salt_water", "prob": 20, "charges-min": 1 },
+      { "item": "detergent", "prob": 10, "charges": [ 1, 20 ] },
       { "item": "bleach", "prob": 10, "charges-min": 10 },
       { "item": "ammonia", "prob": 10, "charges-min": 10 },
-      [ "iodine", 10 ],
+      { "item": "iodine", "prob": 10, "charges": [ 1, 10 ] },
       [ "oxy_powder", 10 ],
       [ "ash", 5 ],
       [ "lye", 5 ],
-      [ "lye_powder", 10 ],
-      [ "magnesium", 10 ],
-      [ "charcoal", 10 ],
+      { "item": "lye_powder", "prob": 10, "charges": [ 100, 200 ] },
+      { "item": "magnesium", "prob": 10, "charges": [ 50, 100 ] },
+      { "item": "charcoal", "prob": 10, "charges": [ 25, 50 ] },
       { "item": "chem_sulphur", "prob": 10, "charges-min": 100 },
       [ "chunk_sulfur", 5 ],
       [ "chem_aluminium_powder", 10 ],
       [ "chem_aluminium_sulphate", 10 ],
       [ "chem_saltpetre", 10 ],
-      [ "chem_nitric_acid", 10 ],
-      [ "chem_sulphuric_acid", 10 ],
-      [ "chem_muriatic_acid", 10 ],
-      [ "chem_acetic_acid", 10 ],
-      [ "chem_formaldehyde", 10 ],
-      [ "chem_acetone", 10 ],
+      { "item": "chem_nitric_acid", "prob": 10, "charges-min": 1 },
+      { "item": "chem_sulphuric_acid", "prob": 10, "charges-min": 1 },
+      { "item": "chem_muriatic_acid", "prob": 10, "charges-min": 1 },
+      { "item": "chem_acetic_acid", "prob": 10, "charges-min": 1 },
+      { "item": "chem_formaldehyde", "prob": 10, "charges-min": 1 },
+      { "item": "chem_acetone", "prob": 10, "charges-min": 1 },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
       [ "chem_ammonium_nitrate", 10 ],
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
-      [ "chem_hydrogen_peroxide_conc", 10 ],
+      { "item": "chem_hydrogen_peroxide_conc", "prob": 10, "charges-min": 1 },
       [ "material_rocksalt", 2 ],
-      [ "ether", 10 ],
-      [ "denat_alcohol", 10 ],
-      [ "chem_DMSO", 10 ],
-      [ "chem_phenol", 10 ],
-      [ "chem_glycerol", 10 ],
-      [ "chem_peptone_broth", 10 ],
-      [ "chem_agar", 10 ],
-      [ "chem_acrylamide", 10 ],
+      { "item": "ether", "prob": 10, "charges-min": 100 },
+      { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
+      { "item": "methed_alcohol", "prob": 4, "charges-min": 250 },
+      { "item": "chem_DMSO", "prob": 10, "charges-min": 100 },
+      { "item": "chem_phenol", "prob": 10, "charges-min": 100 },
+      { "item": "chem_glycerol", "prob": 10, "charges-min": 10 },
+      { "item": "chem_peptone_broth", "prob": 10, "charges-min": 1 },
+      { "item": "chem_agar", "prob": 10, "charges-min": 1 },
+      { "item": "chem_acrylamide", "prob": 10, "charges-min": 1 },
       [ "oxygen_tank", 6 ],
       [ "nitrogen_tank", 7 ],
       [ "hydrogen_tank", 8 ],
+      { "item": "polycarbonate_sheet", "prob": 7, "count": [ 1, 30 ] },
       [ "salt", 10 ],
       [ "sugar", 10 ],
-      [ "chem_ethanol", 10 ],
-      [ "oxygen_cylinder", 8 ]
+      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
+      [ "oxygen_cylinder", 8 ],
+      { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 },
+      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 }
     ]
   },
   {
@@ -314,6 +354,20 @@
       { "item": "kidney", "prob": 10, "count": [ 1, 3 ] },
       { "item": "liver", "prob": 10, "count": [ 1, 3 ] },
       { "item": "brain", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "rabbit_foot", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "snail_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "frog_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "insect_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "bovine_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "spider_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "molerat_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "reptile_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "ursine_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "beast_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "human_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "cephalopod_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "lupine_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "feline_sample", "prob": 10, "count": [ 1, 3 ] },
       { "item": "sweetbread", "prob": 10, "count": [ 1, 3 ] }
     ]
   },
@@ -334,12 +388,14 @@
     "//": "Combustible fuels within their default containers",
     "items": [
       [ "chem_ethanol", 10 ],
-      [ "denat_alcohol", 20 ],
+      [ "denat_alcohol", 12 ],
+      [ "denat_alcohol", 8 ],
       [ "chem_methanol", 10 ],
       [ "diesel", 20 ],
       [ "gasoline", 50 ],
       [ "motor_oil", 100 ],
-      [ "lamp_oil", 100 ]
+      [ "lamp_oil", 100 ],
+      [ "propane", 75 ]
     ]
   },
   {
@@ -354,9 +410,15 @@
       { "item": "copper", "prob": 10, "count": [ 1, 5 ] },
       { "item": "tin", "prob": 10, "count": [ 1, 5 ] },
       { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
-      { "item": "scrap_copper", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "scrap_copper", "prob": 5, "count": [ 1, 12 ] },
       { "item": "wire", "prob": 5 },
-      { "item": "scrap", "prob": 70, "count": [ 1, 10 ] }
+      { "item": "scrap", "prob": 70, "count": [ 1, 10 ] },
+      { "item": "lc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "lc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
+      { "item": "mc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "mc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
+      { "item": "hc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "hc_steel_chunk", "prob": 15, "count": [ 1, 5 ] }
     ]
   },
   {
@@ -379,6 +441,9 @@
       [ "hdframe", 10 ],
       [ "motor", 2 ],
       [ "wheel", 10 ],
+      { "item": "polycarbonate_sheet", "prob": 4, "count": [ 1, 3 ] },
+      { "item": "rubber_cement", "prob": 15, "count": [ 3, 9 ] },
+      [ "vac_mold", 1 ],
       [ "wheel_wide", 10 ],
       [ "wheel_bicycle", 10 ],
       [ "wheel_motorbike", 10 ],
@@ -387,6 +452,26 @@
       [ "wheel_bicycle_or", 5 ],
       [ "wheel_motorbike_or", 5 ],
       [ "wheel_slick", 5 ],
+      [ "tire_bicycle", 10 ],
+      [ "tire_medium", 10 ],
+      [ "tire_motorbike", 10 ],
+      [ "tire_wide", 5 ],
+      [ "tire_wide_or", 5 ],
+      [ "tire_bicycle_or", 5 ],
+      [ "tire_motorbike_or", 5 ],
+      [ "tire_medium_slick", 5 ],
+      [ "deflated_wheel_bicycle", 10 ],
+      [ "deflated_wheel", 10 ],
+      [ "deflated_wheel_motorbike", 10 ],
+      [ "deflated_wheel_wide_or", 5 ],
+      [ "deflated_wheel_bicycle_or", 5 ],
+      [ "deflated_wheel_motorbike_or", 5 ],
+      [ "deflated_wheel_slick", 5 ],
+      [ "hand_pump", 10 ],
+      [ "wheel_rim_medium", 5 ],
+      [ "wheel_rim_wide", 5 ],
+      [ "wheel_rim_motorbike", 5 ],
+      [ "wheel_rim_bicycle", 5 ],
       [ "1cyl_combustion", 10 ],
       [ "v2_combustion", 10 ],
       [ "i4_combustion", 10 ],
@@ -419,7 +504,8 @@
       [ "storage_battery", 6 ],
       [ "motor_oil", 100 ],
       [ "solar_panel", 3 ],
-      [ "recharge_station", 8 ]
+      [ "recharge_station", 8 ],
+      [ "gas_forge", 2 ]
     ]
   },
   {
@@ -432,6 +518,7 @@
       [ "filter_air", 60 ],
       [ "filter_liquid", 60 ],
       [ "glowplug", 10 ],
+      [ "rubber_cement", 25 ],
       [ "motor_small", 20 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 50 ]
@@ -447,37 +534,38 @@
     "type": "item_group",
     "items": [
       [ "file", 99 ],
-      [ "paper", 60 ],
-      [ "laptop", 2 ],
-      [ "inhaler", 1 ],
+      { "item": "laptop", "prob": 2, "charges": [ 0, 500 ] },
+      { "item": "paper", "prob": 60, "count": [ 20, 50 ] },
+      { "item": "inhaler", "prob": 1, "charges-min": 10, "charges-max": 100 },
       [ "mbag", 2 ],
       [ "mop", 5 ],
-      [ "cell_phone", 10 ],
-      [ "smart_phone", 10 ],
-      [ "duct_tape", 5 ],
+      [ "rubber_band", 5 ],
+      { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 18, "charges-min": 0 },
+      { "item": "duct_tape", "prob": 5, "charges": [ 50, 200 ] },
       { "group": "ammo_pocket_batteries", "prob": 5 },
-      [ "flashlight", 10 ],
+      { "item": "flashlight", "prob": 10, "charges": [ 0, 300 ] },
       [ "office_holepunch", 10 ],
       [ "umbrella", 5 ],
       [ "teleumbrella", 10 ],
       [ "survnote", 1 ],
       [ "clock", 2 ],
-      [ "coffeemaker", 2 ],
+      { "item": "coffeemaker", "prob": 2, "charges": [ 0, 500 ] },
       [ "bubblewrap", 10 ],
       [ "box_small", 3 ],
       [ "box_medium", 3 ],
       [ "box_large", 2 ],
       [ "plastic_sheet", 3 ],
-      [ "glowstick", 10 ],
+      { "item": "glowstick", "prob": 10, "charges": 1400 },
       [ "radio", 2 ],
       [ "fan", 5 ],
       [ "fan", 5 ],
       [ "cola", 10 ],
       [ "can_drink", 5 ],
-      [ "cig", 5 ],
+      { "item": "cig", "prob": 5, "charges": [ 1, 20 ] },
       [ "purse", 2 ],
       [ "pipe_tobacco", 1 ],
-      [ "permanent_marker", 5 ]
+      { "group": "writing_utensils", "prob": 35 }
     ]
   },
   {
@@ -485,20 +573,21 @@
     "type": "item_group",
     "items": [
       [ "paper", 100 ],
-      [ "permanent_marker", 35 ],
+      { "group": "writing_utensils", "prob": 35 },
       [ "file", 15 ],
-      [ "duct_tape", 15 ],
+      { "item": "duct_tape", "prob": 15, "charges": [ 50, 200 ] },
       [ "file", 15 ],
       [ "office_holepunch", 15 ],
       [ "bubblewrap", 15 ],
+      [ "rubber_band", 15 ],
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
-      [ "flashlight", 7 ],
-      [ "laptop", 7 ],
-      [ "eink_tablet_pc", 7 ],
+      { "item": "flashlight", "prob": 7, "charges": [ 0, 300 ] },
+      { "item": "laptop", "prob": 7, "charges": [ 0, 500 ] },
+      { "item": "eink_tablet_pc", "prob": 7, "charges": [ 0, 100 ] },
       [ "usb_drive", 5 ],
       [ "cash_card", 5 ],
       [ "record_accounting", 1 ],
-      [ "money_bundle", 1 ]
+      [ "money_strap_twenty", 1 ]
     ]
   },
   {
@@ -520,6 +609,12 @@
       [ "whistle", 5 ],
       [ "airhorn", 2 ]
     ]
+  },
+  {
+    "id": "charged_inhaler",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "inhaler", "charges": 100 } ]
   },
   {
     "id": "fuel_barrel",
@@ -545,5 +640,28 @@
     "//": "barrel with aviation gas like you would find at a fuel depot for planes or helicopters",
     "subtype": "distribution",
     "entries": [ { "item": "jp8", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 30 } ]
+  },
+  {
+    "id": "writing_utensils",
+    "type": "item_group",
+    "items": [
+      { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "pen", "prob": 15, "charges": [ 0, 100 ] },
+      { "item": "pencil", "prob": 35, "charges": [ 0, 100 ] },
+      { "item": "black_pen", "prob": 35, "charges": [ 0, 100 ] },
+      { "item": "blue_pen", "prob": 20, "charges": [ 0, 100 ] },
+      { "item": "red_pen", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "green_pen", "prob": 5, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
+    "id": "autodoc_supplies",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "anesthetic_kit", "charges": [ 0, 6000 ] },
+      { "item": "arm_splint", "count": [ 1, 3 ] },
+      { "item": "leg_splint", "count": [ 1, 3 ] }
+    ]
   }
 ]

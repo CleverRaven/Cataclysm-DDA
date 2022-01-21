@@ -6,8 +6,9 @@
     "type": "GUN",
     "name": { "str_sp": "Big Horn Model 89" },
     "description": "Built in the image of the venerable Winchester Model 1886, Big Horn Armory's Model 89 rifle packs all the power of the .500 S&W Magnum cartridge in to a package less likely to break one's wrist.",
-    "weight": "3447 g",
-    "volume": "3 L",
+    "weight": "3742 g",
+    "volume": "1995 ml",
+    "longest_side": "953 mm",
     "price": 329900,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -67,6 +68,13 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "500": 5 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "500": 5 },
+        "allowed_speedloaders": [ "500_speedloader5" ]
+      }
+    ]
   }
 ]

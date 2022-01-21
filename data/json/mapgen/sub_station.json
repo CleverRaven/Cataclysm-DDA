@@ -8,7 +8,7 @@
       "fill_ter": "t_thconc_floor",
       "rows": [
         "SSSSSSSSSSSSSSSSSSSSSSSS",
-        "SSSSSSSSSSSSSSSSSSSSSSSS",
+        "SSSttttttttttttttttttSSS",
         "SS||-;;-||-;;-||-;;-||SS",
         "SS|     |      |     |SS",
         "SS|                  |SS",
@@ -33,7 +33,7 @@
         "SSSSSSSSSSSSSSSSSSSSSSSS"
       ],
       "palettes": [ "subway" ],
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } }
     }
   },
   {
@@ -105,7 +105,7 @@
         "########################"
       ],
       "palettes": [ "subway_underground" ],
-      "vendingmachines": { "J": { "item_group": "vending_drink" }, "C": { "item_group": "vending_food" } },
+      "vendingmachines": { "J": { "item_group": "vending_drink", "lootable": true }, "C": { "item_group": "vending_food", "lootable": true } },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 20 ], "y": [ 4, 9 ], "repeat": [ 5, 9 ] } ],
       "place_item": [ { "item": "subwaymap", "x": 1, "y": [ 6, 7 ], "chance": 75 } ]
     }
@@ -118,9 +118,9 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "#^^^X^^^X^^^^^^X^^^X^^^#",
-        "#^^-x---x-^^^^-x---x-^^#",
-        "#^^^X^^^X^IIII^X^^^X^^^#",
+        "0^^^X^^^X^^^^^^X^^^X^^^0",
+        "0^^-x---x-^^^^-x---x-^^0",
+        "0^^^X^^^X^IIII^X^^^X^^^0",
         "R^^^X^^^X^<<<<^X^^^X^^^R",
         "R^^-x---x-____-x---x-^^R",
         "G^^^X^^^X^____^X^^^X^^^G",
@@ -139,9 +139,9 @@
         "G^^^X^^^X^_MM_^X^^^X^^^G",
         "R^^-x---x-____-x---x-^^R",
         "R^^^X^^^X^____^X^^^X^^^R",
-        "#^^^X^^^X^____^X^^^X^^^#",
-        "#^^-x---x-IIII-x---x-^^#",
-        "#^^^X^^^X^^^^^^X^^^X^^^#"
+        "0^^^X^^^X^____^X^^^X^^^0",
+        "0^^-x---x-IIII-x---x-^^0",
+        "0^^^X^^^X^^^^^^X^^^X^^^0"
       ],
       "palettes": [ "subway_underground" ]
     }

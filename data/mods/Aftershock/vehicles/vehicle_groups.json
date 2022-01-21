@@ -1,27 +1,13 @@
 [
   {
-    "id": "city_vehicles",
-    "type": "vehicle_group",
-    "vehicles": [ [ "afs_sports_bike", 300 ] ]
-  },
-  {
     "id": "suburban_home",
     "type": "vehicle_group",
-    "vehicles": [ [ "afs_sports_bike", 150 ], [ "car_atomic", 1000 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 300 ] ]
+    "vehicles": [ [ "car_atomic", 1000 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 300 ] ]
   },
   {
     "id": "parkinglot",
     "type": "vehicle_group",
-    "vehicles": [
-      [ "afs_sports_bike", 300 ],
-      [ "afs_electric_semi", 300 ],
-      [ "afs_gas_tanker", 300 ],
-      [ "afs_water_tanker", 250 ],
-      [ "car_atomic", 1000 ],
-      [ "car_sports_atomic", 100 ],
-      [ "suv_atomic", 1000 ],
-      [ "compact_atomic", 300 ]
-    ]
+    "vehicles": [ [ "car_atomic", 1000 ], [ "car_sports_atomic", 100 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 300 ] ]
   },
   {
     "id": "parkinglotbasic",
@@ -43,11 +29,6 @@
     "id": "oa_vg_cs_vehicles",
     "//": "For cs_car_showroom",
     "vehicles": [ [ "bubble_car", 60 ] ]
-  },
-  {
-    "id": "highway",
-    "type": "vehicle_group",
-    "vehicles": [ [ "afs_electric_semi", 300 ], [ "afs_gas_tanker", 250 ], [ "afs_water_tanker", 200 ] ]
   },
   {
     "id": "afs_lab_cars",
@@ -76,7 +57,27 @@
   },
   {
     "type": "vehicle_group",
-    "id": "bikeshop",
-    "vehicles": [ [ "afs_sports_bike", 400 ] ]
+    "id": "city_vehicles",
+    "vehicles": [ [ "robotic_taxi", 300 ], [ "armored_robot_carrier", 100 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "city_pileup",
+    "vehicles": [ [ "robotic_taxi", 500 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "highway",
+    "vehicles": [ [ "armored_robot_carrier", 100 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "military_vehicles",
+    "vehicles": [ [ "armored_robot_carrier", 200 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "parkinglot",
+    "vehicles": [ [ "robotic_taxi", 100 ] ]
   }
 ]

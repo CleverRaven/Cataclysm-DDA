@@ -1,7 +1,9 @@
 #include "mtype.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <unordered_map>
 
 #include "behavior_strategy.h"
 #include "creature.h"
@@ -11,6 +13,10 @@
 #include "mondeath.h"
 #include "monstergenerator.h"
 #include "translations.h"
+#include "units.h"
+#include "weakpoint.h"
+
+static const harvest_id harvest_list_human( "human" );
 
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bone_tainted( "bone_tainted" );
@@ -20,6 +26,12 @@ static const itype_id itype_meat( "meat" );
 static const itype_id itype_meat_tainted( "meat_tainted" );
 static const itype_id itype_veggy( "veggy" );
 static const itype_id itype_veggy_tainted( "veggy_tainted" );
+
+static const material_id material_bone( "bone" );
+static const material_id material_flesh( "flesh" );
+static const material_id material_hflesh( "hflesh" );
+static const material_id material_iflesh( "iflesh" );
+static const material_id material_veggy( "veggy" );
 
 static const species_id species_MOLLUSK( "MOLLUSK" );
 
@@ -32,7 +44,7 @@ mtype::mtype()
     size = creature_size::medium;
     volume = 62499_ml;
     weight = 81499_gram;
-    mat = { material_id( "flesh" ) };
+    mat = { { material_flesh, 1 } };
     phase = phase_id::SOLID;
     def_chance = 0;
     upgrades = false;
@@ -50,9 +62,9 @@ mtype::mtype()
     biosig_item = itype_id::NULL_ID();
 
     burn_into = mtype_id::NULL_ID();
-    dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
-    harvest = harvest_id( "human" );
+    melee_training_cap = MAX_SKILL;
+    harvest = harvest_list_human;
     luminance = 0;
     bash_skill = 0;
 
@@ -85,7 +97,7 @@ void mtype::set_flag( m_flag flag, bool state )
 
 bool mtype::made_of( const material_id &material ) const
 {
-    return std::find( mat.begin(), mat.end(),  material ) != mat.end();
+    return mat.find( material ) != mat.end();
 }
 
 bool mtype::made_of_any( const std::set<material_id> &materials ) const
@@ -94,8 +106,8 @@ bool mtype::made_of_any( const std::set<material_id> &materials ) const
         return false;
     }
 
-    return std::any_of( mat.begin(), mat.end(), [&materials]( const material_id & e ) {
-        return materials.count( e );
+    return std::any_of( mat.begin(), mat.end(), [&materials]( const std::pair<material_id, int> &e ) {
+        return materials.count( e.first );
     } );
 }
 
@@ -124,10 +136,6 @@ bool mtype::in_species( const species_id &spec ) const
     return species.count( spec ) > 0;
 }
 
-bool mtype::in_species( const species_type &spec ) const
-{
-    return species_ptrs.count( &spec ) > 0;
-}
 std::vector<std::string> mtype::species_descriptions() const
 {
     std::vector<std::string> ret;
@@ -139,14 +147,21 @@ std::vector<std::string> mtype::species_descriptions() const
     return ret;
 }
 
-bool mtype::same_species( const mtype &other ) const
+field_type_id mtype::get_bleed_type() const
 {
-    for( const species_type *s : species_ptrs ) {
-        if( other.in_species( *s ) ) {
-            return true;
+    for( const species_id &s : species ) {
+        if( !s->bleeds.is_empty() ) {
+            return s->bleeds;
         }
     }
-    return false;
+    return fd_null;
+}
+
+bool mtype::same_species( const mtype &other ) const
+{
+    return std::any_of( species.begin(), species.end(), [&]( const species_id & s ) {
+        return other.in_species( s );
+    } );
 }
 
 field_type_id mtype::bloodType() const
@@ -162,16 +177,16 @@ field_type_id mtype::bloodType() const
     if( has_flag( MF_LARVA ) || has_flag( MF_ARTHROPOD_BLOOD ) ) {
         return fd_blood_invertebrate;
     }
-    if( made_of( material_id( "veggy" ) ) ) {
+    if( made_of( material_veggy ) ) {
         return fd_blood_veggy;
     }
-    if( made_of( material_id( "iflesh" ) ) ) {
+    if( made_of( material_iflesh ) ) {
         return fd_blood_insect;
     }
-    if( has_flag( MF_WARM ) && made_of( material_id( "flesh" ) ) ) {
+    if( has_flag( MF_WARM ) && made_of( material_flesh ) ) {
         return fd_blood;
     }
-    return fd_null;
+    return get_bleed_type();
 }
 
 field_type_id mtype::gibType() const
@@ -179,13 +194,13 @@ field_type_id mtype::gibType() const
     if( has_flag( MF_LARVA ) || in_species( species_MOLLUSK ) ) {
         return fd_gibs_invertebrate;
     }
-    if( made_of( material_id( "veggy" ) ) ) {
+    if( made_of( material_veggy ) ) {
         return fd_gibs_veggy;
     }
-    if( made_of( material_id( "iflesh" ) ) ) {
+    if( made_of( material_iflesh ) ) {
         return fd_gibs_insect;
     }
-    if( made_of( material_id( "flesh" ) ) ) {
+    if( made_of( material_flesh ) ) {
         return fd_gibs_flesh;
     }
     // There are other materials not listed here like steel, protoplasmic, powder, null, stone, bone
@@ -195,18 +210,17 @@ field_type_id mtype::gibType() const
 itype_id mtype::get_meat_itype() const
 {
     if( has_flag( MF_POISON ) ) {
-        if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
-            return itype_meat_tainted;
-        } else if( made_of( material_id( "iflesh" ) ) ) {
+        if( made_of( material_flesh ) || made_of( material_hflesh ) ||
             //In the future, insects could drop insect flesh rather than plain ol' meat.
+            made_of( material_iflesh ) ) {
             return itype_meat_tainted;
-        } else if( made_of( material_id( "veggy" ) ) ) {
+        } else if( made_of( material_veggy ) ) {
             return itype_veggy_tainted;
-        } else if( made_of( material_id( "bone" ) ) ) {
+        } else if( made_of( material_bone ) ) {
             return itype_bone_tainted;
         }
     } else {
-        if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
+        if( made_of( material_flesh ) || made_of( material_hflesh ) ) {
             if( has_flag( MF_HUMAN ) ) {
                 return itype_human_flesh;
             } else if( has_flag( MF_AQUATIC ) ) {
@@ -214,12 +228,12 @@ itype_id mtype::get_meat_itype() const
             } else {
                 return itype_meat;
             }
-        } else if( made_of( material_id( "iflesh" ) ) ) {
+        } else if( made_of( material_iflesh ) ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             return itype_meat;
-        } else if( made_of( material_id( "veggy" ) ) ) {
+        } else if( made_of( material_veggy ) ) {
             return itype_veggy;
-        } else if( made_of( material_id( "bone" ) ) ) {
+        } else if( made_of( material_bone ) ) {
             return itype_bone;
         }
     }
@@ -238,10 +252,15 @@ std::string mtype::get_description() const
     return description.translated();
 }
 
+ascii_art_id mtype::get_picture_id() const
+{
+    return picture_id;
+}
+
 std::string mtype::get_footsteps() const
 {
-    for( const species_id &s : species ) {
-        return s.obj().get_footsteps();
+    if( !species.empty() ) {
+        return species.begin()->obj().get_footsteps();
     }
     return _( "footsteps." );
 }

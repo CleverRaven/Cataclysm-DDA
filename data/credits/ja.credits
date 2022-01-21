@@ -1,0 +1,27 @@
+# 一行当たりの最大文字数は78文字です。次の行を参考にしてください。
+# 長い行は自動的に折り返されます
+##############################################################################
+<color_white>オリジナルの作者:</color>    <color_white>プロジェクト管理者:</color>
+<color_yellow>Whales</color> (<color_dark_gray>引退</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>現在の主要な開発者:</color>
+<color_yellow>mlangsdorf</color> - 車両、ボート、拠点、MOD作成ガイド
+<color_yellow>I-am-Erk</color> - Ulticaタイルセット保守管理
+<color_yellow>KorGgenT</color> - その他の細々とした作業
+
+<color_white>スペシャルサンクス:</color>
+<color_yellow>Aivean</color> - 大幅なパフォーマンス向上への尽力
+<color_yellow>anothersimulacrum </color> - 心配事の増加
+<color_yellow>jbytheway</color> - Pythonの不安定性の軽減、問題の整合性とブループリント要件の統合
+<color_yellow>BrettDong</color> - 翻訳など
+<color_yellow>Qrox</color> - エラーメッセージのロケーション表示
+<color_yellow>LyleSY</color> - 恐竜
+
+<color_white>技術に関するスペシャルサンクス:</color>
+<color_yellow>acepleiades</color>、<color_yellow>barsoosayque</color>、<color_yellow>Fris0uman</color>、<color_yellow>int-ua</color>、その他たくさんの方々
+
+<color_white>全貢献者リスト:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color>は<color_white>CC-BY-SA 3.0</color>の下にリリースされています:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>

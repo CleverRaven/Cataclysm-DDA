@@ -27,9 +27,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [
           "stanag30",
           "stanag5",
@@ -87,9 +84,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [
           "stanag30",
           "stanag5",
@@ -114,5 +108,58 @@
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_300blk" ]
+  },
+  {
+    "id": "sig_mcx_rattler_sbr",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "SIG MCX Rattler SBR" },
+    "description": "This is a short-barreled, gas operated rifle, with a 5.5 inch barrel, built-in thin folding stock, and full rail mount on the upper receiver.  This particular one is a select-fire military version.",
+    "weight": "2590 g",
+    "volume": "2850 ml",
+    "//": "This is the unfolded version of the weapon. Folded, it's 597 mm",
+    "longest_side": "775 mm",
+    "price": 271900,
+    "price_postapoc": 3500,
+    "color": "dark_gray",
+    "ammo": [ "300blk" ],
+    "dispersion": 160,
+    "durability": 8,
+    "min_cycle_recoil": 1700,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "built_in_mods": [ "folding_stock" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   }
 ]

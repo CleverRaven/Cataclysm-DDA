@@ -10,7 +10,7 @@
     "replace": "black_powder_revolver"
   },
   {
-    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double" ],
+    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double", "longrifle_flintlock" ],
     "type": "MIGRATION",
     "replace": "black_powder_rifle"
   },
@@ -86,7 +86,6 @@
       "sig_40",
       "hptjcp",
       "m1911",
-      "m1911_MEU",
       "walther_ppq_45",
       "hptjhp",
       "tokarev",
@@ -94,6 +93,9 @@
       "glock_19",
       "m9",
       "usp_9mm",
+      "p08",
+      "mauser_c96",
+      "mauser_m714",
       "m17",
       "hi_power_9mm",
       "p226_357sig",
@@ -108,7 +110,6 @@
       "walther_ppq_40",
       "tommygun",
       "usp_45",
-      "mk23",
       "fn57",
       "glock_17",
       "kpf9",
@@ -121,17 +122,22 @@
       "px4_40",
       "glock_29",
       "glock_20",
+      "glock_21",
       "glock_40",
       "m1911_10",
       "witness_10",
       "p220_10",
-      "xd_10"
+      "xd_10",
+      "m11",
+      "m18",
+      "p226_9mm",
+      "sp2022"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
   },
   {
-    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10" ],
+    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
@@ -157,7 +163,22 @@
     "replace": "pistol_revolver"
   },
   {
-    "id": [ "ppsh", "hk_mp5", "hk_mp5sd", "uzi", "TDI", "hk_ump45", "fn_p90", "needlegun", "rm2000_smg", "sten" ],
+    "id": [
+      "ppsh",
+      "hk_mp5",
+      "hk_mp5sd",
+      "uzi",
+      "TDI",
+      "hk_ump45",
+      "fn_p90",
+      "needlegun",
+      "rm2000_smg",
+      "sten",
+      "bt_apc9k",
+      "colt_ro635",
+      "mp40",
+      "mp18"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_smg"
   },
@@ -178,15 +199,17 @@
   },
   {
     "id": [
-      "h&k416a5",
       "m1918",
       "acr_300blk",
       "hk417_13",
-      "acr",
-      "m4a1",
       "m16a4",
-      "scar_l",
+      "nato_assault_rifle",
+      "m4_carbine",
+      "m27_assault_rifle",
+      "m16_auto_rifle",
+      "m231pfw",
       "scar_h",
+      "sig_mcx_rattler_sbr",
       "rm51_assault_rifle",
       "an94",
       "rm88_battle_rifle"
@@ -210,7 +233,7 @@
     "replace": "rifle_huge_hmg"
   },
   {
-    "id": [ "m134", "m249", "m27iar", "m240", "m60", "rm614_lmg", "rm298" ],
+    "id": [ "m134", "m249", "m240", "m60", "rm614_lmg", "rm298" ],
     "type": "MIGRATION",
     "replace": "rifle_lmg"
   },
@@ -220,6 +243,7 @@
       "m110a1",
       "mosin44_ebr",
       "mosin91_30_ebr",
+      "boreal_mosin",
       "rm11b_sniper_rifle",
       "remington700_270",
       "m2010",
@@ -244,16 +268,19 @@
       "ar10",
       "1895sbl",
       "ak74",
+      "kord",
       "ak47",
       "arx160",
+      "l_bak_223",
       "mosin91_30",
       "m249_semi",
       "m60_semi",
       "ar15",
       "oa93",
       "ar_pistol",
+      "rifle_223",
       "ruger_mini",
-      "sig552",
+      "sig_assault_rifle",
       "steyr_aug",
       "iwi_tavor_x95_300blk",
       "ar15_retool_300blk",
@@ -269,17 +296,32 @@
     "replace": "rifle_sporter"
   },
   {
+    "id": [ "pamd68", "pamd71z", "pamd68rubik", "pamd68mountable" ],
+    "type": "MIGRATION",
+    "replace": "rifle_assault_foreign"
+  },
+  {
+    "id": [ "combination_gun", "pipe_combination_gun" ],
+    "type": "MIGRATION",
+    "replace": "rifle_shotgun_combination"
+  },
+  {
+    "id": [ "hk_g80" ],
+    "type": "MIGRATION",
+    "replace": "rifle_rail"
+  },
+  {
     "id": [ "AT4", "LAW_Packed", "LAW" ],
     "type": "MIGRATION",
     "replace": "rocket_disposable"
   },
   {
-    "id": [ "m202_flash", "m3_carlgustav", "RPG", "surv_rocket_launcher" ],
+    "id": [ "m202_flash", "m3_carlgustav", "m4_carlgustav", "RPG", "surv_rocket_launcher" ],
     "type": "MIGRATION",
     "replace": "rocket_recoilless"
   },
   {
-    "id": [ "shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
+    "id": [ "lever_shotgun", "shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
     "type": "MIGRATION",
     "replace": "shot_double"
   },
@@ -296,32 +338,17 @@
   {
     "id": [
       "shotgun_410",
-      "browning_a5",
       "ksg",
       "ksg-25",
-      "m1014",
       "mossberg_500",
-      "mossberg_500_security",
       "mossberg_590",
       "mossberg_930",
       "remington_870",
       "remington_870_breacher",
       "remington_870_express",
-      "remington_1100",
-      "streetsweeper",
-      "SPAS_12"
+      "streetsweeper"
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"
-  },
-  {
-    "id": "slamfire_shotgun",
-    "type": "MIGRATION",
-    "replace": "slamfire_shotgun"
-  },
-  {
-    "id": "slamfire_shotgun_d",
-    "type": "MIGRATION",
-    "replace": "slamfire_shotgun_d"
   }
 ]

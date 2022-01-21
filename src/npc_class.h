@@ -3,19 +3,14 @@
 #define CATA_SRC_NPC_CLASS_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <vector>
-#include <string>
 
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
-
-using Group_tag = std::string;
-using Mutation_category_tag = std::string;
-
 class Trait_group;
 
 namespace trait_group
@@ -30,7 +25,7 @@ class distribution
 {
     private:
         std::function<float()> generator_function;
-        distribution( const std::function<float()> &gen );
+        explicit distribution( const std::function<float()> &gen );
 
     public:
         distribution();
@@ -46,6 +41,18 @@ class distribution
         static distribution rng_roll( int from, int to );
         static distribution dice_roll( int sides, int size );
         static distribution one_in( float in );
+};
+
+struct shopkeeper_item_group {
+    item_group_id id;
+    int trust;
+    bool strict;
+
+    shopkeeper_item_group() : id( item_group_id( "EMPTY_GROUP" ) ), trust( 0 ), strict( false ) {}
+    shopkeeper_item_group( const std::string &id, int trust, bool strict ) :
+        id( item_group_id( id ) ), trust( trust ), strict( strict ) {}
+
+    void deserialize( const JsonObject &jo );
 };
 
 class npc_class
@@ -65,17 +72,18 @@ class npc_class
         // Just for finalization
         std::map<skill_id, distribution> bonus_skills;
 
-        Group_tag shopkeeper_item_group = "EMPTY_GROUP";
+        // first -> item group, second -> trust
+        std::vector<shopkeeper_item_group> shop_item_groups;
 
     public:
         npc_class_id id;
         bool was_loaded = false;
 
-        Group_tag worn_override;
-        Group_tag carry_override;
-        Group_tag weapon_override;
+        item_group_id worn_override;
+        item_group_id carry_override;
+        item_group_id weapon_override;
 
-        std::map<Mutation_category_tag, distribution> mutation_rounds;
+        std::map<mutation_category_id, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;
@@ -93,7 +101,7 @@ class npc_class
 
         int roll_skill( const skill_id & ) const;
 
-        const Group_tag &get_shopkeeper_items() const;
+        const std::vector<shopkeeper_item_group> &get_shopkeeper_items() const;
 
         void load( const JsonObject &jo, const std::string &src );
 

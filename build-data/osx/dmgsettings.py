@@ -4,22 +4,28 @@
 import biplist
 import os.path
 
-# .. Useful stuff ..............................................................
+# defines is provided by dmgbuild, but pretend to define it here for the
+# beneit of linting tools.
+defines = defines  # noqa: F821
+
+# .. Useful stuff .............................................................
 
 application = defines.get('app', 'Cataclysm.app')
 appname = os.path.basename(application)
+
 
 def icon_from_app(app_path):
     plist_path = os.path.join(app_path, 'Contents', 'Info.plist')
     plist = biplist.readPlist(plist_path)
     icon_name = plist['CFBundleIconFile']
-    icon_root,icon_ext = os.path.splitext(icon_name)
+    icon_root, icon_ext = os.path.splitext(icon_name)
     if not icon_ext:
         icon_ext = '.icns'
     icon_name = icon_root + icon_ext
     return os.path.join(app_path, 'Contents', 'Resources', icon_name)
 
-# .. Basics ....................................................................
+
+# .. Basics ...................................................................
 
 # Uncomment to override the output filename
 # filename = 'test.dmg'
@@ -34,27 +40,27 @@ format = defines.get('format', 'UDBZ')
 size = defines.get('size', '200M')
 
 # Files to include
-files = [ application ]
+files = [application]
 
 # Symlinks to create
-symlinks = { 'Applications': '/Applications' }
+symlinks = {'Applications': '/Applications'}
 
 # Volume icon
 #
-# You can either define icon, in which case that icon file will be copied to the
-# image, *or* you can define badge_icon, in which case the icon file you specify
-# will be used to badge the system's Removable Disk icon
+# You can either define icon, in which case that icon file will be copied to
+# the image, *or* you can define badge_icon, in which case the icon file you
+# specify will be used to badge the system's Removable Disk icon
 #
 #icon = '/path/to/icon.icns'
 badge_icon = icon_from_app(application)
 
 # Where to put the icons
 icon_locations = {
-    appname:        (240, 400),
+    appname: (240, 400),
     'Applications': (430, 400)
-    }
+}
 
-# .. Window configuration ......................................................
+# .. Window configuration .....................................................
 
 # Background
 #
@@ -76,7 +82,7 @@ icon_locations = {
 #
 # Other color components may be expressed either in the range 0 to 1, or
 # as percentages (e.g. 60% is equivalent to 0.6).
-background = 'data/osx/dmgback.png'
+background = 'build-data/osx/dmgback.png'
 
 show_status_bar = False
 show_tab_view = False
@@ -105,17 +111,17 @@ show_icon_preview = False
 include_icon_view_settings = 'auto'
 include_list_view_settings = 'auto'
 
-# .. Icon view configuration ...................................................
+# .. Icon view configuration ..................................................
 
 arrange_by = None
 grid_offset = (0, 0)
 grid_spacing = 100
 scroll_position = (0, 0)
-label_pos = 'bottom' # or 'right'
+label_pos = 'bottom'  # or 'right'
 text_size = 16
 icon_size = 64
 
-# .. List view configuration ...................................................
+# .. List view configuration ..................................................
 
 # Column names are as follows:
 #
@@ -148,7 +154,7 @@ list_column_widths = {
     'label': 100,
     'version': 75,
     'comments': 300,
-    }
+}
 list_column_sort_directions = {
     'name': 'ascending',
     'date-modified': 'descending',
@@ -160,4 +166,4 @@ list_column_sort_directions = {
     'label': 'ascending',
     'version': 'ascending',
     'comments': 'ascending',
-    }
+}

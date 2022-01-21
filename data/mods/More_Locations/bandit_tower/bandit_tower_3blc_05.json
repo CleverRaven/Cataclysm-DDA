@@ -37,7 +37,7 @@
       "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
       "terrain": { "K": "t_door_bar_locked" },
       "furniture": { "$": "f_safe_l" },
-      "item": { "~": { "item": "money_bundle", "amount": [ 10, 20 ] }, "$": { "item": "diamond", "amount": [ 0, 10 ] } },
+      "item": { "~": { "item": "money_strap_fifty", "amount": [ 10, 20 ] }, "$": { "item": "diamond", "amount": [ 0, 10 ] } },
       "items": {
         "C": { "item": "jewelry_back", "chance": 60 },
         "l": [ { "item": "jewelry_front", "chance": 70 }, { "item": "jewelry_safe", "chance": 70 } ],

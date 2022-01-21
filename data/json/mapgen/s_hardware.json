@@ -333,7 +333,7 @@
         "u": "f_trashcan",
         "v": "f_counter"
       },
-      "place_vendingmachines": [ { "x": 8, "y": 2 }, { "x": 8, "y": 3 } ],
+      "place_vendingmachines": [ { "x": 8, "y": 2, "lootable": true }, { "x": 8, "y": 3, "lootable": true } ],
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "hardware_bulk", "x": 2, "y": [ 2, 7 ], "chance": 90, "repeat": [ 1, 6 ] },

@@ -1,13 +1,14 @@
-#include "catch/catch.hpp"
-
-#include "requirements.h"
-
-#include <algorithm>
 #include <cstddef>
-#include <memory>
+#include <iosfwd>
+#include <string>
+#include <vector>
 
-static const itype_id itype_chem_sulphuric_acid( "chem_sulphuric_acid" );
+#include "cata_catch.h"
+#include "requirements.h"
+#include "type_id.h"
+
 static const itype_id itype_ash( "ash" );
+static const itype_id itype_chem_sulphuric_acid( "chem_sulphuric_acid" );
 static const itype_id itype_lye( "lye" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_soap( "soap" );
@@ -39,7 +40,6 @@ TEST_CASE( "simple_requirements_dont_multiply", "[requirement]" )
 
 TEST_CASE( "survivor_telescope_inspired_example", "[requirement]" )
 {
-    requirement_data::alter_item_comp_vector before;
     test_requirement_deduplication(
     { { { itype_rock, 1 }, { itype_soap, 1 } }, { { itype_rock, 1 } } }, {
         { { { itype_soap, 1 } }, { { itype_rock, 1 } } },
@@ -49,7 +49,6 @@ TEST_CASE( "survivor_telescope_inspired_example", "[requirement]" )
 
 TEST_CASE( "survivor_telescope_inspired_example_2", "[requirement]" )
 {
-    requirement_data::alter_item_comp_vector before;
     test_requirement_deduplication(
     { { { itype_ash, 1 } }, { { itype_rock, 1 }, { itype_soap, 1 } }, { { itype_rock, 1 } }, { { itype_lye, 1 } } }, {
         { { { itype_ash, 1 } }, { { itype_soap, 1 } }, { { itype_rock, 1 } }, { { itype_lye, 1 } } },
@@ -59,7 +58,6 @@ TEST_CASE( "survivor_telescope_inspired_example_2", "[requirement]" )
 
 TEST_CASE( "woods_soup_inspired_example", "[requirement]" )
 {
-    requirement_data::alter_item_comp_vector before;
     test_requirement_deduplication(
     { { { itype_rock, 1 }, { itype_soap, 1 } }, { { itype_rock, 1 }, { itype_yarn, 1 } } }, {
         { { { itype_soap, 1 } }, { { itype_rock, 1 }, { itype_yarn, 1 } } },
@@ -70,7 +68,6 @@ TEST_CASE( "woods_soup_inspired_example", "[requirement]" )
 
 TEST_CASE( "triple_overlap_1", "[requirement]" )
 {
-    requirement_data::alter_item_comp_vector before;
     test_requirement_deduplication( {
         { { itype_rock, 1 }, { itype_soap, 1 } },
         { { itype_rock, 1 } },
@@ -83,7 +80,6 @@ TEST_CASE( "triple_overlap_1", "[requirement]" )
 
 TEST_CASE( "triple_overlap_2", "[requirement]" )
 {
-    requirement_data::alter_item_comp_vector before;
     test_requirement_deduplication( {
         { { itype_rock, 1 }, { itype_soap, 1 } },
         { { itype_rock, 1 }, { itype_yarn, 1 } },
@@ -98,7 +94,6 @@ TEST_CASE( "triple_overlap_2", "[requirement]" )
 
 TEST_CASE( "triple_overlap_3", "[requirement]" )
 {
-    requirement_data::alter_item_comp_vector before;
     test_requirement_deduplication( {
         { { itype_rock, 1 }, { itype_soap, 1 } },
         { { itype_rock, 1 }, { itype_yarn, 1 } },
@@ -119,7 +114,6 @@ TEST_CASE( "triple_overlap_3", "[requirement]" )
 
 TEST_CASE( "deduplicate_repeated_requirements", "[requirement]" )
 {
-    requirement_data::alter_item_comp_vector before;
     test_requirement_deduplication( {
         { { itype_rock, 1 } }, { { itype_yarn, 1 } }, { { itype_rock, 1 } }, { { itype_yarn, 1 } }
     }, {

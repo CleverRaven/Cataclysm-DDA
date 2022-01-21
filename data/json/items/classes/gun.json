@@ -6,7 +6,8 @@
     "name": { "str": "base gun" },
     "symbol": "(",
     "color": "light_gray",
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 }
   },
   {
     "abstract": "flamethrower_base",
@@ -18,7 +19,8 @@
     "ammo": [ "flammable" ],
     "ammo_effects": [ "FLARE" ],
     "reload": 4,
-    "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ],
+    "flags": [ "NEVER_JAMS", "FIRESTARTER" ],
+    "ammo_to_fire": 100,
     "faults": [  ]
   },
   {
@@ -38,6 +40,7 @@
     "type": "GUN",
     "name": { "str": "base pistol" },
     "skill": "pistol",
+    "sight_dispersion": 60,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -78,7 +81,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": "backup pistol" },
-    "//": "diminuitive backup pistols that lack underbarrel rails, sight dovetails and decent places to affix stocks.",
+    "//": "diminutive backup pistols that lack underbarrel rails, sight dovetails and decent places to affix stocks.",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -181,12 +184,14 @@
     "abstract": "rifle_semi",
     "copy-from": "rifle_base",
     "type": "GUN",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "name": { "str": "semi-automatic rifle" }
   },
   {
     "abstract": "rifle_auto",
     "copy-from": "rifle_base",
     "type": "GUN",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "name": { "str": "fully automatic rifle" }
   },
   {

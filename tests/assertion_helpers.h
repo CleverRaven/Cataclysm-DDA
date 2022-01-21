@@ -2,7 +2,7 @@
 #ifndef CATA_TESTS_ASSERTION_HELPERS_H
 #define CATA_TESTS_ASSERTION_HELPERS_H
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
 #include <algorithm>
 

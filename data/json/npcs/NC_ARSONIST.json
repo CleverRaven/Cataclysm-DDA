@@ -87,7 +87,7 @@
       { "item": "null", "prob": 80 },
       { "item": "mask_dust", "prob": 10 },
       { "item": "bandana", "prob": 10 },
-      { "item": "mask_filter", "prob": 10 }
+      { "item": "mask_filter", "prob": 10, "charges-min": 10 }
     ]
   },
   {
@@ -194,7 +194,11 @@
     "type": "item_group",
     "id": "NC_ARSONIST_rifle",
     "subtype": "distribution",
-    "entries": [ { "item": "m4a1", "prob": 35 }, { "item": "m1a", "prob": 35 }, { "item": "ak47", "prob": 35 } ]
+    "entries": [
+      { "item": "m4_carbine", "variant": "m4a1", "prob": 35 },
+      { "item": "m1a", "prob": 35 },
+      { "item": "ak47", "prob": 35 }
+    ]
   },
   {
     "type": "item_group",
@@ -216,12 +220,11 @@
       { "item": "trenchcoat", "prob": 25 },
       { "item": "gloves_fingerless", "prob": 30 },
       { "item": "mask_hockey", "prob": 20 },
-      { "item": "flamethrower_crude", "prob": 20 },
       { "item": "improvised_pipebomb", "prob": 40 },
       { "item": "molotov", "prob": 100 },
-      { "item": "ref_lighter", "prob": 30 },
-      { "item": "lighter", "prob": 30 },
-      { "item": "matches", "prob": 30 },
+      { "item": "ref_lighter", "prob": 30, "charges-min": 0 },
+      { "item": "lighter", "prob": 30, "charges-min": 10 },
+      { "item": "matches", "prob": 30, "charges-min": 1 },
       { "item": "firecracker_pack", "prob": 50 },
       { "item": "firecracker", "prob": 30 },
       { "item": "dynamite", "prob": 50 },

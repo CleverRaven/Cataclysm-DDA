@@ -1,0 +1,7 @@
+[
+  {
+    "id": "arcology_vitamin_shop",
+    "type": "item_group",
+    "items": [ [ "cream_prot_cold", 25 ], [ "cream_greater_prot_cold", 5 ], [ "homeopathic_pills", 80 ] ]
+  }
+]

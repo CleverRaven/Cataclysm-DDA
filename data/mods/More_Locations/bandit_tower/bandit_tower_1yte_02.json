@@ -35,7 +35,7 @@
       ],
       "rotation": 0,
       "palettes": [ "tri_tower", "ground_level", "bandit_tower_stuff" ],
-      "terrain": { "f": "t_chainfence_v", "F": "t_chaingate_c", "j": "t_dirtmound", "k": "t_scrap_wall" },
+      "terrain": { "f": "t_chainfence_v", "F": "t_chaingate_c", "j": "t_dirtmound", "k": "t_scrap_wall", "Y": "t_pit_spiked" },
       "traps": { "_": "tr_nailboard" }
     }
   }

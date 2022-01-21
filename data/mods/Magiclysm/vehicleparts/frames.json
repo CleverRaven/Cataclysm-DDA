@@ -1,5 +1,24 @@
 [
   {
+    "id": "light_orichalcum_frame",
+    "copy-from": "orichalcum_frame",
+    "looks_like": "orichalcum_frame",
+    "type": "vehicle_part",
+    "name": "light orichalcum frame",
+    "item": "light_orichalcum_frame",
+    "standard_symbols": true,
+    "durability": 600,
+    "description": "A slimmed magical metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "breaks_into": "light_orichalcum_frame_break",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "17 m", "using": [ [ "welding_standard", 8 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "4 m", "using": [ [ "welding_standard", 4 ] ] }
+    },
+    "flags": [ "INITIAL_PART", "MOUNTABLE" ],
+    "damage_reduction": { "all": 30 }
+  },
+  {
     "id": "folding_orichalcum_frame",
     "type": "vehicle_part",
     "name": "foldable orichalcum frame",
@@ -16,6 +35,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
+    "categories": [ "hull" ],
     "damage_reduction": { "all": 12 }
   },
   {
@@ -24,6 +44,7 @@
     "name": "orichalcum frame",
     "item": "orichalcum_frame",
     "location": "structure",
+    "symbol": "c",
     "durability": 2000,
     "description": "An expensive magical metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "orichalcum_frame_break",
@@ -33,7 +54,8 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "MOUNTABLE" ],
-    "damage_reduction": { "all": 78 }
+    "categories": [ "hull" ],
+    "damage_reduction": { "all": 50 }
   },
   {
     "id": "frame_orichalcum_cover",

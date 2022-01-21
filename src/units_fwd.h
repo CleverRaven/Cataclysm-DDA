@@ -26,7 +26,7 @@ class energy_in_millijoule_tag
 {
 };
 
-using energy = quantity<int, energy_in_millijoule_tag>;
+using energy = quantity<std::int64_t, energy_in_millijoule_tag>;
 
 class money_in_cent_tag
 {
@@ -39,6 +39,12 @@ class length_in_millimeter_tag
 };
 
 using length = quantity<int, length_in_millimeter_tag>;
+
+class angle_in_radians_tag
+{
+};
+
+using angle = quantity<double, angle_in_radians_tag>;
 
 } // namespace units
 

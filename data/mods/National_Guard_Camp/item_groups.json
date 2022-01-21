@@ -7,7 +7,7 @@
       [ "weeks_old_newspaper", 25 ],
       [ "newest_newspaper", 25 ],
       [ "survnote", 5 ],
-      [ "rag_bloody", 20 ],
+      { "item": "rag", "prob": 20, "custom-flags": [ "FILTHY" ] },
       [ "rag", 20 ],
       [ "bag_plastic", 30 ],
       [ "necropolis_leaflet", 1 ]
@@ -152,7 +152,13 @@
       { "group": "robots", "prob": 100 },
       { "item": "storage_battery", "prob": 40, "charges-min": 200, "charges-max": 1000 },
       { "item": "223", "prob": 20, "charges-min": 10, "charges-max": 30 },
-      { "item": "scar_l", "prob": 20, "damage": [ 1, 2 ], "contents-item": [ "stanag30" ] }
+      {
+        "item": "m27_assault_rifle",
+        "variant": "scar_l",
+        "prob": 20,
+        "damage": [ 1, 2 ],
+        "contents-item": [ "stanag30" ]
+      }
     ]
   }
 ]

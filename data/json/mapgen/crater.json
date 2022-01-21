@@ -1,0 +1,93 @@
+[
+  {
+    "id": "crater_bomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active alien bomb" },
+    "description": "This item is used to make a hole for a crater.  It should not otherwise appear in game.",
+    "weight": "4400 g",
+    "volume": "10 L",
+    "price": 0,
+    "to_hit": -5,
+    "bashing": 20,
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_red",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 25000, "max_noise": 0 },
+    "use_action": {
+      "type": "explosion",
+      "no_deactivate_msg": "You've already activated the bomb - clear the area immediately!",
+      "explosion": { "power": 25000, "max_noise": 0 }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
+    "om_terrain": "crater_core",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........00000000........",
+        "........00000000........",
+        "........00000000........",
+        "........00000000........",
+        "........00000000........",
+        "........00000000........",
+        "........00000000........",
+        "........00000000........",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "//": "It's important that the bombs get placed on tiles without wreckage, otherwise they can get destroyed before they explode",
+      "place_item": [
+        { "item": "crater_bomb", "x": [ 8, 11 ], "y": [ 8, 11 ], "amount": 1, "custom-flags": [ "ACTIVATE_ON_PLACE" ] },
+        {
+          "item": "crater_bomb",
+          "x": [ 8, 11 ],
+          "y": [ 12, 15 ],
+          "amount": 1,
+          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
+        },
+        {
+          "item": "crater_bomb",
+          "x": [ 12, 15 ],
+          "y": [ 8, 11 ],
+          "amount": 1,
+          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
+        },
+        {
+          "item": "crater_bomb",
+          "x": [ 12, 15 ],
+          "y": [ 12, 15 ],
+          "amount": 1,
+          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
+        }
+      ],
+      "place_items": [ { "item": "wreckage", "repeat": 3, "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "rubble": { ".": { "rubble_type": "f_rubble_rock" } },
+      "set": [ { "square": "radiation", "amount": [ 0, 8 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
+      "terrain": {
+        ".": [ [ "t_region_groundcover_barren", 10 ], "t_region_groundcover" ],
+        "0": [ [ "t_region_groundcover_barren", 10 ], "t_region_groundcover" ]
+      }
+    }
+  }
+]

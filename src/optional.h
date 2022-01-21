@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_OPTIONAL_H
 #define CATA_SRC_OPTIONAL_H
 
-#include <cassert>
 #include <initializer_list>
 #include <stdexcept>
 #include <type_traits>
+
+#include "cata_assert.h"
 
 namespace cata
 {
@@ -32,32 +33,38 @@ class optional
     private:
         using StoredType = typename std::remove_const<T>::type;
         union {
+            // `volatile` suppresses -Wmaybe-uninitialized false positive
+            // See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80635#c53
+            volatile char dont_use;
             char dummy;
             StoredType data;
         };
         bool full;
 
         T &get() {
-            assert( full );
+            cata_assert( full );
             return data;
         }
         const T &get() const {
-            assert( full );
+            cata_assert( full );
             return data;
         }
 
         template<typename... Args>
         void construct( Args &&... args ) {
-            assert( !full );
+            cata_assert( !full );
             new( &data )StoredType( std::forward<Args>( args )... );
             full = true;
         }
         void destruct() {
+            cata_assert( full );
             data.~StoredType();
+            full = false;
         }
 
     public:
         constexpr optional() noexcept : dummy(), full( false ) { }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         constexpr optional( const nullopt_t ) noexcept : dummy(), full( false ) { }
 
         optional( const optional &other ) : full( false ) {
@@ -84,7 +91,7 @@ class optional
                        !std::is_same<optional<T>, typename std::decay<U>::type>::value &&
                        std::is_constructible < T, U && >::value &&
                        std::is_convertible < U &&, T >::value, bool >::type = true >
-        // NOLINTNEXTLINE(bugprone-forwarding-reference-overload)
+        // NOLINTNEXTLINE(bugprone-forwarding-reference-overload, google-explicit-constructor)
         optional( U && t )
             : optional( in_place, std::forward<U>( t ) ) { }
 
@@ -154,7 +161,6 @@ class optional
 
         void reset() noexcept {
             if( full ) {
-                full = false;
                 destruct();
             }
         }
@@ -167,7 +173,7 @@ class optional
             if( full && other.full ) {
                 get() = other.get();
             } else if( full ) {
-                reset();
+                destruct();
             } else if( other.full ) {
                 construct( other.get() );
             }
@@ -177,7 +183,7 @@ class optional
             if( full && other.full ) {
                 get() = std::move( other.get() );
             } else if( full ) {
-                reset();
+                destruct();
             } else if( other.full ) {
                 construct( std::move( other.get() ) );
             }
@@ -201,7 +207,7 @@ class optional
             if( full && other.full ) {
                 get() = other.get();
             } else if( full ) {
-                reset();
+                destruct();
             } else if( other.full ) {
                 construct( other.get() );
             }
@@ -212,7 +218,7 @@ class optional
             if( full && other.full ) {
                 get() = std::move( other.get() );
             } else if( full ) {
-                reset();
+                destruct();
             } else if( other.full ) {
                 construct( std::move( other.get() ) );
             }
@@ -224,7 +230,7 @@ class optional
 
             if( full && other.full ) {
                 swap( get(), other.get() );
-            } else if( other.full() ) {
+            } else if( other.full ) {
                 construct( std::move( other.get() ) );
                 other.destruct();
             } else if( full ) {
@@ -233,6 +239,12 @@ class optional
             }
         }
 };
+
+template<class T>
+void swap( optional<T> &lhs, optional<T> &rhs )
+{
+    lhs.swap( rhs );
+}
 
 template<class T, class U>
 constexpr bool operator==( const optional<T> &lhs, const optional<U> &rhs )

@@ -4,6 +4,7 @@
 
 #include <climits>
 #include <cstddef>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -11,6 +12,7 @@
 
 #include "activity_actor.h"
 #include "clone_ptr.h"
+#include "compatibility.h"
 #include "enums.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -19,11 +21,10 @@
 #include "type_id.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class avatar;
 class monster;
-class player;
 class translation;
 
 class player_activity
@@ -32,7 +33,9 @@ class player_activity
         activity_id type;
         cata::clone_ptr<activity_actor> actor;
 
-        std::set<distraction_type> ignored_distractions;
+        std::set<distraction_type> ignored_distractions; // NOLINT(cata-serialize)
+
+        bool ignoreQuery = false; // NOLINT(cata-serialize)
 
     public:
         /** Total number of moves required to complete the activity */
@@ -61,26 +64,30 @@ class player_activity
         std::vector<weak_ptr_fast<monster>> monsters;
         tripoint placement;
 
-        bool no_drink_nearby_for_auto_consume = false;
-        bool no_food_nearby_for_auto_consume = false;
+        bool no_drink_nearby_for_auto_consume = false; // NOLINT(cata-serialize)
+        bool no_food_nearby_for_auto_consume = false; // NOLINT(cata-serialize)
         /** If true, the activity will be auto-resumed next time the player attempts
          *  an identical activity. This value is set dynamically.
          */
         bool auto_resume = false;
+        /** Flag that will suppress the relatively expensive fire refueling search process.
+         *  Initially assume there is a fire unless the activity proves not to have one.
+         */
+        bool have_fire = true; // NOLINT(cata-serialize)
 
         player_activity();
-        // This constructor does not work with activites using the new activity_actor system
+        // This constructor does not work with activities using the new activity_actor system
         // TODO: delete this constructor once migration to the activity_actor system is complete
-        player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
-                         const std::string &name_in = "" );
+        explicit player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
+                                  const std::string &name_in = "" );
         /**
          * Create a new activity with the given actor
          */
-        player_activity( const activity_actor &actor );
+        explicit player_activity( const activity_actor &actor );
 
         player_activity( player_activity && ) noexcept = default;
         player_activity( const player_activity & ) = default;
-        player_activity &operator=( player_activity && ) = default;
+        player_activity &operator=( player_activity && ) noexcept( list_is_noexcept ) = default;
         player_activity &operator=( const player_activity & ) = default;
 
         explicit operator bool() const {
@@ -94,9 +101,9 @@ class player_activity
         void set_to_null();
 
         // This makes player_activity's activity type inherit activity_actor's activity type,
-        // in order to synchronize both, due to possible variablility of actor's activity type
+        // in order to synchronize both, due to possible variability of actor's activity type
         // allowed via override of activity_actor::get_type()
-        void sychronize_type_with_actor();
+        void synchronize_type_with_actor();
 
         const activity_id &id() const {
             return type;
@@ -126,7 +133,7 @@ class player_activity
         bool is_suspendable() const;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         // used to migrate the item indices to item_location
         // obsolete after 0.F stable
         void migrate_item_position( Character &guy );
@@ -145,7 +152,7 @@ class player_activity
          * at the end of the turn, do_turn also executes whatever actions, if
          * any, are needed to conclude the activity.
          */
-        void do_turn( player &p );
+        void do_turn( Character &you );
 
         /**
          * Performs activity-specific cleanup when Character::cancel_activity() is called
@@ -159,10 +166,17 @@ class player_activity
         bool can_resume_with( const player_activity &other, const Character &who ) const;
 
         bool is_interruptible() const;
+        bool is_interruptible_with_kb() const;
         bool is_distraction_ignored( distraction_type ) const;
         void ignore_distraction( distraction_type );
         void allow_distractions();
         void inherit_distractions( const player_activity & );
+
+        float exertion_level() const;
+
+        bool do_drop_invalid_inventory() const {
+            return !actor || actor->do_drop_invalid_inventory();
+        }
 };
 
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

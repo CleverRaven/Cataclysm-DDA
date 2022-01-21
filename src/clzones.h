@@ -2,28 +2,31 @@
 #ifndef CATA_SRC_CLZONES_H
 #define CATA_SRC_CLZONES_H
 
+#include <functional>
 #include <cstddef>
+#include <iosfwd>
 #include <map>
+#include <memory>
+#include <set>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include <functional>
-#include <memory>
-#include <string>
-#include <set>
 
+#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
-#include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
-#include "memory_fast.h"
+#include "avatar.h"
+#include "map.h"
 
-class JsonIn;
-class JsonOut;
 class JsonObject;
-class item;
+class JsonOut;
+class JsonValue;
 class faction;
+class item;
 class map;
 struct construction;
 
@@ -31,22 +34,27 @@ using faction_id = string_id<faction>;
 static const faction_id your_fac( "your_followers" );
 const std::string type_fac_hash_str = "__FAC__";
 
+//Generic activity: maximum search distance for zones, constructions, etc.
+constexpr int ACTIVITY_SEARCH_DISTANCE = 60;
+
 class zone_type
 {
     private:
-        std::string name_;
-        std::string desc_;
+        translation name_;
+        translation desc_;
     public:
 
         zone_type_id id;
         bool was_loaded = false;
 
         zone_type() = default;
-        explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ),
+        explicit zone_type( const translation &name, const translation &desc ) : name_( name ),
             desc_( desc ) {}
 
         std::string name() const;
         std::string desc() const;
+
+        bool can_be_personal = false;
 
         static void load_zones( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & );
@@ -150,7 +158,7 @@ class blueprint_options : public zone_options, public mark_option
     private:
         // furn/ter id as string.
         std::string mark;
-        std::string con;
+        construction_group_str_id group = construction_group_str_id::NULL_ID();
         construction_id index;
 
         enum query_con_result {
@@ -164,9 +172,6 @@ class blueprint_options : public zone_options, public mark_option
     public:
         std::string get_mark() const override {
             return mark;
-        }
-        std::string get_con() const {
-            return con;
         }
         construction_id get_index() const {
             return index;
@@ -240,6 +245,10 @@ class zone_data
         bool is_vehicle;
         tripoint start;
         tripoint end;
+        //centered on the player
+        bool is_personal;
+        // for personal zones a cached value for the global shift to where the zone was
+        tripoint_abs_ms cached_shift;
         shared_ptr_fast<zone_options> options;
 
     public:
@@ -248,21 +257,24 @@ class zone_data
             invert = false;
             enabled = false;
             is_vehicle = false;
+            is_personal = false;
             start = tripoint_zero;
             end = tripoint_zero;
+            cached_shift = {};
             options = nullptr;
         }
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
                    const tripoint &_start, const tripoint &_end,
-                   const shared_ptr_fast<zone_options> &_options = nullptr ) {
+                   const shared_ptr_fast<zone_options> &_options = nullptr, bool personal = false ) {
             name = _name;
             type = _type;
             faction = _faction;
             invert = _invert;
             enabled = _enabled;
             is_vehicle = false;
+            is_personal = personal;
             start = _start;
             end = _end;
 
@@ -313,13 +325,28 @@ class zone_data
         bool get_is_vehicle() const {
             return is_vehicle;
         }
-        tripoint get_start_point() const {
-            return start;
+        bool get_is_personal() const {
+            return is_personal;
         }
-        tripoint get_end_point() const {
-            return end;
+        tripoint_abs_ms get_start_point() const {
+            if( is_personal ) {
+                avatar &player_character = get_avatar();
+                return start + player_character.get_location();
+            }
+            return tripoint_abs_ms{ start };
         }
-        tripoint get_center_point() const;
+        tripoint_abs_ms get_end_point() const {
+            if( is_personal ) {
+                avatar &player_character = get_avatar();
+                return end + player_character.get_location();
+            }
+            return tripoint_abs_ms{ end };
+        }
+        void update_cached_shift() {
+            avatar &player_character = get_avatar();
+            cached_shift = player_character.get_location();
+        }
+        tripoint_abs_ms get_center_point() const;
         bool has_options() const {
             return options->has_options();
         }
@@ -329,13 +356,28 @@ class zone_data
         zone_options &get_options() {
             return *options;
         }
-        bool has_inside( const tripoint &p ) const {
-            return p.x >= start.x && p.x <= end.x &&
-                   p.y >= start.y && p.y <= end.y &&
-                   p.z >= start.z && p.z <= end.z;
+        // check if the entry is inside
+        // if cached is set to true, use the cached location instead of the current player location
+        // for personal zones. This is used when checking for a zone DURING an activity which can otherise
+        // cause issues of zones moving around
+        bool has_inside( const tripoint_abs_ms &p, bool cached = false ) const {
+            // if it is personal then the zone is local
+            if( is_personal ) {
+                tripoint_abs_ms shift;
+                avatar &player_character = get_avatar();
+                // if we want the cached location vs the current uncached version centered on the player
+                if( cached ) {
+                    shift = cached_shift;
+                } else {
+                    shift = player_character.get_location();
+                }
+                return inclusive_cuboid<tripoint_abs_ms>(
+                           start + shift, end + shift ).contains( p );
+            }
+            return inclusive_cuboid<tripoint>( start, end ).contains( p.raw() );
         }
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 };
 
 class zone_manager
@@ -345,27 +387,29 @@ class zone_manager
         using ref_const_zone_data = std::reference_wrapper<const zone_data>;
 
     private:
-        static const int MAX_DISTANCE = 10;
+        static const int MAX_DISTANCE = ACTIVITY_SEARCH_DISTANCE;
         std::vector<zone_data> zones;
         //Containers for Revert functionality for Vehicle Zones
         //Pointer to added zone to be removed
-        std::vector<zone_data *> added_vzones;
+        std::vector<zone_data *> added_vzones; // NOLINT(cata-serialize)
         //Copy of original data, pointer to the zone
-        std::vector<std::pair<zone_data, zone_data *>> changed_vzones;
+        std::vector<std::pair<zone_data, zone_data *>> changed_vzones; // NOLINT(cata-serialize)
         //copy of original data to be re-added
-        std::vector<zone_data> removed_vzones;
+        std::vector<zone_data> removed_vzones; // NOLINT(cata-serialize)
 
-        std::map<zone_type_id, zone_type> types;
-        std::unordered_map<std::string, std::unordered_set<tripoint>> area_cache;
-        std::unordered_map<std::string, std::unordered_set<tripoint>> vzone_cache;
-        std::unordered_set<tripoint> get_point_set( const zone_type_id &type,
+        std::map<zone_type_id, zone_type> types; // NOLINT(cata-serialize)
+
+        // a count of the number of personal zones the character has
+        int num_personal_zones = 0; // NOLINT(cata-serialize)
+
+        // NOLINTNEXTLINE(cata-serialize)
+        std::unordered_map<std::string, std::unordered_set<tripoint_abs_ms>> area_cache;
+        // NOLINTNEXTLINE(cata-serialize)
+        std::unordered_map<std::string, std::unordered_set<tripoint_abs_ms>> vzone_cache;
+        std::unordered_set<tripoint_abs_ms> get_point_set( const zone_type_id &type,
                 const faction_id &fac = your_fac ) const;
-        std::unordered_set<tripoint> get_vzone_set( const zone_type_id &type,
+        std::unordered_set<tripoint_abs_ms> get_vzone_set( const zone_type_id &type,
                 const faction_id &fac = your_fac ) const;
-
-        //Cache number of items already checked on each source tile when sorting
-        std::unordered_map<tripoint, int> num_processed;
-
     public:
         zone_manager();
         ~zone_manager() = default;
@@ -379,11 +423,14 @@ class zone_manager
             return manager;
         }
 
+        void clear();
+
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
-                  const shared_ptr_fast<zone_options> &options = nullptr );
-        const zone_data *get_zone_at( const tripoint &where, const zone_type_id &type ) const;
+                  const shared_ptr_fast<zone_options> &options = nullptr, const bool personal = false );
+        const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
+                                      bool cached = false ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone );
 
@@ -400,43 +447,50 @@ class zone_manager
         bool has_defined( const zone_type_id &type, const faction_id &fac = your_fac ) const;
         void cache_data();
         void cache_vzones();
-        bool has( const zone_type_id &type, const tripoint &where,
+        bool has( const zone_type_id &type, const tripoint_abs_ms &where,
                   const faction_id &fac = your_fac ) const;
-        bool has_near( const zone_type_id &type, const tripoint &where, int range = MAX_DISTANCE,
-                       const faction_id &fac = your_fac ) const;
-        bool has_loot_dest_near( const tripoint &where ) const;
-        bool custom_loot_has( const tripoint &where, const item *it ) const;
-        std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where,
-                                               int range = MAX_DISTANCE, const item *it = nullptr, const faction_id &fac = your_fac ) const;
-        cata::optional<tripoint> get_nearest( const zone_type_id &type, const tripoint &where,
-                                              int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
-        zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where,
+        bool has_near( const zone_type_id &type, const tripoint_abs_ms &where,
+                       int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
+        bool has_loot_dest_near( const tripoint_abs_ms &where ) const;
+        bool custom_loot_has( const tripoint_abs_ms &where, const item *it ) const;
+        std::unordered_set<tripoint_abs_ms> get_near(
+            const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
+            const item *it = nullptr, const faction_id &fac = your_fac ) const;
+        cata::optional<tripoint_abs_ms> get_nearest(
+            const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
+            const faction_id &fac = your_fac ) const;
+        zone_type_id get_near_zone_type_for_item( const item &it, const tripoint_abs_ms &where,
                 int range = MAX_DISTANCE ) const;
-        std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where,
+        std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint_abs_ms &where,
                                           const faction_id &fac = your_fac ) const;
-        const zone_data *get_zone_at( const tripoint &where ) const;
-        const zone_data *get_bottom_zone( const tripoint &where,
+        const zone_data *get_zone_at( const tripoint_abs_ms &where ) const;
+        const zone_data *get_bottom_zone( const tripoint_abs_ms &where,
                                           const faction_id &fac = your_fac ) const;
         cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
-        cata::optional<zone_type_id> query_type() const;
+        cata::optional<zone_type_id> query_type( bool personal = false ) const;
         void swap( zone_data &a, zone_data &b );
         void rotate_zones( map &target_map, int turns );
         // list of tripoints of zones that are loot zones only
-        std::unordered_set<tripoint> get_point_set_loot( const tripoint &where, int radius,
-                const faction_id &fac = your_fac ) const;
-        std::unordered_set<tripoint> get_point_set_loot( const tripoint &where, int radius,
-                bool npc_search, const faction_id &fac = your_fac ) const;
+        std::unordered_set<tripoint> get_point_set_loot(
+            const tripoint_abs_ms &where, int radius, const faction_id &fac = your_fac ) const;
+        std::unordered_set<tripoint> get_point_set_loot(
+            const tripoint_abs_ms &where, int radius, bool npc_search,
+            const faction_id &fac = your_fac ) const;
 
         // 'direct' access to zone_manager::zones, giving direct access was nono
         std::vector<ref_zone_data> get_zones( const faction_id &fac = your_fac );
         std::vector<ref_const_zone_data> get_zones( const faction_id &fac = your_fac ) const;
 
+        bool has_personal_zones() const;
+
         bool save_zones();
+        bool save_world_zones();
         void load_zones();
+        void load_world_zones();
         void zone_edited( zone_data &zone );
         void revert_vzones();
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jv );
 };
 
 #endif // CATA_SRC_CLZONES_H

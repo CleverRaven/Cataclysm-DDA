@@ -4,16 +4,24 @@
     "type": "GENERIC",
     "name": { "str": "fake item" },
     "description": "Dummy item.  If you see this, then something went wrong.",
+    "//": "Include ZERO_WEIGHT flag to avoid errors when instantiating pseudo items.",
+    "flags": [ "ZERO_WEIGHT" ],
     "weight": "1 g",
     "volume": "1 ml",
     "symbol": "@",
     "color": "red"
   },
   {
-    "id": "arcfurnace",
+    "id": "fake_arcfurnace",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "arc furnace" }
+  },
+  {
+    "id": "spinwheelitem",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "spinning wheel" }
   },
   {
     "id": "fake_burrowing",
@@ -21,31 +29,28 @@
     "type": "TOOL",
     "name": { "str_sp": "teeth and claws" },
     "flags": [ "TRADER_AVOID" ],
-    "use_action": [ "BURROW" ],
-    "qualities": [ [ "DIG", 3 ] ]
+    "use_action": [ "DIG" ],
+    "qualities": [ [ "DIG", 2 ] ]
   },
   {
     "id": "toolset",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": { "str": "integrated toolset" },
-    "flags": [ "TRADER_AVOID" ],
-    "max_charges": 10000,
+    "name": { "str": "integrated multitool" },
+    "flags": [ "TRADER_AVOID", "FIRESTARTER" ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
-      [ "HAMMER", 3 ],
-      [ "HAMMER_FINE", 1 ],
       [ "SAW_W", 1 ],
-      [ "SAW_M", 2 ],
+      [ "SAW_M", 1 ],
       [ "SAW_M_FINE", 1 ],
-      [ "WRENCH", 2 ],
+      [ "WRENCH", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "SCREW_FINE", 1 ],
-      [ "CUT", 1 ],
+      [ "CUT", 2 ],
       [ "PRY", 1 ],
-      [ "DRILL", 3 ],
-      [ "BUTCHER", -38 ]
+      [ "PRYING_NAIL", 1 ],
+      [ "BUTCHER", -55 ]
     ]
   },
   {
@@ -53,19 +58,19 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "bionic goggles" },
-    "qualities": [ [ "GLARE", 2 ] ]
+    "qualities": [ [ "GLARE", 1 ] ]
   },
   {
     "id": "bio_scalpel",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "autonomous surgical scalpels" },
-    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts and can also be used as a high-quality butchering tool.",
+    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts on corpses.",
     "to_hit": 2,
     "cutting": 8,
     "techniques": [ "PRECISE" ],
-    "flags": [ "TRADER_AVOID", "NO_UNWIELD", "UNBREAKABLE_MELEE", "SPEAR" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
+    "flags": [ "TRADER_AVOID", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "SPEAR" ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ]
   },
   {
     "id": "fake_razor",
@@ -75,28 +80,13 @@
     "qualities": [ [ "BUTCHER", 8 ] ]
   },
   {
-    "id": "clairvoyance_plus_rod",
-    "type": "TOOL",
-    "symbol": "v",
-    "color": "red",
-    "name": { "str": "clairvoyance rod" },
-    "description": "Item to test aep_clairvoyance_plus flag.  If this spawns randomly, then it's a bug.",
-    "price": 5000,
-    "material": [ "steel" ],
-    "weight": "150 g",
-    "volume": "750 ml",
-    "bashing": 1,
-    "to_hit": -1,
-    "artifact_data": { "effects_wielded": [ "AEP_CLAIRVOYANCE_PLUS" ] }
-  },
-  {
     "id": "acid_spit",
     "type": "GUN",
     "copy-from": "fake_item",
     "name": { "str": "acid spit gun" },
     "description": "Fake gun that fires acid globs.",
     "flags": [ "NEVER_JAMS" ],
-    "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
+    "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING", "NO_PENETRATE_OBSTACLES" ],
     "skill": "rifle",
     "durability": 10,
     "range": 100,
@@ -112,7 +102,8 @@
     "description": "A test item that is both a ranged weapon and a reach weapon",
     "price": 16000,
     "material": [ "steel" ],
-    "flags": [ "REACH_ATTACK" ],
+    "flags": [ "REACH_ATTACK", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "ammo": [ "arrow" ],
     "weight": "340 g",
@@ -156,7 +147,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic firestarter" },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ]
   },
   {
     "id": "migo_bio_gun",
@@ -165,7 +156,7 @@
     "name": { "str": "mi-go bio-gun" },
     "description": "Fake gun that fires some sort of solidified organic matter at very high speed by unknown means of propulsion.",
     "flags": [ "NEVER_JAMS" ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "skill": "rifle",
     "durability": 10,
     "range": 100,
@@ -173,17 +164,148 @@
     "ranged_damage": { "damage_type": "stab", "amount": 30 }
   },
   {
-    "id": "pseudo_char_smoker",
+    "id": "fake_tire_changer",
+    "copy-from": "fake_item",
     "type": "TOOL",
-    "name": { "str": "smoking rack" },
+    "name": { "str": "tire changer" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "qualities": [ [ "PRY", 1 ], [ "PRESSURIZATION", 1 ] ]
+  },
+  {
+    "id": "fake_power_tool",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "fake power tool" },
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ]
+  },
+  {
+    "id": "fake_arc_furnace",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "electric arc furnace" }
+  },
+  {
+    "id": "fake_beverly_shear",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "Beverly shear" },
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "qualities": [ [ "SAW_M", 2 ] ]
+  },
+  {
+    "id": "fake_drill_press",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "drill press", "str_pl": "drill presses" }
+  },
+  {
+    "id": "fake_tablesaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "tablesaw" }
+  },
+  {
+    "id": "fake_mitresaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "mitresaw" }
+  },
+  {
+    "id": "fake_bandsaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "bandsaw" }
+  },
+  {
+    "id": "fake_router",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "router table" }
+  },
+  {
+    "id": "fake_planer",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "planer" }
+  },
+  {
+    "id": "fake_jointer",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "jointer" }
+  },
+  {
+    "id": "fake_hydraulic_press",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
+  },
+  {
+    "id": "fake_heavy_lathe",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "power lathe" }
+  },
+  {
+    "id": "fake_air_compressor",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "air compressor" }
+  },
+  {
+    "id": "fake_oven",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "oven" }
+  },
+  {
+    "id": "fake_water_purifier",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "stationary water purifier" }
+  },
+  {
+    "id": "pseudo_exercise_machine",
+    "type": "TOOL",
+    "name": { "str": "exercise machine" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
-    "sub": "char_smoker",
-    "max_charges": 2000,
+    "symbol": "T",
+    "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_punching_bag",
+    "type": "TOOL",
+    "name": { "str": "heavy punching bag" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "0",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_ergometer_mechanical",
+    "type": "TOOL",
+    "name": { "str": "mechanical ergometer" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "5",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_treadmill_mechanical",
+    "type": "TOOL",
+    "name": { "str": "gravity treadmill" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "L",
+    "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "oil_press_mounted",
+    "copy-from": "fake_power_tool",
+    "type": "TOOL",
+    "name": { "str": "mounted electric oil press", "str_pl": "mounted electric oil presses" }
   }
 ]

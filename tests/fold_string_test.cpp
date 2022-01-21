@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
 #include <initializer_list>
 #include <iterator>
@@ -33,7 +33,7 @@ TEST_CASE( "fold-string" )
             "Lorem ipsum dolor",
             "sit amet, ",
             "consectetur ",
-            "adipiscing elit. ",
+            "adipiscing elit. ", // NOLINT(cata-text-style)
             "Pellentesque a.",
         };
         check_equal( folded.begin(), folded.end(), expected.begin(), expected.end() );

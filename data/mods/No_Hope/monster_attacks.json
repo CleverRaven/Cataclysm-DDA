@@ -1,0 +1,9 @@
+[
+  {
+    "type": "monster_attack",
+    "id": "flaming_eye_warming_up",
+    "spell_data": { "id": "flaming_eye_warming_up" },
+    "monster_message": "Looks like the flaming eye is planning to do something especially nasty to you.  Better watch out!",
+    "attack_type": "spell"
+  }
+]

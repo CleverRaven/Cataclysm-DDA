@@ -1,19 +1,20 @@
 #include "cata_utility.h"
 
-#include <algorithm>
 #include <cctype>
+#include <clocale>
+#include <algorithm>
 #include <cmath>
 #include <cstdio>
 #include <exception>
 #include <iterator>
-#include <locale>
-#include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 
 #include "catacharset.h"
+#include "cata_utility.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "filesystem.h"
 #include "json.h"
 #include "ofstream_wrapper.h"
@@ -21,6 +22,7 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
+#include "zlib.h"
 
 static double pow10( unsigned int n )
 {
@@ -73,7 +75,12 @@ bool isBetween( int test, int down, int up )
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
+#if defined(LOCALIZE)
+    const bool not_english = TranslationManager::GetInstance().GetCurrentLanguage() != "en";
+#else
+    const bool not_english = false;
+#endif
+    if( not_english || ( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) ) {
         const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
         std::wstring wneedle = utf8_to_wstr( qry );
         std::wstring whaystack = utf8_to_wstr( str );
@@ -206,12 +213,17 @@ const char *velocity_units( const units_type vel_units )
 
 double temp_to_celsius( double fahrenheit )
 {
-    return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
+    return ( fahrenheit - 32.0 ) * 5.0 / 9.0;
 }
 
 double temp_to_kelvin( double fahrenheit )
 {
     return temp_to_celsius( fahrenheit ) + 273.15;
+}
+
+double celsius_to_kelvin( double celsius )
+{
+    return celsius + 273.15;
 }
 
 double kelvin_to_fahrenheit( double kelvin )
@@ -277,7 +289,7 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
 {
     // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
-    ofstream_wrapper fout( path, std::ios::binary );
+    ofstream_wrapper fout( fs::u8path( path ), std::ios::binary );
     writer( fout.stream() );
     fout.close();
 }
@@ -297,7 +309,7 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
     }
 }
 
-ofstream_wrapper::ofstream_wrapper( const std::string &path, const std::ios::openmode mode )
+ofstream_wrapper::ofstream_wrapper( const fs::path &path, const std::ios::openmode mode )
     : path( path )
 
 {
@@ -343,11 +355,69 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
 {
     try {
-        std::ifstream fin( path, std::ios::binary );
+        cata::ifstream fin( fs::u8path( path ), std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
-        reader( fin );
+
+        // check if file is gzipped
+        // (byte1 == 0x1f) && (byte2 == 0x8b)
+        char header[2];
+        fin.read( header, 2 );
+        fin.clear();
+        fin.seekg( 0, std::ios::beg ); // reset read position
+
+        if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
+            std::ostringstream deflated_contents_stream;
+            std::string str;
+
+            deflated_contents_stream << fin.rdbuf();
+            str = deflated_contents_stream.str();
+
+            z_stream zs;
+            memset( &zs, 0, sizeof( zs ) );
+
+            if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
+                throw( std::runtime_error( "inflateInit failed while decompressing." ) );
+            }
+
+            zs.next_in = reinterpret_cast<unsigned char *>( const_cast<char *>( str.data() ) );
+            zs.avail_in = str.size();
+
+            int ret;
+            char outbuffer[32768];
+            std::string outstring;
+
+            // get the decompressed bytes blockwise using repeated calls to inflate
+            do {
+                zs.next_out = reinterpret_cast<Bytef *>( outbuffer );
+                zs.avail_out = sizeof( outbuffer );
+
+                ret = inflate( &zs, 0 );
+
+                if( outstring.size() < zs.total_out ) {
+                    outstring.append( outbuffer,
+                                      zs.total_out - outstring.size() );
+                }
+
+            } while( ret == Z_OK );
+
+            inflateEnd( &zs );
+
+            if( ret != Z_STREAM_END ) { // an error occurred that was not EOF
+                std::ostringstream oss;
+                oss << "Exception during zlib decompression: (" << ret << ") "
+                    << zs.msg;
+                throw( std::runtime_error( oss.str() ) );
+            }
+
+            std::stringstream inflated_contents_stream;
+            inflated_contents_stream.write( outstring.data(), outstring.size() );
+
+            reader( inflated_contents_stream );
+        } else {
+            reader( fin );
+        }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
         }
@@ -361,16 +431,18 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
 
 bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader )
 {
-    return read_from_file( path, [&reader]( std::istream & fin ) {
-        JsonIn jsin( fin );
+    return read_from_file( path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
         reader( jsin );
     } );
 }
 
-bool read_from_file( const std::string &path, JsonDeserializer &reader )
+bool read_from_file_json( const std::string &path,
+                          const std::function<void( const JsonValue & )> &reader )
 {
-    return read_from_file_json( path, [&reader]( JsonIn & jsin ) {
-        reader.deserialize( jsin );
+    return read_from_file( path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
+        reader( jsin.get_value() );
     } );
 }
 
@@ -386,16 +458,18 @@ bool read_from_file_optional( const std::string &path,
 bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( JsonIn & )> &reader )
 {
-    return read_from_file_optional( path, [&reader]( std::istream & fin ) {
-        JsonIn jsin( fin );
+    return read_from_file_optional( path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
         reader( jsin );
     } );
 }
 
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader )
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( const JsonValue & )> &reader )
 {
-    return read_from_file_optional_json( path, [&reader]( JsonIn & jsin ) {
-        reader.deserialize( jsin );
+    return read_from_file_optional( path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
+        reader( jsin.get_value() );
     } );
 }
 
@@ -475,4 +549,143 @@ std::string join( const std::vector<std::string> &strings, const std::string &jo
         buffer << *a;
     }
     return buffer.str();
+}
+
+template<>
+std::string io::enum_to_string<holiday>( holiday data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case holiday::none:             return "none";
+        case holiday::new_year:         return "new_year";
+        case holiday::easter:           return "easter";
+        case holiday::independence_day: return "independence_day";
+        case holiday::halloween:        return "halloween";
+        case holiday::thanksgiving:     return "thanksgiving";
+        case holiday::christmas:        return "christmas";
+            // *INDENT-ON*
+        case holiday::num_holiday:
+            break;
+    }
+    cata_fatal( "Invalid holiday." );
+}
+
+/* compare against table of easter dates */
+static bool is_easter( int day, int month, int year )
+{
+    if( month == 3 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2024: return day == 31;
+            case 2027: return day == 28;
+            default: break;
+            // *INDENT-ON*
+        }
+    } else if( month == 4 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2021: return day == 4;
+            case 2022: return day == 17;
+            case 2023: return day == 9;
+            case 2025: return day == 20;
+            case 2026: return day == 5;
+            case 2028: return day == 16;
+            case 2029: return day == 1;
+            case 2030: return day == 21;
+            default: break;
+            // *INDENT-ON*
+        }
+    }
+    return false;
+}
+
+holiday get_holiday_from_time( std::time_t time, bool force_refresh )
+{
+    static holiday cached_holiday = holiday::none;
+    static bool is_cached = false;
+
+    if( force_refresh ) {
+        is_cached = false;
+    }
+    if( is_cached ) {
+        return cached_holiday;
+    }
+
+    is_cached = true;
+
+    bool success = false;
+
+    std::tm local_time;
+    std::time_t current_time = time == 0 ? std::time( nullptr ) : time;
+
+    /* necessary to pass LGTM, as threadsafe version of localtime differs by platform */
+#if defined(_WIN32)
+
+    errno_t err = localtime_s( &local_time, &current_time );
+    if( err == 0 ) {
+        success = true;
+    }
+
+#else
+
+    success = !!localtime_r( &current_time, &local_time );
+
+#endif
+
+    if( success ) {
+
+        const int month = local_time.tm_mon + 1;
+        const int day = local_time.tm_mday;
+        const int wday = local_time.tm_wday;
+        const int year = local_time.tm_year + 1900;
+
+        /* check date against holidays */
+        if( month == 1 && day == 1 ) {
+            cached_holiday = holiday::new_year;
+            return cached_holiday;
+        }
+        // only run easter date calculation if currently March or April
+        else if( ( month == 3 || month == 4 ) && is_easter( day, month, year ) ) {
+            cached_holiday = holiday::easter;
+            return cached_holiday;
+        } else if( month == 7 && day == 4 ) {
+            cached_holiday = holiday::independence_day;
+            return cached_holiday;
+        }
+        // 13 days seems appropriate for Halloween
+        else if( month == 10 && day >= 19 ) {
+            cached_holiday = holiday::halloween;
+            return cached_holiday;
+        } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
+            cached_holiday = holiday::thanksgiving;
+            return cached_holiday;
+        }
+        // For the 12 days of Christmas, my true love gave to me...
+        else if( month == 12 && ( day >= 14 && day <= 25 ) ) {
+            cached_holiday = holiday::christmas;
+            return cached_holiday;
+        }
+    }
+    // fall through to here if localtime fails, or none of the day tests hit
+    cached_holiday = holiday::none;
+    return cached_holiday;
+}
+
+int bucket_index_from_weight_list( const std::vector<int> &weights )
+{
+    int total_weight = std::accumulate( weights.begin(), weights.end(), int( 0 ) );
+    if( total_weight < 1 ) {
+        return 0;
+    }
+    const int roll = rng( 0, total_weight - 1 );
+    int index = 0;
+    int accum = 0;
+    for( int w : weights ) {
+        accum += w;
+        if( accum > roll ) {
+            break;
+        }
+        index++;
+    }
+    return index;
 }

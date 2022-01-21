@@ -1,12 +1,5 @@
 [
   {
-    "id": "mx_null",
-    "type": "map_extra",
-    "name": { "str": "Nothing" },
-    "description": "Nothing of interest is here.",
-    "generator": { "generator_method": "null", "generator_id": "mx_null" }
-  },
-  {
     "id": "mx_crater",
     "type": "map_extra",
     "name": { "str": "Crater" },
@@ -21,7 +14,7 @@
     "type": "map_extra",
     "name": { "str": "College Kids" },
     "description": "Several corpses of college kids are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_collegekids" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_collegekids" },
     "sym": "c",
     "color": "light_red",
     "autonote": true
@@ -31,7 +24,7 @@
     "type": "map_extra",
     "name": { "str": "Drug Deal" },
     "description": "Several corpses of drug dealers are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_drugdeal" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_drugdeal" },
     "sym": "d",
     "color": "light_red",
     "autonote": true
@@ -121,7 +114,7 @@
     "type": "map_extra",
     "name": { "str": "Scientists" },
     "description": "Several corpses of scientists are here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_science" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_science" },
     "sym": "s",
     "color": "light_red",
     "autonote": true
@@ -131,7 +124,7 @@
     "type": "map_extra",
     "name": { "str": "Portal" },
     "description": "Portal is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_portal" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal" },
     "sym": "P",
     "color": "magenta",
     "autonote": true
@@ -144,6 +137,36 @@
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_portal_in" },
     "sym": "P",
     "color": "magenta",
+    "autonote": true
+  },
+  {
+    "id": "mx_exocrash_1",
+    "type": "map_extra",
+    "name": { "str": "Crashed pod" },
+    "description": "There is some kind of crashed metal pod here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_exodii_crash_big_1" },
+    "sym": "x",
+    "color": "light_gray",
+    "autonote": true
+  },
+  {
+    "id": "mx_exocrash_2",
+    "type": "map_extra",
+    "name": { "str": "Crashed pod" },
+    "description": "There is some kind of crashed metal pod here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_exodii_crash_big_2" },
+    "sym": "x",
+    "color": "light_gray",
+    "autonote": true
+  },
+  {
+    "id": "mx_lab_concourse_area",
+    "type": "map_extra",
+    "name": { "str": "Start location concourse area" },
+    "description": "There is a lanyard with an ID badge nearby.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_lab_concourse_area_spawn" },
+    "sym": "F",
+    "color": "light_gray",
     "autonote": true
   },
   {
@@ -171,10 +194,17 @@
     "type": "map_extra",
     "name": { "str": "Spiders" },
     "description": "This area is covered with webs.  Probably spiders are nearby",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_spider" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_spider" },
     "sym": "S",
     "color": "yellow",
     "autonote": true
+  },
+  {
+    "id": "mx_Trapdoor_spider_den",
+    "type": "map_extra",
+    "name": { "str": "Trapdoor Spiders" },
+    "description": "Several trapdoor spider nests.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_Trapdoor_spider_den" }
   },
   {
     "id": "mx_shia",
@@ -209,7 +239,7 @@
   {
     "id": "mx_shrubbery",
     "type": "map_extra",
-    "name": { "str": "Shrubberry" },
+    "name": { "str": "Shrubbery" },
     "description": "This area is covered with a single type of shrubs.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_shrubbery" },
     "sym": "s",
@@ -237,11 +267,43 @@
     "autonote": true
   },
   {
+    "id": "mx_pond_forest",
+    "type": "map_extra",
+    "name": { "str": "basin" },
+    "description": "Small basin is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest" }
+  },
+  {
+    "id": "mx_pond_forest_2",
+    "type": "map_extra",
+    "copy-from": "mx_pond_forest",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest_2" }
+  },
+  {
+    "id": "mx_pond_swamp",
+    "type": "map_extra",
+    "name": { "str": "bog" },
+    "description": "Small bog is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp" }
+  },
+  {
+    "id": "mx_pond_swamp_2",
+    "type": "map_extra",
+    "copy-from": "mx_pond_swamp",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp_2" }
+  },
+  {
     "id": "mx_trees",
     "type": "map_extra",
     "name": { "str": "Stand of trees" },
     "description": "A copse of trees.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees_map" }
+  },
+  {
+    "id": "mx_trees2",
+    "type": "map_extra",
+    "copy-from": "mx_trees",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees2_map" }
   },
   {
     "id": "mx_grass",
@@ -251,11 +313,20 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_grass_map" }
   },
   {
+    "id": "mx_grass2",
+    "type": "map_extra",
+    "copy-from": "mx_grass",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_grass2_map" }
+  },
+  {
     "id": "mx_fallen_shed",
     "type": "map_extra",
     "name": { "str": "Derelict shed" },
     "description": "A collapsed shed.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_fallen_shed_map" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_fallen_shed_map" },
+    "sym": "^",
+    "color": "dark_gray",
+    "autonote": true
   },
   {
     "id": "mx_clay_deposit",
@@ -294,7 +365,7 @@
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_burned_ground" },
     "sym": ".",
-    "color": "yellow",
+    "color": "light_gray",
     "autonote": true
   },
   {
@@ -303,8 +374,9 @@
     "name": { "str": "Burned Ground (Point)" },
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_burned_ground" },
+    "min_max_zlevel": [ 0, 0 ],
     "sym": ".",
-    "color": "yellow",
+    "color": "light_gray",
     "autonote": true
   },
   {
@@ -312,7 +384,7 @@
     "type": "map_extra",
     "name": { "str": "Marloss Pilgrimage" },
     "description": "Marloss Pilgrimage is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_marloss_pilgrimage" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_marloss_pilgrimage" },
     "sym": "F",
     "color": "dark_gray",
     "autonote": true
@@ -383,7 +455,7 @@
     "type": "map_extra",
     "name": { "str": "Grave" },
     "description": "A grave.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_grave" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_grave" }
   },
   {
     "id": "mx_city_trap",
@@ -398,5 +470,159 @@
     "name": { "str": "Reed" },
     "description": "Water vegetation.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_reed" }
+  },
+  {
+    "id": "mx_sewer_round",
+    "type": "map_extra",
+    "name": { "str": "Sewer Roundabout" },
+    "description": "Sewer roundabout.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_round" }
+  },
+  {
+    "id": "mx_sewer_grid",
+    "type": "map_extra",
+    "name": { "str": "Sewer Grid" },
+    "description": "Sewer grid.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grid" }
+  },
+  {
+    "id": "mx_sewer_grid2",
+    "type": "map_extra",
+    "name": { "str": "Sewer Grid" },
+    "description": "Sewer grid.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grid2" }
+  },
+  {
+    "id": "mx_sewer_mntE",
+    "type": "map_extra",
+    "name": { "str": "Sewer Maintenance" },
+    "description": "Sewer maintenance.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntE" }
+  },
+  {
+    "id": "mx_sewer_mntW",
+    "type": "map_extra",
+    "name": { "str": "Sewer Maintenance" },
+    "description": "Sewer maintenance.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntW" }
+  },
+  {
+    "id": "mx_sewer_mntN",
+    "type": "map_extra",
+    "name": { "str": "Sewer Maintenance" },
+    "description": "Sewer maintenance.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntN" }
+  },
+  {
+    "id": "mx_sewer_mntS",
+    "type": "map_extra",
+    "name": { "str": "Sewer Maintenance" },
+    "description": "Sewer maintenance.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntS" }
+  },
+  {
+    "id": "mx_sewer_grateE",
+    "type": "map_extra",
+    "name": { "str": "Sewer Grate" },
+    "description": "Sewer grate.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateE" }
+  },
+  {
+    "id": "mx_sewer_grateW",
+    "type": "map_extra",
+    "name": { "str": "Sewer Grate" },
+    "description": "Sewer grate.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateW" }
+  },
+  {
+    "id": "mx_sewer_grateN",
+    "type": "map_extra",
+    "name": { "str": "Sewer Grate" },
+    "description": "Sewer grate.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateN" }
+  },
+  {
+    "id": "mx_sewer_grateS",
+    "type": "map_extra",
+    "name": { "str": "Sewer Grate" },
+    "description": "Sewer grate.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateS" }
+  },
+  {
+    "id": "mx_sewer_pipesA",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesA" }
+  },
+  {
+    "id": "mx_sewer_pipesB",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesB" }
+  },
+  {
+    "id": "mx_sewer_pipesC",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesC" }
+  },
+  {
+    "id": "mx_sewer_pipesD",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesD" }
+  },
+  {
+    "id": "mx_sewer_pipesE",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesE" }
+  },
+  {
+    "id": "mx_sewer_pipesF",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesF" }
+  },
+  {
+    "id": "mx_sewer_pipesG",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesG" }
+  },
+  {
+    "id": "mx_sewer_pipesH",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesH" }
+  },
+  {
+    "id": "mx_sewer_pipesI",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesI" }
+  },
+  {
+    "id": "mx_sewer_pipesJ",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesJ" }
+  },
+  {
+    "id": "mx_prison_van",
+    "type": "map_extra",
+    "name": { "str": "Prison Van" },
+    "description": "A violent escape.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_prison_van" }
   }
 ]

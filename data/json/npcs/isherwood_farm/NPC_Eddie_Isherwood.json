@@ -29,7 +29,7 @@
         "skill": "ALL",
         "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } },
@@ -61,14 +61,14 @@
     "responses": [
       {
         "text": "Yeah, I'm a Marshal, what are you going to do about it?",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL",
         "effect": "hostile",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
         "text": "…",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
@@ -174,12 +174,6 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_LEAVE_NOW",
-    "dynamic_line": "You should get off my farm, I won't deal with a government stooge.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
-  },
-  {
-    "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE_TOPICS",
     "dynamic_line": "Go on…",
     "responses": [
@@ -217,8 +211,8 @@
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
-        { "u_buy_item": "meat_smoked", "count": 12 },
-        { "u_buy_item": "milk", "container": "jar_3l_glass_sealed", "count": 12 }
+        { "u_spawn_item": "meat_smoked", "count": 12 },
+        { "u_spawn_item": "milk", "container": "jar_3l_glass_sealed", "count": 12 }
       ],
       "update_mapgen": [
         {
@@ -245,7 +239,10 @@
     "followup": "MISSION_ISHERWOOD_EDDIE_3",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_item": "butter", "count": 6 }, { "u_buy_item": "milk", "container": "jar_3l_glass_sealed", "count": 12 } ]
+      "effect": [
+        { "u_spawn_item": "butter", "count": 6 },
+        { "u_spawn_item": "milk", "container": "jar_3l_glass_sealed", "count": 12 }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -274,9 +271,9 @@
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
         { "u_add_var": "u_did_eddie_missions", "type": "general", "context": "mission", "value": "yes" },
-        { "u_buy_item": "rope_6", "count": 1 },
+        { "u_spawn_item": "rope_6", "count": 1 },
         { "u_buy_monster": "mon_cow", "count": 1, "name": "Daisy" },
-        { "u_buy_item": "cattlefodder", "count": 3 }
+        { "u_spawn_item": "cattlefodder", "count": 3 }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

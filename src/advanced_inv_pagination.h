@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_ADVANCED_INV_PAGINATION_H
 #define CATA_SRC_ADVANCED_INV_PAGINATION_H
 
-#include "advanced_inv_pane.h"
+class advanced_inventory_pane;
+class item_category;
 
 /**
  * This class determines the page and line at which an item appears in the AIM.

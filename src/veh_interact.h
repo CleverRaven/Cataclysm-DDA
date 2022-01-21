@@ -4,7 +4,9 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -14,12 +16,13 @@
 #include "inventory.h"
 #include "item_location.h"
 #include "memory_fast.h"
+#include "optional.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
-class player;
+class Character;
 class vpart_info;
 struct requirement_data;
 
@@ -54,10 +57,10 @@ class veh_interact
         static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
                                           const std::string &title = std::string() );
 
-        static void complete_vehicle( player &p );
+        static void complete_vehicle( Character &you );
 
     private:
-        veh_interact( vehicle &veh, const point &p = point_zero );
+        explicit veh_interact( vehicle &veh, const point &p = point_zero );
         ~veh_interact();
 
         item_location target;
@@ -69,8 +72,11 @@ class veh_interact
         /* starting offset for the overview and the max offset for scrolling */
         int overview_offset = 0;
         int overview_limit = 0;
+        // starting offset for installation scrolling
+        int w_msg_scroll_offset = 0;
 
         const vpart_info *sel_vpart_info = nullptr;
+        std::string sel_vpart_variant;
         //Command currently being run by the player
         char sel_cmd = ' ';
 
@@ -91,6 +97,7 @@ class veh_interact
         catacurses::window w_details;
         catacurses::window w_name;
 
+        bool ui_hidden = false;
         weak_ptr_fast<ui_adaptor> ui;
 
         cata::optional<std::string> title;
@@ -99,7 +106,12 @@ class veh_interact
         int highlight_part = -1;
 
         struct install_info_t;
+
         std::unique_ptr<install_info_t> install_info;
+
+        struct remove_info_t;
+
+        std::unique_ptr<remove_info_t> remove_info;
 
         vehicle *veh;
         inventory crafting_inv;
@@ -111,6 +123,7 @@ class veh_interact
         units::mass max_jack;
 
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+        void hide_ui( bool hide );
 
         player_activity serialize_activity();
 
@@ -151,9 +164,17 @@ class veh_interact
         void do_siphon();
         // Returns true if exiting the screen
         bool do_unload();
+        void do_change_shape();
         void do_assign_crew();
         void do_relabel();
         /*@}*/
+
+        /**
+        * Calculates the lift requirements for a given vehicle_part
+        * @return bool true if lift requirements are fullfilled
+        * @return string msg for the ui to show the lift requirements
+        */
+        std::pair<bool, std::string> calc_lift_requirements( const vpart_info &sel_vpart_info );
 
         void display_grid();
         void display_veh();
@@ -162,23 +183,26 @@ class veh_interact
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, int header = 0 );
         void display_details( const vpart_info *part );
-        size_t display_esc( const catacurses::window &win );
 
         struct part_option {
-            part_option( const std::string &key, vehicle_part *part, char hotkey,
+            part_option( const std::string &key, vehicle_part *part, bool selectable, const input_event &hotkey,
                          std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details ) :
-                key( key ), part( part ), hotkey( hotkey ), details( details ) {}
+                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ), details( details ) {}
 
-            part_option( const std::string &key, vehicle_part *part, char hotkey,
+            part_option( const std::string &key, vehicle_part *part, bool selectable, const input_event &hotkey,
                          std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details,
                          std::function<void( const vehicle_part &pt )> message ) :
-                key( key ), part( part ), hotkey( hotkey ), details( details ), message( message ) {}
+                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ), details( details ),
+                message( message ) {}
 
             std::string key;
             vehicle_part *part;
 
+            /** Can the part be selected and used */
+            bool selectable;
+
             /** Can @param action be run for this entry? */
-            char hotkey;
+            input_event hotkey;
 
             /** Writes any extra details for this entry */
             std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details;
@@ -219,12 +243,12 @@ class veh_interact
         /** Returns the index of the part that needs repair the most.
          * This may not be mostDamagedPart since not all parts can be repaired
          * If there are no damaged parts this returns -1 */
-        vehicle_part *get_most_repariable_part() const;
+        vehicle_part *get_most_repairable_part() const;
 
         //do_remove supporting operation, writes requirements to ui
-        bool can_remove_part( int idx, const player &p );
+        bool can_remove_part( int idx, const Character &you );
         //do install support, writes requirements to ui
-        bool can_install_part();
+        bool update_part_requirements();
         //true if trying to install foot crank with electric engines for example
         //writes failure to ui
         bool is_drive_conflict();
@@ -267,5 +291,7 @@ class veh_interact
         /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
         bool can_self_jack();
 };
+
+void act_vehicle_siphon( vehicle *veh );
 
 #endif // CATA_SRC_VEH_INTERACT_H

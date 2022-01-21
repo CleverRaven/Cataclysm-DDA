@@ -80,7 +80,7 @@
     ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "req_buffs": [ "mma_buff_hylian_onpause" ],
+    "required_buffs_all": [ "mma_buff_hylian_onpause" ],
     "crit_ok": true,
     "aoe": "spin"
   },
@@ -94,7 +94,7 @@
     ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "req_buffs": [ "mma_buff_hylian_onpause" ],
+    "required_buffs_all": [ "mma_buff_hylian_onpause" ],
     "crit_ok": true,
     "aoe": "wide"
   },
@@ -175,31 +175,17 @@
   },
   {
     "type": "technique",
-    "id": "mma_tec_panzer_counter",
-    "name": "Ausstoß",
-    "//": "Outer Thrust.",
-    "messages": [ "You redirect %s's attack against them", "<npcname> redirects %s's attack against them" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
-    "melee_allowed": true,
-    "unarmed_allowed": true,
-    "dodge_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
-      { "stat": "damage", "type": "bash", "scale": 1.2 },
-      { "stat": "damage", "type": "cut", "scale": 1.2 },
-      { "stat": "damage", "type": "stab", "scale": 1.2 }
-    ]
-  },
-  {
-    "type": "technique",
     "id": "mma_tec_panzer_somersault",
     "name": "Kumai Sharinraku",
     "//": "No translation on wiki.  It's a Somersault Kick.",
     "messages": [ "You jump and somersault kick %s", "<npcname> jump and somersault kick %s" ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ]
   },
   {
     "type": "technique",
@@ -212,8 +198,17 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scale": 10.0 } ],
-    "mult_bonuses": [ { "stat": "movecost", "scale": 1.2 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 1.0 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 1.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 1.0 }
+    ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.2 },
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ]
   },
   {
     "type": "technique",
@@ -239,8 +234,11 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "flat_bonuses": [ { "stat": "hit", "scale": -2.0 } ],
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 2.0 },
+      { "stat": "damage", "type": "cut", "scale": 2.0 },
+      { "stat": "damage", "type": "stab", "scale": 2.0 }
+    ]
   },
   {
     "type": "technique",
@@ -250,7 +248,11 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.5 } ]
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.5 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 1.5 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.5 }
+    ]
   },
   {
     "type": "technique",
@@ -274,22 +276,6 @@
   },
   {
     "type": "technique",
-    "id": "mma_tec_setting_sun_counter",
-    "name": "Fool's Strike",
-    "messages": [ "You completely fool %s and strike back", "<npcname> completely fools %s and strike back" ],
-    "melee_allowed": true,
-    "unarmed_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
-      { "stat": "damage", "type": "bash", "scale": 1.2 },
-      { "stat": "damage", "type": "cut", "scale": 1.2 },
-      { "stat": "damage", "type": "stab", "scale": 1.2 }
-    ]
-  },
-  {
-    "type": "technique",
     "id": "mma_tec_setting_sun_stun",
     "name": "Hydra Slaying Strike",
     "messages": [ "You interrupt %s with a perfectly aimed strike", "<npcname> interrupt %s with a perfectly aimed strike" ],
@@ -307,10 +293,14 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "req_buffs": [ "mma_buff_setting_sun_onpause" ],
+    "required_buffs_all": [ "mma_buff_setting_sun_onpause" ],
     "down_dur": 2,
     "knockback_dist": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.33 },
+      { "stat": "damage", "type": "cut", "scale": 1.33 },
+      { "stat": "damage", "type": "stab", "scale": 1.33 }
+    ]
   },
   {
     "type": "technique",
@@ -320,26 +310,17 @@
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "req_buffs": [ "mma_buff_setting_sun_onpause" ],
+    "required_buffs_all": [ "mma_buff_setting_sun_onpause" ],
     "crit_tec": true,
     "down_dur": 2,
     "knockback_dist": 4,
     "powerful_knockback": true,
     "weighting": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
-  },
-  {
-    "type": "technique",
-    "id": "mma_tec_shii_cho_counter",
-    "name": "Flowing Water",
-    "messages": [
-      "You deflect %s's attack and counter in one fluid motion",
-      "<npcname> deflects %s's attack and counters in one fluid motion"
-    ],
-    "skill_requirements": [ { "name": "melee", "level": 4 } ],
-    "melee_allowed": true,
-    "crit_ok": true,
-    "block_counter": true
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ]
   },
   {
     "type": "technique",
@@ -373,8 +354,9 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
       { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 }
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.5 }
     ]
   },
   {
@@ -400,9 +382,9 @@
     "down_dur": 1,
     "knockback_dist": 2,
     "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1.2 },
-      { "stat": "damage", "type": "cut", "scale": 1.2 },
-      { "stat": "damage", "type": "stab", "scale": 1.2 }
+      { "stat": "damage", "type": "bash", "scale": 1.3 },
+      { "stat": "damage", "type": "cut", "scale": 1.3 },
+      { "stat": "damage", "type": "stab", "scale": 1.3 }
     ]
   },
   {

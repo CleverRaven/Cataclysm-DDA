@@ -14,6 +14,7 @@
                             // Total chance to learn a style from a single read of the book is equal to one in (10 + learn_difficulty - primary_skill)
 "arm_block" : 99,           // Unarmed skill level at which arm blocking is unlocked
 "leg_block" : 99,           // Unarmed skill level at which arm blocking is unlocked
+"nonstandard_block": 99     // Unarmed skill level at which blocking with "nonstandard" mutated limbs is unlocked
 "static_buffs" : [          // List of buffs that are automatically applied every turn
     "id" : "debug_elem_resist",
     "heat_arm_per" : 1.0
@@ -30,7 +31,7 @@
     "tec_debug_arpen"
 ]
 "weapons": [ "tonfa" ]      // List of weapons usable with this art
-
+"weapon_category": [ "WEAPON_CAT1" ], // Weapons that have one of the categories in here are usable with this art.
 ```
 
 ### Techniques
@@ -40,15 +41,25 @@
 "name" : "phasing strike",  // In-game name displayed
 "unarmed_allowed" : true,   // Can an unarmed character use this technique
 "unarmed_weapons_allowed" : true,    // Does this technique require the character to be actually unarmed or does it allow unarmed weapons
+"weapon_categories_allowed" : [ "BLADES", "KNIVES" ], // Restrict technique to only these categories of weapons. If omitted, all weapon categories are allowed.
 "melee_allowed" : true,     // Means that ANY melee weapon can be used, NOT just the martial art's weapons
 "skill_requirements": [ { "name": "melee", "level": 3 } ],     // Skills and their minimum levels required to use this technique. Can be any skill.
 "weapon_damage_requirements": [ { "type": "bash", "min": 5 } ],     // Minimum weapon damage required to use this technique. Can be any damage type.
-"req_buffs": [ "eskrima_hit_buff" ],    // This technique requires a named buff to be active
+"required_buffs_any": [ "eskrima_hit_buff" ],    // This technique requires any of the named buffs to be active
+"required_buffs_all": [ "eskrima_hit_buff" ],    // This technique requires all of the named buffs to be active
+"forbidden_buffs_any": [ "eskrima_hit_buff" ],    // This technique is forbidden if any of the named buffs are active
+"forbidden_buffs_all": [ "eskrima_hit_buff" ],    // This technique is forbidden if all of the named buffs are active
+"req_flags": [ "" ]         // List of item flags the used weapon needs to be eligible for the technique
+"required_char_flags": [ "" ]    // List of "character" (bionic, trait, effect or bodypart) flags the character needs to be able to use this technique
+"forbidden_char_flags": [ "" ]    // List of character flags disabling this technique
 "crit_tec" : true,          // This technique only works on a critical hit
 "crit_ok" : true,           // This technique works on both normal and critical hits
+"attack_override": false    // This technique replaces the base attack it triggered on, nulling damage and movecost (instead using the tech's flat_bonuses), and counts as unarmed for the purposes of skill training and special melee effects
 "downed_target": true,      // Technique only works on a downed target
 "stunned_target": true,     // Technique only works on a stunned target
 "human_target": true,       // Technique only works on a human-like target
+"repeat_min": 1,            // Technique's damage and any added effects are repeated rng( repeat_min, repeat_max) times. The target's armor and the effect's chances are applied for each repeat.
+"repeat_max": 1,
 "knockback_dist": 1,        // Distance target is knocked back
 "knockback_spread": 1,      // The knockback may not send the target straight back
 "knockback_follow": 1,      // Attacker will follow target if they are knocked back
@@ -61,14 +72,31 @@
 "aoe": "spin",              // This technique has an area-of-effect; doesn't work against solo targets
 "block_counter": true,      // This technique may automatically counterattack on a successful block
 "dodge_counter": true,      // This technique may automatically counterattack on a successful dodge
-"weighting": 2,             // Affects likelihood this technique will be seleted when many are available
+"weighting": 2,             // Affects likelihood this technique will be selected when many are available. Negative weighting means the technique is only included in the list of possible techs once out of every `weighting` times ( 1/3 for a weighting of -3)
 "defensive": true,          // Game won't try to select this technique when attacking
 "miss_recovery": true,      // Misses while attacking will use fewer moves
 "messages" : [              // What is printed when this technique is used by the player and by an npc
     "You phase-strike %s",
     "<npcname> phase-strikes %s"
 ]
-"movecost_mult" : 0.3       // Any bonuses, as described below
+"mult_bonuses" : <array>     // Any bonuses, as described below
+"flat_bonuses": <array>
+"tech_effects": <array>      // List of effects applied by this technique, see below
+```
+
+### Tech effects
+```JSON
+"tech_effects": [
+    {
+        "id": "eff_expl",    // id
+        "chance": 100,       // Percent chance to apply the effect on this attack
+        "permanent": false,  // If true the effect won't decay (default false)
+        "duration": 15,      // Duration of the effect in turns
+        "on_damage": true,   // If true the effect will only be applied if the attack succeeded in doing damage (default true)
+        "req_flag": "ANY",   // A single arbitrary character flag (from traits, bionics, effects, or bodyparts) required to apply this effect
+        "message": "Example" // The message to print if you succesfully apply the effect, %s can be substituted for the target's name
+    }
+]
 ```
 
 ### Buffs
@@ -78,9 +106,11 @@
 "name" : "Elemental resistance",    // In-game name displayed
 "description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",    // In-game description
 "buff_duration": 2,                 // Duration in turns that this buff lasts
+"persists": false,                 // Allow buff to remain when changing to a new style
 "unarmed_allowed" : true,           // Can this buff be applied to an unarmed character
 "unarmed_allowed" : false,          // Can this buff be applied to an armed character
 "unarmed_weapons_allowed" : true,          // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
+"weapon_categories_allowed" : [ "BLADES", "KNIVES" ], // Restrict buff to only these categories of weapons. If omitted, all weapon categories are allowed.
 "max_stacks" : 8,                   // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
 "bonus_blocks": 1       // Extra blocks per turn
 "bonus_dodges": 1       // Extra dodges per turn
@@ -113,7 +143,7 @@ Bonuses must be written in the correct order.
 Tokens of `useless` type will not cause an error, but will not have any effect.
 For example, `speed` in a technique will have no effect (`movecost` should be used for techniques).
 
-Currently extra elemental damage is not applied, but extra elemental armor is (after regular armor).
+Flat bonuses are applied after multiplicative bonuses.
 
 Examples:
 Incoming bashing damage is decreased by 30% of strength value. Only useful on buffs:

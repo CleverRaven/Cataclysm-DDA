@@ -152,7 +152,7 @@
         ".|y                  y|.",
         ".|{  ##############  }|.",
         ".|{                  }|.",
-        ".|{  ##############  }| ",
+        ".|{  ##############  }|.",
         ".|{                  }|.",
         ".|{  ##############  }|.",
         ".|{                  }|.",
@@ -398,7 +398,7 @@
         "........................"
       ],
       "terrain": {
-        ".": "t_rock",
+        ".": "t_soil",
         " ": "t_floor",
         "b": "t_floor",
         "c": "t_floor",
@@ -501,25 +501,11 @@
             [ "roof_6x6_survivor", 20 ],
             [ "roof_6x6_utility", 20 ]
           ],
-          "x": [ 6, 15 ],
-          "y": [ 10, 13 ]
+          "x": [ 6, 13 ],
+          "y": [ 10, 12 ]
         }
       ]
     }
-  },
-  {
-    "id": "my_precious",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "group": "supplies_metal_precious", "prob": 70 },
-      { "item": "money_bundle", "prob": 90 },
-      { "item": "gold_watch", "prob": 30 },
-      { "item": "gold_ear", "prob": 30 },
-      { "item": "gold_bracelet", "prob": 30 },
-      { "item": "diamond_ring", "prob": 20 },
-      { "item": "diamond", "prob": 10 }
-    ]
   },
   {
     "id": "pawn_shop_electronics",
@@ -568,7 +554,7 @@
       [ "boxer_shorts", 30 ],
       [ "mag_porn", 20 ],
       [ "briefs", 30 ],
-      { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
       [ "bikini_top_leather", 25 ],
       [ "skirt_leather", 25 ],
       [ "honey_bottled", 20 ],

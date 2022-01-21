@@ -59,7 +59,7 @@ The highest amount of this vitamin that the avatar can have.
 How long it takes to lose one unit of this vitamin.
 
 ### `flags`
-An array of string flags, see the flags section below for valid ones
+An array of string flags; see the flags section below for valid ones.
 
 ### `disease`
 What the thresholds of deficiency of this vitamin are.
@@ -73,4 +73,4 @@ Each tier of excess corresponds to the intensity level of the effect defined in 
 
 ## flags
 
-- ```NO_DISPLAY``` - This vitamin will not be shown when examining a food
+- ```NO_DISPLAY``` - This vitamin will not be shown when examining a food.

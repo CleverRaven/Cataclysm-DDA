@@ -1,5 +1,11 @@
 [
   {
+    "type": "item_group",
+    "id": "NC_ARSONIST_storage",
+    "subtype": "distribution",
+    "entries": [ { "item": "golf_bag", "prob": 100 } ]
+  },
+  {
     "type": "npc",
     "id": "arsonist",
     "//": "Appears in the refugee center as a unique trader and potential mission provider.",
@@ -18,6 +24,7 @@
     "id": "NC_ARSONIST",
     "name": { "str": "Arsonist" },
     "job_description": "I'm just watching the world burn.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
       { "group": "NPC_starting_traits" },
@@ -34,7 +41,7 @@
       { "skill": "gun", "bonus": { "rng": [ 1, 3 ] } },
       { "skill": "pistol", "bonus": { "rng": [ 1, 3 ] } },
       { "skill": "throw", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } }
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } }
     ]
   },
   {
@@ -139,7 +146,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "molotov", "count": 10 },
+        { "u_spawn_item": "molotov", "count": 10 },
         { "u_add_var": "TALK_ARSONIST_SUPPLIED", "type": "talk", "context": "flag", "value": "yes" }
       ]
     }

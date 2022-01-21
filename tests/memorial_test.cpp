@@ -1,13 +1,15 @@
-#include "catch/catch.hpp"
-
 #include <algorithm>
-#include <cstddef>
-#include <memory>
+#include <chrono>
+#include <iterator>
+#include <numeric>
+#include <sstream>
 #include <string>
 #include <vector>
 
+#include "achievement.h"
 #include "avatar.h"
 #include "bodypart.h"
+#include "cata_catch.h"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"
@@ -15,13 +17,23 @@
 #include "filesystem.h"
 #include "memorial_logger.h"
 #include "mutation.h"
+#include "npc.h"
 #include "output.h"
 #include "player_helpers.h"
 #include "pldata.h"
 #include "profession.h"
+#include "stats_tracker.h"
 #include "type_id.h"
 
-class event_bus;
+static const matype_id style_aikido( "style_aikido" );
+
+static const mutation_category_id mutation_category_URSINE( "URSINE" );
+
+static const skill_id skill_driving( "driving" );
+
+static const spell_id spell_pain_damage( "pain_damage" );
+
+static const trap_str_id tr_pit( "tr_pit" );
 
 template<event_type Type, typename... Args>
 void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )
@@ -62,6 +74,8 @@ TEST_CASE( "memorials", "[memorial]" )
     memorial_logger &m = get_memorial();
     m.clear();
     clear_avatar();
+    get_stats().clear();
+    get_achievements().clear();
 
     event_bus &b = get_event_bus();
 
@@ -97,10 +111,10 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Became wanted by the police!", ch );
 
     check_memorial<event_type::broken_bone>(
-        m, b, "Broke her right arm.", ch, bp_arm_r );
+        m, b, "Broke her right arm.", ch, bodypart_id( "arm_r" ) );
 
     check_memorial<event_type::broken_bone_mends>(
-        m, b, "Broken right arm began to mend.", ch, bp_arm_r );
+        m, b, "Broken right arm began to mend.", ch, bodypart_id( "arm_r" ) );
 
     check_memorial<event_type::buries_corpse>(
         m, b, "You buried monster_name.", ch, mon, "monster_name" );
@@ -122,7 +136,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Put out the fire.", ch, eff );
 
     check_memorial<event_type::character_triggers_trap>(
-        m, b, "Fell in a pit.", ch, trap_str_id( "tr_pit" ) );
+        m, b, "Fell in a pit.", ch, tr_pit );
 
     check_memorial<event_type::consumes_marloss_item>(
         m, b, "Consumed a Marloss seed.", ch, it );
@@ -131,7 +145,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Opened the Marloss Gateway.", ch );
 
     check_memorial<event_type::crosses_mutation_threshold>(
-        m, b, "Became one with the bears.", ch, "URSINE" );
+        m, b, "Became one with the bears.", ch, mutation_category_URSINE );
 
     check_memorial<event_type::crosses_mycus_threshold>(
         m, b, "Became one with the Mycus.", ch );
@@ -203,7 +217,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
 
     check_memorial<event_type::gains_skill_level>(
-        m, b, "Reached skill level 8 in driving.", ch, skill_id( "driving" ), 8 );
+        m, b, "Reached skill level 8 in vehicles.", ch, skill_driving, 8 );
 
     check_memorial<event_type::game_over>(
         m, b, u_name + " was killed.\nLast words: last_words", false, "last_words",
@@ -220,7 +234,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Installed bad bionic: Alarm System.", ch, cbm );
 
     check_memorial<event_type::learns_martial_art>(
-        m, b, "Learned Aikido.", ch, matype_id( "style_aikido" ) );
+        m, b, "Learned Aikido.", ch, style_aikido );
 
     check_memorial<event_type::loses_addiction>(
         m, b, "Overcame addiction to alcohol.", ch, add_type::ALCOHOL );
@@ -235,13 +249,13 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Opened a strange temple." );
 
     check_memorial<event_type::character_forgets_spell>(
-        m, b, "Forgot the spell Pain.", ch, spell_id( "pain_damage" ) );
+        m, b, "Forgot the spell Pain.", ch, spell_pain_damage );
 
     check_memorial<event_type::character_learns_spell>(
-        m, b, "Learned the spell Pain.", ch, spell_id( "pain_damage" ) );
+        m, b, "Learned the spell Pain.", ch, spell_pain_damage );
 
     check_memorial<event_type::player_levels_spell>(
-        m, b, "Gained a spell level on Pain.", ch, spell_id( "pain_damage" ), 5 );
+        m, b, "Gained a spell level on Pain.", ch, spell_pain_damage, 5 );
 
     check_memorial<event_type::releases_subspace_specimens>(
         m, b, "Released subspace specimens." );
@@ -290,7 +304,7 @@ TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
     memorial_logger logger;
     {
         std::istringstream is( input );
-        logger.load( is );
+        logger.load( is, "<test data>" );
         std::ostringstream os;
         logger.save( os );
         CHECK( os.str() == json_value );
@@ -299,7 +313,7 @@ TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
     // Then verify that the new format is unchanged
     {
         std::istringstream is( json_value );
-        logger.load( is );
+        logger.load( is, "<test data>" );
         std::ostringstream os;
         logger.save( os );
         CHECK( os.str() == json_value );
@@ -324,6 +338,6 @@ TEST_CASE( "memorial_log_dumping", "[memorial]" )
 
     memorial_logger logger;
     std::istringstream is( json_value );
-    logger.load( is );
+    logger.load( is, "<test data>" );
     CHECK( logger.dump() == expected_output );
 }

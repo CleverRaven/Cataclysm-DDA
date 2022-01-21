@@ -1,6 +1,6 @@
 ### Compatibility with screen readers
 
-There are people who uses screen readers to play Cataclysm DDA. In order for screen
+There are people who use screen readers to play Cataclysm DDA. In order for screen
 readers to announce the most important information in a UI, the terminal cursor has
 to be placed at the correct location. This information may be text such as selected
 item names in a list, etc, and the cursor has to be placed exactly at the beginning
@@ -36,4 +36,4 @@ wrefresh( win );
 
 As shown in the above example, it is preferable to record the intended cursor
 position in a variable when the text is printed, and move the cursor later using
-the variable to ensure consisitency.
+the variable to ensure consistency.

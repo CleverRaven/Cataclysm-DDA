@@ -2,6 +2,7 @@
   {
     "result": "offal_canned",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
     "category": "CC_FOOD",
@@ -13,13 +14,15 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "container": "jar_glass_sealed",
     "result_mult": 2,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "meat_offal", 2, "LIST" ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat_offal", 2, "LIST" ] ] ]
   },
   {
     "result": "offal_canned",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -31,20 +34,21 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "components": [
-      [ [ "canister_empty", 1 ], [ "can_food", 1 ] ],
+      [ [ "can_medium", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "meat_offal", 1, "LIST" ] ]
+      [ [ "meat_offal", 2, "LIST" ] ]
     ]
   },
   {
     "result": "offal_pickled",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "jarred",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -55,17 +59,41 @@
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "container": "jar_glass_sealed",
     "result_mult": 2,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "jar_glass_sealed", 1 ] ],
+      [ [ "jar_glass", 1 ] ],
       [ [ "meat_offal", 2, "LIST" ] ],
       [ [ "vinegar", 1 ] ]
     ]
   },
   {
+    "result": "offal_pickled",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "jarred_3l",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": "50 m",
+    "batch_time_factors": [ 83, 5 ],
+    "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
+    "container": "jar_3l_glass_sealed",
+    "result_mult": 12,
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
+      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "meat_offal", 12, "LIST" ] ],
+      [ [ "vinegar", 6 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dogfood",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -77,7 +105,7 @@
     "time": "30 m",
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
@@ -88,6 +116,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dogfood",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -101,7 +130,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -115,6 +144,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dogfood",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -127,7 +157,7 @@
     "result_mult": 6,
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
@@ -138,6 +168,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "catfood",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -150,7 +181,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
     "result_mult": 2,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
@@ -160,6 +191,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "catfood",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -173,7 +205,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -186,6 +218,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "catfood",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -198,7 +231,7 @@
     "result_mult": 12,
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
@@ -208,6 +241,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "V8",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -233,6 +267,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_mushroom",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -253,6 +288,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_mushroom",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -266,7 +302,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -275,6 +311,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_mushroom",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -295,6 +332,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_canned",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -307,12 +345,13 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
     "result_mult": 2,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "meat_red_raw", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_canned",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -325,12 +364,13 @@
     "result_mult": 2,
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "fish", 2 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_canned",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -343,7 +383,7 @@
     "result_mult": 2,
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
@@ -353,6 +393,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_canned",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -365,7 +406,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "result_mult": 4,
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 12 ], [ "water_clean", 12 ] ],
@@ -376,6 +417,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_woods",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -396,6 +438,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_meat",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -416,6 +459,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_veggy",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -436,6 +480,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_fish",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -456,6 +501,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -476,6 +522,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth_bone",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -495,6 +542,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "kompot",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -519,6 +567,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "jam_fruit",
     "category": "CC_FOOD",
     "id_suffix": "jarred",
@@ -542,6 +591,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "jam_fruit",
     "category": "CC_FOOD",
     "id_suffix": "jarred_3L",
@@ -565,6 +615,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_tomato",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -577,7 +628,7 @@
     "book_learn": [ [ "cookbook_italian", 4 ], [ "manual_canning", 3 ] ],
     "result_mult": 4,
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 12 ], [ "water_clean", 12 ] ],
@@ -587,6 +638,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_beans",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -599,7 +651,7 @@
     "charges": 2,
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
@@ -609,6 +661,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -621,7 +674,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -634,6 +687,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -646,7 +700,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -659,6 +713,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -671,7 +726,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -684,6 +739,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -697,7 +753,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -711,6 +767,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_tomato",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -724,7 +781,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -737,6 +794,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_beans",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -749,7 +807,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -762,6 +820,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_woods",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -775,7 +834,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -784,6 +843,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_veggy",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -797,7 +857,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -806,6 +866,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_meat",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -819,7 +880,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -828,6 +889,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_fish",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -841,7 +903,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -850,6 +912,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_canned",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -862,12 +925,13 @@
     "result_mult": 12,
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "meat_red_raw", 12, "LIST" ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_canned",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -880,7 +944,7 @@
     "result_mult": 12,
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
@@ -890,6 +954,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_canned",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -903,7 +968,7 @@
     "result_mult": 24,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
@@ -914,6 +979,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_canned",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -926,13 +992,14 @@
     "result_mult": 12,
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "fish", 12 ] ] ]
   },
   {
     "result": "offal_canned",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
     "category": "CC_FOOD",
@@ -944,12 +1011,13 @@
     "batch_time_factors": [ 83, 5 ],
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "container": "jar_3l_glass_sealed",
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "meat_offal", 12, "LIST" ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_tomato",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -962,7 +1030,7 @@
     "book_learn": [ [ "cookbook_italian", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
     "charges": 24,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
@@ -972,6 +1040,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_beans",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -984,7 +1053,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
     "charges": 12,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
@@ -994,6 +1063,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_woods",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1014,6 +1084,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_meat",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1034,6 +1105,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_veggy",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1054,6 +1126,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_fish",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1074,6 +1147,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1094,6 +1168,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth_bone",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1113,6 +1188,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sauce_red",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1125,7 +1201,7 @@
     "charges": 48,
     "book_learn": [ [ "cookbook_italian", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
@@ -1135,6 +1211,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sauce_red",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -1147,7 +1224,7 @@
     "charges": 8,
     "book_learn": [ [ "cookbook_italian", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "jar_glass_sealed", 1 ] ],
@@ -1157,6 +1234,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sauce_red",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -1170,7 +1248,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -1183,6 +1261,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "kompot",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -1206,6 +1285,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "con_milk",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1225,7 +1305,7 @@
       [ "manual_canning", 2 ]
     ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
@@ -1236,6 +1316,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "con_milk",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -1255,12 +1336,13 @@
       [ "manual_canning", 2 ]
     ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "milk_standard_raw_fresh", 4, "LIST" ] ], [ [ "sugar_standard", 6, "LIST" ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "con_milk",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -1281,7 +1363,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -1294,6 +1376,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -1307,7 +1390,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -1316,6 +1399,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth_bone",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -1329,7 +1413,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -1342,6 +1426,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_cider",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 4 ] ],
@@ -1365,6 +1450,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_cider",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ] ],
@@ -1384,6 +1470,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_cider",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 24 ] ],
@@ -1407,6 +1494,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oj",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 4 ] ],
@@ -1430,6 +1518,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oj",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ] ],
@@ -1449,6 +1538,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oj",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 24 ] ],
@@ -1472,6 +1562,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cranberry_juice",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 4 ] ],
@@ -1495,6 +1586,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cranberry_juice",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ] ],
@@ -1514,6 +1606,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cranberry_juice",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 24 ] ],
@@ -1537,6 +1630,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "juice",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 2 ] ],
@@ -1547,15 +1641,21 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "charges": 2,
+    "charges": 4,
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "sweet_fruit", 2, "LIST" ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [
+      [ [ "jar_glass_sealed", 1 ] ],
+      [ [ "sweet_fruit", 2, "LIST" ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ],
+      [ [ "water_clean", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "juice",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 2 ] ],
@@ -1564,16 +1664,18 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 4,
+    "charges": 4,
     "time": "24 m",
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "can_medium", 1 ] ], [ [ "scrap", 1 ] ], [ [ "sweet_fruit", 2, "LIST" ] ] ]
+    "components": [ [ [ "can_medium", 1 ] ], [ [ "scrap", 1 ] ], [ [ "sweet_fruit", 2, "LIST" ] ], [ [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "juice",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 12 ] ],
@@ -1584,11 +1686,16 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "40 m",
-    "charges": 12,
+    "charges": 24,
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "sweet_fruit", 12, "LIST" ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [
+      [ [ "jar_3l_glass_sealed", 1 ] ],
+      [ [ "sweet_fruit", 12, "LIST" ] ],
+      [ [ "water", 10 ], [ "water_clean", 10 ] ],
+      [ [ "water_clean", 12 ] ]
+    ]
   }
 ]

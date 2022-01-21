@@ -1,8 +1,29 @@
-#include "catch/catch.hpp"
+#include <functional>
+#include <iosfwd>
+#include <map>
+#include <memory>
+#include <new>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include "ammo.h"
+#include "calendar.h"
+#include "cata_catch.h"
+#include "debug.h"
+#include "enums.h"
+#include "flag.h"
 #include "item.h"
+#include "item_category.h"
+#include "item_location.h"
 #include "item_pocket.h"
+#include "itype.h"
+#include "optional.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
+
+static const ammotype ammo_test_9mm( "test_9mm" );
 
 // Pocket Tests
 // ------------
@@ -38,6 +59,7 @@ static void expect_can_contain( const item_pocket &pocket, const item &it )
 {
     CAPTURE( it.tname() );
     const ret_val<item_pocket::contain_code> rate_can = pocket.can_contain( it );
+    INFO( rate_can.str() );
     CHECK( rate_can.success() );
     CHECK( rate_can.str().empty() );
     CHECK( rate_can.value() == item_pocket::contain_code::SUCCESS );
@@ -159,7 +181,11 @@ TEST_CASE( "max item length", "[pocket][max_item_length]" )
             REQUIRE( rod_15.length() == 15_cm );
 
             REQUIRE( box.is_container_empty() );
-            box.put_in( rod_15, item_pocket::pocket_type::CONTAINER );
+            std::string dmsg = capture_debugmsg_during( [&box, &rod_15]() {
+                ret_val<bool> result = box.put_in( rod_15, item_pocket::pocket_type::CONTAINER );
+                CHECK_FALSE( result.success() );
+            } );
+            CHECK_THAT( dmsg, Catch::EndsWith( "item is too long" ) );
             // Box should still be empty
             CHECK( box.is_container_empty() );
         }
@@ -276,7 +302,7 @@ TEST_CASE( "max container volume", "[pocket][max_contains_volume]" )
 
         // 9mm ammo is 50 rounds per 250ml (or 200 rounds per liter), so this ammo box
         // should be exactly 1 liter in size, so it can contain this much ammo.
-        data_ammo_box.ammo_restriction.emplace( ammotype( "9mm" ), 200 );
+        data_ammo_box.ammo_restriction.emplace( ammo_test_9mm, 200 );
         REQUIRE_FALSE( data_ammo_box.ammo_restriction.empty() );
 
         // And because actual volume is derived from ammo needs, this volume should be ignored.
@@ -321,20 +347,20 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
         //      "ammo_restriction": { "9mm", 10 }
         //
         const int full_clip_qty = 10;
-        data_mag.ammo_restriction.emplace( ammotype( "9mm" ), full_clip_qty );
+        data_mag.ammo_restriction.emplace( ammo_test_9mm, full_clip_qty );
         item_pocket pocket_mag( &data_mag );
 
         WHEN( "it does not already contain any ammo" ) {
             REQUIRE( pocket_mag.empty() );
 
             THEN( "it can contain a full clip of 9mm ammo" ) {
-                const item ammo_9mm( "test_9mm_ammo", 0, full_clip_qty );
+                const item ammo_9mm( "test_9mm_ammo", calendar::turn_zero, full_clip_qty );
                 expect_can_contain( pocket_mag, ammo_9mm );
             }
 
             THEN( "it cannot contain items of the wrong ammo type" ) {
                 item rock( "test_rock" );
-                item ammo_45( "test_45_ammo", 0, 1 );
+                item ammo_45( "test_45_ammo", calendar::turn_zero, 1 );
                 expect_cannot_contain( pocket_mag, rock, "item is not the correct ammo type",
                                        item_pocket::contain_code::ERR_AMMO );
                 expect_cannot_contain( pocket_mag, ammo_45, "item is not the correct ammo type",
@@ -350,16 +376,18 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
 
         WHEN( "it is partly full of ammo" ) {
             const int half_clip_qty = full_clip_qty / 2;
-            item ammo_9mm_half_clip( "test_9mm_ammo", 0, half_clip_qty );
+            item ammo_9mm_half_clip( "test_9mm_ammo", calendar::turn_zero, half_clip_qty );
             expect_can_insert( pocket_mag, ammo_9mm_half_clip );
 
             THEN( "it can contain more of the same ammo" ) {
-                item ammo_9mm_refill( "test_9mm_ammo", 0, full_clip_qty - half_clip_qty );
+                item ammo_9mm_refill( "test_9mm_ammo", calendar::turn_zero,
+                                      full_clip_qty - half_clip_qty );
                 expect_can_contain( pocket_mag, ammo_9mm_refill );
             }
 
             THEN( "it cannot contain more ammo than ammo_restriction allows" ) {
-                item ammo_9mm_overfill( "test_9mm_ammo", 0, full_clip_qty - half_clip_qty + 1 );
+                item ammo_9mm_overfill( "test_9mm_ammo", calendar::turn_zero,
+                                        full_clip_qty - half_clip_qty + 1 );
                 expect_cannot_contain( pocket_mag, ammo_9mm_overfill,
                                        "tried to put too many charges of ammo in item",
                                        item_pocket::contain_code::ERR_NO_SPACE );
@@ -367,11 +395,11 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
         }
 
         WHEN( "it is completely full of ammo" ) {
-            item ammo_9mm_full_clip( "test_9mm_ammo", 0, full_clip_qty );
+            item ammo_9mm_full_clip( "test_9mm_ammo", calendar::turn_zero, full_clip_qty );
             expect_can_insert( pocket_mag, ammo_9mm_full_clip );
 
             THEN( "it cannot contain any more of the same ammo" ) {
-                item ammo_9mm_bullet( "test_9mm_ammo", 0, 1 );
+                item ammo_9mm_bullet( "test_9mm_ammo", calendar::turn_zero, 1 );
                 expect_cannot_contain( pocket_mag, ammo_9mm_bullet,
                                        "tried to put too many charges of ammo in item",
                                        item_pocket::contain_code::ERR_NO_SPACE );
@@ -382,7 +410,7 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
 
 // Flag restriction
 // ----------------
-// The "flag_restriction" list from pocket data JSON gives compatible item flag(s) for this pocket.
+// The "get_flag_restrictions" list from pocket data JSON gives compatible item flag(s) for this pocket.
 // An item with any one of those tags may be inserted into the pocket.
 //
 // Related JSON fields:
@@ -428,14 +456,14 @@ TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
     // items with any of those flags can be inserted in the pocket.
 
     GIVEN( "pocket with BELT_CLIP flag restriction" ) {
-        data_belt.flag_restriction.push_back( "BELT_CLIP" );
+        data_belt.add_flag_restriction( flag_BELT_CLIP );
         item_pocket pocket_belt( &data_belt );
 
         GIVEN( "item has BELT_CLIP flag" ) {
-            REQUIRE( screwdriver.has_flag( "BELT_CLIP" ) );
-            REQUIRE( sonic.has_flag( "BELT_CLIP" ) );
-            REQUIRE( halligan.has_flag( "BELT_CLIP" ) );
-            REQUIRE( axe.has_flag( "BELT_CLIP" ) );
+            REQUIRE( screwdriver.has_flag( flag_BELT_CLIP ) );
+            REQUIRE( sonic.has_flag( flag_BELT_CLIP ) );
+            REQUIRE( halligan.has_flag( flag_BELT_CLIP ) );
+            REQUIRE( axe.has_flag( flag_BELT_CLIP ) );
 
             WHEN( "item volume is less than min_item_volume" ) {
                 REQUIRE( screwdriver.volume() < data_belt.min_item_volume );
@@ -491,16 +519,16 @@ TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
         }
 
         GIVEN( "item without BELT_CLIP flag" ) {
-            REQUIRE_FALSE( rag.has_flag( "BELT_CLIP" ) );
-            REQUIRE_FALSE( rock.has_flag( "BELT_CLIP" ) );
+            REQUIRE_FALSE( rag.has_flag( flag_BELT_CLIP ) );
+            REQUIRE_FALSE( rock.has_flag( flag_BELT_CLIP ) );
             // Ensure they are not too large otherwise
             REQUIRE_FALSE( rag.volume() > data_belt.max_contains_volume() );
             REQUIRE_FALSE( rock.volume() > data_belt.max_contains_volume() );
 
             THEN( "pocket cannot contain it, because it does not have the flag" ) {
-                expect_cannot_contain( pocket_belt, rag, "item does not have correct flag",
+                expect_cannot_contain( pocket_belt, rag, "holster does not accept this item type or form factor",
                                        item_pocket::contain_code::ERR_FLAG );
-                expect_cannot_contain( pocket_belt, rock, "item does not have correct flag",
+                expect_cannot_contain( pocket_belt, rock, "holster does not accept this item type or form factor",
                                        item_pocket::contain_code::ERR_FLAG );
             }
         }
@@ -612,8 +640,8 @@ TEST_CASE( "holster can contain one fitting item", "[pocket][holster]" )
 TEST_CASE( "pockets containing liquids", "[pocket][watertight][liquid]" )
 {
     // Liquids
-    item ketchup( "ketchup", 0, item::default_charges_tag{} );
-    item mustard( "mustard", 0, item::default_charges_tag{} );
+    item ketchup( "ketchup", calendar::turn_zero, item::default_charges_tag{} );
+    item mustard( "mustard", calendar::turn_zero, item::default_charges_tag{} );
 
     // Non-liquids
     item rock( "test_rock" );
@@ -711,7 +739,7 @@ TEST_CASE( "pockets containing liquids", "[pocket][watertight][liquid]" )
 //
 TEST_CASE( "pockets containing gases", "[pocket][airtight][gas]" )
 {
-    item gas( "test_gas", 0, item::default_charges_tag{} );
+    item gas( "test_gas", calendar::turn_zero, item::default_charges_tag{} );
 
     // A potentially airtight container
     pocket_data data_balloon( item_pocket::pocket_type::CONTAINER );
@@ -889,3 +917,438 @@ TEST_CASE( "corpse can contain anything", "[pocket][corpse]" )
         }
     }
 }
+
+// Sealed pockets
+// --------------
+//
+// Functions:
+// item_pocket::seal
+// item_pocket::unseal
+// item_pocket::sealed
+// item_pocket::sealable
+//
+TEST_CASE( "sealed containers", "[pocket][seal]" )
+{
+    item water( "water" );
+
+    GIVEN( "sealable can" ) {
+        item can( "test_can_drink" );
+
+        // Ensure it has exactly one contained pocket, and get that pocket for testing
+        ret_val<std::vector<item_pocket *>> can_pockets = can.get_all_contained_pockets();
+        REQUIRE( can_pockets.success() );
+        REQUIRE( can_pockets.value().size() == 1 );
+        item_pocket &pocket = *can_pockets.value().front();
+        // Must be sealable, but not sealed initially
+        REQUIRE( pocket.sealable() );
+        REQUIRE_FALSE( pocket.sealed() );
+
+        // Sealing does not work when empty
+        WHEN( "pocket is empty" ) {
+            REQUIRE( pocket.empty() );
+            THEN( "it cannot be sealed" ) {
+                CHECK_FALSE( pocket.seal() );
+                CHECK_FALSE( pocket.sealed() );
+                // Remains sealable
+                CHECK( pocket.sealable() );
+            }
+        }
+
+        // But after inserting something, sealing can succeed
+        WHEN( "pocket contains something" ) {
+            REQUIRE( pocket.insert_item( water ).success() );
+            THEN( "it can be sealed" ) {
+                CHECK( pocket.seal() );
+                CHECK( pocket.sealed() );
+                // Remains sealable
+                CHECK( pocket.sealable() );
+            }
+        }
+
+        GIVEN( "pocket is already sealed" ) {
+            REQUIRE( pocket.insert_item( water ).success() );
+            REQUIRE( pocket.seal() );
+            REQUIRE( pocket.sealed() );
+
+            WHEN( "it becomes unsealed" ) {
+                pocket.unseal();
+                THEN( "it is no longer sealed" ) {
+                    CHECK_FALSE( pocket.sealed() );
+                    // Remains sealable
+                    CHECK( pocket.sealable() );
+                }
+            }
+        }
+    }
+
+    GIVEN( "non-sealable jug" ) {
+        item jug( "test_jug_plastic" );
+
+        // Ensure it has exactly one contained pocket, and get that pocket for testing
+        ret_val<std::vector<item_pocket *>> jug_pockets = jug.get_all_contained_pockets();
+        REQUIRE( jug_pockets.success() );
+        REQUIRE( jug_pockets.value().size() == 1 );
+        item_pocket &pocket = *jug_pockets.value().front();
+        // Must NOT be sealable
+        REQUIRE_FALSE( pocket.sealable() );
+        REQUIRE_FALSE( pocket.sealed() );
+
+        THEN( "it cannot be sealed" ) {
+            // Sealing fails when empty
+            REQUIRE( pocket.empty() );
+            CHECK_FALSE( pocket.seal() );
+            CHECK_FALSE( pocket.sealed() );
+            // Sealing also fails after inserting item
+            REQUIRE( pocket.insert_item( water ).success() );
+            CHECK_FALSE( pocket.seal() );
+            CHECK_FALSE( pocket.sealed() );
+        }
+    }
+}
+
+// Better pockets
+// --------------
+// Pockets are ranked according to item_pocket::better_pocket, which considers player-defined
+// favorites, ammo restrictions, spoilage, watertightness, available volume and other factors.
+//
+// Functions:
+// item_pocket::better_pocket
+//
+TEST_CASE( "when one pocket is better than another", "[pocket][better]" )
+{
+    // TODO:
+    // settings.is_better_favorite() is top priority
+    // settings.priority() takes next priority
+    // has_item_stacks_with(it) is better than one that doesn't stack
+    // pockets restricted by ammo should try to get filled first
+    // pockets restricted by flag should try to get filled first
+    // if remaining volume is equal, lower obtain_cost is better
+    // pockets with less extra encumbrance should be prioritized (#53162)
+    // pockets without ripoff chance should be prioritized (#53162)
+
+    // A and B: Two generic sets of pocket data for comparison
+    pocket_data data_a( item_pocket::pocket_type::CONTAINER );
+    pocket_data data_b( item_pocket::pocket_type::CONTAINER );
+
+    // Candidate items to compare pockets with
+    item liquid( "test_liquid" );
+    item apple( "test_apple" );
+    item rock( "test_rock" );
+
+    SECTION( "for perishable food, lower spoil_multiplier is better" ) {
+        REQUIRE( apple.is_comestible() );
+        REQUIRE( apple.get_comestible()->spoils != 0_seconds );
+        data_a.spoil_multiplier = 1.0;
+        data_b.spoil_multiplier = 0.5;
+        CHECK( item_pocket( &data_a ).better_pocket( item_pocket( &data_b ), apple ) );
+    }
+
+    SECTION( "for solid item, non-watertight pocket is better" ) {
+        REQUIRE( rock.made_of( phase_id::SOLID ) );
+        data_a.watertight = true;
+        data_b.watertight = false;
+        CHECK( item_pocket( &data_a ).better_pocket( item_pocket( &data_b ), rock ) );
+    }
+
+    SECTION( "rigid pockets are preferable to non-rigid ones" ) {
+        data_a.rigid = false;
+        data_b.rigid = true;
+        CHECK( item_pocket( &data_a ).better_pocket( item_pocket( &data_b ), rock ) );
+    }
+
+    SECTION( "pocket with less remaining volume is better" ) {
+        data_a.volume_capacity = 2_liter;
+        data_b.volume_capacity = 1_liter;
+        CHECK( item_pocket( &data_a ).better_pocket( item_pocket( &data_b ), rock ) );
+    }
+}
+
+// Best pocket
+// -----------
+// The "best pocket" for an item is the most appropriate pocket for containing it. Only CONTAINER
+// type pockets are eligible; other pocket types such as MAGAZINE or MOD cannot be "best".
+//
+// Functions:
+// item::best_pocket
+// item_contents::best_pocket
+//
+static bool has_best_pocket( item &container, const item &thing )
+{
+    item_location loc;
+    return container.best_pocket( thing, loc ).second != nullptr;
+}
+
+/** Returns the only pocket for an item. */
+static item_pocket *get_only_pocket( item &container )
+{
+    ret_val<std::vector<item_pocket *>> pockets = container.get_all_contained_pockets();
+    REQUIRE( pockets.value().size() == 1 );
+    return pockets.value()[0];
+}
+
+TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
+{
+    item_location loc;
+
+    // Waterskins can be best pockets for liquids
+    SECTION( "item with one watertight pocket has best_pocket for liquid" ) {
+        // Must have a CONTAINER pocket, first and foremost
+        item skin( "test_waterskin" );
+        REQUIRE( skin.is_container() );
+        // Prerequisite: It can contain water
+        item liquid( "test_liquid" );
+        REQUIRE( skin.can_contain( liquid ).success() );
+
+        // Has a best pocket for liquid
+        CHECK( has_best_pocket( skin, liquid ) );
+    }
+
+    // Test utility belt has pockets best for holding small and large tools, liquids and gases
+    SECTION( "item with many different pockets can have best_pocket for different items" ) {
+        // Utility belt has CONTAINER pockets
+        item util_belt( "test_utility_belt" );
+        REQUIRE( util_belt.is_container() );
+        // It can contain small and large tools
+        item screwdriver( "test_screwdriver" );
+        item halligan( "test_halligan" );
+        REQUIRE( util_belt.can_contain( screwdriver ).success() );
+        REQUIRE( util_belt.can_contain( halligan ).success() );
+        // It can contain liquid and gas
+        item liquid( "test_liquid" );
+        item gas( "test_gas", calendar::turn_zero, item::default_charges_tag{} );
+        REQUIRE( util_belt.can_contain( liquid ).success() );
+        REQUIRE( util_belt.can_contain( gas ).success() );
+
+        // Utility belt has best_pocket for all these things
+        CHECK( has_best_pocket( util_belt, screwdriver ) );
+        CHECK( has_best_pocket( util_belt, halligan ) );
+        CHECK( has_best_pocket( util_belt, liquid ) );
+        CHECK( has_best_pocket( util_belt, gas ) );
+    }
+
+    // Because best_pocket only works for CONTAINER pockets, a gun item with a MAGAZINE_WELL pocket
+    // is not best_pocket for a compatible magazine, and a mag item with a MAGAZINE pocket is not
+    // best_pocket for compatible ammos.
+    SECTION( "non-container pockets cannot be best_pocket" ) {
+        // Gun that accepts magazines
+        item glock( "test_glock" );
+        REQUIRE( glock.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        // Empty magazine
+        item glockmag( "test_glockmag", calendar::turn, 0 );
+        REQUIRE( glockmag.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) );
+        REQUIRE( glockmag.ammo_remaining() == 0 );
+        // A single 9mm bullet
+        item glockammo( "test_9mm_ammo", calendar::turn, 1 );
+        REQUIRE( glockammo.is_ammo() );
+        REQUIRE( glockammo.charges == 1 );
+
+        // Although gun can contain magazine, and magazine can contain bullet...
+        REQUIRE( glock.can_contain( glockmag ).success() );
+        REQUIRE( glockmag.can_contain( glockammo ).success() );
+        // Gun is not best_pocket for magazine, and magazine is not best_pocket for bullet.
+        CHECK_FALSE( has_best_pocket( glock, glockmag ) );
+        CHECK_FALSE( has_best_pocket( glockmag, glockammo ) );
+    }
+
+    // sealable pockets may be filled and sealed, to spawn with a "factory seal" in-game.
+    // While sealed, they clearly cannot be the best pocket for storing anything.
+    SECTION( "sealed pockets cannot be best_pocket" ) {
+        // Regular aluminum beverage can and something to fill it with
+        item can( "test_can_drink" );
+        REQUIRE( can.is_container() );
+        item liquid( "test_liquid" );
+        REQUIRE( can.can_contain( liquid ).success() );
+
+        // Before being sealed, it can be best pocket for liquid
+        CHECK( has_best_pocket( can, liquid ) );
+        // Fill with liquid, seal it, and ensure success
+        can.put_in( liquid, item_pocket::pocket_type::CONTAINER );
+        REQUIRE( can.seal() ); // This must succeed, or next assertion is meaningless
+        // Now sealed, the can cannot be best_pocket for liquid
+        CHECK_FALSE( has_best_pocket( can, liquid ) );
+    }
+
+    SECTION( "pockets with favorite settings" ) {
+        item liquid( "test_liquid" );
+
+        WHEN( "item is blacklisted" ) {
+            item skin( "test_waterskin" );
+            REQUIRE( has_best_pocket( skin, liquid ) );
+            get_only_pocket( skin )->settings.blacklist_item( liquid.typeId() );
+
+            THEN( "pocket cannot be best pocket" ) {
+                CHECK_FALSE( has_best_pocket( skin, liquid ) );
+            }
+        }
+
+        WHEN( "item is whitelisted" ) {
+            item skin( "test_waterskin" );
+            REQUIRE( has_best_pocket( skin, liquid ) );
+            get_only_pocket( skin )->settings.whitelist_item( liquid.typeId() );
+
+            THEN( "pocket can be best pocket" ) {
+                CHECK( has_best_pocket( skin, liquid ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
+{
+    item_location loc;
+
+    item test_item( "test_rock" );
+
+    item test_item_same_category( "test_rag" );
+    REQUIRE( test_item.get_category_shallow().id ==
+             test_item_same_category.get_category_shallow().id );
+    REQUIRE_FALSE( test_item.typeId() == test_item_same_category.typeId() );
+
+    item test_item_different_category( "test_apple" );
+    REQUIRE_FALSE( test_item.get_category_shallow().id ==
+                   test_item_different_category.get_category_shallow().id );
+    REQUIRE_FALSE( test_item.typeId() == test_item_different_category.typeId() );
+
+    // Default settings allow all items
+    SECTION( "no favourites" ) {
+        WHEN( "no whitelist or blacklist specified" ) {
+            item_pocket::favorite_settings settings;
+            THEN( "all items allowed" ) {
+                CHECK( settings.accepts_item( test_item ) );
+                CHECK( settings.accepts_item( test_item_same_category ) );
+                CHECK( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+    }
+
+    SECTION( "blacklists" ) {
+        WHEN( "item category blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            THEN( "that category blocked" ) {
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "item blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_item( test_item.typeId() );
+            THEN( "that item blocked" ) {
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+    }
+
+    SECTION( "whitelists" ) {
+        WHEN( "item category whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            THEN( "other categories blocked" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "item whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_item( test_item.typeId() );
+            THEN( "other items blocked" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+    }
+
+    SECTION( "mixing whitelist and blacklists" ) {
+        WHEN( "category whitelisted but item blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            settings.blacklist_item( test_item.typeId() );
+            THEN( "item blacklist override category allownace" ) {
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
+                // Not blacklisted, but not whitelisted either
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "category whitelisted and item whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            settings.whitelist_item( test_item.typeId() );
+            THEN( "either category or item must match" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "category blacklisted but item whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            settings.whitelist_item( test_item.typeId() );
+            THEN( "item allowance override category restrictions" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                // Not blacklisted, there's no category whitelist
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "category blacklisted and item blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            settings.blacklist_item( test_item.typeId() );
+            THEN( "both category and item are blocked" ) {
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                // Not blacklisted
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+    }
+}
+
+// Character::best_pocket
+// - See if wielded item can hold it - start with this as default
+// - For each worn item, see if best_pocket is better; if so, use it
+// + Return the item_location of the item that has the best pocket
+//
+// What is the best pocket to put @it into? the pockets in @avoid do not count
+// Character::best_pocket( it, avoid )
+// NOTE: different syntax than item_contents::best_pocket
+// (Second argument is `avoid` item pointer, not parent item location)
+TEST_CASE( "character best pocket", "[pocket][character][best]" )
+{
+    // TODO:
+    // Includes wielded item
+    // Includes worn items
+    // Uses best of multiple worn items
+    // Skips avoided items
+}
+
+TEST_CASE( "guns and gunmods", "[pocket][gunmod]" )
+{
+    item m4a1( "m4_carbine" );
+    item strap( "shoulder_strap" );
+    // Guns cannot "contain" gunmods, but gunmods can be inserted into guns
+    CHECK_FALSE( m4a1.can_contain( strap ).success() );
+    CHECK( m4a1.put_in( strap, item_pocket::pocket_type::MOD ).success() );
+}
+
+TEST_CASE( "usb drives and software", "[pocket][software]" )
+{
+    item usb( "usb_drive" );
+    item software( "software_math" );
+    // USB drives aren't containers, and cannot "contain" software, but software can be inserted
+    CHECK_FALSE( usb.can_contain( software ).success() );
+    CHECK( usb.put_in( software, item_pocket::pocket_type::SOFTWARE ).success() );
+}
+

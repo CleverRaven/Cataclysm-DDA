@@ -128,7 +128,7 @@
             [ "roof_4x4_utility", 40 ]
           ],
           "x": [ 4, 18 ],
-          "y": [ 10, 17 ]
+          "y": [ 10, 13 ]
         }
       ]
     }
@@ -223,7 +223,7 @@
         { "item": "tools_mechanic", "x": 12, "y": 14, "chance": 25 },
         { "item": "tools_mechanic", "x": 6, "y": 14, "chance": 25 },
         { "item": "tools_mechanic", "x": 2, "y": 14, "chance": 25 },
-        { "item": "fridge", "x": 7, "y": 20, "chance": 70 },
+        { "item": "SUS_fridge_breakroom", "x": 7, "y": 20, "chance": 70 },
         { "item": "home_hw", "x": 14, "y": 14, "chance": 70 },
         { "item": "fireman_mask", "x": 15, "y": 16, "chance": 70 },
         { "item": "gym", "x": 15, "y": 21, "chance": 70 },

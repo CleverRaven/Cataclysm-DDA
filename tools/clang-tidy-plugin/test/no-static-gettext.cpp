@@ -1,23 +1,6 @@
-// RUN: %check_clang_tidy %s cata-no-static-gettext %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-no-static-gettext %t -- -plugins=%cata_plugin -- -I %test_include
 
-// check_clang_tidy uses -nostdinc++, so we add dummy declaration of std::string here
-namespace std
-{
-template<class CharT, class Traits = void, class Allocator = void>
-class basic_string
-{
-    public:
-        basic_string( const CharT * );
-};
-using string = basic_string<char>;
-} // namespace std
-
-// check_clang_tidy uses -nostdinc++, so we add dummy declarations of gettext functions here instead of including translations.h
-const char *_( const char *const );
-const char *gettext( const char *const );
-const char *pgettext( const char *const, const char *const );
-const char *ngettext( const char *const, const char *const, int );
-const char *npgettext( const char *const, const char *const, const char *const, int );
+#include "mock-translation.h"
 
 class foo
 {
@@ -43,7 +26,7 @@ const std::string global_gettext_str = gettext( "global_gettext_str" );
 const std::string global_pgettext_str = pgettext( "ctxt", "global_pgettext_str" );
 // CHECK-MESSAGES: [[@LINE-1]]:41: warning: Gettext calls in static variable initialization will cause text to be untranslated (global static) or not updated when switching language (local static). Consider using translation objects (to_translation() or pl_translation()) or translate_marker(), and translate the text on demand (with translation::translated() or gettext calls outside static vars)
 
-const std::string global_ngettext_str = ngettext( "global_ngettext_str", "global_ngettext_strs",
+const std::string global_ngettext_str = n_gettext( "global_ngettext_str", "global_ngettext_strs",
                                         1 );
 // CHECK-MESSAGES: [[@LINE-2]]:41: warning: Gettext calls in static variable initialization will cause text to be untranslated (global static) or not updated when switching language (local static). Consider using translation objects (to_translation() or pl_translation()) or translate_marker(), and translate the text on demand (with translation::translated() or gettext calls outside static vars)
 

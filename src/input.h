@@ -2,9 +2,8 @@
 #ifndef CATA_SRC_INPUT_H
 #define CATA_SRC_INPUT_H
 
-#include <algorithm>
-#include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -19,6 +18,7 @@
 #include "translations.h"
 
 enum action_id : int;
+class hotkey_queue;
 
 namespace cata
 {
@@ -41,7 +41,7 @@ static constexpr int KEY_UP         = 0x103;    /* up arrow */
 static constexpr int KEY_LEFT       = 0x104;    /* left arrow */
 static constexpr int KEY_RIGHT      = 0x105;    /* right arrow*/
 static constexpr int KEY_HOME       =
-    0x106;    /* home key */                   //<---------not used
+    0x106;    /* home key */
 static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
 static constexpr int KEY_DC         = 0x151;    /* Delete Character */
@@ -59,6 +59,17 @@ inline constexpr int F_KEY_NUM( const int key )
 inline constexpr bool IS_F_KEY( const int key )
 {
     return key >= KEY_F( F_KEY_NUM_BEG ) && key <= KEY_F( F_KEY_NUM_END );
+}
+/** @return true if the given character is in the range of basic ASCII control characters */
+inline constexpr bool IS_CTRL_CHAR( const int key )
+{
+    // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Basic_ASCII_control_codes
+    return key >= 0 && key < ' ';
+}
+/** @return true if the given character is an ASCII control char but should not be rendered with "CTRL+" */
+inline constexpr bool IS_NAMED_CTRL_CHAR( const int key )
+{
+    return key == '\t' || key == '\n' || key == KEY_ESCAPE || key == KEY_BACKSPACE;
 }
 inline constexpr int KEY_NUM( const int n )
 {
@@ -190,21 +201,15 @@ struct input_event {
 
 #if defined(__ANDROID__)
     // Used exclusively by the quick shortcuts to determine how stale a shortcut is
-    int shortcut_last_used_action_counter;
+    int shortcut_last_used_action_counter = 0;
 #endif
 
     input_event() : edit_refresh( false ) {
         type = input_event_t::error;
-#if defined(__ANDROID__)
-        shortcut_last_used_action_counter = 0;
-#endif
     }
     input_event( int s, input_event_t t )
         : type( t ), edit_refresh( false ) {
         sequence.push_back( s );
-#if defined(__ANDROID__)
-        shortcut_last_used_action_counter = 0;
-#endif
     }
     input_event( const std::set<keymod_t> &mod, int s, input_event_t t );
 
@@ -214,21 +219,20 @@ struct input_event {
         sequence.push_back( input );
     }
 
-#if defined(__ANDROID__)
-    input_event &operator=( const input_event &other ) {
-        type = other.type;
-        modifiers = other.modifiers;
-        sequence = other.sequence;
-        mouse_pos = other.mouse_pos;
-        text = other.text;
-        shortcut_last_used_action_counter = other.shortcut_last_used_action_counter;
-        return *this;
-    }
-#endif
-
     bool operator==( const input_event &other ) const {
         return type == other.type && modifiers == other.modifiers && sequence == other.sequence;
     }
+
+    bool operator!=( const input_event &other ) const;
+
+    std::string long_description() const;
+    std::string short_description() const;
+
+    /**
+     * Lexicographical order considering input event type,
+     * modifiers, and key code sequence.
+     */
+    static bool compare_type_mod_code( const input_event &lhs, const input_event &rhs );
 };
 
 /**
@@ -246,23 +250,46 @@ struct action_attributes {
 // On the joystick there's a maximum of 256 key states.
 // So for joy axis events, we simply use a number larger
 // than that.
-#define JOY_0        0
-#define JOY_1        1
-#define JOY_2        2
-#define JOY_3        3
-#define JOY_4        4
-#define JOY_5        5
-#define JOY_6        6
-#define JOY_7        7
+constexpr int JOY_0  = 0;
+constexpr int JOY_1  = 1;
+constexpr int JOY_2  = 2;
+constexpr int JOY_3  = 3;
+constexpr int JOY_4  = 4;
+constexpr int JOY_5  = 5;
+constexpr int JOY_6  = 6;
+constexpr int JOY_7  = 7;
+constexpr int JOY_8  = 8;
+constexpr int JOY_9  = 9;
+constexpr int JOY_10 = 10;
+constexpr int JOY_11 = 11;
+constexpr int JOY_12 = 12;
+constexpr int JOY_13 = 13;
+constexpr int JOY_14 = 14;
+constexpr int JOY_15 = 15;
+constexpr int JOY_16 = 16;
+constexpr int JOY_17 = 17;
+constexpr int JOY_18 = 18;
+constexpr int JOY_19 = 19;
+constexpr int JOY_20 = 20;
+constexpr int JOY_21 = 21;
+constexpr int JOY_22 = 22;
+constexpr int JOY_23 = 23;
+constexpr int JOY_24 = 24;
+constexpr int JOY_25 = 25;
+constexpr int JOY_26 = 26;
+constexpr int JOY_27 = 27;
+constexpr int JOY_28 = 28;
+constexpr int JOY_29 = 29;
+constexpr int JOY_30 = 30;
 
-#define JOY_LEFT        (256 + 1)
-#define JOY_RIGHT       (256 + 2)
-#define JOY_UP          (256 + 3)
-#define JOY_DOWN        (256 + 4)
-#define JOY_RIGHTUP     (256 + 5)
-#define JOY_RIGHTDOWN   (256 + 6)
-#define JOY_LEFTUP      (256 + 7)
-#define JOY_LEFTDOWN    (256 + 8)
+constexpr int JOY_LEFT      = 256 + 1;
+constexpr int JOY_RIGHT     = 256 + 2;
+constexpr int JOY_UP        = 256 + 3;
+constexpr int JOY_DOWN      = 256 + 4;
+constexpr int JOY_RIGHTUP   = 256 + 5;
+constexpr int JOY_RIGHTDOWN = 256 + 6;
+constexpr int JOY_LEFTUP    = 256 + 7;
+constexpr int JOY_LEFTDOWN  = 256 + 8;
 
 enum class keyboard_mode {
     // Accept character input and text input. Input in this mode
@@ -343,7 +370,11 @@ class input_manager
          *
          * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
          */
-        input_event get_input_event( keyboard_mode preferred_keyboard_mode = keyboard_mode::keychar );
+        input_event get_input_event( keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode );
+        /**
+         * Resize & refresh if necessary, process all pending window events, and ignore keypresses
+         */
+        void pump_events();
 
         /**
          * Wait until the user presses a key. Mouse and similar input is ignored,
@@ -356,13 +387,15 @@ class input_manager
          * Use `input_context::(re)set_timeout()` when possible so timeout will be properly
          * reset when entering a new input context.
          */
-        void set_timeout( int t );
+        void set_timeout( int delay );
         void reset_timeout() {
             set_timeout( -1 );
         }
         int get_timeout() const {
             return input_timeout;
         }
+
+        static keyboard_mode actual_keyboard_mode( keyboard_mode preferred_keyboard_mode );
 
     private:
         friend class input_context;
@@ -471,8 +504,8 @@ class input_context
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
-        input_context( const std::string &category,
-                       const keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode )
+        explicit input_context( const std::string &category,
+                                const keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode )
             : registered_any_input( false ), category( category ),
               coordinate_input_received( false ), handling_coordinate_input( false ),
               preferred_keyboard_mode( preferred_keyboard_mode ) {
@@ -650,7 +683,16 @@ class input_context
          * @param text The base text for action description
          *
          * @param evt_filter Only keys satisfying this function will be considered
+         * @param inline_fmt Action description format when a key is found in the
+         *                   text (for example "(a)ctive")
+         * @param separate_fmt Action description format when a key is not found
+         *                     in the text (for example "[X] active" or "[N/A] active")
          */
+        std::string get_desc( const std::string &action_descriptor,
+                              const std::string &text,
+                              const input_event_filter &evt_filter,
+                              const translation &inline_fmt,
+                              const translation &separate_fmt ) const;
         std::string get_desc( const std::string &action_descriptor,
                               const std::string &text,
                               const input_event_filter &evt_filter = allow_all_keys ) const;
@@ -741,13 +783,17 @@ class input_context
          * Keys (and only keys, other input types are not included) that
          * trigger the given action.
          * @param action_descriptor The action descriptor for which to get the bound keys.
-         * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
+         * @param maximum_modifier_count Maximum number of modifiers allowed for
+         *        the returned action. <0 means any number is allowed.
+         * @param restrict_to_printable If `true` the function returns the bound
+         *        keys only if they are printable (space counts as non-printable
+         *        here). If `false`, all keys (whether they are printable or not)
+         *        are returned.
          * @returns All keys bound to the given action descriptor.
          */
-        std::vector<char> keys_bound_to( const std::string &action_descriptor,
-                                         bool restrict_to_printable = true ) const;
-        std::string key_bound_to( const std::string &action_descriptor, size_t index = 0,
-                                  bool restrict_to_printable = true ) const;
+        std::vector<input_event> keys_bound_to( const std::string &action_descriptor,
+                                                int maximum_modifier_count = -1,
+                                                bool restrict_to_printable = true ) const;
 
         /**
         * Get/Set edittext to display IME unspecified string.
@@ -766,12 +812,16 @@ class input_context
          */
         void set_timeout( int val );
         void reset_timeout();
+
+        input_event first_unassigned_hotkey( const hotkey_queue &queue ) const;
+        input_event next_unassigned_hotkey( const hotkey_queue &queue, const input_event &prev ) const;
     private:
 
         std::vector<std::string> registered_actions;
         std::string edittext;
     public:
         const std::string &input_to_action( const input_event &inp ) const;
+        bool is_event_type_enabled( input_event_t type ) const;
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
@@ -790,8 +840,6 @@ class input_context
          * value is the user-visible name.
          */
         std::map<std::string, translation> action_name_overrides;
-
-        bool is_event_type_enabled( input_event_t type ) const;
 
         /**
          * Returns whether action uses the specified input
@@ -819,10 +867,6 @@ class input_context
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
                 const std::string &phrase ) const;
-    public:
-        std::vector<std::string> get_registered_actions_copy() const {
-            return registered_actions;
-        }
 };
 
 /**
@@ -834,5 +878,36 @@ bool gamepad_available();
 
 // rotate a delta direction clockwise
 void rotate_direction_cw( int &dx, int &dy );
+
+class hotkey_queue
+{
+    public:
+        // ctxt is only used for determining hotkey input type
+        // use input_context::first_unassigned_hotkey() instead to skip assigned actions
+        input_event first( const input_context &ctxt ) const;
+        // use input_context::next_unassigned_hotkey() instead to skip assigned actions
+        input_event next( const input_event &prev ) const;
+
+        /**
+         * In keychar mode:
+         *   a-z, A-Z
+         * In keycode mode:
+         *   a-z, shift a-z
+         */
+        static const hotkey_queue &alphabets();
+
+        /**
+         * In keychar mode:
+         *   1-0, a-z, A-Z
+         * In keycode mode:
+         *   1-0, a-z, shift 1-0, shift a-z
+         */
+        static const hotkey_queue &alpha_digits();
+
+    private:
+        std::vector<int> codes_keychar;
+        std::vector<int> codes_keycode;
+        std::vector<std::set<keymod_t>> modifiers_keycode;
+};
 
 #endif // CATA_SRC_INPUT_H

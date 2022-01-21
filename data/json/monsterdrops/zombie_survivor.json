@@ -25,7 +25,10 @@
         ]
       },
       { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 },
-      { "item": "survival_kit", "prob": 5, "damage": [ 1, 4 ] }
+      {
+        "distribution": [ { "group": "full_survival_kit", "damage": [ 1, 4 ] }, { "group": "used_survival_kit", "damage": [ 1, 4 ] } ],
+        "prob": 5
+      }
     ]
   },
   {
@@ -119,9 +122,10 @@
     "items": [
       [ "gasbomb_makeshift", 30 ],
       [ "molotov", 100 ],
-      [ "nail_bomb", 100 ],
       [ "improvised_pipebomb", 30 ],
-      [ "can_bomb", 30 ]
+      [ "can_bomb", 30 ],
+      [ "40x46mm_hornets_nest_22lr", 5 ],
+      [ "40x46mm_hornets_nest_410", 5 ]
     ]
   },
   {
@@ -161,8 +165,8 @@
         "prob": 200
       },
       { "item": "ar15", "prob": 5, "charges": [ 0, 30 ] },
-      { "item": "mossberg_500", "prob": 5, "charges": [ 0, 8 ] },
-      { "item": "remington_870", "prob": 5, "charges": [ 0, 6 ] },
+      { "item": "mossberg_500", "prob": 5, "charges": [ 0, 6 ] },
+      { "item": "remington_870", "prob": 5, "charges": [ 0, 5 ] },
       { "item": "ruger_1022", "prob": 15, "charges": [ 0, 10 ] },
       { "item": "shotgun_410", "prob": 10, "charges": [ 0, 1 ] },
       { "item": "shotgun_s", "prob": 10, "charges": [ 0, 1 ] },

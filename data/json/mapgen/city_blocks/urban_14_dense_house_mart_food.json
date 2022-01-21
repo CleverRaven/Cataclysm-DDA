@@ -59,7 +59,7 @@
         ")": "f_exercise",
         "}": [ "f_ergometer", "f_ergometer_mechanical" ]
       },
-      "vendingmachines": { "[": { "item_group": "vending_drink" }, "(": { "item_group": "vending_food" } },
+      "vendingmachines": { "[": { "item_group": "vending_drink", "lootable": true }, "(": { "item_group": "vending_food", "lootable": true } },
       "set": [
         { "point": "trap", "id": "tr_rollmat", "x": [ 9, 11 ], "y": 11 },
         { "point": "trap", "id": "tr_rollmat", "x": [ 9, 11 ], "y": 12 }
@@ -128,7 +128,7 @@
         "m": "f_glass_fridge",
         "0": "f_table"
       },
-      "vendingmachines": { "[": { "item_group": "vending_drink" }, "(": { "item_group": "vending_food" } },
+      "vendingmachines": { "[": { "item_group": "vending_drink", "lootable": true }, "(": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "1": [ { "item": "beauty", "chance": 30, "repeat": [ 1, 2 ] } ],
         "2": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 1, 2 ] } ],

@@ -61,10 +61,12 @@
       "palettes": [ "swamp_background" ],
       "mapping": {
         "B": { "items": [ { "item": "novels", "chance": 50 }, { "item": "textbooks", "chance": 25 } ] },
-        "C": { "items": [ { "item": "kitchen", "chance": 50 }, { "item": "fridge", "chance": 50 } ] },
-        "D": { "items": { "item": "dresser", "chance": 75 } },
-        "X": { "items": [ { "item": "hardware", "chance": 30 }, { "item": "mischw", "chance": 30 } ] },
-        "b": { "items": { "item": "bed", "chance": 60 } },
+        "C": {
+          "items": [ { "item": "kitchen", "chance": 50, "repeat": [ 3, 7 ] }, { "item": "fridge", "chance": 50, "repeat": [ 2, 4 ] } ]
+        },
+        "D": { "items": { "item": "dresser", "chance": 75, "repeat": [ 3, 5 ] } },
+        "X": { "items": [ { "item": "hardware", "chance": 30, "repeat": [ 1, 4 ] }, { "item": "mischw", "chance": 30 } ] },
+        "b": { "items": { "item": "bed", "chance": 60, "repeat": [ 1, 3 ] } },
         "d": { "items": { "item": "NC_HUNTER_misc", "chance": 50 } },
         "s": { "items": { "item": "traveler", "chance": 15 } },
         "x": { "items": [ { "item": "cleaning", "chance": 30 }, { "item": "hardware_plumbing", "chance": 30 } ] }
@@ -226,13 +228,17 @@
       "palettes": [ "swamp_background" ],
       "mapping": {
         "B": { "items": [ { "item": "novels", "chance": 50 }, { "item": "textbooks", "chance": 25 } ] },
-        "C": { "items": [ { "item": "kitchen", "chance": 50 }, { "item": "fridge", "chance": 50 } ] },
+        "C": {
+          "items": [ { "item": "kitchen", "chance": 50, "repeat": [ 3, 4 ] }, { "item": "fridge", "chance": 50, "repeat": [ 1, 4 ] } ]
+        },
         "D": { "items": { "item": "NC_HUNTER_misc", "chance": 50 } },
         "L": { "items": { "item": "NC_HUNTER_misc", "chance": 50 } },
         "N": { "items": { "item": "cleaning", "chance": 60 } },
-        "X": { "items": [ { "item": "hardware", "chance": 30 }, { "item": "mischw", "chance": 30 } ] },
-        "b": { "items": { "item": "bed", "chance": 60 } },
-        "d": { "items": { "item": "dresser", "chance": 75 } },
+        "X": {
+          "items": [ { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "mischw", "chance": 30, "repeat": [ 1, 4 ] } ]
+        },
+        "b": { "items": { "item": "bed", "chance": 60, "repeat": [ 1, 2 ] } },
+        "d": { "items": { "item": "dresser", "chance": 75, "repeat": [ 2, 4 ] } },
         "l": { "items": { "item": "hardware", "chance": 60 } },
         "n": { "items": { "item": "NC_HUNTER_misc", "chance": 60 } },
         "s": { "items": { "item": "traveler", "chance": 15 } },

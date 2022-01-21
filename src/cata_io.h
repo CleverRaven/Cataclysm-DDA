@@ -21,7 +21,7 @@
  * and @ref JsonArrayOutputArchive) have (nearly) the same interface (mostly the `io` function),
  * they only differ in what the functions do. This is an important design decision, it allows
  * the archive type to be a template parameter. The `io` functions in both archive classes should
- * therefor have a compatible signature.
+ * therefore have a compatible signature.
  *
  * Archive classes also have a `is_input` member type, which is either @ref std::true_type or
  * if(the class is an input archive) or @ref std::false_type (it's an output archive). This can be
@@ -66,9 +66,8 @@
  * and @ref JsonSerializer, which would grant them functions to serialize/deserialize. The Json
  * classes will automatically use those if available, but they prefer the `io` function.
  *
- * Classes that only use the (templated) `io` function (and which do not inherit from
- * JsonDeserializer and JsonSerializer), must announce that. This allows the Archive classes to
- * avoid calling Json functions, which would not work.
+ * Classes that only use the (templated) `io` function must announce that.
+ * This allows the Archive classes to avoid calling Json functions, which would not work.
  *
  * If a class only uses the `io` function defined like this:
  *
@@ -127,8 +126,8 @@ struct enable_if_type {
 
 /**
  * Implementation for classes that don't have an archive_type_tag defined. They use the
- * normal JsonSerializer / JsonDeserializer interface, which is handled directly by the Json
- * classes. Therefor the functions here simply forward to those.
+ * normal json read/write interface, which is handled directly by the Json
+ * classes. Therefore the functions here simply forward to those.
  */
 template<class T, class E = void>
 struct has_archive_tag : std::false_type {
@@ -186,11 +185,11 @@ class JsonObjectInputArchive : public JsonObject
     public:
         using is_input = std::true_type;
 
-        JsonObjectInputArchive( const JsonObject &jo )
+        explicit JsonObjectInputArchive( const JsonObject &jo )
             : JsonObject( jo ) {
         }
         /** Create archive from next object in the given Json array. */
-        JsonObjectInputArchive( JsonArray & );
+        explicit JsonObjectInputArchive( JsonArray & );
         /** Create archive from named member object in the given Json object. */
         JsonObjectInputArchive( const JsonObject &, const std::string &key );
 
@@ -292,6 +291,26 @@ class JsonObjectInputArchive : public JsonObject
             load( ident );
             return true;
         }
+        /**
+         * The 'I-give-up' template for gun variant data
+         */
+        template<typename T, typename LoadFunc, typename SaveFunc>
+        bool io( const std::string &name, T &pointer,
+                 const LoadFunc &load,
+                 const SaveFunc &save, bool required = false ) {
+            // Only used by the matching function in the output archive classes.
+            ( void ) save;
+            std::string ident;
+            if( !io( name, ident ) ) {
+                if( required ) {
+                    JsonObject::throw_error( std::string( "required member is missing: " ) + name );
+                }
+                pointer = nullptr;
+                return false;
+            }
+            load( ident );
+            return true;
+        }
         template<typename T>
         bool io( const std::string &name, T *&pointer,
                  const std::function<void( const std::string & )> &load,
@@ -314,11 +333,11 @@ class JsonArrayInputArchive : public JsonArray
     public:
         using is_input = std::true_type;
 
-        JsonArrayInputArchive( const JsonArray &jo )
+        explicit JsonArrayInputArchive( const JsonArray &jo )
             : JsonArray( jo ) {
         }
-        /** Create archive from next object in the given Json array. */
-        JsonArrayInputArchive( JsonArray & );
+        /** Create archive from next object in the giexplicit ven Json array. */
+        explicit JsonArrayInputArchive( JsonArray & );
         /** Create archive from named member object in the given Json object. */
         JsonArrayInputArchive( const JsonObject &, const std::string &key );
 
@@ -354,7 +373,7 @@ class JsonObjectOutputArchive
 
         JsonOut &stream;
 
-        JsonObjectOutputArchive( JsonOut &stream )
+        explicit JsonObjectOutputArchive( JsonOut &stream )
             : stream( stream ) {
             stream.start_object();
         }
@@ -421,6 +440,21 @@ class JsonObjectOutputArchive
             }
             return io( name, save( *pointer ) );
         }
+        /**
+         * The I-give-up load function for gun variants
+         */
+        template<typename T, typename LoadFunc, typename SaveFunc>
+        bool io( const std::string &name, const T &pointer,
+                 const LoadFunc &,
+                 const SaveFunc &save, bool required = false ) {
+            if( pointer == nullptr ) {
+                if( required ) {
+                    throw JsonError( "a required member is null: " + name );
+                }
+                return false;
+            }
+            return io( name, save( pointer ) );
+        }
         template<typename T>
         bool io( const std::string &name, const T *pointer,
                  const std::function<void( const std::string & )> &load,
@@ -451,7 +485,7 @@ class JsonArrayOutputArchive
 
         JsonOut &stream;
 
-        JsonArrayOutputArchive( JsonOut &stream )
+        explicit JsonArrayOutputArchive( JsonOut &stream )
             : stream( stream ) {
             stream.start_array();
         }

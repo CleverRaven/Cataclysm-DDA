@@ -33,7 +33,8 @@
         "########################"
       ],
       "palettes": [ "multistory_house", "ground_level" ],
-      "terrain": { ",": "t_shrub" }
+      "terrain": { ",": "t_shrub" },
+      "furniture": { "H": "f_dumpster" }
     }
   }
 ]

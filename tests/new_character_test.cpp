@@ -1,29 +1,39 @@
-#include "catch/catch.hpp"
-
-#include <array>
+#include <functional>
 #include <cstddef>
 #include <functional>
 #include <list>
 #include <memory>
 #include <set>
 #include <sstream>
-#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "cata_catch.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
-#include "itype.h"
-#include "optional.h"
-#include "pldata.h"
+#include "iuse.h"
+#include "mutation.h"
+#include "pimpl.h"
 #include "profession.h"
-#include "ret_val.h"
 #include "scenario.h"
-#include "string_id.h"
+#include "string_formatter.h"
 #include "type_id.h"
+#include "visitable.h"
+
+static const itype_id itype_iv_purifier( "iv_purifier" );
+
+static const trait_id trait_ALBINO( "ALBINO" );
+static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
+static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
+static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
+static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_LACTOSE( "LACTOSE" );
+static const trait_id trait_MEATARIAN( "MEATARIAN" );
+static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
+static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
+static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {
@@ -55,14 +65,16 @@ static bool try_set_traits( const std::vector<trait_id> &traits )
     avatar &player_character = get_avatar();
     player_character.clear_mutations();
     player_character.add_traits(); // mandatory prof/scen traits
+    std::vector<trait_id> oked_traits;
     for( const trait_id &tr : traits ) {
         if( player_character.has_conflicting_trait( tr ) ||
             !get_scenario()->traitquery( tr ) ) {
             return false;
         } else if( !player_character.has_trait( tr ) ) {
-            player_character.set_mutation( tr );
+            oked_traits.push_back( tr );
         }
     }
+    player_character.set_mutations( oked_traits );
     return true;
 }
 
@@ -77,6 +89,15 @@ static avatar get_sanitized_player()
     ret.set_hunger( 10000 );
     ret.set_thirst( 10000 );
     return ret;
+}
+
+static int get_item_count( std::set<const item *> items )
+{
+    int sum = 0;
+    for( const item *it : items ) {
+        sum += it->count();
+    }
+    return sum;
 }
 
 struct failure {
@@ -107,23 +128,24 @@ TEST_CASE( "starting_items", "[slow]" )
 {
     // Every starting trait that interferes with food/clothing
     const std::vector<trait_id> mutations = {
-        trait_id( "ANTIFRUIT" ),
-        trait_id( "ANTIJUNK" ),
-        trait_id( "ANTIWHEAT" ),
+        trait_ALBINO,
+        trait_ANTIFRUIT,
+        trait_ANTIJUNK,
+        trait_ANTIWHEAT,
         //trait_id( "ARM_TENTACLES" ),
         //trait_id( "BEAK" ),
         //trait_id( "CARNIVORE" ),
         //trait_id( "HERBIVORE" ),
         //trait_id( "HOOVES" ),
-        trait_id( "LACTOSE" ),
+        trait_LACTOSE,
         //trait_id( "LEG_TENTACLES" ),
-        trait_id( "MEATARIAN" ),
-        trait_id( "ASTHMA" ),
+        trait_MEATARIAN,
+        trait_ASTHMA,
         //trait_id( "RAP_TALONS" ),
         //trait_id( "TAIL_FLUFFY" ),
         //trait_id( "TAIL_LONG" ),
-        trait_id( "VEGETARIAN" ),
-        trait_id( "WOOLALLERGY" )
+        trait_VEGETARIAN,
+        trait_WOOLALLERGY
     };
     // Prof/scen combinations that need to be checked.
     std::unordered_map<const scenario *, std::vector<string_id<profession>>> scen_prof_combos;
@@ -140,9 +162,12 @@ TEST_CASE( "starting_items", "[slow]" )
 
     std::vector<trait_id> traits = next_subset( mutations );
     for( ; !traits.empty(); traits = next_subset( mutations ) ) {
+        CAPTURE( traits );
         for( const auto &pair : scen_prof_combos ) {
             set_scenario( pair.first );
+            INFO( "Scenario = " + pair.first->ident().str() );
             for( const string_id<profession> &prof : pair.second ) {
+                CAPTURE( prof );
                 player_character.prof = &prof.obj();
                 if( !try_set_traits( traits ) ) {
                     continue; // Trait conflict: this prof/scen/trait combo is impossible to attain
@@ -156,18 +181,18 @@ TEST_CASE( "starting_items", "[slow]" )
 
                     player_character.add_profession_items();
                     std::set<const item *> items_visited;
-                    const auto visitable_counter = [&items_visited]( const item * it ) {
+                    const auto visitable_counter = [&items_visited]( const item * it, auto ) {
                         items_visited.emplace( it );
                         return VisitResponse::NEXT;
                     };
                     player_character.visit_items( visitable_counter );
                     player_character.inv->visit_items( visitable_counter );
-                    const int num_items_pre_migration = items_visited.size();
+                    const int num_items_pre_migration = get_item_count( items_visited );
                     items_visited.clear();
 
                     player_character.migrate_items_to_storage( true );
                     player_character.visit_items( visitable_counter );
-                    const int num_items_post_migration = items_visited.size();
+                    const int num_items_post_migration = get_item_count( items_visited );
                     items_visited.clear();
 
                     if( num_items_pre_migration != num_items_post_migration ) {
@@ -191,4 +216,34 @@ TEST_CASE( "starting_items", "[slow]" )
     }
     INFO( failure_messages.str() );
     REQUIRE( failures.empty() );
+}
+
+TEST_CASE( "Generated character with category mutations", "[mutation]" )
+{
+    REQUIRE( !trait_TAIL_FLUFFY.obj().category.empty() );
+    avatar u = get_sanitized_player();
+    REQUIRE( u.get_mutations().empty() );
+    REQUIRE( u.get_base_traits().empty() );
+    REQUIRE( u.mutation_category_level.empty() );
+
+    SECTION( "Mutations have category levels" ) {
+        u.toggle_trait_deps( trait_TAIL_FLUFFY );
+        CHECK( u.has_trait( trait_TAIL_FLUFFY ) );
+        CHECK( !u.get_mutations().empty() );
+        CHECK( u.get_base_traits().empty() );
+        CHECK( !u.mutation_category_level.empty() );
+        u.toggle_trait_deps( trait_TAIL_FLUFFY );
+        CHECK( !u.has_trait( trait_TAIL_FLUFFY ) );
+        CHECK( u.get_mutations().empty() );
+        CHECK( u.get_base_traits().empty() );
+        CHECK( u.mutation_category_level.empty() );
+    }
+
+    SECTION( "Category mutations can be purified" ) {
+        u.toggle_trait_deps( trait_TAIL_FLUFFY );
+        CHECK( u.has_trait( trait_TAIL_FLUFFY ) );
+        item purifier( itype_iv_purifier );
+        iuse::purify_iv( &u, &purifier, true, tripoint_zero );
+        CHECK( !u.has_trait( trait_TAIL_FLUFFY ) );
+    }
 }

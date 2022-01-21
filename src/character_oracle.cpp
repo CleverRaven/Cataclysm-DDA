@@ -1,19 +1,17 @@
-#include <array>
-#include <list>
+#include <functional>
 #include <memory>
+#include <vector>
 
 #include "behavior.h"
-#include "character_oracle.h"
-#include "bodypart.h"
 #include "character.h"
-#include "inventory.h"
+#include "character_oracle.h"
 #include "item.h"
 #include "itype.h"
+#include "make_static.h"
 #include "ret_val.h"
+#include "type_id.h"
 #include "value_ptr.h"
 #include "weather.h"
-
-static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 
 namespace behavior
 {
@@ -67,7 +65,7 @@ status_t character_oracle_t::can_make_fire( const std::string & ) const
     bool tool = false;
     bool fuel = false;
     bool found_fire_stuff = subject->has_item_with( [&tool, &fuel]( const item & candidate ) {
-        if( candidate.has_flag( flag_FIRESTARTER ) ) {
+        if( candidate.has_flag( STATIC( flag_id( "FIRESTARTER" ) ) ) ) {
             tool = true;
             if( fuel ) {
                 return true;

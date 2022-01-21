@@ -1,45 +1,11 @@
 [
   {
-    "id": "null",
-    "type": "weather_type",
-    "name": "NULL Weather - BUG",
-    "color": "c_magenta",
-    "map_color": "c_magenta_red",
-    "glyph": "0",
-    "ranged_penalty": 0,
-    "sight_penalty": 0.0,
-    "light_modifier": 0,
-    "sound_attn": 0,
-    "dangerous": false,
-    "precip": "none",
-    "rains": false,
-    "acidic": false,
-    "sun_intensity": "normal"
-  },
-  {
-    "id": "clear",
-    "type": "weather_type",
-    "name": "Clear",
-    "color": "c_cyan",
-    "map_color": "c_yellow_white",
-    "glyph": " ",
-    "ranged_penalty": 0,
-    "sight_penalty": 1.0,
-    "light_modifier": 0,
-    "sound_attn": 0,
-    "dangerous": false,
-    "precip": "none",
-    "rains": false,
-    "acidic": false,
-    "sun_intensity": "normal"
-  },
-  {
     "id": "sunny",
     "type": "weather_type",
     "name": "Sunny",
-    "color": "c_light_cyan",
-    "map_color": "c_yellow_white",
-    "glyph": "*",
+    "color": "light_cyan",
+    "map_color": "yellow_white",
+    "sym": "*",
     "ranged_penalty": 0,
     "sight_penalty": 1.0,
     "light_modifier": 2,
@@ -49,15 +15,22 @@
     "rains": false,
     "acidic": false,
     "sun_intensity": "high",
-    "requirements": { "pressure_min": 1020, "humidity_max": 70, "time": "day" }
+    "sound_category": "sunny",
+    "condition": {
+      "and": [
+        "is_day",
+        { "compare_int": [ { "weather": "pressure" }, { "const": 1020 } ], "op": ">=" },
+        { "compare_int": [ { "weather": "humidity" }, { "const": 70 } ], "op": "<" }
+      ]
+    }
   },
   {
     "id": "cloudy",
     "type": "weather_type",
     "name": "Cloudy",
-    "color": "c_light_gray",
-    "map_color": "c_dark_gray_white",
-    "glyph": "~",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "~",
     "ranged_penalty": 0,
     "sight_penalty": 1.0,
     "light_modifier": -20,
@@ -66,16 +39,22 @@
     "precip": "none",
     "rains": false,
     "acidic": false,
+    "sound_category": "cloudy",
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 1010, "humidity_min": 40 }
+    "condition": {
+      "and": [
+        { "compare_int": [ { "weather": "humidity" }, { "const": 40 } ], "op": ">=" },
+        { "compare_int": [ { "weather": "pressure" }, { "const": 1010 } ], "op": "<" }
+      ]
+    }
   },
   {
     "id": "light_drizzle",
     "type": "weather_type",
     "name": "Light Drizzle",
-    "color": "c_light_blue",
+    "color": "light_blue",
     "map_color": "h_light_blue",
-    "glyph": ".",
+    "sym": ".",
     "ranged_penalty": 0,
     "sight_penalty": 1.01,
     "light_modifier": -10,
@@ -85,18 +64,24 @@
     "rains": true,
     "acidic": false,
     "tiles_animation": "weather_rain_drop",
-    "weather_animation": { "factor": 0.01, "color": "c_light_blue", "glyph": "," },
+    "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "," },
     "sound_category": "drizzle",
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 1003, "humidity_min": 96, "humidity_and_pressure": false, "required_weathers": [ "cloudy" ] }
+    "required_weathers": [ "cloudy" ],
+    "condition": {
+      "or": [
+        { "compare_int": [ { "weather": "humidity" }, { "const": 96 } ], "op": ">=" },
+        { "compare_int": [ { "weather": "pressure" }, { "const": 1003 } ], "op": "<" }
+      ]
+    }
   },
   {
     "id": "drizzle",
     "type": "weather_type",
     "name": "Drizzle",
-    "color": "c_light_blue",
+    "color": "light_blue",
     "map_color": "h_light_blue",
-    "glyph": ".",
+    "sym": ".",
     "ranged_penalty": 1,
     "sight_penalty": 1.03,
     "light_modifier": -20,
@@ -106,18 +91,24 @@
     "rains": true,
     "acidic": false,
     "tiles_animation": "weather_rain_drop",
-    "weather_animation": { "factor": 0.01, "color": "c_light_blue", "glyph": "." },
+    "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "." },
     "sound_category": "drizzle",
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 1000, "humidity_min": 97, "humidity_and_pressure": false, "required_weathers": [ "light_drizzle" ] }
+    "required_weathers": [ "light_drizzle" ],
+    "condition": {
+      "or": [
+        { "compare_int": [ { "weather": "humidity" }, { "const": 97 } ], "op": ">=" },
+        { "compare_int": [ { "weather": "pressure" }, { "const": 1000 } ], "op": "<" }
+      ]
+    }
   },
   {
     "id": "rain",
     "type": "weather_type",
     "name": "Rain",
-    "color": "c_blue",
+    "color": "blue",
     "map_color": "h_blue",
-    "glyph": "o",
+    "sym": "o",
     "ranged_penalty": 3,
     "sight_penalty": 1.1,
     "light_modifier": -30,
@@ -127,23 +118,24 @@
     "rains": true,
     "acidic": false,
     "tiles_animation": "weather_rain_drop",
-    "weather_animation": { "factor": 0.02, "color": "c_light_blue", "glyph": "," },
+    "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "," },
     "sound_category": "rainy",
     "sun_intensity": "light",
-    "requirements": {
-      "pressure_max": 993,
-      "humidity_min": 98,
-      "humidity_and_pressure": false,
-      "required_weathers": [ "light_drizzle", "drizzle" ]
+    "required_weathers": [ "light_drizzle", "drizzle" ],
+    "condition": {
+      "or": [
+        { "compare_int": [ { "weather": "humidity" }, { "const": 98 } ], "op": ">=" },
+        { "compare_int": [ { "weather": "pressure" }, { "const": 993 } ], "op": "<" }
+      ]
     }
   },
   {
     "id": "thunder",
     "type": "weather_type",
     "name": "Thunder Storm",
-    "color": "c_dark_gray",
+    "color": "dark_gray",
     "map_color": "i_blue",
-    "glyph": "%",
+    "sym": "%",
     "ranged_penalty": 4,
     "sight_penalty": 1.2,
     "light_modifier": -40,
@@ -152,27 +144,20 @@
     "precip": "heavy",
     "rains": true,
     "acidic": false,
-    "effects": [
-      {
-        "one_in_chance": 50,
-        "must_be_outside": false,
-        "sound_message": "You hear a distant rumble of thunder.",
-        "sound_effect": "thunder_far"
-      }
-    ],
     "tiles_animation": "weather_rain_drop",
-    "weather_animation": { "factor": 0.02, "color": "c_light_blue", "glyph": "." },
+    "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "." },
     "sound_category": "thunder",
     "sun_intensity": "none",
-    "requirements": { "pressure_max": 996, "required_weathers": [ "rain" ] }
+    "required_weathers": [ "rain" ],
+    "condition": { "compare_int": [ { "weather": "pressure" }, { "const": 996 } ], "op": "<" }
   },
   {
     "id": "lightning",
     "type": "weather_type",
     "name": "Lightning Storm",
-    "color": "c_yellow",
+    "color": "yellow",
     "map_color": "h_yellow",
-    "glyph": "%",
+    "sym": "%",
     "ranged_penalty": 4,
     "sight_penalty": 1.25,
     "light_modifier": -45,
@@ -181,34 +166,20 @@
     "precip": "heavy",
     "rains": true,
     "acidic": false,
-    "effects": [
-      {
-        "one_in_chance": 50,
-        "must_be_outside": false,
-        "sound_message": "You hear a distant rumble of thunder.",
-        "sound_effect": "thunder_far"
-      },
-      {
-        "one_in_chance": 600,
-        "must_be_outside": false,
-        "message": "A flash of lightning illuminates your surroundings!.",
-        "sound_effect": "thunder_near",
-        "lightning": true
-      }
-    ],
     "tiles_animation": "weather_rain_drop",
-    "weather_animation": { "factor": 0.04, "color": "c_light_blue", "glyph": "," },
+    "weather_animation": { "factor": 0.04, "color": "light_blue", "sym": "," },
     "sound_category": "thunder",
     "sun_intensity": "none",
-    "requirements": { "pressure_max": 990, "required_weathers": [ "thunder" ] }
+    "required_weathers": [ "thunder" ],
+    "condition": { "compare_int": [ { "weather": "pressure" }, { "const": 990 } ], "op": "<" }
   },
   {
     "id": "acid_drizzle",
     "type": "weather_type",
     "name": "Acidic Drizzle",
-    "color": "c_light_green",
-    "map_color": "c_yellow_green",
-    "glyph": ".",
+    "color": "light_green",
+    "map_color": "yellow_green",
+    "sym": ".",
     "ranged_penalty": 2,
     "sight_penalty": 1.03,
     "light_modifier": -20,
@@ -217,29 +188,19 @@
     "precip": "light",
     "rains": true,
     "acidic": true,
-    "effects": [
-      {
-        "time_between": "3 minutes",
-        "must_be_outside": true,
-        "message": "The acid rain stings, but is mostly harmless for now…",
-        "rain_proof": true,
-        "pain_max": 10,
-        "pain": 1
-      }
-    ],
     "tiles_animation": "weather_acid_drop",
-    "weather_animation": { "factor": 0.01, "color": "c_light_green", "glyph": "." },
+    "weather_animation": { "factor": 0.01, "color": "light_green", "sym": "." },
     "sound_category": "drizzle",
     "sun_intensity": "normal",
-    "requirements": { "required_weathers": [ "drizzle" ] }
+    "required_weathers": [ "drizzle" ]
   },
   {
     "id": "acid_rain",
     "type": "weather_type",
     "name": "Acid Rain",
-    "color": "c_green",
-    "map_color": "c_yellow_green",
-    "glyph": "o",
+    "color": "green",
+    "map_color": "yellow_green",
+    "sym": "o",
     "ranged_penalty": 4,
     "sight_penalty": 1.1,
     "light_modifier": -30,
@@ -248,29 +209,19 @@
     "precip": "heavy",
     "rains": true,
     "acidic": true,
-    "effects": [
-      {
-        "time_between": "2 seconds",
-        "must_be_outside": true,
-        "message": "The acid rain burns!",
-        "rain_proof": true,
-        "pain_max": 100,
-        "pain": 3
-      }
-    ],
     "tiles_animation": "weather_acid_drop",
-    "weather_animation": { "factor": 0.02, "color": "c_light_green", "glyph": "," },
+    "weather_animation": { "factor": 0.02, "color": "light_green", "sym": "," },
     "sound_category": "rainy",
     "sun_intensity": "none",
-    "requirements": { "required_weathers": [ "rain" ] }
+    "required_weathers": [ "rain" ]
   },
   {
     "id": "flurries",
     "type": "weather_type",
     "name": "Flurries",
-    "color": "c_white",
-    "map_color": "c_dark_gray_cyan",
-    "glyph": ".",
+    "color": "white",
+    "map_color": "dark_gray_cyan",
+    "sym": ".",
     "ranged_penalty": 2,
     "sight_penalty": 1.12,
     "light_modifier": -15,
@@ -280,18 +231,19 @@
     "rains": false,
     "acidic": false,
     "tiles_animation": "weather_snowflake",
-    "weather_animation": { "factor": 0.01, "color": "c_white", "glyph": "." },
+    "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
     "sound_category": "flurries",
     "sun_intensity": "light",
-    "requirements": { "temperature_max": 33, "required_weathers": [ "drizzle" ] }
+    "required_weathers": [ "flurries" ],
+    "condition": { "compare_int": [ { "weather": "temperature" }, { "const": 33 } ], "op": "<" }
   },
   {
     "id": "snowing",
     "type": "weather_type",
     "name": "Snowing",
-    "color": "c_white",
-    "map_color": "c_dark_gray_cyan",
-    "glyph": "*",
+    "color": "white",
+    "map_color": "dark_gray_cyan",
+    "sym": "*",
     "ranged_penalty": 4,
     "sight_penalty": 1.3,
     "light_modifier": -20,
@@ -300,20 +252,20 @@
     "precip": "heavy",
     "rains": false,
     "acidic": false,
-    "effects": [ { "must_be_outside": true, "wet": 10 } ],
     "tiles_animation": "weather_snowflake",
-    "weather_animation": { "factor": 0.02, "color": "c_white", "glyph": "," },
+    "weather_animation": { "factor": 0.02, "color": "white", "sym": "," },
     "sound_category": "snow",
     "sun_intensity": "light",
-    "requirements": { "temperature_max": 33, "required_weathers": [ "rain", "thunder", "lightning" ] }
+    "required_weathers": [ "rain", "thunder", "lightning" ],
+    "condition": { "compare_int": [ { "weather": "temperature" }, { "const": 33 } ], "op": "<" }
   },
   {
     "id": "snowstorm",
     "type": "weather_type",
     "name": "Snowstorm",
-    "color": "c_white",
-    "map_color": "c_white_cyan",
-    "glyph": "%",
+    "color": "white",
+    "map_color": "white_cyan",
+    "sym": "%",
     "ranged_penalty": 6,
     "sight_penalty": 1.2,
     "light_modifier": -30,
@@ -322,11 +274,58 @@
     "precip": "heavy",
     "rains": false,
     "acidic": false,
-    "effects": [ { "must_be_outside": true, "wet": 40 } ],
     "tiles_animation": "weather_snowflake",
-    "weather_animation": { "factor": 0.04, "color": "c_white", "glyph": "*" },
+    "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
     "sun_intensity": "none",
-    "requirements": { "temperature_max": 33, "windpower_min": 15, "required_weathers": [ "thunder", "lightning" ] }
+    "required_weathers": [ "thunder", "lightning" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ { "weather": "temperature" }, { "const": 33 } ], "op": "<" },
+        { "compare_int": [ { "weather": "windpower" }, { "const": 15 } ], "op": ">=" }
+      ]
+    }
+  },
+  {
+    "id": "early_portal_storm",
+    "type": "weather_type",
+    "name": "Early Portal Storm",
+    "color": "light_red",
+    "map_color": "light_red",
+    "sym": "o",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -5,
+    "sound_attn": 0,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "acidic": false,
+    "tiles_animation": "weather_portal_storm",
+    "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
+    "sound_category": "portal_storm",
+    "sun_intensity": "light",
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, { "const": 1 } ], "op": "=" }
+  },
+  {
+    "id": "portal_storm",
+    "type": "weather_type",
+    "name": "Portal Storm",
+    "color": "red",
+    "map_color": "red",
+    "sym": "O",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -10,
+    "sound_attn": 0,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "acidic": false,
+    "tiles_animation": "weather_portal_storm",
+    "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
+    "sound_category": "portal_storm",
+    "sun_intensity": "light",
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" }
   }
 ]

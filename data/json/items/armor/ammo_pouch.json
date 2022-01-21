@@ -3,7 +3,7 @@
     "id": "ammo_pouch",
     "type": "ARMOR",
     "name": { "str": "ammo pouch", "str_pl": "ammo pouches" },
-    "description": "A small pouch that can be used to store most types of small ammunition, rockets will not fit.  Use insert to store ammunition.",
+    "description": "A small pouch that can be used to store most types of small ammunition; rockets, however, will not fit.  Use insert to store ammunition.",
     "weight": "490 g",
     "volume": "500 ml",
     "price": 1000,
@@ -14,9 +14,6 @@
     "symbol": "[",
     "looks_like": "leather_pouch",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 5,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -69,13 +66,14 @@
         "moves": 35
       }
     ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "ammo_satchel",
     "type": "ARMOR",
     "name": { "str": "ammo satchel" },
-    "description": "A fabric ammo bag worn at the waist which is capable of holding a single large magazine close at hand.",
+    "description": "A fabric ammo bag worn at the waist.  It is capable of holding a single large magazine close at hand.",
     "weight": "180 g",
     "volume": "500 ml",
     "price": 2000,
@@ -84,27 +82,27 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 4,
     "material_thickness": 2,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ]
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "volume_encumber_modifier": 0.5
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "WAIST" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST" ],
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "chestpouch",
     "type": "ARMOR",
     "name": { "str": "chest ammo pouch", "str_pl": "chest ammo pouches" },
-    "description": "A fabric ammo pouch that can be strapped to your chest which is capable of holding a single magazine close at hand.",
+    "description": "A fabric ammo pouch that can be strapped to your chest and hold a single magazine close at hand.",
     "weight": "140 g",
     "volume": "250 ml",
     "price": 1250,
@@ -113,20 +111,21 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 15,
     "material_thickness": 2,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_SMALL" ],
+    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "chestrig",
@@ -141,47 +140,63 @@
     "symbol": "[",
     "looks_like": "tool_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 15,
     "material_thickness": 2,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "encumbrance": 1, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "xl_chestrig",
+    "type": "ARMOR",
+    "copy-from": "chestrig",
+    "name": { "str": "XL chest rig" },
+    "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches and fits larger-than-human forms.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   },
   {
     "id": "javelin_bag",
     "type": "ARMOR",
     "name": { "str": "javelin bag" },
-    "description": "An open medieval-looking bag, designed to store javelins for easy reach.",
+    "description": "An open medieval-looking bag, designed to store javelins within easy reach.",
     "weight": "600 g",
     "volume": "1250 ml",
     "price": 6000,
@@ -190,9 +205,6 @@
     "symbol": "[",
     "looks_like": "quiver",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 30,
-    "encumbrance": 10,
     "material_thickness": 4,
     "pocket_data": [
       {
@@ -201,7 +213,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -209,7 +222,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -217,7 +231,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -225,7 +240,8 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -233,17 +249,19 @@
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "JAVELIN" ]
+        "flag_restriction": [ "JAVELIN" ],
+        "max_item_length": "150 cm"
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
+    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "legpouch",
     "type": "ARMOR",
     "name": { "str": "ankle ammo pouch", "str_pl": "ankle ammo pouches" },
-    "description": "A small fabric ammo pouch that can be strapped to your ankle which is capable of holding a single small magazine close at hand.",
+    "description": "A small fabric ammo pouch that can be strapped to your ankle and hold a single small magazine close at hand.",
     "volume": "250 ml",
     "weight": "60 g",
     "price": 2000,
@@ -252,14 +270,12 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
-    "covers": [ "foot_l", "foot_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 1,
     "material_thickness": 2,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "250 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -267,13 +283,14 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ],
+    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "type": "ARMOR",
     "id": "legpouch_large",
     "name": { "str": "leg ammo pouch", "str_pl": "leg ammo pouches" },
-    "description": "A fabric ammo pouch that can be strapped to your leg and capable of holding two magazine close at hand.",
+    "description": "A fabric ammo pouch that can be strapped to your leg and hold two magazines close at hand.",
     "weight": "120 g",
     "volume": "250 ml",
     "price": 2000,
@@ -282,28 +299,38 @@
     "symbol": "[",
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 15,
     "material_thickness": 2,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_MEDIUM" ],
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 38,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
   },
   {
     "id": "quiver",
@@ -319,13 +346,11 @@
     "symbol": "[",
     "looks_like": "bscabbard",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 10,
-    "encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 3, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "quiver_birchbark",
@@ -341,13 +366,11 @@
     "symbol": "[",
     "looks_like": "quiver",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 10,
-    "encumbrance": 10,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
-    "flags": [ "WAIST", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "quiver_large",
@@ -363,12 +386,10 @@
     "symbol": "[",
     "looks_like": "quiver",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 15,
-    "encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60 }, "moves": 20 } ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 3, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "quiver_large_birchbark",
@@ -384,19 +405,17 @@
     "symbol": "[",
     "looks_like": "quiver_birchbark",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 15,
-    "encumbrance": 14,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60 }, "moves": 20 } ],
-    "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 14, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "tacvest",
     "type": "ARMOR",
     "name": { "str": "tac vest" },
-    "description": "This light vest is meant to carry your gear and ammunition comfortably distributed about your torso.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.  Lightweight and easy to don, this vest can hold four magazines close at hand in its many pouches.",
-    "weight": "600 g",
+    "description": "This light vest is meant to carry your magazines, shells and pistols.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.",
+    "weight": "1500 g",
     "volume": "1250 ml",
     "looks_like": "vest",
     "price": 7400,
@@ -404,54 +423,524 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 2,
     "material_thickness": 2,
-    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
+    "use_action": { "type": "holster", "holster_prompt": "Stash item", "holster_msg": "You stash your %s." },
+    "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "moves": 50
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "250 mm",
+        "min_item_volume": "200 ml",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "250 mm",
+        "min_item_volume": "200 ml",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "250 mm",
+        "min_item_volume": "200 ml",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      { "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 }, "moves": 25 }
+    ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "xl_tacvest",
+    "type": "ARMOR",
+    "copy-from": "tacvest",
+    "name": { "str": "XL tac vest" },
+    "description": "This light vest is meant to carry your gear and ammunition comfortably distributed about your torso.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.  Oversized and easy to don, this vest can hold four magazines close at hand in its many pouches.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "light_load_bearing_vest",
+    "repairs_like": "tacvest",
+    "type": "ARMOR",
+    "name": { "str": "light load bearing vest" },
+    "description": "This lightweight harness covered in MOLLE webbing is designed to attach a few pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "looks_like": "vest",
+    "price": 4700,
+    "price_postapoc": 2000,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 1.5,
+    "use_action": [ { "type": "attach_molle", "size": 3 }, { "type": "detach_molle" } ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 55,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "volume_encumber_modifier": 0.5
+      }
+    ]
+  },
+  {
+    "id": "load_bearing_vest",
+    "repairs_like": "tacvest",
+    "type": "ARMOR",
+    "name": { "str": "load bearing vest" },
+    "description": "This vest covered in MOLLE webbing is designed to attach pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
+    "weight": "1250 g",
+    "volume": "1000 ml",
+    "looks_like": "vest",
+    "price": 7400,
+    "price_postapoc": 3000,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 1.5,
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 85,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "volume_encumber_modifier": 0.4
+      }
+    ]
+  },
+  {
+    "id": "heavy_load_bearing_vest",
+    "repairs_like": "tacvest",
+    "type": "ARMOR",
+    "name": { "str": "heavy load bearing vest" },
+    "description": "This massive vest covered in MOLLE webbing is designed to attach a large number of pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
+    "weight": "2000 g",
+    "volume": "1750 ml",
+    "looks_like": "vest",
+    "price": 13000,
+    "price_postapoc": 4000,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 1.5,
+    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 85,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ]
+  },
+  {
+    "id": "radio_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.patriotoutfitters.com/5-11-tactical-molle-radio-pouch?PMSRCH=MOLLE%20GEAR",
+    "name": { "str": "tactical radio pouch", "str_pl": "tactical radio pouches" },
+    "description": "A pouch designed to keep your radio accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "price_postapoc": 250,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "13 cm",
+        "moves": 40,
+        "volume_encumber_modifier": 0.5
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST" ]
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "gadget_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.patriotoutfitters.com/condor-gadget-pouch-tan498-?PMSRCH=MOLLE%20GEAR",
+    "name": { "str": "gadget pouch", "str_pl": "gadget pouches" },
+    "description": "A pouch designed to keep gadgets and small items accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "price_postapoc": 250,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80,
+        "volume_encumber_modifier": 0.5
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "h2o_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.patriotoutfitters.com/condor-h2o-pouch?PMSRCH=MOLLE%20GEAR",
+    "name": { "str": "H2O pouch", "str_pl": "H2O pouches" },
+    "description": "A pouch designed to hold a water bottle with an additional front tactical pocket.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "250 g",
+    "volume": "400 ml",
+    "price": 2000,
+    "price_postapoc": 250,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2048 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "254 mm",
+        "moves": 80,
+        "volume_encumber_modifier": 0.5
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "426 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80,
+        "volume_encumber_modifier": 0.5
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "tool_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.patriotoutfitters.com/condor-t-and-t-pouch?PMSRCH=MOLLE%20GEAR",
+    "name": { "str": "tactical tool pouch", "str_pl": "tactical tool pouches" },
+    "description": "A low profile pouch designed to keep tools and accessories accessible and secure.  Has MOLLE straps for attaching to a vest or can be strapped directly to your chest.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 3000,
+    "price_postapoc": 400,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2753 ml",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "305 mm",
+        "moves": 80,
+        "volume_encumber_modifier": 0.5
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "flashlight_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.patriotoutfitters.com/condor-flashlight-pouch?PMSRCH=MOLLE%20GEAR liberties were taken with this one so it would hold either flashlight",
+    "name": { "str": "flashlight pouch", "str_pl": "flashlight pouches" },
+    "description": "A tiny pouch designed to hold a flashlight keeping it accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "37 cm",
+        "moves": 40,
+        "volume_encumber_modifier": 0.5
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "tactical_holster",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "name": { "str": "tactical holster" },
+    "//": " stats taken from: https://www.patriotoutfitters.com/condor-vertical-molle-holster?PMSRCH=MOLLE%20GEAR",
+    "description": "A sturdy holster designed to be worn vertically so it will take up a small profile on a tactical vest.  This makes it a little more awkward to pull from than a normal holster.",
+    "weight": "220 g",
+    "volume": "500 ml",
+    "price": 9000,
+    "price_postapoc": 500,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "sheath",
+    "color": "light_gray",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "moves": 70
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "BELTED", "OVERSIZE", "PALS_SMALL" ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 4 ],
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
+  },
+  {
+    "id": "gas_mask_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://condoroutdoor.com/ma11.html this one is much larger than an in game gas mask so I've take some liberties on size",
+    "name": { "str": "gas mask pouch", "str_pl": "gas mask pouches" },
+    "description": "A large pouch capable of holding a gas mask and an additional filter keeping both accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "price_postapoc": 200,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "//": "gas masks don't seem to have lengths currently",
+        "max_item_length": "30 cm",
+        "moves": 80,
+        "volume_encumber_modifier": 0.5
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "8 cm",
+        "moves": 80,
+        "volume_encumber_modifier": 0.5
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "tactical_grenade_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.tacticalassaultgearstore.com/molle-frag-grenade-pouch.html",
+    "name": { "str": "tactical grenade pouch", "str_pl": "tactical grenade pouches" },
+    "description": "A pouch designed to hold one military grenade keeping it both accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "200 g",
+    "volume": "100 ml",
+    "price": 2000,
+    "price_postapoc": 200,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.5
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "triple_stacker_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.patriotoutfitters.com/condor-triple-stacker-open-top-m4-mag-pouch?PMSRCH=MOLLE%20GEAR",
+    "name": { "str": "triple stacker ammo pouch", "str_pl": "triple stacker ammo pouches" },
+    "description": "A collection of 6 pockets 3 wide and 2 deep designed to hold rifle magazines keeping them both accessible and secure.  Has MOLLE straps for attaching to a vest or can be strapped directly to your chest.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 2000,
+    "price_postapoc": 200,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "200 mm",
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "200 mm",
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "200 mm",
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.5
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "tactical_shotshell_pouch",
+    "repairs_like": "legrig",
+    "type": "ARMOR",
+    "//": " stats taken from: https://condoroutdoor.com/ma12-shotgun-ammo-pouch.html",
+    "name": { "str": "tactical shotshell pouch", "str_pl": "tactical shotshell pouches" },
+    "description": "A pouch designed to hold shotgun shells or 308 rounds keeping them accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "price_postapoc": 200,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [ { "ammo_restriction": { "410shot": 12, "shot": 12, "20x66mm": 12, "signal_flare": 12, "308": 20 }, "moves": 30 } ],
+    "material_thickness": 0.5,
+    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "XL Kevlar vest" },
-    "description": "A massive, hand-built Kevlar vest based on the design of existing bullet resistant vests.  It has four pouches capable of carrying magazines.",
-    "looks_like": "modularvest",
+    "description": "A massive, hand-built Kevlar vest based on the design of existing bullet-resistant vests.  It has four pouches capable of carrying magazines.",
+    "looks_like": "tacvest",
     "weight": "5148 g",
     "volume": "10750 ml",
     "price": 200000,
@@ -461,14 +950,12 @@
     "material": [ "kevlar_layered" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 17,
     "warmth": 15,
     "material_thickness": 4,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -477,6 +964,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -485,6 +973,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -493,6 +982,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -501,6 +991,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "OVERSIZE", "STURDY", "OUTER" ]
+    "flags": [ "OVERSIZE", "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 17, "coverage": 85, "covers": [ "torso" ] } ]
   }
 ]

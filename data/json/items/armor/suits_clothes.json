@@ -14,11 +14,13 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 75,
-    "encumbrance": 20,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 20 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 75, "encumbrance": 20 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 75, "encumbrance": 20 }
+    ],
     "warmth": 30,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
@@ -37,18 +39,18 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "pink",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 17,
-    "max_encumbrance": 30,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 17, 30 ] },
+      { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 17, 20 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 120 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
     "warmth": 10,
-    "material_thickness": 2,
-    "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER" ]
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "dinosuit",
@@ -58,20 +60,74 @@
     "description": "A full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering and has little storage but is very warm.",
     "weight": "7033 g",
     "volume": "12 L",
-    "price": 14500,
-    "price_postapoc": 100,
+    "price": 250000,
+    "price_postapoc": 1000,
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "wolfsuit",
     "color": "light_green",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
-    "coverage": 100,
-    "encumbrance": 26,
-    "max_encumbrance": 30,
+    "armor": [
+      { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
+      { "covers": [ "mouth", "eyes" ], "coverage": 95, "encumbrance": [ 26, 26 ] },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
+    ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
     "warmth": 50,
-    "material_thickness": 5,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "OUTER" ]
+  },
+  {
+    "id": "dragonsuit",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "dragon suit" },
+    "description": "A cartoonish recreation of a western dragon remade into a suit.  Effectively useless nowadays, unless you think the mutants will take you as their own if you wear this.  The wings may be a bit too encumbering though.",
+    "weight": "7033 g",
+    "volume": "12 L",
+    "price": 250000,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dinosuit",
+    "color": "light_green",
+    "armor": [
+      { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
+      { "covers": [ "mouth", "eyes" ], "coverage": 95, "encumbrance": [ 26, 26 ] },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 36, 40 ] }
+    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
+    "warmth": 50,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "OUTER" ]
+  },
+  {
+    "id": "felinesuit",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "feline suit" },
+    "description": "A furred suit, made to resemble an anthropomorphic feline of indistinguishable breed.  Still, a decent source of fur.",
+    "weight": "7033 g",
+    "volume": "12 L",
+    "price": 250000,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "wolfsuit",
+    "color": "light_green",
+    "armor": [
+      { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
+      { "covers": [ "mouth", "eyes" ], "coverage": 95, "encumbrance": [ 26, 26 ] },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
+    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
+    "warmth": 50,
+    "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "OUTER" ]
   },
@@ -89,10 +145,11 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "yellow",
-    "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
-    "coverage": 95,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
@@ -100,7 +157,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
     ],
     "warmth": 15,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
@@ -117,10 +174,11 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "yellow",
-    "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
-    "coverage": 95,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -156,16 +214,17 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "yellow",
-    "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
-    "coverage": 95,
-    "encumbrance": 3,
-    "max_encumbrance": 7,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 3, 7 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 2, 2 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 60, "encumbrance": [ 2, 5 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
     ],
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
   },
   {
@@ -181,11 +240,12 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 3,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 3 },
+      { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 90, "encumbrance": 3 }
+    ],
     "warmth": 35,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -195,30 +255,30 @@
     "description": "A full body fursuit in the form of an anthropomorphic wolf.  It is quite encumbering and has little storage but is very warm.",
     "weight": "7033 g",
     "volume": "12 L",
-    "price": 14500,
-    "price_postapoc": 50,
+    "price": 250000,
+    "price_postapoc": 1000,
     "to_hit": -3,
-    "material": [ "cotton" ],
+    "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
-    "looks_like": "dinosuit",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
-    "coverage": 100,
-    "encumbrance": 26,
-    "max_encumbrance": 30,
+    "armor": [
+      { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
+      { "covers": [ "mouth", "eyes" ], "coverage": 95, "encumbrance": [ 26, 26 ] },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
     ],
     "warmth": 50,
-    "material_thickness": 7,
+    "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "OUTER" ]
   },
   {
     "id": "wool_suit",
     "type": "ARMOR",
-    "name": { "str": "wool suit" },
+    "name": { "str": "thick wool onesie" },
     "description": "An encumbering wool suit covered in nice patterns.  It looks like full body armor but it only protects against cold, sadly.",
     "weight": "883 g",
     "volume": "3 L",
@@ -229,11 +289,14 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
+    "armor": [
+      { "covers": [ "torso", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 20 },
+      { "covers": [ "head" ], "coverage": 60, "encumbrance": 15 },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
+    ],
     "warmth": 50,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -248,10 +311,14 @@
     "material": [ "lycra" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
     "warmth": 20,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   }
 ]

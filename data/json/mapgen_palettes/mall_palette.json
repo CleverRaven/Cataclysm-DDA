@@ -111,7 +111,7 @@
       "1": "t_door_metal_locked",
       "=": [ "t_door_c", "t_door_locked" ],
       "|": "t_concrete_wall",
-      " ": "t_rock",
+      " ": "t_soil",
       "3": "t_gates_control_brick",
       "E": "t_elevator",
       "<": "t_stairs_up",

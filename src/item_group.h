@@ -2,22 +2,36 @@
 #ifndef CATA_SRC_ITEM_GROUP_H
 #define CATA_SRC_ITEM_GROUP_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
-#include <vector>
-#include <utility>
 #include <set>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
-#include "optional.h"
 #include "item.h"
+#include "optional.h"
 #include "relic.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
-struct itype;
-
-using Group_tag = std::string;
 class JsonObject;
 class JsonValue;
 class time_point;
+struct itype;
+template <typename E> struct enum_traits;
+
+enum class spawn_flags {
+    none = 0,
+    maximized = 1,
+    use_spawn_rate = 2,
+};
+
+template<>
+struct enum_traits<spawn_flags> {
+    static constexpr bool is_flag_enum = true;
+};
 
 namespace item_group
 {
@@ -27,11 +41,11 @@ namespace item_group
  * Note that this may return a null-item, if the group does not exist, is empty or did not
  * create an item this time. You have to check this with @ref item::is_null.
  */
-item item_from( const Group_tag &group_id, const time_point &birthday );
+item item_from( const item_group_id &group_id, const time_point &birthday );
 /**
  * Same as above but with implicit birthday at turn 0.
  */
-item item_from( const Group_tag &group_id );
+item item_from( const item_group_id &group_id );
 
 using ItemList = std::vector<item>;
 /**
@@ -47,26 +61,28 @@ using ItemList = std::vector<item>;
  * @param group_id The identifier of the item group. You may check its validity
  * with @ref group_is_defined.
  * @param birthday The birthday (@ref item::bday) of the items created by this function.
+ * @param flags The spawn flags used in spawning the items.
  */
-ItemList items_from( const Group_tag &group_id, const time_point &birthday );
+ItemList items_from( const item_group_id &group_id, const time_point &birthday,
+                     spawn_flags flags = spawn_flags::none );
 /**
  * Same as above but with implicit birthday at turn 0.
  */
-ItemList items_from( const Group_tag &group_id );
+ItemList items_from( const item_group_id &group_id );
 /**
  * Check whether a specific item group contains a specific item type.
  */
-bool group_contains_item( const Group_tag &group_id, const itype_id & );
+bool group_contains_item( const item_group_id &group_id, const itype_id & );
 /**
  * Return every item type that can possibly be spawned by the item group
  */
-std::set<const itype *> every_possible_item_from( const Group_tag &group_id );
+std::set<const itype *> every_possible_item_from( const item_group_id &group_id );
 /**
  * Check whether an item group of the given id exists. You may use this to either choose an
  * alternative group or check the json definitions for consistency (spawn data in json that
  * refers to a non-existing group is broken), or just alert the player.
  */
-bool group_is_defined( const Group_tag &group_id );
+bool group_is_defined( const item_group_id &group_id );
 /**
  * Shows an menu to debug the item groups.
  */
@@ -74,7 +90,7 @@ void debug_spawn();
 /**
  * See @ref Item_factory::load_item_group
  */
-void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
+void load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
                       const std::string &subtype );
 /**
  * Get an item group id and (optionally) load an inlined item group.
@@ -93,9 +109,13 @@ void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
  * @param stream Stream to load from
  * @param default_subtype If an inlined item group is loaded this is used as the default
  * subtype. It must be either "distribution" or "collection". See @ref Item_group.
+ * @param context A human-readable description of where this item group was
+ * defined which should be sufficient for a content developer to figure out
+ * where it is in the JSON files.
  * @throw JsonError as usual for JSON errors, including invalid input values.
  */
-Group_tag load_item_group( const JsonValue &value, const std::string &default_subtype );
+item_group_id load_item_group( const JsonValue &value, const std::string &default_subtype,
+                               const std::string &context );
 } // namespace item_group
 
 /**
@@ -106,18 +126,28 @@ class Item_spawn_data
 {
     public:
         using ItemList = std::vector<item>;
-        using RecursionList = std::vector<std::string>;
+        using RecursionList = std::vector<item_group_id>;
 
-        Item_spawn_data( int _probability ) : probability( _probability ) { }
+        enum class overflow_behaviour {
+            none,
+            spill,
+            discard,
+            last
+        };
+
+        Item_spawn_data( int _probability, const std::string &context, holiday _event = holiday::none ) :
+            probability( _probability ), context_( context ), event( _event ) { }
         virtual ~Item_spawn_data() = default;
         /**
          * Create a list of items. The create list might be empty.
          * No item of it will be the null item.
          * @param[in] birthday All items have that value as birthday.
-         * @param[out] rec Recursion list, output goes here
+         * @param[out] rec Recursion list, output goes here.
+         * @param[in] spawn_flags Extra information to change how items are spawned.
          */
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const = 0;
-        ItemList create( const time_point &birthday ) const;
+        virtual ItemList create( const time_point &birthday, RecursionList &rec,
+                                 spawn_flags = spawn_flags::none ) const = 0;
+        ItemList create( const time_point &birthday, spawn_flags = spawn_flags::none ) const;
         /**
          * The same as create, but create a single item only.
          * The returned item might be a null item!
@@ -128,24 +158,35 @@ class Item_spawn_data
          * Check item / spawn settings for consistency. Includes
          * checking for valid item types and valid settings.
          */
-        virtual void check_consistency( const std::string &context ) const = 0;
+        virtual void check_consistency() const;
         /**
          * For item blacklisted, remove the given item from this and
          * all linked groups.
          */
         virtual bool remove_item( const itype_id &itemid ) = 0;
-        virtual bool replace_item( const itype_id &itemid, const itype_id &replacementid ) = 0;
+        virtual void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) = 0;
         virtual bool has_item( const itype_id &itemid ) const = 0;
         void set_container_item( const itype_id &container );
 
         virtual std::set<const itype *> every_item() const = 0;
 
-        /** probability, used by the parent object. */
-        int probability;
+        const std::string &context() const {
+            return context_;
+        }
+
+        int get_probability( bool skip_event_check ) const;
+        void set_probablility( int prob ) {
+            probability = prob;
+        }
+        bool is_event_based() const {
+            return event != holiday::none;
+        }
+
         /**
          * The group spawns contained in this item
          */
         cata::optional<itype_id> container_item;
+        overflow_behaviour on_overflow = overflow_behaviour::none;
         bool sealed = true;
 
         struct relic_generator {
@@ -159,7 +200,23 @@ class Item_spawn_data
         };
 
         cata::value_ptr<relic_generator> artifact;
+
+    protected:
+        /** probability, used by the parent object. */
+        int probability;
+        // A description of where this group was defined, for use in error
+        // messages
+        std::string context_;
+        // If defined, only spawn this item during the specified event
+        holiday event = holiday::none;
 };
+
+template<>
+struct enum_traits<Item_spawn_data::overflow_behaviour> {
+    static constexpr Item_spawn_data::overflow_behaviour last =
+        Item_spawn_data::overflow_behaviour::last;
+};
+
 /**
  * Creates a single item, but can change various aspects
  * of the created item.
@@ -201,15 +258,25 @@ class Item_modifier
         /**
          * Custom flags to be added to the item.
          */
-        std::vector<std::string> custom_flags;
+        std::vector<flag_id> custom_flags;
+
+        /**
+         * gun variant id, for guns with variants
+         */
+        std::string variant;
+
+        /**
+         * Custom sub set of snippets to be randomly chosen from and then applied to the item.
+         */
+        std::vector<snippet_id> snippets;
 
         Item_modifier();
         Item_modifier( Item_modifier && ) = default;
 
-        void modify( item &new_item ) const;
+        void modify( item &new_item, const std::string &context ) const;
         void check_consistency( const std::string &context ) const;
         bool remove_item( const itype_id &itemid );
-        bool replace_item( const itype_id &itemid, const itype_id &replacementid );
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements );
 
         // Currently these always have the same chance as the item group it's part of, but
         // theoretically it could be defined per-item / per-group.
@@ -241,7 +308,8 @@ class Single_item_creator : public Item_spawn_data
             S_NONE,
         };
 
-        Single_item_creator( const std::string &id, Type type, int probability );
+        Single_item_creator( const std::string &id, Type type, int probability,
+                             const std::string &context, holiday event = holiday::none );
         ~Single_item_creator() override = default;
 
         /**
@@ -253,11 +321,11 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 
-        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec, spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
-        void check_consistency( const std::string &context ) const override;
+        void check_consistency() const override;
         bool remove_item( const itype_id &itemid ) override;
-        bool replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) override;
 
         bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
@@ -276,7 +344,8 @@ class Item_group : public Item_spawn_data
             G_DISTRIBUTION
         };
 
-        Item_group( Type type, int probability, int ammo_chance, int magazine_chance );
+        Item_group( Type type, int probability, int ammo_chance, int magazine_chance,
+                    const std::string &context, holiday event = holiday::none );
         ~Item_group() override = default;
 
         const Type type;
@@ -290,8 +359,9 @@ class Item_group : public Item_spawn_data
          */
         using prop_list = std::vector<std::unique_ptr<Item_spawn_data> >;
 
-        void add_item_entry( const itype_id &itemid, int probability );
-        void add_group_entry( const Group_tag &groupid, int probability );
+        void add_item_entry( const itype_id &itemid, int probability,
+                             const std::string &variant = "" );
+        void add_group_entry( const item_group_id &groupid, int probability );
         /**
          * Once the relevant data has been read from JSON, this function is always called (either from
          * @ref Item_factory::add_entry, @ref add_item_entry or @ref add_group_entry). Its purpose is to add
@@ -299,11 +369,11 @@ class Item_group : public Item_spawn_data
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
-        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec, spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
-        void check_consistency( const std::string &context ) const override;
+        void check_consistency() const override;
         bool remove_item( const itype_id &itemid ) override;
-        bool replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) override;
         bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
 

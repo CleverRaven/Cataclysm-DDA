@@ -1,0 +1,147 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_UTILIBOT",
+    "monsters": [
+      { "monster": "mon_utilibot_fire", "weight": 200, "cost_multiplier": 3 },
+      { "monster": "mon_utilibot", "weight": 550 },
+      { "monster": "mon_hazmatbot", "weight": 50 },
+      { "monster": "mon_utilibot_const", "weight": 200, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SEWER",
+    "monsters": [
+      { "monster": "mon_utilibot", "weight": 50, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_utilibot_const", "weight": 50, "cost_multiplier": 0, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TURRET",
+    "monsters": [ { "monster": "mon_laserturret_xray", "weight": 50, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB",
+    "auto_total": true,
+    "monsters": [
+      { "monster": "mon_utilibot", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_secubot", "weight": 0, "cost_multiplier": 10 },
+      { "monster": "mon_milbot_556", "weight": 1, "cost_multiplier": 10 },
+      { "monster": "mon_milbot_needle", "weight": 1, "cost_multiplier": 10 },
+      { "monster": "mon_laserturret_xray", "weight": 2, "cost_multiplier": 20 },
+      { "monster": "mon_medibot", "weight": 5, "cost_multiplier": 3, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTRAL_LAB",
+    "auto_total": true,
+    "monsters": [
+      { "monster": "mon_secubot", "weight": 0, "cost_multiplier": 10 },
+      { "monster": "mon_utilibot", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_milbot_556", "weight": 1, "cost_multiplier": 10 },
+      { "monster": "mon_milbot_needle", "weight": 1, "cost_multiplier": 10 },
+      { "monster": "mon_advbot_laser", "weight": 2, "cost_multiplier": 20 },
+      { "monster": "mon_medibot", "weight": 3, "cost_multiplier": 3 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROBOT",
+    "auto_total": true,
+    "monsters": [
+      { "monster": "mon_medibot", "weight": 3, "cost_multiplier": 0 },
+      { "monster": "mon_skitterbot", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_defbot_shot", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_milbot_556", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_milbot_needle", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_advbot_laser", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_wraitheon_irradiant", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_molebot", "weight": 0, "cost_multiplier": 0 },
+      { "monster": "mon_tripod", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "weight": 20, "cost_multiplier": 0, "starts": 1086 },
+      { "monster": "mon_chickenbot", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_bloodhound_drone", "weight": 220, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PUBLICWORKERS",
+    "monsters": [
+      { "monster": "mon_utilibot", "weight": 10, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_utilibot_const", "weight": 10, "cost_multiplier": 0, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SMALL_STATION",
+    "monsters": [
+      { "monster": "mon_utilibot", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_utilibot_const", "weight": 10, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LARGE_STATION",
+    "monsters": [
+      { "monster": "mon_utilibot", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_utilibot_const", "weight": 10, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROBOT_EYEBOT",
+    "monsters": [ { "monster": "mon_eyebot", "weight": 100, "cost_multiplier": 0 } ]
+  },
+  {
+    "name": "GROUP_MANSION",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_utilibot_butler", "weight": 20, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_HOSPITAL",
+    "//": "Hospital monster spawns.  Same as GROUP_ZOMBIE, but without Z-dogs.",
+    "monsters": [ { "monster": "mon_medibot", "weight": 15, "cost_multiplier": 20, "pack_size": [ 2, 3 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FIRE",
+    "monsters": [ { "monster": "mon_utilibot_fire", "weight": 200, "cost_multiplier": 2, "pack_size": [ 4, 6 ] } ]
+  },
+  {
+    "name": "GROUP_NECROPOLIS_ROBOT",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_tankbot", "weight": 20, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MIL_BASE",
+    "monsters": [
+      { "monster": "mon_tripod", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MAYBE_MIL",
+    "monsters": [
+      { "monster": "mon_tripod", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MIL_STRONG",
+    "monsters": [
+      { "monster": "mon_tripod", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "weight": 5, "cost_multiplier": 0 }
+    ]
+  }
+]

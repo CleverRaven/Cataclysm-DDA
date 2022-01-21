@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -34,6 +35,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_jabberblood",
     "//": "jabberwocks have a few of these pumping in them, and they can be crushed down for a lot of mutagen",
     "byproducts": [ [ "jabberwock_heart_desiccated" ] ],
@@ -43,11 +45,12 @@
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "jabberwock_heart", 1 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -63,6 +66,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_plant",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -82,6 +86,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_plant",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -97,6 +102,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_insect",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -109,13 +115,15 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "honey_bottled", 3 ], [ "honeycomb", 3 ], [ "bee_sting", 3 ], [ "wasp_sting", 3 ] ],
+      [ [ "insect_sample", 1 ] ],
+      [ [ "bee_sting", 3 ], [ "wasp_sting", 3 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_insect",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -126,11 +134,12 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_maiar", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_insect", 2 ] ] ],
+    "components": [ [ [ "mutagen_insect", 2 ] ], [ [ "insect_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_spider",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -141,11 +150,17 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_maiar", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "spider_egg", 1 ], [ "chitin_piece", 4 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "spider_egg", 1 ], [ "chitin_piece", 4 ] ],
+      [ [ "spider_sample", 1 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_spider",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -156,11 +171,44 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_maiar", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_spider", 2 ] ] ],
+    "components": [ [ [ "mutagen_spider", 2 ] ], [ [ "spider_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_snail",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 1 ],
+    "difficulty": 7,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "recipe_creepy", 6 ] ],
+    "using": [ [ "mutagen_production_standard", 25 ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "snail_sample", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "iv_mutagen_snail",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 3 ],
+    "difficulty": 7,
+    "time": "2 h",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
+    "using": [ [ "serum_production_standard", 37 ] ],
+    "components": [ [ [ "mutagen_snail", 2 ] ], [ [ "snail_sample", 3 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_slime",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -171,11 +219,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_maiar", 6 ], [ "recipe_creepy", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "sewage", 3 ], [ "slime_scrap", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "slime_scrap", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_slime",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -191,6 +240,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_fish",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -203,13 +253,21 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "fish", 2 ], [ "can_sardine", 1 ], [ "can_tuna", 1 ], [ "can_salmon", 1 ], [ "can_herring", 1 ] ],
+      [
+        [ "fish", 2 ],
+        [ "can_sardine", 1 ],
+        [ "can_tuna", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_herring", 1 ],
+        [ "fish_pickled", 1 ]
+      ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_fish",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -225,6 +283,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_rat",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -244,6 +303,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_rat",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -259,6 +319,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_beast",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -269,11 +330,17 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 5 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "beast_sample", 1 ] ],
+      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_beast",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -284,11 +351,12 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_beast", 2 ] ] ],
+    "components": [ [ [ "mutagen_beast", 2 ] ], [ [ "beast_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_ursine",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -299,11 +367,17 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
+      [ [ "ursine_sample", 1 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_ursine",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -314,11 +388,12 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_ursine", 2 ] ] ],
+    "components": [ [ [ "mutagen_ursine", 2 ] ], [ [ "ursine_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_mouse",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -334,6 +409,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_mouse",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -349,6 +425,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_feline",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -359,11 +436,17 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "feline_sample", 1 ] ],
+      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_feline",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -374,11 +457,12 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_feline", 2 ] ] ],
+    "components": [ [ [ "mutagen_feline", 2 ] ], [ [ "feline_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_lupine",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -389,11 +473,17 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "lupine_sample", 1 ] ],
+      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_lupine",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -404,11 +494,12 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_lupine", 2 ] ] ],
+    "components": [ [ [ "mutagen_lupine", 2 ] ], [ [ "lupine_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_cattle",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -419,11 +510,17 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "bovine_sample", 1 ] ],
+      [ [ "meat", 3 ], [ "meat_scrap", 30 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_cattle",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -434,11 +531,12 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_cattle", 2 ] ] ],
+    "components": [ [ [ "mutagen_cattle", 2 ] ], [ [ "bovine_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_cephalopod",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -451,6 +549,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
+      [ [ "cephalopod_sample", 1 ] ],
       [ [ "meat_tainted", 3 ], [ "dry_meat_tainted", 3 ], [ "can_chowder", 1 ], [ "can_clams", 1 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
@@ -458,6 +557,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_cephalopod",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -468,11 +568,12 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_cephalopod", 2 ] ] ],
+    "components": [ [ [ "mutagen_cephalopod", 2 ] ], [ [ "cephalopod_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_bird",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -488,6 +589,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_bird",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -503,6 +605,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_lizard",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -513,11 +616,17 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "egg_reptile", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "egg_reptile", 1 ] ],
+      [ [ "reptile_sample", 1 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_lizard",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -528,11 +637,44 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_lizard", 2 ] ] ],
+    "components": [ [ [ "mutagen_lizard", 2 ] ], [ [ "reptile_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_batrachian",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 1 ],
+    "difficulty": 7,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "recipe_animal", 6 ] ],
+    "using": [ [ "mutagen_production_standard", 25 ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "frog_sample", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "iv_mutagen_batrachian",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 3 ],
+    "difficulty": 7,
+    "time": "2 h",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
+    "using": [ [ "serum_production_standard", 37 ] ],
+    "components": [ [ [ "mutagen_batrachian", 2 ] ], [ [ "frog_sample", 3 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_troglobite",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -543,11 +685,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_maiar", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ], [ "meat_scrap", 30 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "molerat_sample", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_troglobite",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -558,11 +701,12 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_maiar", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_troglobite", 2 ] ] ],
+    "components": [ [ [ "mutagen_troglobite", 2 ] ], [ [ "molerat_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_medical",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -598,6 +742,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_medical",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -613,6 +758,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "purifier",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -623,11 +769,18 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "record_patient", 7 ], [ "recipe_maiar", 6 ], [ "recipe_labchem", 5 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 2 ] ], [ [ "bleach", 3 ], [ "oxy_powder", 300 ] ], [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ] ],
+    "//": "requires more human samples than comparable mutagen as you are trying to identify specific differences from your mutated anatomy than from baseline humans.",
+    "components": [
+      [ [ "mutagen", 2 ] ],
+      [ [ "bleach", 3 ], [ "oxy_powder", 300 ] ],
+      [ [ "human_sample", 2 ] ],
+      [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_purifier",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -638,11 +791,12 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 7 ], [ "recipe_labchem", 7 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "purifier", 2 ] ] ],
+    "components": [ [ [ "purifier", 2 ] ], [ [ "human_sample", 4 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_alpha",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -662,6 +816,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_alpha",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -677,6 +832,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_elfa",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -691,6 +847,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_elfa",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -706,6 +863,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_chimera",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -721,6 +879,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_chimera",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -736,6 +895,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_raptor",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -750,6 +910,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_raptor",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -761,6 +922,37 @@
     "book_learn": [ [ "recipe_raptor", 7 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_raptor", 2 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_rabbit",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 1 ],
+    "difficulty": 7,
+    "time": "12 m",
+    "book_learn": [ [ "recipe_animal", 6 ] ],
+    "using": [ [ "mutagen_production_standard", 25 ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "rabbit_foot", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "iv_mutagen_rabbit",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 3 ],
+    "difficulty": 7,
+    "time": "2 h",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
+    "using": [ [ "serum_production_standard", 37 ] ],
+    "components": [ [ [ "mutagen_rabbit", 2 ] ], [ [ "rabbit_foot", 2 ] ] ],
     "flags": [ "SECRET" ]
   }
 ]

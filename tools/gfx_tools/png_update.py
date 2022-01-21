@@ -3,6 +3,10 @@
 # png_update.py
 # Rename a png and update all references to it.
 
+"""Rename a png file, its associated tile_entry.json, and update all
+other tile_entry.json in the tileset dir to reflect the new name.
+"""
+
 import argparse
 import json
 import os
@@ -10,8 +14,8 @@ import subprocess
 
 
 def write_to_json(pathname, data):
-    with open(pathname, "w") as fp:
-        json.dump(data, fp)
+    with open(pathname, "w", encoding="utf-8") as fp:
+        json.dump(data, fp, ensure_ascii=False)
 
     json_formatter = "./tools/format/json_formatter.cgi"
     if os.path.isfile(json_formatter):
@@ -65,18 +69,21 @@ def convert_tile_entry(tile_entry, old_name, new_name):
     changed = False
     old_fg_id = tile_entry.get("fg", [])
     if old_fg_id:
-        tile_entry["fg"], fg_changed = convert_index(old_fg_id, old_name, new_name)
+        tile_entry["fg"], fg_changed = convert_index(
+            old_fg_id, old_name, new_name)
         changed = fg_changed
 
     old_bg_id = tile_entry.get("bg", [])
     if old_bg_id:
-        tile_entry["bg"], bg_changed = convert_index(old_bg_id, old_name, new_name)
+        tile_entry["bg"], bg_changed = convert_index(
+            old_bg_id, old_name, new_name)
         changed |= bg_changed
 
     add_tile_entrys = tile_entry.get("additional_tiles", [])
     new_tile_entrys = []
     for add_tile_entry in add_tile_entrys:
-        changed_tile_entry, add_changed = convert_tile_entry(add_tile_entry, old_name, new_name)
+        changed_tile_entry, add_changed = convert_tile_entry(
+            add_tile_entry, old_name, new_name)
         new_tile_entrys.append(changed_tile_entry)
         changed |= add_changed
     if new_tile_entrys:
@@ -88,12 +95,13 @@ def convert_tile_entry_file(file_path, old_name, new_name):
     changed = False
     tile_data = []
     new_tile_data = []
-    with open(file_path, "r") as fp:
+    with open(file_path, "r", encoding="utf-8") as fp:
         tile_data = json.load(fp)
     if not isinstance(tile_data, list):
         tile_data = [tile_data]
     for tile_entry in tile_data:
-        new_entry, entry_changed = convert_tile_entry(tile_entry, old_name, new_name)
+        new_entry, entry_changed = convert_tile_entry(
+            tile_entry, old_name, new_name)
         new_tile_data.append(new_entry)
         changed = entry_changed or changed
     if changed:
@@ -101,8 +109,9 @@ def convert_tile_entry_file(file_path, old_name, new_name):
             new_tile_data = new_tile_data[0]
         write_to_json(file_path, new_tile_data)
 
+
 if __name__ == '__main__':
-    args = argparse.ArgumentParser(description="Rename a png file, its associated tile_entry.json, and update all other tile_entry.json in the tileset dir to reflect the new name.")
+    args = argparse.ArgumentParser(description=__doc__)
     args.add_argument("tileset_dir", action="store",
                       help="local name of the tileset directory under gfx/")
     args.add_argument("old_name", action="store",
@@ -132,7 +141,8 @@ if __name__ == '__main__':
     if tileset_dirname.endswith("/"):
         tileset_dirname = tileset_dirname[:-1]
 
-    print("In " + tileset_dirname + ", renaming " + old_name + " to " + new_name)
+    print("In " + tileset_dirname + ", renaming " +
+          old_name + " to " + new_name)
     for png_dirname in os.listdir(tileset_dirname):
         if not png_dirname.startswith("pngs_"):
             continue
@@ -148,4 +158,3 @@ if __name__ == '__main__':
                 elif filename == old_name_json:
                     new_path = subdir_fpath + "/" + new_name_json
                     os.rename(old_path, new_path)
-

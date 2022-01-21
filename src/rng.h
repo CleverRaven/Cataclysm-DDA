@@ -2,20 +2,22 @@
 #ifndef CATA_SRC_RNG_H
 #define CATA_SRC_RNG_H
 
-#include <array>
 #include <functional>
-#include <iosfwd>
+#include <array>
+#include <cstddef>
+#include <functional>
 #include <iterator>
 #include <random>
 #include <type_traits>
 
 #include "optional.h"
+#include "units.h"
 
 class map;
 class time_duration;
+struct tripoint;
 template<typename Tripoint>
 class tripoint_range;
-struct tripoint;
 
 // All PRNG functions use an engine, see the C++11 <random> header
 // By default, that engine is seeded by time on first call to such a function.
@@ -29,6 +31,16 @@ unsigned int rng_bits();
 
 int rng( int lo, int hi );
 double rng_float( double lo, double hi );
+
+template<typename U>
+units::quantity<double, U> rng_float( units::quantity<double, U> lo,
+                                      units::quantity<double, U> hi )
+{
+    return { rng_float( lo.value(), hi.value() ), U{} };
+}
+
+units::angle random_direction();
+
 bool one_in( int chance );
 bool one_turn_in( const time_duration &duration );
 bool x_in_y( double x, double y );
@@ -60,6 +72,9 @@ inline double rng_exponential( double mean )
 }
 
 double exponential_roll( double lambda );
+
+// Return a random string of [A-Za-z] characters of the given length
+std::string random_string( size_t length );
 
 /**
  * Returns a random entry in the container.

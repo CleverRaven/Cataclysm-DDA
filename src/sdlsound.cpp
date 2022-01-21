@@ -20,19 +20,30 @@
 #    include <SDL_mixer.h>
 #endif
 
+#include "cached_options.h"
 #include "debug.h"
 #include "init.h"
 #include "json.h"
 #include "loading_ui.h"
+#include "messages.h"
 #include "options.h"
 #include "path_info.h"
 #include "rng.h"
 #include "sdl_wrappers.h"
 #include "sounds.h"
+#include "units.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-using id_and_variant = std::pair<std::string, std::string>;
+struct id_variant_season {
+    std::string id;
+    std::string variant;
+    std::string season;
+
+    bool operator<( const id_variant_season &rhs ) const {
+        return std::tie( id, variant, season ) < std::tie( rhs.id, rhs.variant, rhs.season );
+    }
+};
 struct sound_effect_resource {
     std::string path;
     struct deleter {
@@ -44,12 +55,12 @@ struct sound_effect_resource {
     std::unique_ptr<Mix_Chunk, deleter> chunk;
 };
 struct sound_effect {
-    int volume;
-    int resource_id;
+    int volume = 0;
+    int resource_id = 0;
 };
 struct sfx_resources_t {
     std::vector<sound_effect_resource> resource;
-    std::map<id_and_variant, std::vector<sound_effect>> sound_effects;
+    std::map<id_variant_season, std::vector<sound_effect>> sound_effects;
 };
 struct music_playlist {
     // list of filenames relative to the soundpack location
@@ -76,13 +87,13 @@ static std::string current_soundpack_path;
 
 static std::unordered_map<std::string, int> unique_paths;
 static sfx_resources_t sfx_resources;
-static std::vector<id_and_variant> sfx_preload;
+static std::vector<id_variant_season> sfx_preload;
 
 bool sounds::sound_enabled = false;
 
 static inline bool check_sound( const int volume = 1 )
 {
-    return( sound_init_success && sounds::sound_enabled && volume > 0 );
+    return sound_init_success && sounds::sound_enabled && volume > 0;
 }
 
 /**
@@ -98,7 +109,8 @@ bool init_sound()
     // We should only need to init once
     if( !sound_init_success ) {
         // Mix_OpenAudio returns non-zero if something went wrong trying to open the device
-        if( !Mix_OpenAudio( audio_rate, audio_format, audio_channels, audio_buffers ) ) {
+        if( !Mix_OpenAudioDevice( audio_rate, audio_format, audio_channels, audio_buffers, nullptr,
+                                  SDL_AUDIO_ALLOW_FREQUENCY_CHANGE ) ) {
             Mix_AllocateChannels( 128 );
             Mix_ReserveChannels( static_cast<int>( sfx::channel::MAX_CHANNEL ) );
 
@@ -134,10 +146,14 @@ void shutdown_sound()
     Mix_CloseAudio();
 }
 
-void musicFinished();
+static void musicFinished();
 
 static void play_music_file( const std::string &filename, int volume )
 {
+    if( test_mode ) {
+        return;
+    }
+
     if( !check_sound( volume ) ) {
         return;
     }
@@ -159,6 +175,10 @@ static void play_music_file( const std::string &filename, int volume )
 /** Callback called when we finish playing music. */
 void musicFinished()
 {
+    if( test_mode ) {
+        return;
+    }
+
     Mix_HaltMusic();
     Mix_FreeMusic( current_music );
     current_music = nullptr;
@@ -224,6 +244,10 @@ void play_music( const std::string &playlist )
 
 void stop_music()
 {
+    if( test_mode ) {
+        return;
+    }
+
     Mix_FreeMusic( current_music );
     Mix_HaltMusic();
     current_music = nullptr;
@@ -235,6 +259,10 @@ void stop_music()
 
 void update_music_volume()
 {
+    if( test_mode ) {
+        return;
+    }
+
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 
     if( !sounds::sound_enabled ) {
@@ -312,7 +340,9 @@ void sfx::load_sound_effects( const JsonObject &jsobj )
     if( !sound_init_success ) {
         return;
     }
-    const id_and_variant key( jsobj.get_string( "id" ), jsobj.get_string( "variant", "default" ) );
+    const id_variant_season key = { jsobj.get_string( "id" ),
+                                    jsobj.get_string( "variant", "default" ), jsobj.get_string( "season", "" )
+                                  };
     const int volume = jsobj.get_int( "volume", 100 );
     auto &effects = sfx_resources.sound_effects[ key ];
 
@@ -331,8 +361,9 @@ void sfx::load_sound_effect_preload( const JsonObject &jsobj )
     }
 
     for( JsonObject aobj : jsobj.get_array( "preload" ) ) {
-        const id_and_variant preload_key( aobj.get_string( "id" ), aobj.get_string( "variant",
-                                          "default" ) );
+        const id_variant_season preload_key = { aobj.get_string( "id" ),
+                                                aobj.get_string( "variant", "default" ), aobj.get_string( "season", "" )
+                                              };
         sfx_preload.push_back( preload_key );
     }
 }
@@ -359,9 +390,9 @@ void sfx::load_playlist( const JsonObject &jsobj )
 
 // Returns a random sound effect matching given id and variant or `nullptr` if there is no
 // matching sound effect.
-static const sound_effect *find_random_effect( const id_and_variant &id_variants_pair )
+static const sound_effect *find_random_effect( const id_variant_season &id_var_seas )
 {
-    const auto iter = sfx_resources.sound_effects.find( id_variants_pair );
+    const auto iter = sfx_resources.sound_effects.find( id_var_seas );
     if( iter == sfx_resources.sound_effects.end() ) {
         return nullptr;
     }
@@ -369,18 +400,28 @@ static const sound_effect *find_random_effect( const id_and_variant &id_variants
 }
 
 // Same as above, but with fallback to "default" variant. May still return `nullptr`
-static const sound_effect *find_random_effect( const std::string &id, const std::string &variant )
+static const sound_effect *find_random_effect( const std::string &id, const std::string &variant,
+        const std::string &season )
 {
-    const sound_effect *eff = find_random_effect( id_and_variant( id, variant ) );
-    if( eff != nullptr ) {
-        return eff;
+    const sound_effect *eff1 = find_random_effect( { id, variant, season } );
+    if( eff1 != nullptr ) {
+        return eff1;
     }
-    return find_random_effect( id_and_variant( id, "default" ) );
+    const sound_effect *eff2 = find_random_effect( { id, variant, "" } );
+    if( eff2 != nullptr ) {
+        return eff2;
+    }
+    const sound_effect *eff3 = find_random_effect( { id, "default", season } );
+    if( eff3 != nullptr ) {
+        return eff3;
+    }
+    return find_random_effect( { id, "default", "" } );
 }
 
-bool sfx::has_variant_sound( const std::string &id, const std::string &variant )
+bool sfx::has_variant_sound( const std::string &id, const std::string &variant,
+                             const std::string &season )
 {
-    return find_random_effect( id, variant ) != nullptr;
+    return find_random_effect( id, variant, season ) != nullptr;
 }
 
 // Deletes the dynamically created chunk (if such a chunk had been played).
@@ -440,14 +481,21 @@ static Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
     return result;
 }
 
-void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume )
+void sfx::play_variant_sound( const std::string &id, const std::string &variant,
+                              const std::string &season, int volume )
 {
+    if( test_mode ) {
+        return;
+    }
+
+    add_msg_debug( debugmode::DF_SOUND, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
+
     if( !check_sound( volume ) ) {
         return;
     }
-    const sound_effect *eff = find_random_effect( id, variant );
+    const sound_effect *eff = find_random_effect( id, variant, season );
     if( eff == nullptr ) {
-        eff = find_random_effect( id, "default" );
+        eff = find_random_effect( id, "default", "" );
         if( eff == nullptr ) {
             return;
         }
@@ -457,19 +505,27 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
     Mix_VolumeChunk( effect_to_play,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
-    bool failed = ( Mix_PlayChannel( static_cast<int>( channel::any ), effect_to_play, 0 ) == -1 );
+    bool failed = Mix_PlayChannel( static_cast<int>( channel::any ), effect_to_play, 0 ) == -1;
     if( failed ) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id
+                       << " variant:" << variant << " season:" << season;
     }
 }
 
-void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume,
-                              int angle, double pitch_min, double pitch_max )
+void sfx::play_variant_sound( const std::string &id, const std::string &variant,
+                              const std::string &season,
+                              int volume, units::angle angle, double pitch_min, double pitch_max )
 {
+    if( test_mode ) {
+        return;
+    }
+
+    add_msg_debug( debugmode::DF_SOUND, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
+
     if( !check_sound( volume ) ) {
         return;
     }
-    const sound_effect *eff = find_random_effect( id, variant );
+    const sound_effect *eff = find_random_effect( id, variant, season );
     if( eff == nullptr ) {
         return;
     }
@@ -484,39 +540,52 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     Mix_VolumeChunk( effect_to_play,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     int channel = Mix_PlayChannel( static_cast<int>( sfx::channel::any ), effect_to_play, 0 );
-    bool failed = ( channel == -1 );
+    bool failed = channel == -1;
     if( !failed && is_pitched ) {
-        failed = ( Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished,
-                                       effect_to_play ) == 0 );
+        if( Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished,
+                                effect_to_play ) == 0 ) {
+            // To prevent use after free, stop the playback right now.
+            failed = true;
+            dbg( D_WARNING ) << "Mix_RegisterEffect failed: " << Mix_GetError();
+            Mix_HaltChannel( channel );
+        }
     }
     if( !failed ) {
-        failed = ( Mix_SetPosition( channel, static_cast<Sint16>( angle ), 1 ) == 0 );
+        if( Mix_SetPosition( channel, static_cast<Sint16>( to_degrees( angle ) ), 1 ) == 0 ) {
+            // Not critical
+            dbg( D_INFO ) << "Mix_SetPosition failed: " << Mix_GetError();
+        }
     }
     if( failed ) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id
+                       << " variant:" << variant << " season:" << season;
         if( is_pitched ) {
             cleanup_when_channel_finished( channel, effect_to_play );
         }
     }
 }
 
-void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
+void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant,
+                                      const std::string &season, int volume,
                                       channel channel, int fade_in_duration, double pitch, int loops )
 {
+    if( test_mode ) {
+        return;
+    }
     if( !check_sound( volume ) ) {
         return;
     }
     if( is_channel_playing( channel ) ) {
         return;
     }
-    const sound_effect *eff = find_random_effect( id, variant );
+    const sound_effect *eff = find_random_effect( id, variant, season );
     if( eff == nullptr ) {
         return;
     }
     const sound_effect &selected_sound_effect = *eff;
 
     Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
-    bool is_pitched = ( pitch > 0 );
+    bool is_pitched = pitch > 0;
     if( is_pitched ) {
         effect_to_play = do_pitch_shift( effect_to_play, static_cast<float>( pitch ) );
     }
@@ -530,11 +599,16 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
         failed = ( Mix_PlayChannel( ch, effect_to_play, loops ) == -1 );
     }
     if( !failed && is_pitched ) {
-        failed = ( Mix_RegisterEffect( ch, empty_effect, cleanup_when_channel_finished,
-                                       effect_to_play ) == 0 );
+        if( Mix_RegisterEffect( ch, empty_effect, cleanup_when_channel_finished, effect_to_play ) == 0 ) {
+            // To prevent use after free, stop the playback right now.
+            failed = true;
+            dbg( D_WARNING ) << "Mix_RegisterEffect failed: " << Mix_GetError();
+            Mix_HaltChannel( ch );
+        }
     }
     if( failed ) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id
+                       << " variant:" << variant << " season:" << season;
         if( is_pitched ) {
             cleanup_when_channel_finished( ch, effect_to_play );
         }
@@ -575,7 +649,7 @@ void load_soundset()
     }
 
     // Preload sound effects
-    for( const id_and_variant &preload : sfx_preload ) {
+    for( const id_variant_season &preload : sfx_preload ) {
         const auto find_result = sfx_resources.sound_effects.find( preload );
         if( find_result != sfx_resources.sound_effects.end() ) {
             for( const auto &sfx : find_result->second ) {
@@ -595,7 +669,7 @@ void load_soundset()
     // to force deallocation of resources.
     {
         sfx_preload.clear();
-        std::vector<id_and_variant> t_swap;
+        std::vector<id_variant_season> t_swap;
         sfx_preload.swap( t_swap );
     }
 }

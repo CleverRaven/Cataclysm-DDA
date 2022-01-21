@@ -1,28 +1,28 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <memory>
 #include <set>
 #include <string>
 
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
+#include "flag.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "options_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
-static const std::string flag_COLD( "COLD" );
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_FROZEN( "FROZEN" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_HOT( "HOT" );
-static const std::string flag_MELTS( "MELTS" );
-static const std::string flag_WET( "WET" );
-
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+
+static const item_category_id item_category_veh_parts( "veh_parts" );
+
+static const itype_id itype_backpack_hiking( "backpack_hiking" );
+static const itype_id itype_purse( "purse" );
+static const itype_id itype_rock( "rock" );
+static const itype_id itype_test_rock( "test_rock" );
 
 static const skill_id skill_survival( "survival" );
 
@@ -304,66 +304,117 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 {
     GIVEN( "some clothing" ) {
         item shirt( "longshirt" );
+        item deg_test( "test_baseball" );
         REQUIRE( shirt.is_armor() );
+        REQUIRE( deg_test.type->category_force == item_category_veh_parts );
 
         // Ensure the health bar option is enabled
         override_option opt( "ITEM_HEALTH_BAR", "true" );
 
         // Damage bar uses a scale of 0 `||` to 4 `XX`, in increments of 25%
         int dam25 = shirt.max_damage() / 4;
+        int deg20 = shirt.max_damage() / 5;
 
         WHEN( "it is undamaged" ) {
             shirt.set_damage( 0 );
             REQUIRE( shirt.damage() == 0 );
-            REQUIRE( shirt.damage_level( 4 ) == 0 );
+            REQUIRE( shirt.damage_level() == 0 );
 
             // green `||`
             THEN( "it appears undamaged" ) {
-                CHECK( shirt.tname() == "<color_c_light_green>||\u00A0</color>long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_light_green>||</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
         WHEN( "is is one-quarter damaged" ) {
             shirt.set_damage( dam25 );
             REQUIRE( shirt.damage() == dam25 );
-            REQUIRE( shirt.damage_level( 4 ) == 1 );
+            REQUIRE( shirt.damage_level() == 1 );
 
             // yellow `|\`
             THEN( "it appears slightly damaged" ) {
-                CHECK( shirt.tname() == "<color_c_yellow>|\\\u00A0</color>long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_yellow>|\\</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
         WHEN( "it is half damaged" ) {
             shirt.set_damage( dam25 * 2 );
             REQUIRE( shirt.damage() == dam25 * 2 );
-            REQUIRE( shirt.damage_level( 4 ) == 2 );
+            REQUIRE( shirt.damage_level() == 2 );
 
             // magenta `|.`
             THEN( "it appears moderately damaged" ) {
-                CHECK( shirt.tname() == "<color_c_magenta>|.\u00A0</color>long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_magenta>|.</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
         WHEN( "it is three-quarters damaged" ) {
             shirt.set_damage( dam25 * 3 );
             REQUIRE( shirt.damage() == dam25 * 3 );
-            REQUIRE( shirt.damage_level( 4 ) == 3 );
+            REQUIRE( shirt.damage_level() == 3 );
 
             // red `\.`
             THEN( "it appears heavily damaged" ) {
-                CHECK( shirt.tname() == "<color_c_light_red>\\.\u00A0</color>long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_light_red>\\.</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
         WHEN( "it is totally damaged" ) {
             shirt.set_damage( dam25 * 4 );
             REQUIRE( shirt.damage() == dam25 * 4 );
-            REQUIRE( shirt.damage_level( 4 ) == 4 );
+            REQUIRE( shirt.damage_level() == 4 );
 
             // dark gray `XX`
             THEN( "it appears almost destroyed" ) {
-                CHECK( shirt.tname() == "<color_c_dark_gray>XX\u00A0</color>long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_dark_gray>XX</color>\u00A0long-sleeved shirt (poor fit)" );
+            }
+        }
+
+        WHEN( "it is one quarter degraded" ) {
+            deg_test.set_degradation( deg20 );
+            REQUIRE( deg_test.degradation() == deg20 );
+            REQUIRE( deg_test.damage_level() == 0 );
+
+            // yellow bar
+            THEN( "it appears slightly degraded" ) {
+                CHECK( deg_test.tname() ==
+                       "<color_c_light_green>||</color><color_c_yellow>\u2587</color>\u00A0baseball" );
+            }
+        }
+
+        WHEN( "it is half degraded" ) {
+            deg_test.set_degradation( deg20 * 2 );
+            REQUIRE( deg_test.degradation() == deg20 * 2 );
+            REQUIRE( deg_test.damage_level() == 1 );
+
+            // magenta bar
+            THEN( "it appears slightly more degraded" ) {
+                CHECK( deg_test.tname() ==
+                       "<color_c_yellow>|\\</color><color_c_magenta>\u2585</color>\u00A0baseball" );
+            }
+        }
+
+        WHEN( "it is three quarters degraded" ) {
+            deg_test.set_degradation( deg20 * 3 );
+            REQUIRE( deg_test.degradation() == deg20 * 3 );
+            REQUIRE( deg_test.damage_level() == 2 );
+
+            // light red bar
+            THEN( "it appears very degraded" ) {
+                CHECK( deg_test.tname() ==
+                       "<color_c_magenta>|.</color><color_c_light_red>\u2583</color>\u00A0baseball" );
+            }
+        }
+
+        WHEN( "it is totally degraded" ) {
+            deg_test.set_degradation( deg20 * 4 );
+            REQUIRE( deg_test.degradation() == deg20 * 4 );
+            REQUIRE( deg_test.damage_level() == 2 );
+
+            // short red bar
+            THEN( "it appears extremely degraded" ) {
+                CHECK( deg_test.tname() ==
+                       "<color_c_magenta>|.</color><color_c_red>\u2581</color>\u00A0baseball" );
             }
         }
     }
@@ -373,9 +424,12 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 
         THEN( "clothing health bars are hidden" ) {
             item shirt( "longshirt" );
+            item deg_test( "test_baseball" );
             REQUIRE( shirt.is_armor() );
+            REQUIRE( deg_test.type->category_force == item_category_veh_parts );
 
             CHECK( shirt.tname() == "long-sleeved shirt (poor fit)" );
+            CHECK( deg_test.tname() == "baseball" );
         }
     }
 }
@@ -389,8 +443,8 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
         // Ensure the player and gun are normal size to prevent "too big" or "too small" suffix in tname
         player_character.clear_mutations();
         REQUIRE( gun.get_sizing( player_character ) == item::sizing::ignore );
-        REQUIRE_FALSE( gun.has_flag( "OVERSIZE" ) );
-        REQUIRE_FALSE( gun.has_flag( "UNDERSIZE" ) );
+        REQUIRE_FALSE( gun.has_flag( flag_OVERSIZE ) );
+        REQUIRE_FALSE( gun.has_flag( flag_UNDERSIZE ) );
 
         WHEN( "it is perfectly clean" ) {
             gun.set_var( "dirt", 0 );
@@ -441,3 +495,61 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
     }
 }
 
+TEST_CASE( "nested_items_tname", "[item][tname]" )
+{
+    item backpack_hiking( itype_backpack_hiking );
+    item purse( itype_purse );
+    item rock( itype_test_rock );
+    item rock2( itype_rock );
+    const std::string color_pref =
+        "<color_c_light_green>||</color>\u00A0";
+
+    const std::string nesting_sym = ">";
+
+    SECTION( "single stack inside" ) {
+
+        backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
+
+        SECTION( "single rock" ) {
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " TEST rock" );
+        }
+        SECTION( "several rocks" ) {
+            backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
+                   " TEST rocks" );
+        }
+        SECTION( "several stacks" ) {
+            backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( rock2, item_pocket::pocket_type::CONTAINER );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
+        }
+    }
+
+    SECTION( "multi-level nesting" ) {
+        purse.put_in( rock, item_pocket::pocket_type::CONTAINER );
+
+        SECTION( "single rock" ) {
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+            CHECK( backpack_hiking.tname( 1 ) ==
+                   color_pref + "hiking backpack " + nesting_sym + " " + color_pref + "purse " + nesting_sym +
+                   " 1 item" );
+        }
+
+        SECTION( "several rocks" ) {
+            purse.put_in( rock2, item_pocket::pocket_type::CONTAINER );
+
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+
+            CHECK( backpack_hiking.tname( 1 ) ==
+                   color_pref + "hiking backpack " + nesting_sym + " " + color_pref + "purse " + nesting_sym +
+                   " 2 items" );
+        }
+
+        SECTION( "several purses" ) {
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
+        }
+    }
+}

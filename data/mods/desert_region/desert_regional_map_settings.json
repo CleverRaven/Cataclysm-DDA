@@ -2,7 +2,29 @@
   {
     "type": "region_settings",
     "id": "default",
-    "default_oter": "desert",
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "field",
+      "solid_earth",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock"
+    ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
       "terrain": {
@@ -127,6 +149,7 @@
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [  ]
     },
+    "overmap_ravine_settings": { "num_ravines": 5, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.5,
       "noise_threshold_forest_thick": 0.55,
@@ -618,7 +641,7 @@
         "home_improvement": 200,
         "s_lot": 400,
         "s_arcade": 200,
-        "s_jewelry": 200,
+        "s_jewelry_shop": 200,
         "s_antique": 200,
         "s_gardening": 200,
         "museum": 100,

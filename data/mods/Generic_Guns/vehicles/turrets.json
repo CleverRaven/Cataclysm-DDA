@@ -29,6 +29,11 @@
     "breaks_into": [ { "item": "rifle_assault", "prob": 50 } ]
   },
   {
+    "id": "mounted_m231",
+    "copy-from": "mounted_m1918",
+    "type": "vehicle_part"
+  },
+  {
     "id": "mounted_m240",
     "copy-from": "mounted_m240",
     "type": "vehicle_part",
@@ -42,12 +47,22 @@
     "type": "vehicle_part"
   },
   {
+    "id": "m249_semi",
+    "copy-from": "mounted_m240",
+    "type": "vehicle_part"
+  },
+  {
     "id": "mounted_m134",
     "copy-from": "mounted_m240",
     "type": "vehicle_part"
   },
   {
     "id": "mounted_m60",
+    "copy-from": "mounted_m240",
+    "type": "vehicle_part"
+  },
+  {
+    "id": "mounted_m60_semi",
     "copy-from": "mounted_m240",
     "type": "vehicle_part"
   },

@@ -23,6 +23,7 @@
     "harvest": "demihuman",
     "vision_day": 30,
     "vision_night": 8,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "death_drops": {
       "subtype": "collection",
       "items": [
@@ -34,8 +35,7 @@
         { "item": "cudgel", "prob": 95 }
       ]
     },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1" ]
   },
   {
     "type": "MONSTER",
@@ -55,7 +55,7 @@
         { "item": "sling", "prob": 95 }
       ]
     },
-    "starting_ammo": { "rock": 30 },
+    "starting_ammo": { "pebble": 30 },
     "extend": {
       "special_attacks": [
         {
@@ -63,7 +63,7 @@
           "cooldown": 15,
           "move_cost": 90,
           "gun_type": "sling",
-          "ammo_type": "rock",
+          "ammo_type": "pebble",
           "fake_skills": [ [ "gun", 4 ], [ "rifle", 4 ] ],
           "fake_dex": 8,
           "fake_per": 8,

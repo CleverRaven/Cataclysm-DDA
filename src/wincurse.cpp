@@ -1,6 +1,7 @@
 #if !defined(TILES) && defined(_WIN32)
 #define UNICODE 1
 #ifndef CMAKE
+#pragma GCC diagnostic ignored "-Wunused-macros"
 #define _UNICODE 1
 #endif
 #include "cursesport.h" // IWYU pragma: associated
@@ -8,6 +9,7 @@
 #include <cstdlib>
 #include <fstream>
 
+#include "cached_options.h"
 #include "cursesdef.h"
 #include "options.h"
 #include "output.h"
@@ -633,7 +635,7 @@ void catacurses::init_interface()
     }
 
     // Use desired font, if possible
-    assert( !fl.typeface.empty() );
+    cata_assert( !fl.typeface.empty() );
     font = CreateFontW( fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                         DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
                         PROOF_QUALITY, FF_MODERN, widen( fl.typeface.front() ).c_str() );
@@ -663,10 +665,28 @@ static uint64_t GetPerfCount()
     return Count;
 }
 
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    lastchar = ERR;
+    previously_pressed_key = 0;
+}
+
 // we can probably add support for keycode mode, but wincurse is deprecated
 // so we just ignore the mode argument.
 input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
 {
+    if( test_mode ) {
+        // input should be skipped in caller's code
+        throw std::runtime_error( "input_manager::get_input_event called in test mode" );
+    }
+
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there

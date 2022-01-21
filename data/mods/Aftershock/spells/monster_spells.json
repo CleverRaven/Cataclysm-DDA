@@ -1,0 +1,37 @@
+[
+  {
+    "id": "isohypsa_buff",
+    "type": "SPELL",
+    "name": { "str": "Isohypsa Coordination" },
+    "description": "Increases the speed of simpler Wraitheon drones.",
+    "valid_targets": [ "self", "ally" ],
+    "targeted_monster_ids": [
+      "mon_chickenbot",
+      "mon_tankbot",
+      "afs_mon_sentinel_lx",
+      "mon_defbot_shot",
+      "mon_advbot_laser",
+      "mon_wraitheon_irradiant",
+      "mon_wraitheon_kaburaya",
+      "mon_wraitheon_isohypsa",
+      "mon_advbot_emp"
+    ],
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "afs_isohypsa_overwatch",
+    "shape": "blast",
+    "affected_body_parts": [ "torso" ],
+    "base_casting_time": 100,
+    "base_energy_cost": 100,
+    "energy_source": "MANA",
+    "difficulty": 1,
+    "max_level": 1,
+    "min_aoe": 40,
+    "max_aoe": 40,
+    "min_range": 10,
+    "max_range": 10,
+    "//": "duration is in moves",
+    "min_duration": 500,
+    "max_duration": 500
+  }
+]

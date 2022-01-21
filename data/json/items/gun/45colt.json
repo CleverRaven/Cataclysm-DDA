@@ -81,6 +81,7 @@
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
+    "blackpowder_tolerance": 56,
     "proportional": { "reload": 1.5 },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 6 } } ]
   }

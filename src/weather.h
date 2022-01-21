@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_WEATHER_H
 #define CATA_SRC_WEATHER_H
 
+#include "calendar.h"
+#include "catacharset.h"
 #include "color.h"
 #include "coordinates.h"
 #include "optional.h"
@@ -9,7 +11,11 @@
 #include "point.h"
 #include "type_id.h"
 #include "weather_gen.h"
-#include "calendar.h"
+#include "weather_type.h"
+
+class JsonIn;
+class JsonOut;
+class translation;
 
 /**
  * @name BODYTEMP
@@ -36,18 +42,21 @@ static constexpr int BODYTEMP_VERY_HOT = 8000;
 static constexpr int BODYTEMP_SCORCHING = 9500;
 ///@}
 
-#include <string>
-#include <vector>
+#include <cstdint>
+#include <iosfwd>
+#include <map>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 class Character;
+class Creature;
 class item;
-struct trap;
 struct rl_vec2d;
+struct trap;
 
 double precip_mm_per_hour( precip_class p );
-void handle_weather_effects( weather_type_id w );
+void handle_weather_effects( const weather_type_id &w );
 
 /**
  * Weather drawing tracking.
@@ -62,7 +71,10 @@ struct weather_printable {
     //!< Color to draw glyph this animation frame.
     nc_color colGlyph;
     //!< Glyph to draw this animation frame.
-    char cGlyph;
+    uint32_t cGlyph;
+    std::string get_symbol() const {
+        return utf32_to_utf8( cGlyph );
+    }
 };
 
 struct weather_sum {
@@ -71,7 +83,8 @@ struct weather_sum {
     float sunlight = 0.0f;
     int wind_amount = 0;
 };
-
+bool is_creature_outside( const Creature &target );
+void wet_character( Character &target, int amount );
 weather_type_id get_bad_weather();
 std::string get_shortdirstring( int angle );
 
@@ -92,7 +105,7 @@ std::string print_pressure( double pressure, int decimals = 0 );
 // Return windchill offset in degrees F, starting from given temperature, humidity and wind
 int get_local_windchill( double temperature_f, double humidity, double wind_mph );
 
-int get_local_humidity( double humidity, weather_type_id weather, bool sheltered = false );
+int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered = false );
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
                             const int &winddirection,
                             bool sheltered = false );
@@ -118,10 +131,6 @@ std::string get_wind_arrow( int );
 std::string get_wind_desc( double );
 
 nc_color get_wind_color( double );
-/**
-* Calculates rot per hour at given temperature. Reference in weather_data.cpp
-*/
-int get_hourly_rotpoints_at_temp( int temp );
 
 /**
  * Is it warm enough to plant seeds?
@@ -137,16 +146,15 @@ bool is_wind_blocker( const tripoint &location );
 weather_type_id current_weather( const tripoint &location,
                                  const time_point &t = calendar::turn );
 
-void glare( weather_type_id w );
+void glare( const weather_type_id &w );
 /**
  * Amount of sunlight incident at the ground, taking weather and time of day
  * into account.
  */
-int incident_sunlight( weather_type_id wtype,
+int incident_sunlight( const weather_type_id &wtype,
                        const time_point &t = calendar::turn );
 
-void weather_sound( translation sound_message, std::string sound_effect );
-void wet( Character &target, int amount );
+void weather_sound( const translation &sound_message, const std::string &sound_effect );
 
 class weather_manager
 {
@@ -167,7 +175,6 @@ class weather_manager
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type_id weather_override;
-        std::map<weather_type_id, time_point> next_instance_allowed;
         // not only sets nextweather, but updates weather as well
         void set_nextweather( time_point t );
         // The time at which weather will shift next.
@@ -179,11 +186,10 @@ class weather_manager
         // Returns outdoor or indoor temperature of given location
         int get_temperature( const tripoint_abs_omt &location );
         void clear_temp_cache();
-        void on_load();
-        static void serialize_all( JsonOut &json );
         static void unserialize_all( JsonIn &jsin );
 };
 
 weather_manager &get_weather();
+const weather_manager &get_weather_const();
 
 #endif // CATA_SRC_WEATHER_H

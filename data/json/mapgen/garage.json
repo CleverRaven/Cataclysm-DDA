@@ -19,8 +19,8 @@
         " |c..M#MM#M....M#MM#M.|E",
         " |c..M#MM#M....M#MM#M.|E",
         " |c..M#MM#M....M#MM#M.|E",
-        " |c..MMMMMMMMMMMMMMMM.|E",
-        " |....................|E",
+        " |K..MMMMMMMMMMMMMMMM.|E",
+        " |m...................|E",
         " |---l...........HHHHH|E",
         " |ts|c...........HLLLL|E",
         " |-+|p...........Hbbbb|E",
@@ -61,8 +61,10 @@
         "c": "f_counter",
         "s": "f_sink",
         "S": "f_utility_shelf",
+        "m": "f_manual_tire_changer",
         "p": "f_hydraulic_press",
         "l": "f_heavy_lathe",
+        "K": "f_beverly_shear",
         "t": "f_toilet",
         "x": "f_utility_shelf",
         "h": "f_chair",
@@ -77,7 +79,8 @@
       "place_vehicles": [
         { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
         { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
-      ]
+      ],
+      "place_monsters": [ { "monster": "GROUP_FERROUS", "x": [ 5, 20 ], "y": [ 7, 15 ], "chance": 10 } ]
     }
   },
   {
@@ -256,7 +259,7 @@
         " A..M#MM#M..:b..|--.--|X",
         " |..M#MM#M..+...+...hd|X",
         " |..MMMMMM..|-+-|f6ddd|X",
-        " |..........|&.s|-----|X",
+        " |m.........|&.s|-----|X",
         " |---....---|---|LLLLL|X",
         " |..............|bbbbb|X",
         " |WWWW..WWWW|...+.....|X",
@@ -302,6 +305,7 @@
         "c": "f_counter",
         "p": "f_hydraulic_press",
         "l": "f_heavy_lathe",
+        "m": "f_manual_tire_changer",
         "S": "f_utility_shelf",
         "s": "f_sink",
         "t": "f_toilet",

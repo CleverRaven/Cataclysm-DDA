@@ -2,6 +2,15 @@
   {
     "type": "palette",
     "id": "house_w_nest_palette",
+    "parameters": {
+      "house_w_nest_carpet_type": {
+        "type": "ter_str_id",
+        "scope": "nest",
+        "default": {
+          "distribution": [ [ "t_carpet_yellow", 2 ], [ "t_carpet_green", 2 ], [ "t_carpet_purple", 1 ], [ "t_carpet_red", 1 ], [ "t_floor", 2 ] ]
+        }
+      }
+    },
     "furniture": {
       "A": "f_stool",
       "B": "f_chair",
@@ -67,10 +76,7 @@
       "=": "t_region_groundcover_barren",
       "2": "t_region_groundcover_barren",
       "5": "t_region_groundcover_barren",
-      "6": "t_carpet_red",
-      "7": "t_carpet_green",
-      "8": "t_carpet_purple",
-      "9": "t_carpet_yellow"
+      "6": { "param": "house_w_nest_carpet_type" }
     },
     "toilets": { "t": {  } },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } }

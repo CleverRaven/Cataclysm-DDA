@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
-"""Run this script with -h for usage info and docs.
-"""
-
-import sys
-import argparse
-from util import import_data, matches_all_wheres, CDDAJSONWriter, WhereAction
-
-parser = argparse.ArgumentParser(description="""Search for matches within the json data.
+"""Search for matches within the json data.
 
 Example usages:
 
     %(prog)s --all type=dream strength=2
 
     %(prog)s material=plastic material=steel
-""", formatter_class=argparse.RawDescriptionHelpFormatter)
+
+"""
+
+import sys
+import argparse
+from util import import_data, matches_all_wheres, CDDAJSONWriter, WhereAction
+
+parser = argparse.ArgumentParser(
+    description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument(
     "--fnmatch",
     default="*.json",
@@ -21,7 +22,7 @@ parser.add_argument(
 parser.add_argument(
     "--all",
     action="store_true",
-    help="if set, includes all matches. if not set, includes first match in the stream.")
+    help="includes all matches. by default, include only the first match.")
 parser.add_argument(
     "where",
     action=WhereAction, nargs='+', type=str,
@@ -45,7 +46,8 @@ if __name__ == "__main__":
 
     # Wasteful iteration, but less code to maintain on a tool that will likely
     # change again.
-    plucked = [item for item in json_data if matches_all_wheres(item, args.where)]
+    plucked = [
+        item for item in json_data if matches_all_wheres(item, args.where)]
 
     if not plucked:
         print("Nothing found.")

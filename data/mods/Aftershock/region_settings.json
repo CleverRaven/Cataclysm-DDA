@@ -1,0 +1,43 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "city": {
+      "shop_radius": 1,
+      "shop_sigma": 300,
+      "shops": {
+        "afs_augmentation_clinic_1": 400,
+        "city_block_2": 700,
+        "urban_35_hospital": 875,
+        "office_tower_large": 800,
+        "office_tower_hiddenlab": 800,
+        "afs_astrobiology_lab": 300,
+        "mall": 700
+      },
+      "houses": { "afs_city_ruinfield": 200, "afs_formless_ruins_dynamic": 300, "afs_house_1": 100 }
+    },
+    "map_extras": {
+      "road": {
+        "chance": 75,
+        "extras": {
+          "mx_helicopter": 1,
+          "mx_military": 25,
+          "mx_science": 40,
+          "mx_collegekids": 50,
+          "mx_roadblock": 100,
+          "mx_bandits_block": 80,
+          "mx_drugdeal": 30,
+          "mx_supplydrop": 10,
+          "mx_portal": 5,
+          "mx_crater": 10,
+          "mx_portal_in": 4,
+          "mx_roadworks": 100,
+          "mx_mayhem": 50,
+          "mx_casings": 100,
+          "mx_corpses": 30,
+          "mx_prison_bus": 15
+        }
+      }
+    }
+  }
+]

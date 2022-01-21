@@ -7,6 +7,7 @@
     "location": "on_ceiling",
     "symbol": "*",
     "broken_symbol": "*",
+    "categories": [ "lighting" ],
     "color": "white",
     "durability": 20,
     "//": "essentially an 800lm 10W LED flashlight",
@@ -17,7 +18,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
     },
     "flags": [ "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER", "FOLDABLE" ]
   },
@@ -29,6 +30,7 @@
     "location": "on_ceiling",
     "symbol": "*",
     "broken_symbol": "*",
+    "categories": [ "lighting" ],
     "color": "light_blue",
     "durability": 20,
     "description": "A bright light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates several squares inside the vehicle.",
@@ -38,7 +40,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 5 ] ] }
     },
     "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "FOLDABLE" ]
   },
@@ -60,6 +62,7 @@
     "location": "on_roof",
     "symbol": "*",
     "broken_symbol": "-",
+    "categories": [ "lighting" ],
     "color": "white",
     "broken_color": "blue",
     "durability": 20,
@@ -76,7 +79,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
     },
     "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
   },
@@ -99,11 +102,12 @@
     "item": "car_headlight",
     "symbol": "*",
     "broken_symbol": "*",
+    "categories": [ "lighting" ],
     "color": "white",
     "broken_color": "white",
     "durability": 20,
     "description": "A bright light that illuminates a narrow cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
-    "epower": -100,
+    "epower": -60,
     "bonus": 8000,
     "damage_modifier": 10,
     "folded_volume": "250 ml",
@@ -111,7 +115,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
     },
     "flags": [ "CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
   },
@@ -122,11 +126,12 @@
     "item": "motorcycle_headlight",
     "symbol": "*",
     "broken_symbol": "*",
+    "categories": [ "lighting" ],
     "color": "white",
     "broken_color": "white",
     "durability": 8,
     "description": "A small, lightweight, bright light that illuminates a narrow cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
-    "epower": -187,
+    "epower": -60,
     "bonus": 8000,
     "damage_modifier": 10,
     "folded_volume": "250 ml",
@@ -134,7 +139,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
     },
     "flags": [ "CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
   },
@@ -172,6 +177,7 @@
   {
     "abstract": "light_emergency",
     "type": "vehicle_part",
+    "categories": [ "lighting" ],
     "location": "on_roof",
     "symbol": "*",
     "broken_symbol": "-",
@@ -192,7 +198,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
     },
     "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
     "damage_reduction": { "all": 6 }
@@ -218,13 +224,15 @@
     "extend": { "flags": [ "ODDTURN" ] }
   },
   {
-    "id": "lit_aisle_horizontal",
+    "id": "lit_aisle",
     "type": "vehicle_part",
     "name": { "str": "aisle with lights" },
     "item": "sheet_metal_lit",
     "location": "center",
+    "symbols": { "horizontal": "#", "vertical": "H" },
     "symbol": "=",
     "broken_symbol": "#",
+    "categories": [ "hull", "passengers", "lighting" ],
     "color": "white",
     "durability": 400,
     "epower": -10,
@@ -239,14 +247,12 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 4 ] ]
+      }
     },
     "flags": [ "AISLE", "BOARDABLE", "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
-  },
-  {
-    "id": "lit_aisle_vertical",
-    "copy-from": "lit_aisle_horizontal",
-    "type": "vehicle_part",
-    "symbol": "H"
   }
 ]

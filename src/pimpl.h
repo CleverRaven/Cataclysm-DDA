@@ -5,6 +5,8 @@
 #include <memory>
 #include <type_traits>
 
+class JsonValue;
+
 template<typename T>
 class pimpl;
 template<typename ...T>
@@ -44,8 +46,8 @@ class pimpl : private std::unique_ptr<T>
         explicit pimpl( P && head, Args &&
                         ... args ) : std::unique_ptr<T>( new T( std::forward<P>( head ), std::forward<Args>( args )... ) ) { }
 
-        explicit pimpl( const pimpl<T> &rhs ) : std::unique_ptr<T>( new T( *rhs ) ) { }
-        explicit pimpl( pimpl<T> &&rhs ) noexcept : std::unique_ptr<T>( new T( std::move( *rhs ) ) ) { }
+        pimpl( const pimpl<T> &rhs ) : std::unique_ptr<T>( new T( *rhs ) ) { }
+        pimpl( pimpl<T> &&rhs ) noexcept : std::unique_ptr<T>( new T( std::move( *rhs ) ) ) { }
 
         pimpl<T> &operator=( const pimpl<T> &rhs ) {
             operator*() = *rhs;
@@ -64,8 +66,8 @@ class pimpl : private std::unique_ptr<T>
         using std::unique_ptr<T>::operator*;
 
         /// Forwards the stream to `T::deserialize`.
-        template<typename JsonStream>
-        void deserialize( JsonStream &stream ) {
+        template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
+        void deserialize( const Value &stream ) {
             operator*().deserialize( stream );
         }
         /// Forwards the stream to `T::serialize`.

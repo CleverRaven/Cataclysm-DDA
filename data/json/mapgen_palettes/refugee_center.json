@@ -12,7 +12,8 @@
       ".": [ [ "t_region_groundcover_urban", 70 ], "t_region_shrub" ],
       "0": "t_door_locked_interior",
       "1": "t_reinforced_glass_shutter",
-      "2": "t_utility_light",
+      "2": "t_floor_olight",
+      "3": "t_thconc_floor_olight",
       "!": "t_fence_barbed",
       "=": "t_door_metal_locked",
       ">": "t_stairs_down",
@@ -61,7 +62,7 @@
   {
     "type": "palette",
     "id": "rc_grounds",
-    "//": "should give the feeling of overgrown and decaying grounds even prior to cataclysm",
+    "//": "should give the feeling of overgrown and decaying grounds even prior to the Cataclysm",
     "terrain": {
       "'": [ [ "t_region_groundcover", 4 ], "t_region_groundcover_forest" ],
       ",": [ [ "t_pavement_y", 300 ], [ "t_region_groundcover_barren", 6 ], "t_region_groundcover_forest" ],

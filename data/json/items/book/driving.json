@@ -2,6 +2,7 @@
   {
     "id": "decoy_anarch",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "AAA Guide", "str_pl": "copies of AAA Guide" },
     "description": "A tourist-centric guide to points of interest throughout the country.  Though it focuses on the north-central US, the driving sections contain some practical tips on proper driving techniques.",
     "weight": "220 g",
@@ -10,6 +11,7 @@
     "price_postapoc": 250,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "textbook_anarch",
     "color": "green",
     "skill": "driving",
     "max_level": 3,
@@ -20,6 +22,7 @@
   {
     "id": "mag_cars",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Top Gear magazine" },
     "description": "Lots of articles about cars and driving techniques.",
     "weight": "60 g",
@@ -28,6 +31,7 @@
     "price_postapoc": 250,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "mag_glam",
     "color": "pink",
     "skill": "driving",
     "max_level": 1,
@@ -38,6 +42,7 @@
   {
     "id": "manual_driving",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Rules of the Road", "str_pl": "copies of The Rules of the Road" },
     "description": "A thick textbook for beginning drivers.  It contains chapters on laws, safe vehicle operation, and defensive driving concepts.",
     "weight": "404 g",
@@ -46,6 +51,7 @@
     "price_postapoc": 250,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "manual_gun",
     "color": "green",
     "skill": "driving",
     "max_level": 3,
@@ -55,6 +61,7 @@
   {
     "id": "textbook_anarch",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "AAA Guide", "str_pl": "copies of AAA Guide" },
     "description": "A tourist-centric guide to points of interest throughout the country.  This particular copy is apparently the Anonymous Anarchist's Annual: the cover conceals a wealth of ways to help stick it to The Man, along with plenty of advice for avoiding police.",
     "weight": "223 g",

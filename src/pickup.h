@@ -3,14 +3,13 @@
 #define CATA_SRC_PICKUP_H
 
 #include <vector>
-#include "point.h"
-#include "ui.h"
 
+#include "cuboid_rectangle.h"
+#include "point.h"
+
+class Character;
 class item;
 class item_location;
-class Character;
-class map;
-struct tripoint;
 
 namespace Pickup
 {
@@ -29,21 +28,9 @@ enum from_where : int {
 };
 
 /** Pick up items; 'g' or ',' or via examine() */
-void pick_up( const tripoint &p, int min, from_where get_items_from = prompt );
+void autopickup( const tripoint &p );
 /** Determines the cost of moving an item by a character. */
 int cost_to_move_item( const Character &who, const item &it );
-
-/**
- * If character is handling a potentially spillable bucket, gracefully handle what
- * to do with the contents.
- *
- * Returns true if we handled the container, false if we chose to spill the
- * contents and the container still needs to be put somewhere.
- * @param c Character handling the spillable item
- * @param it item to handle
- * @param m map they are on
- */
-bool handle_spillable_contents( Character &c, item &it, map &m );
 
 struct pickup_rect : inclusive_rectangle<point> {
     pickup_rect() = default;

@@ -1,12 +1,14 @@
 [
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "raw_butter",
-    "result_mult": 1,
+    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 5,
+    "batch_time_factors": [ 95, 2 ],
     "time": "30 m",
     "qualities": [ { "id": "CHURN", "level": 1 } ],
     "book_learn": [ [ "dairy_book", 3 ] ],
@@ -15,6 +17,24 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "raw_butter",
+    "id_suffix": "shake",
+    "byproducts": [ [ "buttermilk", 3 ] ],
+    "result_mult": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "20 m",
+    "book_learn": [ [ "dairy_book", 3 ] ],
+    "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
+    "tools": [ [ [ "jar_glass_sealed", -1 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "milk_cream", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "milk_cream_rising",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -27,6 +47,20 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "milk_cream_whipped",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "components": [ [ [ "milk_cream", 1 ] ], [ [ "sugar", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "milk_cream",
     "result_mult": 5,
     "byproducts": [ [ "jar_3l_glass_sealed", 1 ], [ "buttermilk", 7 ] ],
@@ -41,20 +75,22 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "ghee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 2,
-    "charges": 1,
+    "//": "Increased recipe size, due to such minuscule amounts would have excessive loss in the straining step otherwise. Made it X8",
+    "charges": 8,
     "book_learn": [ [ "cookbook_indian", 1 ] ],
     "time": "30 m",
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 70, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [
       [ [ "water_boiling_heat", 2, "LIST" ] ],
       [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "rag", -1 ] ]
     ],
-    "components": [ [ [ "raw_butter", 1 ], [ "butter", 1 ] ] ]
+    "components": [ [ [ "raw_butter", 8 ], [ "butter", 8 ] ] ]
   }
 ]

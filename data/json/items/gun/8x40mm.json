@@ -33,16 +33,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "magazine_well": "250 ml",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ] } ]
   },
   {
     "id": "rm11b_sniper_rifle",
@@ -81,15 +72,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ] } ]
   },
   {
     "id": "rm2000_smg",
@@ -125,15 +108,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "8x40_25_mag", "8x40_10_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_25_mag", "8x40_10_mag" ] } ]
   },
   {
     "id": "rm298",
@@ -162,15 +137,7 @@
     "barrel_volume": "1500 ml",
     "valid_mod_locations": [ [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "8x40_500_mag", "8x40_250_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_500_mag", "8x40_250_mag" ] } ]
   },
   {
     "id": "rm51_assault_rifle",
@@ -206,15 +173,8 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "8x40_50_mag", "8x40_100_mag" ]
-      }
-    ]
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_50_mag", "8x40_100_mag" ] } ]
   },
   {
     "id": "rm614_lmg",
@@ -252,15 +212,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "8x40_250_mag", "8x40_500_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_250_mag", "8x40_500_mag" ] } ]
   },
   {
     "id": "rm88_battle_rifle",
@@ -272,6 +224,7 @@
     "volume": "2500 ml",
     "longest_side": "995 mm",
     "price": 900000,
+    "price_postapoc": 17500,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "superalloy", "ceramic" ],
@@ -296,14 +249,7 @@
     ],
     "magazines": [ [ "8x40mm", [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ]
-      }
-    ]
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] } ]
   }
 ]

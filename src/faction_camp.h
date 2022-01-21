@@ -2,20 +2,25 @@
 #ifndef CATA_SRC_FACTION_CAMP_H
 #define CATA_SRC_FACTION_CAMP_H
 
-#include <string>
-#include <vector>
+#include <iosfwd>
 #include <utility>
+#include <vector>
 
-#include "basecamp.h"
+#include "coordinates.h"
+
+template <typename E> struct enum_traits;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
 class npc;
-struct point;
-struct tripoint;
 struct mission_entry;
+struct point;
+namespace base_camps
+{
+enum tab_mode : int;
+} // namespace base_camps
 
 enum class farm_ops : int {
     plow = 1,

@@ -7,18 +7,18 @@
 #ifndef CATA_NO_STL
 
 #include <array>
-#include <cassert>
 #include <climits>
+#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
 #include <ostream>
-#include <string>
 #include <vector>
 
+#include "cata_assert.h"
 #else
 
-#define assert(...)
+#define cata_assert(...)
 
 namespace std
 {
@@ -89,8 +89,8 @@ struct point {
      * By default rotates around the origin (0, 0).
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
     point rotate( int turns, const point &dim = { 1, 1 } ) const {
-        assert( turns >= 0 );
-        assert( turns <= 4 );
+        cata_assert( turns >= 0 );
+        cata_assert( turns <= 4 );
 
         switch( turns ) {
             case 1:
@@ -105,6 +105,7 @@ struct point {
     }
 
     std::string to_string() const;
+    std::string to_string_writable() const;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -228,7 +229,15 @@ struct tripoint {
         return point( x, y );
     }
 
+    /**
+     * Rotates just the x,y component of the tripoint. See point::rotate()
+     * NOLINTNEXTLINE(cata-use-named-point-constants) */
+    tripoint rotate( int turns, const point &dim = { 1, 1 } ) const {
+        return tripoint( xy().rotate( turns, dim ), z );
+    }
+
     std::string to_string() const;
+    std::string to_string_writable() const;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -244,6 +253,7 @@ struct tripoint {
     friend inline constexpr bool operator!=( const tripoint &a, const tripoint &b ) {
         return !( a == b );
     }
+
     friend inline bool operator<( const tripoint &a, const tripoint &b ) {
         if( a.x != b.x ) {
             return a.x < b.x;

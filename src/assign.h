@@ -13,6 +13,7 @@
 #include "color.h"
 #include "damage.h"
 #include "debug.h"
+#include "flat_set.h"
 #include "json.h"
 #include "units.h"
 
@@ -45,7 +46,7 @@ inline void report_strict_violation( const JsonObject &jo, const std::string &me
         jo.throw_error( message, name );
     } catch( const JsonError &err ) {
         // And catch the exception so the loading continues like normal.
-        debugmsg( "%s", err.what() );
+        debugmsg( "(json-error)\n%s", err.what() );
     }
 }
 
@@ -57,8 +58,7 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
     double scalar;
 
     // Object via which to report errors which differs for proportional/relative values
-    JsonObject err = jo;
-    err.allow_omitted_members();
+    const JsonObject *err = &jo;
     JsonObject relative = jo.get_object( "relative" );
     relative.allow_omitted_members();
     JsonObject proportional = jo.get_object( "proportional" );
@@ -67,14 +67,14 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
     if( relative.read( name, out ) ) {
-        err = relative;
+        err = &relative;
         strict = false;
         out += val;
 
     } else if( proportional.read( name, scalar ) ) {
-        err = proportional;
+        err = &proportional;
         if( scalar <= 0 || scalar == 1 ) {
-            err.throw_error( "invalid proportional scalar", name );
+            err->throw_error( "multiplier must be a positive number other than 1", name );
         }
         strict = false;
         out = val * scalar;
@@ -84,11 +84,13 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
     }
 
     if( out < lo || out > hi ) {
-        err.throw_error( "value outside supported range", name );
+        err->throw_error( "value outside supported range", name );
     }
 
     if( strict && out == val ) {
-        report_strict_violation( err, "assignment does not update value", name );
+        report_strict_violation( *err,
+                                 "cannot assign explicit value the same as default or inherited value",
+                                 name );
     }
 
     val = out;
@@ -107,7 +109,8 @@ inline bool assign( const JsonObject &jo, const std::string &name, bool &val, bo
     }
 
     if( strict && out == val ) {
-        report_strict_violation( jo, "assignment does not update value", name );
+        report_strict_violation( jo, "cannot assign explicit value the same as default or inherited value",
+                                 name );
     }
 
     val = out;
@@ -122,7 +125,7 @@ bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val
     std::pair<T, T> out;
 
     if( jo.has_array( name ) ) {
-        auto arr = jo.get_array( name );
+        JsonArray arr = jo.get_array( name );
         arr.read( 0, out.first );
         arr.read( 1, out.second );
 
@@ -142,7 +145,8 @@ bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val
     }
 
     if( strict && out == val ) {
-        report_strict_violation( jo, "assignment does not update value", name );
+        report_strict_violation( jo, "cannot assign explicit value the same as default or inherited value",
+                                 name );
     }
 
     val = out;
@@ -162,7 +166,8 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
     }
 
     if( strict && out == val ) {
-        report_strict_violation( jo, "assignment does not update value", name );
+        report_strict_violation( jo, "cannot assign explicit value the same as default or inherited value",
+                                 name );
     }
 
     val = out;
@@ -170,9 +175,11 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
     return true;
 }
 
-template <typename T>
-typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+namespace details
+{
+
+template <typename T, typename Set>
+bool assign_set( const JsonObject &jo, const std::string &name, Set &val )
 {
     JsonObject add = jo.get_object( "extend" );
     add.allow_omitted_members();
@@ -180,7 +187,7 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     del.allow_omitted_members();
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
-        val = jo.get_tags<T>( name );
+        val = jo.get_tags<T, Set>( name );
 
         if( add.has_member( name ) || del.has_member( name ) ) {
             // ill-formed to (re)define a value and then extend/delete within same definition
@@ -205,6 +212,21 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     }
 
     return res;
+}
+} // namespace details
+
+template <typename T>
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+{
+    return details::assign_set<T, std::set<T>>( jo, name, val );
+}
+
+template <typename T>
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    const JsonObject &jo, const std::string &name, cata::flat_set<T> &val, bool = false )
+{
+    return details::assign_set<T, cata::flat_set<T>>( jo, name, val );
 }
 
 inline bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
@@ -243,8 +265,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::volume
     units::volume out;
 
     // Object via which to report errors which differs for proportional/relative values
-    JsonObject err = jo;
-    err.allow_omitted_members();
+    const JsonObject *err = &jo;
     JsonObject relative = jo.get_object( "relative" );
     relative.allow_omitted_members();
     JsonObject proportional = jo.get_object( "proportional" );
@@ -254,18 +275,18 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::volume
     // such as +10% are well-formed independent of whether they affect base value
     if( relative.has_member( name ) ) {
         units::volume tmp;
-        err = relative;
-        if( !parse( err, tmp ) ) {
-            err.throw_error( "invalid relative value specified", name );
+        err = &relative;
+        if( !parse( *err, tmp ) ) {
+            err->throw_error( "invalid relative value specified", name );
         }
         strict = false;
         out = val + tmp;
 
     } else if( proportional.has_member( name ) ) {
         double scalar;
-        err = proportional;
-        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
-            err.throw_error( "invalid proportional scalar", name );
+        err = &proportional;
+        if( !err->read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err->throw_error( "multiplier must be a positive number other than 1", name );
         }
         strict = false;
         out = val * scalar;
@@ -275,11 +296,13 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::volume
     }
 
     if( out < lo || out > hi ) {
-        err.throw_error( "value outside supported range", name );
+        err->throw_error( "value outside supported range", name );
     }
 
     if( strict && out == val ) {
-        report_strict_violation( err, "assignment does not update value", name );
+        report_strict_violation( *err,
+                                 "cannot assign explicit value the same as default or inherited value",
+                                 name );
     }
 
     val = out;
@@ -299,7 +322,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::mass &
         }
         if( obj.has_string( name ) ) {
 
-            out = read_from_json_string<units::mass> ( *obj.get_raw( name ), units::mass_units );
+            out = read_from_json_string<units::mass> ( obj.get_member( name ), units::mass_units );
             return true;
         }
         return false;
@@ -308,8 +331,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::mass &
     units::mass out;
 
     // Object via which to report errors which differs for proportional/relative values
-    JsonObject err = jo;
-    err.allow_omitted_members();
+    const JsonObject *err = &jo;
     JsonObject relative = jo.get_object( "relative" );
     relative.allow_omitted_members();
     JsonObject proportional = jo.get_object( "proportional" );
@@ -319,18 +341,18 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::mass &
     // such as +10% are well-formed independent of whether they affect base value
     if( relative.has_member( name ) ) {
         units::mass tmp;
-        err = relative;
-        if( !parse( err, tmp ) ) {
-            err.throw_error( "invalid relative value specified", name );
+        err = &relative;
+        if( !parse( *err, tmp ) ) {
+            err->throw_error( "invalid relative value specified", name );
         }
         strict = false;
         out = val + tmp;
 
     } else if( proportional.has_member( name ) ) {
         double scalar;
-        err = proportional;
-        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
-            err.throw_error( "invalid proportional scalar", name );
+        err = &proportional;
+        if( !err->read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err->throw_error( "multiplier must be a positive number other than 1", name );
         }
         strict = false;
         out = val * scalar;
@@ -340,11 +362,13 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::mass &
     }
 
     if( out < lo || out > hi ) {
-        err.throw_error( "value outside supported range", name );
+        err->throw_error( "value outside supported range", name );
     }
 
     if( strict && out == val ) {
-        report_strict_violation( err, "assignment does not update value", name );
+        report_strict_violation( *err,
+                                 "cannot assign explicit value the same as default or inherited value",
+                                 name );
     }
 
     val = out;
@@ -364,7 +388,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::length
         }
         if( obj.has_string( name ) ) {
 
-            out = read_from_json_string<units::length>( *obj.get_raw( name ), units::length_units );
+            out = read_from_json_string<units::length>( obj.get_member( name ), units::length_units );
             return true;
         }
         return false;
@@ -373,8 +397,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::length
     units::length out;
 
     // Object via which to report errors which differs for proportional/relative values
-    JsonObject err = jo;
-    err.allow_omitted_members();
+    const JsonObject *err = &jo;
     JsonObject relative = jo.get_object( "relative" );
     relative.allow_omitted_members();
     JsonObject proportional = jo.get_object( "proportional" );
@@ -384,18 +407,18 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::length
     // such as +10% are well-formed independent of whether they affect base value
     if( relative.has_member( name ) ) {
         units::length tmp;
-        err = relative;
-        if( !parse( err, tmp ) ) {
-            err.throw_error( "invalid relative value specified", name );
+        err = &relative;
+        if( !parse( *err, tmp ) ) {
+            err->throw_error( "invalid relative value specified", name );
         }
         strict = false;
         out = val + tmp;
 
     } else if( proportional.has_member( name ) ) {
         double scalar;
-        err = proportional;
-        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
-            err.throw_error( "invalid proportional scalar", name );
+        err = &proportional;
+        if( !err->read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err->throw_error( "multiplier must be a positive number other than 1", name );
         }
         strict = false;
         out = val * scalar;
@@ -405,11 +428,13 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::length
     }
 
     if( out < lo || out > hi ) {
-        err.throw_error( "value outside supported range", name );
+        err->throw_error( "value outside supported range", name );
     }
 
     if( strict && out == val ) {
-        report_strict_violation( err, "assignment does not update value", name );
+        report_strict_violation( *err,
+                                 "cannot assign explicit value the same as default or inherited value",
+                                 name );
     }
 
     val = out;
@@ -429,7 +454,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::money 
         }
         if( obj.has_string( name ) ) {
 
-            out = read_from_json_string<units::money>( *obj.get_raw( name ), units::money_units );
+            out = read_from_json_string<units::money>( obj.get_member( name ), units::money_units );
             return true;
         }
         return false;
@@ -438,8 +463,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::money 
     units::money out;
 
     // Object via which to report errors which differs for proportional/relative values
-    JsonObject err = jo;
-    err.allow_omitted_members();
+    const JsonObject *err = &jo;
     JsonObject relative = jo.get_object( "relative" );
     relative.allow_omitted_members();
     JsonObject proportional = jo.get_object( "proportional" );
@@ -449,18 +473,18 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::money 
     // such as +10% are well-formed independent of whether they affect base value
     if( relative.has_member( name ) ) {
         units::money tmp;
-        err = relative;
-        if( !parse( err, tmp ) ) {
-            err.throw_error( "invalid relative value specified", name );
+        err = &relative;
+        if( !parse( *err, tmp ) ) {
+            err->throw_error( "invalid relative value specified", name );
         }
         strict = false;
         out = val + tmp;
 
     } else if( proportional.has_member( name ) ) {
         double scalar;
-        err = proportional;
-        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
-            err.throw_error( "invalid proportional scalar", name );
+        err = &proportional;
+        if( !err->read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err->throw_error( "multiplier must be a positive number other than 1", name );
         }
         strict = false;
         out = val * scalar;
@@ -470,11 +494,13 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::money 
     }
 
     if( out < lo || out > hi ) {
-        err.throw_error( "value outside supported range", name );
+        err->throw_error( "value outside supported range", name );
     }
 
     if( strict && out == val ) {
-        report_strict_violation( err, "assignment does not update value", name );
+        report_strict_violation( *err,
+                                 "cannot assign explicit value the same as default or inherited value",
+                                 name );
     }
 
     val = out;
@@ -499,7 +525,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::energy
         }
         if( obj.has_string( name ) ) {
 
-            out = read_from_json_string<units::energy>( *obj.get_raw( name ), units::energy_units );
+            out = read_from_json_string<units::energy>( obj.get_member( name ), units::energy_units );
             return true;
         }
         return false;
@@ -508,8 +534,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::energy
     units::energy out;
 
     // Object via which to report errors which differs for proportional/relative values
-    JsonObject err = jo;
-    err.allow_omitted_members();
+    const JsonObject *err = &jo;
     JsonObject relative = jo.get_object( "relative" );
     relative.allow_omitted_members();
     JsonObject proportional = jo.get_object( "proportional" );
@@ -519,18 +544,18 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::energy
     // such as +10% are well-formed independent of whether they affect base value
     if( relative.has_member( name ) ) {
         units::energy tmp;
-        err = relative;
-        if( !parse( err, tmp ) ) {
-            err.throw_error( "invalid relative value specified", name );
+        err = &relative;
+        if( !parse( *err, tmp ) ) {
+            err->throw_error( "invalid relative value specified", name );
         }
         strict = false;
         out = val + tmp;
 
     } else if( proportional.has_member( name ) ) {
         double scalar;
-        err = proportional;
-        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
-            err.throw_error( "invalid proportional scalar", name );
+        err = &proportional;
+        if( !err->read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err->throw_error( "multiplier must be a positive number other than 1", name );
         }
         strict = false;
         out = val * scalar;
@@ -540,11 +565,13 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::energy
     }
 
     if( out < lo || out > hi ) {
-        err.throw_error( "value outside supported range", name );
+        err->throw_error( "value outside supported range", name );
     }
 
     if( strict && out == val ) {
-        report_strict_violation( err, "assignment does not update value", name );
+        report_strict_violation( *err,
+                                 "cannot assign explicit value the same as default or inherited value",
+                                 name );
     }
 
     val = out;
@@ -563,7 +590,8 @@ inline bool assign( const JsonObject &jo, const std::string &name, nc_color &val
         jo.throw_error( "invalid color name", name );
     }
     if( strict && out == val ) {
-        report_strict_violation( jo, "assignment does not update value", name );
+        report_strict_violation( jo, "cannot assign explicit value the same as default or inherited value",
+                                 name );
     }
     val = out;
     return true;
@@ -583,7 +611,7 @@ read_with_factor( const JsonObject &jo, const std::string &name, T &val, const T
         return true;
     } else if( jo.has_string( name ) ) {
         // JSON contained a time duration string -> no factor
-        val = read_from_json_string<time_duration>( *jo.get_raw( name ), time_duration::units );
+        val = read_from_json_string<time_duration>( jo.get_member( name ), time_duration::units );
         return true;
     }
     return false;
@@ -620,7 +648,7 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
     } else if( proportional.read( name, scalar ) ) {
         err = proportional;
         if( scalar <= 0 || scalar == 1 ) {
-            err.throw_error( "invalid proportional scalar", name );
+            err.throw_error( "multiplier must be a positive number other than 1", name );
         }
         strict = false;
         out = val * scalar;
@@ -630,7 +658,8 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
     }
 
     if( strict && out == val ) {
-        report_strict_violation( err, "assignment does not update value", name );
+        report_strict_violation( err, "cannot assign explicit value the same as default or inherited value",
+                                 name );
     }
 
     val = out;
@@ -723,12 +752,13 @@ static void assign_dmg_proportional( const JsonObject &jo, const std::string &na
             // Can't have negative percent, and 100% is pointless
             // If it's 0, it wasn't loaded
             if( scalar.amount == 1 || scalar.amount < 0 ) {
-                jo.throw_error( "Proportional damage amount is not a valid scalar", name );
+                jo.throw_error( "Proportional damage multiplier must be a positive number other than 1", name );
             }
 
             // If it's 0, it wasn't loaded
             if( scalar.res_pen < 0 || scalar.res_pen == 1 ) {
-                jo.throw_error( "Proportional armor penetration is not a valid scalar", name );
+                jo.throw_error( "Proportional armor penetration multiplier must be a positive number other than 1",
+                                name );
             }
 
             // It wasn't loaded, so set it 100%
@@ -743,23 +773,23 @@ static void assign_dmg_proportional( const JsonObject &jo, const std::string &na
 
             // If it's 1, it wasn't loaded (or was loaded as 1)
             if( scalar.res_mult <= 0 ) {
-                jo.throw_error( "Proportional armor penetration multiplier is not a valid scalar", name );
+                jo.throw_error( "Proportional armor penetration multiplier must be a positive number", name );
             }
 
             // If it's 1, it wasn't loaded (or was loaded as 1)
             if( scalar.damage_multiplier <= 0 ) {
-                jo.throw_error( "Proportional damage multipler is not a valid scalar", name );
+                jo.throw_error( "Proportional damage multiplier must be a positive number", name );
             }
 
             // If it's 1, it wasn't loaded (or was loaded as 1)
             if( scalar.unconditional_res_mult <= 0 ) {
-                jo.throw_error( "Proportional unconditional armor penetration multiplier is not a valid scalar",
+                jo.throw_error( "Proportional unconditional armor penetration multiplier must be a positive number",
                                 name );
             }
 
             // It's it's 1, it wasn't loaded (or was loaded as 1)
             if( scalar.unconditional_damage_mult <= 0 ) {
-                jo.throw_error( "Proportional unconditional damage multiplier is not a valid scalar", name );
+                jo.throw_error( "Proportional unconditional damage multiplier must be a positive number", name );
             }
 
             damage_unit out_dmg( scalar.type, 0.0f );
@@ -785,12 +815,12 @@ static void check_assigned_dmg( const JsonObject &err, const std::string &name,
     for( const damage_unit &out_dmg : out.damage_units ) {
         auto lo_iter = std::find_if( lo_inst.damage_units.begin(),
         lo_inst.damage_units.end(), [&out_dmg]( const damage_unit & du ) {
-            return du.type == out_dmg.type || du.type == DT_NULL;
+            return du.type == out_dmg.type || du.type == damage_type::NONE;
         } );
 
         auto hi_iter = std::find_if( hi_inst.damage_units.begin(),
         hi_inst.damage_units.end(), [&out_dmg]( const damage_unit & du ) {
-            return du.type == out_dmg.type || du.type == DT_NULL;
+            return du.type == out_dmg.type || du.type == damage_type::NONE;
         } );
 
         if( lo_iter == lo_inst.damage_units.end() ) {
@@ -821,8 +851,8 @@ static void check_assigned_dmg( const JsonObject &err, const std::string &name,
 
 inline bool assign( const JsonObject &jo, const std::string &name, damage_instance &val,
                     bool strict = false,
-                    const damage_instance &lo = damage_instance( DT_NULL, 0.0f, 0.0f, 0.0f, 0.0f ),
-                    const damage_instance &hi = damage_instance( DT_NULL, float_max, float_max, float_max,
+                    const damage_instance &lo = damage_instance( damage_type::NONE, 0.0f, 0.0f, 0.0f, 0.0f ),
+                    const damage_instance &hi = damage_instance( damage_type::NONE, float_max, float_max, float_max,
                             float_max ) )
 {
     // What we'll eventually be returning for the damage instance
@@ -834,34 +864,42 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         id_err = jo.get_string( "id" );
     }
 
+    bool assigned = false;
+
     if( jo.has_array( name ) ) {
         out = load_damage_instance_inherit( jo.get_array( name ), val );
+        assigned = true;
     } else if( jo.has_object( name ) ) {
         out = load_damage_instance_inherit( jo.get_object( name ), val );
+        assigned = true;
     } else {
         // Legacy: remove after 0.F
         float amount = 0.0f;
         float arpen = 0.0f;
         float unc_dmg_mult = 1.0f;
+        bool with_legacy = false;
 
         // There will always be either a prop_damage or damage (name)
         if( jo.has_member( name ) ) {
+            with_legacy = true;
             amount = jo.get_float( name );
         } else if( jo.has_member( "prop_damage" ) ) {
+            with_legacy = true;
             unc_dmg_mult = jo.get_float( "prop_damage" );
         }
         // And there may or may not be armor penetration
         if( jo.has_member( "pierce" ) ) {
+            with_legacy = true;
             arpen = jo.get_float( "pierce" );
         }
 
-        if( amount != 0.0f || arpen != 0.0f || unc_dmg_mult != 1.0f ) {
+        if( with_legacy ) {
             // Give a load warning, it's likely anything loading damage this way
             // is a gun, and as such is using the wrong damage type
             debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
+            out.add_damage( damage_type::STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
+            assigned = true;
         }
-
-        out.add_damage( DT_STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
     }
 
     // Object via which to report errors which differs for proportional/relative values
@@ -875,16 +913,20 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
     // There's no good reason for this, but it's simple for now
     if( relative.has_object( name ) ) {
         assign_dmg_relative( out, val, load_damage_instance( relative.get_object( name ) ), strict );
+        assigned = true;
     } else if( relative.has_array( name ) ) {
         assign_dmg_relative( out, val, load_damage_instance( relative.get_array( name ) ), strict );
+        assigned = true;
     } else if( proportional.has_object( name ) ) {
         assign_dmg_proportional( proportional, name, out, val,
                                  load_damage_instance( proportional.get_object( name ) ),
                                  strict );
+        assigned = true;
     } else if( proportional.has_array( name ) ) {
         assign_dmg_proportional( proportional, name, out, val,
                                  load_damage_instance( proportional.get_array( name ) ),
                                  strict );
+        assigned = true;
     } else if( relative.has_member( name ) || relative.has_member( "pierce" ) ||
                relative.has_member( "prop_damage" ) ) {
         // Legacy: Remove after 0.F
@@ -908,8 +950,9 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         // is a gun, and as such is using the wrong damage type
         debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
 
-        assign_dmg_relative( out, val, damage_instance( DT_STAB, amt, arpen, 1.0f, 1.0f, 1.0f,
+        assign_dmg_relative( out, val, damage_instance( damage_type::STAB, amt, arpen, 1.0f, 1.0f, 1.0f,
                              unc_dmg_mul ), strict );
+        assigned = true;
     } else if( proportional.has_member( name ) || proportional.has_member( "pierce" ) ||
                proportional.has_member( "prop_damage" ) ) {
         // Legacy: Remove after 0.F
@@ -933,22 +976,21 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         // is a gun, and as such is using the wrong damage type
         debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
 
-        assign_dmg_proportional( proportional, name, out, val, damage_instance( DT_STAB, amt, arpen, 1.0f,
+        assign_dmg_proportional( proportional, name, out, val, damage_instance( damage_type::STAB, amt,
+                                 arpen, 1.0f,
                                  1.0f, 1.0f, unc_dmg_mul ), strict );
-    } else if( !jo.has_member( name ) && !jo.has_member( "prop_damage" ) ) {
+        assigned = true;
+    }
+    if( !assigned ) {
         // Straight copy-from, not modified by proportional or relative
         out = val;
-        strict = false;
     }
 
     check_assigned_dmg( err, name, out, lo, hi );
 
-    if( strict && out == val ) {
-        report_strict_violation( err, "Assigned damage does not update value", name );
-    }
-
-    if( out.damage_units.empty() ) {
-        out = damage_instance( DT_BULLET, 0.0f );
+    if( assigned && strict && out == val ) {
+        report_strict_violation( err,
+                                 "cannot assign explicit damage value the same as default or inherited value", name );
     }
 
     // Now that we've verified everything in out is all good, set val to it

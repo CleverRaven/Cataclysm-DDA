@@ -40,13 +40,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "a180mag" ]
-      }
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "a180mag", "a180mag1", "a180mag2", "a180mag3", "a180mag4" ] }
     ]
   },
   {
@@ -56,6 +50,7 @@
     "reload_noise_volume": 10,
     "name": { "str_sp": "Marlin 39A" },
     "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil.",
+    "ascii_picture": "marlin_39a",
     "weight": "2948 g",
     "volume": "2180 ml",
     "longest_side": "1029 mm",
@@ -90,13 +85,11 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 } },
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "marlin_tubeloader" ]
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "22": 19 },
+        "allowed_speedloaders": [ "marlin_tubeloader" ]
       }
     ]
   },
@@ -143,6 +136,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "pipe rifle: .22", "str_pl": "pipe rifles: .22" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "ascii_picture": "sm_pipe_gun",
     "weight": "1953 g",
     "volume": "1750 ml",
     "longest_side": "1000 mm",
@@ -184,6 +178,7 @@
     "reload_noise_volume": 10,
     "name": { "str_sp": "Ruger 10/22" },
     "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing.",
+    "ascii_picture": "ruger1022",
     "weight": "2270 g",
     "volume": "2120 ml",
     "longest_side": "942 mm",
@@ -217,14 +212,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ]
-      }
+      { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ] }
     ]
   },
   {
@@ -233,10 +221,18 @@
     "copy-from": "ruger_lcr_38",
     "type": "GUN",
     "name": { "str_sp": "Ruger LCR .22" },
-    "weight": "420 g",
+    "weight": "422 g",
     "ammo": [ "22" ],
+    "longest_side": "192 mm",
     "clip_size": 8,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "22": 8 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "22": 8 },
+        "allowed_speedloaders": [ "22_speedloader8" ]
+      }
+    ]
   },
   {
     "id": "sig_mosquito",
@@ -245,8 +241,9 @@
     "reload_noise_volume": 10,
     "name": { "str_sp": "SIG Mosquito" },
     "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the latter 20th-early 21st centuries; it has an underbarrel rail.",
+    "ascii_picture": "sig_mosquito",
     "weight": "720 g",
-    "volume": "450 ml",
+    "volume": "467 ml",
     "longest_side": "214 mm",
     "price": 36000,
     "price_postapoc": 750,
@@ -275,16 +272,8 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "mosquitomag" ]
-      }
-    ]
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mosquitomag" ] } ]
   },
   {
     "id": "sw_22",
@@ -293,6 +282,7 @@
     "type": "GUN",
     "name": { "str_sp": "S&W 22A" },
     "description": "A popular .22 pistol.",
+    "ascii_picture": "sw_22a",
     "weight": "975 g",
     "volume": "560 ml",
     "longest_side": "259 mm",
@@ -306,16 +296,8 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "sw22mag" ]
-      }
-    ]
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sw22mag" ] } ]
   },
   {
     "id": "j22",
@@ -338,16 +320,7 @@
     "durability": 5,
     "min_cycle_recoil": 39,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "magazine_well": "27 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "j22mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "27 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "j22mag" ] } ]
   },
   {
     "id": "walther_p22",
@@ -369,15 +342,6 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "pocket_data": [
-      {
-        "magazine_well": "126 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "wp22mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "126 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "wp22mag" ] } ]
   }
 ]

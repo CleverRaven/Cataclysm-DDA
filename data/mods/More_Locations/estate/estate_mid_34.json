@@ -34,7 +34,8 @@
         "DDD..|....|  |....|....."
       ],
       "rotation": [ 0, 3 ],
-      "palettes": [ "estate", "multistory_house" ]
+      "palettes": [ "estate", "multistory_house" ],
+      "terrain": { "5": "t_column" }
     }
   }
 ]

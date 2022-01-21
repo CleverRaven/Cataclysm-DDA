@@ -2,12 +2,11 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_BUNKER",
-    "default": "mon_zombie_survivor",
     "monsters": [
-      { "monster": "mon_zombie_survivor", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_dog", "freq": 150, "cost_multiplier": 0 },
-      { "monster": "mon_dog_zombie_rot", "freq": 150, "cost_multiplier": 0 }
+      { "monster": "mon_zombie_survivor", "weight": 600, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_child", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_dog", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_rot", "weight": 150, "cost_multiplier": 0 }
     ]
   },
   {
@@ -53,8 +52,8 @@
       [ "arrow_fire_hardened_fletched", 20 ],
       [ "quiver_birchbark", 30 ],
       [ "fire_drill", 30 ],
-      [ "lighter", 30 ],
-      [ "matches", 30 ],
+      { "item": "lighter", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "matches", "prob": 30, "charges": [ 0, 20 ] },
       [ "sunglasses", 30 ],
       [ "fitover_sunglasses", 20 ],
       [ "ax", 10 ],
@@ -72,7 +71,14 @@
     "type": "item_group",
     "id": "oa_ig_sb_rare",
     "items": [
-      { "item": "gasoline", "prob": 5, "charges-min": 450, "charges-max": 2000, "container-item": "jug_plastic" },
+      {
+        "item": "gasoline",
+        "prob": 5,
+        "charges-min": 450,
+        "charges-max": 2000,
+        "container-item": "jug_plastic",
+        "sealed": false
+      },
       { "item": "gasoline", "prob": 5, "charges-min": 450, "charges-max": 4000, "container-item": "jerrycan" },
       { "item": "gasoline", "prob": 5, "charges-min": 450, "charges-max": 10000, "container-item": "jerrycan_big" },
       [ "gasoline_lantern", 15 ],
@@ -81,7 +87,7 @@
       [ "lamp_oil", 15 ],
       [ "recurbow", 20 ],
       [ "binoculars", 20 ],
-      [ "ref_lighter", 30 ],
+      { "item": "ref_lighter", "prob": 30, "charges": [ 0, 50 ] },
       [ "e_tool", 30 ],
       [ "jackhammer", 5 ],
       [ "elec_jackhammer", 5 ]
@@ -187,25 +193,25 @@
         "######R#########R#######"
       ],
       "terrain": {
-        "#": "t_rock",
+        "#": "t_soil",
         "<": "t_ladder_up",
         "-": "t_wall_wood",
         "|": "t_wall_wood",
-        ".": "t_rock_floor",
+        ".": "t_dirt",
         "D": "t_door_locked_interior",
         "R": "t_root_wall",
-        "S": "t_rock_floor",
-        "s": "t_rock_floor",
-        "r": "t_rock_floor",
-        "1": "t_rock_floor",
-        "2": "t_rock_floor",
-        "k": "t_rock_floor",
-        "b": "t_rock_floor",
-        "t": "t_rock_floor",
-        "C": "t_rock_floor",
-        "B": "t_rock_floor",
-        "W": "t_rock_floor",
-        "h": "t_rock_floor"
+        "S": "t_dirt",
+        "s": "t_dirt",
+        "r": "t_dirt",
+        "1": "t_dirt",
+        "2": "t_dirt",
+        "k": "t_dirt",
+        "b": "t_dirt",
+        "t": "t_dirt",
+        "C": "t_dirt",
+        "B": "t_dirt",
+        "W": "t_dirt",
+        "h": "t_dirt"
       },
       "furniture": {
         "r": "f_rubble_rock",

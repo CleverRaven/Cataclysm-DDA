@@ -46,15 +46,16 @@
     "//": "This should contain all the explosives you can set off with only a fuse, 10g tnt equivalent.",
     "components": [
       [
-        [ "chem_black_powder", 18 ],
-        [ "gunpowder", 9 ],
-        [ "chem_match_head_powder", 37 ],
-        [ "gunpowder_pistol", 9 ],
-        [ "gunpowder_shotgun", 9 ],
-        [ "gunpowder_magnum_pistol", 8 ],
-        [ "gunpowder_artillery", 9 ],
-        [ "gunpowder_rifle", 7 ],
-        [ "chem_hmtd", 14 ]
+        [ "chem_black_powder", 90 ],
+        [ "gunpowder", 90 ],
+        [ "red_phosphorous", 18 ],
+        [ "gunpowder_pistol", 90 ],
+        [ "gunpowder_shotgun", 90 ],
+        [ "gunpowder_magnum_pistol", 80 ],
+        [ "gunpowder_artillery", 90 ],
+        [ "gunpowder_rifle", 70 ],
+        [ "chem_hmtd", 14 ],
+        [ "chem_apex", 7 ]
       ]
     ]
   },
@@ -69,5 +70,17 @@
     "type": "requirement",
     "//": "This should contain all the explosives you need to set off with an explosive primer or a fuze, and also need casting in a crucible. 10g tnt equivalent.",
     "components": [ [ [ "chem_compositionb", 8 ] ] ]
+  },
+  {
+    "id": "small_gas_canister_case",
+    "type": "requirement",
+    "//": " Gas canisters, which can be recycled to get empty canisters. containers with an internal volume of 250 ml.",
+    "components": [ [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ] ] ]
+  },
+  {
+    "id": "small_grenade_case",
+    "type": "requirement",
+    "//": "Hard containers with an internal volume of 250 ml, which can be used in all explosive recipes that call for them.",
+    "components": [ [ [ "clay_canister", 1 ], [ "small_gas_canister_case", 1, "LIST" ] ] ]
   }
 ]

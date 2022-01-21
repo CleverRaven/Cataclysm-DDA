@@ -72,12 +72,12 @@
       "h": "t_thconc_floor",
       "D": "t_thconc_floor",
       "1": "t_thconc_floor",
-      "=": "t_rock_floor",
+      "=": "t_dirt",
       ">": "t_stairs_up",
       "!": "t_bars",
       "~": "t_sewage",
       "`": "t_sewage",
-      "%": "t_rock",
+      "%": "t_soil",
       ".": "t_thconc_floor",
       "^": "t_ladder_up",
       "*": "t_door_bar_locked",
@@ -144,14 +144,16 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SEWAGE_TREATMENT",
-    "default": "mon_sewer_rat",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_sewer_fish", "freq": 300, "cost_multiplier": 0, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_sewer_snake", "freq": 240, "cost_multiplier": 0 },
-      { "monster": "mon_sewer_rat", "freq": 100, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
-      { "monster": "mon_albino_penguin", "freq": 5, "cost_multiplier": 5, "pack_size": [ 3, 9 ] },
-      { "monster": "mon_gator", "freq": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_sewer_fish", "weight": 300, "cost_multiplier": 0, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_sewer_snake", "weight": 240, "cost_multiplier": 0 },
+      { "monster": "mon_sewer_rat", "weight": 310, "cost_multiplier": 0 },
+      { "monster": "mon_sewer_rat", "weight": 100, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_albino_penguin", "weight": 5, "cost_multiplier": 5, "pack_size": [ 3, 9 ] },
+      { "monster": "mon_gator", "weight": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_frog", "weight": 10, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3 }
     ]
   },
   {
@@ -353,7 +355,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_dirt",
       "rows": [
         "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%~~~~%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%%%%",
@@ -470,7 +472,7 @@
     "//": "10% chance of a hidden CHUD lair",
     "weight": 25,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_dirt",
       "rows": [
         "%%%%%~#2%%%%%%%%HHHHHHHH",
         "%%%%%~#2%%%HHHHHHww.....",
@@ -519,7 +521,7 @@
     "//": "Easter egg - TMNT reference",
     "weight": 1,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_dirt",
       "rows": [
         "%%%%%~#2%%%%%%%%HHHHHHHH",
         "%%%%%~#2%%%HHHHHHww.....",
@@ -599,7 +601,7 @@
       { "item": "hstomach_large", "prob": 60 },
       { "item": "hstomach", "prob": 60 },
       { "item": "bone_human", "prob": 90, "count-min": 1, "count-max": 5 },
-      { "item": "rag_bloody", "prob": 90, "count-min": 1, "count-max": 4 }
+      { "item": "rag", "prob": 90, "count-min": 1, "count-max": 4, "custom-flags": [ "FILTHY" ] }
     ]
   }
 ]

@@ -32,7 +32,8 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "multistory_house", "upper_level" ]
+      "palettes": [ "multistory_house", "upper_level" ],
+      "terrain": { ",": "t_linoleum_white" }
     }
   }
 ]

@@ -213,7 +213,7 @@
         "x": "f_glass_cabinet"
       },
       "toilets": { "T": {  } },
-      "vendingmachines": { "l": { "item_group": "vending_drink" }, "m": { "item_group": "vending_food" } },
+      "vendingmachines": { "l": { "item_group": "vending_drink", "lootable": true }, "m": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "#": [ { "item": "snacks", "chance": 10 } ],
         "f": { "item": "fridgesnacks", "chance": 60, "repeat": [ 1, 12 ] },

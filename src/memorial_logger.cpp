@@ -4,6 +4,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <string>
 #include <tuple>
 #include <utility>
 
@@ -14,7 +15,9 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_variant.h"
+#include "character.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "debug_menu.h"
 #include "effect.h"
@@ -26,9 +29,9 @@
 #include "get_version.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "json.h"
 #include "kill_tracker.h"
 #include "magic.h"
 #include "martialarts.h"
@@ -39,12 +42,14 @@
 #include "omdata.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "past_games_info.h"
+#include "pimpl.h"
 #include "pldata.h"
 #include "profession.h"
 #include "skill.h"
 #include "stats_tracker.h"
-#include "string_id.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -52,36 +57,6 @@ static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_jetinjector( "jetinjector" );
-
-static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
-static const trap_str_id tr_glass( "tr_glass" );
-static const trap_str_id tr_beartrap( "tr_beartrap" );
-static const trap_str_id tr_nailboard( "tr_nailboard" );
-static const trap_str_id tr_caltrops( "tr_caltrops" );
-static const trap_str_id tr_caltrops_glass( "tr_caltrops_glass" );
-static const trap_str_id tr_tripwire( "tr_tripwire" );
-static const trap_str_id tr_crossbow( "tr_crossbow" );
-static const trap_str_id tr_shotgun_2( "tr_shotgun_2" );
-static const trap_str_id tr_shotgun_1( "tr_shotgun_1" );
-static const trap_str_id tr_blade( "tr_blade" );
-static const trap_str_id tr_landmine( "tr_landmine" );
-static const trap_str_id tr_light_snare( "tr_light_snare" );
-static const trap_str_id tr_heavy_snare( "tr_heavy_snare" );
-static const trap_str_id tr_telepad( "tr_telepad" );
-static const trap_str_id tr_goo( "tr_goo" );
-static const trap_str_id tr_dissector( "tr_dissector" );
-static const trap_str_id tr_sinkhole( "tr_sinkhole" );
-static const trap_str_id tr_pit( "tr_pit" );
-static const trap_str_id tr_spike_pit( "tr_spike_pit" );
-static const trap_str_id tr_lava( "tr_lava" );
-static const trap_str_id tr_portal( "tr_portal" );
-static const trap_str_id tr_ledge( "tr_ledge" );
-static const trap_str_id tr_boobytrap( "tr_boobytrap" );
-static const trap_str_id tr_temple_flood( "tr_temple_flood" );
-static const trap_str_id tr_shadow( "tr_shadow" );
-static const trap_str_id tr_drain( "tr_drain" );
-static const trap_str_id tr_snake( "tr_snake" );
-static const trap_str_id tr_glass_pit( "tr_glass_pit" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -105,9 +80,8 @@ std::string memorial_log_entry::to_string() const
     }
 }
 
-void memorial_log_entry::deserialize( JsonIn &jsin )
+void memorial_log_entry::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     if( jo.read( "preformatted", preformatted_ ) ) {
         return;
     }
@@ -155,7 +129,7 @@ void memorial_logger::add( const std::string &male_msg,
     const oter_type_str_id cur_oter_type = cur_ter->get_type_id();
     const std::string &oter_name = cur_ter->get_name();
 
-    log.push_back( { calendar::turn, cur_oter_type, oter_name, msg } );
+    log.emplace_back( calendar::turn, cur_oter_type, oter_name, msg );
 }
 
 /**
@@ -165,7 +139,7 @@ void memorial_logger::add( const std::string &male_msg,
  * In new format the entries are stored as json.
  * @param fin The stream to read the memorial entries from.
  */
-void memorial_logger::load( std::istream &fin )
+void memorial_logger::load( std::istream &fin, const std::string &path )
 {
     log.clear();
     if( fin.peek() == '|' ) {
@@ -180,7 +154,7 @@ void memorial_logger::load( std::istream &fin )
             log.emplace_back( entry );
         }
     } else {
-        JsonIn jsin( fin );
+        JsonIn jsin( fin, path );
         if( !jsin.read( log ) ) {
             debugmsg( "Error reading JSON memorial log" );
         }
@@ -234,9 +208,8 @@ void memorial_logger::write_text_memorial( std::ostream &file,
         profession_name = string_format( _( "a %s" ), u.prof->gender_appropriate_name( u.male ) );
     }
 
-    // TODO: fix point types
     const std::string locdesc =
-        overmap_buffer.get_description_at( tripoint_abs_sm( u.global_sm_location() ) );
+        overmap_buffer.get_description_at( u.global_sm_location() );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
     //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
@@ -246,7 +219,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << string_format( _( "Cataclysm - Dark Days Ahead version %s memorial file" ),
                            getVersionString() ) << eol;
     file << eol;
-    file << string_format( _( "In memory of: %s" ), u.name ) << eol;
+    file << string_format( _( "In memory of: %s" ), u.get_name() ) << eol;
     if( !epitaph.empty() ) {  //Don't record empty epitaphs
         //~ The "%s" will be replaced by an epitaph as displayed in the memorial files. Replace the quotation marks as appropriate for your language.
         file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph ) << eol << eol;
@@ -266,7 +239,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //HP
 
     const auto limb_hp =
-    [&file, &indent, &u]( const std::string & desc, const bodypart_id bp ) {
+    [&file, &indent, &u]( const std::string & desc, const bodypart_id & bp ) {
         file << indent <<
              string_format( desc, u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) ) << eol;
     };
@@ -379,8 +352,9 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << eol;
 
     //Equipment
+    const item &weapon = u.get_wielded_item();
     file << _( "Weapon:" ) << eol;
-    file << indent << u.weapon.invlet << " - " << u.weapon.tname( 1, false ) << eol;
+    file << indent << weapon.invlet << " - " << weapon.tname( 1, false ) << eol;
     file << eol;
 
     file << _( "Equipment:" ) << eol;
@@ -441,6 +415,10 @@ void memorial_logger::write_json_memorial( std::ostream &memorial_file ) const
     jsout.member( "scores", scores );
 
     jsout.end_object();
+
+    // Having written a new memorial file, we need to ensure that
+    // past_games_info now takes that into account
+    clear_past_games();
 }
 
 void memorial_logger::notify( const cata::event &e )
@@ -520,22 +498,22 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::broken_bone: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                body_part part = e.get<body_part>( "part" );
+                bodypart_id part = e.get<bodypart_id>( "part" );
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broke his %s." ),
                      pgettext( "memorial_female", "Broke her %s." ),
-                     body_part_name( convert_bp( part ).id() ) );
+                     body_part_name( part ) );
             }
             break;
         }
         case event_type::broken_bone_mends: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                body_part part = e.get<body_part>( "part" );
+                bodypart_id part = e.get<bodypart_id>( "part" );
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broken %s began to mend." ),
                      pgettext( "memorial_female", "Broken %s began to mend." ),
-                     body_part_name( convert_bp( part ).id() ) );
+                     body_part_name( part ) );
             }
             break;
         }
@@ -568,10 +546,12 @@ void memorial_logger::notify( const cata::event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
                 const effect_type &type = e.get<efftype_id>( "effect" ).obj();
-                const std::string message = type.get_apply_memorial_log();
-                if( !message.empty() ) {
-                    add( pgettext( "memorial_male", message.c_str() ),
-                         pgettext( "memorial_female", message.c_str() ) );
+                const std::string male_message = type.get_apply_memorial_log(
+                                                     effect_type::memorial_gender::male );
+                const std::string female_message = type.get_apply_memorial_log(
+                                                       effect_type::memorial_gender::female );
+                if( !male_message.empty() || !female_message.empty() ) {
+                    add( male_message, female_message );
                 }
             }
             break;
@@ -631,10 +611,12 @@ void memorial_logger::notify( const cata::event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
                 const effect_type &type = e.get<efftype_id>( "effect" ).obj();
-                const std::string message = type.get_remove_memorial_log();
-                if( !message.empty() ) {
-                    add( pgettext( "memorial_male", message.c_str() ),
-                         pgettext( "memorial_female", message.c_str() ) );
+                const std::string male_message = type.get_remove_memorial_log(
+                                                     effect_type::memorial_gender::male );
+                const std::string female_message = type.get_remove_memorial_log(
+                                                       effect_type::memorial_gender::female );
+                if( !male_message.empty() || !female_message.empty() ) {
+                    add( male_message, female_message );
                 }
             }
             break;
@@ -643,87 +625,8 @@ void memorial_logger::notify( const cata::event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
                 trap_str_id trap = e.get<trap_str_id>( "trap" );
-                if( trap == tr_bubblewrap ) {
-                    add( pgettext( "memorial_male", "Stepped on bubble wrap." ),
-                         pgettext( "memorial_female", "Stepped on bubble wrap." ) );
-                } else if( trap == tr_glass ) {
-                    add( pgettext( "memorial_male", "Stepped on glass." ),
-                         pgettext( "memorial_female", "Stepped on glass." ) );
-                } else if( trap == tr_beartrap ) {
-                    add( pgettext( "memorial_male", "Caught by a beartrap." ),
-                         pgettext( "memorial_female", "Caught by a beartrap." ) );
-                } else if( trap == tr_nailboard ) {
-                    add( pgettext( "memorial_male", "Stepped on a spiked board." ),
-                         pgettext( "memorial_female", "Stepped on a spiked board." ) );
-                } else if( trap == tr_caltrops ) {
-                    add( pgettext( "memorial_male", "Stepped on a caltrop." ),
-                         pgettext( "memorial_female", "Stepped on a caltrop." ) );
-                } else if( trap == tr_caltrops_glass ) {
-                    add( pgettext( "memorial_male", "Stepped on a glass caltrop." ),
-                         pgettext( "memorial_female", "Stepped on a glass caltrop." ) );
-                } else if( trap == tr_tripwire ) {
-                    add( pgettext( "memorial_male", "Tripped on a tripwire." ),
-                         pgettext( "memorial_female", "Tripped on a tripwire." ) );
-                } else if( trap == tr_crossbow ) {
-                    add( pgettext( "memorial_male", "Triggered a crossbow trap." ),
-                         pgettext( "memorial_female", "Triggered a crossbow trap." ) );
-                } else if( trap == tr_shotgun_1 || trap == tr_shotgun_2 ) {
-                    add( pgettext( "memorial_male", "Triggered a shotgun trap." ),
-                         pgettext( "memorial_female", "Triggered a shotgun trap." ) );
-                } else if( trap == tr_blade ) {
-                    add( pgettext( "memorial_male", "Triggered a blade trap." ),
-                         pgettext( "memorial_female", "Triggered a blade trap." ) );
-                } else if( trap == tr_light_snare ) {
-                    add( pgettext( "memorial_male", "Triggered a light snare." ),
-                         pgettext( "memorial_female", "Triggered a light snare." ) );
-                } else if( trap == tr_heavy_snare ) {
-                    add( pgettext( "memorial_male", "Triggered a heavy snare." ),
-                         pgettext( "memorial_female", "Triggered a heavy snare." ) );
-                } else if( trap == tr_landmine ) {
-                    add( pgettext( "memorial_male", "Stepped on a land mine." ),
-                         pgettext( "memorial_female", "Stepped on a land mine." ) );
-                } else if( trap == tr_boobytrap ) {
-                    add( pgettext( "memorial_male", "Triggered a booby trap." ),
-                         pgettext( "memorial_female", "Triggered a booby trap." ) );
-                } else if( trap == tr_telepad || trap == tr_portal ) {
-                    add( pgettext( "memorial_male", "Triggered a teleport trap." ),
-                         pgettext( "memorial_female", "Triggered a teleport trap." ) );
-                } else if( trap == tr_goo ) {
-                    add( pgettext( "memorial_male", "Stepped into thick goo." ),
-                         pgettext( "memorial_female", "Stepped into thick goo." ) );
-                } else if( trap == tr_dissector ) {
-                    add( pgettext( "memorial_male", "Stepped into a dissector." ),
-                         pgettext( "memorial_female", "Stepped into a dissector." ) );
-                } else if( trap == tr_pit ) {
-                    add( pgettext( "memorial_male", "Fell in a pit." ),
-                         pgettext( "memorial_female", "Fell in a pit." ) );
-                } else if( trap == tr_spike_pit ) {
-                    add( pgettext( "memorial_male", "Fell into a spiked pit." ),
-                         pgettext( "memorial_female", "Fell into a spiked pit." ) );
-                } else if( trap == tr_glass_pit ) {
-                    add( pgettext( "memorial_male", "Fell into a pit filled with glass shards." ),
-                         pgettext( "memorial_female", "Fell into a pit filled with glass shards." ) );
-                } else if( trap == tr_lava ) {
-                    add( pgettext( "memorial_male", "Stepped into lava." ),
-                         pgettext( "memorial_female", "Stepped into lava." ) );
-                } else if( trap == tr_sinkhole ) {
-                    add( pgettext( "memorial_male", "Stepped into a sinkhole." ),
-                         pgettext( "memorial_female", "Stepped into a sinkhole." ) );
-                } else if( trap == tr_ledge ) {
-                    add( pgettext( "memorial_male", "Fell down a ledge." ),
-                         pgettext( "memorial_female", "Fell down a ledge." ) );
-                } else if( trap == tr_temple_flood ) {
-                    add( pgettext( "memorial_male", "Triggered a flood trap." ),
-                         pgettext( "memorial_female", "Triggered a flood trap." ) );
-                } else if( trap == tr_shadow ) {
-                    add( pgettext( "memorial_male", "Triggered a shadow trap." ),
-                         pgettext( "memorial_female", "Triggered a shadow trap." ) );
-                } else if( trap == tr_drain ) {
-                    add( pgettext( "memorial_male", "Triggered a life-draining trap." ),
-                         pgettext( "memorial_female", "Triggered a life-draining trap." ) );
-                } else if( trap == tr_snake ) {
-                    add( pgettext( "memorial_male", "Triggered a shadow snake trap." ),
-                         pgettext( "memorial_female", "Triggered a shadow snake trap." ) );
+                if( trap->has_memorial_msg() ) {
+                    add( trap->memorial_msg( true ), trap->memorial_msg( false ) );
                 }
             }
             break;
@@ -750,7 +653,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::crosses_mutation_threshold: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                std::string category_id =
+                mutation_category_id category_id =
                     e.get<cata_variant_type::mutation_category_id>( "category" );
                 const mutation_category_trait &category =
                     mutation_category_trait::get_category( category_id );
@@ -1180,8 +1083,15 @@ void memorial_logger::notify( const cata::event &e )
         // All the events for which we have no memorial log are here
         case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
+        case event_type::character_consumes_item:
+        case event_type::character_eats_item:
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
+        case event_type::character_melee_attacks_character:
+        case event_type::character_melee_attacks_monster:
+        case event_type::character_ranged_attacks_character:
+        case event_type::character_ranged_attacks_monster:
+        case event_type::character_smashes_tile:
         case event_type::character_takes_damage:
         case event_type::character_wakes_up:
         case event_type::character_wears_item:

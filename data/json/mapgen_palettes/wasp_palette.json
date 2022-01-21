@@ -1,0 +1,144 @@
+[
+  {
+    "type": "palette",
+    "id": "wasp_palette",
+    "terrain": {
+      "x": "t_paper_brood",
+      "X": "t_paper_hard",
+      "_": "t_floor_paper_hard",
+      "*": "t_roof_paper_hard",
+      ".": "t_floor_paper_noroof",
+      "8": "t_floor_paper_noroof",
+      "R": "t_radio_tower",
+      "a": "t_railing",
+      ",": "t_metal_floor_no_roof",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      ":": "t_null",
+      "#": "t_metal_floor_no_roof"
+    },
+    "monster": { "8": { "group": "GROUP_WASP_QUEEN" } },
+    "furniture": { ":": "f_cellphone_booster", "#": "f_small_satelitte_dish" },
+    "nested": { "O": { "chunks": [ "wasp_brood" ] } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_brood",
+    "//": "Empty cell",
+    "weight": 100,
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "0" ], "terrain": { "0": "t_open_air" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_brood",
+    "//": "Egg cell.",
+    "weight": 200,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "0" ],
+      "terrain": { "0": "t_floor_brood_fake" },
+      "item": { "0": { "item": "egg_wasp" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_brood",
+    "//": "Hatched larva, unsealed",
+    "weight": 300,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "0" ],
+      "terrain": { "0": "t_open_air" },
+      "monster": { "0": { "monster": "mon_wasp_larva" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_brood",
+    "//": "Sealed brood with a pupating wasp.",
+    "weight": 300,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "0" ],
+      "terrain": { "0": "t_floor_brood_wasp" },
+      "monster": { "0": { "monster": "mon_wasp_pupa" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_brood",
+    "//": "Just in time for the adult. Lucky you.",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "0" ],
+      "terrain": { "0": "t_open_air" },
+      "monster": { "0": { "group": "GROUP_WASP_NEST" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_gibs",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": 1, "repeat": [ 0, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_gibs",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_fields": [ { "field": "fd_blood_insect", "x": 0, "y": 0, "intensity": 1, "repeat": [ 0, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_gibs",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_fields": [ { "field": "fd_blood_invertebrate", "x": 0, "y": 0, "intensity": 1, "repeat": [ 0, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_gibs",
+    "weight": 80,
+    "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "bug_parts", "x": 0, "y": 0, "repeat": [ 0, 3 ], "chance": 50 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_gibs",
+    "weight": 80,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_loot": [ { "group": "vertebrate_parts", "x": 0, "y": 0, "repeat": [ 0, 3 ], "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "wasp_gibs",
+    "weight": 80,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_loot": [
+        { "group": "human_parts", "x": 0, "y": 0, "repeat": [ 0, 3 ], "chance": 50 },
+        { "group": "wasp_lair", "x": 0, "y": 0, "repeat": [ 0, 1 ], "chance": 25 }
+      ]
+    }
+  }
+]

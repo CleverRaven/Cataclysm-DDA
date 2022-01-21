@@ -143,7 +143,7 @@
   {
     "type": "tool_quality",
     "id": "SCREW",
-    "name": "screw driving",
+    "name": { "str": "screw driving" },
     "usages": [ [ 1, [ "REMOVE_ALL_MODS" ] ] ]
   },
   {
@@ -173,8 +173,18 @@
   },
   {
     "type": "tool_quality",
+    "id": "PRYING_NAIL",
+    "name": { "str": "nail prying" }
+  },
+  {
+    "type": "tool_quality",
     "id": "PUNCH",
     "name": { "str": "punch" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "WRITE",
+    "name": { "str": "pencil" }
   },
   {
     "type": "tool_quality",
@@ -291,7 +301,8 @@
   {
     "type": "tool_quality",
     "id": "LOCKPICK",
-    "name": { "str": "lockpicking" }
+    "name": { "str": "lockpicking" },
+    "usages": [ [ 1, [ "PICK_LOCK" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -319,5 +330,18 @@
     "id": "SURFACE",
     "//": "A flat surface, like a table or a mat. 1 would be the size of a cutting board.",
     "name": { "str": "clean surface" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "WHEEL_FAST",
+    "//": "A tool that is capable of manipulating the lug nuts of a vehicle's wheels or smaller to replace or fasten them.",
+    "name": { "str": "wheel fastening" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "FABRIC_CUT",
+    "//": "A tool that shares a large number of qualities with cutting tools, with the added benefit of being suitable for cutting fabric to patterned shapes for tailoring.",
+    "name": { "str": "fabric cutting" },
+    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
   }
 ]

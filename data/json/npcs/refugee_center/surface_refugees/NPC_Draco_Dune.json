@@ -291,7 +291,7 @@
     "id": "TALK_REFUGEE_Draco_9",
     "dynamic_line": "Say, I don't mean to get you in any trouble or nothing, if any folks still care about that, but you haven't seen any green around town, have ya?",
     "responses": [
-      { "text": "What?.", "topic": "TALK_REFUGEE_Draco_10_question" },
+      { "text": "What?", "topic": "TALK_REFUGEE_Draco_10_question" },
       { "text": "WHAT.", "topic": "TALK_REFUGEE_Draco_10_disapprove" },
       {
         "text": "Oh yeah, some people've been growing it in their basements.",
@@ -351,7 +351,7 @@
         },
         "effect": [
           { "u_sell_item": "weed", "count": 5 },
-          { "u_buy_item": "FMCNote", "count": 4 },
+          { "u_spawn_item": "FMCNote", "count": 4 },
           { "npc_add_effect": "u_sold_to_Draco", "duration": 240000 }
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
@@ -367,7 +367,7 @@
         },
         "effect": [
           { "u_sell_item": "weed", "count": 5 },
-          { "u_buy_item": "FMCNote", "count": 6 },
+          { "u_spawn_item": "FMCNote", "count": 6 },
           { "npc_add_effect": "u_sold_to_Draco", "duration": 200000 }
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
@@ -385,7 +385,7 @@
         },
         "effect": [
           { "u_sell_item": "joint", "count": 5 },
-          { "u_buy_item": "FMCNote", "count": 4 },
+          { "u_spawn_item": "FMCNote", "count": 4 },
           { "npc_add_effect": "u_sold_to_Draco", "duration": 240000 }
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
@@ -401,7 +401,7 @@
         },
         "effect": [
           { "u_sell_item": "joint", "count": 5 },
-          { "u_buy_item": "FMCNote", "count": 6 },
+          { "u_spawn_item": "FMCNote", "count": 6 },
           { "npc_add_effect": "u_sold_to_Draco", "duration": 200000 }
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
@@ -438,7 +438,12 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "acoustic_guitar",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "end": { "effect": { "u_add_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" } },
+    "end": {
+      "effect": [
+        { "u_add_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
+      ]
+    },
     "dialogue": {
       "describe": "Yeah, sure, imagine how things would be if we had some live music around here?  I don't know how much I could thank you, though, if you're looking for payment.  You'd sure be improving the mood, though.",
       "offer": "I just want a functional acoustic guitar.  Preferably one that hasn't been used to cave in any zombie skulls.",

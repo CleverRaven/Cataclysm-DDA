@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "pebble",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -13,6 +14,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pebble_clay",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -25,6 +27,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "marble",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -32,13 +35,15 @@
     "difficulty": 6,
     "time": "60 m",
     "autolearn": true,
-    "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "book_learn": [ [ "glassblowing_book", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "charges": 25,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
     "components": [ [ [ "glass_shard", 1 ], [ "flask_glass", 1 ], [ "test_tube", 2 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bearing",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -54,6 +59,36 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "baseball",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "tailoring_leather_small", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
+    "components": [ [ [ "string_36", 3 ], [ "cordage_36", 3 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ],
+    "//": "Essentially a ball of glued-together string with some leather around it"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "wire_barbed_baseball",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "boltcutters", -1 ], [ "pliers", -1 ], [ "toolset", -1 ], [ "multitool", -1 ] ] ],
+    "components": [ [ [ "baseball", 1 ] ], [ [ "wire_barbed", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "arrow_small_game_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -63,15 +98,17 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "pocket_survival", 1 ], [ "book_archery", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "arrow_fire_hardened_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -81,11 +118,13 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "book_archery", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arrow_wood",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -96,17 +135,19 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arrow_field_point_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -117,17 +158,19 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arrow_heavy_field_point_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -138,17 +181,19 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arrow_metal_sharpened_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -158,7 +203,8 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_metalworking" } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
       [ [ "wire", 5 ], [ "pipe", 1 ] ],
@@ -167,6 +213,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "arrow_heavy_fire_hardened_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -175,16 +222,18 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "arrow_wood_heavy",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -194,10 +243,11 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ], [ "pocket_survival", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
+      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ], [ "mop", 2 ] ],
       [
         [ "bone_sturdy", 5, "LIST" ],
         [ "rock", 1 ],
@@ -211,6 +261,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bolt_wood",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -221,17 +272,19 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bolt_wood_bodkin",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -242,17 +295,19 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bolt_wood_small_game",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -263,17 +318,19 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bolt_metal",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -283,7 +340,8 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_metalworking" } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
       [ [ "wire", 4 ], [ "pipe", 1 ] ],
@@ -292,6 +350,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bolt_crude",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -301,11 +360,13 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "book_archery", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bolt_simple_wood",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -314,16 +375,18 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bolt_simple_small_game",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -333,15 +396,17 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "pocket_survival", 1 ], [ "book_archery", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bolt_makeshift",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -351,10 +416,11 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ], [ "pocket_survival", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
+      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ], [ "mop", 2 ] ],
       [
         [ "bone_sturdy", 5, "LIST" ],
         [ "rock", 1 ],
@@ -368,6 +434,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "flamable_arrow",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -377,23 +444,16 @@
     "time": "5 m",
     "reversible": true,
     "book_learn": [ [ "recipe_arrows", 5 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [
-        [ "arrow_field_point_fletched", 5 ],
-        [ "arrow_fire_hardened_fletched", 5 ],
-        [ "arrow_wood", 5 ],
-        [ "arrow_heavy_fire_hardened_fletched", 5 ],
-        [ "arrow_heavy_field_point_fletched", 5 ],
-        [ "arrow_wood_heavy", 5 ],
-        [ "arrow_metal", 5 ]
-      ],
+      [ [ "arrow_field_point_fletched", 5 ] ],
       [ [ "rag", 1, "NO_RECOVER" ] ],
       [
         [ "lamp_oil", 50, "NO_RECOVER" ],
         [ "motor_oil", 50, "NO_RECOVER" ],
         [ "chem_ethanol", 100, "NO_RECOVER" ],
         [ "denat_alcohol", 100, "NO_RECOVER" ],
+        [ "methed_alcohol", 100, "NO_RECOVER" ],
         [ "gasoline", 250, "NO_RECOVER" ],
         [ "diesel", 250, "NO_RECOVER" ],
         [ "biodiesel", 250, "NO_RECOVER" ]
@@ -402,33 +462,35 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arrow_exploding",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 4 ] ],
     "difficulty": 4,
-    "time": "7 m",
+    "time": "2 m",
     "reversible": true,
     "decomp_learn": 6,
     "//": "you just take the warhead off or put it on, rather than making the warhead",
     "book_learn": [ [ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "exploding_arrow_warhead", 5 ] ],
+      [ [ "exploding_arrow_warhead", 1 ] ],
       [
-        [ "arrow_field_point_fletched", 5 ],
-        [ "arrow_fire_hardened_fletched", 5 ],
-        [ "arrow_wood", 5 ],
-        [ "arrow_heavy_fire_hardened_fletched", 5 ],
-        [ "arrow_heavy_field_point_fletched", 5 ],
-        [ "arrow_wood_heavy", 5 ],
-        [ "arrow_metal", 5 ]
+        [ "arrow_field_point_fletched", 1 ],
+        [ "arrow_fire_hardened_fletched", 1 ],
+        [ "arrow_wood", 1 ],
+        [ "arrow_heavy_fire_hardened_fletched", 1 ],
+        [ "arrow_heavy_field_point_fletched", 1 ],
+        [ "arrow_wood_heavy", 1 ],
+        [ "arrow_metal", 1 ]
       ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "exploding_arrow_warhead",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -449,50 +511,54 @@
         [ "lgrifle_primer", 1 ],
         [ "shotgun_primer", 1 ]
       ],
-      [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ]
+      [ [ "gunpowder", 200 ], [ "chem_black_powder", 200 ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bolt_explosive",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
     "skills_required": [ [ "mechanics", 3 ] ],
     "difficulty": 5,
-    "time": "10 m",
+    "time": "2 m",
     "book_learn": [ [ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "bolt_metal", 1 ], [ "bolt_steel", 1 ] ],
-      [ [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ],
-      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "exploding_arrow_warhead", 1 ] ],
       [
-        [ "smpistol_primer", 1 ],
-        [ "lgpistol_primer", 1 ],
-        [ "smrifle_primer", 1 ],
-        [ "lgrifle_primer", 1 ],
-        [ "shotgun_primer", 1 ]
-      ],
-      [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ]
+        [ "bolt_crude", 1 ],
+        [ "bolt_wood", 1 ],
+        [ "bolt_wood_bodkin", 1 ],
+        [ "bolt_steel", 1 ],
+        [ "bolt_makeshift", 1 ],
+        [ "bolt_wood_small_game", 1 ],
+        [ "bolt_metal", 1 ]
+      ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fishspear",
     "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ], [ [ "scrap", 4 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "m_fishspear",
     "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "10 m",
@@ -502,6 +568,23 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "blun_lead_shot",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "30 s",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "components": [ [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ], [ [ "lead", 24 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "blun_shot",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
@@ -511,23 +594,17 @@
     "time": "30 s",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ] ],
-      [
-        [ "bb", 24 ],
-        [ "clockworks", 1 ],
-        [ "pebble", 16 ],
-        [ "pebble_clay", 16 ],
-        [ "marble", 16 ],
-        [ "bearing", 16 ],
-        [ "glass_shard", 1 ]
-      ],
+      [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
+      [ [ "bb", 24 ], [ "clockworks", 1 ], [ "pebble", 16 ], [ "bearing", 16 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "blun_shot",
     "id_suffix": "using_big_scrap",
     "category": "CC_AMMO",
@@ -538,33 +615,17 @@
     "time": "50 s",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ] ],
-      [ [ "scrap", 1 ], [ "nail", 8 ], [ "copper", 16 ], [ "lead", 16 ] ],
+      [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
+      [ [ "scrap", 1 ], [ "nail", 8 ], [ "copper", 16 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },
   {
     "type": "recipe",
-    "result": "blun_slug",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_SHOT",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
-    "time": "50 s",
-    "autolearn": true,
-    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ] ],
-      [ [ "rebar", 1 ], [ "spear_rebar", 1 ], [ "rebar_rail", 1 ], [ "steel_rail", 1 ], [ "scrap", 1 ] ],
-      [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "blun_slug",
     "id_suffix": "using_lead",
     "category": "CC_AMMO",
@@ -575,12 +636,14 @@
     "time": "50 s",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "surface_heat", 2 ] ],
-    "components": [ [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ] ], [ [ "lead", 24 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "components": [ [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ], [ [ "lead", 24 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "blun_flechette",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
@@ -590,15 +653,17 @@
     "time": "30 s",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
-      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ] ],
+      [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
       [ [ "nail", 8 ], [ "combatnail", 8 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "arrow_plastic",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -607,16 +672,20 @@
     "difficulty": 5,
     "time": "56 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "book_learn": [ [ "plastics_book", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
+    "using": [ [ "plastic_molding", 1 ] ],
+    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [
       [ [ "plastic_chunk", 3 ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "rebar_rail",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -629,6 +698,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "steel_rail",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -636,12 +706,11 @@
     "difficulty": 2,
     "time": "100 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "combatnail",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -651,11 +720,11 @@
     "time": "180 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "napalm",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -663,11 +732,11 @@
     "difficulty": 6,
     "time": "60 m",
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "book_learn": [
-      [ "textbook_gaswarfare", 8, "" ],
-      [ "textbook_anarch", 7, "Stuff THE MAN doesn't want you to know" ],
-      [ "recipe_labchem", 6 ]
-    ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 8 },
+      "textbook_anarch": { "skill_level": 7, "recipe_name": "Stuff THE MAN doesn't want you to know" },
+      "recipe_labchem": { "skill_level": 6 }
+    },
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "gasoline", 125 ], [ "diesel", 125 ], [ "biodiesel", 125 ] ],
@@ -679,6 +748,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gelled_gasoline",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -686,12 +756,16 @@
     "difficulty": 2,
     "time": "20 m",
     "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
     "components": [ [ [ "gasoline", 100 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "flamethrower_fuel",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -700,15 +774,16 @@
     "time": "3 m",
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "book_learn": [
-      [ "textbook_gaswarfare", 2 ],
-      [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ],
-      [ "manual_launcher", 2 ]
-    ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" },
+      "manual_launcher": { "skill_level": 2 }
+    },
     "components": [ [ [ "gasoline", 125 ] ], [ [ "diesel", 125 ], [ "biodiesel", 125 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "spiked_rocket",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -730,6 +805,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "explosive_hm_rocket",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -739,10 +815,15 @@
     "book_learn": [ [ "manual_launcher", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "chem_black_powder", 150 ] ], [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 10 ] ] ]
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "gunpowder", 300 ], [ "chem_black_powder", 300 ] ],
+      [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 10 ] ]
+    ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "incendiary_hm_rocket",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -761,6 +842,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gas_fungicidal",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -771,10 +853,11 @@
     "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "fungicide", 50 ] ], [ [ "chem_sulphur", 150 ] ] ]
+    "components": [ [ [ "fungicide", 50 ], [ "triffid_fungicide", 1 ] ], [ [ "chem_sulphur", 150 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gas_insecticidal",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -789,6 +872,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gas_chloramine",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -809,6 +893,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tinder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -816,7 +901,7 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [
         [ "stick", 1 ],
@@ -831,12 +916,14 @@
         [ "withered", 2 ],
         [ "cattail_stalk", 1 ],
         [ "birchbark", 1 ],
-        [ "willowbark", 1 ]
+        [ "willowbark", 1 ],
+        [ "straw_pile", 1 ]
       ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "cac2powder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

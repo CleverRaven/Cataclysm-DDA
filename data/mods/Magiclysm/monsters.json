@@ -20,7 +20,7 @@
     "harvest": "exempt",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
-    "death_function": [ "DISAPPEAR" ],
+    "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
   },
   {
@@ -44,14 +44,14 @@
     "melee_cut": 10,
     "dodge": 6,
     "luminance": 16,
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
+    "armor_bash": 15,
+    "armor_cut": 15,
+    "armor_bullet": 15,
     "vision_day": 30,
     "vision_night": 30,
     "material": [ "steel" ],
     "harvest": "exempt",
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PRIORITIZE_TARGETS", "NO_BREATHE", "NOGIB" ]
   }
 ]

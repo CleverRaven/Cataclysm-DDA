@@ -11,14 +11,14 @@
  *
  * The concept is to bracket these threshods with various bows using standard hunting loadouts.
  */
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <memory>
+#include <set>
 #include <string>
 
+#include "cata_catch.h"
 #include "damage.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -27,6 +27,7 @@
 #include "point.h"
 #include "projectile.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 // In short, a bow should never destroy a wall, pretty simple.
 static void test_projectile_hitting_wall( const std::string &target_type, bool smashable,

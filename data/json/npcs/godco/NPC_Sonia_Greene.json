@@ -1,0 +1,163 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_sonia",
+    "name_unique": "Sonia Greene",
+    "name_suffix": "joinee",
+    "gender": "female",
+    "class": "NC_godco_sonia",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_Sonia_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_sonia",
+    "name": { "str": "Joinee" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "bonus_str": { "rng": [ -3, -1 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ 0, 1 ] },
+    "worn_override": "GODCO_sonia_worn",
+    "carry_override": "GODCO_sonia_carried",
+    "weapon_override": "GODCO_sonia_wield",
+    "traits": [
+      { "trait": "PRETTY" },
+      { "trait": "PACIFIST" },
+      { "group": "NPC_starting_traits" },
+      { "trait": "SKIN_LIGHT" },
+      { "trait": "hair_blond_long" }
+    ],
+    "skills": [ { "skill": "speech", "bonus": { "rng": [ 3, 4 ] } }, { "bonus": 1, "skill": "bashing" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_sonia_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "sneakers" },
+      { "item": "briefs" },
+      { "item": "bra" },
+      { "item": "tshirt_tour" },
+      { "item": "pants_cargo" },
+      { "item": "leather_belt" },
+      { "item": "trenchcoat_leather" },
+      { "item": "wristwatch" },
+      { "item": "bead_bracelet" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_sonia_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "smart_phone", "ammo-item": "battery", "charges": 120 }, { "group": "snacks", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_sonia_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "acoustic_guitar", "damage": 1 } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Sonia_2",
+      "TALK_GODCO_Sonia_Guitar",
+      "TALK_GODCO_Sonia_Story",
+      "TALK_GODCO_Sonia_Story1",
+      "TALK_GODCO_Sonia_Mood",
+      "TALK_GODCO_Sonia_Firstmeet",
+      "TALK_GODCO_Sonia_Community"
+    ],
+    "responses": [
+      { "text": "So, how did you get here?", "topic": "TALK_GODCO_Sonia_Story" },
+      { "text": "How are things, living here?", "topic": "TALK_GODCO_Sonia_Mood" },
+      { "text": "Are the non-joinees treating you fairly?", "topic": "TALK_GODCO_Sonia_Community" },
+      { "text": "That's a nice guitar you have.", "topic": "TALK_GODCO_Sonia_Guitar" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Sonia_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_sonia",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": "Well now, good to see you again, friend.",
+      "no": "Good to see people like you in the world.  I'm Sonia, Sonia Greene.  I entertain the people."
+    },
+    "responses": [
+      {
+        "text": "Sonia, hey?  Nice to meet you.  How are things here?",
+        "effect": { "u_add_var": "u_met_godco_sonia", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_godco_sonia", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Sonia_Mood"
+      },
+      {
+        "text": "Hey, Sonia.  What's up?",
+        "condition": { "u_has_var": "u_met_godco_sonia", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GODCO_Sonia_2"
+      },
+      { "text": "Hey, Sonia.  I can't stay to talk.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Sonia_2",
+    "dynamic_line": [
+      "Just playing some good ol' tunes.  There's so much negativity around here, someone's gotta cheer the people up, you know?"
+    ],
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Sonia_Guitar",
+    "dynamic_line": "You are damn right.  I like its scars, makes it look like it has a history, you know?  We've been through a lot, him and I.  Those pesky <zombies> forced me to inflict harm on my sweet, sweet guitar.  But I retaliated, and bashed their head in!  I lost a part of me that day, yeah.  The guitar's all right, thank you very much.  Just a bit rusted from all that blood and gore.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Sonia_Story",
+    "dynamic_line": "Now that's a wild, wild story.  I owe my life to this kid, Chloe, really.  I'll let her tell the tale.",
+    "responses": [
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_GODCO_Sonia_Story1" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Sonia_Story1",
+    "dynamic_line": "I was in an underground band - Taurists was our name - before all this.  Performing gigs at local venues, jamming with my friends; that's all my life was about.  Now, I'm a badass soloist with a war-torn guitar, a singer of the old-world, preserving the wonders of music and the Taurist legacy for generations to come.  That's also a synonym for not having all that much going on in my life, yeah.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Sonia_Mood",
+    "dynamic_line": "Oh, you know, just fine.  A bit malnourished and all, but I can't really complain if that's the worst of it, right?  My guitar makes our twisted little world a bit more tolerable, though.  Takes my mind off stuff, muffles the screams of the boogeyman, you know?",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Sonia_Community",
+    "dynamic_line": "Fairly?  There's no such thing as fairness in the world.  The NECC wouldn't give a damn if I starved to death on this very bench.  At least I have friends here, ones that appreciate what I do.  I make music.  That's all I have left, and it means everything to me.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  }
+]

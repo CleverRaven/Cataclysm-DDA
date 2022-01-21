@@ -5,6 +5,7 @@
     "items": [
       [ "flyer", 10 ],
       [ "bag_plastic", 10 ],
+      [ "bag_zipper_gallon", 4 ],
       [ "bottle_plastic", 10 ],
       [ "cup_plastic", 10 ],
       [ "bottle_glass", 10 ],
@@ -22,14 +23,14 @@
       [ "wire", 5 ],
       [ "splinter", 10 ],
       [ "rag", 15 ],
-      [ "rag_bloody", 10 ],
+      { "item": "rag", "prob": 10, "custom-flags": [ "FILTHY" ] },
       [ "plastic_shopping_bag", 10 ]
     ]
   },
   {
     "id": "candy_shop",
     "type": "item_group",
-    "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ] ]
+    "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ], { "item": "licorice", "prob": 50 } ]
   },
   {
     "id": "tux_shop",
@@ -49,33 +50,43 @@
       [ "gold_watch", 20 ],
       [ "pocketwatch", 20 ],
       [ "collarpin", 10 ],
-      [ "tailors_kit", 40 ]
+      { "item": "tailors_kit", "prob": 40, "charges": 400 }
     ]
   },
   {
     "id": "flower_shop",
     "type": "item_group",
-    "items": [ [ "trimmer_off", 30 ], [ "fertilizer_liquid", 50 ], [ "dahlia_root", 30 ], [ "fertilizer_commercial", 25 ] ]
+    "items": [
+      { "item": "trimmer_off", "prob": 30, "charges": [ 50, 100 ] },
+      [ "fertilizer_liquid", 50 ],
+      [ "dahlia_root", 30 ],
+      [ "fertilizer_commercial", 25 ]
+    ]
   },
   {
     "id": "music_shop",
     "type": "item_group",
     "ammo": 75,
     "magazine": 100,
-    "items": [ { "group": "ammo_any_batteries_full", "prob": 50 }, [ "radio", 30 ], [ "mp3", 30 ] ]
+    "items": [
+      { "group": "ammo_any_batteries_full", "prob": 50 },
+      { "item": "radio", "prob": 30, "charges": 100 },
+      { "item": "mp3", "prob": 30, "charges": 100 }
+    ]
   },
   {
     "id": "vitamin_shop",
     "type": "item_group",
     "items": [
       [ "adhesive_bandages", 25 ],
-      [ "1st_aid", 15 ],
-      [ "ifak", 15 ],
+      { "group": "full_1st_aid", "prob": 15 },
+      { "group": "full_ifak", "prob": 15 },
       [ "vitamins", 75 ],
       [ "calcium_tablet", 75 ],
       [ "aspirin", 45 ],
       [ "caffeine", 50 ],
       [ "pills_sleep", 45 ],
+      [ "melatonin_tablet", 30 ],
       [ "disinfectant", 15 ],
       [ "vaccine_shot", 10 ],
       [ "protein_powder", 40 ],
@@ -91,7 +102,7 @@
     "magazine": 100,
     "items": [
       [ "bat_nerf", 100 ],
-      [ "portable_game", 60 ],
+      { "item": "portable_game", "prob": 60, "charges": 100 },
       [ "bat", 60 ],
       [ "backpack", 40 ],
       [ "pockknife", 5 ],
@@ -106,22 +117,25 @@
       [ "folding_bicycle", 5 ],
       [ "sunglasses", 25 ],
       [ "cowboy_hat", 25 ],
-      [ "mp3", 40 ],
+      { "item": "mp3", "prob": 40, "charges": 100 },
       [ "wolfsuit", 5 ],
       [ "dinosuit", 5 ],
-      [ "gum", 10 ],
+      { "item": "gum", "prob": 10, "charges": [ 1, 10 ] },
       [ "baseball", 40 ],
       [ "football", 40 ],
       [ "basketball", 50 ],
-      [ "talking_doll", 50 ],
-      [ "marble", 60 ],
-      [ "creepy_doll", 1 ],
+      { "item": "talking_doll", "prob": 50, "charges": 100 },
+      { "item": "marble", "prob": 60, "charges": [ 1, 20 ] },
+      { "item": "creepy_doll", "prob": 1, "charges": 100 },
       [ "jedi_cloak", 5 ],
       [ "clown_suit", 5 ],
       [ "clownshoes", 5 ],
-      [ "radio_car_box", 10 ],
+      { "group": "toy_radio_car", "prob": 10 },
       [ "RPG_die", 5 ],
-      [ "metal_RPG_die", 1 ]
+      [ "metal_RPG_die", 1 ],
+      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 500 ] },
+      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 500 ] },
+      { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] }
     ]
   },
   {
@@ -135,7 +149,22 @@
       [ "glasses_safety", 30 ],
       [ "fancy_sunglasses", 5 ],
       [ "glasses_reading", 50 ],
-      [ "glasses_eye", 85 ]
+      [ "glasses_eye", 85 ],
+      [ "fancy_glasses_bifocal", 15 ],
+      [ "fancy_glasses_reading", 25 ],
+      [ "fancy_glasses_eye", 40 ],
+      [ "sunglasses_bifocal", 25 ],
+      [ "sunglasses_reading", 35 ],
+      [ "sunglasses_eye", 50 ],
+      [ "fancy_sunglasses_bifocal", 10 ],
+      [ "fancy_sunglasses_reading", 15 ],
+      [ "fancy_sunglasses_eye", 30 ],
+      [ "transition_glasses_bifocal", 5 ],
+      [ "transition_glasses_reading", 10 ],
+      [ "transition_glasses_eye", 20 ],
+      [ "fancy_transition_glasses_bifocal", 2 ],
+      [ "fancy_transition_glasses_reading", 5 ],
+      [ "fancy_transition_glasses_eye", 10 ]
     ]
   },
   {
@@ -169,6 +198,7 @@
       [ "skirt_leather", 20 ],
       [ "touring_suit", 20 ],
       [ "chestwrap_leather", 20 ],
+      [ "bellywrap_leather", 8 ],
       [ "chaps_leather", 35 ],
       [ "trenchcoat_leather", 10 ],
       [ "vest_leather", 50 ],
@@ -202,8 +232,8 @@
     "type": "item_group",
     "items": [
       [ "awl_steel", 40 ],
-      [ "sewing_kit", 5 ],
-      [ "tailors_kit", 50 ],
+      { "item": "sewing_kit", "prob": 5, "charges": 200 },
+      { "item": "tailors_kit", "prob": 50, "charges": 400 },
       [ "thread", 10 ],
       [ "string_6", 50 ],
       [ "leather", 10 ],
@@ -221,16 +251,17 @@
       [ "screwdriver", 40 ],
       [ "hammer", 35 ],
       [ "wrench", 30 ],
+      [ "wrench_small", 30 ],
       [ "hacksaw", 50 ],
       [ "xacto", 10 ],
-      [ "flashlight", 40 ],
+      { "item": "flashlight", "prob": 40, "charges": 300 },
       [ "crowbar", 30 ],
-      [ "carver_off", 25 ],
+      { "item": "carver_off", "prob": 25, "charges": 500 },
       [ "press", 40 ],
       [ "puller", 20 ],
       [ "boltcutters", 35 ],
       [ "chisel", 20 ],
-      [ "misc_repairkit", 45 ],
+      { "item": "misc_repairkit", "prob": 45, "charges": 200 },
       [ "tool_belt", 35 ],
       [ "multitool", 20 ]
     ]
@@ -238,17 +269,20 @@
   {
     "id": "smoke_shop",
     "type": "item_group",
+    "subtype": "distribution",
     "items": [
-      [ "pipe_tobacco", 60 ],
-      [ "tobacco", 70 ],
-      [ "weed", 5 ],
-      [ "joint", 5 ],
-      [ "seed_weed", 5 ],
-      [ "seed_tobacco", 5 ],
-      [ "rolling_paper", 45 ],
-      [ "pipe_glass", 20 ],
-      [ "cig", 60 ],
-      [ "chaw", 60 ]
+      { "item": "pipe_tobacco", "prob": 60 },
+      { "item": "tobacco", "prob": 70 },
+      { "group": "cigar_box_unopened", "prob": 15, "count": [ 1, 10 ] },
+      { "item": "case_cigar", "prob": 20, "count": [ 1, 5 ] },
+      { "item": "weed", "prob": 5 },
+      { "item": "joint", "prob": 5 },
+      { "item": "seed_weed", "prob": 5 },
+      { "item": "seed_tobacco", "prob": 5 },
+      { "item": "rolling_paper", "prob": 45 },
+      { "item": "pipe_glass", "prob": 20 },
+      { "item": "cig", "prob": 60 },
+      { "item": "chaw", "prob": 60 }
     ]
   },
   {
@@ -257,15 +291,15 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
-      [ "portable_game", 20 ],
+      { "item": "portable_game", "prob": 20, "charges": 100 },
       [ "antenna", 25 ],
       { "group": "ammo_any_batteries_full", "prob": 50 },
-      [ "mp3", 40 ],
+      { "item": "mp3", "prob": 40, "charges": 100 },
       [ "usb_drive", 10 ],
       [ "manual_electronics", 20 ],
       [ "cable", 60 ],
-      [ "cell_phone", 60 ],
-      [ "smart_phone", 60 ],
+      { "item": "cell_phone", "prob": 60, "charges": 150 },
+      { "item": "smart_phone", "prob": 60, "charges": 120 },
       [ "wristwatch", 60 ],
       [ "mobile_memory_card_used", 10 ],
       [ "fitness_band", 5 ]
@@ -284,14 +318,15 @@
       [ "scarf_long", 5 ],
       [ "knit_scarf", 10 ],
       [ "long_knit_scarf", 5 ],
+      [ "bellyband", 5 ],
       [ "barrette", 5 ],
       [ "eyedrops", 35 ],
-      [ "candle", 50 ],
+      { "item": "candle", "prob": 50, "charges": 100 },
       [ "scissors", 30 ],
       [ "soap", 45 ],
-      [ "tailors_kit", 25 ],
-      [ "shavingkit", 20 ],
-      [ "elec_hairtrimmer", 20 ],
+      { "item": "tailors_kit", "prob": 25, "charges": 400 },
+      { "item": "shavingkit", "prob": 20, "charges": 10 },
+      { "item": "elec_hairtrimmer", "prob": 20, "charges": 50 },
       [ "razor_shaving", 20 ],
       [ "curler_hair", 30 ],
       [ "hair_dryer", 40 ],
@@ -309,10 +344,12 @@
       [ "cloak_wool", 40 ],
       [ "jedi_cloak", 10 ],
       [ "corset", 5 ],
+      [ "corset_waist", 5 ],
       [ "tux", 10 ],
       [ "gown", 5 ],
       [ "dress_wedding", 5 ],
-      [ "maid_dress", 35 ],
+      [ "maid_dress", 25 ],
+      [ "maid_dress_short", 25 ],
       [ "postman_shirt", 50 ],
       [ "postman_shorts", 30 ],
       [ "robe", 45 ],
@@ -334,6 +371,8 @@
       [ "porkpie", 10 ],
       [ "postman_hat", 5 ],
       [ "maid_hat", 10 ],
+      [ "eyepatch_leather", 10 ],
+      [ "bandana_head", 10 ],
       [ "fedora", 5 ],
       [ "scarf_long", 5 ],
       [ "mask_guy_fawkes", 35 ],

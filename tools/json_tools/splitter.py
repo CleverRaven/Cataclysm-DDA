@@ -1,21 +1,23 @@
 #!/usr/bin/env python3
-"""Run this script with -h for usage info and docs.
+"""Taking a filtered list of JSON data, look for all items that
+match the where clause and output to stdout. All items that don't
+match are output to stderr.
+
+Example usages:
+
+    # Anything of type dream and strength 2 goes to stdout
+    # everything else goes to stderr
+    %(prog)s --fnmatch=dreams.json type=dream strength=2 \\
+        1>matched.json 2>not_matched.json
+
 """
 
 import sys
 import argparse
 from util import import_data, matches_all_wheres, CDDAJSONWriter, WhereAction
 
-parser = argparse.ArgumentParser(description="""Taking a filtered list of JSON data,
-look for all items that match the where clause and output to stdout. All items
-that don't match are output to stderr.
-
-Example usages:
-
-    # Anything of type dream and strength 2 goes to stdout
-    # everything else goes to stderr
-    %(prog)s --fnmatch=dreams.json type=dream strength=2 1>matched.json 2>not_matched.json
-""", formatter_class=argparse.RawDescriptionHelpFormatter)
+parser = argparse.ArgumentParser(
+    description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument(
     "--fnmatch",
     default="*.json",

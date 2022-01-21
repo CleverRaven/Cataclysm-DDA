@@ -1,0 +1,58 @@
+[
+  {
+    "type": "npc_class",
+    "//": "These are here to workaround the bug of NPCs spawning without weapons due to either marksmanship or melee being their highest skill, and thus not knowing what weapon to give them.",
+    "id": "NC_THUG",
+    "name": "Thug",
+    "job_description": "I'm just here for the paycheck.",
+    "traits": [
+      { "group": "BG_survival_story_CRIMINAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ 2, 4 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -4 } ] } },
+      { "skill": "melee", "bonus": 2 },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "stabbing", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 2, 5 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SCAVENGER",
+    "name": "Scavenger",
+    "job_description": "I'm just trying to survive.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": 2 },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "shotgun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SOLDIER",
+    "name": "Soldier",
+    "job_description": "I'm just here for the paycheck.",
+    "traits": [ { "group": "BG_survival_story_SOLDIER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "bonus_dex": { "one_in": 2 },
+    "bonus_int": { "rng": [ 0, -2 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": 3 },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 4, 6 ] } }
+    ]
+  }
+]

@@ -4,13 +4,13 @@
 #include <cstddef>
 #include <functional>
 #include <memory>
+#include <type_traits>
 #include <utility>
 
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "debug.h"
 #include "filesystem.h"
 #include "input.h"
 #include "item.h"
@@ -30,7 +30,7 @@
 
 using namespace auto_pickup;
 
-static bool check_special_rule( const std::vector<material_id> &materials,
+static bool check_special_rule( const std::map<material_id, int> &materials,
                                 const std::string &rule );
 
 auto_pickup::player_settings &get_auto_pickup()
@@ -125,7 +125,7 @@ void user_interface::show()
         rule_list &cur_rules = tabs[iTab].new_rules;
         int locx = 17;
         for( size_t i = 0; i < tabs.size(); i++ ) {
-            const auto color = iTab == i ? hilite( c_white ) : c_white;
+            const nc_color color = iTab == i ? hilite( c_white ) : c_white;
             locx += shortcut_print( w_header, point( locx, 2 ), c_white, color, tabs[i].title ) + 1;
         }
 
@@ -187,6 +187,8 @@ void user_interface::show()
     bStuffChanged = false;
     input_context ctxt( "AUTO_PICKUP" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     if( tabs.size() > 1 ) {
@@ -219,6 +221,8 @@ void user_interface::show()
 
         ui_manager::redraw();
 
+        const int recmax = static_cast<int>( cur_rules.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         const std::string action = ctxt.handle_input();
 
         if( action == "NEXT_TAB" ) {
@@ -239,7 +243,7 @@ void user_interface::show()
         } else if( action == "DOWN" ) {
             iLine++;
             iColumn = 1;
-            if( iLine >= static_cast<int>( cur_rules.size() ) ) {
+            if( iLine >= recmax ) {
                 iLine = 0;
             }
         } else if( action == "UP" ) {
@@ -248,10 +252,28 @@ void user_interface::show()
             if( iLine < 0 ) {
                 iLine = cur_rules.size() - 1;
             }
+        } else if( action == "PAGE_DOWN" ) {
+            if( iLine == recmax - 1 ) {
+                iLine = 0;
+            } else if( iLine + scroll_rate >= recmax ) {
+                iLine = recmax - 1;
+            } else {
+                iLine += +scroll_rate;
+                iColumn = 1;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( iLine == 0 ) {
+                iLine = recmax - 1;
+            } else if( iLine <= scroll_rate ) {
+                iLine = 0;
+            } else {
+                iLine += -scroll_rate;
+                iColumn = 1;
+            }
         } else if( action == "REMOVE_RULE" && currentPageNonEmpty ) {
             bStuffChanged = true;
             cur_rules.erase( cur_rules.begin() + iLine );
-            if( iLine > static_cast<int>( cur_rules.size() ) - 1 ) {
+            if( iLine > recmax - 1 ) {
                 iLine--;
             }
             if( iLine < 0 ) {
@@ -351,7 +373,7 @@ void user_interface::show()
             }
         } else if( action == "MOVE_RULE_UP" && currentPageNonEmpty ) {
             bStuffChanged = true;
-            if( iLine < static_cast<int>( cur_rules.size() ) - 1 ) {
+            if( iLine < recmax - 1 ) {
                 std::swap( cur_rules[iLine], cur_rules[iLine + 1] );
                 iLine++;
                 iColumn = 1;
@@ -457,7 +479,7 @@ void rule::test_pattern() const
     ui.on_screen_resize( init_windows );
 
     int nmatch = vMatchingItems.size();
-    const std::string buf = string_format( ngettext( "%1$d item matches: %2$s",
+    const std::string buf = string_format( n_gettext( "%1$d item matches: %2$s",
                                            "%1$d items match: %2$s",
                                            nmatch ), nmatch, sRule );
 
@@ -465,6 +487,8 @@ void rule::test_pattern() const
 
     input_context ctxt( "AUTO_PICKUP_TEST" );
     ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
@@ -509,16 +533,34 @@ void rule::test_pattern() const
     while( true ) {
         ui_manager::redraw();
 
+        const int recmax = static_cast<int>( vMatchingItems.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             iLine++;
-            if( iLine >= static_cast<int>( vMatchingItems.size() ) ) {
+            if( iLine >= recmax ) {
                 iLine = 0;
             }
         } else if( action == "UP" ) {
             iLine--;
             if( iLine < 0 ) {
-                iLine = vMatchingItems.size() - 1;
+                iLine = recmax - 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( iLine == recmax - 1 ) {
+                iLine = 0;
+            } else if( iLine + scroll_rate >= recmax ) {
+                iLine = recmax - 1;
+            } else {
+                iLine += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( iLine == 0 ) {
+                iLine = recmax - 1;
+            } else if( iLine <= scroll_rate ) {
+                iLine = 0;
+            } else {
+                iLine += -scroll_rate;
             }
         } else if( action == "QUIT" ) {
             break;
@@ -568,7 +610,7 @@ bool player_settings::empty() const
     return global_rules.empty() && character_rules.empty();
 }
 
-bool check_special_rule( const std::vector<material_id> &materials, const std::string &rule )
+bool check_special_rule( const std::map<material_id, int> &materials, const std::string &rule )
 {
     char type = ' ';
     std::vector<std::string> filter;
@@ -582,16 +624,18 @@ bool check_special_rule( const std::vector<material_id> &materials, const std::s
     }
 
     if( type == 'm' ) {
-        return std::any_of( materials.begin(), materials.end(), [&filter]( const material_id & mat ) {
+        return std::any_of( materials.begin(),
+        materials.end(), [&filter]( const std::pair<material_id, int> &mat ) {
             return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string & search ) {
-                return lcmatch( mat->name(), search );
+                return lcmatch( mat.first->name(), search );
             } );
         } );
 
     } else if( type == 'M' ) {
-        return std::all_of( materials.begin(), materials.end(), [&filter]( const material_id & mat ) {
+        return std::all_of( materials.begin(),
+        materials.end(), [&filter]( const std::pair<material_id, int> &mat ) {
             return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string & search ) {
-                return lcmatch( mat->name(), search );
+                return lcmatch( mat.first->name(), search );
             } );
         } );
     }
@@ -630,8 +674,9 @@ void rule_list::create_rule( cache &map_items, const item &it )
     for( const rule &elem : *this ) {
         if( !elem.bActive ) {
             continue;
-        } else if( !check_special_rule( it.made_of(), elem.sRule ) &&
-                   !wildcard_match( to_match, elem.sRule ) ) {
+        }
+        if( !check_special_rule( it.made_of(), elem.sRule ) &&
+            !wildcard_match( to_match, elem.sRule ) ) {
             continue;
         }
 
@@ -749,15 +794,9 @@ void player_settings::load( const bool bCharacter )
         sFile = PATH_INFO::player_base_save_path() + ".apu.json";
     }
 
-    if( !read_from_file_optional_json( sFile, [&]( JsonIn & jsin ) {
-    ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
-    } ) ) {
-        if( load_legacy( bCharacter ) ) {
-            if( save( bCharacter ) ) {
-                remove_file( sFile );
-            }
-        }
-    }
+    read_from_file_optional_json( sFile, [&]( JsonIn & jsin ) {
+        ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
+    } ) ;
 
     invalidate();
 }
@@ -780,9 +819,8 @@ void rule_list::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void rule::deserialize( JsonIn &jsin )
+void rule::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     sRule = jo.get_string( "rule" );
     bActive = jo.get_bool( "active" );
     bExclude = jo.get_bool( "exclude" );
@@ -795,82 +833,8 @@ void rule_list::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         rule tmp;
-        tmp.deserialize( jsin );
+        tmp.deserialize( jsin.get_object() );
         push_back( tmp );
-    }
-}
-
-bool player_settings::load_legacy( const bool bCharacter )
-{
-    std::string sFile = PATH_INFO::legacy_autopickup2();
-
-    if( bCharacter ) {
-        sFile = PATH_INFO::player_base_save_path() + ".apu.txt";
-    }
-
-    invalidate();
-
-    auto &rules = bCharacter ? character_rules : global_rules;
-
-    using namespace std::placeholders;
-    const auto &reader = std::bind( &rule_list::load_legacy_rules, std::ref( rules ), _1 );
-    if( !read_from_file_optional( sFile, reader ) ) {
-        if( !bCharacter ) {
-            return read_from_file_optional( PATH_INFO::legacy_autopickup(), reader );
-        } else {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-void rule_list::load_legacy_rules( std::istream &fin )
-{
-    clear();
-
-    std::string sLine;
-    while( !fin.eof() ) {
-        getline( fin, sLine );
-
-        if( !sLine.empty() && sLine[0] != '#' ) {
-            const int iNum = std::count( sLine.begin(), sLine.end(), ';' );
-
-            if( iNum != 2 ) {
-                debugmsg( "Bad Rule: %s (will be skipped)", sLine );
-            } else {
-                std::string sRule;
-                bool bActive = true;
-                bool bExclude = false;
-
-                size_t iPos = 0;
-                int iCol = 1;
-                do {
-                    iPos = sLine.find( ';' );
-
-                    std::string sTemp = iPos == std::string::npos ? sLine : sLine.substr( 0, iPos );
-
-                    if( iCol == 1 ) {
-                        sRule = sTemp;
-
-                    } else if( iCol == 2 ) {
-                        bActive = sTemp == "T" || sTemp == "True";
-
-                    } else if( iCol == 3 ) {
-                        bExclude = sTemp == "T" || sTemp == "True";
-                    }
-
-                    iCol++;
-
-                    if( iPos != std::string::npos ) {
-                        sLine = sLine.substr( iPos + 1, sLine.size() );
-                    }
-
-                } while( iPos != std::string::npos );
-
-                push_back( rule( sRule, bActive, bExclude ) );
-            }
-        }
     }
 }
 

@@ -1,3 +1,4 @@
+
 # MAPGEN
 
 * [How buildings and terrain are generated](#how-buildings-and-terrain-are-generated)
@@ -17,14 +18,12 @@
   * [ASCII map using "rows" array](#ascii-map-using-rows-array)
     * [Row terrains in "terrain"](#row-terrains-in-terrain)
     * [Furniture symbols in "furniture" array](#furniture-symbols-in-furniture-array)
-  * [Set terrain, furniture, or traps with a "set" array](#set-terrain-furniture-or-traps-with-a-set-array)
+  * [Set terrain, furniture, traps, or variables with a "set" array](#set-terrain-furniture-or-traps-with-a-set-array)
     * [Set things at a "point"](#set-things-at-a-point)
     * [Set things in a "line"](#set-things-in-a-line)
     * [Set things in a "square"](#set-things-in-a-square)
-  * [Spawn item or monster groups with "place_groups"](#spawn-item-or-monster-groups-with-place_groups)
-    * [Spawn monsters from a group with "monster"](#spawn-monsters-from-a-group-with-monster)
-    * [Spawn items from a group with "item"](#spawn-items-from-a-group-with-item)
   * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
+  * [Spawn an entire group of monsters with "place_monsters"](#spawn-an-entire-group-of-monsters-with-place_monsters)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
   * [Extra map features with specials](#extra-map-features-with-specials)
     * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
@@ -49,8 +48,12 @@
     * [Place a zone for an NPC faction with "zones"](#place-a-zone-for-an-npc-faction-with-zones)
     * [Translate terrain type with "translate_ter"](#translate-terrain-type-with-translate_ter)
     * [Apply mapgen transformation with "ter_furn_transforms"](#apply-mapgen-transformation-with-ter_furn_transforms)
+  * [Mapgen values](#mapgen-values)
+  * [Mapgen parameters](#mapgen-parameters)
   * [Rotate the map with "rotation"](#rotate-the-map-with-rotation)
   * [Pre-load a base mapgen with "predecessor_mapgen"](#pre-load-a-base-mapgen-with-predecessor_mapgen)
+* [Palettes](#palettes)
+  * [Palette ids as mapgen values](#palette-ids-as-mapgen-values)
 * [Using update_mapgen](#using-update_mapgen)
   * [Overmap tile specification](#overmap-tile-specification)
     * ["assign_mission_target"](#assign_mission_target)
@@ -217,12 +220,23 @@ Example:
 In this example, the "rows" property should be 48x48, with each quadrant of 24x24 being associated with each of the four
 apartments_mod_tower overmap terrain ids specified.
 
+### "om_terrain" for linear terrain
+
+Some overmap terrains are *linear*.  This is used for things like roads,
+tunnels, etc. where they form lines which can connect in various ways.  Such
+terrains are defined with the `LINEAR` flag in their `overmap_terrain`
+definition (see the [OVERMAP docs](OVERMAP.md)).
+
+When defining the JSON mapgen for such terrain, you must define several
+instances, for each type of connection that might exist.  Each gets a suffix
+added to the `overmap_terrain` id.  The suffixes are: `_end`, `_straight`,
+`_curved`, `_tee`, `_four_way`.  For an example, see the definitions for `ants`
+in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 
 ### Define mapgen "weight"
 
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000
-is the default, so adding something with weight '500' will make it appear 1/3 times, unless more functions are added.
-(An insanely high value like 10000000 is useful for testing)
+is the default, so adding something with weight '500' will make it appear about half as often as others using the default weight. (An insanely high value like 10000000 is useful for testing.)
 
 Values: number - *0 disables*
 
@@ -401,7 +415,8 @@ Example:
 "set": [
   { "point": "furniture", "id": "f_chair", "x": 5, "y": 10 },
   { "point": "radiation", "id": "f_chair", "x": 12, "y": 12, "amount": 20 },
-  { "point": "trap", "id": "tr_beartrap", "x": [ 0, 23 ], "y": [ 5, 18 ], "chance": 10, "repeat": [ 2, 5 ] }
+  { "point": "trap", "id": "tr_beartrap", "x": [ 0, 23 ], "y": [ 5, 18 ], "chance": 10, "repeat": [ 2, 5 ] },
+  { "point": "variable", "id": "nether_dungeon_door", "x": 4, "y": 2 }
 ]
 ```
 
@@ -417,12 +432,12 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 - Requires "point" type, and coordinates "x" and "y"
 - For "point" type "radiation", requires "amount"
-- For other types, requires "id" of terrain, furniture, or trap
+- For other types, requires "id" of terrain, furniture, trap, trap_remove, or name of the global variable
 
 | Field  | Description
 | ---    | ---
-| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"variable"`
+| id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
@@ -433,7 +448,7 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 - Requires "line" type, and endpoints "x", "y" and "x2", "y2"
 - For "line" type "radiation", requires "amount"
-- For other types, requires "id" of terrain, furniture, or trap
+- For other types, requires "id" of terrain, furniture, trap, trap_remove
 
 Example:
 ```json
@@ -443,7 +458,7 @@ Example:
 | Field  | Description
 | ---    | ---
 | line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | x2, y2 | End X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 22, "y": [ 15, 20 ]`
 | amount | Radiation amount. Value from `0-100`.
@@ -455,7 +470,7 @@ Example:
 
 - Requires "square" type, and opposite corners at "x", "y" and "x2", "y2"
 - For "square" type "radiation", requires "amount"
-- For other types, requires "id" of terrain, furniture, or trap
+- For other types, requires "id" of terrain, furniture, trap, or trap_remove
 
 The "square" arguments are the same as for "line", but "x", "y" and "x2", "y2" define opposite corners.
 
@@ -467,63 +482,9 @@ Example:
 | Field  | Description
 | ---    | ---
 | square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | Top-left corner of square.
 | x2, y2 | Bottom-right corner of square.
-
-
-## Spawn item or monster groups with "place_groups"
-**optional** Spawn items or monsters from item_groups.json and monster_groups.json
-
-Value: `[ array of {objects} ]: [ { "monster": ... }, { "item": ... }, ... ]`
-
-### Spawn monsters from a group with "monster"
-
-| Field   | Description
-| ---     | ---
-| monster | (required) Value: `"MONSTER_GROUP"`. The monster group id, which picks random critters from a list
-| x, y    | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
-| density | (optional) Floating-point multiplier to "chance" (see below).
-| chance  | (optional) One-in-N chance to spawn
-
-Example:
-
-```json
-{ "monster": "GROUP_ZOMBIE", "x": [ 13, 15 ], "y": 15, "chance": 10 }
-```
-
-When using a range for `"x"` or `"y"`, the minimum and maximum values will be used in creating rectangle coordinates to
-be used by `map::place_spawns`. Each monster generated from the monster group will be placed in a different random
-location within the rectangle. The values in the above example will produce a rectangle for `map::place_spawns` from (
-13, 15 ) to ( 15, 15 ) inclusive.
-
-The optional "density" is a floating-point multipier to the "chance" value. If the result is bigger than 100% it
-gurantees one spawn point for every 100% and the rest is evaluated by chance (one added or not). Then the monsters are
-spawned according to their spawn-point cost "cost_multiplier" defined in the monster groups. Additionally all overmap
-densities within a square of raduis 3 (7x7 around player - exact value in mapgen.cpp/MON_RADIUS macro) are added to
-this. The "pack_size" modifier in monstergroups is a random multiplier to the rolled spawn point amount.
-
-
-
-### Spawn items from a group with "item"
-
-| Field  | Description
-| ---    | ---
-| item   | (required) Value: "ITEM_GROUP". The item group id, which picks random stuff from a list.
-| x, y   | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
-| chance | (required) Percentage chance to spawn.
-
-Example:
-
-```json
-{ "item": "livingroom", "x": 12, "y": [ 5, 15 ], "chance": 50 }
-```
-
-When using a range for `"x"` or `"y"`, the minimum and maximum values will be used in creating rectangle coordinates to
-be used by `map::place_items`. Each item from the item group will be placed in a different random location within the
-rectangle. These values in the above example will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 )
-inclusive.
-
 
 ## Spawn a single monster with "place_monster"
 
@@ -543,6 +504,7 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | friendly    | Set true to make the monster friendly. Default false.
 | name        | Extra name to display on the monster.
 | target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
+| spawn_data  | An optional object that contains additional details for spawning the monster.
 
 Note that high spawn density game setting can cause extra monsters to spawn when `monster` is used. When `group` is used
 only one monster will spawn.
@@ -569,8 +531,45 @@ Example:
 ]
 ```
 
-This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probablity. The placement is
+This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probability. The placement is
 repeated by random number of times `[1-3]`. The monster will spawn with 20-30 5.56x45mm rounds.
+
+### "spawn_data" for monsters
+This optional object can have two fields:
+| Field       | Description
+| ---         | ---
+| ammo        | A list of objects, each of which has an `"ammo_id"` field and a `"qty"` list of two integers. The monster will spawn with items of "ammo_id", with at least the first number in the "qty" and no more than the second.
+| patrol      | A list of objects, each of which has an `"x"` field and a `"y"` field. Either value can be a range or a single number. The x,y co-ordinates define a patrol point as an relative mapsquare point offset from the (0, 0) local mapsquare of the overmap terrain tile that the monster spawns in. Patrol points are converted to absolute mapsquare tripoints inside the monster generator.
+
+Monsters with a patrol point list will move to each patrol point, in order, whenever they have no more pressing action to take on their turn. Upon reaching the last point in the patrol point list, the monster will continue on to the first point in the list.
+
+Example:
+```json
+"place_monster": [
+    { "monster": "mon_zombie", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } }
+]
+```
+
+This places a "mon_zombie" at (12, 12). The zombie can move freely to chase after enemies, but will always return to the (12, 12) position if it has nothing else to do.
+
+Example 2:
+```json
+"place_monster": [
+    { "monster": "mon_secubot", "x": 12, "y": 12, "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 20, 30 ] } ], "patrol": [ { "x": -23, "y": -23 }, { "x": 47, "y": -23 }, { "x": 47, "y": 47 },  { "x": 47, "y": -23 } ] } }
+]
+```
+This places a "mon_secubot" at (12,12). It will patrol the four outmost concerns of the diagonally adjacent overmap terrain tiles in a box pattern.
+
+## Spawn an entire group of monsters with "place_monsters"
+Using `place_monsters` to spawn a group of monsters works in a similar fashion to `place_monster`. The key difference is that `place_monsters` guarantees that each valid entry in the group is spawned. It is strongly advised that you avoid using this flag with larger monster groups, as the total number of spawns is quite difficult to control.
+
+|Field|Description  |
+|--|--|
+| monster | The ID of the monster group that you wish to spawn |
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| chance      | Represents a 1 in N chance that the entire group will spawn. This is done once for each repeat. If this dice roll fails, the entire group specified will not spawn. Leave blank to guarantee spawns.
+| repeat      | The spawning is repeated this many times. Can be a number or a range. Again, this represents the number of times the group will be spawned.
+| density | This number is multiplied by the spawn density of the world the player is in and then probabilistically rounded to determine how many times to spawn the group. This is done for each time the spawn is repeated. For instance, if the final multiplier from this calculation ends up being `2`, and the repeat value is `6`, then the group will be spawned `2 * 6` or 12 times.
 
 
 ## Spawn specific items with a "place_item" array
@@ -592,8 +591,10 @@ Example:
 | amount | (required) Number of items to spawn. Single integer, or range `[ a, b ]` for a random value in that range.
 | chance | (optional) One-in-N chance to spawn item.
 | repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
+| custom-flags | (optional) Value: `[ "flag1", "flag2" ]`. Spawn item with specific flags.
 
-
+The special custom flag "ACTIVATE_ON_PLACE" causes the item to be activated as it is placed.  This is useful to have noisemakers that are already turned on as the avatar approaches.  It can also be used with explosives with a 1 second countdown to have locations explode as the avatar approaches, creating uniquely ruined terrain.
+ 
 ## Extra map features with specials
 **optional** Special map features that do more than just placing furniture / terrain.
 
@@ -680,7 +681,7 @@ Example with mapping (the characters `"O"` and `";"` should appear in the rows a
 }
 ```
 
-The amount of water to be placed in toilets is optional, an empty entry is therefor completely valid.
+The amount of water to be placed in toilets is optional, an empty entry is therefore completely valid.
 
 Example with coordinates:
 
@@ -714,6 +715,7 @@ Same as
 | density   | (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
 | intensity | (optional, integer) how concentrated the field is, from 1 to 3 or more. See `data/json/field_type.json`
 | age       | (optional, integer) field age. Defaults to 0.
+| remove    | (optional, bool) If true the given field will be removed rather than added. Defaults to false.
 
 
 ### Place NPCs with "npcs"
@@ -751,11 +753,13 @@ Example:
 
 ### Place a vending machine and items with "vendingmachines"
 
-Places a vending machine (furniture) and fills it with items from an item group. The machine can sometimes spawn as broken one.
+Places a vending machine (furniture) and fills it with items from an item group.
 
 | Field      | Description
 | ---        | ---
 | item_group | (optional, string) the item group that is used to create items inside the machine. It defaults to either "vending_food" or "vending_drink" (randomly chosen).
+| reinforced | (optional, bool) setting which will make vending machine spawn as reinforced. Defaults to false.
+| lootable   | (optional, bool) setting which indicates whether this particular vending machine should have a chance to spawn ransacked (i.e. broken and with no loot inside). The chance for this is increased with each day passed after the Cataclysm. Defaults to false.
 
 
 ### Place a toilet with some amount of water with "toilets"
@@ -807,6 +811,25 @@ The actual monsters are spawned when the map is loaded. Fields:
 | fuel     | (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full).
 | status   | (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
 
+Note that vehicles cannot be placed over overmap boundaries. So it needs to be 24 tiles long at most.
+
+```json 
+"place_vehicles": [ 
+    { "vehicle": "fire_engine", "x": 11, "y": 13, "chance": 30, "rotation": 270 }
+]
+```
+
+### Remove vehicles by type
+
+| Field    | Description
+| ---      | ---
+| vehicles  | (optional, string array) types of vehicle to be removed. If left empty all vehicles will be removed.
+
+```json 
+"remove_vehicles": [ 
+    { "vehicles": ["fire_engine"], "x": [10,15], "y": [10,15] }
+]
+```
 
 ### Place a specific item with "item"
 
@@ -828,6 +851,18 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 ]
 ```
 
+### Remove items by type
+
+| Field    | Description
+| ---      | ---
+| items    | (optional, string array) types of items to be removed. If left empty all items will be removed.
+
+```json 
+"remove_items": [ 
+    { "items": ["rock"], "x": [10,15], "y": [10,15] }
+]
+```
+
 ### Place a specific monster with "monster"
 
 | Field    | Description
@@ -843,7 +878,7 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 | Field | Description
 | ---   | ---
 | trap  | (required, string) type id of the trap (e.g. `tr_beartrap`).
-
+| remove| (optional, bool) If true the given trap will be removed rather than added. Defaults to false.
 
 ### Place furniture with "furniture"
 
@@ -919,6 +954,7 @@ matching magazine and ammo for guns.
 | chance   | (optional, integer) x in 100 chance of item(s) spawning. Defaults to 100.
 | ammo     | (optional, integer) x in 100 chance of item(s) spawning with the default amount of ammo. Defaults to 0.
 | magazine | (optional, integer) x in 100 chance of item(s) spawning with the default magazine. Defaults to 0.
+| variant  | (optional, string), itype variant id for the spawned item
 
 
 ### Plant seeds in a planter with "sealed_item"
@@ -998,6 +1034,159 @@ an `update_mapgen`, as normal mapgen can just specify the terrain directly.
 
 - "transform": (required, string) the id of the `ter_furn_transform` to run.
 
+### Spawn nested chunks based on overmap neighbors with "place_nested"
+
+Place_nested allows for limited conditional spawning of chunks based on the `"id"`s of their overmap neighbors and the joins that were used in placing a mutable overmap special.  This is useful for creating smoother transitions between biome types or to dynamically create walls at the edges of a mutable structure.
+
+| Field              | Description
+| ---                | ---
+| chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.  
+| x and y            | (required, int) the cardinal position in which the chunk will be placed. 
+| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.
+| joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
+
+
+The adjacent overmaps which can be checked in this manner are:
+* the direct cardinal neighbors ( `"north"`, `"east"`, `"south"`, `"west"` ),
+* the inter cardinal neighbors ( `"north_east"`, `"north_west"`, `"south_east"`, `"south_west"` ),
+* the direct vertical neighbors ( `"above"`, `"below"` ).
+
+Joins can be checked only for the cardinal directions, `"above"`, and `"below"`
+
+Example:
+
+```json
+  "place_nested": [
+    { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
+    { "chunks": [ "gate_north" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
+    { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "north_west": [ "field", "microlab" ] } }
+  ],
+```
+The code excerpt above will place chunks as follows:
+* `"concrete_wall_ew"` if the north neighbor is either a field or solid rock
+* `"gate_north"` if the join `"interior_to_exterior"` was used to the north
+  during mutable overmap placement.
+* `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab overmaps.
+
+
+### Place monster corpse from a monster group with "place_corpses"
+
+Creates a corpse of a random monster from a monster group.  Note that corpse's age is always `start_of_cataclysm`.
+
+| Field  | Description
+| ---    | ---
+| group | (required, string) a monster group id from which random monster will be selected
+
+Example for placing a monster corpse (either by using a character in the rows array or explicit coordinates):
+
+```json
+"corpses": {
+    "g": { "group": "GROUP_PETS" }
+},
+"place_corpses": [
+    { "group": "GROUP_PETS", "x": 3, "y": 5 }
+],
+```
+
+## Mapgen values
+
+A *mapgen value* can be used in various places where a specific id is expected.
+For example, the default value of a parameter, or a terrain id in the
+`"terrain"` object.  A mapgen value can take one of three forms:
+
+* A simple string, which should be a literal id.  For example, `"t_flat_roof"`.
+* A JSON object containing the key `"distribution"`, whose corresponding value
+  is a list of lists, each a pair of a string id and an integer weight.  For
+  example:
+```
+{ "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+```
+* A JSON object containing the key `"param"`, whose corresponding value is the
+  string name of a parameter as discussed in [Mapgen
+  parameters](#mapgen-parameters).  For example, `{ "param": "roof_type" }`.
+  You may be required to also supply a fallback value, such as `{ "param":
+  "roof_type", "fallback": "t_flat_roof" }`.  The fallback is necessary to
+  allow mapgen definitions to change without breaking an ongoing game.
+  Different parts of the same overmap special can be generated at different
+  times, and if a new parameter is added to the definition part way through the
+  generation then the value of that parameter will be missing and the fallback
+  will be used.
+* A switch statement to select different values depending on the value of some
+  other mapgen value.  This would most often be used to switch on the value of
+  a mapgen parameter, so as to allow two parts of the mapgen to be consistent.
+  For example, the following switch would match a fence gate type to a fence
+  type chosen by a mapgen parameter `fence_type`:
+```json
+{
+    "switch": { "param": "fence_type", "fallback": "t_splitrail_fence" },
+    "cases": {
+        "t_splitrail_fence": "t_splitrail_fencegate_c",
+        "t_chainfence": "t_chaingate_c",
+        "t_fence_barbed": "t_gate_metal_c",
+        "t_privacy_fence": "t_privacy_fencegate_c"
+    }
+}
+```
+
+
+## Mapgen parameters
+
+(Note that this feature is under development and functionality may not line up exactly
+with the documentation.)
+
+Another entry within a mapgen definition or [palette](#palettes) can be a `"parameters"`
+key.  For example:
+```
+"parameters": {
+  "roof_type": {
+    "type": "ter_str_id",
+    "default": { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+  }
+},
+```
+
+Each entry in the `"parameters"` JSON object defines a parameter.  The key is
+the parameter name.  Each such key should have an associated JSON object.  That
+object must provide its type (which should be a type string as for a
+`cata_variant`) and may optionally provide a default value.  The default value
+should be a [mapgen value](#mapgen-value) as defined above.
+
+At time of writing, the only way for a parameter to get a value is via the
+`"default"`, so you probably want to always have one.
+
+The primary application of parameters is that you can use a `"distribution"`
+mapgen value to select a value at random, and then apply that value to every
+use of that parameter.  In the above example, a random roof terrain is picked.
+By using the parameter with some `"terrain"` key, via a `"param"` mapgen value,
+you can use a random but consistent choice of roof terrain across your map.
+In contrast, placing the `"distribution"` directly in the `"terrain"` object would
+cause mapgen to choose a terrain at random for each roof tile, leading to a
+mishmash of roof terrains.
+
+By default, the scope of a parameter is the `overmap_special` being generated.
+That is, the parameter will have the same value across the `overmap_special`.
+When a default value is needed, it will be chosen when the first chunk of that
+special is generated, and that value will be saved to be reused for later
+chunks.
+
+If you wish, you may specify `"scope": "omt"` to limit the scope to just a
+single overmap tile.  Then a default value will be chosen independently for
+each OMT.  This has the advantage that you are no longer forced to select a
+`"fallback"` value when using that parameter in mapgen.
+
+The third option for scope is `"scope": "nest"`.  This only makes sense when
+used in nested mapgen (although it is not an error to use it elsewhere, so that
+the same palette may be used for nested and non-nested mapgen).  When the scope
+is `nest`, the value of the parameter is chosen for a particular nested chunk.
+For example, suppose a nest defines a carpet across several tiles, you can use
+a parameter to ensure that the carpet is the same colour for all the tiles
+within that nest, but another instance of the same `nested_mapgen_id` elsewhere
+in the same OMT might choose a different colour.
+
+To help you debug mapgen parameters and their effect on mapgen, you can see the
+chosen values for `overmap_special`-scoped parameters in the overmap editor
+(accessible via the debug menu).
+
 
 ## Rotate the map with "rotation"
 
@@ -1007,7 +1196,7 @@ Rotates the generated map after all the other mapgen stuff has been done. The va
 Values are 90° steps.
 
 
-## Pre-load a base mapgen with "predecessor_mapgen"
+## Pre-load a base mapgen with `"predecessor_mapgen"`
 
 Specifying an overmap terrain id here will run the entire mapgen for that overmap terrain type first, before applying
 the rest of the mapgen defined here. The primary use case for this is when our mapgen for a location takes place in a
@@ -1019,7 +1208,80 @@ the cabin fit in) which leads to them being out of sync when the generation of t
 Example: `"predecessor_mapgen": "forest"`
 
 
-# Using update_mapgen
+## Dynamically use base mapgen with `"fallback_predecessor_mapgen"`
+
+If your map could exist in a variety of surroundings, you might want to
+automatically take advantage of the mapgen for whatever terrain was assumed to
+be here before this one was set.  For example, overmap specials are always
+placed over existing terrain like fields and forests.
+
+Defining `"fallback_predecessor_mapgen"` allows your map to opt-in to
+requesting that whatever that previous terrain was, it should be generated
+first, before your mapgen is applied on top.  This works the same as for
+`"predecessor_mapgen"` above, except that it will pick the correct terrain for
+the context automatically.
+
+However, to support savegame migration across changes to mapgen definitions,
+you must provide a fallback value which will be used in the event that the game
+doesn't know what the previous terrain was.
+
+Example: `"predecessor_mapgen": "field"`
+
+
+# Palettes
+
+A **palette** provides a way to use the same symbol definitions for different
+pieces of mapgen.  For example, most of the houses defined in CDDA us the
+`standard_domestic_palette`.  That palette, for example, defines `h` as meaning
+`f_chair`, so all the house mapgen can use `h` in its `"rows"` array without
+needing to repeat this definition everywhere.  It simply requires a reference
+to the palette, achieved by adding
+
+```json
+"palettes": [ "standard_domestic_palette" ]
+```
+
+to the definition of each house.
+
+Each piece of mapgen can refer to multiple palettes.  When two palettes both
+define meanings for the same symbol, both are applied.  In some cases (such as
+spawning items) you can see the results of both in the final output.  In other
+cases (such as setting terrain or furniture) one result must override the
+others.  The rule is that the last palette listed overrides earlier ones, and
+definitions in the outer mapgen override anything in the palettes within.
+
+Palette definitions can contain any of the JSON described above for the [JSON
+object definition](#json-object-definition) where it is defining a meaning for
+a symbol.  They cannot specify anything for a particular location (using `"x"`
+and `"y"` coordinates.
+
+Palettes can themselves include other palettes via a `"palettes"` key.  So if
+two or more palettes would have many of the same symbols with the same meanings
+that common part can be pulled out into a new palette which each of them
+includes, so that the definitions need not be repeated.
+
+
+## Palette ids as mapgen values
+
+The values in the `"palettes"` list need not be simple strings.  They can be
+any [mapgen value](#mapgen-values) as described above.  Most importantly, this
+means that they can use a `"distribution"` to select from a set of palettes at
+random.
+
+This selection works as if it were an overmap special-scoped [mapgen
+parameter](#mapgen-parameters).  So, all OMTs within a special will use the
+same palette.  Moreover, you can see which palette was chosen by looking at the
+overmap special arguments displayed in the overmap editor (accessible via the
+debug menu).
+
+For example, the following JSON used in a cabin mapgen definition
+```json
+      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
+```
+causes half the cabins generated to use the regular `cabin_palette` and the
+other half to use `cabin_palette_abandoned`.
+
+# Using `update_mapgen`
 
 **update_mapgen** is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it
 updates an existing overmap tile with a specific set of changes.  Currently, it only works within
@@ -1064,4 +1326,3 @@ update_mapgen adds new optional keywords to a few mapgen JSON items.
 place_npc, place_monster, and place_computer can take an optional target boolean. If they have `"target": true` and are
 invoked by update_mapgen with a valid mission, then the NPC, monster, or computer will be marked as the target of the
 mission.
-

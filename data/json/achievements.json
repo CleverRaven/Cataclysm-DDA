@@ -6,6 +6,36 @@
     "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": ">=", "target": 1 } ]
   },
   {
+    "id": "achievement_kill_cyborg",
+    "type": "achievement",
+    "name": "Resistance is not futile",
+    "requirements": [ { "event_statistic": "num_avatar_cyborg_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
+  },
+  {
+    "id": "achievement_kill_nether",
+    "type": "achievement",
+    "name": "Silence your nightmares",
+    "requirements": [ { "event_statistic": "num_avatar_nether_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
+  },
+  {
+    "id": "achievement_kill_fungus",
+    "type": "achievement",
+    "name": "Fungicide",
+    "requirements": [ { "event_statistic": "num_avatar_fungus_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
+  },
+  {
+    "id": "achievement_kill_insect",
+    "type": "achievement",
+    "name": "DDT",
+    "requirements": [ { "event_statistic": "num_avatar_insect_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
+  },
+  {
+    "id": "achievement_kill_robot",
+    "type": "achievement",
+    "name": "Disassemble Number Five!",
+    "requirements": [ { "event_statistic": "num_avatar_robot_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
+  },
+  {
     "id": "achievement_kill_in_first_minute",
     "type": "achievement",
     "name": "Rude awakening",
@@ -15,15 +45,39 @@
   {
     "id": "achievement_kill_10_monsters",
     "type": "achievement",
-    "name": "Decamate",
+    "name": { "str": "Decamate", "//~": "Pun on 'deca-' prefix for 10 and 'decimate', with it's meaning for killing" },
     "requirements": [ { "event_statistic": "num_avatar_monster_kills", "is": ">=", "target": 10 } ]
   },
   {
     "id": "achievement_kill_100_monsters",
     "type": "achievement",
-    "name": "Centinel",
+    "name": {
+      "str": "Centinel",
+      "//~": "Pun on 'cent-' prefix for 100 and 'sentinel', as in its connection to guarding or protection that may involve killing"
+    },
     "hidden_by": [ "achievement_kill_10_monsters" ],
     "requirements": [ { "event_statistic": "num_avatar_monster_kills", "is": ">=", "target": 100 } ]
+  },
+  {
+    "id": "achievement_kill_1000_monsters",
+    "type": "achievement",
+    "name": { "str": "Killo", "//~": "Pun on 'kilo-' prefix for 1000 and 'kill'" },
+    "hidden_by": [ "achievement_kill_100_monsters" ],
+    "requirements": [ { "event_statistic": "num_avatar_monster_kills", "is": ">=", "target": 1000 } ]
+  },
+  {
+    "id": "achievement_kill_10000_monsters",
+    "type": "achievement",
+    "name": { "str": "Murdyriad", "//~": "Pun on 'myriad' derived from the Ancient Greek for 10000 and 'murder'" },
+    "hidden_by": [ "achievement_kill_1000_monsters" ],
+    "requirements": [ { "event_statistic": "num_avatar_monster_kills", "is": ">=", "target": 10000 } ]
+  },
+  {
+    "id": "achievement_kill_100000_monsters",
+    "type": "achievement",
+    "name": { "str": "Hitsy", "//~": "Pun on 'hetsy' meaning 100000 in Malagasy and 'hit' as the slang for kill" },
+    "hidden_by": [ "achievement_kill_10000_monsters" ],
+    "requirements": [ { "event_statistic": "num_avatar_monster_kills", "is": ">=", "target": 100000 } ]
   },
   {
     "id": "achievement_survive_one_day",
@@ -218,7 +272,7 @@
     "id": "achievement_exhume_10_graves",
     "type": "achievement",
     "name": "Grave Robber",
-    "description": "Hey, what if they turned down there?  You've gotta check.",
+    "description": "Hey, what if they turned down there?  You gotta check.",
     "requirements": [ { "event_statistic": "num_exhumed_graves", "is": ">=", "target": 10 } ],
     "hidden_by": [ "achievement_exhume_1_grave" ]
   },
@@ -265,12 +319,348 @@
     "id": "achievement_crosses_mutation_threshold",
     "type": "achievement",
     "name": "Homo Evolutis",
-    "description": "World of man has ended.  Long live the world of transhumanism.",
+    "description": "The world of man has ended.  Long live the world of transhumanity.",
     "requirements": [
       {
         "event_statistic": "num_crosses_mutation_threshold",
         "is": ">=",
         "target": 1,
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_plant",
+    "type": "achievement",
+    "name": "Carbon neutral",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "PLANT" ],
+        "description": "crossed plant mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_rabbit",
+    "type": "achievement",
+    "name": "Finally beat the tortoise",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "RABBIT" ],
+        "description": "crossed rabbit mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_insect",
+    "type": "achievement",
+    "name": "Heard of the swarm?",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "INSECT" ],
+        "description": "crossed insect mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_spider",
+    "type": "achievement",
+    "name": "With great power…",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "SPIDER" ],
+        "description": "crossed spider mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_slime",
+    "type": "achievement",
+    "name": "Slippery when moist",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "SLIME" ],
+        "description": "crossed slime mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_fish",
+    "type": "achievement",
+    "name": "Tipping the scales",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "FISH" ],
+        "description": "crossed fish mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_rat",
+    "type": "achievement",
+    "name": "At first I was afraid, I was petrified…",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "RAT" ],
+        "description": "crossed rat mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_beast",
+    "type": "achievement",
+    "name": "The nature of the me",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "BEAST" ],
+        "description": "crossed beast mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_ursine",
+    "type": "achievement",
+    "name": "Just the necessities",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "URSINE" ],
+        "description": "crossed ursine mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_feline",
+    "type": "achievement",
+    "name": "Nine lives",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "FELINE" ],
+        "description": "crossed feline mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_lupine",
+    "type": "achievement",
+    "name": "Leader of the pack",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "LUPINE" ],
+        "description": "crossed lupine mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_cattle",
+    "type": "achievement",
+    "name": "Don't drive a limousine, become it",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "CATTLE" ],
+        "description": "crossed cattle mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_cephalapod",
+    "type": "achievement",
+    "name": "How did I ever get surrounded by such undead neighbors?",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "CEPHALOPOD" ],
+        "description": "crossed cephalopod mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_bird",
+    "type": "achievement",
+    "name": "Look, Ma, I can fly!",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "BIRD" ],
+        "description": "crossed bird mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_lizard",
+    "type": "achievement",
+    "name": "Yer a lizard, Harry",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "LIZARD" ],
+        "description": "crossed lizard mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_troglobite",
+    "type": "achievement",
+    "name": "Spelunking: a lifestyle, not a hobby",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "TROGLOBITE" ],
+        "description": "crossed troglobite mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_gastropod",
+    "type": "achievement",
+    "name": "Carrying your home on your back",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "GASTROPOD" ],
+        "description": "crossed gastropod mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_batrachian",
+    "type": "achievement",
+    "name": "Leaping forward in life",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "BATRACHIAN" ],
+        "description": "crossed batrachian mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_alpha",
+    "type": "achievement",
+    "name": "Thus spake zombiethustra",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "ALPHA" ],
+        "description": "crossed alpha mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_medical",
+    "type": "achievement",
+    "name": "What doesn't kill you, makes you stranger",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "MEDICAL" ],
+        "description": "crossed medical mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_chimera",
+    "type": "achievement",
+    "name": "Equal opportunity assimilator",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "CHIMERA" ],
+        "description": "crossed chimera mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_elfa",
+    "type": "achievement",
+    "name": "Treat every day like Christmas",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "ELFA" ],
+        "description": "crossed Elf-A mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_raptor",
+    "type": "achievement",
+    "name": "Clever girl",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "RAPTOR" ],
+        "description": "crossed raptor mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_mouse",
+    "type": "achievement",
+    "name": "Judge me by my size",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "MOUSE" ],
+        "description": "crossed mouse mutation threshold",
         "visible": "when_achievement_completed"
       }
     ]
@@ -288,21 +678,6 @@
     ]
   },
   {
-    "id": "achievement_lvl_7_barter",
-    "type": "achievement",
-    "name": "Free Trader",
-    "description": "Extraordinary gizmos for obscenely low prices!",
-    "requirements": [ { "event_statistic": "num_gains_barter_level_7", "is": ">=", "target": 1 } ]
-  },
-  {
-    "id": "achievement_lvl_10_barter",
-    "type": "achievement",
-    "name": "Cut-Me-Own-Throat Dibbler",
-    "description": "My Inuit friend, I'm selling you this ice for such a low price, that it's cutting me own throat.",
-    "requirements": [ { "event_statistic": "num_gains_barter_level_10", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_7_barter" ]
-  },
-  {
     "id": "achievement_lvl_7_speech",
     "type": "achievement",
     "name": "Eloquent",
@@ -313,7 +688,7 @@
     "id": "achievement_lvl_10_speech",
     "type": "achievement",
     "name": "Silver Tongue",
-    "description": "Legend has it that you convinced a zombie hulk to go away.",
+    "description": "Legend has it you convinced a zombie hulk to go away.",
     "requirements": [ { "event_statistic": "num_gains_speech_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_speech" ]
   },
@@ -342,7 +717,7 @@
   {
     "id": "achievement_lvl_10_firstaid",
     "type": "achievement",
-    "name": "Dr House",
+    "name": "Dr. House",
     "description": "It's lupus.",
     "requirements": [ { "event_statistic": "num_gains_firstaid_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_firstaid" ]
@@ -358,7 +733,7 @@
     "id": "achievement_lvl_10_mechanics",
     "type": "achievement",
     "name": "MacGyver",
-    "description": "This whole deal is holding on faith, spit and duct tape.",
+    "description": "This whole deal is holding on faith, spit, and duct tape.",
     "requirements": [ { "event_statistic": "num_gains_mechanics_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_mechanics" ]
   },
@@ -418,7 +793,7 @@
     "id": "achievement_lvl_10_fabrication",
     "type": "achievement",
     "name": "Jack of All Trades",
-    "description": "With a right amount of glue, there is nothing I can't do.",
+    "description": "With the right amount of glue, there is nothing I can't do.",
     "requirements": [ { "event_statistic": "num_gains_fabrication_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_fabrication" ]
   },
@@ -433,7 +808,7 @@
     "id": "achievement_lvl_10_cooking",
     "type": "achievement",
     "name": "Hell's Kitchen",
-    "description": "Today's menu: Soupe a l'oignon, Boeuf Bourguignon and Creme brulee.",
+    "description": "Today's menu: Soupe a l'oignon, Boeuf Bourguignon, and Creme brulee.",
     "requirements": [ { "event_statistic": "num_gains_cooking_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_cooking" ]
   },
@@ -441,14 +816,14 @@
     "id": "achievement_lvl_7_tailor",
     "type": "achievement",
     "name": "Tailor",
-    "description": "A needle, a thread and a dream.",
+    "description": "A needle, a thread, and a dream.",
     "requirements": [ { "event_statistic": "num_gains_tailor_level_7", "is": ">=", "target": 1 } ]
   },
   {
     "id": "achievement_lvl_10_tailor",
     "type": "achievement",
     "name": "Fashion Designer",
-    "description": "Male, female and mutant fashion alike.",
+    "description": "From catwalk to Cataclysm.",
     "requirements": [ { "event_statistic": "num_gains_tailor_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_tailor" ]
   },
@@ -531,7 +906,7 @@
     "id": "achievement_lvl_7_pistol",
     "type": "achievement",
     "name": "Small But Deadly",
-    "description": "Caliber doesn't count when you're on the receiving side of the barrel.",
+    "description": "Caliber doesn't count when you're on the receiving end of the barrel.",
     "requirements": [ { "event_statistic": "num_gains_pistol_level_7", "is": ">=", "target": 1 } ]
   },
   {
@@ -628,7 +1003,7 @@
     "id": "achievement_lvl_10_bashing",
     "type": "achievement",
     "name": "Stone Age",
-    "description": "Cudgel was humanity's first tool.  And it may be it's last, so why not master it?",
+    "description": "Cudgel was humanity's first tool.  And it may be its last, so why not master it?",
     "requirements": [ { "event_statistic": "num_gains_bashing_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_bashing" ]
   },
@@ -651,7 +1026,7 @@
     "id": "achievement_lvl_7_dodge",
     "type": "achievement",
     "name": "Elusive",
-    "description": "A strongest of blows is nothing if it doesn't land.",
+    "description": "The strongest of blows is nothing if it doesn't land.",
     "requirements": [ { "event_statistic": "num_gains_dodge_level_7", "is": ">=", "target": 1 } ]
   },
   {
@@ -687,25 +1062,10 @@
   {
     "id": "achievement_lvl_10_unarmed",
     "type": "achievement",
-    "name": "Mr Miyagi",
+    "name": "Mr. Miyagi",
     "description": "To be your own weapon.",
     "requirements": [ { "event_statistic": "num_gains_unarmed_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_unarmed" ]
-  },
-  {
-    "id": "achievement_lvl_7_lockpick",
-    "type": "achievement",
-    "name": "Burglar",
-    "description": "Crowbar?  Such a barbarity.",
-    "requirements": [ { "event_statistic": "num_gains_lockpick_level_7", "is": ">=", "target": 1 } ]
-  },
-  {
-    "id": "achievement_lvl_10_lockpick",
-    "type": "achievement",
-    "name": "Locksmith",
-    "description": "If there is a lock, there is a key.",
-    "requirements": [ { "event_statistic": "num_gains_lockpick_level_10", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_7_lockpick" ]
   },
   {
     "id": "achievement_lvl_7_chemistry",

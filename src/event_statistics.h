@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_EVENT_STATISTICS_H
 #define CATA_SRC_EVENT_STATISTICS_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -12,17 +12,20 @@
 #include "translations.h"
 
 class cata_variant;
+
 enum class cata_variant_type : int;
 class event_multiset;
+
 enum class event_type : int;
 class JsonObject;
+
 enum class monotonically : int;
 class stats_tracker;
 class stats_tracker_state;
 
 using event_fields_type = std::unordered_map<std::string, cata_variant_type>;
 
-// event_tansformations and event_statistics are both functions of events.
+// event_transformations and event_statistics are both functions of events.
 // They are intended to be calculated via a stats_tracker object.
 // They can be defined in json, and are useful therein for the creation of
 // scores and achievements.
@@ -56,6 +59,7 @@ class event_transformation
         monotonically monotonicity() const;
 
         class impl;
+
     private:
         cata::clone_ptr<impl> impl_;
 };
@@ -84,6 +88,7 @@ class event_statistic
         monotonically monotonicity() const;
 
         class impl;
+
     private:
         translation description_;
         cata::clone_ptr<impl> impl_;

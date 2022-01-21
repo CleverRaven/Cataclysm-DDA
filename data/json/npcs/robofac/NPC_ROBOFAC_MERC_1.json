@@ -38,15 +38,14 @@
     "id": "NC_ROBOFAC_MERC_1_worn",
     "subtype": "collection",
     "items": [
-      { "item": "ballistic_vest_esapi" },
-      { "item": "chestrig", "contents-group": "army_mags_m4" },
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
       { "item": "robofac_enviro_suit" },
       { "item": "slingpack" },
-      { "item": "armguard_hard" },
-      { "item": "legguard_hard" },
-      { "item": "knife_combat", "container-item": "bootsheath" }
+      { "item": "robofac_kevlar_vambraces" },
+      { "item": "robofac_kevlar_greaves" },
+      { "item": "knife_combat", "container-item": "bootsheath" },
+      { "group": "robofac_mantle_merc" }
     ]
   },
   {
@@ -65,7 +64,13 @@
     "id": "NC_ROBOFAC_MERC_1_wield",
     "subtype": "collection",
     "items": [
-      { "item": "acr", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ] }
+      {
+        "item": "m16_auto_rifle",
+        "variant": "acr",
+        "ammo-item": "556",
+        "charges": 30,
+        "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
+      }
     ]
   },
   {
@@ -84,7 +89,7 @@
       {
         "text": "About those jobs…",
         "topic": "TALK_MISSION_LIST_ASSIGNED",
-        "condition": "has_many_assigned_mission"
+        "condition": "has_many_assigned_missions"
       },
       {
         "text": "Who are you?",
@@ -110,7 +115,9 @@
             { "u_has_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" },
             {
               "not": { "npc_has_var": "temporal_follower", "type": "general", "context": "robofac_merc_1", "value": "yes" }
-            }
+            },
+            { "not": "has_many_assigned_mission" },
+            { "not": "has_assigned_mission" }
           ]
         },
         "topic": "TALK_MISSION_LIST"
@@ -165,7 +172,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" } },
-            { "not": { "u_has_mission": "MISSION_ROBOFAC_MERC_1_GOLD" } }
+            { "not": "has_many_assigned_mission" },
+            { "not": "has_assigned_mission" }
           ]
         },
         "topic": "TALK_ROBOFAC_MERC_1_COINS"
@@ -175,7 +183,11 @@
         "condition": { "u_has_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
         "topic": "TALK_ROBOFAC_MERC_1_RANDOM_THOUGHTS"
       },
-      { "text": "Want help with something?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "Want help with something?",
+        "condition": { "and": [ { "not": "has_many_assigned_mission" }, { "not": "has_assigned_mission" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
       { "text": "What do you know about our employers?", "topic": "TALK_ROBOFAC_MERC_1_ASK_HUB" },
       { "text": "Well, I should get going.", "topic": "TALK_DONE" }
     ]
@@ -195,7 +207,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_COINS",
     "type": "talk_topic",
-    "dynamic_line": "Have you noticed they pay us in tiny little gold coins, it's bizarre I say.  One would think they have a gold mine in there, but no, they don't, so they make me cross the damned world grabbing gold bars. ",
+    "dynamic_line": "Have you noticed they pay us in tiny little gold coins, it's bizarre I say.  One would think they have a gold mine in there, but no, they don't, so they make me cross the damned world grabbing gold bars.",
     "responses": [
       { "text": "I guess I could help with that…", "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION" },
       { "text": "Now that you mention it, it does seem rather strange.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
@@ -250,7 +262,7 @@
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
-        { "u_buy_item": "RobofacCoin", "count": 8 },
+        { "u_spawn_item": "RobofacCoin", "count": 8 },
         { "u_add_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
         { "u_add_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" }
       ]
@@ -259,7 +271,7 @@
   {
     "id": "MISSION_ROBOFAC_MERC_1_RADIO",
     "type": "mission_definition",
-    "name": "Active Noise Control",
+    "name": { "str": "Active Noise Control" },
     "description": "Investigate Hub 01's radio tower, discover the source of the interference, and fix the problem.",
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,
@@ -293,14 +305,14 @@
   {
     "id": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
     "type": "mission_definition",
-    "name": "Return to Hub 01",
+    "name": { "str": "Return to Hub 01" },
     "description": "Return to Hub 01.",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "robofachq_surface_entrance",
     "difficulty": 0,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1, "search_range": 90, "z": 0 }
+      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1, "search_range": 360, "z": 0 }
     },
     "end": {
       "effect": [

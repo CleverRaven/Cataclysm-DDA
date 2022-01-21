@@ -2,49 +2,40 @@
   {
     "result": "battery_car",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "difficulty": 3,
     "skills_required": [ "fabrication", 1 ],
     "time": "30 m",
-    "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ], [ "plastic_molding", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [
-      [ [ "plastic_chunk", 20 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "lead", 5000 ] ],
-      [ [ "chem_sulphuric_acid", 4 ], [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ]
-    ]
+    "components": [ [ [ "scrap", 4 ] ], [ [ "lead", 3200 ] ], [ [ "chem_sulphuric_acid", 13 ] ] ]
   },
   {
     "result": "battery_motorbike",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "difficulty": 3,
     "skills_required": [ "fabrication", 1 ],
     "time": "30 m",
-    "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [
-      [ [ "plastic_chunk", 4 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "lead", 1000 ] ],
-      [ [ "chem_sulphuric_acid", 2 ], [ "fertilizer_liquid", 2 ], [ "fertilizer_commercial", 2 ] ]
-    ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "lead", 720 ] ], [ [ "chem_sulphuric_acid", 3 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "large_storage_battery",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -57,11 +48,17 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
     "components": [ [ [ "storage_battery", 2 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "result": "light_minus_atomic_battery_cell",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
@@ -77,6 +74,7 @@
   {
     "result": "light_atomic_battery_cell",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
@@ -92,6 +90,7 @@
   {
     "result": "medium_atomic_battery_cell",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
@@ -107,6 +106,7 @@
   {
     "result": "heavy_atomic_battery_cell",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
@@ -122,6 +122,7 @@
   {
     "result": "solder_wire",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
@@ -132,7 +133,7 @@
     "autolearn": true,
     "using": [ [ "surface_heat", 50 ] ],
     "charges": 50,
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
     "components": [ [ [ "lead", 25 ] ], [ [ "tin", 25 ] ], [ [ "rosin", 2 ] ] ]
   }

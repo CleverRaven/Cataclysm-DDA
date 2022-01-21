@@ -1,11 +1,13 @@
 #include "live_view.h"
 
 #include <algorithm> // min & max
+#include <functional>
+#include <iosfwd>
 #include <memory>
+#include <string>
 
 #include "color.h"
 #include "cursesdef.h"
-#include "cursesport.h"
 #include "game.h"
 #include "map.h"
 #include "options.h"

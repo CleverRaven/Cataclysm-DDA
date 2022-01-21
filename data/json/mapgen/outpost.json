@@ -149,7 +149,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "outpost" ],
+    "om_terrain": [ "outpost_cross" ],
     "weight": 100,
     "object": {
       "rows": [
@@ -210,7 +210,7 @@
       "items": {
         "b": { "item": "army_bed", "chance": 60 },
         "d": { "item": "office", "chance": 50 },
-        "f": { "item": "fridge", "chance": 30 },
+        "f": { "item": "SUS_fridge_breakroom", "chance": 30 },
         "r": { "item": "mil_food", "chance": 60 },
         "t": { "item": "dining", "chance": 45 },
         "1": { "item": "cleaning", "chance": 70 },

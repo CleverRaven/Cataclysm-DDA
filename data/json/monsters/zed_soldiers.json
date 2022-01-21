@@ -25,14 +25,16 @@
     "armor_bash": 12,
     "armor_cut": 25,
     "armor_bullet": 20,
+    "armor_elec": 3,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 } ],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -61,6 +63,9 @@
     "armor_bash": 12,
     "armor_cut": 25,
     "armor_bullet": 20,
+    "armor_elec": 3,
+    "bleed_rate": 50,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "vision_day": 30,
     "vision_night": 35,
     "harvest": "zombie",
@@ -72,10 +77,22 @@
       }
     ],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" },
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "NIGHT_INVISIBILITY",
+      "FILTHY"
+    ]
   },
   {
     "id": "mon_zombie_soldier_blackops_2",
@@ -84,6 +101,7 @@
     "description": "Fragments of visible uniform hint that this monstrosity was once a soldier.  Anything human is invisible, hidden inside a sheath of living shadow.  It moves with preternatural fluidity and grace.",
     "copy-from": "mon_zombie_soldier_blackops_1",
     "looks_like": "mon_zombie_soldier_blackops_1",
+    "bleed_rate": 0,
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "dodge": 1, "vision_night": 15 },
     "delete": { "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" } },
     "extend": {
@@ -102,10 +120,11 @@
     "id": "mon_zombie_soldier_acid_1",
     "type": "MONSTER",
     "name": { "str": "bilious soldier zombie" },
-    "description": "This staggering soldier wears a burnt gasmask, now fused to its face.  Through the melted, bile-encrusted ruination of the mask comes some sort of hardened fleshy proboscis, with steaming corrosive fluid leaking from the end.",
+    "description": "This staggering soldier wears a burnt gasmask, now fused to its face.  Through the melted, bile-encrusted ruination of the mask protrudes some sort of hardened, fleshy proboscis, with steaming corrosive fluid leaking from the end.",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
+    "bleed_rate": 50,
     "delete": { "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" } },
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 10 },
     "extend": {
@@ -120,11 +139,15 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
-          "description": "The acid-sniper zombie launches a corrosive dart!",
+          "description": "The %s launches a corrosive dart!",
           "ranges": [ [ 2, 20, "DEFAULT" ] ]
         }
       ],
-      "death_function": [ "ACID" ],
+      "death_function": {
+        "message": "The %s's body dissolves into acid.",
+        "effect": { "id": "death_acid", "hit_self": true },
+        "corpse_type": "NO_CORPSE"
+      },
       "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
     }
   },
@@ -132,10 +155,11 @@
     "id": "mon_zombie_soldier_acid_2",
     "type": "MONSTER",
     "name": { "str": "caustic soldier zombie" },
-    "description": "This zombie wears what appears to have once been a soldier's uniform and armor, now a series of cracked and melted plates that have fused to its skin and thickened hide.  Its face and arms blister with strange mutated tubes that pulse and drip with acid.",
+    "description": "This zombie wears what appears to have once been a soldier's uniform and armor, now a series of cracked and melted plates that have fused to its skin and thickened hide.  Its face and arms blister with strange, mutated tubes that pulse and drip with acid.",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
+    "bleed_rate": 50,
     "delete": { "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" } },
     "relative": { "hp": 40, "speed": -10, "melee_skill": 2, "armor_bash": 5 },
     "extend": {
@@ -151,11 +175,15 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
-          "description": "The acid-support zombie launches a hail of corrosive darts!",
+          "description": "The %s launches a hail of corrosive darts!",
           "ranges": [ [ 2, 8, "DEFAULT" ] ]
         }
       ],
-      "death_function": [ "ACID" ],
+      "death_function": {
+        "message": "The %s's body dissolves into acid.",
+        "effect": { "id": "death_acid", "hit_self": true },
+        "corpse_type": "NO_CORPSE"
+      },
       "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
     }
   },
@@ -163,7 +191,7 @@
     "id": "mon_zombie_kevlar_1",
     "type": "MONSTER",
     "name": { "str": "Kevlar zombie" },
-    "description": "This zombie was once wearing some kind of uniform with heavy, bulletproof materials sewn in.  At this point it's impossible to tell what kind of uniform it was: the monster's skin has grown over the fabric, splitting and tearing it to shreds, turning the remaining Kevlar and other bits of armor material into part of its hide.  Its hands, similarly, have fused into large leathery cudgels.",
+    "description": "This zombie was once wearing some kind of uniform with heavy, bulletproof materials sewn in.  At this point it's impossible to tell what kind of uniform it was: the monster's skin has grown over the fabric, splitting and tearing it to shreds, turning the remaining Kevlar and other bits of armor material into part of its hide.  Its hands have similarly fused into large, leathery cudgels.",
     "looks_like": "mon_zombie_brute",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -185,15 +213,17 @@
     "armor_bash": 20,
     "armor_cut": 30,
     "armor_bullet": 24,
+    "armor_elec": 3,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      { "id": "smash", "throw_strength": 36, "cooldown": 30 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_2" },
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
@@ -224,16 +254,19 @@
     "armor_bash": 30,
     "armor_cut": 50,
     "armor_bullet": 40,
-    "vision_day": 35,
+    "armor_elec": 6,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "bleed_rate": 0,
+    "vision_day": 50,
     "vision_night": 10,
     "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },
-      [ "LONGSWIPE", 20 ],
-      [ "SMASH", 20 ]
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
+      { "id": "smash", "throw_strength": 72 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
@@ -241,7 +274,7 @@
     "id": "mon_zombie_military_pilot",
     "type": "MONSTER",
     "name": { "str": "zombie military pilot" },
-    "description": "Once a pilot, it is dressed in basic military fatigues, aviator sunglasses, and a sturdy looking helmet.",
+    "description": "Once a pilot, it is dressed in basic military fatigues, aviator sunglasses, and a sturdy-looking helmet.",
     "default_faction": "zombie",
     "bodytype": "human",
     "categories": [ "CLASSIC" ],
@@ -263,12 +296,13 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "armor_elec": 2,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_full_helmet" ],
     "vision_day": 35,
     "vision_night": 5,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_military_pilot_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -286,6 +320,17 @@
     ]
   },
   {
+    "id": "mon_zombie_milbase_personnel",
+    "type": "MONSTER",
+    "name": { "str": "uniformed zombie" },
+    "description": "This undead soldier is adorned in standard military fatigues.  It carries itself rather steadily for a zombie.",
+    "copy-from": "mon_zombie_military_pilot",
+    "looks_like": "mon_zombie",
+    "delete": { "flags": [ "NOHEAD" ] },
+    "upgrades": { "half_life": 18, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "death_drops": "mon_zombie_milbase_personnel_death_drops"
+  },
+  {
     "id": "mon_zombie_flamer",
     "type": "MONSTER",
     "name": { "str": "zombie burner" },
@@ -293,6 +338,7 @@
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 5,
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 100,
@@ -310,13 +356,15 @@
     "armor_bash": 12,
     "armor_cut": 25,
     "armor_bullet": 20,
+    "armor_elec": 4,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
     "vision_day": 30,
     "vision_night": 3,
     "luminance": 8,
     "harvest": "zombie",
     "starting_ammo": { "pressurized_tank": 1000 },
     "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_soldier_death_drops", 100 ], [ "mon_zombie_flamer", 100 ] ] },
-    "death_function": [ "FIREBALL" ],
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -338,7 +386,7 @@
     "id": "mon_zombie_armored",
     "type": "MONSTER",
     "name": { "str": "armored zombie" },
-    "description": "Despite being encased in a what was once a nigh-impenetrable suit of power armor, something still managed to kill this soldier.",
+    "description": "Despite being encased in a what was once a nigh-impenetrable combat exoskeleton, something still managed to kill this soldier.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -361,11 +409,22 @@
     "armor_bullet": 51,
     "armor_acid": 20,
     "armor_fire": 20,
+    "armor_elec": 10,
+    "weakpoint_sets": [ "wps_humanoid_full_helmet" ],
+    "weakpoints": [
+      {
+        "name": "a crack in the armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 4,
+        "coverage_mult": { "broad": 0.75 },
+        "difficulty": { "ranged": 7, "melee": 5 }
+      }
+    ],
+    "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
     "death_drops": "mon_zombie_armored_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -373,7 +432,7 @@
     "id": "mon_zombie_bio_op",
     "type": "MONSTER",
     "name": { "str": "zombie bio-operator" },
-    "description": "This armored and augmented soldier's bionics crackle with energy.  Worse, it appears to remember its training.",
+    "description": "This armored soldier zombie appears to have been some sort of special forces agent.  Its malfunctioning equipment sends out occasional showers of sparks.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -396,14 +455,16 @@
     "armor_bash": 10,
     "armor_cut": 18,
     "armor_bullet": 14,
+    "armor_elec": 3,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
     "vision_day": 50,
     "vision_night": 3,
     "luminance": 4,
-    "harvest": "CBM_OP",
+    "harvest": "zombie",
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "mon_zombie_bio_op_death_drops",
-    "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
       "HEARS",
@@ -423,7 +484,7 @@
     "id": "mon_zombie_bio_op2",
     "type": "MONSTER",
     "name": { "str": "elite zombie bio-operator" },
-    "description": "Once a highly trained soldier, various bionics cover this zombie's broken body.  Strangely, it maintains a vague martial arts stance.",
+    "description": "Once a highly-trained soldier, this zombie is still equipped with heavy military gear and dangerous physical abilities.  Its malfunctioning equipment sends out occasional showers of sparks.",
     "copy-from": "mon_zombie_bio_op",
     "looks_like": "mon_zombie_bio_op",
     "diff": 10,
@@ -432,7 +493,7 @@
     "dodge": 4,
     "armor_bash": 15,
     "armor_cut": 27,
-    "harvest": "CBM_OP2",
+    "harvest": "zombie",
     "special_attacks": [ [ "BIO_OP_BIOJUTSU", 15 ] ]
   }
 ]

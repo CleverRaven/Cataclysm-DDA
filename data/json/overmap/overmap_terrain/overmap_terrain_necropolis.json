@@ -79,9 +79,7 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "necropolis_a_6",
       "necropolis_a_11",
-      "necropolis_a_77",
       "necropolis_a_62",
       "necropolis_a_59",
       "necropolis_a_53",
@@ -95,6 +93,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "necropolis_a_6", "necropolis_a_77" ],
+    "copy-from": "generic_necropolis_road",
+    "sym": "│",
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "necropolis_a_21",
       "necropolis_a_23",
@@ -102,7 +107,6 @@
       "necropolis_a_39",
       "necropolis_a_42",
       "necropolis_a_43",
-      "necropolis_a_64",
       "necropolis_a_66",
       "necropolis_a_67",
       "necropolis_a_69",
@@ -110,6 +114,13 @@
     ],
     "copy-from": "generic_necropolis_road",
     "sym": "─"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "necropolis_a_64",
+    "copy-from": "generic_necropolis_road",
+    "sym": "─",
+    "delete": { "flags": [ "SIDEWALK" ] }
   },
   {
     "type": "overmap_terrain",
@@ -304,6 +315,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_necropolis_underground",
+    "name": "underground",
     "color": "yellow",
     "see_cost": 999,
     "mondensity": 2
@@ -340,7 +352,18 @@
       "necropolis_b_76",
       "necropolis_b_80",
       "necropolis_b_81",
-      "necropolis_b_9",
+      "necropolis_b_9"
+    ],
+    "copy-from": "generic_necropolis_underground",
+    "name": "solid earth",
+    "looks_like": "solid_earth",
+    "sym": "#",
+    "color": "brown"
+  },
+  {
+    "//": "xxx Bookmark for necropolis sewers",
+    "type": "overmap_terrain",
+    "id": [
       "necropolis_c_19",
       "necropolis_c_46",
       "necropolis_c_55",
@@ -352,6 +375,7 @@
     ],
     "copy-from": "generic_necropolis_underground",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray"
   },
@@ -710,7 +734,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "necropolis_d_38", "necropolis_d_39" ],
-    "name": "Vault - Maint. Bay",
+    "name": { "str": "Vault - Maint. Bay", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "M",
     "copy-from": "generic_necropolis_underground"
   },

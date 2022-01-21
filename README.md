@@ -23,19 +23,19 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 
 #### Arch Linux
 
-Ncurses and tiles version available in [community repo](https://www.archlinux.org/packages/?q=cataclysm-dda).
+Ncurses and tiles versions are available in the [community repo](https://www.archlinux.org/packages/?q=cataclysm-dda).
 
 `sudo pacman -S cataclysm-dda`
 
 #### Fedora
 
-Ncurses and tiles version available in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda).
+Ncurses and tiles versions are available in the [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda).
 
 `sudo dnf install cataclysm-dda`
 
 #### Debian / Ubuntu
 
-Ncurses and tiles version available in [official repos](https://tracker.debian.org/pkg/cataclysm-dda).
+Ncurses and tiles versions are available in the [official repos](https://tracker.debian.org/pkg/cataclysm-dda).
 
 `sudo apt install cataclysm-dda-curses cataclysm-dda-sdl`
 
@@ -51,7 +51,7 @@ We also have the following build guides:
 ## Contribute
 
 Cataclysm: Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
-Some code distributed with the project is not part of the project and is released under different software licenses, the files covered by different software licenses have their own license notices.
+Some code distributed with the project is not part of the project and is released under different software licenses; the files covered by different software licenses have their own license notices.
 
 [<img src="https://www.bountysource.com/badge/tracker?tracker_id=146201" alt="Bountysource" align="right">](https://www.bountysource.com/trackers/146201-clever-raven-cataclysm-dda?utm_source=146201&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 
@@ -69,8 +69,7 @@ GitHub repo:
 https://github.com/CleverRaven/Cataclysm-DDA
 
 IRC:
-`irc.freenode.net` ; `#CataclysmDDA`
-http://webchat.freenode.net/?channels=#CataclysmDDA
+`#CataclysmDDA` on [Libera Chat](https://libera.chat), https://web.libera.chat/#CataclysmDDA
 
 Official Discord:
 https://discord.gg/jFEc7Yp

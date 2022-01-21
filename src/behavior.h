@@ -3,6 +3,7 @@
 #define CATA_SRC_BEHAVIOR_H
 
 #include <functional>
+#include <iosfwd>
 #include <string>
 #include <utility>
 #include <vector>
@@ -14,8 +15,8 @@ class JsonObject;
 namespace behavior
 {
 
-class oracle_t;
 class node_t;
+class oracle_t;
 class strategy_t;
 
 enum class status_t : char { running, success, failure };
@@ -64,7 +65,7 @@ class node_t
         // Interface to construct a node.
         void set_strategy( const strategy_t *new_strategy );
         void add_predicate( std::function < status_t ( const oracle_t *, const std::string & )>
-                            new_predicate, const std::string &argument = "" );
+                            new_predicate, const std::string &argument = "", const bool &invert_result = false );
         void set_goal( const std::string &new_goal );
         void add_child( const node_t *new_child );
 
@@ -77,7 +78,8 @@ class node_t
         std::vector<const node_t *> children;
         const strategy_t *strategy = nullptr;
         using predicate_type = std::function<status_t( const oracle_t *, const std::string & )>;
-        std::vector<std::pair<predicate_type, std::string>> conditions;
+        std::vector<std::tuple<predicate_type, std::string, bool>> conditions;
+        status_t process_predicates( const oracle_t *subject ) const;
         // TODO: make into an ID?
         std::string _goal;
 };

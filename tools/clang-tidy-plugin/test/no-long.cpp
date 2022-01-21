@@ -105,3 +105,20 @@ void Bf()
 template<typename T>
 long g1( T g1p0 );
 // CHECK-MESSAGES: warning: Function 'g1' declared as returning 'long'. Prefer int or int64_t to long. [cata-no-long]
+
+template<typename T>
+struct A1 {
+    void f( T a1a ) {
+    }
+    T a1b;
+};
+
+template<typename T>
+A1<T> f5()
+{
+    return {};
+}
+
+// Would be nice to get warnings here but haven't found a way to do so.
+extern template A1<long> f5<long>();
+template A1<long> f5<long>();
