@@ -228,7 +228,6 @@ void clear_rubble_finish( player_activity *act, Character *you );
 void cracking_finish( player_activity *act, Character *guy );
 void eat_menu_finish( player_activity *act, Character *you );
 void fill_pit_finish( player_activity *act, Character *you );
-void firstaid_finish( player_activity *act, Character *you );
 void fish_finish( player_activity *act, Character *you );
 void generic_game_finish( player_activity *act, Character *you );
 void gunmod_add_finish( player_activity *act, Character *you );

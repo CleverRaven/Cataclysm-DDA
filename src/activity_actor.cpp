@@ -5392,6 +5392,66 @@ std::unique_ptr<activity_actor> pickup_menu_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+void firstaid_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+    act.name = name;
+}
+
+void firstaid_activity_actor::finish( player_activity &act, Character &who )
+{
+    static const std::string iuse_name_string( "heal" );
+
+    item &it = *act.targets.front();
+    item *used_tool = it.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for healing" );
+        act.set_to_null();
+        return;
+    }
+
+    const use_function *use_fun = used_tool->get_use( iuse_name_string );
+    const heal_actor *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act.set_to_null();
+        return;
+    }
+
+    // TODO: Store the patient somehow, retrieve here
+    Character &patient = who;
+    const bodypart_id healed = bodypart_id( act.str_values[0] );
+    const int charges_consumed = actor->finish_using( who, patient, *used_tool, healed );
+    who.consume_charges( it, charges_consumed );
+
+    // Erase activity and values.
+    act.set_to_null();
+    act.values.clear();
+}
+
+void firstaid_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "name", name );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> firstaid_activity_actor::deserialize( JsonValue &jsin )
+{
+    firstaid_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "name", actor.name );
+
+    return actor.clone();
+}
+
 void forage_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;

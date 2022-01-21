@@ -127,7 +127,6 @@ static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
@@ -302,7 +301,6 @@ activity_handlers::finish_functions = {
     { ACT_QUARTER, butcher_finish },
     { ACT_DISMEMBER, butcher_finish },
     { ACT_DISSECT, butcher_finish },
-    { ACT_FIRSTAID, firstaid_finish },
     { ACT_FISH, fish_finish },
     { ACT_PICKAXE, pickaxe_finish },
     { ACT_MOP, mopping_finish },
@@ -1525,37 +1523,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         act_ref.set_to_null();
         return;
     }
-}
-
-void activity_handlers::firstaid_finish( player_activity *act, Character *you )
-{
-    static const std::string iuse_name_string( "heal" );
-
-    item &it = *act->targets.front();
-    item *used_tool = it.get_usable_item( iuse_name_string );
-    if( used_tool == nullptr ) {
-        debugmsg( "Lost tool used for healing" );
-        act->set_to_null();
-        return;
-    }
-
-    const use_function *use_fun = used_tool->get_use( iuse_name_string );
-    const heal_actor *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
-    if( actor == nullptr ) {
-        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-        act->set_to_null();
-        return;
-    }
-
-    // TODO: Store the patient somehow, retrieve here
-    Character &patient = *you;
-    const bodypart_id healed = bodypart_id( act->str_values[0] );
-    const int charges_consumed = actor->finish_using( *you, patient, *used_tool, healed );
-    you->consume_charges( it, charges_consumed );
-
-    // Erase activity and values.
-    act->set_to_null();
-    act->values.clear();
 }
 
 // Repurposing the activity's index to convey the number of friends participating
