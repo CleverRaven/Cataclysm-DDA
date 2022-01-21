@@ -77,7 +77,7 @@
         " ]     X"
       ],
       "palettes": [ "lab_mutagen_palette" ],
-      "place_signs": [ { "snippet": "lab_safety_snippet", "x": 1, "y": 2 }, { "snippet": "lab_safety_snippet", "x": 1, "y": 4 } ],
+      "place_signs": [ { "snippet": "lab_safety_alpha_snippet", "x": 1, "y": 2 }, { "snippet": "lab_safety_alpha_snippet", "x": 1, "y": 4 } ],
       "place_nested": [
         { "chunks": [ [ "lab_mutagen_5x5_open", 100 ], [ "null", 0 ] ], "x": 2, "y": 1 },
         { "chunks": [ [ "lab_alpha_rat_1x1", 100 ], [ "null", 0 ] ], "x": 0, "y": 1 },
