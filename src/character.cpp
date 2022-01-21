@@ -7746,8 +7746,8 @@ void Character::rooted()
             time_to_full += -14400;    // -4 hours
         }
         if( x_in_y( 96, time_to_full ) ) {
-            vitamin_mod( vitamin_iron, 1, true );
-            vitamin_mod( vitamin_calcium, 1, true );
+            vitamin_mod( vitamin_iron, 1 );
+            vitamin_mod( vitamin_calcium, 1 );
             mod_healthy_mod( 5, 50 );
         }
         if( get_thirst() > -40 && x_in_y( 288, time_to_full ) ) {
@@ -9271,7 +9271,7 @@ void Character::process_one_effect( effect &it, bool is_new )
     for( const vitamin_applied_effect &vit : it.vit_effects( reduced ) ) {
         if( vit.tick && vit.rate && calendar::once_every( *vit.tick ) ) {
             const int mod = rng( vit.rate->first, vit.rate->second );
-            vitamin_mod( vit.vitamin, mod, false );
+            vitamin_mod( vit.vitamin, mod );
         }
     }
 

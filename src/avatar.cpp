@@ -835,6 +835,11 @@ bool avatar::has_seen_snippet( const snippet_id &snippet ) const
     return snippets_read.count( snippet ) > 0;
 }
 
+const std::set<snippet_id> &avatar::get_snippets()
+{
+    return snippets_read;
+}
+
 void avatar::vomit()
 {
     if( stomach.contains() != 0_ml ) {

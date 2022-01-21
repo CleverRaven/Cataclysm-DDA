@@ -35,6 +35,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "skill.h"
+#include "text_snippets.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "translations.h"
@@ -729,6 +730,7 @@ void faction_manager::display() const
         TAB_MYFACTION = 0,
         TAB_FOLLOWERS,
         TAB_OTHERFACTIONS,
+        TAB_LORE,
         NUM_TABS,
         FIRST_TAB = 0,
         LAST_TAB = NUM_TABS - 1
@@ -756,6 +758,8 @@ void faction_manager::display() const
     basecamp *camp = nullptr;
     std::vector<basecamp *> camps;
     size_t active_vec_size = 0;
+    std::vector<std::pair<snippet_id, std::string>> lore; // Lore we have seen
+    std::pair<snippet_id, std::string> *snippet = nullptr;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_missions );
@@ -768,6 +772,7 @@ void faction_manager::display() const
             { tab_mode::TAB_MYFACTION, _( "YOUR FACTION" ) },
             { tab_mode::TAB_FOLLOWERS, _( "YOUR FOLLOWERS" ) },
             { tab_mode::TAB_OTHERFACTIONS, _( "OTHER FACTIONS" ) },
+            { tab_mode::TAB_LORE, _( "LORE" ) },
         };
         draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
@@ -849,6 +854,29 @@ void faction_manager::display() const
                 }
             }
             break;
+            case tab_mode::TAB_LORE: {
+                const std::string no_lore = _( "You haven't learned anything about the world." );
+                if( active_vec_size > 0 ) {
+                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
+                                    point( 0, 3 ) );
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
+                        const int y = i - top_of_page + 3;
+                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
+                                        _( lore[i].second ) );
+                    }
+                    if( snippet != nullptr ) {
+                        int y = 2;
+                        fold_and_print( w_missions, point( 31, ++y ), getmaxx( w_missions ) - 31 - 2, c_light_gray,
+                                        SNIPPET.get_snippet_by_id( snippet->first ).value().translated() );
+                    } else {
+                        mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_lore );
+                    }
+                    break;
+                } else {
+                    mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_lore );
+                }
+            }
+            break;
             default:
                 break;
         }
@@ -875,6 +903,7 @@ void faction_manager::display() const
         }
         guy = nullptr;
         cur_fac = nullptr;
+        snippet = nullptr;
         interactable = false;
         radio_interactable = false;
         camp = nullptr;
@@ -888,6 +917,21 @@ void faction_manager::display() const
             basecamp *temp_camp = *p;
             camps.push_back( temp_camp );
         }
+        lore.clear();
+        for( const auto &elem : player_character.get_snippets() ) {
+            cata::optional<translation> name = SNIPPET.get_name_by_id( elem );
+            if( !name->empty() ) {
+                lore.push_back( std::pair<snippet_id, std::string>( elem, name->translated() ) );
+            } else {
+                lore.push_back( std::pair<snippet_id, std::string>( elem, elem.str() ) );
+            }
+        }
+        auto compare_second =
+            []( const std::pair<snippet_id, std::string> &a,
+        const std::pair<snippet_id, std::string> &b ) {
+            return localized_compare( a.second, b.second );
+        };
+        std::sort( lore.begin(), lore.end(), compare_second );
         if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
             debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
@@ -908,6 +952,11 @@ void faction_manager::display() const
                 cur_fac = valfac[selection];
             }
             active_vec_size = valfac.size();
+        } else if( tab == tab_mode::TAB_LORE ) {
+            if( selection < lore.size() ) {
+                snippet = &lore[selection];
+            }
+            active_vec_size = lore.size();
         }
 
         ui_manager::redraw();

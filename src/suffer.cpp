@@ -807,8 +807,8 @@ void suffer::in_sunlight( Character &you )
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        you.vitamin_mod( vitamin_vitA, 1, true );
-        you.vitamin_mod( vitamin_vitC, 1, true );
+        you.vitamin_mod( vitamin_vitA, 1 );
+        you.vitamin_mod( vitamin_vitC, 1 );
     }
 
     if( !g->is_in_sunlight( position ) ) {
