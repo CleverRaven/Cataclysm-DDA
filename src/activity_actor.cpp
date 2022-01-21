@@ -5573,7 +5573,7 @@ void mop_activity_actor::start( player_activity &act, Character & )
 
 void mop_activity_actor::finish( player_activity &act, Character &who )
 {
-    // blind character have a 1/3 chance of actually mopping
+    // Blind character have a 1/3 chance of actually mopping.
     const bool will_mop = one_in( who.is_blind() ? 1 : 3 );
     if( will_mop ) {
         map &here = get_map();
