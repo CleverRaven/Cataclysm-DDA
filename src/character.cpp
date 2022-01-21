@@ -171,9 +171,8 @@ static const character_modifier_id character_modifier_aim_speed_mod( "aim_speed_
 static const character_modifier_id character_modifier_aim_speed_skill_mod( "aim_speed_skill_mod" );
 static const character_modifier_id
 character_modifier_crawl_speed_movecost_mod( "crawl_speed_movecost_mod" );
+static const character_modifier_id character_modifier_limb_fall_mod( "limb_fall_mod" );
 static const character_modifier_id character_modifier_limb_run_cost_mod( "limb_run_cost_mod" );
-static const character_modifier_id
-character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
 static const character_modifier_id character_modifier_limb_str_mod( "limb_str_mod" );
 static const character_modifier_id
 character_modifier_melee_stamina_cost_mod( "melee_stamina_cost_mod" );
@@ -10676,9 +10675,10 @@ float Character::fall_damage_mod() const
 
     /** @EFFECT_DODGE decreases damage from falling */
     float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
-    dex_dodge *= get_modifier( character_modifier_limb_speed_movecost_mod );
+    // Reactions, legwork and footing determine your landing
+    dex_dodge *= get_modifier( character_modifier_limb_fall_mod );
     // But prevent it from increasing damage
-    dex_dodge = std::max( 0.0f, dex_dodge );
+    dex_dodge = std::max( 0.0f, dex_dodge ); // 0
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
     ret *= ( 100.0f - ( dex_dodge * 4.0f ) ) / 100.0f;
 

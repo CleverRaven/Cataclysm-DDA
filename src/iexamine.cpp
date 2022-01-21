@@ -136,9 +136,11 @@ static const furn_str_id furn_f_diesel_tank( "f_diesel_tank" );
 static const furn_str_id furn_f_gas_tank( "f_gas_tank" );
 static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
+static const furn_str_id furn_f_rope_up( "f_rope_up" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill( "f_water_mill" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
+static const furn_str_id furn_f_web_up( "f_web_up" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
@@ -179,6 +181,9 @@ static const itype_id itype_water( "water" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
+static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
+
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
@@ -4613,6 +4618,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
     cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+    if( you.has_flag( json_flag_WALL_CLING ) ) {
+        cmenu.addentry( 3, true, 'C', _( "Crawl down." ) );
+    }
 
     cmenu.query();
 
@@ -4658,59 +4666,102 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             }
 
             const int height = examp.z - where.z;
+            add_msg_debug( debugmode::DF_IEXAMINE, "Ledge height %d", height );
             if( height == 0 ) {
                 you.add_msg_if_player( _( "You can't climb down there." ) );
                 return;
             }
 
-            const bool has_grapnel = you.has_amount( itype_grapnel, 1 );
+            bool has_grapnel = you.has_amount( itype_grapnel, 1 );
+            const bool web_rappel = you.has_flag( json_flag_WEB_RAPPEL );
             const int climb_cost = you.climbing_cost( where, examp );
             const float fall_mod = you.fall_damage_mod();
-            const char *query_str = n_gettext( "Looks like %d story.  Jump down?",
-                                               "Looks like %d stories.  Jump down?",
-                                               height );
+            add_msg_debug( debugmode::DF_IEXAMINE, "Climb cost %d", climb_cost );
+            add_msg_debug( debugmode::DF_IEXAMINE, "Fall damage modifier %.2f", fall_mod );
+            const char *query_str;
+            if( !web_rappel ) {
+                query_str = n_gettext( "Looks like %d story.  Jump down?",
+                                       "Looks like %d stories.  Jump down?",
+                                       height );
+            } else {
+                query_str = n_gettext( "Looks like %d story.  Nothing your webs can't handle.  Descend?",
+                                       "Looks like %d stories.  Nothing your webs can't handle.  Descend?", height );
+            }
 
             if( height > 1 && !query_yn( query_str, height ) ) {
                 return;
             } else if( height == 1 ) {
-                const char *query;
-                you.set_activity_level( MODERATE_EXERCISE );
-                weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
+                bool asked = false;
+                you.set_activity_level( ACTIVE_EXERCISE );
+                weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
 
-                if( !has_grapnel ) {
-                    if( climb_cost <= 0 && fall_mod > 0.8 ) {
-                        query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
-                    } else if( climb_cost <= 0 ) {
-                        query = _( "You probably won't be able to get back up.  Climb down?" );
-                    } else if( climb_cost < 200 ) {
-                        query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
+                if( has_grapnel ) {
+                    if( !query_yn( _( "Use your grappling hook to climb down?" ) ) ) {
+                        has_grapnel = false;
                     } else {
-                        query = _( "You may have problems climbing back up.  Climb down?" );
+                        asked = true;
                     }
-                } else {
-                    query = _( "Use your grappling hook to climb down?" );
                 }
 
-                if( !query_yn( query ) ) {
-                    return;
+                if( !asked ) {
+                    const char *query;
+                    if( !has_grapnel && !web_rappel ) {
+                        if( climb_cost <= 0 && fall_mod > 0.8 ) {
+                            query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
+                        } else if( climb_cost <= 0 ) {
+                            query = _( "You probably won't be able to get back up.  Climb down?" );
+                        } else if( climb_cost < 200 ) {
+                            query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
+                        } else {
+                            query = _( "You may have problems climbing back up.  Climb down?" );
+                        }
+                    } else if( web_rappel ) {
+                        query = _( "Use your webs to descend?" );
+                    }
+
+                    if( !query_yn( query ) ) {
+                        return;
+                    }
                 }
             }
 
             you.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
             you.setpos( examp );
 
-            if( has_grapnel ) {
+            if( web_rappel ) {
+                you.add_msg_if_player(
+                    _( "You affix a long, sticky strand on the ledge and begin your descent." ) );
+                tripoint web = examp;
+                web.z--;
+                // Leave a web rope on each step
+                for( int i = 0; i < height; i++ ) {
+                    here.furn_set( web, furn_f_web_up );
+                    web.z--;
+                }
+                g->vertical_move( -height, true );
+            } else if( has_grapnel ) {
                 you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
-            } else if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, examp + tripoint_below ) &&
-                       g->slip_down( true ) ) {
+                g->vertical_move( -1, true );
+                you.use_amount( itype_grapnel, 1 );
+                here.furn_set( you.pos(), furn_f_rope_up );
+            } else if( !g->slip_down( true ) ) {
+                // One tile of falling less (possibly zero)
+                add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
+                g->vertical_move( -1, true );
+            } else {
                 return;
             }
-
-            if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
-                // One tile of falling less (possibly zero)
-                g->vertical_move( -1, true );
-            }
             here.creature_on_trap( you );
+            break;
+        }
+        case 3: {
+            if( !here.valid_move( you.pos(), examp, false, true ) ) {
+                // Covered with something
+                return;
+            } else {
+                you.setpos( examp );
+                g->vertical_move( -1, false );
+            }
             break;
         }
         default:

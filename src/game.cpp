@@ -227,6 +227,9 @@ static const faction_id faction_your_followers( "your_followers" );
 static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 
+static const furn_str_id furn_f_rope_up( "f_rope_up" );
+static const furn_str_id furn_f_web_up( "f_web_up" );
+
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
 static const harvest_drop_type_id harvest_drop_offal( "offal" );
 static const harvest_drop_type_id harvest_drop_skin( "skin" );
@@ -242,7 +245,10 @@ static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
+static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
+static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const limb_score_id limb_score_footing( "footing" );
 static const limb_score_id limb_score_grip( "grip" );
@@ -291,7 +297,6 @@ static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
-static const trait_id trait_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -10745,6 +10750,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     bool climbing = false;
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
+    bool wall_cling = u.has_flag( json_flag_WALL_CLING );
     if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) ) {
         // Climbing
         if( here.has_floor_or_support( stairs ) ) {
@@ -10753,8 +10759,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         const int cost = u.climbing_cost( u.pos(), stairs );
+        add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
         const bool can_climb_here = cost > 0 ||
-                                    u.has_trait_flag( STATIC( json_character_flag( "CLIMB_NO_LADDER" ) ) );
+                                    u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling;
         if( !can_climb_here ) {
             add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
             return;
@@ -10768,6 +10775,10 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
 
+        if( wall_cling && here.is_wall_adjacent( stairs ) ) {
+            pts.push_back( stairs );
+        }
+
         if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
@@ -10775,7 +10786,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
         } else {
             // TODO: Make it an extended action
             climbing = true;
-            move_cost = cost;
+            u.set_activity_level( EXTRA_EXERCISE );
+            move_cost = cost == 0 ? 1000 : cost + 500;
 
             const cata::optional<tripoint> pnt = point_selection_menu( pts );
             if( !pnt ) {
@@ -10786,8 +10798,15 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) ) {
-        add_msg( m_info, _( "You can't go down here!" ) );
-        return;
+        if( wall_cling && here.passable( stairs ) ) {
+            climbing = true;
+            u.set_activity_level( EXTRA_EXERCISE );
+            u.mod_stamina( -750 );
+            move_cost += 500;
+        } else {
+            add_msg( m_info, _( "You can't go down here!" ) );
+            return;
+        }
     } else if( !climbing && !force && movez == 1 &&
                !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) ) {
         add_msg( m_info, _( "You can't go up here!" ) );
@@ -10814,11 +10833,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     }
 
-    if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, u.pos() ) ) {
-        u.moves -= 500;
-        if( movez == 1 && slip_down() ) {
-            return;
-        }
+    if( climbing && slip_down( true ) ) {
+        wall_cling = false;
+        return;
     }
 
     // Find the corresponding staircase
@@ -10856,6 +10873,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     } else {
         u.moves -= move_cost;
+        u.mod_stamina( -move_cost );
     }
     const tripoint old_pos = u.pos();
     const tripoint old_abs_pos = here.getabs( old_pos );
@@ -10928,7 +10946,11 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( rope_ladder ) {
-        here.ter_set( u.pos(), t_rope_up );
+        if( u.has_flag( json_flag_WEB_RAPPEL ) ) {
+            here.furn_set( u.pos(), furn_f_web_up );
+        } else {
+            here.furn_set( u.pos(), furn_f_rope_up );
+        }
     }
 
     if( here.ter( stairs ) == t_manhole_cover ) {
@@ -10943,8 +10965,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     here.invalidate_map_cache( here.get_abs_sub().z );
     // Upon force movement, traps can not be avoided.
-    here.creature_on_trap( u, !force );
-
+    if( !wall_cling )  {
+        here.creature_on_trap( u, !force );
+    }
     cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
 }
 
@@ -11072,7 +11095,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
         return cata::nullopt;
     }
 
-    if( u.has_trait( trait_WEB_RAPPEL ) ) {
+    if( u.has_flag( json_flag_WEB_RAPPEL ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Web-descend?" ) ) ) {
             rope_ladder = true;
             if( rng( 4, 8 ) < u.get_skill_level( skill_dodge ) ) {
@@ -11860,43 +11883,77 @@ bool game::slip_down( bool check_for_traps )
 {
     ///\EFFECT_DEX decreases chances of slipping while climbing
     ///\EFFECT_STR decreases chances of slipping while climbing
-    int climb = u.dex_cur + u.str_cur;
+    /// Not using arm strength since lifting score comes into play later
+    int slip = 100 / ( u.dex_cur + u.str_cur );
+    add_msg_debug( debugmode::DF_GAME, "Base slip chance %d%%", slip );
 
     if( u.has_proficiency( proficiency_prof_parkour ) ) {
-        climb *= 2;
+        slip /= 2;
         add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
     }
     if( u.has_trait( trait_BADKNEES ) ) {
-        climb /= 2;
+        slip *= 2;
         add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
     }
 
+
+    add_msg_debug( debugmode::DF_GAME, "Slip chance after proficiency/trait modifiers %d%%", slip );
+
     // Climbing is difficult with wet hands and feet.
     float wet_penalty = 1.0f;
+    bool wet_feet = false;
+    bool wet_hands = false;
 
-    if( u.get_part_wetness( bodypart_id( "foot_l" ) ) > 0 ||
-        u.get_part_wetness( bodypart_id( "foot_r" ) ) > 0 ) {
-        wet_penalty += .5;
-        add_msg( m_info, _( "Your wet feet make it harder to climb." ) );
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot ) ) {
+        if( u.get_part_wetness( bp ) > 0 ) {
+            add_msg_debug( debugmode::DF_GAME, "Foot %s %.1f wet", body_part_name( bp ),
+                           u.get_part( bp )->get_wetness_percentage() );
+            wet_feet = true;
+            wet_penalty += u.get_part( bp )->get_wetness_percentage() / 2;
+        }
     }
 
-    if( u.get_part_wetness( bodypart_id( "hand_l" ) ) > 0 ||
-        u.get_part_wetness( bodypart_id( "hand_r" ) ) > 0 ) {
-        wet_penalty += .5;
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+        if( u.get_part_wetness( bp ) > 0 ) {
+            add_msg_debug( debugmode::DF_GAME, "Hand %s %.1f wet", body_part_name( bp ),
+                           u.get_part( bp )->get_wetness_percentage() );
+            wet_hands = true;
+            wet_penalty += u.get_part( bp )->get_wetness_percentage() / 2;
+        }
+    }
+    if( wet_feet && wet_hands ) {
+        add_msg( m_info, _( "Your wet hands and feet make it harder to climb." ) );
+    } else if( wet_feet ) {
+        add_msg( m_info, _( "Your wet feet make it harder to climb." ) );
+    } else if( wet_hands ) {
         add_msg( m_info, _( "Your wet hands make it harder to climb." ) );
     }
 
     // Apply wetness penalty
-    climb /= wet_penalty;
+    slip *= wet_penalty;
+    add_msg_debug( debugmode::DF_GAME, "Slip chance afer wetness penalty %d%%", slip );
 
     // Apply limb score penalties - grip, arm strength and footing are all relevant
 
-    climb *= ( u.get_limb_score( limb_score_grip ) * 3 + u.get_limb_score(
-                   limb_score_lift ) * 2 + u.get_limb_score( limb_score_footing ) ) / 6 ;
+    slip /= ( u.get_limb_score( limb_score_grip ) * 3 + u.get_limb_score(
+                  limb_score_lift, body_part_type::type::num_types,
+                  1 ) * 2 + u.get_limb_score( limb_score_footing ) ) / 6;
+    add_msg_debug( debugmode::DF_GAME, "Slipping chance after limb scores %d%%", slip );
 
     // Being weighed down makes it easier for you to slip.
-    const double weight_ratio = u.weight_carried() / u.weight_capacity();
-    climb -= roll_remainder( 8.0 * weight_ratio );
+    double weight_ratio = static_cast<double>( units::to_gram( u.weight_carried() ) ) / units::to_gram(
+                              u.weight_capacity() );
+    slip += roll_remainder( 8.0 * weight_ratio );
+    add_msg_debug( debugmode::DF_GAME, "Weight ratio %.2f, slip chance %d%%", weight_ratio,
+                   slip );
+
+    // Decreasing stamina makes you slip up more often
+    const float stamina_ratio = static_cast<float>( u.get_stamina() ) / u.get_stamina_max();
+    if( stamina_ratio < 0.8 ) {
+        slip /= stamina_ratio;
+    }
+    add_msg_debug( debugmode::DF_GAME, "Stamina ratio %.2f, final slip chance %d%%",
+                   stamina_ratio, slip );
 
     if( weight_ratio >= 1 ) {
         add_msg( m_info, _( "Your carried weight tries to drag you down." ) );
@@ -11908,9 +11965,10 @@ bool game::slip_down( bool check_for_traps )
         add_msg( m_info, _( "Your carried weight makes it a little harder to climb." ) );
     }
 
-    if( one_in( climb ) ) {
+
+    if( x_in_y( slip, 100 ) ) {
         add_msg( m_bad, _( "You slip while climbing and fall down." ) );
-        if( climb <= 1 ) {
+        if( slip >= 100 ) {
             add_msg( m_bad, _( "Climbing is impossible in your current state." ) );
         }
         if( check_for_traps ) {
