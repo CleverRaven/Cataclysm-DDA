@@ -156,9 +156,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
 
             THEN( "codeine pills should be picked up" ) {
                 simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, std::list<const unique_item *> {
-                    &item_codeine
-                } );
+                expect_to_find( backpack, { &item_codeine } );
             }
         }
         // plastic prescription bottle > aspirin (12)
@@ -169,21 +167,17 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
 
             THEN( "prescription bottle with aspirin pills should be picked up" ) {
                 simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, std::list<const unique_item *> {
-                    &item_aspirin
-                } );
+                expect_to_find( backpack, { &item_aspirin } );
             }
         }
         // plastic bag > paper (5), paper wrapper > chocolate candy (3)
         WHEN( "they have chocolate candy in auto-pickup rules" ) {
             const unique_item item_paper = unique_item( itype_paper, 5 );
             const unique_item item_chocolate_candy = unique_item( itype_candy2, 3 );
-            const unique_item item_paper_wrapper = unique_item( itype_wrapper,
-            std::vector<const unique_item *> {
+            const unique_item item_paper_wrapper = unique_item( itype_wrapper, {
                 &item_chocolate_candy
             } );
-            unique_item item_plastic_bag = unique_item( itype_bag_plastic,
-            std::vector<const unique_item *> {
+            unique_item item_plastic_bag = unique_item( itype_bag_plastic, {
                 &item_paper, &item_paper_wrapper
             } );
             REQUIRE( item_plastic_bag.spawn_item( ground ) );
@@ -191,9 +185,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
 
             THEN( "paper wrapper with chocolate candy should be picked up" ) {
                 simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, std::list<const unique_item *> {
-                    &item_paper_wrapper
-                } );
+                expect_to_find( backpack, { &item_paper_wrapper } );
             }
         }
         // flashlight > light battery
@@ -217,9 +209,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
 
             THEN( "light battery from flashlight should be picked up" ) {
                 simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, std::list<const unique_item *> {
-                    &uitem_light_battery
-                } );
+                expect_to_find( backpack, { &uitem_light_battery } );
             }
         }
     }
