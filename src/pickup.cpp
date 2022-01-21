@@ -169,12 +169,10 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
         if( powered_container ) {
             // when dealing with battery powered tools there should only be one pocket
             // and one battery inside but this could change in future so account for that here
-            for( size_t i = 0; i < pickup_list.size() && all_batteries; i++ ) {
-                item *entry = pickup_list[i].get_item();
-                if( !entry->is_battery() ) {
-                    all_batteries = false;
-                }
-            }
+            all_batteries = std::all_of( pickup_list.begin(), pickup_list.end(),
+            []( const item_location & il ) {
+                return il.get_item()->is_battery();
+            } );
         }
         // make sure container is allowed to be picked up
         // when picking up batteries from powered containers don't pick container
@@ -575,11 +573,7 @@ void Pickup::autopickup( const tripoint &p )
             }
         }
     }
-    std::vector<int> quantities;
-    // create quantities for already registered target items to pickup
-    for( size_t i = 0; i < target_items.size(); i++ ) {
-        quantities.push_back( 0 );
-    }
+    std::vector<int> quantities( target_items.size(), 0 );
     for( std::pair<item_stack::iterator, int> &iter_qty : pick_values ) {
         target_items.emplace_back( map_cursor( p ), &*iter_qty.first );
         quantities.push_back( iter_qty.second );

@@ -141,7 +141,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
 
     GIVEN( "avatar spots items on a tile near him" ) {
         // make sure no items exist on the ground before we add them
-        REQUIRE( here.i_at( ground ).size() == 0 );
+        REQUIRE( here.i_at( ground ).empty() );
 
         // add random items to the tile on the ground
         here.add_item( ground, item( itype_marble, calendar::turn, 10 ) );
