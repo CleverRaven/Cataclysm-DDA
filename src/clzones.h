@@ -410,7 +410,6 @@ class zone_manager
                 const faction_id &fac = your_fac ) const;
         std::unordered_set<tripoint_abs_ms> get_vzone_set( const zone_type_id &type,
                 const faction_id &fac = your_fac ) const;
-
     public:
         zone_manager();
         ~zone_manager() = default;
@@ -485,7 +484,9 @@ class zone_manager
         bool has_personal_zones() const;
 
         bool save_zones();
+        bool save_world_zones();
         void load_zones();
+        void load_world_zones();
         void zone_edited( zone_data &zone );
         void revert_vzones();
         void serialize( JsonOut &json ) const;

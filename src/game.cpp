@@ -2928,6 +2928,7 @@ bool game::save()
         JsonOut jsout( fout );
             uistate.serialize( jsout );
         }, _( "uistate data" ) ) ) {
+            debugmsg( "game not saved" );
             return false;
         } else {
             world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
