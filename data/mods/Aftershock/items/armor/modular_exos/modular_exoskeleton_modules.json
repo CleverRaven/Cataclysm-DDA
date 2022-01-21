@@ -237,7 +237,7 @@
       "ammo_scale": 0,
       "menu_text": "Turn to high",
       "type": "transform",
-      "msg": "You turn the heavy duty flashlight off.",
+      "msg": "You turn the lamp on high.",
       "target": "exo_flashlight_high"
     },
     "flags": [ "LIGHT_250", "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ]
