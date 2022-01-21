@@ -339,6 +339,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", _flags );
 
     _height = _height_max;
+    _label_width = _label.empty() ? 0 : utf8_width( _label.translated() );
 
     if( jo.has_string( "var" ) ) {
         _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
@@ -367,9 +368,39 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
 }
 
+static int set_widget_label_width( const widget_id &id )
+{
+    widget *w = nullptr;
+    for( const widget &wgt : widget::get_all() ) {
+        if( wgt.getId() == id ) {
+            w = const_cast<widget *>( &wgt );
+            break;
+        }
+    }
+    if( w == nullptr ) {
+        return 0;
+    } else if( w->_widgets.empty() ) {
+        return w->has_flag( json_flag_W_LABEL_NONE ) ? 0 : w->_label_width;
+    }
+    int width = 0;
+    for( const widget_id &wid : w->_widgets ) {
+        if( wid->_style == "layout" && wid->_arrange == "rows" ) {
+            continue;
+        }
+        int tmpw = set_widget_label_width( wid );
+        if( tmpw > width ) {
+            width = tmpw;
+        }
+    }
+    w->_label_width = width;
+    return w->_label_width;
+}
+
 void widget::finalize()
 {
-    // Nothing to do?
+    for( const widget &wgt : widget::get_all() ) {
+        set_widget_label_width( wgt.getId() );
+    }
 }
 
 int widget::get_var_max( const avatar &ava ) const
@@ -581,7 +612,7 @@ static void custom_draw_func( const draw_args &args )
             int row_num = 0;
             for( const widget_id &row_wid : wgt->_widgets ) {
                 widget row_widget = row_wid.obj();
-                const std::string txt = row_widget.layout( u, widt );
+                const std::string txt = row_widget.layout( u, widt, wgt->_label_width );
                 row_num = widget::custom_draw_multiline( txt, w, margin, widt, row_num );
             }
         } else {
@@ -972,7 +1003,7 @@ std::string widget::graph( int value, int value_max )
 // For widget::layout, process each row to append to the layout string
 // align: 0 = left, 1 = center, 2 = right
 static std::string append_line( const std::string &line, bool first_row, unsigned int max_width,
-                                const translation &label, int align )
+                                const translation &label, int align, int label_width )
 {
     std::string ret;
     // Width used by label, ": " and value, using utf8_width to ignore color tags
@@ -982,13 +1013,21 @@ static std::string append_line( const std::string &line, bool first_row, unsigne
         used_width += 1;
     }
     if( first_row ) {
+        int lwidth = 0;
         const std::string tlabel = label.translated();
         // If label is empty or omitted, don't reserve space for it
         if( !label.empty() ) {
-            used_width += utf8_width( tlabel, true ) + 2;
+            lwidth = utf8_width( tlabel, true ) + 2;
             // Label and ": " first
             ret += tlabel + ": ";
+            label_width -= lwidth - 2;
         }
+        if( label_width > 0 ) {
+            label_width += label.empty() ? 2 : 0;
+            ret += std::string( label_width, ' ' );
+            lwidth += label_width;
+        }
+        used_width += lwidth;
     }
 
     // then enough padding to fit max_width
@@ -998,13 +1037,16 @@ static std::string append_line( const std::string &line, bool first_row, unsigne
             pad_count = max_width / 2 - used_width / 2;
         }
         ret += std::string( pad_count, ' ' );
+        used_width += pad_count;
     }
-    // then colorized value
     ret += line;
+    if( used_width < max_width && ( line.empty() || line.back() != '\n' ) ) {
+        ret += std::string( max_width - used_width, ' ' );
+    }
     return ret;
 }
 
-std::string widget::layout( const avatar &ava, const unsigned int max_width )
+std::string widget::layout( const avatar &ava, const unsigned int max_width, int label_width )
 {
     std::string ret;
     if( _style == "layout" ) {
@@ -1033,7 +1075,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
                 remainder -= 1;
             }
             // Layout child in this column
-            ret += string_format( "%s", cur_child.layout( ava, cur_width ) );
+            ret += string_format( "%s", cur_child.layout( ava, cur_width, label_width ) );
             // Add column padding until we reach the last column
             if( wid != _widgets.back() ) {
                 ret += std::string( col_padding, ' ' );
@@ -1050,7 +1092,8 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
         while( ( strpos = shown.find( '\n' ) ) != std::string::npos && row_num < _height ) {
             // Process line, including '\n'
             ret += append_line( shown.substr( 0, strpos + 1 ), row_num == 0, max_width,
-                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label, align );
+                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
+                                align, 0 );
             // Delete used token
             shown.erase( 0, strpos + 1 );
             row_num++;
@@ -1058,7 +1101,8 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
         if( row_num < _height ) {
             // Process last line, or first for single-line widgets
             ret += append_line( shown, row_num == 0, max_width,
-                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label, align );
+                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
+                                align, label_width );
         }
     }
     return ret;

@@ -176,6 +176,8 @@ class widget
         std::string _style;
         // Displayed label in the UI
         translation _label;
+        // Width of the longest label within this layout's widgets (for "rows")
+        int _label_width = 0;
         // Binding variable enum like stamina, bp_hp or stat_dex
         widget_var _var;
         // Minimum var value, optional
@@ -224,7 +226,7 @@ class widget
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the
         // label area, so the returned string is equal to max_width.
-        std::string layout( const avatar &ava, unsigned int max_width = 0 );
+        std::string layout( const avatar &ava, unsigned int max_width = 0, int label_width = 0 );
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava, unsigned int max_width );
         // Return a window_panel for rendering this widget at given width (and possibly height)
