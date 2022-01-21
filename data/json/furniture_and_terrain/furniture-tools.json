@@ -1431,7 +1431,7 @@
     "id": "f_rope_up",
     "name": "rope leading up",
     "looks_like": "t_rope_up",
-    "description": "A rope.  You could climb it up.",
+    "description": "A rope.  You could use it to climb up.",
     "symbol": "<",
     "color": "white",
     "move_cost_mod": 1,
