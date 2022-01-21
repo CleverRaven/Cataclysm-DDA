@@ -238,7 +238,7 @@
   {
     "id": "mon_boomer_claymore",
     "type": "MONSTER",
-    "name": "bone bomber",
+    "name": "bombadier boomer",
     "description": "This zombies swollen lungs and other organs seem close to bursting out of the rib cage.  What might happen when it explodes is not something you think you want to find out.",
     "default_faction": "zombie",
     "bodytype": "blob",
