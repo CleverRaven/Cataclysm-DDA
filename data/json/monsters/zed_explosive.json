@@ -238,8 +238,8 @@
   {
     "id": "mon_boomer_claymore",
     "type": "MONSTER",
-    "name": "Claymore boomer",
-    "description": "Rolls of fat pouring over oversized exposed ribs, this zombie is almost comical in its demeanor, however it's labored breathing strikes a unique fear of its intentions.",
+    "name": "bone bomber",
+    "description": "This zombies swollen lungs and other organs seem close to bursting out of the rib cage.  What might happen when it explodes is not something you think you want to find out.",
     "default_faction": "zombie",
     "bodytype": "blob",
     "species": [ "ZOMBIE", "HUMAN" ],
