@@ -49,7 +49,7 @@
 "required_buffs_all": [ "eskrima_hit_buff" ],    // This technique requires all of the named buffs to be active
 "forbidden_buffs_any": [ "eskrima_hit_buff" ],    // This technique is forbidden if any of the named buffs are active
 "forbidden_buffs_all": [ "eskrima_hit_buff" ],    // This technique is forbidden if all of the named buffs are active
-"req_flags": [ "" ]         // List of item flags the used weapon needs to be eligable for the technique
+"req_flags": [ "" ]         // List of item flags the used weapon needs to be eligible for the technique
 "required_char_flags": [ "" ]    // List of "character" (bionic, trait, effect or bodypart) flags the character needs to be able to use this technique
 "forbidden_char_flags": [ "" ]    // List of character flags disabling this technique
 "crit_tec" : true,          // This technique only works on a critical hit

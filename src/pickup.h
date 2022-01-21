@@ -28,7 +28,7 @@ enum from_where : int {
 };
 
 /** Pick up items; 'g' or ',' or via examine() */
-void pick_up( const tripoint &p, int min, from_where get_items_from = prompt );
+void autopickup( const tripoint &p );
 /** Determines the cost of moving an item by a character. */
 int cost_to_move_item( const Character &who, const item &it );
 

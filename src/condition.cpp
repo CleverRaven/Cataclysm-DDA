@@ -1322,6 +1322,16 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return []( const T & ) {
                 return to_hours<int>( time_past_midnight( calendar::turn ) );
             };
+        } else if( checked_value == "vitamin" ) {
+            std::string vitamin_name = jo.get_string( "name" );
+            return [is_npc, vitamin_name]( const T & d ) {
+                Character *you = d.actor( is_npc )->get_character();
+                if( you ) {
+                    return you->vitamin_get( vitamin_id( vitamin_name ) );
+                } else {
+                    return 0;
+                }
+            };
         }
     } else if( jo.has_array( "distance" ) ) {
         JsonArray objects = jo.get_array( "distance" );

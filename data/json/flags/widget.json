@@ -14,5 +14,9 @@
   {
     "type": "json_flag",
     "id": "W_DISABLED"
+  },
+  {
+    "type": "json_flag",
+    "id": "W_DYNAMIC_HEIGHT"
   }
 ]

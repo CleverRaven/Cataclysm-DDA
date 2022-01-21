@@ -407,6 +407,7 @@
     "regenerates": 5,
     "harvest": "frost_human",
     "death_drops": "default_moxie_human_death_drops",
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 2 } },
     "special_attacks": [ [ "PARROT", 0 ] ],
     "flags": [
       "SEES",

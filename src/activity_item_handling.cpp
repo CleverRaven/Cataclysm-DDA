@@ -938,20 +938,6 @@ static activity_reason_info find_base_construction(
     return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
 }
 
-static std::string random_string( size_t length )
-{
-    auto randchar = []() -> char {
-        static constexpr char charset[] =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-        static constexpr size_t num_chars = sizeof( charset ) - 1;
-        return charset[rng( 0, num_chars - 1 )];
-    };
-    std::string str( length, 0 );
-    std::generate_n( str.begin(), length, randchar );
-    return str;
-}
-
 static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                                      const requirement_id &needed_things, Character &you, const activity_id &activity_to_restore,
                                      const bool in_loot_zones, const tripoint &src_loc )

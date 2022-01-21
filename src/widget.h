@@ -47,6 +47,8 @@ enum class widget_var : int {
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
     bp_status_text, // Status of bodypart (bleeding, bitten, and/or infected)
+    bp_status_sym_text, // Status of bodypart (same as above, but shortened to 1 char per status)
+    bp_status_legend_text, // Legend describing the status indicators from bp_status_sym_text
     compass_text,   // Compass / visible threats by cardinal direction
     compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
@@ -110,6 +112,23 @@ struct enum_traits<cardinal_direction> {
     static constexpr cardinal_direction last = cardinal_direction::num_cardinal_directions;
 };
 
+// Used when determining bodypart status indicators in sidebar widgets.
+enum class bodypart_status : int {
+    BITTEN,
+    INFECTED,
+    BROKEN,
+    SPLINTED,
+    BANDAGED,
+    DISINFECTED,
+    BLEEDING,
+    num_bodypart_status
+};
+
+template<>
+struct enum_traits<bodypart_status> {
+    static constexpr bodypart_status last = bodypart_status::num_bodypart_status;
+};
+
 // Use generic_factory for loading JSON data.
 class JsonObject;
 template<typename T>
@@ -117,6 +136,24 @@ class generic_factory;
 
 // Forward declaration, due to codependency on panels.h
 class window_panel;
+
+struct widget_phrase {
+    private:
+        std::string id;
+        std::string sym;
+        translation text;
+        nc_color color;
+        int value;
+
+    public:
+        void load( const JsonObject &jo );
+
+        static int get_val_for_id( const std::string &phrase_id, const widget_id &wgt );
+        static const translation &get_text_for_id( const std::string &phrase_id, const widget_id &wgt );
+        static const std::string &get_sym_for_id( const std::string &phrase_id, const widget_id &wgt );
+        static nc_color get_color_for_id( const std::string &phrase_id,
+                                          const widget_id &wgt, int val = INT_MIN );
+};
 
 // A widget is a UI element displaying information from the underlying value of a widget_var.
 // It may be loaded from a JSON object having "type": "widget".
@@ -150,6 +187,8 @@ class widget
         int _width = 0;
         // Height in characters of widget, only matters for style == widget
         int _height = 0;
+        // Maximum height this widget can occupy (0 == no limit)
+        int _height_max = 0;
         // String of symbols for graph widgets, mapped in increasing order like "0123..."
         std::string _symbols;
         // Graph fill style ("bucket" or "pool")
@@ -166,6 +205,8 @@ class widget
         cardinal_direction _direction;
         // Flags for special widget behaviors
         std::set<flag_id> _flags;
+        // Phrases used to define text, colors and values
+        std::vector<widget_phrase> _phrases;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
@@ -176,6 +217,8 @@ class widget
         static void reset();
         // Get all widget instances from the factory
         static const std::vector<widget> &get_all();
+        // Get this widget's id
+        const widget_id &getId() const;
 
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the

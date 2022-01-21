@@ -346,7 +346,7 @@ You can also add `-fix-errors` to apply fixes reported by the checks or
 ## include-what-you-use
 
 [include-what-you-use](https://github.com/include-what-you-use/include-what-you-use)
-(IWYU) is a project intended to optimise includes.  It will calculate the
+(IWYU) is a project intended to optimize includes.  It will calculate the
 required headers and add and remove includes as appropriate.
 
 Running IWYU on this codebase revealed some issues.  You will need a version of IWYU

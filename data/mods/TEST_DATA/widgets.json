@@ -1,5 +1,21 @@
 [
   {
+    "id": "test_bp_status_indicator_template",
+    "type": "widget",
+    "style": "phrase",
+    "phrases": [
+      { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow" },
+      { "id": "infected", "text": "infected", "sym": "I", "color": "pink" },
+      { "id": "broken", "text": "broken", "sym": "%", "color": "magenta" },
+      { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray" },
+      { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white" },
+      { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green" },
+      { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red" },
+      { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red" },
+      { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red" }
+    ]
+  },
+  {
     "id": "test_bucket_graph",
     "type": "widget",
     "style": "graph",
@@ -114,7 +130,7 @@
     "type": "widget",
     "style": "text",
     "var": "compass_legend_text",
-    "flags": [ "W_PAD_NONE" ]
+    "flags": [ "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_compass_legend_3",
@@ -122,7 +138,7 @@
     "style": "text",
     "var": "compass_legend_text",
     "height": 3,
-    "flags": [ "W_PAD_NONE" ]
+    "flags": [ "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_compass_legend_5",
@@ -130,7 +146,7 @@
     "style": "text",
     "var": "compass_legend_text",
     "height": 5,
-    "flags": [ "W_PAD_NONE" ]
+    "flags": [ "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_speed_num",
@@ -283,7 +299,8 @@
     "label": "TORSO STATUS",
     "var": "bp_status_text",
     "bodypart": "torso",
-    "style": "text"
+    "style": "text",
+    "copy-from": "test_bp_status_indicator_template"
   },
   {
     "id": "test_status_left_arm_text",
@@ -291,7 +308,37 @@
     "label": "LEFT ARM STATUS",
     "var": "bp_status_text",
     "bodypart": "arm_l",
-    "style": "text"
+    "style": "text",
+    "copy-from": "test_bp_status_indicator_template"
+  },
+  {
+    "id": "test_status_sym_torso_text",
+    "type": "widget",
+    "style": "text",
+    "var": "bp_status_sym_text",
+    "label": "TORSO",
+    "bodypart": "torso",
+    "copy-from": "test_bp_status_indicator_template"
+  },
+  {
+    "id": "test_status_sym_left_arm_text",
+    "type": "widget",
+    "style": "text",
+    "var": "bp_status_sym_text",
+    "label": "L ARM",
+    "bodypart": "arm_l",
+    "copy-from": "test_bp_status_indicator_template"
+  },
+  {
+    "id": "test_status_legend_text",
+    "type": "widget",
+    "label": "Status Legend",
+    "style": "text",
+    "var": "bp_status_legend_text",
+    "copy-from": "test_bp_status_indicator_template",
+    "width": 0,
+    "height": 3,
+    "flags": [ "W_LABEL_NONE", "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_overmap_3x3_text",
