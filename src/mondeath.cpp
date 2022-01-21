@@ -81,7 +81,12 @@ item *mdeath::normal( monster &z )
         if( pulverized ) {
             return splatter( z );
         } else {
-            return make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+            item *corpse = make_mon_corpse( z,
+                                            static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+            if( corpse->is_null() ) {
+                return nullptr;
+            }
+            return corpse;
         }
     }
     return nullptr;
@@ -187,6 +192,9 @@ item *mdeath::splatter( monster &z )
         }
         // add corpse with gib flag
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
+        if( corpse.is_null() ) {
+            return nullptr;
+        }
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
         corpse.set_flag( STATIC( flag_id( "GIBBED" ) ) );
