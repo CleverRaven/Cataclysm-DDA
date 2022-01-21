@@ -35,14 +35,17 @@ class unique_item
         // Construct item with given type and list of items contained inside item pocket.
         unique_item( itype_id type, std::vector<const unique_item *> content ) {
             instance = item( type );
+            instance.set_var( "uid", random_string( 10 ) );
             for( const unique_item *entry : content ) {
                 insert_item( entry->get() );
             }
         }
         // Create a simple wrapper for given item with random UID.
-        unique_item( item &from ) {
+        unique_item( item &from, bool no_uid = false ) {
             instance = from;
-            instance.set_var( "uid", random_string( 10 ) );
+            if( get_uid().empty() && !no_uid ) {
+                instance.set_var( "uid", random_string( 10 ) );
+            }
         }
         // Returns the UID value assigned to this item.
         const std::string get_uid() const {
@@ -55,24 +58,35 @@ class unique_item
         // Returns true if both items have the same UID string value.
         bool is_same_item( const item *with ) const {
             std::string item_uid = with->get_var( "uid" );
-            CHECK( !item_uid.empty() );
-            return instance.get_var( "uid" ) == item_uid;
+            std::string this_uid = get_uid();
+            // if items don't have UID then compare types and charges
+            if( this_uid.empty() && item_uid.empty() ) {
+                return instance.typeId() == with->typeId() && instance.charges == with->charges;
+            }
+            return this_uid == item_uid;
         }
         // Force insert the given item to container pocket of this item.
         void insert_item( const item *what ) {
             instance.force_insert_item( *what, item_pocket::pocket_type::CONTAINER );
         }
+        // Spawns this item in the given location on the map.
+        // Returns true if item was spawned and false otherwise.
+        bool spawn_item( const tripoint &where ) {
+            instance = get_map().add_item( where, instance );
+            CHECK_FALSE( get_uid().empty() );
+            return &instance != &null_item_reference();
+        }
 };
 
 // Add the given item to auto-pickup character rules and check rules.
-static void add_autopickup_rule( const unique_item *what, bool exclude )
+static void add_autopickup_rule( const item *what, bool exclude )
 {
     auto_pickup::player_settings &rules = get_auto_pickup();
 
-    rules.add_rule( what->get(), exclude );
-    REQUIRE( rules.has_rule( what->get() ) );
+    rules.add_rule( what );
+    REQUIRE( rules.has_rule( what ) );
 
-    std::string item_name = what->get()->tname( 1, false );
+    std::string item_name = what->tname( 1, false );
     rule_state pickup_state = rules.check_item( item_name );
     REQUIRE( pickup_state == rule_state::WHITELISTED );
 }
@@ -81,7 +95,7 @@ static void add_autopickup_rule( const unique_item *what, bool exclude )
 static void add_autopickup_rules( const std::list<const unique_item *> what, bool exclude )
 {
     for( const unique_item *entry : what ) {
-        add_autopickup_rule( entry, exclude );
+        add_autopickup_rule( entry->get(), exclude );
     }
 }
 
@@ -117,7 +131,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
     const map_cursor location = map_cursor( ground );
 
     // wear backpack from map and get the new item reference
-    const item backpack = **( they.wear_item( item( itype_backpack_hiking ) ) );
+    item &backpack = **( they.wear_item( item( itype_backpack_hiking ) ) );
     REQUIRE( they.has_item( backpack ) );
 
     // reset character auto-pickup rules
@@ -130,14 +144,14 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
         REQUIRE( here.i_at( ground ).size() == 0 );
 
         // add random items to the tile on the ground
-        &here.add_item( ground, item( itype_marble, calendar::turn, 10 ) );
-        &here.add_item( ground, item( itype_pebble, calendar::turn, 15 ) );
+        here.add_item( ground, item( itype_marble, calendar::turn, 10 ) );
+        here.add_item( ground, item( itype_pebble, calendar::turn, 15 ) );
 
         // codeine (20)
         WHEN( "they have codeine pills in auto-pickup rules" ) {
-            const unique_item item_codeine = unique_item( itype_codeine, 20 );
-            here.add_item( ground, *item_codeine.get() );
-            add_autopickup_rule( &item_codeine, false );
+            unique_item item_codeine = unique_item( itype_codeine, 20 );
+            REQUIRE( item_codeine.spawn_item( ground ) );
+            add_autopickup_rule( item_codeine.get(), false );
 
             THEN( "codeine pills should be picked up" ) {
                 simulate_auto_pickup( ground, they );
@@ -148,9 +162,9 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
         }
         // plastic prescription bottle > aspirin (12)
         WHEN( "they have aspirin pills in auto-pickup rules" ) {
-            const unique_item item_aspirin = unique_item( itype_aspirin, 12 );
-            here.add_item( ground, *item_aspirin.get() );
-            add_autopickup_rule( &item_aspirin, false );
+            unique_item item_aspirin = unique_item( itype_aspirin, 12 );
+            REQUIRE( item_aspirin.spawn_item( ground ) );
+            add_autopickup_rule( item_aspirin.get(), false );
 
             THEN( "prescription bottle with aspirin pills should be picked up" ) {
                 simulate_auto_pickup( ground, they );
@@ -167,11 +181,12 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             std::vector<const unique_item *> {
                 &item_chocolate_candy
             } );
-            const unique_item item_plastic_bag = unique_item( itype_plastic_bag,
+            unique_item item_plastic_bag = unique_item( itype_plastic_bag,
             std::vector<const unique_item *> {
                 &item_paper, &item_paper_wrapper
             } );
-            add_autopickup_rule( &item_chocolate_candy, false );
+            REQUIRE( item_plastic_bag.spawn_item( ground ) );
+            add_autopickup_rule( item_chocolate_candy.get(), false );
 
             THEN( "paper wrapper with chocolate candy should be picked up" ) {
                 simulate_auto_pickup( ground, they );
@@ -182,15 +197,22 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
         }
         // flashlight > light battery
         WHEN( "they have light battery in auto-pickup rules" ) {
-            item item_light_battery = item( itype_light_battery );
-            const unique_item uitem_light_battery = unique_item( item_light_battery );
+            item *item_light_battery = &here.add_item( ground, item( itype_light_battery ) );
+            REQUIRE( item_light_battery != &null_item_reference() );
 
-            item item_flashlight = item( itype_flashlight );
-            REQUIRE( item_flashlight.reload( they, item_location( location, &item_light_battery ), 1 ) );
-            const unique_item uitem_flashlight = unique_item( item_flashlight );
+            item &item_flashlight = here.add_item( ground, item( itype_flashlight ) );
+            REQUIRE( &item_flashlight != &null_item_reference() );
+
+            // insert light battery into flashlight by reloading the item
+            item_flashlight.reload( they, item_location( location, item_light_battery ), 1 );
+            // battery was removed from ground so update variable
+            item_light_battery = item_flashlight.magazine_current();
+
+            unique_item uitem_light_battery = unique_item( *item_light_battery, true );
+            unique_item uitem_flashlight = unique_item( item_flashlight );
 
             // we want to remove and pickup the battery from the flashlight
-            add_autopickup_rule( &uitem_light_battery, false );
+            add_autopickup_rule( item_light_battery, false );
 
             THEN( "light battery from flashlight should be picked up" ) {
                 simulate_auto_pickup( ground, they );
