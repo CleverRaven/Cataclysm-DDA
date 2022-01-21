@@ -877,10 +877,10 @@ void Item_factory::finalize_post( itype &obj )
             obj.armor->all_layers.push_back( layer_level::PERSONAL );
         }
         if( obj.has_flag( flag_SKINTIGHT ) ) {
-            obj.armor->all_layers.push_back( layer_level::UNDERWEAR );
+            obj.armor->all_layers.push_back( layer_level::SKINTIGHT );
         }
         if( obj.has_flag( flag_NORMAL ) ) {
-            obj.armor->all_layers.push_back( layer_level::REGULAR );
+            obj.armor->all_layers.push_back( layer_level::NORMAL );
         }
         if( obj.has_flag( flag_WAIST ) ) {
             obj.armor->all_layers.push_back( layer_level::WAIST );
@@ -896,7 +896,7 @@ void Item_factory::finalize_post( itype &obj )
         }
         // fallback for old way of doing items
         if( obj.armor->all_layers.empty() ) {
-            obj.armor->all_layers.push_back( layer_level::REGULAR );
+            obj.armor->all_layers.push_back( layer_level::NORMAL );
         }
 
         // generate the vector of flags that the item will default to if not override
@@ -2389,19 +2389,19 @@ std::string enum_to_string<layer_level>( layer_level data )
 {
     switch( data ) {
         case layer_level::PERSONAL:
-            return "Personal";
-        case layer_level::UNDERWEAR:
-            return "Underwear";
-        case layer_level::REGULAR:
-            return "Regular";
+            return "PERSONAL";
+        case layer_level::SKINTIGHT:
+            return "SKINTIGHT";
+        case layer_level::NORMAL:
+            return "NORMAL";
         case layer_level::WAIST:
-            return "Waist";
+            return "WAIST";
         case layer_level::OUTER:
-            return "Outer";
+            return "OUTER";
         case layer_level::BELTED:
-            return "Belted";
+            return "BELTED";
         case layer_level::AURA:
-            return "Aura";
+            return "AURA";
         case layer_level::NUM_LAYER_LEVELS:
             break;
     }

@@ -376,7 +376,7 @@
     "id": "NORMAL",
     "type": "json_flag",
     "//": "Item is on the normal layer.",
-    "info": "This gear <info>fits like</info> clothing."
+    "info": "This gear <info>fits like</info> normal clothing."
   },
   {
     "id": "NO_CVD",
