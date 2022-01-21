@@ -6,9 +6,7 @@
     "dynamic_line": [
       "Sorry, I don't really have the time to work on something like that.  I've got lots of pieces for sale on the shelves."
     ],
-    "responses": [
-      { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
-    ]
+    "responses": [ { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" } ]
   },
   {
     "id": "TALK_BLACKSMITH_FABRICATE",
@@ -21,25 +19,19 @@
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
         "text": "[100 merch 2 mm] I like to stay light.",
-        "condition": {
-             "u_has_items": { "item": "FMCNote", "count": 100 }
-        },
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 100 } },
         "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       },
       {
         "text": "[200 merch 4 mm] A middle ground would be good.",
-        "condition": {
-             "u_has_items": { "item": "FMCNote", "count": 200 }
-        },
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 200 } },
         "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       },
       {
         "text": "[300 merch 6 mm] Never skimp on protection.",
-        "condition": {
-             "u_has_items": { "item": "FMCNote", "count": 300 }
-        },
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 300 } },
         "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       }
@@ -50,7 +42,7 @@
     "//": "this is all the dialogue related to working on armor with Cody",
     "type": "talk_topic",
     "dynamic_line": [
-      "Alright <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel or, I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four."
+      "Alright <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem, if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel or, I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four."
     ],
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
@@ -70,44 +62,167 @@
     "id": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS",
     "//": "this is all the dialogue related to working on armor with Cody",
     "type": "talk_topic",
-    "dynamic_line": [
-      "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor.  If you're good with that I'll take the merch up front and start taking some very invasive measurements."
-    ],
+    "dynamic_line": {
+      "u_compare_var": "blacksmith_wait",
+      "type": "number",
+      "context": "artisans",
+      "op": "==",
+      "value": 3,
+      "yes": "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor made of the best high carbon steel a woman can scavenge.  If you're good with that I'll take the merch up front and start taking some very invasive measurements.",
+      "no": "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen.  If you're good with that I'll take the merch up front and start taking some very invasive measurements."
+    },
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
         "text": "[100 merch] Sounds good see you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
-            {"u_has_items": { "item": "FMCNote", "count": 100 }},
+            { "u_has_items": { "item": "FMCNote", "count": 100 } },
             { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" }
           ]
         },
-        "effect": [ { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } ],
-        "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
+        "effect": [
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_sell_item": "FMCNote", "count": 100 },
+          { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
+          { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
+        ],
+        "topic": "TALK_DONE"
       },
       {
         "text": "[200 merch] Sounds good see you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
-            {"u_has_items": { "item": "FMCNote", "count": 200 }},
+            { "u_has_items": { "item": "FMCNote", "count": 200 } },
             { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" }
           ]
         },
-        "effect": [ { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } ],
-        "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
+        "effect": [
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_sell_item": "FMCNote", "count": 200 },
+          { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
+          { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
+        ],
+        "topic": "TALK_DONE"
       },
       {
         "text": "[300 merch] Sounds good see you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
-            {"u_has_items": { "item": "FMCNote", "count": 300 }},
+            { "u_has_items": { "item": "FMCNote", "count": 300 } },
             { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" }
           ]
         },
-        "effect": [ { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } ],
-        "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
+        "effect": [
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_sell_item": "FMCNote", "count": 300 },
+          { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
+          { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
+        ],
+        "topic": "TALK_DONE"
       }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_ARMOR_READY",
+    "//": "this is dialogue to pickup the armor",
+    "type": "talk_topic",
+    "dynamic_line": [ "It's all done!  Sorry for the long wait hopefully it's worth it.  If you need it refitted let me know." ],
+    "responses": [
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "3" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_hc_lightplate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "4" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_qt_lightplate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "3" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_hc_plate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "4" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_qt_plate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "3" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_hc_heavyplate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "4" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_qt_heavyplate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_ARMOR_NOT_READY",
+    "//": "this is dialogue if your armor isn't ready to pickup",
+    "type": "talk_topic",
+    "dynamic_line": [ "Still working on it." ],
+    "responses": [
+      { "text": "Thanks.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "See you when it's done.", "topic": "TALK_DONE" }
     ]
   }
 ]

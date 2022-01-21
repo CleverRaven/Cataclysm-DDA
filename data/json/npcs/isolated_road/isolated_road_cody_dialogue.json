@@ -82,7 +82,10 @@
         "text": "Could you make me a suit of armor?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "artisans_made_up", "type": "dialogue", "context": "artisans", "value": "yes" } },
+            { "not": { "u_has_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" } },
+            {
+              "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            },
             { "u_has_var": "blacksmith_heard_the_deal", "type": "dialogue", "context": "artisans", "value": "yes" }
           ]
         },
@@ -92,11 +95,61 @@
         "text": "Could you make me a suit of armor?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "blacksmith_making_armor", "type": "dialogue", "context": "artisans", "value": "yes" } },
-            { "u_has_var": "artisans_made_up", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } },
+            {
+              "//": "this variable means that you have completed quest 1 for Cody and shown Jay",
+              "u_has_var": "gunsmith_mentioned_quest",
+              "type": "dialogue",
+              "context": "artisans",
+              "value": "yes"
+            }
           ]
         },
         "topic": "TALK_BLACKSMITH_FABRICATE"
+      },
+      {
+        "text": "How is my armor coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "21 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 3 },
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
+      },
+      {
+        "text": "How is my armor coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "21 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 3 },
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_ARMOR_READY"
+      },
+      {
+        "text": "How is my armor coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "28 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 4 },
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
+      },
+      {
+        "text": "How is my armor coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "28 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 4 },
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_ARMOR_READY"
       }
     ]
   },
