@@ -234,5 +234,35 @@
       "PACIFIST",
       "SLUDGEPROOF"
     ]
+  },
+  {
+    "id": "mon_boomer_claymore",
+    "type": "MONSTER",
+    "name": "bombardier boomer",
+    "description": "This zombies swollen lungs and other organs seem close to bursting out of the rib cage.  What might happen when it explodes is not something you think you want to find out.",
+    "default_faction": "zombie",
+    "bodytype": "blob",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 9,
+    "volume": "98 L",
+    "weight": "85 kg",
+    "hp": 150,
+    "speed": 95,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 1,
+    "armor_bash": 10,
+    "armor_cut": 5,
+    "armor_bullet": 5,
+    "armor_elec": 2,
+    "vision_night": 6,
+    "harvest": "zombie_meatslug",
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "boomer_claymore_initial", "min_level": 0 } } ],
+    "death_drops": "default_zombie_items",
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   }
 ]
