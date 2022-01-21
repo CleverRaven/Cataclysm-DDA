@@ -79,7 +79,7 @@ class unique_item
 };
 
 // Add the given item to auto-pickup character rules and check rules.
-static void add_autopickup_rule( const item *what, bool exclude )
+static void add_autopickup_rule( const item *what )
 {
     auto_pickup::player_settings &rules = get_auto_pickup();
 
@@ -92,10 +92,10 @@ static void add_autopickup_rule( const item *what, bool exclude )
 }
 
 // Add the given items to auto-pickup character rules and check rules.
-static void add_autopickup_rules( const std::list<const unique_item *> what, bool exclude )
+static void add_autopickup_rules( const std::list<const unique_item *> what )
 {
     for( const unique_item *entry : what ) {
-        add_autopickup_rule( entry->get(), exclude );
+        add_autopickup_rule( entry->get() );
     }
 }
 
@@ -151,7 +151,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
         WHEN( "they have codeine pills in auto-pickup rules" ) {
             unique_item item_codeine = unique_item( itype_codeine, 20 );
             REQUIRE( item_codeine.spawn_item( ground ) );
-            add_autopickup_rule( item_codeine.get(), false );
+            add_autopickup_rule( item_codeine.get() );
 
             THEN( "codeine pills should be picked up" ) {
                 simulate_auto_pickup( ground, they );
@@ -164,7 +164,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
         WHEN( "they have aspirin pills in auto-pickup rules" ) {
             unique_item item_aspirin = unique_item( itype_aspirin, 12 );
             REQUIRE( item_aspirin.spawn_item( ground ) );
-            add_autopickup_rule( item_aspirin.get(), false );
+            add_autopickup_rule( item_aspirin.get() );
 
             THEN( "prescription bottle with aspirin pills should be picked up" ) {
                 simulate_auto_pickup( ground, they );
@@ -186,7 +186,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
                 &item_paper, &item_paper_wrapper
             } );
             REQUIRE( item_plastic_bag.spawn_item( ground ) );
-            add_autopickup_rule( item_chocolate_candy.get(), false );
+            add_autopickup_rule( item_chocolate_candy.get() );
 
             THEN( "paper wrapper with chocolate candy should be picked up" ) {
                 simulate_auto_pickup( ground, they );
@@ -212,7 +212,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             unique_item uitem_flashlight = unique_item( item_flashlight );
 
             // we want to remove and pickup the battery from the flashlight
-            add_autopickup_rule( item_light_battery, false );
+            add_autopickup_rule( item_light_battery );
 
             THEN( "light battery from flashlight should be picked up" ) {
                 simulate_auto_pickup( ground, they );
