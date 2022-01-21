@@ -126,7 +126,7 @@ class player_settings : public base_settings
         ~player_settings() override = default;
         void create_rule( const item *it );
         bool has_rule( const item *it );
-        void add_rule( const item *it );
+        void add_rule( const item *it, bool include );
         void remove_rule( const item *it );
 
         void clear_character_rules();

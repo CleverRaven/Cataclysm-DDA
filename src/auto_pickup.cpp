@@ -579,9 +579,9 @@ bool player_settings::has_rule( const item *it )
     return false;
 }
 
-void player_settings::add_rule( const item *it )
+void player_settings::add_rule( const item *it, bool include )
 {
-    character_rules.push_back( rule( it->tname( 1, false ), true, false ) );
+    character_rules.push_back( rule( it->tname( 1, false ), true, !include ) );
     create_rule( it );
 
     if( !get_option<bool>( "AUTO_PICKUP" ) &&
