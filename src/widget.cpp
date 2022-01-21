@@ -125,6 +125,10 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "body_temp_text";
         case widget_var::bp_status_text:
             return "bp_status_text";
+        case widget_var::bp_status_sym_text:
+            return "bp_status_sym_text";
+        case widget_var::bp_status_legend_text:
+            return "bp_status_legend_text";
         case widget_var::date_text:
             return "date_text";
         case widget_var::env_temp_text:
@@ -218,7 +222,104 @@ std::string enum_to_string<cardinal_direction>( cardinal_direction dir )
     }
     cata_fatal( "Invalid cardinal_direction" );
 }
+
+template<>
+std::string enum_to_string<bodypart_status>( bodypart_status stat )
+{
+    switch( stat ) {
+        case bodypart_status::BITTEN:
+            return "bitten";
+        case bodypart_status::INFECTED:
+            return "infected";
+        case bodypart_status::BROKEN:
+            return "broken";
+        case bodypart_status::SPLINTED:
+            return "splinted";
+        case bodypart_status::BANDAGED:
+            return "bandaged";
+        case bodypart_status::DISINFECTED:
+            return "disinfected";
+        case bodypart_status::BLEEDING:
+            return "bleeding";
+        case bodypart_status::num_bodypart_status:
+        default:
+            break;
+    }
+    cata_fatal( "Invalid bodypart_status" );
+}
 } // namespace io
+
+void widget_phrase::load( const JsonObject &jo )
+{
+    optional( jo, false, "id", id );
+    optional( jo, false, "text", text );
+    optional( jo, false, "sym", sym );
+    optional( jo, false, "value", value, INT_MIN );
+
+    std::string clr;
+    optional( jo, false, "color", clr, "white" );
+    color = color_from_string( clr );
+}
+
+int widget_phrase::get_val_for_id( const std::string &phrase_id, const widget_id &wgt )
+{
+    auto iter = std::find_if( wgt->_phrases.begin(), wgt->_phrases.end(),
+    [&phrase_id]( const widget_phrase & wp ) {
+        return wp.id == phrase_id;
+    } );
+    return iter == wgt->_phrases.end() ? INT_MIN : iter->value;
+}
+
+const translation &widget_phrase::get_text_for_id( const std::string &phrase_id,
+        const widget_id &wgt )
+{
+    static const translation none;
+    auto iter = std::find_if( wgt->_phrases.begin(), wgt->_phrases.end(),
+    [&phrase_id]( const widget_phrase & wp ) {
+        return wp.id == phrase_id;
+    } );
+    return iter == wgt->_phrases.end() ? none : iter->text;
+}
+
+const std::string &widget_phrase::get_sym_for_id( const std::string &phrase_id,
+        const widget_id &wgt )
+{
+    static const std::string none;
+    auto iter = std::find_if( wgt->_phrases.begin(), wgt->_phrases.end(),
+    [&phrase_id]( const widget_phrase & wp ) {
+        return wp.id == phrase_id;
+    } );
+    return iter == wgt->_phrases.end() ? none : iter->sym;
+}
+
+nc_color widget_phrase::get_color_for_id( const std::string &phrase_id, const widget_id &wgt,
+        int val )
+{
+    std::map<int, nc_color> vals;
+    for( const widget_phrase &wp : wgt->_phrases ) {
+        if( phrase_id != wp.id ) {
+            continue;
+        }
+        if( val == INT_MIN ) {
+            return wp.color;
+        }
+        vals.emplace( wp.value, wp.color );
+    }
+    if( vals.empty() ) {
+        return c_white;
+    }
+
+    int key = INT_MIN;
+    for( const auto &v : vals ) {
+        if( v.first == val ) {
+            return v.second;
+        } else if( v.first > val ) {
+            break;
+        }
+        key = v.first;
+    }
+    return key == INT_MIN ? c_white : vals[key];
+}
 
 void widget::load( const JsonObject &jo, const std::string & )
 {
@@ -251,6 +352,16 @@ void widget::load( const JsonObject &jo, const std::string & )
             _colors.emplace_back( get_all_colors().name_to_color( color_name ) );
         }
     }
+
+    if( jo.has_array( "phrases" ) ) {
+        _phrases.clear();
+        for( JsonObject jobj : jo.get_array( "phrases" ) ) {
+            widget_phrase phs;
+            phs.load( jobj );
+            _phrases.emplace_back( phs );
+        }
+    }
+
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
 }
 
@@ -514,6 +625,8 @@ bool widget::uses_text_function()
         case widget_var::activity_text:
         case widget_var::body_temp_text:
         case widget_var::bp_status_text:
+        case widget_var::bp_status_sym_text:
+        case widget_var::bp_status_legend_text:
         case widget_var::compass_text:
         case widget_var::compass_legend_text:
         case widget_var::date_text:
@@ -563,6 +676,17 @@ static void set_height_for_widget( const widget_id &id, int height )
     }
 }
 
+static std::set<bodypart_id> get_bodyparts_from_status_widgets()
+{
+    std::set<bodypart_id> ret;
+    for( const widget &w : widget::get_all() ) {
+        if( w._var == widget_var::bp_status_sym_text ) {
+            ret.emplace( w._bp_id );
+        }
+    }
+    return ret;
+}
+
 // NOTE: Use max_width to split multi-line widgets across lines
 std::string widget::color_text_function_string( const avatar &ava, unsigned int max_width )
 {
@@ -586,8 +710,19 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::temp_text_color( ava );
             break;
         case widget_var::bp_status_text:
-            desc.first = display::colorized_bodypart_status_text( ava, _bp_id );
+            desc.first = display::colorized_bodypart_status_text( ava, _bp_id, id.str() );
             apply_color = false; // Has embedded color already
+            break;
+        case widget_var::bp_status_sym_text:
+            desc.first = display::colorized_bodypart_status_sym_text( ava, _bp_id, id.str() );
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::bp_status_legend_text:
+            desc.first = display::colorized_bodypart_status_legend_text( ava,
+                         get_bodyparts_from_status_widgets(), id.str(),
+                         _width == 0 ? max_width : _width, _height_max, _height );
+            update_height = true; // Dynamically adjusted height
+            apply_color = false; // Already colorized
             break;
         case widget_var::date_text:
             desc.first = display::date_string();
@@ -682,8 +817,9 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             apply_color = false; // Already colorized
             break;
         case widget_var::compass_legend_text:
-            desc.first = display::colorized_compass_legend_text( max_width, _height_max, _height );
-            update_height = true;
+            desc.first = display::colorized_compass_legend_text( _width == 0 ? max_width : _width, _height_max,
+                         _height );
+            update_height = true; // Dynamically adjusted height
             apply_color = false; // Already colorized
             break;
         default:

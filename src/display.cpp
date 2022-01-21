@@ -1016,11 +1016,13 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     return std::make_pair( fuel_text, fuel_color );
 }
 
-std::vector<std::pair<std::string, nc_color>> display::bodypart_status_colors( const Character &u,
-        const bodypart_id &bp )
+// Return status/color pairs for all statuses affecting body part (bleeding, bitten, bandaged, etc.)
+static std::map<bodypart_status, nc_color> bodypart_status_colors( const Character &u,
+        const bodypart_id &bp, const std::string &wgt_id )
 {
-    // List of status strings and colors
-    std::vector<std::pair<std::string, nc_color>> ret;
+    // List of active statuses and associated colors
+    std::map<bodypart_status, nc_color> ret;
+
     // Empty if no bodypart given
     if( bp == bodypart_str_id::NULL_ID() ) {
         return ret;
@@ -1035,44 +1037,149 @@ std::vector<std::pair<std::string, nc_color>> display::bodypart_status_colors( c
     const bool bandaged = u.has_effect( effect_bandaged,  bp.id() );
     const bool disinfected = u.has_effect( effect_disinfected,  bp.id() );
 
+    auto get_clr = [&wgt_id]( const bodypart_status & stat, int val ) {
+        widget_id id( wgt_id );
+        if( id.is_valid() ) {
+            return widget_phrase::get_color_for_id( io::enum_to_string( stat ), id, val );
+        }
+        return c_white;
+    };
+
     // Ailments
     if( broken ) {
-        ret.emplace_back( std::make_pair( "broken", c_magenta ) );
+        ret[bodypart_status::BROKEN] = get_clr( bodypart_status::BROKEN, INT_MIN );
     }
     if( bitten ) {
-        ret.emplace_back( std::make_pair( "bitten", c_yellow ) );
+        ret[bodypart_status::BITTEN] = get_clr( bodypart_status::BITTEN, INT_MIN );
     }
     if( bleeding ) {
-        ret.emplace_back( std::make_pair( "bleeding",
-                                          colorize_bleeding_intensity( bleed_intensity ) ) );
+        ret[bodypart_status::BLEEDING] = get_clr( bodypart_status::BLEEDING, bleed_intensity );
     }
     if( infected ) {
-        ret.emplace_back( std::make_pair( "infected", c_pink ) );
+        ret[bodypart_status::INFECTED] = get_clr( bodypart_status::INFECTED, INT_MIN );
     }
     // Treatments
     if( splinted ) {
-        ret.emplace_back( std::make_pair( "splinted", c_light_gray ) );
+        ret[bodypart_status::SPLINTED] = get_clr( bodypart_status::SPLINTED, INT_MIN );
     }
     if( bandaged ) {
-        ret.emplace_back( std::make_pair( "bandaged", c_white ) );
+        ret[bodypart_status::BANDAGED] = get_clr( bodypart_status::BANDAGED, INT_MIN );
     }
     if( disinfected ) {
-        ret.emplace_back( std::make_pair( "disinfected", c_light_green ) );
+        ret[bodypart_status::DISINFECTED] = get_clr( bodypart_status::DISINFECTED, INT_MIN );
     }
 
     return ret;
 }
 
-std::string display::colorized_bodypart_status_text( const Character &u, const bodypart_id &bp )
+std::string display::colorized_bodypart_status_text( const Character &u, const bodypart_id &bp,
+        const std::string &wgt_id )
 {
     // Colorized strings for each status
     std::vector<std::string> color_strings;
+    widget_id wid( wgt_id );
     // Get all status strings and colorize them
-    for( const std::pair<std::string, nc_color> &sc : display::bodypart_status_colors( u, bp ) ) {
-        color_strings.emplace_back( colorize( sc.first, sc.second ) );
+    for( const auto &sc : bodypart_status_colors( u, bp, wgt_id ) ) {
+        std::string txt = io::enum_to_string( sc.first );
+        if( wid.is_valid() ) {
+            // Check if there's a phrase defining this status' text
+            translation t = widget_phrase::get_text_for_id( txt, wid );
+            txt = t.empty() ? txt : t.translated();
+        }
+        color_strings.emplace_back( colorize( txt, sc.second ) );
     }
     // Join with commas, or return "--" if no statuses
     return color_strings.empty() ? "--" : join( color_strings, ", " );
+}
+
+static const std::string &sym_for_bp_status( const bodypart_status &stat )
+{
+    static const std::string none = ".";
+    static const std::map<bodypart_status, std::string> symmap {
+        { bodypart_status::BITTEN, "B" },
+        { bodypart_status::INFECTED, "I" },
+        { bodypart_status::BROKEN, "%" },
+        { bodypart_status::BLEEDING, "b" },
+        { bodypart_status::SPLINTED, "=" },
+        { bodypart_status::BANDAGED, "+" },
+        { bodypart_status::DISINFECTED, "$" },
+        { bodypart_status::num_bodypart_status, none }
+    };
+    auto sym = symmap.find( stat );
+    return sym == symmap.end() ? none : sym->second;
+}
+
+std::string display::colorized_bodypart_status_sym_text( const Character &u, const bodypart_id &bp,
+        const std::string &wgt_id )
+{
+    std::string ret;
+    widget_id wid( wgt_id );
+    for( const auto &bpcol : bodypart_status_colors( u, bp, wgt_id ) ) {
+        std::string sym;
+        if( wid.is_valid() ) {
+            // Check if there's a phrase defining this status' symbol
+            sym = widget_phrase::get_sym_for_id( io::enum_to_string( bpcol.first ), wid );
+        }
+        sym = sym.empty() ? sym_for_bp_status( bpcol.first ) : sym;
+        ret += colorize( sym, bpcol.second );
+    }
+    return ret;
+}
+
+std::string display::colorized_bodypart_status_legend_text( const Character &u,
+        const std::set<bodypart_id> &bplist, const std::string &wgt_id, int width, int max_height,
+        int &height )
+{
+    std::vector<std::string> keys;
+    std::set<bodypart_status> status;
+    widget_id wid( wgt_id );
+    for( const bodypart_id &bp : bplist ) {
+        for( const auto &bpcol : bodypart_status_colors( u, bp, wgt_id ) ) {
+            if( status.find( bpcol.first ) == status.end() ) {
+                status.emplace( bpcol.first );
+                std::string key = io::enum_to_string( bpcol.first );
+                std::string sym;
+                if( wid.is_valid() ) {
+                    translation t = widget_phrase::get_text_for_id( key, wid );
+                    key = t.empty() ? key : t.translated();
+                    sym = widget_phrase::get_sym_for_id( io::enum_to_string( bpcol.first ), wid );
+                }
+                sym = sym.empty() ? sym_for_bp_status( bpcol.first ) : sym;
+                sym = colorize( sym, bpcol.second );
+                keys.emplace_back( string_format( "%s %s", sym, key ) );
+            }
+        }
+    }
+    // Split legend keys into X lines, where X = height.
+    // Lines use the provided width.
+    // This effectively limits the text to a 'width'x'height' box.
+    std::string ret;
+    height = 0;
+    const int h_max = max_height == 0 ? INT_MAX : max_height;
+    const int nsize = keys.size();
+    for( int row = 0, nidx = 0; row < h_max && nidx < nsize; row++ ) {
+        int wavail = width;
+        int nwidth = utf8_width( keys[nidx], true );
+        bool startofline = true;
+        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
+            startofline = false;
+            wavail -= nwidth;
+            ret += keys[nidx];
+            nidx++;
+            if( nidx < nsize ) {
+                nwidth = utf8_width( keys[nidx], true );
+                if( wavail > nwidth ) {
+                    ret += "  ";
+                    wavail -= 2;
+                }
+            }
+        }
+        if( row < h_max - 1 ) {
+            ret += "\n";
+        }
+        height++;
+    }
+    return ret;
 }
 
 // Single-letter move mode (W, R, C, P)

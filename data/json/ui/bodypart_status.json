@@ -1,10 +1,35 @@
 [
   {
+    "id": "bodypart_status_indicator_template",
+    "type": "widget",
+    "style": "phrase",
+    "phrases": [
+      { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow" },
+      { "id": "infected", "text": "infected", "sym": "I", "color": "pink" },
+      { "id": "broken", "text": "broken", "sym": "%", "color": "magenta" },
+      { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray" },
+      { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white" },
+      { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green" },
+      { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red" },
+      { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red" },
+      { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red" }
+    ]
+  },
+  {
     "id": "bodypart_status_text",
     "//": "Base widget for showing body part status; needs bodypart field defined in derived widget.",
     "type": "widget",
     "style": "text",
-    "var": "bp_status_text"
+    "var": "bp_status_text",
+    "copy-from": "bodypart_status_indicator_template"
+  },
+  {
+    "id": "bodypart_status_sym_text",
+    "//": "Base widget for body part status symbols; needs bodypart field defined in derived widget.",
+    "type": "widget",
+    "style": "text",
+    "var": "bp_status_sym_text",
+    "copy-from": "bodypart_status_indicator_template"
   },
   {
     "id": "bp_status_head_text",
@@ -49,6 +74,59 @@
     "copy-from": "bodypart_status_text"
   },
   {
+    "id": "bp_status_sym_head_text",
+    "type": "widget",
+    "label": "HEAD",
+    "bodypart": "head",
+    "copy-from": "bodypart_status_sym_text"
+  },
+  {
+    "id": "bp_status_sym_torso_text",
+    "type": "widget",
+    "label": "TORSO",
+    "bodypart": "torso",
+    "copy-from": "bodypart_status_sym_text"
+  },
+  {
+    "id": "bp_status_sym_left_arm_text",
+    "type": "widget",
+    "label": "L ARM",
+    "bodypart": "arm_l",
+    "copy-from": "bodypart_status_sym_text"
+  },
+  {
+    "id": "bp_status_sym_right_arm_text",
+    "type": "widget",
+    "label": "R ARM",
+    "bodypart": "arm_r",
+    "copy-from": "bodypart_status_sym_text"
+  },
+  {
+    "id": "bp_status_sym_left_leg_text",
+    "type": "widget",
+    "label": "L LEG",
+    "bodypart": "leg_l",
+    "copy-from": "bodypart_status_sym_text"
+  },
+  {
+    "id": "bp_status_sym_right_leg_text",
+    "type": "widget",
+    "label": "R LEG",
+    "bodypart": "leg_r",
+    "copy-from": "bodypart_status_sym_text"
+  },
+  {
+    "id": "bp_status_legend_text",
+    "type": "widget",
+    "label": "Status Legend",
+    "style": "text",
+    "var": "bp_status_legend_text",
+    "copy-from": "bodypart_status_indicator_template",
+    "width": 0,
+    "height": 3,
+    "flags": [ "W_LABEL_NONE", "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+  },
+  {
     "id": "bodypart_status_top_layout",
     "type": "widget",
     "style": "layout",
@@ -61,6 +139,20 @@
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "bp_status_left_leg_text", "bp_status_torso_text", "bp_status_right_leg_text" ]
+  },
+  {
+    "id": "bodypart_status_top_sym_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "bp_status_sym_left_arm_text", "bp_status_sym_head_text", "bp_status_sym_right_arm_text" ]
+  },
+  {
+    "id": "bodypart_status_bottom_sym_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "bp_status_sym_left_leg_text", "bp_status_sym_torso_text", "bp_status_sym_right_leg_text" ]
   },
   {
     "id": "bodypart_status_layout",
@@ -76,5 +168,13 @@
       "bp_status_left_leg_text",
       "bp_status_right_leg_text"
     ]
+  },
+  {
+    "id": "bodypart_status_sym_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Body Part Status Alt",
+    "arrange": "rows",
+    "widgets": [ "bodypart_status_top_sym_layout", "bodypart_status_bottom_sym_layout", "bp_status_legend_text" ]
   }
 ]

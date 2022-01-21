@@ -23,7 +23,8 @@
       "light_moon_wind_temp_layout",
       "vehicle_azimuth_cruise_fuel_layout",
       "vital_numbers_layout",
-      "bodypart_status_layout"
+      "bodypart_status_layout",
+      "bodypart_status_sym_layout"
     ]
   }
 ]
