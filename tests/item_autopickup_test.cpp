@@ -87,7 +87,7 @@ static void add_autopickup_rule( const item *what, bool include )
 
     std::string item_name = what->tname( 1, false );
     rule_state pickup_state = rules.check_item( item_name );
-    REQUIRE( pickup_state == rule_state::WHITELISTED );
+    REQUIRE( pickup_state == ( include ? rule_state::WHITELISTED : rule_state::BLACKLISTED ) );
 }
 
 // Add the given items to auto-pickup character rules and check rules.
@@ -110,7 +110,7 @@ static void simulate_auto_pickup( const tripoint &pos, avatar &they )
 static void expect_to_find( const item &in, const std::list<const unique_item *> what )
 {
     // make sure all items on the list have been picked up.
-    REQUIRE( in.all_items_top().size() == what.size() );
+    CHECK( in.all_items_top().size() == what.size() );
     for( const unique_item *entry : what ) {
         REQUIRE( in.has_item_with( [entry]( const item & it ) {
             return entry->is_same_item( &it );
