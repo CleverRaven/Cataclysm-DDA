@@ -40,7 +40,6 @@
     "weight": "200 kg",
     "hp": 210,
     "speed": 180,
-    "attack_cost": 180,
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "white",
