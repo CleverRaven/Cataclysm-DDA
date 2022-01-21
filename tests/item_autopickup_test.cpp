@@ -8,7 +8,6 @@
 #include "pickup.h"
 
 static const itype_id itype_backpack( "backpack" );
-static const itype_id itype_backpack_hiking( "backpack_hiking" );
 static const itype_id itype_marble( "marble" );
 static const itype_id itype_pebble( "pebble" );
 static const itype_id itype_codeine( "codeine" );
@@ -132,7 +131,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
     const map_cursor location = map_cursor( ground );
 
     // wear backpack from map and get the new item reference
-    item &backpack = **( they.wear_item( item( itype_backpack_hiking ) ) );
+    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
 
     // reset character auto-pickup rules
