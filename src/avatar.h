@@ -198,6 +198,7 @@ class avatar : public Character
                              int base_cost = INVENTORY_HANDLING_PENALTY );
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
+        void set_location( const tripoint_abs_ms &loc );
         /** Handles reading effects and returns true if activity started */
         bool read( item_location &book, item_location ereader = {} );
         /** Note that we've read a book at least once. **/
