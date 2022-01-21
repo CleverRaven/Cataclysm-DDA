@@ -860,9 +860,9 @@
     "batch_time_factors": [ 90, 2 ],
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ] , [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ] , [ "scrap", 20 ] ] , [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ] ]
-  }
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ] ]
+  },
   {
     "type": "recipe",
     "result": "mc_steel_lump",
@@ -875,9 +875,9 @@
     "batch_time_factors": [ 90, 2 ],
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ] , [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ] , [ "scrap", 20 ] ] , [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ] ]
-  }
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ] ]
+  },
   {
     "type": "recipe",
     "result": "hc_steel_lump",
@@ -890,7 +890,7 @@
     "batch_time_factors": [ 90, 2 ],
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ] , [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ] , [ "scrap", 20 ] ] , [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ] ]
   }
 ]
