@@ -862,7 +862,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ] , [ [ "forge", 500 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ] , [ "scrap", 20 ] ] , [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ] ]
-  }
+  },
   {
     "type": "recipe",
     "result": "mc_steel_lump",
@@ -877,7 +877,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ] , [ [ "forge", 500 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ] , [ "scrap", 20 ] ] , [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ] ]
-  }
+  },
   {
     "type": "recipe",
     "result": "hc_steel_lump",
