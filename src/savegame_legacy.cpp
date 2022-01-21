@@ -20,7 +20,6 @@ static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
-static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
@@ -225,7 +224,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id::NULL_ID(), // ACT_REFILL_VEHICLE is deprecated
         ACT_TRAIN,
         ACT_WAIT_WEATHER,
-        ACT_FIRSTAID,
+        activity_id::NULL_ID(), // ACT_FIRSTAID is an actor now
         ACT_FISH,
         ACT_PICKAXE,
         ACT_BURROW,

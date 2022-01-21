@@ -3376,7 +3376,7 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
     // NPCs can use first aid now, but they can't perform long actions
     if( long_action && &patient == &p && !p.is_npc() ) {
         // Assign first aid long action.
-        p.assign_activity( ACT_FIRSTAID, cost, 0, 0, it.tname() );
+        p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname() ) ) );
         p.activity.targets.emplace_back( p, &it );
         p.activity.str_values.emplace_back( hpp.c_str() );
         p.moves = 0;
