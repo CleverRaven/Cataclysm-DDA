@@ -19,6 +19,9 @@ static const itype_id itype_wrapper( "wrapper" );
 static const itype_id itype_candy2( "candy2" );
 static const itype_id itype_flashlight( "flashlight" );
 static const itype_id itype_light_battery_cell( "light_battery_cell" );
+static const itype_id itype_wallet_leather( "wallet_leather" );
+static const itype_id itype_money_one( "money_one" );
+static const itype_id itype_money_five( "money_five" );
 
 class unique_item
 {
@@ -209,6 +212,28 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             THEN( "light battery from flashlight should be picked up" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &uitem_light_battery } );
+            }
+        }
+        // leather wallet > one dollar bill, five dollar bill
+        WHEN( "they have wallet whitelisted and one dollar bill blacklisted" ) {
+            unique_item item_money_one = unique_item( itype_money_one );
+            unique_item item_money_five = unique_item( itype_money_five );
+            unique_item item_leather_wallet = unique_item( itype_wallet_leather, {
+                &item_money_one, &item_money_five
+            } );
+            REQUIRE( item_leather_wallet.spawn_item( ground ) );
+            add_autopickup_rules( {{ &item_leather_wallet, true }, { &item_money_one, false } } );
+
+            THEN( "wallet should be picked up and one dollar bill should be dropped on ground" ) {
+                simulate_auto_pickup( ground, they );
+                expect_to_find( backpack, { &item_leather_wallet } );
+                expect_to_find( **backpack.all_items_top().begin(), { { &item_money_five } } );
+
+                // ensure blacklisted item is dropped on ground
+                map_stack on_ground = here.i_at( ground );
+                REQUIRE( std::find_if( on_ground.begin(), on_ground.end(), [item_money_one]( item & it ) {
+                    return item_money_one.is_same_item( &it );
+                } ) != on_ground.end() );
             }
         }
     }
