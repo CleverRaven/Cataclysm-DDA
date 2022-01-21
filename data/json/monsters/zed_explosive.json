@@ -239,7 +239,7 @@
     "id": "mon_boomer_claymore",
     "type": "MONSTER",
     "name": "Claymore boomer",
-    "description": "This one looks like the default boomer, except the giant bone growth on his ribcage.",
+    "description": "Looks like a regular boomer, except for the giant bone growth on its ribcage.",
     "default_faction": "zombie",
     "bodytype": "blob",
     "species": [ "ZOMBIE", "HUMAN" ],
