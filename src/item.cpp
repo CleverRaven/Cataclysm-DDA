@@ -3101,10 +3101,10 @@ static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
             case layer_level::PERSONAL:
                 layering += _( " <stat>Personal aura</stat>." );
                 break;
-            case layer_level::UNDERWEAR:
+            case layer_level::SKINTIGHT:
                 layering += _( " <stat>Close to skin</stat>." );
                 break;
-            case layer_level::REGULAR:
+            case layer_level::NORMAL:
                 layering += _( " <stat>Normal</stat>." );
                 break;
             case layer_level::WAIST:
@@ -3527,10 +3527,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 case layer_level::PERSONAL:
                     layering += _( " <stat>Personal aura</stat>." );
                     break;
-                case layer_level::UNDERWEAR:
+                case layer_level::SKINTIGHT:
                     layering += _( " <stat>Close to skin</stat>." );
                     break;
-                case layer_level::REGULAR:
+                case layer_level::NORMAL:
                     layering += _( " <stat>Normal</stat>." );
                     break;
                 case layer_level::WAIST:

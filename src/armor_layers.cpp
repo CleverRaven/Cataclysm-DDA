@@ -228,10 +228,10 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                     case layer_level::PERSONAL:
                         outstring.append( _( "in your <color_light_blue>personal aura</color>" ) );
                         break;
-                    case layer_level::UNDERWEAR:
+                    case layer_level::SKINTIGHT:
                         outstring.append( _( "<color_light_blue>close to your skin</color>" ) );
                         break;
-                    case layer_level::REGULAR:
+                    case layer_level::NORMAL:
                         outstring.append( _( "of <color_light_blue>normal</color> clothing" ) );
                         break;
                     case layer_level::WAIST:

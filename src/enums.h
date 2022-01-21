@@ -288,9 +288,9 @@ enum class layer_level : int {
     /* "Personal effects" layer, corresponds to PERSONAL flag */
     PERSONAL = 0,
     /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
-    UNDERWEAR,
-    /* "Normal" layer, default if no flags set */
-    REGULAR,
+    SKINTIGHT,
+    /* "Normal" layer, default if no flags set, also if NORMAL flag is used*/
+    NORMAL,
     /* "Waist" layer, corresponds to WAIST flag. */
     WAIST,
     /* "Outer" layer, corresponds to OUTER flag. */
