@@ -2761,6 +2761,39 @@ bool mattack::ranged_pull( monster *z )
         return true;
     }
 
+
+    if( target->has_grab_break_tec() ) {
+        Character *pl = dynamic_cast<Character *>( target );
+        ///\EFFECT_STR increases chance to avoid being grabbed
+        ///\EFFECT_DEX increases chance to avoid being grabbed
+        int defender_check = rng( 0, std::max( pl->get_dex(), pl->get_str() ) );
+        int attacker_check = rng( 0, z->type->melee_sides + z->type->melee_dice );
+        const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
+
+        if( pl->is_throw_immune() ) {
+            defender_check = defender_check + 2;
+        }
+
+        if( pl->get_effect_int( effect_stunned ) ) {
+            defender_check = defender_check - 2;
+        }
+
+        if( pl->get_effect_int( effect_downed ) ) {
+            defender_check = defender_check - 2;
+        }
+
+        if( defender_check > attacker_check ) {
+            game_message_type msg_type = foe && foe->is_avatar() ? m_warning : m_info;
+            target->add_msg_player_or_npc( msg_type, _( "The %s's arms fly out at you…" ),
+                                           _( "The %s's arms fly out at <npcname>…" ),
+                                           z->name() );
+            target->add_msg_player_or_npc( m_info, grab_break.avatar_message.translated(),
+                                           grab_break.npc_message.translated(), z->name() );
+            return true;
+        }
+
+    }
+
     // Limit the range in case some weird math thing would cause the target to fly past us
     int range = std::min( ( z->type->melee_sides * z->type->melee_dice ) / 10,
                           rl_dist( z->pos(), target->pos() ) + 1 );
@@ -2851,30 +2884,47 @@ bool mattack::grab( monster *z )
     }
 
     ///\EFFECT_DEX increases chance to avoid being grabbed
-    const bool dodged_grab = rng( 0, pl->get_dex() ) > rng( 0,
-                             z->type->melee_sides + z->type->melee_dice );
-
+    int defender_check = rng( 0, std::max( pl->get_dex(), pl->get_str() ) );
+    int attacker_check = rng( 0, z->type->melee_sides + z->type->melee_dice );
     const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
 
-    if( grab_break.id != tec_none && dodged_grab ) {
+    if( pl->has_grab_break_tec() ) {
+        defender_check = defender_check + 2;
+    }
+
+    if( pl->is_throw_immune() ) {
+        defender_check = defender_check + 2;
+    }
+
+    if( pl->get_effect_int( effect_stunned ) ) {
+        defender_check = defender_check - 2;
+    }
+
+    if( pl->get_effect_int( effect_downed ) ) {
+        defender_check = defender_check - 2;
+    }
+
+    if( grab_break.id != tec_none && defender_check > attacker_check ) {
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
-        } else if( pl->is_throw_immune() && ( !pl->is_armed() ||
-                                              pl->martial_arts_data->selected_has_weapon( pl->get_wielded_item().typeId() ) ) ) {
-            target->add_msg_if_player( m_info, _( "The %s tries to grab you…" ), z->name() );
-            thrown_by_judo( z );
         } else {
             target->add_msg_player_or_npc( m_info, grab_break.avatar_message.translated(),
                                            grab_break.npc_message.translated(), z->name() );
         }
         return true;
     }
+    // if too many entities grab a player they can suffocate
+    // if this is the first monster to grab you set the players oxygen levels
+    if( target->is_npc() || target->is_avatar() ) {
+        target->as_character()->set_oxygen();
+    }
 
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, body_part_torso, false,
                         prev_effect + z->get_grab_strength() );
+
     add_msg_if_player_sees( *z, m_bad, _( "The %1$s grabs %2$s!" ), z->name(), target->disp_name() );
 
     return true;
@@ -2931,6 +2981,12 @@ bool mattack::grab_drag( monster *z )
     } else {
         target->add_msg_player_or_npc( m_good, _( "You resist the %s as it tries to drag you!" ),
                                        _( "<npcname> resist the %s as it tries to drag them!" ), z->name() );
+    }
+
+    // if too many entities grab a player they can suffocate
+    // if this is the first monster to grab you set the players oxygen levels
+    if( target->is_npc() || target->is_avatar() ) {
+        target->as_character()->set_oxygen();
     }
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
@@ -5364,7 +5420,32 @@ bool mattack::bio_op_takedown( monster *z )
                                z->name(),
                                body_part_name_accusative( hit ), dam );
     foe->deal_damage( z,  hit, damage_instance( damage_type::BASH, dam ) );
-    // At this point, Judo or Tentacle Bracing can make this much less painful
+    // At this point, Martial Arts or Tentacle Bracing can make this much less painful
+    if( target->has_grab_break_tec() ) {
+        Character *pl = dynamic_cast<Character *>( target );
+        ///\EFFECT_STR increases chance to avoid being grabbed
+        ///\EFFECT_DEX increases chance to avoid being grabbed
+        int defender_check = rng( 0, std::max( pl->get_dex(), pl->get_str() ) );
+        int attacker_check = rng( 0, z->type->melee_sides + z->type->melee_dice );
+        const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
+
+        if( pl->is_throw_immune() ) {
+            defender_check = defender_check + 2;
+        }
+
+        if( pl->get_effect_int( effect_stunned ) ) {
+            defender_check = defender_check - 2;
+        }
+
+        if( pl->get_effect_int( effect_downed ) ) {
+            defender_check = defender_check - 2;
+        }
+
+        if( defender_check > attacker_check ) {
+            target->add_msg_if_player( m_info, grab_break.avatar_message.translated() );
+            return true;
+        }
+    }
     if( !foe->is_throw_immune() ) {
         if( !target->is_immune_effect( effect_downed ) ) {
             if( one_in( 4 ) ) {
@@ -5383,8 +5464,7 @@ bool mattack::bio_op_takedown( monster *z )
             foe->add_effect( effect_downed, 3_turns );
         }
     } else if( ( !foe->is_armed() ||
-                 foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item().typeId() ) ) &&
-               !thrown_by_judo( z ) ) {
+                 foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item().typeId() ) ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bodypart_id( "torso" );
         dam = rng( 3, 9 );

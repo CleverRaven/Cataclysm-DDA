@@ -907,9 +907,9 @@ class item : public visitable
         /**
          * Return the level of a given quality the tool may have, or INT_MIN if it
          * does not have that quality, or lacks enough charges to have that quality.
+         * @param strict_boiling True if containers must be empty to have BOIL quality
          */
-        int get_quality( const quality_id &id ) const;
-        int get_raw_quality( const quality_id &id ) const;
+        int get_quality( const quality_id &id, const bool strict_boiling = true ) const;
 
         /**
          * Return true if this item's type is counted by charges
@@ -1100,6 +1100,7 @@ class item : public visitable
          * The returned vector does not contain the null id.
          */
         std::vector<const part_material *> armor_made_of( const bodypart_id &bp ) const;
+        std::vector<const part_material *> armor_made_of( const sub_bodypart_id &bp ) const;
         /**
         * The ids of all the qualities this contains.
         */
@@ -1166,22 +1167,47 @@ class item : public visitable
                            const bodypart_id &bp = bodypart_id() ) const;
         float fire_resist( bool to_self = false, int base_env_resist = 0,
                            const bodypart_id &bp = bodypart_id() ) const;
-        float bash_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() ) const;
-        float cut_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() )  const;
-        float stab_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() ) const;
-        float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id() ) const;
+        // for incoming direct attacks roll is the actual roll for that attack
+        float bash_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                           int roll = 0 ) const;
+        // for incoming direct attacks roll is the actual roll for that attack
+        float cut_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                          int roll = 0 )  const;
+        // for incoming direct attacks roll is the actual roll for that attack
+        float stab_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                           int roll = 0 ) const;
+        // for incoming direct attacks roll is the actual roll for that attack
+        float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
+                             int roll = 0 ) const;
         /*@}*/
+
+        // same as above but specific to the sublocation
+        float acid_resist( const sub_bodypart_id &bp, bool to_self = false, int base_env_resist = 0 ) const;
+        float fire_resist( const sub_bodypart_id &bp, bool to_self = false, int base_env_resist = 0 ) const;
+        // for incoming direct attacks roll is the actual roll for that attack
+        float bash_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
+        // for incoming direct attacks roll is the actual roll for that attack
+        float cut_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 )  const;
+        // for incoming direct attacks roll is the actual roll for that attack
+        float stab_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
+        // for incoming direct attacks roll is the actual roll for that attack
+        float bullet_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
 
         /**
          * Assuming that specified du hit the armor, reduce du based on the item's resistance to the
          * damage type. This will never reduce du.amount below 0.
          */
-        void mitigate_damage( damage_unit &du, const bodypart_id &bp = bodypart_id() ) const;
+        void mitigate_damage( damage_unit &du, const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
+        void mitigate_damage( damage_unit &du, const sub_bodypart_id &bp, int roll = 0 ) const;
         /**
          * Resistance provided by this item against damage type given by an enum.
          */
         float damage_resist( damage_type dt, bool to_self = false,
-                             const bodypart_id &bp = bodypart_id() ) const;
+                             const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
+        float damage_resist( damage_type dt, bool to_self,
+                             const sub_bodypart_id &bp, int roll = 0 ) const;
+
+
 
         /**
          * Returns resistance to being damaged by attack against the item itself.

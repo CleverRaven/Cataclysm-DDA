@@ -30,24 +30,7 @@
     "blueprint_provides": [ { "id": "fbmw_northeast" }, { "id": "blacksmith" }, { "id": "blacksmith_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmw_northeast", "amount": 2 } ],
     "blueprint_resources": [ "fake_forge", "fake_char_kiln", "crucible", "makeshift_hammer" ],
-    "components": [ [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ], [ [ "primitive_hammer", 1 ], [ "makeshift_hammer", 1 ] ] ],
-    "blueprint_needs": {
-      "time": "5 h 30 m",
-      "skills": [ [ "fabrication", 5 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
-        "components": [
-          [ [ "sheet_metal", 2 ] ],
-          [ [ "pipe", 8 ] ],
-          [ [ "lock", 1 ] ],
-          [ [ "2x4", 4 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
-          [ [ "nail", 8 ] ],
-          [ [ "rock", 80 ] ]
-        ]
-      }
-    }
+    "components": [ [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ], [ [ "primitive_hammer", 1 ], [ "makeshift_hammer", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -81,15 +64,6 @@
     "blueprint_provides": [ { "id": "fbmw_northeast" }, { "id": "blacksmith_recipes_6" } ],
     "blueprint_excludes": [ { "id": "fbmw_northeast", "amount": 4 } ],
     "blueprint_resources": [ "hammer_sledge", "copper_knife" ],
-    "components": [ [ [ "hammer_sledge", 1 ] ], [ [ "knife_combat", 1 ], [ "copper_knife", 1 ] ] ],
-    "blueprint_needs": {
-      "time": "1 h",
-      "skills": [ [ "fabrication", 1 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER" } ] ],
-        "components": [ [ [ "2x4", 4 ] ], [ [ "tanned_hide", 2 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ]
-      }
-    }
+    "components": [ [ [ "hammer_sledge", 1 ] ], [ [ "knife_combat", 1 ], [ "copper_knife", 1 ] ] ]
   }
 ]

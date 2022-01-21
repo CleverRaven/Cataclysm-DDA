@@ -402,19 +402,19 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
         CHECK( item_info_str( briefcase, encumbrance ) ==
                "--\n"
                "<color_c_white>L. Arm Encumbrance</color>:  <color_c_yellow>30</color>\n"
-               "<color_c_white>L. Arm Coverage</color>:\n"
+               "<color_c_white>L. Arm Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                "  Default:  <color_c_yellow>10</color>\n"
                "--\n"
                "<color_c_white>R. Arm Encumbrance</color>:  <color_c_yellow>30</color>\n"
-               "<color_c_white>R. Arm Coverage</color>:\n"
+               "<color_c_white>R. Arm Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                "  Default:  <color_c_yellow>10</color>\n"
                "--\n"
                "<color_c_white>L. Hand Encumbrance</color>:  <color_c_yellow>30</color>\n"
-               "<color_c_white>L. Hand Coverage</color>:\n"
+               "<color_c_white>L. Hand Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                "  Default:  <color_c_yellow>10</color>\n"
                "--\n"
                "<color_c_white>R. Hand Encumbrance</color>:  <color_c_yellow>30</color>\n"
-               "<color_c_white>R. Hand Coverage</color>:\n"
+               "<color_c_white>R. Hand Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                "  Default:  <color_c_yellow>10</color>\n" );
     }
 
@@ -422,11 +422,13 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
         item waterskin( "test_waterskin" );
         item backpack( "test_backpack" );
         item quiver( "test_quiver" );
+        item condom( "test_condom" );
 
         SECTION( "rigidity indicator" ) {
             REQUIRE_FALSE( waterskin.all_pockets_rigid() );
             REQUIRE_FALSE( backpack.all_pockets_rigid() );
             REQUIRE_FALSE( quiver.all_pockets_rigid() );
+            REQUIRE_FALSE( condom.all_pockets_rigid() );
 
             CHECK( item_info_str( waterskin, rigidity ) ==
                    "--\n"
@@ -442,6 +444,12 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "* This item is <color_c_cyan>not rigid</color>."
                    "  Its volume and encumbrance increase with contents.\n" );
+
+            // Non-armor item - volume increases, but not encumbrance
+            CHECK( item_info_str( condom, rigidity ) ==
+                   "--\n"
+                   "* This item is <color_c_cyan>not rigid</color>."
+                   "  Its volume increases with contents.\n" );
         }
 
         SECTION( "encumbrance when empty and full" ) {
@@ -452,12 +460,12 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "<color_c_white>L. Leg Encumbrance</color>:  <color_c_yellow>0</color>  "
                    "When full:  <color_c_yellow>6</color>\n"
-                   "<color_c_white>L. Leg Coverage</color>:\n"
+                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
                    "  Default:  <color_c_yellow>5</color>\n"
                    "--\n"
                    "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>0</color>  "
                    "When full:  <color_c_yellow>6</color>\n"
-                   "<color_c_white>R. Leg Coverage</color>:\n"
+                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
                    "  Default:  <color_c_yellow>5</color>\n" );
 
             // test_backpack has an explicit "encumbrance" and "max_encumbrance"
@@ -465,7 +473,7 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "<color_c_white>Torso Encumbrance</color>:  <color_c_yellow>2</color>  "
                    "When full:  <color_c_yellow>15</color>\n"
-                   "<color_c_white>Torso Coverage</color>:\n"
+                   "<color_c_white>Torso Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>30</color>\n" );
 
             // quiver has no volume, only an implicit volume via ammo
@@ -473,12 +481,12 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "<color_c_white>L. Leg Encumbrance</color>:  <color_c_yellow>3</color>  "
                    "When full:  <color_c_yellow>11</color>\n"
-                   "<color_c_white>L. Leg Coverage</color>:\n"
+                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
                    "  Default:  <color_c_yellow>10</color>\n"
                    "--\n"
                    "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>3</color>  "
                    "When full:  <color_c_yellow>11</color>\n"
-                   "<color_c_white>R. Leg Coverage</color>:\n"
+                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
                    "  Default:  <color_c_yellow>10</color>\n" );
         }
     }
@@ -791,11 +799,11 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "<color_c_white>Size/Fit</color>: <color_c_red>(poor fit)</color>\n"
                "--\n"
                "<color_c_white>Arms Encumbrance</color>:  <color_c_yellow>3</color>\n"
-               "<color_c_white>Arms Coverage</color>:\n"
+               "<color_c_white>Arms Coverage</color>: <color_c_light_blue>Normal</color>.\n"
                "  Default:  <color_c_yellow>90</color>\n"
                "--\n"
                "<color_c_white>Torso Encumbrance</color>:  <color_c_yellow>3</color>\n"
-               "<color_c_white>Torso Coverage</color>:\n"
+               "<color_c_white>Torso Coverage</color>: <color_c_light_blue>Normal</color>.\n"
                "  Default:  <color_c_yellow>90</color>\n" );
 
         item swat_armor( "test_swat_armor" );
@@ -875,17 +883,17 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "--\n"
                "<color_c_white>Arms Encumbrance</color>:  <color_c_yellow>12</color>  "
                "When full:  <color_c_yellow>25</color>\n"
-               "<color_c_white>Arms Coverage</color>:\n"
+               "<color_c_white>Arms Coverage</color>: <color_c_light_blue>Normal</color>.\n"
                "  Default:  <color_c_yellow>95</color>\n"
                "--\n"
                "<color_c_white>Legs Encumbrance</color>:  <color_c_yellow>12</color>  "
                "When full:  <color_c_yellow>25</color>\n"
-               "<color_c_white>Legs Coverage</color>:\n"
+               "<color_c_white>Legs Coverage</color>: <color_c_light_blue>Normal</color>.\n"
                "  Default:  <color_c_yellow>95</color>\n"
                "--\n"
                "<color_c_white>Torso Encumbrance</color>:  <color_c_yellow>12</color>  "
                "When full:  <color_c_yellow>25</color>\n"
-               "<color_c_white>Torso Coverage</color>:\n"
+               "<color_c_white>Torso Coverage</color>: <color_c_light_blue>Normal</color>.\n"
                "  Default:  <color_c_yellow>95</color>\n" );
 
         // Test copy-from
@@ -1044,32 +1052,32 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "--\n"
                "<color_c_white>L. Arm Encumbrance</color>:  <color_c_yellow>5</color>  "
                "When full:  <color_c_yellow>9</color>\n"
-               "<color_c_white>L. Arm Coverage</color>:\n"
+               "<color_c_white>L. Arm Coverage</color>: <color_c_light_blue>Normal</color>.\n"
                "  Default:  <color_c_yellow>50</color>\n"
                "--\n"
                "<color_c_white>R. Arm Encumbrance</color>:  <color_c_yellow>10</color>  "
                "When full:  <color_c_yellow>25</color>\n"
-               "<color_c_white>R. Arm Coverage</color>:\n"
+               "<color_c_white>R. Arm Coverage</color>: <color_c_light_blue>Normal</color>.\n"
                "  Default:  <color_c_yellow>100</color>\n"
                "--\n"
                "<color_c_white>Head Encumbrance</color>:  <color_c_yellow>5</color>  "
                "When full:  <color_c_yellow>9</color>\n"
-               "<color_c_white>Head Coverage</color>:\n"
+               "<color_c_white>Head Coverage</color>: <color_c_light_blue>Normal</color>.\n"
                "  Default:  <color_c_yellow>50</color>\n"
                "--\n"
                "<color_c_white>L. Leg Encumbrance</color>:  <color_c_yellow>5</color>  "
                "When full:  <color_c_yellow>9</color>\n"
-               "<color_c_white>L. Leg Coverage</color>:\n"
+               "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Normal</color>.\n"
                "  Default:  <color_c_yellow>50</color>\n"
                "--\n"
                "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>10</color>  "
                "When full:  <color_c_yellow>25</color>\n"
-               "<color_c_white>R. Leg Coverage</color>:\n"
+               "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Normal</color>.\n"
                "  Default:  <color_c_yellow>100</color>\n"
                "--\n"
                "<color_c_white>Torso Encumbrance</color>:  <color_c_yellow>10</color>  "
                "When full:  <color_c_yellow>25</color>\n"
-               "<color_c_white>Torso Coverage</color>:\n"
+               "<color_c_white>Torso Coverage</color>: <color_c_light_blue>Normal</color>.\n"
                "  Default:  <color_c_yellow>100</color>\n" );
     }
 

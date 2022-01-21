@@ -24,6 +24,7 @@ enum class timed_event_type : int {
     DSA_ALRP_SUMMON,
     CUSTOM_LIGHT_LEVEL,
     TRANSFORM_RADIUS,
+    UPDATE_MAPGEN,
     NUM_TIMED_EVENT_TYPES
 };
 

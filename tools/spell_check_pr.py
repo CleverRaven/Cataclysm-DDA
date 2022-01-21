@@ -27,11 +27,16 @@ for message in diff["added"]:
                          flags=re.IGNORECASE)
     errors.append(message)
 if errors:
-    print("**This is an automated message. Please kindly disregard"
-          " if you think this is inaccurate.**")
-    print()
-    print("Automatic spell checking encountered unrecognized words "
-          "in the following text:")
+    print("Spell checker encountered unrecognized words in the in-game text"
+          " added in this pull request. See below for details.")
+    print("<details>")
+    print("<summary>Click to expand</summary>")
     print()
     for err in errors:
         print("*", err)
+    print("</details>")
+    print()
+    print("This alert is automatically generated. You can simply disregard if"
+          " this is inaccurate, or (optionally) you can also add the new words"
+          " to `tools/spell_checker/dictionary.txt` so they will not trigger "
+          "an alert next time.")

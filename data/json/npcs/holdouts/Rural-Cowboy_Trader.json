@@ -73,7 +73,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_COWBOYT_JOKE",
-    "dynamic_line": "Hah, real cute.  Seem the End times didn't take your sense of humour, eh, stranger?",
+    "dynamic_line": "Hah, real cute.  Seem the End times didn't take your sense of humor, eh, stranger?",
     "responses": [ { "text": "I have my moments.  So what are you doing here?", "topic": "TALK_COWBOYT_INTRODUCTION" } ]
   },
   {

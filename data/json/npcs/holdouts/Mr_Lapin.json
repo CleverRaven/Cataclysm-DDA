@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "warrener",
     "//": "A survivor raising rabbits, all by themselves. Give special quests to give rabbits to player",
-    "name_unique": "Mr Lapin",
+    "name_unique": "Mr. Lapin",
     "name_suffix": "Warrener",
     "gender": "male",
     "class": "NC_Rabbit_Raiser",
@@ -16,7 +16,7 @@
   {
     "type": "npc_class",
     "id": "NC_Rabbit_Raiser",
-    "name": { "str": "Mr Lapin" },
+    "name": { "str": "Mr. Lapin" },
     "job_description": "I raise rabbits.",
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,

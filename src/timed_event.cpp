@@ -22,6 +22,7 @@
 #include "map_extras.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mapgen_functions.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
@@ -282,6 +283,11 @@ void timed_event::actualize()
         case timed_event_type::TRANSFORM_RADIUS:
             get_map().transform_radius( ter_furn_transform_id( string_id ), strength,
                                         tripoint( map_point.x(), map_point.y(), map_point.z() ) );
+            break;
+
+        case timed_event_type::UPDATE_MAPGEN:
+            run_mapgen_update_func( update_mapgen_id( string_id ), project_to<coords::omt>( map_point ),
+                                    nullptr );
             break;
 
         default:
