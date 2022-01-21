@@ -511,7 +511,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
-      "place_liquid": [ { "liquid": "iv_mutagen_alpha", "x": 0, "y": 0, "chance": 50 }, { "liquid": "blood", "x": 0, "y": 0, "chance": 50 } ],
+      "place_liquids": [ { "liquid": "iv_mutagen_alpha", "x": 0, "y": 0, "chance": 50 }, { "liquid": "blood", "x": 0, "y": 0, "chance": 50 } ],
       "place_monster": [ { "monster": "mon_zap_rat", "x": 0, "y": 0, "chance": 50 } ]
     }
   },
@@ -523,7 +523,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
-      "place_liquid": [ { "liquid": "iv_mutagen_alpha", "x": 0, "y": 0, "chance": 50 }, { "liquid": "blood", "x": 0, "y": 0, "chance": 50 } ],
+      "place_liquids": [ { "liquid": "iv_mutagen_alpha", "x": 0, "y": 0, "chance": 50 }, { "liquid": "blood", "x": 0, "y": 0, "chance": 50 } ],
       "place_monster": [ { "monster": "mon_tunnel_rat", "x": 0, "y": 0, "chance": 50 } ]
     }
   },

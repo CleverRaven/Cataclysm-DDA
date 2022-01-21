@@ -1893,7 +1893,7 @@
       "stamina_min": [ -50 ],
       "stamina_max": [ -100 ],
       "stamina_chance": [ 300 ],
-      "base_mods": { "int_mod": [ -1, 0 ] },
+      "int_mod": [ -1, 0 ],
       "fatigue_min": [ 5 ],
       "fatigue_max": [ 10 ],
       "fatigue_chance": [ 500 ]
