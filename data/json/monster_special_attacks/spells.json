@@ -511,7 +511,7 @@
     "shape": "cone",
     "min_damage": 30,
     "max_damage": 30,
-    "damage_type": "biological",
+    "damage_type": "cut",
     "min_range": 6,
     "max_range": 6,
     "min_aoe": 120,
