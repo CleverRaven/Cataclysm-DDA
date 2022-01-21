@@ -21,36 +21,67 @@ static const itype_id itype_chocolate_candy( "candy2" );
 static const itype_id itype_flashlight( "flashlight" );
 static const itype_id itype_light_battery( "light_battery_cell" );
 
-enum Item {
-    CODEINE, ASPIRIN, PLASTIC_BAG_CHOCOLATE, BATTERY, FLASHLIGHT
+class unique_item
+{
+    private:
+        item instance;
+
+    public:
+        // Construct item with given type and quantity.
+        unique_item( itype_id type, int quantity = 1 ) {
+            instance = item( type, calendar::turn, quantity );
+            instance.set_var( "uid", random_string( 10 ) );
+        }
+        // Construct item with given type and list of items contained inside item pocket.
+        unique_item( itype_id type, std::vector<const unique_item *> content ) {
+            instance = item( type );
+            for( const unique_item *entry : content ) {
+                insert_item( entry->get() );
+            }
+        }
+        // Create a simple wrapper for given item with random UID.
+        unique_item( item &from ) {
+            instance = from;
+            instance.set_var( "uid", random_string( 10 ) );
+        }
+        // Returns the UID value assigned to this item.
+        const std::string get_uid() const {
+            return instance.get_var( "uid" );
+        }
+        // Returns a pointer to item instance.
+        const item *get() const {
+            return &instance;
+        }
+        // Returns true if both items have the same UID string value.
+        bool is_same_item( const item *with ) const {
+            std::string item_uid = with->get_var( "uid" );
+            CHECK( !item_uid.empty() );
+            return instance.get_var( "uid" ) == item_uid;
+        }
+        // Force insert the given item to container pocket of this item.
+        void insert_item( const item *what ) {
+            instance.force_insert_item( *what, item_pocket::pocket_type::CONTAINER );
+        }
 };
 
-// Returns true if the container has an item with the same type and quantity
-static bool container_has_item( const item &container, const item &what )
-{
-    return container.is_container() && container.has_item_with( [&what]( const item & it ) {
-        return it.typeId() == what.typeId() && it.charges == what.charges;
-    } );
-}
-
 // Add the given item to auto-pickup character rules and check rules.
-static void add_autopickup_rule( const item *what, bool blacklist = false )
+static void add_autopickup_rule( const unique_item *what, bool exclude )
 {
     auto_pickup::player_settings &rules = get_auto_pickup();
 
-    rules.add_rule( what );
-    REQUIRE( rules.has_rule( what ) );
+    rules.add_rule( what->get(), exclude );
+    REQUIRE( rules.has_rule( what->get() ) );
 
-    std::string item_name = what->tname( 1, false );
+    std::string item_name = what->get()->tname( 1, false );
     rule_state pickup_state = rules.check_item( item_name );
     REQUIRE( pickup_state == rule_state::WHITELISTED );
 }
 
 // Add the given items to auto-pickup character rules and check rules.
-static void add_autopickup_rules( const std::list<const item *> what, bool blacklist = false )
+static void add_autopickup_rules( const std::list<const unique_item *> what, bool exclude )
 {
-    for( const item *entry : what ) {
-        add_autopickup_rule( entry, blacklist );
+    for( const unique_item *entry : what ) {
+        add_autopickup_rule( entry, exclude );
     }
 }
 
@@ -61,45 +92,16 @@ static void simulate_auto_pickup( const tripoint &pos, avatar &they )
     process_activity( they );
 }
 
-static void expect_to_find( const item &container, const std::list<const item *> what )
+// Require that the given list of items be found contained in item.
+static void expect_to_find( const item &in, const std::list<const unique_item *> what )
 {
     // make sure all items on the list have been picked up.
-    REQUIRE( container.all_items_top().size() == what.size() );
-    for( const item *entry : what ) {
-        REQUIRE( container_has_item( container, *entry ) );
+    REQUIRE( in.all_items_top().size() == what.size() );
+    for( const unique_item *entry : what ) {
+        REQUIRE( in.has_item_with( [entry]( const item & it ) {
+            return entry->is_same_item( &it );
+        } ) );
     }
-}
-
-// Constructs item with given type that contains a set number of content items.
-static item item_with_content( itype_id what, itype_id content, int qty = 1 )
-{
-    item result = item( what );
-    item to_place = item( content, calendar::turn, qty );
-
-    result.force_insert_item( to_place, item_pocket::pocket_type::CONTAINER );
-    REQUIRE( container_has_item( result, to_place ) );
-
-    return result;
-}
-
-// Constructs item with given list of items contained inside the item pocket.
-// Use this function to create a container filled with nested containers.
-static item item_with_content( itype_id what, std::list<item> content )
-{
-    item result = item( what );
-    for( item &entry : content ) {
-        result.force_insert_item( entry, item_pocket::pocket_type::CONTAINER );
-        REQUIRE( container_has_item( result, entry ) );
-    }
-    return result;
-}
-
-// Shorthand method for constructing items.
-static item item_with_type( itype_id what, int qty = 1 )
-{
-    item result = item( what, calendar::turn, qty );
-    result.set_var( "uid", random_string( 10 ) );
-    return result;
 }
 
 // Test if autopickup feature works
@@ -115,7 +117,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
     const map_cursor location = map_cursor( ground );
 
     // wear backpack from map and get the new item reference
-    item &backpack = **( they.wear_item( item( itype_backpack_hiking ) ) );
+    const item backpack = **( they.wear_item( item( itype_backpack_hiking ) ) );
     REQUIRE( they.has_item( backpack ) );
 
     // reset character auto-pickup rules
@@ -127,73 +129,73 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
         // make sure no items exist on the ground before we add them
         REQUIRE( here.i_at( ground ).size() == 0 );
 
-        // add items to the tile on the ground
-        std::vector<item *> items_on_ground{
-            &here.add_item( ground, item_with_type( itype_codeine, 20 ) ),
-            // plastic prescription bottle > aspirin (12)
-            &here.add_item( ground, item_with_content( itype_prescription, itype_aspirin, 12 ) ),
-            // plastic bag > paper (4), paper wrapper > chocolate candy
-            &here.add_item( ground, item_with_content( itype_plastic_bag, std::list<item> {
-                item_with_type( itype_paper, 4 ),
-                item_with_content( itype_paper_wrapper, itype_chocolate_candy )
-            } ) ),
-            &here.add_item( ground, item( itype_light_battery ) ),
-            &here.add_item( ground, item_with_content( itype_backpack, std::list<item> {
-                item_with_type( itype_flashlight )
-            } ) ),
-            &here.add_item( ground, item_with_type( itype_marble, 10 ) ),
-            &here.add_item( ground, item_with_type( itype_pebble, 15 ) )
-        };
-        for( item *entry : items_on_ground ) {
-            CHECK_FALSE( backpack.has_item( *entry ) );
-        }
+        // add random items to the tile on the ground
+        &here.add_item( ground, item( itype_marble, calendar::turn, 10 ) );
+        &here.add_item( ground, item( itype_pebble, calendar::turn, 15 ) );
+
+        // codeine (20)
         WHEN( "they have codeine pills in auto-pickup rules" ) {
-            add_autopickup_rule( items_on_ground[Item::CODEINE] );
+            const unique_item item_codeine = unique_item( itype_codeine, 20 );
+            here.add_item( ground, *item_codeine.get() );
+            add_autopickup_rule( &item_codeine, false );
+
             THEN( "codeine pills should be picked up" ) {
                 simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, std::list<const item *> {
-                    items_on_ground[Item::CODEINE]
+                expect_to_find( backpack, std::list<const unique_item *> {
+                    &item_codeine
                 } );
             }
         }
+        // plastic prescription bottle > aspirin (12)
         WHEN( "they have aspirin pills in auto-pickup rules" ) {
-            const item *aspirin = items_on_ground[Item::ASPIRIN];
-            const item *codeine = items_on_ground[Item::CODEINE];
-            add_autopickup_rules( std::list<const item *> {
-                codeine, aspirin
-            } );
+            const unique_item item_aspirin = unique_item( itype_aspirin, 12 );
+            here.add_item( ground, *item_aspirin.get() );
+            add_autopickup_rule( &item_aspirin, false );
+
             THEN( "prescription bottle with aspirin pills should be picked up" ) {
                 simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, std::list<const item *> {
-                    codeine, aspirin
+                expect_to_find( backpack, std::list<const unique_item *> {
+                    &item_aspirin
                 } );
             }
         }
+        // plastic bag > paper (5), paper wrapper > chocolate candy (3)
         WHEN( "they have chocolate candy in auto-pickup rules" ) {
-            item item_chocolate_candy = item_with_type( itype_chocolate_candy );
-            add_autopickup_rule( &item_chocolate_candy );
-
-            item *item_plastic_bag = items_on_ground[PLASTIC_BAG_CHOCOLATE];
-            item *item_chocolate_wrapper = *std::next( item_plastic_bag->all_items_top().begin(), 1 );
+            const unique_item item_paper = unique_item( itype_paper, 5 );
+            const unique_item item_chocolate_candy = unique_item( itype_chocolate_candy, 3 );
+            const unique_item item_paper_wrapper = unique_item( itype_paper_wrapper,
+            std::vector<const unique_item *> {
+                &item_chocolate_candy
+            } );
+            const unique_item item_plastic_bag = unique_item( itype_plastic_bag,
+            std::vector<const unique_item *> {
+                &item_paper, &item_paper_wrapper
+            } );
+            add_autopickup_rule( &item_chocolate_candy, false );
 
             THEN( "paper wrapper with chocolate candy should be picked up" ) {
                 simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, std::list<const item *> {
-                    item_chocolate_wrapper
+                expect_to_find( backpack, std::list<const unique_item *> {
+                    &item_paper_wrapper
                 } );
             }
         }
+        // flashlight > light battery
         WHEN( "they have light battery in auto-pickup rules" ) {
-            item *light_battery = items_on_ground[Item::BATTERY];
-            add_autopickup_rule( light_battery );
+            item item_light_battery = item( itype_light_battery );
+            const unique_item uitem_light_battery = unique_item( item_light_battery );
 
-            item *flashlight = *items_on_ground[Item::FLASHLIGHT]->all_items_top().begin();
-            REQUIRE( flashlight->reload( they, item_location( location, light_battery ), 1 ) );
+            item item_flashlight = item( itype_flashlight );
+            REQUIRE( item_flashlight.reload( they, item_location( location, &item_light_battery ), 1 ) );
+            const unique_item uitem_flashlight = unique_item( item_flashlight );
+
+            // we want to remove and pickup the battery from the flashlight
+            add_autopickup_rule( &uitem_light_battery, false );
 
             THEN( "light battery from flashlight should be picked up" ) {
                 simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, std::list<const item *> {
-                    light_battery
+                expect_to_find( backpack, std::list<const unique_item *> {
+                    &uitem_light_battery
                 } );
             }
         }
