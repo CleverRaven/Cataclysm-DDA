@@ -70,11 +70,11 @@ static const widget_id widget_test_compass_N_nowidth( "test_compass_N_nowidth" )
 static const widget_id widget_test_compass_legend_1( "test_compass_legend_1" );
 static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
 static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
-static const widget_id widget_test_dex_num( "test_dex_num" );
+static const widget_id widget_test_dex_color_num( "test_dex_color_num" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
 static const widget_id widget_test_hp_head_graph( "test_hp_head_graph" );
 static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
-static const widget_id widget_test_int_num( "test_int_num" );
+static const widget_id widget_test_int_color_num( "test_int_color_num" );
 static const widget_id widget_test_mana_num( "test_mana_num" );
 static const widget_id widget_test_morale_num( "test_morale_num" );
 static const widget_id widget_test_move_cost_num( "test_move_cost_num" );
@@ -83,7 +83,7 @@ static const widget_id widget_test_move_mode_letter( "test_move_mode_letter" );
 static const widget_id widget_test_move_mode_text( "test_move_mode_text" );
 static const widget_id widget_test_move_num( "test_move_num" );
 static const widget_id widget_test_overmap_3x3_text( "test_overmap_3x3_text" );
-static const widget_id widget_test_per_num( "test_per_num" );
+static const widget_id widget_test_per_color_num( "test_per_color_num" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
 static const widget_id widget_test_rad_badge_text( "test_rad_badge_text" );
 static const widget_id widget_test_speed_num( "test_speed_num" );
@@ -95,7 +95,7 @@ static const widget_id widget_test_status_legend_text( "test_status_legend_text"
 static const widget_id widget_test_status_sym_left_arm_text( "test_status_sym_left_arm_text" );
 static const widget_id widget_test_status_sym_torso_text( "test_status_sym_torso_text" );
 static const widget_id widget_test_status_torso_text( "test_status_torso_text" );
-static const widget_id widget_test_str_num( "test_str_num" );
+static const widget_id widget_test_str_color_num( "test_str_color_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
 static const widget_id widget_test_weariness_num( "test_weariness_num" );
 static const widget_id widget_test_weather_text( "test_weather_text" );
@@ -145,6 +145,8 @@ TEST_CASE( "widget value strings", "[widget][value][string]" )
 
     SECTION( "graph values with bucket fill" ) {
         widget head = widget_test_hp_head_graph.obj();
+        head._var_min = 0;
+        head._var_max = 10;
         REQUIRE( head._style == "graph" );
         REQUIRE( head._fill == "bucket" );
         // Buckets of width 5 with 2 nonzero symbols can show 10 values
@@ -353,10 +355,10 @@ TEST_CASE( "graph widgets with color", "[widget][graph][color]" )
 
 TEST_CASE( "widgets showing stats STR, DEX, INT, PER", "[widget][stats]" )
 {
-    widget str_w = widget_test_str_num.obj();
-    widget dex_w = widget_test_dex_num.obj();
-    widget int_w = widget_test_int_num.obj();
-    widget per_w = widget_test_per_num.obj();
+    widget str_w = widget_test_str_color_num.obj();
+    widget dex_w = widget_test_dex_color_num.obj();
+    widget int_w = widget_test_int_color_num.obj();
+    widget per_w = widget_test_per_color_num.obj();
 
     avatar &ava = get_avatar();
     clear_avatar();
