@@ -164,6 +164,9 @@
     "id": "microlab_ratkin_sub_entry",
     "name": "science lab",
     "sym": "L",
-    "copy-from": "microlab_sub_station_ratkin"
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_RATKIN_LAB", "population": [ 12, 25 ], "chance": 80 },
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   }
 ]
