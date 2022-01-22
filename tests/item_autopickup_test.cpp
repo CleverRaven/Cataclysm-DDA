@@ -29,8 +29,15 @@ class unique_item
         item instance;
 
     public:
+        // Create a simple wrapper for given item with random UID.
+        explicit unique_item( item &from, bool no_uid = false ) {
+            instance = from;
+            if( get_uid().empty() && !no_uid ) {
+                instance.set_var( "uid", random_string( 10 ) );
+            }
+        }
         // Construct item with given type and quantity.
-        unique_item( itype_id type, int quantity = 1 ) {
+        explicit unique_item( itype_id type, int quantity = 1 ) {
             instance = item( type, calendar::turn, quantity );
             instance.set_var( "uid", random_string( 10 ) );
         }
@@ -42,15 +49,8 @@ class unique_item
                 insert_item( entry->get() );
             }
         }
-        // Create a simple wrapper for given item with random UID.
-        unique_item( item &from, bool no_uid = false ) {
-            instance = from;
-            if( get_uid().empty() && !no_uid ) {
-                instance.set_var( "uid", random_string( 10 ) );
-            }
-        }
         // Returns the UID value assigned to this item.
-        const std::string get_uid() const {
+        std::string get_uid() const {
             return instance.get_var( "uid" );
         }
         // Returns a pointer to item instance.
