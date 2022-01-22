@@ -96,8 +96,8 @@
       "place_vendingmachines": [ { "item_group": "jewelry_front", "x": 3, "y": 1, "lootable": true } ],
       "toilets": { "T": { "amount": [ 44, 46 ] } },
       "place_toilets": [ { "x": 9, "y": 1, "amount": [ 88, 111 ] } ],
-      "gaspumps": { "O": { "amount": [ 110, 112 ] } },
-      "place_gaspumps": [ { "x": 1, "y": 1, "amount": [ 200, 222 ] } ],
+      "gaspumps": { "O": { "amount": [ 110, 112 ], "fuel": "gasoline" } },
+      "place_gaspumps": [ { "x": 1, "y": 1, "amount": [ 200, 222 ], "fuel": "avgas" } ],
       "items": { "o": { "item": "clothing_work_set", "chance": 20 }, "s": { "item": "bionics", "chance": 70 } },
       "place_items": [ { "item": "bionics", "x": 1, "y": 3, "chance": 70 }, { "item": "clothing_work_set", "x": 2, "y": 3, "chance": 20 } ],
       "item": {
