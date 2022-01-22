@@ -32,6 +32,26 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "mapgen_test_nested",
+    "object": { "mapgensize": [ 1, 1 ], "place_terrain": [ { "ter": "t_pillar", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mapgen_test_nested",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "  ",
+        "  "
+      ],
+      "terrain": { " ": "t_region_groundcover" },
+      "furniture": { " ": "f_armchair" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "mapgen-test" ],
     "object": {
       "//": "Some of the squares should have a frame, but not all.",
@@ -47,7 +67,7 @@
         "                 a      ",
         "    1                   ",
         "                        ",
-        "                        ",
+        "22222222                ",
         "                 p      ",
         "tttttttt                ",
         "tttttttt       ss oo    ",
@@ -173,7 +193,7 @@
         {
           "name": "Test computer 2",
           "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
-          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
+          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ],
           "x": 20,
           "y": 20
         }
@@ -205,6 +225,8 @@
           "name": "Retreat_to_this_zone"
         }
       ],
+      "nested": { "2": { "chunks": [ [ "mapgen_test_nested", 50 ], [ "null", 50 ] ] } },
+      "place_nested": [ { "chunks": [ "mapgen_test_nested" ], "x": [ 2, 22 ], "y": [ 2, 22 ] } ],
       "ter_furn_transforms": { "r": { "transform": "mapgen_test" } },
       "place_ter_furn_transforms": [ { "transform": "mapgen_test", "x": 22, "y": 0 } ]
     }
