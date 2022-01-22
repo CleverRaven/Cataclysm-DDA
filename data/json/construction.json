@@ -120,7 +120,7 @@
     "qualities": [  ],
     "components": [ [ [ "withered", 80 ], [ "straw_pile", 80 ] ] ],
     "pre_terrain": "t_improvised_shelter",
-    "post_terrain": "t_improvised_shelter"
+    "post_terrain": "t_improvised_shelter_filled"
   },
   {
     "type": "construction",
@@ -748,7 +748,7 @@
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ],
+      [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ] ],
       [
         [ "material_quicklime", 4 ],
         [ "material_limestone", 4 ],
@@ -2196,10 +2196,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
-    "components": [
-      [ [ "2x4", 4 ], [ "stick", 4 ], [ "stick_long", 2 ] ],
-      [ [ "straw_pile", 160 ], [ "withered", 160 ] ]
-    ],
+    "components": [ [ [ "2x4", 4 ], [ "stick", 4 ], [ "stick_long", 2 ] ], [ [ "straw_pile", 160 ], [ "withered", 160 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_straw_bed"
