@@ -476,7 +476,7 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_gambeson", 1 ],
+      [ [ "xl_gambeson", 1 ] ],
       [ [ "xl_gambeson_pants", 1 ] ]
     ]
   },
