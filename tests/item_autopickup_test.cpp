@@ -7,21 +7,21 @@
 #include "item_pocket.h"
 #include "pickup.h"
 
-static const itype_id itype_backpack( "backpack" );
-static const itype_id itype_marble( "marble" );
-static const itype_id itype_pebble( "pebble" );
-static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_aspirin( "aspirin" );
-static const itype_id itype_bottle_plastic_pill_prescription( "bottle_plastic_pill_prescription" );
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bag_plastic( "bag_plastic" );
-static const itype_id itype_paper( "paper" );
-static const itype_id itype_wrapper( "wrapper" );
+static const itype_id itype_bottle_plastic_pill_prescription( "bottle_plastic_pill_prescription" );
 static const itype_id itype_candy2( "candy2" );
+static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_flashlight( "flashlight" );
 static const itype_id itype_light_battery_cell( "light_battery_cell" );
-static const itype_id itype_wallet_leather( "wallet_leather" );
-static const itype_id itype_money_one( "money_one" );
+static const itype_id itype_marble( "marble" );
 static const itype_id itype_money_five( "money_five" );
+static const itype_id itype_money_one( "money_one" );
+static const itype_id itype_paper( "paper" );
+static const itype_id itype_pebble( "pebble" );
+static const itype_id itype_wallet_leather( "wallet_leather" );
+static const itype_id itype_wrapper( "wrapper" );
 
 class unique_item
 {
