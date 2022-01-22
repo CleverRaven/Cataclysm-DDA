@@ -258,11 +258,17 @@
     "armor_cut": 5,
     "armor_bullet": 5,
     "armor_elec": 2,
-    "vision_night": 6,
+    "vision_night": 2,
     "harvest": "zombie_meatslug",
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "boomer_claymore_initial", "min_level": 0 } } ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "boomer_claymore_initial", "min_level": 0 },
+        "monster_message": "A %s explode"
+      }
+    ],
     "death_drops": "default_zombie_items",
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "", "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   }
 ]
