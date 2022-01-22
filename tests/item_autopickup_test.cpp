@@ -78,6 +78,22 @@ class unique_item
             CHECK_FALSE( get_uid().empty() );
             return &instance != &null_item_reference();
         }
+        // Returns true if this item if found in the given map stack
+        bool find_on_ground( const tripoint &where ) const {
+            map_stack stack = get_map().i_at( where );
+            return std::find_if( stack.begin(), stack.end(), [this]( item & it ) {
+                return is_same_item( &it );
+            } ) != stack.end();
+        }
+        // Returns a pointer to the item that matches this item in given container or null.
+        const item *find_in_container( item &where ) const {
+            for( const item *it : where.all_items_top() ) {
+                if( is_same_item( it ) ) {
+                    return it;
+                }
+            }
+            return &null_item_reference();
+        }
 };
 
 // Add the given item to auto-pickup character rules and check rules.
@@ -176,9 +192,12 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             THEN( "prescription bottle with aspirin pills should be picked up" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_prescription_bottle } );
+                expect_to_find( *item_prescription_bottle.find_in_container( backpack ), {
+                    &item_aspirin
+                } );
             }
         }
-        // plastic bag > paper (5), paper wrapper > chocolate candy (3)
+        // plastic bag > paper(5), paper wrapper > chocolate candy(3)
         WHEN( "they have chocolate candy in auto-pickup rules" ) {
             const unique_item item_paper = unique_item( itype_paper, 5 );
             const unique_item item_chocolate_candy = unique_item( itype_candy2, 3 );
@@ -194,15 +213,17 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             THEN( "paper wrapper with chocolate candy should be picked up" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_paper_wrapper } );
+                expect_to_find( *item_paper_wrapper.find_in_container( backpack ), {
+                    &item_chocolate_candy
+                } );
+                REQUIRE( item_plastic_bag.find_on_ground( ground ) );
             }
         }
         // flashlight > light battery
         WHEN( "they have light battery in auto-pickup rules" ) {
+            item item_flashlight = item( itype_flashlight );
             item *item_light_battery = &here.add_item( ground, item( itype_light_battery_cell ) );
             REQUIRE( item_light_battery != &null_item_reference() );
-
-            item &item_flashlight = here.add_item( ground, item( itype_flashlight ) );
-            REQUIRE( &item_flashlight != &null_item_reference() );
 
             // insert light battery into flashlight by reloading the item
             item_flashlight.reload( they, item_location( location, item_light_battery ), 1 );
@@ -211,6 +232,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
 
             unique_item uitem_light_battery = unique_item( *item_light_battery, true );
             unique_item uitem_flashlight = unique_item( item_flashlight );
+            REQUIRE( uitem_flashlight.spawn_item( ground ) );
 
             // we want to remove and pickup the battery from the flashlight
             add_autopickup_rule( item_light_battery, true );
@@ -218,6 +240,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             THEN( "light battery from flashlight should be picked up" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &uitem_light_battery } );
+                REQUIRE( uitem_flashlight.find_on_ground( ground ) );
             }
         }
         // leather wallet > one dollar bill, five dollar bill
@@ -228,18 +251,16 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
                 &item_money_one, &item_money_five
             } );
             REQUIRE( item_leather_wallet.spawn_item( ground ) );
-            add_autopickup_rules( {{ &item_leather_wallet, true }, { &item_money_one, false } } );
+            add_autopickup_rules( { { &item_leather_wallet, true }, { &item_money_one, false } } );
 
             THEN( "wallet should be picked up and one dollar bill should be dropped on ground" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_leather_wallet } );
-                expect_to_find( **backpack.all_items_top().begin(), { { &item_money_five } } );
-
+                expect_to_find( *item_leather_wallet.find_in_container( backpack ), {
+                    &item_money_five
+                } );
                 // ensure blacklisted item is dropped on ground
-                map_stack on_ground = here.i_at( ground );
-                REQUIRE( std::find_if( on_ground.begin(), on_ground.end(), [item_money_one]( item & it ) {
-                    return item_money_one.is_same_item( &it );
-                } ) != on_ground.end() );
+                REQUIRE( item_money_one.find_on_ground( ground ) );
             }
         }
     }
