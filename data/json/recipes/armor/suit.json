@@ -596,13 +596,23 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ], [ [ "xl_gambeson", 1 ] ], [ [ "xl_gambeson_pants", 1 ] ] ]
+    "components": [
+      [ [ "xl_chainmail_hood", 1 ] ],
+      [ [ "xl_chainmail_hauberk", 1 ] ],
+      [ [ "xl_gambeson", 1 ] ],
+      [ [ "xl_gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "xl_kevlar_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit",
-    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ], [ [ "xl_k_gambeson", 1 ] ], [ [ "xl_k_gambeson_pants", 1 ] ] ]
+    "components": [
+      [ [ "xl_chainmail_hood", 1 ] ],
+      [ [ "xl_chainmail_hauberk", 1 ] ],
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "chainmail_suit_faraday",
