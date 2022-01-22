@@ -626,6 +626,19 @@
     ]
   },
   {
+    "result": "grass_cloak",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "150 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "grass_yarn", 7 ] ] ]
+  },
+  {
     "result": "cloak",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1235,6 +1248,18 @@
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "sewing_standard", 36 ], [ "fabric_lycra", 34 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
+  },
+  {
+    "result": "sleeping_bag_improvised",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "autolearn": true,
+    "time": "5 m",
+    "components": [ [ [ "bag_body_bag", 1 ] ], [ [ "withered", 180 ], [ "straw_pile", 180 ] ] ]
   },
   {
     "result": "armor_lc_lightplate",
