@@ -116,16 +116,13 @@ static rule_state should_auto_pickup( const item *pickup_item )
     return rule_state::NONE;
 }
 
-static void process_whitelisted_autopick( item *what, tripoint where )
+static void drop_blacklisted_items( item *from, tripoint where )
 {
-    if( !what->is_container() ) {
-        return;
-    }
-    for( item *entry : what->all_items_top() ) {
+    for( item *entry : from->all_items_top() ) {
         if( should_auto_pickup( entry ) == rule_state::BLACKLISTED ) {
             // blacklisted items should be removed from the container
             // and dropped on the same tile the container is on
-            get_map().add_item( where, what->remove_item( *entry ) );
+            get_map().add_item( where, from->remove_item( *entry ) );
         }
     }
 }
@@ -142,14 +139,13 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
     for( item *item_to_check : contents ) {
         const rule_state pickup_state = should_auto_pickup( item_to_check );
         if( pickup_state == rule_state::WHITELISTED ) {
-            // whitelisted containers should exclude contained blacklisted items
-            process_whitelisted_autopick( item_to_check, container.position() );
+            if( item_to_check->is_container() ) {
+                // whitelisted containers should exclude contained blacklisted items
+                drop_blacklisted_items( item_to_check, container.position() );
+            }
             // pick up the whitelisted item
             pickup_list.emplace_back( container, item_to_check );
-        } else if( pickup_state == rule_state::BLACKLISTED || item_to_check->is_container_empty() ) {
-            // skip empty containers and blacklisted items
-            pick_all_items = false;
-        } else {
+        } else if( item_to_check->is_container() && !item_to_check->is_container_empty() ) {
             // get pickup list from nested item container
             item_location location = item_location( container, item_to_check );
             std::vector<item_location> pickup_nested = get_pickup_list_from( location );
@@ -160,10 +156,17 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
             }
             pickup_list.reserve( pickup_nested.size() + pickup_list.size() );
             pickup_list.insert( pickup_list.end(), pickup_nested.begin(), pickup_nested.end() );
+        } else {
+            // skip not whitelisted items that are not containers with items
+            pick_all_items = false;
         }
     }
+    // blacklisted containers should still have their contents picked up
+    // but themselves should be excluded. If all items inside blacklisted
+    // container match then just pickup the items without the container
+    bool container_blacklisted = should_auto_pickup( container_item ) == rule_state::BLACKLISTED;
     // all items in container were approved for pickup
-    if( !contents.empty() && pick_all_items ) {
+    if( !container_blacklisted && !contents.empty() && pick_all_items ) {
         bool all_batteries = true;
         bool powered_container = container_item->ammo_capacity( ammo_battery );
         if( powered_container ) {
@@ -174,9 +177,10 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
                 return il.get_item()->is_battery();
             } );
         }
+        bool batteries_from_tool = powered_container && all_batteries;
         // make sure container is allowed to be picked up
         // when picking up batteries from powered containers don't pick container
-        if( is_valid_auto_pickup( container_item ) && ( !powered_container || !all_batteries ) ) {
+        if( is_valid_auto_pickup( container_item ) && !batteries_from_tool ) {
             pickup_list.clear();
             pickup_list.push_back( container );
         }
@@ -201,11 +205,12 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
 
         // before checking contents check if item is on pickup list
         if( pickup_state == rule_state::WHITELISTED ) {
-            process_whitelisted_autopick( item_entry, location );
+            if( item_entry->is_container() ) {
+                drop_blacklisted_items( item_entry, location );
+            }
             getitem[i].pick = true;
             bFoundSomething = true;
-        } else if( pickup_state != rule_state::BLACKLISTED &&
-                   ( is_container || item_entry->ammo_capacity( ammo_battery ) ) ) {
+        } else if( is_container || item_entry->ammo_capacity( ammo_battery ) ) {
             item_location container_location = item_location( map_location, item_entry );
             for( const item_location &add_item : get_pickup_list_from( container_location ) ) {
                 target_items.insert( target_items.begin(), add_item );
