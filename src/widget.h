@@ -130,6 +130,19 @@ struct enum_traits<bodypart_status> {
     static constexpr bodypart_status last = bodypart_status::num_bodypart_status;
 };
 
+// Determines how text and labels are aligned for widgets
+enum class widget_alignment : int {
+    LEFT,
+    CENTER,
+    RIGHT,
+    num_widget_alignments
+};
+
+template<>
+struct enum_traits<widget_alignment> {
+    static constexpr widget_alignment last = widget_alignment::num_widget_alignments;
+};
+
 // Use generic_factory for loading JSON data.
 class JsonObject;
 template<typename T>
@@ -176,6 +189,8 @@ class widget
         std::string _style;
         // Displayed label in the UI
         translation _label;
+        // Width of the longest label within this layout's widgets (for "rows")
+        int _label_width = 0;
         // Binding variable enum like stamina, bp_hp or stat_dex
         widget_var _var;
         // Minimum var value, optional
@@ -208,12 +223,18 @@ class widget
         std::set<flag_id> _flags;
         // Phrases used to define text, colors and values
         std::vector<widget_phrase> _phrases;
+        // Alignment of the widget text (Default = RIGHT)
+        widget_alignment _text_align;
+        // Alignment of the widget label, if any (Default = LEFT)
+        widget_alignment _label_align;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string &src );
         // Finalize anything that must wait until all widgets are loaded
         static void finalize();
+        // Recursively derive _label_width for nested layouts in this widget
+        static int finalize_label_width_recursive( const widget_id &id );
         // Reset to defaults using generic widget_factory
         static void reset();
         // Get all widget instances from the factory
@@ -224,7 +245,7 @@ class widget
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the
         // label area, so the returned string is equal to max_width.
-        std::string layout( const avatar &ava, unsigned int max_width = 0 );
+        std::string layout( const avatar &ava, unsigned int max_width = 0, int label_width = 0 );
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava, unsigned int max_width );
         // Return a window_panel for rendering this widget at given width (and possibly height)

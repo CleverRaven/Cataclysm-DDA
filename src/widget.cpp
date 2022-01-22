@@ -11,8 +11,6 @@
 const static flag_id json_flag_W_DISABLED( "W_DISABLED" );
 const static flag_id json_flag_W_DYNAMIC_HEIGHT( "W_DYNAMIC_HEIGHT" );
 const static flag_id json_flag_W_LABEL_NONE( "W_LABEL_NONE" );
-const static flag_id json_flag_W_PAD_CENTER( "W_PAD_CENTER" );
-const static flag_id json_flag_W_PAD_NONE( "W_PAD_NONE" );
 
 // Use generic factory wrappers for widgets to use standardized JSON loading methods
 namespace
@@ -249,6 +247,23 @@ std::string enum_to_string<bodypart_status>( bodypart_status stat )
     }
     cata_fatal( "Invalid bodypart_status" );
 }
+
+template<>
+std::string enum_to_string<widget_alignment>( widget_alignment align )
+{
+    switch( align ) {
+        case widget_alignment::LEFT:
+            return "left";
+        case widget_alignment::CENTER:
+            return "center";
+        case widget_alignment::RIGHT:
+            return "right";
+        case widget_alignment::num_widget_alignments:
+        default:
+            break;
+    }
+    cata_fatal( "Invalid widget_alignment" );
+}
 } // namespace io
 
 void widget_phrase::load( const JsonObject &jo )
@@ -336,9 +351,12 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "var_min", _var_min );
     optional( jo, was_loaded, "var_max", _var_max );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
+    optional( jo, was_loaded, "text_align", _text_align, widget_alignment::RIGHT );
+    optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "flags", _flags );
 
     _height = _height_max;
+    _label_width = _label.empty() ? 0 : utf8_width( _label.translated() );
 
     if( jo.has_string( "var" ) ) {
         _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
@@ -367,9 +385,51 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
 }
 
+// Returns the derived label width for this widget/layout
+int widget::finalize_label_width_recursive( const widget_id &id )
+{
+    widget *w = nullptr;
+    // Get the original widget from the widget factory.
+    for( const widget &wgt : widget::get_all() ) {
+        if( wgt.getId() == id ) {
+            w = const_cast<widget *>( &wgt );
+            break;
+        }
+    }
+    // None found, return 0 as the label width.
+    if( w == nullptr ) {
+        return 0;
+    } else if( w->_widgets.empty() ) {
+        // No more nested layouts, we've found an individual widget.
+        // Return the widget's label width, or 0 if the label is disabled.
+        return w->has_flag( json_flag_W_LABEL_NONE ) ? 0 : w->_label_width;
+    }
+    // If we get here, we have a layout that contains nested widgets.
+
+    // Find the longest label width within this layout.
+    int width = 0;
+    for( const widget_id &wid : w->_widgets ) {
+        // Skip nested elements that are "rows" layouts,
+        // these don't count towards the parent's label width.
+        if( wid->_style == "layout" && wid->_arrange == "rows" ) {
+            continue;
+        }
+        // Dive deeper to retrieve the nested element's label width.
+        int tmpw = widget::finalize_label_width_recursive( wid );
+        if( tmpw > width ) {
+            width = tmpw;
+        }
+    }
+    // Update this layout's label width to reflect the longest label within.
+    w->_label_width = width;
+    return w->_label_width;
+}
+
 void widget::finalize()
 {
-    // Nothing to do?
+    for( const widget &wgt : widget::get_all() ) {
+        widget::finalize_label_width_recursive( wgt.getId() );
+    }
 }
 
 int widget::get_var_max( const avatar &ava ) const
@@ -581,7 +641,7 @@ static void custom_draw_func( const draw_args &args )
             int row_num = 0;
             for( const widget_id &row_wid : wgt->_widgets ) {
                 widget row_widget = row_wid.obj();
-                const std::string txt = row_widget.layout( u, widt );
+                const std::string txt = row_widget.layout( u, widt, wgt->_label_width );
                 row_num = widget::custom_draw_multiline( txt, w, margin, widt, row_num );
             }
         } else {
@@ -970,41 +1030,93 @@ std::string widget::graph( int value, int value_max )
 }
 
 // For widget::layout, process each row to append to the layout string
-// align: 0 = left, 1 = center, 2 = right
 static std::string append_line( const std::string &line, bool first_row, unsigned int max_width,
-                                const translation &label, int align )
+                                const translation &label, int label_width, widget_alignment text_align,
+                                widget_alignment label_align )
 {
-    std::string ret;
-    // Width used by label, ": " and value, using utf8_width to ignore color tags
-    unsigned int used_width = utf8_width( line, true );
     // utf8_width subtracts 1 for each newline; add it back for multiline widgets
-    if( !line.empty() && line.back() == '\n' ) {
-        used_width += 1;
+    const int newline_fix = !line.empty() && line.back() == '\n' ? 1 : 0;
+
+    // Prepare label
+    int lbl_w = 0;
+    std::string lbl;
+    if( first_row && !label.empty() ) {
+        lbl = label.translated();
+        lbl_w = utf8_width( lbl, true );
+        lbl.append( ": " );
     }
-    if( first_row ) {
-        const std::string tlabel = label.translated();
-        // If label is empty or omitted, don't reserve space for it
-        if( !label.empty() ) {
-            used_width += utf8_width( tlabel, true ) + 2;
-            // Label and ": " first
-            ret += tlabel + ": ";
+    // Don't process label width if label_width = 0 for empty labels
+    if( label_width > 0 || !label.empty() ) {
+        lbl_w += 2;
+        label_width += 2;
+        // Use empty spaces in place of label if none exist
+        if( label.empty() ) {
+            lbl.append( label_width, ' ' );
+            lbl_w = label_width;
         }
     }
 
-    // then enough padding to fit max_width
-    if( align != 0 && used_width < max_width ) {
-        int pad_count = max_width - used_width;
-        if( align == 1 ) {
-            pad_count = max_width / 2 - used_width / 2;
-        }
-        ret += std::string( pad_count, ' ' );
+    // Prepare text
+    int txt_w = 0;
+    std::string txt;
+    if( !line.empty() ) {
+        txt = line;
+        txt_w = utf8_width( txt, true ) + newline_fix;
     }
-    // then colorized value
-    ret += line;
+
+    // Label padding
+    if( label_width > lbl_w ) {
+        const int lpad = label_width - lbl_w;
+        // Left side
+        int padding = 0;
+        if( label_align != widget_alignment::LEFT ) {
+            padding = label_align == widget_alignment::RIGHT ? lpad : ( lpad / 2 ) + lpad % 2;
+        }
+        lbl.insert( 0, padding, ' ' );
+        lbl_w += padding;
+        // Right side
+        padding = 0;
+        if( label_align != widget_alignment::RIGHT ) {
+            padding = label_align == widget_alignment::LEFT ? lpad : lpad / 2;
+        }
+        lbl.append( padding, ' ' );
+        lbl_w += padding;
+    }
+
+    // Text padding
+    if( static_cast<int>( max_width ) - lbl_w > txt_w ) {
+        const int tpad = ( static_cast<int>( max_width ) - lbl_w ) - txt_w;
+        // Left side
+        int padding = 0;
+        if( text_align != widget_alignment::LEFT &&
+            // Don't pad left if the label is also right-aligned
+            ( text_align == widget_alignment::CENTER || label_align != widget_alignment::RIGHT ) ) {
+            padding = text_align == widget_alignment::RIGHT ? tpad : ( tpad / 2 ) + tpad % 2;
+        }
+        txt.insert( 0, padding, ' ' );
+        txt_w += padding;
+        // Right side
+        padding = 0;
+        if( text_align != widget_alignment::RIGHT && newline_fix == 0 ) {
+            padding = text_align == widget_alignment::LEFT ? tpad : tpad / 2;
+        }
+        txt.append( padding, ' ' );
+        txt_w += padding;
+    }
+
+    // Final assembly
+    std::string ret = lbl + txt;
+    if( text_align == widget_alignment::RIGHT ) {
+        const int leftover = max_width - ( lbl_w + txt_w );
+        if( leftover > 0 ) {
+            ret.insert( 0, leftover, ' ' );
+        }
+    }
+
     return ret;
 }
 
-std::string widget::layout( const avatar &ava, const unsigned int max_width )
+std::string widget::layout( const avatar &ava, const unsigned int max_width, int label_width )
 {
     std::string ret;
     if( _style == "layout" ) {
@@ -1033,15 +1145,13 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
                 remainder -= 1;
             }
             // Layout child in this column
-            ret += string_format( "%s", cur_child.layout( ava, cur_width ) );
+            ret += string_format( "%s", cur_child.layout( ava, cur_width, label_width ) );
             // Add column padding until we reach the last column
             if( wid != _widgets.back() ) {
                 ret += std::string( col_padding, ' ' );
             }
         }
     } else {
-        // Get alignment
-        int align = has_flag( json_flag_W_PAD_NONE ) ? 0 : has_flag( json_flag_W_PAD_CENTER ) ? 1 : 2;
         // Get displayed value (colorized)
         std::string shown = show( ava, max_width );
         size_t strpos = 0;
@@ -1050,7 +1160,8 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
         while( ( strpos = shown.find( '\n' ) ) != std::string::npos && row_num < _height ) {
             // Process line, including '\n'
             ret += append_line( shown.substr( 0, strpos + 1 ), row_num == 0, max_width,
-                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label, align );
+                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
+                                0, _text_align, _label_align );
             // Delete used token
             shown.erase( 0, strpos + 1 );
             row_num++;
@@ -1058,7 +1169,8 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
         if( row_num < _height ) {
             // Process last line, or first for single-line widgets
             ret += append_line( shown, row_num == 0, max_width,
-                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label, align );
+                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
+                                row_num == 0 ? label_width : 0, _text_align, _label_align );
         }
     }
     return ret;
