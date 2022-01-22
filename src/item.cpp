@@ -3303,6 +3303,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         // worst possible
         resistances worst_res = resistances( *this, false, 99, bp );
         resistances best_res = resistances( *this, false, 0, bp );
+        resistances median_res = resistances( *this, false, 50, bp );
 
         int percent_best = 100;
         int percent_worst = 0;
@@ -3313,7 +3314,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             percent_worst = portion->worst_protection_chance;
         }
 
-        if( percent_worst > 0 ) {
+        bool display_median = percent_best < 50 && percent_worst < 50;
+
+        if( display_median ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( "<bold>%s%s</bold>: <bad>%d%%</bad>, <color_c_yellow>Median</color>, <good>%d%%</good>",
+                                              bp_desc, _( "Protection" ), percent_worst, percent_best ) );
+        } else if( percent_worst > 0 ) {
             info.emplace_back( "DESCRIPTION",
                                string_format( "<bold>%s%s</bold>: <bad>%d%%</bad>, <good>%d%%</good>", bp_desc, _( "Protection" ),
                                               percent_worst, percent_best ) );
@@ -3323,7 +3330,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         }
 
         if( best_res.type_resist( damage_type::BASH ) >= 1 ) {
-            if( percent_worst > 0 ) {
+            if( display_median ) {
+                info.emplace_back( bp_cat,
+                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
+                                                  _( "Bash: " ), worst_res.type_resist( damage_type::BASH ),
+                                                  median_res.type_resist( damage_type::BASH ), best_res.type_resist( damage_type::BASH ) ), "",
+                                   iteminfo::no_flags );
+            } else if( percent_worst > 0 ) {
                 info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
                                    _( "Bash: " ), worst_res.type_resist( damage_type::BASH ),
                                    best_res.type_resist( damage_type::BASH ) ), "",
@@ -3335,7 +3348,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::CUT ) >= 1 ) {
-            if( percent_worst > 0 ) {
+            if( display_median ) {
+                info.emplace_back( bp_cat,
+                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
+                                                  _( "Cut: " ), worst_res.type_resist( damage_type::CUT ),
+                                                  median_res.type_resist( damage_type::CUT ), best_res.type_resist( damage_type::CUT ) ), "",
+                                   iteminfo::no_flags );
+            } else if( percent_worst > 0 ) {
                 info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
                                    _( "Cut: " ), worst_res.type_resist( damage_type::CUT ),
                                    best_res.type_resist( damage_type::CUT ) ), "",
@@ -3347,7 +3366,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::BULLET ) >= 1 ) {
-            if( percent_worst > 0 ) {
+            if( display_median ) {
+                info.emplace_back( bp_cat,
+                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
+                                                  _( "Ballistic: " ), worst_res.type_resist( damage_type::BULLET ),
+                                                  median_res.type_resist( damage_type::BULLET ), best_res.type_resist( damage_type::BULLET ) ), "",
+                                   iteminfo::no_flags );
+            } else if( percent_worst > 0 ) {
                 info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
                                    _( "Ballistic: " ), worst_res.type_resist( damage_type::BULLET ),
                                    best_res.type_resist( damage_type::BULLET ) ), "",
