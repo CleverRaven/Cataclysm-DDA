@@ -377,6 +377,33 @@ int widget::get_var_min( const avatar & /* ava */ ) const
         case widget_var::health:
             min_val = -200;
             break;
+        // Positive vars
+        case widget_var::cardio_acc:
+        case widget_var::cardio_fit:
+        case widget_var::fatigue:
+        case widget_var::focus:
+        case widget_var::mana:
+        case widget_var::max_mana:
+        case widget_var::morale_level:
+        case widget_var::move:
+        case widget_var::move_cost:
+        case widget_var::pain:
+        case widget_var::sound:
+        case widget_var::speed:
+        case widget_var::stamina:
+        case widget_var::weariness_level:
+        // Stats
+        case widget_var::stat_str:
+        case widget_var::stat_dex:
+        case widget_var::stat_int:
+        case widget_var::stat_per:
+        // Bodyparts
+        case widget_var::bp_encumb:
+        case widget_var::bp_hp:
+        case widget_var::bp_warmth:
+        case widget_var::bp_wetness:
+            min_val = 0;
+            break;
         default:
             break;
     }
@@ -385,6 +412,7 @@ int widget::get_var_min( const avatar & /* ava */ ) const
 
 std::pair<int, int> widget::get_var_norm( const avatar &ava ) const
 {
+    // TODO: Use INT_MIN, INT_MAX as "norm undefined, ignore it"
     int low_val = INT_MIN;
     int high_val = INT_MAX;
     switch( _var ) {
@@ -426,8 +454,15 @@ int widget::get_var_max( const avatar &ava ) const
         case widget_var::fatigue:
             max_val = 1000;
             break;
+        case widget_var::health:
+            max_val = 200;
+            break;
         case widget_var::mana:
             max_val = ava.magic->max_mana( ava );
+            break;
+        case widget_var::max_mana:
+            // What could "max max mana" mean? Use 2x current max because why not
+            max_val = 2 * ava.magic->max_mana( ava );
             break;
         case widget_var::morale_level:
             // TODO: Determine actual max
@@ -436,6 +471,8 @@ int widget::get_var_max( const avatar &ava ) const
         case widget_var::pain:
             max_val = 80;
             break;
+
+        // Bodyparts
         case widget_var::bp_encumb:
             max_val = 100;
             break;
@@ -454,6 +491,27 @@ int widget::get_var_max( const avatar &ava ) const
         case widget_var::weariness_level:
             max_val = 10;
             break;
+
+        // Stats
+        case widget_var::stat_str:
+        case widget_var::stat_dex:
+        case widget_var::stat_int:
+        case widget_var::stat_per:
+            // TODO: More flexible max; for now cap all stats at 20
+            max_val = 20;
+            break;
+
+        // TODO:
+        case widget_var::cardio_acc:
+        case widget_var::focus:
+        case widget_var::move:
+        case widget_var::move_cost:
+        case widget_var::sound:
+        case widget_var::speed:
+            // This is a placeholder for the remaining unknowns
+            max_val = 200;
+            break;
+
         default:
             break;
     }
@@ -938,7 +996,8 @@ nc_color widget::value_color( int value )
     // If (min, max) is a valid nonzero range, fit value to a color using that range
     int var_range = _var_max - _var_min;
     if( INT_MIN < _var_min && _var_max < INT_MAX && var_range > 0 ) {
-        if( _var_norm.first <= value && value <= _var_norm.second ) {
+        if( INT_MIN < _var_norm.first && _var_norm.second < INT_MAX &&
+            _var_norm.first <= value && value <= _var_norm.second ) {
             // Special case: If value is _var_norm, use the middle color
             const int color_index = std::floor( _colors.size() / 2 );
             return _colors[color_index];
