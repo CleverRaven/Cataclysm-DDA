@@ -164,12 +164,16 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
         // plastic prescription bottle > aspirin (12)
         WHEN( "they have aspirin pills in auto-pickup rules" ) {
             unique_item item_aspirin = unique_item( itype_aspirin, 12 );
-            REQUIRE( item_aspirin.spawn_item( ground ) );
+            unique_item item_prescription_bottle = unique_item(
+            itype_bottle_plastic_pill_prescription, {
+                &item_aspirin
+            } );
+            REQUIRE( item_prescription_bottle.spawn_item( ground ) );
             add_autopickup_rule( item_aspirin.get(), true );
 
             THEN( "prescription bottle with aspirin pills should be picked up" ) {
                 simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, { &item_aspirin } );
+                expect_to_find( backpack, { &item_prescription_bottle } );
             }
         }
         // plastic bag > paper (5), paper wrapper > chocolate candy (3)
