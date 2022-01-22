@@ -48,7 +48,7 @@ class unique_item
             instance = item( type );
             instance.set_var( "uid", random_string( 10 ) );
             for( const unique_item *entry : content ) {
-                insert_item( entry->get() );
+                instance.force_insert_item( *entry->get(), item_pocket::pocket_type::CONTAINER );
             }
         }
         // Returns the UID value assigned to this item.
@@ -68,10 +68,6 @@ class unique_item
                 return instance.typeId() == with->typeId() && instance.charges == with->charges;
             }
             return this_uid == item_uid;
-        }
-        // Force insert the given item to container pocket of this item.
-        void insert_item( const item *what ) {
-            instance.force_insert_item( *what, item_pocket::pocket_type::CONTAINER );
         }
         // Spawns this item in the given location on the map.
         // Returns true if item was spawned and false otherwise.
