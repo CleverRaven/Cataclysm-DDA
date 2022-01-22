@@ -160,6 +160,29 @@
       "place_liquids": [ { "liquid": "gasoline", "x": 18, "y": 3 } ],
       "place_rubble": [ { "rubble_type": "f_rubble_rock", "x": 15, "y": 1, "items": true, "overwrite": true, "floor_type": "t_grass" } ],
       "place_graffiti": [ { "text": "test graffiti", "x": 17, "y": 17 }, { "snippet": "mapgen_test", "x": 18, "y": 18 } ],
+      "place_zones": [
+        {
+          "type": "NPC_INVESTIGATE_ONLY",
+          "faction": "prisoners",
+          "x": [ 1, 2 ],
+          "y": [ 1, 2 ],
+          "name": "Dont-check_sounds_outside_of_this_zone"
+        },
+        {
+          "type": "NPC_NO_INVESTIGATE",
+          "faction": "prisoners",
+          "x": [ 3, 4 ],
+          "y": [ 3, 4 ],
+          "name": "Dont-check_sounds_inside_of_this_zone"
+        },
+        {
+          "type": "NPC_RETREAT",
+          "faction": "prisoners",
+          "x": [ 5, 6 ],
+          "y": [ 5, 6 ],
+          "name": "Retreat_to_this_zone"
+        }
+      ],
       "ter_furn_transforms": { "r": { "transform": "mapgen_test" } },
       "place_ter_furn_transforms": [ { "transform": "mapgen_test", "x": 22, "y": 0 } ]
     }
