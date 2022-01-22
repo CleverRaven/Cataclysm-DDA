@@ -307,7 +307,7 @@
       { "item": "baking_book", "prob": 80 },
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 3 },
-	  { "item": "cookbook_bloodforgood", "prob": 2 }
+      { "item": "cookbook_bloodforgood", "prob": 2 }
     ]
   },
   {
@@ -347,7 +347,7 @@
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 8 },
       { "item": "theater_props", "prob": 5 },
-	  { "item": "cookbook_bloodforgood", "prob": 4 }
+      { "item": "cookbook_bloodforgood", "prob": 4 }
     ]
   },
   {
@@ -547,7 +547,7 @@
       { "item": "manual_barbaran", "prob": 10 },
       { "item": "vacuum_sealing", "prob": 15 },
       { "item": "baking_book", "prob": 190 },
-	  { "item": "cookbook_bloodforgood", "prob": 50 }
+      { "item": "cookbook_bloodforgood", "prob": 50 }
     ]
   },
   {
