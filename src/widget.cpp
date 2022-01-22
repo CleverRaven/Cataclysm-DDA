@@ -385,30 +385,42 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
 }
 
+// Returns the derived label width for this widget/layout
 int widget::finalize_label_width_recursive( const widget_id &id )
 {
     widget *w = nullptr;
+    // Get the original widget from the widget factory.
     for( const widget &wgt : widget::get_all() ) {
         if( wgt.getId() == id ) {
             w = const_cast<widget *>( &wgt );
             break;
         }
     }
+    // None found, return 0 as the label width.
     if( w == nullptr ) {
         return 0;
     } else if( w->_widgets.empty() ) {
+        // No more nested layouts, we've found an individual widget.
+        // Return the widget's label width, or 0 if the label is disabled.
         return w->has_flag( json_flag_W_LABEL_NONE ) ? 0 : w->_label_width;
     }
+    // If we get here, we have a layout that contains nested widgets.
+
+    // Find the longest label width within this layout.
     int width = 0;
     for( const widget_id &wid : w->_widgets ) {
+        // Skip nested elements that are "rows" layouts,
+        // these don't count towards the parent's label width.
         if( wid->_style == "layout" && wid->_arrange == "rows" ) {
             continue;
         }
+        // Dive deeper to retrieve the nested element's label width.
         int tmpw = widget::finalize_label_width_recursive( wid );
         if( tmpw > width ) {
             width = tmpw;
         }
     }
+    // Update this layout's label width to reflect the longest label within.
     w->_label_width = width;
     return w->_label_width;
 }
