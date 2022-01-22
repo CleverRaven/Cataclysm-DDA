@@ -782,6 +782,7 @@ Many vars are numeric in nature. These may use style "number" or style "graph". 
 | `cardio_fit`      | Cardio fitness, integer near BMR
 | `fatigue`         | tiredness, 0-600+
 | `focus`           | focus level, 0-100+
+| `focus_change`    | Change in focus relative to cap, -100 to +100
 | `health`          | Current hidden health value, -200 to +200
 | `mana`            | available mana, 0-MAX_MANA
 | `morale_level`    | morale level, -100 to +100

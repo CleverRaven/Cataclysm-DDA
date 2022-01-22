@@ -61,6 +61,8 @@ std::string enum_to_string<widget_var>( widget_var data )
     switch( data ) {
         case widget_var::focus:
             return "focus";
+        case widget_var::focus_change:
+            return "focus_change";
         case widget_var::move:
             return "move";
         case widget_var::move_cost:
@@ -625,6 +627,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::focus:
             value = ava.get_focus();
+            break;
+        case widget_var::focus_change:
+            value = ava.calc_focus_change();
             break;
         case widget_var::speed:
             value = ava.get_speed();

@@ -6,5 +6,20 @@
     "var": "focus",
     "style": "number",
     "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "focus_change_num",
+    "type": "widget",
+    "label": "Focus Change",
+    "var": "focus_change",
+    "style": "number"
+  },
+  {
+    "id": "focus_and_change_layout",
+    "type": "widget",
+    "label": "Focus/Change",
+    "arrange": "rows",
+    "style": "layout",
+    "widgets": [ "focus_num", "focus_change_num" ]
   }
 ]

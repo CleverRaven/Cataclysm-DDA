@@ -17,6 +17,7 @@
 // widget_var names may be given as the "var" field in widget JSON.
 enum class widget_var : int {
     focus,          // Current focus, integer
+    focus_change,   // Change in focus relative to focus equilibrium fatigue cap, integer
     move,           // Current move counter, integer
     move_cost,      // Modified base movement cost, integer (from run_cost)
     pain,           // Current perceived pain, integer
