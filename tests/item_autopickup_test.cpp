@@ -112,11 +112,13 @@ static void simulate_auto_pickup( const tripoint &pos, avatar &they )
 // Require that the given list of items be found contained in item.
 static void expect_to_find( const item &in, const std::list<const unique_item *> what )
 {
-    // make sure all items on the list have been picked up.
+    CHECK_FALSE( &in == &null_item_reference() );
     CHECK( in.all_items_top().size() == what.size() );
+
+    // make sure all items on the list have been picked up
     for( const unique_item *entry : what ) {
-        REQUIRE( in.has_item_with( [entry]( const item & it ) {
-            return entry->is_same_item( &it );
+        REQUIRE( in.has_item_with( [entry, in]( const item & it ) {
+            return &it == &in || entry->is_same_item( &it );
         } ) );
     }
 }
