@@ -370,159 +370,128 @@ void widget::finalize()
     // Nothing to do?
 }
 
-int widget::get_var_min( const avatar & /* ava */ ) const
+void widget::set_default_var_range( const avatar &ava )
 {
-    int min_val = INT_MIN;
+    _var_min = INT_MIN;
+    _var_max = INT_MAX;
+    // FIXME: Set default normal value to midrange of (var_min, var_max)
+    _var_norm = std::make_pair( INT_MIN, INT_MAX );
+
     switch( _var ) {
-        case widget_var::health:
-            min_val = -200;
-            break;
-        // Positive vars
         case widget_var::cardio_acc:
+            break; // TODO
         case widget_var::cardio_fit:
-        case widget_var::fatigue:
-        case widget_var::focus:
-        case widget_var::mana:
-        case widget_var::max_mana:
-        case widget_var::morale_level:
-        case widget_var::move:
-        case widget_var::move_cost:
-        case widget_var::pain:
-        case widget_var::sound:
-        case widget_var::speed:
-        case widget_var::stamina:
-        case widget_var::weariness_level:
-        // Stats
-        case widget_var::stat_str:
-        case widget_var::stat_dex:
-        case widget_var::stat_int:
-        case widget_var::stat_per:
-        // Bodyparts
-        case widget_var::bp_encumb:
-        case widget_var::bp_hp:
-        case widget_var::bp_warmth:
-        case widget_var::bp_wetness:
-            min_val = 0;
-            break;
-        default:
-            break;
-    }
-    return min_val;
-}
-
-std::pair<int, int> widget::get_var_norm( const avatar &ava ) const
-{
-    // TODO: Use INT_MIN, INT_MAX as "norm undefined, ignore it"
-    int low_val = INT_MIN;
-    int high_val = INT_MAX;
-    switch( _var ) {
-        case widget_var::stat_str:
-            low_val = ava.get_str_base();
-            high_val = low_val;
-            break;
-        case widget_var::stat_dex:
-            low_val = ava.get_dex_base();
-            high_val = low_val;
-            break;
-        case widget_var::stat_int:
-            low_val = ava.get_int_base();
-            high_val = low_val;
-            break;
-        case widget_var::stat_per:
-            low_val = ava.get_per_base();
-            high_val = low_val;
-            break;
-        default:
-            break;
-    }
-    return std::make_pair( low_val, high_val );
-}
-
-int widget::get_var_max( const avatar &ava ) const
-{
-    int max_val = INT_MAX;
-    // max_val must be set to a reasonable maximum for the widget_var to determine correct scaling
-    // for graph widgets and color-spectrum allocation.
-    switch( _var ) {
-        case widget_var::cardio_fit:
+            _var_min = 0;
             // Same maximum used by get_cardiofit - 3 x BMR, adjusted for mutations
-            max_val = 3 * ava.base_bmr() * ava.mutation_value( "cardio_multiplier" );
-            break;
-        case widget_var::stamina:
-            max_val = ava.get_stamina_max();
+            _var_max = 3 * ava.base_bmr() * ava.mutation_value( "cardio_multiplier" );
             break;
         case widget_var::fatigue:
-            max_val = 1000;
+            _var_min = 0;
+            _var_max = 1000;
+            break;
+        case widget_var::focus:
+            _var_min = 0;
+            _var_max = 200;
             break;
         case widget_var::health:
-            max_val = 200;
+            _var_min = -200;
+            _var_max = 200;
+            _var_norm = std::make_pair( -10, 10 );
             break;
+        case widget_var::hunger:
+            break; // TODO
         case widget_var::mana:
-            max_val = ava.magic->max_mana( ava );
+            _var_min = 0;
+            _var_max = ava.magic->max_mana( ava );
             break;
         case widget_var::max_mana:
+            _var_min = 0;
             // What could "max max mana" mean? Use 2x current max because why not
-            max_val = 2 * ava.magic->max_mana( ava );
+            _var_max = 2 * ava.magic->max_mana( ava );
             break;
+        case widget_var::mood:
+            break; // TODO
         case widget_var::morale_level:
-            // TODO: Determine actual max
-            max_val = 100;
+            _var_min = -100;
+            _var_max = 100;
+            _var_norm = std::make_pair( 0, 0 );
             break;
+        case widget_var::move:
+            _var_min = 0;
+            _var_max = 1000; // TODO: Determine better max
+            break; // TODO
+        case widget_var::move_cost:
+            _var_min = 0;
+            _var_max = 1000; // TODO: Determine better max
+            break; // TODO
         case widget_var::pain:
-            max_val = 80;
+            _var_min = 0;
+            _var_max = 80;
+            break;
+        case widget_var::sound:
+            break; // TODO
+        case widget_var::speed:
+            break; // TODO
+        case widget_var::stamina:
+            _var_min = 0;
+            _var_max = ava.get_stamina_max();
+            break;
+        case widget_var::thirst:
+            break; // TODO
+        case widget_var::weariness_level:
+            _var_min = 0;
+            _var_max = 10;
             break;
 
-        // Bodyparts
-        case widget_var::bp_encumb:
-            max_val = 100;
+        // Base stats
+        case widget_var::stat_str:
+            _var_min = 0;
+            _var_max = 20;
+            _var_norm.first = ava.get_str_base();
+            _var_norm.second = ava.get_str_base();
             break;
+        case widget_var::stat_dex:
+            _var_min = 0;
+            _var_max = 20;
+            _var_norm.first = ava.get_dex_base();
+            _var_norm.second = ava.get_dex_base();
+            break;
+        case widget_var::stat_int:
+            _var_min = 0;
+            _var_max = 20;
+            _var_norm.first = ava.get_int_base();
+            _var_norm.second = ava.get_int_base();
+            break;
+        case widget_var::stat_per:
+            _var_min = 0;
+            _var_max = 20;
+            _var_norm.first = ava.get_per_base();
+            _var_norm.second = ava.get_per_base();
+            break;
+
+        // Bodypart attributes
         case widget_var::bp_hp:
             // HP for body part
-            max_val = ava.get_part_hp_max( _bp_id );
+            _var_min = 0;
+            _var_max = ava.get_part_hp_max( _bp_id );
+            break;
+        case widget_var::bp_encumb:
+            _var_min = 0;
+            _var_max = 100; // ???
             break;
         case widget_var::bp_warmth:
             // From weather.h: Body temperature is measured on a scale of 0u to 10000u,
             // where 10u = 0.02C and 5000u is 37C
-            max_val = 10000;
+            _var_min = 0;
+            _var_max = 10000;
             break;
         case widget_var::bp_wetness:
-            max_val = 100; // ???
+            _var_min = 0;
+            _var_max = 100; // ???
             break;
-        case widget_var::weariness_level:
-            max_val = 10;
-            break;
-
-        // Stats
-        case widget_var::stat_str:
-        case widget_var::stat_dex:
-        case widget_var::stat_int:
-        case widget_var::stat_per:
-            // TODO: More flexible max; for now cap all stats at 20
-            max_val = 20;
-            break;
-
-        // TODO:
-        case widget_var::cardio_acc:
-        case widget_var::focus:
-        case widget_var::move:
-        case widget_var::move_cost:
-        case widget_var::sound:
-        case widget_var::speed:
-            // This is a placeholder for the remaining unknowns
-            max_val = 200;
-            break;
-
         default:
             break;
     }
-    return max_val;
-}
-
-void widget::set_default_var_range( const avatar &ava )
-{
-    _var_min = get_var_min( ava );
-    _var_norm = get_var_norm( ava );
-    _var_max = get_var_max( ava );
 }
 
 int widget::get_var_value( const avatar &ava ) const

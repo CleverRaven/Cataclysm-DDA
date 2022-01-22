@@ -238,12 +238,6 @@ class widget
 
         // Evaluate and return the bound "var" associated value for an avatar
         int get_var_value( const avatar &ava ) const;
-        // Return the minimum "var" value from "var_min", or minimum for avatar
-        int get_var_min( const avatar &ava ) const;
-        // Return normal "var" value from "var_norm", or normal value for avatar (stats, focus)
-        std::pair<int, int> get_var_norm( const avatar &ava ) const;
-        // Return the maximum "var" value from "var_max", or max for avatar (HP, mana, etc.)
-        int get_var_max( const avatar &ava ) const;
         // True if this widget has the given flag. Used to specify certain behaviors.
         bool has_flag( const flag_id &flag ) const;
         bool has_flag( const std::string &flag ) const;
