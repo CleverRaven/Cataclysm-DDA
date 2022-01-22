@@ -447,13 +447,25 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "gambeson", 1 ] ] ]
+    "components": [
+      [ [ "chainmail_vest", 1 ] ],
+      [ [ "chainmail_arms", 1 ] ],
+      [ [ "chainmail_legs", 1 ] ],
+      [ [ "gambeson", 1 ] ],
+      [ [ "gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "kevlar_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "chainmail_hauberk",
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "k_gambeson", 1 ] ] ]
+    "components": [
+      [ [ "xl_chainmail_vest", 1 ] ],
+      [ [ "xl_chainmail_arms", 1 ] ],
+      [ [ "xl_chainmail_legs", 1 ] ],
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "xl_chainmail_hauberk",
@@ -464,7 +476,8 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_gambeson", 1 ] ]
+      [ [ "xl_gambeson", 1 ] ],
+      [ [ "xl_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -475,7 +488,8 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_k_gambeson", 1 ] ]
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -496,7 +510,8 @@
       [ [ "chainmail_vest", 1 ] ],
       [ [ "chainmail_arms", 1 ] ],
       [ [ "chainmail_legs", 1 ] ],
-      [ [ "gambeson", 1 ] ]
+      [ [ "gambeson", 1 ] ],
+      [ [ "gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -508,7 +523,8 @@
       [ [ "chainmail_vest", 1 ] ],
       [ [ "chainmail_arms", 1 ] ],
       [ [ "chainmail_legs", 1 ] ],
-      [ [ "k_gambeson", 1 ] ]
+      [ [ "k_gambeson", 1 ] ],
+      [ [ "k_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -521,7 +537,8 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_gambeson", 1 ] ]
+      [ [ "xl_gambeson", 1 ] ],
+      [ [ "xl_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -533,7 +550,8 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_k_gambeson", 1 ] ]
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -553,13 +571,13 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "gambeson", 1 ] ] ]
+    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "gambeson", 1 ] ], [ [ "gambeson_pants", 1 ] ] ]
   },
   {
     "result": "kevlar_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit",
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "k_gambeson", 1 ] ] ]
+    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "k_gambeson", 1 ] ], [ [ "k_gambeson_pants", 1 ] ] ]
   },
   {
     "result": "xl_chainmail_suit",
@@ -578,13 +596,23 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ], [ [ "xl_gambeson", 1 ] ] ]
+    "components": [
+      [ [ "xl_chainmail_hood", 1 ] ],
+      [ [ "xl_chainmail_hauberk", 1 ] ],
+      [ [ "xl_gambeson", 1 ] ],
+      [ [ "xl_gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "xl_kevlar_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit",
-    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ], [ [ "xl_k_gambeson", 1 ] ] ]
+    "components": [
+      [ [ "xl_chainmail_hood", 1 ] ],
+      [ [ "xl_chainmail_hauberk", 1 ] ],
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "chainmail_suit_faraday",
@@ -886,6 +914,20 @@
     "using": [ [ "sewing_standard", 35 ], [ "fabric_standard_nostretch", 26 ], [ "fastener_large", 1 ] ]
   },
   {
+    "result": "gambeson_pants",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 24 ], [ "fabric_standard_nostretch", 18 ], [ "fastener_small", 1 ] ]
+  },
+  {
     "result": "k_gambeson",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -901,6 +943,21 @@
     "components": [ [ [ "sheet_kevlar_layered", 18 ] ] ]
   },
   {
+    "result": "k_gambeson_pants",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
+    "difficulty": 6,
+    "time": "5 h",
+    "autolearn": [ [ "tailor", 8 ] ],
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "sewing_standard", 24 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_small", 1 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 12 ] ] ]
+  },
+  {
     "result": "xl_gambeson",
     "type": "recipe",
     "copy-from": "gambeson",
@@ -914,6 +971,21 @@
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 50 ], [ "tailoring_kevlar_fabric", 24 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
+  },
+  {
+    "result": "xl_gambeson_pants",
+    "type": "recipe",
+    "copy-from": "gambeson_pants",
+    "time": "5 h",
+    "using": [ [ "sewing_standard", 32 ], [ "fabric_standard_nostretch", 32 ], [ "fastener_small", 2 ] ]
+  },
+  {
+    "result": "xl_k_gambeson_pants",
+    "type": "recipe",
+    "copy-from": "k_gambeson_pants",
+    "time": "5 h",
+    "using": [ [ "sewing_standard", 28 ], [ "tailoring_kevlar_fabric", 16 ], [ "fastener_small", 2 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 25 ] ] ]
   },
   {
     "result": "hsurvivor_suit",
