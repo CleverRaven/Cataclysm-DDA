@@ -100,6 +100,7 @@
       "place_gaspumps": [ { "x": 1, "y": 1, "amount": [ 200, 222 ], "fuel": "avgas" } ],
       "items": { "o": { "item": "clothing_work_set", "chance": 20 }, "s": { "item": "bionics", "chance": 70 } },
       "place_items": [ { "item": "bionics", "x": 1, "y": 3, "chance": 70 }, { "item": "clothing_work_set", "x": 2, "y": 3, "chance": 20 } ],
+      "remove_items": [ { "items": [ "rock" ], "x": [ 10, 15 ], "y": [ 10, 15 ] } ],
       "item": {
         "t": { "item": "rag", "chance": 4, "custom-flags": [ "FILTHY" ] },
         "u": [ { "item": "television", "chance": 1 }, { "item": "electrohack", "chance": 1 } ]
