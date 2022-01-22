@@ -1257,7 +1257,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "survival",
     "difficulty": 2,
-    "autolearn": "true",
+    "autolearn": true,
     "time": "5 m",
     "components": [ [ [ "bag_body_bag", 1 ] ], [ [ "withered", 180 ], [ "straw_pile", 180 ] ] ]
   },
