@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "activity_actor.h"
+#include "calendar.h"
 #include "clone_ptr.h"
 #include "compatibility.h"
 #include "enums.h"
@@ -41,7 +42,7 @@ class player_activity
         /** Total number of moves required to complete the activity */
         int moves_total = 0;
         /** The number of moves remaining in this activity before it is complete. */
-        int moves_left = 0;
+        int moves_left = calendar::INDEFINITELY_LONG;
         /** Controls whether this activity can be cancelled at all */
         bool interruptable = true;
         /** Controls whether this activity can be cancelled with 'pause' action */

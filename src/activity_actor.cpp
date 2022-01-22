@@ -21,7 +21,6 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bodypart.h"
-#include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
 #include "contents_change_handler.h"
@@ -464,7 +463,7 @@ void aim_activity_actor::unload_RAS_weapon()
     }
 }
 
-void autodrive_activity_actor::start( player_activity &act, Character &who )
+void autodrive_activity_actor::start( player_activity &, Character &who )
 {
     const bool in_vehicle = who.in_vehicle && who.controlling_vehicle;
     const optional_vpart_position vp = get_map().veh_at( who.pos() );
@@ -475,7 +474,6 @@ void autodrive_activity_actor::start( player_activity &act, Character &who )
 
     player_vehicle = &vp->vehicle();
     player_vehicle->is_autodriving = true;
-    act.moves_left = calendar::INDEFINITELY_LONG;
 }
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
@@ -2572,7 +2570,7 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue
 
 void consume_activity_actor::start( player_activity &act, Character &guy )
 {
-    int moves;
+    int moves = 0;
     Character &player_character = get_player_character();
     if( consume_location ) {
         ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
@@ -2587,9 +2585,9 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
             consume_menu_filter.clear();
-            return;
+        } else {
+            moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
         }
-        moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
     } else if( !consume_item.is_null() ) {
         ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
         if( refuel ) {
@@ -2602,13 +2600,12 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
             consume_menu_filter.clear();
-            return;
+        } else {
+            moves = to_moves<int>( guy.get_consume_time( consume_item ) );
         }
-        moves = to_moves<int>( guy.get_consume_time( consume_item ) );
     } else {
         debugmsg( "Item/location to be consumed should not be null." );
         canceled = true;
-        return;
     }
 
     act.moves_total = moves;
@@ -3038,7 +3035,6 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     if( !check_if_craft_okay( craft_item, crafter ) ) {
         act.set_to_null();
     }
-    act.moves_left = calendar::INDEFINITELY_LONG;
     activity_override = craft_item.get_item()->get_making().exertion_level();
     cached_crafting_speed = 0;
 }
@@ -4438,7 +4434,6 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     // Mark the item, not available for other characters
     target->set_var( "activity_var", who.name );
 
-    act.moves_left = calendar::INDEFINITELY_LONG;
     activity_override = target->get_making().exertion_level();
 }
 
@@ -5570,6 +5565,10 @@ std::unique_ptr<activity_actor> forage_activity_actor::deserialize( JsonValue &j
 void longsalvage_activity_actor::start( player_activity &act, Character & )
 {
     act.index = index;
+
+    //todo: refactor the actor to process items in ::do_turn, then remove setting the moves to 0
+    //this currently still can't get interrupted before you get attacked
+    act.moves_left = 0;
 }
 
 void longsalvage_activity_actor::finish( player_activity &act, Character &who )
