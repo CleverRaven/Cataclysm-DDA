@@ -160,6 +160,24 @@
       "place_liquids": [ { "liquid": "gasoline", "x": 18, "y": 3 } ],
       "corpses": { "G": { "group": "GROUP_PETS" } },
       "place_corpses": [ { "group": "GROUP_PETS", "x": 19, "y": 19 } ],
+      "computers": {
+        "a": {
+          "name": "Test computer 1",
+          "security": 3,
+          "options": [ { "name": "Test unlock action", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        }
+      },
+      "place_computers": [
+        {
+          "name": "Test computer 2",
+          "security": 3,
+          "options": [ { "name": "Test unlock action", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ],
+          "x": 20,
+          "y": 20
+        }
+      ],
       "place_rubble": [ { "rubble_type": "f_rubble_rock", "x": 15, "y": 1, "items": true, "overwrite": true, "floor_type": "t_grass" } ],
       "place_graffiti": [ { "text": "test graffiti", "x": 17, "y": 17 }, { "snippet": "mapgen_test", "x": 18, "y": 18 } ],
       "place_zones": [
@@ -185,14 +203,6 @@
           "name": "Retreat_to_this_zone"
         }
       ],
-      "computers": {
-        "a": {
-          "name": "Test computer",
-          "security": 3,
-          "options": [ { "name": "Test unlock action", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
-        }
-      },
       "ter_furn_transforms": { "r": { "transform": "mapgen_test" } },
       "place_ter_furn_transforms": [ { "transform": "mapgen_test", "x": 22, "y": 0 } ]
     }
