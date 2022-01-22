@@ -119,7 +119,7 @@
           "repeat": 30
         }
       ],
-      "npcs": { "T": { "class": "guard" } },
+      "npcs": { "T": { "class": "guard", "add_trait": "ASTHMA" } },
       "place_npcs": [ { "class": "arsonist", "x": 9, "y": 1 } ],
       "monsters": {
         "B": { "monster": "GROUP_BEE", "chance": 4, "density": 1 },
