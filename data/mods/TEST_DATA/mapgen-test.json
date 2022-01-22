@@ -92,8 +92,8 @@
         { "snippet": "mapgen_test", "x": 8, "y": 2 },
         { "signage": "<given_name>, <given_name>, and <given_name> were here!", "x": 8, "y": 1 }
       ],
-      "vendingmachines": { "V": { "item_group": "farming_seeds" } },
-      "place_vendingmachines": [ { "item_group": "jewelry_front", "x": 3, "y": 1 } ],
+      "vendingmachines": { "V": { "item_group": "farming_seeds", "reinforced": true } },
+      "place_vendingmachines": [ { "item_group": "jewelry_front", "x": 3, "y": 1, "lootable": true } ],
       "toilets": { "T": { "amount": [ 44, 46 ] } },
       "place_toilets": [ { "x": 9, "y": 1, "amount": [ 88, 111 ] } ],
       "gaspumps": { "O": { "amount": [ 110, 112 ] } },
