@@ -44,7 +44,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "                        ",
+        "                 a      ",
         "                        ",
         "                        ",
         "                        ",
@@ -185,6 +185,14 @@
           "name": "Retreat_to_this_zone"
         }
       ],
+      "computers": {
+        "a": {
+          "name": "Test computer",
+          "security": 3,
+          "options": [ { "name": "Test unlock action", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        }
+      },
       "ter_furn_transforms": { "r": { "transform": "mapgen_test" } },
       "place_ter_furn_transforms": [ { "transform": "mapgen_test", "x": 22, "y": 0 } ]
     }
