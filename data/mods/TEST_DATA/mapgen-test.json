@@ -159,6 +159,7 @@
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ], "chance": 1 } },
       "place_liquids": [ { "liquid": "gasoline", "x": 18, "y": 3 } ],
       "place_rubble": [ { "rubble_type": "f_rubble_rock", "x": 15, "y": 1, "items": true, "overwrite": true, "floor_type": "t_grass" } ],
+      "place_graffiti": [ { "text": "test graffiti", "x": 17, "y": 17 }, { "snippet": "mapgen_test", "x": 18, "y": 18 } ],
       "ter_furn_transforms": { "r": { "transform": "mapgen_test" } },
       "place_ter_furn_transforms": [ { "transform": "mapgen_test", "x": 22, "y": 0 } ]
     }
