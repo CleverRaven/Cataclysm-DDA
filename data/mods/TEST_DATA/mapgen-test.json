@@ -106,6 +106,19 @@
         "u": [ { "item": "television", "chance": 1 }, { "item": "electrohack", "chance": 1 } ]
       },
       "place_item": [ { "item": "frame", "x": [ 0, 7 ], "y": [ 4, 5 ], "chance": 4, "repeat": 10 } ],
+      "place_loot": [
+        { "group": "cannedfood", "x": [ 13, 13 ], "y": [ 22, 23 ], "chance": 90 },
+        {
+          "item": "m4_carbine",
+          "variant": "m4a1",
+          "x": 12,
+          "y": [ 9, 11 ],
+          "magazine": 100,
+          "ammo": 100,
+          "chance": 75,
+          "repeat": 30
+        }
+      ],
       "npcs": { "T": { "class": "guard" } },
       "place_npcs": [ { "class": "arsonist", "x": 9, "y": 1 } ],
       "monsters": {
