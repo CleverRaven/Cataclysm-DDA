@@ -216,6 +216,8 @@ class widget
         void load( const JsonObject &jo, const std::string &src );
         // Finalize anything that must wait until all widgets are loaded
         static void finalize();
+        // Recursively derive _label_width for nested layouts in this widget
+        static int finalize_label_width_recursive( const widget_id &id );
         // Reset to defaults using generic widget_factory
         static void reset();
         // Get all widget instances from the factory

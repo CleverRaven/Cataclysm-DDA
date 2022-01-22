@@ -368,7 +368,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
 }
 
-static int set_widget_label_width( const widget_id &id )
+int widget::finalize_label_width_recursive( const widget_id &id )
 {
     widget *w = nullptr;
     for( const widget &wgt : widget::get_all() ) {
@@ -387,7 +387,7 @@ static int set_widget_label_width( const widget_id &id )
         if( wid->_style == "layout" && wid->_arrange == "rows" ) {
             continue;
         }
-        int tmpw = set_widget_label_width( wid );
+        int tmpw = widget::finalize_label_width_recursive( wid );
         if( tmpw > width ) {
             width = tmpw;
         }
@@ -399,7 +399,7 @@ static int set_widget_label_width( const widget_id &id )
 void widget::finalize()
 {
     for( const widget &wgt : widget::get_all() ) {
-        set_widget_label_width( wgt.getId() );
+        widget::finalize_label_width_recursive( wgt.getId() );
     }
 }
 
