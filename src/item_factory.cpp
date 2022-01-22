@@ -947,6 +947,7 @@ void Item_factory::finalize_post( itype &obj )
         // this isn't perfect but neither is the usual definition so this should at
         // least give a good ballpark
         if( obj.materials.empty() ) {
+            obj.mat_portion_total = 0;
             for( const armor_portion_data &armor_data : obj.armor->data ) {
                 for( const part_material &mat : armor_data.materials ) {
                     // if the material isn't in the map yet
@@ -955,6 +956,7 @@ void Item_factory::finalize_post( itype &obj )
                     } else {
                         obj.materials[mat.id] += mat.thickness * 100;
                     }
+                    obj.mat_portion_total += mat.thickness * 100;
                 }
             }
         }

@@ -1051,7 +1051,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 3,
     "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {

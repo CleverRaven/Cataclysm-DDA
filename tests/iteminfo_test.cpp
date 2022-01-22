@@ -1275,8 +1275,8 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
     SECTION( "complex protection from physical and environmental damage" ) {
         item super_tanktop( "test_complex_tanktop" );
         REQUIRE( super_tanktop.get_covered_body_parts().any() );
-        // TODO THIS TEST IS BROKEN FOR NOW
-        //expected_armor_values( super_tanktop, 4, 4, 3.2, 4, 9, 1, 20 );
+        // these values are averaged values but test that assumed armor portion is working at all
+        expected_armor_values( super_tanktop, 14, 18, 14.4f, 10.66667f );
 
         // Protection info displayed on two lines
         CHECK( item_info_str( super_tanktop, more_protection ) ==
