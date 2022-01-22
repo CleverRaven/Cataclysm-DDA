@@ -11,8 +11,6 @@
 const static flag_id json_flag_W_DISABLED( "W_DISABLED" );
 const static flag_id json_flag_W_DYNAMIC_HEIGHT( "W_DYNAMIC_HEIGHT" );
 const static flag_id json_flag_W_LABEL_NONE( "W_LABEL_NONE" );
-const static flag_id json_flag_W_PAD_CENTER( "W_PAD_CENTER" );
-const static flag_id json_flag_W_PAD_NONE( "W_PAD_NONE" );
 
 // Use generic factory wrappers for widgets to use standardized JSON loading methods
 namespace
@@ -249,6 +247,23 @@ std::string enum_to_string<bodypart_status>( bodypart_status stat )
     }
     cata_fatal( "Invalid bodypart_status" );
 }
+
+template<>
+std::string enum_to_string<widget_alignment>( widget_alignment align )
+{
+    switch( align ) {
+        case widget_alignment::LEFT:
+            return "left";
+        case widget_alignment::CENTER:
+            return "center";
+        case widget_alignment::RIGHT:
+            return "right";
+        case widget_alignment::num_widget_alignments:
+        default:
+            break;
+    }
+    cata_fatal( "Invalid widget_alignment" );
+}
 } // namespace io
 
 void widget_phrase::load( const JsonObject &jo )
@@ -336,6 +351,8 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "var_min", _var_min );
     optional( jo, was_loaded, "var_max", _var_max );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
+    optional( jo, was_loaded, "text_align", _text_align, widget_alignment::RIGHT );
+    optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "flags", _flags );
 
     _height = _height_max;
@@ -1001,9 +1018,9 @@ std::string widget::graph( int value, int value_max )
 }
 
 // For widget::layout, process each row to append to the layout string
-// align: 0 = left, 1 = center, 2 = right
 static std::string append_line( const std::string &line, bool first_row, unsigned int max_width,
-                                const translation &label, int align, int label_width )
+                                const translation &label, int label_width, widget_alignment text_align,
+                                widget_alignment /*label_align*/ )
 {
     std::string ret;
     // Width used by label, ": " and value, using utf8_width to ignore color tags
@@ -1031,9 +1048,9 @@ static std::string append_line( const std::string &line, bool first_row, unsigne
     }
 
     // then enough padding to fit max_width
-    if( align != 0 && used_width < max_width ) {
+    if( text_align != widget_alignment::LEFT && used_width < max_width ) {
         int pad_count = max_width - used_width;
-        if( align == 1 ) {
+        if( text_align == widget_alignment::CENTER ) {
             pad_count = max_width / 2 - used_width / 2;
         }
         ret += std::string( pad_count, ' ' );
@@ -1082,8 +1099,6 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             }
         }
     } else {
-        // Get alignment
-        int align = has_flag( json_flag_W_PAD_NONE ) ? 0 : has_flag( json_flag_W_PAD_CENTER ) ? 1 : 2;
         // Get displayed value (colorized)
         std::string shown = show( ava, max_width );
         size_t strpos = 0;
@@ -1093,7 +1108,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             // Process line, including '\n'
             ret += append_line( shown.substr( 0, strpos + 1 ), row_num == 0, max_width,
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
-                                align, 0 );
+                                0, _text_align, _label_align );
             // Delete used token
             shown.erase( 0, strpos + 1 );
             row_num++;
@@ -1102,7 +1117,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             // Process last line, or first for single-line widgets
             ret += append_line( shown, row_num == 0, max_width,
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
-                                align, label_width );
+                                label_width, _text_align, _label_align );
         }
     }
     return ret;

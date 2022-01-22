@@ -29,6 +29,7 @@
     "type": "widget",
     "style": "text",
     "var": "bp_status_sym_text",
+    "text_align": "left",
     "copy-from": "bodypart_status_indicator_template"
   },
   {
@@ -124,7 +125,8 @@
     "copy-from": "bodypart_status_indicator_template",
     "width": 0,
     "height": 3,
-    "flags": [ "W_LABEL_NONE", "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "bodypart_status_top_layout",

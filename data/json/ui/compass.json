@@ -5,7 +5,7 @@
     "style": "text",
     "var": "compass_text",
     "width": 6,
-    "flags": [ "W_PAD_NONE" ]
+    "text_align": "left"
   },
   {
     "id": "compass_N_text",
@@ -78,7 +78,8 @@
     "var": "compass_legend_text",
     "width": 0,
     "height": 3,
-    "flags": [ "W_LABEL_NONE", "W_PAD_NONE" ]
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "compass_legend_text_alt",
@@ -88,7 +89,8 @@
     "var": "compass_legend_text",
     "width": 0,
     "height": 5,
-    "flags": [ "W_LABEL_NONE", "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "compass_top_layout",

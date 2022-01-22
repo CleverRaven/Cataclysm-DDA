@@ -130,6 +130,19 @@ struct enum_traits<bodypart_status> {
     static constexpr bodypart_status last = bodypart_status::num_bodypart_status;
 };
 
+// Determines how text and labels are aligned for widgets
+enum class widget_alignment : int {
+    LEFT,
+    CENTER,
+    RIGHT,
+    num_widget_alignments
+};
+
+template<>
+struct enum_traits<widget_alignment> {
+    static constexpr widget_alignment last = widget_alignment::num_widget_alignments;
+};
+
 // Use generic_factory for loading JSON data.
 class JsonObject;
 template<typename T>
@@ -210,6 +223,10 @@ class widget
         std::set<flag_id> _flags;
         // Phrases used to define text, colors and values
         std::vector<widget_phrase> _phrases;
+        // Alignment of the widget text (Default = RIGHT)
+        widget_alignment _text_align;
+        // Alignment of the widget label, if any (Default = LEFT)
+        widget_alignment _label_align;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
