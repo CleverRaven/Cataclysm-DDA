@@ -1462,7 +1462,6 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_loose", "menu_text": "Loosen" },
     "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 8 } ]
   },
   {
@@ -1522,7 +1521,6 @@
     "material_thickness": 3.2,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_loose", "menu_text": "Loosen" },
     "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 16 } ]
   },
   {
