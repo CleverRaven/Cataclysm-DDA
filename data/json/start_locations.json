@@ -26,6 +26,22 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_town_hall",
+    "name": "Town Hall",
+    "terrain": [
+    "town_hall_0_0_0", 
+    "town_hall_1_0_0",
+    "town_hall_0_1_0", 
+    "town_hall_1_1_0",
+    "town_hall_0_0_1", 
+    "town_hall_1_0_1",
+    "town_hall_0_1_1", 
+    "town_hall_1_1_1",
+    "town_hall_0_0_roof"
+    ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_shelter_b",
     "name": "Shelter - Compartmentalized",
     "terrain": [ "shelter_1" ]
