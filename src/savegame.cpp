@@ -1351,14 +1351,27 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
         int strength;
         tripoint_abs_sm where;
         std::string string_id;
+        submap_revert revert;
         jo.read( "faction", faction_id );
         jo.read( "map_point", where );
         jo.read( "strength", strength );
         jo.read( "string_id", string_id );
         jo.read( "type", type );
         jo.read( "when", when );
+        int x = 0;
+        int y = 0;
+        for( JsonObject jp : jo.get_array( "revert" ) ) {
+            point pt( x, y );
+            revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
+            revert.set_ter( pt, ter_id( jp.get_string( "ter" ) ) );
+            revert.set_trap( pt, trap_id( jp.get_string( "trap" ) ) );
+            if( x++ < SEEX ) {
+                x = 0;
+                y++;
+            }
+        }
         get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, where, strength,
-                                string_id );
+                                string_id, revert );
     }
 }
 
@@ -1421,6 +1434,19 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "string_id", elem.string_id );
         jsout.member( "type", elem.type );
         jsout.member( "when", elem.when );
+        jsout.member( "revert" );
+        jsout.start_array();
+        for( int y = 0; y < SEEY; y++ ) {
+            for( int x = 0; x < SEEX; x++ ) {
+                jsout.start_object();
+                point pt( x, y );
+                jsout.member( "furn", elem.revert.get_furn( pt ) );
+                jsout.member( "ter", elem.revert.get_ter( pt ) );
+                jsout.member( "trap", elem.revert.get_trap( pt ) );
+                jsout.end_object();
+            }
+        }
+        jsout.end_array();
         jsout.end_object();
     }
     jsout.end_array();

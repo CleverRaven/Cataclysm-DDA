@@ -2457,6 +2457,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
                                             -1, project_to<coords::sm>( omt_pos ), 0, mapgen_update_id.str() );
                 }
             } else {
+                // maptile is 4 submaps so queue up 4 submap reverts
                 for( int x = 0; x < 2; x++ ) {
                     for( int y = 0; y < 2; y++ ) {
                         tripoint_abs_sm revert_sm = project_to<coords::sm>( omt_pos );
