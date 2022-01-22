@@ -928,11 +928,16 @@ std::string widget::value_string( int value )
 
 nc_color widget::value_color( int value )
 {
+    // Maps the range of values from min to max to the list of "colors", 0-indexed
+    // [ _var_min ... ( _var_norm ) ... _var_max ]
+    // [ 0, 1, 2, ...           ... num_colors-1 ]
+    //
     if( _colors.empty() ) {
         return c_unset;
     }
+    // If (min, max) is a valid nonzero range, fit value to a color using that range
     int var_range = _var_max - _var_min;
-    if( var_range > 0 ) {
+    if( INT_MIN < _var_min && _var_max < INT_MAX && var_range > 0 ) {
         if( _var_norm.first <= value && value <= _var_norm.second ) {
             // Special case: If value is _var_norm, use the middle color
             const int color_index = std::floor( _colors.size() / 2 );
@@ -950,12 +955,15 @@ nc_color widget::value_color( int value )
             return _colors.back();
         }
     }
-    // Assume colors map to 0, 1, 2 ...
-    if( value < num_colors ) {
+    // No scaling by min-max range; assume colors map to 0, 1, 2 ...
+    // Truncate below 0 and above num_colors
+    if( value < 0 ) {
+        return _colors[0];
+    } else if( value < num_colors ) {
         return _colors[value];
+    } else {
+        return _colors.back();
     }
-    // Last color as last resort
-    return _colors.back();
 }
 
 std::string widget::number( int value )
