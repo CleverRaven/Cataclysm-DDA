@@ -621,7 +621,8 @@ bool zone_manager::has_defined( const zone_type_id &type, const faction_id &fac 
 void zone_manager::cache_data()
 {
     area_cache.clear();
-
+    avatar &player_character = get_avatar();
+    tripoint_abs_ms cached_shift = player_character.get_location();
     for( zone_data &elem : zones ) {
         if( !elem.get_enabled() ) {
             continue;
@@ -629,7 +630,7 @@ void zone_manager::cache_data()
 
         // update the current cached locations for each personal zone
         if( elem.get_is_personal() ) {
-            elem.update_cached_shift();
+            elem.update_cached_shift( cached_shift );
         }
 
         const std::string &type_hash = elem.get_type_hash();
@@ -639,6 +640,18 @@ void zone_manager::cache_data()
         for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
                  elem.get_start_point(), elem.get_end_point() ) ) {
             cache.insert( p );
+        }
+    }
+}
+
+void zone_manager::cache_avatar_location()
+{
+    avatar &player_character = get_avatar();
+    tripoint_abs_ms cached_shift = player_character.get_location();
+    for( zone_data &elem : zones ) {
+        // update the current cached locations for each personal zone
+        if( elem.get_is_personal() ) {
+            elem.update_cached_shift( cached_shift );
         }
     }
 }
@@ -763,11 +776,12 @@ bool zone_manager::has_loot_dest_near( const tripoint_abs_ms &where ) const
     return false;
 }
 
-const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
+const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
+        const zone_type_id &type,
         bool cached ) const
 {
     for( const zone_data &zone : zones ) {
-        if( zone.has_inside( where, cached ) && zone.get_type() == type ) {
+        if( zone.has_inside( where ) && zone.get_type() == type ) {
             return &zone;
         }
     }
