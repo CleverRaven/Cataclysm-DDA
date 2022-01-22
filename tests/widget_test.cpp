@@ -342,14 +342,41 @@ TEST_CASE( "graph widgets with color", "[widget][graph][color]" )
         widget graph10k = widget_test_color_graph_10k_widget.obj();
         graph10k._var_min = 0;
         graph10k._var_max = 10000;
+        // 2 nonzero symbols x 10 width == 20 possible graph states
         REQUIRE( graph10k._style == "graph" );
+        REQUIRE( graph10k._symbols == "-=#" );
+        REQUIRE( graph10k._width == 10 );
+        // 10000 values / 20 states == 500 values for each state
+        int tick = 500;
+        // 20 states / 5 colors == 4 states in each color
         REQUIRE( graph10k._colors.size() == 5 );
 
-        CHECK( graph10k.color_value_string( 0 ) == "<color_c_red>----------</color>" );
-        CHECK( graph10k.color_value_string( 2500 ) == "<color_c_light_red>=====-----</color>" );
-        CHECK( graph10k.color_value_string( 5000 ) == "<color_c_yellow>==========</color>" );
-        CHECK( graph10k.color_value_string( 7500 ) == "<color_c_light_green>#####=====</color>" );
-        CHECK( graph10k.color_value_string( 10000 ) == "<color_c_green>##########</color>" );
+        // At each tick, the graph should be in a new state
+        CHECK( graph10k.color_value_string( 0 * tick ) == "<color_c_red>----------</color>" );
+        CHECK( graph10k.color_value_string( 1 * tick ) == "<color_c_red>=---------</color>" );
+        CHECK( graph10k.color_value_string( 2 * tick ) == "<color_c_red>==--------</color>" );
+        CHECK( graph10k.color_value_string( 3 * tick ) == "<color_c_red>===-------</color>" );
+        CHECK( graph10k.color_value_string( 4 * tick ) == "<color_c_red>====------</color>" );
+
+        CHECK( graph10k.color_value_string( 5 * tick ) == "<color_c_light_red>=====-----</color>" );
+        CHECK( graph10k.color_value_string( 6 * tick ) == "<color_c_light_red>======----</color>" );
+        CHECK( graph10k.color_value_string( 7 * tick ) == "<color_c_light_red>=======---</color>" );
+        CHECK( graph10k.color_value_string( 8 * tick ) == "<color_c_light_red>========--</color>" );
+
+        CHECK( graph10k.color_value_string( 9 * tick ) == "<color_c_yellow>=========-</color>" );
+        CHECK( graph10k.color_value_string( 10 * tick ) == "<color_c_yellow>==========</color>" );
+        CHECK( graph10k.color_value_string( 11 * tick ) == "<color_c_yellow>#=========</color>" );
+        CHECK( graph10k.color_value_string( 12 * tick ) == "<color_c_yellow>##========</color>" );
+
+        CHECK( graph10k.color_value_string( 13 * tick ) == "<color_c_light_green>###=======</color>" );
+        CHECK( graph10k.color_value_string( 14 * tick ) == "<color_c_light_green>####======</color>" );
+        CHECK( graph10k.color_value_string( 15 * tick ) == "<color_c_light_green>#####=====</color>" );
+        CHECK( graph10k.color_value_string( 16 * tick ) == "<color_c_light_green>######====</color>" );
+
+        CHECK( graph10k.color_value_string( 17 * tick ) == "<color_c_green>#######===</color>" );
+        CHECK( graph10k.color_value_string( 18 * tick ) == "<color_c_green>########==</color>" );
+        CHECK( graph10k.color_value_string( 19 * tick ) == "<color_c_green>#########=</color>" );
+        CHECK( graph10k.color_value_string( 20 * tick ) == "<color_c_green>##########</color>" );
     }
 }
 
