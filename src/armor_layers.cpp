@@ -389,33 +389,33 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     // bash ballistic and cut can have more involved info based on armor complexity
     if( display_median ) {
         prot.push_back( name_and_value( space + _( "Bash:" ),
-                                        string_format( "Worst: %.2f, Median: %.2f, Best: %.2f",
+                                        string_format( _( "Worst: %.2f, Median: %.2f, Best: %.2f" ),
                                                 worst_res.type_resist( damage_type::BASH ), median_res.type_resist( damage_type::BASH ),
                                                 best_res.type_resist( damage_type::BASH ) ),
                                         width ) );
         prot.push_back( name_and_value( space + _( "Cut:" ),
-                                        string_format( "Worst: %.2f, Median: %.2f, Best: %.2f",
+                                        string_format( _( "Worst: %.2f, Median: %.2f, Best: %.2f" ),
                                                 worst_res.type_resist( damage_type::CUT ), median_res.type_resist( damage_type::CUT ),
                                                 best_res.type_resist( damage_type::CUT ) ),
                                         width ) );
         prot.push_back( name_and_value( space + _( "Ballistic:" ),
-                                        string_format( "Worst: %.2f, Median: %.2f, Best: %.2f",
+                                        string_format( _( "Worst: %.2f, Median: %.2f, Best: %.2f" ),
                                                 worst_res.type_resist( damage_type::BULLET ), median_res.type_resist( damage_type::BULLET ),
                                                 best_res.type_resist( damage_type::BULLET ) ),
                                         width ) );
     } else if( percent_worst > 0 ) {
         prot.push_back( name_and_value( space + _( "Bash:" ),
-                                        string_format( "Worst: %.2f, Best: %.2f",
+                                        string_format( _( "Worst: %.2f, Best: %.2f" ),
                                                 worst_res.type_resist( damage_type::BASH ),
                                                 best_res.type_resist( damage_type::BASH ) ),
                                         width ) );
         prot.push_back( name_and_value( space + _( "Cut:" ),
-                                        string_format( "Worst: %.2f, Best: %.2f",
+                                        string_format( _( "Worst: %.2f, Best: %.2f" ),
                                                 worst_res.type_resist( damage_type::CUT ),
                                                 best_res.type_resist( damage_type::CUT ) ),
                                         width ) );
         prot.push_back( name_and_value( space + _( "Ballistic:" ),
-                                        string_format( "Worst: %.2f,  Best: %.2f",
+                                        string_format( _( "Worst: %.2f,  Best: %.2f" ),
                                                 worst_res.type_resist( damage_type::BULLET ),
                                                 best_res.type_resist( damage_type::BULLET ) ),
                                         width ) );
