@@ -372,7 +372,7 @@ void widget::finalize()
 
 int widget::get_var_min( const avatar & /* ava */ ) const
 {
-    int min_val = 0;
+    int min_val = INT_MIN;
     switch( _var ) {
         case widget_var::health:
             min_val = -200;
@@ -385,8 +385,8 @@ int widget::get_var_min( const avatar & /* ava */ ) const
 
 std::pair<int, int> widget::get_var_norm( const avatar &ava ) const
 {
-    int low_val = 0;
-    int high_val = 0;
+    int low_val = INT_MIN;
+    int high_val = INT_MAX;
     switch( _var ) {
         case widget_var::stat_str:
             low_val = ava.get_str_base();
@@ -412,7 +412,7 @@ std::pair<int, int> widget::get_var_norm( const avatar &ava ) const
 
 int widget::get_var_max( const avatar &ava ) const
 {
-    int max_val = 1;
+    int max_val = INT_MAX;
     // max_val must be set to a reasonable maximum for the widget_var to determine correct scaling
     // for graph widgets and color-spectrum allocation.
     switch( _var ) {

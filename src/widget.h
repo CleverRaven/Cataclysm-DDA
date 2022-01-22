@@ -179,11 +179,11 @@ class widget
         // Binding variable enum like stamina, bp_hp or stat_dex
         widget_var _var;
         // Minimum var value, optional
-        int _var_min = 0;
+        int _var_min = INT_MIN;
         // Normal var range (low, high), optional
         std::pair<int, int> _var_norm;
         // Maximum var value, required for graph widgets
-        int _var_max = 10;
+        int _var_max = INT_MAX;
         // Body part variable is linked to
         bodypart_id _bp_id;
         // Width in characters of widget, not including label
