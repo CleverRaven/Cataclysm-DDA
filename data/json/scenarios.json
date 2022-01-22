@@ -166,8 +166,7 @@
       "sloc_cemetery",
       "sloc_apartments_rooftop",
       "sloc_apartments_rooftop2",
-      "sloc_hospital",
-      "sloc_town_hall"
+      "sloc_hospital"
     ],
     "start_name": "In Town",
     "flags": [ "CHALLENGE", "LONE_START" ],
