@@ -209,6 +209,13 @@
     "style": "text"
   },
   {
+    "id": "test_move_count_mode_text",
+    "type": "widget",
+    "label": "MOVE/MODE",
+    "var": "move_count_mode_text",
+    "style": "text"
+  },
+  {
     "id": "test_str_num",
     "type": "widget",
     "label": "STR",

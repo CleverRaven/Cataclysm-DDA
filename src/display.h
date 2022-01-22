@@ -100,6 +100,8 @@ std::pair<std::string, nc_color> morale_emotion( const int morale_cur, const moo
 // Current movement mode and color, as single letter or full word
 std::pair<std::string, nc_color> move_mode_letter_color( const Character &u );
 std::pair<std::string, nc_color> move_mode_text_color( const Character &u );
+// Movement counter and mode letter, like "50(R)" or "100(W)"
+std::pair<std::string, nc_color> move_count_and_mode_text_color( const avatar &u );
 // Current body part status (bleeding, bitten, infected) phrase, fully colorized
 std::string colorized_bodypart_status_text( const Character &u, const bodypart_id &bp,
         const std::string &wgt_id );
