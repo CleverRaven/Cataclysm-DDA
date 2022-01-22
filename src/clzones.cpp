@@ -777,8 +777,7 @@ bool zone_manager::has_loot_dest_near( const tripoint_abs_ms &where ) const
 }
 
 const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
-        const zone_type_id &type,
-        bool cached ) const
+        const zone_type_id &type ) const
 {
     for( const zone_data &zone : zones ) {
         if( zone.has_inside( where ) && zone.get_type() == type ) {
@@ -797,7 +796,7 @@ const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
 
 bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it ) const
 {
-    const zone_data *zone = get_zone_at( where, zone_type_LOOT_CUSTOM, true );
+    const zone_data *zone = get_zone_at( where, zone_type_LOOT_CUSTOM );
     if( !zone || !it ) {
         return false;
     }
