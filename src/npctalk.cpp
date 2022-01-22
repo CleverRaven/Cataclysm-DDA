@@ -46,6 +46,7 @@
 #include "line.h"
 #include "magic.h"
 #include "map.h"
+#include "mapbuffer.h"
 #include "mapgen_functions.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -2431,8 +2432,9 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         type = var.type;
         target_var = var.name;
     }
+    bool revert = jo.get_bool( "revert", false );
     function = [target_params, update_ids, target_var, type, dov_time_in_future_min,
-                   dov_time_in_future_max]( const dialogue & d ) {
+                   dov_time_in_future_max, revert]( const dialogue & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
             const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( type == var_type::npc ), target_var,
@@ -2447,11 +2449,26 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         }
         time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
         if( min > 0_seconds ) {
-            for( const update_mapgen_id &mapgen_update_id : update_ids ) {
-                get_timed_events().add( timed_event_type::UPDATE_MAPGEN,
-                                        calendar::turn + rng( min, dov_time_in_future_max.evaluate( d.actor(
-                                                    dov_time_in_future_max.is_npc() ) ) ),
-                                        -1, project_to<coords::sm>( omt_pos ), 0, mapgen_update_id.str() );
+            if( !revert ) {
+                for( const update_mapgen_id &mapgen_update_id : update_ids ) {
+                    get_timed_events().add( timed_event_type::UPDATE_MAPGEN,
+                                            calendar::turn + rng( min, dov_time_in_future_max.evaluate( d.actor(
+                                                        dov_time_in_future_max.is_npc() ) ) ),
+                                            -1, project_to<coords::sm>( omt_pos ), 0, mapgen_update_id.str() );
+                }
+            } else {
+                for( int x = 0; x < 2; x++ ) {
+                    for( int y = 0; y < 2; y++ ) {
+                        tripoint_abs_sm revert_sm = project_to<coords::sm>( omt_pos );
+                        revert_sm += tripoint( x, y, 0 );
+                        const submap *sm = MAPBUFFER.lookup_submap( tripoint( revert_sm.x(), revert_sm.y(),
+                                           revert_sm.z() ) );
+                        get_timed_events().add( timed_event_type::REVERT_SUBMAP,
+                                                calendar::turn + rng( min, dov_time_in_future_max.evaluate( d.actor(
+                                                            dov_time_in_future_max.is_npc() ) ) ),
+                                                -1, revert_sm, 0, "", sm->get_revert_submap() );
+                    }
+                }
             }
         } else {
             for( const update_mapgen_id &mapgen_update_id : update_ids ) {
