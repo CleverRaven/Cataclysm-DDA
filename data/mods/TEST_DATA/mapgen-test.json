@@ -45,7 +45,7 @@
         "                        ",
         "                        ",
         "                 a      ",
-        "                        ",
+        "    1                   ",
         "                        ",
         "                        ",
         "                 p      ",
@@ -58,7 +58,7 @@
         "T          B           S",
         "                        ",
         "                        ",
-        "   ;;;;----gggg       G ",
+        "   ;;;;----gggg R     G ",
         "   ;;;;----gggg         ",
         " V O . , u fF       Y   "
       ],
@@ -165,20 +165,22 @@
           "name": "Test computer 1",
           "security": 3,
           "options": [ { "name": "Test unlock action", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ],
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!"
         }
       },
       "place_computers": [
         {
           "name": "Test computer 2",
-          "security": 3,
-          "options": [ { "name": "Test unlock action", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ],
+          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
+          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
           "x": 20,
           "y": 20
         }
       ],
-      "place_rubble": [ { "rubble_type": "f_rubble_rock", "x": 15, "y": 1, "items": true, "overwrite": true, "floor_type": "t_grass" } ],
+      "rubble": { "R": { "items": true, "overwrite": true, "floor_type": "t_grass" } },
+      "place_rubble": [ { "rubble_type": "f_rubble_rock", "x": 15, "y": 1 } ],
+      "graffiti": { "1": { "snippet": "mapgen_test" } },
       "place_graffiti": [ { "text": "test graffiti", "x": 17, "y": 17 }, { "snippet": "mapgen_test", "x": 18, "y": 18 } ],
       "place_zones": [
         {
