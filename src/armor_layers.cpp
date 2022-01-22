@@ -415,7 +415,7 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
                                                 best_res.type_resist( damage_type::CUT ) ),
                                         width ) );
         prot.push_back( name_and_value( space + _( "Ballistic:" ),
-                                        string_format( _( "Worst: %.2f,  Best: %.2f" ),
+                                        string_format( _( "Worst: %.2f, Best: %.2f" ),
                                                 worst_res.type_resist( damage_type::BULLET ),
                                                 best_res.type_resist( damage_type::BULLET ) ),
                                         width ) );
