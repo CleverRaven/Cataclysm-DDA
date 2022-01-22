@@ -105,7 +105,7 @@
       "place_traps": [ { "trap": "tr_funnel", "x": 7, "y": 3 } ],
       "fields": { "B": { "field": "fd_blood", "intensity": 1, "age": 10 }, "A": { "field": "fd_blood", "remove": true } },
       "place_fields": [ { "field": "fd_bile", "x": 5, "y": 1, "intensity": 2, "age": 20 } ],
-      "signs": { "S": { "signage": "it works." } },
+      "signs": { "S": { "signage": "<color_white_green>it works.</color>" } },
       "place_signs": [
         { "signage": "it works again.", "x": 7, "y": 1 },
         { "signage": "<given_name> <family_name> owned <full_name> at <city>", "x": 7, "y": 2 },
