@@ -1020,46 +1020,87 @@ std::string widget::graph( int value, int value_max )
 // For widget::layout, process each row to append to the layout string
 static std::string append_line( const std::string &line, bool first_row, unsigned int max_width,
                                 const translation &label, int label_width, widget_alignment text_align,
-                                widget_alignment /*label_align*/ )
+                                widget_alignment label_align )
 {
-    std::string ret;
-    // Width used by label, ": " and value, using utf8_width to ignore color tags
-    unsigned int used_width = utf8_width( line, true );
     // utf8_width subtracts 1 for each newline; add it back for multiline widgets
-    if( !line.empty() && line.back() == '\n' ) {
-        used_width += 1;
+    const int newline_fix = !line.empty() && line.back() == '\n' ? 1 : 0;
+
+    // Prepare label
+    int lbl_w = 0;
+    std::string lbl;
+    if( first_row && !label.empty() ) {
+        lbl = label.translated();
+        lbl_w = utf8_width( lbl, true );
+        lbl.append( ": " );
     }
-    if( first_row ) {
-        int lwidth = 0;
-        const std::string tlabel = label.translated();
-        // If label is empty or omitted, don't reserve space for it
-        if( !label.empty() ) {
-            lwidth = utf8_width( tlabel, true ) + 2;
-            // Label and ": " first
-            ret += tlabel + ": ";
-            label_width -= lwidth - 2;
+    // Don't process label width if label_width = 0 for empty labels
+    if( label_width > 0 || !label.empty() ) {
+        lbl_w += 2;
+        label_width += 2;
+        // Use empty spaces in place of label if none exist
+        if( label.empty() ) {
+            lbl.append( label_width, ' ' );
+            lbl_w = label_width;
         }
-        if( label_width > 0 ) {
-            label_width += label.empty() ? 2 : 0;
-            ret += std::string( label_width, ' ' );
-            lwidth += label_width;
-        }
-        used_width += lwidth;
     }
 
-    // then enough padding to fit max_width
-    if( text_align != widget_alignment::LEFT && used_width < max_width ) {
-        int pad_count = max_width - used_width;
-        if( text_align == widget_alignment::CENTER ) {
-            pad_count = max_width / 2 - used_width / 2;
+    // Prepare text
+    int txt_w = 0;
+    std::string txt;
+    if( !line.empty() ) {
+        txt = line;
+        txt_w = utf8_width( txt, true ) + newline_fix;
+    }
+
+    // Label padding
+    if( label_width > lbl_w ) {
+        const int lpad = label_width - lbl_w;
+        // Left side
+        int padding = 0;
+        if( label_align != widget_alignment::LEFT ) {
+            padding = label_align == widget_alignment::RIGHT ? lpad : ( lpad / 2 ) + lpad % 2;
         }
-        ret += std::string( pad_count, ' ' );
-        used_width += pad_count;
+        lbl.insert( 0, padding, ' ' );
+        lbl_w += padding;
+        // Right side
+        padding = 0;
+        if( label_align != widget_alignment::RIGHT ) {
+            padding = label_align == widget_alignment::LEFT ? lpad : lpad / 2;
+        }
+        lbl.append( padding, ' ' );
+        lbl_w += padding;
     }
-    ret += line;
-    if( used_width < max_width && ( line.empty() || line.back() != '\n' ) ) {
-        ret += std::string( max_width - used_width, ' ' );
+
+    // Text padding
+    if( static_cast<int>( max_width ) - lbl_w > txt_w ) {
+        const int tpad = ( static_cast<int>( max_width ) - lbl_w ) - txt_w;
+        // Left side
+        int padding = 0;
+        if( text_align != widget_alignment::LEFT &&
+            // Don't pad left if the label is also right-aligned
+            ( text_align == widget_alignment::CENTER || label_align != widget_alignment::RIGHT ) ) {
+            padding = text_align == widget_alignment::RIGHT ? tpad : ( tpad / 2 ) + tpad % 2;
+        }
+        txt.insert( 0, padding, ' ' );
+        txt_w += padding;
+        // Right side
+        padding = 0;
+        if( text_align != widget_alignment::RIGHT && newline_fix == 0 ) {
+            padding = text_align == widget_alignment::LEFT ? tpad : tpad / 2;
+        }
+        txt.append( padding, ' ' );
+        txt_w += padding;
     }
+
+    // Final assembly
+    std::string ret = lbl + txt;
+    if( text_align == widget_alignment::RIGHT ) {
+        const int leftover = max_width - ( lbl_w + txt_w );
+        if( leftover > 0 ) {
+            ret.insert( 0, leftover, ' ' );
+        }
+    }
+
     return ret;
 }
 
@@ -1117,7 +1158,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
             // Process last line, or first for single-line widgets
             ret += append_line( shown, row_num == 0, max_width,
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
-                                label_width, _text_align, _label_align );
+                                row_num == 0 ? label_width : 0, _text_align, _label_align );
         }
     }
     return ret;
