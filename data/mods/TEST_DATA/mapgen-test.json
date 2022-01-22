@@ -71,6 +71,12 @@
           "item": { "item": "2x4" }
         }
       },
+      "set": [
+        { "line": "terrain", "id": "t_concrete", "x": 17, "x2": 21, "y": 3, "y2": 3 },
+        { "square": "radiation", "amount": [ 10, 30 ], "x": 0, "y": 0, "x2": 23, "y2": 23 },
+        { "point": "trap", "id": "tr_cot", "x": [ 17, 21 ], "y": [ 1, 2 ], "chance": 2, "repeat": [ 2, 5 ] },
+        { "point": "variable", "id": "test_variable", "x": 4, "y": 2 }
+      ],
       "terrain": { ".": "t_shrub", ";": [ "t_door_o", { "ter": "t_pit_spiked" } ] },
       "place_terrain": [ { "ter": "t_rock", "x": 11, "y": 3 } ],
       "furniture": { ",": "f_table", "-": [ "f_chair", { "furn": "f_bed" } ], "g": "f_brazier" },
