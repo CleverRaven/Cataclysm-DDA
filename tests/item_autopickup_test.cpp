@@ -10,6 +10,7 @@
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bag_plastic( "bag_plastic" );
+static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_bottle_plastic_pill_prescription( "bottle_plastic_pill_prescription" );
 static const itype_id itype_candy2( "candy2" );
 static const itype_id itype_codeine( "codeine" );
@@ -21,6 +22,7 @@ static const itype_id itype_money_one( "money_one" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pebble( "pebble" );
 static const itype_id itype_wallet_leather( "wallet_leather" );
+static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wrapper( "wrapper" );
 
 class unique_item
@@ -261,6 +263,28 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
                 } );
                 // ensure blacklisted item is dropped on ground
                 REQUIRE( item_money_one.find_on_ground( ground ) );
+            }
+        }
+        // plastic bottle > clean water (2)
+        WHEN( "they have clean water whitelisted and plastic bottle blacklisted" ) {
+            // construct and fill bottle with clean water
+            item item_plastic_bottle = item( itype_bottle_plastic );
+            unique_item item_clean_water = unique_item( itype_water_clean, 2 );
+            REQUIRE( item_plastic_bottle.fill_with( *item_clean_water.get() ) == 2 );
+
+            // spawm bottle filled with clean water in the world
+            unique_item item_bottled_water = unique_item( item_plastic_bottle );
+            REQUIRE( item_bottled_water.spawn_item( ground ) );
+
+            add_autopickup_rules( { { &item_clean_water, true }, { &item_bottled_water, false } } );
+            THEN( "clean water should NOT be picked up without plastic bottle" ) {
+                simulate_auto_pickup( ground, they );
+                // check to see if item has been added to backpack
+                const item *item_in_inventory = item_bottled_water.find_in_container( backpack );
+                REQUIRE( item_in_inventory == &null_item_reference() );
+
+                // check to see if item has remained on the ground
+                REQUIRE( item_bottled_water.find_on_ground( ground ) );
             }
         }
     }

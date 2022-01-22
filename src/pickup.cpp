@@ -130,6 +130,7 @@ static void drop_blacklisted_items( item *from, tripoint where )
 static std::vector<item_location> get_pickup_list_from( item_location &container )
 {
     item *container_item = container.get_item();
+    bool contains_liquid = false;
     bool pick_all_items = true;
 
     std::vector<item_location> pickup_list;
@@ -142,6 +143,9 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
             if( item_to_check->is_container() ) {
                 // whitelisted containers should exclude contained blacklisted items
                 drop_blacklisted_items( item_to_check, container.position() );
+            }
+            if( item_to_check->made_of_from_type( phase_id::LIQUID ) ) {
+                contains_liquid = true;
             }
             // pick up the whitelisted item
             pickup_list.emplace_back( container, item_to_check );
@@ -183,6 +187,10 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
         if( is_valid_auto_pickup( container_item ) && !batteries_from_tool ) {
             pickup_list.clear();
             pickup_list.push_back( container );
+        } else if( contains_liquid ) {
+            // never pickup liquid directly from container
+            // if we can't pickup container then don't pickup anything
+            pickup_list.clear();
         }
     }
     return pickup_list;
