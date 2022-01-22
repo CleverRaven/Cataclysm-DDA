@@ -164,7 +164,6 @@
     "description": "A helmet made from incredibly durable black dragonscale, held together with black dragonhide.  The visor is raised.",
     "use_action": { "type": "transform", "target": "helmet_black_dragon_scale", "msg": "You put down your visor." },
     "symbol": "[",
-    "material": [ "black_dragon_hide", "black_dragon_scales" ],
     "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 32 } ],
 	"material_thickness": 5,
     "environmental_protection": 3,
