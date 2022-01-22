@@ -6083,12 +6083,7 @@
     "book_learn": [ [ "baking_book", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [
-      [ [ "flour_any", 12, "LIST" ] ],
-      [ [ "eggs_bird", 1, "LIST" ] ],
-      [ [ "jam_fruit", 9 ] ],
-      [ [ "cornmeal", 1 ] ]
-    ]
+    "components": [ [ [ "flour_any", 12, "LIST" ] ], [ [ "eggs_bird", 1, "LIST" ] ], [ [ "jam_fruit", 9 ] ], [ [ "cornmeal", 1 ] ] ]
   },
   {
     "type": "recipe",
