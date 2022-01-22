@@ -1101,7 +1101,8 @@ static void destroy_random_component( item &craft, const Character &crafter )
 
     item destroyed = random_entry_removed( craft.components );
 
-    crafter.add_msg_player_or_npc( _( "You mess up and destroy the %s." ),
+    crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
+                                   _( "You mess up and destroy the %s." ),
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
 }
 
