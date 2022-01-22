@@ -164,6 +164,6 @@
     "id": "microlab_ratkin_sub_entry",
     "name": "science lab",
     "sym": "L",
-    "copy-from": "microlab_sub_connector_ratkin"
+    "copy-from": "microlab_sub_station_ratkin"
   }
 ]
