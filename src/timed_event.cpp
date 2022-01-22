@@ -296,16 +296,19 @@ void timed_event::actualize()
         case timed_event_type::TRANSFORM_RADIUS:
             get_map().transform_radius( ter_furn_transform_id( string_id ), strength,
                                         tripoint( map_point.x(), map_point.y(), map_point.z() ) );
+            get_map().invalidate_map_cache( map_point.z() );
             break;
 
         case timed_event_type::UPDATE_MAPGEN:
             run_mapgen_update_func( update_mapgen_id( string_id ), project_to<coords::omt>( map_point ),
                                     nullptr );
+            get_map().invalidate_map_cache( map_point.z() );
             break;
 
         case timed_event_type::REVERT_SUBMAP: {
             submap *sm = MAPBUFFER.lookup_submap( tripoint( map_point.x(), map_point.y(), map_point.z() ) );
             sm->revert_submap( revert );
+            get_map().invalidate_map_cache( map_point.z() );
             break;
         }
 

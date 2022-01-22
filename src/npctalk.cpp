@@ -2406,6 +2406,7 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
                                     -1, tripoint_abs_sm( target_pos ), radius, transform.str() );
         } else {
             get_map().transform_radius( transform, radius, target_pos );
+            get_map().invalidate_map_cache( target_pos.z );
         }
     };
 }
@@ -2449,12 +2450,12 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         }
         time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
         if( min > 0_seconds ) {
+            time_point tif = calendar::turn + rng( min,
+                                                   dov_time_in_future_max.evaluate( d.actor( dov_time_in_future_max.is_npc() ) ) );
             if( !revert ) {
                 for( const update_mapgen_id &mapgen_update_id : update_ids ) {
-                    get_timed_events().add( timed_event_type::UPDATE_MAPGEN,
-                                            calendar::turn + rng( min, dov_time_in_future_max.evaluate( d.actor(
-                                                        dov_time_in_future_max.is_npc() ) ) ),
-                                            -1, project_to<coords::sm>( omt_pos ), 0, mapgen_update_id.str() );
+                    get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),
+                                            0, mapgen_update_id.str() );
                 }
             } else {
                 // maptile is 4 submaps so queue up 4 submap reverts
@@ -2464,10 +2465,8 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
                         revert_sm += tripoint( x, y, 0 );
                         const submap *sm = MAPBUFFER.lookup_submap( tripoint( revert_sm.x(), revert_sm.y(),
                                            revert_sm.z() ) );
-                        get_timed_events().add( timed_event_type::REVERT_SUBMAP,
-                                                calendar::turn + rng( min, dov_time_in_future_max.evaluate( d.actor(
-                                                            dov_time_in_future_max.is_npc() ) ) ),
-                                                -1, revert_sm, 0, "", sm->get_revert_submap() );
+                        get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1, revert_sm, 0, "",
+                                                sm->get_revert_submap() );
                     }
                 }
             }
@@ -2475,8 +2474,8 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             for( const update_mapgen_id &mapgen_update_id : update_ids ) {
                 run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
             }
+            get_map().invalidate_map_cache( omt_pos.z() );
         }
-
     };
 }
 
