@@ -686,6 +686,9 @@ class Character : public Creature, public visitable
         void recalc_speed_bonus();
         void set_underwater( bool );
         bool is_hallucination() const override;
+
+        // true if the character produces electrical radiation
+        bool is_electrical() const override;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** Returns the effect of pain on stats */
@@ -1944,6 +1947,7 @@ class Character : public Creature, public visitable
         int book_fun_for( const item &book, const Character &p ) const;
 
         bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr ) const;
+        bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
         /**
@@ -1998,6 +2002,9 @@ class Character : public Creature, public visitable
         /** Drops an item to the specified location */
         void drop( item_location loc, const tripoint &where );
         virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
+        /** Assigns character activity to pick up items from the given drop_locations.
+         *  Requires sufficient storage; items cannot be wielded or worn from this activity.
+         */
         void pick_up( const drop_locations &what );
 
         bool is_wielding( const item &target ) const;
@@ -2755,11 +2762,10 @@ class Character : public Creature, public visitable
           * Add or subtract vitamins from character storage pools
          * @param vit ID of vitamin to modify
          * @param qty amount by which to adjust vitamin (negative values are permitted)
-         * @param capped if true prevent vitamins which can accumulate in excess from doing so
          * @return adjusted level for the vitamin or zero if vitamin does not exist
          */
-        int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
-        void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
+        int vitamin_mod( const vitamin_id &vit, int qty );
+        void vitamins_mod( const std::map<vitamin_id, int> & );
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
         time_duration vitamin_rate( const vitamin_id &vit ) const;
         /** Modify vitamin intake (e.g. due to effects) */

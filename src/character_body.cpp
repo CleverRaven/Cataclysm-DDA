@@ -112,7 +112,7 @@ void Character::update_body_wetness( const w_point &weather )
             continue;
         }
         // This is to normalize drying times
-        int drying_chance = get_part_drench_capacity( bp );
+        int drying_chance = bp->drying_chance;
         const int temp_conv = get_part_temp_conv( bp );
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
@@ -135,7 +135,7 @@ void Character::update_body_wetness( const w_point &weather )
 
         // TODO: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {
-            mod_part_wetness( bp, -1 );
+            mod_part_wetness( bp, bp->drying_increment * -1 );
             if( get_part_wetness( bp ) < 0 ) {
                 set_part_wetness( bp, 0 );
             }
@@ -791,7 +791,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         guts.ingest( digested_to_guts );
 
         mod_stored_kcal( digested_to_body.nutr.kcal() );
-        vitamins_mod( effect_vitamin_mod( digested_to_body.nutr.vitamins ), false );
+        vitamins_mod( effect_vitamin_mod( digested_to_body.nutr.vitamins ) );
         log_activity_level( activity_history.average_activity() );
 
         if( !foodless && rates.hunger > 0.0f ) {

@@ -260,7 +260,7 @@ item_contents::item_contents( const std::vector<pocket_data> &pockets )
     }
 }
 
-bool item_contents::empty_real() const
+bool item_contents::empty_with_no_mods() const
 {
     return contents.empty() ||
     std::all_of( contents.begin(), contents.end(), []( const item_pocket & p ) {
@@ -577,7 +577,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             ret.first = parent;
             ret.second = &pocket;
             // check all pockets within to see if they are better
-            for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            for( item *contained : pocket.all_items_top() ) {
                 if( contained == avoid ) {
                     continue;
                 }

@@ -1289,6 +1289,31 @@
     "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {
+    "id": "test_condom",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test condom" },
+    "description": "This condom is only for testing, and should not be used as a birth control device.",
+    "weight": "5 g",
+    "volume": "15 ml",
+    "price": 0,
+    "price_postapoc": 25,
+    "to_hit": -5,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "3750 ml",
+        "max_contains_weight": "7 kg",
+        "max_item_length": "26 cm"
+      }
+    ],
+    "properties": [ [ "burst_when_filled", "75" ] ]
+  },
+  {
     "id": "test_can_drink",
     "type": "GENERIC",
     "category": "container",
@@ -1311,6 +1336,32 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
+  },
+  {
+    "id": "test_can_food",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test small tin can" },
+    "description": "A steel can that thinks its made of tin, maybe useful for testing, but you wouldn't want to eat out of it.",
+    "weight": "40 g",
+    "volume": "262 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "steel" ],
+    "symbol": ")",
+    "color": "blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "type": "GENERIC",

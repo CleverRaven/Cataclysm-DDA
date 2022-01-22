@@ -209,6 +209,8 @@ struct body_part_type {
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
         body_part_type::type limb_type = body_part_type::type::num_types;
+        cata::flat_set <body_part_type::type> secondary_types;
+        bool has_type( const body_part_type::type &type ) const;
 
         // Threshold to start encumbrance scaling
         int encumbrance_threshold = 0;
@@ -233,6 +235,9 @@ struct body_part_type {
 
         int base_hp = 60;
         stat_hp_mods hp_mods;
+        // Innate healing rate of the bodypart
+        int heal_bonus = 0;
+        float mend_rate = 1.0f;
 
         // if a limb is vital and at 0 hp, you die.
         bool is_vital = false;
@@ -243,6 +248,11 @@ struct body_part_type {
         // Temperature bonus to apply when not overheated
         int temp_max = 0;
         int drench_max = 0;
+        int drench_increment = 2;
+        int drying_chance = 1;
+        int drying_increment = 1;
+        // Wetness morale bonus/malus of the limb
+        int wet_morale = 0;
         cata::flat_set<json_character_flag> flags;
         bool has_flag( const json_character_flag &flag ) const;
 

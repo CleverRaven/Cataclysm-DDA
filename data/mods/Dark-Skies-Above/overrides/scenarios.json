@@ -32,7 +32,7 @@
     "id": "surrounded",
     "copy-from": "surrounded",
     "name": "Surrounded",
-    "description": "You've attracted the attention of a pack of mutants in some way, now they're all around and you'll likely have to fight thorough them if you want to escape.",
+    "description": "You've attracted the attention of a pack of mutants in some way, now they're all around and you'll likely have to fight through them if you want to escape.",
     "blacklist_professions": true,
     "professions": [ "churl" ]
   },

@@ -253,7 +253,7 @@
     "tracking_distance": 5,
     "death_function": {
       "message": "The child's eyes widen, and they try to say something before falling to the ground.",
-      "effect": { "id": "zombie_child_guilt", "hit_self": true }
+      "effect": { "id": "death_guilt", "hit_self": true }
     },
     "zombify_into": "mon_zombie_child",
     "extend": { "flags": [ "HARDTOSHOOT" ] }

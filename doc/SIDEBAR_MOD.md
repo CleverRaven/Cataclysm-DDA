@@ -168,6 +168,7 @@ next.
 Variable widgets define a "var" field, with the name of a predefined widget variable. This tells the
 widget what information it should show. Most of the time, these are attributes of the player
 character, but they can also be attributes of the world, environment, or vehicle where they are.
+
 See the [Variables](#variables) section for a list of them.
 
 For example, a widget to show the current STR stat would define this "var":
@@ -420,6 +421,9 @@ line individually for drawing in `widget::custom_draw_multiline()`.
 Adding new multi-line-capable widgets involves ensuring the new display function formats the
 widget's text according to the available width and height.
 
+Some multi-line widgets can dynamically adjust their height based on how many lines they are using.
+To enable this behavior, add the `W_DYNAMIC_HEIGHT` flag to the widget (ex: see the compass legend).
+
 
 ## `colors`
 
@@ -478,12 +482,13 @@ Widgets can use flags to specify special behaviors:
 
 Here are some flags that can be included:
 
-| Flag id        | Description
-|---             |---
-| `W_LABEL_NONE` | Prevents the widget's label from being displayed in the sidebar
-| `W_DISABLED`   | Makes this widget disabled by default (only applies to top-level widgets/layouts)
-| `W_PAD_CENTER` | Adds enough left-padding to center the widget text (widget is center-aligned)
-| `W_PAD_NONE`   | Omits the left-padding altogether (widget is left-aligned)
+| Flag id            | Description
+|---                 |---
+| `W_LABEL_NONE`     | Prevents the widget's label from being displayed in the sidebar
+| `W_DISABLED`       | Makes this widget disabled by default (only applies to top-level widgets/layouts)
+| `W_PAD_CENTER`     | Adds enough left-padding to center the widget text (widget is center-aligned)
+| `W_PAD_NONE`       | Omits the left-padding altogether (widget is left-aligned)
+| `W_DYNAMIC_HEIGHT` | Allows certain multi-line widgets to dynamically adjust their height
 
 
 # Variables
@@ -551,6 +556,8 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `moon_phase_text`     | Phase of the moon - "New moon", "Waxing gibbous", "Full moon" etc.
 | `move_mode_letter`    | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
 | `move_mode_text`      | Movement mode - "walking", "running", "crouching", "prone"
+| `overmap_loc_text`    | Overmap coordinates, same as shown in the lower corner of overmap screen
+| `overmap_text`        | Colored text rendering of the local overmap; may define "width" and "height"
 | `pain_text`           | "Mild pain", "Distracting pain", "Intense pain", etc.
 | `place_text`          | Location place name
 | `power_text`          | Bionic power available
@@ -619,25 +626,26 @@ Graph widget ids typically have a `_graph` suffix.
 
 Text widget ids typically have a `_desc` suffix.
 
-| id                 | example
-| --                 | --
-| `activity_desc`    | `Activity: Moderate`
-| `date_desc`        | `Date: Summer day 25`
-| `env_temp_desc`    | `Temperature: 65F`
-| `fatigue_desc`     | `Rest: Tired`
-| `health_desc`      | `Health: Good`
-| `hunger_desc`      | `Hunger: Satisfied`
-| `lighting_desc`    | `Lighting: Bright`
-| `mood_desc`        | `Mood: :-)`
-| `pain_desc`        | `Pain: Unmanageable pain`
-| `place_desc`       | `Place: Evac Shelter J-38`
-| `power_desc`       | `Bionic Power: 250mJ`
-| `style_desc`       | `Style: Brawling`
-| `time_desc`        | `Time: 10:45:32 am`
-| `weary_malus_desc` | `Weary Malus: +10%`
-| `weather_desc`     | `Weather: Sunny`
-| `weight_desc`      | `Weight: Overweight`
-| `wind_desc`        | `Wind: <= Calm`
+| id                     | example
+| --                     | --
+| `activity_desc`        | `Activity: Moderate`
+| `date_desc`            | `Date: Summer day 25`
+| `env_temp_desc`        | `Temperature: 65F`
+| `fatigue_desc`         | `Rest: Tired`
+| `health_desc`          | `Health: Good`
+| `hunger_desc`          | `Hunger: Satisfied`
+| `lighting_desc`        | `Lighting: Bright`
+| `mood_desc`            | `Mood: :-)`
+| `move_count_mode_desc` | `Move: 100(W)`
+| `pain_desc`            | `Pain: Unmanageable pain`
+| `place_desc`           | `Place: Evac Shelter J-38`
+| `power_desc`           | `Bionic Power: 250mJ`
+| `style_desc`           | `Style: Brawling`
+| `time_desc`            | `Time: 10:45:32 am`
+| `weary_malus_desc`     | `Weary Malus: +10%`
+| `weather_desc`         | `Weather: Sunny`
+| `weight_desc`          | `Weight: Overweight`
+| `wind_desc`            | `Wind: <= Calm`
 
 
 ## Layout widgets

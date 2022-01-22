@@ -4081,7 +4081,7 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 
 void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p )
 {
-    tripoint_abs_omt origin = get_avatar().global_omt_location();
+    tripoint_abs_ms avatar_pos = get_avatar().get_location();
     bool shifted = false;
     if( !get_map().inbounds( get_map().getlocal( p ) ) ) {
         const tripoint_abs_ms abs_ms( p );
@@ -4096,7 +4096,8 @@ void map::transform_radius( const ter_furn_transform_id transform, float radi, c
         }
     }
     if( shifted ) {
-        g->place_player_overmap( origin );
+        g->place_player_overmap( project_to<coords::omt>( avatar_pos ) );
+        get_avatar().set_location( avatar_pos );
     }
 }
 

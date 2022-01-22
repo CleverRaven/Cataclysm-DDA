@@ -429,7 +429,7 @@
   {
     "id": "MISSION_REFUGEE_Boris_WORKSPACE",
     "type": "mission_definition",
-    "name": { "str": "Bring Boris some tools." },
+    "name": { "str": "Bring Boris a circular saw." },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",

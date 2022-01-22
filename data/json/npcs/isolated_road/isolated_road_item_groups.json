@@ -199,5 +199,22 @@
         "contents-item": [ "shoulder_strap", "holo_sight", "muzzle_brake", "bars", "rail_laser_sight" ]
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "blacksmith_prototypes",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "looks_like": "paper",
+    "name": { "str_sp": "engineering notes" },
+    "snippet_category": "artisan_docs",
+    "description": "A collection of sketches and CAD designs marked up with pencil.  There are two peoples handwriting.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "weight": "3 g",
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

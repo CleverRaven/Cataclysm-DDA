@@ -103,9 +103,9 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```FUNGUS_INJECT``` Perform needle attack that can cause fungal infections.
 - ```FUNGUS_SPROUT``` Grows a fungal wall.
 - ```FUNGUS``` Releases fungal spores and attempts to infect the player.
-- ```GENERATOR``` Regenerates health, humms.
+- ```GENERATOR``` Regenerates health, hums.
 - ```GENE_STING``` Shoot a dart at the player that causes a mutation if it connects.
-- ```GRAB_DRAG``` GRAB the target, and drag it around - dragging is resistable depending on the size difference and the melee dice of the attacker.
+- ```GRAB_DRAG``` GRAB the target, and drag it around - dragging is resistible depending on the size difference and the melee dice of the attacker.
 - ```GRAB``` Grabs the player, slowing on hit, making movement and dodging impossible and blocking harder.
 - ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`. Can destroy bashable terrain or do damage if it hits something.
 - ```GROW_VINE``` Grows creeper vines.
@@ -128,7 +128,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```PHOTOGRAPH``` Photograph the player. Causes a robot attack?
 - ```PLANT``` Fungal spores take seed and grow into a fungaloid.
 - ```PULL_METAL_WEAPON``` Pulls any weapon that's made of iron or steel from the player's hand.
-- ```RANGED_PULL``` Pulls targets towards attacker from 3 tiles range, dodgable but not resistable.
+- ```RANGED_PULL``` Pulls targets towards attacker from 3 tiles range, dodgable but not resistible.
 - ```RATKING``` Inflicts disease `rat`
 - ```RATTLE``` "a sibilant rattling sound!"
 - ```RESURRECT``` Revives the dead--again.
@@ -168,7 +168,7 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 | `cooldown`			| Integer, amount of turns between uses.
 | `damage_max_instance` | Array of objects, see ### "melee_damage"
 | `min_mul`, `max_mul`  | Sets the bounds on the range of damage done. For each attack, the above defined amount of damage will be multiplied by a
-|						| randomly rolled mulltiplier between the values min_mul and max_mul. Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
+|						| randomly rolled multiplier between the values min_mul and max_mul. Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
 | `move_cost`           | Integer, moves needed to complete special attack. Default 100.
 | `accuracy`            | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
 | `body_parts`			| List, If empty the regular melee roll body part selection is used. If non-empty, a body part is selected from the map to be

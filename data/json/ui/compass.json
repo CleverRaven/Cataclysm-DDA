@@ -86,8 +86,19 @@
     "label": "Compass Legend",
     "style": "text",
     "var": "compass_legend_text",
+    "width": 0,
     "height": 3,
     "flags": [ "W_LABEL_NONE", "W_PAD_NONE" ]
+  },
+  {
+    "id": "compass_legend_text_alt",
+    "type": "widget",
+    "label": "Compass Legend",
+    "style": "text",
+    "var": "compass_legend_text",
+    "width": 0,
+    "height": 5,
+    "flags": [ "W_LABEL_NONE", "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "compass_top_layout",
@@ -113,9 +124,18 @@
   {
     "id": "compass_all_layout",
     "type": "widget",
-    "label": "Compass Alt",
+    "label": "Compass",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "compass_top_layout", "compass_middle_layout", "compass_bottom_layout", "compass_legend_text" ]
+    "widgets": [ "compass_top_layout", "compass_middle_layout", "compass_bottom_layout", "compass_legend_text" ],
+    "flags": [ "W_DISABLED" ]
+  },
+  {
+    "id": "compass_all_layout_alt",
+    "type": "widget",
+    "label": "Compass (Dynamic)",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "compass_top_layout", "compass_middle_layout", "compass_bottom_layout", "compass_legend_text_alt" ]
   }
 ]

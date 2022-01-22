@@ -388,12 +388,19 @@ bool craft_command::safe_to_unload_comp( const item &it )
         return false;
     }
 
-    itype_id ammo = it.loaded_ammo().typeId();
-    if( ammo.is_null() && it.num_item_stacks() == 1 ) {
-        ammo = it.only_item().typeId();
+    // Return true if item contains anything "real"
+    const std::function<bool( const item &i )> filter = []( const item & i ) {
+        return !i.has_flag( flag_ZERO_WEIGHT ) && !i.has_flag( flag_NO_DROP );
+    };
+    const bool valid = it.get_contents().has_any_with( filter, item_pocket::pocket_type::CONTAINER ) ||
+                       it.get_contents().has_any_with( filter, item_pocket::pocket_type::MAGAZINE ) ||
+                       it.get_contents().has_any_with( filter, item_pocket::pocket_type::MAGAZINE_WELL );
+    if( valid ) {
+        return true;
     }
 
     // Don't try to unload items that shouldn't be outside their container
+    itype_id ammo = it.loaded_ammo().typeId();
     if( ammo.is_null() ) {
         return !it.empty_container();
     } else if( ammo->has_flag( flag_ZERO_WEIGHT ) ||

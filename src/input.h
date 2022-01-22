@@ -41,7 +41,7 @@ static constexpr int KEY_UP         = 0x103;    /* up arrow */
 static constexpr int KEY_LEFT       = 0x104;    /* left arrow */
 static constexpr int KEY_RIGHT      = 0x105;    /* right arrow*/
 static constexpr int KEY_HOME       =
-    0x106;    /* home key */                   //<---------not used
+    0x106;    /* home key */
 static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
 static constexpr int KEY_DC         = 0x151;    /* Delete Character */
@@ -59,6 +59,17 @@ inline constexpr int F_KEY_NUM( const int key )
 inline constexpr bool IS_F_KEY( const int key )
 {
     return key >= KEY_F( F_KEY_NUM_BEG ) && key <= KEY_F( F_KEY_NUM_END );
+}
+/** @return true if the given character is in the range of basic ASCII control characters */
+inline constexpr bool IS_CTRL_CHAR( const int key )
+{
+    // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Basic_ASCII_control_codes
+    return key >= 0 && key < ' ';
+}
+/** @return true if the given character is an ASCII control char but should not be rendered with "CTRL+" */
+inline constexpr bool IS_NAMED_CTRL_CHAR( const int key )
+{
+    return key == '\t' || key == '\n' || key == KEY_ESCAPE || key == KEY_BACKSPACE;
 }
 inline constexpr int KEY_NUM( const int n )
 {

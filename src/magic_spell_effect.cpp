@@ -1277,6 +1277,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         const int kill_count = g->get_kill_tracker().kill_count( z.type->id );
         // this is when the player stops caring altogether.
         const int max_kills = sp.damage();
+        // this determines how strong the morale penalty will be
+        const int guilt_mult = sp.get_level();
 
         // different message as we kill more of the same monster
         std::string msg = _( "You feel guilty for killing %s." ); // default guilt message
@@ -1316,21 +1318,36 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
 
         add_msg( msgtype, msg, z.name() );
 
-        int moraleMalus = -50 * ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        const int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        const time_duration duration = sp.duration_turns() *
-                                       ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        const time_duration decayDelay = 3_minutes *
-                                         ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        if( z.type->in_species( species_id( sp.effect_data() ) ) ) {
-            moraleMalus /= 10;
-            if( guy.has_trait( trait_PACIFIST ) ) {
-                moraleMalus *= 5;
-            } else if( guy.has_trait_flag( json_flag_PRED1 ) ) {
-                moraleMalus /= 4;
-            } else if( guy.has_trait_flag( json_flag_PRED2 ) ) {
-                moraleMalus /= 5;
+        float killRatio = static_cast<float>( kill_count ) / max_kills;
+        int moraleMalus = -5 * guilt_mult * ( 1.0 - killRatio );
+        const int maxMalus = -250 * ( 1.0 - killRatio );
+        const time_duration duration = sp.duration_turns() * ( 1.0 - killRatio );
+        const time_duration decayDelay = 3_minutes * ( 1.0 - killRatio );
+
+        bool shared_species = false;
+        if( caster.is_dead_state() && caster.get_killer() != nullptr ) {
+            for( const species_id &specie : caster.as_monster()->type->species ) {
+                if( guy.in_species( specie ) ) {
+                    shared_species = true;
+                }
             }
+        } else if( z.type->in_species( species_id( sp.effect_data() ) ) ) {
+            shared_species = true;
+        }
+        // killing your own kind hurts your soul more
+        if( shared_species ) {
+            moraleMalus *= 2;
+        }
+        if( guy.has_trait( trait_PACIFIST ) ) {
+            moraleMalus *= 5;
+        }
+        // cullers feel less bad about killing
+        else if( guy.has_trait_flag( json_flag_PRED1 ) ) {
+            moraleMalus /= 4;
+        }
+        // hunters feel less bad about killing
+        else if( guy.has_trait_flag( json_flag_PRED2 ) ) {
+            moraleMalus /= 5;
         }
         guy.add_morale( MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay );
     }

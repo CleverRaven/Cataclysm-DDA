@@ -1191,7 +1191,7 @@ bool item::same_for_rle( const item &rhs ) const
     if( charges != rhs.charges ) {
         return false;
     }
-    if( !contents.empty_real() || !rhs.contents.empty_real() ) {
+    if( !contents.empty_with_no_mods() || !rhs.contents.empty_with_no_mods() ) {
         return false;
     }
     if( has_itype_variant( false ) != rhs.has_itype_variant( false ) ||
@@ -1994,6 +1994,20 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( snippet.has_value() ) {
             // Just use the dynamic description
             info.emplace_back( "DESCRIPTION", snippet.value().translated() );
+
+            // only ever do the effect for a snippet the first time you see it
+            if( !get_avatar().has_seen_snippet( snip_id ) ) {
+                // Have looked at the item so call the on examine EOC for the snippet
+                const cata::optional<talk_effect_t> examine_effect = SNIPPET.get_EOC_by_id( snip_id );
+                if( examine_effect.has_value() ) {
+                    // activate the effect
+                    dialogue d( get_talker_for( get_avatar() ), nullptr );
+                    examine_effect.value().apply( d );
+                }
+
+                //note that you have seen the snippet
+                get_avatar().add_snippet( snip_id );
+            }
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
         } else if( has_itype_variant() ) {
@@ -3079,8 +3093,39 @@ static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
                            encumb_max );
     }
 
+    std::string layering;
+
+    // get the layers this bit of the armor covers if its unique compared to the rest of the armor
+    for( const layer_level &ll : it.get_layer( bp ) ) {
+        switch( ll ) {
+            case layer_level::PERSONAL:
+                layering += _( " <stat>Personal aura</stat>." );
+                break;
+            case layer_level::SKINTIGHT:
+                layering += _( " <stat>Close to skin</stat>." );
+                break;
+            case layer_level::NORMAL:
+                layering += _( " <stat>Normal</stat>." );
+                break;
+            case layer_level::WAIST:
+                layering += _( " <stat>Waist</stat>." );
+                break;
+            case layer_level::OUTER:
+                layering += _( " <stat>Outer</stat>." );
+                break;
+            case layer_level::BELTED:
+                layering += _( " <stat>Strapped</stat>." );
+                break;
+            case layer_level::AURA:
+                layering += _( " <stat>Outer aura</stat>." );
+                break;
+            default:
+                layering += _( " Should never see this." );
+        }
+    }
     //~ Limb-specific coverage (%s = name of limb)
-    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s Coverage</bold>:" ), bp_name ) );
+    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s Coverage</bold>:%s" ), bp_name,
+                       layering ) );
     //~ Regular/Default coverage
     info.emplace_back( bp_cat, string_format( "%s%s%s", space, _( "Default:" ), space ), "",
                        iteminfo::no_flags, it.get_coverage( bp ) );
@@ -3482,10 +3527,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 case layer_level::PERSONAL:
                     layering += _( " <stat>Personal aura</stat>." );
                     break;
-                case layer_level::UNDERWEAR:
+                case layer_level::SKINTIGHT:
                     layering += _( " <stat>Close to skin</stat>." );
                     break;
-                case layer_level::REGULAR:
+                case layer_level::NORMAL:
                     layering += _( " <stat>Normal</stat>." );
                     break;
                 case layer_level::WAIST:
@@ -4407,7 +4452,8 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         // Tools with "charged_qualities" defined may have additional qualities when charged.
         // List them, and show whether there is enough charge to use those qualities.
         if( !type->charged_qualities.empty() && type->charges_to_use() > 0 ) {
-            if( ammo_remaining() >= type->charges_to_use() ) {
+            // Use ammo_remaining() with player character to include bionic/UPS power
+            if( ammo_remaining( &get_player_character() ) >= type->charges_to_use() ) {
                 info.emplace_back( "QUALITIES", "", _( "<good>Has enough charges</good> for qualities:" ) );
             } else {
                 info.emplace_back( "QUALITIES", "",
@@ -4788,6 +4834,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
+        bool not_rigid = false;
         if( const islot_armor *t = find_armor_data() ) {
             bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
             []( const armor_portion_data & data ) {
@@ -4797,11 +4844,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "BASE",
                                    _( "* This item is <info>not rigid</info>.  Its"
                                       " volume and encumbrance increase with contents." ) );
-            } else if( !contents.all_pockets_rigid() ) {
-                info.emplace_back( "BASE",
-                                   _( "* This item is <info>not rigid</info>.  Its"
-                                      " volume increases with contents." ) );
+                not_rigid = true;
             }
+        }
+        if( !not_rigid && !all_pockets_rigid() ) {
+            info.emplace_back( "BASE",
+                               _( "* This item is <info>not rigid</info>.  Its"
+                                  " volume increases with contents." ) );
         }
     }
 
@@ -6653,20 +6702,15 @@ int64_t item::get_property_int64_t( const std::string &prop, int64_t def ) const
     return def;
 }
 
-int item::get_quality( const quality_id &id ) const
+int item::get_quality( const quality_id &id, const bool strict_boiling ) const
 {
     /**
      * EXCEPTION: Items with quality BOIL only count as such if they are empty.
      */
-    if( id == qual_BOIL && !contents.empty_container() ) {
+    if( strict_boiling && id == qual_BOIL && !contents.empty_container() ) {
         return INT_MIN;
     }
 
-    return get_raw_quality( id );
-}
-
-int item::get_raw_quality( const quality_id &id ) const
-{
     int return_quality = INT_MIN;
 
     // Check for inherent item quality
@@ -6677,8 +6721,9 @@ int item::get_raw_quality( const quality_id &id ) const
     }
 
     // If tool has charged qualities and enough charge to use at least once
+    // (using ammo_remaining() with player character to include bionic/UPS power)
     if( !type->charged_qualities.empty() && type->charges_to_use() > 0 &&
-        type->charges_to_use() <= ammo_remaining() ) {
+        type->charges_to_use() <= ammo_remaining( &get_player_character() ) ) {
         // see if any charged qualities are better than the current one
         for( const std::pair<const quality_id, int> &quality : type->charged_qualities ) {
             if( quality.first == id ) {
@@ -8334,8 +8379,8 @@ std::vector<const material_type *> item::made_of_types() const
             material_types_composed_of.push_back( &mat_id.first.obj() );
         }
     } else {
-        for( const material_id &mat_id : type->mats_ordered ) {
-            material_types_composed_of.push_back( &mat_id.obj() );
+        for( const auto &mat_id : type->materials ) {
+            material_types_composed_of.push_back( &mat_id.first.obj() );
         }
     }
     return material_types_composed_of;
@@ -9315,7 +9360,7 @@ const material_type &item::get_base_material() const
     }
     // Material portions all equal / not specified. Select first material.
     if( portion == 1 ) {
-        return *type->mats_ordered[0];
+        return *type->default_mat;
     }
     return *m;
 }

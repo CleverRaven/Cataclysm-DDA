@@ -114,6 +114,18 @@ static nc_color focus_color( int focus )
     }
 }
 
+static int get_wgt_height( const widget_id &wgt )
+{
+    if( wgt->_widgets.empty() || wgt->_arrange == "columns" ) {
+        return wgt->_height > 0 ? wgt->_height : 1;
+    }
+    int h = 0;
+    for( const widget_id &w : wgt->_widgets ) {
+        h += get_wgt_height( w );
+    }
+    return h;
+}
+
 int window_panel::get_height() const
 {
     if( height == -1 ) {
@@ -124,6 +136,9 @@ int window_panel::get_height() const
         } else {
             return 0;
         }
+    }
+    if( wgt.is_valid() && wgt->_arrange != "columns" ) {
+        return get_wgt_height( wgt );
     }
     return height;
 }
@@ -177,6 +192,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                                      const tripoint_abs_omt &global_omt, const point &start_input,
                                      const int width, const int height )
 {
+    // Map is centered on curs - typically player's global_omt_location
     const point_abs_omt curs = global_omt.xy();
     const tripoint_abs_omt targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
@@ -186,108 +202,39 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     map &here = get_map();
     const int sight_points = you.overmap_sight_range( g->light_level( you.posz() ) );
 
+    // i scans across width, with 0 in the middle(ish)
+    //     -(w/2) ... w-(w/2)-1
+    // w:9   -4 ... 4
+    // w:10  -5 ... 4
+    // w:11  -5 ... 5
+    // w:12  -6 ... 5
+    // w:13  -6 ... 6
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
+        // j scans across height, with 0 in the middle(ish)
+        // (same algorithm)
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
+            // omp is the current overmap point, at the current z-level
             const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z );
+            // Terrain color and symbol to use for this point
             nc_color ter_color;
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
             const bool vehicle_here = overmap_buffer.has_vehicle( omp );
             if( overmap_buffer.has_note( omp ) ) {
-
                 const std::string &note_text = overmap_buffer.note( omp );
-
-                ter_color = c_yellow;
-                ter_sym = "N";
-
-                int symbolIndex = note_text.find( ':' );
-                int colorIndex = note_text.find( ';' );
-
-                bool symbolFirst = symbolIndex < colorIndex;
-
-                if( colorIndex > -1 && symbolIndex > -1 ) {
-                    if( symbolFirst ) {
-                        if( colorIndex > 4 ) {
-                            colorIndex = -1;
-                        }
-                        if( symbolIndex > 1 ) {
-                            symbolIndex = -1;
-                            colorIndex = -1;
-                        }
-                    } else {
-                        if( symbolIndex > 4 ) {
-                            symbolIndex = -1;
-                        }
-                        if( colorIndex > 2 ) {
-                            colorIndex = -1;
-                        }
-                    }
-                } else if( colorIndex > 2 ) {
-                    colorIndex = -1;
-                } else if( symbolIndex > 1 ) {
-                    symbolIndex = -1;
-                }
-
-                if( symbolIndex > -1 ) {
-                    int symbolStart = 0;
-                    if( colorIndex > -1 && !symbolFirst ) {
-                        symbolStart = colorIndex + 1;
-                    }
-                    ter_sym = note_text.substr( symbolStart, symbolIndex - symbolStart );
-                }
-
-                if( colorIndex > -1 ) {
-
-                    int colorStart = 0;
-
-                    if( symbolIndex > -1 && symbolFirst ) {
-                        colorStart = symbolIndex + 1;
-                    }
-
-                    std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
-
-                    if( sym.length() == 2 ) {
-                        if( sym == "br" ) {
-                            ter_color = c_brown;
-                        } else if( sym == "lg" ) {
-                            ter_color = c_light_gray;
-                        } else if( sym == "dg" ) {
-                            ter_color = c_dark_gray;
-                        }
-                    } else {
-                        char colorID = sym.c_str()[0];
-                        if( colorID == 'r' ) {
-                            ter_color = c_light_red;
-                        } else if( colorID == 'R' ) {
-                            ter_color = c_red;
-                        } else if( colorID == 'g' ) {
-                            ter_color = c_light_green;
-                        } else if( colorID == 'G' ) {
-                            ter_color = c_green;
-                        } else if( colorID == 'b' ) {
-                            ter_color = c_light_blue;
-                        } else if( colorID == 'B' ) {
-                            ter_color = c_blue;
-                        } else if( colorID == 'W' ) {
-                            ter_color = c_white;
-                        } else if( colorID == 'C' ) {
-                            ter_color = c_cyan;
-                        } else if( colorID == 'c' ) {
-                            ter_color = c_light_cyan;
-                        } else if( colorID == 'P' ) {
-                            ter_color = c_pink;
-                        } else if( colorID == 'm' ) {
-                            ter_color = c_magenta;
-                        }
-                    }
-                }
+                std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
+                ter_sym = sym_color.first;
+                ter_color = sym_color.second;
             } else if( !seen ) {
+                // Always grey # for unseen
                 ter_sym = "#";
                 ter_color = c_dark_gray;
             } else if( vehicle_here ) {
+                // Always cyan c for vehicle
                 ter_color = c_cyan;
                 ter_sym = "c";
             } else {
+                // Otherwise, get symbol and color appropriate for the terrain
                 const oter_id &cur_ter = overmap_buffer.ter( omp );
                 ter_sym = cur_ter->get_symbol();
                 if( overmap_buffer.is_explored( omp ) ) {
@@ -305,6 +252,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                     ter_color = red_background( ter_color );
                 }
             }
+            // TODO: Build colorized string instead of writing directly to window
             if( i == 0 && j == 0 ) {
                 // Highlight player character position in center of minimap
                 mvwputch_hi( w_minimap, mid + point( start_x, start_y ), ter_color, ter_sym );
@@ -325,55 +273,18 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         }
     }
 
-    // Print arrow to mission if we have one!
+    // When the mission marker is not visible within the current overmap extents,
+    // draw an arrow at the edge of the map pointing in the general mission direction.
+    // TODO: Replace `drew_mission` with a function like `is_mission_on_map`
     if( !drew_mission ) {
-        // Use an extreme slope rather than dividing by zero
-        double slope = curs.x() == targ.x() ? 1000 :
-                       static_cast<double>( targ.y() - curs.y() ) / ( targ.x() - curs.x() );
-
-        if( std::fabs( slope ) > 12 ) {
-            // For any near-vertical slope, center the marker
-            if( targ.y() > curs.y() ) {
-                mvwputch( w_minimap, point( mid.x + start_x, height - 1 + start_y ), c_red, '*' );
-            } else {
-                mvwputch( w_minimap, point( mid.x + start_x, 1 + start_y ), c_red, '*' );
-            }
-        } else {
-            point arrow( point_north_west );
-            if( std::fabs( slope ) >= 1. ) {
-                // If target to the north or south, arrow on top or bottom edge of minimap
-                if( targ.y() > curs.y() ) {
-                    arrow.x = static_cast<int>( ( 1. + ( 1. / slope ) ) * mid.x );
-                    arrow.y = height - 1;
-                } else {
-                    arrow.x = static_cast<int>( ( 1. - ( 1. / slope ) ) * mid.x );
-                    arrow.y = 0;
-                }
-                // Clip to left/right edges
-                arrow.x = std::max( arrow.x, 0 );
-                arrow.x = std::min( arrow.x, width - 1 );
-            } else {
-                // If target to the east or west, arrow on left or right edge of minimap
-                if( targ.x() > curs.x() ) {
-                    arrow.x = width - 1;
-                    arrow.y = static_cast<int>( ( 1. + slope ) * mid.y );
-                } else {
-                    arrow.x = 0;
-                    arrow.y = static_cast<int>( ( 1. - slope ) * mid.y );
-                }
-                // Clip to top/bottom edges
-                arrow.y = std::max( arrow.y, 0 );
-                arrow.y = std::min( arrow.y, height - 1 );
-            }
-            char glyph = '*';
-            if( targ.z() > you.posz() ) {
-                glyph = '^';
-            } else if( targ.z() < you.posz() ) {
-                glyph = 'v';
-            }
-
-            mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
+        char glyph = '*';
+        if( targ.z() > you.posz() ) {
+            glyph = '^';
+        } else if( targ.z() < you.posz() ) {
+            glyph = 'v';
         }
+        const point arrow = display::mission_arrow_offset( you, width, height );
+        mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
     }
 }
 
@@ -1205,20 +1116,6 @@ static void draw_env_compact( const draw_args &args )
     wnoutrefresh( w );
 }
 
-std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
-{
-    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
-    weather_manager &weather = get_weather();
-    double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
-
-    // Wind descriptor followed by a directional arrow
-    const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(
-                                      weather.winddirection );
-
-    return std::make_pair( wind_text, get_wind_color( windpower ) );
-}
-
 static void render_wind( const draw_args &args, const std::string &formatstr )
 {
     const avatar &u = args._ava;
@@ -1242,132 +1139,6 @@ static void draw_wind( const draw_args &args )
 static void draw_wind_padding( const draw_args &args )
 {
     render_wind( args, " %s: " );
-}
-
-std::pair<std::string, nc_color> display::weather_text_color( const Character &u )
-{
-    if( u.pos().z < 0 ) {
-        return std::make_pair( _( "Underground" ), c_light_gray );
-    } else {
-        weather_manager &weather = get_weather();
-        std::string weather_text = weather.weather_id->name.translated();
-        nc_color weather_color = weather.weather_id->color;
-        return std::make_pair( weather_text, weather_color );
-    }
-}
-
-static std::string get_compass_for_direction( const cardinal_direction dir, int max_width )
-{
-    const int d = static_cast<int>( dir );
-    const monster_visible_info &mon_visible = get_avatar().get_mon_visible();
-    std::vector<std::pair<std::string, nc_color>> syms;
-    for( npc *n : mon_visible.unique_types[d] ) {
-        switch( n->get_attitude() ) {
-            case NPCATT_KILL:
-                syms.emplace_back( "@", c_red );
-                break;
-            case NPCATT_FOLLOW:
-                syms.emplace_back( "@", c_light_green );
-                break;
-            default:
-                syms.emplace_back( "@", c_pink );
-                break;
-        }
-    }
-    for( const std::pair<const mtype *, int> &m : mon_visible.unique_mons[d] ) {
-        syms.emplace_back( m.first->sym, m.first->color );
-    }
-
-    std::string ret;
-    for( int i = 0; i < static_cast<int>( syms.size() ); i++ ) {
-        if( i >= max_width - 1 ) {
-            ret += colorize( "+", c_white );
-            break;
-        }
-        ret += colorize( syms[i].first, syms[i].second );
-    }
-    return ret;
-}
-
-std::string display::colorized_compass_text( const cardinal_direction dir, int width )
-{
-    if( dir == cardinal_direction::num_cardinal_directions ) {
-        return "";
-    }
-    return get_compass_for_direction( dir, width );
-}
-
-std::string display::colorized_compass_legend_text( int width, int height )
-{
-    const monster_visible_info &mon_visible = get_avatar().get_mon_visible();
-    std::vector<std::string> names;
-    for( const std::vector<npc *> &nv : mon_visible.unique_types ) {
-        for( const npc *n : nv ) {
-            std::string name;
-            switch( n->get_attitude() ) {
-                case NPCATT_KILL:
-                    name = colorize( "@", c_red );
-                    break;
-                case NPCATT_FOLLOW:
-                    name = colorize( "@", c_light_green );
-                    break;
-                default:
-                    name = colorize( "@", c_pink );
-                    break;
-            }
-            name = string_format( "%s %s", name, n->name );
-            names.emplace_back( name );
-        }
-    }
-    std::map<const mtype *, int> mlist;
-    for( const auto &mv : mon_visible.unique_mons ) {
-        for( const std::pair<const mtype *, int> &m : mv ) {
-            mlist[m.first] += m.second;
-        }
-    }
-    for( const auto &m : mlist ) {
-        nc_color danger = c_dark_gray;
-        if( m.first->difficulty >= 30 ) {
-            danger = c_red;
-        } else if( m.first->difficulty >= 16 ) {
-            danger = c_light_red;
-        } else if( m.first->difficulty >= 8 ) {
-            danger = c_white;
-        } else if( m.first->agro > 0 ) {
-            danger = c_light_gray;
-        }
-        std::string name = m.second > 1 ? string_format( "%d ", m.second ) : "";
-        name += m.first->nname( m.second );
-        name = string_format( "%s %s", colorize( m.first->sym, m.first->color ), colorize( name, danger ) );
-        names.emplace_back( name );
-    }
-    // Split names into X lines, where X = height.
-    // Lines use the provided width.
-    // This effectively limits the text to a 'width'x'height' box.
-    std::string ret;
-    const int nsize = names.size();
-    for( int row = 0, nidx = 0; row < height && nidx < nsize; row++ ) {
-        int wavail = width;
-        int nwidth = utf8_width( names[nidx], true );
-        bool startofline = true;
-        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
-            startofline = false;
-            wavail -= nwidth;
-            ret += names[nidx];
-            nidx++;
-            if( nidx < nsize ) {
-                nwidth = utf8_width( names[nidx], true );
-                if( wavail > nwidth ) {
-                    ret += "  ";
-                    wavail -= 2;
-                }
-            }
-        }
-        if( row < height - 1 ) {
-            ret += "\n";
-        }
-    }
-    return ret;
 }
 
 static void draw_health_classic( const draw_args &args )
@@ -1557,166 +1328,6 @@ static void draw_mminimap( const draw_args &args )
     wnoutrefresh( w );
 }
 #endif
-
-// Print monster info to the given window
-void display::print_mon_info( const avatar &u, const catacurses::window &w, int hor_padding,
-                              bool compact )
-{
-    const monster_visible_info &mon_visible = u.get_mon_visible();
-    const auto &unique_types = mon_visible.unique_types;
-    const auto &unique_mons = mon_visible.unique_mons;
-    const auto &dangerous = mon_visible.dangerous;
-
-    const int width = getmaxx( w ) - 2 * hor_padding;
-    const int maxheight = getmaxy( w ) - 1;
-
-    const int startrow = 0;
-
-    // Print the direction headings
-    // Reminder:
-    // 7 0 1    unique_types uses these indices;
-    // 6 8 2    0-7 are provide by direction_from()
-    // 5 4 3    8 is used for local monsters (for when we explain them below)
-
-    const std::array<std::string, 8> dir_labels = {{
-            _( "North:" ), _( "NE:" ), _( "East:" ), _( "SE:" ),
-            _( "South:" ), _( "SW:" ), _( "West:" ), _( "NW:" )
-        }
-    };
-    std::array<int, 8> widths;
-    for( int i = 0; i < 8; i++ ) {
-        widths[i] = utf8_width( dir_labels[i] );
-    }
-    std::array<int, 8> xcoords;
-    const std::array<int, 8> ycoords = {{ 0, 0, 1, 2, 2, 2, 1, 0 }};
-    xcoords[0] = xcoords[4] = width / 3;
-    xcoords[1] = xcoords[3] = xcoords[2] = ( width / 3 ) * 2;
-    xcoords[5] = xcoords[6] = xcoords[7] = 0;
-    //for the alignment of the 1,2,3 rows on the right edge (East - NE)
-    xcoords[2] -= widths[2] - widths[1];
-    for( int i = 0; i < 8; i++ ) {
-        nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dark_gray
-                     : ( dangerous[i] ? c_light_red : c_light_gray );
-        mvwprintz( w, point( xcoords[i] + hor_padding, ycoords[i] + startrow ), c, dir_labels[i] );
-    }
-
-    // Print the symbols of all monsters in all directions.
-    for( int i = 0; i < 8; i++ ) {
-        point pr( xcoords[i] + widths[i] + 1, ycoords[i] + startrow );
-
-        // The list of symbols needs a space on each end.
-        int symroom = ( width / 3 ) - widths[i] - 2;
-        const int typeshere_npc = unique_types[i].size();
-        const int typeshere_mon = unique_mons[i].size();
-        const int typeshere = typeshere_mon + typeshere_npc;
-        for( int j = 0; j < typeshere && j < symroom; j++ ) {
-            nc_color c;
-            std::string sym;
-            if( symroom < typeshere && j == symroom - 1 ) {
-                // We've run out of room!
-                c = c_white;
-                sym = "+";
-            } else if( j < typeshere_npc ) {
-                switch( unique_types[i][j]->get_attitude() ) {
-                    case NPCATT_KILL:
-                        c = c_red;
-                        break;
-                    case NPCATT_FOLLOW:
-                        c = c_light_green;
-                        break;
-                    default:
-                        c = c_pink;
-                        break;
-                }
-                sym = "@";
-            } else {
-                const mtype &mt = *unique_mons[i][j - typeshere_npc].first;
-                c = mt.color;
-                sym = mt.sym;
-            }
-            mvwprintz( w, pr, c, sym );
-
-            pr.x++;
-        }
-    }
-
-    // Now we print their full names!
-    struct nearest_loc_and_cnt {
-        int nearest_loc;
-        int cnt;
-    };
-    std::map<const mtype *, nearest_loc_and_cnt> all_mons;
-    for( int loc = 0; loc < 9; loc++ ) {
-        for( const std::pair<const mtype *, int> &mon : unique_mons[loc] ) {
-            const auto mon_it = all_mons.find( mon.first );
-            if( mon_it == all_mons.end() ) {
-                all_mons.emplace( mon.first, nearest_loc_and_cnt{ loc, mon.second } );
-            } else {
-                // 8 being the nearest location (local monsters)
-                mon_it->second.nearest_loc = std::max( mon_it->second.nearest_loc, loc );
-                mon_it->second.cnt += mon.second;
-            }
-        }
-    }
-    std::vector<std::pair<const mtype *, int>> mons_at[9];
-    for( const std::pair<const mtype *const, nearest_loc_and_cnt> &mon : all_mons ) {
-        mons_at[mon.second.nearest_loc].emplace_back( mon.first, mon.second.cnt );
-    }
-
-    // Rows 0-2 are for labels.
-    // Start monster names on row 3
-    point pr( hor_padding, 3 + startrow );
-    // In non-compact mode, leave a blank line
-    if( !compact ) {
-        pr.y++;
-    }
-
-    // Print monster names, starting with those at location 8 (nearby).
-    for( int j = 8; j >= 0 && pr.y < maxheight; j-- ) {
-        // Separate names by some number of spaces (more for local monsters).
-        int namesep = j == 8 ? 2 : 1;
-        for( const std::pair<const mtype *, int> &mon : mons_at[j] ) {
-            const mtype *const type = mon.first;
-            const int count = mon.second;
-            if( pr.y >= maxheight ) {
-                // no space to print to anyway
-                break;
-            }
-
-            const mtype &mt = *type;
-            std::string name = mt.nname( count );
-            // Some languages don't have plural forms, but we want to always
-            // omit 1.
-            if( count != 1 ) {
-                name = string_format( pgettext( "monster count and name", "%1$d %2$s" ),
-                                      count, name );
-            }
-
-            // Move to the next row if necessary. (The +2 is for the "Z ").
-            if( pr.x + 2 + utf8_width( name ) >= width ) {
-                pr.y++;
-                pr.x = hor_padding;
-            }
-
-            if( pr.y < maxheight ) { // Don't print if we've overflowed
-                mvwprintz( w, pr, mt.color, mt.sym );
-                pr.x += 2; // symbol and space
-                nc_color danger = c_dark_gray;
-                if( mt.difficulty >= 30 ) {
-                    danger = c_red;
-                } else if( mt.difficulty >= 16 ) {
-                    danger = c_light_red;
-                } else if( mt.difficulty >= 8 ) {
-                    danger = c_white;
-                } else if( mt.agro > 0 ) {
-                    danger = c_light_gray;
-                }
-                mvwprintz( w, pr, danger, name );
-                pr.x += utf8_width( name ) + namesep;
-            }
-        }
-    }
-}
 
 static void draw_compass( const draw_args &args )
 {
@@ -2324,11 +1935,6 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, width, true, default_render, true ) );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_compass_padding_compact, "Compass",
-                                    to_translation( "Compass" ),
-                                    5, width, false ) );
-    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
-                                    7, width, false ) );
 
     return ret;
 }
@@ -2493,6 +2099,97 @@ void panel_manager::deserialize( JsonIn &jsin )
     jsin.end_array();
 }
 
+static void draw_border_win( catacurses::window &w, const std::vector<int> &column_widths,
+                             int popup_height )
+{
+    werase( w );
+    decorate_panel( _( "SIDEBAR OPTIONS" ), w );
+    // Draw vertical separators
+    mvwvline( w, point( column_widths[0] + 1, 1 ), 0, popup_height - 2 );
+    mvwvline( w, point( column_widths[0] + column_widths[1] + 2, 1 ), 0, popup_height - 2 );
+    wnoutrefresh( w );
+}
+
+static void draw_left_win( catacurses::window &w, const std::map<size_t, size_t> &row_indices,
+                           const std::vector<window_panel> &panels, size_t source_index, size_t current_row,
+                           size_t source_row, bool cur_col, bool swapping, int width, int height, int start )
+{
+    werase( w );
+    for( std::pair<size_t, size_t> row_indx : row_indices ) {
+        if( row_indx.first < static_cast<size_t>( start ) ) {
+            continue;
+        }
+        const size_t row = row_indx.first - start;
+
+        const std::string name = panels[row_indx.second].get_name();
+        if( swapping && source_index == row_indx.second ) {
+            mvwprintz( w, point( 4, current_row - start ), c_yellow, name );
+        } else {
+            int offset = 0;
+            if( !swapping ) {
+                offset = 0;
+            } else if( current_row > source_row && row_indx.first > source_row &&
+                       row_indx.first <= current_row ) {
+                offset = -1;
+            } else if( current_row < source_row && row_indx.first < source_row &&
+                       row_indx.first >= current_row ) {
+                offset = 1;
+            }
+            const nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
+            mvwprintz( w, point( 3, row + offset ), toggle_color, name );
+        }
+    }
+    if( cur_col ) {
+        mvwprintz( w, point( 0, current_row - start ), c_yellow, ">>" );
+    }
+
+    scrollbar()
+    .offset_x( width - 1 )
+    .offset_y( 0 )
+    .content_size( row_indices.size() )
+    .viewport_pos( start )
+    .viewport_size( height )
+    .apply( w );
+
+    wnoutrefresh( w );
+}
+
+static void draw_right_win( catacurses::window &w,
+                            const std::map<std::string, panel_layout> &layouts,
+                            const std::string &current_layout_id,
+                            size_t current_row, bool cur_col )
+{
+    werase( w );
+    size_t i = 0;
+    for( const auto &layout : layouts ) {
+        mvwprintz( w, point( 3, i ), current_layout_id == layout.first ? c_light_blue : c_white,
+                   layout.second.name() );
+        i++;
+    }
+    if( cur_col ) {
+        mvwprintz( w, point( 0, current_row ), c_yellow, ">>" );
+    }
+    wnoutrefresh( w );
+}
+
+static void draw_center_win( catacurses::window &w, int col_width, const input_context &ctxt )
+{
+    werase( w );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
+               col_width - 1 ) + ":" );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_white, _( "Toggle panels on/off" ) );
+    mvwprintz( w, point( 1, 2 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
+               col_width - 1 ) + ":" );
+    mvwprintz( w, point( 1, 3 ), c_white, _( "Change display order" ) );
+    mvwprintz( w, point( 1, 4 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
+               col_width - 1 ) + ":" );
+    mvwprintz( w, point( 1, 5 ), c_white, _( "Exit" ) );
+
+    wnoutrefresh( w );
+}
+
 void panel_manager::show_adm()
 {
     input_context ctxt( "PANEL_MGMT" );
@@ -2512,6 +2209,7 @@ void panel_manager::show_adm()
     bool swapping = false;
     size_t source_row = 0;
     size_t source_index = 0;
+    size_t start = 0;
 
     bool recalc = true;
     bool exit = false;
@@ -2522,71 +2220,34 @@ void panel_manager::show_adm()
     g->show_panel_adm = true;
     g->invalidate_main_ui_adaptor();
 
-    catacurses::window w;
+    catacurses::window w_border;
+    catacurses::window w_left;
+    catacurses::window w_center;
+    catacurses::window w_right;
 
     const int popup_height = 24;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w = catacurses::newwin( popup_height, 83,
-                                point( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 ) );
+        const point uipos( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 );
+        w_border = catacurses::newwin( popup_height, 83, uipos );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        w_left = catacurses::newwin( popup_height - 2, column_widths[0], uipos + point( 1, 1 ) );
+        w_center = catacurses::newwin( popup_height - 2, column_widths[1],
+                                       uipos + point( 2 + column_widths[0], 1 ) );
+        w_right = catacurses::newwin( popup_height - 2, column_widths[2],
+                                      uipos + point( 3 + column_widths[0] + column_widths[1], 1 ) );
 
-        ui.position_from_window( w );
+        ui.position_from_window( w_border );
     } );
     ui.mark_resize();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border_win( w_border, column_widths, popup_height );
+        draw_right_win( w_right, layouts, current_layout_id, current_row, current_col == 2 );
         auto &panels = get_current_layout().panels();
-
-        werase( w );
-        decorate_panel( _( "SIDEBAR OPTIONS" ), w );
-
-        for( std::pair<size_t, size_t> row_indx : row_indices ) {
-            const std::string name = panels[row_indx.second].get_name();
-            if( swapping && source_index == row_indx.second ) {
-                mvwprintz( w, point( 5, current_row + 1 ), c_yellow, name );
-            } else {
-                int offset = 0;
-                if( !swapping ) {
-                    offset = 0;
-                } else if( current_row > source_row && row_indx.first > source_row &&
-                           row_indx.first <= current_row ) {
-                    offset = -1;
-                } else if( current_row < source_row && row_indx.first < source_row &&
-                           row_indx.first >= current_row ) {
-                    offset = 1;
-                }
-                const nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
-                mvwprintz( w, point( 4, row_indx.first + 1 + offset ), toggle_color, name );
-            }
-        }
-        size_t i = 1;
-        for( const auto &layout : layouts ) {
-            mvwprintz( w, point( column_widths[0] + column_widths[1] + 4, i ),
-                       current_layout_id == layout.first ? c_light_blue : c_white, layout.second.name() );
-            i++;
-        }
-        int col_offset = 0;
-        for( i = 0; i < current_col; i++ ) {
-            col_offset += column_widths[i];
-        }
-        mvwprintz( w, point( 1 + col_offset, current_row + 1 ), c_yellow, ">>" );
-        // Draw vertical separators
-        mvwvline( w, point( column_widths[0], 1 ), 0, popup_height - 2 );
-        mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, popup_height - 2 );
-
-        col_offset = column_widths[0] + 2;
-        int col_width = column_widths[1] - 4;
-        mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
-                   col_width ) + ":" );
-        mvwprintz( w, point( col_offset, 2 ), c_white, _( "Toggle panels on/off" ) );
-        mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
-                   col_width ) + ":" );
-        mvwprintz( w, point( col_offset, 4 ), c_white, _( "Change display order" ) );
-        mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
-                   col_width ) + ":" );
-        mvwprintz( w, point( col_offset, 6 ), c_white, _( "Exit" ) );
-
-        wnoutrefresh( w );
+        draw_left_win( w_left, row_indices, panels, source_index, current_row, source_row, current_col == 0,
+                       swapping, column_widths[0], popup_height - 2, start );
+        draw_center_win( w_center, column_widths[1], ctxt );
     } );
 
     while( !exit ) {
@@ -2606,6 +2267,9 @@ void panel_manager::show_adm()
 
         const size_t num_rows = current_col == 0 ? row_indices.size() : layouts.size();
         current_row = clamp<size_t>( current_row, 0, num_rows - 1 );
+        if( current_row < start ) {
+            start = current_row > popup_height - 3 ? current_row - ( popup_height - 3 ) : 0;
+        }
 
         ui_manager::redraw();
 
@@ -2613,14 +2277,24 @@ void panel_manager::show_adm()
         if( action == "UP" ) {
             if( current_row > 0 ) {
                 current_row -= 1;
+                if( current_row < start ) {
+                    start = current_row;
+                }
             } else {
                 current_row = num_rows - 1;
+                if( current_row > popup_height - 3 ) {
+                    start = current_row - ( popup_height - 3 );
+                }
             }
         } else if( action == "DOWN" ) {
             if( current_row + 1 < num_rows ) {
                 current_row += 1;
+                if( current_row > start + popup_height - 3 ) {
+                    start = current_row - ( popup_height - 3 );
+                }
             } else {
                 current_row = 0;
+                start = 0;
             }
         } else if( action == "MOVE_PANEL" && current_col == 0 ) {
             swapping = !swapping;

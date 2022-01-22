@@ -91,6 +91,7 @@
         { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 10 },
         { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 11 }
       ],
+      "place_item": [ { "item": "blacksmith_prototypes", "chance": 100, "x": 17, "y": 7 } ],
       "place_npcs": [ { "class": "cody_miller", "x": 16, "y": 7 } ],
       "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }

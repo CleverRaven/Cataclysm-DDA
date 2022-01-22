@@ -381,11 +381,11 @@ int Character::item_wear_cost( const item &it ) const
 
     for( layer_level layer : it.get_layer() )
         switch( layer ) {
-            case layer_level::UNDERWEAR:
+            case layer_level::SKINTIGHT:
                 mv *= 1.5;
                 break;
 
-            case layer_level::REGULAR:
+            case layer_level::NORMAL:
                 break;
 
             case layer_level::WAIST:
@@ -555,7 +555,7 @@ bool Character::is_wearing_shoes( const side &check_side ) const
 
     for( const bodypart_id &part : get_all_body_parts() ) {
         // Is any right|left foot...
-        if( part->limb_type != body_part_type::type::foot ) {
+        if( !part->has_type( body_part_type::type::foot ) ) {
             continue;
         }
         for( const item &worn_item : worn ) {
