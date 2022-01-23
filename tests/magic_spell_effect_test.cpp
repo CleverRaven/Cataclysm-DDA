@@ -2,6 +2,7 @@
 #include <sstream>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_catch.h"
 #include "field.h"
 #include "json.h"
@@ -104,25 +105,19 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
 
         spell_effect::remove_field( sp, dummy, player_initial_pos );
         m.process_fields();
-        m.invalidate_map_cache( 0 );
-        m.build_map_cache( 0 );
-        dummy.process_turn();
+        calendar::turn += 1_turns;
 
         CHECK( count_fields( fd_fatigue ) == 2 );
 
         spell_effect::remove_field( sp, dummy, player_initial_pos );
         m.process_fields();
-        m.invalidate_map_cache( 0 );
-        m.build_map_cache( 0 );
-        dummy.process_turn();
+        calendar::turn += 1_turns;
 
         CHECK( count_fields( fd_fatigue ) == 1 );
 
         spell_effect::remove_field( sp, dummy, player_initial_pos );
         m.process_fields();
-        m.invalidate_map_cache( 0 );
-        m.build_map_cache( 0 );
-        dummy.process_turn();
+        calendar::turn += 1_turns;
 
         CHECK( count_fields( fd_fatigue ) == 0 );
     };
