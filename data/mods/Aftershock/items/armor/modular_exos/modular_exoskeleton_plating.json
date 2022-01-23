@@ -268,7 +268,7 @@
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_LEG_PLATE" ],
     "armor": [
       {
-        "covers": [ "leg_l", "leg_r", "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "encumbrance": 8,
         "coverage": 95,
         "cover_melee": 95,

@@ -8,7 +8,7 @@
     "weight": "454 g",
     "volume": "2 L",
     "material": [ "steel" ],
-    "flags": [ "WATER_FRIENDLY", "NO_QUICKDRAW", "EXO_LARGE_GADGET", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "NO_QUICKDRAW", "BELTED", "EXO_LARGE_GADGET" ],
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "light_gray"
@@ -24,7 +24,7 @@
     "price": 18000,
     "price_postapoc": 800,
     "material": [ "steel" ],
-    "flags": [ "WATER_FRIENDLY", "EXO_MEDIUM_GADGET", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_MEDIUM_GADGET" ],
     "symbol": "[",
     "looks_like": "bscabbard",
     "color": "light_gray"
@@ -39,7 +39,7 @@
     "weight": "2291 g",
     "volume": "15 L",
     "material": [ "kevlar", "plastic" ],
-    "flags": [ "WATER_FRIENDLY", "EXO_LARGE_GADGET", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_LARGE_GADGET" ],
     "symbol": "[",
     "looks_like": "backpack"
   },
@@ -53,7 +53,7 @@
     "weight": "275 g",
     "volume": "2500 ml",
     "material": [ "nylon", "plastic" ],
-    "flags": [ "WATER_FRIENDLY", "EXO_MEDIUM_GADGET" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_MEDIUM_GADGET" ],
     "symbol": "[",
     "looks_like": "holster",
     "color": "green"
