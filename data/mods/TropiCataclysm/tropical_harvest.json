@@ -76,5 +76,10 @@
       { "drop": "cholla_bud", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
       { "drop": "cactus_pad", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.5 ] }
     ]
+  },
+  {
+    "id": "fungus_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "fungus_mutated", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
   }
 ]

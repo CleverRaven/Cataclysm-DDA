@@ -73,6 +73,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_pit_straw",
+    "group": "pit_straw",
+    "category": "DIG",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "3 m",
+    "components": [ [ [ "straw_pile", 60 ], [ "withered", 60 ] ] ],
+    "dark_craftable": true,
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "t_pit_straw"
+  },
+  {
+    "type": "construction",
     "id": "constr_chop_trunk",
     "group": "chop_tree_trunk_into_planks",
     "category": "FARM_WOOD",
@@ -91,9 +103,24 @@
     "required_skills": [ [ "survival", 2 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "stick", 12 ], [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ] ],
+    "components": [
+      [ [ "stick", 12 ], [ "2x4", 6 ], [ "stick_long", 6 ], [ "wood_panel", 1 ] ],
+      [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ]
+    ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_improvised_shelter"
+  },
+  {
+    "type": "construction",
+    "id": "constr_improvised_shelter_filled",
+    "group": "build_improvised_shelter",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 2 ] ],
+    "time": "3 m",
+    "qualities": [  ],
+    "components": [ [ [ "withered", 80 ], [ "straw_pile", 80 ] ] ],
+    "pre_terrain": "t_improvised_shelter",
+    "post_terrain": "t_improvised_shelter_filled"
   },
   {
     "type": "construction",
@@ -149,7 +176,10 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "CUT", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 6 ], [ "stick", 6 ], [ "wood_panel", 1 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ] ],
+    "components": [
+      [ [ "2x4", 6 ], [ "stick", 6 ], [ "stick_long", 3 ], [ "wood_panel", 1 ] ],
+      [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ]
+    ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_door_frame",
     "post_terrain": "t_door_makeshift_c"
@@ -665,7 +695,7 @@
     "required_skills": [ [ "fabrication", 0 ], [ "survival", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "stick", 4 ], [ "pointy_stick", 4 ] ] ],
+    "components": [ [ [ "stick", 4 ], [ "pointy_stick", 4 ], [ "stick_long", 2 ] ] ],
     "pre_flags": "DIGGABLE",
     "pre_special": "check_empty",
     "post_terrain": "t_wattle_fence_posts"
@@ -678,7 +708,7 @@
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
     "time": "50 m",
     "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "stick", 10 ] ] ],
+    "components": [ [ [ "stick", 10 ], [ "stick_long", 5 ] ] ],
     "pre_terrain": "t_wattle_fence_posts",
     "post_terrain": "t_wattle_fence"
   },
@@ -692,8 +722,15 @@
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "2x4", 5 ], [ "stick", 10 ] ],
-      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
+      [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ] ],
+      [
+        [ "material_quicklime", 4 ],
+        [ "material_limestone", 4 ],
+        [ "clay_lump", 4 ],
+        [ "feces_manure", 2 ],
+        [ "feces_dog", 2 ],
+        [ "feces_cow", 1 ]
+      ],
       [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
       [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
@@ -711,8 +748,15 @@
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "2x4", 5 ], [ "stick", 10 ] ],
-      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
+      [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ] ],
+      [
+        [ "material_quicklime", 4 ],
+        [ "material_limestone", 4 ],
+        [ "clay_lump", 4 ],
+        [ "feces_manure", 2 ],
+        [ "feces_dog", 2 ],
+        [ "feces_cow", 1 ]
+      ],
       [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
       [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
@@ -730,8 +774,15 @@
     "time": "60 m",
     "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [
-      [ [ "2x4", 5 ], [ "stick", 10 ] ],
-      [ [ "material_quicklime", 8 ], [ "material_limestone", 8 ], [ "clay_lump", 8 ] ],
+      [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ] ],
+      [
+        [ "material_quicklime", 4 ],
+        [ "material_limestone", 4 ],
+        [ "clay_lump", 4 ],
+        [ "feces_manure", 2 ],
+        [ "feces_dog", 2 ],
+        [ "feces_cow", 1 ]
+      ],
       [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
       [ [ "straw_pile", 8 ], [ "cattail_stalk", 8 ], [ "dogbane", 8 ], [ "pine_bough", 8 ] ],
       [ [ "water", 10 ], [ "water_clean", 10 ] ]
@@ -748,7 +799,7 @@
     "time": "30 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "2x4", 2 ], [ "stick", 4 ] ],
+      [ [ "2x4", 2 ], [ "stick", 4 ], [ "stick_long", 2 ] ],
       [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ], [ "clay_lump", 2 ] ],
       [ [ "pebble", 4 ], [ "material_sand", 4 ] ],
       [ [ "straw_pile", 2 ], [ "cattail_stalk", 2 ], [ "dogbane", 2 ], [ "pine_bough", 2 ] ],
@@ -1028,6 +1079,7 @@
     "time": "40 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "material_soil", 200 ] ] ],
+    "dark_craftable": true,
     "pre_terrain": "t_pit",
     "post_terrain": "t_dirt"
   },
@@ -1430,7 +1482,11 @@
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
     "time": "360 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "2x4", 5 ], [ "stick", 10 ] ], [ [ "straw_pile", 60 ], [ "withered", 60 ] ], [ [ "cordage", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ] ],
+      [ [ "straw_pile", 60 ], [ "withered", 60 ] ],
+      [ [ "cordage", 8, "LIST" ] ]
+    ],
     "pre_special": "check_support",
     "post_terrain": "t_dirtfloor_thatchroof"
   },
@@ -1444,7 +1500,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "log", 2 ] ],
-      [ [ "stick", 4 ], [ "2x4", 8 ] ],
+      [ [ "stick", 4 ], [ "2x4", 8 ], [ "stick_long", 2 ] ],
       [ [ "material_soil", 40 ] ],
       [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
     ],
@@ -1472,7 +1528,10 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
     "time": "60 m",
-    "components": [ [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ], [ [ "stick", 8 ], [ "2x4", 8 ] ] ],
+    "components": [
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+      [ [ "stick", 8 ], [ "stick_long", 4 ], [ "2x4", 8 ] ]
+    ],
     "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_palisade_pulley"
@@ -2137,7 +2196,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
-    "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "straw_pile", 8 ], [ "withered", 8 ], [ "pine_bough", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "stick", 4 ], [ "stick_long", 2 ] ], [ [ "straw_pile", 160 ], [ "withered", 160 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_straw_bed"
@@ -2336,7 +2395,7 @@
     "required_skills": [ [ "fabrication", 4 ], [ "survival", 4 ] ],
     "time": "480 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "nail", 8 ], [ "rope_natural_short", 2, "LIST" ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_covered_well"
   },
@@ -3025,6 +3084,18 @@
   },
   {
     "type": "construction",
+    "id": "app_wall_wiring",
+    "group": "reveal_wall_wiring",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "0 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "pliers", -1 ] ] ],
+    "pre_flags": "WIRED_WALL",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "constr_pontoon_dp",
     "group": "build_pontoon_bridge",
     "//": "Set up pontoon bridge",
@@ -3331,7 +3402,7 @@
       [ { "id": "CUT", "level": 2 } ],
       [ { "id": "SAW_W", "level": 1 } ]
     ],
-    "components": [ [ [ "stick", 16 ], [ "2x4", 16 ] ], [ [ "rock", 8 ] ] ],
+    "components": [ [ [ "stick", 16 ], [ "stick_long", 8 ], [ "2x4", 16 ] ], [ [ "rock", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_smoking_rack"
@@ -3413,7 +3484,11 @@
     "required_skills": [ [ "survival", 4 ], [ "fabrication", 4 ] ],
     "time": "130 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "rock", 40 ], [ "brick", 40 ] ], [ [ "2x4", 6 ], [ "stick", 6 ] ], [ [ "withered", 12 ], [ "straw_pile", 12 ] ] ],
+    "components": [
+      [ [ "rock", 40 ], [ "brick", 40 ] ],
+      [ [ "2x4", 6 ], [ "stick", 6 ], [ "stick_long", 3 ] ],
+      [ [ "withered", 12 ], [ "straw_pile", 12 ] ]
+    ],
     "pre_note": "You need a deep pit to construct a root cellar.",
     "pre_terrain": "t_pit",
     "post_terrain": "t_rootcellar"
@@ -3709,9 +3784,11 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "15 m",
+    "qualities": [ { "id": "DIG", "level": 1 } ],
     "components": [ [ [ "rock", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
-    "pre_terrain": "t_pit_shallow",
+    "dark_craftable": true,
+    "pre_terrain": "t_dirt",
     "post_terrain": "f_firering"
   },
   {
@@ -3954,7 +4031,7 @@
     "difficulty": 2,
     "time": "90m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "stick", 6 ], [ "2x4", 3 ] ] ],
+    "components": [ [ [ "stick", 6 ], [ "stick_long", 3 ], [ "2x4", 3 ] ] ],
     "pre_terrain": "t_tree_pine",
     "post_terrain": "t_leanto"
   },
@@ -4134,7 +4211,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "stick", 4 ], [ "log", 1 ] ], [ [ "nail", 20 ] ], [ [ "pine_bough", 8 ] ] ],
+    "components": [ [ [ "stick", 4 ], [ "stick_long", 2 ], [ "log", 1 ] ], [ [ "nail", 20 ] ], [ [ "pine_bough", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_decorative_tree"
   },

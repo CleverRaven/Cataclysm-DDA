@@ -4549,6 +4549,36 @@
   },
   {
     "type": "overmap_special",
+    "id": "isolated_road",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "isolated_road_field_0" },
+      { "point": [ 1, 0, 0 ], "overmap": "isolated_house_farm_gunsmith" },
+      { "point": [ 0, 1, 0 ], "overmap": "isolated_house_farm_blacksmith" },
+      { "point": [ 1, 0, 1 ], "overmap": "isolated_house_farm_roof_gunsmith" },
+      { "point": [ 0, 1, 1 ], "overmap": "isolated_house_farm_roof_blacksmith" },
+      { "point": [ 1, 1, 0 ], "overmap": "isolated_road_field_1" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "field" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 33, 100 ],
+    "rotate": false,
+    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "gun_show",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "gunshow_0" }, { "point": [ 1, 0, 0 ], "overmap": "gunshow_1" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 33, 100 ],
+    "rotate": false,
+    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "4x4_microlab",
     "overmaps": [
       { "point": [ 2, -2, -2 ], "overmap": "microlab_sub_connector_north" },
@@ -7461,9 +7491,9 @@
       { "point": [ 3, 2, 1 ], "overmap": "fort_4c_1_north" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 10, 100 ],
+    "city_distance": [ 0, 100 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 10, 100 ],
+    "occurrences": [ 20, 100 ],
     "flags": [ "CLASSIC", "UNIQUE" ]
   },
   {

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "weight_desc",
+    "type": "widget",
+    "label": "Weight",
+    "style": "text",
+    "var": "weight_text",
+    "//": "Uses display::weight_text_color"
+  }
+]

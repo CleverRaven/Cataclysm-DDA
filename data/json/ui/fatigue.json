@@ -1,0 +1,29 @@
+[
+  {
+    "id": "fatigue_num",
+    "type": "widget",
+    "label": "Fatigue",
+    "var": "fatigue",
+    "style": "number"
+  },
+  {
+    "id": "fatigue_graph",
+    "type": "widget",
+    "label": "Fatig",
+    "var": "fatigue",
+    "var_max": 1000,
+    "style": "graph",
+    "fill": "bucket",
+    "width": 5,
+    "symbols": "-fF",
+    "colors": [ "c_green", "c_yellow", "c_red" ]
+  },
+  {
+    "id": "fatigue_desc",
+    "type": "widget",
+    "label": "Rest",
+    "style": "text",
+    "var": "fatigue_text",
+    "//": "Uses display::fatigue_text_color"
+  }
+]

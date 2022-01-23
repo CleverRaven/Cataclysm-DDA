@@ -981,6 +981,11 @@
   },
   {
     "type": "construction_group",
+    "id": "pit_straw",
+    "name": "Fill Shallow Pit with Straw"
+  },
+  {
+    "type": "construction_group",
     "id": "fill_salt_water_with_dirt",
     "name": "Fill Salt Water With Dirt"
   },
@@ -1103,6 +1108,11 @@
     "type": "construction_group",
     "id": "place_standing_lamp",
     "name": "Place Standing Lamp"
+  },
+  {
+    "type": "construction_group",
+    "id": "reveal_wall_wiring",
+    "name": "Reveal Wall Wirings"
   },
   {
     "type": "construction_group",

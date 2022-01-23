@@ -2207,6 +2207,7 @@
         "max_contains_volume": "50 L",
         "max_contains_weight": "80 kg",
         "min_item_length": "60 cm",
+        "max_item_length": "250 cm",
         "moves": 1000,
         "ripoff": 5,
         "activity_noise": { "volume": 9, "chance": 15 },

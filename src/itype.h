@@ -283,6 +283,19 @@ struct armor_portion_data {
     // What layer does it cover if any
     std::vector<layer_level> layers;
 
+    // these are pre-calc values to save us time later
+
+    // the chance that every material applies to an attack
+    // this is primarily used as a chached value for UI
+    int best_protection_chance = 100; // NOLINT(cata-serialize)
+
+    // the chance that the smallest number of materials possible applies to an attack
+    // this is primarily used as a chached value for UI
+    int worst_protection_chance = 0; // NOLINT(cata-serialize)
+
+    // this is to test if the armor has unique layering information
+    bool has_unique_layering = false; // NOLINT(cata-serialize)
+
     /**
      * Returns the amount all sublocations this item covers could possibly
      * cover the specific body part.
@@ -1033,10 +1046,6 @@ struct itype {
         // A list of conditional names, in order of ascending priority.
         std::vector<conditional_name> conditional_names;
 
-        // Since the material list was converted to a map, keep track of the material insert order
-        // Do not use this for materials. Use the materials map above.
-        std::vector<material_id> mats_ordered;
-
         /** Base damage output when thrown */
         damage_instance thrown_damage;
 
@@ -1087,6 +1096,11 @@ struct itype {
         // Second -> the portion of item covered by the material (portion / total portions)
         // MATERIALS WORK IN PROGRESS.
         std::map<material_id, int> materials;
+
+        // This stores the first inserted material so that it can be used if all materials
+        // are equivalent in proportion as a default
+        // TODO: This is really legacy behavior and should maybe be removed
+        material_id default_mat;
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;

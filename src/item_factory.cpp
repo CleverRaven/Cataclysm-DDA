@@ -805,15 +805,82 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
 
+        // calculate worst case and best case protection %
+        for( armor_portion_data &armor_data : obj.armor->data ) {
+            // go through each material and contribute its values
+            float tempbest = 1.0f;
+            float tempworst = 1.0f;
+            for( const part_material &mat : armor_data.materials ) {
+                // the percent chance the material is not hit
+                float cover = mat.cover * .01f;
+                float cover_invert = 1.0f - cover;
+
+                tempbest *= cover;
+                // just interested in cover values that can fail.
+                // multiplying by 0 would make this value pointless
+                if( cover_invert > 0 ) {
+                    tempworst *= cover_invert;
+                }
+            }
+
+            // if tempworst is 1 then the item is homogenous so it only has a single option for damage
+            if( tempworst == 1 ) {
+                tempworst = 0;
+            }
+
+            // if not exactly 0 it should display as at least 1
+            if( tempworst > 0 ) {
+                armor_data.worst_protection_chance = std::max( 1.0f, tempworst * 100.0f );
+            } else {
+                armor_data.worst_protection_chance = 0;
+            }
+            if( tempbest > 0 ) {
+                armor_data.best_protection_chance = std::max( 1.0f, tempbest * 100.0f );
+            } else {
+                armor_data.best_protection_chance = 0;
+            }
+        }
+
+        // calculate worst case and best case protection %
+        for( armor_portion_data &armor_data : obj.armor->sub_data ) {
+            // go through each material and contribute its values
+            float tempbest = 1.0f;
+            float tempworst = 1.0f;
+            for( const part_material &mat : armor_data.materials ) {
+                // the percent chance the material is not hit
+                float cover = mat.cover * .01f;
+                float cover_invert = 1.0f - cover;
+
+                tempbest *= cover;
+                // just interested in cover values that can fail.
+                // multiplying by 0 would make this value pointless
+                if( cover_invert > 0 ) {
+                    tempworst *= cover_invert;
+                }
+            }
+
+            // if not exactly 0 it should display as at least 1
+            if( tempworst > 0 ) {
+                armor_data.worst_protection_chance = std::max( 1.0f, tempworst * 100.0f );
+            } else {
+                armor_data.worst_protection_chance = 0;
+            }
+            if( tempbest > 0 ) {
+                armor_data.best_protection_chance = std::max( 1.0f, tempbest * 100.0f );
+            } else {
+                armor_data.best_protection_chance = 0;
+            }
+        }
+
         // create the vector of all layers
         if( obj.has_flag( flag_PERSONAL ) ) {
             obj.armor->all_layers.push_back( layer_level::PERSONAL );
         }
         if( obj.has_flag( flag_SKINTIGHT ) ) {
-            obj.armor->all_layers.push_back( layer_level::UNDERWEAR );
+            obj.armor->all_layers.push_back( layer_level::SKINTIGHT );
         }
         if( obj.has_flag( flag_NORMAL ) ) {
-            obj.armor->all_layers.push_back( layer_level::REGULAR );
+            obj.armor->all_layers.push_back( layer_level::NORMAL );
         }
         if( obj.has_flag( flag_WAIST ) ) {
             obj.armor->all_layers.push_back( layer_level::WAIST );
@@ -829,7 +896,7 @@ void Item_factory::finalize_post( itype &obj )
         }
         // fallback for old way of doing items
         if( obj.armor->all_layers.empty() ) {
-            obj.armor->all_layers.push_back( layer_level::REGULAR );
+            obj.armor->all_layers.push_back( layer_level::NORMAL );
         }
 
         // generate the vector of flags that the item will default to if not override
@@ -841,6 +908,7 @@ void Item_factory::finalize_post( itype &obj )
             if( armor_data.layers.empty() ) {
                 armor_data.layers = default_layers;
             } else {
+                armor_data.has_unique_layering = true;
                 // add any unique layer entries to the items total layer info
                 for( const layer_level &ll : armor_data.layers ) {
                     if( std::count( obj.armor->all_layers.begin(), obj.armor->all_layers.end(), ll ) == 0 ) {
@@ -853,6 +921,8 @@ void Item_factory::finalize_post( itype &obj )
             // if an item or location has no layer data then default to the flags for the item
             if( armor_data.layers.empty() ) {
                 armor_data.layers = default_layers;
+            } else {
+                armor_data.has_unique_layering = true;
             }
         }
 
@@ -870,6 +940,24 @@ void Item_factory::finalize_post( itype &obj )
             }
             if( pocket.activity_noise.chance > 0 ) {
                 obj.armor->noisy = true;
+            }
+        }
+
+        // update the items materials based on the materials defined by the armor
+        // this isn't perfect but neither is the usual definition so this should at
+        // least give a good ballpark
+        if( obj.materials.empty() ) {
+            obj.mat_portion_total = 0;
+            for( const armor_portion_data &armor_data : obj.armor->data ) {
+                for( const part_material &mat : armor_data.materials ) {
+                    // if the material isn't in the map yet
+                    if( obj.materials.find( mat.id ) == obj.materials.end() ) {
+                        obj.materials[mat.id] = mat.thickness * 100;
+                    } else {
+                        obj.materials[mat.id] += mat.thickness * 100;
+                    }
+                    obj.mat_portion_total += mat.thickness * 100;
+                }
             }
         }
     }
@@ -1257,6 +1345,7 @@ void Item_factory::init()
     add_iuse( "E_COMBATSAW_ON", &iuse::e_combatsaw_on );
     add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
+    add_iuse( "CROWBAR_WEAK", &iuse::crowbar_weak );
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIVE_TANK", &iuse::dive_tank );
@@ -1273,6 +1362,8 @@ void Item_factory::init()
     add_iuse( "EBOOKREAD", &iuse::ebookread );
     add_iuse( "ELEC_CHAINSAW_OFF", &iuse::elec_chainsaw_off );
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
+    add_iuse( "EMF_PASSIVE_OFF", &iuse::emf_passive_off );
+    add_iuse( "EMF_PASSIVE_ON", &iuse::emf_passive_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
     add_iuse( "FILL_PIT", &iuse::fill_pit );
@@ -1322,6 +1413,7 @@ void Item_factory::init()
     add_iuse( "MARLOSS_GEL", &iuse::marloss_gel );
     add_iuse( "MARLOSS_SEED", &iuse::marloss_seed );
     add_iuse( "MA_MANUAL", &iuse::ma_manual );
+    add_iuse( "MANAGE_EXOSUIT", &iuse::manage_exosuit );
     add_iuse( "MEDITATE", &iuse::meditate );
     add_iuse( "METH", &iuse::meth );
     add_iuse( "MININUKE", &iuse::mininuke );
@@ -2299,19 +2391,19 @@ std::string enum_to_string<layer_level>( layer_level data )
 {
     switch( data ) {
         case layer_level::PERSONAL:
-            return "Personal";
-        case layer_level::UNDERWEAR:
-            return "Underwear";
-        case layer_level::REGULAR:
-            return "Regular";
+            return "PERSONAL";
+        case layer_level::SKINTIGHT:
+            return "SKINTIGHT";
+        case layer_level::NORMAL:
+            return "NORMAL";
         case layer_level::WAIST:
-            return "Waist";
+            return "WAIST";
         case layer_level::OUTER:
-            return "Outer";
+            return "OUTER";
         case layer_level::BELTED:
-            return "Belted";
+            return "BELTED";
         case layer_level::AURA:
-            return "Aura";
+            return "AURA";
         case layer_level::NUM_LAYER_LEVELS:
             break;
     }
@@ -3425,22 +3517,29 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
-        def.mats_ordered.clear();
         def.mat_portion_total = 0;
         auto add_mat = [&def]( const material_id & m, int portion ) {
             const auto res = def.materials.emplace( m, portion );
             if( res.second ) {
-                def.mats_ordered.emplace_back( m );
                 def.mat_portion_total += portion;
             }
         };
+        bool first = true;
         if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
             for( JsonObject mat : jo.get_array( "material" ) ) {
                 add_mat( material_id( mat.get_string( "type" ) ), mat.get_int( "portion", 1 ) );
+                if( first ) {
+                    def.default_mat = material_id( mat.get_string( "type" ) );
+                    first = false;
+                }
             }
         } else {
             for( const std::string &mat : jo.get_tags( "material" ) ) {
                 add_mat( material_id( mat ), 1 );
+                if( first ) {
+                    def.default_mat = material_id( mat );
+                    first = false;
+                }
             }
         }
     }

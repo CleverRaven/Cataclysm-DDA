@@ -99,6 +99,7 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
 static bool finalized = false;
 
@@ -909,7 +910,10 @@ bool can_construct( const construction &con, const tripoint &p )
     // see if the flags check out
     place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
     [&p]( const std::string & flag ) {
-        return get_map().has_flag( flag, p );
+        map &m = get_map();
+        furn_id f = m.furn( p );
+        ter_id t = m.ter( p );
+        return f == f_null ? t->has_flag( flag ) : f->has_flag( flag );
     } );
     // make sure the construction would actually do something
     if( !con.post_terrain.empty() ) {
@@ -1029,6 +1033,7 @@ void complete_construction( Character *you )
         return;
     }
     const construction &built = pc->id.obj();
+    you->activity.str_values.emplace_back( built.str_id );
     const auto award_xp = [&]( Character & practicer ) {
         for( const auto &pr : built.required_skills ) {
             practicer.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) *
@@ -1328,10 +1333,19 @@ void construct::done_appliance( const tripoint &p )
         return;
     }
     const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
-    veh->install_part( point_zero, vpart );
+    const std::string &constrcut_id = get_avatar().activity.get_str_value( 0 );
+
+    if( constrcut_id == STATIC( "app_wall_wiring" ) ) {
+        veh->install_part( point_zero, vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
+        veh->name = _( "wall wiring" );
+        veh->add_tag( flag_CANT_DRAG );
+    } else {
+        veh->install_part( point_zero, vpart );
+        veh->name = vpart->name();
+    }
+
     veh->add_tag( flag_APPLIANCE );
 
-    veh->name = vpart->name();
     // Update the vehicle cache immediately,
     // or the appliance will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );

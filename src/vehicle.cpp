@@ -2123,12 +2123,20 @@ bool vehicle::find_and_split_vehicles( int exclude )
     std::set<int> checked_parts;
     checked_parts.insert( exclude );
 
+    return find_and_split_vehicles( checked_parts );
+}
+
+bool vehicle::find_and_split_vehicles( std::set<int> exclude )
+{
+    std::vector<int> valid_parts = all_parts_at_location( part_location_structure );
+    std::set<int> checked_parts = exclude;
+
     std::vector<std::vector <int>> all_vehicles;
 
-    for( size_t cnt = 0 ; cnt < 4 ; cnt++ ) {
+    for( size_t cnt = 0; cnt < 4; cnt++ ) {
         int test_part = -1;
         for( const int &p : valid_parts ) {
-            if( parts[ p ].removed ) {
+            if( parts[p].removed ) {
                 continue;
             }
             if( checked_parts.find( p ) == checked_parts.end() ) {
@@ -2153,7 +2161,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
         };
 
         std::vector<int> veh_parts;
-        push_neighbor( test_part, parts_at_relative( parts[ test_part ].mount, true ) );
+        push_neighbor( test_part, parts_at_relative( parts[test_part].mount, true ) );
         while( !search_queue.empty() ) {
             std::pair<int, std::vector<int>> test_set = pop_neighbor();
             test_part = test_set.first;
@@ -2169,7 +2177,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
                 std::vector<int> all_neighbor_parts = parts_at_relative( dp, true );
                 int neighbor_struct_part = -1;
                 for( int p : all_neighbor_parts ) {
-                    if( parts[ p ].removed ) {
+                    if( parts[p].removed ) {
                         continue;
                     }
                     if( part_info( p ).location == part_location_structure ) {
@@ -3306,6 +3314,11 @@ int vehicle::engine_fuel_left( const int e, bool recurse ) const
         return fuel_left( parts[ engines[ e ] ].fuel_current(), recurse );
     }
     return 0;
+}
+
+itype_id vehicle::engine_fuel_current( int e ) const
+{
+    return parts[ engines[ e ] ].fuel_current();
 }
 
 int vehicle::fuel_capacity( const itype_id &ftype ) const

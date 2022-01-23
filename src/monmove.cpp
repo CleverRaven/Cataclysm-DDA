@@ -916,7 +916,7 @@ void monster::move()
     }
 
     tripoint_abs_ms next_step;
-    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
+    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS ) && !is_hallucination();
     const bool staggers = has_flag( MF_STUMBLES );
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
@@ -981,6 +981,10 @@ void monster::move()
 
             const Creature *target = creatures.creature_at( candidate, is_hallucination() );
             if( target != nullptr ) {
+                if( is_hallucination() != target->is_hallucination() && !target->is_avatar() ) {
+                    // Hallucinations should only be capable of targetting the player or other hallucinations.
+                    continue;
+                }
                 const Attitude att = attitude_to( *target );
                 if( att == Attitude::HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
@@ -1534,7 +1538,7 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
 
-    npc *const guy = creatures.creature_at<npc>( p );
+    npc *const guy = creatures.creature_at<npc>( p, is_hallucination() );
     if( guy && type->melee_dice > 0 ) {
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
@@ -2106,7 +2110,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                              const tripoint &nearby_destination )
 {
     map &here = get_map();
-    if( this->has_flag( MF_PUSH_VEH ) ) {
+    if( this->has_flag( MF_PUSH_VEH ) && !is_hallucination() ) {
         optional_vpart_position vp = here.veh_at( nearby_destination );
         if( vp ) {
             vehicle &veh = vp->vehicle();

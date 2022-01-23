@@ -208,7 +208,7 @@
     "type": "SPELL",
     "id": "AEA_ACIDBALL",
     "name": { "str": "Artifact Acidball" },
-    "description": "fires an acidball",
+    "description": "Fires an acidball",
     "effect": "attack",
     "shape": "blast",
     "message": "",

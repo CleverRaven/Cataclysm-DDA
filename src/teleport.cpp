@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
@@ -64,6 +65,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         }
         return false;
     }
+    tripoint_abs_ms avatar_pos = get_avatar().get_location();
     bool shifted = false;
     if( !here.inbounds( target ) ) {
         const tripoint_abs_ms abs_ms( here.getabs( target ) );
@@ -78,7 +80,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
             }
             if( shifted ) {
-                g->place_player_overmap( critter.global_omt_location() );
+                g->place_player_overmap( project_to<coords::omt>( avatar_pos ) );
+                get_avatar().set_location( avatar_pos );
             }
             return false;
         }
@@ -100,7 +103,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
             }
             if( shifted ) {
-                g->place_player_overmap( critter.global_omt_location() );
+                g->place_player_overmap( project_to<coords::omt>( avatar_pos ) );
+                get_avatar().set_location( avatar_pos );
             }
             return false;
         } else if( poor_player && ( poor_player->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
@@ -109,7 +113,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
             }
             if( shifted ) {
-                g->place_player_overmap( critter.global_omt_location() );
+                g->place_player_overmap( project_to<coords::omt>( avatar_pos ) );
+                get_avatar().set_location( avatar_pos );
             }
             return false;
         } else {

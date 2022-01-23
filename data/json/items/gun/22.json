@@ -84,7 +84,14 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 }, "allowed_speedloaders": [ "marlin_tubeloader" ] } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "22": 19 },
+        "allowed_speedloaders": [ "marlin_tubeloader" ]
+      }
+    ]
   },
   {
     "id": "moss_brownie",
