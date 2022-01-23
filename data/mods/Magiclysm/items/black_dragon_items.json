@@ -165,7 +165,7 @@
     "use_action": { "type": "transform", "target": "helmet_black_dragon_scale", "msg": "You put down your visor." },
     "symbol": "[",
     "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 32 } ],
-	"material_thickness": 5,
+    "material_thickness": 5,
     "environmental_protection": 3,
     "delete": { "qualities": [ [ "GLARE", 1 ] ], "flags": [ "SUN_GLASSES" ] }
   },
@@ -360,7 +360,7 @@
     "weight": "815 g",
     "volume": "4500 ml",
     "extend": { "flags": [ "OVERSIZE" ] },
-	"material_thickness": 3,
+    "material_thickness": 3,
     "environmental_protection": 1,
     "armor": [ { "encumbrance": 26, "coverage": 100, "covers": [ "head" ] } ]
   },
