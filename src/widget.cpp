@@ -972,7 +972,7 @@ std::string widget::text( int value, int /* value_max */ )
 std::string widget::graph( int value, int value_max )
 {
     // graph "depth is equal to the number of nonzero symbols
-    int depth = _symbols.length() - 1;
+    int depth = utf8_width( _symbols ) - 1;
     // Max integer value this graph can show
     int max_graph_val = _width * depth;
     // Scale value range to current graph resolution (width x depth)
@@ -993,19 +993,20 @@ std::string widget::graph( int value, int value_max )
     int quot;
     int rem;
 
-    std::string ret;
+    const std::wstring syms = utf8_to_wstr( _symbols );
+    std::wstring ret;
     if( _fill == "bucket" ) {
         quot = value / depth; // number of full cells/buckets
         rem = value % depth;  // partly full next cell, maybe
         // Full cells at the front
-        ret += std::string( quot, _symbols.back() );
+        ret += std::wstring( quot, syms.back() );
         // Any partly-full cells?
         if( _width > quot ) {
             // Current partly-full cell
-            ret += _symbols[rem];
+            ret += syms[rem];
             // Any more zero cells at the end
             if( _width > quot + 1 ) {
-                ret += std::string( _width - quot - 1, _symbols[0] );
+                ret += std::wstring( _width - quot - 1, syms[0] );
             }
         }
     } else if( _fill == "pool" ) {
@@ -1013,20 +1014,20 @@ std::string widget::graph( int value, int value_max )
         rem = value % _width;  // number of cells at next depth
         // Most-filled cells come first
         if( rem > 0 ) {
-            ret += std::string( rem, _symbols[quot + 1] );
+            ret += std::wstring( rem, syms[quot + 1] );
             // Less-filled cells may follow
             if( _width > rem ) {
-                ret += std::string( _width - rem, _symbols[quot] );
+                ret += std::wstring( _width - rem, syms[quot] );
             }
         } else {
             // All cells at the same level
-            ret += std::string( _width, _symbols[quot] );
+            ret += std::wstring( _width, syms[quot] );
         }
     } else {
         debugmsg( "Unknown widget fill type %s", _fill );
-        return ret;
+        return "";
     }
-    return ret;
+    return wstr_to_utf8( ret );
 }
 
 // For widget::layout, process each row to append to the layout string
