@@ -335,7 +335,7 @@
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 42 },
       { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 20 }
     ],
-    "extend": { "flags": [ "OVERSIZE" ] },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "helmet_xlblack_dragon_scale_raised",
@@ -349,7 +349,7 @@
     "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 42 } ],
     "weight": "1256 g",
     "volume": "4500 ml",
-    "extend": { "flags": [ "OVERSIZE" ] },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "helmet_xlblack_dragon_hide",
