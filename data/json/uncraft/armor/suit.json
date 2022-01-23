@@ -6,7 +6,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "10 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rag", 33 ] ], [ [ "leather", 35 ] ], [ [ "scrap", 24 ] ], [ [ "sheet_kevlar_layered", 48 ] ] ]
   },
   {
@@ -16,7 +16,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rag", 23 ] ], [ [ "leather", 25 ] ], [ [ "scrap", 12 ] ], [ [ "sheet_kevlar_layered", 24 ] ] ]
   }
 ]

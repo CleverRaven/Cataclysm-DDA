@@ -65,7 +65,6 @@
       "microlab_generic_edge_room_connector",
       "microlab_generic_hallway_blind_end",
       "microlab_generic_isolated_stairs_odd",
-      "microlab_generic_isolated_stairs_even",
       "microlab_generic_isolated_stairs_up",
       "microlab_generic_isolated_elevator_pit"
     ],

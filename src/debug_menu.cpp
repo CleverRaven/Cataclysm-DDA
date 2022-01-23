@@ -42,6 +42,7 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
+#include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "effect_source.h"
@@ -61,6 +62,7 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
@@ -85,7 +87,6 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h" // IWYU pragma: keep
-#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"
@@ -113,12 +114,22 @@
 #include "weighted_list.h"
 #include "worldfactory.h"
 
+static const bodypart_str_id body_part_no_a_real_part( "no_a_real_part" );
+
 static const efftype_id effect_asthma( "asthma" );
+
+static const faction_id faction_no_faction( "no_faction" );
+
+static const matype_id style_none( "style_none" );
 
 static const mtype_id mon_generator( "mon_generator" );
 
-static const trait_id trait_NONE( "NONE" );
+static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
+
 static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_NONE( "NONE" );
+
+static const vproto_id vehicle_prototype_custom( "custom" );
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
@@ -204,6 +215,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
+        case debug_menu::debug_menu_index::ACTIVATE_EOC: return "ACTIVATE_EOC";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -253,7 +265,7 @@ static int player_uilist()
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::MUTATE, true, 'M', _( "Mutate" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_SKILLS, true, 's', _( "Change all skills" ) ) },
-        { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theorical knowledge" ) ) },
+        { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theoretical knowledge" ) ) },
         { uilist_entry( debug_menu_index::LEARN_MA, true, 'l', _( "Learn all melee styles" ) ) },
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
@@ -322,6 +334,7 @@ static int game_uilist()
         { uilist_entry( debug_menu_index::ENABLE_ACHIEVEMENTS, true, 'a', _( "Enable achievements" ) ) },
         { uilist_entry( debug_menu_index::SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
         { uilist_entry( debug_menu_index::CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
+        { uilist_entry( debug_menu_index::ACTIVATE_EOC, true, 'E', _( "Activate EOC" ) ) },
         { uilist_entry( debug_menu_index::QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
     };
 
@@ -1137,14 +1150,13 @@ static void spawn_nested_mapgen()
 
         map target_map;
         target_map.load( abs_sub, true );
-        // TODO: fix point types
-        const tripoint local_ms = target_map.getlocal( abs_ms.raw() );
+        const tripoint local_ms = target_map.getlocal( abs_ms );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgens[nest_ids[nest_choice]].funcs().pick();
         if( ptr == nullptr ) {
             return;
         }
-        ( *ptr )->nest( md, local_ms.xy() );
+        ( *ptr )->nest( md, local_ms.xy(), "debug menu" );
         target_map.save();
         g->load_npcs();
         here.invalidate_map_cache( here.get_abs_sub().z );
@@ -1333,7 +1345,7 @@ static void character_edit_hp_menu( Character &you )
     smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
     smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), you.get_lowest_hp() );
     smenu.query();
-    bodypart_str_id bp = bodypart_str_id( "no_a_real_part" );
+    bodypart_str_id bp = body_part_no_a_real_part;
     int bp_ptr = -1;
     bool all_select = false;
 
@@ -1693,10 +1705,10 @@ static void character_edit_menu()
             }
             break;
         case D_MORALE: {
-            int current_morale_level = you.get_morale_level();
             int value;
-            if( query_int( value, _( "Set the morale to?  Currently: %d" ), current_morale_level ) ) {
-                int morale_level_delta = value - current_morale_level;
+            if( query_int( value, _( "Set the morale to?  Currently: %d" ), you.get_morale_level() ) ) {
+                you.rem_morale( MORALE_PERM_DEBUG );
+                int morale_level_delta = value - you.get_morale_level();
                 you.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
                 you.apply_persistent_morale();
             }
@@ -2171,7 +2183,7 @@ static void debug_menu_spawn_vehicle()
         // Vector of name, id so that we can sort by name
         std::vector<std::pair<std::string, vproto_id>> veh_strings;
         for( auto &elem : vehicle_prototype::get_all() ) {
-            if( elem == vproto_id( "custom" ) ) {
+            if( elem == vehicle_prototype_custom ) {
                 continue;
             }
             veh_strings.emplace_back( elem->name.translated(), elem );
@@ -2352,8 +2364,8 @@ void debug()
             new_fac_id += temp->name;
             // create a new "lone wolf" faction for this one NPC
             faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( temp->name,
-                                    faction_id( new_fac_id ), faction_id( "no_faction" ) );
-            temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
+                                    faction_id( new_fac_id ), faction_no_faction );
+            temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
             g->load_npcs();
         }
         break;
@@ -2432,7 +2444,7 @@ void debug()
             add_msg( m_info, _( "Martial arts debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto &style : all_martialart_types() ) {
-                if( style != matype_id( "style_none" ) ) {
+                if( style != style_none ) {
                     player_character.martial_arts_data->add_martialart( style );
                 }
             }
@@ -2462,7 +2474,7 @@ void debug()
                 artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 here.create_anomaly( *center, prop );
-                here.spawn_artifact( *center, relic_procgen_id( "alien_reality" ) );
+                here.spawn_artifact( *center, relic_procgen_data_alien_reality );
             }
             break;
 
@@ -2770,11 +2782,25 @@ void debug()
         case debug_menu_index::CRASH_GAME:
             raise( SIGSEGV );
             break;
+        case debug_menu_index::ACTIVATE_EOC: {
+            const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();
+            uilist eoc_menu;
+            for( const effect_on_condition &eoc : eocs ) {
+                eoc_menu.addentry( -1, true, -1, eoc.id.str() );
+            }
+            eoc_menu.query();
+
+            if( eoc_menu.ret >= 0 && eoc_menu.ret < static_cast<int>( eocs.size() ) ) {
+                dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
+                eocs[eoc_menu.ret].activate( newDialog );
+            }
+        }
+        break;
         case debug_menu_index::MAP_EXTRA: {
-            const std::vector<std::string> &mx_str = MapExtras::get_all_function_names();
+            const std::vector<map_extra_id> &mx_str = MapExtras::get_all_function_names();
             uilist mx_menu;
-            for( const std::string &extra : mx_str ) {
-                mx_menu.addentry( -1, true, -1, extra );
+            for( const map_extra_id &extra : mx_str ) {
+                mx_menu.addentry( -1, true, -1, extra.str() );
             }
             mx_menu.query();
             int mx_choice = mx_menu.ret;

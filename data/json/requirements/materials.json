@@ -99,25 +99,130 @@
     "id": "fabric_standard",
     "type": "requirement",
     "//": "Materials used for crafting or repairing clothing or sheeting, etc.",
-    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+    "components": [
+      [
+        [ "rag", 1 ],
+        [ "sheet_cotton_patchwork", 1 ],
+        [ "sheet_cotton", 1 ],
+        [ "sheet_lycra", 1 ],
+        [ "lycra_patch", 1 ],
+        [ "nylon", 1 ],
+        [ "sheet_nylon_patchwork", 1 ],
+        [ "sheet_nylon", 1 ],
+        [ "leather", 1 ],
+        [ "nomex", 1 ],
+        [ "sheet_nomex_patchwork", 1 ],
+        [ "sheet_nomex", 1 ],
+        [ "neoprene", 1 ],
+        [ "sheet_neoprene", 1 ]
+      ]
+    ]
   },
   {
     "id": "fabric_standard_permeable",
     "type": "requirement",
     "//": "Materials used for crafting or repairing woven fabrics",
-    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
+    "components": [
+      [
+        [ "rag", 1 ],
+        [ "sheet_cotton_patchwork", 1 ],
+        [ "sheet_cotton", 1 ],
+        [ "lycra_patch", 1 ],
+        [ "sheet_lycra", 1 ],
+        [ "nylon", 1 ],
+        [ "sheet_nylon_patchwork", 1 ],
+        [ "sheet_nylon", 1 ],
+        [ "nomex", 1 ],
+        [ "sheet_nomex_patchwork", 1 ],
+        [ "sheet_nomex", 1 ]
+      ]
+    ]
   },
   {
     "id": "fabric_standard_nostretch",
     "type": "requirement",
     "//": "Materials used for crafting or repairing non-form fitting clothing",
-    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
+    "components": [
+      [
+        [ "rag", 1 ],
+        [ "sheet_cotton_patchwork", 1 ],
+        [ "sheet_cotton", 1 ],
+        [ "nylon", 1 ],
+        [ "sheet_nylon_patchwork", 1 ],
+        [ "sheet_nylon", 1 ],
+        [ "nomex", 1 ],
+        [ "sheet_nomex_patchwork", 1 ],
+        [ "sheet_nomex", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "fabric_felt",
+    "type": "requirement",
+    "//": "Materials used for crafting felt clothing",
+    "components": [ [ [ "felt_patch", 1 ], [ "sheet_felt_patchwork", 1 ], [ "sheet_felt", 1 ] ] ]
+  },
+  {
+    "id": "fabric_fauxfur",
+    "type": "requirement",
+    "//": "Materials used for faux fur clothing",
+    "components": [ [ [ "faux_fur", 1 ], [ "sheet_faux_fur_patchwork", 1 ], [ "sheet_faux_fur", 1 ] ] ]
+  },
+  {
+    "id": "fabric_fur",
+    "type": "requirement",
+    "//": "Materials used for crafting fur clothing",
+    "components": [ [ [ "fur", 1 ] ] ]
+  },
+  {
+    "id": "fabric_fur_pelt",
+    "type": "requirement",
+    "//": "Materials used for crafting fur clothing, when tanned pelts are available it seems to roughly be a 1:6 ratio",
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
+  },
+  {
+    "id": "fabric_leather_hide",
+    "type": "requirement",
+    "//": "Materials used for crafting leather clothing, when tanned hides are available it seems to roughly be a 1:6 ratio",
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+  },
+  {
+    "id": "fabric_leather_fur_hide",
+    "type": "requirement",
+    "//": "Materials used for crafting leather clothing where fur is or should be an option (can be scraped off with a cutting tool for example), when tanned hides/pelts are available it seems to roughly be a 1:6 ratio",
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ], [ "tanned_hide", 1 ], [ "tanned_pelt", 1 ] ] ]
+  },
+  {
+    "id": "fabric_nomex",
+    "type": "requirement",
+    "//": "Materials used for crafting Nomex clothing",
+    "components": [ [ [ "nomex", 1 ], [ "sheet_nomex_patchwork", 1 ], [ "sheet_nomex", 1 ] ] ]
+  },
+  {
+    "id": "fabric_nylon",
+    "type": "requirement",
+    "//": "Materials used for crafting nylon clothing",
+    "components": [ [ [ "nylon", 1 ], [ "sheet_nylon_patchwork", 1 ], [ "sheet_nylon", 1 ] ] ]
+  },
+  {
+    "id": "fabric_neoprene",
+    "type": "requirement",
+    "//": "Materials used for crafting fur clothing",
+    "components": [ [ [ "neoprene", 1 ], [ "sheet_neoprene_patchwork", 1 ], [ "sheet_neoprene", 1 ] ] ]
+  },
+  {
+    "id": "fabric_lycra",
+    "type": "requirement",
+    "//": "Materials used for crafting lycra clothing",
+    "components": [ [ [ "lycra_patch", 1 ], [ "sheet_lycra", 1 ], [ "sheet_lycra_patchwork", 1 ] ] ]
   },
   {
     "id": "filament",
     "type": "requirement",
     "//": "Materials for use when sewing items",
-    "components": [ [ [ "thread", 1 ], [ "sinew", 1 ], [ "plant_fibre", 1 ], [ "yarn", 1 ] ] ]
+    "components": [
+      [ [ "thread", 1 ], [ "sinew", 1 ], [ "plant_fibre", 1 ], [ "yarn", 1 ], [ "thread_nomex", 1 ], [ "thread_kevlar", 1 ] ]
+    ]
   },
   {
     "id": "glazing",
@@ -225,5 +330,47 @@
     "type": "requirement",
     "//": "Materials used for repairing upgraded solar panels",
     "components": [ [ [ "solar_cell", 5 ] ], [ [ "cable", 8 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ] ]
+  },
+  {
+    "id": "paint",
+    "type": "requirement",
+    "//": "Materials used for painting something of any color",
+    "components": [ [ [ "r_paint", 1 ], [ "b_paint", 1 ], [ "w_paint", 1 ], [ "g_paint", 1 ], [ "p_paint", 1 ], [ "y_paint", 1 ] ] ]
+  },
+  {
+    "id": "shoe_rubber",
+    "type": "requirement",
+    "//": "Materials needed to make a pair of rubber shoe soles.",
+    "components": [ [ [ "sole_rubber", 2 ], [ "chunk_rubber", 7 ], [ "rubber_tire_chunk", 2 ], [ "rubber_tire_strip", 1 ] ] ]
+  },
+  {
+    "id": "tire_rubber",
+    "type": "requirement",
+    "//": "Materials needed to repair damage to tires.",
+    "components": [ [ [ "sole_rubber", 1 ], [ "chunk_rubber", 2 ], [ "rubber_tire_chunk", 1 ] ] ]
+  },
+  {
+    "id": "adhesive_rubber",
+    "type": "requirement",
+    "//": "Materials used for joining soft, flexible material where regular brittle superglue would be inappropriate.",
+    "components": [ [ [ "rubber_cement", 1 ] ] ]
+  },
+  {
+    "id": "lc_steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ [ "lc_steel_lump", 1 ], [ "lc_steel_chunk", 4 ] ] ]
+  },
+  {
+    "id": "mc_steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ [ "mc_steel_lump", 1 ], [ "mc_steel_chunk", 4 ] ] ]
+  },
+  {
+    "id": "hc_steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ [ "hc_steel_lump", 1 ], [ "hc_steel_chunk", 4 ] ] ]
   }
 ]

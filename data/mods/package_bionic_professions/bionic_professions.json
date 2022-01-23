@@ -11,6 +11,7 @@
     "name": "Bionic Athlete",
     "description": "You'll never get your shot at the Cyberolympics.  All that's left of your dream is a single leftover protein shake.  Well, that and your bulging, cybernetically-enhanced muscles.",
     "points": 5,
+    "skills": [ { "level": 3, "name": "swimming" } ],
     "CBMs": [ "bio_str_enhancer", "bio_adrenaline", "bio_hydraulics", "bio_metabolics", "bio_power_storage_mkII" ],
     "items": {
       "both": {
@@ -23,7 +24,8 @@
           "lowtops",
           "fanny",
           "protein_drink",
-          "wristwatch"
+          "wristwatch",
+          "fitness_band"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
@@ -50,6 +52,7 @@
     ],
     "traits": [ "PROF_CYBERCOP" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "pistol" } ],
+    "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
         "items": [ "tac_fullhelmet", "police_belt", "pants_cargo", "under_armor", "socks", "boots", "badge_cybercop", "wristwatch" ],
@@ -73,7 +76,14 @@
     "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_watch", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" } ],
     "items": {
-      "both": { "items": [ "tshirt", "sneakers", "jacket_light", "wristwatch" ], "entries": [ { "group": "charged_smart_phone" } ] },
+      "both": {
+        "items": [ "tshirt", "sneakers", "jacket_light", "mbag" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "eink_tablet_pc", "contents-item": [ "battery_ups" ] },
+          { "item": "mp3", "contents-item": [ "battery_ups" ] }
+        ]
+      },
       "male": [ "briefs", "socks", "pants" ],
       "female": [ "bra", "panties", "stockings", "skirt" ]
     }
@@ -100,14 +110,16 @@
         "bunker_pants",
         "fireman_belt",
         "bunker_coat",
+        "nomex_suit",
         "nomex_socks",
+        "nomex_gloves",
+        "nomex_hood",
         "boots_bunker",
         "fire_gauntlets",
+        "firehelmet",
         "glasses_safety",
-        "wristwatch"
-      ],
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+        "pocketwatch"
+      ]
     }
   },
   {
@@ -130,8 +142,16 @@
     ],
     "items": {
       "both": {
-        "items": [ "jeans", "polo_shirt", "socks", "dress_shoes", "mbag", "caffeine", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "jeans", "polo_shirt", "socks", "dress_shoes", "mbag", "caffeine" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          {
+            "item": "light_minus_battery_cell",
+            "ammo-item": "battery",
+            "charges": 50,
+            "container-item": "game_watch"
+          }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -164,15 +184,29 @@
     ],
     "items": {
       "both": {
-        "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "shot_00" ],
+        "items": [
+          "suit",
+          "bowhat",
+          "socks",
+          "dress_shoes",
+          "knit_scarf",
+          "cig",
+          "switchblade",
+          "mag_porn",
+          "sunglasses",
+          "cestus",
+          "gold_watch",
+          "gold_ring",
+          "shot_00"
+        ],
         "entries": [
           { "group": "charged_ref_lighter" },
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": [ "boxer_shorts", "gold_dental_grill" ],
+      "female": [ "bra", "panties", "gold_hairpin", "gold_ear" ]
     }
   },
   {
@@ -195,11 +229,11 @@
     "skills": [ { "level": 3, "name": "dodge" } ],
     "items": {
       "both": {
-        "items": [ "dress_shoes", "dress_shirt", "knit_scarf", "wristwatch", "blazer" ],
+        "items": [ "dress_shoes", "dress_shirt", "knit_scarf", "platinum_watch", "blazer" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
-      "male": [ "briefs", "socks", "pants" ],
-      "female": [ "bra", "panties", "stockings", "skirt" ]
+      "male": [ "briefs", "socks", "pants", "platinum_bracelet" ],
+      "female": [ "bra", "panties", "stockings", "garter_belt", "skirt", "platinum_ear" ]
     }
   },
   {
@@ -209,6 +243,7 @@
     "description": "When bionics first emerged, you were quick to make them into your career, and spent your days overseeing their installation.  That makes you one of the few non-zombies in the world that can calibrate an Autodoc, which might come in handy.",
     "points": 4,
     "skills": [ { "level": 4, "name": "firstaid" }, { "level": 4, "name": "electronics" } ],
+    "proficiencies": [ "prof_intro_biology", "prof_physiology", "prof_wound_care" ],
     "traits": [ "PROF_AUTODOC" ],
     "items": {
       "both": {
@@ -218,6 +253,7 @@
           "gloves_medical",
           "socks",
           "dress_shoes",
+          "glasses_safety",
           "coat_lab",
           "mbag",
           "bandages",
@@ -238,6 +274,7 @@
     "points": 6,
     "CBMs": [ "bio_surgical_razor", "bio_flashlight", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 8, "name": "firstaid" } ],
+    "proficiencies": [ "prof_intro_biology", "prof_physiology", "prof_wound_care", "prof_wound_care_expert" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -249,6 +286,7 @@
           "pants",
           "dress_shoes",
           "coat_lab",
+          "glasses_safety",
           "stethoscope",
           "bfipowder",
           "antibiotics",
@@ -272,11 +310,11 @@
     "no_bonus": "teleumbrella",
     "items": {
       "both": {
-        "items": [ "socks", "suit", "dress_shoes", "gold_watch", "knit_scarf", "briefcase", "file", "teleumbrella" ],
+        "items": [ "socks", "suit", "dress_shoes", "knit_scarf", "briefcase", "file", "teleumbrella", "citrine_gold_bracelet" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": [ "boxer_shorts", "citrine_gold_cufflinks" ],
+      "female": [ "bra", "panties", "citrine_gold_earring" ]
     }
   },
   {
@@ -355,6 +393,7 @@
     "name": "Bionic Runner",
     "description": "You were the kind of sportsman who couldn't get off the track.  You love running, and you enhanced your body with cybernetics to go even faster.  Now there's plenty to run from - this is your kind of game.",
     "points": 4,
+    "skills": [ { "level": 2, "name": "swimming" } ],
     "CBMs": [ "bio_adrenaline", "bio_torsionratchet", "bio_power_storage_mkII", "bio_jointservo" ],
     "items": {
       "both": {
@@ -367,7 +406,8 @@
           "lowtops",
           "fanny",
           "sports_drink",
-          "wristwatch"
+          "wristwatch",
+          "fitness_band"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
@@ -381,6 +421,7 @@
     "name": "Bionic Sniper",
     "description": "A top-secret military program sought to convert you into the perfect sniper.  Your bionics, equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
     "points": 8,
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
     "CBMs": [
       "bio_eye_enhancer",
       "bio_targeting",
@@ -404,9 +445,9 @@
     "items": {
       "both": {
         "items": [
-          "winter_pants_army",
+          "pants_army",
           "army_top",
-          "winter_jacket_army",
+          "jacket_army_modern",
           "gloves_tactical",
           "rucksack",
           "cloak",
@@ -448,6 +489,7 @@
     "name": "Bionic Soldier",
     "description": "You are the result of one of the military's last research programs: a prototype cyborg soldier.  The wars they expected you to fight have become obsolete, but war never changes.",
     "points": 6,
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
     "CBMs": [
       "bio_targeting",
       "bio_purifier",
@@ -469,14 +511,15 @@
     "items": {
       "both": {
         "items": [
-          "winter_pants_army",
-          "winter_jacket_army",
-          "winter_gloves_army",
+          "pants_army",
+          "combat_shirt",
+          "gloves_tactical",
           "mask_ski",
           "tac_helmet",
           "socks",
           "boots_combat",
-          "wristwatch"
+          "wristwatch",
+          "molle_pack"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
@@ -487,9 +530,10 @@
             "variant": "h&k416a5",
             "ammo-item": "556",
             "charges": 30,
-            "contents-item": [ "shoulder_strap", "acog_scope" ]
+            "contents-item": [ "shoulder_strap", "acog_scope" ],
+            "custom-flags": [ "auto_wield" ]
           },
-          { "item": "ballistic_vest_esapi" },
+          { "group": "military_ballistic_vest_pristine" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" }
         ]
       },
@@ -515,11 +559,11 @@
     "skills": [ { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "dress_shoes", "socks", "knit_scarf", "suit", "wristwatch" ],
+        "items": [ "dress_shoes", "socks", "knit_scarf", "suit", "silver_watch" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": [ "briefs", "emerald_silver_cufflinks" ],
+      "female": [ "bra", "panties", "emerald_silver_earring" ]
     }
   },
   {
@@ -541,15 +585,15 @@
           "tieclip",
           "fancy_sunglasses",
           "knit_scarf",
-          "wristwatch",
+          "sf_watch",
           "mbag",
           "water_mineral",
           "money_strap_twenty"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
-      "male": [ "briefs" ],
-      "female": [ "panties" ]
+      "male": [ "briefs", "cufflinks_intricate" ],
+      "female": [ "panties", "silver_ear" ]
     }
   },
   {
@@ -557,21 +601,26 @@
     "id": "bionic_thief",
     "name": "Bionic Thief",
     "description": "Impeccable style and a few bionic tricks up your sleeve have seen you pull off a string of daring, high-profile heists.  The cops would love to get their hands on you, but seem otherwise occupied.",
-    "points": 4,
-    "proficiencies": [ "prof_lockpicking" ],
-    "CBMs": [ "bio_batteries", "bio_lockpick", "bio_fingerhack", "bio_power_storage_mkII" ],
-    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" }, { "level": 3, "name": "traps" } ],
+    "points": 5,
+    "proficiencies": [ "prof_lockpicking", "prof_lockpicking_expert", "prof_safecracking" ],
+    "CBMs": [ "bio_batteries", "bio_lockpick", "bio_fingerhack", "bio_ears", "bio_power_storage_mkII" ],
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "smg" },
+      { "level": 3, "name": "traps" },
+      { "level": 2, "name": "computer" }
+    ],
     "items": {
       "both": {
-        "items": [ "waistcoat", "pants", "dress_shirt", "socks", "dress_shoes", "knit_scarf", "gold_watch" ],
+        "items": [ "waistcoat", "pants", "dress_shirt", "socks", "dress_shoes", "knit_scarf", "gold_watch", "diamond_ring" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "briefcase_smg", "ammo-item": "9mm", "charges": 30 },
           { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "boxer_shorts" ]
+      "male": [ "boxer_shorts", "diamond_gold_cufflinks" ],
+      "female": [ "bra", "boxer_shorts", "diamond_gold_earring" ]
     }
   },
   {
@@ -581,6 +630,7 @@
     "description": "For better or for worse, bionic augmentation has turned you into a walking power tool.  Upgraded with a standard industrial-grade manual labor surgery and training package, you are augmented with bionic muscles and an integrated toolset, both powered by standard batteries.",
     "points": 6,
     "skills": [ { "level": 4, "name": "fabrication" }, { "level": 2, "name": "mechanics" } ],
+    "proficiencies": [ "prof_metalworking", "prof_welding_basic", "prof_plumbing" ],
     "CBMs": [
       "bio_tools",
       "bio_sunglasses",
@@ -651,7 +701,8 @@
       "bio_metabolics",
       "bio_power_storage_mkII",
       "bio_painkiller",
-      "bio_climate"
+      "bio_climate",
+      "bio_lighter"
     ],
     "skills": [ { "level": 1, "name": "electronics" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "computer" } ],
     "items": {
@@ -737,12 +788,15 @@
     "type": "profession",
     "id": "drone_op",
     "name": "Drone Operator",
-    "description": "You had a job programming machines such as automatic street cleaners, newsbots, and pizza delivery drones.  Bionic implants helped you control them remotely.  Now all the drones carry guns instead of pizza.",
+    "description": "You had a job programming machines such as automatic street cleaners, newsbots, and pizza delivery drones.  Bionic implants helped you control them remotely.  Now all the drones carry guns instead of pizza.  At least you still have a… RC car?",
     "points": 1,
     "CBMs": [ "bio_batteries", "bio_power_storage", "bio_remote" ],
     "skills": [ { "level": 2, "name": "computer" } ],
     "items": {
-      "both": { "items": [ "jumpsuit", "socks", "boots", "wristwatch" ], "entries": [ { "group": "charged_cell_phone" } ] },
+      "both": {
+        "items": [ "jumpsuit", "socks", "boots", "wristwatch", "mbag" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "toy_radio_car" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -761,7 +815,7 @@
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs" ],
-      "female": [ "sports_bra", "boy_shorts" ]
+      "female": [ "sports_bra", "boy_shorts", "ruby_gold_earring" ]
     }
   }
 ]

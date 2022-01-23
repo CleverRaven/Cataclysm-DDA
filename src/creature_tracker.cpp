@@ -17,6 +17,8 @@
 
 static const efftype_id effect_ridden( "ridden" );
 
+static const mfaction_str_id monfaction_player( "player" );
+
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 creature_tracker::creature_tracker() = default;
@@ -102,8 +104,7 @@ void creature_tracker::add_to_faction_map( const shared_ptr_fast<monster> &critt
     if( critter.friendly == 0 ) {
         monster_faction_map_[critter.faction][critter_ptr->get_location().z()].insert( critter_ptr );
     } else {
-        static const mfaction_str_id playerfaction( "player" );
-        monster_faction_map_[playerfaction][critter_ptr->get_location().z()].insert( critter_ptr );
+        monster_faction_map_[monfaction_player][critter_ptr->get_location().z()].insert( critter_ptr );
     }
 }
 

@@ -30,7 +30,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "bmw_common_1",
+    "result": "fbmw_2_common_1",
     "description": "Let's install a metal working forge in the smithy.  We'll need a few tools too, so we'll include some storage space.  This will provide us with a first couple of primitive crafting recipes.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -59,7 +59,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "bmw_common_smithy_2",
+    "result": "fbmw_2_common_smithy_2",
     "description": "Let's install a couple of charcoal kilns outside of the smithy.  We'll add a crucible as well.  This will allow us to produce a few additional things.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",

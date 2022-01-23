@@ -3,6 +3,7 @@ TODO: document the "npc" structure, used to load NPC template
 Often you will want to create new NPCs to either add quests, flavor, or to introduce little known activities to the larger player base. New NPCs are written entirely in JSON, so they are one of the easier places to begin your contributions.
 
 There are two parts to creating a new NPC, apart from any dialogue you may want to add.  
+#### NPC Class
 First there is the `npc_class` which follows the following template.
 Format:
 ```json
@@ -24,11 +25,23 @@ Format:
   "worn_override": "NC_EXAMPLE_worn",
   "carry_override": "NC_EXAMPLE_carried",
   "weapon_override": "NC_EXAMPLE_weapon",
-  "shopkeeper_item_group": "example_shopkeeper_itemgroup",
+  "shopkeeper_item_group": [
+    { "group": "example_shopkeeper_itemgroup1" },
+    { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
+    { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true }
+  ],
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
 There are a couple of items in the above template that may not be self explanatory. `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified. `"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
+
+##### Shopkeeper item groups
+`"shopkeeper_item_group"` entries have the following fields:
+- `"group"` : Identifies an item group to include in the possible shop rotation
+- `"trust"` : (_optional_) If the faction's trust with the player is below this value, items in this group will not be available for sale (Defaults to 0)
+- `"strict"` : (_optional_) If true, items in this group cannot be traded back to the player if traded to the NPC. (Defaults to false)
+
+#### NPC
 There is a second template required for a new NPC. It looks like this:
 Format:
 ```json
@@ -53,11 +66,11 @@ Faction determines what faction, if any, the NPC belongs to.  Some examples are 
 death_eocs are string effect_on_condition ids and or inline effect_on_conditions (see [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)).  When the npc dies all of these eocs are run with the victim as u and the killer as npc.
 
 # Age and Height
-You can define the age and height of the NPC in the `age` or `height` fields in `"type": "npc"`. 
+You can define the age and height of the NPC in the `age` or `height` fields in `"type": "npc"`.
 
 Field | Description
 ---|---
-`age` | NPC age 
+`age` | NPC age
 `height` | NPC height (cm)
 
 
@@ -73,7 +86,7 @@ Two topics are special:
 - `TALK_DONE` ends the dialogue immediately.
 - `TALK_NONE` goes to the previously talked about topic.
 
-If `npc` has the follows fields, the game will display a dialogue with the indicated topic instead of default topic. 
+If `npc` has the follows fields, the game will display a dialogue with the indicated topic instead of default topic.
 
 Field | Default topic ID  | Uses for...
 ---|---|---
@@ -90,11 +103,11 @@ Field | Default topic ID  | Uses for...
 `talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
 `talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
 
-### Customize NPC speech 
+### Customize NPC speech
 NPCs have dialogue depending on the situation.
 This dialogue can be customized in `"type": "npc"` json entries.
 
-If `npc` has one of the following fields, the NPCs will speak the indicated message or snippet instead of the default message. 
+If `npc` has one of the following fields, the NPCs will speak the indicated message or snippet instead of the default message.
 
 All messages can be used with snippets.
 Any `%s` included is automatically replaced by the game, with words depending on the message.
@@ -172,7 +185,21 @@ Field | Default messages/snippets | Used for...
 `snip_heal_player` | `Hold still %s, I'm coming to help you.` | NPC try to heal you.
 `snip_pulp_zombie` | `Hold on, I want to pulp that %s.` | NPC try to pulp %s.
 `snip_radiation_sickness` | `I'm suffering from radiation sickness…` | NPC are in radiation sickness.
-`snip_wear` | `Thanks, I'll wear that now.` | You gave a clothes or armor and NPC waer it.
+`snip_wear` | `Thanks, I'll wear that now.` | You gave a clothes or armor and NPC wear it.
+
+### Special Custom Entries
+
+Certain entries like the snippets above are taken from the game state as opposed to JSON they are found in the npctalk function parse_tags. They are as follows:
+`<yrwp>` | displays avatars wielded item
+`<ammo>` | displays avatars ammo
+`<current_activity>` | displays npc's current activity
+`<topic_item>` | referenced item
+`<topic_item_price>` | referenced item unit price
+`<topic_item_my_total_price>` | TODO Add
+`<topic_item_your_total_price>` | TODO Add
+`<u_val:VAR>` | The user variable VAR
+`<npc_val:VAR>` | The npc variable VAR
+`<global_val:VAR>` | The global variable VAR
 
 
 ### Validating Dialogues
@@ -325,7 +352,7 @@ The dynamic line will be chosen from a reason generated by an earlier effect.  T
 ```
 
 #### Based on any Dialogue condition
-The dynamic line will be chosen based on whether a single dialogue condition is true or false.  Dialogue conditions cannot be chained via `"and"`, `"or"`, or `"not"`.  If the condition is true, the `"yes"` response will be chosen and otherwise the `"no"` response will be chosen.  Both the `'"yes"` and `"no"` reponses are optional.  Simple string conditions may be followed by `"true"` to make them fields in the dynamic line dictionary, or they can be followed by the response that will be chosen if the condition is true and the `"yes"` response can be omitted.
+The dynamic line will be chosen based on whether a single dialogue condition is true or false.  Dialogue conditions cannot be chained via `"and"`, `"or"`, or `"not"`.  If the condition is true, the `"yes"` response will be chosen and otherwise the `"no"` response will be chosen.  Both the `'"yes"` and `"no"` responses are optional.  Simple string conditions may be followed by `"true"` to make them fields in the dynamic line dictionary, or they can be followed by the response that will be chosen if the condition is true and the `"yes"` response can be omitted.
 
 ```json
 {
@@ -561,13 +588,13 @@ One of `"for_item"` or `"for_category"`, and each can either be a single string 
 ## Dialogue Effects
 The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
 
-`variable_object`: This is an object describing a variable name. It can either describe an int or a time duration. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `global` is an optional bool (default false), if it is true the variable used will always be from the player character rather than the target of the dialog.
+`variable_object`: This is an object describing a variable name. It can either describe an int or a time duration. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.
 
 example json:
 ```
-"effect": [ { "u_mod_focus": { "name":"test", "type":"debug", "context":"testing", "default": 1 } },
+"effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
   { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
-  "duration": { "name": "test2", "type": "debug", "context": "testing", "default": "2 minutes" } ]
+  "duration": { "global_val": "test2", "type": "debug", "context": "testing", "default": "2 minutes" } ]
 
 ```
 
@@ -606,18 +633,21 @@ Effect | Description
 `u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, either `value: value_str` or `time: true` or `possible_values: string_array` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitrary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.  If `time` is used instead of `value_str`, then the current turn of the game is stored. If `possible_values` is used one of the values given at random will be used.
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
 `u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: adjustment_num or adjustment_variable_object` | Your character or the NPC will adjust the stored variable by `adjustment_num` (or the value of the variable described by `adjustment_num` see `variable_object` above).
+`u_location_variable, npc_location_variable`: `target_var`,*optional* `min_radius: min_radius_int or min_radius_variable_object`,*optional* `max_radius: max_radius_int or max_radius_variable_object`, *optional* `outdoor_only: max_radius_int or max_radius_variable_object`, *optional* `target_params: assign_mission_target` parameters | If `target_params` is defined it will be used to find a tile. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters. Otherwise targets a point between `min_radius_int`( or `min_radius_variable_object`)(defaults to 0) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 0) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. The chosen point will be saved to `target_var` which is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global.  
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.
 `barber_beard` | Opens a menu allowing the player to choose a new beard style.
 `u_learn_recipe: recipe_string`  | Your character will learn and memorize the recipe `recipe_string`.
 `npc_first_topic: talk_topic_string` | Changes the initial talk_topic of the NPC in all future dialogues.
 `u_add_wet: wet_int`<br/>`npc_add_wet: wet_int or wet_variable_object` | Your character or the NPC will be wet `wet_int` (or the value of the variable described by `wet_variable_object` see `variable_object` above) as if they were in the rain.
-`u_make_sound, npc_make_sound: message_string`, `volume: volume_int`, `type: type_string`,  | A sound of description `message_string` will be made at your character or the NPC's location of volume `volume_int` and type `type_string`. Possible types are: background, weather, music, movement, speech, electronic_speech, activity, destructive_activity, alarm, combat, alert, or order
+`u_make_sound, npc_make_sound: message_string`, `volume: volume_int`, `type: type_string`,*optional* `target_var: target_var_object`, *optional* `snippet: snippet_bool`, *optional* `same_snippet: same_snippet_bool`  | A sound of description `message_string` will be made at your character or the NPC's location of volume `volume_int` and type `type_string`. Possible types are: background, weather, music, movement, speech, electronic_speech, activity, destructive_activity, alarm, combat, alert, or order. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not. If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category, if `same_snippet_bool` is true(defaults to false) it will always use the same snippet and will set a variable that can be used for custom item names(this requires the snippets to have id's set)
 `u_mod_healthy, npc_mod_healthy : amount_int or amount_variable_object, cap: cap_int or cap_variable_object` | Your character or the NPC will have `amount_int` ( or the value of the variable described by `amount_variable_object` see `variable_object` above) added or subtracted from its health value, but not beyond `cap_int` or `cap_variable_object`.
 `u_add_morale: morale_string`, (*optional* `bonus: bonus_int` ), (*optional* `max_bonus: max_bonus_int or max_bonus_variable_object` ), (*optional* `duration: duration_string or duration_variable_object`), (*optional* `decay_start` : `decay_string or decay_variable_object`), (*optional* `capped`: `capped_bool`)<br/> `npc_add_morale: morale_string`, (*optional* `bonus: bonus_int or bonus_variable_object` ), (*optional* `max_bonus: max_bonus_int` ), (*optional* `duration: duration_int`), (*optional*`decay_start` : `decay_int`), (*optional* `capped`: `capped_bool`)| Your character or the NPC will gain a morale bonus of type `morale_string`. Morale is changed by `bonus_int`( or the value of the variable described by `bonus_variable_object` see `variable_object` above) (default 1), with a maximum of up to `max_bonus_int`(or `max_bonus_variable_object`)  (default 1). It will last for `duration: duration_string` time (default 1 hour) or `duration_variable_object`. It will begin to decay after `decay_string` time (default 30 minutes) or `decay_variable_object`. `capped_bool` Whether this morale is capped or not, defaults to false.
 `u_lose_morale: morale_string`<br/>`npc_lose_morale: morale_string` | Your character or the NPC will lose any morale of type `morale_string`.
+`u_add_faction_trust: amount_int`<br/>`u_lose_faction_trust: amount_int` | Your character gains or loses trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction.
 `u_message, npc_message: message_string`, (*optional* `sound: sound_bool`),(*optional* `outdoor_only: outdoor_only_bool`),(*optional* `snippet: snippet_bool`),(*optional* `same_snippet: snippet_bool`,(*optional* `type: type_string`),(*optional* `popup: popup_bool`) | Displays a message to either the player or the npc of `message_string`.  Will not display unless the player or npc is the actual player.  If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category, if `same_snippet_bool` is true(defaults to false) it will always use the same snippet and will set a variable that can be used for custom item names(this requires the snippets to have id's set).  If `sound` is true (defaults to false) it will only display the message if the player is not deaf.  `outdoor_only`(defaults to false) only matters when `sound` is true and will make the message less likely to be heard if the player is underground. Message will display as type of `type_string`. Type affects the color of message and can be any of the following values: good, neutral, bad, mixed, warning, info, debug, headshot, critical, grazing.  enums.h has more info on each types use. If `popup_bool` is true the message will be in a modal popup the user has to dismiss to continue.
 `u_cast_spell, npc_cast_spell : fake_spell_data` | The spell described by fake_spell_data will be cast with u or the npc as the caster and u or the npc's location as the target.  Fake spell data can have the following attributes: `id:string`: the id of the spell to cast, (*optional* `hit_self`: bool ( defaults to false ) if true can hit the caster, `trigger_message`: string to display on trigger, `npc_message`: string for message if npc uses, `max_level` int max level of the spell, `min_level` int min level of the spell )
-`u_assign_activity, npc_assign_activity: activity_id_string`, `duration: duration_string or duration_variable_object`) | Your character or the NPC will start activity `activity_id_string`. It will last for `duration: duration_string` time or `duration_variable_object`. 
+`u_assign_activity, npc_assign_activity: activity_id_string`, `duration: duration_string or duration_variable_object`) | Your character or the NPC will start activity `activity_id_string`. It will last for `duration: duration_string` time or `duration_variable_object`.
+`u_teleport, npc_teleport: target_var_object`, (*optional* `success_message: success_message_string`), (*optional* `fail_message: fail_message_string`) | u or npc are teleported to the destination stored in the variable named by `target_var`.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not. If the teleport succeeds and `success_message` is defined it will be displayed, if it fails and `fail_message` is defined it will be displayed.
 
 #### Trade / Items
 
@@ -685,12 +715,13 @@ Effect | Description
 #### Map Updates
 Effect | Description
 ---|---
-`mapgen_update: mapgen_update_id_string`<br/>`mapgen_update:` *list of `mapgen_update_id_string`s*, (optional `assign_mission_target` parameters) | With no other parameters, updates the overmap tile at the player's current location with the changes described in `mapgen_update_id` (or for each `mapgen_update_id` in the list).  The `assign_mission_target` parameters can be used to change the location of the overmap tile that gets updated.  See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters and [the mapgen docs](MAPGEN.md) for `mapgen_update`.
+`mapgen_update: mapgen_update_id_string`<br/>`mapgen_update:` *list of `mapgen_update_id_string`s*, (optional `assign_mission_target` parameters), (optional `target_var: variable_object`), (*optional* `time_in_future_min: duration_string or duration_variable_object`), (*optional* `time_in_future_max: duration_string or duration_variable_object`) | With no other parameters, updates the overmap tile at the player's current location with the changes described in `mapgen_update_id` (or for each `mapgen_update_id` in the list).  The `assign_mission_target` parameters can be used to change the location of the overmap tile that gets updated.  See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters and [the mapgen docs](MAPGEN.md) for `mapgen_update`. If `target_var` is set this effect will be centered on a location saved to a variable with its name instead.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global. If `time_in_future_min` and `time_in_future_max` are set the update will happen at a random time in the future between those values, in this case however the target location will be determined now and not changed even if its variables update.
 `lightning` | Allows supercharging monster in electrical fields, legacy command for lightning weather.
 `next_weather` | Forces a check for what weather it should be.
 `custom_light_level: custom_light_level_int or custom_light_level_variable_object, length_min: duration_string or duration_variable_object, length_max: duration_string or duration_variable_object` | Sets the ambient light from the sun/moon to be `custom_light_level_int` ( or the value of the variable described by `custom_light_level_variable_object` see `variable_object` above).  This can vary naturally between 0 and 125 depending on the sun to give a scale. This lasts between `length_min` and `length_max long`.
-`u_set_spawn_monster: mtype_id_string, npc_set_spawn_monster: mtype_id_string`,(*optional* `group: group_bool`, *optional* `hallucination_count: hallucination_count_int or hallucination_count_variable_object`, *optional* `real_count: real_count_int or real_count_variable_object`,*optional* `min_radius: min_radius_int or max_bonus_variable_object`,*optional* `max_radius: max_radius_int or max_radius_variable_object`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `target_range : target_range_int or target_range_variable_object`), *optional* `timespan_min: timespan_min_string or variable_object`,*optional* `timespan_max: timespan_max_string or variable_object` | Spawns `real_count_int`( or the value of the variable described by `real_count_variable_object` see `variable_object` above)(defaults to 0) monsters and `hallucination_count_int`( or `hallucination_count_variable_object`) (defaults to 0) hallucinations near you or the npc. The spawn will be of type `mtype_id_string`, if `group_bool` is false(defaults to false,if it is true a randome monster from monster_group `mtype_id_string` will be used), if this is an empty string it will instead be a random monster within `target_range_int`( or `target_range_variable_object`) spaces of you. The spawns will happen between `min_radius_int`( or `min_radius_variable_object`)(defaults to 1) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 10) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. If `timespan_min` and `timespan_max` (or the `variable_object` versions) are both provided the monster or hallucination will only live for a random amount of time in between the values.
-`u_set_field: field_id_string or npc_set_field: field_id_string`,(*optional* `intensity: intensity_int or intensity_variable_onject`, *optional* `age: age_int or variable_object`,*optional* `radius: radius_int or radius_variable_onject`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `hit_player : hit_player_bool`) | Add a field centered on you or the npc of type `field_type_id_string`, of intensity `intensity_int`( or the value of the variable described by `real_count_variable_object` see `variable_object` above)( defaults to 1,) of radius `radius_int`( or `radius_variable_object`)(defaults to 10000000) and age `age_int` (defaults 1) or `age_variable_object`. It will only happen outdoors if `outdoor_only` is true, it defaults to false. It will hit the player as if they entered it if `hit_player` it true, it defaults to true.
+`u_transform_radius, npc_transform_radius: transform_radius_int or transform_radius_variable_object, ter_furn_transform: ter_furn_transform_string`, (*optional* `target_var: target_var_object`), (*optional* `time_in_future_min: duration_string or duration_variable_object`), (*optional* `time_in_future_max: duration_string or duration_variable_object`) | Applies the ter_furn_transform of id `ter_furn_transform` (See [the transform docs](TER_FURN_TRANSFORM.md)) in radius `translate_radius`. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not. If `time_in_future_min` and `time_in_future_max` are set the transform will happen at a random time in the future between those values, in this case however the target location and radius will be determined now and not changed even if their variables update.
+`u_set_spawn_monster: mtype_id_string, npc_set_spawn_monster: mtype_id_string`,(*optional* `group: group_bool`, *optional* `hallucination_count: hallucination_count_int or hallucination_count_variable_object`, *optional* `real_count: real_count_int or real_count_variable_object`,*optional* `min_radius: min_radius_int or min_radius_variable_object`,*optional* `max_radius: max_radius_int or max_radius_variable_object`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `target_range : target_range_int or target_range_variable_object`), *optional* `timespan_min: timespan_min_string or variable_object`,*optional* `timespan_max: timespan_max_string or variable_object`,*optional* `target_var: target_var_object` | Spawns `real_count_int`( or the value of the variable described by `real_count_variable_object` see `variable_object` above)(defaults to 0) monsters and `hallucination_count_int`( or `hallucination_count_variable_object`) (defaults to 0) hallucinations near you or the npc. The spawn will be of type `mtype_id_string`, if `group_bool` is false(defaults to false,if it is true a random monster from monster_group `mtype_id_string` will be used), if this is an empty string it will instead be a random monster within `target_range_int`( or `target_range_variable_object`) spaces of you. The spawns will happen between `min_radius_int`( or `min_radius_variable_object`)(defaults to 1) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 10) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. If `timespan_min` and `timespan_max` (or the `variable_object` versions) are both provided the monster or hallucination will only live for a random amount of time in between the values. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not.
+`u_set_field: field_id_string or npc_set_field: field_id_string`,(*optional* `intensity: intensity_int or intensity_variable_onject`, *optional* `age: age_int or variable_object`,*optional* `radius: radius_int or radius_variable_onject`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `hit_player : hit_player_bool`,*optional* `target_var: target_var_object` ) | Add a field centered on you or the npc of type `field_type_id_string`, of intensity `intensity_int`( or the value of the variable described by `real_count_variable_object` see `variable_object` above)( defaults to 1,) of radius `radius_int`( or `radius_variable_object`)(defaults to 10000000) and age `age_int` (defaults 1) or `age_variable_object`. It will only happen outdoors if `outdoor_only` is true, it defaults to false. It will hit the player as if they entered it if `hit_player` it true, it defaults to true. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not.
 
 #### General
 Effect | Description
@@ -700,19 +731,19 @@ Effect | Description
 `take_control`. If the npc is a character then take control of them.
 `take_control_menu`. Opens up a menu to choose a follower to take control of.
 `assign_mission: mission_type_id string` | Will assign mission `mission_type_id` to the player.
-`finish_mission: mission_type_id string`,`success: success_bool` | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise.
+`finish_mission: mission_type_id string`,(*optional* `success: success_bool` ), (*optional `step: step_int`)  | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed.
 `set_queue_effect_on_condition, u_set_queue_eoc or npc_set_queue_eoc : effect_on_condition_array`, (*optional* `time_in_future_min: time_in_future_min_int or string or variable_object`,`time_in_future_max: time_in_future_max_int or string or variable_object`, (*optional* `affect_nearby_npcs: affect_nearby_npcs_bool`),(*optional* `npcs_to_affect: npcs_to_affect_string_array`, (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: npc_range_int`) | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run between `time_in_future_min_int` and `time_in_future_max_int` seconds, or if they are strings the future values of them or if they are variable objects the variable they name. If these are zero (their default value) the eocs will happen instantly. If `affect_nearby_npcs`(defaults to false) is false then for instant activation eocs the current u and npc will be used. For future ones u will be the avatar and npc will be invalid. You cannot queue recurring eocs. If `affect_nearby_npcs` is true instead the eocs will be run on all nearby npcs matching the criteria.  If any names are listed in `npcs_to_affect` then only they will be affected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `set_queue_effect_on_condition` and `u_set_queue_eoc` u is the source for `npc_set_queue_eoc` it is the npc.
-`set_weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an integer weight. 
+`set_weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an integer weight.
 Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.
 ``` json
     "effect": [
       {
         "set_weighted_list_eocs": [
           [ "EOC_SLEEP", 1 ],
-          [ { 
-              "id": "eoc_test2", 
-              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ] 
-            }, 10 
+          [ {
+              "id": "eoc_test2",
+              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]
+            }, 10
           ]
         ]
       }
@@ -766,7 +797,7 @@ Condition | Type | Description
 #### Player or NPC conditions
 These conditions can be tested for the player using the `"u_"` form, and for the NPC using the `"npc_"` form.
 
-`variable_object`: This is an object describing a variable name. `default` is a required int which will be the value returned if the variable is not defined. 
+`variable_object`: This is an object describing a variable name. `default` is a required int which will be the value returned if the variable is not defined.
 
 example json:
 ```
@@ -811,10 +842,13 @@ example
 ```
 #### Player Only conditions
 
+Condition | Type | Description
+--- | --- | ---
 `"u_has_mission"` | string | `true` if the mission is assigned to the player character.
 `"u_has_cash"` | int or variable_object | `true` if the player character has at least `u_has_cash`( or the value of the variable described see `variable_object` above) cash available.  *Deprecated*  Previously used to check if the player could buy something, but NPCs shouldn't use e-cash for trades anymore.
 `"u_are_owed"` | int or variable_object | `true` if the NPC's op_of_u.owed is at least `u_are_owed`( or the value of the variable described see `variable_object` above).  Can be used to check if the player can buy something from the NPC without needing to barter anything.
 `"u_has_camp"` | simple string | `true` is the player has one or more active base camps.
+`"u_has_faction_trust"` | int | `true` if the player character has at least the given amount of trust with the speaker's faction.
 
 #### Player and NPC interaction conditions
 
@@ -873,18 +907,18 @@ Condition | Type | Description
 `"compare_int"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
 ```
 {
-  "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana.",
+  "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana with at maximum a value of 15.",
   "topic": "TALK_DONE",
   "condition": { "compare_int": [ { "u_val": "strength" }, { "const": 5 } ], "op": ">=" }
-  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "u_val": "focus" }, "*", { "u_val": "mana_max" } ] }
+  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "u_val": "focus" }, "*", { "u_val": "mana_max" } ], "max":15 }
 },
 ```
+`min` and `max` are optional int or variable_object values.  If supplied they will limit the result, it will be no lower than `min` and no higher than `max`. `min_time` and `max_time` work the same way but will parse times written as a string i.e. "10 hours".
+`"compare_int"` supports the following operators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
 
-`"compare_int"` supports the following opperators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
+`"arithmetic"` supports the following operators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"` and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
 
-`"arithmetic"` supports the following opperators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"` and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
-
-To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or witen to follows.
+To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or written to follows.
 
 Example | Description
 --- | ---
@@ -898,26 +932,26 @@ Example | Description
 `"weather": "pressure"` | Current pressure.
 `"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
 `"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
-`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. If `global_val` is used then a global variable will be used.
+`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. If `global_val` is used then a global variable will be used. If `default` is given as either an int or a variable_object then that value will be used if the variable is empty. If `default_time` is the same thing will happen, but it will be parsed as a time string aka "10 hours". Otherwise 0 will be used if the variable is empty.
 `"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used is turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
 `"u_val": "hour"` | Hours since midnight.
 `"u_val": "moon"` | Phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
 `"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
-`"u_val": "cash"` | Ammount of money the character has. Only supported for the player character. Can be read but not written to.
+`"u_val": "cash"` | Amount of money the character has. Only supported for the player character. Can be read but not written to.
 `"u_val": "owed"` | Owed money to the NPC you're talking to.
 `"u_val": "sold"` | Amount sold to the NPC you're talking to.
 `"u_val": "skill_level"` | Level in given skill. `"skill"` must also be specified.
 `"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
 `"u_val": "pain"` | Pain level.
-`"u_val": "power"` | Bionic power in milijoule.
-`"u_val": "power_max"` | Max bionic power in milijoule. Can be read but not written to.
+`"u_val": "power"` | Bionic power in millijoule.
+`"u_val": "power_max"` | Max bionic power in millijoule. Can be read but not written to.
 `"u_val": "power_percentage"` | Percentage of max bionic power. Should be a number between 0 to 100.
 `"u_val": "morale"` | The current morale. Can be read but not written to for players and for monsters can be read and written to.
 `"u_val": "mana"` | Current mana.
 `"u_val": "mana_max"` | Max mana. Can be read but not written to.
 `"u_val": "hunger"` | Current perceived hunger. Can be read but not written to.
 `"u_val": "thirst"` | Current thirst.
-`"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy. 
+`"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy.
 `"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
 `"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
 `"u_val": "exp"` | Total experience earned.
@@ -930,6 +964,11 @@ Example | Description
 `"u_val": "sleep_deprivation"` | Current sleep deprivation level.
 `"u_val": "anger"` | Current anger level, only works for monsters.
 `"u_val": "friendly"` | Current friendly level, only works for monsters.
+`"u_val": "vitamin"` | Current vitamin level. `name` must also be specified which is the vitamins id.
+`"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.
+```
+"condition": { "compare_int": [ { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] }, { "const": 5 } ], "op": ">" }
+```
 
 #### Sample responses with conditions and effects
 ```json

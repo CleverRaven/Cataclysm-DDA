@@ -61,7 +61,10 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 50, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 80, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
   },
   {
     "id": "breeches",
@@ -130,7 +133,7 @@
     "color": "light_red",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
     "id": "hot_pants_fur",
@@ -148,7 +151,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
     "id": "hot_pants_leather",
@@ -166,7 +169,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
     "id": "jeans",
@@ -302,7 +305,10 @@
     "warmth": 20,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 50, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
   },
   {
     "id": "kilt_leather",
@@ -329,7 +335,10 @@
     "warmth": 10,
     "material_thickness": 1.5,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 50, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
   },
   {
     "id": "leggings",
@@ -364,7 +373,7 @@
     "color": "brown",
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
     "id": "loincloth_fur",
@@ -382,7 +391,7 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
     "id": "loincloth_leather",
@@ -399,7 +408,7 @@
     "color": "brown",
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
     "id": "loincloth_wool",
@@ -417,7 +426,7 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
     "id": "nanoskirt",
@@ -435,7 +444,7 @@
     "color": "pink",
     "material_thickness": 0.5,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 7, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 35, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
   },
   {
     "id": "pants",
@@ -903,7 +912,87 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 40, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "id": "santa_shorts",
+    "type": "ARMOR",
+    "name": { "str_sp": "shorts" },
+    "description": "A pair of red shorts with a white trim.  For when Santa is on summer vacation.",
+    "weight": "230 g",
+    "volume": "1 L",
+    "price": 2200,
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "shorts",
+    "color": "red",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      { "coverage": 40, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "id": "santa_pants",
+    "type": "ARMOR",
+    "name": { "str_sp": "santa pants" },
+    "description": "A pair of red pants with white faux fur trim, commonly used by bearded men on Christmas.  Somewhat warm and has two deep pockets.",
+    "weight": "800 g",
+    "volume": "3 L",
+    "price": 20000,
+    "price_postapoc": 100,
+    "to_hit": 1,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 30,
+    "material_thickness": 1,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 13, 17 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "shorts",
@@ -952,7 +1041,15 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 40, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
   },
   {
     "id": "shorts_cargo",
@@ -1015,7 +1112,15 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 40, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
   },
   {
     "id": "shorts_denim",
@@ -1055,7 +1160,15 @@
     "warmth": 5,
     "material_thickness": 0.25,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 1, 2 ], "coverage": 40, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 1, 2 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
   },
   {
     "id": "skirt",
@@ -1075,7 +1188,10 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 50, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
   },
   {
     "id": "skirt_grass",
@@ -1090,9 +1206,13 @@
     "symbol": "[",
     "looks_like": "kilt",
     "color": "yellow",
+    "warmth": 1,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 35, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 38, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
   },
   {
     "id": "skirt_leather",
@@ -1111,7 +1231,15 @@
     "warmth": 10,
     "material_thickness": 0.6,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 35, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      { "coverage": 38, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
   },
   {
     "id": "striped_pants",

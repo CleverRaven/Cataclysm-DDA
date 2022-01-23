@@ -221,7 +221,7 @@
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "paper", "charges": [ 50, 100 ] } ]
+      "items": [ { "item": "cardboard", "charges": [ 50, 100 ] } ]
     }
   },
   {
@@ -1110,7 +1110,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "LIQUIDCONT", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 40,
       "str_max": 100,
@@ -1157,7 +1157,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "LIQUIDCONT", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 40,
       "str_max": 100,

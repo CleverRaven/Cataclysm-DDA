@@ -16,7 +16,7 @@
     "qualities": [ [ "BOIL", 1 ] ],
     "symbol": ",",
     "color": "light_green",
-    "//": "It would be nice if this could have a use action to thaw frozen stuff.  It's not hot enough to work as a hotplate.",
+    "use_action": [ "HOTPLATE_ATOMIC" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
@@ -32,7 +32,7 @@
     "//": "butcher knives and carving knives are between 30-40cm.",
     "price": 8000,
     "price_postapoc": 150,
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
   },
   {
     "id": "butter_churn",
@@ -107,7 +107,7 @@
     "power_draw": 150000,
     "charges_per_use": 0,
     "revert_to": "carver_off",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "use_action": [ "CARVER_ON" ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
@@ -206,7 +206,7 @@
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2100 g", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -708,6 +708,31 @@
     "use_action": [ "HOTPLATE" ]
   },
   {
+    "id": "oil_press_manual",
+    "type": "TOOL",
+    "name": { "str": "manual oil press", "str_pl": "manual oil presses" },
+    "description": "This is a hand cranked press for creating vegetable oil.  A hotplate heats the raw material to increase extraction efficiency.",
+    "weight": "2300 g",
+    "volume": "1560 ml",
+    "longest_side": "20 cm",
+    "price": 12000,
+    "price_postapoc": 1000,
+    "to_hit": -2,
+    "bashing": 7,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
     "id": "pastaextruder",
     "type": "GENERIC",
     "category": "tools",
@@ -988,5 +1013,30 @@
         "default_magazine": "light_battery_cell"
       }
     ]
+  },
+  {
+    "id": "propane_cooker",
+    "type": "TOOL",
+    "name": { "str": "propane cooker" },
+    "description": "This is a simple heater powered by propane.  It is designed for cooking food.",
+    "weight": "800 g",
+    "volume": "1250 ml",
+    "price": 5000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "propane" ],
+    "sub": "hotplate",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "small_propane_tank", "medium_propane_tank", "large_propane_tank" ]
+      }
+    ],
+    "charges_per_use": 1,
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   }
 ]

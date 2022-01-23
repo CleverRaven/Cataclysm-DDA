@@ -84,32 +84,43 @@ static const std::string part_location_structure( "structure" );
 static const std::string part_location_center( "center" );
 static const std::string part_location_onroof( "on_roof" );
 
-static const itype_id fuel_type_animal( "animal" );
-static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_plutonium_cell( "plut_cell" );
-static const itype_id fuel_type_wind( "wind" );
-static const itype_id fuel_type_mana( "mana" );
-
-static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
-
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
-static const bionic_id bio_jointservo( "bio_jointservo" );
+static const ammotype ammo_battery( "battery" );
+static const ammotype ammo_plutonium( "plutonium" );
 
-static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
+static const bionic_id bio_jointservo( "bio_jointservo" );
 
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
+static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
+
+static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
+
+static const itype_id fuel_type_animal( "animal" );
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_mana( "mana" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_null( "null" );
+static const itype_id fuel_type_plutonium_cell( "plut_cell" );
+static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
-
+static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
+static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
+
+static const vproto_id vehicle_prototype_none( "none" );
+
+static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
+
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
+
+static const std::string flag_APPLIANCE( "APPLIANCE" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
@@ -464,28 +475,30 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
 
         if( pt.is_reactor() ) {
-            const ammotype plut( "plutonium" );
             if( veh_fuel_mult == 100 ) { // Mint condition vehicle
                 pt.ammo_set( itype_plut_cell );
             } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomize charge a bit
-                pt.ammo_set( itype_plut_cell, pt.ammo_capacity( plut ) * ( veh_fuel_mult + rng( 0, 10 ) ) / 100 );
+                pt.ammo_set( itype_plut_cell, pt.ammo_capacity( ammo_plutonium ) * ( veh_fuel_mult + rng( 0,
+                             10 ) ) / 100 );
             } else if( one_in( 2 ) && veh_fuel_mult > 0 ) {
-                pt.ammo_set( itype_plut_cell, pt.ammo_capacity( plut ) * ( veh_fuel_mult - rng( 0, 10 ) ) / 100 );
+                pt.ammo_set( itype_plut_cell, pt.ammo_capacity( ammo_plutonium ) * ( veh_fuel_mult - rng( 0,
+                             10 ) ) / 100 );
             } else {
-                pt.ammo_set( itype_plut_cell, pt.ammo_capacity( plut ) * veh_fuel_mult / 100 );
+                pt.ammo_set( itype_plut_cell, pt.ammo_capacity( ammo_plutonium ) * veh_fuel_mult / 100 );
             }
         }
 
         if( pt.is_battery() ) {
-            const ammotype battery( "battery" );
             if( veh_fuel_mult == 100 ) { // Mint condition vehicle
                 pt.ammo_set( itype_battery );
             } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomize battery ammo a bit
-                pt.ammo_set( itype_battery, pt.ammo_capacity( battery ) * ( veh_fuel_mult + rng( 0, 10 ) ) / 100 );
+                pt.ammo_set( itype_battery, pt.ammo_capacity( ammo_battery ) * ( veh_fuel_mult + rng( 0,
+                             10 ) ) / 100 );
             } else if( one_in( 2 ) && veh_fuel_mult > 0 ) {
-                pt.ammo_set( itype_battery, pt.ammo_capacity( battery ) * ( veh_fuel_mult - rng( 0, 10 ) ) / 100 );
+                pt.ammo_set( itype_battery, pt.ammo_capacity( ammo_battery ) * ( veh_fuel_mult - rng( 0,
+                             10 ) ) / 100 );
             } else {
-                pt.ammo_set( itype_battery, pt.ammo_capacity( battery ) * veh_fuel_mult / 100 );
+                pt.ammo_set( itype_battery, pt.ammo_capacity( ammo_battery ) * veh_fuel_mult / 100 );
             }
         }
 
@@ -515,7 +528,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         // initial vehicle damage
         if( veh_status == 0 ) {
             // Completely mint condition vehicle
-            set_hp( pt, vp.info().durability );
+            set_hp( pt, vp.info().durability, false );
         } else {
             //a bit of initial damage :)
             //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged.
@@ -524,19 +537,20 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             int roll = dice( 4, 8 );
             if( roll < unhurt ) {
                 if( roll <= broken ) {
-                    set_hp( pt, 0 );
+                    set_hp( pt, 0, false );
                     pt.ammo_unset(); //empty broken batteries and fuel tanks
                 } else {
-                    set_hp( pt, ( roll - broken ) / static_cast<double>( unhurt - broken ) * vp.info().durability );
+                    set_hp( pt, ( roll - broken ) / static_cast<double>( unhurt - broken ) * vp.info().durability,
+                            false );
                 }
             } else {
-                set_hp( pt, vp.info().durability );
+                set_hp( pt, vp.info().durability, false );
             }
 
             if( vp.has_feature( VPFLAG_ENGINE ) ) {
                 // If possible set an engine fault rather than destroying the engine outright
                 if( destroyEngine && pt.faults_potential().empty() ) {
-                    set_hp( pt, 0 );
+                    set_hp( pt, 0, false );
                 } else if( destroyEngine ) {
                     do {
                         pt.fault_set( random_entry( pt.faults_potential() ) );
@@ -546,18 +560,18 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             } else if( ( destroySeats && ( vp.has_feature( "SEAT" ) || vp.has_feature( "SEATBELT" ) ) ) ||
                        ( destroyControls && ( vp.has_feature( "CONTROLS" ) || vp.has_feature( "SECURITY" ) ) ) ||
                        ( destroyAlarm && vp.has_feature( "SECURITY" ) ) ) {
-                set_hp( pt, 0 );
+                set_hp( pt, 0, false );
             }
 
             // Fuel tanks should be emptied as well
             if( destroyTank && pt.is_fuel_store() ) {
-                set_hp( pt, 0 );
+                set_hp( pt, 0, false );
                 pt.ammo_unset();
             }
 
             //Solar panels have 25% of being destroyed
             if( vp.has_feature( "SOLAR_PANEL" ) && one_in( 4 ) ) {
-                set_hp( pt, 0 );
+                set_hp( pt, 0, false );
             }
 
             /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
@@ -604,7 +618,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         int tries = 0;
         while( valid_wheel_config() && tries < 100 ) {
             // wheel config is still valid, destroy the tire.
-            set_hp( parts[random_entry( wheelcache )], 0 );
+            set_hp( parts[random_entry( wheelcache )], 0, false );
             tries++;
         }
     }
@@ -678,42 +692,41 @@ void vehicle::autopilot_patrol()
         return;
     }
     zone_manager &mgr = zone_manager::get_manager();
-    const auto &zone_src_set = mgr.get_near( zone_type_id( "VEHICLE_PATROL" ),
-                               global_square_location().raw(), 60 );
+    const auto &zone_src_set =
+        mgr.get_near( zone_type_VEHICLE_PATROL, global_square_location(), 60 );
     if( zone_src_set.empty() ) {
         is_patrolling = false;
         return;
     }
     // get corners.
-    tripoint min;
-    tripoint max;
-    for( const tripoint &box : zone_src_set ) {
-        if( min == tripoint_zero ) {
+    tripoint_abs_ms min;
+    tripoint_abs_ms max;
+    for( const tripoint_abs_ms &box : zone_src_set ) {
+        if( min == tripoint_abs_ms() ) {
             min = box;
             max = box;
             continue;
         }
-        min.x = std::min( box.x, min.x );
-        min.y = std::min( box.y, min.y );
-        min.z = std::min( box.z, min.z );
-        max.x = std::max( box.x, max.x );
-        max.y = std::max( box.y, max.y );
-        max.z = std::max( box.z, max.z );
+        min.x() = std::min( box.x(), min.x() );
+        min.y() = std::min( box.y(), min.y() );
+        min.z() = std::min( box.z(), min.z() );
+        max.x() = std::max( box.x(), max.x() );
+        max.y() = std::max( box.y(), max.y() );
+        max.z() = std::max( box.z(), max.z() );
     }
-    const bool x_side = ( max.x - min.x ) < ( max.y - min.y );
-    const int point_along = x_side ? rng( min.x, max.x ) : rng( min.y, max.y );
-    const tripoint max_tri = x_side ? tripoint( point_along, max.y, min.z ) : tripoint( max.x,
-                             point_along,
-                             min.z );
-    const tripoint min_tri = x_side ? tripoint( point_along, min.y, min.z ) : tripoint( min.x,
-                             point_along,
-                             min.z );
-    tripoint chosen_tri = min_tri;
-    if( rl_dist( max_tri, global_square_location().raw() ) >= rl_dist( min_tri,
-            global_square_location().raw() ) ) {
+    const bool x_side = ( max.x() - min.x() ) < ( max.y() - min.y() );
+    const int point_along = x_side ? rng( min.x(), max.x() ) : rng( min.y(), max.y() );
+    const tripoint_abs_ms max_tri = x_side ? tripoint_abs_ms( point_along, max.y(), min.z() ) :
+                                    tripoint_abs_ms( max.x(), point_along, min.z() );
+    const tripoint_abs_ms min_tri = x_side ? tripoint_abs_ms( point_along, min.y(), min.z() ) :
+                                    tripoint_abs_ms( min.x(), point_along, min.z() );
+    tripoint_abs_ms chosen_tri = min_tri;
+    if( rl_dist( max_tri, global_square_location() ) >=
+        rl_dist( min_tri, global_square_location() ) ) {
         chosen_tri = max_tri;
     }
-    autodrive_local_target = chosen_tri;
+    // TODO: fix point types
+    autodrive_local_target = chosen_tri.raw();
     drive_to_local_target( autodrive_local_target, false );
 }
 
@@ -1245,7 +1258,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     //First part in an empty square MUST be a structural part or be an appliance
     if( parts_in_square.empty() &&  part.location != part_location_structure &&
-        !part.has_flag( "APPLIANCE" ) ) {
+        !part.has_flag( flag_APPLIANCE ) ) {
         return false;
     }
     // If its a part that harnesses animals that don't allow placing on it.
@@ -2027,7 +2040,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
         }
     }
     map &here = get_map();
-    vehicle *new_vehicle = here.add_vehicle( vproto_id( "none" ), new_pos3, new_dir );
+    vehicle *new_vehicle = here.add_vehicle( vehicle_prototype_none, new_pos3, new_dir );
     if( new_vehicle == nullptr ) {
         add_msg_debug( debugmode::DF_VEHICLE, "Unable to unload bike rack, host face %d, new_dir %d!",
                        to_degrees( face.dir() ), to_degrees( new_dir ) );
@@ -2110,12 +2123,20 @@ bool vehicle::find_and_split_vehicles( int exclude )
     std::set<int> checked_parts;
     checked_parts.insert( exclude );
 
+    return find_and_split_vehicles( checked_parts );
+}
+
+bool vehicle::find_and_split_vehicles( std::set<int> exclude )
+{
+    std::vector<int> valid_parts = all_parts_at_location( part_location_structure );
+    std::set<int> checked_parts = exclude;
+
     std::vector<std::vector <int>> all_vehicles;
 
-    for( size_t cnt = 0 ; cnt < 4 ; cnt++ ) {
+    for( size_t cnt = 0; cnt < 4; cnt++ ) {
         int test_part = -1;
         for( const int &p : valid_parts ) {
-            if( parts[ p ].removed ) {
+            if( parts[p].removed ) {
                 continue;
             }
             if( checked_parts.find( p ) == checked_parts.end() ) {
@@ -2140,7 +2161,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
         };
 
         std::vector<int> veh_parts;
-        push_neighbor( test_part, parts_at_relative( parts[ test_part ].mount, true ) );
+        push_neighbor( test_part, parts_at_relative( parts[test_part].mount, true ) );
         while( !search_queue.empty() ) {
             std::pair<int, std::vector<int>> test_set = pop_neighbor();
             test_part = test_set.first;
@@ -2156,7 +2177,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
                 std::vector<int> all_neighbor_parts = parts_at_relative( dp, true );
                 int neighbor_struct_part = -1;
                 for( int p : all_neighbor_parts ) {
-                    if( parts[ p ].removed ) {
+                    if( parts[p].removed ) {
                         continue;
                     }
                     if( part_info( p ).location == part_location_structure ) {
@@ -2248,7 +2269,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             }
             new_v_pos3 = global_part_pos3( parts[ split_part0 ] );
             mnt_offset = parts[ split_part0 ].mount;
-            new_vehicle = here.add_vehicle( vproto_id( "none" ), new_v_pos3, face.dir() );
+            new_vehicle = here.add_vehicle( vehicle_prototype_none, new_v_pos3, face.dir() );
             if( new_vehicle == nullptr ) {
                 // the split part was out of the map bounds.
                 continue;
@@ -3295,6 +3316,11 @@ int vehicle::engine_fuel_left( const int e, bool recurse ) const
     return 0;
 }
 
+itype_id vehicle::engine_fuel_current( int e ) const
+{
+    return parts[ engines[ e ] ].fuel_current();
+}
+
 int vehicle::fuel_capacity( const itype_id &ftype ) const
 {
     return std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
@@ -4273,7 +4299,30 @@ float vehicle::k_traction( float wheel_traction_area ) const
 
 int vehicle::static_drag( bool actual ) const
 {
-    return extra_drag + ( actual && !engine_on && !is_towed() ? -1500 : 0 );
+    bool is_actively_towed = is_towed();
+    if( is_actively_towed ) {
+        vehicle *towing_veh = tow_data.get_towed_by();
+        if( !towing_veh ) {
+            is_actively_towed = false;
+        } else {
+            const int tow_index = get_tow_part();
+            if( tow_index == -1 ) {
+                is_actively_towed = false;
+            } else {
+                const int other_tow_index = towing_veh->get_tow_part();
+                if( other_tow_index == -1 ) {
+                    is_actively_towed = false;
+                } else {
+                    map &here = get_map();
+                    const tripoint towed_tow_point = here.getabs( global_part_pos3( tow_index ) );
+                    const tripoint tower_tow_point = here.getabs( towing_veh->global_part_pos3( other_tow_index ) );
+                    is_actively_towed = rl_dist( towed_tow_point, tower_tow_point ) >= 6;
+                }
+            }
+        }
+    }
+
+    return extra_drag + ( actual && !engine_on && !is_actively_towed ? -1500 : 0 );
 }
 
 float vehicle::strain() const
@@ -4497,9 +4546,8 @@ int vehicle::engine_fuel_usage( int e ) const
         return 0;
     }
 
-    static const itype_id null_fuel_type( "null" );
     const itype_id &cur_fuel = parts[engines[e]].fuel_current();
-    if( cur_fuel  == null_fuel_type ) {
+    if( cur_fuel  == fuel_type_null ) {
         return 0;
     }
 
@@ -4527,9 +4575,8 @@ std::map<itype_id, int> vehicle::fuel_usage() const
         }
 
         const size_t e = engines[ i ];
-        static const itype_id null_fuel_type( "null" );
         const itype_id &cur_fuel = parts[ e ].fuel_current();
-        if( cur_fuel  == null_fuel_type ) {
+        if( cur_fuel  == fuel_type_null ) {
             continue;
         }
 
@@ -4666,7 +4713,7 @@ std::pair<int, int> vehicle::battery_power_level() const
         const vehicle_part &b = parts[bi];
         if( b.is_available() ) {
             remaining_epower += b.ammo_remaining();
-            total_epower_capacity += b.ammo_capacity( ammotype( "battery" ) );
+            total_epower_capacity += b.ammo_capacity( ammo_battery );
         }
     }
 
@@ -5044,8 +5091,8 @@ int vehicle::charge_battery( int amount, bool include_other_vehicles )
     std::multimap<int, vehicle_part *> chargeable_parts;
     for( vehicle_part &p : parts ) {
         if( p.is_available() && p.is_battery() &&
-            p.ammo_capacity( ammotype( "battery" ) ) > p.ammo_remaining() ) {
-            chargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity( ammotype( "battery" ) ), &p } );
+            p.ammo_capacity( ammo_battery ) > p.ammo_remaining() ) {
+            chargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity( ammo_battery ), &p } );
         }
     }
     while( amount > 0 && !chargeable_parts.empty() ) {
@@ -5056,13 +5103,13 @@ int vehicle::charge_battery( int amount, bool include_other_vehicles )
         chargeable_parts.erase( iter );
         // Calculate number of charges to reach the next %, but insure it's at least
         // one more than current charge.
-        int next_charge_level = ( ( charge_level + 1 ) * p->ammo_capacity( ammotype( "battery" ) ) ) / 100;
+        int next_charge_level = ( ( charge_level + 1 ) * p->ammo_capacity( ammo_battery ) ) / 100;
         next_charge_level = std::max( next_charge_level, p->ammo_remaining() + 1 );
         int qty = std::min( amount, next_charge_level - p->ammo_remaining() );
         p->ammo_set( fuel_type_battery, p->ammo_remaining() + qty );
         amount -= qty;
-        if( p->ammo_capacity( ammotype( "battery" ) ) > p->ammo_remaining() ) {
-            chargeable_parts.insert( { ( p->ammo_remaining() * 100 ) / p->ammo_capacity( ammotype( "battery" ) ), p } );
+        if( p->ammo_capacity( ammo_battery ) > p->ammo_remaining() ) {
+            chargeable_parts.insert( { ( p->ammo_remaining() * 100 ) / p->ammo_capacity( ammo_battery ), p } );
         }
     }
 
@@ -5084,7 +5131,7 @@ int vehicle::discharge_battery( int amount, bool recurse )
     std::multimap<int, vehicle_part *> dischargeable_parts;
     for( vehicle_part &p : parts ) {
         if( p.is_available() && p.is_battery() && p.ammo_remaining() > 0 ) {
-            dischargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity( ammotype( "battery" ) ), &p } );
+            dischargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity( ammo_battery ), &p } );
         }
     }
     while( amount > 0 && !dischargeable_parts.empty() ) {
@@ -5094,12 +5141,12 @@ int vehicle::discharge_battery( int amount, bool recurse )
         vehicle_part *p = iter->second;
         dischargeable_parts.erase( iter );
         // Calculate number of charges to reach the previous %.
-        int prev_charge_level = ( ( charge_level - 1 ) * p->ammo_capacity( ammotype( "battery" ) ) ) / 100;
+        int prev_charge_level = ( ( charge_level - 1 ) * p->ammo_capacity( ammo_battery ) ) / 100;
         int amount_to_discharge = std::min( p->ammo_remaining() - prev_charge_level, amount );
         p->ammo_consume( amount_to_discharge, global_part_pos3( *p ) );
         amount -= amount_to_discharge;
         if( p->ammo_remaining() > 0 ) {
-            dischargeable_parts.insert( { ( p->ammo_remaining() * 100 ) / p->ammo_capacity( ammotype( "battery" ) ), p } );
+            dischargeable_parts.insert( { ( p->ammo_remaining() * 100 ) / p->ammo_capacity( ammo_battery ), p } );
         }
     }
 
@@ -6233,7 +6280,7 @@ void vehicle::shed_loose_parts()
             tow_data.clear_towing();
         }
         const vehicle_part *part = &parts[elem];
-        if( !magic && !part->properties_to_item().has_flag( flag_id( "POWER_CORD" ) ) ) {
+        if( !magic && !part->properties_to_item().has_flag( json_flag_POWER_CORD ) ) {
             item drop = part->properties_to_item();
             here.add_item_or_charges( global_part_pos3( *part ), drop );
         }
@@ -6772,7 +6819,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     std::list<item> ret;
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
     const itype_id veh_tool_type = type.obj().phase > phase_id::SOLID
-                                   ? itype_id( "water_faucet" )
+                                   ? itype_water_faucet
                                    : type;
     const cata::optional<vpart_reference> tool_vp = vp.part_with_tool( veh_tool_type );
     const cata::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
@@ -6784,7 +6831,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
 
         return tool.can_contain( mag ).success() &&
                tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
-               tool.ammo_capacity( ammotype( "battery" ) ) > 0;
+               tool.ammo_capacity( ammo_battery ) > 0;
     };
 
     if( tool_vp ) { // handle vehicle tools
@@ -7055,7 +7102,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             m_part_items += j.weight();
         }
         if( vp.part().info().cargo_weight_modifier != 100 ) {
-            m_part_items *= vp.part().info().cargo_weight_modifier / 100;
+            m_part_items *= static_cast<float>( vp.part().info().cargo_weight_modifier ) / 100.0f;
         }
         m_part += m_part_items;
 
@@ -7281,7 +7328,7 @@ void vehicle::add_tag( std::string tag )
     tags.insert( tag );
 }
 
-bool vehicle::has_tag( std::string tag )
+bool vehicle::has_tag( std::string tag ) const
 {
     return tags.count( tag ) > 0;
 }

@@ -1,3 +1,4 @@
+
 # MAPGEN
 
 * [How buildings and terrain are generated](#how-buildings-and-terrain-are-generated)
@@ -17,11 +18,12 @@
   * [ASCII map using "rows" array](#ascii-map-using-rows-array)
     * [Row terrains in "terrain"](#row-terrains-in-terrain)
     * [Furniture symbols in "furniture" array](#furniture-symbols-in-furniture-array)
-  * [Set terrain, furniture, or traps with a "set" array](#set-terrain-furniture-or-traps-with-a-set-array)
+  * [Set terrain, furniture, traps, or variables with a "set" array](#set-terrain-furniture-or-traps-with-a-set-array)
     * [Set things at a "point"](#set-things-at-a-point)
     * [Set things in a "line"](#set-things-in-a-line)
     * [Set things in a "square"](#set-things-in-a-square)
   * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
+  * [Spawn an entire group of monsters with "place_monsters"](#spawn-an-entire-group-of-monsters-with-place_monsters)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
   * [Extra map features with specials](#extra-map-features-with-specials)
     * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
@@ -413,7 +415,8 @@ Example:
 "set": [
   { "point": "furniture", "id": "f_chair", "x": 5, "y": 10 },
   { "point": "radiation", "id": "f_chair", "x": 12, "y": 12, "amount": 20 },
-  { "point": "trap", "id": "tr_beartrap", "x": [ 0, 23 ], "y": [ 5, 18 ], "chance": 10, "repeat": [ 2, 5 ] }
+  { "point": "trap", "id": "tr_beartrap", "x": [ 0, 23 ], "y": [ 5, 18 ], "chance": 10, "repeat": [ 2, 5 ] },
+  { "point": "variable", "id": "nether_dungeon_door", "x": 4, "y": 2 }
 ]
 ```
 
@@ -429,12 +432,12 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 - Requires "point" type, and coordinates "x" and "y"
 - For "point" type "radiation", requires "amount"
-- For other types, requires "id" of terrain, furniture, or trap
+- For other types, requires "id" of terrain, furniture, trap, trap_remove, or name of the global variable
 
 | Field  | Description
 | ---    | ---
-| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"variable"`
+| id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
@@ -445,7 +448,7 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 - Requires "line" type, and endpoints "x", "y" and "x2", "y2"
 - For "line" type "radiation", requires "amount"
-- For other types, requires "id" of terrain, furniture, or trap
+- For other types, requires "id" of terrain, furniture, trap, trap_remove
 
 Example:
 ```json
@@ -455,7 +458,7 @@ Example:
 | Field  | Description
 | ---    | ---
 | line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | x2, y2 | End X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 22, "y": [ 15, 20 ]`
 | amount | Radiation amount. Value from `0-100`.
@@ -467,7 +470,7 @@ Example:
 
 - Requires "square" type, and opposite corners at "x", "y" and "x2", "y2"
 - For "square" type "radiation", requires "amount"
-- For other types, requires "id" of terrain, furniture, or trap
+- For other types, requires "id" of terrain, furniture, trap, or trap_remove
 
 The "square" arguments are the same as for "line", but "x", "y" and "x2", "y2" define opposite corners.
 
@@ -479,7 +482,7 @@ Example:
 | Field  | Description
 | ---    | ---
 | square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | Top-left corner of square.
 | x2, y2 | Bottom-right corner of square.
 
@@ -497,7 +500,7 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | chance      | Percentage chance to do spawning. If repeat is used each repeat has separate chance.
 | repeat      | The spawning is repeated this many times. Can be a number or a range.
 | pack_size   | How many monsters are spawned. Can be single number or range like `[1-4]`. Is affected by the chance and spawn density. Ignored when spawning from a group.
-| one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this defaults to true true, otherwise this defaults to false. Ignored when spawning from a group.
+| one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this defaults to true, otherwise this defaults to false. Ignored when spawning from a group.
 | friendly    | Set true to make the monster friendly. Default false.
 | name        | Extra name to display on the monster.
 | target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
@@ -536,7 +539,7 @@ This optional object can have two fields:
 | Field       | Description
 | ---         | ---
 | ammo        | A list of objects, each of which has an `"ammo_id"` field and a `"qty"` list of two integers. The monster will spawn with items of "ammo_id", with at least the first number in the "qty" and no more than the second.
-| patrol      | A list of objects, each of which has an `"x"` field and a `"y"` field. Either value can be a range or a single number. The x,y co-ordinates define a patrol point as an relative mapsquare point offset from the (0, 0) local mapsquare of the overmap terrain tile that the monster spawns in. Patrol points are converted to absolute mapsquare tripoints inside the monster generator.
+| patrol      | A list of objects, each of which has an `"x"` field and a `"y"` field. Either value can be a range or a single number. The x,y co-ordinates define a patrol point as a relative mapsquare point offset from the (0, 0) local mapsquare of the overmap terrain tile that the monster spawns in. Patrol points are converted to absolute mapsquare tripoints inside the monster generator.
 
 Monsters with a patrol point list will move to each patrol point, in order, whenever they have no more pressing action to take on their turn. Upon reaching the last point in the patrol point list, the monster will continue on to the first point in the list.
 
@@ -556,6 +559,18 @@ Example 2:
 ]
 ```
 This places a "mon_secubot" at (12,12). It will patrol the four outmost concerns of the diagonally adjacent overmap terrain tiles in a box pattern.
+
+## Spawn an entire group of monsters with "place_monsters"
+Using `place_monsters` to spawn a group of monsters works in a similar fashion to `place_monster`. The key difference is that `place_monsters` guarantees that each valid entry in the group is spawned. It is strongly advised that you avoid using this flag with larger monster groups, as the total number of spawns is quite difficult to control.
+
+|Field|Description  |
+|--|--|
+| monster | The ID of the monster group that you wish to spawn |
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| chance      | Represents a 1 in N chance that the entire group will spawn. This is done once for each repeat. If this dice roll fails, the entire group specified will not spawn. Leave blank to guarantee spawns.
+| repeat      | The spawning is repeated this many times. Can be a number or a range. Again, this represents the number of times the group will be spawned.
+| density | This number is multiplied by the spawn density of the world the player is in and then probabilistically rounded to determine how many times to spawn the group. This is done for each time the spawn is repeated. For instance, if the final multiplier from this calculation ends up being `2`, and the repeat value is `6`, then the group will be spawned `2 * 6` or 12 times.
+
 
 ## Spawn specific items with a "place_item" array
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
@@ -700,6 +715,7 @@ Same as
 | density   | (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
 | intensity | (optional, integer) how concentrated the field is, from 1 to 3 or more. See `data/json/field_type.json`
 | age       | (optional, integer) field age. Defaults to 0.
+| remove    | (optional, bool) If true the given field will be removed rather than added. Defaults to false.
 
 
 ### Place NPCs with "npcs"
@@ -743,7 +759,7 @@ Places a vending machine (furniture) and fills it with items from an item group.
 | ---        | ---
 | item_group | (optional, string) the item group that is used to create items inside the machine. It defaults to either "vending_food" or "vending_drink" (randomly chosen).
 | reinforced | (optional, bool) setting which will make vending machine spawn as reinforced. Defaults to false.
-| lootable   | (optional, bool) setting which indicates whether this paricular vending machine should have a chance to spawn ransacked (i.e. broken and with no loot inside). The chance for this is increased with each day passed after the Cataclysm. Defaults to false.
+| lootable   | (optional, bool) setting which indicates whether this particular vending machine should have a chance to spawn ransacked (i.e. broken and with no loot inside). The chance for this is increased with each day passed after the Cataclysm. Valid only if `reinforced` is false. Defaults to false.
 
 
 ### Place a toilet with some amount of water with "toilets"
@@ -757,12 +773,12 @@ Places a toilet (furniture) and adds water to it.
 
 ### Place a gas or diesel pump with some fuel with "gaspumps"
 
-Places a gas pump with gasoline (or sometimes diesel) in it.
+Places a gas pump with fuel in it.
 
 | Field  | Description
 | ---    | ---
-| amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump.
-| fuel   | (optional, string: "gasoline" or "diesel") the type of fuel to be placed in the pump.
+| amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump. If not specified, the amount is randomized between 10'000 and 50'000.
+| fuel   | (optional, string: "gasoline", "diesel", "jp8", or "avgas") the type of fuel to be placed in the pump. If not specified, the fuel is gasoline (75% chance) or diesel (25% chance).
 
 
 ### Place items from an item group with "items"
@@ -803,6 +819,18 @@ Note that vehicles cannot be placed over overmap boundaries. So it needs to be 2
 ]
 ```
 
+### Remove vehicles by type
+
+| Field    | Description
+| ---      | ---
+| vehicles  | (optional, string array) types of vehicle to be removed. If left empty all vehicles will be removed.
+
+```json 
+"remove_vehicles": [ 
+    { "vehicles": [ "fire_engine" ], "x": [ 10, 15 ], "y": [ 10, 15 ] }
+]
+```
+
 ### Place a specific item with "item"
 
 | Field  | Description
@@ -823,6 +851,18 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 ]
 ```
 
+### Remove items by type
+
+| Field    | Description
+| ---      | ---
+| items    | (optional, string array) types of items to be removed. If left empty all items will be removed.
+
+```json 
+"remove_items": [ 
+    { "items": [ "rock" ], "x": [ 10, 15 ], "y": [ 10, 15 ] }
+]
+```
+
 ### Place a specific monster with "monster"
 
 | Field    | Description
@@ -838,7 +878,7 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 | Field | Description
 | ---   | ---
 | trap  | (required, string) type id of the trap (e.g. `tr_beartrap`).
-
+| remove| (optional, bool) If true the given trap will be removed rather than added. Defaults to false.
 
 ### Place furniture with "furniture"
 
@@ -879,7 +919,7 @@ To use this type with explicit coordinates use the name "place_rubble" (no plura
 ### Place spilled liquids with "place_liquids"
 
 Creates a liquid item at the specified location. Liquids can't currently be picked up (except for gasoline in tanks or
-pumps), but can be used to add flavor to mapgen.
+pumps, or unless terrain the liquid spilled on has `LIQUIDCONT` flag), but can be used to add flavor to mapgen.
 
 | Field  | Description
 | ---    | ---
@@ -1028,6 +1068,64 @@ The code excerpt above will place chunks as follows:
   during mutable overmap placement.
 * `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab overmaps.
 
+
+### Place monster corpse from a monster group with "place_corpses"
+
+Creates a corpse of a random monster from a monster group.  Note that corpse's age is always `start_of_cataclysm`.
+
+| Field  | Description
+| ---    | ---
+| group | (required, string) a monster group id from which random monster will be selected
+
+Example for placing a monster corpse (either by using a character in the rows array or explicit coordinates):
+
+```json
+"corpses": {
+    "g": { "group": "GROUP_PETS" }
+},
+"place_corpses": [
+    { "group": "GROUP_PETS", "x": 3, "y": 5 }
+],
+```
+
+
+### Place computer console with "computers" or "place_computers"
+
+Creates a `f_console` furniture. Despite the only required field is `name`, you should also define either `options` or (`eocs` and `chat_topics`) to make interaction with the computer sensible.
+
+| Field  | Description
+| ---    | ---
+| name          | (required, string) a name for a computer
+| options       | (optional, array of objects) set of options available for player. `name` (string) - displayed name for an option. `action` - id of a hardcoded action from `computer_session.cpp`
+| failures      | (optional, array of objects) set of failures that could happen in case of unsuccessful hacking attempt. `action` - id of a hardcoded computer failure from `computer_session.cpp`. Only one random failure from the set could happen per one unsuccessful hacking attempt
+| security      | (optional, integer) value for determining the difficulty of hacking this computer. It's checked versus player's computer skill and intelligence
+| access_denied | (optional, string) message displayed to the player if `security` > 0. Defaults to `"ERROR!  Access denied!"`
+| eocs          | (optional, array of strings) a name for an `effect` that will shoot when player examines the computer
+| chat_topics   | (optional, array of strings) conversation topics if dialog is opened with the computer
+
+
+Example for placing computer console (either by using a character in the rows array or explicit coordinates):
+
+```json
+"computers": {
+  "a": {
+    "name": "Test computer 1",
+    "security": 3,
+    "options": [ { "name": "Test unlock action", "action": "unlock" } ],
+    "failures": [ { "action": "shutdown" }, { "action": "alarm" } ],
+    "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!"
+  }
+},
+"place_computers": [
+  {
+    "name": "Test computer 2",
+    "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
+    "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ],
+    "x": 20,
+    "y": 20
+  }
+],
+```
 
 ## Mapgen values
 

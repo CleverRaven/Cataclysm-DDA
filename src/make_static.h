@@ -1,6 +1,12 @@
 #ifndef CATA_SRC_MAKE_STATIC_H
 #define CATA_SRC_MAKE_STATIC_H
 
+template<typename T>
+inline const T &static_argument_identity( const T &t )
+{
+    return t;
+}
+
 /**
  *  The purpose of this macro is to provide a concise syntax for
  *  creation of inline literals (std::string, string_id, etc) that
@@ -23,9 +29,10 @@
  */
 #define STATIC(expr) \
     (([]()-> const auto &{ \
-        using CachedType = std::conditional_t<std::is_same<std::decay_t<decltype(expr)>, const char*>::value, \
-                           std::string, std::decay_t<decltype(expr)>>; \
-        static const CachedType _cached_expr = (expr); \
+        using ExprType = std::decay_t<decltype(static_argument_identity( expr ))>; \
+        using CachedType = std::conditional_t<std::is_same<ExprType, const char*>::value, \
+                           std::string, ExprType>; \
+        static const CachedType _cached_expr = static_argument_identity( expr ); \
         return _cached_expr; \
     })())
 

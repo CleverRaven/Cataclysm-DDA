@@ -43,6 +43,18 @@ class distribution
         static distribution one_in( float in );
 };
 
+struct shopkeeper_item_group {
+    item_group_id id;
+    int trust;
+    bool strict;
+
+    shopkeeper_item_group() : id( item_group_id( "EMPTY_GROUP" ) ), trust( 0 ), strict( false ) {}
+    shopkeeper_item_group( const std::string &id, int trust, bool strict ) :
+        id( item_group_id( id ) ), trust( trust ), strict( strict ) {}
+
+    void deserialize( const JsonObject &jo );
+};
+
 class npc_class
 {
     private:
@@ -60,7 +72,8 @@ class npc_class
         // Just for finalization
         std::map<skill_id, distribution> bonus_skills;
 
-        item_group_id shopkeeper_item_group = item_group_id( "EMPTY_GROUP" );
+        // first -> item group, second -> trust
+        std::vector<shopkeeper_item_group> shop_item_groups;
 
     public:
         npc_class_id id;
@@ -88,7 +101,7 @@ class npc_class
 
         int roll_skill( const skill_id & ) const;
 
-        const item_group_id &get_shopkeeper_items() const;
+        const std::vector<shopkeeper_item_group> &get_shopkeeper_items() const;
 
         void load( const JsonObject &jo, const std::string &src );
 

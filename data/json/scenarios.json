@@ -66,7 +66,7 @@
     "id": "surrounded",
     "name": "Surrounded",
     "points": -2,
-    "description": "You've attracted the attention of living dead in some way, now they're all around and you'll likely have to fight thorough them if you want to escape.",
+    "description": "You've attracted the attention of living dead in some way, now they're all around and you'll likely have to fight through them if you want to escape.",
     "allowed_locs": [
       "sloc_house",
       "sloc_house_boarded",
@@ -221,6 +221,15 @@
       "sloc_church",
       "sloc_cemetery"
     ]
+  },
+  {
+    "type": "scenario",
+    "name": "(un)living History",
+    "description": "",
+    "id": "BastionFortStart",
+    "points": -2,
+    "start_name": "Bastion Fort",
+    "allowed_locs": [ "sloc_fort" ]
   },
   {
     "type": "scenario",
@@ -661,7 +670,7 @@
   {
     "type": "scenario",
     "id": "strong_portal_storm",
-    "name": "Powerful portal storm",
+    "name": "Outside In Strong Portal Storm",
     "points": -3,
     "description": "A powerful portal storm is happening and you need to find shelter.",
     "flags": [ "CHALLENGE", "LONE_START" ],
@@ -672,13 +681,37 @@
   {
     "type": "scenario",
     "id": "strong_portal_storm_base",
-    "name": "Weakened reality",
+    "name": "Stronger Portal Storms",
     "points": -4,
     "description": "You've managed to get to a shelter, but reality has grown weaker than normal and portal storms will be quite strong.",
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Evac Shelter",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "eoc": [ "scenario_strong_portal_storm_base" ]
+  },
+  {
+    "type": "scenario",
+    "id": "quick_portal_storm_base",
+    "name": "Frequent Portal Storms",
+    "points": -4,
+    "description": "You've managed to get to a shelter, but reality has grown weaker than normal, portal storms will be more frequent.",
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "start_name": "Evac Shelter",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "eoc": [ "scenario_quick_portal_storm" ]
+  },
+  {
+    "type": "scenario",
+    "id": "portal_dependent",
+    "name": "Challenge - Portal Dependent",
+    "points": -8,
+    "description": "You were caught on a huge and unstable portal storm.  You feel…  different.",
+    "forced_traits": [ "PORTAL_DEPENDENT" ],
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "start_name": "Field",
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
+    "eoc": [ "scenario_strong_portal_storm" ],
+    "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed", "naked" ]
   },
   {
     "type": "scenario",

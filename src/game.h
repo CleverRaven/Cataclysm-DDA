@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "character.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -483,6 +484,7 @@ class game
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
         bool cancel_activity_or_ignore_query( distraction_type type, const std::string &text );
+        bool portal_storm_query( const distraction_type type, const std::string &text );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &dest_loc );
 
@@ -723,6 +725,9 @@ class game
         bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
         void set_safe_mode( safe_mode_type mode );
 
+        /** open appliance interaction screen */
+        void exam_appliance( vehicle &veh, const point &cp = point_zero );
+
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, const point &cp = point_zero );
 
@@ -805,11 +810,13 @@ class game
         bool grabbed_veh_move( const tripoint &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
-        void examine( const tripoint &p ); // Examine nearby terrain  'e'
-        void examine();
+        // Examine nearby terrain 'e', with or without picking up items
+        void examine( const tripoint &p, bool with_pickup = false );
+        void examine( bool with_pickup = true );
 
-        // Pick up items from a single nearby tile, or from all nearby tiles
-        void pickup(); // Pickup nearby items 'g'
+        // Pick up items from a single nearby tile (prompting first)
+        void pickup();
+        // Pick up items from all nearby tiles
         void pickup_all();
 
         void unload_container(); // Unload a container w/ direction  'd'
@@ -840,6 +847,8 @@ class game
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
+        // Pick up items from the given point
+        void pickup( const tripoint &p );
     private:
         void wield();
         void wield( item_location loc );
@@ -852,6 +861,8 @@ class game
         void print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
                                  const std::string &area_name, int column,
                                  int &line );
+        void print_furniture_info( const tripoint &lp, const catacurses::window &w_look, int column,
+                                   int &line );
         void print_trap_info( const tripoint &lp, const catacurses::window &w_look, int column,
                               int &line );
         void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,

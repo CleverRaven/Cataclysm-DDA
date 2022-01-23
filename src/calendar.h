@@ -97,6 +97,14 @@ extern const time_duration INDEFINITELY_LONG_DURATION;
 bool eternal_season();
 void set_eternal_season( bool is_eternal_season );
 
+/// @returns Whether the eternal night is enabled.
+bool eternal_night();
+void set_eternal_night( bool is_eternal_night );
+
+/// @returns Whether the eternal day is enabled.
+bool eternal_day();
+void set_eternal_day( bool is_eternal_day );
+
 /** @returns Time in a year, (configured in current world settings) */
 time_duration year_length();
 
@@ -614,5 +622,17 @@ enum class weekdays : int {
 };
 
 weekdays day_of_week( const time_point &p );
+
+// To support the eternal season option we create a strong typedef of timepoint
+// which is a season_effective_time.  This converts a regular time to a time
+// which would be relevant for sun position and weather calculations.  Normally
+// the two times are the same, but when eternal seasons are used the effective
+// time is always set to the same day, so that the sun position and weather
+// doesn't change from day to day.
+struct season_effective_time {
+    season_effective_time() = default;
+    explicit season_effective_time( const time_point & );
+    time_point t;
+};
 
 #endif // CATA_SRC_CALENDAR_H

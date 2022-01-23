@@ -53,7 +53,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "T" ],
       "terrain": { "T": "t_metal_floor" },
-      "item": { "T": { "item": "template_photonics", "chance": 100 } }
+      "items": { "T": { "item": "nano_templates", "chance": 100 } }
     }
   },
   {

@@ -41,7 +41,7 @@ static constexpr int KEY_UP         = 0x103;    /* up arrow */
 static constexpr int KEY_LEFT       = 0x104;    /* left arrow */
 static constexpr int KEY_RIGHT      = 0x105;    /* right arrow*/
 static constexpr int KEY_HOME       =
-    0x106;    /* home key */                   //<---------not used
+    0x106;    /* home key */
 static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
 static constexpr int KEY_DC         = 0x151;    /* Delete Character */
@@ -59,6 +59,17 @@ inline constexpr int F_KEY_NUM( const int key )
 inline constexpr bool IS_F_KEY( const int key )
 {
     return key >= KEY_F( F_KEY_NUM_BEG ) && key <= KEY_F( F_KEY_NUM_END );
+}
+/** @return true if the given character is in the range of basic ASCII control characters */
+inline constexpr bool IS_CTRL_CHAR( const int key )
+{
+    // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Basic_ASCII_control_codes
+    return key >= 0 && key < ' ';
+}
+/** @return true if the given character is an ASCII control char but should not be rendered with "CTRL+" */
+inline constexpr bool IS_NAMED_CTRL_CHAR( const int key )
+{
+    return key == '\t' || key == '\n' || key == KEY_ESCAPE || key == KEY_BACKSPACE;
 }
 inline constexpr int KEY_NUM( const int n )
 {
@@ -190,21 +201,15 @@ struct input_event {
 
 #if defined(__ANDROID__)
     // Used exclusively by the quick shortcuts to determine how stale a shortcut is
-    int shortcut_last_used_action_counter;
+    int shortcut_last_used_action_counter = 0;
 #endif
 
     input_event() : edit_refresh( false ) {
         type = input_event_t::error;
-#if defined(__ANDROID__)
-        shortcut_last_used_action_counter = 0;
-#endif
     }
     input_event( int s, input_event_t t )
         : type( t ), edit_refresh( false ) {
         sequence.push_back( s );
-#if defined(__ANDROID__)
-        shortcut_last_used_action_counter = 0;
-#endif
     }
     input_event( const std::set<keymod_t> &mod, int s, input_event_t t );
 
@@ -213,18 +218,6 @@ struct input_event {
     void add_input( const int input ) {
         sequence.push_back( input );
     }
-
-#if defined(__ANDROID__)
-    input_event &operator=( const input_event &other ) {
-        type = other.type;
-        modifiers = other.modifiers;
-        sequence = other.sequence;
-        mouse_pos = other.mouse_pos;
-        text = other.text;
-        shortcut_last_used_action_counter = other.shortcut_last_used_action_counter;
-        return *this;
-    }
-#endif
 
     bool operator==( const input_event &other ) const {
         return type == other.type && modifiers == other.modifiers && sequence == other.sequence;
@@ -257,14 +250,37 @@ struct action_attributes {
 // On the joystick there's a maximum of 256 key states.
 // So for joy axis events, we simply use a number larger
 // than that.
-constexpr int JOY_0 = 0;
-constexpr int JOY_1 = 1;
-constexpr int JOY_2 = 2;
-constexpr int JOY_3 = 3;
-constexpr int JOY_4 = 4;
-constexpr int JOY_5 = 5;
-constexpr int JOY_6 = 6;
-constexpr int JOY_7 = 7;
+constexpr int JOY_0  = 0;
+constexpr int JOY_1  = 1;
+constexpr int JOY_2  = 2;
+constexpr int JOY_3  = 3;
+constexpr int JOY_4  = 4;
+constexpr int JOY_5  = 5;
+constexpr int JOY_6  = 6;
+constexpr int JOY_7  = 7;
+constexpr int JOY_8  = 8;
+constexpr int JOY_9  = 9;
+constexpr int JOY_10 = 10;
+constexpr int JOY_11 = 11;
+constexpr int JOY_12 = 12;
+constexpr int JOY_13 = 13;
+constexpr int JOY_14 = 14;
+constexpr int JOY_15 = 15;
+constexpr int JOY_16 = 16;
+constexpr int JOY_17 = 17;
+constexpr int JOY_18 = 18;
+constexpr int JOY_19 = 19;
+constexpr int JOY_20 = 20;
+constexpr int JOY_21 = 21;
+constexpr int JOY_22 = 22;
+constexpr int JOY_23 = 23;
+constexpr int JOY_24 = 24;
+constexpr int JOY_25 = 25;
+constexpr int JOY_26 = 26;
+constexpr int JOY_27 = 27;
+constexpr int JOY_28 = 28;
+constexpr int JOY_29 = 29;
+constexpr int JOY_30 = 30;
 
 constexpr int JOY_LEFT      = 256 + 1;
 constexpr int JOY_RIGHT     = 256 + 2;
@@ -371,7 +387,7 @@ class input_manager
          * Use `input_context::(re)set_timeout()` when possible so timeout will be properly
          * reset when entering a new input context.
          */
-        void set_timeout( int t );
+        void set_timeout( int delay );
         void reset_timeout() {
             set_timeout( -1 );
         }

@@ -8,6 +8,7 @@
 
 #include "coordinates.h"
 #include "enums.h"
+#include "hash_utils.h"
 #include "line.h"
 #include "omdata.h"
 #include "point.h"
@@ -192,10 +193,10 @@ struct node_address {
 
 struct node_address_hasher {
     std::size_t operator()( const node_address &addr ) const {
-        std::size_t val = addr.x;
+        std::uint64_t val = addr.x;
         val = ( val << 16 ) + addr.y;
-        val = ( val << 16 ) + static_cast<int>( addr.z );
-        return std::hash<std::size_t> {}( val );
+        val = ( val << 16 ) + addr.z;
+        return cata::hash64( val );
     }
 };
 

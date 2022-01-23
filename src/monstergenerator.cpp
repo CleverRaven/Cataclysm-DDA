@@ -36,6 +36,10 @@
 #include "units.h"
 #include "weakpoint.h"
 
+static const material_id material_flesh( "flesh" );
+
+static const speed_description_id speed_description_DEFAULT( "DEFAULT" );
+
 namespace behavior
 {
 class node_t;
@@ -158,8 +162,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_CHITIN: return "CHITIN";
         case MF_VERMIN: return "VERMIN";
         case MF_NOGIB: return "NOGIB";
-        case MF_ABSORBS: return "ABSORBS";
-        case MF_ABSORBS_SPLITS: return "ABSORBS_SPLITS";
         case MF_LARVA: return "LARVA";
         case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
         case MF_ACID_BLOOD: return "ACID_BLOOD";
@@ -206,6 +208,8 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
         case MF_CAMOUFLAGE: return "CAMOUFLAGE";
         case MF_WATER_CAMOUFLAGE: return "WATER_CAMOUFLAGE";
+        case MF_ATTACK_UPPER: return "ATTACK_UPPER";
+        case MF_ATTACK_LOWER: return "ATTACK_LOWER";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -373,9 +377,6 @@ void load_monster_adjustment( const JsonObject &jsobj )
 static void build_behavior_tree( mtype &type )
 {
     type.set_strategy();
-    if( type.has_flag( MF_ABSORBS ) || type.has_flag( MF_ABSORBS_SPLITS ) ) {
-        type.add_goal( "absorb_items" );
-    }
     for( const std::pair<const std::string, mtype_special_attack> &attack : type.special_attacks ) {
         if( string_id<behavior::node_t>( attack.first ).is_valid() ) {
             type.add_goal( attack.first );
@@ -428,6 +429,12 @@ void MonsterGenerator::finalize_mtypes()
         }
         if( mon.armor_fire < 0 ) {
             mon.armor_fire = 0;
+        }
+        if( mon.armor_elec < 0 ) {
+            mon.armor_elec = 0;
+        }
+        if( mon.status_chance_multiplier < 0 ) {
+            mon.status_chance_multiplier = 0;
         }
 
         // Lower bound for hp scaling
@@ -492,6 +499,8 @@ void MonsterGenerator::init_phases()
 void MonsterGenerator::init_attack()
 {
     add_hardcoded_attack( "NONE", mattack::none );
+    add_hardcoded_attack( "ABSORB_ITEMS", mattack::absorb_items );
+    add_hardcoded_attack( "SPLIT", mattack::split );
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
@@ -665,7 +674,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
     if( mat.empty() ) { // Assign a default "flesh" material to prevent crash (#48988)
-        mat.emplace( material_id( "flesh" ), 1 );
+        mat.emplace( material_flesh, 1 );
         mat_portion_total += 1;
     }
     optional( jo, was_loaded, "species", species, string_id_reader<::species_type> {} );
@@ -719,26 +728,71 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_stab", armor_stab, strict, 0 );
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
+    assign( jo, "armor_elec", armor_elec, strict, 0 );
 
-    if( !was_loaded || jo.has_array( "weakpoints" ) ) {
+    if( !was_loaded || jo.has_array( "weakpoint_sets" ) || jo.has_array( "weakpoints" ) ) {
         weakpoints.clear();
-        weakpoints.load( jo.get_array( "weakpoints" ) );
+    }
+
+    // Load each set of weakpoints.
+    // Each subsequent weakpoint set overwrites
+    // matching weakpoints from the previous set.
+    if( jo.has_array( "weakpoint_sets" ) ) {
+        for( JsonValue jval : jo.get_array( "weakpoint_sets" ) ) {
+            weakpoints_id set_id( jval.get_string() );
+            weakpoints.add_from_set( set_id, true );
+        }
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoint_sets" ) ) {
+                for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
+                    weakpoints_id set_id( jval.get_string() );
+                    weakpoints.add_from_set( set_id, true );
+                }
+            }
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            if( tmp.has_array( "weakpoint_sets" ) ) {
+                for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
+                    weakpoints_id set_id( jval.get_string() );
+                    weakpoints.del_from_set( set_id );
+                }
+            }
+        }
+    }
+
+    // Finally, inline weakpoints overwrite
+    // any matching weakpoints from the previous sets.
+    if( jo.has_array( "weakpoints" ) ) {
+        ::weakpoints tmp_wp;
+        tmp_wp.load( jo.get_array( "weakpoints" ) );
+        weakpoints.add_from_set( tmp_wp, true );
     } else {
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "weakpoints" ) ) {
-                weakpoints.load( tmp.get_array( "weakpoints" ) );
+                ::weakpoints tmp_wp;
+                tmp_wp.load( jo.get_array( "weakpoints" ) );
+                weakpoints.add_from_set( tmp_wp, true );
             }
         }
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "weakpoints" ) ) {
-                weakpoints.remove( tmp.get_array( "weakpoints" ) );
+                ::weakpoints tmp_wp;
+                tmp_wp.load( jo.get_array( "weakpoints" ) );
+                weakpoints.del_from_set( tmp_wp );
             }
         }
     }
+
+    assign( jo, "status_chance_multiplier", status_chance_multiplier, strict, 0.0f, 5.0f );
 
     if( !was_loaded || jo.has_array( "families" ) ) {
         families.clear();
@@ -748,15 +802,32 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "families" ) ) {
-                families.load( jo.get_array( "families" ) );
+                families.load( tmp.get_array( "families" ) );
             }
         }
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
             if( tmp.has_array( "families" ) ) {
-                families.remove( jo.get_array( "families" ) );
+                families.remove( tmp.get_array( "families" ) );
             }
+        }
+    }
+
+    optional( jo, was_loaded, "absorb_ml_per_hp", absorb_ml_per_hp, 250 );
+    optional( jo, was_loaded, "split_move_cost", split_move_cost, 200 );
+    optional( jo, was_loaded, "absorb_move_cost_per_ml", absorb_move_cost_per_ml, 0.025f );
+    optional( jo, was_loaded, "absorb_move_cost_min", absorb_move_cost_min, 1 );
+    optional( jo, was_loaded, "absorb_move_cost_max", absorb_move_cost_max, -1 );
+
+    if( jo.has_member( "absorb_material" ) ) {
+        absorb_material.clear();
+        if( jo.has_array( "absorb_material" ) ) {
+            for( std::string mat : jo.get_string_array( "absorb_material" ) ) {
+                absorb_material.emplace_back( material_id( mat ) );
+            }
+        } else {
+            absorb_material.emplace_back( material_id( jo.get_string( "absorb_material" ) ) );
         }
     }
 
@@ -845,7 +916,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         shearing = shearing_data( entries );
     }
 
-    optional( jo, was_loaded, "speed_description", speed_desc, speed_description_id{"DEFAULT"} );
+    optional( jo, was_loaded, "speed_description", speed_desc, speed_description_DEFAULT );
     optional( jo, was_loaded, "death_function", mdeath_effect );
     optional( jo, was_loaded, "melee_training_cap", melee_training_cap, MAX_SKILL );
 

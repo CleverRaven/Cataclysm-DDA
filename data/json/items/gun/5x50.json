@@ -38,15 +38,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "5x50_100_mag", "5x50_50_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "5x50_100_mag", "5x50_50_mag" ] } ]
   },
   {
     "id": "needlepistol",
@@ -83,14 +75,6 @@
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "5x50_50_mag", "5x50_100_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "5x50_50_mag", "5x50_100_mag" ] } ]
   }
 ]

@@ -26,6 +26,7 @@
   {
     "type": "COMESTIBLE",
     "id": "almond_milk",
+    "looks_like": "milk",
     "name": { "str": "almond milk" },
     "weight": "258 g",
     "color": "white",
@@ -49,6 +50,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soy_milk",
+    "looks_like": "milk",
     "name": { "str": "soy milk" },
     "weight": "258 g",
     "color": "white",
@@ -84,7 +86,7 @@
     "description": "This serving of coffee has been created using an atomic coffee pot's FULL NUCLEAR brewing cycle.  Every possible microgram of caffeine and flavor has been carefully extracted for your enjoyment, using the power of the atom.",
     "price": 300,
     "price_postapoc": 100,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
     "fun": 10
   },
   {
@@ -108,6 +110,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_coconut",
+    "looks_like": "milk",
     "name": { "str": "coconut milk" },
     "weight": "238 g",
     "color": "white",
@@ -130,6 +133,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chai_tea",
+    "looks_like": "tea",
     "name": { "str_sp": "chai tea" },
     "weight": "259 g",
     "color": "brown",
@@ -177,6 +181,7 @@
   {
     "type": "COMESTIBLE",
     "id": "choc_drink",
+    "looks_like": "milk",
     "name": { "str": "chocolate drink" },
     "weight": "236 g",
     "color": "brown",
@@ -216,12 +221,13 @@
     "material": [ "water" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
     "fun": 6
   },
   {
     "type": "COMESTIBLE",
     "id": "coffee_substitute",
+    "looks_like": "coffee",
     "name": { "str_sp": "coffee substitute" },
     "weight": "250 g",
     "color": "brown",
@@ -237,12 +243,13 @@
     "material": [ "water" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "fun": -5
   },
   {
     "type": "COMESTIBLE",
     "id": "chicory_coffee",
+    "looks_like": "coffee",
     "name": { "str_sp": "chicory brew" },
     "weight": "252 g",
     "color": "brown",
@@ -263,6 +270,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cola",
+    "looks_like": "coffee",
     "name": { "str": "dark cola" },
     "weight": "248 g",
     "color": "brown",
@@ -283,12 +291,13 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 5
   },
   {
     "type": "COMESTIBLE",
     "id": "colamdew",
+    "looks_like": "cola",
     "name": { "str": "energy cola" },
     "weight": "234 g",
     "color": "light_green",
@@ -309,12 +318,13 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 5
   },
   {
     "type": "COMESTIBLE",
     "id": "creamsoda",
+    "looks_like": "cola",
     "name": { "str": "cream soda" },
     "weight": "247 g",
     "color": "light_gray",
@@ -335,7 +345,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 5
   },
   {
@@ -365,6 +375,7 @@
   {
     "type": "COMESTIBLE",
     "id": "crispycran",
+    "looks_like": "cranberry_juice",
     "name": { "str": "crispy cranberry", "str_pl": "crispy cranberries" },
     "weight": "250 g",
     "color": "pink",
@@ -387,6 +398,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelion_tea",
+    "looks_like": "tea",
     "name": { "str_sp": "dandelion tea" },
     "weight": "252 g",
     "color": "yellow",
@@ -407,6 +419,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelionburdock_tea",
+    "looks_like": "tea",
     "name": { "str_sp": "dandelion and burdock tea" },
     "weight": "252 g",
     "color": "yellow",
@@ -427,6 +440,7 @@
   {
     "type": "COMESTIBLE",
     "id": "eggnog",
+    "looks_like": "milk",
     "name": { "str": "eggnog" },
     "weight": "134 g",
     "color": "white",
@@ -436,20 +450,21 @@
     "symbol": "~",
     "quench": 25,
     "calories": 118,
-    "description": "Smooth and rich, this spoon-coating mix of milk, cream, and eggs is a popular traditional holiday drink.  While often spiked, it is still delicious on its own.  Meant to be stored cold, it will spoil rapidly.",
+    "description": "Smooth and rich, this spoon-coating mixture of milk, cream, and eggs is a popular traditional holiday drink.  While often spiked, it is still delicious on its own.  Meant to be stored cold, it will spoil rapidly.",
     "price": 40,
     "price_postapoc": 100,
     "material": [ "milk", "egg" ],
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EATEN_COLD", "FREEZERBURN" ],
+    "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN" ],
     "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ] ],
     "fun": 15
   },
   {
     "type": "COMESTIBLE",
     "id": "energy_drink",
+    "looks_like": "cola",
     "name": { "str": "energy drink" },
     "weight": "253 g",
     "color": "magenta",
@@ -470,13 +485,14 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "vitC", 105 ] ],
     "fun": 5
   },
   {
     "type": "COMESTIBLE",
     "id": "energy_drink_atomic",
+    "looks_like": "cola",
     "name": { "str": "atomic energy drink" },
     "copy-from": "energy_drink",
     "color": "light_green",
@@ -494,6 +510,7 @@
   {
     "type": "COMESTIBLE",
     "id": "herbal_tea",
+    "looks_like": "tea",
     "name": { "str_sp": "herbal tea" },
     "weight": "250 g",
     "color": "green",
@@ -515,6 +532,7 @@
   {
     "id": "hot_chocolate",
     "type": "COMESTIBLE",
+    "looks_like": "choc_drink",
     "category": "food",
     "name": { "str_sp": "hot chocolate" },
     "description": "Also known as hot cocoa, this heated chocolate beverage is perfect for a cold winter day.",
@@ -539,6 +557,7 @@
   {
     "type": "COMESTIBLE",
     "id": "juice_pasteurized",
+    "looks_like": "juice",
     "name": { "str": "pasteurized fruit juice" },
     "copy-from": "juice",
     "spoils_in": "180 days",
@@ -553,6 +572,34 @@
     "type": "COMESTIBLE",
     "id": "juice",
     "name": { "str": "fruit juice" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
+      { "type": "COMPONENT_ID", "condition": "apricots", "name": { "str_sp": "%s, apricots" } },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str_sp": "%s, banana" } },
+      { "type": "COMPONENT_ID", "condition": "blackberries", "name": { "str_sp": "%s, blackberries" } },
+      { "type": "COMPONENT_ID", "condition": "blueberries", "name": { "str_sp": "%s, blueberries" } },
+      { "type": "COMPONENT_ID", "condition": "cherries", "name": { "str_sp": "%s, cherries" } },
+      { "type": "COMPONENT_ID", "condition": "elderberries", "name": { "str_sp": "%s, elderberries" } },
+      { "type": "COMPONENT_ID", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
+      { "type": "COMPONENT_ID", "condition": "huckleberries", "name": { "str_sp": "%s, huckleberries" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str_sp": "%s, kiwi" } },
+      { "type": "COMPONENT_ID", "condition": "mango", "name": { "str_sp": "%s, mango" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str_sp": "%s, melon" } },
+      { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str_sp": "%s, mulberries" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str_sp": "%s, orange" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str_sp": "%s, papaya" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str_sp": "%s, peach" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str_sp": "%s, pear" } },
+      { "type": "COMPONENT_ID", "condition": "pineapple", "name": { "str_sp": "%s, pineapple" } },
+      { "type": "COMPONENT_ID", "condition": "plum", "name": { "str_sp": "%s, plum" } },
+      { "type": "COMPONENT_ID", "condition": "pomengranate", "name": { "str_sp": "%s, pomengranate" } },
+      { "type": "COMPONENT_ID", "condition": "pumpkin", "name": { "str_sp": "%s, pumpkin" } },
+      { "type": "COMPONENT_ID", "condition": "raspberries", "name": { "str_sp": "%s, raspberries" } },
+      { "type": "COMPONENT_ID", "condition": "rose hips", "name": { "str_sp": "%s, rose hips" } },
+      { "type": "COMPONENT_ID", "condition": "strawberries", "name": { "str_sp": "%s, strawberries" } },
+      { "type": "COMPONENT_ID", "condition": "watermelon", "name": { "str_sp": "%s, watermelon" } }
+    ],
     "weight": "125 g",
     "color": "light_red",
     "spoils_in": "5 days",
@@ -577,7 +624,36 @@
   {
     "type": "COMESTIBLE",
     "id": "kompot",
+    "looks_like": "juice",
     "name": { "str": "kompot" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
+      { "type": "COMPONENT_ID", "condition": "apricots", "name": { "str_sp": "%s, apricots" } },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str_sp": "%s, banana" } },
+      { "type": "COMPONENT_ID", "condition": "blackberries", "name": { "str_sp": "%s, blackberries" } },
+      { "type": "COMPONENT_ID", "condition": "blueberries", "name": { "str_sp": "%s, blueberries" } },
+      { "type": "COMPONENT_ID", "condition": "cherries", "name": { "str_sp": "%s, cherries" } },
+      { "type": "COMPONENT_ID", "condition": "elderberries", "name": { "str_sp": "%s, elderberries" } },
+      { "type": "COMPONENT_ID", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
+      { "type": "COMPONENT_ID", "condition": "huckleberries", "name": { "str_sp": "%s, huckleberries" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str_sp": "%s, kiwi" } },
+      { "type": "COMPONENT_ID", "condition": "mango", "name": { "str_sp": "%s, mango" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str_sp": "%s, melon" } },
+      { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str_sp": "%s, mulberries" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str_sp": "%s, orange" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str_sp": "%s, papaya" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str_sp": "%s, peach" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str_sp": "%s, pear" } },
+      { "type": "COMPONENT_ID", "condition": "pineapple", "name": { "str_sp": "%s, pineapple" } },
+      { "type": "COMPONENT_ID", "condition": "plum", "name": { "str_sp": "%s, plum" } },
+      { "type": "COMPONENT_ID", "condition": "pomengranate", "name": { "str_sp": "%s, pomengranate" } },
+      { "type": "COMPONENT_ID", "condition": "pumpkin", "name": { "str_sp": "%s, pumpkin" } },
+      { "type": "COMPONENT_ID", "condition": "raspberries", "name": { "str_sp": "%s, raspberries" } },
+      { "type": "COMPONENT_ID", "condition": "rose hips", "name": { "str_sp": "%s, rose hips" } },
+      { "type": "COMPONENT_ID", "condition": "strawberries", "name": { "str_sp": "%s, strawberries" } },
+      { "type": "COMPONENT_ID", "condition": "watermelon", "name": { "str_sp": "%s, watermelon" } }
+    ],
     "weight": "250 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",
@@ -601,6 +677,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lemonade",
+    "looks_like": "juice",
     "name": { "str_sp": "lemonade" },
     "weight": "260 g",
     "color": "yellow",
@@ -624,6 +701,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lemonlime",
+    "looks_like": "lemonade",
     "name": { "str": "lemon-lime soda" },
     "weight": "258 g",
     "color": "yellow",
@@ -661,6 +739,7 @@
   {
     "id": "mex_chocolate",
     "type": "COMESTIBLE",
+    "looks_like": "choc_drink",
     "category": "food",
     "name": { "str_sp": "Mexican hot chocolate" },
     "description": "This semi-bitter chocolate drink made from cocoa, cinnamon, and chilies, traces its history to the Maya and Aztecs.  Perfect for a cold winter day.",
@@ -685,6 +764,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_coffee",
+    "looks_like": "coffee",
     "name": { "str": "coffee milk" },
     "weight": "259 g",
     "color": "brown",
@@ -707,12 +787,14 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
+    "flags": [ "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 10
   },
   {
     "type": "COMESTIBLE",
     "id": "milk_tea",
+    "looks_like": "tea",
     "name": { "str": "milk tea" },
     "weight": "259 g",
     "color": "brown",
@@ -740,6 +822,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oj",
+    "looks_like": "juice",
     "name": { "str": "orange juice" },
     "weight": "263 g",
     "color": "yellow",
@@ -765,6 +848,7 @@
   {
     "type": "COMESTIBLE",
     "id": "orangesoda",
+    "looks_like": "juice",
     "name": { "str": "orange soda" },
     "weight": "248 g",
     "color": "yellow",
@@ -787,6 +871,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pine_tea",
+    "looks_like": "tea",
     "name": { "str_sp": "pine needle tea" },
     "weight": "268 g",
     "color": "light_green",
@@ -808,6 +893,7 @@
   {
     "type": "COMESTIBLE",
     "id": "purple_drink",
+    "looks_like": "cranberry_juice",
     "name": { "str": "grape drink" },
     "weight": "260 g",
     "color": "magenta",
@@ -832,6 +918,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mycus_juice",
+    "looks_like": "water",
     "name": "mycus juice",
     "weight": "263 g",
     "color": "light_gray",
@@ -857,6 +944,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rootbeer",
+    "looks_like": "cola",
     "name": { "str_sp": "root beer" },
     "weight": "260 g",
     "color": "brown",
@@ -879,6 +967,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spezi",
+    "looks_like": "cola",
     "name": { "str": "spezi" },
     "weight": "250 g",
     "color": "brown",
@@ -898,12 +987,13 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 6
   },
   {
     "type": "COMESTIBLE",
     "id": "sports_drink",
+    "looks_like": "cola",
     "name": { "str": "sports drink" },
     "weight": "257 g",
     "color": "light_red",
@@ -967,6 +1057,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sweet_water",
+    "looks_like": "water",
     "name": { "str_sp": "sweet water" },
     "weight": "260 g",
     "color": "light_cyan",
@@ -987,6 +1078,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tea",
+    "looks_like": "water",
     "name": { "str": "black tea" },
     "weight": "250 g",
     "color": "brown",
@@ -1023,6 +1115,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tea_bark",
+    "looks_like": "tea",
     "name": { "str": "bark tea" },
     "weight": "251 g",
     "color": "brown",
@@ -1043,6 +1136,7 @@
   {
     "type": "COMESTIBLE",
     "id": "V8",
+    "looks_like": "juice",
     "name": { "str": "V8" },
     "weight": "250 g",
     "color": "red",

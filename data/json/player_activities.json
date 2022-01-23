@@ -221,7 +221,7 @@
     "id": "ACT_DISASSEMBLE",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
-    "verb": "disassembly",
+    "verb": "disassembling",
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",
@@ -872,6 +872,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_WIELD",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "wielding item",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_TREE_COMMUNION",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -892,10 +901,30 @@
     "no_resume": true
   },
   {
+    "id": "ACT_PICKUP_MENU",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "picking up",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_CONSUME_FOOD_MENU",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "consuming",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_VIEW_RECIPE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "viewing recipe",
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",

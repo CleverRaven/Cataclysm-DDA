@@ -224,6 +224,8 @@ class submap : maptile_soa<SEEX, SEEY>
 
         bool contains_vehicle( vehicle * );
 
+        bool is_open_air( const point & ) const;
+
         void rotate( int turns );
         void mirror( bool horizontally );
 
@@ -338,6 +340,11 @@ struct maptile {
         // Assumes there is at least one item
         const item &get_uppermost_item() const {
             return *std::prev( sm->get_items( pos() ).cend() );
+        }
+
+        // Gets all items
+        const cata::colony<item> &get_items() const {
+            return sm->get_items( pos() );
         }
 };
 

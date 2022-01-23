@@ -65,4 +65,15 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
 
 int throw_cost( const Character &c, const item &to_throw );
 
+struct Target_attributes {
+    int range = 1;
+    double size = 0.5;
+    double size_in_moa = 10800.0;
+    float light = 0.0f;
+    bool visible = true;
+    explicit Target_attributes() = default;
+    explicit Target_attributes( tripoint src, tripoint target );
+    explicit Target_attributes( int rng, double size, float l, bool can_see );
+};
+
 #endif // CATA_SRC_RANGED_H

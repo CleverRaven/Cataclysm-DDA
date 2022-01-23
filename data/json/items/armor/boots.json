@@ -63,7 +63,7 @@
     "color": "dark_gray",
     "material_thickness": 3,
     "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [ { "encumbrance": 16, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 16, "coverage": 90, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "boots_bunker",
@@ -166,7 +166,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of EOD foot protectors", "str_pl": "pairs of EOD foot protectors" },
-    "description": "Armored foot protectors constructed from steel and nomex for use by explosive ordnance disposal technicians.",
+    "description": "Armored foot protectors constructed from steel and Nomex for use by explosive ordnance disposal technicians.",
     "weight": "1220 g",
     "volume": "3 L",
     "price": 50000,
@@ -624,7 +624,7 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "socks",
-    "color": "brown",
+    "color": "white",
     "warmth": 5,
     "material_thickness": 1.5,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
@@ -745,7 +745,15 @@
     "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [ { "encumbrance": 20, "coverage": 65, "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ] } ]
+    "armor": [
+      { "encumbrance": 20, "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "motor_police_boots",
@@ -763,7 +771,15 @@
     "symbol": "[",
     "looks_like": "knee_high_boots",
     "color": "dark_gray",
-    "armor": [ { "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ], "coverage": 65, "encumbrance": 15 } ],
+    "armor": [
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ],
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 2,
@@ -1021,7 +1037,21 @@
     "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [ { "encumbrance": 25, "coverage": 80, "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ] } ]
+    "armor": [
+      { "encumbrance": 20, "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "encumbrance": 0,
+        "coverage": 50,
+        "covers": [ "leg_r", "leg_l" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
   },
   {
     "id": "wetsuit_booties",
@@ -1104,10 +1134,10 @@
     "price": 5012,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "color": "light_red",
-    "material_thickness": 4,
+    "material_thickness": 3,
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
@@ -1291,7 +1321,15 @@
     "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 5, "coverage": 75, "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ] } ]
+    "armor": [
+      { "encumbrance": 5, "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ],
+        "coverage": 100,
+        "encumbrance": 4
+      }
+    ]
   },
   {
     "id": "stockings_tent_legs",
@@ -1309,7 +1347,15 @@
     "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 75, "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ] } ]
+    "armor": [
+      { "encumbrance": 10, "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      }
+    ]
   },
   {
     "id": "tabi_dress",

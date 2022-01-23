@@ -1043,6 +1043,7 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [
+      "TRANSPARENT",
       "NOITEM",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",

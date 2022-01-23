@@ -206,7 +206,7 @@
           { "item": "kevlar", "prob": 25 },
           { "item": "tacvest", "prob": 5 },
           { "item": "armor_riot", "prob": 25 },
-          { "item": "ballistic_vest_esapi", "prob": 10 }
+          { "group": "military_ballistic_vest", "prob": 10 }
         ],
         "prob": 65
       },

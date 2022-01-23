@@ -232,26 +232,26 @@
     "id": "GOODCARDIO",
     "name": { "str": "Indefatigable" },
     "points": 2,
-    "description": "Whether due to exercise and good diet, or due to a natural propensity to physical endurance, you tire due to physical exertion much less readily than others.  Your maximum stamina is higher than usual.",
+    "description": "Whether due to exercise and good diet, or due to a natural propensity to physical endurance, you tire due to physical exertion much less readily than others.  Your cardio fitness and maximum stamina are higher than usual.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "BADCARDIO" ],
     "changes_to": [ "GOODCARDIO2" ],
     "category": [ "FISH", "LUPINE", "MOUSE", "INSECT" ],
-    "max_stamina_modifier": 1.25
+    "cardio_multiplier": 1.3
   },
   {
     "type": "mutation",
     "id": "GOODCARDIO2",
     "name": { "str": "Hyperactive" },
     "points": 4,
-    "description": "Your body's efficiency is like that of a tiny furnace, greatly increasing your maximum stamina",
+    "description": "Your body's efficiency is like that of a tiny furnace, greatly increasing your cardio and stamina.",
     "valid": false,
     "prereqs": [ "GOODCARDIO" ],
     "cancels": [ "BADCARDIO" ],
     "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT" ],
     "category": [ "MOUSE", "RABBIT" ],
-    "max_stamina_modifier": 1.4
+    "cardio_multiplier": 1.6
   },
   {
     "type": "mutation",
@@ -291,6 +291,26 @@
         "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 0.5 }, { "value": "ATTACK_NOISE", "multiply": 0.8 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "PORTAL_DEPENDENT",
+    "name": { "str": "Portal Dependent" },
+    "points": -8,
+    "description": "Your body is not quite there.  You feel as if part of you remained behind with the portal storm.  You will suffer severely when in lack of portal storms unless you find a way to anchor yourself in the world.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "REALITY_GRASP",
+    "name": { "str": "Stabilized in Reality" },
+    "points": 0,
+    "description": "You have regained some substance and have stabilized somewhat, lack of portal storms will not affect you as strongly as before.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -504,7 +524,6 @@
     "name": { "str": "Thick-Skinned" },
     "points": 1,
     "description": "Your skin is tough.  Cutting and bashing damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
-    "starting_trait": true,
     "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR", "GASTROPOD" ],
     "cancels": [ "THINSKIN" ],
     "armor": [
@@ -602,7 +621,7 @@
     "points": 1,
     "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
     "starting_trait": true,
-    "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE", "RABBIT" ]
+    "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE", "RABBIT", "FELINE" ]
   },
   {
     "type": "mutation",
@@ -735,17 +754,6 @@
     "starting_trait": true,
     "category": [ "ALPHA", "ELFA" ],
     "fatigue_modifier": -0.15
-  },
-  {
-    "type": "mutation",
-    "id": "SELFAWARE",
-    "name": { "str": "Self-Aware" },
-    "points": 1,
-    "description": "You get to see your exact amount of HP remaining and health, instead of having only a vague idea of whether you're in good condition or not.",
-    "starting_trait": true,
-    "valid": false,
-    "active": true,
-    "category": [ "MEDICAL" ]
   },
   {
     "type": "mutation",
@@ -1015,11 +1023,11 @@
     "id": "BADCARDIO",
     "name": { "str": "Languorous" },
     "points": -2,
-    "description": "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your maximum stamina is lower than usual.",
+    "description": "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your total cardio fitness and stamina are lower than normal.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "GOODCARDIO" ],
-    "max_stamina_modifier": 0.75
+    "cardio_multiplier": 0.7
   },
   {
     "type": "mutation",
@@ -1029,7 +1037,8 @@
     "description": "Without glasses, your seeing radius is severely reduced!  However, you are guaranteed to start with a pair of glasses.",
     "starting_trait": true,
     "cancels": [ "URSINE_EYE" ],
-    "category": [ "BEAST", "TROGLOBITE" ]
+    "category": [ "BEAST", "TROGLOBITE" ],
+    "flags": [ "MYOPIC" ]
   },
   {
     "type": "mutation",
@@ -1076,7 +1085,8 @@
     "description": "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting.  However, you are guaranteed to start with a pair of reading glasses.",
     "starting_trait": true,
     "valid": false,
-    "category": [ "BATRACHIAN" ]
+    "category": [ "BATRACHIAN" ],
+    "flags": [ "HYPEROPIC" ]
   },
   {
     "type": "mutation",
@@ -1217,7 +1227,6 @@
     "name": { "str": "Thin-Skinned" },
     "points": -1,
     "description": "Your skin is fragile.  Cutting and bashing damage is slightly increased for you.",
-    "starting_trait": true,
     "cancels": [ "THICKSKIN" ],
     "armor": [
       {
@@ -1250,9 +1259,9 @@
   {
     "type": "mutation",
     "id": "ANTIFRUIT",
-    "name": { "str": "Hates Fruit" },
+    "name": { "str": "Fructose Intolerance" },
     "points": -3,
-    "description": "You despise eating fruits.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
+    "description": "Eating fruits always causes your stomach to ache.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "valid": false,
     "starting_trait": true,
     "vitamins_absorb_multi": [ [ "fruit", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
@@ -1759,6 +1768,7 @@
       "MYOPIC"
     ],
     "category": [ "URSINE", "BATRACHIAN" ],
+    "flags": [ "MYOPIC_IN_LIGHT" ],
     "active": true,
     "starts_active": true
   },
@@ -1849,7 +1859,8 @@
     "prereqs": [ "FASTHEALER" ],
     "threshreq": [ "THRESH_LIZARD" ],
     "category": [ "LIZARD" ],
-    "mending_modifier": 20.0
+    "mending_modifier": 20.0,
+    "flags": [ "MEND_ALL" ]
   },
   {
     "type": "mutation",
@@ -2090,7 +2101,7 @@
         "bash": 5
       }
     ],
-    "enchantments": [ "ENCH_TRAIT_MSKIN" ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -3406,11 +3417,24 @@
     "points": 1,
     "visibility": 1,
     "description": "Your legs have gained muscle mass to propel you across any terrain.",
-    "types": [ "LEGS" ],
-    "leads_to": [ "LEAPING_LEGS" ],
+    "leads_to": [ "LEAPING_LEGS", "FELINE_LEAP" ],
     "prereqs": [ "PADDED_FEET" ],
     "movecost_modifier": 0.88,
     "category": [ "BATRACHIAN", "RABBIT", "FELINE", "LUPINE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FELINE_LEAP",
+    "name": { "str": "Pounce" },
+    "points": 1,
+    "description": "You've gained a strong ability to leap a short distance from a standing position with little preparation time.",
+    "//": "This is differentiated from the other two leaps by a shorter range yet a shorter prep time. Probably less useful than them since it will still exhaust you.",
+    "spells_learned": [ [ "spell_feline_leap", 1 ] ],
+    "cancels": [ "LEAPING_LEGS", "LEAPING_LEGS2" ],
+    "prereqs": [ "TAIL_LONG" ],
+    "threshreq": [ "THRESH_FELINE" ],
+    "category": [ "FELINE" ],
+    "valid": false
   },
   {
     "type": "mutation",
@@ -3419,7 +3443,6 @@
     "points": 1,
     "visibility": 3,
     "ugliness": 1,
-    "types": [ "LEGS" ],
     "description": "You've gained a strong ability to leap from a standing position.",
     "spells_learned": [ [ "spell_short_leap", 1 ] ],
     "changes_to": [ "LEAPING_LEGS2" ],
@@ -3432,7 +3455,6 @@
     "points": 1,
     "visibility": 3,
     "ugliness": 1,
-    "types": [ "LEGS" ],
     "description": "You've gained a strong ability to leap a significant distance from a standing position and crush whatever you land on.",
     "spells_learned": [ [ "spell_crushing_leap", 1 ] ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
@@ -3630,11 +3652,25 @@
     "points": 10,
     "valid": false,
     "purifiable": false,
-    "description": "Your tough paws allow you to dig through dirt and rubble with ease.",
-    "prereqs": [ "CLAWS_ST", "PAWS", "PAWS_LARGE", "PAWS_LITTLE" ],
+    "description": "Your dextrous paws and long teeth allow you to dig through dirt and rubble with ease.",
+    "prereqs": [ "CLAWS_ST", "PAWS", "PAWS_LITTLE" ],
     "prereqs2": [ "INCISORS" ],
-    "threshreq": [ "THRESH_RAT", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RABBIT" ],
-    "category": [ "RAT", "LUPINE", "URSINE", "RABBIT" ],
+    "threshreq": [ "THRESH_RAT", "THRESH_RABBIT" ],
+    "category": [ "RAT", "RABBIT" ],
+    "active": true
+  },
+  {
+    "type": "mutation",
+    "id": "BURROWLARGE",
+    "name": { "str": "Burrowing" },
+    "//": "Since bears and wolves cannot get incisiors, but still burrow.",
+    "points": 10,
+    "valid": false,
+    "purifiable": false,
+    "description": "Your tough paws allow you to dig through dirt and rubble with ease.",
+    "prereqs": [ "PAWS", "PAWS_LARGE" ],
+    "threshreq": [ "THRESH_LUPINE", "THRESH_URSINE" ],
+    "category": [ "LUPINE", "URSINE" ],
     "active": true
   },
   {
@@ -4296,7 +4332,8 @@
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "threshreq": [ "THRESH_BIRD" ],
-    "category": [ "BIRD" ]
+    "category": [ "BIRD" ],
+    "flags": [ "WINGS_2" ]
   },
   {
     "type": "mutation",
@@ -4420,7 +4457,7 @@
     "points": 1,
     "visibility": 2,
     "ugliness": 2,
-    "description": "You once had a significant other call you slimy, now you exemplify that.  It covers evrerything you come into contact with but now you can move through slime you didn't create with ease.",
+    "description": "You once had a significant other call you slimy, now you exemplify that.  It covers everything you come into contact with but now you can move through slime you didn't create with ease.",
     "prereqs": [ "GASTROPOD_FOOT" ],
     "cancels": [ "WEB_SPINNER" ],
     "leads_to": [ "MUCUS_SECRETION2" ],
@@ -4576,10 +4613,14 @@
     "id": "WEB_RAPPEL",
     "name": { "str": "Web Diver" },
     "points": 2,
-    "description": "Your webbing is easily strong enough to support your weight.  You'll use it to descend any sheer drops you may encounter.",
+    "description": "Your webbing is strong enough to support your weight.  Activate to rappel down any drop you encounter, at the cost of nutrition.",
     "prereqs": [ "WEB_WEAVER" ],
     "threshreq": [ "THRESH_SPIDER" ],
-    "category": [ "SPIDER" ]
+    "category": [ "SPIDER" ],
+    "active": true,
+    "cost": 15,
+    "hunger": true,
+    "active_flags": [ "WEB_RAPPEL" ]
   },
   {
     "type": "mutation",
@@ -5244,7 +5285,8 @@
     "restricts_gear": [ "torso" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
     "dodge_modifier": -4,
-    "movecost_modifier": 0.9
+    "movecost_modifier": 0.9,
+    "flags": [ "WINGS_1" ]
   },
   {
     "type": "mutation",
@@ -6681,7 +6723,7 @@
     "visibility": 8,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed, and reduces wet penalties.",
+    "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed and reduces wet penalties, but you can't use footwear any more.",
     "types": [ "LEGS" ],
     "leads_to": [ "LEG_TENT_BRACE" ],
     "movecost_swim_modifier": 0.85,
@@ -7013,7 +7055,7 @@
     "category": [ "FISH", "BATRACHIAN" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
-    "flags": [ "EYE_MEMBRANE" ],
+    "flags": [ "EYE_MEMBRANE", "SEESLEEP" ],
     "active": true
   },
   {
@@ -7430,12 +7472,12 @@
   },
   {
     "type": "mutation",
-    "id": "DEBUG_STAMINA",
-    "name": { "str": "Debug Stamina" },
+    "id": "DEBUG_CARDIO",
+    "name": { "str": "Debug Cardio" },
     "points": 99,
     "valid": false,
-    "max_stamina_modifier": 999999,
-    "description": "You can't run from the bugs, but you have enough stamina to at least try to.",
+    "cardio_multiplier": 999999,
+    "description": "You can run, but you'll never run out of breath.",
     "debug": true
   },
   {
@@ -7611,7 +7653,8 @@
     "points": 2,
     "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
     "starting_trait": true,
-    "dodge_modifier": 3
+    "dodge_modifier": 3,
+    "category": [ "FELINE" ]
   },
   {
     "type": "mutation",
@@ -7744,5 +7787,40 @@
     "points": 0,
     "description": "You know how to project your voice.  You are able to shout much louder than the average person.",
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "FELINE_FLEXIBILITY",
+    "name": { "str": "Feline Flexibility" },
+    "points": 4,
+    "description": "Your muscles, joints, and the movement center of your brain have changed internally somewhat, allowing you to traverse obstacles with ease.",
+    "valid": false,
+    "purifiable": false,
+    "threshreq": [ "THRESH_FELINE" ],
+    "category": [ "FELINE" ],
+    "movecost_obstacle_modifier": 0.5
+  },
+  {
+    "type": "mutation",
+    "id": "HATES_WATER",
+    "name": { "str": "Hates Water" },
+    "points": -2,
+    "description": "You really hate getting your fur all wet.  This increases morale penalties for being wet, and you will get them even when wearing appropriate clothing.",
+    "valid": false,
+    "prereqs": [ "FELINE_FUR" ],
+    "category": [ "FELINE" ],
+    "cancels": [ "OUTDOORSMAN" ],
+    "wet_protection": [
+      { "part": "head", "good": -12 },
+      { "part": "leg_l", "good": -16 },
+      { "part": "leg_r", "good": -16 },
+      { "part": "foot_l", "good": -4 },
+      { "part": "foot_r", "good": -4 },
+      { "part": "arm_l", "good": -16 },
+      { "part": "arm_r", "good": -16 },
+      { "part": "hand_l", "good": -16 },
+      { "part": "hand_r", "good": -16 },
+      { "part": "torso", "good": -30 }
+    ]
   }
 ]

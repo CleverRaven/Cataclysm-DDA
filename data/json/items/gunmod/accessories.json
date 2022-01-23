@@ -33,7 +33,7 @@
     "color": "brown",
     "location": "stabilizer",
     "mod_targets": [ "bow" ],
-    "dispersion_modifier": -20,
+    "dispersion_modifier": -100,
     "handling_modifier": 3,
     "min_skills": [ [ "archery", 1 ] ]
   },
@@ -52,7 +52,7 @@
     "color": "brown",
     "location": "stabilizer",
     "mod_targets": [ "bow" ],
-    "dispersion_modifier": -40,
+    "dispersion_modifier": -200,
     "handling_modifier": 6,
     "min_skills": [ [ "archery", 2 ] ],
     "flags": [ "NEEDS_UNFOLD" ]

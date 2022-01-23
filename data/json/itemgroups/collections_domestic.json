@@ -126,6 +126,7 @@
       { "item": "multi_cooker", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "char_smoker", "prob": 5, "charges-min": 0 },
       [ "can_sealer", 2 ],
+      [ "oil_press_manual", 2 ],
       [ "atomic_coffeepot", 1 ]
     ]
   },
@@ -169,7 +170,11 @@
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 30 },
       {
         "collection": [ { "item": "denat_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],
-        "prob": 10
+        "prob": 6
+      },
+      {
+        "collection": [ { "item": "methed_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],
+        "prob": 4
       },
       { "collection": [ { "item": "oil_lamp", "prob": 100 }, { "item": "lamp_oil", "prob": 70 } ], "prob": 10 }
     ]
@@ -217,7 +222,8 @@
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
       { "item": "chem_muriatic_acid", "prob": 15 },
-      { "item": "denat_alcohol", "prob": 10 },
+      { "item": "denat_alcohol", "prob": 6 },
+      { "item": "methed_alcohol", "prob": 4 },
       { "item": "textbook_extraction", "prob": 5 },
       { "item": "butane_can", "prob": 10 },
       { "item": "gasket_plastic", "prob": 10 },
@@ -970,6 +976,7 @@
       { "item": "veil_wedding", "prob": 1 },
       { "item": "dress_wedding", "prob": 1 },
       { "item": "corset", "prob": 15 },
+      { "item": "corset_waist", "prob": 15 },
       { "item": "firehelmet", "prob": 1 },
       { "item": "bunker_coat", "prob": 1 },
       { "item": "bunker_pants", "prob": 1 },
@@ -984,6 +991,7 @@
       { "item": "smoxygen_tank", "prob": 2, "charges": [ 0, 12 ] },
       { "item": "alarmclock", "prob": 30 },
       { "item": "maid_dress", "prob": 3 },
+      { "item": "maid_dress_short", "prob": 3 },
       { "item": "maid_hat", "prob": 3 },
       { "group": "religious_books", "prob": 38 },
       { "item": "mouthpiece", "prob": 1 },
@@ -995,6 +1003,7 @@
       { "item": "pet_carrier", "prob": 3 },
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "bodypillow", "prob": 2 },
+      { "item": "teddy_bear", "prob": 2 },
       { "item": "reading_light", "prob": 8, "charges": [ 0, 50 ] },
       { "item": "condom", "prob": 50, "count": [ 1, 5 ] }
     ]

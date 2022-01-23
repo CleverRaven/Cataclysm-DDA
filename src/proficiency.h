@@ -3,6 +3,7 @@
 #define CATA_SRC_PROFICIENCY_H
 
 #include <iosfwd>
+#include <map>
 #include <set>
 #include <vector>
 #include <string>

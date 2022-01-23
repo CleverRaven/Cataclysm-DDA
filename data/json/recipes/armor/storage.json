@@ -282,6 +282,20 @@
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
+    "result": "bbholster",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ [ "gun", 1 ], [ "pistol", 1 ] ],
+    "time": "1 h 30 m",
+    "autolearn": true,
+    "using": [ [ "tailoring_lycra", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+  },
+  {
     "result": "bindle",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -327,7 +341,7 @@
     "time": "20 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "birchbark", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
@@ -428,7 +442,6 @@
     "skills_required": [ "fabrication", 2 ],
     "time": "10 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_nylon", 5 ], [ "plastic_molding", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_plasticworking" } ],
     "components": [ [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
@@ -485,7 +498,6 @@
     "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
     "time": "3 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "strap_small", 1 ], [ "plastic_molding", 2 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_plasticworking" } ]
   },
@@ -731,7 +743,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cordage_superior", 6, "LIST" ] ] ]
   },
   {
@@ -766,7 +778,7 @@
     "decomp_learn": 3,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "components": [ [ [ "birchbark", 3 ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
   },
@@ -803,7 +815,7 @@
     "decomp_learn": 4,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "components": [ [ [ "birchbark", 10 ] ], [ [ "strap_large", 1, "LIST" ] ] ]
   },
@@ -871,7 +883,7 @@
     "time": "30 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "birchbark", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
@@ -1224,7 +1236,7 @@
     "time": "16 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "plant_cordage", 16, "LIST" ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },
   {
@@ -1400,5 +1412,17 @@
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
+  },
+  {
+    "result": "rope_loop",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "cordage_short", 1, "LIST" ] ] ]
   }
 ]

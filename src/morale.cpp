@@ -18,6 +18,7 @@
 #include "enums.h"
 #include "input.h"
 #include "item.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "morale_types.h"
 #include "mutation.h"
@@ -39,12 +40,12 @@ static const trait_id trait_LEAVES2( "LEAVES2" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
 static const trait_id trait_ROOTS1( "ROOTS1" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_STYLISH( "STYLISH" );
-static const trait_id trait_NUMB( "NUMB" );
 
 namespace
 {

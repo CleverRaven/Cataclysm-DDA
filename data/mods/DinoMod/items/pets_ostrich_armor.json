@@ -134,5 +134,20 @@
     "weight": "14 kg",
     "volume": "150 L",
     "material_thickness": 3
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "sweater_armor_ostrich",
+    "copy-from": "ostrich_armor",
+    "color": "red",
+    "name": { "str": "ostrich-sized holiday sweater" },
+    "description": "A very large warm wool sweater with a festive holiday pattern.  You could put this on a friendly ostrich.",
+    "price": 10000,
+    "price_postapoc": 1000,
+    "material": [ "wool" ],
+    "weight": "3 kg",
+    "volume": "20 L",
+    "looks_like": "longshirt",
+    "material_thickness": 1
   }
 ]

@@ -38,7 +38,7 @@
   {
     "id": "CTRL_ELECTRONIC",
     "type": "json_flag",
-    "info": "You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^')."
+    "info": "You can 'e'xamine the tile to access the electronic controls.  If there are vehicle controls installed in the same spot, you can also use the vehicle control key (default '^')."
   },
   {
     "id": "CONTROLS",
@@ -150,7 +150,7 @@
   {
     "id": "TURRET_CONTROLS",
     "type": "json_flag",
-    "requires_flag": "TURRET"
+    "requires_flag": "TURRET_MOUNT"
   },
   {
     "id": "WHEEL",

@@ -1,0 +1,9 @@
+[
+  {
+    "id": "focus_num",
+    "type": "widget",
+    "label": "Focus",
+    "var": "focus",
+    "style": "number"
+  }
+]

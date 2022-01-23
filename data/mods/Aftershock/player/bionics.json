@@ -80,7 +80,7 @@
     "id": "bio_forcefield_bash_cut_medium",
     "type": "bionic",
     "name": { "str": "Combat Rated Gravity Manipulation Field" },
-    "description": "The HawkingCorps GravyField Mark 2 was designed for police actions during food riots and other civilian uprisings.  It has proven cabaple of protecting against most improvised weapons.",
+    "description": "The HawkingCorps GravyField Mark 2 was designed for police actions during food riots and other civilian uprisings.  It has proven capable of protecting against most improvised weapons.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "upgraded_bionic": "bio_forcefield_bash_cut_weak",
     "available_upgrades": [ "bio_forcefield_bash_cut_heavy" ],

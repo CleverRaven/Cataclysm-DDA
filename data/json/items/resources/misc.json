@@ -147,7 +147,7 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -3,
-    "qualities": [ [ "BUTCHER", -50 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ] ]
   },
   {
     "id": "sole_rubber",
@@ -195,30 +195,30 @@
     "color": "dark_gray"
   },
   {
-    "id": "esapi_plate",
+    "id": "iotv_shoulder_plate",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "ESAPI ballistic plate" },
-    "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  Its inner surface is coated with Ultra High Molecular Weight Polyethylene, and is labeled \"TOP\", while its outer surface is labeled \"STRIKE FACE\".  This is intended to be worn in a ballistic vest and can withstand several high energy rifle rounds before breaking.",
-    "weight": "2500 g",
-    "volume": "1533 ml",
+    "name": { "str": "ballistic shoulder protector" },
+    "description": "Nylon armor with soft armor insert protecting the deltoid and upper arm.  Designed to be attached to US military body armor.",
+    "weight": "1000 g",
+    "volume": "600 ml",
     "price": 60000,
     "price_postapoc": 100,
-    "material": [ "ceramic" ],
+    "material": [ "nylon", "kevlar_layered" ],
     "symbol": ",",
     "color": "dark_gray"
   },
   {
-    "id": "esbi_plate",
+    "id": "iotv_groin_plate",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "ESBI ballistic plate" },
-    "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  \"STRIKE FACE\" is printed on its outer surface.  This is designed to be worn in the sides of a plate carrier and can withstand several high energy rifle rounds before breaking.",
-    "weight": "1 kg",
-    "volume": "600 ml",
+    "name": { "str": "ballistic groin protector" },
+    "description": "Front and back nylon armor with soft armor inserts for groin and butt protection.  Designed to be attached to US military body armor.",
+    "weight": "1500 g",
+    "volume": "1000 ml",
     "price": 60000,
     "price_postapoc": 100,
-    "material": [ "ceramic" ],
+    "material": [ "nylon", "kevlar_layered" ],
     "symbol": ",",
     "color": "dark_gray"
   },

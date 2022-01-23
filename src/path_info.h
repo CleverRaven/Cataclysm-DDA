@@ -31,6 +31,7 @@ std::string datadir();
 std::string debug();
 std::string defaultsounddir();
 std::string defaulttilejson();
+std::string defaultlayeringjson();
 std::string defaulttilepng();
 std::string fontdata();
 std::string fontdir();

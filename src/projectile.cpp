@@ -20,6 +20,11 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const field_type_str_id field_fd_foamcrete( "fd_foamcrete" );
+
+static const ter_str_id ter_t_foamcrete_floor( "t_foamcrete_floor" );
+static const ter_str_id ter_t_foamcrete_wall( "t_foamcrete_wall" );
+
 projectile::projectile() :
     critical_multiplier( 2.0 ), drop( nullptr ), custom_explosion( nullptr )
 { }
@@ -105,11 +110,9 @@ void projectile::unset_custom_explosion()
 static void foamcrete_build( const tripoint &p )
 {
     map &here = get_map();
-    const ter_str_id floor = ter_str_id( "t_foamcrete_floor" );
-    const ter_str_id wall = ter_str_id( "t_foamcrete_wall" );
-    const field_type_str_id field_fd_foamcrete( "fd_foamcrete" );
 
-    if( !( wall.is_valid() && floor.is_valid() && field_fd_foamcrete.is_valid() ) ) {
+    if( !( ter_t_foamcrete_wall.is_valid() && ter_t_foamcrete_floor.is_valid() &&
+           field_fd_foamcrete.is_valid() ) ) {
         debugmsg( "Foamcrete terrains or fields are missing" );
         return;
     }
@@ -117,7 +120,7 @@ static void foamcrete_build( const tripoint &p )
     if( here.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
         for( const tripoint &ep : here.points_in_radius( p, 1 ) ) {
             if( here.has_flag_ter( ter_furn_flag::TFLAG_SUPPORTS_ROOF, ep ) ) {
-                here.ter_set( p, floor );
+                here.ter_set( p, ter_t_foamcrete_floor );
                 here.add_field( p, field_fd_foamcrete, 1 );
                 return;
             }
@@ -125,7 +128,7 @@ static void foamcrete_build( const tripoint &p )
         add_msg( m_bad, _( "The foamcrete falls without a wall to anchor against." ) );
     } else if( here.get_field_intensity( p, field_fd_foamcrete ) >= 2 ) {
         here.bash( p, 9001, false, true, false );
-        here.ter_set( p, wall );
+        here.ter_set( p, ter_t_foamcrete_wall );
     } else {
         here.add_field( p, field_fd_foamcrete, 1 );
     }

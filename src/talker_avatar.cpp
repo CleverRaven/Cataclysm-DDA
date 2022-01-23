@@ -19,6 +19,9 @@
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pet( "pet" );
 
+static const itype_id itype_foodperson_mask( "foodperson_mask" );
+static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 talker_avatar::talker_avatar( avatar *new_me )
@@ -30,8 +33,8 @@ talker_avatar::talker_avatar( avatar *new_me )
 std::vector<std::string> talker_avatar::get_topics( bool )
 {
     std::vector<std::string> add_topics;
-    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
-                                            is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_foodperson_mask ) ||
+                                            is_wearing( itype_foodperson_mask_on ) ) ) {
         add_topics.emplace_back( "TALK_NOFACE" );
     }
     return add_topics;

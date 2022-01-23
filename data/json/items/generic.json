@@ -116,7 +116,7 @@
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "250 ml",
+    "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -185,79 +185,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "fur",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "fur pelt" },
-    "description": "A small bolt of fur from an animal.  Can be made into warm clothing.",
-    "price": 1000,
-    "price_postapoc": 10,
-    "material": [ "fur", "leather" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "114 g",
-    "volume": "250 ml",
-    "category": "spare_parts"
-  },
-  {
-    "type": "GENERIC",
-    "id": "faux_fur",
-    "copy-from": "fur",
-    "color": "pink",
-    "name": { "str": "faux fur pelt" },
-    "price_postapoc": 10,
-    "description": "A small bolt of garishly colored faux fur.  Can be made into clothing.",
-    "flags": [ "NO_SALVAGE" ],
-    "material": [ "faux_fur" ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "leather",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "leather patch", "str_pl": "leather patches" },
-    "description": "A smallish patch of leather, could be used to make tough clothing.",
-    "price": 2000,
-    "price_postapoc": 10,
-    "material": [ "leather", "flesh" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "100 g",
-    "volume": "250 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
-    "id": "felt_patch",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "felt patch", "str_pl": "felt patches" },
-    "description": "A smallish patch of felt, could be disassembled for wool fiber.",
-    "price": 2000,
-    "price_postapoc": 10,
-    "material": [ "wool" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "100 g",
-    "volume": "250 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
-    "id": "nomex",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "Nomex patch", "str_pl": "Nomex patches" },
-    "description": "A small bolt of Nomex fire-resistant fabric.",
-    "price": 4000,
-    "price_postapoc": 20,
-    "material": [ "nomex" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "42 g",
-    "volume": "250 ml"
-  },
-  {
-    "type": "GENERIC",
     "id": "superglue",
     "category": "spare_parts",
     "symbol": ",",
@@ -267,7 +194,24 @@
     "price": 1800,
     "price_postapoc": 100,
     "material": [ "plastic" ],
-    "weight": "45 g",
+    "weight": "8 g",
+    "volume": "10 ml",
+    "to_hit": -2,
+    "flags": [ "UNRECOVERABLE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "rubber_cement",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "rubber cement" },
+    "looks_like": "superglue",
+    "description": "A tin of adhesive typically used to glue rubber.  It forms a less rigid bond than typical superglue making it ideal for projects requiring flexibility.  Typically smelly and toxic.",
+    "price": 1800,
+    "price_postapoc": 80,
+    "material": [ "plastic" ],
+    "weight": "52 g",
     "volume": "250 ml",
     "to_hit": -2,
     "flags": [ "UNRECOVERABLE" ]
@@ -284,7 +228,7 @@
     "price_postapoc": 50,
     "material": [ "bone" ],
     "weight": "45 g",
-    "volume": "250 ml",
+    "volume": "150 ml",
     "to_hit": -2,
     "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
   },
@@ -553,8 +497,7 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "flags": [ "TRADER_AVOID" ]
+    ]
   },
   {
     "type": "GENERIC",
@@ -613,6 +556,20 @@
     ],
     "to_hit": -3,
     "flags": [ "MC_USED" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "usb_drive_nano",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "secured USB drive" },
+    "description": "A USB thumb drive.  Useful for holding software.  This one seems like it could get ran over by a truck and be fine.",
+    "price": 10000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "55 g",
+    "volume": "5 ml",
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
@@ -738,7 +695,7 @@
     "price_postapoc": 100,
     "material": [ "steel" ],
     "weight": "151 g",
-    "volume": "500 ml",
+    "volume": "100 ml",
     "to_hit": -2
   },
   {
@@ -1364,7 +1321,7 @@
     "id": "book_binder",
     "type": "TOOL",
     "category": "books",
-    "use_action": "BINDER_ADD_RECIPE",
+    "use_action": [ "BINDER_ADD_RECIPE", "BINDER_MANAGE_RECIPE" ],
     "symbol": "/",
     "looks_like": "story_book",
     "color": "light_gray",
@@ -1535,7 +1492,7 @@
     "price": 1000,
     "price_postapoc": 500,
     "material": [ "steel" ],
-    "weight": "100 kg",
+    "weight": "52 kg",
     "volume": "50500 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -1674,7 +1631,7 @@
     "price_postapoc": 100,
     "material": [ "glass" ],
     "weight": "30 g",
-    "volume": "1 ml",
+    "volume": "10 ml",
     "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
     "flags": [ "FIRESTARTER" ]
@@ -1762,6 +1719,18 @@
     "price": 200000000,
     "price_postapoc": 3000,
     "//": "actually worth millions",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "template_armor",
+    "copy-from": "standard_template_construct",
+    "color": "yellow",
+    "name": { "str": "nanofabricator template (UHMWPE)", "str_pl": "nanofabricator templates (UHMWPE)" },
+    "description": "A state-of-the-art optical storage system, containing the instruction set required for the fabrication of advanced armor materials.  This seems to just be routines to work with the materials not actual armor schematics.",
+    "price": 100000000,
+    "price_postapoc": 3000,
+    "//": "given to HUB 01 for even better armor",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -1919,7 +1888,7 @@
     "price_postapoc": 10,
     "material": [ "steel" ],
     "weight": "50 g",
-    "volume": "250 ml"
+    "volume": "50 ml"
   },
   {
     "type": "GENERIC",
@@ -2396,68 +2365,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "cured_hide",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "cured hide" },
-    "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable leather.",
-    "price": 200,
-    "price_postapoc": 0,
-    "material": [ "flesh" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "100 g",
-    "volume": "125 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
-    "id": "tanned_hide",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "tanned hide" },
-    "description": "A folded sheet of leather made from carefully tanned animal hide.  Can be cut up or used as is.",
-    "price": 5000,
-    "price_postapoc": 500,
-    "material": [ "leather" ],
-    "weight": "600 g",
-    "volume": "1500 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
-    "id": "cured_pelt",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "cured pelt" },
-    "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable fur.",
-    "price": 200,
-    "price_postapoc": 0,
-    "material": [ "fur", "flesh" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "114 g",
-    "volume": "170 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
-    "id": "tanned_pelt",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "tanned pelt" },
-    "description": "A folded sheet of leather made from carefully tanned animal hide, with the fur still intact.  Can be cut up or used as is.",
-    "price": 5000,
-    "price_postapoc": 500,
-    "material": [ "fur" ],
-    "weight": "684 g",
-    "volume": "1500 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
     "id": "straw_pile",
     "symbol": ",",
     "color": "light_gray",
@@ -2609,7 +2516,7 @@
     "symbol": "!",
     "description": "The smoke billowing from this cigar has a sweet, musty odor.",
     "weight": "9 g",
-    "volume": "250 ml",
+    "volume": "15 ml",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "use_action": [
@@ -2624,12 +2531,17 @@
     ],
     "material": [ "paper" ],
     "armor_data": {
-      "material_thickness": 0.1,
-      "material": [ "paper" ],
       "warmth": 6,
-      "armor": [ { "encumbrance": 25, "coverage": 70, "covers": [ "mouth" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+          "encumbrance": 25,
+          "coverage": 70,
+          "covers": [ "mouth" ]
+        }
+      ]
     },
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
   },
   {
     "type": "GENERIC",
@@ -2666,12 +2578,17 @@
     ],
     "material": [ "paper" ],
     "armor_data": {
-      "material_thickness": 0.1,
-      "material": [ "paper" ],
       "warmth": 3,
-      "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+          "encumbrance": 15,
+          "coverage": 25,
+          "covers": [ "mouth" ]
+        }
+      ]
     },
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
   },
   {
     "type": "GENERIC",
@@ -2708,12 +2625,17 @@
     ],
     "material": [ "paper" ],
     "armor_data": {
-      "material_thickness": 0.1,
-      "material": [ "paper" ],
       "warmth": 3,
-      "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "mouth" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+          "encumbrance": 15,
+          "coverage": 25,
+          "covers": [ "mouth" ]
+        }
+      ]
     },
-    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
+    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
   },
   {
     "type": "GENERIC",
@@ -2920,7 +2842,7 @@
     "name": { "str_sp": "shrapnel" },
     "description": "A twisted shard of jagged metal.",
     "weight": "5 g",
-    "volume": "250 ml",
+    "volume": "20 ml",
     "price": 0,
     "price_postapoc": 0,
     "stack_size": 50,
@@ -3062,7 +2984,7 @@
     "price_postapoc": 10,
     "material": [ "steel" ],
     "weight": "5 g",
-    "volume": "250 ml",
+    "volume": "20 ml",
     "bashing": 1
   },
   {
@@ -3192,6 +3114,15 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_turret_artisans",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken custom plated turret" },
+    "weight": "75 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_secubot",
     "symbol": ",",
     "color": "green",
@@ -3305,7 +3236,7 @@
     "name": { "str": "wallet" },
     "looks_like": "bag_plastic",
     "description": "A small, flat case used to carry items such as currency, identification documents, and laminated cards.",
-    "volume": "250 ml",
+    "volume": "200 ml",
     "weight": "60 g",
     "price": 1,
     "price_postapoc": 10,
@@ -3544,7 +3475,7 @@
         ]
       }
     ],
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "lanyard",
@@ -3607,7 +3538,7 @@
         ]
       }
     ],
-    "armor": [ { "encumbrance": 0, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 0, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "type": "GENERIC",
@@ -3619,9 +3550,9 @@
     "description": "A broken tazer hack, with its propellers still and tazer inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "4 kg",
+    "volume": "600 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3637,9 +3568,9 @@
     "description": "A broken security drone, with its propellers still and camera inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "5 kg",
+    "volume": "650 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3655,9 +3586,9 @@
     "description": "A broken security drone, with its propellers still and camera inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "5 kg",
+    "volume": "650 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3673,9 +3604,9 @@
     "description": "A broken security drone, with its propellers still and camera inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "5 kg",
+    "volume": "650 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3691,9 +3622,9 @@
     "description": "A broken security drone, with its propellers still and camera inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "5 kg",
+    "volume": "650 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3709,9 +3640,9 @@
     "description": "A broken security drone, with its propellers still and camera inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "5 kg",
+    "volume": "650 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -3727,9 +3658,9 @@
     "description": "A broken security drone, with its propellers still and camera inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "5 kg",
+    "volume": "650 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,

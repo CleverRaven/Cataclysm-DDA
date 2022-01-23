@@ -35,6 +35,7 @@
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "gates.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
@@ -44,6 +45,7 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
@@ -81,14 +83,83 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_BIKERACK_RACKING( "ACT_BIKERACK_RACKING" );
+static const activity_id ACT_BIKERACK_UNRACKING( "ACT_BIKERACK_UNRACKING" );
+static const activity_id ACT_BINDER_COPY_RECIPE( "ACT_BINDER_COPY_RECIPE" );
+static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
+static const activity_id ACT_CONSUME( "ACT_CONSUME" );
+static const activity_id ACT_CRACKING( "ACT_CRACKING" );
+static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_DIG( "ACT_DIG" );
+static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
+static const activity_id ACT_DISABLE( "ACT_DISABLE" );
+static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
+static const activity_id ACT_DROP( "ACT_DROP" );
+static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
+static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
+static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
+static const activity_id ACT_HACKING( "ACT_HACKING" );
+static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
+static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
+static const activity_id ACT_HARVEST( "ACT_HARVEST" );
+static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
+static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
+static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
+static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
+static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
+static const activity_id ACT_MILK( "ACT_MILK" );
+static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
+static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
+static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
+static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
+static const activity_id ACT_PRYING( "ACT_PRYING" );
+static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_SHAVE( "ACT_SHAVE" );
+static const activity_id ACT_SHEARING( "ACT_SHEARING" );
+static const activity_id ACT_STASH( "ACT_STASH" );
+static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
+static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
+static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
+static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
+static const activity_id ACT_WEAR( "ACT_WEAR" );
+static const activity_id ACT_WIELD( "ACT_WIELD" );
+static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
+static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
+static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
+static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
+
+static const ammotype ammo_plutonium( "plutonium" );
+
 static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_worked_on( "worked_on" );
-static const efftype_id effect_tied( "tied" );
+
+static const faction_id faction_your_followers( "your_followers" );
+
+static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
+static const furn_str_id furn_f_safe_o( "f_safe_o" );
+
+static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
+
+static const item_group_id Item_spawn_data_allclothes( "allclothes" );
+static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
+static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
+static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
+static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
+static const item_group_id Item_spawn_data_grave( "grave" );
+static const item_group_id Item_spawn_data_jewelry_front( "jewelry_front" );
+static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -98,6 +169,25 @@ static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
+static const move_mode_id move_mode_prone( "prone" );
+static const move_mode_id move_mode_walk( "walk" );
+
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_skeleton( "mon_skeleton" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
+
+static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
+static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
+static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
+
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_PRY( "PRY" );
+static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
+static const quality_id qual_SHEAR( "SHEAR" );
+
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
@@ -105,22 +195,10 @@ static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
-static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
-static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
-static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
-
-
-static const mtype_id mon_manhack( "mon_manhack" );
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
-static const mtype_id mon_skeleton( "mon_skeleton" );
-static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
-
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
-static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
-static const quality_id qual_SHEAR( "SHEAR" );
-static const quality_id qual_PRY( "PRY" );
+static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
+static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
+static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
+static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
@@ -328,7 +406,7 @@ bool aim_activity_actor::load_RAS_weapon()
         {
             return false;
         }
-        if( !gun->can_reload_with( you.ammo_location->typeId() ) )
+        if( !gun->can_reload_with( *you.ammo_location.get_item(), false ) )
         {
             return false;
         }
@@ -495,16 +573,17 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             here.furn_set( location, f_coffin_c );
         }
         std::vector<item *> dropped =
-            here.place_items( item_group_id( "allclothes" ), 50, location, location, false,
+            here.place_items( Item_spawn_data_allclothes, 50, location, location, false,
                               calendar::turn );
-        here.place_items( item_group_id( "grave" ), 25, location, location, false,
+        here.place_items( Item_spawn_data_grave, 25, location, location, false,
                           calendar::turn );
-        here.place_items( item_group_id( "jewelry_front" ), 20, location, location, false,
+        here.place_items( Item_spawn_data_jewelry_front, 20, location, location, false,
                           calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
                 it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
+                it->rand_degradation();
             }
         }
         get_event_bus().send<event_type::exhumes_grave>( who.getID() );
@@ -673,7 +752,7 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
         return;
     }
 
-    gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
+    gun.gun_set_mode( gun_mode_DEFAULT );
     const itype *modtype = mod.type;
 
     who.i_add_or_drop( mod );
@@ -825,7 +904,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             map &here = get_map();
             if( type == hack_type::GAS ) {
                 int tankUnits;
-                std::string fuelType;
+                fuel_station_fuel_type fuelType;
                 const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
                                                         fuelType );
                 if( !pTank_ ) {
@@ -843,7 +922,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                 }
             } else if( type == hack_type::SAFE ) {
                 who.add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
-                here.furn_set( examp, furn_str_id( "f_safe_o" ) );
+                here.furn_set( examp, furn_f_safe_o );
             } else if( type == hack_type::DOOR ) {
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
@@ -1595,7 +1674,7 @@ bool read_activity_actor::npc_read( npc &learner )
 
     // NPCs don't need to identify the book or learn recipes yet.
     // NPCs don't read to other NPCs yet.
-    const bool display_messages = learner.get_fac_id() == faction_id( "your_followers" ) &&
+    const bool display_messages = learner.get_fac_id() == faction_your_followers &&
                                   get_player_character().sees( learner );
 
     const int book_fun = learner.book_fun_for( *book, learner );
@@ -1898,6 +1977,7 @@ static void cancel_pickup( Character &who )
     if( who.is_hauling() && !get_map().has_haulable_items( who.pos() ) ) {
         who.stop_hauling();
     }
+    who.drop_invalid_inventory();
 }
 
 void pickup_activity_actor::do_turn( player_activity &, Character &who )
@@ -2249,13 +2329,15 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             // Increase your XP if you successfully pick the lock, unless you were using a Perfect Lockpick.
             xp_gain = xp_gain * 2;
         }
-        here.has_furn( target ) ?
-        here.furn_set( target, new_furn_type ) :
-        static_cast<void>( here.ter_set( target, new_ter_type ) );
+        if( here.has_furn( target ) ) {
+            here.furn_set( target, new_furn_type );
+        } else {
+            here.ter_set( target, new_ter_type );
+        }
         who.add_msg_if_player( m_good, open_message );
     } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
-        here.furn_set( target, furn_str_id( "f_gunsafe_mj" ) );
+        here.furn_set( target, furn_f_gunsafe_mj );
     } else if( lock_roll > ( 1.5 * pick_roll ) ) {
         if( it->inc_damage() ) {
             who.add_msg_if_player( m_bad,
@@ -2562,7 +2644,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         }
     }
 
-    if( act.id() == activity_id( "ACT_CONSUME" ) ) {
+    if( act.id() == ACT_CONSUME ) {
         act.set_to_null();
     }
 
@@ -2621,7 +2703,7 @@ void try_sleep_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = to_moves<int>( duration );
     act.moves_left = act.moves_total;
-    who.set_movement_mode( move_mode_id( "prone" ) );
+    who.set_movement_mode( move_mode_prone );
     who.add_msg_if_player( _( "You lie down preparing to fall asleep." ) );
 }
 
@@ -2653,14 +2735,14 @@ void try_sleep_activity_actor::finish( player_activity &act, Character &who )
     if( !who.has_effect( effect_sleep ) ) {
         who.add_msg_if_player( _( "You try to sleep, but can't." ) );
     }
-    who.set_movement_mode( move_mode_id( "walk" ) );
+    who.set_movement_mode( move_mode_walk );
 }
 
 
 void try_sleep_activity_actor::canceled( player_activity &, Character &who )
 {
-    if( who.movement_mode_is( move_mode_id( "prone" ) ) ) {
-        who.set_movement_mode( move_mode_id( "walk" ) );
+    if( who.movement_mode_is( move_mode_prone ) ) {
+        who.set_movement_mode( move_mode_walk );
     }
 }
 
@@ -2681,7 +2763,7 @@ void try_sleep_activity_actor::query_keep_trying( player_activity &act, Characte
         case UILIST_CANCEL:
         case 1:
             act.set_to_null();
-            who.set_movement_mode( move_mode_id( "walk" ) );
+            who.set_movement_mode( move_mode_walk );
             break;
         case 3:
             disable_query = true;
@@ -2837,7 +2919,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.is_container() ) {
         contents_change_handler handler;
         bool changed = false;
-        for( item *contained : it.all_items_top() ) {
+        for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
             int old_charges = contained->charges;
             const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
             if( consumed || contained->charges != old_charges ) {
@@ -2859,7 +2941,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
 
     std::vector<item *> remove_contained;
     for( item *contained : it.all_items_top() ) {
-        if( contained->ammo_type() == ammotype( "plutonium" ) ) {
+        if( contained->ammo_type() == ammo_plutonium ) {
             contained->charges /= PLUTONIUM_CHARGES;
         }
         if( who.add_or_drop_with_msg( *contained, true, &it, contained ) ) {
@@ -3203,20 +3285,20 @@ void workout_activity_actor::start( player_activity &act, Character &who )
             act_id = activity_id::NULL_ID();
             return;
         case 4:
-            act_id = activity_id( "ACT_WORKOUT_HARD" );
+            act_id = ACT_WORKOUT_HARD;
             intensity_modifier = 4;
             break;
         case 3:
-            act_id = activity_id( "ACT_WORKOUT_ACTIVE" );
+            act_id = ACT_WORKOUT_ACTIVE;
             intensity_modifier = 3;
             break;
         case 2:
-            act_id = activity_id( "ACT_WORKOUT_MODERATE" );
+            act_id = ACT_WORKOUT_MODERATE;
             intensity_modifier = 2;
             break;
         case 1:
         default:
-            act_id = activity_id( "ACT_WORKOUT_LIGHT" );
+            act_id = ACT_WORKOUT_LIGHT;
             intensity_modifier = 1;
             break;
     }
@@ -3564,7 +3646,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
         here.ter_set( target, here.get_ter_transforms_into( target ) );
     }
 
-    iexamine::practice_survival_while_foraging( &who );
+    iexamine::practice_survival_while_foraging( who );
 }
 
 void harvest_activity_actor::serialize( JsonOut &jsout ) const
@@ -3728,7 +3810,7 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
 
     return ( ( monster.friendly != 0 || monster.has_effect( effect_sensor_stun ) ) &&
              !monster.has_flag( MF_RIDEABLE_MECH ) &&
-             !( monster.has_flag( MF_PAY_BOT ) && monster.has_effect( efftype_id( "paid" ) ) ) ) &&
+             !( monster.has_flag( MF_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
            ( !monster.type->revert_to_itype.is_empty() || monster.type->id == mon_manhack );
 }
 
@@ -4770,8 +4852,8 @@ time_duration prying_activity_actor::prying_time( const activity_data_common &da
     int difficulty = pdata.difficulty;
     difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
     return time_duration::from_moves(
-               /** @EFFECT_STR speeds up crowbar prying attempts */
-               std::max( 20, 5 * ( 4 * difficulty - who.get_str() ) ) );
+               /** @ARM_STR speeds up crowbar prying attempts */
+               std::max( 20, 5 * ( 4 * difficulty - who.get_arm_str() ) ) );
 }
 
 void prying_activity_actor::start( player_activity &act, Character &who )
@@ -4852,8 +4934,8 @@ void prying_activity_actor::handle_prying( Character &who )
         int difficulty = pdata.difficulty;
         difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
 
-        /** @EFFECT_STR increases chance of prying success */
-        const int dice_str = dice( 4, who.get_str() );
+        /** @ARM_STR increases chance of prying success */
+        const int dice_str = dice( 4, who.get_arm_str() );
 
         return dice( 4, difficulty ) < dice_str;
     };
@@ -4869,8 +4951,8 @@ void prying_activity_actor::handle_prying( Character &who )
 
         /** @EFFECT_MECHANICS reduces chance of breaking when prying */
         const int dice_mech = dice( 2, who.get_skill_level( skill_mechanics ) );
-        /** @EFFECT_STR reduces chance of breaking when prying */
-        const int dice_str = dice( 2, who.get_str() );
+        /** @ARM_STR reduces chance of breaking when prying */
+        const int dice_str = dice( 2, who.get_arm_str() );
 
         if( dice( 4, difficulty ) > dice_mech + dice_str )
         {
@@ -5131,58 +5213,510 @@ std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonValue &
     return haircut_activity_actor().clone();
 }
 
+static bool check_stealing( Character &who, item &it )
+{
+    if( !it.is_owned_by( who, true ) ) {
+        // Has the player given input on if stealing is ok?
+        if( who.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+            Pickup::query_thief();
+        }
+        if( who.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void wield_activity_actor::do_turn( player_activity &, Character &who )
+{
+    if( who.moves > 0 ) {
+        if( target_item ) {
+            // Make copies so the original remains untouched if wielding fails
+            item newit = *target_item;
+            item leftovers = newit;
+
+            // Handle charges, quantity == 0 means move all
+            if( quantity != 0 && newit.count_by_charges() ) {
+                leftovers.charges = newit.charges - quantity;
+                if( leftovers.charges > 0 ) {
+                    newit.charges = quantity;
+                }
+            } else {
+                leftovers.charges = 0;
+            }
+
+            if( check_stealing( who, newit ) ) {
+                handler.unseal_pocket_containing( target_item );
+                if( who.wield( newit ) ) {
+                    // If we wielded up a whole stack, remove the original item
+                    // Otherwise, replace the item with the leftovers
+                    if( leftovers.charges > 0 ) {
+                        *target_item = std::move( leftovers );
+                    } else {
+                        target_item.remove_item();
+                    }
+                }
+                handler.handle_by( who );
+            }
+        }
+
+        who.cancel_activity();
+    }
+}
+
+void wield_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "target_items", target_item );
+    jsout.member( "quantities", quantity );
+    jsout.member( "handler", handler );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> wield_activity_actor::deserialize( JsonValue &jsin )
+{
+    wield_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target_items", actor.target_item );
+    data.read( "quantities", actor.quantity );
+    data.read( "handler", actor.handler );
+
+    return actor.clone();
+}
+
+void wear_activity_actor::do_turn( player_activity &, Character &who )
+{
+    // ACT_WEAR has item_location targets, and int quantities
+    while( who.moves > 0 && !target_items.empty() ) {
+        item_location target = std::move( target_items.back() );
+        int quantity = quantities.back();
+        target_items.pop_back();
+        quantities.pop_back();
+
+        if( !target ) {
+            debugmsg( "Lost target item of ACT_WEAR" );
+            continue;
+        }
+
+        // Make copies so the original remains untouched if wearing fails
+        item newit = *target;
+        item leftovers = newit;
+
+        // Handle charges, quantity == 0 means move all
+        if( quantity != 0 && newit.count_by_charges() ) {
+            leftovers.charges = newit.charges - quantity;
+            if( leftovers.charges > 0 ) {
+                newit.charges = quantity;
+            }
+        } else {
+            leftovers.charges = 0;
+        }
+
+        if( check_stealing( who, newit ) ) {
+            handler.unseal_pocket_containing( target );
+            if( who.wear_item( newit ) ) {
+                // If we wore up a whole stack, remove the original item
+                // Otherwise, replace the item with the leftovers
+                if( leftovers.charges > 0 ) {
+                    *target = std::move( leftovers );
+                } else {
+                    target.remove_item();
+                }
+            }
+        }
+    }
+
+    // If there are no items left we are done
+    if( target_items.empty() ) {
+        handler.handle_by( who );
+        who.cancel_activity();
+    }
+}
+
+void wear_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "target_items", target_items );
+    jsout.member( "quantities", quantities );
+    jsout.member( "handler", handler );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> wear_activity_actor::deserialize( JsonValue &jsin )
+{
+    wear_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target_items", actor.target_items );
+    data.read( "quantities", actor.quantities );
+    data.read( "handler", actor.handler );
+
+    return actor.clone();
+}
+
+void pickup_menu_activity_actor::do_turn( player_activity &, Character &who )
+{
+    cata::optional<tripoint> p( where );
+    std::vector<drop_location> s( selection );
+    who.cancel_activity();
+    who.pick_up( game_menus::inv::pickup( *who.as_avatar(), p, s ) );
+}
+
+void pickup_menu_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "where", where );
+    jsout.member( "selection", selection );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> pickup_menu_activity_actor::deserialize( JsonValue &jsin )
+{
+    pickup_menu_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "where", actor.where );
+    data.read( "selection", actor.selection );
+
+    return actor.clone();
+}
+
+void firstaid_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+    act.name = name;
+}
+
+void firstaid_activity_actor::finish( player_activity &act, Character &who )
+{
+    static const std::string iuse_name_string( "heal" );
+
+    item &it = *act.targets.front();
+    item *used_tool = it.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for healing" );
+        act.set_to_null();
+        return;
+    }
+
+    const use_function *use_fun = used_tool->get_use( iuse_name_string );
+    const heal_actor *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act.set_to_null();
+        return;
+    }
+
+    // TODO: Store the patient somehow, retrieve here
+    Character &patient = who;
+    const bodypart_id healed = bodypart_id( act.str_values[0] );
+    const int charges_consumed = actor->finish_using( who, patient, *used_tool, healed );
+    who.consume_charges( it, charges_consumed );
+
+    // Erase activity and values.
+    act.set_to_null();
+    act.values.clear();
+}
+
+void firstaid_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "name", name );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> firstaid_activity_actor::deserialize( JsonValue &jsin )
+{
+    firstaid_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "name", actor.name );
+
+    return actor.clone();
+}
+
+void forage_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void forage_activity_actor::finish( player_activity &act, Character &who )
+{
+    // Don't forage if we aren't next to the bush - otherwise we get weird bugs
+    bool next_to_bush = false;
+    map &here = get_map();
+    for( const tripoint &pnt : here.points_in_radius( who.pos(), 1 ) ) {
+        // TODO: fix point types
+        if( here.getglobal( pnt ) == tripoint_abs_ms( act.placement ) ) {
+            next_to_bush = true;
+            break;
+        }
+    }
+
+    if( !next_to_bush ) {
+        act.set_to_null();
+        return;
+    }
+
+    const int veggy_chance = rng( 1, 100 );
+    bool found_something = false;
+
+    item_group_id group_id;
+    ter_str_id next_ter;
+
+    switch( season_of_year( calendar::turn ) ) {
+        case SPRING:
+            group_id = Item_spawn_data_forage_spring;
+            next_ter = ter_t_underbrush_harvested_spring;
+            break;
+        case SUMMER:
+            group_id = Item_spawn_data_forage_summer;
+            next_ter = ter_t_underbrush_harvested_summer;
+            break;
+        case AUTUMN:
+            group_id = Item_spawn_data_forage_autumn;
+            next_ter = ter_t_underbrush_harvested_autumn;
+            break;
+        case WINTER:
+            group_id = Item_spawn_data_forage_winter;
+            next_ter = ter_t_underbrush_harvested_winter;
+            break;
+        default:
+            debugmsg( "Invalid season" );
+    }
+
+    const tripoint bush_pos = here.getlocal( act.placement );
+    here.ter_set( bush_pos, next_ter );
+
+    // Survival gives a bigger boost, and Perception is leveled a bit.
+    // Both survival and perception affect time to forage
+
+    ///\EFFECT_PER slightly increases forage success chance
+    ///\EFFECT_SURVIVAL increases forage success chance
+    if( veggy_chance < who.get_skill_level( skill_survival ) * 3 + who.per_cur - 2 ) {
+        const std::vector<item *> dropped =
+            here.put_items_from_loc( group_id, who.pos(), calendar::turn );
+        for( item *it : dropped ) {
+            add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            found_something = true;
+            if( it->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
+                it->set_flag( flag_HIDDEN_POISON );
+                it->poison = rng( 2, 7 );
+            }
+            if( it->has_flag( flag_FORAGE_HALLU ) && !it->has_flag( flag_HIDDEN_POISON ) && one_in( 10 ) ) {
+                it->set_flag( flag_HIDDEN_HALLU );
+            }
+        }
+    }
+    // 10% to drop a item/items from this group.
+    if( one_in( 10 ) ) {
+        const std::vector<item *> dropped =
+            here.put_items_from_loc( Item_spawn_data_trash_forest, who.pos(), calendar::turn );
+        for( item * const &it : dropped ) {
+            add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            found_something = true;
+        }
+    }
+
+    if( !found_something ) {
+        add_msg( _( "You didn't find anything." ) );
+    }
+
+    iexamine::practice_survival_while_foraging( who );
+
+    act.set_to_null();
+
+    here.maybe_trigger_trap( bush_pos, who, true );
+}
+
+void forage_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> forage_activity_actor::deserialize( JsonValue &jsin )
+{
+    forage_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+
+    return actor.clone();
+}
+
+void longsalvage_activity_actor::start( player_activity &act, Character & )
+{
+    act.index = index;
+}
+
+void longsalvage_activity_actor::finish( player_activity &act, Character &who )
+{
+    static const std::string salvage_string = "salvage";
+    item &main_tool = who.i_at( act.index );
+    map &here = get_map();
+    map_stack items = here.i_at( who.pos() );
+    item *salvage_tool = main_tool.get_usable_item( salvage_string );
+    if( salvage_tool == nullptr ) {
+        debugmsg( "Lost tool used for long salvage" );
+        act.set_to_null();
+        return;
+    }
+
+    const use_function *use_fun = salvage_tool->get_use( salvage_string );
+    const salvage_actor *actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act.set_to_null();
+        return;
+    }
+
+    for( item &it : items ) {
+        if( actor->valid_to_cut_up( it ) ) {
+            item_location item_loc( map_cursor( who.pos() ), &it );
+            actor->cut_up( who, *salvage_tool, item_loc );
+            return;
+        }
+    }
+
+    add_msg( _( "You finish salvaging." ) );
+    act.set_to_null();
+}
+
+void longsalvage_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "index", index );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> longsalvage_activity_actor::deserialize( JsonValue &jsin )
+{
+    longsalvage_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "index", actor.index );
+
+    return actor.clone();
+}
+
+void mop_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void mop_activity_actor::finish( player_activity &act, Character &who )
+{
+    // Blind character have a 1/3 chance of actually mopping.
+    const bool will_mop = one_in( who.is_blind() ? 1 : 3 );
+    if( will_mop ) {
+        map &here = get_map();
+        here.mop_spills( here.getlocal( act.placement ) );
+    }
+    activity_handlers::resume_for_multi_activities( who );
+}
+
+void mop_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin )
+{
+    mop_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
 // Please keep this alphabetically sorted
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonValue & )>
 deserialize_functions = {
-    { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
-    { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
-    { activity_id( "ACT_BIKERACK_RACKING" ), &bikerack_racking_activity_actor::deserialize },
-    { activity_id( "ACT_BIKERACK_UNRACKING" ), &bikerack_unracking_activity_actor::deserialize },
-    { activity_id( "ACT_BINDER_COPY_RECIPE" ), &bookbinder_copy_activity_actor::deserialize },
-    { activity_id( "ACT_BOLTCUTTING" ), &boltcutting_activity_actor::deserialize },
-    { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
-    { activity_id( "ACT_CRACKING" ), &safecracking_activity_actor::deserialize },
-    { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
-    { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
-    { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
-    { activity_id( "ACT_DISABLE" ), &disable_activity_actor::deserialize },
-    { activity_id( "ACT_DISASSEMBLE" ), &disassemble_activity_actor::deserialize },
-    { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
-    { activity_id( "ACT_EBOOKSAVE" ), &ebooksave_activity_actor::deserialize },
-    { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
-    { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
-    { activity_id( "ACT_HACKSAW" ), &hacksaw_activity_actor::deserialize },
-    { activity_id( "ACT_HAIRCUT" ), &haircut_activity_actor::deserialize },
-    { activity_id( "ACT_HARVEST" ), &harvest_activity_actor::deserialize},
-    { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
-    { activity_id( "ACT_INSERT_ITEM" ), &insert_item_activity_actor::deserialize },
-    { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
-    { activity_id( "ACT_MEDITATE" ), &meditate_activity_actor::deserialize },
-    { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
-    { activity_id( "ACT_MILK" ), &milk_activity_actor::deserialize },
-    { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
-    { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
-    { activity_id( "ACT_OXYTORCH" ), &oxytorch_activity_actor::deserialize },
-    { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
-    { activity_id( "ACT_PRYING" ), &prying_activity_actor::deserialize },
-    { activity_id( "ACT_PLAY_WITH_PET" ), &play_with_pet_activity_actor::deserialize },
-    { activity_id( "ACT_READ" ), &read_activity_actor::deserialize },
-    { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },
-    { activity_id( "ACT_SHAVE" ), &shave_activity_actor::deserialize },
-    { activity_id( "ACT_SHEARING" ), &shearing_activity_actor::deserialize },
-    { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
-    { activity_id( "ACT_TENT_DECONSTRUCT" ), &tent_deconstruct_activity_actor::deserialize },
-    { activity_id( "ACT_TENT_PLACE" ), &tent_placement_activity_actor::deserialize },
-    { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
-    { activity_id( "ACT_UNLOAD" ), &unload_activity_actor::deserialize },
-    { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },
-    { activity_id( "ACT_WORKOUT_ACTIVE" ), &workout_activity_actor::deserialize },
-    { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },
-    { activity_id( "ACT_WORKOUT_LIGHT" ), &workout_activity_actor::deserialize },
-    { activity_id( "ACT_FURNITURE_MOVE" ), &move_furniture_activity_actor::deserialize },
+    { ACT_AIM, &aim_activity_actor::deserialize },
+    { ACT_AUTODRIVE, &autodrive_activity_actor::deserialize },
+    { ACT_BIKERACK_RACKING, &bikerack_racking_activity_actor::deserialize },
+    { ACT_BIKERACK_UNRACKING, &bikerack_unracking_activity_actor::deserialize },
+    { ACT_BINDER_COPY_RECIPE, &bookbinder_copy_activity_actor::deserialize },
+    { ACT_BOLTCUTTING, &boltcutting_activity_actor::deserialize },
+    { ACT_CONSUME, &consume_activity_actor::deserialize },
+    { ACT_CRACKING, &safecracking_activity_actor::deserialize },
+    { ACT_CRAFT, &craft_activity_actor::deserialize },
+    { ACT_DIG, &dig_activity_actor::deserialize },
+    { ACT_DIG_CHANNEL, &dig_channel_activity_actor::deserialize },
+    { ACT_DISABLE, &disable_activity_actor::deserialize },
+    { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
+    { ACT_DROP, &drop_activity_actor::deserialize },
+    { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
+    { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
+    { ACT_GUNMOD_REMOVE, &gunmod_remove_activity_actor::deserialize },
+    { ACT_HACKING, &hacking_activity_actor::deserialize },
+    { ACT_HACKSAW, &hacksaw_activity_actor::deserialize },
+    { ACT_HAIRCUT, &haircut_activity_actor::deserialize },
+    { ACT_HARVEST, &harvest_activity_actor::deserialize},
+    { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
+    { ACT_INSERT_ITEM, &insert_item_activity_actor::deserialize },
+    { ACT_LOCKPICK, &lockpick_activity_actor::deserialize },
+    { ACT_MEDITATE, &meditate_activity_actor::deserialize },
+    { ACT_MIGRATION_CANCEL, &migration_cancel_activity_actor::deserialize },
+    { ACT_MILK, &milk_activity_actor::deserialize },
+    { ACT_MOVE_ITEMS, &move_items_activity_actor::deserialize },
+    { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
+    { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
+    { ACT_PICKUP, &pickup_activity_actor::deserialize },
+    { ACT_PICKUP_MENU, &pickup_menu_activity_actor::deserialize },
+    { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
+    { ACT_PRYING, &prying_activity_actor::deserialize },
+    { ACT_READ, &read_activity_actor::deserialize },
+    { ACT_RELOAD, &reload_activity_actor::deserialize },
+    { ACT_SHAVE, &shave_activity_actor::deserialize },
+    { ACT_SHEARING, &shearing_activity_actor::deserialize },
+    { ACT_STASH, &stash_activity_actor::deserialize },
+    { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },
+    { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
+    { ACT_TRY_SLEEP, &try_sleep_activity_actor::deserialize },
+    { ACT_UNLOAD, &unload_activity_actor::deserialize },
+    { ACT_WEAR, &wear_activity_actor::deserialize },
+    { ACT_WIELD, &wield_activity_actor::deserialize},
+    { ACT_WORKOUT_ACTIVE, &workout_activity_actor::deserialize },
+    { ACT_WORKOUT_HARD, &workout_activity_actor::deserialize },
+    { ACT_WORKOUT_LIGHT, &workout_activity_actor::deserialize },
+    { ACT_WORKOUT_MODERATE, &workout_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

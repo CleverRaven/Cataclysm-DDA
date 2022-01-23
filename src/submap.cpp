@@ -13,6 +13,8 @@
 #include "units.h"
 #include "vehicle.h"
 
+static const furn_str_id furn_f_console( "f_console" );
+
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
 {
@@ -148,7 +150,7 @@ void submap::update_legacy_computer()
     if( legacy_computer ) {
         for( int x = 0; x < SEEX; ++x ) {
             for( int y = 0; y < SEEY; ++y ) {
-                if( frn[x][y] == furn_str_id( "f_console" ) ) {
+                if( frn[x][y] == furn_f_console ) {
                     computers.emplace( point( x, y ), *legacy_computer );
                 }
             }
@@ -160,7 +162,7 @@ void submap::update_legacy_computer()
 bool submap::has_computer( const point &p ) const
 {
     return computers.find( p ) != computers.end() || ( legacy_computer && frn[p.x][p.y]
-            == furn_str_id( "f_console" ) );
+            == furn_f_console );
 }
 
 const computer *submap::get_computer( const point &p ) const
@@ -171,7 +173,7 @@ const computer *submap::get_computer( const point &p ) const
     if( it != computers.end() ) {
         return &it->second;
     }
-    if( legacy_computer && frn[p.x][p.y] == furn_str_id( "f_console" ) ) {
+    if( legacy_computer && frn[p.x][p.y] == furn_f_console ) {
         return legacy_computer.get();
     }
     return nullptr;
@@ -214,6 +216,12 @@ bool submap::contains_vehicle( vehicle *veh )
         return v.get() == veh;
     } );
     return match != vehicles.end();
+}
+
+bool submap::is_open_air( const point &p ) const
+{
+    ter_id t = get_ter( p );
+    return t->trap == tr_ledge;
 }
 
 void submap::rotate( int turns )

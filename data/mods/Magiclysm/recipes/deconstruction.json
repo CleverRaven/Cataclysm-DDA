@@ -38,5 +38,23 @@
     "time": "6 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "orichalcum_sliver", 80 ] ], [ [ "orichalcum_lump", 20 ] ] ]
+  },
+  {
+    "result": "bundle_black_scale",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "dragon_black_scale", 10 ] ], [ [ "rag", 3 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_black_hide",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "black_dragon_tanned_hide", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

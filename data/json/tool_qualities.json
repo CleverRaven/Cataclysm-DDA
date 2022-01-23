@@ -336,5 +336,12 @@
     "id": "WHEEL_FAST",
     "//": "A tool that is capable of manipulating the lug nuts of a vehicle's wheels or smaller to replace or fasten them.",
     "name": { "str": "wheel fastening" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "FABRIC_CUT",
+    "//": "A tool that shares a large number of qualities with cutting tools, with the added benefit of being suitable for cutting fabric to patterned shapes for tailoring.",
+    "name": { "str": "fabric cutting" },
+    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
   }
 ]

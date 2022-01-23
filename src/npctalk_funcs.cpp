@@ -65,17 +65,17 @@ static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
-static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
-static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
-static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
+static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
+static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
@@ -91,6 +91,11 @@ static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
+
+static const faction_id faction_no_faction( "no_faction" );
+static const faction_id faction_your_followers( "your_followers" );
+
+static const mission_type_id mission_MISSION_REACH_SAFETY( "MISSION_REACH_SAFETY" );
 
 static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
@@ -135,6 +140,7 @@ void talk_function::mission_success( npc &p )
         int fac_val = std::min( 1 + miss_val / 10, 10 );
         p_fac->likes_u += fac_val;
         p_fac->respects_u += fac_val;
+        p_fac->trusts_u += fac_val;
         p_fac->power += fac_val;
     }
     miss->wrap_up();
@@ -506,6 +512,7 @@ void talk_function::bionic_remove( npc &p )
 
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
+    std::vector<const bionic *> bionics;
     for( const bionic &bio : all_bio ) {
         if( std::find( bionic_types.begin(), bionic_types.end(),
                        bio.info().itype() ) == bionic_types.end() ) {
@@ -516,6 +523,7 @@ void talk_function::bionic_remove( npc &p )
             } else {
                 bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
             }
+            bionics.push_back( &bio );
         }
     }
     // Choose bionic if applicable
@@ -538,11 +546,11 @@ void talk_function::bionic_remove( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( player_character.can_uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p,
+    if( player_character.can_uninstall_bionic( *bionics[bionic_index], p,
             false ) ) {
         player_character.amount_of(
             bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
-        player_character.uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false );
+        player_character.uninstall_bionic( *bionics[bionic_index], p, false );
     }
 
 }
@@ -787,7 +795,7 @@ void talk_function::follow( npc &p )
 {
     g->add_npc_follower( p.getID() );
     p.set_attitude( NPCATT_FOLLOW );
-    p.set_fac( faction_id( "your_followers" ) );
+    p.set_fac( faction_your_followers );
     get_player_character().cash += p.cash;
     p.cash = 0;
 }
@@ -851,8 +859,8 @@ void talk_function::leave( npc &p )
     p.job.clear_all_priorities();
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
-                            faction_id( new_fac_id ), faction_id( "no_faction" ) );
-    p.set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
+                            faction_id( new_fac_id ), faction_no_faction );
+    p.set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
     if( new_solo_fac ) {
         new_solo_fac->known_by_u = true;
     }
@@ -971,7 +979,7 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    mission *reach_safety__mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ),
+    mission *reach_safety__mission = mission::reserve_new( mission_MISSION_REACH_SAFETY,
                                      character_id() );
     reach_safety__mission->assign( get_avatar() );
     p.goal = reach_safety__mission->get_target();

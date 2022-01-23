@@ -90,7 +90,8 @@ drop_locations multidrop( avatar &you );
  * Otherwise, pick up items from the avatar's current location and all adjacent tiles.
  * @return A list of pairs of item_location, quantity.
  */
-drop_locations pickup( avatar &you, const cata::optional<tripoint> &target = cata::nullopt );
+drop_locations pickup( avatar &you, const cata::optional<tripoint> &target = cata::nullopt,
+                       std::vector<drop_location> selection = {} );
 
 /**
 * Consume an item via a custom menu.
@@ -128,6 +129,8 @@ void insert_items( avatar &you, item_location &holster );
 drop_locations unload_container( avatar &you );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( Character &you, item &tool );
+/** Choosing an item to attach to a load bearing vest. */
+item_location molle_attach( Character &you, item &tool );
 /** Choose item to wear. */
 item_location wear( Character &you, const bodypart_id &bp = bodypart_id( "bp_null" ) );
 /** Choose item to take off. */

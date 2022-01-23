@@ -967,8 +967,10 @@
         [ "beer", 1 ],
         [ "belgian_ale", 1 ],
         [ "drink_beeknees", 1 ],
+        [ "drink_hard_seltzer", 1 ],
         [ "european_pilsner", 1 ],
         [ "hb_beer", 1 ],
+        [ "hb_seltzer", 1 ],
         [ "india_pale_ale", 1 ],
         [ "wine_barley", 1 ],
         [ "pale_ale", 1 ],
@@ -1016,5 +1018,11 @@
     "type": "requirement",
     "//": "Small can, 250ml.",
     "components": [ [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ] ] ]
+  },
+  {
+    "id": "flour_any",
+    "type": "requirement",
+    "//": "Flour, irrespective of whether it's wheat-free or wheat-full.",
+    "components": [ [ [ "flour", 1 ], [ "flour_wheat_free", 1 ] ] ]
   }
 ]

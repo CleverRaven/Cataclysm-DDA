@@ -65,22 +65,25 @@ static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teleglow( "teleglow" );
 
-static const itype_id fuel_type_none( "null" );
+static const flag_id json_flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
 
+static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
+
+static const itype_id fuel_type_none( "null" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
-
-static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
-
-static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
@@ -642,7 +645,7 @@ void emp_blast( const tripoint &p )
         if( sight ) {
             add_msg( _( "The %s is rendered non-functional!" ), here.tername( p ) );
         }
-        here.furn_set( p, furn_str_id( "f_machinery_electronic" ) );
+        here.furn_set( p, furn_f_machinery_electronic );
         return;
     }
     // TODO: More terrain effects.
@@ -769,7 +772,7 @@ void nuke( const tripoint_abs_omt &p )
     tmpmap.load( pos_sm, false );
 
     item mininuke( itype_mininuke_act );
-    mininuke.set_flag( flag_id( "ACTIVATE_ON_PLACE" ) );
+    mininuke.set_flag( json_flag_ACTIVATE_ON_PLACE );
     tmpmap.add_item( { SEEX - 1, SEEY - 1, 0 }, mininuke );
 
     tmpmap.save();

@@ -44,7 +44,26 @@
     "warmth": 10,
     "material_thickness": 0.3,
     "flags": [ "OVERSIZE", "BELTED" ],
-    "armor": [ { "encumbrance": 4, "coverage": 50, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "grass_cloak",
+    "type": "ARMOR",
+    "name": { "str": "grass cloak" },
+    "description": "A primitive cloak.  Ötzi wore one, too.",
+    "weight": "710 g",
+    "volume": "1600 ml",
+    "price": 2000,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "cloak",
+    "color": "yellow",
+    "warmth": 10,
+    "material_thickness": 0.4,
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "cloak",
@@ -141,7 +160,7 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "brown",
-    "warmth": 50,
+    "warmth": 5,
     "material_thickness": 0.3,
     "environmental_protection": 5,
     "flags": [ "OVERSIZE", "OUTER", "HELMET_COMPAT" ],

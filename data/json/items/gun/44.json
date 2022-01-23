@@ -37,16 +37,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "deaglemag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "deaglemag" ] } ]
   },
   {
     "id": "henry_big_boy",
@@ -164,7 +155,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "holster": true,
         "rigid": true,
         "ammo_restriction": { "44": 6 },
         "allowed_speedloaders": [ "44_speedloader6" ]
@@ -207,7 +197,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "holster": true,
         "rigid": true,
         "ammo_restriction": { "44": 6 },
         "allowed_speedloaders": [ "44_speedloader6" ]

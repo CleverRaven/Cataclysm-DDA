@@ -15,6 +15,7 @@
     "rains": false,
     "acidic": false,
     "sun_intensity": "high",
+    "sound_category": "sunny",
     "condition": {
       "and": [
         "is_day",
@@ -38,6 +39,7 @@
     "precip": "none",
     "rains": false,
     "acidic": false,
+    "sound_category": "cloudy",
     "sun_intensity": "light",
     "condition": {
       "and": [
@@ -285,12 +287,12 @@
     }
   },
   {
-    "id": "portal_storm",
+    "id": "early_portal_storm",
     "type": "weather_type",
-    "name": "Portal Storm",
-    "color": "red",
-    "map_color": "red",
-    "sym": "O",
+    "name": "Early Portal Storm",
+    "color": "light_red",
+    "map_color": "light_red",
+    "sym": "o",
     "ranged_penalty": 0,
     "sight_penalty": 1.0,
     "light_modifier": -5,
@@ -303,11 +305,27 @@
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
     "sun_intensity": "light",
-    "condition": {
-      "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, { "const": 1 } ],
-      "op": "="
-    },
-    "duration_min": "2 hours",
-    "duration_max": "4 hours"
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, { "const": 1 } ], "op": "=" }
+  },
+  {
+    "id": "portal_storm",
+    "type": "weather_type",
+    "name": "Portal Storm",
+    "color": "red",
+    "map_color": "red",
+    "sym": "O",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -10,
+    "sound_attn": 0,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "acidic": false,
+    "tiles_animation": "weather_portal_storm",
+    "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
+    "sound_category": "portal_storm",
+    "sun_intensity": "light",
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" }
   }
 ]

@@ -23,6 +23,8 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const ammotype ammo_test_9mm( "test_9mm" );
+
 // Pocket Tests
 // ------------
 //
@@ -57,6 +59,7 @@ static void expect_can_contain( const item_pocket &pocket, const item &it )
 {
     CAPTURE( it.tname() );
     const ret_val<item_pocket::contain_code> rate_can = pocket.can_contain( it );
+    INFO( rate_can.str() );
     CHECK( rate_can.success() );
     CHECK( rate_can.str().empty() );
     CHECK( rate_can.value() == item_pocket::contain_code::SUCCESS );
@@ -299,7 +302,7 @@ TEST_CASE( "max container volume", "[pocket][max_contains_volume]" )
 
         // 9mm ammo is 50 rounds per 250ml (or 200 rounds per liter), so this ammo box
         // should be exactly 1 liter in size, so it can contain this much ammo.
-        data_ammo_box.ammo_restriction.emplace( ammotype( "test_9mm" ), 200 );
+        data_ammo_box.ammo_restriction.emplace( ammo_test_9mm, 200 );
         REQUIRE_FALSE( data_ammo_box.ammo_restriction.empty() );
 
         // And because actual volume is derived from ammo needs, this volume should be ignored.
@@ -344,7 +347,7 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
         //      "ammo_restriction": { "9mm", 10 }
         //
         const int full_clip_qty = 10;
-        data_mag.ammo_restriction.emplace( ammotype( "test_9mm" ), full_clip_qty );
+        data_mag.ammo_restriction.emplace( ammo_test_9mm, full_clip_qty );
         item_pocket pocket_mag( &data_mag );
 
         WHEN( "it does not already contain any ammo" ) {
@@ -1020,6 +1023,8 @@ TEST_CASE( "when one pocket is better than another", "[pocket][better]" )
     // pockets restricted by ammo should try to get filled first
     // pockets restricted by flag should try to get filled first
     // if remaining volume is equal, lower obtain_cost is better
+    // pockets with less extra encumbrance should be prioritized (#53162)
+    // pockets without ripoff chance should be prioritized (#53162)
 
     // A and B: Two generic sets of pocket data for comparison
     pocket_data data_a( item_pocket::pocket_type::CONTAINER );

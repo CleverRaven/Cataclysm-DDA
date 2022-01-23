@@ -22,6 +22,7 @@
 #include "map_extras.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mapgen_functions.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
@@ -36,6 +37,8 @@
 
 static const itype_id itype_petrified_eye( "petrified_eye" );
 
+static const map_extra_id map_extra_mx_dsa_alrp( "mx_dsa_alrp" );
+
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_copbot( "mon_copbot" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
@@ -47,6 +50,8 @@ static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 
+static const spell_id spell_dks_summon_alrp( "dks_summon_alrp" );
+
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
                           int s )
     : type( e_t )
@@ -54,6 +59,17 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     , faction_id( f_id )
     , map_point( p )
     , strength( s )
+{
+}
+
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
+                          int s, std::string s_id )
+    : type( e_t )
+    , when( w )
+    , faction_id( f_id )
+    , map_point( p )
+    , strength( s )
+    , string_id( s_id )
 {
 }
 
@@ -252,17 +268,27 @@ void timed_event::actualize()
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const tripoint spot = here.getlocal( project_to<coords::ms>( map_point ).raw() );
                 monster dispatcher( mon_dsa_alien_dispatch );
-                fake_spell summoning( spell_id( "dks_summon_alrp" ), true, 12 );
+                fake_spell summoning( spell_dks_summon_alrp, true, 12 );
                 summoning.get_spell().cast_all_effects( dispatcher, spot );
             } else {
                 tinymap mx_map;
                 mx_map.load( map_point, false );
-                MapExtras::apply_function( "mx_dsa_alrp", mx_map, map_point );
+                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, map_point );
                 g->load_npcs();
                 here.invalidate_map_cache( map_point.z() );
             }
         }
         break;
+
+        case timed_event_type::TRANSFORM_RADIUS:
+            get_map().transform_radius( ter_furn_transform_id( string_id ), strength,
+                                        tripoint( map_point.x(), map_point.y(), map_point.z() ) );
+            break;
+
+        case timed_event_type::UPDATE_MAPGEN:
+            run_mapgen_update_func( update_mapgen_id( string_id ), project_to<coords::omt>( map_point ),
+                                    nullptr );
+            break;
 
         default:
             // Nothing happens for other events
@@ -365,6 +391,13 @@ void timed_event_manager::add( const timed_event_type type, const time_point &wh
     events.emplace_back( type, when, faction_id, where, strength );
 }
 
+void timed_event_manager::add( const timed_event_type type, const time_point &when,
+                               const int faction_id,
+                               const tripoint_abs_sm &where,
+                               int strength, std::string string_id )
+{
+    events.emplace_back( type, when, faction_id, where, strength, string_id );
+}
 bool timed_event_manager::queued( const timed_event_type type ) const
 {
     return const_cast<timed_event_manager &>( *this ).get( type ) != nullptr;

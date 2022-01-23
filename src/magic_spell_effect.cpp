@@ -65,12 +65,21 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const flag_id json_flag_FIT( "FIT" );
+
 static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_large( "mon_blob_large" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
 static const mtype_id mon_generator( "mon_generator" );
+
+static const species_id species_HALLUCINATION( "HALLUCINATION" );
+static const species_id species_SLIME( "SLIME" );
 
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
@@ -554,7 +563,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
                 }
                 if( ( mtypes[iter].id != victim.type->id ) && ( std::abs( mtypes[iter].difficulty - victim_diff )
                         <= difficulty_variance ) ) {
-                    if( !mtypes[iter].in_species( species_id( "HALLUCINATION" ) ) &&
+                    if( !mtypes[iter].in_species( species_HALLUCINATION ) &&
                         mtypes[iter].id != mon_generator ) {
                         new_id = mtypes[iter].id;
                         break;
@@ -914,7 +923,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     }
     avatar &player_character = get_avatar();
     if( player_character.can_wear( granted ).success() ) {
-        granted.set_flag( flag_id( "FIT" ) );
+        granted.set_flag( json_flag_FIT );
         player_character.wear_item( granted, false );
     } else if( !player_character.has_wield_conflicts( granted ) &&
                player_character.wield( granted, 0 ) ) {
@@ -1032,7 +1041,7 @@ static bool add_summoned_mon( const tripoint &pos, const time_duration &time, co
     if( !permanent ) {
         spawned_mon.set_summon_time( time );
     }
-    spawned_mon.no_extra_death_drops = true;
+    spawned_mon.no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
     return true;
 }
 
@@ -1268,6 +1277,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         const int kill_count = g->get_kill_tracker().kill_count( z.type->id );
         // this is when the player stops caring altogether.
         const int max_kills = sp.damage();
+        // this determines how strong the morale penalty will be
+        const int guilt_mult = sp.get_level();
 
         // different message as we kill more of the same monster
         std::string msg = _( "You feel guilty for killing %s." ); // default guilt message
@@ -1307,21 +1318,36 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
 
         add_msg( msgtype, msg, z.name() );
 
-        int moraleMalus = -50 * ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        const int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        const time_duration duration = sp.duration_turns() *
-                                       ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        const time_duration decayDelay = 3_minutes *
-                                         ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        if( z.type->in_species( species_id( sp.effect_data() ) ) ) {
-            moraleMalus /= 10;
-            if( guy.has_trait( trait_PACIFIST ) ) {
-                moraleMalus *= 5;
-            } else if( guy.has_trait_flag( json_flag_PRED1 ) ) {
-                moraleMalus /= 4;
-            } else if( guy.has_trait_flag( json_flag_PRED2 ) ) {
-                moraleMalus /= 5;
+        float killRatio = static_cast<float>( kill_count ) / max_kills;
+        int moraleMalus = -5 * guilt_mult * ( 1.0 - killRatio );
+        const int maxMalus = -250 * ( 1.0 - killRatio );
+        const time_duration duration = sp.duration_turns() * ( 1.0 - killRatio );
+        const time_duration decayDelay = 3_minutes * ( 1.0 - killRatio );
+
+        bool shared_species = false;
+        if( caster.is_dead_state() && caster.get_killer() != nullptr ) {
+            for( const species_id &specie : caster.as_monster()->type->species ) {
+                if( guy.in_species( specie ) ) {
+                    shared_species = true;
+                }
             }
+        } else if( z.type->in_species( species_id( sp.effect_data() ) ) ) {
+            shared_species = true;
+        }
+        // killing your own kind hurts your soul more
+        if( shared_species ) {
+            moraleMalus *= 2;
+        }
+        if( guy.has_trait( trait_PACIFIST ) ) {
+            moraleMalus *= 5;
+        }
+        // cullers feel less bad about killing
+        else if( guy.has_trait_flag( json_flag_PRED1 ) ) {
+            moraleMalus /= 4;
+        }
+        // hunters feel less bad about killing
+        else if( guy.has_trait_flag( json_flag_PRED2 ) ) {
+            moraleMalus /= 5;
         }
         guy.add_morale( MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay );
     }
@@ -1537,6 +1563,80 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
             eoc->activate( d );
         } else {
             debugmsg( "Must use an activation eoc for a spell.  If you don't want the effect_on_condition to happen on its own (without the spell being cast), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this spell with its condition and effects, then have a recurring one queue it." );
+        }
+    }
+}
+
+void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, const tripoint &target )
+{
+    sp.make_sound( target );
+    int mass = caster.get_speed_base();
+    monster *caster_monster = dynamic_cast<monster *>( &caster );
+    if( caster_monster && caster_monster->type->id == mon_blob_brain ) {
+        mass += mass;
+    }
+    const int radius = sp.aoe();
+    std::vector<tripoint> pts = closest_points_first( caster.pos(), radius );
+    std::vector<monster *> summoned_slimes;
+    const bool permanent = sp.has_flag( spell_flag::PERMANENT );
+    // Make sure the creature has enough mass to create new slimes
+    if( mass >= mon_blob_small->speed / 2 ) {
+        for( const tripoint &dest : pts ) {
+            // Fall back to small slimes if no bigger smile is chosen
+            mtype_id slime_id = mon_blob_small;
+            if( mass > mon_blob_large->speed + 20 && one_in( 3 ) ) {
+                // 33% chance of spawning a big slime if enough mass
+                slime_id = mon_blob_large;
+            } else if( mass > mon_blob->speed + 20 && one_in( 2 ) ) {
+                // 50% chance of spawning a slime if enough mass
+                slime_id = mon_blob;
+            }
+
+            shared_ptr_fast<monster> mon = make_shared_fast<monster>( slime_id );
+            mon->ammo = mon->type->starting_ammo;
+            if( mon->will_move_to( dest ) ) {
+                if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
+                    sp.make_sound( dest );
+                    if( !permanent ) {
+                        blob->set_summon_time( sp.duration_turns() );
+                    }
+                    if( caster_monster ) {
+                        blob->make_ally( *caster_monster );
+                    }
+                    const int used_mass = std::min( mass, slime_id->speed - 15 );
+                    mass -= used_mass;
+                    blob->set_speed_base( used_mass );
+                    blob->no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
+                    summoned_slimes.push_back( mon.get() );
+                    if( mass < mon_blob_small->speed / 2 ) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // Divide remaining mass between summoned slimes
+    if( mass > 0 && !summoned_slimes.empty() ) {
+        const int mass_per_mob = mass / summoned_slimes.size();
+        for( monster *slime : summoned_slimes ) {
+            slime->set_speed_base( slime->get_speed_base() + mass_per_mob );
+            mass -= mass_per_mob;
+        }
+    }
+
+    // Last resort: Find a slime nearby that will absorb part of this mass
+    if( mass > 3 ) {
+        for( const tripoint &dest : pts ) {
+            if( monster *mon = get_creature_tracker().creature_at<monster>( dest ) ) {
+                if( mon->type->in_species( species_SLIME ) ) {
+                    // The mass discarded here should prevent issues when surrounded
+                    // by big blobs that keep trading mass and spawning medium slimes
+                    // over and over.
+                    mon->set_speed_base( mon->get_speed_base() + mass - 3 );
+                    return;
+                }
+            }
         }
     }
 }

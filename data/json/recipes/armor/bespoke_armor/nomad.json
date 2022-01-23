@@ -124,7 +124,7 @@
     ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "superglue", 2 ] ] ]
+    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "rubber_cement", 2 ] ] ]
   },
   {
     "result": "nomad_bodyglove_2",
@@ -144,6 +144,6 @@
     ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "thread_kevlar", 20 ] ], [ [ "superglue", 2 ] ] ]
+    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "thread_kevlar", 20 ] ], [ [ "rubber_cement", 2 ] ] ]
   }
 ]

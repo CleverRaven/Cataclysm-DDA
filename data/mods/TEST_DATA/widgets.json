@@ -1,5 +1,21 @@
 [
   {
+    "id": "test_bp_status_indicator_template",
+    "type": "widget",
+    "style": "phrase",
+    "phrases": [
+      { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow" },
+      { "id": "infected", "text": "infected", "sym": "I", "color": "pink" },
+      { "id": "broken", "text": "broken", "sym": "%", "color": "magenta" },
+      { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray" },
+      { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white" },
+      { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green" },
+      { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red" },
+      { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red" },
+      { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red" }
+    ]
+  },
+  {
     "id": "test_bucket_graph",
     "type": "widget",
     "style": "graph",
@@ -79,6 +95,63 @@
     "style": "number"
   },
   {
+    "id": "test_rad_badge_text",
+    "type": "widget",
+    "label": "RADIATION",
+    "var": "rad_badge_text",
+    "style": "text"
+  },
+  {
+    "id": "test_compass_N_nodir_nowidth",
+    "type": "widget",
+    "label": "N",
+    "var": "compass_text",
+    "style": "text"
+  },
+  {
+    "id": "test_compass_N_nowidth",
+    "type": "widget",
+    "label": "N",
+    "var": "compass_text",
+    "style": "text",
+    "direction": "N"
+  },
+  {
+    "id": "test_compass_N",
+    "type": "widget",
+    "label": "N",
+    "var": "compass_text",
+    "style": "text",
+    "direction": "N",
+    "width": 4
+  },
+  {
+    "id": "test_compass_legend_1",
+    "type": "widget",
+    "style": "text",
+    "var": "compass_legend_text",
+    "text_align": "left",
+    "flags": [ "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "test_compass_legend_3",
+    "type": "widget",
+    "style": "text",
+    "var": "compass_legend_text",
+    "height": 3,
+    "text_align": "left",
+    "flags": [ "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "test_compass_legend_5",
+    "type": "widget",
+    "style": "text",
+    "var": "compass_legend_text",
+    "height": 5,
+    "text_align": "left",
+    "flags": [ "W_DYNAMIC_HEIGHT" ]
+  },
+  {
     "id": "test_speed_num",
     "type": "widget",
     "label": "SPEED",
@@ -118,6 +191,34 @@
     "style": "number"
   },
   {
+    "id": "test_move_cost_num",
+    "type": "widget",
+    "label": "MOVE COST",
+    "var": "move_cost",
+    "style": "number"
+  },
+  {
+    "id": "test_move_mode_text",
+    "type": "widget",
+    "label": "MODE",
+    "var": "move_mode_text",
+    "style": "text"
+  },
+  {
+    "id": "test_move_mode_letter",
+    "type": "widget",
+    "label": "MODE",
+    "var": "move_mode_letter",
+    "style": "text"
+  },
+  {
+    "id": "test_move_count_mode_text",
+    "type": "widget",
+    "label": "MOVE/MODE",
+    "var": "move_count_mode_text",
+    "style": "text"
+  },
+  {
     "id": "test_str_num",
     "type": "widget",
     "label": "STR",
@@ -144,6 +245,21 @@
     "label": "PER",
     "var": "stat_per",
     "style": "number"
+  },
+  {
+    "id": "test_weather_text",
+    "type": "widget",
+    "label": "Weather",
+    "var": "weather_text",
+    "style": "text"
+  },
+  {
+    "id": "test_weather_text_height5",
+    "type": "widget",
+    "label": "Weather",
+    "var": "weather_text",
+    "style": "text",
+    "height": 5
   },
   {
     "id": "test_weariness_num",
@@ -188,10 +304,88 @@
     "style": "number"
   },
   {
+    "id": "test_status_torso_text",
+    "type": "widget",
+    "label": "TORSO STATUS",
+    "var": "bp_status_text",
+    "bodypart": "torso",
+    "style": "text",
+    "copy-from": "test_bp_status_indicator_template"
+  },
+  {
+    "id": "test_status_left_arm_text",
+    "type": "widget",
+    "label": "LEFT ARM STATUS",
+    "var": "bp_status_text",
+    "bodypart": "arm_l",
+    "style": "text",
+    "copy-from": "test_bp_status_indicator_template"
+  },
+  {
+    "id": "test_status_sym_torso_text",
+    "type": "widget",
+    "style": "text",
+    "var": "bp_status_sym_text",
+    "label": "TORSO",
+    "bodypart": "torso",
+    "copy-from": "test_bp_status_indicator_template"
+  },
+  {
+    "id": "test_status_sym_left_arm_text",
+    "type": "widget",
+    "style": "text",
+    "var": "bp_status_sym_text",
+    "label": "L ARM",
+    "bodypart": "arm_l",
+    "copy-from": "test_bp_status_indicator_template"
+  },
+  {
+    "id": "test_status_legend_text",
+    "type": "widget",
+    "label": "Status Legend",
+    "style": "text",
+    "var": "bp_status_legend_text",
+    "copy-from": "test_bp_status_indicator_template",
+    "width": 0,
+    "height": 3,
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "test_overmap_3x3_text",
+    "type": "widget",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 3,
+    "height": 3
+  },
+  {
     "id": "test_stat_panel",
     "type": "widget",
     "style": "layout",
+    "arrange": "columns",
     "widgets": [ "test_str_num", "test_dex_num", "test_int_num", "test_per_num" ]
+  },
+  {
+    "id": "test_2_column_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_move_num", "test_speed_num" ]
+  },
+  {
+    "id": "test_3_column_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_move_num", "test_speed_num", "test_focus_num" ]
+  },
+  {
+    "id": "test_4_column_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "test_move_num", "test_speed_num", "test_focus_num", "test_mana_num" ]
   },
   {
     "id": "test_text_widget",

@@ -89,7 +89,7 @@
     "type": "terrain",
     "id": "t_diesel_pump",
     "name": "diesel pump",
-    "description": "This is a diesel fuel pump.  This roadside attraction provides all the thick, gloopy liquid POWER you need to move your sensibly oversized APOCOLYPTIC SUPERTRUCK from point A to points beyond.  If it doesn't dispense fuel immediately, try banging on it or grunt your way over the nearby payment terminal.",
+    "description": "This is a diesel fuel pump.  This roadside attraction provides all the thick, gloopy liquid POWER you need to move your sensibly oversized APOCALYPTIC SUPERTRUCK from point A to points beyond.  If it doesn't dispense fuel immediately, try banging on it or grunt your way over the nearby payment terminal.",
     "symbol": "&",
     "color": "green",
     "looks_like": "t_gas_pump",
@@ -110,7 +110,7 @@
     "type": "terrain",
     "id": "t_diesel_pump_a",
     "name": "diesel pump",
-    "description": "This is a diesel fuel pump.  This roadside attraction provides all the thick, gloopy liquid POWER you need to move your sensibly oversized APOCOLYPTIC SUPERTRUCK from point A to points beyond.  If it doesn't dispense fuel immediately, try banging on it or grunt your way over the nearby payment terminal.",
+    "description": "This is a diesel fuel pump.  This roadside attraction provides all the thick, gloopy liquid POWER you need to move your sensibly oversized APOCALYPTIC SUPERTRUCK from point A to points beyond.  If it doesn't dispense fuel immediately, try banging on it or grunt your way over the nearby payment terminal.",
     "//": "clone of t_diesel_pump, but other color, must be clone every time",
     "symbol": "&",
     "color": "yellow_red",
@@ -550,7 +550,7 @@
     "id": "t_nanofab_body",
     "name": "nanofabricator",
     "symbol": "%",
-    "description": "A great column of advanced machinery.  Within this self-contained, miniaturized factory, several 3d printers work in tandem with a robotic assembler to manufacture nearly any inorganic object.",
+    "description": "A great column of advanced machinery.  Within this self-contained, miniaturized factory, several 3D printers work in tandem with a robotic assembler to manufacture nearly any inorganic object.",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 65,
@@ -1236,6 +1236,28 @@
   },
   {
     "type": "terrain",
+    "id": "t_pit_straw",
+    "name": "pit filled with straw",
+    "symbol": "#",
+    "description": "A shallow pit filled with some straw.  Very crude.  Itchy and uncomfortable but better than the bare ground.",
+    "color": "yellow",
+    "move_cost": 2,
+    "coverage": 35,
+    "comfort": 1,
+    "floor_bedding_warmth": 100,
+    "deconstruct": { "items": [ { "item": "straw_pile", "count": [ 55, 60 ] } ], "ter_set": "t_pit_shallow" },
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "crunch!",
+      "sound_fail": "brush.",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "straw_pile", "count": [ 30, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_improvised_shelter",
     "name": "improvised shelter",
     "description": "Improvised shelter providing little bit of protection, that can be used to take refuge from the elements or to protect a campfire from the rain.",
@@ -1244,7 +1266,19 @@
     "looks_like": "t_leanto",
     "move_cost": 2,
     "coverage": 30,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE" ],
+    "floor_bedding_warmth": 1000,
+    "comfort": 3,
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "REDUCE_SCENT",
+      "INDOORS",
+      "MOUNTABLE",
+      "HIDE_PLACE",
+      "EASY_DECONSTRUCT"
+    ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1252,6 +1286,41 @@
       "sound_fail": "brush.",
       "ter_set": "t_pit_shallow",
       "items": [ { "item": "stick", "count": [ 3, 6 ] }, { "item": "pine_bough", "count": [ 6, 18 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_improvised_shelter_filled",
+    "name": "improvised shelter",
+    "description": "Improvised shelter which has been made a bit more comfortable by filling it with dry plant matter, which should provide some more insulation.  Trying to contain a fire here would be a bad idea.",
+    "symbol": "#",
+    "color": "brown_green",
+    "looks_like": "t_leanto",
+    "floor_bedding_warmth": 1200,
+    "comfort": 4,
+    "move_cost": 2,
+    "coverage": 30,
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "THIN_OBSTACLE",
+      "REDUCE_SCENT",
+      "INDOORS",
+      "MOUNTABLE",
+      "HIDE_PLACE",
+      "EASY_DECONSTRUCT"
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_pit_shallow",
+      "items": [
+        { "item": "stick", "count": [ 3, 6 ] },
+        { "item": "pine_bough", "count": [ 6, 18 ] },
+        { "item": "withered", "count": [ 40, 60 ] }
+      ]
     }
   },
   {

@@ -8,7 +8,6 @@
 #include <unordered_set>
 
 #include "dialogue.h"
-#include "global_vars.h"
 #include "mission.h"
 
 class JsonObject;
@@ -40,7 +39,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_at_om_location", "npc_at_om_location", "npc_role_nearby", "npc_allies", "npc_service",
         "u_has_cash", "u_are_owed", "u_query", "npc_query",
         "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override",
-        "npc_cbm_reserve_rule", "npc_cbm_recharge_rule",
+        "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
         "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "one_in_chance", "x_in_y_chance",
@@ -51,69 +50,17 @@ const std::unordered_set<std::string> complex_conds = { {
     }
 };
 } // namespace dialogue_data
-
-struct int_or_var {
-    cata::optional<int> int_val;
-    cata::optional<std::string> var_val;
-    cata::optional<int> default_val;
-    bool global = false;
-    int evaluate( talker *talk ) const {
-        if( int_val.has_value() ) {
-            return int_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val;
-            if( global ) {
-                global_variables &globvars = get_globals();
-                val = globvars.get_global_value( var_val.value() );
-            } else {
-                val = talk->get_value( var_val.value() );
-            }
-            if( !val.empty() ) {
-                return std::stoi( val );
-            }
-            return default_val.value();
-        } else {
-            debugmsg( "No valid value." );
-            return 0;
-        }
-    }
-};
-
-struct duration_or_var {
-    cata::optional<time_duration> dur_val;
-    cata::optional<std::string> var_val;
-    cata::optional<time_duration> default_val;
-    bool global = false;
-    time_duration evaluate( talker *talk ) const {
-        if( dur_val.has_value() ) {
-            return dur_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val;
-            if( global ) {
-                global_variables &globvars = get_globals();
-                val = globvars.get_global_value( var_val.value() );
-            } else {
-                val = talk->get_value( var_val.value() );
-            }
-            if( !val.empty() ) {
-                time_duration ret_val;
-                ret_val = time_duration::from_turns( std::stoi( val ) );
-                return ret_val;
-            }
-            return default_val.value();
-        } else {
-            debugmsg( "No valid value." );
-            return 0_seconds;
-        }
-    }
-};
-
-std::string get_talk_varname( const JsonObject &jo, const std::string &member,
-                              bool check_value = true );
 int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
                            int default_val = 0 );
 duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
                                      time_duration default_val = 0_seconds );
+tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
+                                var_type type, talker *var_source );
+var_info read_var_info( JsonObject jo, bool require_default );
+std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+                              bool check_value = false );
+std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+                              bool check_value, int_or_var &default_val );
 // the truly awful declaration for the conditional_t loading helper_function
 template<class T>
 void read_condition( const JsonObject &jo, const std::string &member_name,
@@ -182,6 +129,7 @@ struct conditional_t {
         void set_is_season( const JsonObject &jo );
         void set_is_weather( const JsonObject &jo );
         void set_mission_goal( const JsonObject &jo, bool is_npc );
+        void set_has_faction_trust( const JsonObject &jo, const std::string &member );
         void set_no_assigned_mission();
         void set_has_assigned_mission();
         void set_has_many_assigned_missions();

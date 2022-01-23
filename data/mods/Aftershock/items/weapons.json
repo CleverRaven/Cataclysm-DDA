@@ -185,7 +185,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 150,
-    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ],
+    "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
@@ -239,7 +239,7 @@
     "material": [ "ceramic", "plastic" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
     "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE", "STAB" ]
   },
   {
@@ -283,9 +283,18 @@
     "price_postapoc": 40000,
     "bashing": 10,
     "armor_data": {
-      "material": [ "superalloy", "hardsteel", "wood" ],
-      "material_thickness": 1,
-      "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [
+            { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "hardsteel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "encumbrance": 20,
+          "coverage": 5,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "reload_noise_volume": 3,
     "loudness": 8,
@@ -325,9 +334,18 @@
     "price_postapoc": 40000,
     "bashing": 10,
     "armor_data": {
-      "material": [ "superalloy", "hardsteel", "wood" ],
-      "material_thickness": 1,
-      "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [
+            { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "hardsteel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "encumbrance": 20,
+          "coverage": 5,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "reload_noise_volume": 3,
     "loudness": 8,
@@ -382,9 +400,17 @@
     "price_postapoc": 2000,
     "bashing": 12,
     "armor_data": {
-      "material_thickness": 1,
-      "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ],
-      "material": [ "steel", "plastic" ]
+      "armor": [
+        {
+          "material": [
+            { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "encumbrance": 20,
+          "coverage": 5,
+          "covers": [ "torso" ]
+        }
+      ]
     },
     "reload_noise_volume": 3,
     "loudness": 8,
