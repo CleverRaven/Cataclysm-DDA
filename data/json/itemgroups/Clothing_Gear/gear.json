@@ -1,5 +1,5 @@
 [
-  {
+{
     "type": "item_group",
     "id": "swat_gear",
     "subtype": "distribution",
@@ -15,6 +15,7 @@
       { "item": "goggles_ir", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "goggles_nv", "prob": 10, "charges": [ 0, 100 ] },
       [ "helmet_riot", 5 ],
+      [ "riot_shield", 5 ],
       [ "holo_sight", 20 ],
       [ "balclava", 10 ],
       [ "balaclava_cut_resistant", 5 ],
