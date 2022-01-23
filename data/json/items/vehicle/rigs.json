@@ -1,6 +1,6 @@
 [
   {
-    "abstract": "vehicle_rig ",
+    "abstract": "vehicle_rig",
     "type": "GENERIC",
     "category": "veh_parts",
     "name": { "str": "vehicle crafting rig" },
