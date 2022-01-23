@@ -43,7 +43,7 @@
         "ablative": true,
         "rigid": true,
         "max_contains_volume": "10 L",
-        "max_contains_weight": "45 kg",
+        "max_contains_weight": "80 kg",
         "flag_restriction": [ "EXO_TORSO_PLATE" ],
         "moves": 60
       },
@@ -93,8 +93,8 @@
         "description": "This is a mounting point for arm armor.",
         "ablative": true,
         "rigid": true,
-        "max_contains_volume": "8 L",
-        "max_contains_weight": "35 kg",
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "80 kg",
         "flag_restriction": [ "EXO_ARM_PLATE" ],
         "moves": 60
       },
@@ -144,8 +144,8 @@
         "description": "This is a mounting point for leg armor.",
         "ablative": true,
         "rigid": true,
-        "max_contains_volume": "10 L",
-        "max_contains_weight": "40 kg",
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "80 kg",
         "flag_restriction": [ "EXO_LEG_PLATE" ],
         "moves": 60
       },
@@ -225,8 +225,7 @@
     "power_draw": 7123,
     "revert_to": "modular_exoskeleton",
     "use_action": [
-      { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exoskeleton" },
-      "MANAGE_EXOSUIT"
+      { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exoskeleton" }
     ]
   },
   {
