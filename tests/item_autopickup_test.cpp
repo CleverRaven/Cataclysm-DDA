@@ -165,7 +165,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
     rules.clear_character_rules();
     rules.check_item( "" );
 
-    GIVEN( "avatar spots items on a tile near him" ) {
+    GIVEN( "avatar is about to walk over a tile filled with items" ) {
         // make sure no items exist on the ground before we add them
         REQUIRE( here.i_at( ground ).empty() );
 
@@ -173,19 +173,19 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
         here.add_item( ground, item( itype_marble, calendar::turn, 10 ) );
         here.add_item( ground, item( itype_pebble, calendar::turn, 15 ) );
 
-        // codeine (20)
-        WHEN( "they have codeine pills in auto-pickup rules" ) {
+        // codeine (20)(WL)
+        WHEN( "there is an item on the ground whitelisted in auto-pickup rules" ) {
             unique_item item_codeine = unique_item( itype_codeine, 20 );
             REQUIRE( item_codeine.spawn_item( ground ) );
             add_autopickup_rule( item_codeine.get(), true );
 
-            THEN( "codeine pills should be picked up" ) {
+            THEN( "the whitelisted item should be picked up" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_codeine } );
             }
         }
-        // plastic prescription bottle > aspirin (12)
-        WHEN( "they have aspirin pills in auto-pickup rules" ) {
+        // plastic prescription bottle > (WL)aspirin (12)
+        WHEN( "there is a container on the ground containing only items whitelisted in auto-pickup rules" ) {
             unique_item item_aspirin = unique_item( itype_aspirin, 12 );
             unique_item item_prescription_bottle = unique_item(
             itype_bottle_plastic_pill_prescription, {
@@ -194,7 +194,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             REQUIRE( item_prescription_bottle.spawn_item( ground ) );
             add_autopickup_rule( item_aspirin.get(), true );
 
-            THEN( "prescription bottle with aspirin pills should be picked up" ) {
+            THEN( "the container along with its contents should be picked up" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_prescription_bottle } );
                 expect_to_find( *item_prescription_bottle.find_in_container( backpack ), {
@@ -202,8 +202,8 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
                 } );
             }
         }
-        // plastic bag > paper(5), paper wrapper > chocolate candy(3)
-        WHEN( "they have chocolate candy in auto-pickup rules" ) {
+        // plastic bag > paper (5), paper wrapper (WL) > chocolate candy (3)
+        WHEN( "there is a container on the ground with a deeply nested item whitelisted in auto-pickup rules" ) {
             const unique_item item_paper = unique_item( itype_paper, 5 );
             const unique_item item_chocolate_candy = unique_item( itype_candy2, 3 );
             const unique_item item_paper_wrapper = unique_item( itype_wrapper, {
@@ -215,7 +215,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             REQUIRE( item_plastic_bag.spawn_item( ground ) );
             add_autopickup_rule( item_chocolate_candy.get(), true );
 
-            THEN( "paper wrapper with chocolate candy should be picked up" ) {
+            THEN( "only the deeply nested item should be picked up" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_paper_wrapper } );
                 expect_to_find( *item_paper_wrapper.find_in_container( backpack ), {
@@ -224,8 +224,8 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
                 REQUIRE( item_plastic_bag.find_on_ground( ground ) );
             }
         }
-        // flashlight > light battery
-        WHEN( "they have light battery in auto-pickup rules" ) {
+        // flashlight > light battery (WL)
+        WHEN( "there is a powered tool on the ground loaded with a light battery whitelisted in auto-pickup rules" ) {
             item item_flashlight = item( itype_flashlight );
             item *item_light_battery = &here.add_item( ground, item( itype_light_battery_cell ) );
             REQUIRE( item_light_battery != &null_item_reference() );
@@ -242,14 +242,14 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             // we want to remove and pickup the battery from the flashlight
             add_autopickup_rule( item_light_battery, true );
 
-            THEN( "light battery from flashlight should be picked up" ) {
+            THEN( "the light battery from the tool should be picked up" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &uitem_light_battery } );
                 REQUIRE( uitem_flashlight.find_on_ground( ground ) );
             }
         }
-        // leather wallet > one dollar bill, five dollar bill
-        WHEN( "they have wallet whitelisted and one dollar bill blacklisted" ) {
+        // leather wallet (WL) > one dollar bill, five dollar bill
+        WHEN( "there is a non-rigid whitelisted container on the ground with two items" ) {
             unique_item item_money_one = unique_item( itype_money_one );
             unique_item item_money_five = unique_item( itype_money_five );
             unique_item item_leather_wallet = unique_item( itype_wallet_leather, {
@@ -258,7 +258,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             REQUIRE( item_leather_wallet.spawn_item( ground ) );
             add_autopickup_rules( { { &item_leather_wallet, true }, { &item_money_one, false } } );
 
-            THEN( "wallet should be picked up and one dollar bill should be dropped on ground" ) {
+            THEN( "the container should be picked up and blacklisted item should be dropped on ground" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_leather_wallet } );
                 expect_to_find( *item_leather_wallet.find_in_container( backpack ), {
@@ -268,8 +268,8 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
                 REQUIRE( item_money_one.find_on_ground( ground ) );
             }
         }
-        // plastic bottle > clean water (2)
-        WHEN( "they have clean water whitelisted and plastic bottle blacklisted" ) {
+        // plastic bottle > clean water (2)(WL)
+        WHEN( "there is a rigid container on the ground with liquid whitelisted in auto-pickup rules" ) {
             // construct and fill bottle with clean water
             item item_plastic_bottle = item( itype_bottle_plastic );
             unique_item item_clean_water = unique_item( itype_water_clean, 2 );
@@ -280,7 +280,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             REQUIRE( item_bottled_water.spawn_item( ground ) );
 
             add_autopickup_rules( { { &item_clean_water, true }, { &item_bottled_water, false } } );
-            THEN( "clean water should NOT be picked up without plastic bottle" ) {
+            THEN( "the liquid should not be picked up from the container" ) {
                 simulate_auto_pickup( ground, they );
                 // check to see if item has been added to backpack
                 const item *item_in_inventory = item_bottled_water.find_in_container( backpack );
@@ -290,8 +290,8 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
                 REQUIRE( item_bottled_water.find_on_ground( ground ) );
             }
         }
-        // small tin can (sealed) > canned tuna fish
-        WHEN( "they have sealed small tin can containing canned tuna fish" ) {
+        // small tin can (sealed) > canned tuna fish (WL), canned meat
+        WHEN( "there is a sealed container on the ground containing items whitelisted in auto-pickup rules" ) {
             item item_small_tin_can = item( itype_can_food );
             unique_item item_canned_tuna = unique_item( itype_can_tuna, 1, true );
             unique_item item_canned_meat = unique_item( itype_meat_canned, 1, true );
@@ -305,7 +305,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             REQUIRE( item_sealed_tuna.spawn_item( ground ) );
 
             add_autopickup_rules( { { &item_canned_tuna, true } } );
-            THEN( "whole container should be picked up instead of picking up canned tuna" ) {
+            THEN( "the container should be picked up instead of whitelisted items" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_sealed_tuna } );
 
