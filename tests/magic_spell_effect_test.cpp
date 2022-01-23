@@ -100,23 +100,29 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         m.update_visibility_cache( 0 );
         m.invalidate_map_cache( 0 );
         m.build_map_cache( 0 );
-        m.update_visibility_cache( 0 );
-        m.invalidate_map_cache( 0 );
-        m.build_map_cache( 0 );
         dummy.recalc_sight_limits();
 
         spell_effect::remove_field( sp, dummy, player_initial_pos );
         m.process_fields();
+        m.invalidate_map_cache( 0 );
+        m.build_map_cache( 0 );
+        dummy.process_turn();
 
         CHECK( count_fields( fd_fatigue ) == 2 );
 
         spell_effect::remove_field( sp, dummy, player_initial_pos );
         m.process_fields();
+        m.invalidate_map_cache( 0 );
+        m.build_map_cache( 0 );
+        dummy.process_turn();
 
         CHECK( count_fields( fd_fatigue ) == 1 );
 
         spell_effect::remove_field( sp, dummy, player_initial_pos );
         m.process_fields();
+        m.invalidate_map_cache( 0 );
+        m.build_map_cache( 0 );
+        dummy.process_turn();
 
         CHECK( count_fields( fd_fatigue ) == 0 );
     };
