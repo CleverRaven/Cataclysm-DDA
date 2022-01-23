@@ -304,7 +304,7 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
             unique_item item_sealed_tuna = unique_item( item_small_tin_can );
             REQUIRE( item_sealed_tuna.spawn_item( ground ) );
 
-            add_autopickup_rules( { { &item_sealed_tuna, true } } );
+            add_autopickup_rules( { { &item_canned_tuna, true } } );
             THEN( "whole container should be picked up instead of picking up canned tuna" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_sealed_tuna } );

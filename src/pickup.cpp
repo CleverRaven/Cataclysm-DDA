@@ -130,32 +130,32 @@ static void drop_blacklisted_items( item *from, tripoint where )
 static std::vector<item_location> get_pickup_list_from( item_location &container )
 {
     item *container_item = container.get_item();
-    bool contains_liquid = false;
+    // items sealed in containers should never be unsealed by autopickup
+    bool force_pick_container = container_item->any_pockets_sealed();
     bool pick_all_items = true;
 
     std::vector<item_location> pickup_list;
     std::list<item *> contents = container_item->all_items_top();
     pickup_list.reserve( contents.size() );
 
-    for( item *item_to_check : contents ) {
-        const rule_state pickup_state = should_auto_pickup( item_to_check );
+    std::list<item *>::iterator it;
+    for( it = contents.begin(); it != contents.end() && !force_pick_container; ++it ) {
+        item *item_entry = *it;
+        const rule_state pickup_state = should_auto_pickup( item_entry );
         if( pickup_state == rule_state::WHITELISTED ) {
-            if( item_to_check->is_container() ) {
+            if( item_entry->is_container() ) {
                 // whitelisted containers should exclude contained blacklisted items
-                drop_blacklisted_items( item_to_check, container.position() );
-            } else if( item_to_check->made_of_from_type( phase_id::LIQUID ) ) {
+                drop_blacklisted_items( item_entry, container.position() );
+            } else if( item_entry->made_of_from_type( phase_id::LIQUID ) ) {
                 // liquid items should never be picked up without container
-                contains_liquid = true;
-                continue;
-            } else if( container_item->any_pockets_sealed() ) {
-                // items sealed in containers should never be unsealed by autopickup
+                force_pick_container = true;
                 continue;
             }
             // pick up the whitelisted item
-            pickup_list.emplace_back( container, item_to_check );
-        } else if( item_to_check->is_container() && !item_to_check->is_container_empty() ) {
+            pickup_list.emplace_back( container, item_entry );
+        } else if( item_entry->is_container() && !item_entry->is_container_empty() ) {
             // get pickup list from nested item container
-            item_location location = item_location( container, item_to_check );
+            item_location location = item_location( container, item_entry );
             std::vector<item_location> pickup_nested = get_pickup_list_from( location );
 
             // container with content was NOT marked for pickup
@@ -174,7 +174,7 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
     // container match then just pickup the items without the container
     bool container_blacklisted = should_auto_pickup( container_item ) == rule_state::BLACKLISTED;
     // all items in container were approved for pickup
-    if( !container_blacklisted && !contents.empty() && pick_all_items ) {
+    if( !container_blacklisted && !contents.empty() && ( pick_all_items || force_pick_container ) ) {
         bool all_batteries = true;
         bool powered_container = container_item->ammo_capacity( ammo_battery );
         if( powered_container ) {
@@ -191,9 +191,8 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
         if( is_valid_auto_pickup( container_item ) && !batteries_from_tool ) {
             pickup_list.clear();
             pickup_list.push_back( container );
-        } else if( contains_liquid || container->any_pockets_sealed() ) {
-            // never pickup liquid or sealed items directly from container
-            // if we can't pickup container then don't pickup anything
+        } else if( force_pick_container ) {
+            // when force picking never pick individual items
             pickup_list.clear();
         }
     }
