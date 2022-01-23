@@ -1,0 +1,339 @@
+[
+  {
+    "type": "palette",
+    "id": "aircraft_carrier_palette",
+    "//": "big elevators are disabled bu default due bugs with elevators itself - they works really weird with such size",
+    "terrain": {
+      ",": "t_bridge",
+      "*": "t_gates_mech_control",
+      "-": "t_metal_railing",
+      ";": "t_metal_floor",
+      "λ": "t_reinforced_glass",
+      "?": [ "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_c" ],
+      "<": "t_stairs_down",
+      ">": "t_stairs_up",
+      "№": "t_grate",
+      "X": "t_potential_trans",
+      "y": "t_concrete_wall",
+      "э": "t_sewage_pipe",
+      "ю": "t_sewage_pump",
+      "t": "t_console_broken",
+      "5": "t_wall_metal",
+      "4": "t_elevator_no_roof",
+      "(": "t_elevator_control_off",
+      "α": "t_elevator_control",
+      "+": [ "t_door_metal_c", "t_door_metal_c", "t_door_metal_c", "t_door_metal_c", "t_door_metal_locked" ],
+      "1": "t_deck_coating_no_roof",
+      "2": "t_deck_coating_no_roof_y",
+      "3": "t_deck_coating_no_roof_r",
+      "8": "t_deck_coating_no_roof_w",
+      "~": "t_water_cube",
+      "/": "t_water_cube",
+      "π": "t_open_air",
+      "ψ": "t_water_dp",
+      "ς": "t_door_metal_locked",
+      " ": "t_water_dp",
+      "g": "t_switchgear_s",
+      "ω": "t_metal_floor",
+      "ξ": "t_deck_coating_no_roof"
+    },
+    "furniture": {
+      "θ": "f_rack",
+      "A": "f_rack",
+      "$": [ "f_treadmill", "f_treadmill_mechanical" ],
+      "%": "f_exercise",
+      "&": "f_toilet",
+      "[": "f_table",
+      "^": "f_machinery_heavy",
+      "_": "f_machinery_electronic",
+      "{": "f_table",
+      "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+      ":": "f_machinery_light",
+      "M": "f_locker",
+      "}": "f_rack",
+      "a": "f_dishwasher",
+      "b": "f_oven",
+      "C": "f_console_broken",
+      "c": "f_fridge",
+      "d": "f_counter",
+      "D": "f_trashcan",
+      "E": "f_cleat",
+      "e": "f_rack_wood",
+      "f": "f_sink",
+      "G": "f_locker",
+      "H": "f_autodoc",
+      "h": "f_chair",
+      "I": "f_locker",
+      "i": "f_autodoc_couch",
+      "j": "f_curtain",
+      "k": "f_curtain_open",
+      "L": "f_locker",
+      "l": "f_ventilator",
+      "m": "f_IV_pole",
+      "N": "f_air_filter",
+      "o": "f_air_conditioner",
+      "O": "f_standing_tank",
+      "S": "f_shower",
+      "s": "f_sofa",
+      "V": "f_water_heater",
+      "v": "f_rack_coat",
+      "w": "f_water_purifier",
+      "W": "f_washer",
+      "x": "f_entertainment_center",
+      "P": "f_rack",
+      "Q": "f_locker",
+      "q": "f_rack",
+      "Л": "f_rack",
+      "Y": "f_locker",
+      "Z": "f_dryer",
+      "Ж": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ],
+      "ж": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ],
+      "Ω": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ],
+      "Й": "f_punching_bag",
+      "й": "f_tatami",
+      "К": "f_bench",
+      "к": "f_workbench",
+      "ц": "f_arcade_machine",
+      "Ц": "f_pinball_machine",
+      "ч": "f_drill_press",
+      "Ч": "f_heavy_lathe",
+      "Э": "f_generator_broken",
+      "я": "f_rack",
+      "Я": "f_rack",
+      "п": "f_rack",
+      "T": "f_locker",
+      "л": "f_rack",
+      "F": "f_filing_cabinet",
+      "r": "f_rack",
+      "R": "f_bookcase",
+      "p": "f_rack",
+      "B": "f_bunkbed",
+      "μ": "f_rack",
+      "β": "f_counter",
+      "Δ": "f_counter"
+    },
+    "items": {
+      "M": [
+        { "item": "fireman_cabinet", "chance": 100, "repeat": [ 2, 4 ] },
+        { "item": "used_1st_aid", "chance": 55, "repeat": [ 1, 2 ] },
+        { "item": "used_ifak", "chance": 55, "repeat": [ 1, 2 ] }
+      ],
+      "θ": [
+        { "item": "mechanics", "chance": 80, "repeat": [ 1, 4 ] },
+        { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 3 ] }
+      ],
+      "{": [ { "item": "maps_milspec", "chance": 15 } ],
+      "}": [
+        { "item": "drugs_emergency", "chance": 45, "repeat": [ 2, 5 ] },
+        { "item": "drugs_pharmacy", "chance": 55, "repeat": [ 3, 8 ] },
+        { "item": "drugs_rare", "chance": 55, "repeat": [ 1, 2 ] },
+        { "item": "SUS_bathroom_medicine", "chance": 55, "repeat": [ 1, 9 ] },
+        { "item": "drugs_soldier", "chance": 55, "repeat": [ 2, 5 ] }
+      ],
+      "A": [
+        { "item": "dry_goods", "chance": 45, "repeat": [ 0, 8 ] },
+        { "item": "condiments", "chance": 55, "repeat": [ 0, 8 ] },
+        { "item": "foodintincan", "chance": 55, "repeat": [ 0, 9 ] },
+        { "item": "produce", "chance": 30, "repeat": [ 0, 7 ] },
+        { "item": "pantry_liquids", "chance": 25, "repeat": [ 0, 7 ] },
+        { "item": "fresh_produce", "chance": 55, "repeat": [ 0, 1 ] }
+      ],
+      "c": [
+        { "item": "dessert", "chance": 55, "repeat": [ 0, 8 ] },
+        { "item": "produce", "chance": 55, "repeat": [ 0, 8 ] },
+        { "item": "fresh_produce", "chance": 55, "repeat": [ 0, 8 ] }
+      ],
+      "μ": [
+        { "item": "dessert", "chance": 55, "repeat": [ 0, 8 ] },
+        { "item": "produce", "chance": 55, "repeat": [ 0, 8 ] },
+        { "item": "fresh_produce", "chance": 55, "repeat": [ 0, 8 ] }
+      ],
+      "D": [ { "item": "trash_cart", "chance": 55, "repeat": [ 0, 4 ] } ],
+      "e": [
+        { "item": "cannedfood", "chance": 45, "repeat": [ 0, 6 ] },
+        { "item": "big_canned_food", "chance": 55, "repeat": [ 0, 7 ] },
+        { "item": "pantry_liquids", "chance": 55, "repeat": [ 0, 6 ] },
+        { "item": "softdrinks_canned", "chance": 30, "repeat": [ 0, 5 ] },
+        { "item": "pantry_liquids", "chance": 25, "repeat": [ 0, 8 ] },
+        { "item": "pasta", "chance": 55, "repeat": [ 0, 6 ] }
+      ],
+      "G": [
+        { "item": "loaded_lbv", "chance": 45, "repeat": [ 0, 6 ] },
+        { "item": "military_standard_grenades", "chance": 55, "repeat": [ 0, 7 ] },
+        { "item": "infantry_common_gear", "chance": 55, "repeat": [ 0, 1 ] },
+        { "item": "infantry_medical_gear", "chance": 30, "repeat": [ 0, 1 ] },
+        { "item": "guns_milspec", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "ammo_milspec", "chance": 50, "repeat": [ 2, 4 ] },
+        { "item": "mags_milspec", "chance": 50, "repeat": [ 2, 3 ] }
+      ],
+      "H": [ { "item": "autodoc_supplies", "chance": 100 } ],
+      "p": [
+        { "item": "chem_home", "chance": 45, "repeat": [ 2, 8 ] },
+        { "item": "tailoring_fabric", "chance": 55, "repeat": [ 2, 5 ] },
+        { "item": "supplies_plumbing", "chance": 55, "repeat": [ 0, 2 ] },
+        { "item": "SUS_bathroom_sink", "chance": 60, "repeat": [ 2, 12 ] }
+      ],
+      "b": [ { "item": "SUS_oven", "chance": 50, "repeat": [ 3, 6 ] } ],
+      "I": [ { "item": "cleaning", "chance": 50, "repeat": [ 3, 9 ] } ],
+      "v": [ { "item": "jackets", "chance": 70, "repeat": [ 0, 2 ] } ],
+      "L": [
+        { "item": "army_personal_locker", "chance": 45, "repeat": [ 0, 8 ] },
+        { "item": "clothing_work_boots", "chance": 55, "repeat": [ 0, 2 ] },
+        { "item": "clothing_work_glasses", "chance": 55, "repeat": [ 0, 2 ] },
+        { "item": "clothing_work_gloves", "chance": 30, "repeat": [ 0, 2 ] },
+        { "item": "clothing_work_hat", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "clothing_work_mask", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "clothing_work_pants", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "clothing_work_torso", "chance": 30, "repeat": [ 0, 5 ] },
+        { "item": "hardware_clothing", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "pants_male", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "pants_female", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "shoes", "chance": 55, "repeat": [ 0, 2 ] },
+        { "item": "pants", "chance": 55, "repeat": [ 0, 2 ] },
+        { "item": "shirts", "chance": 30, "repeat": [ 0, 2 ] }
+      ],
+      "P": [
+        { "item": "guns_milspec", "chance": 45, "repeat": [ 0, 3 ] },
+        { "item": "ammo_milspec", "chance": 55, "repeat": [ 1, 6 ] },
+        { "item": "mags_milspec", "chance": 55, "repeat": [ 1, 6 ] }
+      ],
+      "Q": [
+        { "item": "batteries", "chance": 45, "repeat": [ 0, 2 ] },
+        { "item": "electronics", "chance": 55, "repeat": [ 0, 2 ] },
+        { "item": "supplies_electronics", "chance": 45, "repeat": [ 0, 8 ] }
+      ],
+      "F": [ { "item": "office_paper", "chance": 45, "repeat": [ 0, 8 ] } ],
+      "Y": [ { "item": "clothing_work_set", "chance": 45, "repeat": [ 2, 11 ] } ],
+      "r": [
+        { "item": "clothing_work_set", "chance": 50, "repeat": [ 2, 6 ] },
+        { "item": "clothing_military", "chance": 50, "repeat": [ 0, 5 ] },
+        { "item": "clothing_military_pilot", "chance": 50, "repeat": [ 0, 3 ] },
+        { "item": "gi", "chance": 50, "repeat": [ 0, 1 ] },
+        { "item": "allclothes", "chance": 50, "repeat": [ 0, 2 ] }
+      ],
+      "п": [ { "item": "inactive_bots_milspec", "chance": 20, "repeat": [ 0, 3 ] } ],
+      "q": [
+        { "item": "batteries", "chance": 45, "repeat": [ 0, 8 ] },
+        { "item": "supplies_electronics", "chance": 55, "repeat": [ 0, 2 ] }
+      ],
+      "B": [
+        { "item": "magazines", "chance": 5, "repeat": [ 0, 1 ] },
+        { "item": "literature", "chance": 5, "repeat": [ 0, 1 ] },
+        { "item": "novels", "chance": 5, "repeat": [ 0, 1 ] },
+        { "item": "phones", "chance": 5, "repeat": [ 0, 1 ] }
+      ],
+      "ж": [
+        { "item": "guns_milspec", "chance": 40, "repeat": [ 1, 5 ] },
+        { "item": "ammo_milspec", "chance": 55, "repeat": [ 1, 15 ] },
+        { "item": "ammo_casings_milspec", "chance": 55, "repeat": [ 1, 12 ] }
+      ],
+      "Ж": [
+        { "item": "supplies_mechanics", "chance": 50, "repeat": [ 1, 11 ] },
+        { "item": "supplies_spares_vehicle", "chance": 50, "repeat": [ 1, 5 ] },
+        { "item": "supplies_metal", "chance": 30, "repeat": [ 0, 5 ] }
+      ],
+      "Ω": [
+        { "item": "batteries", "chance": 45, "repeat": [ 0, 8 ] },
+        { "item": "supplies_electronics", "chance": 55, "repeat": [ 0, 3 ] },
+        { "item": "chem_home", "chance": 60, "repeat": [ 2, 10 ] },
+        { "item": "tailoring_fabric", "chance": 30, "repeat": [ 0, 10 ] },
+        { "item": "supplies_plumbing", "chance": 50, "repeat": [ 0, 3 ] },
+        { "item": "office_supplies", "chance": 50, "repeat": [ 0, 5 ] },
+        { "item": "writing_utensils", "chance": 50, "repeat": [ 0, 7 ] },
+        { "item": "candy_chocolate", "chance": 50, "repeat": [ 0, 7 ] },
+        { "item": "salty_snacks", "chance": 50, "repeat": [ 0, 7 ] },
+        { "item": "snacks", "chance": 50, "repeat": [ 0, 7 ] },
+        { "item": "softdrinks_canned", "chance": 50, "repeat": [ 0, 7 ] },
+        { "item": "snacks_fancy", "chance": 50, "repeat": [ 0, 7 ] },
+        { "item": "fridgesnacks", "chance": 50, "repeat": [ 0, 7 ] },
+        { "item": "SUS_kitchen_sink", "chance": 50, "repeat": [ 0, 7 ] },
+        { "item": "gym_school", "chance": 15, "repeat": [ 0, 1 ] }
+      ],
+      "T": [
+        { "item": "tools_common", "chance": 45, "repeat": [ 0, 8 ] },
+        { "item": "tools_construction", "chance": 55, "repeat": [ 0, 3 ] },
+        { "item": "tools_electronics", "chance": 55, "repeat": [ 0, 5 ] },
+        { "item": "tools_lighting_industrial", "chance": 30, "repeat": [ 0, 4 ] },
+        { "item": "tools_mechanic", "chance": 50, "repeat": [ 0, 3 ] },
+        { "item": "tools_gunsmith", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "tools_robotics", "chance": 50, "repeat": [ 0, 1 ] }
+      ],
+      "л": [
+        { "item": "tools_common", "chance": 45, "repeat": [ 5, 8 ] },
+        { "item": "tools_construction", "chance": 55, "repeat": [ 3, 5 ] },
+        { "item": "tools_electronics", "chance": 55, "repeat": [ 2, 5 ] },
+        { "item": "tools_lighting_industrial", "chance": 30, "repeat": [ 2, 5 ] },
+        { "item": "tools_mechanic", "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "tools_gunsmith", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "tools_robotics", "chance": 50, "repeat": [ 1, 1 ] }
+      ],
+      "R": [
+        { "item": "book_military", "chance": 45, "repeat": [ 0, 8 ] },
+        { "item": "book_survival", "chance": 55, "repeat": [ 0, 5 ] },
+        { "item": "literature", "chance": 55, "repeat": [ 0, 5 ] },
+        { "item": "novels", "chance": 70, "repeat": [ 0, 5 ] },
+        { "item": "hardware_books", "chance": 50, "repeat": [ 0, 3 ] },
+        { "item": "dojo_manuals", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "exotic_books", "chance": 30, "repeat": [ 0, 1 ] },
+        { "item": "carpentrybooks", "chance": 30, "repeat": [ 0, 3 ] },
+        { "item": "religious_books", "chance": 75, "repeat": [ 0, 5 ] },
+        { "item": "manuals", "chance": 55, "repeat": [ 0, 5 ] },
+        { "item": "textbooks", "chance": 30, "repeat": [ 0, 5 ] },
+        { "item": "lab_bookshelves", "chance": 50, "repeat": [ 0, 3 ] },
+        { "item": "tailorbooks", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "magazines", "chance": 55, "repeat": [ 0, 5 ] }
+      ],
+      "Л": [ { "item": "clothing_work_set", "chance": 70, "repeat": [ 0, 15 ] } ],
+      "β": [
+        { "item": "SUS_cookware", "chance": 100, "repeat": [ 0, 9 ] },
+        { "item": "SUS_knife_drawer", "chance": 100, "repeat": [ 0, 4 ] },
+        { "item": "SUS_utensils", "chance": 100, "repeat": [ 0, 25 ] },
+        { "item": "SUS_dishes", "chance": 100, "repeat": [ 0, 15 ] },
+        { "item": "SUS_spice_collection", "chance": 100, "repeat": [ 0, 15 ] }
+      ],
+      "d": [ { "item": "SUS_bathroom_sink", "chance": 70, "repeat": [ 0, 15 ] } ]
+    },
+    "toilets": { "&": {  } },
+    "traps": { "=": "tr_rollmat" },
+    "nested": {
+      "δ": { "chunks": [ [ "null", 2 ], [ "crates_supplies_mechanics", 3 ] ] },
+      "ε": { "chunks": [ [ "null", 2 ], [ "crates_armament_milspec", 3 ] ] },
+      "ζ": { "chunks": [ [ "null", 2 ], [ "crates_random_supply", 3 ] ] },
+      "ω": {
+        "chunks": [
+          [ "heli_random_metal_1", 1000 ],
+          [ "heli_random_metal_2", 1000 ],
+          [ "heli_random_metal_3", 1000 ],
+          [ "heli_random_metal_4", 1000 ],
+          [ "heli_random_metal_5", 1000 ],
+          [ "heli_random_metal_6", 1000 ],
+          [ "heli_random_metal_7", 1000 ],
+          [ "heli_random_metal_8", 1000 ],
+          [ "heli_random_metal_9", 1000 ],
+          [ "heli_random_metal_10", 1000 ],
+          [ "heli_random_metal_11", 1000 ]
+        ]
+      },
+      "ξ": {
+        "chunks": [
+          [ "heli_random_deck_1", 1000 ],
+          [ "heli_random_deck_2", 1000 ],
+          [ "heli_random_deck_3", 1000 ],
+          [ "heli_random_deck_4", 1000 ],
+          [ "heli_random_deck_5", 1000 ],
+          [ "heli_random_deck_6", 1000 ],
+          [ "heli_random_deck_7", 1000 ],
+          [ "heli_random_deck_8", 1000 ],
+          [ "heli_random_deck_9", 1000 ],
+          [ "heli_random_deck_10", 1000 ],
+          [ "heli_random_deck_11", 1000 ]
+        ]
+      }
+    },
+    "vehicles": {
+      "n": { "vehicle": "hospital_bed", "chance": 100, "status": 1 },
+      "Θ": { "vehicle": "hospital_bed", "chance": 100, "rotation": 270, "status": 1 }
+    },
+    "vendingmachines": { "J": { "item_group": "vending_drink", "lootable": true }, "K": { "item_group": "vending_food", "lootable": true } }
+  }
+]
