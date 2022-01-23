@@ -233,6 +233,7 @@
     "copy-from": "egg_roach",
     "healthy": -10,
     "description": "A fist-sized egg from a plague vector.  Incredibly gross.",
+    "vitamins": [ [ "mutant_toxin", 50 ] ],
     "rot_spawn": "GROUP_EGG_ROACH_PLAGUE"
   },
   {
