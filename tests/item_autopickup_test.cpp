@@ -13,10 +13,13 @@ static const itype_id itype_bag_plastic( "bag_plastic" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_bottle_plastic_pill_prescription( "bottle_plastic_pill_prescription" );
 static const itype_id itype_candy2( "candy2" );
+static const itype_id itype_can_food( "can_food" );
+static const itype_id itype_can_tuna( "can_tuna" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_flashlight( "flashlight" );
 static const itype_id itype_light_battery_cell( "light_battery_cell" );
 static const itype_id itype_marble( "marble" );
+static const itype_id itype_meat_canned( "meat_canned" );
 static const itype_id itype_money_five( "money_five" );
 static const itype_id itype_money_one( "money_one" );
 static const itype_id itype_paper( "paper" );
@@ -24,6 +27,8 @@ static const itype_id itype_pebble( "pebble" );
 static const itype_id itype_wallet_leather( "wallet_leather" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wrapper( "wrapper" );
+
+static const item_pocket::pocket_type pocket_type_container = item_pocket::pocket_type::CONTAINER;
 
 class unique_item
 {
@@ -39,16 +44,18 @@ class unique_item
             }
         }
         // Construct item with given type and quantity.
-        explicit unique_item( itype_id type, int quantity = 1 ) {
+        explicit unique_item( itype_id type, int quantity = 1, bool no_uid = false ) {
             instance = item( type, calendar::turn, quantity );
-            instance.set_var( "uid", random_string( 10 ) );
+            if( !no_uid ) {
+                instance.set_var( "uid", random_string( 10 ) );
+            }
         }
         // Construct item with given type and list of items contained inside item pocket.
         unique_item( itype_id type, std::vector<const unique_item *> content ) {
             instance = item( type );
             instance.set_var( "uid", random_string( 10 ) );
             for( const unique_item *entry : content ) {
-                instance.force_insert_item( *entry->get(), item_pocket::pocket_type::CONTAINER );
+                instance.force_insert_item( *entry->get(), pocket_type_container );
             }
         }
         // Returns the UID value assigned to this item.
@@ -281,6 +288,29 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
 
                 // check to see if item has remained on the ground
                 REQUIRE( item_bottled_water.find_on_ground( ground ) );
+            }
+        }
+        // small tin can (sealed) > canned tuna fish
+        WHEN( "they have sealed small tin can containing canned tuna fish" ) {
+            item item_small_tin_can = item( itype_can_food );
+            unique_item item_canned_tuna = unique_item( itype_can_tuna, 1, true );
+            unique_item item_canned_meat = unique_item( itype_meat_canned, 1, true );
+
+            // insert items inside can and seal it
+            item_small_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
+            item_small_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
+            item_small_tin_can.seal();
+
+            unique_item item_sealed_tuna = unique_item( item_small_tin_can );
+            REQUIRE( item_sealed_tuna.spawn_item( ground ) );
+
+            add_autopickup_rules( { { &item_sealed_tuna, true } } );
+            THEN( "whole container should be picked up instead of picking up canned tuna" ) {
+                simulate_auto_pickup( ground, they );
+                expect_to_find( backpack, { &item_sealed_tuna } );
+
+                // make sure the item seal was not broken
+                REQUIRE( item_sealed_tuna.find_in_container( backpack )->all_pockets_sealed() );
             }
         }
     }

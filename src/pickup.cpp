@@ -143,9 +143,13 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
             if( item_to_check->is_container() ) {
                 // whitelisted containers should exclude contained blacklisted items
                 drop_blacklisted_items( item_to_check, container.position() );
-            }
-            if( item_to_check->made_of_from_type( phase_id::LIQUID ) ) {
+            } else if( item_to_check->made_of_from_type( phase_id::LIQUID ) ) {
+                // liquid items should never be picked up without container
                 contains_liquid = true;
+                continue;
+            } else if( container_item->any_pockets_sealed() ) {
+                // items sealed in containers should never be unsealed by autopickup
+                continue;
             }
             // pick up the whitelisted item
             pickup_list.emplace_back( container, item_to_check );
@@ -187,8 +191,8 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
         if( is_valid_auto_pickup( container_item ) && !batteries_from_tool ) {
             pickup_list.clear();
             pickup_list.push_back( container );
-        } else if( contains_liquid ) {
-            // never pickup liquid directly from container
+        } else if( contains_liquid || container->any_pockets_sealed() ) {
+            // never pickup liquid or sealed items directly from container
             // if we can't pickup container then don't pickup anything
             pickup_list.clear();
         }
