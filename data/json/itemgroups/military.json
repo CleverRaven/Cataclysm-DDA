@@ -684,5 +684,29 @@
       { "item": "flight_helmet", "prob": 20, "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
       { "item": "mil_flight_suit", "prob": 20 }
     ]
+  },
+  {
+    "id": "inactive_bots_milspec",
+    "type": "item_group",
+    "items": [
+      [ "bot_EMP_hack", 100 ],
+      [ "bot_c4_hack", 25 ],
+      [ "bot_flashbang_hack", 50 ],
+      [ "bot_gasbomb_hack", 50 ],
+      [ "bot_grenade_hack", 50 ],
+      [ "bot_antimateriel", 5 ],
+      [ "bot_manhack", 100 ],
+      [ "bot_mininuke_hack", 2 ],
+      [ "bot_rifleturret", 10 ],
+      [ "bot_crows_m240", 10 ],
+      [ "bot_talon_m202a1", 10 ],
+      [ "bot_dispatch_military", 15 ],
+      [ "bot_turret_searchlight", 75 ]
+    ]
+  },
+  {
+    "id": "maps_milspec",
+    "type": "item_group",
+    "items": [ [ "militarymap", 100 ], [ "satellitemap", 100 ] ]
   }
 ]
