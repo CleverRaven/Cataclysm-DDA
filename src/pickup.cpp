@@ -83,6 +83,11 @@ struct pickup_count {
     int count = 0;
 };
 
+/**
+ * The function will return `true` if the user has set all limits to a value of 0.
+ * @param pickup_item item to check.
+ * @return `true` if given item's weight and volume is within autopickup user configured limits.
+ */
 static bool within_autopickup_limits( const item *pickup_item )
 {
     int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
@@ -94,6 +99,10 @@ static bool within_autopickup_limits( const item *pickup_item )
     return ( volume_limit <= 0 || valid_volume ) && ( weight_limit <= 0 || valid_weight );
 }
 
+/**
+ * @param pickup_item item to get the autopickup rule for.
+ * @return `rule_state` associated with the given item.
+ */
 static rule_state get_autopickup_rule( const item *pickup_item )
 {
     std::string item_name = pickup_item->tname( 1, false );
@@ -116,6 +125,13 @@ static rule_state get_autopickup_rule( const item *pickup_item )
     return rule_state::NONE;
 }
 
+/**
+ * Drop all items from the given container that are blacklisted in autopickup rules.
+ * The items will be removed from the container and dropped in the designated location.
+ *
+ * @param from container to drop items from.
+ * @param where location on the map to drop items to.
+ */
 static void drop_blacklisted_items( item *from, tripoint where )
 {
     for( item *entry : from->all_items_top() ) {
@@ -127,6 +143,29 @@ static void drop_blacklisted_items( item *from, tripoint where )
     }
 }
 
+/**
+ * Iterate through every item inside the container to find items that match autopickup rules.
+ * In most cases whitelisted items will be included and blacklisted one will be excluded however
+ * there are special cases. Below is an overview of selection rules for container autopickup.
+ *
+ * Containers and items will NOT be picked up when:
+ *
+ * - they exceed volume or weight user autopickup limitations.
+ * - they are blacklisted in autopickup rules.
+ *
+ * Containers will be picked up when:
+ *
+ * - the container is sealed.
+ * - there is any liquids stored in container pockets.
+ * - all items inside the container are marked for pickup.
+ *
+ * Containers will NOT be picked up when:
+ *
+ * - only batteries were selected and the container is battery powered.
+ *
+ * @param container item to search for items to autopickup from.
+ * @return sequence of items to autopickup from given container.
+ */
 static std::vector<item_location> get_autopickup_items( item_location &container )
 {
     item *container_item = container.get_item();
@@ -199,6 +238,20 @@ static std::vector<item_location> get_autopickup_items( item_location &container
     return result;
 }
 
+/**
+ * Select which items from the given stack of items should be auto-picked up.
+ * The result will be reflected in `pickup` function parameter in the way where
+ * each entry with `pick` set to true should be picked up.
+ *
+ * Any additional items that should be picked up such as nested items that are not
+ * directly present in the given stack will be passed in `result` function parameter.
+ *
+ * @param from list of items to select from.
+ * @param pickup data about items being picked up.
+ * @param result vector of items to autopickup.
+ * @param location where items are located on the map.
+ * @return true if any items were selected for autopickup.
+ */
 static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>> &from,
                                      std::vector<pickup_count> &pickup,
                                      std::vector<item_location> &result,
