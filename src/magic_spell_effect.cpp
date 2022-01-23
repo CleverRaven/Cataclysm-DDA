@@ -652,10 +652,10 @@ int area_expander::run( const tripoint &center )
     while( !frontier.empty() ) {
         int best_index = frontier.top();
         frontier.pop();
-        node &best = area[best_index];
 
         for( size_t i = 0; i < 8; i++ ) {
-            tripoint pt = best.position + point( x_offset[ i ], y_offset[ i ] );
+            node &best = area[best_index];
+            const tripoint &pt = best.position + point( x_offset[ i ], y_offset[ i ] );
 
             if( here.impassable( pt ) ) {
                 continue;
@@ -814,14 +814,26 @@ static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint> &fd
         const int &intensity = fd.second.get_field_intensity();
         const translation &intensity_name = fd.second.get_intensity_level().name;
         const tripoint &field_position = std::get<1>( fd_fatigue_field );
+        const bool sees_field = caster.sees( field_position );
 
         switch( intensity ) {
             case 1:
-                add_msg_if_player_sees( field_position, m_good, _( "The %s fades." ), intensity_name );
+
+                if( sees_field ) {
+                    caster.add_msg_if_player( m_neutral, _( "The %s fades.  You feel strange." ), intensity_name );
+                } else {
+                    caster.add_msg_if_player( m_neutral, _( "You suddenly feel strange." ) );
+                }
+
                 caster.add_effect( effect_teleglow, 1_hours );
                 break;
             case 2:
-                add_msg_if_player_sees( field_position, m_good, _( "The %s dissipates." ), intensity_name );
+                if( sees_field ) {
+                    caster.add_msg_if_player( m_neutral, _( "The %s dissipates.  You feel strange." ), intensity_name );
+                } else {
+                    caster.add_msg_if_player( m_neutral, _( "You suddenly feel strange." ) );
+                }
+
                 caster.add_effect( effect_teleglow, 5_hours );
                 break;
             case 3:
