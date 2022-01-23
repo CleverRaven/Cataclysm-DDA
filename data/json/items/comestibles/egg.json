@@ -229,9 +229,10 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_roach_plague",
-    "name": { "str": "roach egg" },
+    "name": { "str": "plague vector egg" },
     "copy-from": "egg_roach",
     "healthy": -10,
+    "description": "A fist-sized egg from a plague vector.  Incredibly gross.",
     "rot_spawn": "GROUP_EGG_ROACH_PLAGUE"
   },
   {
