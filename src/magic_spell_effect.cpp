@@ -766,8 +766,9 @@ static void spell_move( const spell &sp, const Creature &caster,
     }
 }
 
-static field spell_remove_field( const spell &sp, const field_type_id &target_field_type_id,
-                                 const tripoint &center )
+static std::pair<field, tripoint> spell_remove_field( const spell &sp,
+        const field_type_id &target_field_type_id,
+        const tripoint &center )
 {
     ::map &here = get_map();
     area_expander expander;
@@ -777,6 +778,8 @@ static field spell_remove_field( const spell &sp, const field_type_id &target_fi
     expander.sort_ascending();
 
     field field_removed = field();
+    tripoint field_position = tripoint();
+
     bool did_field_removal = false;
 
     for( const auto &node : expander.area ) {
@@ -789,6 +792,7 @@ static field spell_remove_field( const spell &sp, const field_type_id &target_fi
             if( fd.first.is_valid() && !fd.first.id().is_null() &&
                 fd.second.get_field_type() == target_field_type_id ) {
                 field_removed = target_field;
+                field_position = node.position;
                 here.remove_field( node.position, target_field_type_id );
                 did_field_removal = true;
             }
@@ -800,27 +804,36 @@ static field spell_remove_field( const spell &sp, const field_type_id &target_fi
         }
     }
 
-    return field_removed;
+    return std::pair<field, tripoint> {field_removed, field_position};
 }
 
-static void handle_remove_fd_fatigue_field( const field &fd_fatigue_field, Creature &caster )
+static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint> &fd_fatigue_field,
+        Creature &caster )
 {
-    for( const std::pair<const field_type_id, field_entry> &fd : fd_fatigue_field ) {
+    for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>( fd_fatigue_field ) ) {
         const int &intensity = fd.second.get_field_intensity();
         const translation &intensity_name = fd.second.get_intensity_level().name;
+        const tripoint &field_position = std::get<1>( fd_fatigue_field );
 
         switch( intensity ) {
             case 1:
-                caster.add_msg_if_player( m_good, _( "The %s fades." ), intensity_name );
+                add_msg_if_player_sees( field_position, m_good, _( "The %s fades." ), intensity_name );
                 caster.add_effect( effect_teleglow, 1_hours );
                 break;
             case 2:
-                caster.add_msg_if_player( m_good, _( "The %s dissipates." ), intensity_name );
+                add_msg_if_player_sees( field_position, m_good, _( "The %s dissipates." ), intensity_name );
                 caster.add_effect( effect_teleglow, 5_hours );
                 break;
             case 3:
-                caster.add_msg_if_player( m_bad, _( "The %s pulls you in as it closes and ejects you violently!" ),
-                                          intensity_name );
+                std::string message_prefix = "A nearby";
+
+                if( caster.sees( field_position ) ) {
+                    message_prefix = "The";
+                }
+
+                caster.add_msg_if_player( m_bad,
+                                          _( "%s %s pulls you in as it closes and ejects you violently!" ),
+                                          message_prefix, intensity_name );
                 caster.as_character()->hurtall( 10, nullptr );
                 caster.add_effect( effect_teleglow, 630_minutes );
                 teleport::teleport( caster );
@@ -833,9 +846,9 @@ static void handle_remove_fd_fatigue_field( const field &fd_fatigue_field, Creat
 void spell_effect::remove_field( const spell &sp, Creature &caster, const tripoint &center )
 {
     const field_type_id &target_field_type_id = field_type_id( sp.effect_data() );
-    field field_removed = spell_remove_field( sp, target_field_type_id, center );
+    std::pair<field, tripoint> field_removed = spell_remove_field( sp, target_field_type_id, center );
 
-    for( const std::pair<const field_type_id, field_entry> &fd : field_removed ) {
+    for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>( field_removed ) ) {
         if( fd.first.is_valid() && !fd.first.id().is_null() ) {
             sp.make_sound( caster.pos() );
 
