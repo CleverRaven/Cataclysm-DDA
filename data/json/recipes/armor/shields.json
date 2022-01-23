@@ -144,7 +144,7 @@
     "result": "leather_shield_tower",
     "type": "recipe",
     "copy-from": "steel_shield",
-    "using": [ [ "sewing_standard", 8 ], [ "clasps", 8 ], [ "strap_small", 8 ], [ "tailoring_leather_small", 36 ] ],
+    "using": [ [ "sewing_standard", 8 ], [ "clasps", 8 ], [ "strap_small", 8 ], [ "tailoring_leather_small", 36 ] ]
   },
   {
     "result": "leather_shield_round",
