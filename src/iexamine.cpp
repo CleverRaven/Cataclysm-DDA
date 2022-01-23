@@ -4673,7 +4673,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             }
 
             bool has_grapnel = you.has_amount( itype_grapnel, 1 );
-            const bool web_rappel = you.has_flag( json_flag_WEB_RAPPEL );
+            bool web_rappel = you.has_flag( json_flag_WEB_RAPPEL );
             const int climb_cost = you.climbing_cost( where, examp );
             const float fall_mod = you.fall_damage_mod();
             add_msg_debug( debugmode::DF_IEXAMINE, "Climb cost %d", climb_cost );
@@ -4691,7 +4691,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             if( height > 1 && !query_yn( query_str, height ) ) {
                 return;
             } else if( height == 1 ) {
-                bool asked = false;
                 you.set_activity_level( ACTIVE_EXERCISE );
                 weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
 
@@ -4699,13 +4698,15 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                     if( !query_yn( _( "Use your grappling hook to climb down?" ) ) ) {
                         has_grapnel = false;
                     } else {
-                        asked = true;
+                        web_rappel = false;
                     }
                 }
 
-                if( !asked ) {
+                if( !has_grapnel ) {
                     const char *query;
-                    if( !has_grapnel && !web_rappel ) {
+                    if( web_rappel ) {
+                        query = _( "Use your webs to descend?" );
+                    } else {
                         if( climb_cost <= 0 && fall_mod > 0.8 ) {
                             query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
                         } else if( climb_cost <= 0 ) {
@@ -4715,8 +4716,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                         } else {
                             query = _( "You may have problems climbing back up.  Climb down?" );
                         }
-                    } else if( web_rappel ) {
-                        query = _( "Use your webs to descend?" );
                     }
 
                     if( !query_yn( query ) ) {
