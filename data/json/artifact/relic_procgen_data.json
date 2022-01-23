@@ -848,6 +848,6 @@
     ],
     "active_procgen_values": [ { "weight": 100, "spell_id": "AO_CLOSE_TEAR", "base_power": 1000 } ],
     "type_weights": [ { "weight": 100, "value": "active_enchantment" } ],
-    "items": [ { "weight": 100, "item": "altered_pistol" } ]
+    "items": [ { "weight": 100, "item": "altered_exposed_wiring_prototype" } ]
   }
 ]

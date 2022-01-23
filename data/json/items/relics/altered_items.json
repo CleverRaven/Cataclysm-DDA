@@ -1,17 +1,22 @@
 [
   {
     "type": "GENERIC",
-    "id": "altered_pistol",
+    "id": "altered_exposed_wiring_prototype",
     "symbol": ",",
     "color": "light_gray",
-    "looks_like": "glock_17",
-    "name": { "str": "silver pistol" },
-    "description": "A Glock 17 pistol that appears to be made entirely of silver.  It weighs almost nothing, and has no chamber for loading ammunition.",
+    "looks_like": "scrap",
+    "name": {
+      "str": "exposed-wiring prototype"
+    },
+    "description": "Some kind of prototypical electronic device with exposed wiring.  Some of the wires have bare ends that could be connected together.",
     "price": 1000,
     "price_postapoc": 100,
-    "material": [ "silver" ],
-    "weight": "1 g",
-    "volume": "427 ml"
+    "material": [
+      "plastic",
+      "copper"
+    ],
+    "weight": "32 g",
+    "volume": "26 ml"
   },
   {
     "type": "GENERIC",
@@ -19,11 +24,16 @@
     "symbol": ",",
     "color": "light_red",
     "looks_like": "toaster",
-    "name": { "str": "bakelite phone" },
+    "name": {
+      "str": "bakelite phone"
+    },
     "description": "A vintage, bright-red bakelite phone of famous swedish design.  It would look almost normal, were it not for the fact that its rotary dial has been replaced by a doorknob.",
     "price": 1000,
     "price_postapoc": 100,
-    "material": [ "iron", "plastic" ],
+    "material": [
+      "iron",
+      "plastic"
+    ],
     "weight": "725 g",
     "volume": "750 ml"
   },
@@ -33,11 +43,15 @@
     "symbol": ",",
     "color": "yellow",
     "looks_like": "comb_pocket",
-    "name": { "str": "golden comb" },
+    "name": {
+      "str": "golden comb"
+    },
     "description": "A small and delicate golden comb, it was once carefully engraved, but time has smoothed its designs to illegibility.",
     "price": 1000,
     "price_postapoc": 100,
-    "material": [ "gold" ],
+    "material": [
+      "gold"
+    ],
     "weight": "650 g",
     "volume": "40 ml"
   },
@@ -47,11 +61,15 @@
     "symbol": ",",
     "color": "yellow",
     "looks_like": "old_key",
-    "name": { "str": "shifting keyring" },
+    "name": {
+      "str": "shifting keyring"
+    },
     "description": "A smooth ring of steel, heavy under the weight of numerous keys.  The designs of the keys change over time, but none will fit any keyhole you have ever found.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "steel" ],
+    "material": [
+      "steel"
+    ],
     "weight": "2000 g",
     "volume": "750 ml"
   },
@@ -61,11 +79,15 @@
     "symbol": ",",
     "color": "light_gray",
     "looks_like": "art_lamp",
-    "name": { "str": "engraved cube" },
+    "name": {
+      "str": "engraved cube"
+    },
     "description": "A small cube of smooth rock.  An uniform grid of nine squares is engraved in each of its faces.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "stone" ],
+    "material": [
+      "stone"
+    ],
     "weight": "1000 g",
     "volume": "185 ml"
   },
@@ -74,7 +96,9 @@
     "id": "altered_teapot",
     "copy-from": "clay_teapot",
     "color": "light_gray",
-    "name": { "str": "utah teapot" },
+    "name": {
+      "str": "utah teapot"
+    },
     "description": "A squat teapot with a minimalist design.  Its surface shines under the glow of unseen light sources.",
     "price": 1000,
     "price_postapoc": 10
@@ -85,11 +109,16 @@
     "symbol": ",",
     "color": "blue",
     "looks_like": "wristwatch",
-    "name": { "str": "glitching stopwatch", "str_pl": "glitching stopwatches" },
+    "name": {
+      "str": "glitching stopwatch",
+      "str_pl": "glitching stopwatches"
+    },
     "description": "A small digital stopwatch, looking slightly old by today's standards.  Its digital display prints ever-changing gibberish.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "plastic" ],
+    "material": [
+      "plastic"
+    ],
     "weight": "200 g",
     "volume": "165 ml"
   }
