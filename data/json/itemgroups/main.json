@@ -1,5 +1,5 @@
 [
-  {
+{
     "type": "item_group",
     "id": "rare",
     "//": "Items that should have very low frequencies and or few locations.",
@@ -275,6 +275,37 @@
       { "item": "bolt_wood", "prob": 100 },
       { "item": "bolt_wood_bodkin", "prob": 50 },
       { "item": "bolt_cf", "prob": 100 }
+    ]
+  },
+{
+    "type": "item_group",
+    "id": "shields",
+    "subtype": "distribution",
+    "items": [
+      [ "wooden_shield", 50 ],
+      [ "wooden_shield_tower", 50 ],
+      [ "wooden_shield_round", 50 ],
+      [ "wooden_shield_kite", 50 ],
+      [ "wooden_shield_heater", 50 ],
+      [ "steel_shield", 50 ],
+      [ "steel_shield_tower", 50 ],
+      [ "steel_shield_round", 50 ],
+      [ "steel_shield_kite", 50 ],
+      [ "steel_shield_heater", 50 ],
+      [ "leather_shield", 50 ],
+      [ "leather_shield_tower", 50 ],
+      [ "leather_shield_round", 50 ],
+      [ "leather_shield_kite", 50 ],
+      [ "leather_shield_heater", 50 ]
+    ]
+  },
+{
+    "type": "item_group",
+    "id": "shields_surv",
+    "subtype": "distribution",
+    "items": [
+      [ "plank_shield", 50 ],
+      [ "plank_shield_tall", 50 ]
     ]
   }
 ]
