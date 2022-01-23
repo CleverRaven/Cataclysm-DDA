@@ -717,6 +717,15 @@
     }
   },
   {
+    "copy-from": "t_elevator_control",
+    "type": "terrain",
+    "symbol": ".",
+    "color": "dark_gray",
+    "id": "t_elevator_control_no_roof",
+    "roof": "t_null",
+    "flags": [ "NOITEM" ]
+  },
+  {
     "type": "terrain",
     "id": "t_elevator_control_off",
     "name": "powerless controls",
@@ -746,6 +755,15 @@
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
       ]
     }
+  },
+  {
+    "copy-from": "t_elevator_control_off",
+    "type": "terrain",
+    "symbol": ".",
+    "color": "dark_gray",
+    "id": "t_elevator_control_off_no_roof",
+    "roof": "t_null",
+    "flags": [ "NOITEM" ]
   },
   {
     "type": "terrain",
