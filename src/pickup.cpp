@@ -83,7 +83,7 @@ struct pickup_count {
     int count = 0;
 };
 
-static bool is_valid_auto_pickup( const item *pickup_item )
+static bool within_autopickup_limits( const item *pickup_item )
 {
     int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
     int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
@@ -94,12 +94,12 @@ static bool is_valid_auto_pickup( const item *pickup_item )
     return ( volume_limit <= 0 || valid_volume ) && ( weight_limit <= 0 || valid_weight );
 }
 
-static rule_state should_auto_pickup( const item *pickup_item )
+static rule_state get_autopickup_rule( const item *pickup_item )
 {
     std::string item_name = pickup_item->tname( 1, false );
     rule_state pickup_state = get_auto_pickup().check_item( item_name );
 
-    if( !is_valid_auto_pickup( pickup_item ) ) {
+    if( !within_autopickup_limits( pickup_item ) ) {
         return rule_state::NONE;
     } else if( pickup_state == rule_state::WHITELISTED ) {
         return rule_state::WHITELISTED;
@@ -119,7 +119,7 @@ static rule_state should_auto_pickup( const item *pickup_item )
 static void drop_blacklisted_items( item *from, tripoint where )
 {
     for( item *entry : from->all_items_top() ) {
-        if( should_auto_pickup( entry ) == rule_state::BLACKLISTED ) {
+        if( get_autopickup_rule( entry ) == rule_state::BLACKLISTED ) {
             // blacklisted items should be removed from the container
             // and dropped on the same tile the container is on
             get_map().add_item( where, from->remove_item( *entry ) );
@@ -127,21 +127,21 @@ static void drop_blacklisted_items( item *from, tripoint where )
     }
 }
 
-static std::vector<item_location> get_pickup_list_from( item_location &container )
+static std::vector<item_location> get_autopickup_items( item_location &container )
 {
     item *container_item = container.get_item();
     // items sealed in containers should never be unsealed by autopickup
     bool force_pick_container = container_item->any_pockets_sealed();
     bool pick_all_items = true;
 
-    std::vector<item_location> pickup_list;
+    std::vector<item_location> result;
     std::list<item *> contents = container_item->all_items_top();
-    pickup_list.reserve( contents.size() );
+    result.reserve( contents.size() );
 
     std::list<item *>::iterator it;
     for( it = contents.begin(); it != contents.end() && !force_pick_container; ++it ) {
         item *item_entry = *it;
-        const rule_state pickup_state = should_auto_pickup( item_entry );
+        const rule_state pickup_state = get_autopickup_rule( item_entry );
         if( pickup_state == rule_state::WHITELISTED ) {
             if( item_entry->is_container() ) {
                 // whitelisted containers should exclude contained blacklisted items
@@ -149,21 +149,21 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
             } else if( item_entry->made_of_from_type( phase_id::LIQUID ) ) {
                 // liquid items should never be picked up without container
                 force_pick_container = true;
-                continue;
+                break;
             }
             // pick up the whitelisted item
-            pickup_list.emplace_back( container, item_entry );
+            result.emplace_back( container, item_entry );
         } else if( item_entry->is_container() && !item_entry->is_container_empty() ) {
             // get pickup list from nested item container
             item_location location = item_location( container, item_entry );
-            std::vector<item_location> pickup_nested = get_pickup_list_from( location );
+            std::vector<item_location> result_nested = get_autopickup_items( location );
 
             // container with content was NOT marked for pickup
-            if( pickup_nested.size() != 1 || pickup_nested[0] != location ) {
+            if( result_nested.size() != 1 || result_nested[0] != location ) {
                 pick_all_items = false;
             }
-            pickup_list.reserve( pickup_nested.size() + pickup_list.size() );
-            pickup_list.insert( pickup_list.end(), pickup_nested.begin(), pickup_nested.end() );
+            result.reserve( result_nested.size() + result.size() );
+            result.insert( result.end(), result_nested.begin(), result_nested.end() );
         } else {
             // skip not whitelisted items that are not containers with items
             pick_all_items = false;
@@ -172,7 +172,7 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
     // blacklisted containers should still have their contents picked up
     // but themselves should be excluded. If all items inside blacklisted
     // container match then just pickup the items without the container
-    bool container_blacklisted = should_auto_pickup( container_item ) == rule_state::BLACKLISTED;
+    bool container_blacklisted = get_autopickup_rule( container_item ) == rule_state::BLACKLISTED;
     // all items in container were approved for pickup
     if( !container_blacklisted && !contents.empty() && ( pick_all_items || force_pick_container ) ) {
         bool all_batteries = true;
@@ -180,7 +180,7 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
         if( powered_container ) {
             // when dealing with battery powered tools there should only be one pocket
             // and one battery inside but this could change in future so account for that here
-            all_batteries = std::all_of( pickup_list.begin(), pickup_list.end(),
+            all_batteries = std::all_of( result.begin(), result.end(),
             []( const item_location & il ) {
                 return il.get_item()->is_battery();
             } );
@@ -188,30 +188,30 @@ static std::vector<item_location> get_pickup_list_from( item_location &container
         bool batteries_from_tool = powered_container && all_batteries;
         // make sure container is allowed to be picked up
         // when picking up batteries from powered containers don't pick container
-        if( is_valid_auto_pickup( container_item ) && !batteries_from_tool ) {
-            pickup_list.clear();
-            pickup_list.push_back( container );
+        if( within_autopickup_limits( container_item ) && !batteries_from_tool ) {
+            result.clear();
+            result.push_back( container );
         } else if( force_pick_container ) {
             // when force picking never pick individual items
-            pickup_list.clear();
+            result.clear();
         }
     }
-    return pickup_list;
+    return result;
 }
 
-static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>> &here,
-                                     std::vector<pickup_count> &getitem,
-                                     std::vector<item_location> &target_items,
+static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>> &from,
+                                     std::vector<pickup_count> &pickup,
+                                     std::vector<item_location> &result,
                                      const tripoint &location )
 {
     bool bFoundSomething = false;
     const map_cursor map_location = map_cursor( location );
 
     // iterate over all item stacks found in location
-    for( size_t i = 0; i < here.size(); i++ ) {
-        item *item_entry = &*here[i].front();
+    for( size_t i = 0; i < from.size(); i++ ) {
+        item *item_entry = &*from[i].front();
         std::string sItemName = item_entry->tname( 1, false );
-        rule_state pickup_state = should_auto_pickup( item_entry );
+        rule_state pickup_state = get_autopickup_rule( item_entry );
         bool is_container = item_entry->is_container() && !item_entry->empty_container();
 
         // before checking contents check if item is on pickup list
@@ -219,12 +219,12 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
             if( item_entry->is_container() ) {
                 drop_blacklisted_items( item_entry, location );
             }
-            getitem[i].pick = true;
+            pickup[i].pick = true;
             bFoundSomething = true;
         } else if( is_container || item_entry->ammo_capacity( ammo_battery ) ) {
             item_location container_location = item_location( map_location, item_entry );
-            for( const item_location &add_item : get_pickup_list_from( container_location ) ) {
-                target_items.insert( target_items.begin(), add_item );
+            for( const item_location &add_item : get_autopickup_items( container_location ) ) {
+                result.insert( result.begin(), add_item );
                 bFoundSomething = true;
             }
         }
