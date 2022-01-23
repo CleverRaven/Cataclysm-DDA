@@ -4,6 +4,7 @@
     "//": "Base widget for showing body part outer armor layer; needs bodypart field defined in derived widget.",
     "type": "widget",
     "style": "text",
+    "text_align": "left",
     "var": "bp_armor_outer_text"
   },
   {
