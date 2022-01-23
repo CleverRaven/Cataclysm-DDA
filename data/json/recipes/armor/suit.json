@@ -2113,7 +2113,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_lc_chestplate", 1 ] ], [ [ "armor_lc_heavyarmguard", 2 ] ], [ [ "armor_lc_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_lc_heavy_chestplate", 1 ] ], [ [ "armor_lc_heavyarmguard", 2 ] ], [ [ "armor_lc_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_lc_heavyplate",
@@ -2134,7 +2134,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_lc_chestplate", 1 ] ],
+      [ [ "xl_armor_lc_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_lc_heavyarmguard", 2 ] ],
       [ [ "xl_armor_lc_heavy_leg_guard", 2 ] ]
     ]
@@ -2188,7 +2188,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_mc_chestplate", 1 ] ], [ [ "armor_mc_heavyarmguard", 2 ] ], [ [ "armor_mc_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_mc_heavy_chestplate", 1 ] ], [ [ "armor_mc_heavyarmguard", 2 ] ], [ [ "armor_mc_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_mc_heavyplate",
@@ -2209,7 +2209,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_mc_chestplate", 1 ] ],
+      [ [ "xl_armor_mc_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_mc_heavyarmguard", 2 ] ],
       [ [ "xl_armor_mc_heavy_leg_guard", 2 ] ]
     ]
@@ -2263,7 +2263,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_hc_chestplate", 1 ] ], [ [ "armor_hc_heavyarmguard", 2 ] ], [ [ "armor_hc_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_hc_heavy_chestplate", 1 ] ], [ [ "armor_hc_heavyarmguard", 2 ] ], [ [ "armor_hc_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_hc_heavyplate",
@@ -2284,7 +2284,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_hc_chestplate", 1 ] ],
+      [ [ "xl_armor_hc_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_hc_heavyarmguard", 2 ] ],
       [ [ "xl_armor_hc_heavy_leg_guard", 2 ] ]
     ]
@@ -2338,7 +2338,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_ch_chestplate", 1 ] ], [ [ "armor_ch_heavyarmguard", 2 ] ], [ [ "armor_ch_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_ch_heavy_chestplate", 1 ] ], [ [ "armor_ch_heavyarmguard", 2 ] ], [ [ "armor_ch_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_ch_heavyplate",
@@ -2359,7 +2359,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_ch_chestplate", 1 ] ],
+      [ [ "xl_armor_ch_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_ch_heavyarmguard", 2 ] ],
       [ [ "xl_armor_ch_heavy_leg_guard", 2 ] ]
     ]
@@ -2414,7 +2414,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_qt_chestplate", 1 ] ], [ [ "armor_qt_heavyarmguard", 2 ] ], [ [ "armor_qt_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_qt_heavy_chestplate", 1 ] ], [ [ "armor_qt_heavyarmguard", 2 ] ], [ [ "armor_qt_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_qt_heavyplate",
@@ -2435,7 +2435,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_qt_chestplate", 1 ] ],
+      [ [ "xl_armor_qt_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_qt_heavyarmguard", 2 ] ],
       [ [ "xl_armor_qt_heavy_leg_guard", 2 ] ]
     ]
