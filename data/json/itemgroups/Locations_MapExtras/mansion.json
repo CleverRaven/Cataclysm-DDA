@@ -1,5 +1,5 @@
-[
-  {
+[  
+{
     "id": "corpse_mansion",
     "type": "item_group",
     "subtype": "distribution",
@@ -454,7 +454,7 @@
     "id": "soa_decor",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_decor" }, [ "armor_plate", 100 ], [ "helmet_plate", 100 ] ]
+    "items": [ { "group": "soa_weapons_decor" }, { "group": "shields" }, [ "armor_plate", 100 ], [ "helmet_plate", 100 ] ]
   },
   {
     "id": "soa_weapons_decor",

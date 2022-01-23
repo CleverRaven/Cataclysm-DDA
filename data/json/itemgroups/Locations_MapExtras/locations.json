@@ -1,5 +1,5 @@
 [
-  {
+{
     "id": "basement_op_guns",
     "type": "item_group",
     "//": "Hardcoded gunsafe itemgroup for basement_junk in mapgen_functions.cpp .",
@@ -445,7 +445,6 @@
       [ "waffleiron", 25 ],
       [ "pastaextruder", 10 ],
       [ "can_sealer", 5 ],
-      [ "oil_press_manual", 5 ],
       [ "knife_butter", 90 ],
       [ "knife_steak", 85 ],
       [ "fork", 90 ],
@@ -1115,7 +1114,8 @@
       [ "ceramic_cup", 90 ],
       { "group": "tinware", "prob": 50 },
       [ "crown_golden", 10 ],
-      [ "fluid_preserved_brain", 20 ]
+      [ "fluid_preserved_brain", 20 ],
+      { "group": "shields" }
     ]
   },
   {
@@ -1460,6 +1460,7 @@
     "id": "prison_armor",
     "items": [
       [ "helmet_riot", 25 ],
+      [ "riot_shield", 25 ],
       { "item": "mask_gas", "prob": 25, "charges": [ 0, 100 ] },
       [ "armor_riot", 20 ],
       [ "gloves_tactical", 10 ],
