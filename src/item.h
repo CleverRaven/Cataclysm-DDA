@@ -353,6 +353,12 @@ class item : public visitable
         bool is_ebook_storage() const;
 
         /**
+         * A heuristic on whether it's a good idea to use this as a melee weapon.
+         * Used for nicer messages only.
+         */
+        bool is_maybe_melee_weapon() const;
+
+        /**
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
          */
         std::string dirt_symbol() const;
@@ -480,10 +486,14 @@ class item : public visitable
                              bool debug ) const;
         void bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
-        void combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                          bool debug ) const;
+        void melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                bool debug ) const;
         void contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                             bool debug ) const;
+        void properties_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                              bool debug ) const;
+        void ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
         void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
 
