@@ -966,7 +966,7 @@
     "id": "robofac_gun_kit",
     "type": "TOOL",
     "name": { "str": "Hub 01 Hybrid maintenance kit" },
-    "description": "This is a heavy duty bag marked with the Hub 01 logo.  It contains a collection of barrels, adaptors and proprietary tools.  Embossed on the inside is a sketch of the hybrid weapon platform.",
+    "description": "This is a heavy duty bag marked with the Hub 01 logo.  It contains a collection of barrels, adaptors and proprietary tools.  Embossed on the inside is a sketch of the Hybrid Weapons Platform.",
     "weight": "2000 g",
     "volume": "2800 ml",
     "longest_side": "95 cm",
