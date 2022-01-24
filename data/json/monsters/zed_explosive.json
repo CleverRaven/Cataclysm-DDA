@@ -180,7 +180,7 @@
     "id": "mon_zombie_relax_gasbag",
     "type": "MONSTER",
     "name": { "str": "sleepwalker zombie" },
-    "description": "A zombie swollen with a blueish, oddly sweet smelling gas. It stumbles around even more than regular zombies, as if heavily intoxicated.",
+    "description": "A zombie swollen with a bluish, oddly sweet smelling gas. It stumbles around even more than regular zombies, as if heavily intoxicated.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -204,7 +204,7 @@
     "emit_fields": [ { "emit_id": "emit_relax_gas_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
-    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORSPE" },
+    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
