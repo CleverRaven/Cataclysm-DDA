@@ -160,7 +160,7 @@
       { "point": [ 1, 12, 2 ], "overmap": "aircraft_carrier_13b_2_north" },
       { "point": [ 2, 12, 2 ], "overmap": "aircraft_carrier_13c_2_north" },
       { "point": [ 2, 5, 3 ], "overmap": "aircraft_carrier_1a_3_north" },
-      { "point": [ 2, 6	, 3 ], "overmap": "aircraft_carrier_2a_3_north" }
+      { "point": [ 2, 6, 3 ], "overmap": "aircraft_carrier_2a_3_north" }
     ],
     "city_distance": [ -1, 1000 ],
     "locations": [ "water", "lake_surface" ],
