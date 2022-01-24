@@ -1875,6 +1875,9 @@
   {
     "type": "effect_type",
     "id": "tetanus",
+    "name": [ "Muscle cramps" ],
+    "apply_message": "Your muscles start convulsing!",
+    "desc": [ "You muscles are binding up, you should probably find a sedative." ],
     "rating": "bad",
     "resist_effects": [ "valium" ],
     "base_mods": { "dex_mod": [ -4, 0 ] },

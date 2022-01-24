@@ -71,9 +71,10 @@ class item_contents
          */
         bool can_reload_with( const item &ammo, const bool now ) const;
 
-        // does not ignore mods
-        bool empty_real() const;
+        // Returns true if contents are empty (ignoring item mods, since they aren't contents)
         bool empty() const;
+        // Returns true if contents are empty of everything including mods
+        bool empty_with_no_mods() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
         bool empty_container() const;
         // checks if CONTAINER pockets are all full

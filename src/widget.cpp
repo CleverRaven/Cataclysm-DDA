@@ -9,9 +9,8 @@
 #include "overmapbuffer.h"
 
 const static flag_id json_flag_W_DISABLED( "W_DISABLED" );
+const static flag_id json_flag_W_DYNAMIC_HEIGHT( "W_DYNAMIC_HEIGHT" );
 const static flag_id json_flag_W_LABEL_NONE( "W_LABEL_NONE" );
-const static flag_id json_flag_W_PAD_CENTER( "W_PAD_CENTER" );
-const static flag_id json_flag_W_PAD_NONE( "W_PAD_NONE" );
 
 // Use generic factory wrappers for widgets to use standardized JSON loading methods
 namespace
@@ -44,6 +43,11 @@ void widget::reset()
 const std::vector<widget> &widget::get_all()
 {
     return widget_factory.get_all();
+}
+
+const widget_id &widget::getId() const
+{
+    return id;
 }
 
 // Convert widget "var" enums to string equivalents
@@ -119,6 +123,10 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "body_temp_text";
         case widget_var::bp_status_text:
             return "bp_status_text";
+        case widget_var::bp_status_sym_text:
+            return "bp_status_sym_text";
+        case widget_var::bp_status_legend_text:
+            return "bp_status_legend_text";
         case widget_var::date_text:
             return "date_text";
         case widget_var::env_temp_text:
@@ -135,6 +143,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "mood_text";
         case widget_var::moon_phase_text:
             return "moon_phase_text";
+        case widget_var::move_count_mode_text:
+            return "move_count_mode_text";
         case widget_var::move_mode_letter:
             return "move_mode_letter";
         case widget_var::move_mode_text:
@@ -212,13 +222,127 @@ std::string enum_to_string<cardinal_direction>( cardinal_direction dir )
     }
     cata_fatal( "Invalid cardinal_direction" );
 }
+
+template<>
+std::string enum_to_string<bodypart_status>( bodypart_status stat )
+{
+    switch( stat ) {
+        case bodypart_status::BITTEN:
+            return "bitten";
+        case bodypart_status::INFECTED:
+            return "infected";
+        case bodypart_status::BROKEN:
+            return "broken";
+        case bodypart_status::SPLINTED:
+            return "splinted";
+        case bodypart_status::BANDAGED:
+            return "bandaged";
+        case bodypart_status::DISINFECTED:
+            return "disinfected";
+        case bodypart_status::BLEEDING:
+            return "bleeding";
+        case bodypart_status::num_bodypart_status:
+        default:
+            break;
+    }
+    cata_fatal( "Invalid bodypart_status" );
+}
+
+template<>
+std::string enum_to_string<widget_alignment>( widget_alignment align )
+{
+    switch( align ) {
+        case widget_alignment::LEFT:
+            return "left";
+        case widget_alignment::CENTER:
+            return "center";
+        case widget_alignment::RIGHT:
+            return "right";
+        case widget_alignment::num_widget_alignments:
+        default:
+            break;
+    }
+    cata_fatal( "Invalid widget_alignment" );
+}
 } // namespace io
+
+void widget_phrase::load( const JsonObject &jo )
+{
+    optional( jo, false, "id", id );
+    optional( jo, false, "text", text );
+    optional( jo, false, "sym", sym );
+    optional( jo, false, "value", value, INT_MIN );
+
+    std::string clr;
+    optional( jo, false, "color", clr, "white" );
+    color = color_from_string( clr );
+}
+
+int widget_phrase::get_val_for_id( const std::string &phrase_id, const widget_id &wgt )
+{
+    auto iter = std::find_if( wgt->_phrases.begin(), wgt->_phrases.end(),
+    [&phrase_id]( const widget_phrase & wp ) {
+        return wp.id == phrase_id;
+    } );
+    return iter == wgt->_phrases.end() ? INT_MIN : iter->value;
+}
+
+const translation &widget_phrase::get_text_for_id( const std::string &phrase_id,
+        const widget_id &wgt )
+{
+    static const translation none;
+    auto iter = std::find_if( wgt->_phrases.begin(), wgt->_phrases.end(),
+    [&phrase_id]( const widget_phrase & wp ) {
+        return wp.id == phrase_id;
+    } );
+    return iter == wgt->_phrases.end() ? none : iter->text;
+}
+
+const std::string &widget_phrase::get_sym_for_id( const std::string &phrase_id,
+        const widget_id &wgt )
+{
+    static const std::string none;
+    auto iter = std::find_if( wgt->_phrases.begin(), wgt->_phrases.end(),
+    [&phrase_id]( const widget_phrase & wp ) {
+        return wp.id == phrase_id;
+    } );
+    return iter == wgt->_phrases.end() ? none : iter->sym;
+}
+
+nc_color widget_phrase::get_color_for_id( const std::string &phrase_id, const widget_id &wgt,
+        int val )
+{
+    std::map<int, nc_color> vals;
+    for( const widget_phrase &wp : wgt->_phrases ) {
+        if( phrase_id != wp.id ) {
+            continue;
+        }
+        if( val == INT_MIN ) {
+            return wp.color;
+        }
+        vals.emplace( wp.value, wp.color );
+    }
+    if( vals.empty() ) {
+        return c_white;
+    }
+
+    int key = INT_MIN;
+    for( const auto &v : vals ) {
+        if( v.first == val ) {
+            return v.second;
+        } else if( v.first > val ) {
+            break;
+        }
+        key = v.first;
+    }
+    return key == INT_MIN ? c_white : vals[key];
+}
 
 void widget::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "strings", _strings );
     optional( jo, was_loaded, "width", _width, 1 );
-    optional( jo, was_loaded, "height", _height, 1 );
+    optional( jo, was_loaded, "height", _height_max, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
     optional( jo, was_loaded, "fill", _fill, "bucket" );
     optional( jo, was_loaded, "label", _label, translation() );
@@ -227,7 +351,12 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "var_min", _var_min );
     optional( jo, was_loaded, "var_max", _var_max );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
+    optional( jo, was_loaded, "text_align", _text_align, widget_alignment::RIGHT );
+    optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "flags", _flags );
+
+    _height = _height_max;
+    _label_width = _label.empty() ? 0 : utf8_width( _label.translated() );
 
     if( jo.has_string( "var" ) ) {
         _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
@@ -243,12 +372,64 @@ void widget::load( const JsonObject &jo, const std::string & )
             _colors.emplace_back( get_all_colors().name_to_color( color_name ) );
         }
     }
+
+    if( jo.has_array( "phrases" ) ) {
+        _phrases.clear();
+        for( JsonObject jobj : jo.get_array( "phrases" ) ) {
+            widget_phrase phs;
+            phs.load( jobj );
+            _phrases.emplace_back( phs );
+        }
+    }
+
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
+}
+
+// Returns the derived label width for this widget/layout
+int widget::finalize_label_width_recursive( const widget_id &id )
+{
+    widget *w = nullptr;
+    // Get the original widget from the widget factory.
+    for( const widget &wgt : widget::get_all() ) {
+        if( wgt.getId() == id ) {
+            w = const_cast<widget *>( &wgt );
+            break;
+        }
+    }
+    // None found, return 0 as the label width.
+    if( w == nullptr ) {
+        return 0;
+    } else if( w->_widgets.empty() ) {
+        // No more nested layouts, we've found an individual widget.
+        // Return the widget's label width, or 0 if the label is disabled.
+        return w->has_flag( json_flag_W_LABEL_NONE ) ? 0 : w->_label_width;
+    }
+    // If we get here, we have a layout that contains nested widgets.
+
+    // Find the longest label width within this layout.
+    int width = 0;
+    for( const widget_id &wid : w->_widgets ) {
+        // Skip nested elements that are "rows" layouts,
+        // these don't count towards the parent's label width.
+        if( wid->_style == "layout" && wid->_arrange == "rows" ) {
+            continue;
+        }
+        // Dive deeper to retrieve the nested element's label width.
+        int tmpw = widget::finalize_label_width_recursive( wid );
+        if( tmpw > width ) {
+            width = tmpw;
+        }
+    }
+    // Update this layout's label width to reflect the longest label within.
+    w->_label_width = width;
+    return w->_label_width;
 }
 
 void widget::finalize()
 {
-    // Nothing to do?
+    for( const widget &wgt : widget::get_all() ) {
+        widget::finalize_label_width_recursive( wgt.getId() );
+    }
 }
 
 int widget::get_var_max( const avatar &ava ) const
@@ -460,7 +641,7 @@ static void custom_draw_func( const draw_args &args )
             int row_num = 0;
             for( const widget_id &row_wid : wgt->_widgets ) {
                 widget row_widget = row_wid.obj();
-                const std::string txt = row_widget.layout( u, widt );
+                const std::string txt = row_widget.layout( u, widt, wgt->_label_width );
                 row_num = widget::custom_draw_multiline( txt, w, margin, widt, row_num );
             }
         } else {
@@ -506,6 +687,8 @@ bool widget::uses_text_function()
         case widget_var::activity_text:
         case widget_var::body_temp_text:
         case widget_var::bp_status_text:
+        case widget_var::bp_status_sym_text:
+        case widget_var::bp_status_legend_text:
         case widget_var::compass_text:
         case widget_var::compass_legend_text:
         case widget_var::date_text:
@@ -516,6 +699,7 @@ bool widget::uses_text_function()
         case widget_var::lighting_text:
         case widget_var::mood_text:
         case widget_var::moon_phase_text:
+        case widget_var::move_count_mode_text:
         case widget_var::move_mode_letter:
         case widget_var::move_mode_text:
         case widget_var::pain_text:
@@ -543,6 +727,29 @@ bool widget::uses_text_function()
     }
 }
 
+// Simple workaround from the copied widget from the panel to set the widget's height globally
+static void set_height_for_widget( const widget_id &id, int height )
+{
+    const std::vector<widget> &wlist = widget::get_all();
+    auto iter = std::find_if( wlist.begin(), wlist.end(), [&id]( const widget & w ) {
+        return w.getId() == id;
+    } );
+    if( iter != wlist.end() ) {
+        const_cast<widget *>( &*iter )->_height = height;
+    }
+}
+
+static std::set<bodypart_id> get_bodyparts_from_status_widgets()
+{
+    std::set<bodypart_id> ret;
+    for( const widget &w : widget::get_all() ) {
+        if( w._var == widget_var::bp_status_sym_text ) {
+            ret.emplace( w._bp_id );
+        }
+    }
+    return ret;
+}
+
 // NOTE: Use max_width to split multi-line widgets across lines
 std::string widget::color_text_function_string( const avatar &ava, unsigned int max_width )
 {
@@ -554,6 +761,8 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
     desc.second = c_light_gray;
     // By default, colorize the string in desc.first with the color in desc.second.
     bool apply_color = true;
+    // Don't bother updating the widget's height by default
+    bool update_height = false;
     // Some helper display:: functions do their own internal colorization of the string.
     // For those, desc.first is the already-colorized string, and apply_color is set to false.
     switch( _var ) {
@@ -564,8 +773,19 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::temp_text_color( ava );
             break;
         case widget_var::bp_status_text:
-            desc.first = display::colorized_bodypart_status_text( ava, _bp_id );
+            desc.first = display::colorized_bodypart_status_text( ava, _bp_id, id.str() );
             apply_color = false; // Has embedded color already
+            break;
+        case widget_var::bp_status_sym_text:
+            desc.first = display::colorized_bodypart_status_sym_text( ava, _bp_id, id.str() );
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::bp_status_legend_text:
+            desc.first = display::colorized_bodypart_status_legend_text( ava,
+                         get_bodyparts_from_status_widgets(), id.str(),
+                         _width == 0 ? max_width : _width, _height_max, _height );
+            update_height = true; // Dynamically adjusted height
+            apply_color = false; // Already colorized
             break;
         case widget_var::date_text:
             desc.first = display::date_string();
@@ -590,6 +810,9 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::moon_phase_text:
             desc.first = display::get_moon();
+            break;
+        case widget_var::move_count_mode_text:
+            desc = display::move_count_and_mode_text_color( ava );
             break;
         case widget_var::move_mode_letter:
             desc = display::move_mode_letter_color( ava );
@@ -660,7 +883,9 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             apply_color = false; // Already colorized
             break;
         case widget_var::compass_legend_text:
-            desc.first = display::colorized_compass_legend_text( max_width, _height );
+            desc.first = display::colorized_compass_legend_text( _width == 0 ? max_width : _width, _height_max,
+                         _height );
+            update_height = true; // Dynamically adjusted height
             apply_color = false; // Already colorized
             break;
         default:
@@ -668,6 +893,13 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
                       io::enum_to_string<widget_var>( _var ) );
             return _( "???" );
     }
+    // Update height dynamically for widgets that support it
+    if( update_height && has_flag( json_flag_W_DYNAMIC_HEIGHT ) ) {
+        set_height_for_widget( id, _height ); // Set within widget factory
+    } else {
+        _height = _height_max; // reset height
+    }
+    // Colorize if applicable
     ret += apply_color ? colorize( desc.first, desc.second ) : desc.first;
     return ret;
 }
@@ -798,41 +1030,93 @@ std::string widget::graph( int value, int value_max )
 }
 
 // For widget::layout, process each row to append to the layout string
-// align: 0 = left, 1 = center, 2 = right
 static std::string append_line( const std::string &line, bool first_row, unsigned int max_width,
-                                const translation &label, int align )
+                                const translation &label, int label_width, widget_alignment text_align,
+                                widget_alignment label_align )
 {
-    std::string ret;
-    // Width used by label, ": " and value, using utf8_width to ignore color tags
-    unsigned int used_width = utf8_width( line, true );
     // utf8_width subtracts 1 for each newline; add it back for multiline widgets
-    if( !line.empty() && line.back() == '\n' ) {
-        used_width += 1;
+    const int newline_fix = !line.empty() && line.back() == '\n' ? 1 : 0;
+
+    // Prepare label
+    int lbl_w = 0;
+    std::string lbl;
+    if( first_row && !label.empty() ) {
+        lbl = label.translated();
+        lbl_w = utf8_width( lbl, true );
+        lbl.append( ": " );
     }
-    if( first_row ) {
-        const std::string tlabel = label.translated();
-        // If label is empty or omitted, don't reserve space for it
-        if( !label.empty() ) {
-            used_width += utf8_width( tlabel, true ) + 2;
-            // Label and ": " first
-            ret += tlabel + ": ";
+    // Don't process label width if label_width = 0 for empty labels
+    if( label_width > 0 || !label.empty() ) {
+        lbl_w += 2;
+        label_width += 2;
+        // Use empty spaces in place of label if none exist
+        if( label.empty() ) {
+            lbl.append( label_width, ' ' );
+            lbl_w = label_width;
         }
     }
 
-    // then enough padding to fit max_width
-    if( align != 0 && used_width < max_width ) {
-        int pad_count = max_width - used_width;
-        if( align == 1 ) {
-            pad_count = max_width / 2 - used_width / 2;
-        }
-        ret += std::string( pad_count, ' ' );
+    // Prepare text
+    int txt_w = 0;
+    std::string txt;
+    if( !line.empty() ) {
+        txt = line;
+        txt_w = utf8_width( txt, true ) + newline_fix;
     }
-    // then colorized value
-    ret += line;
+
+    // Label padding
+    if( label_width > lbl_w ) {
+        const int lpad = label_width - lbl_w;
+        // Left side
+        int padding = 0;
+        if( label_align != widget_alignment::LEFT ) {
+            padding = label_align == widget_alignment::RIGHT ? lpad : ( lpad / 2 ) + lpad % 2;
+        }
+        lbl.insert( 0, padding, ' ' );
+        lbl_w += padding;
+        // Right side
+        padding = 0;
+        if( label_align != widget_alignment::RIGHT ) {
+            padding = label_align == widget_alignment::LEFT ? lpad : lpad / 2;
+        }
+        lbl.append( padding, ' ' );
+        lbl_w += padding;
+    }
+
+    // Text padding
+    if( static_cast<int>( max_width ) - lbl_w > txt_w ) {
+        const int tpad = ( static_cast<int>( max_width ) - lbl_w ) - txt_w;
+        // Left side
+        int padding = 0;
+        if( text_align != widget_alignment::LEFT &&
+            // Don't pad left if the label is also right-aligned
+            ( text_align == widget_alignment::CENTER || label_align != widget_alignment::RIGHT ) ) {
+            padding = text_align == widget_alignment::RIGHT ? tpad : ( tpad / 2 ) + tpad % 2;
+        }
+        txt.insert( 0, padding, ' ' );
+        txt_w += padding;
+        // Right side
+        padding = 0;
+        if( text_align != widget_alignment::RIGHT && newline_fix == 0 ) {
+            padding = text_align == widget_alignment::LEFT ? tpad : tpad / 2;
+        }
+        txt.append( padding, ' ' );
+        txt_w += padding;
+    }
+
+    // Final assembly
+    std::string ret = lbl + txt;
+    if( text_align == widget_alignment::RIGHT ) {
+        const int leftover = max_width - ( lbl_w + txt_w );
+        if( leftover > 0 ) {
+            ret.insert( 0, leftover, ' ' );
+        }
+    }
+
     return ret;
 }
 
-std::string widget::layout( const avatar &ava, const unsigned int max_width )
+std::string widget::layout( const avatar &ava, const unsigned int max_width, int label_width )
 {
     std::string ret;
     if( _style == "layout" ) {
@@ -861,15 +1145,13 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
                 remainder -= 1;
             }
             // Layout child in this column
-            ret += string_format( "%s", cur_child.layout( ava, cur_width ) );
+            ret += string_format( "%s", cur_child.layout( ava, cur_width, label_width ) );
             // Add column padding until we reach the last column
             if( wid != _widgets.back() ) {
                 ret += std::string( col_padding, ' ' );
             }
         }
     } else {
-        // Get alignment
-        int align = has_flag( json_flag_W_PAD_NONE ) ? 0 : has_flag( json_flag_W_PAD_CENTER ) ? 1 : 2;
         // Get displayed value (colorized)
         std::string shown = show( ava, max_width );
         size_t strpos = 0;
@@ -878,7 +1160,8 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
         while( ( strpos = shown.find( '\n' ) ) != std::string::npos && row_num < _height ) {
             // Process line, including '\n'
             ret += append_line( shown.substr( 0, strpos + 1 ), row_num == 0, max_width,
-                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label, align );
+                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
+                                0, _text_align, _label_align );
             // Delete used token
             shown.erase( 0, strpos + 1 );
             row_num++;
@@ -886,7 +1169,8 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
         if( row_num < _height ) {
             // Process last line, or first for single-line widgets
             ret += append_line( shown, row_num == 0, max_width,
-                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label, align );
+                                has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
+                                row_num == 0 ? label_width : 0, _text_align, _label_align );
         }
     }
     return ret;

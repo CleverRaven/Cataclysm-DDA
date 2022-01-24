@@ -4318,7 +4318,8 @@
             "container-item": "rad_monitor"
           },
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "radio" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "camera_pro" }
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "camera_pro" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "emf_detector" }
         ]
       },
       "male": [ "boxer_shorts" ],

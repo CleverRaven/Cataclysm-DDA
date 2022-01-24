@@ -381,11 +381,11 @@ int Character::item_wear_cost( const item &it ) const
 
     for( layer_level layer : it.get_layer() )
         switch( layer ) {
-            case layer_level::UNDERWEAR:
+            case layer_level::SKINTIGHT:
                 mv *= 1.5;
                 break;
 
-            case layer_level::REGULAR:
+            case layer_level::NORMAL:
                 break;
 
             case layer_level::WAIST:

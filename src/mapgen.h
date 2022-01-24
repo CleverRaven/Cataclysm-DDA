@@ -119,17 +119,21 @@ enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_FURN,
     JMAPGEN_SETMAP_TRAP,
     JMAPGEN_SETMAP_RADIATION,
+    JMAPGEN_SETMAP_TRAP_REMOVE,
     JMAPGEN_SETMAP_BASH,
+    JMAPGEN_SETMAP_VARIABLE,
     JMAPGEN_SETMAP_OPTYPE_LINE = 100,
     JMAPGEN_SETMAP_LINE_TER,
     JMAPGEN_SETMAP_LINE_FURN,
     JMAPGEN_SETMAP_LINE_TRAP,
     JMAPGEN_SETMAP_LINE_RADIATION,
+    JMAPGEN_SETMAP_LINE_TRAP_REMOVE,
     JMAPGEN_SETMAP_OPTYPE_SQUARE = 200,
     JMAPGEN_SETMAP_SQUARE_TER,
     JMAPGEN_SETMAP_SQUARE_FURN,
     JMAPGEN_SETMAP_SQUARE_TRAP,
-    JMAPGEN_SETMAP_SQUARE_RADIATION
+    JMAPGEN_SETMAP_SQUARE_RADIATION,
+    JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE
 };
 
 struct jmapgen_setmap {
@@ -144,16 +148,16 @@ struct jmapgen_setmap {
     int rotation;
     int fuel;
     int status;
-
+    std::string string_val;
     jmapgen_setmap(
         jmapgen_int ix, jmapgen_int iy, jmapgen_int ix2, jmapgen_int iy2,
         jmapgen_setmap_op iop, jmapgen_int ival,
         int ione_in = 1, jmapgen_int irepeat = jmapgen_int( 1, 1 ), int irotation = 0, int ifuel = -1,
-        int istatus = -1
+        int istatus = -1, std::string istring_val = ""
     ) :
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
-        fuel( ifuel ), status( istatus ) {}
+        fuel( ifuel ), status( istatus ), string_val( istring_val ) {}
 
     mapgen_phase phase() const;
 

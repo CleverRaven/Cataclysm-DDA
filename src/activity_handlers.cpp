@@ -127,7 +127,6 @@ static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
@@ -135,10 +134,8 @@ static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
-static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -303,11 +300,8 @@ activity_handlers::finish_functions = {
     { ACT_QUARTER, butcher_finish },
     { ACT_DISMEMBER, butcher_finish },
     { ACT_DISSECT, butcher_finish },
-    { ACT_FIRSTAID, firstaid_finish },
     { ACT_FISH, fish_finish },
-    { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_PICKAXE, pickaxe_finish },
-    { ACT_MOP, mopping_finish },
     { ACT_START_FIRE, start_fire_finish },
     { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
@@ -1529,37 +1523,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
     }
 }
 
-void activity_handlers::firstaid_finish( player_activity *act, Character *you )
-{
-    static const std::string iuse_name_string( "heal" );
-
-    item &it = *act->targets.front();
-    item *used_tool = it.get_usable_item( iuse_name_string );
-    if( used_tool == nullptr ) {
-        debugmsg( "Lost tool used for healing" );
-        act->set_to_null();
-        return;
-    }
-
-    const use_function *use_fun = used_tool->get_use( iuse_name_string );
-    const heal_actor *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
-    if( actor == nullptr ) {
-        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-        act->set_to_null();
-        return;
-    }
-
-    // TODO: Store the patient somehow, retrieve here
-    Character &patient = *you;
-    const bodypart_id healed = bodypart_id( act->str_values[0] );
-    const int charges_consumed = actor->finish_using( *you, patient, *used_tool, healed );
-    you->consume_charges( it, charges_consumed );
-
-    // Erase activity and values.
-    act->set_to_null();
-    act->values.clear();
-}
-
 // Repurposing the activity's index to convey the number of friends participating
 void activity_handlers::generic_game_turn_handler( player_activity *act, Character *you,
         int morale_bonus, int morale_max_bonus )
@@ -1620,50 +1583,6 @@ void activity_handlers::generic_game_do_turn( player_activity *act, Character *y
 void activity_handlers::game_do_turn( player_activity *act, Character *you )
 {
     generic_game_turn_handler( act, you, 1, 100 );
-}
-
-void activity_handlers::longsalvage_finish( player_activity *act, Character *you )
-{
-    static const std::string salvage_string = "salvage";
-    item &main_tool = you->i_at( act->index );
-    map &here = get_map();
-    map_stack items = here.i_at( you->pos() );
-    item *salvage_tool = main_tool.get_usable_item( salvage_string );
-    if( salvage_tool == nullptr ) {
-        debugmsg( "Lost tool used for long salvage" );
-        act->set_to_null();
-        return;
-    }
-
-    const use_function *use_fun = salvage_tool->get_use( salvage_string );
-    const salvage_actor *actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
-    if( actor == nullptr ) {
-        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-        act->set_to_null();
-        return;
-    }
-
-    for( item &it : items ) {
-        if( actor->valid_to_cut_up( it ) ) {
-            item_location item_loc( map_cursor( you->pos() ), &it );
-            actor->cut_up( *you, *salvage_tool, item_loc );
-            return;
-        }
-    }
-
-    add_msg( _( "You finish salvaging." ) );
-    act->set_to_null();
-}
-
-void activity_handlers::mopping_finish( player_activity *act, Character *you )
-{
-    // blind character have a 1/3 chance of actually mopping
-    const bool will_mop = one_in( you->is_blind() ? 1 : 3 );
-    if( will_mop ) {
-        map &here = get_map();
-        here.mop_spills( here.getlocal( act->placement ) );
-    }
-    resume_for_multi_activities( *you );
 }
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )

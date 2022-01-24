@@ -2788,7 +2788,7 @@
         "covers": [ "eyes" ],
         "coverage": 80,
         "encumbrance": 5,
-        "layers": [ "Outer" ]
+        "layers": [ "OUTER" ]
       },
       {
         "material": [
@@ -2798,7 +2798,7 @@
         "covers": [ "mouth" ],
         "coverage": 50,
         "encumbrance": 2,
-        "layers": [ "Outer" ]
+        "layers": [ "OUTER" ]
       }
     ],
     "environmental_protection": 2,

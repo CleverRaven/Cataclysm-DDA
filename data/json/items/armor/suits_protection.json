@@ -1426,13 +1426,7 @@
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_loose", "menu_text": "Loosen" },
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": 8 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 8 },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 100,
-        "encumbrance": 2
-      }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 8 }
     ]
   },
   {
@@ -1449,6 +1443,26 @@
       "target": "gambeson",
       "menu_text": "Adjust tighter"
     }
+  },
+  {
+    "id": "gambeson_pants",
+    "type": "ARMOR",
+    "name": { "str": "arming pants", "str_pl": "pairs of arming pants" },
+    "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.",
+    "weight": "300 g",
+    "volume": "2 L",
+    "price": 14000,
+    "price_postapoc": 600,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "pants_ski",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 5,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 8 } ]
   },
   {
     "id": "k_gambeson",
@@ -1471,13 +1485,7 @@
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_loose", "menu_text": "Loosen" },
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": 12 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 16 },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 100,
-        "encumbrance": 4
-      }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 16 }
     ]
   },
   {
@@ -1496,6 +1504,26 @@
     }
   },
   {
+    "id": "k_gambeson_pants",
+    "type": "ARMOR",
+    "name": { "str": "Kevlar arming pants", "str_pl": "pairs of Kevlar arming pants" },
+    "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.  This one incorporates Kevlar layers added for better protection.",
+    "weight": "1840 g",
+    "volume": "2000 ml",
+    "price": 14000,
+    "price_postapoc": 600,
+    "to_hit": -5,
+    "material": [ { "type": "kevlar_layered", "portion": 6 }, { "type": "kevlar", "portion": 4 } ],
+    "symbol": "[",
+    "looks_like": "pants_ski",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 3.2,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
+    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 16 } ]
+  },
+  {
     "id": "xl_gambeson",
     "type": "ARMOR",
     "name": { "str": "XL gambeson" },
@@ -1503,6 +1531,14 @@
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_gambeson_loose", "menu_text": "Loosen" }
+  },
+  {
+    "id": "xl_gambeson_pants",
+    "type": "ARMOR",
+    "name": { "str": "XL arming pants", "str_pl": "pairs of XL arming pants" },
+    "copy-from": "gambeson_pants",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xl_gambeson_loose",
@@ -1526,6 +1562,14 @@
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_k_gambeson_loose", "menu_text": "Loosen" }
+  },
+  {
+    "id": "xl_k_gambeson_pants",
+    "type": "ARMOR",
+    "name": { "str": "XL Kevlar arming pants", "str_pl": "pairs of XL Kevlar arming pants" },
+    "copy-from": "k_gambeson_pants",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xl_k_gambeson_loose",
@@ -1682,7 +1726,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
     ],
     "warmth": 25,
-    "material_thickness": 2,
+    "material_thickness": 0.8,
     "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER" ]
   },
   {

@@ -708,6 +708,31 @@
     "use_action": [ "HOTPLATE" ]
   },
   {
+    "id": "oil_press_manual",
+    "type": "TOOL",
+    "name": { "str": "manual oil press", "str_pl": "manual oil presses" },
+    "description": "This is a hand cranked press for creating vegetable oil.  A hotplate heats the raw material to increase extraction efficiency.",
+    "weight": "2300 g",
+    "volume": "1560 ml",
+    "longest_side": "20 cm",
+    "price": 12000,
+    "price_postapoc": 1000,
+    "to_hit": -2,
+    "bashing": 7,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
     "id": "pastaextruder",
     "type": "GENERIC",
     "category": "tools",

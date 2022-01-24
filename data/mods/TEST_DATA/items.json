@@ -1040,6 +1040,33 @@
     "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ] } ]
   },
   {
+    "id": "test_complex_tanktop",
+    "type": "ARMOR",
+    "name": { "str": "test composite tanktop" },
+    "description": "The tanktop of the future.  Super armor with almost infinite defensive power.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 3,
+    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "hardsteel", "covered_by_mat": 5, "thickness": 1 }
+        ],
+        "encumbrance": 7
+      }
+    ]
+  },
+  {
     "id": "test_umbrella",
     "type": "GENERIC",
     "category": "tools",
@@ -1336,6 +1363,32 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
+  },
+  {
+    "id": "test_can_food",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test small tin can" },
+    "description": "A steel can that thinks its made of tin, maybe useful for testing, but you wouldn't want to eat out of it.",
+    "weight": "40 g",
+    "volume": "262 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "steel" ],
+    "symbol": ")",
+    "color": "blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "type": "GENERIC",

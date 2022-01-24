@@ -171,9 +171,8 @@ static const character_modifier_id character_modifier_aim_speed_mod( "aim_speed_
 static const character_modifier_id character_modifier_aim_speed_skill_mod( "aim_speed_skill_mod" );
 static const character_modifier_id
 character_modifier_crawl_speed_movecost_mod( "crawl_speed_movecost_mod" );
+static const character_modifier_id character_modifier_limb_fall_mod( "limb_fall_mod" );
 static const character_modifier_id character_modifier_limb_run_cost_mod( "limb_run_cost_mod" );
-static const character_modifier_id
-character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
 static const character_modifier_id character_modifier_limb_str_mod( "limb_str_mod" );
 static const character_modifier_id
 character_modifier_melee_stamina_cost_mod( "melee_stamina_cost_mod" );
@@ -7746,8 +7745,8 @@ void Character::rooted()
             time_to_full += -14400;    // -4 hours
         }
         if( x_in_y( 96, time_to_full ) ) {
-            vitamin_mod( vitamin_iron, 1, true );
-            vitamin_mod( vitamin_calcium, 1, true );
+            vitamin_mod( vitamin_iron, 1 );
+            vitamin_mod( vitamin_calcium, 1 );
             mod_healthy_mod( 5, 50 );
         }
         if( get_thirst() > -40 && x_in_y( 288, time_to_full ) ) {
@@ -9271,7 +9270,7 @@ void Character::process_one_effect( effect &it, bool is_new )
     for( const vitamin_applied_effect &vit : it.vit_effects( reduced ) ) {
         if( vit.tick && vit.rate && calendar::once_every( *vit.tick ) ) {
             const int mod = rng( vit.rate->first, vit.rate->second );
-            vitamin_mod( vit.vitamin, mod, false );
+            vitamin_mod( vit.vitamin, mod );
         }
     }
 
@@ -10676,9 +10675,10 @@ float Character::fall_damage_mod() const
 
     /** @EFFECT_DODGE decreases damage from falling */
     float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
-    dex_dodge *= get_modifier( character_modifier_limb_speed_movecost_mod );
+    // Reactions, legwork and footing determine your landing
+    dex_dodge *= get_modifier( character_modifier_limb_fall_mod );
     // But prevent it from increasing damage
-    dex_dodge = std::max( 0.0f, dex_dodge );
+    dex_dodge = std::max( 0.0f, dex_dodge ); // 0
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
     ret *= ( 100.0f - ( dex_dodge * 4.0f ) ) / 100.0f;
 

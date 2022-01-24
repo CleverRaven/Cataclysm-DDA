@@ -24,6 +24,7 @@ enum class timed_event_type : int {
     DSA_ALRP_SUMMON,
     CUSTOM_LIGHT_LEVEL,
     TRANSFORM_RADIUS,
+    UPDATE_MAPGEN,
     NUM_TIMED_EVENT_TYPES
 };
 
@@ -76,6 +77,8 @@ class timed_event_manager
         /// Process all queued events, potentially altering the game state and
         /// modifying the event queue.
         void process();
+        static void serialize_all( JsonOut &jsout );
+        static void unserialize_all( JsonIn &jsin );
 };
 
 timed_event_manager &get_timed_events();

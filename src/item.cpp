@@ -1191,7 +1191,7 @@ bool item::same_for_rle( const item &rhs ) const
     if( charges != rhs.charges ) {
         return false;
     }
-    if( !contents.empty_real() || !rhs.contents.empty_real() ) {
+    if( !contents.empty_with_no_mods() || !rhs.contents.empty_with_no_mods() ) {
         return false;
     }
     if( has_itype_variant( false ) != rhs.has_itype_variant( false ) ||
@@ -3101,10 +3101,10 @@ static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
             case layer_level::PERSONAL:
                 layering += _( " <stat>Personal aura</stat>." );
                 break;
-            case layer_level::UNDERWEAR:
+            case layer_level::SKINTIGHT:
                 layering += _( " <stat>Close to skin</stat>." );
                 break;
-            case layer_level::REGULAR:
+            case layer_level::NORMAL:
                 layering += _( " <stat>Normal</stat>." );
                 break;
             case layer_level::WAIST:
@@ -3303,6 +3303,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         // worst possible
         resistances worst_res = resistances( *this, false, 99, bp );
         resistances best_res = resistances( *this, false, 0, bp );
+        resistances median_res = resistances( *this, false, 50, bp );
 
         int percent_best = 100;
         int percent_worst = 0;
@@ -3313,7 +3314,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             percent_worst = portion->worst_protection_chance;
         }
 
-        if( percent_worst > 0 ) {
+        bool display_median = percent_best < 50 && percent_worst < 50;
+
+        if( display_median ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( "<bold>%s%s</bold>: <bad>%d%%</bad>, <color_c_yellow>Median</color>, <good>%d%%</good>",
+                                              bp_desc, _( "Protection" ), percent_worst, percent_best ) );
+        } else if( percent_worst > 0 ) {
             info.emplace_back( "DESCRIPTION",
                                string_format( "<bold>%s%s</bold>: <bad>%d%%</bad>, <good>%d%%</good>", bp_desc, _( "Protection" ),
                                               percent_worst, percent_best ) );
@@ -3323,7 +3330,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         }
 
         if( best_res.type_resist( damage_type::BASH ) >= 1 ) {
-            if( percent_worst > 0 ) {
+            if( display_median ) {
+                info.emplace_back( bp_cat,
+                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
+                                                  _( "Bash: " ), worst_res.type_resist( damage_type::BASH ),
+                                                  median_res.type_resist( damage_type::BASH ), best_res.type_resist( damage_type::BASH ) ), "",
+                                   iteminfo::no_flags );
+            } else if( percent_worst > 0 ) {
                 info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
                                    _( "Bash: " ), worst_res.type_resist( damage_type::BASH ),
                                    best_res.type_resist( damage_type::BASH ) ), "",
@@ -3335,7 +3348,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::CUT ) >= 1 ) {
-            if( percent_worst > 0 ) {
+            if( display_median ) {
+                info.emplace_back( bp_cat,
+                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
+                                                  _( "Cut: " ), worst_res.type_resist( damage_type::CUT ),
+                                                  median_res.type_resist( damage_type::CUT ), best_res.type_resist( damage_type::CUT ) ), "",
+                                   iteminfo::no_flags );
+            } else if( percent_worst > 0 ) {
                 info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
                                    _( "Cut: " ), worst_res.type_resist( damage_type::CUT ),
                                    best_res.type_resist( damage_type::CUT ) ), "",
@@ -3347,7 +3366,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::BULLET ) >= 1 ) {
-            if( percent_worst > 0 ) {
+            if( display_median ) {
+                info.emplace_back( bp_cat,
+                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
+                                                  _( "Ballistic: " ), worst_res.type_resist( damage_type::BULLET ),
+                                                  median_res.type_resist( damage_type::BULLET ), best_res.type_resist( damage_type::BULLET ) ), "",
+                                   iteminfo::no_flags );
+            } else if( percent_worst > 0 ) {
                 info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
                                    _( "Ballistic: " ), worst_res.type_resist( damage_type::BULLET ),
                                    best_res.type_resist( damage_type::BULLET ) ), "",
@@ -3527,10 +3552,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 case layer_level::PERSONAL:
                     layering += _( " <stat>Personal aura</stat>." );
                     break;
-                case layer_level::UNDERWEAR:
+                case layer_level::SKINTIGHT:
                     layering += _( " <stat>Close to skin</stat>." );
                     break;
-                case layer_level::REGULAR:
+                case layer_level::NORMAL:
                     layering += _( " <stat>Normal</stat>." );
                     break;
                 case layer_level::WAIST:
@@ -4452,7 +4477,8 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         // Tools with "charged_qualities" defined may have additional qualities when charged.
         // List them, and show whether there is enough charge to use those qualities.
         if( !type->charged_qualities.empty() && type->charges_to_use() > 0 ) {
-            if( ammo_remaining() >= type->charges_to_use() ) {
+            // Use ammo_remaining() with player character to include bionic/UPS power
+            if( ammo_remaining( &get_player_character() ) >= type->charges_to_use() ) {
                 info.emplace_back( "QUALITIES", "", _( "<good>Has enough charges</good> for qualities:" ) );
             } else {
                 info.emplace_back( "QUALITIES", "",
@@ -6701,20 +6727,15 @@ int64_t item::get_property_int64_t( const std::string &prop, int64_t def ) const
     return def;
 }
 
-int item::get_quality( const quality_id &id ) const
+int item::get_quality( const quality_id &id, const bool strict_boiling ) const
 {
     /**
      * EXCEPTION: Items with quality BOIL only count as such if they are empty.
      */
-    if( id == qual_BOIL && !contents.empty_container() ) {
+    if( strict_boiling && id == qual_BOIL && !contents.empty_container() ) {
         return INT_MIN;
     }
 
-    return get_raw_quality( id );
-}
-
-int item::get_raw_quality( const quality_id &id ) const
-{
     int return_quality = INT_MIN;
 
     // Check for inherent item quality
@@ -6725,8 +6746,9 @@ int item::get_raw_quality( const quality_id &id ) const
     }
 
     // If tool has charged qualities and enough charge to use at least once
+    // (using ammo_remaining() with player character to include bionic/UPS power)
     if( !type->charged_qualities.empty() && type->charges_to_use() > 0 &&
-        type->charges_to_use() <= ammo_remaining() ) {
+        type->charges_to_use() <= ammo_remaining( &get_player_character() ) ) {
         // see if any charged qualities are better than the current one
         for( const std::pair<const quality_id, int> &quality : type->charged_qualities ) {
             if( quality.first == id ) {
@@ -8382,8 +8404,8 @@ std::vector<const material_type *> item::made_of_types() const
             material_types_composed_of.push_back( &mat_id.first.obj() );
         }
     } else {
-        for( const material_id &mat_id : type->mats_ordered ) {
-            material_types_composed_of.push_back( &mat_id.obj() );
+        for( const auto &mat_id : type->materials ) {
+            material_types_composed_of.push_back( &mat_id.first.obj() );
         }
     }
     return material_types_composed_of;
@@ -9363,7 +9385,7 @@ const material_type &item::get_base_material() const
     }
     // Material portions all equal / not specified. Select first material.
     if( portion == 1 ) {
-        return *type->mats_ordered[0];
+        return *type->default_mat;
     }
     return *m;
 }

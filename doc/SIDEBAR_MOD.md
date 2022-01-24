@@ -12,7 +12,9 @@
   - [var_max](#var_max)
   - [direction](#direction)
   - [height](#height)
+  - [alignment](#text_align--label_align)
   - [colors](#colors)
+  - [phrases](#phrases)
   - [flags](#flags)
 - [Variables](#variables)
   - [Numeric variables](#numeric-variables)
@@ -421,6 +423,30 @@ line individually for drawing in `widget::custom_draw_multiline()`.
 Adding new multi-line-capable widgets involves ensuring the new display function formats the
 widget's text according to the available width and height.
 
+Some multi-line widgets can dynamically adjust their height based on how many lines they are using.
+To enable this behavior, add the `W_DYNAMIC_HEIGHT` flag to the widget (ex: see the compass legend).
+
+
+## `text_align` / `label_align`
+
+The widget's label and text/value can be aligned using the `label_align` and `text_align` respectively.
+This is useful for widgets in "rows"-style layouts where the labels are different lengths, as the text
+can be aligned along a common vertical across the column:
+
+```json
+{
+  "label_align": "right",
+  "text_align": "left"
+}
+```
+```
+   Temp: Mildly cold
+Comfort: Cozy
+   Pain: No Pain
+```
+
+By default, labels are assumed to be left-aligned while text/values are assumed to be right-aligned.
+
 
 ## `colors`
 
@@ -462,6 +488,41 @@ yellow, light red, and red. Such coloration could be represented with "colors" l
 ```
 
 
+## `phrases`
+
+Some widgets can take advantage of "phrases" - definitions for what text/values to display and
+how to display them. These take the form of a nested object containing several optional fields:
+
+```json
+{
+  "id": "bp_status_indicator_template",
+  "type": "widget",
+  "style": "phrase",
+  "phrases": [
+    { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow" },
+    { "id": "infected", "text": "infected", "sym": "I", "color": "pink" },
+    { "id": "broken", "text": "broken", "sym": "%", "color": "magenta" },
+    { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray" },
+    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white" },
+    { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green" },
+    { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red" },
+    { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red" },
+    { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red" }
+  ]
+}
+```
+
+| JSON Field | Description
+|---         |---
+| `id`       | Which "phrase" this definition should apply to.
+| `text`     | Translated text that may be interpreted and displayed in the widget.
+| `sym`      | A shortened symbol representing the text.
+| `color`    | Defines the color for the text derived from this "phrase".
+| `value`    | A numeric value for this "phrase", which may be interpreted differently based on the context of the parent widget.
+
+In the above example, the widget is simply used as a template for other widgets to `copy-from`,
+which provides text and color definitions for different bodypart status conditions.
+
 ## `flags`
 
 Widgets can use flags to specify special behaviors:
@@ -473,18 +534,17 @@ Widgets can use flags to specify special behaviors:
   "style": "text",
   "label": "My Widget",
   "var": "my_widget_var",
-  "flags": [ "W_LABEL_NONE", "W_PAD_CENTER" ]
+  "flags": [ "W_LABEL_NONE", "W_DISABLED" ]
 }
 ```
 
 Here are some flags that can be included:
 
-| Flag id        | Description
-|---             |---
-| `W_LABEL_NONE` | Prevents the widget's label from being displayed in the sidebar
-| `W_DISABLED`   | Makes this widget disabled by default (only applies to top-level widgets/layouts)
-| `W_PAD_CENTER` | Adds enough left-padding to center the widget text (widget is center-aligned)
-| `W_PAD_NONE`   | Omits the left-padding altogether (widget is left-aligned)
+| Flag id            | Description
+|---                 |---
+| `W_LABEL_NONE`     | Prevents the widget's label from being displayed in the sidebar
+| `W_DISABLED`       | Makes this widget disabled by default (only applies to top-level widgets/layouts)
+| `W_DYNAMIC_HEIGHT` | Allows certain multi-line widgets to dynamically adjust their height
 
 
 # Variables
@@ -535,42 +595,44 @@ rendered with reference to the maximum value for the variable, or "var_max" if n
 
 Some vars refer to text descriptors. These must use style "text". Examples:
 
-| var                   | description
-|--                     |--
-| `activity_text`       | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
-| `body_temp_text`      | Felt body temperature "Comfortable", "Chilly", "Warm" etc.
-| `bp_status_text`      | Status of given "bodypart" - "bitten", "bleeding", "infected", etc.
-| `compass_legend_text` | A list of creatures visible by the player, corresponding to compass symbols
-| `compass_text`        | A compass direction (ex: NE), displaying visible creatures in that direction
-| `date_text`           | Current day within season, like "Summer, day 15"
-| `env_temp_text`       | Environment temperature, if thermometer is available
-| `fatigue_text`        | Fatigue level - "Tired", "Dead Tired", "Exhausted"
-| `health_text`         | Hidden health - "OK", "Good", "Very good", "Bad", "Very bad", etc.
-| `hunger_text`         | Hunger level - "Engorged", "Full", "Hungry", "Famished", etc.
-| `lighting_text`       | Lighting conditions at avatar position - "bright", "cloudy", "dark" etc.
-| `mood_text`           | Avatar mood represented as an emoticon face
-| `moon_phase_text`     | Phase of the moon - "New moon", "Waxing gibbous", "Full moon" etc.
-| `move_mode_letter`    | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
-| `move_mode_text`      | Movement mode - "walking", "running", "crouching", "prone"
-| `overmap_loc_text`    | Overmap coordinates, same as shown in the lower corner of overmap screen
-| `overmap_text`        | Colored text rendering of the local overmap; may define "width" and "height"
-| `pain_text`           | "Mild pain", "Distracting pain", "Intense pain", etc.
-| `place_text`          | Location place name
-| `power_text`          | Bionic power available
-| `rad_badge_text`      | Radiation badge color indicator, if radiation badge is available
-| `safe_mode_text`      | Status of safe mode - "On" or "Off", with color for approaching turn limit
-| `style_text`          | Name of current martial arts style
-| `thirst_text`         | Thirst level - "Slaked", "Thirsty", "Dehydrated", etc.
-| `time_text`           | Current time - exact if clock is available, approximate otherwise
-| `veh_azimuth_text`    | Heading of vehicle in degrees
-| `veh_cruise_text`     | Target and actual cruising velocity, positive or negative
-| `veh_fuel_text`       | Percentage of fuel remaining for current vehicle engine
-| `weariness_text`      | Weariness level - "Fresh", "Light", "Moderate", "Weary" etc.
-| `weary_malus_text`    | Percentage penalty affecting speed due to weariness
-| `weather_text`        | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
-| `weight_text`         | Body weight - "Emaciated", "Normal", "Overweight", etc.
-| `wielding_text`       | Name of current weapon or wielded item
-| `wind_text`           | Wind direction and intensity
+| var                     | description
+|--                       |--
+| `activity_text`         | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
+| `body_temp_text`        | Felt body temperature "Comfortable", "Chilly", "Warm" etc.
+| `bp_status_text`        | Status of given "bodypart" - "bitten", "bleeding", "infected", etc.
+| `bp_status_sym_text`    | Same as above, but in a more compact format using 1 character per status.
+| `bp_status_legend_text` | (_multiline_) Displays the meaning of the symbols from `bp_status_sym_text`
+| `compass_legend_text`   | (_multiline_) A list of creatures visible by the player, corresponding to compass symbols
+| `compass_text`          | A compass direction (ex: NE), displaying visible creatures in that direction
+| `date_text`             | Current day within season, like "Summer, day 15"
+| `env_temp_text`         | Environment temperature, if thermometer is available
+| `fatigue_text`          | Fatigue level - "Tired", "Dead Tired", "Exhausted"
+| `health_text`           | Hidden health - "OK", "Good", "Very good", "Bad", "Very bad", etc.
+| `hunger_text`           | Hunger level - "Engorged", "Full", "Hungry", "Famished", etc.
+| `lighting_text`         | Lighting conditions at avatar position - "bright", "cloudy", "dark" etc.
+| `mood_text`             | Avatar mood represented as an emoticon face
+| `moon_phase_text`       | Phase of the moon - "New moon", "Waxing gibbous", "Full moon" etc.
+| `move_mode_letter`      | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
+| `move_mode_text`        | Movement mode - "walking", "running", "crouching", "prone"
+| `overmap_loc_text`      | Overmap coordinates, same as shown in the lower corner of overmap screen
+| `overmap_text`          | (_multiline_) Colored text rendering of the local overmap; may define "width" and "height"
+| `pain_text`             | "Mild pain", "Distracting pain", "Intense pain", etc.
+| `place_text`            | Location place name
+| `power_text`            | Bionic power available
+| `rad_badge_text`        | Radiation badge color indicator, if radiation badge is available
+| `safe_mode_text`        | Status of safe mode - "On" or "Off", with color for approaching turn limit
+| `style_text`            | Name of current martial arts style
+| `thirst_text`           | Thirst level - "Slaked", "Thirsty", "Dehydrated", etc.
+| `time_text`             | Current time - exact if clock is available, approximate otherwise
+| `veh_azimuth_text`      | Heading of vehicle in degrees
+| `veh_cruise_text`       | Target and actual cruising velocity, positive or negative
+| `veh_fuel_text`         | Percentage of fuel remaining for current vehicle engine
+| `weariness_text`        | Weariness level - "Fresh", "Light", "Moderate", "Weary" etc.
+| `weary_malus_text`      | Percentage penalty affecting speed due to weariness
+| `weather_text`          | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
+| `weight_text`           | Body weight - "Emaciated", "Normal", "Overweight", etc.
+| `wielding_text`         | Name of current weapon or wielded item
+| `wind_text`             | Wind direction and intensity
 
 
 # Predefined widgets
@@ -622,25 +684,26 @@ Graph widget ids typically have a `_graph` suffix.
 
 Text widget ids typically have a `_desc` suffix.
 
-| id                 | example
-| --                 | --
-| `activity_desc`    | `Activity: Moderate`
-| `date_desc`        | `Date: Summer day 25`
-| `env_temp_desc`    | `Temperature: 65F`
-| `fatigue_desc`     | `Rest: Tired`
-| `health_desc`      | `Health: Good`
-| `hunger_desc`      | `Hunger: Satisfied`
-| `lighting_desc`    | `Lighting: Bright`
-| `mood_desc`        | `Mood: :-)`
-| `pain_desc`        | `Pain: Unmanageable pain`
-| `place_desc`       | `Place: Evac Shelter J-38`
-| `power_desc`       | `Bionic Power: 250mJ`
-| `style_desc`       | `Style: Brawling`
-| `time_desc`        | `Time: 10:45:32 am`
-| `weary_malus_desc` | `Weary Malus: +10%`
-| `weather_desc`     | `Weather: Sunny`
-| `weight_desc`      | `Weight: Overweight`
-| `wind_desc`        | `Wind: <= Calm`
+| id                     | example
+| --                     | --
+| `activity_desc`        | `Activity: Moderate`
+| `date_desc`            | `Date: Summer day 25`
+| `env_temp_desc`        | `Temperature: 65F`
+| `fatigue_desc`         | `Rest: Tired`
+| `health_desc`          | `Health: Good`
+| `hunger_desc`          | `Hunger: Satisfied`
+| `lighting_desc`        | `Lighting: Bright`
+| `mood_desc`            | `Mood: :-)`
+| `move_count_mode_desc` | `Move: 100(W)`
+| `pain_desc`            | `Pain: Unmanageable pain`
+| `place_desc`           | `Place: Evac Shelter J-38`
+| `power_desc`           | `Bionic Power: 250mJ`
+| `style_desc`           | `Style: Brawling`
+| `time_desc`            | `Time: 10:45:32 am`
+| `weary_malus_desc`     | `Weary Malus: +10%`
+| `weather_desc`         | `Weather: Sunny`
+| `weight_desc`          | `Weight: Overweight`
+| `wind_desc`            | `Wind: <= Calm`
 
 
 ## Layout widgets

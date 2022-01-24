@@ -224,6 +224,15 @@
   },
   {
     "type": "scenario",
+    "name": "(un)living History",
+    "description": "",
+    "id": "BastionFortStart",
+    "points": -2,
+    "start_name": "Bastion Fort",
+    "allowed_locs": [ "sloc_fort" ]
+  },
+  {
+    "type": "scenario",
     "id": "bad_day",
     "name": "Challenge - Really Bad Day",
     "points": -8,

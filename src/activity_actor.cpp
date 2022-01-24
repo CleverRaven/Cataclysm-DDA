@@ -45,6 +45,7 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
@@ -5391,6 +5392,66 @@ std::unique_ptr<activity_actor> pickup_menu_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+void firstaid_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+    act.name = name;
+}
+
+void firstaid_activity_actor::finish( player_activity &act, Character &who )
+{
+    static const std::string iuse_name_string( "heal" );
+
+    item &it = *act.targets.front();
+    item *used_tool = it.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for healing" );
+        act.set_to_null();
+        return;
+    }
+
+    const use_function *use_fun = used_tool->get_use( iuse_name_string );
+    const heal_actor *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act.set_to_null();
+        return;
+    }
+
+    // TODO: Store the patient somehow, retrieve here
+    Character &patient = who;
+    const bodypart_id healed = bodypart_id( act.str_values[0] );
+    const int charges_consumed = actor->finish_using( who, patient, *used_tool, healed );
+    who.consume_charges( it, charges_consumed );
+
+    // Erase activity and values.
+    act.set_to_null();
+    act.values.clear();
+}
+
+void firstaid_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "name", name );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> firstaid_activity_actor::deserialize( JsonValue &jsin )
+{
+    firstaid_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "name", actor.name );
+
+    return actor.clone();
+}
+
 void forage_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -5498,6 +5559,101 @@ void forage_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> forage_activity_actor::deserialize( JsonValue &jsin )
 {
     forage_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+
+    return actor.clone();
+}
+
+void longsalvage_activity_actor::start( player_activity &act, Character & )
+{
+    act.index = index;
+}
+
+void longsalvage_activity_actor::finish( player_activity &act, Character &who )
+{
+    static const std::string salvage_string = "salvage";
+    item &main_tool = who.i_at( act.index );
+    map &here = get_map();
+    map_stack items = here.i_at( who.pos() );
+    item *salvage_tool = main_tool.get_usable_item( salvage_string );
+    if( salvage_tool == nullptr ) {
+        debugmsg( "Lost tool used for long salvage" );
+        act.set_to_null();
+        return;
+    }
+
+    const use_function *use_fun = salvage_tool->get_use( salvage_string );
+    const salvage_actor *actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act.set_to_null();
+        return;
+    }
+
+    for( item &it : items ) {
+        if( actor->valid_to_cut_up( it ) ) {
+            item_location item_loc( map_cursor( who.pos() ), &it );
+            actor->cut_up( who, *salvage_tool, item_loc );
+            return;
+        }
+    }
+
+    add_msg( _( "You finish salvaging." ) );
+    act.set_to_null();
+}
+
+void longsalvage_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "index", index );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> longsalvage_activity_actor::deserialize( JsonValue &jsin )
+{
+    longsalvage_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "index", actor.index );
+
+    return actor.clone();
+}
+
+void mop_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void mop_activity_actor::finish( player_activity &act, Character &who )
+{
+    // Blind character have a 1/3 chance of actually mopping.
+    const bool will_mop = one_in( who.is_blind() ? 1 : 3 );
+    if( will_mop ) {
+        map &here = get_map();
+        here.mop_spills( here.getlocal( act.placement ) );
+    }
+    activity_handlers::resume_for_multi_activities( who );
+}
+
+void mop_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin )
+{
+    mop_activity_actor actor( {} );
 
     JsonObject data = jsin.get_object();
 
