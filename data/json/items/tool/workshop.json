@@ -968,7 +968,7 @@
     "name": { "str": "Hub 01 Hybrid maintenance kit" },
     "description": "This is a heavy duty bag marked with the Hub 01 logo.  It contains a collection of barrels, adaptors and proprietary tools.  Embossed on the inside is a sketch of the hybrid weapon platform.",
     "weight": "2000 g",
-    "volume": "1500 ml",
+    "volume": "2800 ml",
     "longest_side": "95 cm",
     "price": 1500,
     "price_postapoc": 10,
