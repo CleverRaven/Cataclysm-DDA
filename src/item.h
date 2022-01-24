@@ -480,10 +480,14 @@ class item : public visitable
                              bool debug ) const;
         void bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
-        void combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                          bool debug ) const;
+        void melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                bool debug ) const;
         void contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                             bool debug ) const;
+        void properties_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                              bool debug ) const;
+        void ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
         void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
 
