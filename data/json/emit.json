@@ -97,7 +97,7 @@
     "chance": 15
   },
   {
-	"id": "emit_relax_gas_blast"
+	"id": "emit_relax_gas_blast",
 	"type": "emit",
 	"//": "Large blast of relaxation gas (similar to riot control bot)",
 	"field": "fd_relax_gas",
@@ -105,7 +105,7 @@
 	"qty": 200
   },
   {
-	"id": "emit_relax_gas_leak"
+	"id": "emit_relax_gas_leak",
 	"type": "emit",
 	"//": "Periodic leaking of relaxation gas",
 	"field": "fd_relax_gas",
