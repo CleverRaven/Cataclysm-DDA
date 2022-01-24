@@ -170,9 +170,12 @@ static void expect_to_find( const item &in, const std::list<const unique_item *>
     }
 }
 
-// Reset auto pickup player settings to default state.
-static void clear_auto_pickup_settings()
+// Reset all variables and settings needed to do a clean test.
+static void clear_everything()
 {
+    clear_avatar();
+    clear_map();
+
     auto_pickup::player_settings &rules = get_auto_pickup();
     rules.clear_character_rules();
     // this will clear the cache and recreate the map
@@ -184,9 +187,7 @@ TEST_CASE( "auto pickup should recognize container content", "[autopickup][item]
 {
     avatar &they = get_avatar();
     map &here = get_map();
-    clear_auto_pickup_settings();
-    clear_avatar();
-    clear_map();
+    clear_everything();
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
@@ -263,9 +264,7 @@ TEST_CASE( "auto pickup should improve your life", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();
-    clear_auto_pickup_settings();
-    clear_avatar();
-    clear_map();
+    clear_everything();
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
@@ -307,9 +306,7 @@ TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][
 {
     avatar &they = get_avatar();
     map &here = get_map();
-    clear_auto_pickup_settings();
-    clear_avatar();
-    clear_map();
+    clear_everything();
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
@@ -405,9 +402,7 @@ TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][
 {
     avatar &they = get_avatar();
     map &here = get_map();
-    clear_auto_pickup_settings();
-    clear_avatar();
-    clear_map();
+    clear_everything();
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
@@ -463,9 +458,7 @@ TEST_CASE( "auto pickup should consider item ownership", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();
-    clear_auto_pickup_settings();
-    clear_avatar();
-    clear_map();
+    clear_everything();
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();

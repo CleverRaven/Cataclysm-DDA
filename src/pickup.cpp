@@ -219,12 +219,13 @@ static std::vector<item_location> get_autopickup_items( item_location &container
             pick_all_items = false;
         }
     }
-    // blacklisted containers should still have their contents picked up
-    // but themselves should be excluded. If all items inside blacklisted
-    // container match then just pickup the items without the container
-    bool container_blacklisted = get_autopickup_rule( container_item ) == rule_state::BLACKLISTED;
     // all items in container were approved for pickup
-    if( !container_blacklisted && !contents.empty() && ( pick_all_items || force_pick_container ) ) {
+    if( !contents.empty() && ( pick_all_items || force_pick_container ) ) {
+        // blacklisted containers should still have their contents picked up but themselves should be excluded.
+        // If all items inside blacklisted container match then just pickup the items without the container
+        if( get_autopickup_rule( container_item ) == rule_state::BLACKLISTED ) {
+            return result;
+        }
         bool all_batteries = true;
         bool powered_container = container_item->ammo_capacity( ammo_battery );
         if( powered_container ) {
