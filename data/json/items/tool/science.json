@@ -895,7 +895,7 @@
     "category": "tools",
     "name": { "str": "voltmeter" },
     "description": "This device has two probes that let you measure the electrical potential between two points.",
-    "weight": "3000 g",
+    "weight": "500 g",
     "volume": "1500 ml",
     "price": 6000,
     "price_postapoc": 250,
