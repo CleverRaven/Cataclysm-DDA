@@ -1299,10 +1299,16 @@ void iexamine::rubble( Character &you, const tripoint &examp )
 }
 
 /**
- * Prompt climbing over fence. Calculates move cost, applies it to player and, moves them.
+ * Prompt climbing over fence. Calculates move cost, applies it to player and moves them.
  */
 void iexamine::chainfence( Character &you, const tripoint &examp )
 {
+    // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+    if( !you.move_effects( false ) ) {
+        you.moves -= 100;
+        return;
+    }
+
     // We're not going to do anything if we're already on that point.
     // Also prompt the player before taking an action.
     if( you.pos() == examp || !query_yn( _( "Climb obstacle?" ) ) ) {
