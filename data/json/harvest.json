@@ -1218,7 +1218,7 @@
       { "drop": "mutant_bug_hydrogen_sacs", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.01 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.03 },
-      { "drop": "spider_sample", "type": "mutagen_group" },
+      { "drop": "arthropod_sample", "type": "mutagen_group" },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
@@ -1253,7 +1253,7 @@
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "spider_sample", "type": "mutagen_group" },
+      { "drop": "arthropod_sample", "type": "mutagen_group" },
       { "drop": "egg_dragonfly", "type": "offal", "base_num": [ 5, 35 ], "scale_num": [ 0.3, 0.5 ] }
     ]
   },
@@ -1271,7 +1271,7 @@
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "spider_sample", "type": "mutagen_group" },
+      { "drop": "arthropod_sample", "type": "mutagen_group" },
       { "drop": "egg_firefly", "type": "offal", "base_num": [ 0, 3 ] }
     ]
   },
