@@ -136,6 +136,10 @@ static const item_category_id item_category_container( "container" );
 static const item_category_id item_category_drugs( "drugs" );
 static const item_category_id item_category_food( "food" );
 static const item_category_id item_category_maps( "maps" );
+static const item_category_id item_category_spare_parts( "spare_parts" );
+static const item_category_id item_category_tools( "tools" );
+static const item_category_id item_category_weapons( "weapons" );
+
 
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_battery( "battery" );
@@ -4894,7 +4898,6 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
         }
     }
 
-    avatar &player_character = get_avatar();
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
         // concatenate base and acquired flags...
         std::vector<flag_id> flags;
@@ -4964,15 +4967,13 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
 }
 
 void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                       bool debug ) const
+                       bool /* debug */ ) const
 {
     if( is_null() ) {
         return;
     }
 
     avatar &player_character = get_avatar();
-
-
 
     if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0
         && parts->test( iteminfo_parts::DESCRIPTION_RADIOACTIVITY_DAMAGED ) ) {
@@ -5174,8 +5175,9 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
 
 }
-void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                           bool debug ) const
+void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /* parts */,
+                           int  /* batch */,
+                           bool /* debug */ ) const
 {
     if( is_null() ) {
         return;
@@ -5193,6 +5195,7 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         }
     }
 }
+
 
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
 {
@@ -5214,14 +5217,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     std::vector<std::string> all_info_blocks = {"big_block_of_stuff", "contents", "melee_combat_info", "footer"};
     std::vector<std::string> prio_info_blocks = { };
     item_category_id my_cat_id = get_category_shallow().id;
-    if( my_cat_id == item_category_id( "weapons" ) || my_cat_id == item_category_id( "spare_parts" ) ||
-        my_cat_id == item_category_id( "tools" ) ) {
-        prio_info_blocks.push_back( "melee_combat_info" );
-    } else if( my_cat_id == item_category_id( "container" ) ) {
-        prio_info_blocks.push_back( "contents" );
+    if( is_maybe_melee_weapon() ) {
+        prio_info_blocks.emplace_back( "melee_combat_info" );
+    } else if( my_cat_id == item_category_container ) {
+        prio_info_blocks.emplace_back( "contents" );
     }
     std::vector<std::string> info_block_ordered = prio_info_blocks;
-    for( const auto &blockname : all_info_blocks ) {
+    for( const std::string &blockname : all_info_blocks ) {
         if( std::find( info_block_ordered.begin(), info_block_ordered.end(),
                        blockname ) == info_block_ordered.end() ) {
             info_block_ordered.push_back( blockname );
@@ -7598,6 +7600,13 @@ bool item::is_software_storage() const
 bool item::is_ebook_storage() const
 {
     return contents.has_pocket_type( item_pocket::pocket_type::EBOOK );
+}
+
+bool item::is_maybe_melee_weapon() const
+{
+    item_category_id my_cat_id = get_category_shallow().id;
+    return my_cat_id == item_category_weapons || my_cat_id == item_category_spare_parts ||
+           my_cat_id == item_category_tools;
 }
 
 bool item::count_by_charges() const
