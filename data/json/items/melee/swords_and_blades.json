@@ -625,7 +625,7 @@
     "price_postapoc": 6000,
     "material": [ "steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS" ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1814 g",
     "volume": "2750 ml",
@@ -900,7 +900,7 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS" ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ],
     "category": "weapons"
   },
   {
