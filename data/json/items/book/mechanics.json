@@ -31,6 +31,16 @@
     "skill": "mechanics"
   },
   {
+    "id": "mag_hwp_manual",
+    "copy-from": "book_magazine",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Hub 01 HWP user manual" },
+    "price_postapoc": 500,
+    "description": "A compact manual embossed with the Hub 01 logo with simple instructions for modifying the Hybrid Weapons Platform.",
+    "skill": "mechanics"
+  },
+  {
     "id": "mag_mechanics",
     "type": "BOOK",
     "category": "manuals",
