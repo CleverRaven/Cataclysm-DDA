@@ -967,7 +967,7 @@
     "type": "TOOL",
     "name": { "str": "Hub 01 Hybrid maintenance kit" },
     "description": "This is a heavy duty bag marked with the Hub 01 logo.  It contains a collection of barrels, adaptors and proprietary tools.  Embossed on the inside is a sketch of the Hybrid Weapons Platform.",
-    "weight": "2000 g",
+    "weight": "4500 g",
     "volume": "2800 ml",
     "longest_side": "95 cm",
     "price": 1500,
@@ -977,7 +977,7 @@
     "material": [ "nylon", "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "WRENCH_FINE", 1 ], [ "WRENCH", 2 ], [ "SCREW_FINE", 1 ], [ "SCREW", 1 ] ]
+    "qualities": [ [ "WRENCH_FINE", 1 ], [ "WRENCH", 2 ], [ "SCREW_FINE", 1 ], [ "SCREW", 1 ] ]
   },
   {
     "id": "screwdriver",
