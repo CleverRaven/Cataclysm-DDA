@@ -24,11 +24,7 @@
     "min_cycle_recoil": 1350,
     "default_mods": [ "robofac_handguard", "robofac_hybrid_sight_4x", "robofac_hybrid_sight_1x", "robofac_laser_sight" ],
     "//": "Forward ejection port would require a different brass catcher design, so there is no slot for it. Bullpup design requires the factory stock to function.",
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "muzzle", 1 ],
-      [ "sling", 1 ]
-    ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "robofac40" ] } ]
   },
   {
