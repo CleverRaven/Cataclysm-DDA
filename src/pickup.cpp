@@ -91,7 +91,7 @@ struct pickup_count {
 static bool within_autopickup_limits( const item *pickup_item )
 {
     int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
-    int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
+    int volume_limit = get_option<int>( "AUTO_PICKUP_VOLUME_LIMIT" );
 
     bool valid_volume = pickup_item->volume() <= volume_limit * 50_ml;
     bool valid_weight = pickup_item->weight() <= weight_limit * 50_gram;
