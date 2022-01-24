@@ -599,6 +599,7 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 |--                       |--
 | `activity_text`         | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
 | `body_temp_text`        | Felt body temperature "Comfortable", "Chilly", "Warm" etc.
+| `bp_outer_armor_text`   | Item name and damage bars of armor/clothing worn on the given "bodypart"
 | `bp_status_text`        | Status of given "bodypart" - "bitten", "bleeding", "infected", etc.
 | `bp_status_sym_text`    | Same as above, but in a more compact format using 1 character per status.
 | `bp_status_legend_text` | (_multiline_) Displays the meaning of the symbols from `bp_status_sym_text`
