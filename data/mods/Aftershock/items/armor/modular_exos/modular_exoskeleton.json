@@ -5,7 +5,7 @@
     "type": "ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
-    "name": { "str": "exoskeleton undersuit" },
+    "name": { "str": "exosuit undersuit" },
     "description": "A form-fitting suit meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor, it has no pockets, offers nearly no protection and damages easily.",
     "weight": "610 g",
     "volume": "3500 ml",
@@ -23,10 +23,10 @@
     "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE" ]
   },
   {
-    "id": "modular_exoskeleton",
+    "id": "modular_exosuit",
     "type": "TOOL_ARMOR",
-    "name": { "str": "exoskeleton frame" },
-    "description": "This is a standard exoskeleton frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.",
+    "name": { "str": "exosuit frame" },
+    "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.",
     "weight": "43 kg",
     "volume": "135 L",
     "material": [ "titanium" ],
@@ -202,7 +202,7 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "use_action": [
       {
-        "target": "modular_exoskeleton_on",
+        "target": "modular_exosuit_on",
         "msg": "The %s engages.",
         "active": true,
         "need_charges": 1,
@@ -213,26 +213,26 @@
     ]
   },
   {
-    "id": "modular_exoskeleton_on",
-    "copy-from": "modular_exoskeleton",
-    "repairs_like": "modular_exoskeleton",
+    "id": "modular_exosuit_on",
+    "copy-from": "modular_exosuit",
+    "repairs_like": "modular_exosuit",
     "looks_like": "power_armor_light",
     "type": "TOOL_ARMOR",
-    "name": { "str": "exoskeleton frame (on)", "str_pl": "exoskeleton frames (on)" },
-    "description": "This is a standard exoskeleton frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.  It is turned on and continually drawing power.  Use it to turn it off.",
+    "name": { "str": "exosuit frame (on)", "str_pl": "exosuit frames (on)" },
+    "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "power_draw": 7123,
-    "revert_to": "modular_exoskeleton",
+    "revert_to": "modular_exosuit",
     "use_action": [
-      { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exoskeleton" }
+      { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" }
     ]
   },
   {
-    "id": "exoskeleton_helmet",
+    "id": "exosuit_helmet",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "exoskeleton helmet" },
+    "name": { "str": "exosuit helmet" },
     "description": "This is a helmet offering mounts for specialized equipment and protection.",
     "weight": "2500 g",
     "volume": "5 L",
