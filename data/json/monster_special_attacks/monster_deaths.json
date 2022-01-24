@@ -201,6 +201,17 @@
     "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
   },
   {
+	"id": "death_relax_gas",
+	"type": "SPELL",
+	"name": { "str": "Relaxation Gas Explosion" },
+	"description": "Causes a small explosion of relaxation gas.",
+	"valid_targets": [ "self" ],
+	"shape": "blast",
+	"effect": "emit",
+	"effect_str": "emit_relax_gas_blast",
+	"extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
+  },
+  {
     "id": "death_fungalburst",
     "type": "SPELL",
     "name": { "str": "Fungal Explosion" },
