@@ -170,11 +170,21 @@ static void expect_to_find( const item &in, const std::list<const unique_item *>
     }
 }
 
-// Test if autopickup feature works
-TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
+// Reset auto pickup player settings to default state.
+static void clear_auto_pickup_settings()
+{
+    auto_pickup::player_settings &rules = get_auto_pickup();
+    rules.clear_character_rules();
+    // this will clear the cache and recreate the map
+    rules.check_item( "" );
+}
+
+
+TEST_CASE( "auto pickup should recognize container content", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();
+    clear_auto_pickup_settings();
     clear_avatar();
     clear_map();
 
@@ -185,11 +195,6 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
     // wear backpack from map and get the new item reference
     item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
-
-    // reset character auto-pickup rules
-    auto_pickup::player_settings &rules = get_auto_pickup();
-    rules.clear_character_rules();
-    rules.check_item( "" );
 
     GIVEN( "avatar is about to walk over a tile filled with items" ) {
         // make sure no items exist on the ground before we add them
@@ -247,176 +252,271 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
                 expect_to_find( *item_paper_wrapper.find_in_container( backpack ), {
                     &item_chocolate_candy
                 } );
+                // make sure the item has remained on the ground
                 REQUIRE( item_plastic_bag.is_on_ground( ground ) );
             }
         }
-        // flashlight > light battery (WL)
-        WHEN( "there is a powered tool on the ground loaded with a light battery whitelisted in auto-pickup rules" ) {
-            item item_flashlight = item( itype_flashlight );
-            item *item_light_battery = &here.add_item( ground, item( itype_light_battery_cell ) );
-            REQUIRE_FALSE( item_light_battery->is_null() );
+    }
+}
 
-            // insert light battery into flashlight by reloading the item
-            item_flashlight.reload( they, item_location( location, item_light_battery ), 1 );
-            // battery was removed from ground so update variable
-            item_light_battery = item_flashlight.magazine_current();
+TEST_CASE( "auto pickup should improve your life", "[autopickup][item]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+    clear_auto_pickup_settings();
+    clear_avatar();
+    clear_map();
 
-            unique_item uitem_light_battery = unique_item( *item_light_battery, true );
-            unique_item uitem_flashlight = unique_item( item_flashlight );
-            REQUIRE( uitem_flashlight.spawn_item( ground ) );
+    // this is where items will be picked up from
+    const tripoint ground = they.pos();
+    const map_cursor location = map_cursor( ground );
 
-            // we want to remove and pickup the battery from the flashlight
-            add_autopickup_rule( item_light_battery, true );
+    // wear backpack from map and get the new item reference
+    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
+    REQUIRE( they.has_item( backpack ) );
 
-            THEN( "the light battery from the tool should be picked up" ) {
-                simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, { &uitem_light_battery } );
-                REQUIRE( uitem_flashlight.is_on_ground( ground ) );
-            }
+    // flashlight > light battery (WL)
+    WHEN( "there is a powered tool on the ground loaded with a light battery whitelisted in auto-pickup rules" ) {
+        item item_flashlight = item( itype_flashlight );
+        item *item_light_battery = &here.add_item( ground, item( itype_light_battery_cell ) );
+        REQUIRE_FALSE( item_light_battery->is_null() );
+
+        // insert light battery into flashlight by reloading the item
+        item_flashlight.reload( they, item_location( location, item_light_battery ), 1 );
+        // battery was removed from ground so update variable
+        item_light_battery = item_flashlight.magazine_current();
+
+        unique_item uitem_light_battery = unique_item( *item_light_battery, true );
+        unique_item uitem_flashlight = unique_item( item_flashlight );
+        REQUIRE( uitem_flashlight.spawn_item( ground ) );
+
+        // we want to remove and pickup the battery from the flashlight
+        add_autopickup_rule( item_light_battery, true );
+
+        THEN( "the light battery from the tool should be picked up" ) {
+            simulate_auto_pickup( ground, they );
+            expect_to_find( backpack, { &uitem_light_battery } );
+            // make sure the item has remained on the ground
+            REQUIRE( uitem_flashlight.is_on_ground( ground ) );
         }
-        // leather wallet (WL) > one dollar bill, five dollar bill (WL), 1ten dollar bill
-        WHEN( "there is a non-rigid whitelisted container on the ground with three items, one whitelisted" ) {
-            unique_item item_money_one = unique_item( itype_money_one );
-            unique_item item_money_five = unique_item( itype_money_five );
-            unique_item item_money_ten = unique_item( itype_money_ten );
-            unique_item item_leather_wallet = unique_item( itype_wallet_leather, {
-                &item_money_one, &item_money_five, &item_money_ten
-            } );
-            REQUIRE( item_leather_wallet.spawn_item( ground ) );
-            add_autopickup_rules( { &item_leather_wallet, &item_money_five }, true );
+    }
+}
 
-            THEN( "the container should be picked up and non-whitelisted items should be dropped on the ground" ) {
-                simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, { &item_leather_wallet } );
-                expect_to_find( *item_leather_wallet.find_in_container( backpack ), { &item_money_five } );
-                REQUIRE( item_money_one.is_on_ground( ground ) );
-            }
+
+TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][item]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+    clear_auto_pickup_settings();
+    clear_avatar();
+    clear_map();
+
+    // this is where items will be picked up from
+    const tripoint ground = they.pos();
+    const map_cursor location = map_cursor( ground );
+
+    // wear backpack from map and get the new item reference
+    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
+    REQUIRE( they.has_item( backpack ) );
+
+    // leather wallet (WL) > one dollar bill, five dollar bill (WL), 1ten dollar bill
+    WHEN( "there is a non-rigid whitelisted container on the ground with three items, one whitelisted" ) {
+        unique_item item_money_one = unique_item( itype_money_one );
+        unique_item item_money_five = unique_item( itype_money_five );
+        unique_item item_money_ten = unique_item( itype_money_ten );
+        unique_item item_leather_wallet = unique_item( itype_wallet_leather, {
+            &item_money_one, &item_money_five, &item_money_ten
+        } );
+        REQUIRE( item_leather_wallet.spawn_item( ground ) );
+        add_autopickup_rules( { &item_leather_wallet, &item_money_five }, true );
+
+        THEN( "the container should be picked up and non-whitelisted items should be dropped on the ground" ) {
+            simulate_auto_pickup( ground, they );
+            expect_to_find( backpack, { &item_leather_wallet } );
+            expect_to_find( *item_leather_wallet.find_in_container( backpack ), { &item_money_five } );
+            // make sure the item has remained on the ground
+            REQUIRE( item_money_one.is_on_ground( ground ) );
         }
-        // small cardboard box (WL) > paper, chocolate candy (BL), marble
-        WHEN( "there is a rigid whitelisted container on the ground with three items, one blacklisted" ) {
-            unique_item item_paper = unique_item( itype_paper );
-            unique_item item_chocolate_candy = unique_item( itype_candy2 );
-            unique_item item_marble = unique_item( itype_marble );
-            unique_item cardboard_box = unique_item( itype_box_small, {
-                &item_paper, &item_chocolate_candy, &item_marble
+    }
+    // small cardboard box (WL) > paper, chocolate candy (BL), marble
+    WHEN( "there is a rigid whitelisted container on the ground with three items (one blacklisted)" ) {
+        unique_item item_paper = unique_item( itype_paper );
+        unique_item item_chocolate_candy = unique_item( itype_candy2 );
+        unique_item item_marble = unique_item( itype_marble );
+        unique_item cardboard_box = unique_item( itype_box_small, {
+            &item_paper, &item_chocolate_candy, &item_marble
+        } );
+        REQUIRE( cardboard_box.spawn_item( ground ) );
+        add_autopickup_rules( { { &cardboard_box, true }, { &item_chocolate_candy, false } } );
+        THEN( "the rigid container should be picked up and blacklisted items should be dropped on the ground" ) {
+            simulate_auto_pickup( ground, they );
+            expect_to_find( backpack, { &cardboard_box } );
+            expect_to_find( *cardboard_box.find_in_container( backpack ), {
+                &item_paper, &item_marble
             } );
-            REQUIRE( cardboard_box.spawn_item( ground ) );
-            add_autopickup_rules( { { &cardboard_box, true }, { &item_chocolate_candy, false } } );
-            THEN( "the rigid container should be picked up and blacklisted items should be dropped on the ground" ) {
+            // make sure the item has remained on the ground
+            REQUIRE( item_chocolate_candy.is_on_ground( ground ) );
+        }
+    }
+    // plastic bottle > clean water (2)(WL)
+    WHEN( "there is a rigid blacklisted container on the ground with liquid whitelisted in auto-pickup rules" ) {
+        // construct and fill bottle with clean water
+        item item_plastic_bottle = item( itype_bottle_plastic );
+        unique_item item_clean_water = unique_item( itype_water_clean, 2 );
+        REQUIRE( item_plastic_bottle.fill_with( *item_clean_water.get() ) == 2 );
+
+        // spawm bottle filled with clean water in the world
+        unique_item item_bottled_water = unique_item( item_plastic_bottle );
+        REQUIRE( item_bottled_water.spawn_item( ground ) );
+
+        add_autopickup_rules( { { &item_clean_water, true }, { &item_bottled_water, false } } );
+        THEN( "the liquid should not be picked up from the container" ) {
+            simulate_auto_pickup( ground, they );
+            expect_to_find( backpack, {} );
+            // make sure the item has remained on the ground
+            REQUIRE( item_bottled_water.is_on_ground( ground ) );
+        }
+    }
+    // small tin can (sealed) > canned tuna fish (WL), canned meat
+    WHEN( "there is a sealed container on the ground containing items whitelisted in auto-pickup rules" ) {
+        item item_small_tin_can = item( itype_can_food );
+        unique_item item_canned_tuna = unique_item( itype_can_tuna, 1, true );
+        unique_item item_canned_meat = unique_item( itype_meat_canned, 1, true );
+
+        // insert items inside can and seal it
+        item_small_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
+        item_small_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
+        item_small_tin_can.seal();
+
+        unique_item item_sealed_tuna = unique_item( item_small_tin_can );
+        REQUIRE( item_sealed_tuna.spawn_item( ground ) );
+
+        add_autopickup_rule( item_canned_tuna.get(), true );
+        THEN( "the container should be picked up instead of whitelisted items" ) {
+            simulate_auto_pickup( ground, they );
+            expect_to_find( backpack, { &item_sealed_tuna } );
+            // make sure the item seal was not broken
+            REQUIRE( item_sealed_tuna.find_in_container( backpack )->all_pockets_sealed() );
+        }
+    }
+}
+
+TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][item]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+    clear_auto_pickup_settings();
+    clear_avatar();
+    clear_map();
+
+    // this is where items will be picked up from
+    const tripoint ground = they.pos();
+    const map_cursor location = map_cursor( ground );
+
+    // wear backpack from map and get the new item reference
+    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
+    REQUIRE( they.has_item( backpack ) );
+
+    // backpack > lump of steel (5)(WL), cigrarette (3)(WL), paper (10)(WL)
+    GIVEN( "there is a container with some items that exceed volume or weight limit" ) {
+        options_manager &options = get_options();
+        options_manager::cOpt &ap_weight_limit = options.get_option( "AUTO_PICKUP_WEIGHT_LIMIT" );
+        options_manager::cOpt &ap_volume_limit = options.get_option( "AUTO_PICKUP_VOLUME_LIMIT" );
+
+        unique_item item_lump_of_steel = unique_item( itype_steel_lump, 5 );
+        unique_item item_cigarette = unique_item( itype_cig, 3 );
+        unique_item item_paper = unique_item( itype_paper, 10 );
+        unique_item item_backpack = unique_item( itype_backpack, {
+            &item_lump_of_steel, &item_cigarette, &item_paper
+        } );
+        REQUIRE( item_backpack.spawn_item( ground ) );
+        add_autopickup_rules( { &item_lump_of_steel, &item_cigarette, &item_paper }, true );
+        WHEN( "auto pickup limit game options are disabled" ) {
+            ap_weight_limit.setValue( "0" );
+            ap_volume_limit.setValue( "0" );
+            THEN( "all items should be picked up regardless of weight and volume" ) {
                 simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, { &cardboard_box } );
-                expect_to_find( *cardboard_box.find_in_container( backpack ), {
-                    &item_paper, &item_marble
+                expect_to_find( backpack, { &item_backpack } );
+                expect_to_find( *item_backpack.find_in_container( backpack ), {
+                    &item_lump_of_steel, &item_cigarette, &item_paper
                 } );
-                REQUIRE( item_chocolate_candy.is_on_ground( ground ) );
             }
         }
-        // plastic bottle > clean water (2)(WL)
-        WHEN( "there is a rigid blacklisted container on the ground with liquid  in auto-pickup rules" ) {
-            // construct and fill bottle with clean water
-            item item_plastic_bottle = item( itype_bottle_plastic );
-            unique_item item_clean_water = unique_item( itype_water_clean, 2 );
-            REQUIRE( item_plastic_bottle.fill_with( *item_clean_water.get() ) == 2 );
-
-            // spawm bottle filled with clean water in the world
-            unique_item item_bottled_water = unique_item( item_plastic_bottle );
-            REQUIRE( item_bottled_water.spawn_item( ground ) );
-
-            add_autopickup_rules( { { &item_clean_water, true }, { &item_bottled_water, false } } );
-            THEN( "the liquid should not be picked up from the container" ) {
-                simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, {} );
-
-                // check to see if item has remained on the ground
-                REQUIRE( item_bottled_water.is_on_ground( ground ) );
-            }
-        }
-        // small tin can (sealed) > canned tuna fish (WL), canned meat
-        WHEN( "there is a sealed container on the ground containing items whitelisted in auto-pickup rules" ) {
-            item item_small_tin_can = item( itype_can_food );
-            unique_item item_canned_tuna = unique_item( itype_can_tuna, 1, true );
-            unique_item item_canned_meat = unique_item( itype_meat_canned, 1, true );
-
-            // insert items inside can and seal it
-            item_small_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
-            item_small_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
-            item_small_tin_can.seal();
-
-            unique_item item_sealed_tuna = unique_item( item_small_tin_can );
-            REQUIRE( item_sealed_tuna.spawn_item( ground ) );
-
-            add_autopickup_rule( item_canned_tuna.get(), true );
-            THEN( "the container should be picked up instead of whitelisted items" ) {
-                simulate_auto_pickup( ground, they );
-                expect_to_find( backpack, { &item_sealed_tuna } );
-
-                // make sure the item seal was not broken
-                REQUIRE( item_sealed_tuna.find_in_container( backpack )->all_pockets_sealed() );
-            }
-        }
-        // backpack > lump of steel (5)(WL), cigrarette (3)(WL), paper (10)(WL)
-        WHEN( "there is a container with some items that exceed volume or weight limit" ) {
-            options_manager &options = get_options();
-            options_manager::cOpt &ap_weight_limit = options.get_option( "AUTO_PICKUP_WEIGHT_LIMIT" );
-            options_manager::cOpt &ap_volume_limit = options.get_option( "AUTO_PICKUP_VOLUME_LIMIT" );
-
+        WHEN( "auto pickup limit game options are not disabled" ) {
             ap_weight_limit.setValue( "80" ); // 4.0 kilograms
             REQUIRE( get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" ) == 80 );
 
             ap_volume_limit.setValue( "20" ); // 1.0 liter
             REQUIRE( get_option<int>( "AUTO_PICKUP_VOLUME_LIMIT" ) == 20 );
-
-            unique_item item_lump_of_steel = unique_item( itype_steel_lump, 5 );
-            unique_item item_cigarette = unique_item( itype_cig, 3 );
-            unique_item item_paper = unique_item( itype_paper, 10 );
-            unique_item item_backpack = unique_item( itype_backpack, {
-                &item_lump_of_steel, &item_cigarette, &item_paper
-            } );
-            REQUIRE( item_backpack.spawn_item( ground ) );
-
-            add_autopickup_rules( { &item_lump_of_steel, &item_cigarette, &item_paper }, true );
             THEN( "only items that do not exceed volume and weight limit should be picked up" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_cigarette, &item_paper } );
                 expect_to_find( *item_backpack.find_on_ground( ground ), { &item_lump_of_steel } );
-
                 // make sure excluded items were not dropped on the ground
                 REQUIRE_FALSE( item_lump_of_steel.is_on_ground( ground ) );
             }
         }
-        // candy cigarette(WL)
-        // pack(WL) > cigarette (2)(WL), rolling paper (10)(WL)
-        WHEN( "there is a container owned by player with whitelisted items" ) {
-            options_manager::cOpt &autopickup_owned = get_options().get_option( "AUTO_PICKUP_OWNED" );
-            // make sure the autopickup owned option is disabled
-            if( autopickup_owned.value_as<bool>() ) {
-                autopickup_owned.setValue( "false" );
-            }
-            unique_item item_candy_cigarette = unique_item( itype_candycigarette );
-            unique_item item_cigarette = unique_item( itype_cig, 2 );
-            unique_item item_rolling_paper = unique_item( itype_rolling_paper, 10 );
-            unique_item item_pack = unique_item( itype_box_cigarette, {
-                &item_cigarette, &item_rolling_paper
-            } );
-            item_cigarette.set_owner( they );
-            item_rolling_paper.set_owner( they );
-            item_pack.set_owner( they );
+    }
+}
+
+TEST_CASE( "auto pickup should consider item ownership", "[autopickup][item]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+    clear_auto_pickup_settings();
+    clear_avatar();
+    clear_map();
+
+    // this is where items will be picked up from
+    const tripoint ground = they.pos();
+    const map_cursor location = map_cursor( ground );
+
+    // wear backpack from map and get the new item reference
+    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
+    REQUIRE( they.has_item( backpack ) );
+
+    // candy cigarette(WL)
+    // pack(WL) > cigarette (2)(WL), rolling paper (10)(WL)
+    GIVEN( "there is a container with some items and an item outside it on the ground" ) {
+        options_manager::cOpt &autopickup_owned = get_options().get_option( "AUTO_PICKUP_OWNED" );
+        // make sure the autopickup owned option is disabled
+        if( autopickup_owned.value_as<bool>() ) {
+            autopickup_owned.setValue( "false" );
+        }
+        unique_item item_candy_cigarette = unique_item( itype_candycigarette );
+        unique_item item_cigarette = unique_item( itype_cig, 2 );
+        unique_item item_rolling_paper = unique_item( itype_rolling_paper, 10 );
+        unique_item item_pack = unique_item( itype_box_cigarette, {
+            &item_cigarette, &item_rolling_paper
+        } );
+        WHEN( "only the item outside the container is owned by avatar" ) {
+            item_candy_cigarette.set_owner( they );
+            REQUIRE( item_candy_cigarette.get()->is_owned_by( they ) );
 
             REQUIRE( item_candy_cigarette.spawn_item( ground ) );
             REQUIRE( item_pack.spawn_item( ground ) );
 
-            REQUIRE( item_cigarette.get()->is_owned_by( they ) );
-            REQUIRE( item_rolling_paper.get()->is_owned_by( they ) );
+            add_autopickup_rules( { &item_candy_cigarette, &item_cigarette, &item_rolling_paper }, true );
+            THEN( "only the container should be picked up" ) {
+                simulate_auto_pickup( ground, they );
+                expect_to_find( backpack, { &item_pack } );
+                expect_to_find( *item_pack.find_in_container( backpack ), { &item_cigarette, &item_rolling_paper } );
+                // make sure the item has remained on the ground
+                REQUIRE( item_candy_cigarette.is_on_ground( ground ) );
+            }
+        }
+        WHEN( "only the container is owned by avatar" ) {
+            item_pack.set_owner( they );
             REQUIRE( item_pack.get()->is_owned_by( they ) );
 
-            add_autopickup_rules( { &item_candy_cigarette, &item_cigarette, &item_rolling_paper }, true );
-            THEN( "no owned items should be picked up" ) {
+            REQUIRE( item_candy_cigarette.spawn_item( ground ) );
+            REQUIRE( item_pack.spawn_item( ground ) );
+
+            add_autopickup_rules( { &item_candy_cigarette, &item_pack }, true );
+            THEN( "the item outside the container should be picked up" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_candy_cigarette } );
-                expect_to_find( *item_pack.get(), { &item_cigarette, &item_rolling_paper } );
-
-                // make sure all items remained on the ground
-                REQUIRE( item_pack.is_on_ground( ground ) );
+                expect_to_find( *item_pack.find_on_ground( ground ), { &item_cigarette, &item_rolling_paper } );
             }
         }
     }
