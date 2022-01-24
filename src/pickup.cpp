@@ -108,9 +108,7 @@ static rule_state get_autopickup_rule( const item *pickup_item )
     std::string item_name = pickup_item->tname( 1, false );
     rule_state pickup_state = get_auto_pickup().check_item( item_name );
 
-    if( !within_autopickup_limits( pickup_item ) ) {
-        return rule_state::NONE;
-    } else if( pickup_state == rule_state::WHITELISTED ) {
+    if( pickup_state == rule_state::WHITELISTED ) {
         return rule_state::WHITELISTED;
     } else if( pickup_state != rule_state::BLACKLISTED ) {
         //No prematched pickup rule found, check rules in more detail
@@ -183,6 +181,10 @@ static std::vector<item_location> get_autopickup_items( item_location &container
     std::list<item *>::iterator it;
     for( it = contents.begin(); it != contents.end() && !force_pick_container; ++it ) {
         item *item_entry = *it;
+        if( !within_autopickup_limits( item_entry ) ) {
+            pick_all_items = false;
+            continue;
+        }
         const rule_state pickup_state = get_autopickup_rule( item_entry );
         if( pickup_state == rule_state::WHITELISTED ) {
             if( item_entry->is_container() ) {
@@ -274,6 +276,10 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
         if( pickup_state == rule_state::WHITELISTED ) {
             if( item_entry->is_container() ) {
                 empty_autopickup_target( item_entry, location );
+            }
+            // skip if the container is still above the limit after emptying it
+            if( !within_autopickup_limits( item_entry ) ) {
+                continue;
             }
             pickup[i].pick = true;
             bFoundSomething = true;
