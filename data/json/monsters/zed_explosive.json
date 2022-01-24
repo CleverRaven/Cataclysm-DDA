@@ -180,7 +180,7 @@
     "id": "mon_zombie_relax_gasbag",
     "type": "MONSTER",
     "name": { "str": "sleepwalker zombie" },
-    "description": "A zombie swollen with a blueish, oddly sweet smelling gas. It stumbles around even more than regular zombies, as if heavily intoxicated.",
+    "description": "A zombie swollen with a bluish, oddly sweet smelling gas. It stumbles around even more than regular zombies, as if heavily intoxicated.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
