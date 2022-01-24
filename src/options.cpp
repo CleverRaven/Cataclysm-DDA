@@ -1169,14 +1169,14 @@ void options_manager::add_options_general()
 
     add( "AUTO_PICKUP_WEIGHT_LIMIT", "general", to_translation( "Auto pickup weight limit" ),
          to_translation( "Auto pickup items with weight less than or equal to [option] * 50 grams.  You must also set the small items option.  '0' disables this option" ),
-         0, 20, 0
+         0, 100, 0
        );
 
     get_option( "AUTO_PICKUP_WEIGHT_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
 
     add( "AUTO_PICKUP_VOLUME_LIMIT", "general", to_translation( "Auto pickup volume limit" ),
          to_translation( "Auto pickup items with volume less than or equal to [option] * 50 milliliters.  You must also set the light items option.  '0' disables this option" ),
-         0, 20, 0
+         0, 100, 0
        );
 
     get_option( "AUTO_PICKUP_VOLUME_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
