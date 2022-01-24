@@ -10,10 +10,12 @@
 
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_box_cigarette( "box_cigarette" );
 static const itype_id itype_box_small( "box_small" );
 static const itype_id itype_bag_plastic( "bag_plastic" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_bottle_plastic_pill_prescription( "bottle_plastic_pill_prescription" );
+static const itype_id itype_candycigarette( "candycigarette" );
 static const itype_id itype_candy2( "candy2" );
 static const itype_id itype_can_food( "can_food" );
 static const itype_id itype_can_tuna( "can_tuna" );
@@ -28,6 +30,7 @@ static const itype_id itype_money_one( "money_one" );
 static const itype_id itype_money_ten( "money_ten" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pebble( "pebble" );
+static const itype_id itype_rolling_paper( "rolling_paper" );
 static const itype_id itype_steel_lump( "steel_lump" );
 static const itype_id itype_wallet_leather( "wallet_leather" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -70,6 +73,10 @@ class unique_item
         // Returns a pointer to item instance.
         const item *get() const {
             return &instance;
+        }
+        // Set the owner of this item instance to given avatar.
+        void set_owner( avatar &who ) {
+            instance.set_owner( who );
         }
         // Returns true if both items have the same UID string value.
         bool is_same_item( const item *with ) const {
@@ -375,6 +382,41 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
 
                 // make sure excluded items were not dropped on the ground
                 REQUIRE_FALSE( item_lump_of_steel.is_on_ground( ground ) );
+            }
+        }
+        // candy cigarette(WL)
+        // pack(WL) > cigarette (2)(WL), rolling paper (10)(WL)
+        WHEN( "there is a container owned by player with whitelisted items" ) {
+            options_manager::cOpt &autopickup_owned = get_options().get_option( "AUTO_PICKUP_OWNED" );
+            // make sure the autopickup owned option is disabled
+            if( autopickup_owned.value_as<bool>() ) {
+                autopickup_owned.setValue( "false" );
+            }
+            unique_item item_candy_cigarette = unique_item( itype_candycigarette );
+            unique_item item_cigarette = unique_item( itype_cig, 2 );
+            unique_item item_rolling_paper = unique_item( itype_rolling_paper, 10 );
+            unique_item item_pack = unique_item( itype_box_cigarette, {
+                &item_cigarette, &item_rolling_paper
+            } );
+            item_cigarette.set_owner( they );
+            item_rolling_paper.set_owner( they );
+            item_pack.set_owner( they );
+
+            REQUIRE( item_candy_cigarette.spawn_item( ground ) );
+            REQUIRE( item_pack.spawn_item( ground ) );
+
+            REQUIRE( item_cigarette.get()->is_owned_by( they ) );
+            REQUIRE( item_rolling_paper.get()->is_owned_by( they ) );
+            REQUIRE( item_pack.get()->is_owned_by( they ) );
+
+            add_autopickup_rules( { &item_candy_cigarette, &item_cigarette, &item_rolling_paper }, true );
+            THEN( "no owned items should be picked up" ) {
+                simulate_auto_pickup( ground, they );
+                expect_to_find( backpack, { &item_candy_cigarette } );
+                expect_to_find( *item_pack.get(), { &item_cigarette, &item_rolling_paper } );
+
+                // make sure all items remained on the ground
+                REQUIRE( item_pack.is_on_ground( ground ) );
             }
         }
     }

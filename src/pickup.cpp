@@ -151,6 +151,7 @@ static void empty_autopickup_target( item *what, tripoint where )
  *
  * Containers and items will NOT be picked up when:
  *
+ * - they are owned by player and AUTO_PICKUP_OWNED option is disabled.
  * - they exceed volume or weight user autopickup limitations.
  * - they are blacklisted in autopickup rules.
  *
@@ -175,6 +176,11 @@ static std::vector<item_location> get_autopickup_items( item_location &container
     bool pick_all_items = true;
 
     std::vector<item_location> result;
+    // do not autopickup owned containers or items
+    if( !get_option<bool>( "AUTO_PICKUP_OWNED" ) &&
+        container_item->is_owned_by( get_player_character() ) ) {
+        return result;
+    }
     std::list<item *> contents = container_item->all_items_top();
     result.reserve( contents.size() );
 
@@ -268,6 +274,11 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
     // iterate over all item stacks found in location
     for( size_t i = 0; i < from.size(); i++ ) {
         item *item_entry = &*from[i].front();
+        // do not autopickup owned containers or items
+        if( !get_option<bool>( "AUTO_PICKUP_OWNED" ) &&
+            item_entry->is_owned_by( get_player_character() ) ) {
+            continue;
+        }
         std::string sItemName = item_entry->tname( 1, false );
         rule_state pickup_state = get_autopickup_rule( item_entry );
         bool is_container = item_entry->is_container() && !item_entry->empty_container();
