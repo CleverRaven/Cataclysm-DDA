@@ -2173,7 +2173,7 @@
     "description": "This is a medium tank of propane, commonly used for barbeques.",
     "weight": "4082 g",
     "volume": "13600 ml",
-    "longest_side": "325 mm",
+    "longest_side": "381 mm",
     "price": 2000,
     "price_postapoc": 500,
     "to_hit": -4,
