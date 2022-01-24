@@ -1860,9 +1860,9 @@
   "name": "laser sight"
   },
   {
-  "id": "EXO_SMALL",
-  "type": "json_flag",
-  "info": "This is meant for a small exoskeleton hardpoint."
+    "id": "EXO_SMALL",
+    "type": "json_flag",
+    "info": "This is meant for a small exoskeleton hardpoint."
   },
   {
     "id": "EXO_LARGE",
@@ -1928,15 +1928,16 @@
     "id": "EXO_BOOT_PLATE",
     "type": "json_flag",
     "info": "This is meant for exoskeleton foot plating."
-	},
-	{
-  "type": "json flag",
-  "info": "This is meant for a small exoskeleton hardpoint."
   },
   {
-  "id": "EXO_LARGE",
-  "type": "json flag",
-  "info": "This is meant for a large exoskeleton hardpoint."
+    "id": "EXO_SMALL",
+    "type": "json_flag",
+    "info": "This is meant for a small exoskeleton hardpoint."
+  },
+  {
+    "id": "EXO_LARGE",
+    "type": "json_flag",
+    "info": "This is meant for a large exoskeleton hardpoint."
   },
   {
     "id": "EXO_PSU",

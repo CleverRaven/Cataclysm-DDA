@@ -49,12 +49,32 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "name": "Torso compartment (Gadget)",
+        "name": "Torso compartment (Large)",
         "description": "This is a mount for storing items in the torso.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
         "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Torso compartment (Small)",
+        "description": "This is a mount for storing items in the torso.",
+        "rigid": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "flag_restriction": [ "EXO_SMALL_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Torso compartment (Small)",
+        "description": "This is a mount for storing items in the torso.",
+        "rigid": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "flag_restriction": [ "EXO_SMALL_GADGET" ],
         "moves": 60
       },
       {
@@ -75,13 +95,12 @@
         "rigid": true,
         "max_contains_volume": "8 L",
         "max_contains_weight": "35 kg",
-        "max_item_length": "200 mm",
         "flag_restriction": [ "EXO_ARM_PLATE" ],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "name": "Arm compartment 1 (Gadget)",
+        "name": "Arm hardpoint 1 (Gadget)",
         "description": "This is a mount for storing items on the arms.",
         "rigid": true,
         "max_contains_volume": "2 L",
@@ -91,12 +110,32 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "name": "Arm compartment 2 (Gadget)",
+        "name": "Arm hardpoint 2 (Gadget)",
         "description": "This is a mount for storing items on the arms.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
         "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Arm hardpoint 1 (Small)",
+        "description": "This is a small mount for storing items on the arms.",
+        "rigid": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "flag_restriction": [ "EXO_SMALL_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Arm hardpoint 2 (Small)",
+        "description": "This is a small mount for storing items on the arms.",
+        "rigid": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "flag_restriction": [ "EXO_SMALL_GADGET" ],
         "moves": 60
       },
       {
@@ -105,15 +144,14 @@
         "description": "This is a mounting point for leg armor.",
         "ablative": true,
         "rigid": true,
-        "max_contains_volume": "9 L",
+        "max_contains_volume": "10 L",
         "max_contains_weight": "40 kg",
-        "max_item_length": "200 mm",
         "flag_restriction": [ "EXO_LEG_PLATE" ],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "name": "Leg compartment 1 (Gadget)",
+        "name": "Leg hardpoint 1 (Large)",
         "description": "This is a mount for storing items on the legs.",
         "rigid": true,
         "max_contains_volume": "2 L",
@@ -123,12 +161,32 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "name": "Leg compartment 2 (Gadget)",
+        "name": "Leg hardpoint 2 (Large)",
         "description": "This is a mount for storing items on the legs.",
         "rigid": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
         "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Leg hardpoint 1 (Small)",
+        "description": "This is a small mount for storing items on the legs.",
+        "rigid": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "flag_restriction": [ "EXO_SMALL_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Leg hardpoint 2 (Small)",
+        "description": "This is a small mount for storing items on the legs.",
+        "rigid": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "flag_restriction": [ "EXO_SMALL_GADGET" ],
         "moves": 60
       }
     ],
@@ -142,17 +200,6 @@
     "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
-<<<<<<< HEAD
-
-    "use_action": [ {
-      "target": "modular_exoskeleton_on",
-      "msg": "The %s engages.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The suit does not have enough charge.",
-      "type": "transform"
-    }, "MANAGE_EXOSUIT" ]
-=======
     "use_action": [
       {
         "target": "modular_exoskeleton_on",
@@ -164,7 +211,6 @@
       },
       "MANAGE_EXOSUIT"
     ]
->>>>>>> 81e89c11af (Linting)
   },
   {
     "id": "modular_exoskeleton_on",
@@ -209,6 +255,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "name": "Helmet Hardpoint",
         "description": "This is a series of mounts for helmet equipment.",
         "rigid": true,
         "max_contains_volume": "2 L",
