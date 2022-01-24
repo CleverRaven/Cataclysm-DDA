@@ -18,7 +18,7 @@
     "copy-from": "bscabbard",
     "type": "ARMOR",
     "name": { "str_sp": "scabbard (exosuit)" },
-    "description": "A metallic scabbard mountable on an exoskeleton hard point.  Can be activated to sheath or draw a sword.",
+    "description": "A metallic scabbard mountable on an exosuit hard point.  Can be activated to sheath or draw a sword.",
     "weight": "454 g",
     "volume": "2 L",
     "price": 18000,
