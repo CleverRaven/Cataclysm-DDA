@@ -327,14 +327,14 @@
     "id": "exo_recoil_on",
     "copy-from": "exo_recoil",
     "type": "TOOL",
-    "name": { "str": "recoil controller (on)", "str_pl": "recoil controllers (on)" },
+    "name": { "str": "recoil mitigation system (on)", "str_pl": "recoil mitigation systems (on)" },
     "power_draw": 2000,
     "revert_to": "exo_recoil",
     "use_action": {
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform",
-      "msg": "You turn off the recoil controller.",
+      "msg": "You turn off the recoil mitigation system.",
       "target": "exo_recoil"
     },
     "flags": [ "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET", "ONLY_ONE" ],
