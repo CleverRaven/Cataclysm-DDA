@@ -940,7 +940,7 @@
     "name": { "str": "bell pepper" },
     "weight": "113 g",
     "color": "green",
-    "spoils_in": "2 days",
+    "spoils_in": "3 days 8 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
