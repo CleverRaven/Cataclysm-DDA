@@ -126,19 +126,22 @@ static rule_state get_autopickup_rule( const item *pickup_item )
 }
 
 /**
- * Drop all items from the given container that are blacklisted in autopickup rules.
+ * Drop all items from the given container that match special autopickup rules.
  * The items will be removed from the container and dropped in the designated location.
  *
  * @param from container to drop items from.
  * @param where location on the map to drop items to.
  */
-static void drop_blacklisted_items( item *from, tripoint where )
+static void empty_autopickup_target( item *what, tripoint where )
 {
-    for( item *entry : from->all_items_top() ) {
-        if( get_autopickup_rule( entry ) == rule_state::BLACKLISTED ) {
-            // blacklisted items should be removed from the container
-            // and dropped on the same tile the container is on
-            get_map().add_item( where, from->remove_item( *entry ) );
+    bool is_rigid = what->all_pockets_rigid();
+    for( item *entry : what->all_items_top() ) {
+        const rule_state ap_rule = get_autopickup_rule( entry );
+        // rigid containers want to keep as much items as possible so drop only blacklisted items
+        // non-rigid containers want to drop as much items as possible so keep only whitelisted items
+        if( is_rigid ? ap_rule == rule_state::BLACKLISTED : ap_rule != rule_state::WHITELISTED ) {
+            // drop the items on the same tile the container is on
+            get_map().add_item( where, what->remove_item( *entry ) );
         }
     }
 }
@@ -184,7 +187,7 @@ static std::vector<item_location> get_autopickup_items( item_location &container
         if( pickup_state == rule_state::WHITELISTED ) {
             if( item_entry->is_container() ) {
                 // whitelisted containers should exclude contained blacklisted items
-                drop_blacklisted_items( item_entry, container.position() );
+                empty_autopickup_target( item_entry, container.position() );
             } else if( item_entry->made_of_from_type( phase_id::LIQUID ) ) {
                 // liquid items should never be picked up without container
                 force_pick_container = true;
@@ -270,7 +273,7 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
         // before checking contents check if item is on pickup list
         if( pickup_state == rule_state::WHITELISTED ) {
             if( item_entry->is_container() ) {
-                drop_blacklisted_items( item_entry, location );
+                empty_autopickup_target( item_entry, location );
             }
             pickup[i].pick = true;
             bFoundSomething = true;

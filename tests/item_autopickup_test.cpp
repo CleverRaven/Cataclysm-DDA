@@ -9,6 +9,7 @@
 
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_box_small( "box_small" );
 static const itype_id itype_bag_plastic( "bag_plastic" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_bottle_plastic_pill_prescription( "bottle_plastic_pill_prescription" );
@@ -22,6 +23,7 @@ static const itype_id itype_marble( "marble" );
 static const itype_id itype_meat_canned( "meat_canned" );
 static const itype_id itype_money_five( "money_five" );
 static const itype_id itype_money_one( "money_one" );
+static const itype_id itype_money_ten( "money_ten" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pebble( "pebble" );
 static const itype_id itype_wallet_leather( "wallet_leather" );
@@ -248,24 +250,41 @@ TEST_CASE( "items can be auto-picked up from the ground", "[pickup][item]" )
                 REQUIRE( uitem_flashlight.find_on_ground( ground ) );
             }
         }
-        // leather wallet (WL) > one dollar bill, five dollar bill
-        WHEN( "there is a non-rigid whitelisted container on the ground with two items" ) {
+        // leather wallet (WL) > one dollar bill, five dollar bill (WL), 1ten dollar bill
+        WHEN( "there is a non-rigid whitelisted container on the ground with three items, one whitelisted" ) {
             unique_item item_money_one = unique_item( itype_money_one );
             unique_item item_money_five = unique_item( itype_money_five );
+            unique_item item_money_ten = unique_item( itype_money_ten );
             unique_item item_leather_wallet = unique_item( itype_wallet_leather, {
-                &item_money_one, &item_money_five
+                &item_money_one, &item_money_five, &item_money_ten
             } );
             REQUIRE( item_leather_wallet.spawn_item( ground ) );
-            add_autopickup_rules( { { &item_leather_wallet, true }, { &item_money_one, false } } );
+            add_autopickup_rules( { { &item_leather_wallet, true }, { &item_money_five, true } } );
 
-            THEN( "the container should be picked up and blacklisted item should be dropped on ground" ) {
+            THEN( "the container should be picked up and non-whitelisted items should be dropped on the ground" ) {
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_leather_wallet } );
-                expect_to_find( *item_leather_wallet.find_in_container( backpack ), {
-                    &item_money_five
-                } );
-                // ensure blacklisted item is dropped on ground
+                expect_to_find( *item_leather_wallet.find_in_container( backpack ), { &item_money_five  } );
                 REQUIRE( item_money_one.find_on_ground( ground ) );
+            }
+        }
+        // small cardboard box (WL) > paper, chocolate candy (BL), marble
+        WHEN( "there is a rigid whitelisted container on the ground with three items, one blacklisted" ) {
+            unique_item item_paper = unique_item( itype_paper );
+            unique_item item_chocolate_candy = unique_item( itype_candy2 );
+            unique_item item_marble = unique_item( itype_marble );
+            unique_item cardboard_box = unique_item( itype_box_small, {
+                &item_paper, &item_chocolate_candy, &item_marble
+            } );
+            REQUIRE( cardboard_box.spawn_item( ground ) );
+            add_autopickup_rules( { { &cardboard_box, true }, { &item_chocolate_candy, false } } );
+            THEN( "the rigid container should be picked up and blacklisted items should be dropped on the ground" ) {
+                simulate_auto_pickup( ground, they );
+                expect_to_find( backpack, { &cardboard_box } );
+                expect_to_find( *cardboard_box.find_in_container( backpack ), {
+                    &item_paper, &item_marble
+                } );
+                REQUIRE( item_chocolate_candy.find_on_ground( ground ) );
             }
         }
         // plastic bottle > clean water (2)(WL)
