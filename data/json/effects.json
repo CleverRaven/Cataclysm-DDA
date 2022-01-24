@@ -1550,6 +1550,7 @@
       "foodpoison",
       "paralyzepoison",
       "tetanus",
+      "rat_bite_fever",
       "infected",
       "asthma",
       "common_cold",
@@ -1882,6 +1883,25 @@
     "resist_effects": [ "valium" ],
     "base_mods": { "dex_mod": [ -4, 0 ] },
     "blood_analysis_description": "Clostridium Tetani Infection"
+  },
+  {
+    "type": "effect_type",
+    "id": "rat_bite_fever",
+    "name": [ "puckered scratches" ],
+    "apply_message": "Your skin starts burning around some of your scratches.  Some aspirin might relieve the effects.",
+    "remove_message": "The fever breaks.",
+    "rating": "bad",
+    "resist_effects": [ "aspirin" ],
+    "base_mods": {
+      "stamina_min": [ -50 ],
+      "stamina_max": [ -100 ],
+      "stamina_chance": [ 300 ],
+      "int_mod": [ -1, 0 ],
+      "fatigue_min": [ 5 ],
+      "fatigue_max": [ 10 ],
+      "fatigue_chance": [ 500 ]
+    },
+    "blood_analysis_description": "Streptobacillus moniliformis Infection"
   },
   {
     "type": "effect_type",
