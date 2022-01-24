@@ -4,9 +4,7 @@
     "type": "widget",
     "label": "Cardio Fit",
     "var": "cardio_fit",
-    "style": "number",
-    "//": "Base starting character cardio is ~1740",
-    "colors": [ "c_red", "c_light_red", "c_white", "c_light_green", "c_green" ]
+    "style": "number"
   },
   {
     "id": "cardio_acc_num",
