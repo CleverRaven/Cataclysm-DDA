@@ -69,7 +69,7 @@ class material_type
         int _fire_resist = 0;
         int _bullet_resist = 0;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
-        int _density = 1;                             // relative to "powder", which is 1
+        float _density = 1;                             // relative to "powder", which is 1
         // How resistant this material is to wind as a percentage - 0 to 100
         cata::optional<int> _wind_resist;
         float _specific_heat_liquid = 4.186f;
@@ -125,7 +125,7 @@ class material_type
         float specific_heat_solid() const;
         float latent_heat() const;
         float freeze_point() const;
-        int density() const;
+        float density() const;
         cata::optional<int> wind_resist() const;
         bool edible() const;
         bool rotting() const;

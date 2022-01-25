@@ -703,41 +703,6 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
 static void assert_maximum_density_for_material(const item& target)
 {
-    /*
-    Material        Density (g/cm^3)    Notes
-    Steel/Iron      8                   stainless steel
-    Aluminum        2.7
-    Brass/Bronze    8.8                 median value, max can be up to 9.25
-    Copper          9
-    Silver          10.5
-    Gold            19.3
-    Ceramic         4.5                 titanium diboride
-    Clay            ~2
-    Cotton      1.6
-    Flesh       ~1.1 max
-    Glass       ~7.2 (typical closer to 2.4)
-    Kevlar      1.4 (fibers)
-    Lead        11.3
-    Leather     ~1.1
-    Plastic     ~2.2 max (typical 1.0-1.5)
-    Stone       2.8 (granite)
-    Wood        1.26 (lignum vitae)
-    Wool        1.314    
-    Iridium     22.56 -- nothing should be denser than this
-    */
-    // Materials with wide range
-    std::map<material_id, float> densities = {
-        {"steel", 8.0}, {"budget_steel", 8.0}, {"low_steel", 8.0}, {"med_steel", 8.0}, {"high_steel", 8.0}, {"case_hardened_steel", 8.0}, {"tempered_steel", 8.0}, {"hardsteel", 8.0}, {"iron", 8.0},
-        {"aluminum", 2.7},
-        {"brass", 8.8}, {"bronze", 8.8}, {"fancy_bronze", 8.8},
-        {"copper", 9.0},
-        {"silver", 10.5},
-        {"gold", 19.3},
-        {"ceramic", 4.5}, {"lightceramic", 4.5},
-    
-    
-    };
-
     if (target.type->get_id().is_null()) {
         return;
     }

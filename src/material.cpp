@@ -223,7 +223,7 @@ float material_type::freeze_point() const
     return _freeze_point;
 }
 
-int material_type::density() const
+float material_type::density() const
 {
     return _density;
 }
