@@ -110,5 +110,13 @@
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rag", 2 ] ], [ [ "wire", 1 ] ], [ [ "button_plastic", 9 ] ] ]
+  }, 
+  {
+    "result": "towel",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 7 ] ], [ [ "rag", 5 ] ] ]
   }
 ]
