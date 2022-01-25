@@ -1854,6 +1854,13 @@
   },
   {
     "type": "keybinding",
+    "id": "APPLY",
+    "category": "MEDICAL",
+    "name": "Apply or Use Item",
+    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Pause",
     "category": "DEFAULTMODE",
     "id": "pause",
@@ -2217,6 +2224,13 @@
     "category": "DEFAULTMODE",
     "id": "mutations",
     "bindings": [ { "input_method": "keyboard_any", "key": "[" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "View Medical",
+    "category": "DEFAULTMODE",
+    "id": "medical",
+    "bindings": [ { "input_method": "keyboard_char", "key": "N" }, { "input_method": "keyboard_code", "key": "n", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

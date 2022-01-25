@@ -2484,6 +2484,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             player_character.disp_morale();
             break;
 
+        case ACTION_MEDICAL:
+            player_character.disp_medical();
+            break;
+
         case ACTION_MESSAGES:
             Messages::display_messages();
             break;

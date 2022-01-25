@@ -1017,7 +1017,7 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
 }
 
 // Return status/color pairs for all statuses affecting body part (bleeding, bitten, bandaged, etc.)
-static std::map<bodypart_status, nc_color> bodypart_status_colors( const Character &u,
+std::map<bodypart_status, nc_color> display::bodypart_status_colors( const Character &u,
         const bodypart_id &bp, const std::string &wgt_id )
 {
     // List of active statuses and associated colors
