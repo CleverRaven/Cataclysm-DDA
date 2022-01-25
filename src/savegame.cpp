@@ -1358,16 +1358,14 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
         jo.read( "string_id", string_id );
         jo.read( "type", type );
         jo.read( "when", when );
-        int x = 0;
-        int y = 0;
+        point pt( 0, 0 );
         for( JsonObject jp : jo.get_array( "revert" ) ) {
-            point pt( x, y );
             revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
             revert.set_ter( pt, ter_id( jp.get_string( "ter" ) ) );
             revert.set_trap( pt, trap_id( jp.get_string( "trap" ) ) );
-            if( x++ < SEEX ) {
-                x = 0;
-                y++;
+            if( pt.x++ < SEEX ) {
+                pt.x = 0;
+                pt.y++;
             }
         }
         get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, where, strength,
