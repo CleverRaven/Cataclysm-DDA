@@ -1448,6 +1448,22 @@ namespace io
 {
 
 template<>
+std::string enum_to_string<jmapgen_flags>( jmapgen_flags v )
+{
+    switch( v ) {
+        // *INDENT-OFF*
+        case jmapgen_flags::allow_terrain_under_other_data: return "ALLOW_TERRAIN_UNDER_OTHER_DATA";
+        case jmapgen_flags::erase_all_before_placing_terrain:
+            return "ERASE_ALL_BEFORE_PLACING_TERRAIN";
+        // *INDENT-ON*
+        case jmapgen_flags::last:
+            break;
+    }
+    debugmsg( "unknown jmapgen_flags %d", static_cast<int>( v ) );
+    return "";
+}
+
+template<>
 std::string enum_to_string<mapgen_parameter_scope>( mapgen_parameter_scope v )
 {
     switch( v ) {
@@ -1459,7 +1475,7 @@ std::string enum_to_string<mapgen_parameter_scope>( mapgen_parameter_scope v )
         case mapgen_parameter_scope::last:
             break;
     }
-    debugmsg( "unknown debug_menu::debug_menu_index %d", static_cast<int>( v ) );
+    debugmsg( "unknown mapgen_parameter_scope %d", static_cast<int>( v ) );
     return "";
 }
 
@@ -2519,21 +2535,53 @@ class jmapgen_terrain : public jmapgen_piece
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const std::string &/*context*/ ) const override {
+                    const std::string &context ) const override {
             ter_id chosen_id = id.get( dat );
             if( chosen_id.id().is_null() ) {
                 return;
             }
             point p( x.get(), y.get() );
-            dat.m.ter_set( p, chosen_id );
-            // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
-            if( dat.m.has_flag_ter( ter_furn_flag::TFLAG_WALL, p ) ) {
+            tripoint tp( p, dat.m.get_abs_sub().z );
+
+            ter_id terrain_here = dat.m.ter( p );
+            const ter_t &chosen_ter = *chosen_id;
+            const bool is_wall = chosen_ter.has_flag( ter_furn_flag::TFLAG_WALL );
+            const bool place_item = chosen_ter.has_flag( ter_furn_flag::TFLAG_PLACE_ITEM );
+            const bool is_boring_wall = is_wall && !place_item;
+
+            if( is_boring_wall
+                || dat.has_flag( jmapgen_flags::erase_all_before_placing_terrain ) ) {
                 dat.m.furn_clear( p );
-                // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
-                if( !dat.m.has_flag_ter( ter_furn_flag::TFLAG_PLACE_ITEM, p ) ) {
-                    dat.m.i_clear( tripoint( p, dat.m.get_abs_sub().z ) );
+                dat.m.i_clear( tp );
+                dat.m.remove_trap( tp );
+            } else if( !dat.has_flag( jmapgen_flags::allow_terrain_under_other_data )
+                       && chosen_id != terrain_here ) {
+                std::string error;
+                trap_str_id trap_here = dat.m.tr_at( tp ).id;
+                if( dat.m.furn( p ) != f_null ) {
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
+                    error = string_format( "furniture was %s", dat.m.furn( p ).id().str() );
+                } else if( !dat.m.i_at( p ).empty() ) {
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
+                    error = string_format( "item %s existed",
+                                           dat.m.i_at( p ).begin()->typeId().str() );
+                } else if( !trap_here.is_null() && trap_here.id() != terrain_here->trap ) {
+                    // NOLINTNEXTLINE(cata-translate-string-literal)
+                    error = string_format( "trap %s existed", trap_here.str() );
+                }
+                if( !error.empty() ) {
+                    debugmsg( "In %s on %s, setting terrain to %s (from %s) at %s when %s.  "
+                              "Resolve this either by removing the terrain from this mapgen, "
+                              "adding suitable removal commands to the mapgen, or "
+                              "by adding a suitable flag to the innermost mapgen: either "
+                              "ERASE_ALL_BEFORE_PLACING_TERRAIN if you wish terrain to replace "
+                              "everything previously on the tile or ALLOW_TERRAIN_UNDER_OTHER_DATA "
+                              "if you wish the other items to be preserved",
+                              context, dat.terrain_type().id().str(), chosen_id.id().str(),
+                              terrain_here.id().str(), p.to_string(), error );
                 }
             }
+            dat.m.ter_set( p, chosen_id );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -2902,6 +2950,9 @@ class jmapgen_remove_items : public jmapgen_piece
                 items_to_remove.emplace_back( itype_id( item_id ) );
             }
         }
+        mapgen_phase phase() const override {
+            return mapgen_phase::removal;
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
@@ -2944,6 +2995,9 @@ class jmapgen_remove_vehicles : public jmapgen_piece
                 vehicles_to_remove.emplace_back( vproto_id( item_id ) );
             }
         }
+        mapgen_phase phase() const override {
+            return mapgen_phase::removal;
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
 
@@ -2977,6 +3031,34 @@ class jmapgen_remove_vehicles : public jmapgen_piece
                             get_map().clear_vehicle_level_caches();
                         }
                     }
+                }
+            }
+        }
+};
+
+// Removes furniture, traps, vehicles, items, fields, graffiti
+class jmapgen_remove_all : public jmapgen_piece
+{
+    public:
+        jmapgen_remove_all( const JsonObject &/*jo*/, const std::string &/*context*/ ) {
+        }
+        mapgen_phase phase() const override {
+            return mapgen_phase::removal;
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
+
+            const tripoint start = tripoint( x.val, y.val, dat.zlevel() );
+            const tripoint end = tripoint( x.valmax, y.valmax, dat.zlevel() );
+            for( const tripoint &p : tripoint_range<tripoint>( start, end ) ) {
+                dat.m.furn_clear( p );
+                dat.m.i_clear( p );
+                dat.m.remove_trap( p );
+                dat.m.clear_fields( p );
+                dat.m.delete_graffiti( p );
+                if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
+                    dat.m.destroy_vehicle( &vp->vehicle() );
+                    get_map().clear_vehicle_level_caches();
                 }
             }
         }
@@ -3700,6 +3782,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_items>( jo, "remove_items", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_vehicles>( jo, "remove_vehicles", format_placings, c );
+    new_pal.load_place_mapings<jmapgen_remove_all>( jo, "remove_all", format_placings, c );
     new_pal.load_place_mapings<jmapgen_trap>( jo, "traps", format_placings, c );
     new_pal.load_place_mapings<jmapgen_monster>( jo, "monster", format_placings, c );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings, c );
@@ -3869,13 +3952,15 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     JsonArray sparray;
     JsonObject pjo;
 
+    jo.read( "flags", flags_ );
+
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
     if( jo.has_array( "rows" ) ) {
         mapgen_palette palette = mapgen_palette::load_temp( jo, "dda", context_ );
         auto &keys_with_terrain = palette.keys_with_terrain;
         auto &format_placings = palette.format_placings;
 
-        if( palette.keys_with_terrain.empty() ) {
+        if( palette.keys_with_terrain.empty() && !fallback_terrain_exists ) {
             return false;
         }
 
@@ -3961,6 +4046,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         setup_setmap( jo.get_array( "set" ) );
     }
 
+    objects.load_objects<jmapgen_remove_all>( jo, "place_remove_all", context_ );
     // "add" is deprecated in favor of "place_item", but kept to support mods
     // which are not under our control.
     objects.load_objects<jmapgen_spawn_item>( jo, "add", context_ );
@@ -4043,6 +4129,11 @@ static bool check_furn( const furn_id &id, const std::string &context )
 
 void mapgen_function_json_base::check_common() const
 {
+    if( flags_.test( jmapgen_flags::allow_terrain_under_other_data ) &&
+        flags_.test( jmapgen_flags::erase_all_before_placing_terrain ) ) {
+        debugmsg( "In %s, flags ERASE_ALL_BEFORE_PLACING_TERRAIN and "
+                  "ALLOW_TERRAIN_UNDER_OTHER_DATA cannot be used together", context_ );
+    }
     for( const jmapgen_setmap &setmap : setmap_points ) {
         if( setmap.op != JMAPGEN_SETMAP_FURN &&
             setmap.op != JMAPGEN_SETMAP_LINE_FURN &&
@@ -4417,7 +4508,7 @@ void mapgen_function_json::generate( mapgendata &md )
         }
     }
 
-    mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ) );
+    mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ), flags_ );
 
     apply_mapgen_in_phases( md_with_params, setmap_points, objects, point_zero, context_ );
 
@@ -4444,7 +4535,7 @@ void mapgen_function_json_nested::nest( const mapgendata &md, const point &offse
     // TODO: Make rotation work for submaps, then pass this value into elem & objects apply.
     //int chosen_rotation = rotation.get() % 4;
 
-    mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::nest ) );
+    mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::nest ), flags_ );
 
     std::string context = context_;
     context += " in ";
@@ -5151,8 +5242,10 @@ void map::draw_lab( mapgendata &dat )
                         ter_set( p, t_thconc_floor );
                     }, center->xy(), 4 );
                     furn_set( center->xy(), f_null );
-                    trap_set( *center, tr_portal );
-                    create_anomaly( *center, random_entry( valid_props ), false );
+                    if( !is_open_air( *center ) ) {
+                        trap_set( *center, tr_portal );
+                        create_anomaly( *center, random_entry( valid_props ), false );
+                    }
                     break;
                 }
                 // radioactive accident.
@@ -7553,7 +7646,7 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
 bool update_mapgen_function_json::update_map( const mapgendata &md, const point &offset,
         const bool verify ) const
 {
-    mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ) );
+    mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ), flags_ );
 
     class rotation_guard
     {
