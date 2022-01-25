@@ -3592,7 +3592,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     insert_separation_line( info );
 
     if( covers_anything ) {
-        int power_armor_encumbrance_reduction = 40;
 
         if( is_power_armor() || type->get_id() == itype_rm13_armor ) {
             item tmp = *this;
@@ -3618,7 +3617,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 if( type->get_id() == itype_rm13_armor ) {
                     print_prot = !tmp.armor_encumbrance_info( info, parts );
                 } else {
-                    print_prot = !tmp.armor_encumbrance_info( info, parts, true, power_armor_encumbrance_reduction );
+                    print_prot = !tmp.armor_encumbrance_info( info, parts, true );
                 }
             }
             if( print_prot ) {
