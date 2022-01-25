@@ -313,12 +313,13 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         mandatory( jo, was_loaded, "subcategory", subcategory );
         assign( jo, "description", description, strict );
 
-        if ( jo.has_bool( "reversible" ) ) {
+        if( jo.has_bool( "reversible" ) ) {
             assign( jo, "reversible", reversible, strict );
-        } else if ( jo.has_object( "reversible" ) ) {
+        } else if( jo.has_object( "reversible" ) ) {
             reversible = true;
             // Convert duration to time in moves
-            uncraft_time = to_moves<int>( read_from_json_string<time_duration>( jo.get_object("reversible").get_member( "time" ), time_duration::units ) );
+            uncraft_time = to_moves<int>( read_from_json_string<time_duration>
+                                          ( jo.get_object( "reversible" ).get_member( "time" ), time_duration::units ) );
         }
 
         if( jo.has_member( "byproducts" ) ) {
