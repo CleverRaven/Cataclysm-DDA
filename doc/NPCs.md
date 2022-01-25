@@ -66,11 +66,11 @@ Faction determines what faction, if any, the NPC belongs to.  Some examples are 
 death_eocs are string effect_on_condition ids and or inline effect_on_conditions (see [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)).  When the npc dies all of these eocs are run with the victim as u and the killer as npc.
 
 # Age and Height
-You can define the age and height of the NPC in the `age` or `height` fields in `"type": "npc"`. 
+You can define the age and height of the NPC in the `age` or `height` fields in `"type": "npc"`.
 
 Field | Description
 ---|---
-`age` | NPC age 
+`age` | NPC age
 `height` | NPC height (cm)
 
 
@@ -86,7 +86,7 @@ Two topics are special:
 - `TALK_DONE` ends the dialogue immediately.
 - `TALK_NONE` goes to the previously talked about topic.
 
-If `npc` has the follows fields, the game will display a dialogue with the indicated topic instead of default topic. 
+If `npc` has the follows fields, the game will display a dialogue with the indicated topic instead of default topic.
 
 Field | Default topic ID  | Uses for...
 ---|---|---
@@ -103,11 +103,11 @@ Field | Default topic ID  | Uses for...
 `talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
 `talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
 
-### Customize NPC speech 
+### Customize NPC speech
 NPCs have dialogue depending on the situation.
 This dialogue can be customized in `"type": "npc"` json entries.
 
-If `npc` has one of the following fields, the NPCs will speak the indicated message or snippet instead of the default message. 
+If `npc` has one of the following fields, the NPCs will speak the indicated message or snippet instead of the default message.
 
 All messages can be used with snippets.
 Any `%s` included is automatically replaced by the game, with words depending on the message.
@@ -186,6 +186,20 @@ Field | Default messages/snippets | Used for...
 `snip_pulp_zombie` | `Hold on, I want to pulp that %s.` | NPC try to pulp %s.
 `snip_radiation_sickness` | `I'm suffering from radiation sickness…` | NPC are in radiation sickness.
 `snip_wear` | `Thanks, I'll wear that now.` | You gave a clothes or armor and NPC wear it.
+
+### Special Custom Entries
+
+Certain entries like the snippets above are taken from the game state as opposed to JSON they are found in the npctalk function parse_tags. They are as follows:
+`<yrwp>` | displays avatars wielded item
+`<ammo>` | displays avatars ammo
+`<current_activity>` | displays npc's current activity
+`<topic_item>` | referenced item
+`<topic_item_price>` | referenced item unit price
+`<topic_item_my_total_price>` | TODO Add
+`<topic_item_your_total_price>` | TODO Add
+`<u_val:VAR>` | The user variable VAR
+`<npc_val:VAR>` | The npc variable VAR
+`<global_val:VAR>` | The global variable VAR
 
 
 ### Validating Dialogues
@@ -574,7 +588,7 @@ One of `"for_item"` or `"for_category"`, and each can either be a single string 
 ## Dialogue Effects
 The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
 
-`variable_object`: This is an object describing a variable name. It can either describe an int or a time duration. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable. 
+`variable_object`: This is an object describing a variable name. It can either describe an int or a time duration. If it is an int `default` is a required int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.
 
 example json:
 ```
@@ -632,7 +646,7 @@ Effect | Description
 `u_add_faction_trust: amount_int`<br/>`u_lose_faction_trust: amount_int` | Your character gains or loses trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction.
 `u_message, npc_message: message_string`, (*optional* `sound: sound_bool`),(*optional* `outdoor_only: outdoor_only_bool`),(*optional* `snippet: snippet_bool`),(*optional* `same_snippet: snippet_bool`,(*optional* `type: type_string`),(*optional* `popup: popup_bool`) | Displays a message to either the player or the npc of `message_string`.  Will not display unless the player or npc is the actual player.  If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category, if `same_snippet_bool` is true(defaults to false) it will always use the same snippet and will set a variable that can be used for custom item names(this requires the snippets to have id's set).  If `sound` is true (defaults to false) it will only display the message if the player is not deaf.  `outdoor_only`(defaults to false) only matters when `sound` is true and will make the message less likely to be heard if the player is underground. Message will display as type of `type_string`. Type affects the color of message and can be any of the following values: good, neutral, bad, mixed, warning, info, debug, headshot, critical, grazing.  enums.h has more info on each types use. If `popup_bool` is true the message will be in a modal popup the user has to dismiss to continue.
 `u_cast_spell, npc_cast_spell : fake_spell_data` | The spell described by fake_spell_data will be cast with u or the npc as the caster and u or the npc's location as the target.  Fake spell data can have the following attributes: `id:string`: the id of the spell to cast, (*optional* `hit_self`: bool ( defaults to false ) if true can hit the caster, `trigger_message`: string to display on trigger, `npc_message`: string for message if npc uses, `max_level` int max level of the spell, `min_level` int min level of the spell )
-`u_assign_activity, npc_assign_activity: activity_id_string`, `duration: duration_string or duration_variable_object`) | Your character or the NPC will start activity `activity_id_string`. It will last for `duration: duration_string` time or `duration_variable_object`. 
+`u_assign_activity, npc_assign_activity: activity_id_string`, `duration: duration_string or duration_variable_object`) | Your character or the NPC will start activity `activity_id_string`. It will last for `duration: duration_string` time or `duration_variable_object`.
 `u_teleport, npc_teleport: target_var_object`, (*optional* `success_message: success_message_string`), (*optional* `fail_message: fail_message_string`) | u or npc are teleported to the destination stored in the variable named by `target_var`.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global or not. If the teleport succeeds and `success_message` is defined it will be displayed, if it fails and `fail_message` is defined it will be displayed.
 
 #### Trade / Items
@@ -701,7 +715,7 @@ Effect | Description
 #### Map Updates
 Effect | Description
 ---|---
-`mapgen_update: mapgen_update_id_string`<br/>`mapgen_update:` *list of `mapgen_update_id_string`s*, (optional `assign_mission_target` parameters), (optional `target_var: variable_object`) | With no other parameters, updates the overmap tile at the player's current location with the changes described in `mapgen_update_id` (or for each `mapgen_update_id` in the list).  The `assign_mission_target` parameters can be used to change the location of the overmap tile that gets updated.  See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters and [the mapgen docs](MAPGEN.md) for `mapgen_update`. If `target_var` is set this effect will be centered on a location saved to a variable with its name instead.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global.
+`mapgen_update: mapgen_update_id_string`<br/>`mapgen_update:` *list of `mapgen_update_id_string`s*, (optional `assign_mission_target` parameters), (optional `target_var: variable_object`), (*optional* `time_in_future_min: duration_string or duration_variable_object`), (*optional* `time_in_future_max: duration_string or duration_variable_object`) | With no other parameters, updates the overmap tile at the player's current location with the changes described in `mapgen_update_id` (or for each `mapgen_update_id` in the list).  The `assign_mission_target` parameters can be used to change the location of the overmap tile that gets updated.  See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters and [the mapgen docs](MAPGEN.md) for `mapgen_update`. If `target_var` is set this effect will be centered on a location saved to a variable with its name instead.  `target_var` is an object with `value`,`type` and `context` as string values and a bool `global` which determines if the variable is global. If `time_in_future_min` and `time_in_future_max` are set the update will happen at a random time in the future between those values, in this case however the target location will be determined now and not changed even if its variables update.
 `lightning` | Allows supercharging monster in electrical fields, legacy command for lightning weather.
 `next_weather` | Forces a check for what weather it should be.
 `custom_light_level: custom_light_level_int or custom_light_level_variable_object, length_min: duration_string or duration_variable_object, length_max: duration_string or duration_variable_object` | Sets the ambient light from the sun/moon to be `custom_light_level_int` ( or the value of the variable described by `custom_light_level_variable_object` see `variable_object` above).  This can vary naturally between 0 and 125 depending on the sun to give a scale. This lasts between `length_min` and `length_max long`.
@@ -719,17 +733,17 @@ Effect | Description
 `assign_mission: mission_type_id string` | Will assign mission `mission_type_id` to the player.
 `finish_mission: mission_type_id string`,(*optional* `success: success_bool` ), (*optional `step: step_int`)  | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed.
 `set_queue_effect_on_condition, u_set_queue_eoc or npc_set_queue_eoc : effect_on_condition_array`, (*optional* `time_in_future_min: time_in_future_min_int or string or variable_object`,`time_in_future_max: time_in_future_max_int or string or variable_object`, (*optional* `affect_nearby_npcs: affect_nearby_npcs_bool`),(*optional* `npcs_to_affect: npcs_to_affect_string_array`, (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: npc_range_int`) | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run between `time_in_future_min_int` and `time_in_future_max_int` seconds, or if they are strings the future values of them or if they are variable objects the variable they name. If these are zero (their default value) the eocs will happen instantly. If `affect_nearby_npcs`(defaults to false) is false then for instant activation eocs the current u and npc will be used. For future ones u will be the avatar and npc will be invalid. You cannot queue recurring eocs. If `affect_nearby_npcs` is true instead the eocs will be run on all nearby npcs matching the criteria.  If any names are listed in `npcs_to_affect` then only they will be affected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `set_queue_effect_on_condition` and `u_set_queue_eoc` u is the source for `npc_set_queue_eoc` it is the npc.
-`set_weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an integer weight. 
+`set_weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an integer weight.
 Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.
 ``` json
     "effect": [
       {
         "set_weighted_list_eocs": [
           [ "EOC_SLEEP", 1 ],
-          [ { 
-              "id": "eoc_test2", 
-              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ] 
-            }, 10 
+          [ {
+              "id": "eoc_test2",
+              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]
+            }, 10
           ]
         ]
       }
@@ -783,7 +797,7 @@ Condition | Type | Description
 #### Player or NPC conditions
 These conditions can be tested for the player using the `"u_"` form, and for the NPC using the `"npc_"` form.
 
-`variable_object`: This is an object describing a variable name. `default` is a required int which will be the value returned if the variable is not defined. 
+`variable_object`: This is an object describing a variable name. `default` is a required int which will be the value returned if the variable is not defined.
 
 example json:
 ```
@@ -937,7 +951,7 @@ Example | Description
 `"u_val": "mana_max"` | Max mana. Can be read but not written to.
 `"u_val": "hunger"` | Current perceived hunger. Can be read but not written to.
 `"u_val": "thirst"` | Current thirst.
-`"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy. 
+`"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy.
 `"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
 `"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
 `"u_val": "exp"` | Total experience earned.

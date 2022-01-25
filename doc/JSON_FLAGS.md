@@ -1515,6 +1515,7 @@ Gun fault flags:
 - ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.
 - ```SUPER_HEARING``` You can hear much better than a normal person.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
+-````CLIMB_NO_LADDER``` Capable of climbing up single-level walls without support.
 - ```DEAF``` Makes you deaf.
 - ```BLIND``` Makes you blind.
 - ```EYE_MEMBRANE``` Lets you see underwater.
@@ -1549,5 +1550,7 @@ Gun fault flags:
 - ```THERMOMETER``` You always know what temperature it is.
 - ```CBQ_LEARN_BONUS``` You learn CBQ from the bionic bio_cqb faster.
 - ```GILLS``` You can breathe underwater.
+- ```WEB_RAPPEL``` You can rappel down staircases and sheer drops of any height.
+- ```WALL_CLING``` You can ascend/descend sheer cliffs as long as the tile above borders at least one wall. Chance to slip and fall each step.
 - ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
 - ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).

@@ -351,9 +351,11 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
 
     optional( jo, was_loaded, "flags", flags );
+    optional( jo, was_loaded, "conditional_flags", conditional_flags );
 
     optional( jo, was_loaded, "encumbrance_threshold", encumbrance_threshold, 0 );
     optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
+    optional( jo, was_loaded, "health_limit", health_limit, 1 );
     optional( jo, was_loaded, "techniques", techniques );
     optional( jo, was_loaded, "technique_encumbrance_limit", technique_enc_limit, 50 );
 
@@ -602,10 +604,17 @@ bool bodypart::is_limb_overencumbered() const
     return get_encumbrance_data().encumbrance >= id->encumbrance_limit;
 }
 
+bool bodypart::has_conditional_flag( const json_character_flag &flag ) const
+{
+    return id->conditional_flags.count( flag ) > 0 && hp_cur > id->health_limit &&
+           !is_limb_overencumbered();
+}
+
 std::set<matec_id> bodypart::get_limb_techs() const
 {
     std::set<matec_id> result;
-    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit ) ) {
+    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit  &&
+                 hp_cur > id->health_limit ) ) {
         result.insert( id->techniques.begin(), id->techniques.end() );
     }
     return result;

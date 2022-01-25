@@ -14,7 +14,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 40 ], [ "flour_wheat_free", 40 ] ],
+      [ [ "flour_any", 40, "LIST" ] ],
       [ [ "yeast", 2 ] ],
       [ [ "milk_standard_raw", 2, "LIST" ] ],
       [ [ "pumpkin", 2 ], [ "irradiated_pumpkin", 2 ] ],
@@ -92,7 +92,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 3 ], [ "flour_wheat_free", 3 ] ],
+      [ [ "flour_any", 3, "LIST" ] ],
       [ [ "yeast", 2 ] ],
       [ [ "sugar", 1 ] ],
       [ [ "salt", 1 ] ],
@@ -117,7 +117,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 30 ], [ "flour_wheat_free", 30 ] ],
+      [ [ "flour_any", 30, "LIST" ] ],
       [ [ "sugar", 4 ] ],
       [ [ "salt", 5 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],

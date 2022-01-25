@@ -896,13 +896,14 @@
     "result": "xlsocks_wool",
     "type": "recipe",
     "copy-from": "socks_wool",
-    "time": "2 h",
-    "using": [ [ "tailoring_wool_knitting", 60 ] ]
+    "time": "2 h 24 m",
+    "using": [ [ "tailoring_wool_knitting", 80 ] ]
   },
   {
     "result": "xssocks_wool",
     "type": "recipe",
     "copy-from": "socks_wool",
+    "time": "2 h 24 m",
     "using": [ [ "tailoring_wool_knitting", 30 ] ]
   },
   {

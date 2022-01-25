@@ -136,6 +136,10 @@ static const item_category_id item_category_container( "container" );
 static const item_category_id item_category_drugs( "drugs" );
 static const item_category_id item_category_food( "food" );
 static const item_category_id item_category_maps( "maps" );
+static const item_category_id item_category_spare_parts( "spare_parts" );
+static const item_category_id item_category_tools( "tools" );
+static const item_category_id item_category_weapons( "weapons" );
+
 
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_battery( "battery" );
@@ -1191,7 +1195,7 @@ bool item::same_for_rle( const item &rhs ) const
     if( charges != rhs.charges ) {
         return false;
     }
-    if( !contents.empty_real() || !rhs.contents.empty_real() ) {
+    if( !contents.empty_with_no_mods() || !rhs.contents.empty_with_no_mods() ) {
         return false;
     }
     if( has_itype_variant( false ) != rhs.has_itype_variant( false ) ||
@@ -3101,10 +3105,10 @@ static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
             case layer_level::PERSONAL:
                 layering += _( " <stat>Personal aura</stat>." );
                 break;
-            case layer_level::UNDERWEAR:
+            case layer_level::SKINTIGHT:
                 layering += _( " <stat>Close to skin</stat>." );
                 break;
-            case layer_level::REGULAR:
+            case layer_level::NORMAL:
                 layering += _( " <stat>Normal</stat>." );
                 break;
             case layer_level::WAIST:
@@ -3303,6 +3307,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         // worst possible
         resistances worst_res = resistances( *this, false, 99, bp );
         resistances best_res = resistances( *this, false, 0, bp );
+        resistances median_res = resistances( *this, false, 50, bp );
 
         int percent_best = 100;
         int percent_worst = 0;
@@ -3313,7 +3318,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             percent_worst = portion->worst_protection_chance;
         }
 
-        if( percent_worst > 0 ) {
+        bool display_median = percent_best < 50 && percent_worst < 50;
+
+        if( display_median ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( "<bold>%s%s</bold>: <bad>%d%%</bad>, <color_c_yellow>Median</color>, <good>%d%%</good>",
+                                              bp_desc, _( "Protection" ), percent_worst, percent_best ) );
+        } else if( percent_worst > 0 ) {
             info.emplace_back( "DESCRIPTION",
                                string_format( "<bold>%s%s</bold>: <bad>%d%%</bad>, <good>%d%%</good>", bp_desc, _( "Protection" ),
                                               percent_worst, percent_best ) );
@@ -3323,7 +3334,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         }
 
         if( best_res.type_resist( damage_type::BASH ) >= 1 ) {
-            if( percent_worst > 0 ) {
+            if( display_median ) {
+                info.emplace_back( bp_cat,
+                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
+                                                  _( "Bash: " ), worst_res.type_resist( damage_type::BASH ),
+                                                  median_res.type_resist( damage_type::BASH ), best_res.type_resist( damage_type::BASH ) ), "",
+                                   iteminfo::no_flags );
+            } else if( percent_worst > 0 ) {
                 info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
                                    _( "Bash: " ), worst_res.type_resist( damage_type::BASH ),
                                    best_res.type_resist( damage_type::BASH ) ), "",
@@ -3335,7 +3352,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::CUT ) >= 1 ) {
-            if( percent_worst > 0 ) {
+            if( display_median ) {
+                info.emplace_back( bp_cat,
+                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
+                                                  _( "Cut: " ), worst_res.type_resist( damage_type::CUT ),
+                                                  median_res.type_resist( damage_type::CUT ), best_res.type_resist( damage_type::CUT ) ), "",
+                                   iteminfo::no_flags );
+            } else if( percent_worst > 0 ) {
                 info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
                                    _( "Cut: " ), worst_res.type_resist( damage_type::CUT ),
                                    best_res.type_resist( damage_type::CUT ) ), "",
@@ -3347,7 +3370,13 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             printed_any = true;
         }
         if( best_res.type_resist( damage_type::BULLET ) >= 1 ) {
-            if( percent_worst > 0 ) {
+            if( display_median ) {
+                info.emplace_back( bp_cat,
+                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
+                                                  _( "Ballistic: " ), worst_res.type_resist( damage_type::BULLET ),
+                                                  median_res.type_resist( damage_type::BULLET ), best_res.type_resist( damage_type::BULLET ) ), "",
+                                   iteminfo::no_flags );
+            } else if( percent_worst > 0 ) {
                 info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
                                    _( "Ballistic: " ), worst_res.type_resist( damage_type::BULLET ),
                                    best_res.type_resist( damage_type::BULLET ) ), "",
@@ -3527,10 +3556,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 case layer_level::PERSONAL:
                     layering += _( " <stat>Personal aura</stat>." );
                     break;
-                case layer_level::UNDERWEAR:
+                case layer_level::SKINTIGHT:
                     layering += _( " <stat>Close to skin</stat>." );
                     break;
-                case layer_level::REGULAR:
+                case layer_level::NORMAL:
                     layering += _( " <stat>Normal</stat>." );
                     break;
                 case layer_level::WAIST:
@@ -4452,7 +4481,8 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         // Tools with "charged_qualities" defined may have additional qualities when charged.
         // List them, and show whether there is enough charge to use those qualities.
         if( !type->charged_qualities.empty() && type->charges_to_use() > 0 ) {
-            if( ammo_remaining() >= type->charges_to_use() ) {
+            // Use ammo_remaining() with player character to include bionic/UPS power
+            if( ammo_remaining( &get_player_character() ) >= type->charges_to_use() ) {
                 info.emplace_back( "QUALITIES", "", _( "<good>Has enough charges</good> for qualities:" ) );
             } else {
                 info.emplace_back( "QUALITIES", "",
@@ -4495,6 +4525,8 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         return;
     }
 
+    insert_separation_line( info );
+
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" )
         && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
@@ -4502,7 +4534,6 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            _( "This bionic is installed in the following body "
                               "part(s):" ) ) );
     }
-    insert_separation_line( info );
 
     if( is_bionic() && has_flag( flag_NO_STERILE ) ) {
         info.emplace_back( "DESCRIPTION",
@@ -4617,8 +4648,9 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 }
 
-void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
-                        bool /*debug*/ ) const
+void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                              int /*batch*/,
+                              bool /*debug*/ ) const
 {
     const std::string space = "  ";
 
@@ -4823,8 +4855,8 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
     }
 }
 
-void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                       bool debug ) const
+void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                            bool debug ) const
 {
     if( is_null() ) {
         return;
@@ -4866,7 +4898,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    avatar &player_character = get_avatar();
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
         // concatenate base and acquired flags...
         std::vector<flag_id> flags;
@@ -4924,7 +4955,25 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    bionic_info( info, parts, batch, debug );
+
+    if( parts->test( iteminfo_parts::DESCRIPTION_DIE ) && this->get_var( "die_num_sides", 0 ) != 0 ) {
+        info.emplace_back( "DESCRIPTION",
+                           string_format( _( "* This item can be used as a <info>die</info>, "
+                                             "and has <info>%d</info> sides." ),
+                                          static_cast<int>( this->get_var( "die_num_sides",
+                                                  0 ) ) ) );
+    }
+
+}
+
+void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                       bool /* debug */ ) const
+{
+    if( is_null() ) {
+        return;
+    }
+
+    avatar &player_character = get_avatar();
 
     if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0
         && parts->test( iteminfo_parts::DESCRIPTION_RADIOACTIVITY_DAMAGED ) ) {
@@ -5046,13 +5095,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( "DESCRIPTION", ntext );
     }
 
-    if( parts->test( iteminfo_parts::DESCRIPTION_DIE ) && this->get_var( "die_num_sides", 0 ) != 0 ) {
-        info.emplace_back( "DESCRIPTION",
-                           string_format( _( "* This item can be used as a <info>die</info>, "
-                                             "and has <info>%d</info> sides." ),
-                                          static_cast<int>( this->get_var( "die_num_sides",
-                                                  0 ) ) ) );
-    }
 
     // Price and barter value
     const int price_preapoc = price( false ) * batch;
@@ -5131,8 +5173,15 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    contents.info( info, parts );
-    contents_info( info, parts, batch, debug );
+
+}
+void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /* parts */,
+                           int  /* batch */,
+                           bool /* debug */ ) const
+{
+    if( is_null() ) {
+        return;
+    }
 
     if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
         ascii_art_id art = type->picture_id;
@@ -5146,6 +5195,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 }
+
 
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
 {
@@ -5162,57 +5212,101 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         debug_info( info, parts, batch, debug );
     }
 
-    if( is_medication() ) {
-        med_info( this, info, parts, batch, debug );
+    // Different items might want to present the info blocks in different order, depending on what
+    // they consider more relevant.
+    std::vector<std::string> all_info_blocks = {"big_block_of_stuff", "contents", "melee_combat_info", "footer"};
+    std::vector<std::string> prio_info_blocks = { };
+    item_category_id my_cat_id = get_category_shallow().id;
+    if( is_maybe_melee_weapon() ) {
+        prio_info_blocks.emplace_back( "melee_combat_info" );
+    } else if( my_cat_id == item_category_container ) {
+        prio_info_blocks.emplace_back( "contents" );
     }
-
-    if( is_food() ) {
-        food_info( this, info, parts, batch, debug );
-    }
-
-    combat_info( info, parts, batch, debug );
-
-    magazine_info( info, parts, batch, debug );
-    ammo_info( info, parts, batch, debug );
-
-    const item *gun = nullptr;
-    if( is_gun() ) {
-        gun = this;
-        const gun_mode aux = gun_current_mode();
-        // if we have an active auxiliary gunmod display stats for this instead
-        if( aux && aux->is_gunmod() && aux->is_gun() &&
-            parts->test( iteminfo_parts::DESCRIPTION_AUX_GUNMOD_HEADER ) ) {
-            gun = &*aux;
-            info.emplace_back( "DESCRIPTION",
-                               string_format( _( "Stats of the active <info>gunmod (%s)</info> "
-                                                 "are shown." ), gun->tname() ) );
-        }
-    }
-    if( gun != nullptr ) {
-        gun_info( gun, info, parts, batch, debug );
-    }
-
-    gunmod_info( info, parts, batch, debug );
-    armor_info( info, parts, batch, debug );
-    animal_armor_info( info, parts, batch, debug );
-    book_info( info, parts, batch, debug );
-    battery_info( info, parts, batch, debug );
-    tool_info( info, parts, batch, debug );
-    component_info( info, parts, batch, debug );
-    qualities_info( info, parts, batch, debug );
-
-    // Uses for item (bandaging quality, holster capacity, grenade activation)
-    if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
-        for( const std::pair<const std::string, use_function> &method : type->use_methods ) {
-            insert_separation_line( info );
-            method.second.dump_info( *this, info );
+    std::vector<std::string> info_block_ordered = prio_info_blocks;
+    for( const std::string &blockname : all_info_blocks ) {
+        if( std::find( info_block_ordered.begin(), info_block_ordered.end(),
+                       blockname ) == info_block_ordered.end() ) {
+            info_block_ordered.push_back( blockname );
         }
     }
 
-    repair_info( info, parts, batch, debug );
-    disassembly_info( info, parts, batch, debug );
+    for( const auto &blockname : info_block_ordered ) {
+        if( blockname == "melee_combat_info" ) {
 
-    final_info( info, parts, batch, debug );
+            melee_combat_info( info, parts, batch, debug );
+
+        } else if( blockname == "big_block_of_stuff" ) {
+
+            if( is_medication() ) {
+                med_info( this, info, parts, batch, debug );
+            }
+
+            if( is_food() ) {
+                food_info( this, info, parts, batch, debug );
+            }
+
+            magazine_info( info, parts, batch, debug );
+            ammo_info( info, parts, batch, debug );
+
+            const item *gun = nullptr;
+            if( is_gun() ) {
+                gun = this;
+                const gun_mode aux = gun_current_mode();
+                // if we have an active auxiliary gunmod display stats for this instead
+                if( aux && aux->is_gunmod() && aux->is_gun() &&
+                    parts->test( iteminfo_parts::DESCRIPTION_AUX_GUNMOD_HEADER ) ) {
+                    gun = &*aux;
+                    info.emplace_back( "DESCRIPTION",
+                                       string_format( _( "Stats of the active <info>gunmod (%s)</info> "
+                                                         "are shown." ), gun->tname() ) );
+                }
+            }
+            if( gun != nullptr ) {
+                gun_info( gun, info, parts, batch, debug );
+            }
+
+            gunmod_info( info, parts, batch, debug );
+            armor_info( info, parts, batch, debug );
+            animal_armor_info( info, parts, batch, debug );
+            book_info( info, parts, batch, debug );
+            battery_info( info, parts, batch, debug );
+            tool_info( info, parts, batch, debug );
+            component_info( info, parts, batch, debug );
+            qualities_info( info, parts, batch, debug );
+
+            // Uses for item (bandaging quality, holster capacity, grenade activation)
+            if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
+                for( const std::pair<const std::string, use_function> &method : type->use_methods ) {
+                    insert_separation_line( info );
+                    method.second.dump_info( *this, info );
+                }
+            }
+
+            repair_info( info, parts, batch, debug );
+            disassembly_info( info, parts, batch, debug );
+            properties_info( info, parts, batch, debug );
+            bionic_info( info, parts, batch, debug );
+
+        } else if( blockname == "contents" ) {
+
+            contents.info( info, parts );
+            contents_info( info, parts, batch, debug );
+
+        } else if( blockname == "footer" ) {
+
+
+            final_info( info, parts, batch, debug );
+            ascii_art_info( info, parts, batch, debug );
+
+        } else {
+
+            debugmsg( "Trying to show info block named %s which is not valid.", blockname );
+
+        }
+    }
+
+
+
 
     if( !info.empty() && info.back().sName == "--" ) {
         info.pop_back();
@@ -6701,20 +6795,15 @@ int64_t item::get_property_int64_t( const std::string &prop, int64_t def ) const
     return def;
 }
 
-int item::get_quality( const quality_id &id ) const
+int item::get_quality( const quality_id &id, const bool strict_boiling ) const
 {
     /**
      * EXCEPTION: Items with quality BOIL only count as such if they are empty.
      */
-    if( id == qual_BOIL && !contents.empty_container() ) {
+    if( strict_boiling && id == qual_BOIL && !contents.empty_container() ) {
         return INT_MIN;
     }
 
-    return get_raw_quality( id );
-}
-
-int item::get_raw_quality( const quality_id &id ) const
-{
     int return_quality = INT_MIN;
 
     // Check for inherent item quality
@@ -6725,8 +6814,9 @@ int item::get_raw_quality( const quality_id &id ) const
     }
 
     // If tool has charged qualities and enough charge to use at least once
+    // (using ammo_remaining() with player character to include bionic/UPS power)
     if( !type->charged_qualities.empty() && type->charges_to_use() > 0 &&
-        type->charges_to_use() <= ammo_remaining() ) {
+        type->charges_to_use() <= ammo_remaining( &get_player_character() ) ) {
         // see if any charged qualities are better than the current one
         for( const std::pair<const quality_id, int> &quality : type->charged_qualities ) {
             if( quality.first == id ) {
@@ -7510,6 +7600,13 @@ bool item::is_software_storage() const
 bool item::is_ebook_storage() const
 {
     return contents.has_pocket_type( item_pocket::pocket_type::EBOOK );
+}
+
+bool item::is_maybe_melee_weapon() const
+{
+    item_category_id my_cat_id = get_category_shallow().id;
+    return my_cat_id == item_category_weapons || my_cat_id == item_category_spare_parts ||
+           my_cat_id == item_category_tools;
 }
 
 bool item::count_by_charges() const
@@ -8382,8 +8479,8 @@ std::vector<const material_type *> item::made_of_types() const
             material_types_composed_of.push_back( &mat_id.first.obj() );
         }
     } else {
-        for( const material_id &mat_id : type->mats_ordered ) {
-            material_types_composed_of.push_back( &mat_id.obj() );
+        for( const auto &mat_id : type->materials ) {
+            material_types_composed_of.push_back( &mat_id.first.obj() );
         }
     }
     return material_types_composed_of;
@@ -9363,7 +9460,7 @@ const material_type &item::get_base_material() const
     }
     // Material portions all equal / not specified. Select first material.
     if( portion == 1 ) {
-        return *type->mats_ordered[0];
+        return *type->default_mat;
     }
     return *m;
 }

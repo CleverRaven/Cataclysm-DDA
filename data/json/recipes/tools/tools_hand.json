@@ -483,7 +483,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "2x4", 2 ] ] ]
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
     "type": "recipe",

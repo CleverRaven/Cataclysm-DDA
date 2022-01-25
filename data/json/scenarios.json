@@ -83,7 +83,8 @@
       "sloc_church",
       "sloc_cemetery",
       "sloc_fire_station",
-      "sloc_police"
+      "sloc_police",
+      "sloc_town_hall"
     ],
     "start_name": "In Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
@@ -221,6 +222,15 @@
       "sloc_church",
       "sloc_cemetery"
     ]
+  },
+  {
+    "type": "scenario",
+    "name": "(un)living History",
+    "description": "",
+    "id": "BastionFortStart",
+    "points": -2,
+    "start_name": "Bastion Fort",
+    "allowed_locs": [ "sloc_fort" ]
   },
   {
     "type": "scenario",

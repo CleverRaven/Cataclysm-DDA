@@ -519,7 +519,13 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "gambeson", 1 ] ] ]
+    "components": [
+      [ [ "chainmail_vest", 1 ] ],
+      [ [ "chainmail_arms", 1 ] ],
+      [ [ "chainmail_legs", 1 ] ],
+      [ [ "gambeson", 1 ] ],
+      [ [ "gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "chainmail_hauberk_xs",
@@ -532,7 +538,13 @@
     "result": "kevlar_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "chainmail_hauberk",
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "k_gambeson", 1 ] ] ]
+    "components": [
+      [ [ "xl_chainmail_vest", 1 ] ],
+      [ [ "xl_chainmail_arms", 1 ] ],
+      [ [ "xl_chainmail_legs", 1 ] ],
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "kevlar_chainmail_hauberk_xs",
@@ -549,7 +561,8 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_gambeson", 1 ] ]
+      [ [ "xl_gambeson", 1 ] ],
+      [ [ "xl_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -560,7 +573,8 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_k_gambeson", 1 ] ]
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -581,7 +595,8 @@
       [ [ "chainmail_vest", 1 ] ],
       [ [ "chainmail_arms", 1 ] ],
       [ [ "chainmail_legs", 1 ] ],
-      [ [ "gambeson", 1 ] ]
+      [ [ "gambeson", 1 ] ],
+      [ [ "gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -606,7 +621,8 @@
       [ [ "chainmail_vest", 1 ] ],
       [ [ "chainmail_arms", 1 ] ],
       [ [ "chainmail_legs", 1 ] ],
-      [ [ "k_gambeson", 1 ] ]
+      [ [ "k_gambeson", 1 ] ],
+      [ [ "k_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -631,7 +647,8 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_gambeson", 1 ] ]
+      [ [ "xl_gambeson", 1 ] ],
+      [ [ "xl_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -643,7 +660,8 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_k_gambeson", 1 ] ]
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -663,13 +681,13 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "gambeson", 1 ] ] ]
+    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "gambeson", 1 ] ], [ [ "gambeson_pants", 1 ] ] ]
   },
   {
     "result": "kevlar_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit",
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "k_gambeson", 1 ] ] ]
+    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "k_gambeson", 1 ] ], [ [ "k_gambeson_pants", 1 ] ] ]
   },
   {
     "result": "xl_chainmail_suit",
@@ -688,13 +706,23 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ], [ [ "xl_gambeson", 1 ] ] ]
+    "components": [
+      [ [ "xl_chainmail_hood", 1 ] ],
+      [ [ "xl_chainmail_hauberk", 1 ] ],
+      [ [ "xl_gambeson", 1 ] ],
+      [ [ "xl_gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "xl_kevlar_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit",
-    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ], [ [ "xl_k_gambeson", 1 ] ] ]
+    "components": [
+      [ [ "xl_chainmail_hood", 1 ] ],
+      [ [ "xl_chainmail_hauberk", 1 ] ],
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "chainmail_suit_faraday",
@@ -751,6 +779,19 @@
       [ [ "chain_link", 750 ] ],
       [ [ "wire", 5 ] ]
     ]
+  },
+  {
+    "result": "grass_cloak",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "150 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "grass_yarn", 7 ] ] ]
   },
   {
     "result": "cloak",
@@ -1070,6 +1111,20 @@
     "time": "6 h",
     "using": [ [ "sewing_standard", 26 ], [ "fabric_standard_nostretch", 19 ], [ "fastener_large", 1 ] ]
   },
+  }
+    "result": "gambeson_pants",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 24 ], [ "fabric_standard_nostretch", 18 ], [ "fastener_small", 1 ] ]
+  },
   {
     "result": "k_gambeson",
     "type": "recipe",
@@ -1093,6 +1148,21 @@
     "using": [ [ "sewing_standard", 26 ], [ "tailoring_kevlar_fabric", 9 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "sheet_kevlar_layered", 14 ] ] ]
   },
+  }
+    "result": "k_gambeson_pants",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
+    "difficulty": 6,
+    "time": "5 h",
+    "autolearn": [ [ "tailor", 8 ] ],
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "sewing_standard", 24 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_small", 1 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 12 ] ] ]
+  },
   {
     "result": "xl_gambeson",
     "type": "recipe",
@@ -1107,6 +1177,21 @@
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 50 ], [ "tailoring_kevlar_fabric", 24 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
+  },
+  {
+    "result": "xl_gambeson_pants",
+    "type": "recipe",
+    "copy-from": "gambeson_pants",
+    "time": "5 h",
+    "using": [ [ "sewing_standard", 32 ], [ "fabric_standard_nostretch", 32 ], [ "fastener_small", 2 ] ]
+  },
+  {
+    "result": "xl_k_gambeson_pants",
+    "type": "recipe",
+    "copy-from": "k_gambeson_pants",
+    "time": "5 h",
+    "using": [ [ "sewing_standard", 28 ], [ "tailoring_kevlar_fabric", 16 ], [ "fastener_small", 2 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 25 ] ] ]
   },
   {
     "result": "hsurvivor_suit",
@@ -1488,14 +1573,26 @@
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
+    "result": "sleeping_bag_improvised",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "autolearn": true,
+    "time": "5 m",
+    "components": [ [ [ "bag_body_bag", 1 ] ], [ [ "withered", 180 ], [ "straw_pile", 180 ] ] ]
+  },
+  {
     "result": "armor_lc_lightplate",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 6,
-    "time": "9 h 20 m",
+    "difficulty": 5,
+    "time": "37 d",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 80 ], [ "lc_steel_standard", 20 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1513,7 +1610,7 @@
     "result": "xl_armor_lc_lightplate",
     "type": "recipe",
     "copy-from": "armor_lc_lightplate",
-    "time": "10 h 30 m",
+    "time": "40 d 16 h 19 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 32 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1569,8 +1666,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "9 h 20 m",
+    "difficulty": 5,
+    "time": "37 d",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 80 ], [ "mc_steel_standard", 20 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1588,7 +1685,7 @@
     "result": "xl_armor_mc_lightplate",
     "type": "recipe",
     "copy-from": "armor_mc_lightplate",
-    "time": "10 h 30 m",
+    "time": "40 d 16 h 19 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 32 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1644,8 +1741,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 8,
-    "time": "9 h 20 m",
+    "difficulty": 5,
+    "time": "37 d",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 80 ], [ "hc_steel_standard", 20 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1663,7 +1760,7 @@
     "result": "xl_armor_hc_lightplate",
     "type": "recipe",
     "copy-from": "armor_hc_lightplate",
-    "time": "10 h 30 m",
+    "time": "40 d 16 h 19 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "hc_steel_standard", 32 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1720,7 +1817,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "18 h",
+    "time": "39 d 14 h 24 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 80 ], [ "lc_steel_standard", 20 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1738,7 +1835,7 @@
     "result": "xl_armor_ch_lightplate",
     "type": "recipe",
     "copy-from": "armor_ch_lightplate",
-    "time": "20 h",
+    "time": "44 d 17 h 57 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 32 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "charcoal", 150 ] ] ]
@@ -1795,7 +1892,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "9 h 20 m",
+    "time": "41 d 9 h 36 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 80 ], [ "mc_steel_standard", 20 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1814,7 +1911,7 @@
     "result": "xl_armor_qt_lightplate",
     "type": "recipe",
     "copy-from": "armor_qt_lightplate",
-    "time": "10 h 30 m",
+    "time": "46 d 18 h 46 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 32 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
@@ -1871,7 +1968,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "9 h 20 m",
+    "time": "39 d 14 h 24 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 96 ], [ "lc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1889,7 +1986,7 @@
     "result": "xl_armor_lc_plate",
     "type": "recipe",
     "copy-from": "armor_lc_plate",
-    "time": "10 h 30 m",
+    "time": "44 d 17 h 57 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1936,226 +2033,13 @@
   },
   {
     "result": "armor_mc_plate",
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "9 h 20 m",
-    "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 96 ], [ "mc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
-      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_articulation" }
-    ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "xl_armor_mc_plate",
-    "type": "recipe",
-    "copy-from": "armor_mc_plate",
-    "time": "10 h 30 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "armor_mc_plate",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "assembly",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "20 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
-      { "proficiency": "prof_articulation", "fail_multiplier": 1 }
-    ],
-    "components": [ [ [ "armor_mc_chestplate", 1 ] ], [ [ "armor_mc_armguard", 2 ] ], [ [ "armor_mc_leg_guard", 2 ] ] ]
-  },
-  {
-    "result": "xl_armor_mc_plate",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "assembly",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "30 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
-      { "proficiency": "prof_articulation", "fail_multiplier": 1 }
-    ],
-    "components": [ [ [ "xl_armor_mc_chestplate", 1 ] ], [ [ "xl_armor_mc_armguard", 2 ] ], [ [ "xl_armor_mc_leg_guard", 2 ] ] ]
-  },
-  {
-    "result": "armor_hc_plate",
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 8,
-    "time": "9 h 20 m",
-    "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 96 ], [ "hc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
-      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_articulation" }
-    ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "xl_armor_hc_plate",
-    "type": "recipe",
-    "copy-from": "armor_hc_plate",
-    "time": "10 h 30 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "hc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "armor_hc_plate",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "assembly",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "20 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
-      { "proficiency": "prof_articulation", "fail_multiplier": 1 }
-    ],
-    "components": [ [ [ "armor_hc_chestplate", 1 ] ], [ [ "armor_hc_armguard", 2 ] ], [ [ "armor_hc_leg_guard", 2 ] ] ]
-  },
-  {
-    "result": "xl_armor_hc_plate",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "assembly",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "30 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
-      { "proficiency": "prof_articulation", "fail_multiplier": 1 }
-    ],
-    "components": [ [ [ "xl_armor_hc_chestplate", 1 ] ], [ [ "xl_armor_hc_armguard", 2 ] ], [ [ "xl_armor_hc_leg_guard", 2 ] ] ]
-  },
-  {
-    "result": "armor_lc_plate",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "9 h 20 m",
-    "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 96 ], [ "lc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
-      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_articulation" }
-    ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "xl_armor_lc_plate",
-    "type": "recipe",
-    "copy-from": "armor_lc_plate",
-    "time": "10 h 30 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "armor_lc_plate",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "assembly",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "20 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
-      { "proficiency": "prof_articulation", "fail_multiplier": 1 }
-    ],
-    "components": [ [ [ "armor_lc_chestplate", 1 ] ], [ [ "armor_lc_armguard", 2 ] ], [ [ "armor_lc_leg_guard", 2 ] ] ]
-  },
-  {
-    "result": "xl_armor_lc_plate",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "assembly",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "30 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
-      { "proficiency": "prof_articulation", "fail_multiplier": 1 }
-    ],
-    "components": [ [ [ "xl_armor_lc_chestplate", 1 ] ], [ [ "xl_armor_lc_armguard", 2 ] ], [ [ "xl_armor_lc_leg_guard", 2 ] ] ]
-  },
-  {
-    "result": "armor_mc_plate",
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "9 h 20 m",
+    "time": "39 d 14 h 24 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 96 ], [ "mc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -2173,7 +2057,7 @@
     "result": "xl_armor_mc_plate",
     "type": "recipe",
     "copy-from": "armor_mc_plate",
-    "time": "10 h 30 m",
+    "time": "44 d 17 h 57 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -2225,8 +2109,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 8,
-    "time": "9 h 20 m",
+    "difficulty": 6,
+    "time": "39 d 14 h 24 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 96 ], [ "hc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -2244,7 +2128,7 @@
     "result": "xl_armor_hc_plate",
     "type": "recipe",
     "copy-from": "armor_hc_plate",
-    "time": "10 h 30 m",
+    "time": "44 d 17 h 57 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "hc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -2296,8 +2180,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 6,
-    "time": "20 h",
+    "difficulty": 7,
+    "time": "43 d 13 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 96 ], [ "lc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -2309,16 +2193,16 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "charcoal", 150 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "result": "xl_armor_ch_plate",
     "type": "recipe",
     "copy-from": "armor_ch_plate",
-    "time": "22 h",
+    "time": "49 d 5 h 20 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "charcoal", 150 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "result": "armor_ch_plate",
@@ -2367,8 +2251,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "9 h 20 m",
+    "difficulty": 8,
+    "time": "45 d 12 h 57 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 96 ], [ "mc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -2378,19 +2262,18 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_articulation" },
-      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
+      { "proficiency": "prof_articulation" }
     ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "result": "xl_armor_qt_plate",
     "type": "recipe",
     "copy-from": "armor_qt_plate",
-    "time": "10 h 30 m",
+    "time": "51 d 11 h 2 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "result": "armor_qt_plate",
@@ -2439,8 +2322,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 6,
-    "time": "9 h 20 m",
+    "difficulty": 7,
+    "time": "43 d ",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 115 ], [ "lc_steel_standard", 30 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -2458,7 +2341,7 @@
     "result": "xl_armor_lc_heavyplate",
     "type": "recipe",
     "copy-from": "armor_lc_heavyplate",
-    "time": "10 h 30 m",
+    "time": "48 d  19 h 35 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -2481,7 +2364,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_lc_chestplate", 1 ] ], [ [ "armor_lc_heavyarmguard", 2 ] ], [ [ "armor_lc_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_lc_heavy_chestplate", 1 ] ], [ [ "armor_lc_heavyarmguard", 2 ] ], [ [ "armor_lc_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_lc_heavyplate",
@@ -2502,7 +2385,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_lc_chestplate", 1 ] ],
+      [ [ "xl_armor_lc_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_lc_heavyarmguard", 2 ] ],
       [ [ "xl_armor_lc_heavy_leg_guard", 2 ] ]
     ]
@@ -2515,7 +2398,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "9 h 20 m",
+    "time": "43 d",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 115 ], [ "mc_steel_standard", 30 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -2533,7 +2416,7 @@
     "result": "xl_armor_mc_heavyplate",
     "type": "recipe",
     "copy-from": "armor_mc_heavyplate",
-    "time": "10 h 30 m",
+    "time": "43 d",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -2556,7 +2439,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_mc_chestplate", 1 ] ], [ [ "armor_mc_heavyarmguard", 2 ] ], [ [ "armor_mc_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_mc_heavy_chestplate", 1 ] ], [ [ "armor_mc_heavyarmguard", 2 ] ], [ [ "armor_mc_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_mc_heavyplate",
@@ -2577,7 +2460,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_mc_chestplate", 1 ] ],
+      [ [ "xl_armor_mc_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_mc_heavyarmguard", 2 ] ],
       [ [ "xl_armor_mc_heavy_leg_guard", 2 ] ]
     ]
@@ -2589,8 +2472,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 8,
-    "time": "9 h 20 m",
+    "difficulty": 7,
+    "time": "43 d",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 115 ], [ "hc_steel_standard", 30 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -2608,7 +2491,7 @@
     "result": "xl_armor_hc_heavyplate",
     "type": "recipe",
     "copy-from": "armor_hc_heavyplate",
-    "time": "10 h 30 m",
+    "time": "48 d  19 h 35 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "hc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -2631,7 +2514,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_hc_chestplate", 1 ] ], [ [ "armor_hc_heavyarmguard", 2 ] ], [ [ "armor_hc_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_hc_heavy_chestplate", 1 ] ], [ [ "armor_hc_heavyarmguard", 2 ] ], [ [ "armor_hc_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_hc_heavyplate",
@@ -2652,7 +2535,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_hc_chestplate", 1 ] ],
+      [ [ "xl_armor_hc_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_hc_heavyarmguard", 2 ] ],
       [ [ "xl_armor_hc_heavy_leg_guard", 2 ] ]
     ]
@@ -2664,8 +2547,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 6,
-    "time": "22 h",
+    "difficulty": 8,
+    "time": "47 d 12 h 28 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 115 ], [ "lc_steel_standard", 30 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -2683,7 +2566,7 @@
     "result": "xl_armor_ch_heavyplate",
     "type": "recipe",
     "copy-from": "armor_ch_heavyplate",
-    "time": "24 h",
+    "time": "53 d 16 h 44 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "charcoal", 150 ] ] ]
@@ -2706,7 +2589,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_ch_chestplate", 1 ] ], [ [ "armor_ch_heavyarmguard", 2 ] ], [ [ "armor_ch_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_ch_heavy_chestplate", 1 ] ], [ [ "armor_ch_heavyarmguard", 2 ] ], [ [ "armor_ch_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_ch_heavyplate",
@@ -2727,7 +2610,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_ch_chestplate", 1 ] ],
+      [ [ "xl_armor_ch_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_ch_heavyarmguard", 2 ] ],
       [ [ "xl_armor_ch_heavy_leg_guard", 2 ] ]
     ]
@@ -2739,8 +2622,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "9 h 20 m",
+    "difficulty": 9,
+    "time": "49 d 16 h 19 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 115 ], [ "mc_steel_standard", 30 ], [ "fabric_leather_fur_hide", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -2759,7 +2642,7 @@
     "result": "xl_armor_qt_heavyplate",
     "type": "recipe",
     "copy-from": "armor_qt_heavyplate",
-    "time": "10 h 30 m",
+    "time": "56 d 3 h 19 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
@@ -2782,7 +2665,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_qt_chestplate", 1 ] ], [ [ "armor_qt_heavyarmguard", 2 ] ], [ [ "armor_qt_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_qt_heavy_chestplate", 1 ] ], [ [ "armor_qt_heavyarmguard", 2 ] ], [ [ "armor_qt_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_qt_heavyplate",
@@ -2803,7 +2686,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_qt_chestplate", 1 ] ],
+      [ [ "xl_armor_qt_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_qt_heavyarmguard", 2 ] ],
       [ [ "xl_armor_qt_heavy_leg_guard", 2 ] ]
     ]

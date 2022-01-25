@@ -76,7 +76,6 @@ static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -936,20 +935,6 @@ static activity_reason_info find_base_construction(
     }
     //only cc failed, no pre-req
     return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
-}
-
-static std::string random_string( size_t length )
-{
-    auto randchar = []() -> char {
-        static constexpr char charset[] =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-        static constexpr size_t num_chars = sizeof( charset ) - 1;
-        return charset[rng( 0, num_chars - 1 )];
-    };
-    std::string str( length, 0 );
-    std::generate_n( str.begin(), length, randchar );
-    return str;
 }
 
 static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
@@ -2330,7 +2315,7 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
 static bool mop_activity( Character &you, const tripoint &src_loc )
 {
     // iuse::mop costs 15 moves per use
-    you.assign_activity( ACT_MOP, 15 );
+    you.assign_activity( player_activity( mop_activity_actor( 15 ) ) );
     you.activity.placement = get_map().getabs( src_loc );
     return true;
 }

@@ -1482,6 +1482,10 @@ class map
          * Remove field entry at xy, ignored if the field entry is not present.
          */
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
+        /**
+         * Remove all field entries at location.
+         */
+        void clear_fields( const tripoint &p );
 
         /**
          * Get applicable fd_electricity field type for a given point

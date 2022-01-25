@@ -803,7 +803,7 @@
       }
     ],
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 0.8,
     "environmental_protection": 1,
     "flags": [ "OUTER", "OVERSIZE" ]
   },

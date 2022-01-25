@@ -574,7 +574,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         // add containers separately from their contents
         if( !it->empty_container() ) {
             // is the non-empty container used for BOIL?
-            if( !it->is_watertight_container() || it->get_raw_quality( qual_BOIL ) <= 0 ) {
+            if( !it->is_watertight_container() || it->get_quality( qual_BOIL, false ) <= 0 ) {
                 item tmp = item( it->typeId(), it->birthday() );
                 tmp.is_favorite = it->is_favorite;
                 *crafting_cache.crafting_inventory += tmp;
@@ -1101,7 +1101,8 @@ static void destroy_random_component( item &craft, const Character &crafter )
 
     item destroyed = random_entry_removed( craft.components );
 
-    crafter.add_msg_player_or_npc( _( "You mess up and destroy the %s." ),
+    crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
+                                   _( "You mess up and destroy the %s." ),
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
 }
 

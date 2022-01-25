@@ -477,6 +477,8 @@
     "description": "Stiff leather boots with intricate embroidery and one-inch heels.  These may look good, but these boots are made for walking.  Each boot is large enough to conceal a small holdout pistol.",
     "price_postapoc": 750,
     "material": [ "leather" ],
+    "material_thickness": 2.5,
+    "environmental_protection": 2,
     "proportional": { "weight": 1.2, "volume": 1.2, "price": 2, "encumbrance": 2 },
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 },
