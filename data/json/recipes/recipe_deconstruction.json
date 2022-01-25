@@ -5810,5 +5810,13 @@
     "difficulty": 3,
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "nylon", 6 ] ] ]
+  },
+  {
+    "result": "towel",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 7 ] ], [ [ "rag", 5 ] ] ]
   }
 ]
