@@ -12,6 +12,15 @@
     "entries": [ { "item": "rabbit_foot" } ]
   },
   {
+    "id": "rodent_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "rat_sample", "count-min": 0, "count-max": 1, "prob": 50 },
+      { "item": "mouse_sample", "count-min": 0, "count-max": 1, "prob": 50 }
+    ]
+  },
+  {
     "id": "frog_sample",
     "type": "item_group",
     "subtype": "collection",

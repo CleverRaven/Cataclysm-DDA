@@ -136,6 +136,10 @@ static const item_category_id item_category_container( "container" );
 static const item_category_id item_category_drugs( "drugs" );
 static const item_category_id item_category_food( "food" );
 static const item_category_id item_category_maps( "maps" );
+static const item_category_id item_category_spare_parts( "spare_parts" );
+static const item_category_id item_category_tools( "tools" );
+static const item_category_id item_category_weapons( "weapons" );
+
 
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_battery( "battery" );
@@ -4521,6 +4525,8 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         return;
     }
 
+    insert_separation_line( info );
+
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" )
         && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
@@ -4528,7 +4534,6 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            _( "This bionic is installed in the following body "
                               "part(s):" ) ) );
     }
-    insert_separation_line( info );
 
     if( is_bionic() && has_flag( flag_NO_STERILE ) ) {
         info.emplace_back( "DESCRIPTION",
@@ -4643,8 +4648,9 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 }
 
-void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
-                        bool /*debug*/ ) const
+void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                              int /*batch*/,
+                              bool /*debug*/ ) const
 {
     const std::string space = "  ";
 
@@ -4849,8 +4855,8 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
     }
 }
 
-void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                       bool debug ) const
+void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                            bool debug ) const
 {
     if( is_null() ) {
         return;
@@ -4892,7 +4898,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    avatar &player_character = get_avatar();
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
         // concatenate base and acquired flags...
         std::vector<flag_id> flags;
@@ -4950,7 +4955,25 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    bionic_info( info, parts, batch, debug );
+
+    if( parts->test( iteminfo_parts::DESCRIPTION_DIE ) && this->get_var( "die_num_sides", 0 ) != 0 ) {
+        info.emplace_back( "DESCRIPTION",
+                           string_format( _( "* This item can be used as a <info>die</info>, "
+                                             "and has <info>%d</info> sides." ),
+                                          static_cast<int>( this->get_var( "die_num_sides",
+                                                  0 ) ) ) );
+    }
+
+}
+
+void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                       bool /* debug */ ) const
+{
+    if( is_null() ) {
+        return;
+    }
+
+    avatar &player_character = get_avatar();
 
     if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0
         && parts->test( iteminfo_parts::DESCRIPTION_RADIOACTIVITY_DAMAGED ) ) {
@@ -5072,13 +5095,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( "DESCRIPTION", ntext );
     }
 
-    if( parts->test( iteminfo_parts::DESCRIPTION_DIE ) && this->get_var( "die_num_sides", 0 ) != 0 ) {
-        info.emplace_back( "DESCRIPTION",
-                           string_format( _( "* This item can be used as a <info>die</info>, "
-                                             "and has <info>%d</info> sides." ),
-                                          static_cast<int>( this->get_var( "die_num_sides",
-                                                  0 ) ) ) );
-    }
 
     // Price and barter value
     const int price_preapoc = price( false ) * batch;
@@ -5157,8 +5173,15 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    contents.info( info, parts );
-    contents_info( info, parts, batch, debug );
+
+}
+void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /* parts */,
+                           int  /* batch */,
+                           bool /* debug */ ) const
+{
+    if( is_null() ) {
+        return;
+    }
 
     if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
         ascii_art_id art = type->picture_id;
@@ -5172,6 +5195,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 }
+
 
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
 {
@@ -5188,57 +5212,101 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         debug_info( info, parts, batch, debug );
     }
 
-    if( is_medication() ) {
-        med_info( this, info, parts, batch, debug );
+    // Different items might want to present the info blocks in different order, depending on what
+    // they consider more relevant.
+    std::vector<std::string> all_info_blocks = {"big_block_of_stuff", "contents", "melee_combat_info", "footer"};
+    std::vector<std::string> prio_info_blocks = { };
+    item_category_id my_cat_id = get_category_shallow().id;
+    if( is_maybe_melee_weapon() ) {
+        prio_info_blocks.emplace_back( "melee_combat_info" );
+    } else if( my_cat_id == item_category_container ) {
+        prio_info_blocks.emplace_back( "contents" );
     }
-
-    if( is_food() ) {
-        food_info( this, info, parts, batch, debug );
-    }
-
-    combat_info( info, parts, batch, debug );
-
-    magazine_info( info, parts, batch, debug );
-    ammo_info( info, parts, batch, debug );
-
-    const item *gun = nullptr;
-    if( is_gun() ) {
-        gun = this;
-        const gun_mode aux = gun_current_mode();
-        // if we have an active auxiliary gunmod display stats for this instead
-        if( aux && aux->is_gunmod() && aux->is_gun() &&
-            parts->test( iteminfo_parts::DESCRIPTION_AUX_GUNMOD_HEADER ) ) {
-            gun = &*aux;
-            info.emplace_back( "DESCRIPTION",
-                               string_format( _( "Stats of the active <info>gunmod (%s)</info> "
-                                                 "are shown." ), gun->tname() ) );
-        }
-    }
-    if( gun != nullptr ) {
-        gun_info( gun, info, parts, batch, debug );
-    }
-
-    gunmod_info( info, parts, batch, debug );
-    armor_info( info, parts, batch, debug );
-    animal_armor_info( info, parts, batch, debug );
-    book_info( info, parts, batch, debug );
-    battery_info( info, parts, batch, debug );
-    tool_info( info, parts, batch, debug );
-    component_info( info, parts, batch, debug );
-    qualities_info( info, parts, batch, debug );
-
-    // Uses for item (bandaging quality, holster capacity, grenade activation)
-    if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
-        for( const std::pair<const std::string, use_function> &method : type->use_methods ) {
-            insert_separation_line( info );
-            method.second.dump_info( *this, info );
+    std::vector<std::string> info_block_ordered = prio_info_blocks;
+    for( const std::string &blockname : all_info_blocks ) {
+        if( std::find( info_block_ordered.begin(), info_block_ordered.end(),
+                       blockname ) == info_block_ordered.end() ) {
+            info_block_ordered.push_back( blockname );
         }
     }
 
-    repair_info( info, parts, batch, debug );
-    disassembly_info( info, parts, batch, debug );
+    for( const auto &blockname : info_block_ordered ) {
+        if( blockname == "melee_combat_info" ) {
 
-    final_info( info, parts, batch, debug );
+            melee_combat_info( info, parts, batch, debug );
+
+        } else if( blockname == "big_block_of_stuff" ) {
+
+            if( is_medication() ) {
+                med_info( this, info, parts, batch, debug );
+            }
+
+            if( is_food() ) {
+                food_info( this, info, parts, batch, debug );
+            }
+
+            magazine_info( info, parts, batch, debug );
+            ammo_info( info, parts, batch, debug );
+
+            const item *gun = nullptr;
+            if( is_gun() ) {
+                gun = this;
+                const gun_mode aux = gun_current_mode();
+                // if we have an active auxiliary gunmod display stats for this instead
+                if( aux && aux->is_gunmod() && aux->is_gun() &&
+                    parts->test( iteminfo_parts::DESCRIPTION_AUX_GUNMOD_HEADER ) ) {
+                    gun = &*aux;
+                    info.emplace_back( "DESCRIPTION",
+                                       string_format( _( "Stats of the active <info>gunmod (%s)</info> "
+                                                         "are shown." ), gun->tname() ) );
+                }
+            }
+            if( gun != nullptr ) {
+                gun_info( gun, info, parts, batch, debug );
+            }
+
+            gunmod_info( info, parts, batch, debug );
+            armor_info( info, parts, batch, debug );
+            animal_armor_info( info, parts, batch, debug );
+            book_info( info, parts, batch, debug );
+            battery_info( info, parts, batch, debug );
+            tool_info( info, parts, batch, debug );
+            component_info( info, parts, batch, debug );
+            qualities_info( info, parts, batch, debug );
+
+            // Uses for item (bandaging quality, holster capacity, grenade activation)
+            if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
+                for( const std::pair<const std::string, use_function> &method : type->use_methods ) {
+                    insert_separation_line( info );
+                    method.second.dump_info( *this, info );
+                }
+            }
+
+            repair_info( info, parts, batch, debug );
+            disassembly_info( info, parts, batch, debug );
+            properties_info( info, parts, batch, debug );
+            bionic_info( info, parts, batch, debug );
+
+        } else if( blockname == "contents" ) {
+
+            contents.info( info, parts );
+            contents_info( info, parts, batch, debug );
+
+        } else if( blockname == "footer" ) {
+
+
+            final_info( info, parts, batch, debug );
+            ascii_art_info( info, parts, batch, debug );
+
+        } else {
+
+            debugmsg( "Trying to show info block named %s which is not valid.", blockname );
+
+        }
+    }
+
+
+
 
     if( !info.empty() && info.back().sName == "--" ) {
         info.pop_back();
@@ -7532,6 +7600,13 @@ bool item::is_software_storage() const
 bool item::is_ebook_storage() const
 {
     return contents.has_pocket_type( item_pocket::pocket_type::EBOOK );
+}
+
+bool item::is_maybe_melee_weapon() const
+{
+    item_category_id my_cat_id = get_category_shallow().id;
+    return my_cat_id == item_category_weapons || my_cat_id == item_category_spare_parts ||
+           my_cat_id == item_category_tools;
 }
 
 bool item::count_by_charges() const
