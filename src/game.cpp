@@ -8327,7 +8327,7 @@ static void add_disassemblables( uilist &menu,
             const item &it = *stack.first;
 
             //~ Name, number of items and time to complete disassembling
-            const auto &msg = string_format( pgettext( "butchery menu", "%s (%d)" ),
+            const auto &msg = string_format( pgettext( "butchery menu", "Disassemble %s (%d)" ),
                                              it.tname(), stack.second );
             recipe uncraft_recipe;
             if( it.typeId() == itype_disassembly ) {
