@@ -707,7 +707,7 @@ static void assert_maximum_density_for_material(const item& target)
     const std::map<material_id, int> mats = target.made_of();
     if (!mats.empty()) {           
         double item_density = to_gram(target.weight()) / to_milliliter(target.volume());
-        double max_density;
+        double max_density = 0;
         for (const auto& m : mats) {
             max_density += m.first.obj().density() * m.second / target.type->mat_portion_total;
         }
