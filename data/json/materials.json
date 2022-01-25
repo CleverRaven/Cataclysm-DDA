@@ -845,7 +845,7 @@
     "type": "material",
     "id": "hydrocarbons",
     "name": "Hydrocarbons",
-    "//":  "Oxyacetylene is the only user, stats based on Acetylene"
+    "//":  "Oxyacetylene is the only user, stats based on Acetylene",
     "density": 0.7,
     "specific_heat_liquid": 0.5,
     "specific_heat_solid": 0.5,
@@ -1793,7 +1793,7 @@
     "type": "material",
     "id": "carbide",
     "name": "layered carbide",
-    "//" "Based on tungsten carbide",
+    "//": "Based on tungsten carbide",
     "density": 16.0,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,

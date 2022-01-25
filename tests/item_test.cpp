@@ -703,16 +703,16 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
 static void assert_maximum_density_for_material(const item& target)
 {
-    if (target.type->get_id().is_null()) {
-        return;
+    if (to_milliliter(target.volume()) == 0) return;
+    const std::map<material_id, int> mats = target.made_of();
+    if (!mats.empty()) {           
+        double item_density = to_gram(target.weight()) / to_milliliter(target.volume());
+        double max_density;
+        for (const auto& m : mats) {
+            max_density += m.first.obj().density() * m.second / target.type->mat_portion_total;
+        }
+        CHECK(item_density < max_density);        
     }
-    if (target.made_of().empty()) {
-        return;
-    }
-    if (target.made_of().size() == 1) {
-
-    }
-
 }
 
 TEST_CASE("item material density sanity check", "[item]")
