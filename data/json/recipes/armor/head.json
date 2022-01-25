@@ -1507,8 +1507,7 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
     "time": "30 m",
-    "reversible": true,
-    "uncraft_time": "6 s",
+    "reversible": { "time": "6 s" },
     "autolearn": true,
     "components": [ [ [ "rag", 4 ] ], [ [ "pot", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
