@@ -223,7 +223,12 @@ static std::vector<item_location> get_autopickup_items( item_location &container
     if( !contents.empty() && ( pick_all_items || force_pick_container ) ) {
         // blacklisted containers should still have their contents picked up but themselves should be excluded.
         // If all items inside blacklisted container match then just pickup the items without the container
-        if( get_autopickup_rule( container_item ) == rule_state::BLACKLISTED ) {
+        rule_state pickup_state = get_autopickup_rule( container_item );
+        if( pickup_state == rule_state::BLACKLISTED ) {
+            return result;
+        }
+        // only autopickup corpses if they are whitelisted
+        else if( container_item->is_corpse() && pickup_state != rule_state::WHITELISTED ) {
             return result;
         }
         bool all_batteries = true;

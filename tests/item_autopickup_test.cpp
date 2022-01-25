@@ -10,6 +10,7 @@
 
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_bag_body_bag( "bag_body_bag" );
 static const itype_id itype_box_cigarette( "box_cigarette" );
 static const itype_id itype_box_small( "box_small" );
 static const itype_id itype_bag_plastic( "bag_plastic" );
@@ -21,6 +22,7 @@ static const itype_id itype_can_food( "can_food" );
 static const itype_id itype_can_tuna( "can_tuna" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_codeine( "codeine" );
+static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_flashlight( "flashlight" );
 static const itype_id itype_light_battery_cell( "light_battery_cell" );
 static const itype_id itype_marble( "marble" );
@@ -180,6 +182,12 @@ static void clear_everything()
     rules.clear_character_rules();
     // this will clear the cache and recreate the map
     rules.check_item( "" );
+
+    // reset all autopickup options to default values
+    options_manager &options = get_options();
+    options.get_option( "AUTO_PICKUP_WEIGHT_LIMIT" ).setValue( "0" );
+    options.get_option( "AUTO_PICKUP_VOLUME_LIMIT" ).setValue( "0" );
+    options.get_option( "AUTO_PICKUP_OWNED" ).setValue( "false" );
 }
 
 
@@ -510,6 +518,55 @@ SCENARIO( "auto pickup should consider item ownership", "[autopickup][item]" )
                 simulate_auto_pickup( ground, they );
                 expect_to_find( backpack, { &item_candy_cigarette } );
                 expect_to_find( *item_pack.find_on_ground( ground ), { &item_cigarette, &item_rolling_paper } );
+            }
+        }
+    }
+}
+
+SCENARIO( "auto pickup should not implicitly pickup corpses", "[autopickup][item]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+    clear_everything();
+
+    // this is where items will be picked up from
+    const tripoint ground = they.pos();
+    const map_cursor location = map_cursor( ground );
+
+    // wield body bag and store item reference
+    they.set_wielded_item( item( itype_bag_body_bag ) );
+    item &body_bag = they.get_wielded_item();
+    REQUIRE_FALSE( body_bag.is_null() );
+
+    GIVEN( "there is a generic corpse on the ground" ) {
+        unique_item item_corpse = unique_item( itype_corpse );
+        REQUIRE( item_corpse.spawn_item( ground ) );
+
+        WHEN( "the corpse is whitelisted in auto-pickup rules" ) {
+            add_autopickup_rule( item_corpse.get(), true );
+            THEN( "the corpse should be picked up" ) {
+                simulate_auto_pickup( ground, they );
+                expect_to_find( body_bag, { &item_corpse } );
+            }
+        }
+        WHEN( "the corpse is NOT whitelisted in auto-pickup rules" ) {
+            THEN( "the corpse should NOT be picked up" ) {
+                simulate_auto_pickup( ground, they );
+                expect_to_find( body_bag, {} );
+            }
+            WHEN( "the corpse contains whitelisted items" ) {
+                unique_item item_cigarette = unique_item( itype_cig, 5 );
+                unique_item item_rolling_paper = unique_item( itype_rolling_paper, 10 );
+
+                item *found = item_corpse.find_on_ground( ground );
+                found->force_insert_item( *item_cigarette.get(), pocket_type_container );
+                found->force_insert_item( *item_rolling_paper.get(), pocket_type_container );
+
+                add_autopickup_rules( { &item_cigarette, &item_rolling_paper }, true );
+                THEN( "whitelisted items should be picked up without the corpse" ) {
+                    simulate_auto_pickup( ground, they );
+                    expect_to_find( body_bag, { &item_cigarette, &item_rolling_paper } );
+                }
             }
         }
     }
