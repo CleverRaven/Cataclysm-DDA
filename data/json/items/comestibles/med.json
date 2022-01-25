@@ -235,6 +235,7 @@
     "comestible_type": "MED",
     "name": { "str": "caffeinated chewing gum" },
     "description": "Sugar-free chewing gum with added caffeine, it's a nice pick-me-up.",
+    "addiction_type": "caffeine",
     "category": "drugs",
     "weight": "3 g",
     "volume": "250 ml",
