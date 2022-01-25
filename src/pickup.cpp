@@ -149,21 +149,26 @@ static void empty_autopickup_target( item *what, tripoint where )
  * In most cases whitelisted items will be included and blacklisted one will be excluded however
  * there are special cases. Below is an overview of selection rules for container autopickup.
  *
- * Containers and items will NOT be picked up when:
+ * Containers and items will **never** be picked up when:
  *
- * - they are owned by player and AUTO_PICKUP_OWNED option is disabled.
- * - they exceed volume or weight user autopickup limitations.
- * - they are blacklisted in autopickup rules.
+ * - they are owned by player and `AUTO_PICKUP_OWNED` game option is disabled.
+ * - they exceed volume or weight user auto pickup limitations.
+ * - they are blacklisted in auto pickup rules.
  *
- * Containers will be picked up when:
+ * Containers will **always** be picked up when:
  *
  * - the container is sealed.
  * - there is any liquids stored in container pockets.
  * - all items inside the container are marked for pickup.
  *
- * Containers will NOT be picked up when:
+ * Containers will **never** be picked up when:
  *
  * - only batteries were selected and the container is battery powered.
+ * - the container is a non-whitelisted corpse.
+ *
+ * Items will **NOT** be picked up when:
+ *
+ * - the parent container is non-rigid and the item is not whitelisted.
  *
  * @param container item to search for items to autopickup from.
  * @return sequence of items to autopickup from given container.

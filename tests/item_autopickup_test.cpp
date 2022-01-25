@@ -201,7 +201,7 @@ SCENARIO( "auto pickup should recognize container content", "[autopickup][item]"
     const tripoint ground = they.pos();
     const map_cursor location = map_cursor( ground );
 
-    // wear backpack from map and get the new item reference
+    // wear backpack and store item reference
     item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
 
@@ -278,7 +278,7 @@ SCENARIO( "auto pickup should improve your life", "[autopickup][item]" )
     const tripoint ground = they.pos();
     const map_cursor location = map_cursor( ground );
 
-    // wear backpack from map and get the new item reference
+    // wear backpack and store item reference
     item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
 
@@ -320,7 +320,7 @@ SCENARIO( "auto pickup should consider item rigidness and seal", "[autopickup][i
     const tripoint ground = they.pos();
     const map_cursor location = map_cursor( ground );
 
-    // wear backpack from map and get the new item reference
+    // wear backpack and store item reference
     item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
 
@@ -416,7 +416,7 @@ SCENARIO( "auto pickup should respect volume and weight limits", "[autopickup][i
     const tripoint ground = they.pos();
     const map_cursor location = map_cursor( ground );
 
-    // wear backpack from map and get the new item reference
+    // wear backpack and store item reference
     item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
 
@@ -472,7 +472,7 @@ SCENARIO( "auto pickup should consider item ownership", "[autopickup][item]" )
     const tripoint ground = they.pos();
     const map_cursor location = map_cursor( ground );
 
-    // wear backpack from map and get the new item reference
+    // wear backpack and store item reference
     item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
 
