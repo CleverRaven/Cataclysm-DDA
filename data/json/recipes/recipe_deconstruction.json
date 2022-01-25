@@ -5815,7 +5815,7 @@
     "result": "towel",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "30 m",
+    "time": "15 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "thread", 7 ] ], [ [ "rag", 5 ] ] ]
   }
