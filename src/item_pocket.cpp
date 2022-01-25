@@ -2063,6 +2063,18 @@ void item_pocket::favorite_settings::clear_category( const item_category_id &id 
     category_whitelist.erase( id );
 }
 
+bool item_pocket::favorite_settings::accepts_container( const item &container ) const
+{
+    bool result = true;
+    std::list<const item *>::const_iterator iter;
+    const std::list<const item *> items = container.all_items_top();
+    for( iter = items.begin(); result && iter != items.end(); ++iter ) {
+        const item *it = *iter;
+        result = it->is_container() ? accepts_container( *it ) : accepts_item( *it );
+    }
+    return result;
+}
+
 bool item_pocket::favorite_settings::accepts_item( const item &it ) const
 {
     // if this pocket is disabled it accepts nothing
@@ -2089,6 +2101,11 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
     }
 
     // Finally, if no match was found, see if there were any filters at all,
+    // if any item inside container is not accepted refuse the whole container
+    if( it.is_container() ) {
+        return accepts_container( it );
+    }
+
     // and either allow or deny everything that's fallen through to here.
     if( !category_whitelist.empty() ) {
         return false;  // we've whitelisted only some categories, and this item is not out of those.
