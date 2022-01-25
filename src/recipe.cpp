@@ -319,14 +319,9 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 jo.throw_error( "Recipe cannot have uncraft_time yet not be reversible" );
             }
 
-            if( jo.has_int( "uncraft_time" ) ) {
-                // Time in moves
-                assign( jo, "uncraft_time", uncraft_time, strict );
-            } else {
-                // Convert duration to time in moves
-                uncraft_time = to_moves<int>( read_from_json_string<time_duration>(
-                                                  jo.get_member( "uncraft_time" ), time_duration::units ) );
-            }
+            // Convert duration to time in moves
+            uncraft_time = to_moves<int>( read_from_json_string<time_duration>(
+                                                jo.get_member( "uncraft_time" ), time_duration::units ) );
         }
 
         if( jo.has_member( "byproducts" ) ) {
