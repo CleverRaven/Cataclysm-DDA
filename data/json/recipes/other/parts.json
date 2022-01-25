@@ -726,6 +726,7 @@
     "difficulty": 1,
     "time": "2 h",
     "reversible": true,
+    "uncraft_time": "20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "proficiencies": [
@@ -745,6 +746,7 @@
     "difficulty": 1,
     "time": "6 h",
     "reversible": true,
+    "uncraft_time": "20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "proficiencies": [

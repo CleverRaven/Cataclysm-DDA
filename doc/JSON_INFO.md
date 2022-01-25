@@ -1416,6 +1416,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 "time": "5 m",               // Preferred time to perform recipe, can specify in minutes, hours etc.
 "time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 10 seconds game time).
 "reversible": false,         // Can be disassembled.
+"uncraft_time": "30 s",      // Optional time to disassemble. Defaults to the time taken to assemble the item. Requires reversible be set to true.
 "autolearn": true,           // Automatically learned upon gaining required skills
 "autolearn" : [              // Automatically learned upon gaining listed skills
     [ "survival", 2 ],
