@@ -818,6 +818,8 @@ void npc::randomize( const npc_class_id &type )
     for( const proficiency_id &prof : type->_starting_proficiencies ) {
         add_proficiency( prof );
     }
+    // Add martial arts
+    learn_ma_styles_from_traits();
     // Add spells for magiclysm mod
     for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
         this->magic->learn_spell( spell_pair.first, *this, true );
@@ -829,6 +831,23 @@ void npc::randomize( const npc_class_id &type )
 
     // Add eocs
     effect_on_conditions::load_new_character( *this );
+}
+
+void npc::learn_ma_styles_from_traits()
+{
+    for( const trait_id &iter : get_mutations() ) {
+        if( !iter->initial_ma_styles.empty() ) {
+            std::vector<matype_id> shuffled_trait_styles = iter->initial_ma_styles;
+            std::shuffle( shuffled_trait_styles.begin(), shuffled_trait_styles.end(), rng_get_engine() );
+
+            for( const matype_id &style : shuffled_trait_styles ) {
+                if( !martial_arts_data->has_martialart( style ) ) {
+                    martial_arts_data->learn_style( style, false );
+                    break;
+                }
+            }
+        }
+    }
 }
 
 void npc::randomize_from_faction( faction *fac )

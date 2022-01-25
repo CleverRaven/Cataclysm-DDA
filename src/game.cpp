@@ -6177,6 +6177,11 @@ void game::zones_manager()
     bool show_all_zones = false;
     int zone_cnt = 0;
 
+    // cache the players location for person zones
+    if( mgr.has_personal_zones() ) {
+        mgr.cache_avatar_location();
+    }
+
     // get zones on the same z-level, with distance between player and
     // zone center point <= 50 or all zones, if show_all_zones is true
     auto get_zones = [&]() {

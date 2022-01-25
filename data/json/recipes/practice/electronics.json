@@ -85,7 +85,6 @@
       [ [ "multimeter", 100 ] ],
       [ [ "breadboard", -1 ] ],
       [ [ "power_supply", -1 ] ],
-      [ [ "ic_reference_electronics", -1 ] ],
       [ [ "processor", -1 ] ],
       [ [ "amplifier", -1 ], [ "receiver", -1 ], [ "transponder", -1 ] ]
     ],
