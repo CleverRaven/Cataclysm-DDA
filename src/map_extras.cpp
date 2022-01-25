@@ -1526,7 +1526,15 @@ static void place_fumarole( map &m, const point &p1, const point &p2, std::set<p
 
 static bool mx_portal_in( map &m, const tripoint &abs_sub )
 {
-    const tripoint portal_location = { rng( 5, SEEX * 2 - 6 ), rng( 5, SEEX * 2 - 6 ), abs_sub.z };
+    static constexpr int omt_size = SEEX * 2;
+    // minimum 9 tiles from the edge because ARTPROP_FRACTAL calls
+    // create_anomaly at an offset of 4, and create_anomaly generates a
+    // furniture circle around that of radius 5.
+    static constexpr int min_coord = 9;
+    static constexpr int max_coord = omt_size - 1 - min_coord;
+    static_assert( min_coord < max_coord, "no space for randomness" );
+    const tripoint portal_location{
+        rng( min_coord, max_coord ), rng( min_coord, max_coord ), abs_sub.z };
     const point p( portal_location.xy() );
 
     switch( rng( 1, 7 ) ) {

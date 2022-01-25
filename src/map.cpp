@@ -5609,6 +5609,17 @@ void map::remove_field( const tripoint &p, const field_type_id &field_to_remove 
     set_field_intensity( p, field_to_remove, 0 );
 }
 
+void map::clear_fields( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+
+    point l;
+    submap *const current_submap = unsafe_get_submap_at( p, l );
+    current_submap->clear_fields( l );
+}
+
 void map::on_field_modified( const tripoint &p, const field_type &fd_type )
 {
     invalidate_max_populated_zlev( p.z );
