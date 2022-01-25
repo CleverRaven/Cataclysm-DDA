@@ -1975,22 +1975,30 @@ bool item_pocket::favorite_settings::is_null() const
 
 void item_pocket::favorite_settings::whitelist_item( const itype_id &id )
 {
-    item_blacklist.clear();
+    // whitelisting twice removes the item from the list
     if( item_whitelist.count( id ) ) {
         item_whitelist.erase( id );
-    } else {
-        item_whitelist.insert( id );
+        return;
     }
+    // remove the item from the blacklist if listed
+    if( item_blacklist.count( id ) ) {
+        item_blacklist.erase( id );
+    }
+    item_whitelist.insert( id );
 }
 
 void item_pocket::favorite_settings::blacklist_item( const itype_id &id )
 {
-    item_whitelist.clear();
+    // blacklisting twice removes the item from the list
     if( item_blacklist.count( id ) ) {
         item_blacklist.erase( id );
-    } else {
-        item_blacklist.insert( id );
+        return;
     }
+    // remove the item from the whitelist if listed
+    if( item_whitelist.count( id ) ) {
+        item_whitelist.erase( id );
+    }
+    item_blacklist.insert( id );
 }
 
 void item_pocket::favorite_settings::clear_item( const itype_id &id )
@@ -2023,22 +2031,30 @@ item_pocket::favorite_settings::get_category_blacklist() const
 
 void item_pocket::favorite_settings::whitelist_category( const item_category_id &id )
 {
-    category_blacklist.clear();
+    // whitelisting twice removes the category from the list
     if( category_whitelist.count( id ) ) {
         category_whitelist.erase( id );
-    } else {
-        category_whitelist.insert( id );
+        return;
     }
+    // remove the category from the blacklist if listed
+    if( category_blacklist.count( id ) ) {
+        category_blacklist.erase( id );
+    }
+    category_whitelist.insert( id );
 }
 
 void item_pocket::favorite_settings::blacklist_category( const item_category_id &id )
 {
-    category_whitelist.clear();
+    // blacklisting twice removes the category from the list
     if( category_blacklist.count( id ) ) {
         category_blacklist.erase( id );
-    } else {
-        category_blacklist.insert( id );
+        return;
     }
+    // remove the category from the whitelist if listed
+    if( category_whitelist.count( id ) ) {
+        category_whitelist.erase( id );
+    }
+    category_blacklist.insert( id );
 }
 
 void item_pocket::favorite_settings::clear_category( const item_category_id &id )
