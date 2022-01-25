@@ -179,7 +179,6 @@ static void draw_medical_titlebar(const catacurses::window& window, avatar* play
 
 void avatar::disp_medical()
 {
-    medical_tab_mode tab_mode = medical_tab_mode::TAB_SUMMARY;
     const Character& you = *this->as_character();
 
     /* Title Bar - Tabs, Pain Indicator & Blood Indicator */
@@ -363,7 +362,6 @@ void avatar::disp_medical()
             bool bleeding = this->has_effect(effect_bleed, part.id());
             bool bitten = this->has_effect(effect_bite, part.id());
             bool infected = this->has_effect(effect_infected, part.id());
-            bool bandaged = this->has_effect(effect_bandaged, part.id());
 
             // BLEEDING block
             if (bleeding) {
@@ -394,7 +392,7 @@ void avatar::disp_medical()
 
             if (detail.length() > 0) {
                 const std::string header_str = string_format("[%s] - %s", header, detail);
-                std::vector<std::string> textformatted = foldstring(header_str, SUMMARY_WIDTH - 2, (char)93);
+                std::vector<std::string> textformatted = foldstring(header_str, SUMMARY_WIDTH - 2, static_cast<char> (93));
                 const int lineCount = textformatted.size();
                 if (lineCount <= 1) {
                     line = selection_line(header_str, description);
@@ -565,7 +563,7 @@ void avatar::disp_medical()
         werase(w_description);
         // Number of display rows required by highlightline.description()
         const std::string desc_str = highlightline.description();
-        std::vector<std::string> textformatted = foldstring(desc_str, WIDTH - 2, (char)32);
+        std::vector<std::string> textformatted = foldstring(desc_str, WIDTH - 2, static_cast<char> (32));
         // Beginning row of description text [1-3] (w_description)
         const int DESCRIPTION_TEXT_Y = DESC_W_HEIGHT - std::min(DESC_W_HEIGHT, static_cast<int>(textformatted.size()));
         // Actual position of the description bar (wMedical)
@@ -603,11 +601,9 @@ void avatar::disp_medical()
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
 
-    std::string action;
     for (;; ) {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        const int ch = ctxt.get_raw_input().get_first_input();
 
         if (action == "DOWN" || action == "UP") {
             const int step = cursor.y + (action == "DOWN" ? 1 : -1);
