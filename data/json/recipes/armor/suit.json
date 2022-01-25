@@ -1111,7 +1111,7 @@
     "time": "6 h",
     "using": [ [ "sewing_standard", 26 ], [ "fabric_standard_nostretch", 19 ], [ "fastener_large", 1 ] ]
   },
-  }
+  {
     "result": "gambeson_pants",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1148,7 +1148,7 @@
     "using": [ [ "sewing_standard", 26 ], [ "tailoring_kevlar_fabric", 9 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "sheet_kevlar_layered", 14 ] ] ]
   },
-  }
+  {
     "result": "k_gambeson_pants",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

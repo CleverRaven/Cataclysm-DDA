@@ -1698,7 +1698,7 @@
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "UNDERSIZE" ]
   },
-  }
+  {
     "id": "xl_k_gambeson_pants",
     "type": "ARMOR",
     "name": { "str": "XL Kevlar arming pants", "str_pl": "pairs of XL Kevlar arming pants" },
