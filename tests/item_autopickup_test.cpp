@@ -191,7 +191,7 @@ static void clear_everything()
 }
 
 
-SCENARIO( "auto pickup should recognize container content", "[autopickup][item]" )
+TEST_CASE( "auto pickup should recognize container content", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();
@@ -268,7 +268,7 @@ SCENARIO( "auto pickup should recognize container content", "[autopickup][item]"
     }
 }
 
-SCENARIO( "auto pickup should improve your life", "[autopickup][item]" )
+TEST_CASE( "auto pickup should improve your life", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();
@@ -310,7 +310,7 @@ SCENARIO( "auto pickup should improve your life", "[autopickup][item]" )
 }
 
 
-SCENARIO( "auto pickup should consider item rigidness and seal", "[autopickup][item]" )
+TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     clear_everything();
@@ -405,7 +405,7 @@ SCENARIO( "auto pickup should consider item rigidness and seal", "[autopickup][i
     }
 }
 
-SCENARIO( "auto pickup should respect volume and weight limits", "[autopickup][item]" )
+TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     clear_everything();
@@ -460,7 +460,7 @@ SCENARIO( "auto pickup should respect volume and weight limits", "[autopickup][i
     }
 }
 
-SCENARIO( "auto pickup should consider item ownership", "[autopickup][item]" )
+TEST_CASE( "auto pickup should consider item ownership", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     clear_everything();
