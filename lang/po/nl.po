@@ -1,3 +1,4 @@
+# 
 # Translators:
 # Perry Vorselaars <p.vorselaars@gmail.com>, 2019
 # Brandon van Houten <brandon.vhouten@gmail.com>, 2019
@@ -7,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-26 11:55+0800\n"
+"POT-Creation-Date: 2019-02-22 10:10+0800\n"
 "PO-Revision-Date: 2019-02-25 09:21+0000\n"
 "Last-Translator: RemberBL <timmermanrembrandt@gmail.com>, 2019\n"
 "Language-Team: Dutch (https://www.transifex.com/cataclysm-dda-translators/teams/2217/nl/)\n"
@@ -109078,9 +109079,9 @@ msgstr ""
 msgid ""
 "Huh.  Hadn't thought about it in ages, but now that you mention it, that was"
 " a weird job.  It was just a boarded up warehouse in the middle of nowhere, "
-"and I was not a cheap contractor in those days.  Coulda got any fat "
-"rent-a-cop to watch it.  I had only just started working there when the shit"
-" hit the fan, and I kinda forgot about that to be honest."
+"and I was not a cheap contractor in those days.  Coulda got any fat rent-a-"
+"cop to watch it.  I had only just started working there when the shit hit "
+"the fan, and I kinda forgot about that to be honest."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -141052,10 +141053,6 @@ msgid "You should read your %s when you get to the surface."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "It's too dark to read."
-msgstr ""
-
-#: src/iuse_actor.cpp
 msgid "Light where?"
 msgstr ""
 
@@ -150650,26 +150647,6 @@ msgid "Linear filtering"
 msgstr ""
 
 #: src/options.cpp
-msgid "Scaling factor"
-msgstr ""
-
-#: src/options.cpp
-msgid "Factor by which to scale the display. Requires restart."
-msgstr ""
-
-#: src/options.cpp
-msgid "1x"
-msgstr ""
-
-#: src/options.cpp
-msgid "2x"
-msgstr ""
-
-#: src/options.cpp
-msgid "4x"
-msgstr ""
-
-#: src/options.cpp
 msgid "Distance initial visibility"
 msgstr ""
 
@@ -151183,8 +151160,8 @@ msgstr ""
 #: src/options.cpp
 msgid ""
 "While touching the screen, wait this long before showing the virtual "
-"joystick and repeating input, in milliseconds. Also used to determine tap"
-"/double-tap detection, flick detection and toggling quick shortcuts."
+"joystick and repeating input, in milliseconds. Also used to determine "
+"tap/double-tap detection, flick detection and toggling quick shortcuts."
 msgstr ""
 
 #: src/options.cpp

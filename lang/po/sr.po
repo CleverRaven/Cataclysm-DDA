@@ -1,13 +1,16 @@
+# 
 # Translators:
 # D. Vultures <okrimnemir@hotmail.com>, 2019
+# d3fu$3r / <d3fus3r@protonmail.com>, 2019
+# Marko Režić, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-26 11:55+0800\n"
+"POT-Creation-Date: 2019-02-22 10:10+0800\n"
 "PO-Revision-Date: 2019-02-25 09:21+0000\n"
-"Last-Translator: D. Vultures <okrimnemir@hotmail.com>, 2019\n"
+"Last-Translator: Marko Režić, 2022\n"
 "Language-Team: Serbian (https://www.transifex.com/cataclysm-dda-translators/teams/2217/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,97 +21,100 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "battery"
 msgid_plural "batteries"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "baterija"
+msgstr[1] "baterije"
+msgstr[2] "baterije"
 
 #. ~ Description for battery
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A set of universal batteries.  Used to charge almost any electronic device."
-msgstr "Komplet univerzalnih baterija, korisnih za napajanje raznih uređaja."
+msgstr ""
+"Komplet univerzalnih baterija. Koristi se za punjenje skoro svih električnih"
+" uređaja."
 
 #: lang/json/AMMO_from_json.py
 msgid "aluminum foil"
-msgstr "alu-folija"
+msgstr "aluminijumska folija"
 
 #. ~ Description for aluminum foil
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A thin foil made of aluminum.  Sometimes called 'tin foil' due to being made"
 " of tin in the past."
-msgstr "Vrsta tanke metalne folije. Negde se naziva limenom folijom."
+msgstr ""
+"Tanka folija od aluminijuma. Ponekad se naziva i 'tin folija' ili "
+"'alufolija' jer je u prošlosti pravljena od kalaja."
 
 #: lang/json/AMMO_from_json.py
 msgid "cent"
-msgstr ""
+msgstr "cent"
 
 #. ~ Description for cent
 #. ~ Description for placeholder ammunition
 #. ~ Description for software
 #: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
 msgid "IF YOU ARE SEEING THIS IT IS A BUG."
-msgstr "TEKST ISPISAN USLED GREŠKE."
+msgstr "AKO VIDITE OVO TO JE GREŠKA."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "thread"
-msgstr ""
+msgstr "konac"
 
 #. ~ Description for thread
 #: lang/json/AMMO_from_json.py
 msgid "A small quantity of thread that could be used to refill a sewing kit."
-msgstr "Mala količina konca; korisna za dopunjavanje pribora za šivenje."
+msgstr ""
+"Mala količina konca koja se može koristiti za dopunjivanje sea za šivenje."
 
 #: lang/json/AMMO_from_json.py
 msgid "sinew"
-msgstr ""
+msgstr "tetive"
 
 #. ~ Description for sinew
 #: lang/json/AMMO_from_json.py
 msgid "A tough sinew cut from a corpse, usable as thread."
-msgstr "Žilice životinjskog porekla koje je moguće iskoristiti pri šivenju."
+msgstr "Žilice životinjskog porekla, upotrebljivo kao konac."
 
 #: lang/json/AMMO_from_json.py
 msgid "plant fiber"
-msgstr ""
+msgstr "biljna vlakna"
 
 #. ~ Description for plant fiber
 #: lang/json/AMMO_from_json.py
 msgid "Tough thin fiber, taken from a plant.  Can be used as thread."
-msgstr ""
-"Izdržljiva vrpca biljnog porekla koju je moguće iskoristiti pri šivenju."
+msgstr "Čvrsto tanko vlakno, uzeto iz biljke. Može se koristiti kao konac."
 
 #: lang/json/AMMO_from_json.py
 msgid "yarn"
-msgstr ""
+msgstr "vuneno vrpce"
 
 #. ~ Description for yarn
 #: lang/json/AMMO_from_json.py
 msgid "Wool yarn, could be used to knit wool clothing."
-msgstr ""
-"Vrpca od upredene vune, neophodna za heklanje odevnih predmeta od vune."
+msgstr "Vrpca od upredene vune, može se koristiti za pletenje vunene odeće."
 
 #: lang/json/AMMO_from_json.py
 msgid "soap bar"
-msgstr ""
+msgstr "sapun"
 
 #. ~ Description for soap bar
 #: lang/json/AMMO_from_json.py
 msgid "A cleansing agent made into bars."
-msgstr "Higijensko sredstvo u upotrebnoj količini."
+msgstr "Higijensko sredstvo napravljeno u male blokove."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "duct tape"
-msgstr ""
+msgstr "lepljiva traka"
 
 #. ~ Description for duct tape
 #: lang/json/AMMO_from_json.py
 msgid "A roll of incredibly strong tape.  Its uses are innumerable."
-msgstr "Vrlo izdržljiva samolepljiva traka neograničenih metoda upotrebe."
+msgstr "Rolna neverovatno jake trake. Njene upotrebe su neograničene."
 
 #: lang/json/AMMO_from_json.py
 msgid "rolling paper"
-msgstr ""
+msgstr "papir za valjanje"
 
 #. ~ Description for rolling paper
 #: lang/json/AMMO_from_json.py
@@ -117,104 +123,104 @@ msgstr "Komadići tankog papira korisni pri zavijanju cigareta."
 
 #: lang/json/AMMO_from_json.py
 msgid "copper wire"
-msgstr ""
+msgstr "bakarna žica"
 
 #. ~ Description for copper wire
 #: lang/json/AMMO_from_json.py
 msgid "Plastic jacketed copper cable of the type used in small electronics."
 msgstr ""
-"Bakarne žice i žičice obavijene zaštitnim slojem plastike. Upotrebljavaju ih"
-" u električnim uređajima."
+"Bakarni kabl sa zaštitnim plastičnim slojem koji se koristi maloj "
+"elektronici."
 
 #: lang/json/AMMO_from_json.py
 msgid "plutonium cell"
-msgstr ""
+msgstr "plutonijumska ćelija"
 
 #. ~ Description for plutonium cell
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A nuclear-powered battery.  Used to charge advanced and rare electronics."
 msgstr ""
-"Baterije koje funkcionišu na principu nuklearne energije, koriste ih vrlo "
-"moderni i retki uređaji."
+"Nuklearno energijska baterija. Koristi se za napajanje napredne i retke "
+"elektronike."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "plutonium slurry"
-msgstr "plutonijumskih kaša"
+msgstr "plutonijumska kaša"
 
 #. ~ Description for plutonium slurry
 #. ~ Description for watery plutonium slurry
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Highly radioactive slurry.  It is probably best to get far away from this."
-msgstr "Izuzetno radioaktivna smesa. Najbolje bi bilo da se odmah udaljiš."
+msgstr ""
+"Visoko radioaktivna kaša. Verovatno je najbolje da se udaljite od nje."
 
 #: lang/json/AMMO_from_json.py
 msgid "watery plutonium slurry"
-msgstr "retkih plutonijumskih kaša"
+msgstr "vodenasta plutonijumska kaša"
 
 #: lang/json/AMMO_from_json.py
 msgid "pebble"
-msgstr ""
+msgstr "kamenčić"
 
 #. ~ Description for pebble
 #: lang/json/AMMO_from_json.py
 msgid "A handful of pebbles, useful as ammunition for slings or slingshots."
-msgstr "Šaka kamenčića, pravilnih dimenzija za upotrebu u praćkama."
+msgstr "Šaka kamenčića, korisno kao municija za praćke i male praćke."
 
 #: lang/json/AMMO_from_json.py
 msgid "marble"
-msgstr ""
+msgstr "kliker"
 
 #. ~ Description for marble
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A handful of glass marbles, useful as ammunition for slings or slingshots."
-msgstr ""
-"Šaka klikera, uglavnom staklenih, pravilnih dimenzija za izbacivanje iz "
-"praćke."
+msgstr "Šaka staklenih klikera, korisno kao municija za praćke i male praćke."
 
 #: lang/json/AMMO_from_json.py
 msgid "bearings"
-msgstr "ležajeva"
+msgstr "kuglager"
 
 #. ~ Description for bearings
 #: lang/json/AMMO_from_json.py
 msgid "A box of ball bearings, useful as ammunition for slings or slingshots."
-msgstr ""
+msgstr "Kutija kuglagera, korisno kao municija za praćke i male praćke."
 
 #: lang/json/AMMO_from_json.py
 msgid "BB"
-msgstr ""
+msgstr "BB"
 
 #. ~ Description for BB
 #: lang/json/AMMO_from_json.py
 msgid "A box of small steel balls.  They deal virtually no damage."
 msgstr ""
-"Kutija malih, čeličnih kuglica. Koriste se u puškama za decu i ne izazivaju "
-"veću štetu."
+"Kutija malih čeličnih kuglica. Praktično ne nanose štetu. Koriste se u "
+"igračke oružje za decu."
 
 #: lang/json/AMMO_from_json.py
 msgid "feather"
-msgstr ""
+msgstr "pero"
 
 #. ~ Description for feather
 #: lang/json/AMMO_from_json.py
 msgid "Feathers from a bird.  Useful for fletching arrows."
-msgstr ""
+msgstr "Pera od ptice. Korisno za pravljenje strela."
 
 #: lang/json/AMMO_from_json.py
 msgid "down feather"
-msgstr ""
+msgstr "donje pero"
 
 #. ~ Description for down feather
 #: lang/json/AMMO_from_json.py
 msgid "Fluffy down feathers from a bird.  Useful for making cozy bedclothes."
 msgstr ""
+"Puhasto donje pero od ptice. Koristi se za pravljenje udobne postoljine."
 
 #: lang/json/AMMO_from_json.py
 msgid "fusion pack"
-msgstr ""
+msgstr "fuzioni paket"
 
 #. ~ Description for fusion pack
 #: lang/json/AMMO_from_json.py
@@ -223,13 +229,13 @@ msgid ""
 "energy based weapons.  The result was the standard fusion pack, capable of "
 "delivering bolts of superheated gas at near light speed with no recoil."
 msgstr ""
-"Vojske širom sveta okrenule su se novoj, energetskoj vrsti oružja sredinom "
-"21. veka. Tipična municija za naoružanje koje lansira projektile užarenog "
-"gasa približno svetlosnom brzinom je fuziona baterija."
+"Sredinom 21. veka, vojne sile su počele da se okreću oružju zasnovanoj na "
+"energiji. Rezultat je bio standardni fuzioni paket, sposoban da isporuči "
+"vijke pregrejanog gasa skorom brzinom svetlosti bez bez trzanja."
 
 #: lang/json/AMMO_from_json.py
 msgid "66mm HEAT"
-msgstr ""
+msgstr "66mm HEAT"
 
 #. ~ Description for 66mm HEAT
 #: lang/json/AMMO_from_json.py
@@ -237,20 +243,24 @@ msgid ""
 "A 60mm high-explosive anti-tank round.  It could blow through up to two feet"
 " of concrete."
 msgstr ""
+"60mm visoko-eksplozivni protiv-tenkovski metak. Može da probije do dva metra"
+" oko 60 cm betona."
 
 #: lang/json/AMMO_from_json.py
 msgid "120mm HEAT"
-msgstr ""
+msgstr "120mm HEAT"
 
 #. ~ Description for 120mm HEAT
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A 120mm high-explosive anti-tank round.  It could ruin anyone's whole day."
 msgstr ""
+"120mm visoko-eksplozivni protiv-tenkovski metak. Mogao bi svakome da pokvari"
+" ceo dan."
 
 #: lang/json/AMMO_from_json.py
 msgid "hydrogen canister"
-msgstr ""
+msgstr "kanister vodonika"
 
 #. ~ Description for hydrogen canister
 #: lang/json/AMMO_from_json.py
@@ -342,7 +352,7 @@ msgstr "Zrno za puške većih kalibara."
 
 #: lang/json/AMMO_from_json.py
 msgid "rubber slug"
-msgstr ""
+msgstr "gumena sačma"
 
 #. ~ Description for rubber slug
 #: lang/json/AMMO_from_json.py
@@ -354,7 +364,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "copper"
-msgstr "bakra"
+msgstr "bakar"
 
 #. ~ Description for copper
 #: lang/json/AMMO_from_json.py
@@ -367,7 +377,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "solder"
-msgstr "lemova"
+msgstr "kalaj"
 
 #. ~ Description for solder
 #: lang/json/AMMO_from_json.py
@@ -389,7 +399,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "medical tape"
-msgstr ""
+msgstr "medicinska traka"
 
 #. ~ Description for medical tape
 #: lang/json/AMMO_from_json.py
@@ -398,7 +408,7 @@ msgstr "Medicinska traka; kao hanzaplast, samo bez higijenske hartije."
 
 #: lang/json/AMMO_from_json.py
 msgid "PG-7VL 93mm rocket"
-msgstr ""
+msgstr "PG-7VL 93mm raketa"
 
 #. ~ Description for PG-7VL 93mm rocket
 #: lang/json/AMMO_from_json.py
@@ -407,7 +417,7 @@ msgstr "Jednostepena raketa kalibra 93mm namenjena RPG-7 bacaču."
 
 #: lang/json/AMMO_from_json.py
 msgid "M235 66mm TPA rocket"
-msgstr ""
+msgstr "M235 66mm TPA raketa"
 
 #. ~ Description for M235 66mm TPA rocket
 #: lang/json/AMMO_from_json.py
@@ -450,7 +460,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "modified mininuke"
-msgstr ""
+msgstr "modifikovana mini-nuklearka"
 
 #. ~ Description for modified mininuke
 #: lang/json/AMMO_from_json.py
@@ -460,6 +470,9 @@ msgid ""
 "instead of on a timer.  It can fly further than the explosion will reach, "
 "probably."
 msgstr ""
+"Teško modifikovano nuklearno oružje na raketi. Namenjeno je da bude "
+"ispaljeno iz specijalnog bacača , podešeno je da eksplodira pri udaru umesto"
+" tajmera. Verovatno ima veči domet od ranga eksplozije."
 
 #: lang/json/AMMO_from_json.py
 msgid "RA21E medical ampoule"
@@ -540,7 +553,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "fish bait"
-msgstr ""
+msgstr "mamac za ribe"
 
 #. ~ Description for fish bait
 #: lang/json/AMMO_from_json.py
@@ -549,7 +562,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "oxygen"
-msgstr ""
+msgstr "kiseonik`"
 
 #. ~ Description for oxygen
 #: lang/json/AMMO_from_json.py
@@ -570,7 +583,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "explosive home-made rocket"
-msgstr ""
+msgstr "eksplozivna kućno-pravljena raketa"
 
 #. ~ Description for explosive home-made rocket
 #: lang/json/AMMO_from_json.py
@@ -680,7 +693,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "wooden arrow"
-msgstr ""
+msgstr "drvena strela"
 
 #. ~ Description for wooden arrow
 #: lang/json/AMMO_from_json.py
@@ -720,7 +733,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "heavy wooden arrow"
-msgstr ""
+msgstr "teška drvena strela"
 
 #. ~ Description for heavy wooden arrow
 #: lang/json/AMMO_from_json.py
@@ -733,7 +746,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "sharpened metal arrow"
-msgstr ""
+msgstr "izoštrena metalna strela"
 
 #. ~ Description for sharpened metal arrow
 #: lang/json/AMMO_from_json.py
@@ -791,7 +804,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "explosive arrow"
-msgstr ""
+msgstr "eksplozivna strela"
 
 #. ~ Description for explosive arrow
 #: lang/json/AMMO_from_json.py
@@ -898,7 +911,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "plastic arrow"
-msgstr ""
+msgstr "plastična strela"
 
 #. ~ Description for plastic arrow
 #: lang/json/AMMO_from_json.py
@@ -957,9 +970,9 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "cement"
 msgid_plural "cement"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "cement"
+msgstr[1] "cementa"
+msgstr[2] "cement"
 
 #. ~ Description for cement
 #: lang/json/AMMO_from_json.py
@@ -1012,9 +1025,9 @@ msgstr ""
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "sand"
 msgid_plural "sand"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "pesak"
+msgstr[1] "peska"
+msgstr[2] "pesak"
 
 #. ~ Description for sand
 #: lang/json/AMMO_from_json.py
@@ -1345,9 +1358,9 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "black gunpowder"
 msgid_plural "black gunpowder"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "crni barut"
+msgstr[1] "crnih baruta"
+msgstr[2] "crni barut"
 
 #. ~ Description for black gunpowder
 #: lang/json/AMMO_from_json.py
@@ -1402,9 +1415,9 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "rocket fuel"
 msgid_plural "rocket fuel"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "raketno gorivo"
+msgstr[1] "raketnih goriva"
+msgstr[2] "raketno gorivo"
 
 #. ~ Description for rocket fuel
 #: lang/json/AMMO_from_json.py
@@ -1417,7 +1430,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "detergent"
-msgstr ""
+msgstr "deterdžent"
 
 #. ~ Description for detergent
 #: lang/json/AMMO_from_json.py
@@ -1442,9 +1455,9 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "wood ash"
 msgid_plural "wood ashes"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "pepeo"
+msgstr[1] "pepela"
+msgstr[2] "pepeo"
 
 #. ~ Description for wood ash
 #: lang/json/AMMO_from_json.py
@@ -1574,9 +1587,9 @@ msgstr ""
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "diesel"
 msgid_plural "diesel"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "dizel"
+msgstr[1] "dizela"
+msgstr[2] "dizel"
 
 #. ~ Description for diesel
 #: lang/json/AMMO_from_json.py
@@ -1635,9 +1648,9 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "red paint"
 msgid_plural "red paint"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "crvena farba"
+msgstr[1] "crvene farbe"
+msgstr[2] "crvena farba"
 
 #. ~ Description for red paint
 #: lang/json/AMMO_from_json.py
@@ -1647,9 +1660,9 @@ msgstr "Kantica crvene farbe."
 #: lang/json/AMMO_from_json.py
 msgid "blue paint"
 msgid_plural "blue paint"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "plava farba"
+msgstr[1] "plave farbe"
+msgstr[2] "plava farba"
 
 #. ~ Description for blue paint
 #: lang/json/AMMO_from_json.py
@@ -1659,9 +1672,9 @@ msgstr "Kantica plave farbe."
 #: lang/json/AMMO_from_json.py
 msgid "white paint"
 msgid_plural "white paint"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "bela farba"
+msgstr[1] "bele farbe"
+msgstr[2] "bela farba"
 
 #. ~ Description for white paint
 #: lang/json/AMMO_from_json.py
@@ -1671,9 +1684,9 @@ msgstr "Kantica bele farbe."
 #: lang/json/AMMO_from_json.py
 msgid "green paint"
 msgid_plural "green paint"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "zelena farba"
+msgstr[1] "zelene farbe"
+msgstr[2] "zelena farba"
 
 #. ~ Description for green paint
 #: lang/json/AMMO_from_json.py
@@ -1683,9 +1696,9 @@ msgstr "Kantica zelene farbe."
 #: lang/json/AMMO_from_json.py
 msgid "purple paint"
 msgid_plural "purple paint"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "ljubičasta farba"
+msgstr[1] "ljubičaste farbe"
+msgstr[2] "ljubičasta farba"
 
 #. ~ Description for purple paint
 #: lang/json/AMMO_from_json.py
@@ -1695,9 +1708,9 @@ msgstr "Kantica ljubičaste farbe."
 #: lang/json/AMMO_from_json.py
 msgid "yellow paint"
 msgid_plural "yellow paint"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "žuta farba"
+msgstr[1] "žute farbe"
+msgstr[2] "žuta farba"
 
 #. ~ Description for yellow paint
 #: lang/json/AMMO_from_json.py
@@ -1706,7 +1719,7 @@ msgstr "Kantica žute farbe."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "red carpet"
-msgstr ""
+msgstr "crveni tepih"
 
 #. ~ Description for red carpet
 #: lang/json/AMMO_from_json.py
@@ -1715,7 +1728,7 @@ msgstr "Rolna crvenog tepiha."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "green carpet"
-msgstr ""
+msgstr "zeleni tepih"
 
 #. ~ Description for green carpet
 #: lang/json/AMMO_from_json.py
@@ -1724,7 +1737,7 @@ msgstr "Rolna zelenog tepiha."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "yellow carpet"
-msgstr ""
+msgstr "žuti tepih"
 
 #. ~ Description for yellow carpet
 #: lang/json/AMMO_from_json.py
@@ -1733,7 +1746,7 @@ msgstr "Rolna žutog tepiha."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "purple carpet"
-msgstr ""
+msgstr "ljubičasti tepih"
 
 #. ~ Description for purple carpet
 #: lang/json/AMMO_from_json.py
@@ -1742,7 +1755,7 @@ msgstr "Rolna ljubičastog tepiha."
 
 #: lang/json/AMMO_from_json.py
 msgid "shrapnel"
-msgstr ""
+msgstr "šrapnel"
 
 #. ~ Description for shrapnel
 #: lang/json/AMMO_from_json.py
@@ -1877,7 +1890,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm explosive"
-msgstr ""
+msgstr "20x66mm exsplozivna"
 
 #. ~ Description for 20x66mm explosive
 #: lang/json/AMMO_from_json.py
@@ -60877,15 +60890,15 @@ msgstr[2] ""
 #: lang/json/bodypart_from_json.py
 msgctxt "bodypart_accusative"
 msgid "appendix"
-msgstr ""
+msgstr "slepo crevo"
 
 #: lang/json/bodypart_from_json.py
 msgid "It's inflamed."
-msgstr ""
+msgstr "Zapaljeno je."
 
 #: lang/json/construction_from_json.py
 msgid "Deconstruct Furniture"
-msgstr ""
+msgstr "Razmontiranje Nameštaja"
 
 #: lang/json/construction_from_json.py
 msgid "Deconstruct Simple Furniture"
@@ -112833,9 +112846,9 @@ msgstr ""
 msgid ""
 "Huh.  Hadn't thought about it in ages, but now that you mention it, that was"
 " a weird job.  It was just a boarded up warehouse in the middle of nowhere, "
-"and I was not a cheap contractor in those days.  Coulda got any fat "
-"rent-a-cop to watch it.  I had only just started working there when the shit"
-" hit the fan, and I kinda forgot about that to be honest."
+"and I was not a cheap contractor in those days.  Coulda got any fat rent-a-"
+"cop to watch it.  I had only just started working there when the shit hit "
+"the fan, and I kinda forgot about that to be honest."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -144885,10 +144898,6 @@ msgid "You should read your %s when you get to the surface."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "It's too dark to read."
-msgstr ""
-
-#: src/iuse_actor.cpp
 msgid "Light where?"
 msgstr ""
 
@@ -154492,26 +154501,6 @@ msgid "Linear filtering"
 msgstr ""
 
 #: src/options.cpp
-msgid "Scaling factor"
-msgstr ""
-
-#: src/options.cpp
-msgid "Factor by which to scale the display. Requires restart."
-msgstr ""
-
-#: src/options.cpp
-msgid "1x"
-msgstr ""
-
-#: src/options.cpp
-msgid "2x"
-msgstr ""
-
-#: src/options.cpp
-msgid "4x"
-msgstr ""
-
-#: src/options.cpp
 msgid "Distance initial visibility"
 msgstr ""
 
@@ -155025,8 +155014,8 @@ msgstr ""
 #: src/options.cpp
 msgid ""
 "While touching the screen, wait this long before showing the virtual "
-"joystick and repeating input, in milliseconds. Also used to determine tap"
-"/double-tap detection, flick detection and toggling quick shortcuts."
+"joystick and repeating input, in milliseconds. Also used to determine "
+"tap/double-tap detection, flick detection and toggling quick shortcuts."
 msgstr ""
 
 #: src/options.cpp

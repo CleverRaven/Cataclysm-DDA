@@ -1,13 +1,20 @@
+# 
 # Translators:
-# Emirhan KURT <m1r4@yandex.com>, 2019
+# Emir <m1r4@yandex.com>, 2019
+# Emirhan Kara Ali <emirhankaraali12@gmail.com>, 2020
+# Mehmet Işık <wukuatzin@gmail.com>, 2020
+# Tuğsan Çıtır <kreaeterra@gmail.com>, 2021
+# Emin Efe Saraç <eminefesarac@gmail.com>, 2021
+# Hüseyin Çokalak <airdancer11@gmail.com>, 2021
+# Ali Kerem Özfidan <alikeremozfidan@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-26 11:55+0800\n"
+"POT-Creation-Date: 2019-02-22 10:10+0800\n"
 "PO-Revision-Date: 2019-02-25 09:21+0000\n"
-"Last-Translator: Emirhan KURT <m1r4@yandex.com>, 2019\n"
+"Last-Translator: Ali Kerem Özfidan <alikeremozfidan@gmail.com>, 2021\n"
 "Language-Team: Turkish (https://www.transifex.com/cataclysm-dda-translators/teams/2217/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +38,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "aluminum foil"
-msgstr ""
+msgstr "Aluminyum folyo"
 
 #. ~ Description for aluminum foil
 #: lang/json/AMMO_from_json.py
@@ -39,6 +46,8 @@ msgid ""
 "A thin foil made of aluminum.  Sometimes called 'tin foil' due to being made"
 " of tin in the past."
 msgstr ""
+"Alüminyumdan yapılmış ince bir folyo.Geçmişte kalaydan yapıldığı için 'kalay"
+" teneke' de denmektedir."
 
 #: lang/json/AMMO_from_json.py
 msgid "cent"
@@ -68,7 +77,7 @@ msgstr ""
 #. ~ Description for sinew
 #: lang/json/AMMO_from_json.py
 msgid "A tough sinew cut from a corpse, usable as thread."
-msgstr "Bir cesetten sert bir tendon kesildi, iplik olarak kullanılabilir."
+msgstr "Bir cesetten sert bir sinir kesildi, iplik olarak kullanılabilir."
 
 #: lang/json/AMMO_from_json.py
 msgid "plant fiber"
@@ -90,16 +99,16 @@ msgstr "Yün ipliği, yün giyeceklerini örmek için kullanılabilir."
 
 #: lang/json/AMMO_from_json.py
 msgid "soap bar"
-msgstr ""
+msgstr "kalıp sabun"
 
 #. ~ Description for soap bar
 #: lang/json/AMMO_from_json.py
 msgid "A cleansing agent made into bars."
-msgstr ""
+msgstr "Kalıp haline getirilmiş bir temizleme maddesi."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "duct tape"
-msgstr ""
+msgstr "Koli Bandı"
 
 #. ~ Description for duct tape
 #: lang/json/AMMO_from_json.py
@@ -108,7 +117,7 @@ msgstr "Oldukça güçlü bir banttan oluşan bir rulo. Çoğu yerde kullanılab
 
 #: lang/json/AMMO_from_json.py
 msgid "rolling paper"
-msgstr ""
+msgstr "tuvalet kağıdı"
 
 #. ~ Description for rolling paper
 #: lang/json/AMMO_from_json.py
@@ -118,7 +127,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "copper wire"
-msgstr ""
+msgstr "Bakır tel"
 
 #. ~ Description for copper wire
 #: lang/json/AMMO_from_json.py
@@ -147,6 +156,8 @@ msgstr ""
 msgid ""
 "Highly radioactive slurry.  It is probably best to get far away from this."
 msgstr ""
+"Oldukça radyoaktif bir plütonyum bulamacı.Bundan uzak durmak muhtemelen en "
+"iyisi."
 
 #: lang/json/AMMO_from_json.py
 msgid "watery plutonium slurry"
@@ -154,7 +165,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "pebble"
-msgstr ""
+msgstr "çakıl"
 
 #. ~ Description for pebble
 #: lang/json/AMMO_from_json.py
@@ -187,16 +198,16 @@ msgstr ""
 #. ~ Description for BB
 #: lang/json/AMMO_from_json.py
 msgid "A box of small steel balls.  They deal virtually no damage."
-msgstr ""
+msgstr "Bir kutu küçük çelik top. Neredeyse hiç hasar vermiyorlar."
 
 #: lang/json/AMMO_from_json.py
 msgid "feather"
-msgstr ""
+msgstr "tüy"
 
 #. ~ Description for feather
 #: lang/json/AMMO_from_json.py
 msgid "Feathers from a bird.  Useful for fletching arrows."
-msgstr ""
+msgstr "Bir kuştan çıkarılan tüyler.Ok yapmak için kullanışlı."
 
 #: lang/json/AMMO_from_json.py
 msgid "down feather"
@@ -206,10 +217,11 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "Fluffy down feathers from a bird.  Useful for making cozy bedclothes."
 msgstr ""
+"Bir kuştan çıkarılan kabarık tüyler.Rahat yatak örtüleri için kullanışlı."
 
 #: lang/json/AMMO_from_json.py
 msgid "fusion pack"
-msgstr ""
+msgstr "Füzyon Paketi"
 
 #. ~ Description for fusion pack
 #: lang/json/AMMO_from_json.py
@@ -218,6 +230,9 @@ msgid ""
 "energy based weapons.  The result was the standard fusion pack, capable of "
 "delivering bolts of superheated gas at near light speed with no recoil."
 msgstr ""
+"21.Yüzyıl'ın ortalarında askeri güçler enerji tabanlı silahlara "
+"yöneldiler.Sonuç, aşırı ısınan gaz mermilerini geri tepme olmadan neredeyse "
+"ışık hızında fırlatabilen standart füzyon paketi oldu."
 
 #: lang/json/AMMO_from_json.py
 msgid "66mm HEAT"
@@ -229,6 +244,8 @@ msgid ""
 "A 60mm high-explosive anti-tank round.  It could blow through up to two feet"
 " of concrete."
 msgstr ""
+"60mm yüksek patlayıcılı anti-tank mermisi.İki feet genişliğinde bir duvarı "
+"patlatabilir"
 
 #: lang/json/AMMO_from_json.py
 msgid "120mm HEAT"
@@ -239,6 +256,8 @@ msgstr ""
 msgid ""
 "A 120mm high-explosive anti-tank round.  It could ruin anyone's whole day."
 msgstr ""
+"120mm yüksek patlayıcı anti-tank mermisi.Herhangi bir kimsenin gününü "
+"mahvedebilir"
 
 #: lang/json/AMMO_from_json.py
 msgid "hydrogen canister"
@@ -250,6 +269,8 @@ msgid ""
 "A canister of pressurized hydrogen so heavily compressed it has turned "
 "solid.  With proper equipment, it could be heated to plasma."
 msgstr ""
+"Bir basınçlı hidrojen tankı. İçindeki hidrojen çok ağır sıkılaşmadan dolayı "
+"katılaşmış. Doğru araç gereç ile plasma olana kadar ısıtılabilir."
 
 #: lang/json/AMMO_from_json.py
 msgid "unused .22 casing"
@@ -276,7 +297,7 @@ msgstr ""
 #. ~ Description for oxidizer powder
 #: lang/json/AMMO_from_json.py
 msgid "Volatile powdered chemical oxidizer."
-msgstr ""
+msgstr "Uçucu ve oksitleyici toz kimyasal"
 
 #: lang/json/AMMO_from_json.py
 msgid "lye powder"
@@ -285,7 +306,7 @@ msgstr ""
 #. ~ Description for lye powder
 #: lang/json/AMMO_from_json.py
 msgid "Powdered caustic soda."
-msgstr ""
+msgstr "Toz halindeki kostik soda."
 
 #: lang/json/AMMO_from_json.py
 msgid "shotgun primer"
@@ -294,7 +315,7 @@ msgstr ""
 #. ~ Description for shotgun primer
 #: lang/json/AMMO_from_json.py
 msgid "Primer from a shotgun shell."
-msgstr ""
+msgstr "Pompalı kovanından bir fünye."
 
 #: lang/json/AMMO_from_json.py
 msgid "small pistol primer"
@@ -303,7 +324,7 @@ msgstr ""
 #. ~ Description for small pistol primer
 #: lang/json/AMMO_from_json.py
 msgid "Primer from a small caliber pistol round."
-msgstr ""
+msgstr "Küçük bir tabanca mermisinde bulunan bir fünye"
 
 #: lang/json/AMMO_from_json.py
 msgid "large pistol primer"
@@ -1598,7 +1619,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "bootleg fusion pack"
-msgstr ""
+msgstr "Kaçak füzyon paketi"
 
 #. ~ Description for bootleg fusion pack
 #: lang/json/AMMO_from_json.py
@@ -1608,6 +1629,10 @@ msgid ""
 "delivering bolts of superheated gas at near light speed with no recoil.  "
 "This one has been hand-crafted from spare parts."
 msgstr ""
+"21.Yüzyıl'ın ortalarında askeri güçler enerji tabanlı silahlara "
+"yöneldiler.Sonuç, aşırı ısınan gaz mermilerini geri tepme olmadan neredeyse "
+"ışık hızında fırlatabilen standart füzyon paketi oldu.Bu el yapımı kopya ise"
+" yedek parçalar ile yapıldı."
 
 #: lang/json/AMMO_from_json.py
 msgid "H&K 12mm"
@@ -3112,6 +3137,8 @@ msgid ""
 "Weak shotgun ammunition.  Designed for hunting birds and other small game, "
 "its applications in combat are very limited."
 msgstr ""
+"Zayıf av tüfeği mühimmatı. Kuşları ve diğer küçük hayvanları avlamak için "
+"tasarlanmıştır, savaştaki kullanımı çok sınırlıdır."
 
 #: lang/json/AMMO_from_json.py
 msgid "flechette shell"
@@ -3804,7 +3831,7 @@ msgstr ""
 msgid ""
 "A handful of round projectiles made of clay, useful for slings or "
 "slingshots."
-msgstr ""
+msgstr "Kilden yapılmış bir avuç mermi, sapan için yararlı"
 
 #: lang/json/AMMO_from_json.py
 msgid "lead pellet"
@@ -9163,7 +9190,7 @@ msgstr[1] ""
 #. ~ Description for peacoat
 #: lang/json/ARMOR_from_json.py
 msgid "A heavy wool coat.  Cumbersome, but warm and with deep pockets."
-msgstr ""
+msgstr "Ağır bir yün ceket. Hantal, ama sıcak ve büyük cepleri var."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pearl collar"
@@ -10007,7 +10034,7 @@ msgstr[1] ""
 #. ~ Description for pair of socks
 #: lang/json/ARMOR_from_json.py
 msgid "Socks.  Put 'em on your feet."
-msgstr ""
+msgstr "Çoraplar. Ayağına giy."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of bag socks"
@@ -17351,6 +17378,8 @@ msgid ""
 "A potent wine flavored with pine resin.  Bold and pungent, its biting taste "
 "and strong aroma takes some getting used to."
 msgstr ""
+"Çam reçinesi ile tatlandırılmış güçlü bir şarap. Yoğun ve sert, keskin tadı "
+"ve güçlü aromasına alışmak biraz zaman alıyor."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "homebrew beer"
@@ -17760,6 +17789,8 @@ msgid ""
 "Unfermented pine wine.  A sticky mixture of water, sugar, yeast, and pine "
 "resins."
 msgstr ""
+"Fermente olmamış çam şarabı. Su, şeker, maya ve çamdan oluşan yapışkan bir "
+"karışım."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "beer wort"
@@ -18828,6 +18859,8 @@ msgid ""
 "A fragrant and healthy beverage made from pine needles steeped in boiling "
 "water."
 msgstr ""
+"Kaynayan suda demlenmiş çam iğneleri ile hazırlanan kokulu ve sağlıklı bir "
+"içecek."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "grape drink"
@@ -19376,6 +19409,7 @@ msgid ""
 "Italian-style ice cream.  Less airy, and more dense, giving it a richer "
 "flavor and texture."
 msgstr ""
+"İtalyan usulü dondurma.Az boşluklu ve daha yoğun, bu yüzden daha lezzetli"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cooked strawberry"
@@ -19386,7 +19420,7 @@ msgstr[1] ""
 #. ~ Description for cooked strawberry
 #: lang/json/COMESTIBLE_from_json.py
 msgid "It's like strawberry jam, only without sugar."
-msgstr ""
+msgstr "çilek reçeli gibi, sadece şekersizi"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fruit leather"
@@ -22091,6 +22125,7 @@ msgid ""
 "Marijuana, cannabis, pot.  Whatever you want to call it, it's rolled up in a"
 " piece of paper and ready for smokin'."
 msgstr ""
+"Ot,esrar,kenevir.Ne derseniz deyin bir kağıda sarıldı ve içilmeye hazır."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pink tablet"
@@ -23962,7 +23997,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "protein drink"
-msgstr ""
+msgstr "Protein içeceği"
 
 #. ~ Description for protein drink
 #: lang/json/COMESTIBLE_from_json.py
@@ -23983,6 +24018,8 @@ msgid ""
 "Raw, refined protein.  While quite nutritious, it is impossible to enjoy in "
 "its pure form, try adding water."
 msgstr ""
+"Çiğ, rafine protein.Besleyici ancak saf halinde zevk içinde tüketmek "
+"imkansiz, biraz su eklemeyi dene."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "protein shake"
@@ -24008,7 +24045,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "apple"
-msgstr ""
+msgstr "Elma"
 
 #. ~ Description for apple
 #: lang/json/COMESTIBLE_from_json.py
@@ -24017,7 +24054,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "banana"
-msgstr ""
+msgstr "Muz"
 
 #. ~ Description for banana
 #: lang/json/COMESTIBLE_from_json.py
@@ -24028,21 +24065,21 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "orange"
-msgstr ""
+msgstr "Portakal"
 
 #. ~ Description for orange
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Sweet citrus fruit.  Also comes in juice form."
-msgstr ""
+msgstr "Tatlı narenciye meyvesi.Ayrıca meyve formunda."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "lemon"
-msgstr ""
+msgstr "Limon"
 
 #. ~ Description for lemon
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Very sour citrus.  Can be eaten if you really want."
-msgstr ""
+msgstr "Çok acı narenciye.Gercekten istiyorsan yenilebilinir"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "handful of blueberries"
@@ -24053,7 +24090,7 @@ msgstr[1] ""
 #. ~ Description for handful of blueberries
 #: lang/json/COMESTIBLE_from_json.py
 msgid "They're blue, but that doesn't mean they're sad."
-msgstr ""
+msgstr "Maviler ancak bu üzgün oldukları anlamına gelmiyor"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "handful of strawberries"
@@ -24064,7 +24101,7 @@ msgstr[1] ""
 #. ~ Description for handful of strawberries
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Tasty, juicy berry.  Often found growing wild in fields."
-msgstr ""
+msgstr "Tatlı, sulu böğürtlen, çoğunlukla yabani arsalarda bulunur."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "handful of cranberries"
@@ -24147,16 +24184,16 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pear"
-msgstr ""
+msgstr "Armut"
 
 #. ~ Description for pear
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A juicy, bell-shaped pear.  Yum!"
-msgstr ""
+msgstr "Sulu, çan şeklinde armut."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "grapefruit"
-msgstr ""
+msgstr "greyfurt"
 
 #. ~ Description for grapefruit
 #: lang/json/COMESTIBLE_from_json.py
@@ -24172,7 +24209,7 @@ msgstr[1] ""
 #. ~ Description for handful of cherries
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A red, sweet fruit that grows in trees."
-msgstr ""
+msgstr "Ağaçta büyüyen kırmızı tatlı meyveler"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "plum"
@@ -25235,10 +25272,12 @@ msgid ""
 "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or "
 "eaten raw."
 msgstr ""
+"Kenevir bitkisinin tohumları. Vitaminler ile dolu,pişirilebilir veya çiğ "
+"yenilebilir"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cannabis"
-msgstr ""
+msgstr "kenevir"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "marloss seed"
@@ -26043,7 +26082,7 @@ msgstr ""
 #. ~ Description for pesto
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Olive oil, basil, garlic, pine nuts.  Simple and delicious."
-msgstr ""
+msgstr "Zeytin yağı,reyhan,sarımsak, çam fıstığı. Basit ve leziz."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "canned veggy"
@@ -29898,6 +29937,7 @@ msgid ""
 "A branch from a pine tree, oozing sticky sap and bristling with prickly "
 "needles."
 msgstr ""
+"Bir çam ağacından alınmış dal,yapışkan öz suyu ve dikenli iğneleri var."
 
 #: lang/json/GENERIC_from_json.py
 msgid "pinecone"
@@ -29911,6 +29951,7 @@ msgid ""
 "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake"
 " it."
 msgstr ""
+"Çam ağacının tohum zarfı,Kuru tohumları sen onu salladığında takırdıyor."
 
 #: lang/json/GENERIC_from_json.py
 msgid "poppy flower"
@@ -30877,6 +30918,8 @@ msgid ""
 "A rock the size of a baseball.  Makes a decent melee weapon, and is also "
 "good for throwing at enemies."
 msgstr ""
+"Beyzbol sopası boyutunda bir taş.Fena olmayan bir yakın dövüş silahı ve "
+"düşmanlara atmak için de iyi"
 
 #: lang/json/GENERIC_from_json.py
 msgid "sharp rock"
@@ -37988,7 +38031,7 @@ msgstr[1] ""
 #. ~ Description for AI core
 #: lang/json/GENERIC_from_json.py
 msgid "A computer module for controlling robots."
-msgstr ""
+msgstr "Robotları kontrol etmek için bir bilgisayar modulü"
 
 #: lang/json/GENERIC_from_json.py
 msgid "surgery module"
@@ -43693,6 +43736,9 @@ msgid ""
 "the branches of trees.  A skittish varmint with an expression of unwavering "
 "austerity, it is the mortal enemy of cat and dog alike."
 msgstr ""
+"Uzun, gür bir kuyruğu olan, genellikle ağaçların dalları arasında fırlayan "
+"küçük, etçil bir kemirgen. Sarsılmaz bir kemer sıkma ifadesi olan ürkek bir "
+"haşere, hem kedinin hem de köpeğin ölümcül düşmanıdır. "
 
 #. ~ Description for squirrel
 #: lang/json/MONSTER_from_json.py
@@ -43701,6 +43747,9 @@ msgid ""
 "clever and cute, and hunted by nearly everything in the woods with a taste "
 "for meat."
 msgstr ""
+"Fırça gibi bir kuyruğa sahip fırsatçı bir kemirgen.Çam sincabı akıllı ve "
+"sevimlidir,ve ormandaki neredyse herşey tarafından etinin tadı yüzünden "
+"avlanır."
 
 #: lang/json/MONSTER_from_json.py
 msgid "weasel"
@@ -56114,7 +56163,7 @@ msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "nails"
-msgstr "Çiviler"
+msgstr "çivi"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "BBs"
@@ -56130,7 +56179,7 @@ msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "pebbles"
-msgstr "çakıl taşları"
+msgstr "çakıl taşı"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "shot"
@@ -56233,11 +56282,11 @@ msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "batteries"
-msgstr "Piller"
+msgstr "pil"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "cents"
-msgstr "kuruşlar"
+msgstr "cent"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "plutonium"
@@ -58092,7 +58141,7 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Pine Lean-To"
-msgstr ""
+msgstr "Çama yaslı sığınak inşa et."
 
 #: lang/json/construction_from_json.py
 msgid "Build Tarp Lean-To"
@@ -61714,7 +61763,7 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "indoor plant"
-msgstr ""
+msgstr "Kış tatilleri için süslerle çevrilmiş dekoratif bir çam ağacı."
 
 #. ~ Description for indoor plant
 #: lang/json/furniture_from_json.py
@@ -72820,7 +72869,7 @@ msgstr ""
 #. ~ Computer option
 #: lang/json/mapgen_from_json.py
 msgid "Open Vault"
-msgstr ""
+msgstr "Kasayı aç"
 
 #. ~ Computer name
 #: lang/json/mapgen_from_json.py
@@ -72840,7 +72889,7 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "<city> Cemetery"
-msgstr ""
+msgstr "Mezarlık"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
@@ -72855,12 +72904,12 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "May <given_name> and their family rest in peace"
-msgstr ""
+msgstr "<given_name> ve ailesi huzur içinde yatsın"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "<family_name> Family Cemetery"
-msgstr ""
+msgstr "<family_name> Aile mezarlığı"
 
 #. ~ Computer name
 #: lang/json/mapgen_from_json.py
@@ -72870,7 +72919,7 @@ msgstr ""
 #. ~ Computer option
 #: lang/json/mapgen_from_json.py
 msgid "Gathering Toll"
-msgstr ""
+msgstr "Toplanma çagrısı"
 
 #. ~ Computer option
 #: lang/json/mapgen_from_json.py
@@ -72890,7 +72939,7 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "OPEN 24/7!"
-msgstr ""
+msgstr "7/24 AÇIK!"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
@@ -72930,7 +72979,7 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "PINE"
-msgstr ""
+msgstr "Çam"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
@@ -72950,7 +72999,7 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "OAK"
-msgstr ""
+msgstr "Meşe"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
@@ -72965,12 +73014,12 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "CACTUS"
-msgstr ""
+msgstr "Kaktüs"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "DANDELION"
-msgstr ""
+msgstr "Papatya"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
@@ -72980,7 +73029,7 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "PEAR"
-msgstr ""
+msgstr "Armut"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
@@ -76485,7 +76534,7 @@ msgstr ""
 
 #: lang/json/mission_def_from_json.py
 msgid "Gather 6 First Aid Kits"
-msgstr ""
+msgstr "6 ilk yardım kiti topla"
 
 #: lang/json/mission_def_from_json.py
 msgid ""
@@ -76934,6 +76983,11 @@ msgid ""
 "would be the first step I imagine.  Bring me 5 gallon jugs of bleach so we "
 "can get started."
 msgstr ""
+"Hastalık ve enfeksiyon mülteciler arasında inatçı bir problem olarak "
+"kaldı.Sağlık personeli ve kurumları olmadan herhangi birinin buralarda "
+"kalacağından şüpheliyim.Biz eski bir sağlıkçı veya hemşire bulana kadar "
+"idare edeceğim.Sterilizasyon da ilk adım olmalı.Bana 5 galon çamaşır suyu "
+"getir böylece başlayabiliriz"
 
 #: lang/json/mission_def_from_json.py
 msgid "I'm sure you can find bleach in most homes..."
@@ -76944,10 +76998,12 @@ msgid ""
 "If you can't find a large supply I'd recommend checking hospitals or "
 "research labs."
 msgstr ""
+"Eğer çok bulamazsan sana önerim hastahanelere ve araştırma laboratuvarlarına"
+" bakman"
 
 #: lang/json/mission_def_from_json.py
 msgid "Do you have the bleach?"
-msgstr ""
+msgstr "Çamaşır suyun var mı"
 
 #: lang/json/mission_def_from_json.py
 msgid "Collect 100 Aspirin"
@@ -85375,7 +85431,7 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "tutorial room"
-msgstr ""
+msgstr "öğretici odası"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "mall - loading bay"
@@ -96142,7 +96198,7 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "\"DINT ATE THE MUSHROM\""
-msgstr ""
+msgstr "\"SUKUN MONTORU YİMİYİN\""
 
 #: lang/json/snippet_from_json.py
 msgid "\"Libraries are useless after the apocalypse.\""
@@ -97001,7 +97057,7 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "\"mycus must grow\""
-msgstr ""
+msgstr "\"mycus büyümeli\""
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -109053,9 +109109,9 @@ msgstr ""
 msgid ""
 "Huh.  Hadn't thought about it in ages, but now that you mention it, that was"
 " a weird job.  It was just a boarded up warehouse in the middle of nowhere, "
-"and I was not a cheap contractor in those days.  Coulda got any fat "
-"rent-a-cop to watch it.  I had only just started working there when the shit"
-" hit the fan, and I kinda forgot about that to be honest."
+"and I was not a cheap contractor in those days.  Coulda got any fat rent-a-"
+"cop to watch it.  I had only just started working there when the shit hit "
+"the fan, and I kinda forgot about that to be honest."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -113249,7 +113305,7 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "pine tree"
-msgstr ""
+msgstr "çam ağacı"
 
 #. ~ Description for pine tree
 #: lang/json/terrain_from_json.py
@@ -113260,10 +113316,14 @@ msgid ""
 "and unharvested pinecones.  Also, you could cut it down with the right "
 "tools."
 msgstr ""
+"Pinus cinsine ait iğne yapraklı bir ağaç,New England'da bulunan çeşitli "
+"türleri 'P. strobus','P. resinosa' ve 'P.rigida' dır.Eğer daha dikkatli "
+"incelersen bazı kullanışlı kıvrımlı yapraklar vetoplanmamış kozalaklar "
+"bulabilirsin.Ayrıca doğru alete sahipsen kesebilirsin de."
 
 #: lang/json/terrain_from_json.py
 msgid "dead pine tree"
-msgstr ""
+msgstr "ölü çam ağacı"
 
 #. ~ Description for dead pine tree
 #: lang/json/terrain_from_json.py
@@ -114333,7 +114393,7 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "pine lean-to"
-msgstr ""
+msgstr "çama yaslı sığınak"
 
 #: lang/json/terrain_from_json.py
 msgid "tarp lean-to"
@@ -125891,16 +125951,16 @@ msgstr ""
 
 #: src/descriptions.cpp
 msgid "You could harvest the following things from it:"
-msgstr ""
+msgstr "Bundan şunları çıkarabilirsiniz:"
 
 #: src/dialogue_win.cpp
 #, c-format
 msgid "Dialogue: %s"
-msgstr ""
+msgstr "Diyalog: %s"
 
 #: src/dialogue_win.cpp
 msgid "Your response:"
-msgstr ""
+msgstr "Cevabın:"
 
 #: src/dialogue_win.cpp
 msgid "Shift+L: Look at"
@@ -130864,15 +130924,15 @@ msgstr ""
 
 #: src/game.cpp
 msgid "day"
-msgstr ""
+msgstr "gün"
 
 #: src/game.cpp
 msgid "hour"
-msgstr ""
+msgstr "saat"
 
 #: src/game.cpp
 msgid "minute"
-msgstr ""
+msgstr "dakika"
 
 #: src/game.cpp src/martialarts.cpp src/martialarts.cpp
 msgid "turn"
@@ -130882,7 +130942,7 @@ msgstr[1] ""
 
 #: src/game.cpp
 msgid "Set year to?"
-msgstr ""
+msgstr "Yıl kaç olsun?"
 
 #: src/game.cpp
 msgid "Set season to? (0 = spring)"
@@ -132866,7 +132926,7 @@ msgstr ""
 
 #: src/game.cpp
 msgid "Saving game, this may take a while"
-msgstr ""
+msgstr "Oyun kaydediliyor,bu biraz zaman alabilir"
 
 #: src/game.cpp
 #, c-format
@@ -134116,7 +134176,7 @@ msgstr ""
 #: src/iexamine.cpp
 #, c-format
 msgid "Money left: %s"
-msgstr ""
+msgstr "Kalan Para: %s"
 
 #: src/iexamine.cpp
 msgid "That item is too expensive!"
@@ -134128,11 +134188,11 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "This toilet is empty."
-msgstr ""
+msgstr "Bu tuvalet boş."
 
 #: src/iexamine.cpp
 msgid "The toilet water is frozen solid!"
-msgstr ""
+msgstr "Tuvalet suyu donmuş bir katı!"
 
 #: src/iexamine.cpp
 msgid "Swipe your ID card?"
@@ -135970,7 +136030,7 @@ msgstr ""
 #: src/item.cpp
 msgctxt "color"
 msgid "orange"
-msgstr ""
+msgstr "Portakal"
 
 #: src/item.cpp
 msgid "black"
@@ -141017,10 +141077,6 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "You should read your %s when you get to the surface."
-msgstr ""
-
-#: src/iuse_actor.cpp
-msgid "It's too dark to read."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -150549,7 +150605,7 @@ msgstr ""
 
 #: src/options.cpp
 msgid "Software rendering"
-msgstr ""
+msgstr "Software rendering"
 
 #: src/options.cpp
 msgid ""
@@ -150601,26 +150657,6 @@ msgstr ""
 #. ~ An algorithm for image scaling.
 #: src/options.cpp
 msgid "Linear filtering"
-msgstr ""
-
-#: src/options.cpp
-msgid "Scaling factor"
-msgstr ""
-
-#: src/options.cpp
-msgid "Factor by which to scale the display. Requires restart."
-msgstr ""
-
-#: src/options.cpp
-msgid "1x"
-msgstr ""
-
-#: src/options.cpp
-msgid "2x"
-msgstr ""
-
-#: src/options.cpp
-msgid "4x"
 msgstr ""
 
 #: src/options.cpp
@@ -151137,8 +151173,8 @@ msgstr ""
 #: src/options.cpp
 msgid ""
 "While touching the screen, wait this long before showing the virtual "
-"joystick and repeating input, in milliseconds. Also used to determine tap"
-"/double-tap detection, flick detection and toggling quick shortcuts."
+"joystick and repeating input, in milliseconds. Also used to determine "
+"tap/double-tap detection, flick detection and toggling quick shortcuts."
 msgstr ""
 
 #: src/options.cpp
@@ -158747,21 +158783,21 @@ msgstr ""
 
 #: src/wish.cpp
 msgid "Becomes:"
-msgstr ""
+msgstr "Olur:"
 
 #: src/wish.cpp
 msgid "Add-ons:"
-msgstr ""
+msgstr "Eklentiler:"
 
 #: src/wish.cpp
 msgid "Category:"
-msgstr ""
+msgstr "Kategory:"
 
 #. ~ pts: points, vis: visibility, ugly: ugliness
 #: src/wish.cpp
 #, c-format
 msgid "pts: %d vis: %d ugly: %d"
-msgstr ""
+msgstr "puan: %d görünürlük: %d çirkinlik: %d"
 
 #: src/wish.cpp
 #, c-format
@@ -158771,11 +158807,11 @@ msgstr ""
 #: src/wish.cpp
 #, c-format
 msgid "%s Mutation changes: %d"
-msgstr ""
+msgstr "%s Mutasyon şansı: %d"
 
 #: src/wish.cpp
 msgid " (hallucination)"
-msgstr ""
+msgstr "(halüsinasyon)"
 
 #: src/wish.cpp
 #, c-format
@@ -158783,6 +158819,8 @@ msgid ""
 "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, "
 "[%s] quit"
 msgstr ""
+"[%s] bul, [f] arkadaş canlısı, [h] halüsinasyon, [i] grup büyüklüğünü artır,"
+" [d] grup büyüklüğünü azalt, [%s] quit"
 
 #: src/wish.cpp
 #, c-format
@@ -158791,15 +158829,15 @@ msgstr ""
 
 #: src/wish.cpp
 msgid "Add which flag?  Use UPPERCASE letters without quotes"
-msgstr ""
+msgstr "Hangi bayrağı ekle? Tırnak işareti olmadan BÜYÜK HARFLERİ kullan"
 
 #: src/wish.cpp
 msgid " (contained)"
-msgstr ""
+msgstr "(barındırıldı)"
 
 #: src/wish.cpp
 msgid " (flagged)"
-msgstr ""
+msgstr "(bayraklandı)"
 
 #: src/wish.cpp
 #, c-format
@@ -158813,7 +158851,7 @@ msgstr ""
 
 #: src/wish.cpp
 msgid "How many?"
-msgstr ""
+msgstr "Kaç tane?"
 
 #: src/wish.cpp
 #, c-format
@@ -158822,7 +158860,7 @@ msgstr ""
 
 #: src/wish.cpp
 msgid "Select a skill to modify"
-msgstr ""
+msgstr "Değiştirmek istediğin yeteneği seç"
 
 #: src/wish.cpp
 msgid "Modify all skills..."
@@ -158831,7 +158869,7 @@ msgstr ""
 #: src/wish.cpp
 #, c-format
 msgid "@ %d: %s  "
-msgstr ""
+msgstr "@ %d: %s  "
 
 #: src/wish.cpp
 #, c-format
@@ -158840,69 +158878,69 @@ msgstr ""
 
 #: src/wish.cpp
 msgid " (current)"
-msgstr ""
+msgstr "(mevcut)"
 
 #: src/wish.cpp
 #, c-format
 msgid "%s set to %d             "
-msgstr ""
+msgstr "%s'i %d'e ayarla"
 
 #: src/wish.cpp
 msgid "Alter all skill values"
-msgstr ""
+msgstr "Tüm beceri değerlerini değiştirin"
 
 #: src/wish.cpp
 msgid "Add 1"
-msgstr ""
+msgstr "1 ekle"
 
 #: src/wish.cpp
 msgid "Add 3"
-msgstr ""
+msgstr "3 ekle"
 
 #: src/wish.cpp
 msgid "Set to 0"
-msgstr ""
+msgstr "0'a ayarla"
 
 #: src/wish.cpp
 msgid "Subtract 1"
-msgstr ""
+msgstr "1 çıkar"
 
 #: src/wish.cpp
 msgid "Subtract 3"
-msgstr ""
+msgstr "3 çıkar"
 
 #: src/wish.cpp
 msgid "(Reset changes)"
-msgstr ""
+msgstr "(Değişiklikleri sıfırla)"
 
 #: src/wish.cpp
 msgid "Set to 10"
-msgstr ""
+msgstr "10'a ayarla"
 
 #: src/wish.cpp
 msgid "Set to 5"
-msgstr ""
+msgstr "5'e ayarla"
 
 #: src/worldfactory.cpp
 msgid "Do you want to abort World Generation?"
-msgstr ""
+msgstr "Dünya Oluşumunu iptal etmek istediğinizden emin misiniz?"
 
 #: src/worldfactory.cpp
 msgid "world data"
-msgstr ""
+msgstr "dünya verisi"
 
 #: src/worldfactory.cpp
 msgid " WORLD SELECTION "
-msgstr ""
+msgstr "DÜNYA SEÇİMİ"
 
 #: src/worldfactory.cpp
 #, c-format
 msgid "Page %lu"
-msgstr ""
+msgstr "Sayfa %lu"
 
 #: src/worldfactory.cpp
 msgid "Pick a world to enter game"
-msgstr ""
+msgstr "Oyuna girmek için bir dünya seç"
 
 #: src/worldfactory.cpp
 #, c-format
@@ -158911,27 +158949,27 @@ msgstr ""
 
 #: src/worldfactory.cpp
 msgid " ACTIVE WORLD MODS "
-msgstr ""
+msgstr "AKTİF DÜNYA MODLARI"
 
 #: src/worldfactory.cpp
 msgid "--NO ACTIVE MODS--"
-msgstr ""
+msgstr "--AKTİF MOD YOK--"
 
 #: src/worldfactory.cpp
 msgid "Switch to other list"
-msgstr ""
+msgstr "Diğer listeye geç"
 
 #: src/worldfactory.cpp
 msgid "Activate / deactivate mod"
-msgstr ""
+msgstr "Modu etkinleştir / devre dışı bırak"
 
 #: src/worldfactory.cpp
 msgid "Mod List"
-msgstr ""
+msgstr "Mod Listesi"
 
 #: src/worldfactory.cpp
 msgid "Mod Load Order"
-msgstr ""
+msgstr "Mod Yükleme sırası"
 
 #: src/worldfactory.cpp
 #, c-format
@@ -158940,7 +158978,7 @@ msgstr ""
 
 #: src/worldfactory.cpp
 msgid "--NO AVAILABLE MODS--"
-msgstr ""
+msgstr "--MEVCUT MOD YOK--"
 
 #: src/worldfactory.cpp
 msgid "Can't add mod. This mod requires Lua support."
@@ -158948,16 +158986,16 @@ msgstr ""
 
 #: src/worldfactory.cpp
 msgid "Saved list of active mods as default"
-msgstr ""
+msgstr "Aktif modları varsayılan olarak kaydet."
 
 #: src/worldfactory.cpp
 msgid "World Name:"
-msgstr ""
+msgstr "Dünya ismi:"
 
 #: src/worldfactory.cpp
 #, c-format
 msgid "Press <color_yellow>%s</color> to pick a random name for your world."
-msgstr ""
+msgstr "Dünyanıza rastgele bir isim vermek için <color_yellow>%s</color>basın"
 
 #: src/worldfactory.cpp
 #, c-format
@@ -158974,11 +159012,11 @@ msgstr ""
 
 #: src/worldfactory.cpp
 msgid "________NO NAME ENTERED!________"
-msgstr ""
+msgstr "________İSİM GİRİLMEMİŞ!________"
 
 #: src/worldfactory.cpp
 msgid "Are you SURE you're finished? World name will be randomly generated."
-msgstr ""
+msgstr "Bittiğinden EMİN misin? Dünya adı rastgele oluşturulacak."
 
 #: src/worldfactory.cpp
 #, c-format
@@ -158989,22 +159027,22 @@ msgstr ""
 
 #: src/worldfactory.cpp
 msgid "World Mods"
-msgstr ""
+msgstr "Dünya Modları"
 
 #: src/worldfactory.cpp
 msgid "World Options"
-msgstr ""
+msgstr "Dünya ayarları"
 
 #: src/worldfactory.cpp
 msgid "Finalize World"
-msgstr ""
+msgstr "Dünyayı Sonuçlandır"
 
 #: src/worldfactory.cpp
 #, c-format
 msgid "%s is a reserved name!"
-msgstr ""
+msgstr "%s rezerve bir isim!"
 
 #: src/worldfactory.cpp
 #, c-format
 msgid "A world named %s already exists!"
-msgstr ""
+msgstr "%s isimli dünya zaten var!"
