@@ -79,6 +79,7 @@
         [ "ant_egg", 1 ],
         [ "spider_egg", 4 ],
         [ "egg_roach", 4 ],
+        [ "egg_roach_plague", 4 ],
         [ "egg_locust", 4 ],
         [ "egg_dragonfly", 4 ],
         [ "egg_firefly", 4 ],
