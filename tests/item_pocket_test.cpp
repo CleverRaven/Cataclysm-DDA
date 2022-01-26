@@ -1194,6 +1194,18 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     }
 }
 
+// Pocket favorites
+// ----------------
+// Item pockets can be configured to only allow certain items automatically.
+// The rules defined are also known as pocket autopickup rules.
+//
+// Functions:
+// item_pocket::favorite_settings::accepts_item
+// item_pocket::favorite_settings::blacklist_item
+// item_pocket::favorite_settings::whitelist_item
+// item_pocket::favorite_settings::get_item_whitelist
+// item_pocket::favorite_settings::get_item_blacklist
+//
 TEST_CASE( "pocket favorites allow or restrict items", "[pocket][favorite][item]" )
 {
     item_location loc;

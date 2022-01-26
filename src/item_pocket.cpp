@@ -2063,6 +2063,14 @@ void item_pocket::favorite_settings::clear_category( const item_category_id &id 
     category_whitelist.erase( id );
 }
 
+/**
+ * Check to see if the given container is accepted by this pocket based on player configured rules.
+ * In order for a container to be accepted all items contained inside must be accepted.
+ *
+ * @param container item container to check.
+ * @return true if the container is accepted by this pocket, false otherwise.
+ * @see item_pocket::favorite_settings::accepts_item(const item&)
+ */
 bool item_pocket::favorite_settings::accepts_container( const item &container ) const
 {
     std::list<const item *>::const_iterator iter;
@@ -2076,6 +2084,24 @@ bool item_pocket::favorite_settings::accepts_container( const item &container ) 
     return true;
 }
 
+/**
+ * Check to see if the given item is accepted by this pocket based on player configured rules.
+ *
+ * The rules are defined in two list:
+ *
+ * - whitelist - when one or more items are on the list then only those items are accepted.
+ * - blacklist - those items listed here are never accepted.
+ *
+ * When a whitelist is empty and the item is not blacklisted then it will be accepted.
+ * Container items will be accepted only when all items inside are accepted.
+ *
+ * Note that the rules take into account both item id and category which have
+ * to be accepted by the rules outlined above for an item to be accepted.
+ *
+ * @param it item to check.
+ * @return true if the item is accepted by this pocket, false otherwise.
+ * @see item_pocket::favorite_settings::accepts_container(const item&)
+ */
 bool item_pocket::favorite_settings::accepts_item( const item &it ) const
 {
     // if this pocket is disabled it accepts nothing
@@ -2085,7 +2111,7 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
     const itype_id &id = it.typeId();
     const item_category_id &cat = it.get_category_of_contents().id;
 
-    // If the item is explicitly listed in either of the lists, then it's clear what to do with it
+    // if the item is explicitly listed in either of the lists, then it's clear what to do with it
     if( item_blacklist.count( id ) ) {
         return false;
     }
@@ -2101,22 +2127,22 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
         return true;
     }
 
-    // Finally, if no match was found, see if there were any filters at all,
     // when the item is container then we are actually checking if pocket accepts
     // container content and not the container itself unless container is blacklisted
     if( it.is_container() && !it.empty_container() ) {
         return accepts_container( it );
     }
 
+    // finally, if no match was found, see if there were any filters at all,
     // and either allow or deny everything that's fallen through to here.
     if( !category_whitelist.empty() ) {
         return false;  // we've whitelisted only some categories, and this item is not out of those.
     }
     if( !item_whitelist.empty() && category_blacklist.empty() ) {
-        // Whitelisting only certain items, and not as a means to tweak blacklist.
+        // whitelisting only certain items, and not as a means to tweak blacklist.
         return false;
     }
-    // No whitelist - everything goes.
+    // no whitelist - everything goes.
     return true;
 }
 
