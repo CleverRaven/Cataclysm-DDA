@@ -1352,11 +1352,11 @@
   {
     "type": "construction_group",
     "id": "build_training_dummy_light",
-    "name": "Build Training Dummy"
+    "name": "Install Training Dummy"
   },
   {
     "type": "construction_group",
     "id": "build_training_dummy_heavy",
-    "name": "Build Armored Training Dummy"
+    "name": "Install Armored Training Dummy"
   }
 ]
