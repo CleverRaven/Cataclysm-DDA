@@ -70,7 +70,7 @@
     "id": "forage_winter",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [  ]
+    "entries": [ { "item": "wintergreen_berry", "prob": 2, "count-min": 1, "count-max": 3 } ]
   },
   {
     "id": "forage_mushroom",
