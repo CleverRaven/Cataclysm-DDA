@@ -57,6 +57,7 @@ json_formatter
 *.suo
 *.user
 *.vcxproj.filters
+*.lastbuildstate
 .vs/
 .vscode/
 Debug*/
@@ -79,6 +80,7 @@ Cataclysm.exe.lastcodeanalysissucceeded
 
 # Visual Studio 2019
 **/enc_temp_folder/*
+unsuccessfulbuild
 
 #vcpkg
 /msvc-full-features/vcpkg_installed
