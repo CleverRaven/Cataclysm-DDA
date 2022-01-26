@@ -5086,17 +5086,19 @@
     "flags": [ "BLIND_EASY" ],
     "components": [
       [
+        [ "hard_liquor_unmixed", 1, "LIST" ],
+        [ "brandy", 1 ],
+        [ "canadian_whiskey", 1 ],
+        [ "cheap_whiskey", 1 ],
         [ "gin", 1 ],
+        [ "moonshine", 1 ],
         [ "rum", 1 ],
         [ "single_malt_whiskey", 1 ],
-        [ "cheap_whiskey", 1 ],
-        [ "canadian_whiskey", 1 ],
         [ "single_pot_whiskey", 1 ],
         [ "tequila", 1 ],
         [ "triple_sec", 1 ],
         [ "vodka", 1 ],
-        [ "whiskey", 1 ],
-        [ "brandy", 1 ]
+        [ "whiskey", 1 ]
       ]
     ]
   },
@@ -5111,21 +5113,7 @@
     "charges": 1,
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
-    "components": [
-      [
-        [ "beer", 1 ],
-        [ "belgian_ale", 1 ],
-        [ "drink_beeknees", 1 ],
-        [ "drink_hard_seltzer", 1 ],
-        [ "european_pilsner", 1 ],
-        [ "hb_beer", 1 ],
-        [ "hb_seltzer", 1 ],
-        [ "india_pale_ale", 1 ],
-        [ "wine_barley", 1 ],
-        [ "pale_ale", 1 ],
-        [ "stout", 1 ]
-      ]
-    ]
+    "components": [ [ [ "weak_liquor_unmixed", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
