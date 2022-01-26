@@ -531,7 +531,8 @@ static PointSet sun_positions_regular( time_point start, time_point end, time_du
         REQUIRE( azimuth <= 360_degrees );
         REQUIRE( altitude >= 0_degrees );
         REQUIRE( altitude <= 90_degrees );
-        plot_points.emplace( azimuth / 4_degrees, altitude / 3_degrees );
+        plot_points.emplace( static_cast<int>( azimuth / 4_degrees ),
+                             static_cast<int>( altitude / 3_degrees ) );
     }
 
     return plot_points;

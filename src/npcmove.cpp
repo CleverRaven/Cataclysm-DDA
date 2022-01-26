@@ -2241,7 +2241,8 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 
 bool npc::can_open_door( const tripoint &p, const bool inside ) const
 {
-    return !rules.has_flag( ally_rule::avoid_doors ) && get_map().open_door( p, inside, true );
+    return !is_hallucination() && !rules.has_flag( ally_rule::avoid_doors ) &&
+           get_map().open_door( p, inside, true );
 }
 
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
@@ -4190,20 +4191,28 @@ void npc::set_omt_destination()
 
     std::string dest_type;
     for( const auto &fulfill : needs ) {
-        // look for the closest occurrence of any of that locations terrain types
-        omt_find_params find_params;
-        for( const oter_type_str_id &elem : get_location_for( fulfill )->get_all_terrains() ) {
-            std::pair<std::string, ot_match_type> temp_pair;
-            temp_pair.first = elem.str();
-            temp_pair.second = ot_match_type::type;
-            find_params.types.push_back( temp_pair );
+        auto cache_iter = goal_cache.find( fulfill );
+        if( cache_iter != goal_cache.end() && cache_iter->second.omt_loc == surface_omt_loc ) {
+            goal = cache_iter->second.goal;
+        } else {
+            // look for the closest occurrence of any of that locations terrain types
+            omt_find_params find_params;
+            for( const oter_type_str_id &elem : get_location_for( fulfill )->get_all_terrains() ) {
+                std::pair<std::string, ot_match_type> temp_pair;
+                temp_pair.first = elem.str();
+                temp_pair.second = ot_match_type::type;
+                find_params.types.push_back( temp_pair );
+            }
+            // note: no shuffle of `find_params.types` is needed, because `find_closest`
+            // disregards `types` order anyway, and already returns random result among
+            // those having equal minimal distance
+            find_params.search_range = 75;
+            find_params.existing_only = false;
+            goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
+            npc_need_goal_cache &cache = goal_cache[fulfill];
+            cache.goal = goal;
+            cache.omt_loc = surface_omt_loc;
         }
-        // note: no shuffle of `find_params.types` is needed, because `find_closest`
-        // disregards `types` order anyway, and already returns random result among
-        // those having equal minimal distance
-        find_params.search_range = 75;
-        find_params.existing_only = false;
-        goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
         omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
             omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );

@@ -36,6 +36,11 @@
   },
   {
     "type": "item_action",
+    "id": "CROWBAR_WEAK",
+    "name": { "str": "Pry crate or nails" }
+  },
+  {
+    "type": "item_action",
     "id": "CROWBAR",
     "name": { "str": "Pry crate, window, door or nails" }
   },
@@ -471,6 +476,16 @@
   },
   {
     "type": "item_action",
+    "id": "EMF_PASSIVE_OFF",
+    "name": { "str": "Turn on" }
+  },
+  {
+    "type": "item_action",
+    "id": "EMF_PASSIVE_ON",
+    "name": { "str": "Turn off" }
+  },
+  {
+    "type": "item_action",
     "id": "EXTINGUISHER",
     "name": { "str": "Spray" }
   },
@@ -828,6 +843,11 @@
     "type": "item_action",
     "id": "REMOTEVEH",
     "name": { "str": "Control a vehicle" }
+  },
+  {
+    "type": "item_action",
+    "id": "MANAGE_EXOSUIT",
+    "name": { "str": "Manage exoskeleton modules" }
   },
   {
     "type": "item_action",

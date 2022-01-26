@@ -83,5 +83,12 @@
     "name": "Swimming",
     "affected_by_wounds": true,
     "affected_by_encumb": true
+  },
+  {
+    "type": "limb_score",
+    "id": "crawl",
+    "name": "Crawling",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
   }
 ]

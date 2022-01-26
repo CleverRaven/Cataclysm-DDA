@@ -742,6 +742,18 @@
     "using": [ [ "tailoring_wool_knitting", 40 ] ]
   },
   {
+    "result": "xlsocks_wool",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "time": "2 h 24 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
+    "using": [ [ "tailoring_wool_knitting", 80 ] ]
+  },
+  {
     "result": "socks_ankle",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

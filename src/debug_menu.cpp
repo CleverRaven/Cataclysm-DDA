@@ -42,6 +42,7 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
+#include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "effect_source.h"
@@ -86,7 +87,6 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h" // IWYU pragma: keep
-#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"
@@ -334,8 +334,8 @@ static int game_uilist()
         { uilist_entry( debug_menu_index::ENABLE_ACHIEVEMENTS, true, 'a', _( "Enable achievements" ) ) },
         { uilist_entry( debug_menu_index::SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
         { uilist_entry( debug_menu_index::CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
-        { uilist_entry( debug_menu_index::QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
         { uilist_entry( debug_menu_index::ACTIVATE_EOC, true, 'E', _( "Activate EOC" ) ) },
+        { uilist_entry( debug_menu_index::QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
     };
 
     return uilist( _( "Game…" ), uilist_initializer );

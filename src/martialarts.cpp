@@ -166,6 +166,30 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
         }
 };
 
+tech_effect_data load_tech_effect_data( const JsonObject &e )
+{
+    return tech_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
+                             e.get_bool( "permanent", false ), e.get_bool( "on_damage", true ),
+                             e.get_int( "chance", 100 ), e.get_string( "message", "" ),
+                             json_character_flag( e.get_string( "req_flag", "NULL" ) ) );
+}
+
+class tech_effect_reader : public generic_typed_reader<tech_effect_reader>
+{
+    public:
+        tech_effect_data get_next( JsonValue &jv ) const {
+            JsonObject e = jv.get_object();
+            return load_tech_effect_data( e );
+        }
+        template<typename C>
+        void erase_next( std::string &&eff_str, C &container ) const {
+            const efftype_id id = efftype_id( std::move( eff_str ) );
+            reader_detail::handler<C>().erase_if( container, [&id]( const tech_effect_data & e ) {
+                return e.id == id;
+            } );
+        }
+};
+
 void ma_requirements::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
@@ -187,6 +211,8 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "forbidden_buffs_any", forbid_buffs_any, string_id_reader<::ma_buff> {} );
 
     optional( jo, was_loaded, "req_flags", req_flags, string_id_reader<::json_flag> {} );
+    optional( jo, was_loaded, "required_char_flags", req_char_flags );
+    optional( jo, was_loaded, "forbidden_char_flags", forbidden_char_flags );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
@@ -205,6 +231,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
+    optional( jo, was_loaded, "attack_override", attack_override, false );
     optional( jo, was_loaded, "downed_target", downed_target, false );
     optional( jo, was_loaded, "stunned_target", stunned_target, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
@@ -222,6 +249,8 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "weighting", weighting, 1 );
 
+    optional( jo, was_loaded, "repeat_min", repeat_min, 1 );
+    optional( jo, was_loaded, "repeat_max", repeat_max, 1 );
     optional( jo, was_loaded, "down_dur", down_dur, 0 );
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
@@ -231,6 +260,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "tech_effects", tech_effects, tech_effect_reader{} );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -569,6 +599,30 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         }
     }
 
+    if( !req_char_flags.empty() ) {
+        bool has_flag = false;
+        for( const json_character_flag &flag : req_char_flags ) {
+            if( u.has_flag( flag ) ) {
+                has_flag = true;
+            }
+        }
+        if( !has_flag ) {
+            return false;
+        }
+    }
+
+    if( !forbidden_char_flags.empty() ) {
+        bool has_flag = false;
+        for( const json_character_flag &flag : forbidden_char_flags ) {
+            if( u.has_flag( flag ) ) {
+                has_flag = true;
+            }
+        }
+        if( has_flag ) {
+            return false;
+        }
+    }
+
     if( !weapon_categories_allowed.empty() ) {
         bool valid_weap_cat = false;
         for( const weapon_category_id &w_cat : weapon_categories_allowed ) {
@@ -711,6 +765,7 @@ std::string ma_requirements::get_description( bool buff ) const
 
     return dump;
 }
+
 
 ma_technique::ma_technique()
 {
@@ -1122,7 +1177,8 @@ std::string martialart::get_initiate_npc_message() const
 // Player stuff
 
 // technique
-std::vector<matec_id> character_martial_arts::get_all_techniques( const item &weap ) const
+std::vector<matec_id> character_martial_arts::get_all_techniques( const item &weap,
+        const Character &u ) const
 {
     std::vector<matec_id> tecs;
     // Grab individual item techniques
@@ -1131,6 +1187,9 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item &we
     // and martial art techniques
     const auto &style = style_selected.obj();
     tecs.insert( tecs.end(), style.techniques.begin(), style.techniques.end() );
+    // And limb techniques
+    const auto &limb_techs = u.get_limb_techs();
+    tecs.insert( tecs.end(), limb_techs.begin(), limb_techs.end() );
 
     return tecs;
 }
@@ -1141,7 +1200,8 @@ static ma_technique get_valid_technique( const Character &owner, bool ma_techniq
 {
     const auto &ma_data = owner.martial_arts_data;
 
-    for( const matec_id &candidate_id : ma_data->get_all_techniques( owner.get_wielded_item() ) ) {
+    for( const matec_id &candidate_id : ma_data->get_all_techniques( owner.get_wielded_item(),
+            owner ) ) {
         ma_technique candidate = candidate_id.obj();
 
         if( candidate.*purpose && candidate.is_valid_character( owner ) ) {

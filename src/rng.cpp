@@ -141,3 +141,17 @@ void rng_set_engine_seed( unsigned int seed )
         rng_get_engine().seed( seed );
     }
 }
+
+std::string random_string( size_t length )
+{
+    auto randchar = []() -> char {
+        static constexpr char charset[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz";
+        static constexpr size_t num_chars = sizeof( charset ) - 1;
+        return charset[rng( 0, num_chars - 1 )];
+    };
+    std::string str( length, 0 );
+    std::generate_n( str.begin(), length, randchar );
+    return str;
+}

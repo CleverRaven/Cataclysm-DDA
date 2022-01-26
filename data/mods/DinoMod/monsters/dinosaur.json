@@ -392,6 +392,7 @@
     "description": "A fast moving bipedal dinosaur about the size of a turkey.  Its teeth and claws are small but sharp.",
     "reproduction": { "baby_egg": "egg_compsognathus", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 2 } },
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "weariness_num",
+    "type": "widget",
+    "label": "Weariness",
+    "var": "weariness_level",
+    "style": "number"
+  },
+  {
+    "id": "weariness_graph",
+    "type": "widget",
+    "label": "Weariness",
+    "var": "weariness_level",
+    "var_max": 10,
+    "style": "graph",
+    "fill": "pool",
+    "width": 5,
+    "symbols": "-wW",
+    "colors": [ "c_white", "c_yellow", "c_red" ]
+  },
+  {
+    "id": "weary_malus_desc",
+    "type": "widget",
+    "label": "Weary Malus",
+    "style": "text",
+    "var": "weary_malus_text",
+    "//": "Uses display::weary_malus_text_color"
+  },
+  {
+    "id": "weariness_desc",
+    "type": "widget",
+    "label": "Weariness",
+    "style": "text",
+    "var": "weariness_text",
+    "//": "Uses display::weariness_text_color"
+  }
+]

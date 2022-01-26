@@ -71,5 +71,18 @@
     "price_postapoc": 5000,
     "symbol": "L",
     "color": "white"
+  },
+  {
+    "type": "GENERIC",
+    "id": "wall_wiring",
+    "name": { "str": "wall wiring" },
+    "description": "Electric wires used to run power through walls.",
+    "weight": "1 g",
+    "material": [ "plastic", "copper" ],
+    "volume": "1 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "symbol": "~",
+    "color": "white"
   }
 ]

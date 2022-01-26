@@ -43,6 +43,8 @@
 #include "visitable.h"
 #include "vpart_position.h"
 
+static const faction_id faction_your_followers( "your_followers" );
+
 static const item_category_id item_category_food( "food" );
 
 static const itype_id itype_disassembly( "disassembly" );
@@ -619,7 +621,8 @@ bool zone_manager::has_defined( const zone_type_id &type, const faction_id &fac 
 void zone_manager::cache_data()
 {
     area_cache.clear();
-
+    avatar &player_character = get_avatar();
+    tripoint_abs_ms cached_shift = player_character.get_location();
     for( zone_data &elem : zones ) {
         if( !elem.get_enabled() ) {
             continue;
@@ -627,7 +630,7 @@ void zone_manager::cache_data()
 
         // update the current cached locations for each personal zone
         if( elem.get_is_personal() ) {
-            elem.update_cached_shift();
+            elem.update_cached_shift( cached_shift );
         }
 
         const std::string &type_hash = elem.get_type_hash();
@@ -637,6 +640,18 @@ void zone_manager::cache_data()
         for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
                  elem.get_start_point(), elem.get_end_point() ) ) {
             cache.insert( p );
+        }
+    }
+}
+
+void zone_manager::cache_avatar_location()
+{
+    avatar &player_character = get_avatar();
+    tripoint_abs_ms cached_shift = player_character.get_location();
+    for( zone_data &elem : zones ) {
+        // update the current cached locations for each personal zone
+        if( elem.get_is_personal() ) {
+            elem.update_cached_shift( cached_shift );
         }
     }
 }
@@ -761,11 +776,11 @@ bool zone_manager::has_loot_dest_near( const tripoint_abs_ms &where ) const
     return false;
 }
 
-const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
-        bool cached ) const
+const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
+        const zone_type_id &type ) const
 {
     for( const zone_data &zone : zones ) {
-        if( zone.has_inside( where, cached ) && zone.get_type() == type ) {
+        if( zone.has_inside( where ) && zone.get_type() == type ) {
             return &zone;
         }
     }
@@ -781,7 +796,7 @@ const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where, const 
 
 bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it ) const
 {
-    const zone_data *zone = get_zone_at( where, zone_type_LOOT_CUSTOM, true );
+    const zone_data *zone = get_zone_at( where, zone_type_LOOT_CUSTOM );
     if( !zone || !it ) {
         return false;
     }
@@ -1049,6 +1064,12 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
 
     //Create a regular zone
     zones.push_back( new_zone );
+
+    // personal/faction zones are saved when the zone manager exits,
+    // but other-faction zones are not, so save them here.
+    if( fac != faction_your_followers ) {
+        save_world_zones();
+    }
     if( personal ) {
         num_personal_zones++;
     }
@@ -1203,15 +1224,19 @@ void zone_manager::serialize( JsonOut &json ) const
 void zone_manager::deserialize( const JsonValue &jv )
 {
     jv.read( zones );
-    for( auto it = zones.begin(); it != zones.end(); ++it ) {
+    for( auto it = zones.begin(); it != zones.end(); ) {
         // need to keep track of number of personal zones on reload
         if( it->get_is_personal() ) {
             num_personal_zones++;
         }
         const zone_type_id zone_type = it->get_type();
         if( !has_type( zone_type ) ) {
-            zones.erase( it );
+            it = zones.erase( it );
             debugmsg( "Invalid zone type: %s", zone_type.c_str() );
+        } else  if( it->get_faction() != faction_your_followers ) {
+            it = zones.erase( it );
+        } else {
+            it++;
         }
     }
 }
@@ -1296,10 +1321,15 @@ void zone_manager::load_zones()
 {
     std::string savefile = PATH_INFO::player_base_save_path() + ".zones.json";
 
-    read_from_file_optional( savefile, [&]( std::istream & fin ) {
+    const auto reader = [this]( std::istream & fin ) {
         JsonIn jsin( fin );
         deserialize( jsin.get_value() );
-    } );
+    };
+    if( !read_from_file_optional( savefile, reader ) ) {
+        // If no such file or failed to load, clear zones.
+        zones.clear();
+    }
+    load_world_zones();
     revert_vzones();
     added_vzones.clear();
     changed_vzones.clear();
@@ -1307,6 +1337,40 @@ void zone_manager::load_zones()
 
     cache_data();
     cache_vzones();
+}
+
+bool zone_manager::save_world_zones()
+{
+    std::string savefile = PATH_INFO::world_base_save_path() + "/zones.json";
+    std::vector<zone_data> tmp;
+    std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( zone_data z ) {
+        return z.get_faction() != faction_your_followers;
+    } );
+    return write_to_file( savefile, [&]( std::ostream & fout ) {
+        JsonOut jsout( fout );
+        jsout.write( tmp );
+    }, _( "zones date" ) );
+}
+
+void zone_manager::load_world_zones()
+{
+    std::string savefile = PATH_INFO::world_base_save_path() + "/zones.json";
+    std::vector<zone_data> tmp;
+    read_from_file_optional( savefile, [&]( std::istream & fin ) {
+        JsonIn jsin( fin );
+        jsin.read( tmp );
+        for( auto it = tmp.begin(); it != tmp.end(); ++it ) {
+            const zone_type_id zone_type = it->get_type();
+            if( !has_type( zone_type ) ) {
+                tmp.erase( it );
+                debugmsg( "Invalid zone type: %s", zone_type.c_str() );
+            }
+            if( it->get_faction() == faction_your_followers ) {
+                tmp.erase( it );
+            }
+        }
+        std::copy( tmp.begin(), tmp.end(), std::back_inserter( zones ) );
+    } );
 }
 
 void zone_manager::zone_edited( zone_data &zone )

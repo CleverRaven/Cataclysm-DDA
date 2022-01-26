@@ -524,7 +524,6 @@
     "name": { "str": "Thick-Skinned" },
     "points": 1,
     "description": "Your skin is tough.  Cutting and bashing damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
-    "starting_trait": true,
     "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR", "GASTROPOD" ],
     "cancels": [ "THINSKIN" ],
     "armor": [
@@ -1228,7 +1227,6 @@
     "name": { "str": "Thin-Skinned" },
     "points": -1,
     "description": "Your skin is fragile.  Cutting and bashing damage is slightly increased for you.",
-    "starting_trait": true,
     "cancels": [ "THICKSKIN" ],
     "armor": [
       {
@@ -1861,7 +1859,8 @@
     "prereqs": [ "FASTHEALER" ],
     "threshreq": [ "THRESH_LIZARD" ],
     "category": [ "LIZARD" ],
-    "mending_modifier": 20.0
+    "mending_modifier": 20.0,
+    "flags": [ "MEND_ALL" ]
   },
   {
     "type": "mutation",
@@ -2102,7 +2101,7 @@
         "bash": 5
       }
     ],
-    "enchantments": [ "ENCH_TRAIT_MSKIN" ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -4333,7 +4332,8 @@
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "threshreq": [ "THRESH_BIRD" ],
-    "category": [ "BIRD" ]
+    "category": [ "BIRD" ],
+    "flags": [ "WINGS_2" ]
   },
   {
     "type": "mutation",
@@ -4613,10 +4613,14 @@
     "id": "WEB_RAPPEL",
     "name": { "str": "Web Diver" },
     "points": 2,
-    "description": "Your webbing is easily strong enough to support your weight.  You'll use it to descend any sheer drops you may encounter.",
+    "description": "Your webbing is strong enough to support your weight.  Activate to rappel down any drop you encounter, at the cost of nutrition.",
     "prereqs": [ "WEB_WEAVER" ],
     "threshreq": [ "THRESH_SPIDER" ],
-    "category": [ "SPIDER" ]
+    "category": [ "SPIDER" ],
+    "active": true,
+    "cost": 15,
+    "hunger": true,
+    "active_flags": [ "WEB_RAPPEL" ]
   },
   {
     "type": "mutation",
@@ -5281,7 +5285,8 @@
     "restricts_gear": [ "torso" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
     "dodge_modifier": -4,
-    "movecost_modifier": 0.9
+    "movecost_modifier": 0.9,
+    "flags": [ "WINGS_1" ]
   },
   {
     "type": "mutation",
