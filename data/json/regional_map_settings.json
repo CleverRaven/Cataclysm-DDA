@@ -37,17 +37,17 @@
         "t_region_soil": { "t_dirt": 1 },
         "t_region_shrub": {
           "t_underbrush": 30,
-          "t_shrub": 10,
+          "t_shrub": 15,
           "t_fern": 5,
           "t_shrub_blueberry": 2,
           "t_shrub_strawberry": 2,
           "t_shrub_blackberry": 2,
           "t_shrub_raspberry": 2,
           "t_shrub_huckleberry": 2,
-          "t_shrub_grape": 1,
           "t_shrub_rose": 2,
           "t_shrub_hydrangea": 2,
           "t_shrub_lilac": 2,
+          "t_shrub_grape": 1,
           "t_shrub_peanut": 1
         },
         "t_region_shrub_fruit": {
@@ -122,14 +122,14 @@
           "t_tree_dead": 4
         },
         "t_region_tree_nut": {
-          "t_tree_young": 4,
           "t_tree_hickory": 16,
-          "t_tree_beech": 2,
+          "t_tree_hickory_dead": 16,
           "t_tree_walnut": 8,
           "t_tree_chestnut": 8,
+          "t_tree_young": 4,
+          "t_tree_beech": 2,
           "t_tree_hazelnut": 2,
           "t_tree_coffee": 2,
-          "t_tree_hickory_dead": 16,
           "t_tree_dead": 4
         },
         "t_region_tree_evergreen": { "t_tree_pine": 32, "t_tree_juniper": 16, "t_tree_deadpine": 2 }
@@ -140,12 +140,9 @@
           "f_lily": 1,
           "f_flower_tulip": 1,
           "f_flower_spurge": 1,
-          "f_burdock": 1,
           "f_chamomile": 1,
           "f_dandelion": 1,
-          "f_datura": 1,
           "f_dahlia": 1,
-          "f_chicory": 1,
           "f_bluebell": 1,
           "f_sunflower": 1
         },
@@ -153,27 +150,58 @@
           "f_lily": 4,
           "f_flower_tulip": 4,
           "f_black_eyed_susan": 3,
-          "f_dahlia": 2,
           "f_bluebell": 2,
           "f_flower_spurge": 1,
+          "f_dahlia": 1,
           "f_chicory": 1,
           "f_sunflower": 1
         },
         "f_region_weed": {
-          "f_dandelion": 6,
-          "f_flower_spurge": 4,
           "f_chamomile": 4,
           "f_datura": 3,
           "f_japanese_knotweed": 2,
           "f_bluebell": 2,
           "f_burdock": 1,
           "f_dahlia": 1,
-          "f_black_eyed_susan": 1,
           "f_lily": 1,
-          "f_flower_tulip": 1,
-          "f_mutpoppy": 1,
           "f_sunflower": 1,
           "f_mustard": 1
+        },
+        "f_region_plain": {
+          "f_dandelion": 6,
+          "f_flower_spurge": 4,
+          "f_chamomile": 4,
+          "f_datura": 3,
+          "f_japanese_knotweed": 2,
+          "f_dahlia": 2,
+          "f_mutpoppy": 2,
+          "f_black_eyed_susan": 1,
+          "f_flower_tulip": 1,
+          "f_mustard": 1,
+          "f_sunflower": 1,
+          "f_lily": 1,
+          "f_chicory": 1
+        },
+        "f_region_forest": {
+          "f_burdock": 20,
+          "f_bluebell": 6,
+          "f_lily": 5,
+          "f_chamomile": 5,
+          "f_japanese_knotweed": 4,
+          "f_dahlia": 2,
+          "f_mutpoppy": 1,
+          "f_wintergreen": 1
+        },
+        "f_region_forest_dense": {
+          "f_burdock": 20,
+          "f_bluebell": 6,
+          "f_lily": 5,
+          "f_wintergreen": 2
+        },
+        "f_region_forest_water": {
+          "f_burdock": 4,
+          "f_japanese_knotweed": 2,
+          "f_lily": 1
         },
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
@@ -185,8 +213,7 @@
       "other": {
         "t_region_tree": 1,
         "t_region_shrub": 3,
-        "f_region_weed": 49,
-        "f_region_flower": 37,
+        "f_region_plain": 49,
         "f_boulder_small": 5,
         "f_boulder_medium": 4,
         "f_boulder_large": 1
@@ -280,7 +307,7 @@
         "clear_components": false,
         "components": {
           "trees": { "sequence": 0, "chance": 12, "clear_types": false, "types": { "t_region_tree": 128 } },
-          "shrubs_and_flowers": { "sequence": 1, "chance": 10, "clear_types": false, "types": { "t_region_shrub": 100, "f_region_weed": 20 } },
+          "shrubs_and_flowers": { "sequence": 1, "chance": 10, "clear_types": false, "types": { "t_region_shrub": 120, "f_region_forest": 10 } },
           "clutter": {
             "sequence": 2,
             "chance": 80,
@@ -402,7 +429,7 @@
         "clear_components": false,
         "components": {
           "trees": { "sequence": 0, "chance": 5, "clear_types": false, "types": { "t_region_tree": 100 } },
-          "shrubs_and_flowers": { "sequence": 1, "chance": 5, "clear_types": false, "types": { "t_region_shrub": 100, "f_region_weed": 20 } },
+          "shrubs_and_flowers": { "sequence": 1, "chance": 5, "clear_types": false, "types": { "t_region_shrub": 130, "f_region_forest_dense": 10 } },
           "clutter": {
             "sequence": 2,
             "chance": 64,
@@ -483,7 +510,7 @@
               "t_tree_dead": 30
             }
           },
-          "shrubs_and_flowers": { "sequence": 1, "chance": 15, "clear_types": false, "types": { "t_region_shrub": 80, "f_region_weed": 30 } },
+          "shrubs_and_flowers": { "sequence": 1, "chance": 15, "clear_types": false, "types": { "t_region_shrub": 80, "f_region_forest_water": 30 } },
           "clutter": {
             "sequence": 2,
             "chance": 75,
