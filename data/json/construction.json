@@ -4810,11 +4810,12 @@
     "id": "constr_training_dummy_light",
     "group": "build_training_dummy_light",
     "category": "CONSTRUCT",
-    "time": "10 m",
+    "time": "40 m",
+    "//": "to simulate digging a pit (18 m) and burying it back",
     "difficulty": 1,
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "pebble", 25 ], [ "material_sand", 25 ], [ "material_soil", 25 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "training_dummy_light", 1 ] ] ],
+    "pre_special": "check_down_OK",
     "post_terrain": "f_training_dummy_light"
   },
   {
@@ -4822,11 +4823,11 @@
     "id": "constr_training_dummy_heavy",
     "group": "build_training_dummy_heavy",
     "category": "CONSTRUCT",
-    "time": "10 m",
+    "time": "40 m",
     "difficulty": 1,
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "pebble", 25 ], [ "material_sand", 25 ], [ "material_soil", 25 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "training_dummy_heavy", 1 ] ] ],
+    "pre_special": "check_down_OK",
     "post_terrain": "f_training_dummy_heavy"
   }
 ]
