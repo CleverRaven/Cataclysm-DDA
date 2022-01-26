@@ -308,7 +308,7 @@
     "type": "TOOL",
     "name": { "str": "mounted electric oil press", "str_pl": "mounted electric oil presses" }
   },
-    {
+  {
     "id": "pseudo_training_dummy_light",
     "type": "TOOL",
     "name": { "str": "training dummy" },
@@ -317,7 +317,7 @@
     "color": "brown",
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   },
-    {
+  {
     "id": "pseudo_training_dummy_heavy",
     "type": "TOOL",
     "name": { "str": "armored training dummy" },
