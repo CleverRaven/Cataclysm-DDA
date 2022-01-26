@@ -250,7 +250,7 @@ static float workbench_crafting_speed_multiplier( const item &craft,
     return multiplier;
 }
 
-float Character::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
+float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
     const float result = morale_crafting_speed_multiplier( rec ) *
                          lighting_craft_speed_multiplier( rec ) *
