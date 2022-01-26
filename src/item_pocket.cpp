@@ -1811,6 +1811,16 @@ bool item_pocket::is_type( pocket_type ptype ) const
     return ptype == data->type;
 }
 
+bool item_pocket::has_favourites() const
+{
+    return !favourites.empty();
+}
+
+std::list<itype> &item_pocket::get_favourites()
+{
+    return favourites;
+}
+
 bool item_pocket::is_ablative() const
 {
     return get_pocket_data()->ablative;

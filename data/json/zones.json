@@ -4,5 +4,11 @@
     "type": "LOOT_ZONE",
     "name": "Disassembly Work",
     "description": "Items in this zone are marked for disassembly"
+  },
+  {
+    "id": "zone_refil_pockets",
+    "type": "LOOT_ZONE",
+    "name": "Refil Pockets",
+    "description": "Items in this zone are available to refil your pockets with"
   }
 ]

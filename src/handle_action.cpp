@@ -102,6 +102,7 @@ static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_PULP( "ACT_PULP" );
+static const activity_id ACT_REFIL_POCKETS( "ACT_REFIL_POCKETS" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
@@ -151,6 +152,7 @@ static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
+static const zone_type_id zone_type_refil( "zone_refil_pockets" );
 
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
@@ -1187,7 +1189,8 @@ static void loot()
         MultiButchery = 4096,
         MultiMining = 8192,
         MultiDis = 16384,
-        MultiMopping = 32768
+        MultiMopping = 32768,
+        RefilPockets = 65536
     };
 
     Character &player_character = get_player_character();
@@ -1228,6 +1231,7 @@ static void loot()
     flags |= g->check_near_zone( zone_type_zone_disassemble,
                                  player_character.pos() ) ? MultiDis : 0;
     flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos() ) ? MultiMopping : 0;
+    flags |= g->check_near_zone( zone_type_refil, player_character.pos() ) ? RefilPockets : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1291,6 +1295,10 @@ static void loot()
     if( flags & MultiMopping ) {
         menu.addentry_desc( MultiMopping, true, 'p', _( "Mop area" ), _( "Mop clean the area." ) );
     }
+    if( flags & RefilPockets ) {
+        menu.addentry_desc( RefilPockets, true, 'p', _( "Refil Pockets" ),
+                            _( "Grab any items your missing for your pockets." ) );
+    }
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1334,6 +1342,9 @@ static void loot()
             break;
         case MultiMopping:
             player_character.assign_activity( ACT_MULTIPLE_MOP );
+            break;
+        case RefilPockets:
+            player_character.assign_activity( ACT_REFIL_POCKETS );
             break;
         default:
             debugmsg( "Unsupported flag" );

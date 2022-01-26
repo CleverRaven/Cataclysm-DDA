@@ -308,6 +308,12 @@ class item_pocket
             return _saved_sealed;
         }
 
+        // does this pocket have a desired reload state
+        bool has_favourites() const;
+
+        // gets this pockets desired contents
+        std::list<itype> &get_favourites();
+
         // tries to put an item in the pocket. returns false if failure
         ret_val<contain_code> insert_item( const item &it );
         /**
@@ -368,6 +374,8 @@ class item_pocket
         const pocket_data *data = nullptr; // NOLINT(cata-serialize)
         // the items inside the pocket
         std::list<item> contents;
+        // a list of items that want to be in this pocket
+        std::list<itype> favourites;
         bool _sealed = false;
 
         bool allowed = true; // is it possible to put things in this pocket

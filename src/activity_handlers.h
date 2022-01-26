@@ -197,6 +197,7 @@ void multiple_mop_do_turn( player_activity *act, Character *you );
 void operation_do_turn( player_activity *act, Character *you );
 void pickaxe_do_turn( player_activity *act, Character *you );
 void pulp_do_turn( player_activity *act, Character *you );
+void refil_pockets_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
 void robot_control_do_turn( player_activity *act, Character *you );
 void spellcasting_do_turn( player_activity *act, Character *you );

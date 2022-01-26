@@ -152,6 +152,7 @@ static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
+static const activity_id ACT_REFIL_POCKETS( "ACT_REFIL_POCKETS" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
@@ -258,6 +259,7 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FUEL_MENU, consume_fuel_menu_do_turn },
     { ACT_VIEW_RECIPE, view_recipe_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
+    { ACT_REFIL_POCKETS, refil_pockets_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
     { ACT_ATM, atm_do_turn },
@@ -2669,6 +2671,11 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
 void activity_handlers::move_loot_do_turn( player_activity *act, Character *you )
 {
     activity_on_turn_move_loot( *act, *you );
+}
+
+void activity_handlers::refil_pockets_do_turn( player_activity *act, Character *you )
+{
+    activity_on_turn_refil_pockets( *act, *you );
 }
 
 void activity_handlers::adv_inventory_do_turn( player_activity *, Character *you )
