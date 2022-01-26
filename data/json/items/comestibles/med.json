@@ -2042,7 +2042,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "cattail jelly", "str_pl": "cattail jellies" },
-    "description": "Clear jelly harvested from cattail, has antiseptic properties and works as a painkiller.",
+    "description": "Clear jelly harvested from cattail. Cancbe used to protect a wound from contamination and works as a painkiller.",
     "container": "bottle_plastic_small",
     "weight": "50 g",
     "volume": "250 ml",
@@ -2056,7 +2056,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": {
       "type": "heal",
-      "disinfectant_power": 3,
+      "disinfectant_power": 1,
       "bite": 0.75,
       "move_cost": 3000,
       "effects": [ { "id": "pkill1", "duration": 720 } ]
