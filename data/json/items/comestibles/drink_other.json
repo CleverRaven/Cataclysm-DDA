@@ -177,7 +177,7 @@
     "calories": 127,
     "description": "Thin yellow vegetable oil used for cooking.",
     "price": 40,
-    "price_postapoc": 500,
+    "price_postapoc": 50,
     "material": [ "oil", "veggy" ],
     "volume": "250 ml",
     "charges": 16,
