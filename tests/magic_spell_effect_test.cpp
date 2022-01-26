@@ -104,20 +104,26 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         dummy.recalc_sight_limits();
 
         spell_effect::remove_field( sp, dummy, player_initial_pos );
+        calendar::turn += 1_turns;
         m.process_fields();
         calendar::turn += 1_turns;
+        m.process_fields();
 
         CHECK( count_fields( fd_fatigue ) == 2 );
 
         spell_effect::remove_field( sp, dummy, player_initial_pos );
+        calendar::turn += 1_turns;
         m.process_fields();
         calendar::turn += 1_turns;
+        m.process_fields();
 
         CHECK( count_fields( fd_fatigue ) == 1 );
 
         spell_effect::remove_field( sp, dummy, player_initial_pos );
+        calendar::turn += 1_turns;
         m.process_fields();
         calendar::turn += 1_turns;
+        m.process_fields();
 
         CHECK( count_fields( fd_fatigue ) == 0 );
     };
