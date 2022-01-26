@@ -24,6 +24,7 @@
 #include "value_ptr.h"
 
 static const ammotype ammo_test_9mm( "test_9mm" );
+static const item_pocket::pocket_type pocket_container = item_pocket::pocket_type::CONTAINER;
 
 // Pocket Tests
 // ------------
@@ -1352,7 +1353,157 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
                 REQUIRE( settings.accepts_item( test_item_different_category ) );
             }
         }
+    }
+}
 
+TEST_CASE( "pocket favorites allow or restrict containers", "[pocket][item][best]" )
+{
+    item_pocket::favorite_settings settings;
+
+    GIVEN( "item container is empty" ) {
+        item item_plastic_bag = item( "bag_plastic" );
+        REQUIRE( item_plastic_bag.empty() );
+
+        WHEN( "item container is whitelisted" ) {
+            settings.whitelist_item( item_plastic_bag.typeId() );
+
+            THEN( "item container should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_plastic_bag ) );
+            }
+        }
+        WHEN( "item container is blacklisted" ) {
+            settings.blacklist_item( item_plastic_bag.typeId() );
+
+            THEN( "item container should not be accepted" ) {
+                REQUIRE_FALSE( settings.accepts_item( item_plastic_bag ) );
+            }
+        }
+        WHEN( "item container category is whitelisted" ) {
+            settings.whitelist_category( item_plastic_bag.get_category_shallow().id );
+
+            THEN( "item container should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_plastic_bag ) );
+            }
+        }
+        WHEN( "item container category is blacklisted" ) {
+            settings.blacklist_category( item_plastic_bag.get_category_shallow().id );
+
+            THEN( "item container should not be accepted" ) {
+                REQUIRE_FALSE( settings.accepts_item( item_plastic_bag ) );
+            }
+        }
+        WHEN( "item container is not listed in rules" ) {
+            THEN( "item container should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_plastic_bag ) );
+            }
+        }
+    }
+
+    GIVEN( "item container is not empty" ) {
+        item item_plastic_bag = item( "bag_plastic" );
+        item item_paper = item( "paper" );
+        item item_pencil = item( "pencil" );
+
+        item_plastic_bag.force_insert_item( item_paper, pocket_container );
+        item_plastic_bag.force_insert_item( item_pencil, pocket_container );
+
+        WHEN( "all items in container are whitelisted" ) {
+            settings.whitelist_item( item_paper.typeId() );
+            settings.whitelist_item( item_pencil.typeId() );
+
+            THEN( "container should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_plastic_bag ) );
+                REQUIRE_FALSE( settings.accepts_item( item( "bag_plastic" ) ) );
+            }
+            WHEN( "item container is blacklisted" ) {
+                settings.blacklist_item( item_plastic_bag.typeId() );
+
+                THEN( "item container should not be accepted" ) {
+                    REQUIRE_FALSE( settings.accepts_item( item_plastic_bag ) );
+                }
+            }
+        }
+        WHEN( "only some items in container are whitelisted" ) {
+            settings.whitelist_item( item_paper.typeId() );
+
+            THEN( "container should not be accepted" ) {
+                REQUIRE_FALSE( settings.accepts_item( item_plastic_bag ) );
+            }
+            WHEN( "item container is whitelisted" ) {
+                settings.whitelist_item( item_plastic_bag.typeId() );
+
+                THEN( "item container should be accepted" ) {
+                    REQUIRE( settings.accepts_item( item_plastic_bag ) );
+                }
+            }
+        }
+        WHEN( "all item categories in container are whitelisted" ) {
+            settings.whitelist_category( item_paper.get_category_shallow().id );
+            settings.whitelist_category( item_pencil.get_category_shallow().id );
+
+            THEN( "container should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_plastic_bag ) );
+                REQUIRE_FALSE( settings.accepts_item( item( "bag_plastic" ) ) );
+            }
+            WHEN( "item container category is blacklisted" ) {
+                settings.blacklist_category( item_plastic_bag.get_category_shallow().id );
+
+                THEN( "item container should not be accepted" ) {
+                    REQUIRE_FALSE( settings.accepts_item( item_plastic_bag ) );
+                }
+            }
+        }
+        WHEN( "only some item categories in container are whitelisted" ) {
+            settings.whitelist_category( item_paper.get_category_shallow().id );
+
+            THEN( "container should not be accepted" ) {
+                REQUIRE_FALSE( settings.accepts_item( item_plastic_bag ) );
+            }
+            WHEN( "item container category is whitelisted" ) {
+                settings.whitelist_category( item_plastic_bag.get_category_shallow().id );
+
+                THEN( "item container should be accepted" ) {
+                    REQUIRE( settings.accepts_item( item_plastic_bag ) );
+                }
+            }
+        }
+        WHEN( "no items in container are listed in rules" ) {
+            THEN( "container should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_plastic_bag ) );
+            }
+        }
+    }
+
+    GIVEN( "item container contains liquid" ) {
+        item item_clean_water = item( "water_clean" );
+        item item_bottled_water = item( "bottle_plastic" );
+        REQUIRE( item_bottled_water.fill_with( item_clean_water ) > 0 );
+
+        WHEN( "liquid item is whitelisted" ) {
+            settings.whitelist_item( item_clean_water.typeId() );
+            REQUIRE( settings.accepts_item( item_clean_water ) );
+
+            THEN( "item container containing liquid item should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_bottled_water ) );
+                REQUIRE_FALSE( settings.accepts_item( item( "bottle_plastic" ) ) );
+            }
+        }
+        WHEN( "liquid item is blacklisted" ) {
+            settings.blacklist_item( item_clean_water.typeId() );
+            REQUIRE_FALSE( settings.accepts_item( item_clean_water ) );
+
+            THEN( "item container containing liquid item should not be accepted" ) {
+                REQUIRE_FALSE( settings.accepts_item( item_bottled_water ) );
+                REQUIRE( settings.accepts_item( item( "bottle_plastic" ) ) );
+            }
+        }
+        WHEN( "liquid item is not listed in rules" ) {
+            settings.whitelist_item( item( "paper" ).typeId() );
+
+            THEN( "item container containing liquid item should not be accepted" ) {
+                REQUIRE_FALSE( settings.accepts_item( item_bottled_water ) );
+            }
+        }
     }
 }
 
