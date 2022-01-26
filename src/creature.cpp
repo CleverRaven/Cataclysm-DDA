@@ -64,7 +64,6 @@
 struct mutation_branch;
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
-static const anatomy_id anatomy_default_anatomy( "default_anatomy" );
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
@@ -691,13 +690,6 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
 
     float dodge = dodge_roll();
     add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
-                   dodge );
-
-    // Choose what our base anatomy is
-    anatomy_id base = is_monster() ? anatomy_default_anatomy : anatomy_human_anatomy;
-    // Get how much bigger/smaller we got
-    dodge /= anatomy( get_all_body_parts() ).get_size_ratio( base );
-    add_msg_debug( debugmode::DF_CREATURE, "Dodge after anatomy mod %.1f",
                    dodge );
 
     int hit_spread = hitroll - dodge - size_melee_penalty();
