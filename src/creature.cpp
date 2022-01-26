@@ -688,9 +688,18 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
     add_msg_debug( debugmode::DF_CREATURE, "Base hitroll %d",
                    hitroll );
-    const float dodge = dodge_roll();
+
+    float dodge = dodge_roll();
     add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
                    dodge );
+
+    // Choose what our base anatomy is
+    anatomy_id base = is_monster() ? anatomy_default_anatomy : anatomy_human_anatomy;
+    // Get how much bigger/smaller we got
+    dodge /= anatomy( get_all_body_parts() ).get_size_ratio( base );
+    add_msg_debug( debugmode::DF_CREATURE, "Dodge after anatomy mod %.1f",
+                   dodge );
+
     int hit_spread = hitroll - dodge - size_melee_penalty();
     if( has_flag( MF_IMMOBILE ) ) {
         // Under normal circumstances, even a clumsy person would
@@ -699,12 +708,6 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
         // clumsy weapon or when severely encumbered.
         hit_spread += 40;
     }
-    // Choose what our base anatomy is
-    anatomy_id base = is_monster() ? anatomy_default_anatomy : anatomy_human_anatomy;
-    // Get how much bigger/smaller we got
-    hit_spread *= anatomy( get_all_body_parts() ).get_size_ratio( base );
-    add_msg_debug( debugmode::DF_CREATURE, "Hitspread after anatomy mod %d",
-                   hit_spread );
 
     // If attacker missed call targets on_dodge event
     if( dodge > 0.0 && hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
