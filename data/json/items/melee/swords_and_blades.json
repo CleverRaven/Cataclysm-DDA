@@ -986,7 +986,7 @@
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS" ],
+    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
     "category": "weapons"
   },
   {
