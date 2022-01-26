@@ -246,7 +246,8 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         }
         return true;
     } else if( input == 'x' ) {
-        if( query_yn( _( "Are you sure you want to clear all pocket settings?" ) ) ) {
+        const int pocket_num = menu->selected + 1;
+        if( query_yn( _( "Are you sure you want to clear settings for pocket %d?" ), pocket_num ) ) {
             selected_pocket->settings.clear();
         }
     }
