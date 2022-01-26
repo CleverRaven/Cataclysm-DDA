@@ -141,15 +141,12 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         selected_pocket->settings.set_unloadable( !selected_pocket->settings.is_unloadable() );
         return true;
     }
-
-    const bool item_id = input == 'i';
-    const bool cat_id = input == 'c';
     uilist selector_menu;
 
     const std::string remove_prefix = "<color_light_red>-</color> ";
     const std::string add_prefix = "<color_green>+</color> ";
 
-    if( item_id ) {
+    if( input == 'i' ) {
         const cata::flat_set<itype_id> &listed_itypes = whitelist
                 ? selected_pocket->settings.get_item_whitelist()
                 : selected_pocket->settings.get_item_blacklist();
@@ -213,7 +210,7 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         }
 
         return true;
-    } else if( cat_id ) {
+    } else if( input == 'c' ) {
         // Get all categories and sort by name
         std::vector<item_category> all_cat = item_category::get_all();
         const cata::flat_set<item_category_id> &listed_cat = whitelist
