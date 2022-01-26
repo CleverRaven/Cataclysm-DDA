@@ -56,3 +56,7 @@ def parse_generic(json, origin):
                 write_text(pocket["description"], origin,
                            comment="Description of a pocket in item \"{}\""
                            .format(name))
+            if "name" in pocket:
+                write_text(pocket["name"], origin,
+                           comment="Brief name of a pocket in item \"{}\""
+                           .format(name))

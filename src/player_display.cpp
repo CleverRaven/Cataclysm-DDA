@@ -18,6 +18,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "display.h"
 #include "effect.h"
 #include "enum_conversions.h"
 #include "game.h"
@@ -26,7 +27,6 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
-#include "panels.h"
 #include "pimpl.h"
 #include "pldata.h"
 #include "profession.h"
@@ -88,7 +88,9 @@ static bool should_combine_bps( const Character &p, const bodypart_id &l, const 
            temperature_print_rescaling( p.get_part_temp_conv( l ) ) == temperature_print_rescaling(
                p.get_part_temp_conv( r ) ) &&
            // selected_clothing covers both or neither parts
-           ( !selected_clothing || ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) );
+           ( !selected_clothing || ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) ) &&
+           // they have the same HP
+           p.get_part_hp_cur( l ) == p.get_part_hp_cur( r );
 
 }
 

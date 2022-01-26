@@ -1,0 +1,14 @@
+[
+  {
+    "type": "json_flag",
+    "id": "W_LABEL_NONE"
+  },
+  {
+    "type": "json_flag",
+    "id": "W_DISABLED"
+  },
+  {
+    "type": "json_flag",
+    "id": "W_DYNAMIC_HEIGHT"
+  }
+]

@@ -32,9 +32,25 @@
       { "monster": "mon_jaguar", "weight": 2, "cost_multiplier": 3, "conditions": [ "DAWN", "DUSK" ] },
       { "monster": "mon_peccari", "weight": 15, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_large_scorpion", "weight": 2, "cost_multiplier": 0 },
-      { "monster": "mon_horned_beetle", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_butterfly", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_moth", "weight": 2, "cost_multiplier": 0, "conditions": [ "DAWN", "DUSK" ] },
       { "monster": "mon_scorpion_giant", "weight": 1, "cost_multiplier": 3, "starts": "240 hours" },
-      { "monster": "mon_heraclean_beetle", "weight": 1, "cost_multiplier": 3, "starts": "240 hours" },
+      { "monster": "mon_butterfly_giant", "weight": 1, "cost_multiplier": 3, "starts": "240 hours" },
+      { "monster": "mon_butterfly_titan", "weight": 1, "cost_multiplier": 3, "starts": "480 hours" },
+      {
+        "monster": "mon_moth_giant",
+        "weight": 1,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "starts": "240 hours"
+      },
+      {
+        "monster": "mon_moth_titan",
+        "weight": 1,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "starts": "480 hours"
+      },
       { "monster": "mon_bushelephant", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_hippo", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_guinea_pig", "weight": 12, "cost_multiplier": 2, "pack_size": [ 1, 6 ] },

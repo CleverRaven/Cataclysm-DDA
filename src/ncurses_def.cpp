@@ -422,8 +422,8 @@ bool nc_color::is_blink() const
     return attribute_value & A_BLINK;
 }
 
-void ensure_term_size();
-void check_encoding();
+void ensure_term_size(); // NOLINT(cata-static-declarations)
+void check_encoding(); // NOLINT(cata-static-declarations)
 
 void ensure_term_size()
 {
@@ -461,6 +461,7 @@ void ensure_term_size()
     }
 }
 
+// NOLINTNEXTLINE(cata-static-declarations)
 void check_encoding()
 {
     // Check whether LC_CTYPE supports the UTF-8 encoding

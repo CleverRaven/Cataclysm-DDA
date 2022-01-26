@@ -732,11 +732,21 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     //  parts are damaged/broken on both sides,
     //  remaining times are normalized
     const veh_collision &c = collisions[0];
-    add_msg( m_bad, _( "The %1$s's %2$s collides with %3$s's %4$s." ),
-             veh.name,  veh.part_info( c.part ).name(),
-             veh2.name, veh2.part_info( c.target_part ).name() );
-
     const bool vertical = veh.sm_pos.z != veh2.sm_pos.z;
+
+    // Check whether avatar sees the collision, and log a message if so
+    const avatar &you = get_avatar();
+    const tripoint part1_pos = veh.global_part_pos3( c.part );
+    const tripoint part2_pos = veh.global_part_pos3( c.target_part );
+    if( you.sees( part1_pos ) || you.sees( part2_pos ) ) {
+        //~ %1$s: first vehicle name (without "the")
+        //~ %2$s: first part name
+        //~ %3$s: second vehicle display name (with "the")
+        //~ %4$s: second part name
+        add_msg( m_bad, _( "The %1$s's %2$s collides with %3$s's %4$s." ),
+                 veh.name,  veh.part_info( c.part ).name(),
+                 veh2.disp_name(), veh2.part_info( c.target_part ).name() );
+    }
 
     // Used to calculate the epicenter of the collision.
     point epicenter1;
@@ -839,6 +849,12 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         if( &veh2 == static_cast<vehicle *>( veh_veh_coll.target ) ) {
             coll_parts_cnt++;
         }
+    }
+
+    // Prevent potential division by zero
+    if( coll_parts_cnt == 0 ) {
+        debugmsg( "Vehicle %s collided with bugs in the code", veh.name );
+        return 0.0f;
     }
 
     const float dmg1_part = dmg_veh1 / coll_parts_cnt;
@@ -3825,8 +3841,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 }
             }
             if( dam <= 0 && get_player_view().sees( p ) ) {
-                // TODO: add exclamation mark once out of string freeze
-                add_msg( _( "The shot is stopped by the %s" ), data.name() );
+                add_msg( _( "The shot is stopped by the %s!" ), data.name() );
             }
             // only very flammable furn/ter can be set alight with incendiary rounds
             if( incendiary && data.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
@@ -3935,7 +3950,7 @@ bool map::hit_with_acid( const tripoint &p )
     } else if( t == t_door_bar_c || t == t_door_bar_o || t == t_door_bar_locked || t == t_bars ||
                t == t_reb_cage ) {
         ter_set( p, t_floor );
-        add_msg( m_warning, _( "The metal bars melt!" ) );
+        add_msg_if_player_sees( p, m_warning, _( "The metal bars melt!" ) );
     } else if( t == t_door_b ) {
         if( one_in( 4 ) ) {
             ter_set( p, t_door_frame );
@@ -4066,12 +4081,23 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 
 void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p )
 {
+    tripoint_abs_ms avatar_pos = get_avatar().get_location();
+    bool shifted = false;
+    if( !get_map().inbounds( get_map().getlocal( p ) ) ) {
+        const tripoint_abs_ms abs_ms( p );
+        g->place_player_overmap( project_to<coords::omt>( abs_ms ) );
+        shifted = true;
+    }
     for( const tripoint &t : points_on_zlevel() ) {
         const float radiX = trig_dist( p, getabs( t ) );
         // within distance, and either no submap limitation or same overmap coords.
         if( radiX <= radi ) {
             transform->transform( t );
         }
+    }
+    if( shifted ) {
+        g->place_player_overmap( project_to<coords::omt>( avatar_pos ) );
+        get_avatar().set_location( avatar_pos );
     }
 }
 
@@ -4711,6 +4737,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 washing_machine_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
+                //~ %1$d: Number of minutes remaining, %2$s: Name of the vehicle
                 add_msg( _( "It should take %1$d minutes to finish washing items in the %2$s." ),
                          to_minutes<int>( time_left ) + 1, cur_veh.name );
                 break;
@@ -4740,6 +4767,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
                 const int minutes = to_minutes<int>( time_left ) + 1;
+                //~ %1$d: Number of minutes remaining, %2$s: Name of the vehicle
                 add_msg( n_gettext( "It should take %1$d minute to finish sterilizing items in the %2$s.",
                                     "It should take %1$d minutes to finish sterilizing items in the %2$s.", minutes ),
                          minutes, cur_veh.name );
@@ -5579,6 +5607,17 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
 void map::remove_field( const tripoint &p, const field_type_id &field_to_remove )
 {
     set_field_intensity( p, field_to_remove, 0 );
+}
+
+void map::clear_fields( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+
+    point l;
+    submap *const current_submap = unsafe_get_submap_at( p, l );
+    current_submap->clear_fields( l );
 }
 
 void map::on_field_modified( const tripoint &p, const field_type &fd_type )

@@ -129,6 +129,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     clear_vehicles();
     clear_map();
     avatar &player_character = get_avatar();
+    player_character.set_value( "test_var", "It's avatar" );
     player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
 
@@ -138,6 +139,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     g->faction_manager_ptr->create_if_needed();
 
     npc &beta = create_test_talker( shopkeep );
+    beta.set_value( "test_var", "It's npc" );
     d = dialogue( get_talker_for( player_character ), get_talker_for( beta ) );
     return beta;
 }
@@ -1059,6 +1061,25 @@ TEST_CASE( "npc_compare_int_op", "[npc_talk]" )
     CHECK( d.responses[ 9 ].text == "Five > two." );
 }
 
+TEST_CASE( "npc_test_tags", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+
+    global_variables &globvars = get_globals();
+    globvars.set_global_value( "test_var", "It's global" );
+
+    d.add_topic( "TALK_TEST_TAGS" );
+    gen_response_lines( d, 3 );
+    CHECK( d.responses[0].create_option_line( d, input_event() ).text ==
+           "Avatar tag is set to It's avatar." );
+    CHECK( d.responses[1].create_option_line( d, input_event() ).text ==
+           "NPC tag is set to It's npc." );
+    CHECK( d.responses[2].create_option_line( d, input_event() ).text ==
+           "Global tag is set to It's global." );
+    globvars.clear_global_values();
+}
+
 TEST_CASE( "npc_compare_int", "[npc_talk]" )
 {
     dialogue d;
@@ -1080,6 +1101,10 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
 
     get_weather().temperature = 19;
     get_weather().windspeed = 20;
+    get_weather().weather_precise->temperature = 19;
+    get_weather().weather_precise->windpower = 20;
+    get_weather().weather_precise->humidity = 20;
+    get_weather().weather_precise->pressure = 20;
     get_weather().clear_temp_cache();
     player_character.set_stored_kcal( 45000 );
     player_character.remove_items_with( []( const item & it ) {

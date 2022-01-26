@@ -574,7 +574,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         // add containers separately from their contents
         if( !it->empty_container() ) {
             // is the non-empty container used for BOIL?
-            if( !it->is_watertight_container() || it->get_raw_quality( qual_BOIL ) <= 0 ) {
+            if( !it->is_watertight_container() || it->get_quality( qual_BOIL, false ) <= 0 ) {
                 item tmp = item( it->typeId(), it->birthday() );
                 tmp.is_favorite = it->is_favorite;
                 *crafting_cache.crafting_inventory += tmp;
@@ -1101,7 +1101,8 @@ static void destroy_random_component( item &craft, const Character &crafter )
 
     item destroyed = random_entry_removed( craft.components );
 
-    crafter.add_msg_player_or_npc( _( "You mess up and destroy the %s." ),
+    crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
+                                   _( "You mess up and destroy the %s." ),
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
 }
 
@@ -1396,13 +1397,20 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
     // Avoid building an inventory from the map if we don't have to, as it is expensive
     if( !continue_reqs.is_empty() ) {
 
-        std::function<bool( const item & )> filter = rec.get_component_filter();
+        auto std_filter = [&rec]( const item & it ) {
+            return rec.get_component_filter()( it ) && ( it.is_container_empty() ||
+                    !it.is_watertight_container() );
+        };
         const std::function<bool( const item & )> no_rotten_filter =
             rec.get_component_filter( recipe_filter_flags::no_rotten );
+        const std::function<bool( const item & )> no_favorite_filter =
+            rec.get_component_filter( recipe_filter_flags::no_favorite );
+        bool use_rotten_filter = true;
+        bool use_favorite_filter = true;
         // continue_reqs are for all batches at once
         const int batch_size = 1;
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), filter, batch_size ) ) {
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), std_filter, batch_size ) ) {
             std::string buffer = _( "You don't have the required components to continue crafting!" );
             buffer += "\n";
             buffer += continue_reqs.list_missing();
@@ -1417,18 +1425,31 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             return false;
         }
 
-        if( continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter,
-                batch_size ) ) {
-            filter = no_rotten_filter;
-        } else {
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter, batch_size ) ) {
             if( !query_yn( _( "Some components required to continue are rotten.\n"
                               "Continue crafting anyway?" ) ) ) {
                 return false;
             }
+            use_rotten_filter = false;
+        }
+
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_favorite_filter,
+                batch_size ) ) {
+            if( !query_yn( _( "Some components required to continue are favorite.\n"
+                              "Continue crafting anyway?" ) ) ) {
+                return false;
+            }
+            use_favorite_filter = false;
         }
 
         inventory map_inv;
         map_inv.form_from_map( pos(), PICKUP_RANGE, this );
+
+        auto filter = [&]( const item & it ) {
+            return std_filter( it ) &&
+                   ( !use_rotten_filter || no_rotten_filter( it ) ) &&
+                   ( !use_favorite_filter || no_favorite_filter( it ) );
+        };
 
         std::vector<comp_selection<item_comp>> item_selections;
         for( const auto &it : continue_reqs.get_components() ) {

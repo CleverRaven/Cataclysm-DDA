@@ -1,0 +1,10 @@
+[
+  {
+    "id": "activity_desc",
+    "type": "widget",
+    "label": "Activity",
+    "style": "text",
+    "var": "activity_text",
+    "//": "Uses display::activity_text_color"
+  }
+]

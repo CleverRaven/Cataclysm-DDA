@@ -154,6 +154,6 @@ TEST_CASE( "Proportional armor material resistances", "[material]" )
 
     SECTION( "Mostly cotton armor vs. melee" ) {
         const float dmg = get_avg_melee_dmg( "test_swat_mostly_cotton" );
-        check_near( "Average damage", dmg, 12.8f, 0.2f );
+        check_near( "Average damage", dmg, 12.2f, 0.2f );
     }
 }

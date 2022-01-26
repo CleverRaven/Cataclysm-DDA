@@ -26,6 +26,7 @@
 #include "localized_comparator.h"
 #include "map.h"
 #include "math_defines.h"
+#include "messages.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -124,6 +125,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
     optional( jo, was_loaded, "default_magazine", default_magazine );
     optional( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "name", pocket_name );
     if( jo.has_member( "ammo_restriction" ) && ammo_restriction.empty() ) {
         jo.throw_error( "pocket defines empty ammo_restriction" );
     }
@@ -239,20 +241,40 @@ void item_pocket::restack()
     if( contents.size() <= 1 ) {
         return;
     }
-    for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
-        if( !outer_iter->count_by_charges() ) {
-            continue;
-        }
-        for( auto inner_iter = contents.begin(); inner_iter != contents.end(); ) {
-            if( outer_iter == inner_iter || !inner_iter->count_by_charges() ) {
-                ++inner_iter;
+    if( is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+        // Restack magazine contents in a way that preserves order of items
+        for( auto iter = contents.begin(); iter != contents.end(); ) {
+            if( !iter->count_by_charges() ) {
                 continue;
             }
-            if( outer_iter->combine( *inner_iter ) ) {
-                inner_iter = contents.erase( inner_iter );
-                outer_iter = contents.begin();
+
+            auto next = std::next( iter, 1 );
+            if( next == contents.end() ) {
+                break;
+            }
+
+            if( iter->combine( *next ) ) {
+                iter = contents.erase( next );
             } else {
-                ++inner_iter;
+                ++iter;
+            }
+        }
+    } else {
+        for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
+            if( !outer_iter->count_by_charges() ) {
+                continue;
+            }
+            for( auto inner_iter = contents.begin(); inner_iter != contents.end(); ) {
+                if( outer_iter == inner_iter || !inner_iter->count_by_charges() ) {
+                    ++inner_iter;
+                    continue;
+                }
+                if( outer_iter->combine( *inner_iter ) ) {
+                    inner_iter = contents.erase( inner_iter );
+                    outer_iter = contents.begin();
+                } else {
+                    ++inner_iter;
+                }
             }
         }
     }
@@ -320,16 +342,6 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
         return !rhs.data->get_flag_restrictions().empty();
     }
 
-    if( data->extra_encumbrance != rhs.data->extra_encumbrance ) {
-        // pockets without extra encumbrance should be prioritized
-        return !rhs.data->extra_encumbrance;
-    }
-
-    if( data->ripoff > rhs.data->ripoff ) {
-        // pockets without ripoff chance should be prioritized
-        return true;
-    }
-
     if( it.is_comestible() && it.get_comestible()->spoils != 0_seconds ) {
         // a lower spoil multiplier is better
         return rhs.spoil_multiplier() < spoil_multiplier();
@@ -344,6 +356,16 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
     //Skip irrelevant properties of nested containers
     if( nested ) {
         return false;
+    }
+
+    if( rhs.data->extra_encumbrance < data->extra_encumbrance ) {
+        // pockets with less extra encumbrance should be prioritized
+        return true;
+    }
+
+    if( data->ripoff > rhs.data->ripoff ) {
+        // pockets without ripoff chance should be prioritized
+        return true;
     }
 
     if( data->rigid != rhs.data->rigid ) {
@@ -1414,8 +1436,9 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
 
         if( is_type( item_pocket::pocket_type::MAGAZINE ) ) {
             // Reloading is refused if
-            // Pocket contains ammo that can't combine (empty casings ignored)
-            // Pocket is full of ammo
+            // Pocket is full of ammo (casings are ignored)
+            // Ammos are of different ammo type
+            // If either of ammo is liquid while the other is not or they are different types
 
             if( full( false ) ) {
                 return false;
@@ -1425,11 +1448,15 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
                 if( loaded->has_flag( flag_CASING ) ) {
                     continue;
                 }
-                // This is a *very* cut down version of item::stacks_with()
-                bool cant_combine = loaded->type != ammo.type || loaded->active != ammo.active ||
-                                    loaded->made_of( phase_id::LIQUID ) != ammo.made_of( phase_id::LIQUID );
-                if( cant_combine ) {
+                if( loaded->ammo_type() != ammo.ammo_type() ) {
                     return false;
+                }
+                if( loaded->made_of( phase_id::LIQUID ) || ammo.made_of( phase_id::LIQUID ) ) {
+                    bool cant_combine = !loaded->made_of( phase_id::LIQUID ) || !ammo.made_of( phase_id::LIQUID ) ||
+                                        loaded->type != ammo.type;
+                    if( cant_combine ) {
+                        return false;
+                    }
                 }
             }
 
@@ -1516,6 +1543,7 @@ void item_pocket::overflow( const tripoint &pos )
             ( !ret_contain.success() &&
               ret_contain.value() != contain_code::ERR_NO_SPACE &&
               ret_contain.value() != contain_code::ERR_CANNOT_SUPPORT ) ) {
+            add_msg( m_bad, _( "Your %s falls to the ground." ), ( *iter ).tname() );
             here.add_item_or_charges( pos, *iter );
             iter = contents.erase( iter );
         } else {
@@ -1762,10 +1790,11 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
 {
     const ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
+
     if( ret.success() ) {
-        contents.push_back( it );
+        contents.push_front( it );
+        restack();
     }
-    restack();
     return ret;
 }
 

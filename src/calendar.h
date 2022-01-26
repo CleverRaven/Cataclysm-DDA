@@ -623,4 +623,16 @@ enum class weekdays : int {
 
 weekdays day_of_week( const time_point &p );
 
+// To support the eternal season option we create a strong typedef of timepoint
+// which is a season_effective_time.  This converts a regular time to a time
+// which would be relevant for sun position and weather calculations.  Normally
+// the two times are the same, but when eternal seasons are used the effective
+// time is always set to the same day, so that the sun position and weather
+// doesn't change from day to day.
+struct season_effective_time {
+    season_effective_time() = default;
+    explicit season_effective_time( const time_point & );
+    time_point t;
+};
+
 #endif // CATA_SRC_CALENDAR_H

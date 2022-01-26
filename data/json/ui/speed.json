@@ -1,0 +1,9 @@
+[
+  {
+    "id": "speed_num",
+    "type": "widget",
+    "label": "Speed",
+    "var": "speed",
+    "style": "number"
+  }
+]

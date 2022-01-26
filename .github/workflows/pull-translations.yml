@@ -16,9 +16,6 @@ jobs:
           sudo pip3 install transifex-client
       - name: "Checkout"
         uses: actions/checkout@v2
-        with:
-          ref: master
-          fetch-depth: 0
       - name: "Get current date"
         uses: 1466587594/get-current-time@v2
         id: current-date

@@ -98,8 +98,8 @@ Monsters may also have any of these optional properties:
 | `petfood`                | (object) Data regarding feeding this monster to turn it into a pet
 | `absorb_ml_per_hp`       | (int) For monsters with the `ABSORB_ITEMS` special attack. Determines the amount in milliliters that must be absorbed to gain 1 HP. Default 250.
 | `absorb_move_cost_per_ml`| (float) For monsters with the `ABSORB_ITEMS` special attack. Determines the move cost for absorbing items based on the volume in milliliters of the absorbed items. Default 0.025f.
-| `absorb_move_cost_min`   | (int) For monsters with the `ABSORB_ITEMS` special attack. Sets a minimum movement cost for absorbing items regardless of the volume of the comsumed item. Default 1.
-| `absorb_move_cost_max`   | (int) For monsters with the `ABSORB_ITEMS` special attack. Sets a maximum movement cost for absorbing items regardless of the volume of the comsumed item. -1 for no limit. Default -1.
+| `absorb_move_cost_min`   | (int) For monsters with the `ABSORB_ITEMS` special attack. Sets a minimum movement cost for absorbing items regardless of the volume of the consumed item. Default 1.
+| `absorb_move_cost_max`   | (int) For monsters with the `ABSORB_ITEMS` special attack. Sets a maximum movement cost for absorbing items regardless of the volume of the consumed item. -1 for no limit. Default -1.
 | `absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster will seek to absorb. Items with multiple materials will be matched as long as it is made of at least one of the materials in this list. If not specified the monster will absorb all materials.
 | `split_move_cost`        | (int) For monsters with the `SPLIT` special attack. Determines the move cost when splitting into a copy of itself.
 
@@ -243,7 +243,7 @@ Monster baseline difficulty.  Impacts the shade used to label the monster, and i
 | `2`   | a limited defensive ability such as a skitterbot's taser, or a weak special like a shrieker zombie's special ability to alert nearby monsters, or a minor bonus to attack like poison or venom.
 | `5`   | a limited ranged attack weaker than spitter zombie's spit, or a powerful defensive ability like a shocker zombie's zapback or an acid zombie's acid spray.
 | `10`  | a powerful ranged attack, like a spitters zombie's spit or an turret's 9mm SMG.
-| `15`  | a powerful ranged attack with additional hazards, like a corrosize zombie's spit
+| `15`  | a powerful ranged attack with additional hazards, like a corrosive zombie's spit
 | `20`  | a very powerful ranged attack, like a laser turret or military turret's 5.56mm rifle, or a powerful special ability, like a zombie necromancer's ability to raise other zombies.
 | `30`  | a ranged attack that is deadly even for armored characters, like an anti-material turret's .50 BMG rifle.
 
@@ -369,7 +369,7 @@ The `coverage_mult` and `difficulty` objects support the following subfields:
 | `bash`              | The value used for melee bashing weapons.
 | `cut`               | The value used for melee cutting weapons.
 | `stab`              | The value used for melee stabbing weapons.
-| `ranged`            | The value used for ranged weapons, including projectiles and throwning weapons.
+| `ranged`            | The value used for ranged weapons, including projectiles and throwing weapons.
 | `melee`             | The default value for melee weapons (`bash`, `cut`, and `stab`). Takes precedence over `point` and `broad`.
 | `point`             | The default value for pointed weapons (`stab` and `ranged`).
 | `broad`             | The default value for broad weapons (`bash` and `cut`).

@@ -11,6 +11,7 @@
 
 #include "bonuses.h"
 #include "calendar.h"
+#include "flat_set.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -81,6 +82,8 @@ struct ma_requirements {
 
 
     std::set<flag_id> req_flags; // any item flags required for this technique
+    cata::flat_set<json_character_flag> req_char_flags; // Character flags required
+    cata::flat_set<json_character_flag> forbidden_char_flags; // Character flags disabling the technique
 
     ma_requirements() {
         unarmed_allowed = false;
@@ -97,6 +100,21 @@ struct ma_requirements {
     bool is_valid_weapon( const item &i ) const;
 
     void load( const JsonObject &jo, const std::string &src );
+};
+
+struct tech_effect_data {
+    efftype_id id;
+    int duration;
+    bool permanent;
+    bool on_damage;
+    int chance;
+    std::string message;
+    json_character_flag req_flag;
+
+    tech_effect_data( const efftype_id &nid, int dur, bool perm, bool ondmg,
+                      int nchance, std::string message, json_character_flag req_flag ) :
+        id( nid ), duration( dur ), permanent( perm ), on_damage( ondmg ),
+        chance( nchance ), message( message ), req_flag( req_flag ) {}
 };
 
 class ma_technique
@@ -129,9 +147,13 @@ class ma_technique
         bool dummy = false;
         bool crit_tec = false;
         bool crit_ok = false;
+        bool attack_override = false; // The attack replaces the one it triggered off of
 
         ma_requirements reqs;
 
+
+        int repeat_min = 1;    // Number of times the technique is repeated on a successful proc
+        int repeat_max = 1;
         int down_dur = 0;
         int stun_dur = 0;
         int knockback_dist = 0;
@@ -159,6 +181,8 @@ class ma_technique
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
+
+        std::vector<tech_effect_data> tech_effects;
 
         float damage_bonus( const Character &u, damage_type type ) const;
         float damage_multiplier( const Character &u, damage_type type ) const;
@@ -333,6 +357,7 @@ class ma_style_callback : public uilist_callback
         ~ma_style_callback() override = default;
 };
 
+tech_effect_data load_tech_effect_data( const JsonObject &e );
 void load_technique( const JsonObject &jo, const std::string &src );
 void load_martial_art( const JsonObject &jo, const std::string &src );
 void check_martialarts();

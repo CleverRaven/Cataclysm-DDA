@@ -176,6 +176,8 @@ class submap : maptile_soa<SEEX, SEEY>
             return fld[p.x][p.y];
         }
 
+        void clear_fields( const point &p );
+
         struct cosmetic_t {
             point pos;
             std::string type;

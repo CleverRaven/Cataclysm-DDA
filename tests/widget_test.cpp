@@ -1,7 +1,14 @@
 #include "catch/catch.hpp"
 
+#include "game.h"
 #include "player_helpers.h"
+#include "map.h"
+#include "map_helpers.h"
+#include "mission.h"
+#include "monster.h"
 #include "morale.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "options_helpers.h"
 #include "weather.h"
 #include "weather_type.h"
@@ -15,14 +22,30 @@ namespace cata_curses_test
 #if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else
+#if !defined(_XOPEN_SOURCE_EXTENDED)
+#define _XOPEN_SOURCE_EXTENDED // required for mvwinnwstr on macOS
+#endif
 #include <curses.h>
 #endif
-}
+} // namespace cata_curses_test
 #else
 #include "cursesport.h"
 #endif
 
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_infected( "infected" );
+
+static const flag_id json_flag_SPLINT( "SPLINT" );
+
 static const itype_id itype_rad_badge( "rad_badge" );
+
+static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_prone( "prone" );
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_walk( "walk" );
 
 static const weather_type_id weather_acid_rain( "acid_rain" );
 static const weather_type_id weather_cloudy( "cloudy" );
@@ -41,6 +64,12 @@ static const widget_id widget_test_bucket_graph( "test_bucket_graph" );
 static const widget_id widget_test_color_graph_10k_widget( "test_color_graph_10k_widget" );
 static const widget_id widget_test_color_graph_widget( "test_color_graph_widget" );
 static const widget_id widget_test_color_number_widget( "test_color_number_widget" );
+static const widget_id widget_test_compass_N( "test_compass_N" );
+static const widget_id widget_test_compass_N_nodir_nowidth( "test_compass_N_nodir_nowidth" );
+static const widget_id widget_test_compass_N_nowidth( "test_compass_N_nowidth" );
+static const widget_id widget_test_compass_legend_1( "test_compass_legend_1" );
+static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
+static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
 static const widget_id widget_test_dex_num( "test_dex_num" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
 static const widget_id widget_test_hp_head_graph( "test_hp_head_graph" );
@@ -48,7 +77,12 @@ static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
 static const widget_id widget_test_int_num( "test_int_num" );
 static const widget_id widget_test_mana_num( "test_mana_num" );
 static const widget_id widget_test_morale_num( "test_morale_num" );
+static const widget_id widget_test_move_cost_num( "test_move_cost_num" );
+static const widget_id widget_test_move_count_mode_text( "test_move_count_mode_text" );
+static const widget_id widget_test_move_mode_letter( "test_move_mode_letter" );
+static const widget_id widget_test_move_mode_text( "test_move_mode_text" );
 static const widget_id widget_test_move_num( "test_move_num" );
+static const widget_id widget_test_overmap_3x3_text( "test_overmap_3x3_text" );
 static const widget_id widget_test_per_num( "test_per_num" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
 static const widget_id widget_test_rad_badge_text( "test_rad_badge_text" );
@@ -56,8 +90,14 @@ static const widget_id widget_test_speed_num( "test_speed_num" );
 static const widget_id widget_test_stamina_graph( "test_stamina_graph" );
 static const widget_id widget_test_stamina_num( "test_stamina_num" );
 static const widget_id widget_test_stat_panel( "test_stat_panel" );
+static const widget_id widget_test_status_left_arm_text( "test_status_left_arm_text" );
+static const widget_id widget_test_status_legend_text( "test_status_legend_text" );
+static const widget_id widget_test_status_sym_left_arm_text( "test_status_sym_left_arm_text" );
+static const widget_id widget_test_status_sym_torso_text( "test_status_sym_torso_text" );
+static const widget_id widget_test_status_torso_text( "test_status_torso_text" );
 static const widget_id widget_test_str_num( "test_str_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
+static const widget_id widget_test_torso_armor_outer_text( "test_torso_armor_outer_text" );
 static const widget_id widget_test_weariness_num( "test_weariness_num" );
 static const widget_id widget_test_weather_text( "test_weather_text" );
 static const widget_id widget_test_weather_text_height5( "test_weather_text_height5" );
@@ -373,15 +413,6 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( morale_w.layout( ava ) == "MORALE: -100" );
     }
 
-    SECTION( "move counter" ) {
-        widget move_w = widget_test_move_num.obj();
-
-        ava.movecounter = 80;
-        CHECK( move_w.layout( ava ) == "MOVE: 80" );
-        ava.movecounter = 150;
-        CHECK( move_w.layout( ava ) == "MOVE: 150" );
-    }
-
     SECTION( "hit points" ) {
         bodypart_id head( "head" );
         widget head_num_w = widget_test_hp_head_num.obj();
@@ -423,6 +454,358 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
     }
 }
 
+TEST_CASE( "widgets showing move counter and mode", "[widget][move_mode]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "move counter" ) {
+        widget move_w = widget_test_move_num.obj();
+
+        ava.movecounter = 80;
+        CHECK( move_w.layout( ava ) == "MOVE: 80" );
+        ava.movecounter = 150;
+        CHECK( move_w.layout( ava ) == "MOVE: 150" );
+    }
+
+    SECTION( "move counter and mode letter" ) {
+        widget move_count_mode_w = widget_test_move_count_mode_text.obj();
+
+        ava.movecounter = 90;
+        ava.set_movement_mode( move_mode_walk );
+        CHECK( move_count_mode_w.layout( ava ) == "MOVE/MODE: <color_c_white>90(W)</color>" );
+        ava.set_movement_mode( move_mode_run );
+        CHECK( move_count_mode_w.layout( ava ) == "MOVE/MODE: <color_c_red>90(R)</color>" );
+        ava.set_movement_mode( move_mode_crouch );
+        CHECK( move_count_mode_w.layout( ava ) == "MOVE/MODE: <color_c_light_blue>90(C)</color>" );
+        ava.set_movement_mode( move_mode_prone );
+        CHECK( move_count_mode_w.layout( ava ) == "MOVE/MODE: <color_c_green>90(P)</color>" );
+    }
+
+    SECTION( "movement mode text and letter" ) {
+        widget mode_letter_w = widget_test_move_mode_letter.obj();
+        widget mode_text_w = widget_test_move_mode_text.obj();
+
+        ava.set_movement_mode( move_mode_walk );
+        CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_white>W</color>" );
+        CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_white>walking</color>" );
+        ava.set_movement_mode( move_mode_run );
+        CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_red>R</color>" );
+        CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_red>running</color>" );
+        ava.set_movement_mode( move_mode_crouch );
+        CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_light_blue>C</color>" );
+        CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_light_blue>crouching</color>" );
+        ava.set_movement_mode( move_mode_prone );
+        CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_green>P</color>" );
+        CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_green>prone</color>" );
+    }
+}
+
+TEST_CASE( "widgets showing movement cost", "[widget][move_cost]" )
+{
+    widget cost_num_w = widget_test_move_cost_num.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "without shoes" ) {
+        REQUIRE_FALSE( ava.is_wearing_shoes() );
+        // Having no shoes adds +8 per foot to base run cost
+        REQUIRE( ava.run_cost( 100 ) == 116 );
+        CHECK( cost_num_w.layout( ava ) == "MOVE COST: 116" );
+    }
+    SECTION( "wearing sneakers" ) {
+        // Sneakers eliminate the no-shoes penalty
+        ava.wear_item( item( "sneakers" ) );
+        REQUIRE( ava.is_wearing_shoes() );
+        REQUIRE( ava.run_cost( 100 ) == 100 );
+        CHECK( cost_num_w.layout( ava ) == "MOVE COST: 100" );
+    }
+    SECTION( "wearing swim fins" ) {
+        // Swim fins multiply cost by 1.5
+        ava.wear_item( item( "swim_fins" ) );
+        REQUIRE( ava.is_wearing_shoes() );
+        REQUIRE( ava.run_cost( 100 ) == 167 );
+        CHECK( cost_num_w.layout( ava ) == "MOVE COST: 167" );
+    }
+}
+
+// Bodypart status strings are pulled from a std::map, which is
+// not guaranteed to be sorted in a deterministic way.
+// Just check if the layout string contains the specified status conditions.
+static void check_bp_has_status( const std::string &layout, std::vector<std::string> stat_str )
+{
+    for( const std::string &stat : stat_str ) {
+        CHECK( layout.find( stat ) != std::string::npos );
+    }
+}
+
+TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    bodypart_id arm( "arm_l" );
+    bodypart_id torso( "torso" );
+    widget arm_status_w = widget_test_status_left_arm_text.obj();
+    widget torso_status_w = widget_test_status_torso_text.obj();
+
+    // No ailments
+    CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: --" );
+    CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+
+    // Add various ailments and/or treatments to the left arm, and ensure status is displayed
+    // correctly, while torso status display is unaffected
+
+    WHEN( "bitten" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_yellow>bitten</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bleeding" ) {
+        // low-intensity
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.get_effect( effect_bleed, arm ).set_intensity( 5 );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_light_red>bleeding</color>" );
+        // medium-intensity
+        ava.get_effect( effect_bleed, arm ).set_intensity( 15 );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_red>bleeding</color>" );
+        // high-intensity
+        ava.get_effect( effect_bleed, arm ).set_intensity( 25 );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_red_red>bleeding</color>" );
+        // torso still fine
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bandaged" ) {
+        ava.add_effect( effect_bandaged, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_white>bandaged</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "broken" ) {
+        ava.set_part_hp_cur( arm, 0 );
+        REQUIRE( ava.is_limb_broken( arm ) );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_magenta>broken</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "broken and splinted" ) {
+        ava.set_part_hp_cur( arm, 0 );
+        ava.wear_item( item( "arm_splint" ) );
+        REQUIRE( ava.is_limb_broken( arm ) );
+        REQUIRE( ava.worn_with_flag( json_flag_SPLINT, arm ) );
+        check_bp_has_status( arm_status_w.layout( ava ),
+        { "LEFT ARM STATUS:", "<color_c_magenta>broken</color>", "<color_c_light_gray>splinted</color>" } );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "infected" ) {
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_pink>infected</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "disinfected" ) {
+        ava.add_effect( effect_disinfected, 1_minutes, arm );
+        CHECK( arm_status_w.layout( ava ) == "LEFT ARM STATUS: <color_c_light_green>disinfected</color>" );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bitten and bleeding" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        check_bp_has_status( arm_status_w.layout( ava ),
+        { "LEFT ARM STATUS:", "<color_c_yellow>bitten</color>", "<color_c_light_red>bleeding</color>" } );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bitten and infected" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        check_bp_has_status( arm_status_w.layout( ava ),
+        { "LEFT ARM STATUS:", "<color_c_yellow>bitten</color>", "<color_c_pink>infected</color>" } );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bleeding and infected" ) {
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        check_bp_has_status( arm_status_w.layout( ava ),
+        { "LEFT ARM STATUS:", "<color_c_light_red>bleeding</color>", "<color_c_pink>infected</color>" } );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+
+    WHEN( "bitten, bleeding, and infected" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        check_bp_has_status( arm_status_w.layout( ava ),
+        { "LEFT ARM STATUS:", "<color_c_yellow>bitten</color>", "<color_c_light_red>bleeding</color>", "<color_c_pink>infected</color>" } );
+        CHECK( torso_status_w.layout( ava ) == "TORSO STATUS: --" );
+    }
+}
+
+TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
+{
+    const int sidebar_width = 36;
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    bodypart_id arm( "arm_l" );
+    bodypart_id torso( "torso" );
+    widget bp_legend = widget_test_status_legend_text.obj();
+    widget arm_stat = widget_test_status_sym_left_arm_text.obj();
+    widget torso_stat = widget_test_status_sym_torso_text.obj();
+
+    CHECK( arm_stat.layout( ava, sidebar_width ) == "L ARM:                              " );
+    CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+    CHECK( bp_legend.layout( ava, sidebar_width ).empty() );
+
+    WHEN( "bitten" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_yellow>B</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_yellow>B</color> bitten\n" );
+    }
+
+    WHEN( "bleeding" ) {
+        // low-intensity
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.get_effect( effect_bleed, arm ).set_intensity( 5 );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_light_red>b</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_light_red>b</color> bleeding\n" );
+        // medium-intensity
+        ava.get_effect( effect_bleed, arm ).set_intensity( 15 );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_red>b</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_red>b</color> bleeding\n" );
+        // high-intensity
+        ava.get_effect( effect_bleed, arm ).set_intensity( 25 );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_red_red>b</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_red_red>b</color> bleeding\n" );
+    }
+
+    WHEN( "bandaged" ) {
+        ava.add_effect( effect_bandaged, 1_minutes, arm );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_white>+</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_white>+</color> bandaged\n" );
+    }
+
+    WHEN( "broken" ) {
+        ava.set_part_hp_cur( arm, 0 );
+        REQUIRE( ava.is_limb_broken( arm ) );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_magenta>%</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_magenta>%</color> broken\n" );
+    }
+
+    WHEN( "broken and splinted" ) {
+        ava.set_part_hp_cur( arm, 0 );
+        ava.wear_item( item( "arm_splint" ) );
+        REQUIRE( ava.is_limb_broken( arm ) );
+        REQUIRE( ava.worn_with_flag( json_flag_SPLINT, arm ) );
+        check_bp_has_status( arm_stat.layout( ava, sidebar_width ),
+        { "L ARM:", "<color_c_magenta>%</color>", "<color_c_light_gray>=</color>" } );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        check_bp_has_status( bp_legend.layout( ava, sidebar_width ),
+        { "<color_c_magenta>%</color> broken", "<color_c_light_gray>=</color> splinted" } );
+    }
+
+    WHEN( "infected" ) {
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_pink>I</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_pink>I</color> infected\n" );
+    }
+
+    WHEN( "disinfected" ) {
+        ava.add_effect( effect_disinfected, 1_minutes, arm );
+        CHECK( arm_stat.layout( ava, sidebar_width ) ==
+               "L ARM:                             <color_c_light_green>$</color>" );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_light_green>$</color> disinfected\n" );
+    }
+
+    WHEN( "bitten and bleeding" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        check_bp_has_status( arm_stat.layout( ava, sidebar_width ),
+        { "L ARM:", "<color_c_yellow>B</color>", "<color_c_light_red>b</color>" } );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        check_bp_has_status( bp_legend.layout( ava, sidebar_width ),
+        { "<color_c_yellow>B</color> bitten", "<color_c_light_red>b</color> bleeding" } );
+    }
+
+    WHEN( "bitten and infected" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        check_bp_has_status( arm_stat.layout( ava, sidebar_width ),
+        { "L ARM:", "<color_c_yellow>B</color>", "<color_c_pink>I</color>" } );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        check_bp_has_status( bp_legend.layout( ava, sidebar_width ),
+        { "<color_c_yellow>B</color> bitten", "<color_c_pink>I</color> infected" } );
+    }
+
+    WHEN( "bleeding and infected" ) {
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        check_bp_has_status( arm_stat.layout( ava, sidebar_width ),
+        { "L ARM:", "<color_c_pink>I</color>", "<color_c_light_red>b</color>" } );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        check_bp_has_status( bp_legend.layout( ava, sidebar_width ),
+        { "<color_c_pink>I</color> infected", "<color_c_light_red>b</color> bleeding" } );
+    }
+
+    WHEN( "bitten, bleeding, and infected" ) {
+        ava.add_effect( effect_bite, 1_minutes, arm );
+        ava.add_effect( effect_bleed, 1_minutes, arm );
+        ava.add_effect( effect_infected, 1_minutes, arm );
+        check_bp_has_status( arm_stat.layout( ava, sidebar_width ),
+        { "L ARM:", "<color_c_yellow>B</color>", "<color_c_pink>I</color>", "<color_c_light_red>b</color>" } );
+        CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
+        check_bp_has_status( bp_legend.layout( ava, sidebar_width ),
+        { "<color_c_yellow>B</color> bitten", "<color_c_pink>I</color> infected", "<color_c_light_red>b</color> bleeding" } );
+    }
+}
+
+TEST_CASE( "outer armor widget", "[widget][armor]" )
+{
+    widget torso_armor_w = widget_test_torso_armor_outer_text.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    // Empty when no armor is worn
+    CHECK( torso_armor_w.layout( ava ) == "Torso Armor: -" );
+
+    // Wearing something covering torso
+    ava.worn.emplace_back( "test_zentai" );
+    CHECK( torso_armor_w.layout( ava ) ==
+           "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
+
+    // Wearing socks doesn't affect the torso
+    ava.worn.emplace_back( "test_socks" );
+    CHECK( torso_armor_w.layout( ava ) ==
+           "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
+
+    // Wearing something else on the torso
+    ava.worn.emplace_back( "test_hazmat_suit" );
+    CHECK( torso_armor_w.layout( ava ) ==
+           "Torso Armor: <color_c_light_green>||</color>\u00A0TEST hazmat suit (poor fit)" );
+}
+
 TEST_CASE( "radiation badge widget", "[widget][radiation]" )
 {
     widget rads_w = widget_test_rad_badge_text.obj();
@@ -453,6 +836,141 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
     rad_badge.irradiation = 241;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
+}
+
+TEST_CASE( "compass widget", "[widget][compass]" )
+{
+    const int sidebar_width = 36;
+    widget c5s_N = widget_test_compass_N.obj();
+    widget c5s_N_nowidth = widget_test_compass_N_nowidth.obj();
+    widget c5s_N_nodir_nowidth = widget_test_compass_N_nodir_nowidth.obj();
+    widget c5s_legend1 = widget_test_compass_legend_1.obj();
+    widget c5s_legend3 = widget_test_compass_legend_3.obj();
+    widget c5s_legend5 = widget_test_compass_legend_5.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    const tripoint northeast = ava.pos() + tripoint( 10, -10, 0 );
+    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+
+    SECTION( "No monsters" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        g->mon_info_update();
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ).empty() );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ).empty() );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ).empty() );
+    }
+
+    SECTION( "1 monster NE" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", northeast );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTHEAST )].size()
+                 == 1 );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+    }
+
+    SECTION( "1 monster N" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 1 );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>B</color>" );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>+</color>" );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+    }
+
+    SECTION( "3 same monsters N" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        monster &mon2 = spawn_test_monster( "mon_test_CBM", north + tripoint( 0, -1, 0 ) );
+        monster &mon3 = spawn_test_monster( "mon_test_CBM", north + tripoint( 0, -2, 0 ) );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( mon2 ) );
+        REQUIRE( ava.sees( mon3 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 1 );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>B</color>" );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>+</color>" );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>" );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>\n" );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>\n" );
+    }
+
+    SECTION( "3 different monsters N" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        monster &mon2 = spawn_test_monster( "mon_test_bovine", north + tripoint( 0, -1, 0 ) );
+        monster &mon3 = spawn_test_monster( "mon_test_shearable", north + tripoint( 0, -2, 0 ) );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( mon2 ) );
+        REQUIRE( ava.sees( mon3 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 3 );
+        CHECK( c5s_N.layout( ava, sidebar_width ) ==
+               "N:                               <color_c_white>B</color>"
+               "<color_c_white>B</color><color_c_white>S</color>" );
+        CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                 <color_c_white>+</color>" );
+        CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
+               "N:                                  " );
+        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>                 " );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
+        CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+    }
 }
 
 // Widgets with "layout" style can combine other widgets in columns or rows.
@@ -618,6 +1136,82 @@ TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
     }
 }
 
+// Fill a 3x3 overmap area around the avatar with a given overmap terrain
+static void fill_overmap_area( const avatar &ava, const oter_id &oter )
+{
+    const tripoint_abs_omt &ava_pos = ava.global_omt_location();
+    for( int x = -1; x <= 1; ++x ) {
+        for( int y = -1; y <= 1; ++y ) {
+            const tripoint offset( x, y, 0 );
+            overmap_buffer.ter_set( ava_pos + offset, oter );
+            overmap_buffer.set_seen( ava_pos + offset, true );
+        }
+    }
+}
+
+TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
+{
+    widget overmap_w = widget_test_overmap_3x3_text.obj();
+    avatar &ava = get_avatar();
+    mission msn;
+    // Use mission target to invalidate the om cache
+    msn.set_target( ava.global_omt_location() + tripoint( 5, 0, 0 ) );
+    clear_avatar();
+    clear_map();
+    ava.on_mission_assignment( msn );
+
+    // Mission marker is a red asterisk when it's along the border
+    const std::string red_star = "<color_c_red>*</color>";
+
+    SECTION( "field" ) {
+        const std::string brown_dot = "<color_c_brown>.</color>";
+        const std::string h_brown_dot = "<color_h_brown>.</color>";
+        fill_overmap_area( ava, oter_id( "field" ) );
+        // Mission marker to the north of avatar position (y - 2)
+        msn.set_target( ava.global_omt_location() + tripoint( 0, -2, 0 ) );
+        // (red star in top center of the map)
+        const std::vector<std::string> field_3x3 = {
+            brown_dot, red_star, brown_dot, "\n",
+            brown_dot, h_brown_dot, brown_dot, "\n",
+            brown_dot, brown_dot, brown_dot, "\n"
+        };
+        CHECK( overmap_w.layout( ava ) == join( field_3x3, "" ) );
+    }
+
+    SECTION( "forest" ) {
+        const std::string green_F = "<color_c_green>F</color>";
+        const std::string h_green_F = "<color_h_green>F</color>";
+        fill_overmap_area( ava, oter_id( "forest" ) );
+        // Mission marker to the east of avatar position (x + 2)
+        msn.set_target( ava.global_omt_location() + tripoint( 2, 0, 0 ) );
+        // (red star on the right edge of the map)
+        const std::vector<std::string> forest_3x3 = {
+            green_F, green_F, green_F, "\n",
+            green_F, h_green_F, red_star, "\n",
+            green_F, green_F, green_F, "\n"
+        };
+        CHECK( overmap_w.layout( ava ) == join( forest_3x3, "" ) );
+    }
+
+    SECTION( "central lab" ) {
+        const std::string blue_L = "<color_c_light_blue>L</color>";
+        const std::string h_blue_L = "<color_h_light_blue>L</color>";
+        //const std::string blue_L_red = "<color_c_light_blue_red>L</color>";
+        fill_overmap_area( ava, oter_id( "central_lab" ) );
+        // Mission marker southwest of avatar position (x-2, y+2)
+        msn.set_target( ava.global_omt_location() + tripoint( -2, 2, 0 ) );
+        // (red star on lower left corner of map)
+        const std::vector<std::string> lab_3x3 = {
+            blue_L, blue_L, blue_L, "\n",
+            blue_L, h_blue_L, blue_L, "\n",
+            red_star, blue_L, blue_L, "\n"
+        };
+        CHECK( overmap_w.layout( ava ) == join( lab_3x3, "" ) );
+    }
+
+    // TODO: Horde indicators
+}
+
 TEST_CASE( "Custom widget height and multiline formatting", "[widget]" )
 {
     const int cols = 32;
@@ -678,5 +1272,442 @@ TEST_CASE( "Custom widget height and multiline formatting", "[widget]" )
             cata_curses_test::endwin();
         }
 #endif
+    }
+}
+
+static int get_height_from_widget_factory( const widget_id &id )
+{
+    for( const widget &w : widget::get_all() ) {
+        if( w.getId() == id ) {
+            return w._height;
+        }
+    }
+    return -1;
+}
+
+// Use the compass legend as a proof-of-concept
+TEST_CASE( "Dynamic height for multiline widgets", "[widget]" )
+{
+    const int sidebar_width = 36;
+    widget c5s_legend3 = widget_test_compass_legend_3.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+
+    SECTION( "No monsters (0 lines, bumped to 1 line when drawing)" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        g->mon_info_update();
+        CHECK( c5s_legend3.layout( ava, sidebar_width ).empty() );
+        CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 0 );
+    }
+
+    SECTION( "1 monster N (1 line)" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 1 );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+        CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 1 );
+    }
+
+    SECTION( "2 different monsters N (2 lines)" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        monster &mon2 = spawn_test_monster( "mon_test_bovine", north + tripoint( 0, -1, 0 ) );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( mon2 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 2 );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+        CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 2 );
+    }
+
+    SECTION( "3 different monsters N (3 lines)" ) {
+        clear_map();
+        set_time( calendar::turn_zero + 12_hours );
+        monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        monster &mon2 = spawn_test_monster( "mon_test_bovine", north + tripoint( 0, -1, 0 ) );
+        monster &mon3 = spawn_test_monster( "mon_test_shearable", north + tripoint( 0, -2, 0 ) );
+        g->mon_info_update();
+        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( mon2 ) );
+        REQUIRE( ava.sees( mon3 ) );
+        REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
+                 3 );
+        CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
+        CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 3 );
+    }
+}
+
+/**
+ * Alignments
+ * ----------
+ *
+ * Label left, text right (default):
+ * ------------------------------------
+ * LEFT ARM STATUS:         disinfected
+ * TORSO STATUS:                 bitten
+ * L ARM:                             $
+ * TORSO:                             B
+ *
+ * Label left, text left:
+ * ------------------------------------
+ * LEFT ARM STATUS: disinfected
+ * TORSO STATUS:    bitten
+ * L ARM:           $
+ * TORSO:           B
+ *
+ * Label right, text left:
+ * ------------------------------------
+ * LEFT ARM STATUS: disinfected
+ *    TORSO STATUS: bitten
+ *           L ARM: $
+ *           TORSO: B
+ *
+ * Label right, text right:
+ * ------------------------------------
+ *         LEFT ARM STATUS: disinfected
+ *                 TORSO STATUS: bitten
+ *                             L ARM: $
+ *                             TORSO: B
+ *
+ * Label center, text left:
+ * ------------------------------------
+ * LEFT ARM STATUS: disinfected
+ *   TORSO STATUS:  bitten
+ *      L ARM:      $
+ *      TORSO:      B
+ *
+ * Label center, text right:
+ * ------------------------------------
+ * LEFT ARM STATUS:         disinfected
+ *   TORSO STATUS:               bitten
+ *      L ARM:                        $
+ *      TORSO:                        B
+ *
+ * Label center, text center:
+ * ------------------------------------
+ * LEFT ARM STATUS:     disinfected
+ *   TORSO STATUS:         bitten
+ *      L ARM:               $
+ *      TORSO:               B
+ *
+ * Label left, text center:
+ * ------------------------------------
+ * LEFT ARM STATUS:     disinfected
+ * TORSO STATUS:           bitten
+ * L ARM:                    $
+ * TORSO:                    B
+ *
+ * Label right, text center:
+ * ------------------------------------
+ * LEFT ARM STATUS:     disinfected
+ *    TORSO STATUS:        bitten
+ *           L ARM:          $
+ *           TORSO:          B
+ */
+TEST_CASE( "Widget alignment", "[widget]" )
+{
+    const int sidebar_width = 36;
+    const int row_label_width = 15;
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    bodypart_id arm( "arm_l" );
+    bodypart_id torso( "torso" );
+    widget arm_stat_sc = widget_test_status_left_arm_text.obj();
+    widget torso_stat_sc = widget_test_status_torso_text.obj();
+    widget arm_stat_mc = widget_test_status_sym_left_arm_text.obj();
+    widget torso_stat_mc = widget_test_status_sym_torso_text.obj();
+
+    ava.add_effect( effect_bite, 1_minutes, torso );
+    ava.add_effect( effect_disinfected, 1_minutes, arm );
+
+    SECTION( "Label left, text right (default)" ) {
+        arm_stat_sc._label_align = widget_alignment::LEFT;
+        arm_stat_mc._label_align = widget_alignment::LEFT;
+        torso_stat_sc._label_align = widget_alignment::LEFT;
+        torso_stat_mc._label_align = widget_alignment::LEFT;
+
+        arm_stat_sc._text_align = widget_alignment::RIGHT;
+        arm_stat_mc._text_align = widget_alignment::RIGHT;
+        torso_stat_sc._text_align = widget_alignment::RIGHT;
+        torso_stat_mc._text_align = widget_alignment::RIGHT;
+
+        CHECK( arm_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "LEFT ARM STATUS:         <color_c_light_green>disinfected</color>" );
+        CHECK( torso_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "TORSO STATUS:                 <color_c_yellow>bitten</color>" );
+        CHECK( arm_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "L ARM:                             <color_c_light_green>$</color>" );
+        CHECK( torso_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "TORSO:                             <color_c_yellow>B</color>" );
+    }
+
+    SECTION( "Label left, text left" ) {
+        arm_stat_sc._label_align = widget_alignment::LEFT;
+        arm_stat_mc._label_align = widget_alignment::LEFT;
+        torso_stat_sc._label_align = widget_alignment::LEFT;
+        torso_stat_mc._label_align = widget_alignment::LEFT;
+
+        arm_stat_sc._text_align = widget_alignment::LEFT;
+        arm_stat_mc._text_align = widget_alignment::LEFT;
+        torso_stat_sc._text_align = widget_alignment::LEFT;
+        torso_stat_mc._text_align = widget_alignment::LEFT;
+
+        CHECK( arm_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "LEFT ARM STATUS: <color_c_light_green>disinfected</color>        " );
+        CHECK( torso_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "TORSO STATUS:    <color_c_yellow>bitten</color>             " );
+        CHECK( arm_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "L ARM:           <color_c_light_green>$</color>                  " );
+        CHECK( torso_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "TORSO:           <color_c_yellow>B</color>                  " );
+    }
+
+    SECTION( "Label right, text left" ) {
+        arm_stat_sc._label_align = widget_alignment::RIGHT;
+        arm_stat_mc._label_align = widget_alignment::RIGHT;
+        torso_stat_sc._label_align = widget_alignment::RIGHT;
+        torso_stat_mc._label_align = widget_alignment::RIGHT;
+
+        arm_stat_sc._text_align = widget_alignment::LEFT;
+        arm_stat_mc._text_align = widget_alignment::LEFT;
+        torso_stat_sc._text_align = widget_alignment::LEFT;
+        torso_stat_mc._text_align = widget_alignment::LEFT;
+
+        CHECK( arm_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "LEFT ARM STATUS: <color_c_light_green>disinfected</color>        " );
+        CHECK( torso_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "   TORSO STATUS: <color_c_yellow>bitten</color>             " );
+        CHECK( arm_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "          L ARM: <color_c_light_green>$</color>                  " );
+        CHECK( torso_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "          TORSO: <color_c_yellow>B</color>                  " );
+    }
+
+    SECTION( "Label right, text right" ) {
+        arm_stat_sc._label_align = widget_alignment::RIGHT;
+        arm_stat_mc._label_align = widget_alignment::RIGHT;
+        torso_stat_sc._label_align = widget_alignment::RIGHT;
+        torso_stat_mc._label_align = widget_alignment::RIGHT;
+
+        arm_stat_sc._text_align = widget_alignment::RIGHT;
+        arm_stat_mc._text_align = widget_alignment::RIGHT;
+        torso_stat_sc._text_align = widget_alignment::RIGHT;
+        torso_stat_mc._text_align = widget_alignment::RIGHT;
+
+        CHECK( arm_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "        LEFT ARM STATUS: <color_c_light_green>disinfected</color>" );
+        CHECK( torso_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "                TORSO STATUS: <color_c_yellow>bitten</color>" );
+        CHECK( arm_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "                            L ARM: <color_c_light_green>$</color>" );
+        CHECK( torso_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "                            TORSO: <color_c_yellow>B</color>" );
+    }
+
+    SECTION( "Label center, text left" ) {
+        arm_stat_sc._label_align = widget_alignment::CENTER;
+        arm_stat_mc._label_align = widget_alignment::CENTER;
+        torso_stat_sc._label_align = widget_alignment::CENTER;
+        torso_stat_mc._label_align = widget_alignment::CENTER;
+
+        arm_stat_sc._text_align = widget_alignment::LEFT;
+        arm_stat_mc._text_align = widget_alignment::LEFT;
+        torso_stat_sc._text_align = widget_alignment::LEFT;
+        torso_stat_mc._text_align = widget_alignment::LEFT;
+
+        CHECK( arm_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "LEFT ARM STATUS: <color_c_light_green>disinfected</color>        " );
+        CHECK( torso_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "  TORSO STATUS:  <color_c_yellow>bitten</color>             " );
+        CHECK( arm_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "     L ARM:      <color_c_light_green>$</color>                  " );
+        CHECK( torso_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "     TORSO:      <color_c_yellow>B</color>                  " );
+    }
+
+    SECTION( "Label center, text right" ) {
+        arm_stat_sc._label_align = widget_alignment::CENTER;
+        arm_stat_mc._label_align = widget_alignment::CENTER;
+        torso_stat_sc._label_align = widget_alignment::CENTER;
+        torso_stat_mc._label_align = widget_alignment::CENTER;
+
+        arm_stat_sc._text_align = widget_alignment::RIGHT;
+        arm_stat_mc._text_align = widget_alignment::RIGHT;
+        torso_stat_sc._text_align = widget_alignment::RIGHT;
+        torso_stat_mc._text_align = widget_alignment::RIGHT;
+
+        CHECK( arm_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "LEFT ARM STATUS:         <color_c_light_green>disinfected</color>" );
+        CHECK( torso_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "  TORSO STATUS:               <color_c_yellow>bitten</color>" );
+        CHECK( arm_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "     L ARM:                        <color_c_light_green>$</color>" );
+        CHECK( torso_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "     TORSO:                        <color_c_yellow>B</color>" );
+    }
+
+    SECTION( "Label center, text center" ) {
+        arm_stat_sc._label_align = widget_alignment::CENTER;
+        arm_stat_mc._label_align = widget_alignment::CENTER;
+        torso_stat_sc._label_align = widget_alignment::CENTER;
+        torso_stat_mc._label_align = widget_alignment::CENTER;
+
+        arm_stat_sc._text_align = widget_alignment::CENTER;
+        arm_stat_mc._text_align = widget_alignment::CENTER;
+        torso_stat_sc._text_align = widget_alignment::CENTER;
+        torso_stat_mc._text_align = widget_alignment::CENTER;
+
+        CHECK( arm_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "LEFT ARM STATUS:     <color_c_light_green>disinfected</color>    " );
+        CHECK( torso_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "  TORSO STATUS:         <color_c_yellow>bitten</color>      " );
+        CHECK( arm_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "     L ARM:               <color_c_light_green>$</color>         " );
+        CHECK( torso_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "     TORSO:               <color_c_yellow>B</color>         " );
+    }
+
+    SECTION( "Label left, text center" ) {
+        arm_stat_sc._label_align = widget_alignment::LEFT;
+        arm_stat_mc._label_align = widget_alignment::LEFT;
+        torso_stat_sc._label_align = widget_alignment::LEFT;
+        torso_stat_mc._label_align = widget_alignment::LEFT;
+
+        arm_stat_sc._text_align = widget_alignment::CENTER;
+        arm_stat_mc._text_align = widget_alignment::CENTER;
+        torso_stat_sc._text_align = widget_alignment::CENTER;
+        torso_stat_mc._text_align = widget_alignment::CENTER;
+
+        CHECK( arm_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "LEFT ARM STATUS:     <color_c_light_green>disinfected</color>    " );
+        CHECK( torso_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "TORSO STATUS:           <color_c_yellow>bitten</color>      " );
+        CHECK( arm_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "L ARM:                    <color_c_light_green>$</color>         " );
+        CHECK( torso_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "TORSO:                    <color_c_yellow>B</color>         " );
+    }
+
+    SECTION( "Label right, text center" ) {
+        arm_stat_sc._label_align = widget_alignment::RIGHT;
+        arm_stat_mc._label_align = widget_alignment::RIGHT;
+        torso_stat_sc._label_align = widget_alignment::RIGHT;
+        torso_stat_mc._label_align = widget_alignment::RIGHT;
+
+        arm_stat_sc._text_align = widget_alignment::CENTER;
+        arm_stat_mc._text_align = widget_alignment::CENTER;
+        torso_stat_sc._text_align = widget_alignment::CENTER;
+        torso_stat_mc._text_align = widget_alignment::CENTER;
+
+        CHECK( arm_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "LEFT ARM STATUS:     <color_c_light_green>disinfected</color>    " );
+        CHECK( torso_stat_sc.layout( ava, sidebar_width, row_label_width ) ==
+               "   TORSO STATUS:        <color_c_yellow>bitten</color>      " );
+        CHECK( arm_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "          L ARM:          <color_c_light_green>$</color>         " );
+        CHECK( torso_stat_mc.layout( ava, sidebar_width, row_label_width ) ==
+               "          TORSO:          <color_c_yellow>B</color>         " );
+    }
+
+    SECTION( "Multiline text" ) {
+        widget bp_legend = widget_test_status_legend_text.obj();
+
+        ava.add_effect( effect_infected, 1_minutes, torso );
+        ava.add_effect( effect_bleed, 1_minutes, torso );
+        ava.get_effect( effect_bleed, torso ).set_intensity( 5 );
+        ava.set_part_hp_cur( arm, 0 );
+        ava.wear_item( item( "arm_splint" ) );
+        ava.add_effect( effect_bandaged, 1_minutes, arm );
+
+        bp_legend._label_align = widget_alignment::LEFT;
+        bp_legend._text_align = widget_alignment::RIGHT;
+
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "    <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
+               "    <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
+               "                       <color_c_light_green>$</color> disinfected" );
+
+        bp_legend._label_align = widget_alignment::RIGHT;
+        bp_legend._text_align = widget_alignment::RIGHT;
+
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "    <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
+               "    <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
+               "                       <color_c_light_green>$</color> disinfected" );
+
+        bp_legend._label_align = widget_alignment::CENTER;
+        bp_legend._text_align = widget_alignment::RIGHT;
+
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "    <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
+               "    <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
+               "                       <color_c_light_green>$</color> disinfected" );
+
+        bp_legend._label_align = widget_alignment::LEFT;
+        bp_legend._text_align = widget_alignment::LEFT;
+
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "<color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
+               "<color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
+               "<color_c_light_green>$</color> disinfected                       " );
+
+        bp_legend._label_align = widget_alignment::RIGHT;
+        bp_legend._text_align = widget_alignment::LEFT;
+
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "<color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
+               "<color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
+               "<color_c_light_green>$</color> disinfected                       " );
+
+        bp_legend._label_align = widget_alignment::CENTER;
+        bp_legend._text_align = widget_alignment::LEFT;
+
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "<color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
+               "<color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
+               "<color_c_light_green>$</color> disinfected                       " );
+
+        bp_legend._label_align = widget_alignment::LEFT;
+        bp_legend._text_align = widget_alignment::CENTER;
+
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "  <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
+               "  <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
+               "            <color_c_light_green>$</color> disinfected           " );
+
+        bp_legend._label_align = widget_alignment::RIGHT;
+        bp_legend._text_align = widget_alignment::CENTER;
+
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "  <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
+               "  <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
+               "            <color_c_light_green>$</color> disinfected           " );
+
+        bp_legend._label_align = widget_alignment::CENTER;
+        bp_legend._text_align = widget_alignment::CENTER;
+
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "  <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
+               "  <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
+               "            <color_c_light_green>$</color> disinfected           " );
     }
 }

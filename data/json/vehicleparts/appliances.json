@@ -9,6 +9,7 @@
     "color": "light_blue",
     "broken_symbol": "#",
     "broken_color": "light_blue",
+    "location": "structure",
     "damage_modifier": 80,
     "durability": 100,
     "description": "A fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
@@ -42,6 +43,7 @@
     "description": "A standard electric convection-based oven, commonly used for heating and cooking food.",
     "symbol": "#",
     "color": "dark_gray",
+    "location": "structure",
     "broken_color": "dark_gray_white",
     "broken_symbol": "x",
     "damage_modifier": 10,
@@ -90,6 +92,7 @@
     "broken_symbol": "-",
     "categories": [ "lighting" ],
     "color": "white",
+    "location": "structure",
     "broken_color": "blue",
     "durability": 20,
     "description": "An electrical device containing an electric lamp that provides illumination.",
@@ -143,5 +146,20 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 0, 3 ] }
     ]
+  },
+  {
+    "id": "ap_wall_wiring",
+    "type": "vehicle_part",
+    "name": { "str": "wall wirings" },
+    "item": "wall_wiring",
+    "location": "structure",
+    "symbol": "_",
+    "categories": [ "other" ],
+    "broken_symbol": "/",
+    "color": "white",
+    "broken_color": "red",
+    "durability": 20,
+    "description": "Electric wires embedded in the wall.",
+    "flags": [ "APPLIANCE" ]
   }
 ]

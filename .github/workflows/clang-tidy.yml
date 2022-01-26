@@ -9,6 +9,11 @@ on:
     branches:
     - master
 
+# We only care about the latest revision of a PR, so cancel all previous instances.
+concurrency:
+  group: clang-tidy-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   skip-duplicates:
     continue-on-error: true
@@ -36,7 +41,7 @@ jobs:
         SOUND: 1
     steps:
     - name: checkout repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
         fetch-depth: 1
     - name: install dependencies

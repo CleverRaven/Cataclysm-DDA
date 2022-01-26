@@ -289,7 +289,7 @@
     "volume": "80500 ml",
     "weight": "90 kg",
     "hp": 200,
-    "speed": 150,
+    "speed": 120,
     "material": [ "flesh" ],
     "symbol": "&",
     "color": "red",

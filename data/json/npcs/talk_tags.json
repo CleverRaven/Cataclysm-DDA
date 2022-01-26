@@ -1426,6 +1426,17 @@
   },
   {
     "type": "snippet",
+    "category": "<BOSS_intro_question>",
+    "//": "avatar response to an NPC to get breadcrumbs for other NPCs and factions.",
+    "text": [
+      "Have you seen any signs of other survivors?",
+      "Do you know where we could find other survivors?",
+      "Have you seen any sign there are others out there?",
+      "We should try to find some other survivors.  Got any ideas?"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<done_conversation_section>",
     "//": "Avatar response to an NPC that can be used for TALK_NONE responses.  Could be used in a lot more dialogs.  Could also use a lot more variety.",
     "text": [
