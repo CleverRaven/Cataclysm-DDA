@@ -4804,5 +4804,29 @@
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_door_glass_c"
+  },
+  {
+    "type": "construction",
+    "id": "constr_training_dummy_light",
+    "group": "build_training_dummy_light",
+    "category": "CONSTRUCT",
+    "time": "10 m",
+    "difficulty": 1,
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "pebble", 25 ], [ "material_sand", 25 ], [ "material_soil", 25 ] ] ],
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "f_training_dummy_light"
+  },
+  {
+    "type": "construction",
+    "id": "constr_training_dummy_heavy",
+    "group": "build_training_dummy_heavy",
+    "category": "CONSTRUCT",
+    "time": "10 m",
+    "difficulty": 1,
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "pebble", 25 ], [ "material_sand", 25 ], [ "material_soil", 25 ] ] ],
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "f_training_dummy_heavy"
   }
 ]
