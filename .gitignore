@@ -60,14 +60,12 @@ json_formatter
 *.lastbuildstate
 .vs/
 .vscode/
-Debug*/
-Release*/
+
+# Visual Studio project files
+/msvc-full-features/**/
 
 # Temporary CMakeFiles
 out/
-
-# Distribution script results
-/msvc-full-features/distribution
 
 # Visual Studio 2015
 /msvc-full-features/*db
@@ -80,10 +78,8 @@ Cataclysm.exe.lastcodeanalysissucceeded
 
 # Visual Studio 2019
 **/enc_temp_folder/*
-unsuccessfulbuild
 
 #vcpkg
-/msvc-full-features/vcpkg_installed
 /msvc-object_creator/vcpkg_installed
 
 # PVS Studio
