@@ -701,26 +701,29 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
     }
 }
 
-static void assert_maximum_density_for_material(const item& target)
+static void assert_maximum_density_for_material( const item &target )
 {
-    if (to_milliliter(target.volume()) == 0) return;
+    if( to_milliliter( target.volume() ) == 0 ) {
+        return;
+    }
     const std::map<material_id, int> mats = target.made_of();
-    if (!mats.empty()) {           
-        
-        double item_density = static_cast<double>(to_gram(target.weight())) / static_cast<double>(to_milliliter(target.volume()));
+    if( !mats.empty() ) {
+
+        double item_density = static_cast<double>( to_gram( target.weight() ) ) / static_cast<double>
+                              ( to_milliliter( target.volume() ) );
         double max_density = 0;
-        for (const auto& m : mats) {
+        for( const auto &m : mats ) {
             max_density += m.first.obj().density() * m.second / target.type->mat_portion_total;
         }
-        INFO(target.type_name());
-        CHECK(item_density <= max_density);        
+        INFO( target.type_name() );
+        CHECK( item_density <= max_density );
     }
 }
 
-TEST_CASE("item material density sanity check", "[item]")
+TEST_CASE( "item material density sanity check", "[item]" )
 {
-    for (const itype* type : item_controller->all()) {
-        const item sample(type, calendar::turn_zero, item::solitary_tag{});
-        assert_maximum_density_for_material(sample);
+    for( const itype *type : item_controller->all() ) {
+        const item sample( type, calendar::turn_zero, item::solitary_tag{} );
+        assert_maximum_density_for_material( sample );
     }
 }
