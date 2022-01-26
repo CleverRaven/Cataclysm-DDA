@@ -30,6 +30,15 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
   },
   {
+    "id": "xs_armor_cuirass",
+    "type": "ARMOR",
+    "copy-from": "armor_cuirass",
+    "looks_like": "armor_cuirass",
+    "name": { "str": "XS bell cuirass", "str_pl": "XS bell cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "armor_lamellar",
     "type": "ARMOR",
     "name": { "str": "lamellar cuirass", "str_pl": "lamellar cuirasses" },
@@ -56,6 +65,15 @@
     "copy-from": "armor_lamellar",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_armor_lamellar",
+    "type": "ARMOR",
+    "copy-from": "armor_lamellar",
+    "looks_like": "armor_lamellar",
+    "name": { "str": "XS lamellar cuirass", "str_pl": "XS lamellar cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "armor_lorica",
@@ -93,6 +111,15 @@
     "copy-from": "armor_lorica",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
+    "id": "xs_armor_lorica",
+    "type": "ARMOR",
+    "copy-from": "armor_lorica",
+    "looks_like": "armor_lorica",
+    "name": { "str_sp": "XS lorica segmentata" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "armor_thessalonian",
@@ -204,6 +231,15 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
+    "id": "xs_chainmail_vest",
+    "type": "ARMOR",
+    "copy-from": "chainmail_vest",
+    "looks_like": "chainmail_vest",
+    "name": { "str": "XS chainmail vest" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "chestguard_hard",
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
@@ -270,6 +306,15 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
   },
   {
+    "id": "xs_cuirass_lightplate",
+    "type": "ARMOR",
+    "copy-from": "cuirass_lightplate",
+    "looks_like": "cuirass_lightplate",
+    "name": { "str": "XS cuirass", "str_pl": "XS cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "cuirass_scrap",
     "type": "ARMOR",
     "category": "armor",
@@ -301,6 +346,15 @@
     "flags": [ "OVERSIZE", "OUTER" ]
   },
   {
+    "id": "xs_cuirass_scrap",
+    "type": "ARMOR",
+    "copy-from": "cuirass_scrap",
+    "looks_like": "cuirass_scrap",
+    "name": { "str": "XS scrap cuirass", "str_pl": "XS scrap cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "UNDERSIZE" ]
+  },
+  {
     "id": "cuirass_tire",
     "type": "ARMOR",
     "category": "armor",
@@ -328,6 +382,15 @@
     "copy-from": "cuirass_scrap",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "OVERSIZE", "OUTER", "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "xs_cuirass_tire",
+    "type": "ARMOR",
+    "copy-from": "cuirass_tire",
+    "looks_like": "cuirass_tire",
+    "name": { "str": "XS tire cuirass", "str_pl": "XS tire cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "NONCONDUCTIVE", "UNDERSIZE" ]
   },
   {
     "id": "fencing_jacket",
