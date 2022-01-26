@@ -1266,6 +1266,46 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
     }
 
     SECTION( "mixing whitelist and blacklists" ) {
+        WHEN( "same item first whitelisted then blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_item( test_item.typeId() );
+            REQUIRE( settings.get_item_whitelist().count( test_item.typeId() ) );
+            settings.blacklist_item( test_item.typeId() );
+            THEN( "item should be removed from the whitelist" ) {
+                REQUIRE_FALSE( settings.get_item_whitelist().count( test_item.typeId() ) );
+            }
+        }
+
+        WHEN( "same item first blacklisted then whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_item( test_item.typeId() );
+            REQUIRE( settings.get_item_blacklist().count( test_item.typeId() ) );
+            settings.whitelist_item( test_item.typeId() );
+            THEN( "item should be removed from the blacklist" ) {
+                REQUIRE_FALSE( settings.get_item_blacklist().count( test_item.typeId() ) );
+            }
+        }
+
+        WHEN( "same category first whitelisted then blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            REQUIRE( settings.get_category_whitelist().count( test_item.get_category_shallow().id ) );
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            THEN( "category should be removed from the whitelist" ) {
+                REQUIRE_FALSE( settings.get_category_whitelist().count( test_item.get_category_shallow().id ) );
+            }
+        }
+
+        WHEN( "same category first blacklisted then whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            REQUIRE( settings.get_category_blacklist().count( test_item.get_category_shallow().id ) );
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            THEN( "category should be removed from the blacklist" ) {
+                REQUIRE_FALSE( settings.get_category_blacklist().count( test_item.get_category_shallow().id ) );
+            }
+        }
+
         WHEN( "category whitelisted but item blacklisted" ) {
             item_pocket::favorite_settings settings;
             settings.whitelist_category( test_item.get_category_shallow().id );
