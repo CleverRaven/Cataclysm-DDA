@@ -14,6 +14,7 @@
 
 #include "cata_variant.h"
 #include "coordinates.h"
+#include "jmapgen_flags.h"
 #include "json.h"
 #include "memory_fast.h"
 #include "point.h"
@@ -94,6 +95,7 @@ struct jmapgen_int {
 /** Mapgen pieces will be applied in order of phases.  The phases are as
  * follows: */
 enum class mapgen_phase {
+    removal,
     terrain,
     furniture,
     default_,
@@ -441,6 +443,7 @@ class mapgen_function_json_base
         mapgen_arguments get_args( const mapgendata &md, mapgen_parameter_scope ) const;
 
         std::string context_;
+        enum_bitset<jmapgen_flags> flags_;
         bool is_ready;
 
         point mapgensize;

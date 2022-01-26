@@ -10162,6 +10162,9 @@ bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
         if( bp->has_flag( flag ) ) {
             return true;
         }
+        if( get_part( bp )->has_conditional_flag( flag ) ) {
+            return true;
+        }
     }
     return false;
 }

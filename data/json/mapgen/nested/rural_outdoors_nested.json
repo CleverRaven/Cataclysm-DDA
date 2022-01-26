@@ -463,6 +463,7 @@
         "..#t##d.",
         "....#..."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "desolatebarn_palette" ],
       "items": { "r": { "item": "hardware", "chance": 10 } }
     }
@@ -485,6 +486,7 @@
         ".dd.dd#.",
         "...d...."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "desolatebarn_palette" ],
       "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "oldtractor", "x": 1, "y": 1 } ]
     }
@@ -507,6 +509,7 @@
         "........",
         "...d...."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "desolatebarn_palette" ],
       "items": { ".": { "item": "hardware", "chance": 10 } }
     }
@@ -529,6 +532,7 @@
         "......dd",
         "...d...."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "desolatebarn_palette" ],
       "items": { "r": { "item": "hardware", "chance": 10 } }
     }
@@ -551,7 +555,8 @@
         "     k  ",
         "        "
       ],
-      "terrain": { " ": "t_null", "k": "t_trunk" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "k": "t_trunk" },
       "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door", "b": "f_firering" },
       "place_items": [
         { "item": "cannedfood", "x": 3, "y": 1, "chance": 75 },
@@ -574,7 +579,6 @@
         "   ",
         "hrh"
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "h": "f_camp_chair", "b": "f_firering", "r": "f_tourist_table" },
       "place_items": [
         { "item": "cannedfood", "x": 1, "y": 2, "chance": 75 },
