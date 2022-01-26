@@ -263,9 +263,14 @@ cata::optional<tile_lookup_res>
 tileset::find_tile_type_by_season( const std::string &id, season_type season ) const
 {
     cata_assert( season < season_type::NUM_SEASONS );
-    const auto iter = tile_ids_by_season[season].find( id );
 
-    if( iter == tile_ids_by_season[season].end() ) {
+    const auto *tile_id = &tile_ids_by_season[season];
+    if( tile_id == nullptr ) {
+        debugmsg( "null `tile_ids_by_season` map entry for season: %d", season );
+        return cata::nullopt;
+    }
+    const auto iter = tile_id->find( id );
+    if( iter == tile_id->end() ) {
         return cata::nullopt;
     }
     auto &res = iter->second;
