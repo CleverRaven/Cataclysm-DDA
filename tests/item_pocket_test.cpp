@@ -1194,7 +1194,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     }
 }
 
-TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
+TEST_CASE( "pocket favorites allow or restrict items", "[pocket][favorite][item]" )
 {
     item_location loc;
 
@@ -1356,7 +1356,7 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
     }
 }
 
-TEST_CASE( "pocket favorites allow or restrict containers", "[pocket][item][best]" )
+TEST_CASE( "pocket favorites allow or restrict containers", "[pocket][favorite][item]" )
 {
     item_pocket::favorite_settings settings;
 
