@@ -99,7 +99,8 @@ static std::string keys_text()
         colorize( "i", c_light_green ) + _( " item, " ) +
         colorize( "c", c_light_green ) + _( " category, " ) +
         colorize( "w", c_light_green ) + _( " whitelist, " ) +
-        colorize( "b", c_light_green ) + _( " blacklist" );
+        colorize( "b", c_light_green ) + _( " blacklist, " ) +
+        colorize( "x", c_light_green ) + _( " clear" );
 }
 
 bool pocket_favorite_callback::key( const input_context &, const input_event &event, int,
@@ -244,6 +245,10 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
             }
         }
         return true;
+    } else if( input == 'x' ) {
+        if( query_yn( _( "Are you sure you want to clear all pocket settings?" ) ) ) {
+            selected_pocket->settings.clear();
+        }
     }
 
     return false;
