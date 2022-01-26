@@ -2479,24 +2479,37 @@ static void apply_optional( T &value, const cata::optional<T> &applied )
     }
 }
 
+// Gets around the issue that cata::optional doesn't support
+// the *= and += operators required for "proportional" and "relative".
+template<typename T>
+static void get_optional( const JsonObject &jo, bool was_loaded, const std::string &member,
+                          cata::optional<T> &value )
+{
+    T tmp;
+    if( value ) {
+        tmp = *value;
+    }
+    optional( jo, was_loaded, member, tmp );
+    if( jo.has_member( member ) ) {
+        value = tmp;
+    }
+}
+
 void islot_armor::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "armor", sub_data );
 
-    cata::optional<float> thickness;
-    cata::optional<int> env_resist;
-    cata::optional<int> env_resist_w_filter;
     cata::optional<body_part_set> covers;
 
     assign_coverage_from_json( jo, "covers", covers );
-    optional( jo, false, "material_thickness", thickness, cata::nullopt );
-    optional( jo, false, "environmental_protection", env_resist, cata::nullopt );
-    optional( jo, false, "environmental_protection_with_filter", env_resist_w_filter, cata::nullopt );
+    get_optional( jo, was_loaded, "material_thickness", _material_thickness );
+    get_optional( jo, was_loaded, "environmental_protection", _env_resist );
+    get_optional( jo, was_loaded, "environmental_protection_with_filter", _env_resist_w_filter );
 
     for( armor_portion_data &armor : sub_data ) {
-        apply_optional( armor.avg_thickness, thickness );
-        apply_optional( armor.env_resist, env_resist );
-        apply_optional( armor.env_resist_w_filter, env_resist_w_filter );
+        apply_optional( armor.avg_thickness, _material_thickness );
+        apply_optional( armor.env_resist, _env_resist );
+        apply_optional( armor.env_resist_w_filter, _env_resist_w_filter );
         if( covers ) {
             armor.covers = covers;
         }
