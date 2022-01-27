@@ -395,9 +395,14 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
     if( dist > 1 && source.aim_per_move( gun, source.recoil ) > 0 &&
         source.confident_gun_mode_range( gunmode, source.recoil ) < dist ) {
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is aiming", source.disp_name() );
-        source.aim();
+        source.aim( Target_attributes( source.pos(), location ) );
     } else {
-        source.fire_gun( location );
+        if( source.is_hallucination() ) {
+            gun_mode mode = source.get_wielded_item().gun_current_mode();
+            source.pretend_fire( &source, mode.qty, *mode );
+        } else {
+            source.fire_gun( location );
+        }
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s fires %s", source.disp_name(),
                        gun.display_name() );
     }

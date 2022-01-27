@@ -47,8 +47,8 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_infection( "infection" );
 static const efftype_id effect_sleep( "sleep" );
 
-static const item_category_id item_category_books( "books" );
 static const item_category_id item_category_food( "food" );
+static const item_category_id item_category_manual( "manual" );
 
 static const itype_id itype_beer( "beer" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
@@ -129,6 +129,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     clear_vehicles();
     clear_map();
     avatar &player_character = get_avatar();
+    player_character.set_value( "test_var", "It's avatar" );
     player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
 
@@ -138,6 +139,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     g->faction_manager_ptr->create_if_needed();
 
     npc &beta = create_test_talker( shopkeep );
+    beta.set_value( "test_var", "It's npc" );
     d = dialogue( get_talker_for( player_character ), get_talker_for( beta ) );
     return beta;
 }
@@ -314,7 +316,7 @@ TEST_CASE( "npc_talk_location", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
-    change_om_type( "pond_swamp_north" );
+    change_om_type( "pond_field_north" );
     d.add_topic( "TALK_TEST_LOCATION" );
     d.gen_responses( d.topic_stack.back() );
     gen_response_lines( d, 1 );
@@ -615,7 +617,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     Character &player_character = get_avatar();
 
     player_character.remove_items_with( []( const item & it ) {
-        return it.get_category_shallow().get_id() == item_category_books ||
+        return it.get_category_shallow().get_id() == item_category_manual ||
                it.get_category_shallow().get_id() == item_category_food ||
                it.typeId() == itype_bottle_glass;
     } );
@@ -728,22 +730,22 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     CHECK( d.responses[2].text == "This is a u_has_item beer test response." );
     CHECK( d.responses[3].text == "This is a u_has_item bottle_glass test response." );
     CHECK( d.responses[4].text == "This is a u_has_items beer test response." );
-    CHECK( d.responses[5].text == "This is a u_has_item_category books test response." );
-    CHECK( d.responses[6].text == "This is a u_has_item_category books count 2 test response." );
+    CHECK( d.responses[5].text == "This is a u_has_item_category manuals test response." );
+    CHECK( d.responses[6].text == "This is a u_has_item_category manuals count 2 test response." );
     CHECK( d.responses[0].text == "This is a repeated item manual_speech test response" );
     CHECK( d.responses[0].success.next_topic.item_type == itype_manual_speech );
 
     d.add_topic( "TALK_TEST_ITEM_REPEAT" );
     gen_response_lines( d, 8 );
-    CHECK( d.responses[0].text == "This is a repeated category books, food test response" );
+    CHECK( d.responses[0].text == "This is a repeated category manuals, food test response" );
     CHECK( d.responses[0].success.next_topic.item_type == itype_beer );
-    CHECK( d.responses[1].text == "This is a repeated category books, food test response" );
+    CHECK( d.responses[1].text == "This is a repeated category manuals, food test response" );
     CHECK( d.responses[1].success.next_topic.item_type == itype_dnd_handbook );
-    CHECK( d.responses[2].text == "This is a repeated category books, food test response" );
+    CHECK( d.responses[2].text == "This is a repeated category manuals, food test response" );
     CHECK( d.responses[2].success.next_topic.item_type == itype_manual_speech );
-    CHECK( d.responses[3].text == "This is a repeated category books test response" );
+    CHECK( d.responses[3].text == "This is a repeated category manuals test response" );
     CHECK( d.responses[3].success.next_topic.item_type == itype_dnd_handbook );
-    CHECK( d.responses[4].text == "This is a repeated category books test response" );
+    CHECK( d.responses[4].text == "This is a repeated category manuals test response" );
     CHECK( d.responses[4].success.next_topic.item_type == itype_manual_speech );
     CHECK( d.responses[5].text == "This is a repeated item beer, bottle_glass test response" );
     CHECK( d.responses[5].success.next_topic.item_type == itype_bottle_glass );
@@ -1059,6 +1061,25 @@ TEST_CASE( "npc_compare_int_op", "[npc_talk]" )
     CHECK( d.responses[ 9 ].text == "Five > two." );
 }
 
+TEST_CASE( "npc_test_tags", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+
+    global_variables &globvars = get_globals();
+    globvars.set_global_value( "test_var", "It's global" );
+
+    d.add_topic( "TALK_TEST_TAGS" );
+    gen_response_lines( d, 3 );
+    CHECK( d.responses[0].create_option_line( d, input_event() ).text ==
+           "Avatar tag is set to It's avatar." );
+    CHECK( d.responses[1].create_option_line( d, input_event() ).text ==
+           "NPC tag is set to It's npc." );
+    CHECK( d.responses[2].create_option_line( d, input_event() ).text ==
+           "Global tag is set to It's global." );
+    globvars.clear_global_values();
+}
+
 TEST_CASE( "npc_compare_int", "[npc_talk]" )
 {
     dialogue d;
@@ -1080,10 +1101,14 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
 
     get_weather().temperature = 19;
     get_weather().windspeed = 20;
+    get_weather().weather_precise->temperature = 19;
+    get_weather().weather_precise->windpower = 20;
+    get_weather().weather_precise->humidity = 20;
+    get_weather().weather_precise->pressure = 20;
     get_weather().clear_temp_cache();
     player_character.set_stored_kcal( 45000 );
     player_character.remove_items_with( []( const item & it ) {
-        return it.get_category_shallow().get_id() == item_category_books ||
+        return it.get_category_shallow().get_id() == item_category_manual ||
                it.get_category_shallow().get_id() == item_category_food ||
                it.typeId() == itype_bottle_glass;
     } );

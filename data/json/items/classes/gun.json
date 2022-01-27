@@ -40,6 +40,7 @@
     "type": "GUN",
     "name": { "str": "base pistol" },
     "skill": "pistol",
+    "sight_dispersion": 60,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -183,12 +184,14 @@
     "abstract": "rifle_semi",
     "copy-from": "rifle_base",
     "type": "GUN",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "name": { "str": "semi-automatic rifle" }
   },
   {
     "abstract": "rifle_auto",
     "copy-from": "rifle_base",
     "type": "GUN",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "name": { "str": "fully automatic rifle" }
   },
   {

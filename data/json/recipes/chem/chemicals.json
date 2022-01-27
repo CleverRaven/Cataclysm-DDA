@@ -30,7 +30,7 @@
     "batch_time_factors": [ 80, 2 ],
     "autolearn": true,
     "charges": 75,
-    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "FINE_DISTILL", "level": 1 } ],
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "FINE_DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "thermometer", -1 ] ] ],
     "components": [
       [ [ "splinter", 3 ] ],

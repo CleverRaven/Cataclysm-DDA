@@ -19,7 +19,7 @@ body:
   - type: textarea
     id: steps-to-reproduce
     attributes:
-      label: Steps To Reproduce
+      label: Steps to reproduce
       description: Steps to reproduce the behavior.
       placeholder: |
         1. Make a player with a gun, magazine, and some ammo.
@@ -35,8 +35,7 @@ body:
       description: |
         A clear and concise description of what you expected to happen.
         Ideally also describe *why* you expect it to happen.
-      placeholder: |
-        I expected that aim level would increase, because all other skills can increase in level.
+      placeholder: I expected that aim level would increase, because all other skills can increase in level.
     validations:
       required: true
 
@@ -70,8 +69,7 @@ body:
     id: additional-context
     attributes:
       label: Additional context
-      description: |
-        Add any other context about the problem here.
+      description: Add any other context about the problem here.
       placeholder: |
         Crash: if your problem refers to a crash, please add the following files to the "Additional Context" paragraph:
           - From the /config folder (you can zip them both together):

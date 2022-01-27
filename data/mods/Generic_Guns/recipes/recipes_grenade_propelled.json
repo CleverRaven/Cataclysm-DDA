@@ -16,7 +16,7 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 12 ], [ "req_grenade", -1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
@@ -40,7 +40,7 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 12 ], [ "req_grenade", -1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],

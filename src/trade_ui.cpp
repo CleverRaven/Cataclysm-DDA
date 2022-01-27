@@ -75,6 +75,10 @@ std::string trade_preset::get_denial( const item_location &loc ) const
 
 bool trade_preset::cat_sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const
 {
+    item_category const *const lcat = lhs.get_category_ptr();
+    if( lcat->get_id() == item_category_ITEMS_WORN or lcat->get_id() == item_category_WEAPON_HELD ) {
+        return false;
+    }
     item_category const *const rcat = rhs.get_category_ptr();
     if( rcat->get_id() == item_category_ITEMS_WORN or rcat->get_id() == item_category_WEAPON_HELD ) {
         return true;
@@ -96,6 +100,7 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
     _panes[_you]->add_nearby_items( 1 );
     _panes[_trader]->add_character_items( trader );
     if( trader.mission == NPC_MISSION_SHOPKEEP ) {
+        _panes[_trader]->categorize_map_items( true );
         _panes[_trader]->add_nearby_items( PICKUP_RANGE );
     } else if( !trader.is_player_ally() ) {
         _panes[_trader]->add_nearby_items( 1 );
@@ -244,4 +249,9 @@ void trade_ui::_draw_header()
     center_print( _header_w, 2, trade_color, cost_str );
     mvwprintz( _header_w, { 1, 3 }, c_white, _parties[_trader]->get_name() );
     right_print( _header_w, 3, 1, c_white, _( "You" ) );
+    center_print( _header_w, header_size - 1, c_white,
+                  string_format( _( "%s to switch panes" ),
+                                 colorize( _panes[_you]->get_ctxt()->get_desc(
+                                         trade_selector::ACTION_SWITCH_PANES ),
+                                           c_yellow ) ) );
 }

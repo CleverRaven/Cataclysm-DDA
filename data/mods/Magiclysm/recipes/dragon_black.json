@@ -12,7 +12,7 @@
     "time": "48 m",
     "batch_time_factors": [ 20, 10 ],
     "qualities": [
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 2 },
       { "id": "BOIL", "level": 1 },
       { "id": "CONTAIN", "level": 1 },

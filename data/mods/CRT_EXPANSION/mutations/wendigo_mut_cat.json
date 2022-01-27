@@ -1,9 +1,9 @@
 [
   {
     "type": "mutation_category",
-    "id": "WENDIGO",
-    "name": "Wendigo",
-    "threshold_mut": "THRESH_WENDIGO",
+    "id": "SYLVAN",
+    "name": "Sylvan Avenger",
+    "threshold_mut": "THRESH_SYLVAN",
     "mutagen_message": "Nearby plants seem to bend towards you for a moment and then they shift back into place.",
     "iv_message": "A serene feeling of terror grips you as become acutely aware of the flora and fauna beckoning towards you.",
     "iv_min_mutations": 2,
@@ -16,22 +16,22 @@
     "memorial_message": "Reclaimed by nature."
   },
   {
-    "id": "mutagen_wendigo",
+    "id": "mutagen_sylvan",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "wendigo mutagen",
+    "name": "sylvan avenger mutagen",
     "description": "Mutagen cocktail simply labeled 'C.R.I.T R&D.'",
-    "use_action": { "type": "mutagen", "mutation_category": "WENDIGO" }
+    "use_action": { "type": "mutagen", "mutation_category": "SYLVAN" }
   },
   {
-    "id": "iv_mutagen_wendigo",
+    "id": "iv_mutagen_sylvan",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "wendigo serum",
+    "name": "sylvan avenger serum",
     "description": "A super-concentrated peat-brown substance with glittering green flecks that reminds you of a tree.  You need a syringe to inject it… if you really want to?",
     "color": "light_gray",
     "healthy": -2,
-    "use_action": { "type": "mutagen_iv", "mutation_category": "WENDIGO" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "SYLVAN" }
   },
   {
     "type": "dream",
@@ -39,13 +39,13 @@
       "You have a strange dream about the mountain forests.",
       "Your dreams give you a peculiar feeling of sinking into the treelines."
     ],
-    "category": "WENDIGO",
+    "category": "SYLVAN",
     "strength": 1
   },
   {
     "type": "dream",
     "messages": [ "You have a vivid dream of strolling through the woods.", "You dream of drinking copious amounts of warm water." ],
-    "category": "WENDIGO",
+    "category": "SYLVAN",
     "strength": 2
   },
   {
@@ -54,7 +54,7 @@
       "You have a dream of chasing something as a raw hunger sears your mind.",
       "Recollections of stalking a human shakes you awake."
     ],
-    "category": "WENDIGO",
+    "category": "SYLVAN",
     "strength": 3
   },
   {
@@ -63,7 +63,7 @@
       "You dream of tearing into more and more enemies.",
       "You have a lucid dream where nature carefully welcomes your body."
     ],
-    "category": "WENDIGO",
+    "category": "SYLVAN",
     "strength": 4
   }
 ]

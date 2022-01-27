@@ -38,15 +38,14 @@
     "id": "NC_ROBOFAC_MERC_1_worn",
     "subtype": "collection",
     "items": [
-      { "item": "ballistic_vest_esapi" },
-      { "item": "chestrig", "contents-group": "army_mags_m4" },
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
       { "item": "robofac_enviro_suit" },
       { "item": "slingpack" },
-      { "item": "armguard_hard" },
-      { "item": "legguard_hard" },
-      { "item": "knife_combat", "container-item": "bootsheath" }
+      { "item": "robofac_kevlar_vambraces" },
+      { "item": "robofac_kevlar_greaves" },
+      { "item": "knife_combat", "container-item": "bootsheath" },
+      { "group": "robofac_mantle_merc" }
     ]
   },
   {

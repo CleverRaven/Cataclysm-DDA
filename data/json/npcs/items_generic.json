@@ -286,7 +286,7 @@
       [ "vest", 10 ],
       [ "vest_leather", 5 ],
       [ "kevlar", 10 ],
-      [ "ballistic_vest_esapi", 5 ],
+      { "group": "military_ballistic_vest", "prob": 5 },
       [ "waistcoat", 5 ],
       [ "flotation_vest", 10 ],
       [ "chainmail_vest", 5 ]
@@ -798,7 +798,7 @@
       [ "minispeargun", 1 ],
       [ "mintpatties", 3 ],
       { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
-      [ "ballistic_vest_empty", 1 ],
+      [ "ballistic_vest_esapi", 1 ],
       [ "molasses", 3 ],
       [ "money_strap_one", 10 ],
       [ "money_strap_five", 5 ],

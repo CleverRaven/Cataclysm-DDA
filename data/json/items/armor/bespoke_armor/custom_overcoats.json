@@ -15,33 +15,14 @@
     "looks_like": "duster_leather",
     "color": "brown",
     "armor": [
-      {
-        "covers": [ "torso" ],
-        "coverage": 85,
-        "encumbrance": [ 7, 13 ],
-        "specifically_covers": [ "torso_upper", "torso_lower" ]
-      },
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 51,
+        "coverage": 85,
         "encumbrance": [ 4, 5 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 85,
-        "encumbrance": [ 7, 7 ],
-        "specifically_covers": [
-          "arm_elbow_l",
-          "arm_elbow_r",
-          "arm_upper_l",
-          "arm_upper_r",
-          "arm_shoulder_l",
-          "arm_shoulder_r",
-          "arm_lower_r",
-          "arm_lower_l"
-        ]
-      }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
     ],
     "pocket_data": [
       {
@@ -102,6 +83,15 @@
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "OVERSIZE" ]
   },
   {
+    "id": "xs_duster_survivor",
+    "type": "ARMOR",
+    "copy-from": "duster_survivor",
+    "looks_like": "duster_survivor",
+    "name": { "str": "XS survivor duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "UNDERSIZE" ]
+  },
+  {
     "id": "sleeveless_duster_survivor",
     "type": "ARMOR",
     "category": "armor",
@@ -118,15 +108,10 @@
     "looks_like": "duster_survivor",
     "color": "brown",
     "armor": [
-      {
-        "covers": [ "torso" ],
-        "coverage": 85,
-        "encumbrance": [ 7, 13 ],
-        "specifically_covers": [ "torso_upper", "torso_lower" ]
-      },
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 51,
+        "coverage": 85,
         "encumbrance": [ 4, 5 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       }

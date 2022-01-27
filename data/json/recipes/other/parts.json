@@ -485,7 +485,7 @@
     "time": "1 m",
     "autolearn": true,
     "charges": 6,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "copper_wire", 6 ] ], [ [ "duct_tape", 1 ] ] ]
   },
   {
@@ -654,7 +654,7 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cable", 50 ], [ "jumper_cable", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
@@ -725,7 +725,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "2 h",
-    "reversible": true,
+    "reversible": { "time": "20 m" },
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "proficiencies": [
@@ -744,7 +744,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "6 h",
-    "reversible": true,
+    "reversible": { "time": "20 m" },
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "proficiencies": [
@@ -832,7 +832,13 @@
     "components": [
       [ [ "antenna", 1 ] ],
       [ [ "pilot_light", 1 ] ],
-      [ [ "light_minus_battery_cell", 1 ] ],
+      [
+        [ "light_minus_battery_cell", 1 ],
+        [ "light_minus_disposable_cell", 1 ],
+        [ "light_battery_cell", 1 ],
+        [ "light_disposable_cell", 1 ],
+        [ "light_plus_battery_cell", 1 ]
+      ],
       [ [ "amplifier", 1 ] ],
       [ [ "cable", 2 ] ]
     ]
@@ -850,7 +856,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.25, "fail_multiplier": 1.125 } ],
     "using": [ [ "surface_heat", 10 ] ],
-    "qualities": [ { "id": "FILE", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "FILE", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "chunk_rubber", 8 ] ], [ [ "superglue", 4 ], [ "bone_glue", 4 ] ], [ [ "wheel_caster", 1 ] ] ]
   },
   {

@@ -58,15 +58,7 @@
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
     "flags": [ "MOUNTED_GUN" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "shotbelt_20" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "shotbelt_20" ] } ]
   },
   {
     "id": "lever_shotgun",
@@ -565,15 +557,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "saiga10mag", "saiga30mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "saiga10mag", "saiga30mag" ] } ]
   },
   {
     "id": "shotgun_d",

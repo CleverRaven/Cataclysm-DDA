@@ -49,7 +49,9 @@ template<>
 class local_translation_cache<std::string>
 {
     private:
+#ifndef CATA_IN_TOOL
         int cached_lang_version = INVALID_LANGUAGE_VERSION;
+#endif
         std::string cached_arg;
         std::string cached_translation;
     public:
@@ -72,9 +74,11 @@ class local_translation_cache<const char *>
 {
     private:
         std::string cached_arg;
+#ifndef CATA_IN_TOOL
         int cached_lang_version = INVALID_LANGUAGE_VERSION;
         bool same_as_arg = false;
         const char *cached_translation = nullptr;
+#endif
     public:
         const char *operator()( const char *arg ) {
 #ifndef CATA_IN_TOOL

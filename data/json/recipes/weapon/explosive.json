@@ -31,7 +31,7 @@
       [ [ "paper", 5 ], [ "rolling_paper", 32 ] ],
       [ [ "chem_sulphuric_acid", 2 ] ],
       [ [ "chem_nitric_acid", 1 ] ],
-      [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
+      [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "methed_alcohol", 250 ] ],
       [ [ "chem_glycerol", 2 ] ]
     ]
   },
@@ -69,7 +69,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "thread", 10 ] ],
       [ [ "paper", 1 ], [ "rolling_paper", 6 ] ],
@@ -86,7 +86,7 @@
     "time": "3 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "firecracker", 25 ] ], [ [ "paper", 5 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {

@@ -133,6 +133,7 @@
         "     ",
         "     "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette" ],
       "place_signs": [
         { "snippet": "lab_safety_snippet", "x": [ 0, 1 ], "y": 0 },
@@ -203,6 +204,7 @@
         "     ",
         "     "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "-": "t_chaingate_c", "X": "t_chainfence_h" }
     }
   },

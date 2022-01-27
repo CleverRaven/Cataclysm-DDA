@@ -22,9 +22,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 9,
-        "coverage": 28,
-        "cover_melee": 28,
-        "cover_ranged": 28,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 80,
         "cover_vitals": 0,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
@@ -53,9 +53,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 2,
-        "coverage": 36,
-        "cover_melee": 36,
-        "cover_ranged": 36,
+        "coverage": 90,
+        "cover_melee": 90,
+        "cover_ranged": 90,
         "cover_vitals": 50,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l" ]
       }
@@ -157,6 +157,16 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
+    "id": "xs_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "chainmail_legs",
+    "looks_like": "chainmail_legs",
+    "name": { "str": "XS chainmail leggings", "str_pl": "pairs of XS chainmail leggings" },
+    "description": "Customized chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "leggings_thessalonian",
     "type": "ARMOR",
     "category": "armor",
@@ -178,9 +188,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 14,
-        "coverage": 75,
-        "cover_melee": 76,
-        "cover_ranged": 72,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 90,
         "cover_vitals": 100,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
       }
@@ -202,7 +212,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -272,9 +282,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 0,
-        "coverage": 5,
-        "cover_melee": 5,
-        "cover_ranged": 5,
+        "coverage": 90,
+        "cover_melee": 90,
+        "cover_ranged": 95,
         "cover_vitals": 90,
         "specifically_covers": [ "leg_knee_r", "leg_knee_l" ]
       }
@@ -302,9 +312,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 5,
-        "coverage": 38,
-        "cover_melee": 38,
-        "cover_ranged": 36,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 90,
         "cover_vitals": 70,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l" ]
       }
@@ -318,6 +328,16 @@
     "description": "A pair of gigantic bronze leg guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "OUTER", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_legguard_bronze",
+    "type": "ARMOR",
+    "copy-from": "legguard_bronze",
+    "looks_like": "legguard_bronze",
+    "name": { "str": "XS bronze greaves", "str_pl": "pairs of XS bronze greaves" },
+    "description": "A pair of tiny bronze leg guards with a simple leather lining.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "STURDY", "ALLOWS_TAIL", "UNDERSIZE" ]
   },
   {
     "id": "legguard_hard",
@@ -342,9 +362,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 10,
-        "coverage": 75,
-        "cover_melee": 72,
-        "cover_ranged": 76,
+        "coverage": 90,
+        "cover_melee": 90,
+        "cover_ranged": 95,
         "cover_vitals": 90,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
       }
@@ -372,9 +392,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 8,
-        "coverage": 76,
-        "cover_melee": 76,
-        "cover_ranged": 76,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 95,
         "cover_vitals": 90,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ]
       }
@@ -388,6 +408,16 @@
     "description": "A full assembly of medieval leg protection for the largest of knights.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "OUTER", "STURDY", "OVERSIZE", "VARSIZE" ]
+  },
+  {
+    "id": "xs_legguard_lightplate",
+    "type": "ARMOR",
+    "copy-from": "legguard_lightplate",
+    "looks_like": "legguard_lightplate",
+    "name": { "str": "pair of XS steel leg guards", "str_pl": "pairs of XS steel leg guards" },
+    "description": "A full assembly of medieval leg protection for the smallest of knights.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "ALLOWS_TAIL", "UNDERSIZE" ]
   },
   {
     "id": "legguard_metal",
@@ -411,9 +441,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 3,
-        "coverage": 38,
-        "cover_melee": 38,
-        "cover_ranged": 36,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 90,
         "cover_vitals": 70,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l" ]
       }
@@ -426,7 +456,67 @@
     "name": { "str": "pair of XL iron greaves", "str_pl": "pairs of XL iron greaves" },
     "description": "A pair of extra large iron leg guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE", "ALLOWS_TAIL" ]
+  },
+  {
+    "id": "xs_legguard_metal",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal",
+    "looks_like": "legguard_metal",
+    "name": { "str": "pair of XS iron greaves", "str_pl": "pairs of XS iron greaves" },
+    "description": "A pair of extra small iron leg guards with a simple leather lining.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL", "UNDERSIZE" ]
+  },
+  {
+    "id": "legguard_metal_sheets",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of metal leg guards", "str_pl": "pairs of metal leg guards" },
+    "description": "A pair of leg guards hammered out of metal shaped to strap on to the upper and lower leg avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
+    "weight": "2260 g",
+    "volume": "5500 ml",
+    "price": 40000,
+    "price_postapoc": 1000,
+    "to_hit": 1,
+    "material": [ "iron", "leather" ],
+    "symbol": "[",
+    "looks_like": "legguard_lightplate",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 13,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 70,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_legguard_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets",
+    "name": { "str": "pair of XL metal leg guards", "str_pl": "pairs of XL metal leg guards" },
+    "description": "A pair of extra large hammered metal plates tied to your legs.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE", "ALLOWS_TAIL" ]
+  },
+  {
+    "id": "xs_legguard_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets",
+    "looks_like": "legguard_metal_sheets",
+    "name": { "str": "pair of XS metal leg guards", "str_pl": "pairs of XS metal leg guards" },
+    "description": "A pair of extra small leg guards hammered out of metal shaped to strap on to the upper and lower leg avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL", "UNDERSIZE" ]
   },
   {
     "id": "legguard_paper",
@@ -450,9 +540,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 4,
-        "coverage": 28,
-        "cover_melee": 28,
-        "cover_ranged": 28,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 80,
         "cover_vitals": 0,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
@@ -480,9 +570,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 4,
-        "coverage": 28,
-        "cover_melee": 28,
-        "cover_ranged": 28,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 80,
         "cover_vitals": 0,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
@@ -512,9 +602,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 6,
-        "coverage": 28,
-        "cover_melee": 28,
-        "cover_ranged": 28,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 80,
         "cover_vitals": 0,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
@@ -528,6 +618,16 @@
     "description": "A pair of leg guards made from scraps of metal secured by simple strings.  You look like a trash giant.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "OUTER", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_legguard_scrap",
+    "type": "ARMOR",
+    "copy-from": "legguard_scrap",
+    "looks_like": "legguard_scrap",
+    "name": { "str": "pair of XS scrap leg guards", "str_pl": "pairs of XS scrap leg guards" },
+    "description": "A pair of leg guards made from scraps of metal secured by simple strings.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "ALLOWS_TAIL", "UNDERSIZE" ]
   },
   {
     "id": "legguard_tire",
@@ -551,9 +651,9 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 14,
-        "coverage": 60,
-        "cover_melee": 60,
-        "cover_ranged": 60,
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 80,
         "cover_vitals": 0,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
       }
@@ -567,6 +667,16 @@
     "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.  You look like a trash giant.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "xs_legguard_tire",
+    "type": "ARMOR",
+    "copy-from": "legguard_tire",
+    "looks_like": "legguard_tire",
+    "name": { "str": "pair of XS tire leg guards", "str_pl": "pairs of XS tire leg guards" },
+    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "ALLOWS_TAIL", "NONCONDUCTIVE", "UNDERSIZE" ]
   },
   {
     "id": "motorbike_pants",
@@ -623,5 +733,465 @@
     "material_thickness": 7,
     "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "armor_lc_light_leg_guard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel 1.25 mm leg guard" },
+    "description": "A light leg guard, 1.25 mm at the thickest.  This one has been made with mild steel.",
+    "weight": "2500 g",
+    "volume": "2916 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "legguard_lightplate",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "sided": true,
+    "material_thickness": 2,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.25 },
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_lc_light_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel 1.25 mm leg guard" },
+    "copy-from": "armor_lc_light_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_mc_light_leg_guard",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_light_leg_guard",
+    "name": { "str": "medium steel 1.25 mm leg guard" },
+    "description": "A light leg guard, 1.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
+    "armor": [
+      {
+        "material": [
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.25 },
+          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_mc_light_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel 1.25 mm leg guard" },
+    "copy-from": "armor_mc_light_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_hc_light_leg_guard",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_light_leg_guard",
+    "name": { "str": "high steel 1.25 mm leg guard" },
+    "description": "A light leg guard, 1.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
+    "armor": [
+      {
+        "material": [
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.25 },
+          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_hc_light_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel 1.25 mm leg guard" },
+    "copy-from": "armor_hc_light_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_ch_light_leg_guard",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_light_leg_guard",
+    "name": { "str": "case hardened 1.25 mm leg guard" },
+    "description": "A light leg guard, 1.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
+    "armor": [
+      {
+        "material": [
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.25 },
+          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_ch_light_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL case hardened 1.25 mm leg guard" },
+    "copy-from": "armor_ch_light_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_qt_light_leg_guard",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_light_leg_guard",
+    "name": { "str": "tempered 1.25 mm leg guard" },
+    "description": "A light leg guard, 1.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "armor": [
+      {
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.25 },
+          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_qt_light_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered 1.25 mm leg guard" },
+    "copy-from": "armor_qt_light_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_lc_leg_guard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel 1.75 mm leg guard" },
+    "description": "A leg guard, 1.75 mm at the thickest.  This one has been made with mild steel.",
+    "weight": "3333 g",
+    "volume": "2916 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 4,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_lc_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel 1.75 mm leg guard" },
+    "copy-from": "armor_lc_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_mc_leg_guard",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_leg_guard",
+    "name": { "str": "medium steel 1.75 mm leg guard" },
+    "description": "A leg guard, 1.75 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
+    "armor": [
+      {
+        "material": [
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_mc_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel 1.75 mm leg guard" },
+    "copy-from": "armor_mc_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_hc_leg_guard",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_leg_guard",
+    "name": { "str": "high steel 1.75 mm leg guard" },
+    "description": "A leg guard, 1.75 mm at the thickest.  Made with high carbon steel offering excellent protection.",
+    "armor": [
+      {
+        "material": [
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_hc_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel 1.75 mm leg guard" },
+    "copy-from": "armor_hc_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_ch_leg_guard",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_leg_guard",
+    "name": { "str": "case hardened 1.75 mm leg guard" },
+    "description": "A leg guard, 1.75 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
+    "armor": [
+      {
+        "material": [
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_ch_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL case hardened 1.75 mm leg guard" },
+    "copy-from": "armor_ch_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_qt_leg_guard",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_leg_guard",
+    "name": { "str": "tempered 1.75 mm leg guard" },
+    "description": "A leg guard, 1.75 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "armor": [
+      {
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_qt_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered 1.75 mm leg guard" },
+    "copy-from": "armor_qt_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_lc_heavy_leg_guard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel 2.25 mm leg guard" },
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  This one has been made with mild steel.",
+    "weight": "4166 g",
+    "volume": "2916 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 6,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_lc_heavy_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel 2.25 mm leg guard" },
+    "copy-from": "armor_lc_heavy_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_mc_heavy_leg_guard",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_heavy_leg_guard",
+    "name": { "str": "medium steel 2.25 mm leg guard" },
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
+    "armor": [
+      {
+        "material": [
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_mc_heavy_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel 2.25 mm leg guard" },
+    "copy-from": "armor_mc_heavy_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_hc_heavy_leg_guard",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_heavy_leg_guard",
+    "name": { "str": "high steel 2.25 mm leg guard" },
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
+    "armor": [
+      {
+        "material": [
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_hc_heavy_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel 2.25 mm leg guard" },
+    "copy-from": "armor_hc_heavy_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_ch_heavy_leg_guard",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_heavy_leg_guard",
+    "name": { "str": "case hardened 2.25 mm leg guard" },
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
+    "armor": [
+      {
+        "material": [
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_ch_heavy_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL case hardened 2.25 mm leg guard" },
+    "copy-from": "armor_ch_heavy_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_qt_heavy_leg_guard",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_heavy_leg_guard",
+    "name": { "str": "tempered 2.25 mm leg guard" },
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "armor": [
+      {
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_qt_heavy_leg_guard",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered 2.25 mm leg guard" },
+    "copy-from": "armor_qt_heavy_leg_guard",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   }
 ]

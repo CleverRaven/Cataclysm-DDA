@@ -9,7 +9,6 @@
           "features": [ "libflac", "mpg123", "libmodplug", "libvorbis" ]
         },
         "sdl2-ttf",
-        "gettext",
         "qt5-base"
     ]
 }

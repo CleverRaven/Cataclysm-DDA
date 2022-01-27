@@ -64,34 +64,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             return VisitResponse::SKIP;
         }
 
-        // Reloadable items with multiple reloadable pockets cause problems (multi cooker).
-        // Only watertight containers, magazine wells and magazines are reloadable
-        // Watertight CONTAINER takes only liquids it deems compatible
-        // MAGAZINE_WELL and MAGAZINE pockets take anythin they deem compatible
-        for( const item_pocket *pocket : obj.get_contents().get_all_reloadable_pockets() ) {
-
-
-            if( pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) {
-                // CONTAINER pockets can reload liquids only
-                if( !node->made_of( phase_id::LIQUID ) ) {
-                    continue;
-                }
-
-                // Only allow reloading with liquids of same type
-                // Normal containers and magazines get similar check somewhere else
-                // But that check somewhere else does not handle wird items (like multicooker)
-                if( !pocket->empty() && !( pocket->front().typeId() == node->typeId() ) ) {
-                    continue;
-                }
-            }
-
-            // Generic check for compatible items
-            if( pocket->is_compatible( *node ).success() ) {
-                if( parent != nullptr ) {
-                    out = item_location( item_location( src, parent ), node );
-                } else {
-                    out = item_location( src, node );
-                }
+        if( obj.can_reload_with( *node, true ) ) {
+            if( parent != nullptr ) {
+                out = item_location( item_location( src, parent ), node );
+            } else {
+                out = item_location( src, node );
             }
         }
 

@@ -12,6 +12,13 @@
       "#": "t_privacy_fence"
     },
     "furniture": {
+      "u": "f_clear",
+      ".": "f_clear",
+      "^": "f_clear",
+      "|": "f_clear",
+      "d": "f_clear",
+      "G": "f_clear",
+      "#": "f_clear",
       "h": "f_chair",
       "t": "f_table",
       "c": "f_counter",
@@ -20,7 +27,8 @@
       "L": "f_locker",
       "s": "f_sofa",
       "C": "f_armchair",
-      "B": "f_bookcase"
+      "B": "f_bookcase",
+      "-": "f_clear"
     }
   },
   {
@@ -43,22 +51,12 @@
       "rows": [
         "      ",
         "      ",
-        "      ",
-        "      ",
-        "t     ",
+        "---   ",
+        "---   ",
+        "t--   ",
         "t    t"
       ],
-      "palettes": [ "fbmc_firestation1_palette" ],
-      "place_furniture": [
-        { "furn": "f_null", "x": 0, "y": 2 },
-        { "furn": "f_null", "x": 0, "y": 3 },
-        { "furn": "f_null", "x": 1, "y": 2 },
-        { "furn": "f_null", "x": 1, "y": 3 },
-        { "furn": "f_null", "x": 1, "y": 4 },
-        { "furn": "f_null", "x": 2, "y": 2 },
-        { "furn": "f_null", "x": 2, "y": 3 },
-        { "furn": "f_null", "x": 2, "y": 4 }
-      ]
+      "palettes": [ "fbmc_firestation1_palette" ]
     }
   },
   {
@@ -135,14 +133,14 @@
     "object": {
       "mapgensize": [ 6, 6 ],
       "place_furniture": [
-        { "furn": "f_null", "x": 0, "y": 3 },
-        { "furn": "f_null", "x": 0, "y": 4 },
-        { "furn": "f_null", "x": 2, "y": 1 },
-        { "furn": "f_null", "x": 2, "y": 2 },
-        { "furn": "f_null", "x": 1, "y": 0 },
-        { "furn": "f_null", "x": 0, "y": 0 },
-        { "furn": "f_null", "x": 1, "y": 1 },
-        { "furn": "f_null", "x": 1, "y": 2 }
+        { "furn": "f_clear", "x": 0, "y": 3 },
+        { "furn": "f_clear", "x": 0, "y": 4 },
+        { "furn": "f_clear", "x": 2, "y": 1 },
+        { "furn": "f_clear", "x": 2, "y": 2 },
+        { "furn": "f_clear", "x": 1, "y": 0 },
+        { "furn": "f_clear", "x": 0, "y": 0 },
+        { "furn": "f_clear", "x": 1, "y": 1 },
+        { "furn": "f_clear", "x": 1, "y": 2 }
       ]
     }
   },

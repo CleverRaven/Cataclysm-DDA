@@ -14,7 +14,7 @@
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -36 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "AXE", 2 ], [ "BUTCHER", -36 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ]
@@ -135,7 +135,7 @@
     "material": [ "wood", "copper" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -44 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -44 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ]
@@ -221,7 +221,7 @@
     "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
     "flags": [ "SHEATH_AXE" ]
   },
   {
@@ -270,7 +270,7 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_AXE" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ]
   },

@@ -230,14 +230,14 @@
   {
     "type": "monstergroup",
     "name": "GROUP_RIVER",
-    "//": "Current SPRING first DAY count is 253.",
+    "//": "Current SPRING first DAY count is 126.",
     "is_animal": true,
     "monsters": [
-      { "group": "GROUP_DINOSAUR_PREDATOR_WILDERNESS", "weight": 20 },
-      { "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS", "weight": 100 },
-      { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 100 },
-      { "monster": "mon_pteranodon", "weight": 25, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_quetzalcoatlus", "weight": 4, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "group": "GROUP_DINOSAUR_PREDATOR_WILDERNESS", "weight": 10 },
+      { "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS", "weight": 25 },
+      { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 25 },
+      { "monster": "mon_pteranodon", "weight": 10, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_quetzalcoatlus", "weight": 2, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_mosasaurus", "weight": 4, "cost_multiplier": 60 },
       { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "3 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "7 days" },
@@ -248,14 +248,14 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SWAMP",
-    "//": "Current SPRING first DAY count is 150.",
+    "//": "Current SPRING first DAY count is 90.",
     "is_animal": true,
     "monsters": [
       { "group": "GROUP_DINOSAUR_PREDATOR_WILDERNESS", "weight": 20 },
-      { "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS", "weight": 50 },
+      { "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS", "weight": 25 },
       {
         "monster": "mon_stegosaurus",
-        "weight": 6,
+        "weight": 4,
         "cost_multiplier": 20,
         "pack_size": [ 2, 4 ],
         "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
@@ -266,7 +266,7 @@
       { "monster": "mon_ztegosaurus", "cost_multiplier": 20, "pack_size": [ 2, 4 ], "starts": "90 days" },
       {
         "monster": "mon_dyoplosaurus",
-        "weight": 6,
+        "weight": 4,
         "cost_multiplier": 20,
         "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
       },
@@ -276,7 +276,7 @@
       { "monster": "mon_zyoplosaurus", "cost_multiplier": 20, "pack_size": [ 2, 4 ], "starts": "90 days" },
       {
         "monster": "mon_ankylosaurus",
-        "weight": 6,
+        "weight": 4,
         "cost_multiplier": 20,
         "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
       },
@@ -286,7 +286,7 @@
       { "monster": "mon_zankylosaurus", "cost_multiplier": 20, "pack_size": [ 2, 4 ], "starts": "90 days" },
       {
         "monster": "mon_nodosaurus",
-        "weight": 6,
+        "weight": 4,
         "cost_multiplier": 20,
         "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
       },
@@ -296,7 +296,7 @@
       { "monster": "mon_zodosaurus", "cost_multiplier": 20, "pack_size": [ 2, 4 ], "starts": "90 days" },
       {
         "monster": "mon_edmontonia",
-        "weight": 6,
+        "weight": 4,
         "cost_multiplier": 20,
         "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
       },
@@ -304,7 +304,7 @@
       { "monster": "mon_zedmontonia", "cost_multiplier": 20, "pack_size": [ 2, 4 ], "starts": "7 days" },
       { "monster": "mon_zedmontonia", "cost_multiplier": 20, "pack_size": [ 2, 4 ], "starts": "28 days" },
       { "monster": "mon_zedmontonia", "cost_multiplier": 20, "pack_size": [ 2, 4 ], "starts": "90 days" },
-      { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 50 }
+      { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 25 }
     ]
   },
   {

@@ -36,6 +36,7 @@
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
+#include "timed_event.h"
 
 class overmap_connection;
 
@@ -419,6 +420,10 @@ void overmap::convert_terrain(
             }
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
+        } else if( old.compare( 0, 11, "pond_forest" ) == 0 ) {
+            ter_set( pos, oter_id( "forest" ) );
+        } else if( old.compare( 0, 10, "pond_swamp" ) == 0 ) {
+            ter_set( pos, oter_id( "forest_water" ) );
         } else if( old == "mine_shaft" ) {
             ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
         } else if( old.compare( 0, 30, "microlab_generic_hallway_start" ) == 0 ||
@@ -703,7 +708,10 @@ void overmap::unserialize( std::istream &fin )
                     std::string name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
-                        is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
+                        s = overmap_special_migration::migrate( s );
+                        if( !s.is_null() ) {
+                            is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
+                        }
                     } else if( name == "placements" ) {
                         jsin.start_array();
                         while( !jsin.end_array() ) {
@@ -719,9 +727,11 @@ void overmap::unserialize( std::istream &fin )
                                             std::string name = jsin.get_member_name();
                                             if( name == "p" ) {
                                                 jsin.read( p );
-                                                overmap_special_placements[p] = s;
-                                                if( is_safe_zone ) {
-                                                    safe_at_worldgen.emplace( p );
+                                                if( !s.is_null() ) {
+                                                    overmap_special_placements[p] = s;
+                                                    if( is_safe_zone ) {
+                                                        safe_at_worldgen.emplace( p );
+                                                    }
                                                 }
                                             }
                                         }
@@ -1293,6 +1303,8 @@ void game::unserialize_master( std::istream &fin )
                 jsin.read( seed );
             } else if( name == "weather" ) {
                 weather_manager::unserialize_all( jsin );
+            } else if( name == "timed_events" ) {
+                timed_event_manager::unserialize_all( jsin );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1328,6 +1340,28 @@ void global_variables::unserialize( JsonObject &jo )
     jo.read( "global_vals", global_values );
 }
 
+void timed_event_manager::unserialize_all( JsonIn &jsin )
+{
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        JsonObject jo = jsin.get_object();
+        int type;
+        time_point when;
+        int faction_id;
+        int strength;
+        tripoint_abs_sm where;
+        std::string string_id;
+        jo.read( "faction", faction_id );
+        jo.read( "map_point", where );
+        jo.read( "strength", strength );
+        jo.read( "string_id", string_id );
+        jo.read( "type", type );
+        jo.read( "when", when );
+        get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, where, strength,
+                                string_id );
+    }
+}
+
 void game::serialize_master( std::ostream &fout )
 {
     fout << "# version " << savegame_version << std::endl;
@@ -1340,6 +1374,9 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "active_missions" );
         mission::serialize_all( json );
+
+        json.member( "timed_events" );
+        timed_event_manager::serialize_all( json );
 
         json.member( "factions", *faction_manager_ptr );
         json.member( "seed", seed );
@@ -1371,6 +1408,22 @@ void faction_manager::serialize( JsonOut &jsout ) const
 void global_variables::serialize( JsonOut &jsout ) const
 {
     jsout.member( "global_vals", global_values );
+}
+
+void timed_event_manager::serialize_all( JsonOut &jsout )
+{
+    jsout.start_array();
+    for( const auto &elem : get_timed_events().events ) {
+        jsout.start_object();
+        jsout.member( "faction", elem.faction_id );
+        jsout.member( "map_point", elem.map_point );
+        jsout.member( "strength", elem.strength );
+        jsout.member( "string_id", elem.string_id );
+        jsout.member( "type", elem.type );
+        jsout.member( "when", elem.when );
+        jsout.end_object();
+    }
+    jsout.end_array();
 }
 
 void faction_manager::deserialize( JsonIn &jsin )

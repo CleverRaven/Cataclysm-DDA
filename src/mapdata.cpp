@@ -179,6 +179,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_GOES_DOWN: return "GOES_DOWN";
         case ter_furn_flag::TFLAG_GOES_UP: return "GOES_UP";
         case ter_furn_flag::TFLAG_NO_FLOOR: return "NO_FLOOR";
+        case ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR: return "ALLOW_ON_OPEN_AIR";
         case ter_furn_flag::TFLAG_SEEN_FROM_ABOVE: return "SEEN_FROM_ABOVE";
         case ter_furn_flag::TFLAG_RAMP_DOWN: return "RAMP_DOWN";
         case ter_furn_flag::TFLAG_RAMP_UP: return "RAMP_UP";
@@ -249,6 +250,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_BLOCKSDOOR: return "BLOCKSDOOR";
         case ter_furn_flag::TFLAG_NO_SELF_CONNECT: return "NO_SELF_CONNECT";
         case ter_furn_flag::TFLAG_BURROWABLE: return "BURROWABLE";
+        case ter_furn_flag::TFLAG_MURKY: return "MURKY";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -278,6 +280,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "CLAY",                     TERCONN_CLAY },
         { "DIRT",                     TERCONN_DIRT },
         { "ROCKFLOOR",                TERCONN_ROCKFLOOR },
+        { "MULCHFLOOR",               TERCONN_MULCHFLOOR },
         { "METALFLOOR",               TERCONN_METALFLOOR },
         { "WOODFLOOR",               TERCONN_WOODFLOOR },
     }
@@ -478,7 +481,8 @@ ter_t null_terrain_t()
 }
 
 template<typename C, typename F>
-void load_season_array( const JsonObject &jo, const std::string &key, C &container, F load_func )
+void load_season_array( const JsonObject &jo, const std::string &key, const std::string &context,
+                        C &container, F load_func )
 {
     if( jo.has_string( key ) ) {
         container.fill( load_func( jo.get_string( key ) ) );
@@ -497,8 +501,11 @@ void load_season_array( const JsonObject &jo, const std::string &key, C &contain
             jo.throw_error( "Incorrect number of entries", key );
         }
 
+    } else if( jo.has_member( key ) ) {
+        jo.throw_error( string_format( "Expected '%s' member to be string or array", key ), key );
     } else {
-        jo.throw_error( "Expected string or array", key );
+        jo.throw_error(
+            string_format( "Expected '%s' member in %s but none was found", key, context ) );
     }
 }
 
@@ -536,14 +543,14 @@ void map_data_common_t::examine( Character &you, const tripoint &examp ) const
     examine_actor->call( you, examp );
 }
 
-void map_data_common_t::load_symbol( const JsonObject &jo )
+void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &context )
 {
     if( jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
     jo.read( "looks_like", looks_like );
 
-    load_season_array( jo, "symbol", symbol_, [&jo]( const std::string & str ) {
+    load_season_array( jo, "symbol", context, symbol_, [&jo]( const std::string & str ) {
         if( str == "LINE_XOXO" ) {
             return LINE_XOXO;
         } else if( str == "LINE_OXOX" ) {
@@ -559,12 +566,12 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( jo, "color", color_, []( const std::string & str ) {
+        load_season_array( jo, "color", context, color_, []( const std::string & str ) {
             // has to use a lambda because of default params
             return color_from_string( str );
         } );
     } else if( has_bgcolor ) {
-        load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
+        load_season_array( jo, "bgcolor", context, color_, bgcolor_from_string );
     } else {
         jo.throw_error( R"(Missing member: one of: "color", "bgcolor" must exist.)" );
     }
@@ -1080,7 +1087,6 @@ void set_ter_ids()
     t_railroad_track_h_on_tie = ter_id( "t_railroad_track_h_on_tie" );
     t_railroad_track_v_on_tie = ter_id( "t_railroad_track_v_on_tie" );
     t_railroad_track_d_on_tie = ter_id( "t_railroad_track_d_on_tie" );
-
     for( const ter_t &elem : terrain_data.get_all() ) {
         ter_t &ter = const_cast<ter_t &>( elem );
         if( ter.trap_id_str.empty() ) {
@@ -1097,7 +1103,7 @@ void reset_furn_ter()
     furniture_data.reset();
 }
 
-furn_id f_null,
+furn_id f_null, f_clear,
         f_hay,
         f_rubble, f_rubble_rock, f_wreckage, f_ash,
         f_barricade_road, f_sandbag_half, f_sandbag_wall,
@@ -1145,6 +1151,7 @@ furn_id f_null,
 void set_furn_ids()
 {
     f_null = furn_id( "f_null" );
+    f_clear = furn_id( "f_clear" );
     f_hay = furn_id( "f_hay" );
     f_rubble = furn_id( "f_rubble" );
     f_rubble_rock = furn_id( "f_rubble_rock" );
@@ -1358,10 +1365,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "max_volume", max_volume, src == "dda" );
     optional( jo, was_loaded, "trap", trap_id_str );
     optional( jo, was_loaded, "heat_radiation", heat_radiation );
-
     optional( jo, was_loaded, "light_emitted", light_emitted );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "comfort", comfort, 0 );
 
-    load_symbol( jo );
+    load_symbol( jo, "terrain " + id.str() );
 
     trap = tr_null;
     transparent = false;
@@ -1529,7 +1537,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
-    load_symbol( jo );
+    load_symbol( jo, "furniture " + id.str() );
     transparent = false;
 
     optional( jo, was_loaded, "light_emitted", light_emitted );

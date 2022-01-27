@@ -106,7 +106,6 @@
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
-static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
@@ -137,9 +136,11 @@ static const furn_str_id furn_f_diesel_tank( "f_diesel_tank" );
 static const furn_str_id furn_f_gas_tank( "f_gas_tank" );
 static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
+static const furn_str_id furn_f_rope_up( "f_rope_up" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill( "f_water_mill" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
+static const furn_str_id furn_f_web_up( "f_web_up" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
@@ -180,6 +181,9 @@ static const itype_id itype_water( "water" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
+static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
+
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
@@ -206,6 +210,7 @@ static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_PRY( "PRY" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 static const requirement_id requirement_data_autoclave( "autoclave" );
@@ -226,6 +231,7 @@ static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
@@ -316,14 +322,14 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
 }
 
 /**
- * Change player eye and skin colour
+ * Change player eye and skin color
  */
 void iexamine::change_appearance( Character &you, const tripoint & )
 {
     uilist amenu;
     amenu.title = _( "Change what?" );
-    amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change eye colour" ) );
-    amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change skin colour" ) );
+    amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change eye color" ) );
+    amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change skin color" ) );
 
     amenu.query();
     if( amenu.ret == 0 ) {
@@ -783,7 +789,7 @@ class atm_menu
             return true;
         }
 
-        //!Deposit pre-cataclysm currency and receive equivalent amount minus fees on a card.
+        //!Deposit pre-Cataclysm currency and receive equivalent amount minus fees on a card.
         bool do_exchange_cash() {
             item *dst;
             if( you.activity.id() == ACT_ATM ) {
@@ -1273,7 +1279,8 @@ void iexamine::intercom( Character &you, const tripoint &examp )
 void iexamine::rubble( Character &you, const tripoint &examp )
 {
     int moves;
-    if( you.has_quality( qual_DIG, 3 ) || you.has_trait( trait_BURROW ) ) {
+    if( you.has_quality( qual_DIG, 3 ) || you.has_trait( trait_BURROW ) ||
+        you.has_trait( trait_BURROWLARGE ) ) {
         moves = to_moves<int>( 1_minutes );
     } else if( you.has_quality( qual_DIG, 2 ) ) {
         moves = to_moves<int>( 2_minutes );
@@ -1292,10 +1299,16 @@ void iexamine::rubble( Character &you, const tripoint &examp )
 }
 
 /**
- * Prompt climbing over fence. Calculates move cost, applies it to player and, moves them.
+ * Prompt climbing over fence. Calculates move cost, applies it to player and moves them.
  */
 void iexamine::chainfence( Character &you, const tripoint &examp )
 {
+    // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+    if( !you.move_effects( false ) ) {
+        you.moves -= 100;
+        return;
+    }
+
     // We're not going to do anything if we're already on that point.
     // Also prompt the player before taking an action.
     if( you.pos() == examp || !query_yn( _( "Climb obstacle?" ) ) ) {
@@ -1605,26 +1618,55 @@ void iexamine::gunsafe_el( Character &you, const tripoint &examp )
  */
 void iexamine::locked_object( Character &you, const tripoint &examp )
 {
-    item &best_prying = you.item_with_best_of_quality( STATIC( quality_id( "PRY" ) ) );
-
     map &here = get_map();
-    if( best_prying.is_null() ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ) {
-            add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
-            locked_object_pickable( you, examp );
+    item &best_prying = you.item_with_best_of_quality( qual_PRY, true );
+    item &best_lockpick = you.item_with_best_of_quality( qual_LOCKPICK, true );
+    const bool has_prying = !best_prying.is_null();
+    const bool can_pick = here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) &&
+                          ( !best_lockpick.is_null() || you.has_bionic( bio_lockpick ) );
+    enum act {
+        pick = 0,
+        pry = 1,
+        none = 2
+    };
+    int action = act::none;
+
+    if( has_prying && can_pick ) {
+        const int pry_has = best_prying.get_quality( qual_PRY );
+        const int pry_req = here.has_furn( examp ) ?
+                            here.furn( examp )->prying->prying_data().prying_level :
+                            here.ter( examp )->prying->prying_data().prying_level;
+        if( pry_has < pry_req ) {
+            action = act::pick;
         } else {
-            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+            uilist amenu;
+            amenu.text = string_format( _( "What to do with the %s?" ),
+                                        here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+            amenu.addentry( 0, true, 'l', _( "Pick the lock" ) );
+            amenu.addentry( 1, true, 'p', _( "Pry open" ) );
+            amenu.query();
+            if( amenu.ret < act::pick || amenu.ret > act::pry ) {
+                return;
+            }
+            action = amenu.ret;
         }
-        return;
+    } else {
+        action = has_prying ? act::pry : can_pick ? act::pick : act::none;
     }
 
-    //~ %1$s: terrain/furniture name, %2$s: prying tool name
-    you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                           here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), best_prying.tname() );
-
-    iuse::crowbar( &you, &best_prying, false, examp );
+    if( action == act::none ) {
+        add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
+                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+        return;
+    } else if( action == act::pry ) {
+        //~ %1$s: terrain/furniture name, %2$s: prying tool name
+        you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
+                               here.has_furn( examp ) ? here.furnname( examp ) :
+                               here.tername( examp ), best_prying.tname() );
+        iuse::crowbar( &you, &best_prying, false, examp );
+    } else if( action == act::pick ) {
+        locked_object_pickable( you, examp );
+    }
 }
 
 /**
@@ -2038,7 +2080,8 @@ void iexamine::flower_dahlia( Character &you, const tripoint &examp )
     }
 
     map &here = get_map();
-    bool can_get_root = you.has_quality( qual_DIG ) || you.has_trait( trait_BURROW );
+    bool can_get_root = you.has_quality( qual_DIG ) || you.has_trait( trait_BURROW ) ||
+                        you.has_trait( trait_BURROWLARGE );
     if( can_get_root ) {
         if( !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
             none( you, examp );
@@ -2727,7 +2770,9 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
         } else {
-            add_msg( _( "It should take about %d minutes to finish burning." ), minutes );
+            add_msg( n_gettext( "It should take about %d minute to finish burning.",
+                                "It should take about %d minutes to finish burning.",
+                                minutes ), minutes );
         }
         return;
     }
@@ -2856,7 +2901,9 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
         } else if( minutes > 30 ) {
             add_msg( _( "It will finish burning in less than an hour." ) );
         } else {
-            add_msg( _( "It should take about %d minutes to finish burning." ), minutes );
+            add_msg( n_gettext( "It should take about %d minute to finish burning.",
+                                "It should take about %d minutes to finish burning.",
+                                minutes ), minutes );
         }
         return;
     }
@@ -3027,6 +3074,10 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
 
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
+    if( here.has_items( examp ) ) {
+        // Note: This is displayed regardless of whether "examine with pickup" was used
+        selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
+    }
     if( !already_on_fire ) {
         selection_menu.addentry( 1, has_firestarter, 'f',
                                  has_firestarter ? _( "Start a fire" ) : _( "Start a fire… you'll need a fire source." ) );
@@ -3044,6 +3095,10 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
     selection_menu.query();
 
     switch( selection_menu.ret ) {
+        case 0:
+            none( you, examp );
+            g->pickup( examp );
+            return;
         case 1: {
             for( auto &firestarter : firestarters ) {
                 item *it = firestarter.second;
@@ -3798,7 +3853,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
     int move_cost = 100000 / ( 2 * you.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, you.per_cur ), 4 + you.per_cur * 2 );
-    you.assign_activity( ACT_FORAGE, move_cost, 0 );
+    you.assign_activity( player_activity( forage_activity_actor( move_cost ) ) );
     you.activity.placement = here.getabs( examp );
     you.activity.auto_resume = true;
 }
@@ -3925,6 +3980,17 @@ void iexamine::clean_water_source( Character &, const tripoint &examp )
 {
     item water = item( "water_clean", calendar::turn_zero, item::INFINITE_CHARGES );
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
+}
+
+void iexamine::finite_water_source( Character &, const tripoint &examp )
+{
+    map_stack items = get_map().i_at( examp );
+    for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
+        if( item_it->made_of( phase_id::LIQUID ) ) {
+            liquid_handler::handle_liquid_from_ground( item_it, examp );
+            break;
+        }
+    }
 }
 
 const itype *furn_t::crafting_pseudo_item_type() const
@@ -4472,7 +4538,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
         int maximum_liters = std::min( money / pricePerUnit, tankUnits / 1000 );
 
         std::string popupmsg = str_to_illiterate_str( string_format(
-                                   _( "How many liters of %s to buy?  Max: %d L.  (0 to cancel)" ), fuelType, maximum_liters ) );
+                                   _( "How many liters of %s to buy?  Max: %d L.  (0 to cancel)" ), fuelTypeStr, maximum_liters ) );
         int liters = string_input_popup()
                      .title( popupmsg )
                      .width( 20 )
@@ -4558,6 +4624,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
     cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+    if( you.has_flag( json_flag_WALL_CLING ) ) {
+        cmenu.addentry( 3, true, 'C', _( "Crawl down." ) );
+    }
 
     cmenu.query();
 
@@ -4603,59 +4672,101 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             }
 
             const int height = examp.z - where.z;
+            add_msg_debug( debugmode::DF_IEXAMINE, "Ledge height %d", height );
             if( height == 0 ) {
                 you.add_msg_if_player( _( "You can't climb down there." ) );
                 return;
             }
 
-            const bool has_grapnel = you.has_amount( itype_grapnel, 1 );
+            bool has_grapnel = you.has_amount( itype_grapnel, 1 );
+            bool web_rappel = you.has_flag( json_flag_WEB_RAPPEL );
             const int climb_cost = you.climbing_cost( where, examp );
             const float fall_mod = you.fall_damage_mod();
-            const char *query_str = n_gettext( "Looks like %d story.  Jump down?",
-                                               "Looks like %d stories.  Jump down?",
-                                               height );
+            add_msg_debug( debugmode::DF_IEXAMINE, "Climb cost %d", climb_cost );
+            add_msg_debug( debugmode::DF_IEXAMINE, "Fall damage modifier %.2f", fall_mod );
+            const char *query_str;
+            if( !web_rappel ) {
+                query_str = n_gettext( "Looks like %d story.  Jump down?",
+                                       "Looks like %d stories.  Jump down?",
+                                       height );
+            } else {
+                query_str = n_gettext( "Looks like %d story.  Nothing your webs can't handle.  Descend?",
+                                       "Looks like %d stories.  Nothing your webs can't handle.  Descend?", height );
+            }
 
             if( height > 1 && !query_yn( query_str, height ) ) {
                 return;
             } else if( height == 1 ) {
-                const char *query;
-                you.set_activity_level( MODERATE_EXERCISE );
-                weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
+                you.set_activity_level( ACTIVE_EXERCISE );
+                weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
 
-                if( !has_grapnel ) {
-                    if( climb_cost <= 0 && fall_mod > 0.8 ) {
-                        query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
-                    } else if( climb_cost <= 0 ) {
-                        query = _( "You probably won't be able to get back up.  Climb down?" );
-                    } else if( climb_cost < 200 ) {
-                        query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
+                if( has_grapnel ) {
+                    if( !query_yn( _( "Use your grappling hook to climb down?" ) ) ) {
+                        has_grapnel = false;
                     } else {
-                        query = _( "You may have problems climbing back up.  Climb down?" );
+                        web_rappel = false;
                     }
-                } else {
-                    query = _( "Use your grappling hook to climb down?" );
                 }
 
-                if( !query_yn( query ) ) {
-                    return;
+                if( !has_grapnel ) {
+                    const char *query;
+                    if( web_rappel ) {
+                        query = _( "Use your webs to descend?" );
+                    } else {
+                        if( climb_cost <= 0 && fall_mod > 0.8 ) {
+                            query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
+                        } else if( climb_cost <= 0 ) {
+                            query = _( "You probably won't be able to get back up.  Climb down?" );
+                        } else if( climb_cost < 200 ) {
+                            query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
+                        } else {
+                            query = _( "You may have problems climbing back up.  Climb down?" );
+                        }
+                    }
+
+                    if( !query_yn( query ) ) {
+                        return;
+                    }
                 }
             }
 
             you.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
             you.setpos( examp );
 
-            if( has_grapnel ) {
+            if( web_rappel ) {
+                you.add_msg_if_player(
+                    _( "You affix a long, sticky strand on the ledge and begin your descent." ) );
+                tripoint web = examp;
+                web.z--;
+                // Leave a web rope on each step
+                for( int i = 0; i < height; i++ ) {
+                    here.furn_set( web, furn_f_web_up );
+                    web.z--;
+                }
+                g->vertical_move( -height, true );
+            } else if( has_grapnel ) {
                 you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
-            } else if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, examp + tripoint_below ) &&
-                       g->slip_down( true ) ) {
+                g->vertical_move( -1, true );
+                you.use_amount( itype_grapnel, 1 );
+                here.furn_set( you.pos(), furn_f_rope_up );
+            } else if( !g->slip_down( true ) ) {
+                // One tile of falling less (possibly zero)
+                add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
+                g->vertical_move( -1, true );
+            } else {
                 return;
             }
-
-            if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
-                // One tile of falling less (possibly zero)
-                g->vertical_move( -1, true );
-            }
             here.creature_on_trap( you );
+            break;
+        }
+        case 3: {
+            if( !here.valid_move( you.pos(), examp, false, true ) ) {
+                // Covered with something
+                return;
+            } else {
+                you.setpos( examp );
+                g->vertical_move( -1, false );
+            }
             break;
         }
         default:
@@ -4975,9 +5086,13 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
 
             std::vector<bionic_id> bio_list;
             std::vector<std::string> bionic_names;
+            std::vector<const bionic *> bionics;
             for( const bionic &bio : installed_bionics ) {
-                bio_list.emplace_back( bio.id );
-                bionic_names.emplace_back( bio.info().name.translated() );
+                if( item::type_is_defined( bio.info().itype() ) ) {
+                    bio_list.emplace_back( bio.id );
+                    bionic_names.emplace_back( bio.info().name.translated() );
+                    bionics.push_back( &bio );
+                }
             }
             int bionic_index = uilist( _( "Choose bionic to uninstall" ), bionic_names );
             if( bionic_index < 0 ) {
@@ -4993,14 +5108,14 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                 return;
             }
 
-            if( patient.can_uninstall_bionic( bid, installer, true ) ) {
+            if( patient.can_uninstall_bionic( *bionics[bionic_index], installer, true ) ) {
                 const time_duration duration = difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
                     you.consume_tools( anesth_kit, volume_anesth );
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.uninstall_bionic( bid, installer, true );
+                patient.uninstall_bionic( *bionics[bionic_index], installer, true );
             }
             break;
         }
@@ -5985,8 +6100,9 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
                     } else if( minutes_left > 30 ) {
                         pop += _( "It will finish smoking in less than an hour." ) + std::string( "\n" );
                     } else {
-                        pop += string_format( _( "It should take about %d minutes to finish smoking." ),
-                                              minutes_left ) + "\n ";
+                        pop += string_format( n_gettext( "It should take about %d minute to finish smoking.",
+                                                         "It should take about %d minutes to finish smoking.",
+                                                         minutes_left ), minutes_left ) + "\n ";
                     }
                 }
             } else {
@@ -6082,7 +6198,16 @@ void iexamine::open_safe( Character &, const tripoint &examp )
 
 void iexamine::workbench( Character &you, const tripoint &examp )
 {
-    workbench_internal( you, examp, cata::nullopt );
+    if( get_option<bool>( "WORKBENCH_ALL_OPTIONS" ) ) {
+        workbench_internal( you, examp, cata::nullopt );
+    } else {
+        if( !get_map().i_at( examp ).empty() ) {
+            g->pickup( examp );
+        }
+        if( item::type_is_defined( get_map().furn( examp ).obj().deployed_item ) ) {
+            deployed_furniture( you, examp );
+        }
+    }
 }
 
 void iexamine::workbench_internal( Character &you, const tripoint &examp,
@@ -6091,6 +6216,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
     std::vector<item_location> crafts;
     std::string name;
     bool is_undeployable = false;
+    bool items_at_loc = false;
     map &here = get_map();
 
     if( part ) {
@@ -6109,6 +6235,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
         }
 
         map_stack items_at_furn = here.i_at( examp );
+        items_at_loc = !items_at_furn.empty();
 
         for( item &it : items_at_furn ) {
             if( it.is_craft() ) {
@@ -6124,6 +6251,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
         repeat_craft,
         start_long_craft,
         work_on_craft,
+        get_items,
         undeploy
     };
 
@@ -6132,6 +6260,9 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
     amenu.addentry( repeat_craft,     true,            '2', _( "Recraft last recipe" ) );
     amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );
     amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft or disassembly" ) );
+    if( !part && here.has_items( examp ) ) {
+        amenu.addentry( get_items,    items_at_loc,    'g', _( "Get items" ) );
+    }
     if( is_undeployable ) {
         amenu.addentry( undeploy,     true,            't', _( "Take down the %s" ), name );
     }
@@ -6210,6 +6341,10 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
                     selected_craft->tname() );
                 you.assign_activity( player_activity( craft_activity_actor( crafts[amenu2.ret], false ) ) );
             }
+            break;
+        }
+        case get_items: {
+            g->pickup( examp );
             break;
         }
         case undeploy: {
@@ -6299,6 +6434,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "shrub_wildveggies", &iexamine::shrub_wildveggies },
             { "water_source", &iexamine::water_source },
             { "clean_water_source", &iexamine::clean_water_source },
+            { "finite_water_source", &iexamine::finite_water_source },
             { "reload_furniture", &iexamine::reload_furniture },
             { "curtains", &iexamine::curtains },
             { "sign", &iexamine::sign },
@@ -6351,12 +6487,12 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
     return iexamine_functions{&iexamine::always_false, &iexamine::none};
 }
 
-void iexamine::practice_survival_while_foraging( Character *you )
+void iexamine::practice_survival_while_foraging( Character &who )
 {
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
-    const int max_forage_skill = you->int_cur / 3 + 1;
+    const int max_forage_skill = who.int_cur / 3 + 1;
     ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
-    const int max_exp = 2 * ( max_forage_skill - you->get_skill_level( skill_survival ) );
+    const int max_exp = 2 * ( max_forage_skill - who.get_skill_level( skill_survival ) );
     // Award experience for foraging attempt regardless of success
-    you->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
+    who.practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
 }

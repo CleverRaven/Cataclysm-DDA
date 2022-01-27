@@ -5,6 +5,8 @@
 #include "json.h"
 #include "type_id.h"
 
+const flag_id flag_ABLATIVE_LARGE( "ABLATIVE_LARGE" );
+const flag_id flag_ABLATIVE_MEDIUM( "ABLATIVE_MEDIUM" );
 const flag_id flag_ACID( "ACID" );
 const flag_id flag_ACID_IMMUNE( "ACID_IMMUNE" );
 const flag_id flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
@@ -49,11 +51,13 @@ const flag_id flag_CAMERA_PRO( "CAMERA_PRO" );
 const flag_id flag_CANNIBAL( "CANNIBAL" );
 const flag_id flag_CANNIBALISM( "CANNIBALISM" );
 const flag_id flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
+const flag_id flag_CANT_WEAR( "CANT_WEAR" );
 const flag_id flag_CARNIVORE_OK( "CARNIVORE_OK" );
 const flag_id flag_CASING( "CASING" );
 const flag_id flag_CATTLE( "CATTLE" );
 const flag_id flag_CHALLENGE( "CHALLENGE" );
 const flag_id flag_CHARGEDIM( "CHARGEDIM" );
+const flag_id flag_CHOKE( "CHOKE" );
 const flag_id flag_CITY_START( "CITY_START" );
 const flag_id flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
 const flag_id flag_COLD( "COLD" );
@@ -140,6 +144,7 @@ const flag_id flag_IS_ARMOR( "IS_ARMOR" );
 const flag_id flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
 const flag_id flag_IS_UPS( "IS_UPS" );
 const flag_id flag_ITEM_BROKEN( "ITEM_BROKEN" );
+const flag_id flag_LASER_SIGHT( "LASER_SIGHT" );
 const flag_id flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
 const flag_id flag_LEAK_DAM( "LEAK_DAM" );
 const flag_id flag_LITCIG( "LITCIG" );
@@ -172,6 +177,7 @@ const flag_id flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
 const flag_id flag_NEVER_JAMS( "NEVER_JAMS" );
 const flag_id flag_NONCONDUCTIVE( "NONCONDUCTIVE" );
 const flag_id flag_NON_FOULING( "NON_FOULING" );
+const flag_id flag_NORMAL( "NORMAL" );
 const flag_id flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 const flag_id flag_NO_CVD( "NO_CVD" );
 const flag_id flag_NO_DROP( "NO_DROP" );
@@ -197,6 +203,9 @@ const flag_id flag_ONLY_ONE( "ONLY_ONE" );
 const flag_id flag_ORGANIC( "ORGANIC" );
 const flag_id flag_OUTER( "OUTER" );
 const flag_id flag_OVERSIZE( "OVERSIZE" );
+const flag_id flag_PALS_LARGE( "PALS_LARGE" );
+const flag_id flag_PALS_MEDIUM( "PALS_MEDIUM" );
+const flag_id flag_PALS_SMALL( "PALS_SMALL" );
 const flag_id flag_PARTIAL_DEAF( "PARTIAL_DEAF" );
 const flag_id flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 const flag_id flag_PERPETUAL( "PERPETUAL" );

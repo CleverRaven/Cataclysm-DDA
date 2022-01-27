@@ -60,7 +60,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "stun gun" },
-    "description": "This is a high-powered stun gun.  Use this item to attempt to electrocute an adjacent enemy, damaging and temporarily paralyzing them.  Because the shock can actually jump through the air, it is difficult to miss.",
+    "description": "This is a high-powered stun gun.  Use this item to attempt to electrocute an adjacent enemy, temporarily paralyzing them.",
     "weight": "151 g",
     "volume": "250 ml",
     "price": 14000,
@@ -73,7 +73,7 @@
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
-    "charges_per_use": 100,
+    "charges_per_use": 2,
     "use_action": [ "TAZER" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }

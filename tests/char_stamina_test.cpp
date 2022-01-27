@@ -8,6 +8,11 @@
 #include "type_id.h"
 #include "units.h"
 
+static const character_modifier_id
+character_modifier_stamina_move_cost_mod( "stamina_move_cost_mod" );
+static const character_modifier_id
+character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
+
 static const efftype_id effect_winded( "winded" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
@@ -64,7 +69,7 @@ static float move_cost_mod( Character &dummy, const move_mode_id &move_mode,
     REQUIRE( dummy.get_stamina() == new_stamina );
 
     // The point of it all: move cost modifier
-    return dummy.stamina_move_cost_modifier();
+    return dummy.get_modifier( character_modifier_stamina_move_cost_mod );
 }
 
 // Return amount of stamina burned per turn by `burn_move_stamina` in the given movement mode.
@@ -441,7 +446,8 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
     const float normal_regen_rate = get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" );
     REQUIRE( normal_regen_rate == Approx( 20.0 ) );
     // Regen is reduced in proportion to stamina_recovery_breathing_modifier
-    const float normal_breathing_mod = dummy.stamina_recovery_breathing_modifier();
+    const float normal_breathing_mod = dummy.get_modifier(
+                                           character_modifier_stamina_recovery_breathing_mod );
     REQUIRE( normal_breathing_mod == Approx( 1.0 ) );
 
     GIVEN( "character has no mouth encumbrance" ) {
@@ -456,7 +462,8 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
         REQUIRE( dummy.encumb( bodypart_id( "mouth" ) ) == 10 );
 
         THEN( "stamina regen is reduced" ) {
-            CHECK( dummy.stamina_recovery_breathing_modifier() == Approx( 0.85 ).margin( 0.01 ) );
+            CHECK( dummy.get_modifier( character_modifier_stamina_recovery_breathing_mod ) == Approx(
+                       0.85 ).margin( 0.01 ) );
             CHECK( actual_regen_rate( dummy, turn_moves ) == Approx( 1700.0 ).margin( 5.0 ) );
         }
 
@@ -466,7 +473,8 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
             REQUIRE( dummy.encumb( bodypart_id( "mouth" ) ) == 30 );
 
             THEN( "stamina regen is reduced further" ) {
-                CHECK( dummy.stamina_recovery_breathing_modifier() == Approx( 0.65 ).margin( 0.01 ) );
+                CHECK( dummy.get_modifier( character_modifier_stamina_recovery_breathing_mod ) == Approx(
+                           0.65 ).margin( 0.01 ) );
                 CHECK( actual_regen_rate( dummy, turn_moves ) == Approx( 1310.0 ).margin( 5.0 ) );
             }
         }

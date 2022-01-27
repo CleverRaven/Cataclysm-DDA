@@ -14,7 +14,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "container": "jar_glass_sealed",
     "result_mult": 2,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat_offal", 2, "LIST" ] ] ]
   },
@@ -34,7 +34,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -59,7 +59,7 @@
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "container": "jar_glass_sealed",
     "result_mult": 2,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
@@ -82,7 +82,7 @@
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "container": "jar_3l_glass_sealed",
     "result_mult": 12,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
       [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
@@ -105,7 +105,7 @@
     "time": "30 m",
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
@@ -130,7 +130,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -157,7 +157,7 @@
     "result_mult": 6,
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
@@ -181,7 +181,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
     "result_mult": 2,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
@@ -205,7 +205,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -231,7 +231,7 @@
     "result_mult": 12,
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
@@ -302,7 +302,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -345,7 +345,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
     "result_mult": 2,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "meat_red_raw", 2, "LIST" ] ] ]
   },
@@ -364,7 +364,7 @@
     "result_mult": 2,
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "fish", 2 ] ] ]
   },
@@ -383,7 +383,7 @@
     "result_mult": 2,
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
@@ -406,7 +406,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "result_mult": 4,
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 12 ], [ "water_clean", 12 ] ],
@@ -628,7 +628,7 @@
     "book_learn": [ [ "cookbook_italian", 4 ], [ "manual_canning", 3 ] ],
     "result_mult": 4,
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 12 ], [ "water_clean", 12 ] ],
@@ -651,7 +651,7 @@
     "charges": 2,
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
@@ -674,7 +674,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -700,7 +700,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -726,7 +726,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -753,7 +753,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -781,7 +781,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -807,7 +807,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -834,7 +834,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -857,7 +857,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -880,7 +880,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -903,7 +903,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -925,7 +925,7 @@
     "result_mult": 12,
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "meat_red_raw", 12, "LIST" ] ] ]
   },
@@ -944,7 +944,7 @@
     "result_mult": 12,
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
@@ -968,7 +968,7 @@
     "result_mult": 24,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
@@ -992,7 +992,7 @@
     "result_mult": 12,
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "fish", 12 ] ] ]
   },
@@ -1011,7 +1011,7 @@
     "batch_time_factors": [ 83, 5 ],
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "container": "jar_3l_glass_sealed",
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "meat_offal", 12, "LIST" ] ] ]
   },
@@ -1030,7 +1030,7 @@
     "book_learn": [ [ "cookbook_italian", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
     "charges": 24,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
@@ -1053,7 +1053,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 83, 5 ],
     "charges": 12,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
@@ -1201,7 +1201,7 @@
     "charges": 48,
     "book_learn": [ [ "cookbook_italian", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
@@ -1224,7 +1224,7 @@
     "charges": 8,
     "book_learn": [ [ "cookbook_italian", 4 ], [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "jar_glass_sealed", 1 ] ],
@@ -1248,7 +1248,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -1305,7 +1305,7 @@
       [ "manual_canning", 2 ]
     ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
@@ -1336,7 +1336,7 @@
       [ "manual_canning", 2 ]
     ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "milk_standard_raw_fresh", 4, "LIST" ] ], [ [ "sugar_standard", 6, "LIST" ] ] ]
   },
@@ -1363,7 +1363,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -1390,7 +1390,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
@@ -1413,7 +1413,7 @@
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],

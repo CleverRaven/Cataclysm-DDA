@@ -866,6 +866,7 @@
     "purifiable": false,
     "valid": false,
     "description": "The shapeshifter is the Biomancer refined - able to use a flicker of mana to change shape at the drop of a hat to make yourself more inviting or shape others into desired shapes.",
+    "spells_learned": [ [ "shapeshifter_alkahest", 5 ], [ "biomechanic", 5 ] ],
     "prereqs": [ "BIOMANCER", "MAGUS" ],
     "//": "Purposefully omits torso, head, etc.",
     "encumbrance_multiplier_always": { "arm_l": 0.4, "arm_r": 0.4, "hand_l": 0.4, "hand_r": 0.4, "leg_l": 0.4, "leg_r": 0.4, "mouth": 0.4 },

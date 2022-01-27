@@ -117,6 +117,15 @@
     "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
   },
   {
+    "id": "xs_coat_fur",
+    "type": "ARMOR",
+    "copy-from": "coat_fur",
+    "looks_like": "coat_fur",
+    "name": { "str": "XS fur coat" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "UNDERSIZE" ]
+  },
+  {
     "id": "coat_faux_fur",
     "type": "ARMOR",
     "copy-from": "coat_fur",
@@ -135,6 +144,15 @@
     "copy-from": "coat_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "SUPER_FANCY" ]
+  },
+  {
+    "id": "xs_coat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "coat_faux_fur",
+    "looks_like": "coat_faux_fur",
+    "name": { "str": "XS faux fur coat" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY", "UNDERSIZE" ]
   },
   {
     "id": "coat_fur_sf",
@@ -372,33 +390,14 @@
     "looks_like": "trenchcoat",
     "color": "dark_gray",
     "armor": [
-      {
-        "covers": [ "torso" ],
-        "coverage": 90,
-        "encumbrance": [ 7, 13 ],
-        "specifically_covers": [ "torso_upper", "torso_lower" ]
-      },
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 7, 13 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 54,
+        "coverage": 90,
         "encumbrance": [ 4, 5 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 90,
-        "encumbrance": [ 7, 7 ],
-        "specifically_covers": [
-          "arm_elbow_l",
-          "arm_elbow_r",
-          "arm_upper_l",
-          "arm_upper_r",
-          "arm_shoulder_l",
-          "arm_shoulder_r",
-          "arm_lower_r",
-          "arm_lower_l"
-        ]
-      }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 7, 7 ] }
     ],
     "pocket_data": [
       {
@@ -464,33 +463,14 @@
     "looks_like": "duster_leather",
     "color": "brown",
     "armor": [
-      {
-        "covers": [ "torso" ],
-        "coverage": 90,
-        "encumbrance": [ 9, 16 ],
-        "specifically_covers": [ "torso_upper", "torso_lower" ]
-      },
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 16 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 54,
+        "coverage": 90,
         "encumbrance": [ 5, 6 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 90,
-        "encumbrance": [ 9, 9 ],
-        "specifically_covers": [
-          "arm_elbow_l",
-          "arm_elbow_r",
-          "arm_upper_l",
-          "arm_upper_r",
-          "arm_shoulder_l",
-          "arm_shoulder_r",
-          "arm_lower_r",
-          "arm_lower_l"
-        ]
-      }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
     ],
     "pocket_data": [
       {
@@ -551,12 +531,30 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
   },
   {
+    "id": "xs_duster_fur",
+    "type": "ARMOR",
+    "copy-from": "duster_fur",
+    "looks_like": "duster_fur",
+    "name": { "str": "XS fur duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "UNDERSIZE" ]
+  },
+  {
     "id": "xl_duster",
     "type": "ARMOR",
     "name": { "str": "XL duster" },
     "copy-from": "duster",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_duster",
+    "type": "ARMOR",
+    "copy-from": "duster",
+    "looks_like": "duster",
+    "name": { "str": "XS duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "UNDERSIZE" ]
   },
   {
     "id": "duster_faux_fur",
@@ -578,6 +576,15 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "FANCY", "OVERSIZE" ]
   },
   {
+    "id": "xs_duster_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "duster_faux_fur",
+    "looks_like": "duster_faux_fur",
+    "name": { "str": "XS faux fur duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY", "UNDERSIZE" ]
+  },
+  {
     "id": "duster_leather",
     "type": "ARMOR",
     "name": { "str": "leather duster" },
@@ -592,33 +599,14 @@
     "looks_like": "duster",
     "color": "brown",
     "armor": [
-      {
-        "covers": [ "torso" ],
-        "coverage": 90,
-        "encumbrance": [ 8, 15 ],
-        "specifically_covers": [ "torso_upper", "torso_lower" ]
-      },
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 15 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 54,
+        "coverage": 90,
         "encumbrance": [ 4, 5 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 90,
-        "encumbrance": [ 8, 8 ],
-        "specifically_covers": [
-          "arm_elbow_l",
-          "arm_elbow_r",
-          "arm_upper_l",
-          "arm_upper_r",
-          "arm_shoulder_l",
-          "arm_shoulder_r",
-          "arm_lower_r",
-          "arm_lower_l"
-        ]
-      }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 8, 8 ] }
     ],
     "pocket_data": [
       {
@@ -677,6 +665,15 @@
     "copy-from": "duster_leather",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_duster_leather",
+    "type": "ARMOR",
+    "copy-from": "duster_leather",
+    "looks_like": "duster_leather",
+    "name": { "str": "XS leather duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "UNDERSIZE" ]
   },
   {
     "id": "greatcoat",
@@ -806,7 +803,7 @@
       }
     ],
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 0.8,
     "environmental_protection": 1,
     "flags": [ "OUTER", "OVERSIZE" ]
   },
@@ -1623,6 +1620,65 @@
     "armor": [ { "encumbrance": 2, "coverage": 90, "covers": [ "leg_l", "leg_r", "torso" ] } ]
   },
   {
+    "id": "santa_jacket",
+    "type": "ARMOR",
+    "name": { "str": "santa jacket" },
+    "description": "A red jacket, trimmed with white faux fur, commonly used by bearded men on Christmas.  Warm and has a couple of small pockets.",
+    "weight": "1500 g",
+    "volume": "4500 ml",
+    "price": 45000,
+    "price_postapoc": 500,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 20, 25 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 18, 18 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "santa_jacket_short",
+    "type": "ARMOR",
+    "name": { "str": "short santa jacket" },
+    "description": "A short red jacket with white faux fur as trim, similar to a Santa jacket but sleeveless, for a more revealing look on Christmas.",
+    "weight": "1200 g",
+    "volume": "2000 ml",
+    "price": 18000,
+    "price_postapoc": 70,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "jacket_leather_red",
+    "color": "red",
+    "armor": [ { "covers": [ "torso" ], "coverage": 75, "encumbrance": 6 } ],
+    "warmth": 15,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "OUTER" ]
+  },
+  {
     "id": "ski_jacket",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
@@ -1692,15 +1748,10 @@
     "looks_like": "duster",
     "color": "dark_gray",
     "armor": [
-      {
-        "covers": [ "torso" ],
-        "coverage": 90,
-        "encumbrance": [ 7, 12 ],
-        "specifically_covers": [ "torso_upper", "torso_lower" ]
-      },
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 7, 12 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 54,
+        "coverage": 90,
         "encumbrance": [ 4, 5 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       }
@@ -1770,15 +1821,10 @@
     "looks_like": "duster_fur",
     "color": "brown",
     "armor": [
-      {
-        "covers": [ "torso" ],
-        "coverage": 90,
-        "encumbrance": [ 9, 17 ],
-        "specifically_covers": [ "torso_upper", "torso_lower" ]
-      },
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 17 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 54,
+        "coverage": 90,
         "encumbrance": [ 4, 5 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       }
@@ -1859,15 +1905,10 @@
     "looks_like": "duster_leather",
     "color": "brown",
     "armor": [
-      {
-        "covers": [ "torso" ],
-        "coverage": 90,
-        "encumbrance": [ 8, 15 ],
-        "specifically_covers": [ "torso_upper", "torso_lower" ]
-      },
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 15 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 45,
+        "coverage": 90,
         "encumbrance": [ 4, 5 ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
       }

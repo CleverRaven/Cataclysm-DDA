@@ -181,7 +181,11 @@
     "messages": [ "You jump and somersault kick %s", "<npcname> jump and somersault kick %s" ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ]
   },
   {
     "type": "technique",
@@ -199,7 +203,12 @@
       { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 1.0 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 1.0 }
     ],
-    "mult_bonuses": [ { "stat": "movecost", "scale": 1.2 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.2 },
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ]
   },
   {
     "type": "technique",
@@ -225,7 +234,11 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 2.0 },
+      { "stat": "damage", "type": "cut", "scale": 2.0 },
+      { "stat": "damage", "type": "stab", "scale": 2.0 }
+    ]
   },
   {
     "type": "technique",
@@ -235,7 +248,11 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.5 } ]
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.5 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 1.5 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.5 }
+    ]
   },
   {
     "type": "technique",
@@ -279,7 +296,11 @@
     "required_buffs_all": [ "mma_buff_setting_sun_onpause" ],
     "down_dur": 2,
     "knockback_dist": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.33 },
+      { "stat": "damage", "type": "cut", "scale": 1.33 },
+      { "stat": "damage", "type": "stab", "scale": 1.33 }
+    ]
   },
   {
     "type": "technique",
@@ -295,7 +316,11 @@
     "knockback_dist": 4,
     "powerful_knockback": true,
     "weighting": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ]
   },
   {
     "type": "technique",
@@ -329,8 +354,9 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
       { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 }
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.5 }
     ]
   },
   {

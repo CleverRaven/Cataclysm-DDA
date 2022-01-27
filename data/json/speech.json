@@ -2264,6 +2264,42 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"You!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Food!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Raagh!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Hunger…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Hate…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_sapien_spear" ],
+    "sound": "\"Hate… you…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
     "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
     "sound": "\"Sing with me!\"",
     "volume": 10
@@ -2543,5 +2579,77 @@
     "speaker": [ "mon_dermatik_incubator_bear", "mon_dermatik_incubator_dog" ],
     "sound": "a rasping growl.",
     "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "mommy?",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "come on wake up.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "please help me.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "it's so cold.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "take my hand.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "cover your head everyone!",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "I love you and I'll never forget you.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "Put it down we can talk about this.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "It will be over quick.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "AHHHHHHHHHH.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "I DONT WANT TO DIE.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_memory" ],
+    "sound": "PLEASE SOMEONE HELP ME.",
+    "volume": 20
   }
 ]

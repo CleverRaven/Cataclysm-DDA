@@ -239,6 +239,7 @@
       { "item": "compcrossbow", "prob": 10 },
       { "item": "bullet_crossbow", "prob": 10 },
       { "item": "hand_crossbow", "prob": 10 },
+      { "item": "bow_sling", "prob": 10 },
       { "item": "longbow", "prob": 40 },
       { "item": "compbow", "prob": 40 },
       { "item": "shortbow", "prob": 20 },

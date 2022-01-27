@@ -4,6 +4,20 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/release.yml'
+      - 'android/**'
+      - 'build-data/**'
+      - 'cataclysm-launcher'
+      - 'data/**'
+      - 'doc/**'
+      - 'gfx/**'
+      - 'lang/po/*.po'
+      - 'LICENSE*'
+      - 'Makefile'
+      - 'README*'
+      - 'src/**'
+
 jobs:
   release:
     name: Create Release
@@ -139,6 +153,8 @@ jobs:
             content: application/aap
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    env:
+        ZSTD_CLEVEL: 17
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies (windows msvc) (1/3)
@@ -146,12 +162,10 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Install dependencies (windows msvc) (2/3)
         if: runner.os == 'Windows'
-        uses: lukka/run-vcpkg@main
+        uses: lukka/run-vcpkg@v10
         id: runvcpkg
         with:
-          additionalCachedPaths: '${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed'
-          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}
-          setupOnly: true
+          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}-2
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
           # We have to use at least this version of vcpkg to include fixes for yasm-tool's
           # availability only as an x86 host tool. Keep it in sync with the builtin-baseline

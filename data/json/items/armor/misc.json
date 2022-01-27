@@ -116,7 +116,7 @@
     "material_thickness": 4,
     "flags": [ "OVERSIZE", "BELTED" ],
     "use_action": { "menu_text": "Unroll", "type": "transform", "target": "sleeping_bag", "msg": "You unroll the sleeping bag." },
-    "armor": [ { "encumbrance": 20, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "sleeping_bag_fur",
@@ -172,7 +172,7 @@
       "target": "sleeping_bag_fur",
       "msg": "You unroll up the fur sleeping bag."
     },
-    "armor": [ { "encumbrance": 20, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "tie_bow",

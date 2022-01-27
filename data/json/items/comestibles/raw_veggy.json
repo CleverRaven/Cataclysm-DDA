@@ -396,7 +396,7 @@
     "description": "A weed with a cluster of tiny white flowers.  These are often wild carrots, but beware of poisonous lookalikes.",
     "charges": 3,
     "//": "Also known as Queen Anne's Lace. It's that boring white flower that grows wild everywhere. Water hemlock looks almost exactly like wild carrot. The easiest way to tell them apart is by their scent. Please don't eat either of them at home, hemlock will kill you deader than Socrates.",
-    "flags": [ "FORAGE_POISON", "RAW" ],
+    "flags": [ "FORAGE_POISON", "RAW", "SMOKABLE" ],
     "price": 90,
     "price_postapoc": 50,
     "fun": -2
@@ -940,6 +940,7 @@
     "name": { "str": "bell pepper" },
     "weight": "113 g",
     "color": "green",
+    "spoils_in": "3 days 8 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,

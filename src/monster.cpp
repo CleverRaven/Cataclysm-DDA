@@ -127,6 +127,7 @@ static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_wasp( "wasp" );
 
 static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
+static const species_id species_CYBORG( "CYBORG" );
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
@@ -1078,6 +1079,11 @@ bool monster::made_of( phase_id p ) const
     return type->phase == p;
 }
 
+std::vector<material_id> monster::get_absorb_material() const
+{
+    return type->absorb_material;
+}
+
 void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
 {
     const tripoint_abs_ms base_abs_ms = project_to<coords::ms>( global_omt_location() );
@@ -1562,8 +1568,9 @@ const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const body
     const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
-        add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
-                       io::enum_to_string( elem.type ), elem.res_pen, elem.res_mult );
+        add_msg_debug( debugmode::DF_MONSTER,
+                       "Dam Type: %s :: Dam Amt: %.1f :: Ar Pen: %.1f :: Armor Mult: %.1f",
+                       io::enum_to_string( elem.type ), elem.amount, elem.res_pen, elem.res_mult );
         add_msg_debug( debugmode::DF_MONSTER,
                        "Weakpoint: %s :: Armor Mult: %.1f :: Armor Penalty: %.1f :: Resist: %.1f",
                        wp->id, wp->armor_mult[static_cast<int>( elem.type )],
@@ -1589,7 +1596,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( /*This happens sometimes*/ this == &target || !is_adjacent( &target, true ) ) {
         return false;
     }
-    if( !sees( target ) ) {
+    if( !sees( target ) && !target.is_hallucination() ) {
         debugmsg( "Z-Level view violation: %s tried to attack %s.", disp_name(), target.disp_name() );
         return false;
     }
@@ -2107,8 +2114,9 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
         case damage_type::HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
         case damage_type::COLD:
-        case damage_type::ELECTRIC:
             return worn_armor;
+        case damage_type::ELECTRIC:
+            return worn_armor + static_cast<int>( type->armor_elec );
         case damage_type::NONE:
         case damage_type::NUM:
             // Let it error below
@@ -2203,6 +2211,12 @@ float monster::dodge_roll() const
     return get_dodge() * 5;
 }
 
+bool monster::can_attack_high() const
+{
+    return  !( ( type->size < creature_size::medium && !has_flag( MF_FLIES ) &&
+                 !has_flag( MF_ATTACK_UPPER ) ) || has_flag( MF_ATTACK_LOWER ) )  ;
+}
+
 int monster::get_grab_strength() const
 {
     return type->grab_strength;
@@ -2294,6 +2308,14 @@ bool monster::special_available( const std::string &special_name ) const
                 special_name );
     return iter != special_attacks.end() && iter->second.enabled && iter->second.cooldown == 0;
 }
+
+bool monster::has_special( const std::string &special_name ) const
+{
+    std::map<std::string, mon_special_attack>::const_iterator iter = special_attacks.find(
+                special_name );
+    return iter != special_attacks.end() && iter->second.enabled;
+}
+
 
 void monster::explode()
 {
@@ -2439,9 +2461,6 @@ void monster::die( Creature *nkiller )
     g->set_critter_died();
     dead = true;
     set_killer( nkiller );
-    if( death_drops && !no_extra_death_drops ) {
-        drop_items_on_death();
-    }
     if( get_killer() != nullptr ) {
         Character *ch = get_killer()->as_character();
         if( !is_hallucination() && ch != nullptr ) {
@@ -2454,25 +2473,6 @@ void monster::die( Creature *nkiller )
                 ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
                 ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
             }
-        }
-    }
-    if( death_drops ) {
-        // Drop items stored in optionals
-        move_special_item_to_inv( tack_item );
-        move_special_item_to_inv( armor_item );
-        move_special_item_to_inv( storage_item );
-        move_special_item_to_inv( tied_item );
-
-        if( has_effect( effect_lightsnare ) ) {
-            add_item( item( "string_36", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
-        }
-        if( has_effect( effect_heavysnare ) ) {
-            add_item( item( "rope_6", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
-        }
-        if( has_effect( effect_beartrap ) ) {
-            add_item( item( "beartrap", calendar::turn_zero ) );
         }
     }
     map &here = get_map();
@@ -2497,11 +2497,6 @@ void monster::die( Creature *nkiller )
                                             _( "The last enemy holding <npcname> collapses!" ) );
                 you->remove_effect( effect_grabbed );
             }
-        }
-    }
-    if( death_drops && !is_hallucination() ) {
-        for( const auto &it : inv ) {
-            here.add_item_or_charges( pos(), it );
         }
     }
 
@@ -2534,7 +2529,7 @@ void monster::die( Creature *nkiller )
     if( type->mdeath_effect.has_effect ) {
         //Not a hallucination, go process the death effects.
         spell death_spell = type->mdeath_effect.sp.get_spell();
-        if( killer != nullptr && type->mdeath_effect.sp.self &&
+        if( killer != nullptr && !type->mdeath_effect.sp.self &&
             death_spell.is_target_in_range( *this, killer->pos() ) ) {
             death_spell.cast_all_effects( *this, killer->pos() );
         } else if( type->mdeath_effect.sp.self ) {
@@ -2542,19 +2537,57 @@ void monster::die( Creature *nkiller )
         }
     }
 
+    item *corpse = nullptr;
     // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
     switch( type->mdeath_effect.corpse_type ) {
         case mdeath_type::NORMAL:
-            mdeath::normal( *this );
+            corpse =  mdeath::normal( *this );
             break;
         case mdeath_type::BROKEN:
             mdeath::broken( *this );
             break;
         case mdeath_type::SPLATTER:
-            mdeath::splatter( *this );
+            corpse = mdeath::splatter( *this );
             break;
         default:
             break;
+    }
+
+    if( death_drops && !no_extra_death_drops ) {
+        drop_items_on_death( corpse );
+    }
+    if( death_drops && !is_hallucination() ) {
+        for( const auto &it : inv ) {
+            if( corpse ) {
+                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+            } else {
+                get_map().add_item_or_charges( pos(), it );
+            }
+        }
+        if( corpse ) {
+            for( item_pocket *pocket : corpse->get_all_contained_pockets().value() ) {
+                pocket->set_usability( false );
+            }
+        }
+    }
+    if( death_drops ) {
+        // Drop items stored in optionals
+        move_special_item_to_inv( tack_item );
+        move_special_item_to_inv( armor_item );
+        move_special_item_to_inv( storage_item );
+        move_special_item_to_inv( tied_item );
+
+        if( has_effect( effect_lightsnare ) ) {
+            add_item( item( "string_36", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_heavysnare ) ) {
+            add_item( item( "rope_6", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_beartrap ) ) {
+            add_item( item( "beartrap", calendar::turn_zero ) );
+        }
     }
 
     // If our species fears seeing one of our own die, process that
@@ -2616,7 +2649,7 @@ bool monster::check_mech_powered() const
     return true;
 }
 
-void monster::drop_items_on_death()
+void monster::drop_items_on_death( item *corpse )
 {
     if( is_hallucination() ) {
         return;
@@ -2625,15 +2658,21 @@ void monster::drop_items_on_death()
         return;
     }
 
-    std::vector<item *> dropped = get_map().place_items( type->death_drops, 100, pos(), pos(), true,
-                                  calendar::start_of_cataclysm );
+    std::vector<item> new_items = item_group::items_from( type->death_drops,
+                                  calendar::start_of_cataclysm,
+                                  spawn_flags::use_spawn_rate );
 
-    if( has_flag( MF_FILTHY ) ) {
-        for( const auto &it : dropped ) {
-            if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
+    for( item &it : new_items ) {
+        if( has_flag( MF_FILTHY ) ) {
+            if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
-                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
+        }
+        if( corpse ) {
+            corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+        } else {
+            get_map().add_item_or_charges( pos(), it );
         }
     }
 }
@@ -2833,6 +2872,11 @@ bool monster::is_hallucination() const
     return hallucination;
 }
 
+bool monster::is_electrical() const
+{
+    return in_species( species_ROBOT ) || has_flag( MF_ELECTRIC ) || in_species( species_CYBORG );
+}
+
 field_type_id monster::bloodType() const
 {
     if( is_hallucination() ) {
@@ -2947,7 +2991,7 @@ bool monster::is_nemesis() const
     return has_flag( MF_NEMESIS );
 }
 
-void monster::init_from_item( const item &itm )
+void monster::init_from_item( item &itm )
 {
     if( itm.typeId() == itype_corpse ) {
         set_speed_base( get_speed_base() * 0.8 );
@@ -2968,6 +3012,10 @@ void monster::init_from_item( const item &itm )
         const std::string up_time = itm.get_var( "upgrade_time" );
         if( !up_time.empty() ) {
             upgrade_time = std::stoi( up_time );
+        }
+        for( item *it : itm.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            inv.push_back( *it );
+            itm.remove_item( *it );
         }
     } else {
         // must be a robot

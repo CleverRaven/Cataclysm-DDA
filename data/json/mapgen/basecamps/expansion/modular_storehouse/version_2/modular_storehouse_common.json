@@ -44,7 +44,15 @@
     "type": "palette",
     "id": "fbms_2_common_palette",
     "terrain": { ";": "t_dirt" },
-    "furniture": { "d": "f_dresser", "b": "f_bookcase", "l": "f_locker", "w": "f_rack_wood", "r": "f_rack", "s": "f_warehouse_shelf" }
+    "furniture": {
+      "d": "f_dresser",
+      "b": "f_bookcase",
+      "l": "f_locker",
+      "w": "f_rack_wood",
+      "r": "f_rack",
+      "s": "f_warehouse_shelf",
+      ";": "f_clear"
+    }
   },
   {
     "type": "mapgen",

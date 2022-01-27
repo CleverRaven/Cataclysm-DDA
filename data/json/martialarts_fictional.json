@@ -65,7 +65,7 @@
       "tec_biojutsu_takedown",
       "tec_biojutsu_wide"
     ],
-    "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
+    "weapon_category": [ "BIONIC_WEAPONRY", "CLAWS" ]
   },
   {
     "type": "martial_art",
@@ -438,7 +438,7 @@
     "type": "technique",
     "id": "tec_lizard_tail",
     "name": "Lizard Tail",
-    "messages": [ "You leap andkick %s", "<npcname> leaps and kicks %s" ],
+    "messages": [ "You leap and kick %s", "<npcname> leaps and kicks %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "crit_ok": true,

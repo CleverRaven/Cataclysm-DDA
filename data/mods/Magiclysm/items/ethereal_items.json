@@ -408,6 +408,8 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
     "armor": [
       {
+        "encumbrance": 0,
+        "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
@@ -429,6 +431,8 @@
     },
     "armor": [
       {
+        "encumbrance": 0,
+        "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
@@ -450,6 +454,8 @@
     },
     "armor": [
       {
+        "encumbrance": 0,
+        "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
@@ -541,6 +547,8 @@
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "armor": [
       {
+        "encumbrance": 0,
+        "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
@@ -696,7 +704,7 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "hit_me_effect": [ { "id": "caustic_aura_spell" } ],
+          "hit_me_effect": [ { "id": "corrosive_aura_spell" } ],
           "values": [ { "value": "ARMOR_ACID", "add": -5 }, { "value": "ITEM_DAMAGE_ACID", "add": 3 } ]
         }
       ]
@@ -792,7 +800,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [
       "UNARMED_WEAPON",
       "UNBREAKABLE_MELEE",

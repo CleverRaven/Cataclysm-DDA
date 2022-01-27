@@ -36,6 +36,11 @@
   },
   {
     "type": "item_action",
+    "id": "CROWBAR_WEAK",
+    "name": { "str": "Pry crate or nails" }
+  },
+  {
+    "type": "item_action",
     "id": "CROWBAR",
     "name": { "str": "Pry crate, window, door or nails" }
   },
@@ -77,6 +82,11 @@
   {
     "type": "item_action",
     "id": "HOTPLATE",
+    "name": { "str": "Heat up food (with it)" }
+  },
+  {
+    "type": "item_action",
+    "id": "HOTPLATE_ATOMIC",
     "name": { "str": "Heat up food (with it)" }
   },
   {
@@ -187,12 +197,12 @@
   {
     "type": "item_action",
     "id": "CHANGE_EYES",
-    "name": { "str": "Change the eye colour" }
+    "name": { "str": "Change the eye color" }
   },
   {
     "type": "item_action",
     "id": "CHANGE_SKIN",
-    "name": { "str": "Change skin colour" }
+    "name": { "str": "Change skin color" }
   },
   {
     "type": "item_action",
@@ -223,6 +233,16 @@
     "type": "item_action",
     "id": "holster",
     "name": { "str": "Use holster" }
+  },
+  {
+    "type": "item_action",
+    "id": "attach_molle",
+    "name": { "str": "Attach pockets" }
+  },
+  {
+    "type": "item_action",
+    "id": "detach_molle",
+    "name": { "str": "Remove pockets" }
   },
   {
     "type": "item_action",
@@ -396,26 +416,6 @@
   },
   {
     "type": "item_action",
-    "id": "CS_LAJATANG_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "CS_LAJATANG_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "ECS_LAJATANG_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "ECS_LAJATANG_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "DATURA",
     "name": { "str": "Eat" }
   },
@@ -473,6 +473,16 @@
     "type": "item_action",
     "id": "ELEC_CHAINSAW_OFF",
     "name": { "str": "Turn on" }
+  },
+  {
+    "type": "item_action",
+    "id": "EMF_PASSIVE_OFF",
+    "name": { "str": "Turn on" }
+  },
+  {
+    "type": "item_action",
+    "id": "EMF_PASSIVE_ON",
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
@@ -836,6 +846,11 @@
   },
   {
     "type": "item_action",
+    "id": "MANAGE_EXOSUIT",
+    "name": { "str": "Manage exoskeleton modules" }
+  },
+  {
+    "type": "item_action",
     "id": "RM13ARMOR_OFF",
     "name": { "str": "Turn on" }
   },
@@ -1103,5 +1118,10 @@
     "type": "item_action",
     "id": "LUX_METER",
     "name": { "str": "Measure light level" }
+  },
+  {
+    "type": "item_action",
+    "id": "CALORIES_INTAKE_TRACKER",
+    "name": { "str": "Calories intake tracker" }
   }
 ]

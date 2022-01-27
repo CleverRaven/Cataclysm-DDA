@@ -157,6 +157,8 @@ class tileset
 
         std::unordered_map<std::string, std::vector<layer_variant>> layer_data;
 
+        void clear();
+
         int get_tile_width() const {
             return tile_width;
         }

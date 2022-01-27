@@ -27,6 +27,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "diary.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -166,6 +167,7 @@ avatar::avatar()
     active_mission = nullptr;
     grab_type = object_type::NONE;
     calorie_diary.push_front( daily_calories{} );
+    a_diary = nullptr;
 }
 
 avatar::~avatar() = default;
@@ -210,6 +212,7 @@ void avatar::control_npc( npc &np )
     // center the map on the new avatar character
     const bool z_level_changed = g->vertical_shift( posz() );
     g->update_map( *this, z_level_changed );
+    character_mood_face( true );
 }
 
 void avatar::control_npc_menu()
@@ -374,6 +377,14 @@ void avatar::on_mission_finished( mission &cur_mission )
             active_mission = active_missions.front();
         }
     }
+}
+
+diary *avatar::get_avatar_diary()
+{
+    if( a_diary == nullptr ) {
+        a_diary = std::make_unique<diary>();
+    }
+    return a_diary.get();
 }
 
 bool avatar::read( item_location &book, item_location ereader )
@@ -810,6 +821,25 @@ void avatar::wake_up()
     Character::wake_up();
 }
 
+void avatar::add_snippet( snippet_id snippet )
+{
+    if( has_seen_snippet( snippet ) ) {
+        return;
+    }
+
+    snippets_read.emplace( snippet );
+}
+
+bool avatar::has_seen_snippet( const snippet_id &snippet ) const
+{
+    return snippets_read.count( snippet ) > 0;
+}
+
+const std::set<snippet_id> &avatar::get_snippets()
+{
+    return snippets_read;
+}
+
 void avatar::vomit()
 {
     if( stomach.contains() != 0_ml ) {
@@ -888,28 +918,24 @@ void avatar::disp_morale()
 
 int avatar::limb_dodge_encumbrance() const
 {
-    float leg_encumbrance = 0.0f;
-    float torso_encumbrance = 0.0f;
-    const std::vector<bodypart_id> legs =
-        get_all_body_parts_of_type( body_part_type::type::leg );
-    const std::vector<bodypart_id> torsos =
-        get_all_body_parts_of_type( body_part_type::type::torso );
-
-    for( const bodypart_id &leg : legs ) {
-        leg_encumbrance += encumb( leg );
-    }
-    if( !legs.empty() ) {
-        leg_encumbrance /= legs.size() * 10.0f;
+    std::map<body_part_type::type, std::vector<bodypart_id>> bps;
+    for( const auto &bp : body ) {
+        if( bp.first->encumb_impacts_dodge ) {
+            bps[bp.first->limb_type].emplace_back( bp.first );
+        }
     }
 
-    for( const bodypart_id &torso : torsos ) {
-        torso_encumbrance += encumb( torso );
-    }
-    if( !torsos.empty() ) {
-        torso_encumbrance /= torsos.size() * 10.0f;
+    float total = 0.0f;
+    for( auto &bp : bps ) {
+        float sub_total = 0.0f;
+        for( auto &b : bp.second ) {
+            sub_total += encumb( b );
+        }
+        sub_total /= bp.second.size() * 10.0f;
+        total += sub_total;
     }
 
-    return std::floor( torso_encumbrance + leg_encumbrance );
+    return std::floor( total );
 }
 
 void avatar::reset_stats()
@@ -1411,6 +1437,37 @@ void avatar::advance_daily_calories()
     }
 }
 
+int avatar::get_daily_spent_kcal( bool yesterday ) const
+{
+    if( yesterday ) {
+        if( calorie_diary.size() < 2 ) {
+            return 0;
+        }
+        std::list<avatar::daily_calories> copy = calorie_diary;
+        copy.pop_front();
+        return copy.front().spent;
+    }
+    return calorie_diary.front().spent;
+}
+
+int avatar::get_daily_ingested_kcal( bool yesterday ) const
+{
+    if( yesterday ) {
+        if( calorie_diary.size() < 2 ) {
+            return 0;
+        }
+        std::list<avatar::daily_calories> copy = calorie_diary;
+        copy.pop_front();
+        return copy.front().ingested;
+    }
+    return calorie_diary.front().ingested;
+}
+
+void avatar::add_ingested_kcal( int kcal )
+{
+    calorie_diary.front().ingested += kcal;
+}
+
 void avatar::add_spent_calories( int cal )
 {
     calorie_diary.front().spent += cal;
@@ -1479,7 +1536,7 @@ std::string avatar::total_daily_calories_string() const
 
     std::string ret = header_string;
 
-    // Start with today in the first row, day number from start of cataclysm
+    // Start with today in the first row, day number from start of the Cataclysm
     int today = day_of_season<int>( calendar::turn ) + 1;
     int day_offset = 0;
     for( const daily_calories &day : calorie_diary ) {
@@ -1851,7 +1908,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     }
     if( !plantsleep && ( furn_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
-                         ter_at_pos == t_improvised_shelter ||
+                         ter_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
                          trap_at_pos.comfort > static_cast<int>( comfort_level::neutral ) ||
                          in_shell || websleeping || watersleep ||
                          vp.part_with_feature( "SEAT", true ) ||
@@ -1894,4 +1951,9 @@ void avatar::try_to_sleep( const time_duration &dur )
 bool avatar::query_yn( const std::string &mes ) const
 {
     return ::query_yn( mes );
+}
+
+void avatar::set_location( const tripoint_abs_ms &loc )
+{
+    Creature::set_location( loc );
 }

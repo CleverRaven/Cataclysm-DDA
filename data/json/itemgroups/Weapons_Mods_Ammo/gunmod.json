@@ -16,7 +16,8 @@
       [ "offset_sights", 40 ],
       [ "cheek_pad", 25 ],
       [ "rail_laser_sight", 40 ],
-      [ "red_dot_sight", 70 ]
+      [ "red_dot_sight", 70 ],
+      [ "choke", 50 ]
     ]
   },
   {

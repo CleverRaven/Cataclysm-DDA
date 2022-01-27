@@ -20,6 +20,7 @@
 #include "color.h"
 #include "crafting.h"
 #include "cursesdef.h"
+#include "display.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
@@ -30,7 +31,6 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "panels.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
@@ -162,6 +162,7 @@ struct availability {
         const inventory &inv = player.crafting_inventory();
         auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
         auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
+        auto no_favorite_filter = r->get_component_filter( recipe_filter_flags::no_favorite );
         const deduped_requirement_data &req = r->deduped_requirements();
         has_all_skills = r->skill_used.is_null() ||
                          player.get_skill_level( r->skill_used ) >= r->get_difficulty( player );
@@ -170,6 +171,8 @@ struct availability {
                     req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
         would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
                            craft_flags::start_only );
+        would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
+                             craft_flags::start_only );
         would_not_benefit = r->is_practice() && cannot_gain_skill_or_prof( player, *r );
         const requirement_data &simple_req = r->simple_requirements();
         apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
@@ -185,6 +188,7 @@ struct availability {
     }
     bool can_craft;
     bool would_use_rotten;
+    bool would_use_favorite;
     bool would_not_benefit;
     bool apparently_craftable;
     bool has_proficiencies;
@@ -197,6 +201,8 @@ struct availability {
             return h_dark_gray;
         } else if( would_use_rotten || would_not_benefit ) {
             return has_all_skills ? h_brown : h_red;
+        } else if( would_use_favorite ) {
+            return has_all_skills ? h_pink : h_red;
         } else {
             return has_all_skills ? h_white : h_yellow;
         }
@@ -207,6 +213,8 @@ struct availability {
             return c_dark_gray;
         } else if( would_use_rotten || would_not_benefit ) {
             return has_all_skills || ignore_missing_skills ? c_brown : c_red;
+        } else if( would_use_favorite ) {
+            return has_all_skills ? c_pink : c_red;
         } else {
             return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
         }
@@ -285,6 +293,9 @@ static std::vector<std::string> recipe_info(
     const bool can_craft_this = avail.can_craft;
     if( can_craft_this && avail.would_use_rotten ) {
         oss << _( "<color_red>Will use rotten ingredients</color>\n" );
+    }
+    if( can_craft_this && avail.would_use_favorite ) {
+        oss << _( "<color_red>Will use favorited ingredients</color>\n" );
     }
     const bool too_complex = recp.deduped_requirements().is_too_complex();
     if( can_craft_this && too_complex ) {
@@ -407,6 +418,8 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     ctxt.register_action( "SCROLL_RECIPE_INFO_DOWN" );
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
     ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "PREV_TAB" );
@@ -957,7 +970,13 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             }
         }
 
-        draw_scrollbar( w_data, line, dataLines, recmax, point_zero );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 0 )
+        .content_size( recmax )
+        .viewport_pos( istart )
+        .viewport_size( dataLines ).apply( w_data );
+
         wnoutrefresh( w_data );
 
         if( isWide && !current.empty() ) {
@@ -1265,6 +1284,12 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             } else {
                 line += -scroll_rate;
             }
+        } else if( action == "HOME" ) {
+            line = 0;
+            user_moved_line = highlight_unread_recipes;
+        } else if( action == "END" ) {
+            line = -1;
+            user_moved_line = highlight_unread_recipes;
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line].can_craft ) {
                 popup( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );

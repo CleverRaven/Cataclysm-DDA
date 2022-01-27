@@ -713,35 +713,12 @@ void monster::move()
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
-    if( action == "consume_items" ) {
-        add_msg_if_player_sees( *this,
-                                _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                                name() );
-        static const auto volume_per_hp = 250_ml;
-        for( item &elem : here.i_at( pos() ) ) {
-            hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            if( has_flag( MF_ABSORBS_SPLITS ) ) {
-                while( hp / 2 > type->hp ) {
-                    monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
-                    if( !spawn ) {
-                        break;
-                    }
-                    hp -= type->hp;
-                    //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
-                    spawn->make_ally( *this );
-                    add_msg_if_player_sees( *this, _( "The %s splits in two!" ), name() );
-                }
-            }
-        }
-        here.i_clear( pos() );
-    } else if( action == "eat_crop" ) {
-        // TODO: Create a special attacks whitelist unordered map instead of an if chain.
-        std::map<std::string, mtype_special_attack>::const_iterator attack =
-            type->special_attacks.find( action );
-        if( attack != type->special_attacks.end() && attack->second->call( *this ) ) {
-            if( special_attacks.count( action ) != 0 ) {
-                reset_special( action );
-            }
+    // TODO: Create a special attacks whitelist unordered map instead of an if chain.
+    std::map<std::string, mtype_special_attack>::const_iterator attack =
+        type->special_attacks.find( action );
+    if( attack != type->special_attacks.end() && attack->second->call( *this ) ) {
+        if( special_attacks.count( action ) != 0 ) {
+            reset_special( action );
         }
     }
     // record position before moving to put the player there if we're dragging
@@ -939,7 +916,7 @@ void monster::move()
     }
 
     tripoint_abs_ms next_step;
-    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
+    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS ) && !is_hallucination();
     const bool staggers = has_flag( MF_STUMBLES );
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
@@ -1004,6 +981,10 @@ void monster::move()
 
             const Creature *target = creatures.creature_at( candidate, is_hallucination() );
             if( target != nullptr ) {
+                if( is_hallucination() != target->is_hallucination() && !target->is_avatar() ) {
+                    // Hallucinations should only be capable of targetting the player or other hallucinations.
+                    continue;
+                }
                 const Attitude att = attitude_to( *target );
                 if( att == Attitude::HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
@@ -1557,7 +1538,7 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
 
-    npc *const guy = creatures.creature_at<npc>( p );
+    npc *const guy = creatures.creature_at<npc>( p, is_hallucination() );
     if( guy && type->melee_dice > 0 ) {
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
@@ -2129,7 +2110,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                              const tripoint &nearby_destination )
 {
     map &here = get_map();
-    if( this->has_flag( MF_PUSH_VEH ) ) {
+    if( this->has_flag( MF_PUSH_VEH ) && !is_hallucination() ) {
         optional_vpart_position vp = here.veh_at( nearby_destination );
         if( vp ) {
             vehicle &veh = vp->vehicle();

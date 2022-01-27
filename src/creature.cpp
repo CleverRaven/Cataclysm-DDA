@@ -85,6 +85,8 @@ static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
+static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
+static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 
 static const material_id material_cotton( "cotton" );
 static const material_id material_flesh( "flesh" );
@@ -725,7 +727,8 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    bodypart_id bp_hit = bp == nullptr ? select_body_part( source, hit_spread ) : *bp;
+    bodypart_id bp_hit = bp == nullptr ? select_body_part( -1, -1, source->can_attack_high(),
+                         hit_spread ) : *bp;
     block_hit( source, bp_hit, d );
 
     // Stabbing effects
@@ -1141,6 +1144,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         return dealt_damage_instance();
     }
     int total_damage = 0;
+    int total_base_damage = 0;
     int total_pain = 0;
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
@@ -1154,15 +1158,19 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     dealt_dams.wp_hit = wp == nullptr ? "" : wp->name;
 
     // Add up all the damage units dealt
-    for( const auto &it : d.damage_units ) {
+    for( const damage_unit &it : d.damage_units ) {
         int cur_damage = 0;
         deal_damage_handle_type( effect_source( source ), it, bp, cur_damage, total_pain );
+        total_base_damage += std::max( 0.0f, it.amount * it.unconditional_damage_mult );
         if( cur_damage > 0 ) {
             dealt_dams.dealt_dams[ static_cast<int>( it.type ) ] += cur_damage;
             total_damage += cur_damage;
         }
     }
-
+    if( total_base_damage < total_damage ) {
+        // Only deal more HP than remains if damage not including crit multipliers is higher.
+        total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
+    }
     mod_pain( total_pain );
 
     apply_damage( source, bp, total_damage );
@@ -1202,10 +1210,19 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             }
             break;
 
-        case damage_type::ELECTRIC:
+        case damage_type::ELECTRIC: {
             // Electrical damage adds a major speed/dex debuff
-            add_effect( source, effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
+            double multiplier = 1.0;
+            if( monster *mon = as_monster() ) {
+                multiplier = mon->type->status_chance_multiplier;
+            }
+            const int chance = std::log10( ( adjusted_damage + 2 ) * 0.5 ) * 100 * multiplier;
+            if( x_in_y( chance, 100 ) ) {
+                const int duration = std::max( adjusted_damage / 10.0 * multiplier, 2.0 );
+                add_effect( source, effect_zapped, 1_turns * duration );
+            }
             break;
+        }
 
         case damage_type::ACID:
             // Acid damage and acid burns are more painful
@@ -2343,7 +2360,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags
 bodypart_id Creature::get_root_body_part() const
 {
     for( const bodypart_id &part : get_all_body_parts() ) {
-        if( part->connected_to == part->main_part ) {
+        if( part->connected_to == part->id ) {
             return part;
         }
     }
@@ -2361,7 +2378,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
         if( only_main && elem.first->main_part != elem.first ) {
             continue;
         }
-        if( elem.first->limb_type == part_type ) {
+        if( elem.first->has_type( part_type ) ) {
             bodyparts.emplace_back( elem.first );
         }
     }
@@ -2373,6 +2390,46 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     return bodyparts;
 }
 
+std::vector<bodypart_id> Creature::get_all_body_parts_with_flag( const json_character_flag &flag )
+const
+{
+    std::vector<bodypart_id> bodyparts;
+
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        if( elem.first->has_flag( flag ) ) {
+            bodyparts.emplace_back( elem.first );
+        }
+    }
+    return bodyparts;
+}
+
+body_part_set Creature::get_drenching_body_parts( bool upper, bool mid, bool lower ) const
+{
+    body_part_set ret;
+    // Need to exclude stuff - start full and reduce?
+    ret.fill( get_all_body_parts() );
+    // Diving
+    if( upper && mid && lower ) {
+        return ret;
+    }
+    body_part_set upper_limbs;
+    body_part_set lower_limbs;
+    upper_limbs.fill( get_all_body_parts_with_flag( json_flag_LIMB_UPPER ) );
+    lower_limbs.fill( get_all_body_parts_with_flag( json_flag_LIMB_LOWER ) );
+    // Rain?
+    if( upper && mid ) {
+        ret.substract_set( lower_limbs );
+    }
+    // Swimming with your head out
+    if( !upper ) {
+        ret.substract_set( upper_limbs );
+    }
+    // Wading in water
+    if( !upper && !mid && lower ) {
+        ret = lower_limbs;
+    }
+    return ret;
+}
 int Creature::get_hp( const bodypart_id &bp ) const
 {
     if( bp != bodypart_str_id::NULL_ID() ) {
@@ -2635,16 +2692,22 @@ std::unordered_map<std::string, std::string> &Creature::get_values()
     return values;
 }
 
-bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const
+
+bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attack_high,
+                                        int hit_roll ) const
 {
-    int szdif = source->get_size() - get_size();
-
     add_msg_debug( debugmode::DF_CREATURE, "hit roll = %d", hit_roll );
-    add_msg_debug( debugmode::DF_CREATURE, "source size = %d", source->get_size() );
-    add_msg_debug( debugmode::DF_CREATURE, "target size = %d", get_size() );
-    add_msg_debug( debugmode::DF_CREATURE, "difference = %d", szdif );
+    if( !is_monster() && !can_attack_high ) {
+        can_attack_high = as_character()->is_on_ground();
+    }
 
-    return anatomy( get_all_body_parts() ).select_body_part( szdif, hit_roll );
+    return anatomy( get_all_body_parts() ).select_body_part( min_hit, max_hit, can_attack_high,
+            hit_roll );
+}
+
+bodypart_id Creature::select_blocking_part( bool arm, bool leg, bool nonstandard ) const
+{
+    return anatomy( get_all_body_parts() ).select_blocking_part( this, arm, leg, nonstandard );
 }
 
 bodypart_id Creature::random_body_part( bool main_parts_only ) const

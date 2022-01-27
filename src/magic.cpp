@@ -144,6 +144,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NO_FAIL: return "NO_FAIL";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
+        case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
@@ -244,7 +245,7 @@ void spell_type::load_spell( const JsonObject &jo, const std::string &src )
 static std::string moves_to_string( const int moves )
 {
     if( moves < to_moves<int>( 2_seconds ) ) {
-        return string_format( _( "%d moves" ), moves );
+        return string_format( n_gettext( "%d move", "%d moves", moves ), moves );
     } else {
         return to_string( time_duration::from_moves( moves ) );
     }
@@ -2397,16 +2398,22 @@ spell fake_spell::get_spell( int min_level_override ) const
 {
     spell sp( id );
     // the max level this spell will be. can be optionally limited
-    int spell_limiter = max_level ? std::min( *max_level, sp.get_max_level() ) : sp.get_max_level();
+    int spell_max_level = sp.get_max_level();
+    int spell_limiter = max_level ? *max_level : spell_max_level;
     // level is the minimum level the fake_spell will output
     min_level_override = std::max( min_level_override, level );
     if( min_level_override > spell_limiter ) {
         // this override is for min level, and does not override max level
-        min_level_override = spell_limiter;
+        if( spell_limiter <= 0 ) {
+            spell_limiter = min_level_override;
+        } else {
+            min_level_override = spell_limiter;
+        }
     }
+    // make sure max level is not lower then min level
+    spell_limiter = std::max( min_level_override, spell_limiter );
     // the "level" of the fake spell is the goal, but needs to be clamped to min and max
-    int level_of_spell = clamp( level, min_level_override,  std::min( sp.get_max_level(),
-                                spell_limiter ) );
+    int level_of_spell = clamp( level, min_level_override, spell_limiter );
     if( level > spell_limiter ) {
         debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
         return sp;

@@ -36,7 +36,7 @@ CataclysmWin.layout
 cata_test
 cata_test-tiles
 cataclysm
-cataclysm-tiles
+*cataclysm-tiles
 cataclysm-vcpkg
 cataclysmdda-*
 chkjson*
@@ -61,6 +61,9 @@ json_formatter
 Debug*/
 Release*/
 
+# Temporary CMakeFiles
+out/
+
 # Distribution script results
 /msvc-full-features/distribution
 
@@ -72,6 +75,9 @@ Cataclysm.exe.lastcodeanalysissucceeded
 
 #Visual Studio 2017
 /msvc-full-features/PredictedInputCache_Debug_x64.dat
+
+# Visual Studio 2019
+**/enc_temp_folder/*
 
 #vcpkg
 /msvc-full-features/vcpkg_installed
@@ -96,7 +102,7 @@ cscope.*
 tags
 
 # Generated translation source
-/lang/po/cataclysm-dda.pot
+/lang/po/*.pot
 /lang/po/en.po
 
 # Compiled binary translations
@@ -113,6 +119,7 @@ tags
 nbproject/
 
 # Python runtime files
+__pycache__
 *.pyc
 
 # vim files

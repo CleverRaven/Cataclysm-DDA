@@ -65,7 +65,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 500 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 500 } } ],
     "sub": "forge",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -322,7 +322,7 @@
     "name": { "str": "sandpaper", "str_pl": "sheets of sandpaper" },
     "description": "A sheet of rough paper.  It is commonly used in metalworking and carpentry.",
     "weight": "10 g",
-    "volume": "500 ml",
+    "volume": "50 ml",
     "price": 1600,
     "price_postapoc": 10,
     "material": "paper",
@@ -425,5 +425,30 @@
     "symbol": ";",
     "qualities": [ [ "GRIND", 2 ] ],
     "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "gas_forge",
+    "type": "TOOL",
+    "name": { "str": "gas forge" },
+    "//": "Based on the Whisper Daddy 3 Burner Forge, large enough to craft tools and small weapons.",
+    "description": "This is a gas-fueled metalworking forge.  If combined with the right tools, you could use this for metalworking.",
+    "weight": "32205 g",
+    "volume": "8 L",
+    "price": 80000,
+    "price_postapoc": 10000,
+    "to_hit": -5,
+    "bashing": 25,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": [ "propane" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "small_propane_tank", "medium_propane_tank", "large_propane_tank" ]
+      }
+    ],
+    "sub": "forge",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]

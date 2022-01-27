@@ -47,10 +47,18 @@ class ter_furn_transform
         std::map<furn_str_id, ter_furn_data<furn_str_id>> furn_transform;
         std::map<std::string, ter_furn_data<furn_str_id>> furn_flag_transform;
 
+        std::map<trap_str_id, ter_furn_data<trap_str_id>> trap_transform;
+        std::map<std::string, ter_furn_data<trap_str_id>> trap_flag_transform;
+
+        std::map<field_type_id, ter_furn_data<field_type_id>> field_transform;
+
         cata::optional<ter_str_id> next_ter( const ter_str_id &ter ) const;
         cata::optional<ter_str_id> next_ter( const std::string &flag ) const;
         cata::optional<furn_str_id> next_furn( const furn_str_id &furn ) const;
         cata::optional<furn_str_id> next_furn( const std::string &flag ) const;
+        cata::optional<trap_str_id> next_trap( const trap_str_id &trap ) const;
+        cata::optional<trap_str_id> next_trap( const std::string &flag ) const;
+        cata::optional<field_type_id> next_field( const field_type_id &field ) const;
 
         template<class T, class K>
         cata::optional<ter_furn_data<T>> find_transform( const std::map<K, ter_furn_data<T>> &list,

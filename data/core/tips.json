@@ -12,7 +12,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Light itself doesn't draw zombies, it's sight, noise or smell." ]
+    "text": [ "Light itself doesn't draw zombies, it's sight, noise, or smell." ]
   },
   {
     "type": "snippet",
@@ -122,7 +122,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Drugs are great for quick stat boosts, but be careful of addictions or overdose." ]
+    "text": [ "Drugs are great for quick morale boost and such, but be aware of addiction and overdose." ]
   },
   {
     "type": "snippet",
@@ -183,11 +183,6 @@
     "type": "snippet",
     "category": "tip",
     "text": [ "Having a backup weapon is wise.  So is having a backup plan." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
-    "text": [ "Windows can't stop zombies but they can stop gas, bile, and smoke.  And your smell." ]
   },
   {
     "type": "snippet",
@@ -272,7 +267,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Broken limb pinned you down?  Hospitals might have next-gen tech to get you going." ]
+    "text": [ "Broken limb?  Improvised splints are ok, but hospitals might have better tech for it." ]
   },
   {
     "type": "snippet",
@@ -292,7 +287,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Different characters, professions, hobbies and scenarios can spice up your game.  Roleplay!" ]
+    "text": [ "Different characters, professions, hobbies, and scenarios can spice up your game.  Roleplay!" ]
   },
   {
     "type": "snippet",
@@ -377,7 +372,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Major blood loss?  Drink plenty, supplement iron and rest to regenerate your red blood cells." ]
+    "text": [ "Major blood loss?  Drink plenty, supplement iron, and rest to regenerate your red blood cells." ]
   },
   {
     "type": "snippet",
@@ -437,7 +432,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "You can automate repetitive tasks such as foraging, mining or mopping for your convenience." ]
+    "text": [ "You can automate repetitive tasks such as foraging, mining, or mopping for your convenience." ]
   },
   {
     "type": "snippet",
@@ -503,5 +498,125 @@
     "type": "snippet",
     "category": "tip",
     "text": [ "Prolonged physical exhaustion results in weariness.  Overwork causes loss of productivity." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Mark the items you carry as favorites so you can easily identify new items and drop them in bulk." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Verticality is a thing.  If you can get to the roof somehow, it may save your life." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Your enemy is often slower than you.  Walk to conserve stamina and run only when you must." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Fight on your conditions whenever you can.  Use terrain, traps, and fire to your advantage." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Pick your fights and don't let them pick you.  Don't bite what you can't chew." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Learn to use zone sorting to sort your loot in one go.  Y to set up zones, O to sort items." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Want to loot everything not nailed down in one go?  Use zone manager to fill your hoard." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can view local keybindings in most sub-menus by pressing a question mark (?) key." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "There are some unbound keybindings that might prove useful for your needs.  Check them out." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Check what you can craft from time to time, even if you don't have components right now." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Where applicable, use blacklists, whitelists, and filters for a better quality of life." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Many items have contextual use.  Use item action menu to find out what you can do with them." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The action menu can help you determine what you can do.  There are also some rare actions there." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Auto-pickup settings can save your time when you need it.  It's fully customizable too." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Feeling unwell?  Allow yourself to rest, even for a few days as needed.  Heal now, explore later." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Overconfidence is a treacherous killer.  Leave yourself some leeway for unforeseen circumstances." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Be mindful of what, when, and how much you eat.  A balanced diet is crucial in the long run." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Skillful management of your stamina is crucial for your survival.  Conserve it when you can." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "For free in the construction menu: a crafting spot, a firewood source, and a practice target." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "When looking around, use T to move to destination or item automatically." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can use your mouse to move to a destination by double-clicking it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can use your mouse in your inventory and few other menus." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Crafting is faster if you have an actual place for it, preferably a workshop bench." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Hope for the best but prepare for the worst.  A backup stash of necessities can save the day." ]
   }
 ]

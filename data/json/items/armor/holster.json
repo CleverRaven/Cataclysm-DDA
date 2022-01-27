@@ -26,7 +26,7 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW" ],
-    "armor": [ { "encumbrance": [ 3, 15 ], "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 3, 15 ], "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "baldric_holster",
@@ -100,7 +100,7 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 2, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "bootstrap",
@@ -146,7 +146,7 @@
     "looks_like": "slingpack",
     "color": "green",
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "WAIST" ],
+    "flags": [ "OVERSIZE", "BELTED" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -160,7 +160,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 5, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "id": "single_sling",
@@ -189,7 +189,9 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "armor": [ { "encumbrance": [ 0, 16 ], "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [
+      { "encumbrance": [ 0, 16 ], "coverage": 13, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] }
+    ]
   },
   {
     "id": "holster",
@@ -219,8 +221,15 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "WAIST", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 4 ],
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
   },
   {
     "id": "western_holster",
@@ -232,8 +241,13 @@
     "material": [ "leather" ],
     "sided": true,
     "armor": [
-      { "covers": [ "torso" ], "coverage": 5, "encumbrance": [ 1, 1 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 5, "encumbrance": [ 2, 3 ] }
+      { "covers": [ "torso" ], "coverage": 5, "encumbrance": [ 1, 1 ], "specifically_covers": [ "torso_lower" ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 5,
+        "encumbrance": [ 2, 3 ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
     ],
     "pocket_data": [
       {
@@ -296,7 +310,14 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "armor": [ { "encumbrance": [ 1, 2 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 1, 2 ],
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
   },
   {
     "id": "bholster",
@@ -317,7 +338,7 @@
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "16 cm",
+        "max_item_length": "165 mm",
         "moves": 210
       }
     ],
@@ -326,7 +347,7 @@
     "armor": [
       {
         "encumbrance": [ 1, 3 ],
-        "coverage": 5,
+        "coverage": 25,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
@@ -366,7 +387,7 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 1, 6 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+    "armor": [ { "encumbrance": [ 1, 6 ], "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
   {
     "id": "XL_holster",
@@ -395,7 +416,24 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "WAIST", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 7 ], "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "BELTED", "OVERSIZE" ],
+    "armor": [
+      {
+        "encumbrance": [ 2, 7 ],
+        "coverage": 10,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "XS_holster",
+    "type": "ARMOR",
+    "copy-from": "XL_holster",
+    "looks_like": "XL_holster",
+    "name": { "str": "XS holster" },
+    "description": "A belt holster consisting of a loop and strap intended for use with larger firearms.  Slightly more cumbersome than a standard holster due to the straps that hold it flat against your leg.  Activate to holster/draw a gun.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "BELTED", "OVERSIZE", "UNDERSIZE" ]
   }
 ]

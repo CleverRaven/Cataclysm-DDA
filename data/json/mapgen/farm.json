@@ -207,13 +207,13 @@
       ],
       "terrain": { "I": [ "t_wall_metal" ] },
       "items": { "r": { "item": "farming_tools", "chance": 25 } },
-      "sealed_item": { "D": { "item": { "item": "seed_wheat" }, "furniture": "f_plant_harvest", "chance": 70 } },
+      "sealed_item": { "D": { "item": { "item": "seed_oats" }, "furniture": "f_plant_harvest", "chance": 70 } },
       "place_item": [
-        { "item": "wheat", "x": [ 4, 5 ], "y": 2, "chance": 40 },
-        { "item": "wheat", "x": [ 2, 7 ], "y": 3, "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "wheat", "x": [ 1, 8 ], "y": 4, "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "wheat", "x": [ 2, 7 ], "y": 5, "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "wheat", "x": [ 4, 5 ], "y": 6, "chance": 40 }
+        { "item": "cattlefodder", "x": [ 4, 5 ], "y": 2, "chance": 40 },
+        { "item": "cattlefodder", "x": [ 2, 7 ], "y": 3, "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "cattlefodder", "x": [ 1, 8 ], "y": 4, "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "cattlefodder", "x": [ 2, 7 ], "y": 5, "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "cattlefodder", "x": [ 4, 5 ], "y": 6, "chance": 40 }
       ],
       "palettes": [ "farm" ]
     }

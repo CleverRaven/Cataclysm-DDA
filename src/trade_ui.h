@@ -32,9 +32,12 @@ class trade_selector : public inventory_drop_selector
         using entry_t = std::pair<item_location, int>;
         using select_t = std::vector<entry_t>;
         void execute();
+        void on_toggle() override;
         select_t to_trade() const;
         void resize( point const &size, point const &origin );
         shared_ptr_fast<ui_adaptor> get_ui() const;
+        input_context const *get_ctxt() const;
+        void categorize_map_items( bool toggle );
 
         static constexpr char const *ACTION_SWITCH_PANES = "SWITCH_LISTS";
         static constexpr char const *ACTION_TRADE_OK = "CONFIRM";
@@ -43,6 +46,7 @@ class trade_selector : public inventory_drop_selector
     private:
         trade_ui *_parent;
         shared_ptr_fast<ui_adaptor> _ui;
+        input_context _ctxt_trade;
 };
 
 class trade_preset : public inventory_selector_preset

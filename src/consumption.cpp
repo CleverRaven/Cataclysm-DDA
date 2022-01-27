@@ -531,7 +531,7 @@ std::map<vitamin_id, int> Character::effect_vitamin_mod( const std::map<vitamin_
     return ret;
 }
 
-int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
+int Character::vitamin_mod( const vitamin_id &vit, int qty )
 {
     if( !vit.is_valid() ) {
         debugmsg( "Vitamin with id %s does not exist, and cannot be modified", vit.str() );
@@ -544,8 +544,7 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     const vitamin &v = *it->first;
 
     if( qty > 0 ) {
-        // Accumulations can never occur from food sources
-        it->second = std::min( it->second + qty, capped ? 0 : v.max() );
+        it->second = std::min( it->second + qty, v.max() );
         update_vitamins( vit );
 
     } else if( qty < 0 ) {
@@ -556,12 +555,12 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     return it->second;
 }
 
-void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool capped )
+void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins )
 {
     const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
     if( !npc_no_food ) {
         for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
-            vitamin_mod( vit.first, vit.second, capped );
+            vitamin_mod( vit.first, vit.second );
         }
     }
 }
@@ -582,7 +581,7 @@ bool Character::vitamin_set( const vitamin_id &vit, int qty )
     if( v == vitamin_levels.end() ) {
         return false;
     }
-    vitamin_mod( vit, qty - v->second, false );
+    vitamin_mod( vit, qty - v->second );
 
     return true;
 }
@@ -824,7 +823,9 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
         !has_flag( json_flag_PARAIMMUNE ) ) {
-        add_consequence( _( "Eating this raw meat probably isn't very healthy." ), PARASITES );
+        add_consequence( string_format( _( "Consuming this %s probably isn't very healthy." ),
+                                        food.tname() ),
+                         PARASITES );
     }
 
     const bool edible = comest->comesttype == comesttype_FOOD || food.has_flag( flag_USE_EAT_VERB );
@@ -1511,6 +1512,7 @@ bool Character::consume_effects( item &food )
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
+    get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
     return true;
 }
 
@@ -1675,6 +1677,9 @@ time_duration Character::get_consume_time( const item &it )
                                             1 ) ); //Consume 15 mL (1 tablespoon) per second
         consume_time_modifier = mutation_value( "consume_time_modifier" );
     }
+
+    // Minimum consumption time, without mutations, is always 1 second.
+    time = std::max( 1_seconds, time );
 
     return time * consume_time_modifier;
 }

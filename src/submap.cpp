@@ -43,6 +43,13 @@ submap::~submap() = default;
 
 submap &submap::operator=( submap && ) noexcept = default;
 
+void submap::clear_fields( const point &p )
+{
+    field &f = get_field( p );
+    field_count -= f.field_count();
+    f.clear();
+}
+
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
 // Handle GCC warning: 'warning: returning reference to temporary'
@@ -216,6 +223,12 @@ bool submap::contains_vehicle( vehicle *veh )
         return v.get() == veh;
     } );
     return match != vehicles.end();
+}
+
+bool submap::is_open_air( const point &p ) const
+{
+    ter_id t = get_ter( p );
+    return t->trap == tr_ledge;
 }
 
 void submap::rotate( int turns )

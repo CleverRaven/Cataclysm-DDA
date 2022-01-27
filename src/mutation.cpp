@@ -59,6 +59,7 @@ static const mutation_category_id mutation_category_ANY( "ANY" );
 static const mutation_category_id mutation_category_URSINE( "URSINE" );
 
 static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
@@ -82,7 +83,6 @@ static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
 static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
@@ -180,10 +180,6 @@ void Character::set_mutation_unsafe( const trait_id &trait )
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
     mutation_effect( trait, false );
-
-    if( is_avatar() ) {
-        as_avatar()->clear_mood_face();
-    }
 }
 
 void Character::do_mutation_updates()
@@ -478,6 +474,10 @@ void Character::mutation_loss_effect( const trait_id &mut )
         branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
+    if( !branch.enchantments.empty() ) {
+        recalculate_enchantment_cache();
+        recalculate_bodyparts();
+    }
 
     on_mutation_loss( mut );
 }
@@ -673,7 +673,7 @@ void Character::activate_mutation( const trait_id &mut )
     } else if( mut == trait_SNAIL_TRAIL ) {
         get_map().add_field( pos(), fd_sludge, 1 );
         add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
-    } else if( mut == trait_BURROW ) {
+    } else if( mut == trait_BURROW || mut == trait_BURROWLARGE ) {
         tdata.powered = false;
         item burrowing_item( itype_fake_burrowing );
         invoke_item( &burrowing_item );
@@ -708,10 +708,6 @@ void Character::activate_mutation( const trait_id &mut )
     } else if( mut == trait_M_PROVENANCE ) {
         spores(); // double trouble!
         blossoms();
-        tdata.powered = false;
-        return;
-    } else if( mut == trait_SELFAWARE ) {
-        print_health();
         tdata.powered = false;
         return;
     } else if( mut == trait_TREE_COMMUNION ) {
@@ -753,7 +749,7 @@ void Character::activate_mutation( const trait_id &mut )
             return;
         }
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
-        mod_max_power_level( 100_kJ );
+        mod_max_power_level_modifier( 100_kJ );
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
         tdata.powered = false;
         return;
@@ -1075,10 +1071,6 @@ bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
 
 bool Character::mutate_towards( const trait_id &mut )
 {
-    if( is_avatar() ) {
-        as_avatar()->clear_mood_face();
-    }
-
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
         return true;
@@ -1106,7 +1098,7 @@ bool Character::mutate_towards( const trait_id &mut )
         if( !has_trait( cancel[i] ) ) {
             cancel.erase( cancel.begin() + i );
             i--;
-        } else if( has_base_trait( cancel[i] ) ) {
+        } else if( has_base_trait( cancel[i] ) || !purifiable( cancel[i] ) ) {
             //If we have the trait, but it's a base trait, don't allow it to be removed normally
             canceltrait.push_back( cancel[i] );
             cancel.erase( cancel.begin() + i );
@@ -1123,6 +1115,13 @@ bool Character::mutate_towards( const trait_id &mut )
             // This checks for cases where one trait knocks out several others
             // Probably a better way, but gets it Fixed Now--KA101
             return mutate_towards( mut );
+        }
+    }
+
+    for( size_t i = 0; i < canceltrait.size(); i++ ) {
+        if( !purifiable( canceltrait[i] ) ) {
+            // We can't cancel unpurifiable mutations
+            return false;
         }
     }
 
@@ -1459,10 +1458,6 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                 replacing2 = pre2;
             }
         }
-    }
-
-    if( is_avatar() ) {
-        as_avatar()->clear_mood_face();
     }
 
     // See if this mutation is canceled by a base trait
@@ -1876,7 +1871,7 @@ void Character::customize_appearance( customize_appearance_choice choice )
     std::string end_message;
     switch( choice ) {
         case customize_appearance_choice::EYES:
-            amenu.text = _( "Choose a new eye colour" );
+            amenu.text = _( "Choose a new eye color" );
             traits = get_mutations_in_type( STATIC( "eye_color" ) );
             end_message = _( "Maybe things will be better by seeing it with new eyes." );
             break;
@@ -1891,9 +1886,9 @@ void Character::customize_appearance( customize_appearance_choice choice )
             end_message = _( "Surviving the end with style." );
             break;
         case customize_appearance_choice::SKIN:
-            amenu.text = _( "Choose a new skin colour" );
+            amenu.text = _( "Choose a new skin color" );
             traits = get_mutations_in_type( STATIC( "skin_tone" ) );
-            end_message = _( "Life in the cataclysm seems to have changed you." );
+            end_message = _( "Life in the Cataclysm seems to have changed you." );
             break;
     }
 

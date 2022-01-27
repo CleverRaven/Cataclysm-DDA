@@ -119,7 +119,7 @@
     "batch_time_factors": [ 80, 4 ],
     "flags": [ "BLIND_HARD", "ALLOW_ROTTEN" ],
     "book_learn": { "afs_bugbrew_book": { "skill_level": 1 } },
-    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CHEM", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CHEM", "level": 2 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 6 ], [ "water_clean", 6 ] ],

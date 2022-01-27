@@ -24,6 +24,8 @@ static const efftype_id effect_darkness( "darkness" );
 
 static const flag_id json_flag_INSPIRATIONAL( "INSPIRATIONAL" );
 
+static const limb_score_id limb_score_vision( "vision" );
+
 static const skill_id skill_chemistry( "chemistry" );
 
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
@@ -198,7 +200,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
     //Give eyes to our dummy
     dummy.set_body();
     REQUIRE( dummy.has_part( bodypart_id( "eyes" ) ) );
-    REQUIRE( dummy.vision_score() != 0 );
+    REQUIRE( dummy.get_limb_score( limb_score_vision ) != 0 );
 
     dummy.worn.emplace_back( "backpack" );
 

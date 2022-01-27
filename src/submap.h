@@ -176,6 +176,8 @@ class submap : maptile_soa<SEEX, SEEY>
             return fld[p.x][p.y];
         }
 
+        void clear_fields( const point &p );
+
         struct cosmetic_t {
             point pos;
             std::string type;
@@ -223,6 +225,8 @@ class submap : maptile_soa<SEEX, SEEY>
         void delete_computer( const point &p );
 
         bool contains_vehicle( vehicle * );
+
+        bool is_open_air( const point & ) const;
 
         void rotate( int turns );
         void mirror( bool horizontally );
