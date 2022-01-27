@@ -125,7 +125,7 @@
   {
     "id": "MISSION_ARSONIST_1_AMMONIUM_NITRATE",
     "type": "mission_definition",
-    "name": { "str": "Supply the arsonist." },
+    "name": { "str": "Supply the arsonist" },
     "description": "Bring the arsonist 42 kg of commercial fertilizer",
     "difficulty": 1,
     "value": 500,
