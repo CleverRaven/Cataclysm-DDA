@@ -772,7 +772,7 @@ bool operator==( const relic &source_relic, const relic &target_relic )
     return is_the_same;
 }
 
-const std::vector<relic_procgen_data> &relic_procgen_data::get_all()
+std::vector<relic_procgen_data> &relic_procgen_data::get_all()
 {
     return relic_procgen_data_factory.get_all();
 }

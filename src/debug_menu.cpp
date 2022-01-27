@@ -2472,7 +2472,7 @@ void debug()
             uilist relic_menu;
             std::vector<relic_procgen_data> relic_list;
             for( auto &elem : relic_procgen_data::get_all() ) {
-                relic_list.emplace_back( elem );
+                relic_list.emplace_back( elem->id );
             }
             relic_menu.text = _( "Choose artifact data:" );
             int menu_ind = 0;
