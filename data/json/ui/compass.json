@@ -1,84 +1,74 @@
 [
   {
+    "id": "compass_text_template",
+    "type": "widget",
+    "style": "text",
+    "var": "compass_text",
+    "width": 6,
+    "text_align": "left"
+  },
+  {
     "id": "compass_N_text",
     "type": "widget",
     "label": "N",
-    "style": "text",
     "direction": "N",
-    "var": "compass_text",
-    "width": 6
+    "copy-from": "compass_text_template"
   },
   {
     "id": "compass_S_text",
     "type": "widget",
     "label": "S",
-    "style": "text",
     "direction": "S",
-    "var": "compass_text",
-    "width": 6
+    "copy-from": "compass_text_template"
   },
   {
     "id": "compass_E_text",
     "type": "widget",
     "label": "E",
-    "style": "text",
     "direction": "E",
-    "var": "compass_text",
-    "width": 6
+    "copy-from": "compass_text_template"
   },
   {
     "id": "compass_W_text",
     "type": "widget",
     "label": "W",
-    "style": "text",
     "direction": "W",
-    "var": "compass_text",
-    "width": 6
+    "copy-from": "compass_text_template"
   },
   {
     "id": "compass_NE_text",
     "type": "widget",
     "label": "NE",
-    "style": "text",
     "direction": "NE",
-    "var": "compass_text",
-    "width": 6
+    "copy-from": "compass_text_template"
   },
   {
     "id": "compass_NW_text",
     "type": "widget",
     "label": "NW",
-    "style": "text",
     "direction": "NW",
-    "var": "compass_text",
-    "width": 6
+    "copy-from": "compass_text_template"
   },
   {
     "id": "compass_SE_text",
     "type": "widget",
     "label": "SE",
-    "style": "text",
     "direction": "SE",
-    "var": "compass_text",
-    "width": 6
+    "copy-from": "compass_text_template"
   },
   {
     "id": "compass_SW_text",
     "type": "widget",
     "label": "SW",
-    "style": "text",
     "direction": "SW",
-    "var": "compass_text",
-    "width": 6
+    "copy-from": "compass_text_template"
   },
   {
     "//": "An empty space indicating threats nearby",
     "id": "compass_local_text",
     "type": "widget",
-    "style": "text",
     "direction": "L",
-    "var": "compass_text",
-    "width": 6
+    "copy-from": "compass_text_template"
   },
   {
     "id": "compass_legend_text",
@@ -88,7 +78,8 @@
     "var": "compass_legend_text",
     "width": 0,
     "height": 3,
-    "flags": [ "W_LABEL_NONE", "W_PAD_NONE" ]
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "compass_legend_text_alt",
@@ -98,7 +89,8 @@
     "var": "compass_legend_text",
     "width": 0,
     "height": 5,
-    "flags": [ "W_LABEL_NONE", "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "compass_top_layout",

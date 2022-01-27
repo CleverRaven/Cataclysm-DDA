@@ -58,6 +58,14 @@
     "components": [ [ [ "chitin_piece", 72 ] ] ]
   },
   {
+    "result": "armor_chitin_xs",
+    "type": "recipe",
+    "copy-from": "armor_chitin",
+    "time": "6 h 40 m",
+    "using": [ [ "cordage", 1 ] ],
+    "components": [ [ [ "chitin_piece", 54 ] ] ]
+  },
+  {
     "result": "xl_armor_chitin",
     "type": "recipe",
     "copy-from": "armor_chitin",
@@ -89,6 +97,14 @@
     "components": [ [ [ "acidchitin_piece", 72 ] ] ]
   },
   {
+    "result": "armor_acidchitin_xs",
+    "type": "recipe",
+    "copy-from": "armor_acidchitin",
+    "time": "8 h 20 m",
+    "using": [ [ "cordage", 1 ] ],
+    "components": [ [ [ "acidchitin_piece", 54 ] ] ]
+  },
+  {
     "result": "xl_armor_acidchitin",
     "type": "recipe",
     "copy-from": "armor_acidchitin",
@@ -112,6 +128,13 @@
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
   {
+    "result": "armor_farmor_xs",
+    "type": "recipe",
+    "copy-from": "armor_farmor",
+    "time": "8 h",
+    "using": [ [ "sewing_standard", 51 ], [ "fabric_fur_pelt", 6 ] ]
+  },
+  {
     "result": "xl_armor_farmor",
     "type": "recipe",
     "copy-from": "armor_farmor",
@@ -133,6 +156,14 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ] ]
+  },
+  {
+    "result": "armor_larmor_xs",
+    "type": "recipe",
+    "copy-from": "armor_larmor",
+    "time": "8 h",
+    "using": [ [ "sewing_standard", 39 ] ],
+    "components": [ [ [ "leather", 23 ], [ "tanned_hide", 3 ], [ "fur", 23 ], [ "tanned_pelt", 3 ] ] ]
   },
   {
     "result": "xl_armor_larmor",
@@ -162,6 +193,14 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "xs_armor_lightplate",
+    "type": "recipe",
+    "copy-from": "armor_lightplate",
+    "time": "9 h 20 m",
+    "using": [ [ "blacksmithing_standard", 60 ], [ "steel_standard", 15 ], [ "fabric_leather_fur_hide", 2 ] ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -214,6 +253,15 @@
     "components": [ [ [ "xl_cuirass_lightplate", 1 ] ], [ [ "xl_armguard_lightplate", 1 ] ], [ [ "xl_legguard_lightplate", 1 ] ] ]
   },
   {
+    "result": "xs_armor_lightplate",
+    "type": "recipe",
+    "copy-from": "armor_lightplate",
+    "time": "20 m",
+    "flags": [ "NO_RESIZE" ],
+    "components": [ [ [ "xs_cuirass_lightplate", 1 ] ], [ [ "xs_armguard_lightplate", 1 ] ], [ [ "xs_legguard_lightplate", 1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
     "result": "armor_lorica",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -234,6 +282,14 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ]
+  },
+  {
+    "result": "xs_armor_lorica",
+    "type": "recipe",
+    "copy-from": "armor_lorica",
+    "time": "7 h 28 m",
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ], [ "fabric_leather_fur_hide", 1 ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
     "result": "xl_armor_lorica",
@@ -267,6 +323,14 @@
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "armor_larmor", 1 ] ], [ [ "armguard_larmor", 1 ] ] ]
   },
   {
+    "result": "armor_plarmor_xs",
+    "type": "recipe",
+    "copy-from": "armor_plarmor",
+    "time": "2 h",
+    "using": [ [ "sewing_standard", 19 ] ],
+    "components": [ [ [ "steel_chunk", 5 ], [ "scrap", 14 ] ], [ [ "armor_larmor", 1 ] ], [ [ "armguard_larmor", 1 ] ] ]
+  },
+  {
     "result": "xl_armor_plarmor",
     "type": "recipe",
     "copy-from": "armor_plarmor",
@@ -295,6 +359,14 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ]
+  },
+  {
+    "result": "xs_armor_plate",
+    "type": "recipe",
+    "copy-from": "armor_plate",
+    "time": "10 h",
+    "using": [ [ "blacksmithing_standard", 90 ], [ "steel_standard", 22 ], [ "fabric_leather_fur_hide", 2 ] ],
+    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "result": "xl_armor_plate",
@@ -447,12 +519,37 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "chainmail_vest", 1 ] ],
+      [ [ "chainmail_arms", 1 ] ],
+      [ [ "chainmail_legs", 1 ] ],
+      [ [ "gambeson", 1 ] ],
+      [ [ "gambeson_pants", 1 ] ]
+    ]
+  },
+  {
+    "result": "chainmail_hauberk_xs",
+    "type": "recipe",
+    "copy-from": "chainmail_hauberk",
+    "time": "1 h 45 m",
     "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "gambeson", 1 ] ] ]
   },
   {
     "result": "kevlar_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "chainmail_hauberk",
+    "components": [
+      [ [ "xl_chainmail_vest", 1 ] ],
+      [ [ "xl_chainmail_arms", 1 ] ],
+      [ [ "xl_chainmail_legs", 1 ] ],
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
+    ]
+  },
+  {
+    "result": "kevlar_chainmail_hauberk_xs",
+    "type": "recipe",
+    "copy-from": "kevlar_chainmail_hauberk",
     "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "k_gambeson", 1 ] ] ]
   },
   {
@@ -464,7 +561,8 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_gambeson", 1 ] ]
+      [ [ "xl_gambeson", 1 ] ],
+      [ [ "xl_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -475,7 +573,8 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_k_gambeson", 1 ] ]
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -496,6 +595,20 @@
       [ [ "chainmail_vest", 1 ] ],
       [ [ "chainmail_arms", 1 ] ],
       [ [ "chainmail_legs", 1 ] ],
+      [ [ "gambeson", 1 ] ],
+      [ [ "gambeson_pants", 1 ] ]
+    ]
+  },
+  {
+    "result": "chainmail_suit_xs",
+    "type": "recipe",
+    "copy-from": "chainmail_suit",
+    "time": "1 h 50 m",
+    "components": [
+      [ [ "chainmail_hood", 1 ] ],
+      [ [ "chainmail_vest", 1 ] ],
+      [ [ "chainmail_arms", 1 ] ],
+      [ [ "chainmail_legs", 1 ] ],
       [ [ "gambeson", 1 ] ]
     ]
   },
@@ -503,6 +616,19 @@
     "result": "kevlar_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit",
+    "components": [
+      [ [ "chainmail_hood", 1 ] ],
+      [ [ "chainmail_vest", 1 ] ],
+      [ [ "chainmail_arms", 1 ] ],
+      [ [ "chainmail_legs", 1 ] ],
+      [ [ "k_gambeson", 1 ] ],
+      [ [ "k_gambeson_pants", 1 ] ]
+    ]
+  },
+  {
+    "result": "kevlar_chainmail_suit_xs",
+    "type": "recipe",
+    "copy-from": "kevlar_chainmail_suit",
     "components": [
       [ [ "chainmail_hood", 1 ] ],
       [ [ "chainmail_vest", 1 ] ],
@@ -521,7 +647,8 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_gambeson", 1 ] ]
+      [ [ "xl_gambeson", 1 ] ],
+      [ [ "xl_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -533,7 +660,8 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_k_gambeson", 1 ] ]
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -553,13 +681,13 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "gambeson", 1 ] ] ]
+    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "gambeson", 1 ] ], [ [ "gambeson_pants", 1 ] ] ]
   },
   {
     "result": "kevlar_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit",
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "k_gambeson", 1 ] ] ]
+    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "k_gambeson", 1 ] ], [ [ "k_gambeson_pants", 1 ] ] ]
   },
   {
     "result": "xl_chainmail_suit",
@@ -578,13 +706,23 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ], [ [ "xl_gambeson", 1 ] ] ]
+    "components": [
+      [ [ "xl_chainmail_hood", 1 ] ],
+      [ [ "xl_chainmail_hauberk", 1 ] ],
+      [ [ "xl_gambeson", 1 ] ],
+      [ [ "xl_gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "xl_kevlar_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit",
-    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ], [ [ "xl_k_gambeson", 1 ] ] ]
+    "components": [
+      [ [ "xl_chainmail_hood", 1 ] ],
+      [ [ "xl_chainmail_hauberk", 1 ] ],
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "chainmail_suit_faraday",
@@ -611,6 +749,23 @@
     ]
   },
   {
+    "result": "chainmail_suit_faraday_xs",
+    "type": "recipe",
+    "copy-from": "chainmail_suit_faraday",
+    "time": "180 m",
+    "using": [ [ "chainmail_standard", 15 ], [ "fabric_standard_nostretch", 19 ] ],
+    "components": [
+      [ [ "link_sheet", 2 ], [ "chainmail_hood", 1 ] ],
+      [ [ "link_sheet", 5 ], [ "chainmail_vest", 1 ] ],
+      [ [ "link_sheet", 2 ], [ "chainmail_arms", 1 ] ],
+      [ [ "link_sheet", 3 ], [ "chainmail_legs", 1 ] ],
+      [ [ "link_sheet", 2 ], [ "chainmail_hands", 1 ] ],
+      [ [ "link_sheet", 2 ], [ "chainmail_feet", 1 ] ],
+      [ [ "chain_link", 375 ] ],
+      [ [ "wire", 3 ] ]
+    ]
+  },
+  {
     "result": "xl_chainmail_suit_faraday",
     "type": "recipe",
     "copy-from": "chainmail_suit_faraday",
@@ -624,6 +779,19 @@
       [ [ "chain_link", 750 ] ],
       [ [ "wire", 5 ] ]
     ]
+  },
+  {
+    "result": "grass_cloak",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "150 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "grass_yarn", 7 ] ] ]
   },
   {
     "result": "cloak",
@@ -714,6 +882,25 @@
     ]
   },
   {
+    "result": "entry_suit_xs",
+    "type": "recipe",
+    "copy-from": "entry_suit",
+    "time": "6 h",
+    "using": [ [ "sewing_standard", 150 ], [ "fabric_nomex", 30 ] ],
+    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "components": [
+      [ [ "sheet_kevlar_layered", 6 ] ],
+      [ [ "duct_tape", 150 ], [ "superglue", 3 ] ],
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "sheet_kevlar_layered", 18 ]
+      ]
+    ]
+  },
+  {
     "result": "xl_entry_suit",
     "type": "recipe",
     "copy-from": "entry_suit",
@@ -776,6 +963,37 @@
     ]
   },
   {
+    "result": "xs_fsurvivor_suit",
+    "type": "recipe",
+    "copy-from": "fsurvivor_suit",
+    "time": "12 h 20 m",
+    "using": [ [ "sewing_standard", 150 ], [ "fabric_standard_nostretch", 3 ] ],
+    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "components": [
+      [ [ "nomex_suit", 1 ], [ "entry_suit", 1 ] ],
+      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 6 ],
+        [ "leather_pouch", 4 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
+      [ [ "duct_tape", 150 ] ],
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "sheet_kevlar_layered", 18 ]
+      ]
+    ]
+  },
+  {
     "result": "xl_fsurvivor_suit",
     "type": "recipe",
     "copy-from": "fsurvivor_suit",
@@ -833,6 +1051,20 @@
     ]
   },
   {
+    "result": "mask_wsurvivor_nofur_xs",
+    "type": "recipe",
+    "copy-from": "mask_wsurvivor_nofur",
+    "time": "4 h",
+    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 7 ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 3 ] ],
+      [ [ "faux_fur", 4 ], [ "tanned_pelt", 1 ] ]
+    ]
+  },
+  {
     "result": "mask_wsurvivorxl_nofur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -873,6 +1105,27 @@
     "using": [ [ "sewing_standard", 35 ], [ "fabric_standard_nostretch", 26 ], [ "fastener_large", 1 ] ]
   },
   {
+    "result": "gambeson_xs",
+    "type": "recipe",
+    "copy-from": "gambeson",
+    "time": "6 h",
+    "using": [ [ "sewing_standard", 26 ], [ "fabric_standard_nostretch", 19 ], [ "fastener_large", 1 ] ]
+  },
+  {
+    "result": "gambeson_pants",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 24 ], [ "fabric_standard_nostretch", 18 ], [ "fastener_small", 1 ] ]
+  },
+  {
     "result": "k_gambeson",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -888,6 +1141,29 @@
     "components": [ [ [ "sheet_kevlar_layered", 18 ] ] ]
   },
   {
+    "result": "k_gambeson_xs",
+    "type": "recipe",
+    "copy-from": "k_gambeson",
+    "time": "8 h",
+    "using": [ [ "sewing_standard", 26 ], [ "tailoring_kevlar_fabric", 9 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 14 ] ] ]
+  },
+  {
+    "result": "k_gambeson_pants",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
+    "difficulty": 6,
+    "time": "5 h",
+    "autolearn": [ [ "tailor", 8 ] ],
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "sewing_standard", 24 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_small", 1 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 12 ] ] ]
+  },
+  {
     "result": "xl_gambeson",
     "type": "recipe",
     "copy-from": "gambeson",
@@ -901,6 +1177,21 @@
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 50 ], [ "tailoring_kevlar_fabric", 24 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
+  },
+  {
+    "result": "xl_gambeson_pants",
+    "type": "recipe",
+    "copy-from": "gambeson_pants",
+    "time": "5 h",
+    "using": [ [ "sewing_standard", 32 ], [ "fabric_standard_nostretch", 32 ], [ "fastener_small", 2 ] ]
+  },
+  {
+    "result": "xl_k_gambeson_pants",
+    "type": "recipe",
+    "copy-from": "k_gambeson_pants",
+    "time": "5 h",
+    "using": [ [ "sewing_standard", 28 ], [ "tailoring_kevlar_fabric", 16 ], [ "fastener_small", 2 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 25 ] ] ]
   },
   {
     "result": "hsurvivor_suit",
@@ -950,6 +1241,37 @@
     ]
   },
   {
+    "result": "xshsurvivor_suit",
+    "type": "recipe",
+    "copy-from": "hsurvivor_suit",
+    "time": "20 h",
+    "using": [ [ "sewing_standard", 150 ], [ "fabric_standard_nostretch", 15 ], [ "fabric_leather_hide", 3 ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ],
+      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 6 ],
+        [ "leather_pouch", 4 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
+      [ [ "duct_tape", 225 ] ],
+      [
+        [ "kevlar", 1 ],
+        [ "ballistic_vest_light", 1 ],
+        [ "ballistic_vest_esapi", 1 ],
+        [ "swat_armor", 1 ],
+        [ "sheet_kevlar_layered", 18 ]
+      ]
+    ]
+  },
+  {
     "result": "jumpsuit",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -960,6 +1282,13 @@
     "time": "48 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 20 ], [ "fabric_standard_nostretch", 20 ] ]
+  },
+  {
+    "result": "jumpsuit_xs",
+    "type": "recipe",
+    "copy-from": "jumpsuit",
+    "time": "48 m",
+    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 15 ] ]
   },
   {
     "result": "jumpsuit_xl",
@@ -1015,6 +1344,13 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
     ]
+  },
+  {
+    "result": "nomex_suit_xs",
+    "type": "recipe",
+    "copy-from": "nomex_suit",
+    "time": "6 h",
+    "using": [ [ "sewing_standard", 30 ], [ "fabric_nomex", 13 ] ]
   },
   {
     "result": "xl_nomex_suit",
@@ -1235,6 +1571,18 @@
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "sewing_standard", 36 ], [ "fabric_lycra", 34 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
+  },
+  {
+    "result": "sleeping_bag_improvised",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "autolearn": true,
+    "time": "5 m",
+    "components": [ [ [ "bag_body_bag", 1 ] ], [ [ "withered", 180 ], [ "straw_pile", 180 ] ] ]
   },
   {
     "result": "armor_lc_lightplate",
@@ -2016,7 +2364,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_lc_chestplate", 1 ] ], [ [ "armor_lc_heavyarmguard", 2 ] ], [ [ "armor_lc_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_lc_heavy_chestplate", 1 ] ], [ [ "armor_lc_heavyarmguard", 2 ] ], [ [ "armor_lc_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_lc_heavyplate",
@@ -2037,7 +2385,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_lc_chestplate", 1 ] ],
+      [ [ "xl_armor_lc_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_lc_heavyarmguard", 2 ] ],
       [ [ "xl_armor_lc_heavy_leg_guard", 2 ] ]
     ]
@@ -2091,7 +2439,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_mc_chestplate", 1 ] ], [ [ "armor_mc_heavyarmguard", 2 ] ], [ [ "armor_mc_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_mc_heavy_chestplate", 1 ] ], [ [ "armor_mc_heavyarmguard", 2 ] ], [ [ "armor_mc_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_mc_heavyplate",
@@ -2112,7 +2460,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_mc_chestplate", 1 ] ],
+      [ [ "xl_armor_mc_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_mc_heavyarmguard", 2 ] ],
       [ [ "xl_armor_mc_heavy_leg_guard", 2 ] ]
     ]
@@ -2166,7 +2514,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_hc_chestplate", 1 ] ], [ [ "armor_hc_heavyarmguard", 2 ] ], [ [ "armor_hc_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_hc_heavy_chestplate", 1 ] ], [ [ "armor_hc_heavyarmguard", 2 ] ], [ [ "armor_hc_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_hc_heavyplate",
@@ -2187,7 +2535,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_hc_chestplate", 1 ] ],
+      [ [ "xl_armor_hc_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_hc_heavyarmguard", 2 ] ],
       [ [ "xl_armor_hc_heavy_leg_guard", 2 ] ]
     ]
@@ -2241,7 +2589,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_ch_chestplate", 1 ] ], [ [ "armor_ch_heavyarmguard", 2 ] ], [ [ "armor_ch_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_ch_heavy_chestplate", 1 ] ], [ [ "armor_ch_heavyarmguard", 2 ] ], [ [ "armor_ch_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_ch_heavyplate",
@@ -2262,7 +2610,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_ch_chestplate", 1 ] ],
+      [ [ "xl_armor_ch_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_ch_heavyarmguard", 2 ] ],
       [ [ "xl_armor_ch_heavy_leg_guard", 2 ] ]
     ]
@@ -2317,7 +2665,7 @@
       { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "armor_qt_chestplate", 1 ] ], [ [ "armor_qt_heavyarmguard", 2 ] ], [ [ "armor_qt_heavy_leg_guard", 2 ] ] ]
+    "components": [ [ [ "armor_qt_heavy_chestplate", 1 ] ], [ [ "armor_qt_heavyarmguard", 2 ] ], [ [ "armor_qt_heavy_leg_guard", 2 ] ] ]
   },
   {
     "result": "xl_armor_qt_heavyplate",
@@ -2338,7 +2686,7 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [
-      [ [ "xl_armor_qt_chestplate", 1 ] ],
+      [ [ "xl_armor_qt_heavy_chestplate", 1 ] ],
       [ [ "xl_armor_qt_heavyarmguard", 2 ] ],
       [ [ "xl_armor_qt_heavy_leg_guard", 2 ] ]
     ]

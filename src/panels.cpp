@@ -320,17 +320,6 @@ static nc_color value_color( int stat )
     return valuecolor;
 }
 
-static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
-{
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
-        --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, truncate );
-        }
-    }
-    return "-";
-}
-
 // ===============================
 // panels code
 // ===============================
@@ -1254,16 +1243,21 @@ static void draw_armor_padding( const draw_args &args )
     const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
                                + 2;
     const int max_length = getmaxx( w ) - heading_length;
-    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
-                    bodypart_id( "head" ) ) );
-    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
-                    bodypart_id( "torso" ) ) );
-    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
-                    bodypart_id( "arm_r" ) ) );
-    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
-                    bodypart_id( "leg_r" ) ) );
-    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
-                    bodypart_id( "foot_r" ) ) );
+    trim_and_print( w, point( heading_length, 0 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -1283,16 +1277,21 @@ static void draw_armor( const draw_args &args )
     const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
                                + 1;
     const int max_length = getmaxx( w ) - heading_length;
-    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
-                    bodypart_id( "head" ) ) );
-    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
-                    bodypart_id( "torso" ) ) );
-    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
-                    bodypart_id( "arm_r" ) ) );
-    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
-                    bodypart_id( "leg_r" ) ) );
-    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
-                    bodypart_id( "foot_r" ) ) );
+    trim_and_print( w, point( heading_length, 0 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 

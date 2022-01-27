@@ -847,5 +847,74 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ], [ "steel_tiny", 8 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "lc_steel_lump",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "4 h",
+    "batch_time_factors": [ 90, 2 ],
+    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mc_steel_lump",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "6 h",
+    "batch_time_factors": [ 90, 2 ],
+    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "hc_steel_lump",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "7 h",
+    "batch_time_factors": [ 90, 2 ],
+    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "steel_lump",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 h",
+    "batch_time_factors": [ 90, 2 ],
+    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 200 ] ] ],
+    "components": [
+      [
+        [ "hc_steel_lump", 1 ],
+        [ "hc_steel_chunk", 4 ],
+        [ "mc_steel_lump", 1 ],
+        [ "mc_steel_chunk", 4 ],
+        [ "lc_steel_lump", 1 ],
+        [ "lc_steel_chunk", 4 ]
+      ]
+    ]
   }
 ]

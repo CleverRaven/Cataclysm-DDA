@@ -130,7 +130,8 @@
     "type": "widget",
     "style": "text",
     "var": "compass_legend_text",
-    "flags": [ "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+    "text_align": "left",
+    "flags": [ "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_compass_legend_3",
@@ -138,7 +139,8 @@
     "style": "text",
     "var": "compass_legend_text",
     "height": 3,
-    "flags": [ "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+    "text_align": "left",
+    "flags": [ "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_compass_legend_5",
@@ -146,7 +148,8 @@
     "style": "text",
     "var": "compass_legend_text",
     "height": 5,
-    "flags": [ "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+    "text_align": "left",
+    "flags": [ "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_speed_num",
@@ -345,7 +348,16 @@
     "copy-from": "test_bp_status_indicator_template",
     "width": 0,
     "height": 3,
-    "flags": [ "W_LABEL_NONE", "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "test_torso_armor_outer_text",
+    "type": "widget",
+    "style": "text",
+    "label": "Torso Armor",
+    "var": "bp_armor_outer_text",
+    "bodypart": "torso"
   },
   {
     "id": "test_overmap_3x3_text",

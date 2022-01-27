@@ -265,6 +265,15 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
+    "id": "xs_lsurvivor_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "lsurvivor_jumpsuit",
+    "looks_like": "lsurvivor_jumpsuit",
+    "name": { "str": "XS light survivor suit" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "survivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
@@ -353,6 +362,16 @@
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
+    "id": "xssurvivor_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "survivor_jumpsuit",
+    "looks_like": "survivor_jumpsuit",
+    "name": { "str": "XS survivor suit" },
+    "description": "A tiny hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "wsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
@@ -406,6 +425,15 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
+    "id": "xs_wsurvivor_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "wsurvivor_jumpsuit",
+    "looks_like": "wsurvivor_jumpsuit",
+    "name": { "str": "XS winter survivor suit" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
     "name": { "str": "winter survivor suit" },
@@ -428,6 +456,16 @@
     "warmth": 65,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_wsurvivor_jumpsuit_nofur",
+    "type": "ARMOR",
+    "copy-from": "wsurvivor_jumpsuit_nofur",
+    "looks_like": "wsurvivor_jumpsuit_nofur",
+    "name": { "str": "XS winter survivor suit" },
+    "description": "A warm, heavy and undersized hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "UNDERSIZE" ]
   },
   {
     "id": "h20survivor_jumpsuit",
