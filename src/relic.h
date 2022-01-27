@@ -135,6 +135,11 @@ class relic_procgen_data
         void deserialize( const JsonObject &jobj );
 };
 
+namespace relic_procgen_data
+{
+const std::vector<relic_procgen_data> &get_all();
+} // namespace relic_procgen_data
+
 enum class relic_recharge_has : int {
     WIELD,
     WORN,
