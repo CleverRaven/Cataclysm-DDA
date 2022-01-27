@@ -2470,7 +2470,10 @@ void debug()
 
         case debug_menu_index::SPAWN_ARTIFACT:
             uilist relic_menu;
-            std::vector<relic_procgen_data> relic_list = relic_procgen_data::get_all();
+            std::vector<relic_procgen_data> relic_list;
+            for( auto &elem : relic_procgen_data::get_all() ) {
+                relic_list.emplace_back( elem );
+            }
             relic_menu.text = _( "Choose artifact data:" );
             int menu_ind = 0;
             for( auto &elem : relic_list ) {
@@ -2484,8 +2487,8 @@ void debug()
             if( relic_menu.ret >= 0 && relic_menu.ret < static_cast<int>( relic_list.size() ) ) {
                 if( query_int( artifact_max_attributes, _( "Enter max attributes:" ) )
                     && query_int( artifact_power_level, _( "Enter power level:" ) )
-                && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) {
-                if( const cata::optional<tripoint> center = g->look_around() ) {
+                    && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) ) {
+                    if( const cata::optional<tripoint> center = g->look_around() ) {
                         here.spawn_artifact( *center, relic_list[relic_menu.ret], artifact_max_attributes,
                                              artifact_power_level, artifact_max_negative_value );
                     }
