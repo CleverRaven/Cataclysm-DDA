@@ -256,8 +256,7 @@ float Character::crafting_speed_multiplier( const recipe &rec ) const
                          lighting_craft_speed_multiplier( rec ) *
                          get_limb_score( limb_score_manip );
 
-
-    return result;
+    return std::max( result, 0.0f );
 }
 
 float Character::crafting_speed_multiplier( const item &craft,
