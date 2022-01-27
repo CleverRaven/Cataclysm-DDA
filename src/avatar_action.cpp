@@ -488,11 +488,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         // TODO: Vary this? Based on strength, broken legs, and so on.
-        if( you.is_crouching() ) {
-            you.mod_moves( -300 );
-        } else {
-            you.mod_moves( -100 );
-        }
+        you.mod_moves( you.is_crouching() ? -300 : -100 );
         if( veh1 != nullptr ) {
             //~ %1$s - vehicle name, %2$s - part name
             you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
