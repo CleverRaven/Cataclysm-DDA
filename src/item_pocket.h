@@ -72,11 +72,6 @@ class item_pocket
 
         class favorite_settings
         {
-            private:
-                // Internal function that helps extend acceptance criteria to container content.
-                // Returns true if all items inside the given container pass current whitelist and blacklist filters.
-                bool accepts_container( const item &it ) const;
-
             public:
                 void clear();
 

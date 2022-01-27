@@ -2064,27 +2064,6 @@ void item_pocket::favorite_settings::clear_category( const item_category_id &id 
 }
 
 /**
- * Check to see if the given container is accepted by this pocket based on player configured rules.
- * In order for a container to be accepted all items contained inside must be accepted.
- *
- * @param container item container to check.
- * @return true if the container is accepted by this pocket, false otherwise.
- * @see item_pocket::favorite_settings::accepts_item(const item&)
- */
-bool item_pocket::favorite_settings::accepts_container( const item &container ) const
-{
-    std::list<const item *>::const_iterator iter;
-    const std::list<const item *> items = container.all_items_top();
-    for( iter = items.begin(); iter != items.end(); ++iter ) {
-        const item *it = *iter;
-        if( !accepts_item( *it ) ) {
-            return false;
-        }
-    }
-    return true;
-}
-
-/**
  * Check to see if the given item is accepted by this pocket based on player configured rules.
  *
  * The rules are defined in two list:
@@ -2130,9 +2109,11 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
     // when the item is container then we are actually checking if pocket accepts
     // container content and not the container itself unless container is blacklisted
     if( it.is_container() && !it.empty_container() ) {
-        return accepts_container( it );
+        const std::list<const item *> items = it.all_items_top();
+        return std::all_of( items.begin(), items.end(), [this]( const item * it ) {
+            return accepts_item( *it );
+        } );
     }
-
     // finally, if no match was found, see if there were any filters at all,
     // and either allow or deny everything that's fallen through to here.
     if( !category_whitelist.empty() ) {
