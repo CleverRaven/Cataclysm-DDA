@@ -109,7 +109,7 @@
         "crit_mult": { "all": 1.25 },
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 10, "broad": 10 },
-        "required_effects": "downed",
+        "required_effects": [ "downed" ],
         "effects": [
           { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
