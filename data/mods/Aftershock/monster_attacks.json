@@ -28,7 +28,7 @@
     "hit_dmg_npc": "The %s grabs <npcname> and covers them in sticky webs!",
     "miss_msg_u": "The %s tries to grab you, but you dodge!",
     "miss_msg_npc": "The %s tries to grab <npcname>, but they dodge!",
-    "no_dmg_msg_u": "The %s tries to grasp you, but it slides of your armor.",
+    "no_dmg_msg_u": "The %s tries to grasp you, but it slides off your armor.",
     "no_dmg_msg_npc": "The %s tries to grasp <npcname>, but its legs slide of their armor."
   }
 ]

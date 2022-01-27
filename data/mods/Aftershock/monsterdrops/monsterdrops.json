@@ -306,7 +306,7 @@
   {
     "id": "alien_floater",
     "//": "mostly hydrogen bubbles",
-    "message": "The freeze-burned leather parts easily, and thousands of fleshy floating bubbles erupt from the distended carcass.  Most fly away before you can reach them",
+    "message": "The freeze-burned leather parts easily, and thousands of fleshy floating bubbles erupt from the distended carcass.  Most fly away before you can reach them.",
     "type": "harvest",
     "entries": [
       { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.3 },
