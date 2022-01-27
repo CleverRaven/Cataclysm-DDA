@@ -48,7 +48,7 @@ namespace io
         case relic_procgen_data::type::passive_enchantment_mult: return "passive_enchantment_mult";
         case relic_procgen_data::type::last: break;
         }
-        cata_fatal( "Invalid enchantment::has" );
+        cata_fatal( "Invalid relic procgen data type" );
     }
     // *INDENT-ON*
 template<>
@@ -125,6 +125,7 @@ void relic_procgen_data::enchantment_value_passive<T>::load( const JsonObject &j
     optional( jo, was_loaded, "increment", increment, 1 );
     optional( jo, was_loaded, "min_value", min_value, 0 );
     optional( jo, was_loaded, "max_value", max_value, 0 );
+    optional( jo, was_loaded, "ench_has", ench_has );
 }
 
 template<typename T>
@@ -141,6 +142,7 @@ void relic_procgen_data::enchantment_active::load( const JsonObject &jo )
     optional( jo, was_loaded, "increment", increment, 1 );
     optional( jo, was_loaded, "min_level", min_level, 0 );
     optional( jo, was_loaded, "max_level", max_level, 0 );
+    optional( jo, was_loaded, "ench_has", ench_has );
 }
 
 void relic_procgen_data::enchantment_active::deserialize( const JsonObject &jobj )
@@ -614,7 +616,6 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     fake_spell active_sp;
                     active_sp.id = active->activated_spell;
                     active_sp.level = rng( active->min_level, active->max_level );
-                    num_attributes++;
                     int power = power_level( active_sp );
                     if( power < 0 ) {
                         if( rules.max_negative_power > negative_attribute_power ) {
@@ -622,6 +623,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                         }
                         negative_attribute_power += power;
                     }
+                    num_attributes++;
                     ret.add_active_effect( active_sp );
                 }
                 break;
@@ -635,7 +637,6 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                         break;
                     }
                     ench.add_value_add( add->type, value );
-                    num_attributes++;
                     int negative_ench_attribute = power_level( ench );
                     if( negative_ench_attribute < 0 ) {
                         if( rules.max_negative_power > negative_attribute_power ) {
@@ -643,11 +644,14 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                         }
                         negative_attribute_power += negative_ench_attribute;
                     }
-                    if( is_armor ) {
+                    if( add->ench_has ) {
+                        ench.set_has( add->ench_has );
+                    } else if( is_armor ) {
                         ench.set_has( enchantment::has::WORN );
                     } else {
                         ench.set_has( enchantment::has::WIELD );
                     }
+                    num_attributes++;
                     ret.add_passive_effect( ench );
                 }
                 break;
@@ -659,7 +663,6 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     enchantment ench;
                     float value = rng( mult->min_value, mult->max_value );
                     ench.add_value_mult( mult->type, value );
-                    num_attributes++;
                     int negative_ench_attribute = power_level( ench );
                     if( negative_ench_attribute < 0 ) {
                         if( rules.max_negative_power > negative_attribute_power ) {
@@ -667,11 +670,14 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                         }
                         negative_attribute_power += negative_ench_attribute;
                     }
-                    if( is_armor ) {
+                    if( mult->ench_has ) {
+                        ench.set_has( mult->ench_has );
+                    } else if( is_armor ) {
                         ench.set_has( enchantment::has::WORN );
                     } else {
                         ench.set_has( enchantment::has::WIELD );
                     }
+                    num_attributes++;
                     ret.add_passive_effect( ench );
                 }
                 break;
@@ -682,7 +688,6 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     fake_spell active_sp;
                     active_sp.id = active->activated_spell;
                     active_sp.level = rng( active->min_level, active->max_level );
-                    num_attributes++;
                     enchantment ench;
                     ench.add_hit_me( active_sp );
                     int power = power_level( ench );
@@ -692,11 +697,14 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                         }
                         negative_attribute_power += power;
                     }
-                    if( is_armor ) {
+                    if( active->ench_has ) {
+                        ench.set_has( active->ench_has );
+                    } else if( is_armor ) {
                         ench.set_has( enchantment::has::WORN );
                     } else {
                         ench.set_has( enchantment::has::WIELD );
                     }
+                    num_attributes++;
                     ret.add_passive_effect( ench );
                 }
                 break;
@@ -707,7 +715,6 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     fake_spell active_sp;
                     active_sp.id = active->activated_spell;
                     active_sp.level = rng( active->min_level, active->max_level );
-                    num_attributes++;
                     enchantment ench;
                     ench.add_hit_you( active_sp );
                     int power = power_level( ench );
@@ -717,11 +724,14 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                         }
                         negative_attribute_power += power;
                     }
-                    if( is_armor ) {
+                    if( active->ench_has ) {
+                        ench.set_has( active->ench_has );
+                    } else if( is_armor ) {
                         ench.set_has( enchantment::has::WORN );
                     } else {
                         ench.set_has( enchantment::has::WIELD );
                     }
+                    num_attributes++;
                     ret.add_passive_effect( ench );
                 }
                 break;
