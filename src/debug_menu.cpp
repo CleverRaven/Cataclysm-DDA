@@ -2483,7 +2483,7 @@ void debug()
             int artifact_max_negative_value;
             if( relic_menu.ret >= 0 && relic_menu.ret < static_cast<int>( relic_list.size() ) ) {
                 if( query_int( artifact_max_attributes, _( "Enter max attributes:" ) )
-                    && query_int( artifact_power_level, _( "Enter power level:" )
+                    && query_int( artifact_power_level, _( "Enter power level:" ) )
                 && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) {
                 if( const cata::optional<tripoint> center = g->look_around() ) {
                         here.spawn_artifact( *center, relic_list[relic_menu.ret], artifact_max_attributes,
