@@ -778,8 +778,8 @@
       { "weight": 100, "item": "art_knot" },
       { "weight": 100, "item": "art_crescent" }
     ]
-},
-{
+  },
+  {
     "type": "relic_procgen_data",
     "id": "held_passive_bad",
     "passive_add_procgen_values": [
@@ -858,14 +858,8 @@
         "ench_has": "HELD"
       }
     ],
-    "type_weights": [
-      { "weight": 100, "value": "passive_enchantment_mult" },
-      { "weight": 50, "value": "passive_enchantment_add" }
-    ],
-    "items": [
-      { "weight": 100, "item": "monolith_disc" },
-      { "weight": 100, "item": "monolith_brick" }
-    ]
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_mult" }, { "weight": 50, "value": "passive_enchantment_add" } ],
+    "items": [ { "weight": 100, "item": "monolith_disc" }, { "weight": 100, "item": "monolith_brick" } ]
   },
   {
     "type": "relic_procgen_data",
