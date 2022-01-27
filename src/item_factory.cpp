@@ -2495,6 +2495,24 @@ static void get_optional( const JsonObject &jo, bool was_loaded, const std::stri
     }
 }
 
+template<typename T>
+static void get_relative( const JsonObject &jo, const std::string &member, cata::optional<T> &value,
+                          T default_val )
+{
+    if( jo.has_member( member ) ) {
+        value = value.value_or( default_val ) + jo.get_float( member );
+    }
+}
+
+template<typename T>
+static void get_proportional( const JsonObject &jo, const std::string &member,
+                              cata::optional<T> &value, T default_val )
+{
+    if( jo.has_member( member ) ) {
+        value = value.value_or( default_val ) * jo.get_float( member );
+    }
+}
+
 void islot_armor::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "armor", sub_data );
@@ -2505,6 +2523,18 @@ void islot_armor::load( const JsonObject &jo )
     get_optional( jo, was_loaded, "material_thickness", _material_thickness );
     get_optional( jo, was_loaded, "environmental_protection", _env_resist );
     get_optional( jo, was_loaded, "environmental_protection_with_filter", _env_resist_w_filter );
+
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    get_relative( relative, "material_thickness", _material_thickness, 0.f );
+    get_relative( relative, "environmental_protection", _env_resist, 0 );
+    get_relative( relative, "environmental_protection_with_filter", _env_resist_w_filter, 0 );
+
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
+    get_proportional( proportional, "material_thickness", _material_thickness, 0.f );
+    get_proportional( proportional, "environmental_protection", _env_resist, 0 );
+    get_proportional( proportional, "environmental_protection_with_filter", _env_resist_w_filter, 0 );
 
     for( armor_portion_data &armor : sub_data ) {
         apply_optional( armor.avg_thickness, _material_thickness );
