@@ -1055,6 +1055,35 @@ static void change_spells( Character &character )
     }
 }
 
+static void spawn_artifact()
+{
+    uilist relic_menu;
+    std::vector<relic_procgen_data> relic_list;
+    for( auto &elem : relic_procgen_data::get_all() ) {
+        relic_list.emplace_back( elem->id );
+    }
+    relic_menu.text = _( "Choose artifact data:" );
+    int menu_ind = 0;
+    for( auto &elem : relic_list ) {
+        relic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, elem );
+        ++menu_ind;
+    }
+    relic_menu.query();
+    int artifact_max_attributes;
+    int artifact_power_level;
+    int artifact_max_negative_value;
+    if( relic_menu.ret >= 0 && relic_menu.ret < static_cast<int>( relic_list.size() ) ) {
+        if( query_int( artifact_max_attributes, _( "Enter max attributes:" ) )
+            && query_int( artifact_power_level, _( "Enter power level:" ) )
+            && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) ) {
+            if( const cata::optional<tripoint> center = g->look_around() ) {
+                here.spawn_artifact( *center, relic_list[relic_menu.ret], artifact_max_attributes,
+                                     artifact_power_level, artifact_max_negative_value );
+            }
+        }
+    }
+}
+
 static void teleport_short()
 {
     const cata::optional<tripoint> where = g->look_around();
@@ -2469,31 +2498,7 @@ void debug()
             break;
 
         case debug_menu_index::SPAWN_ARTIFACT:
-            uilist relic_menu;
-            std::vector<relic_procgen_data> relic_list;
-            for( auto &elem : relic_procgen_data::get_all() ) {
-                relic_list.emplace_back( elem->id );
-            }
-            relic_menu.text = _( "Choose artifact data:" );
-            int menu_ind = 0;
-            for( auto &elem : relic_list ) {
-                relic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, elem );
-                ++menu_ind;
-            }
-            relic_menu.query();
-            int artifact_max_attributes;
-            int artifact_power_level;
-            int artifact_max_negative_value;
-            if( relic_menu.ret >= 0 && relic_menu.ret < static_cast<int>( relic_list.size() ) ) {
-                if( query_int( artifact_max_attributes, _( "Enter max attributes:" ) )
-                    && query_int( artifact_power_level, _( "Enter power level:" ) )
-                    && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) ) {
-                    if( const cata::optional<tripoint> center = g->look_around() ) {
-                        here.spawn_artifact( *center, relic_list[relic_menu.ret], artifact_max_attributes,
-                                             artifact_power_level, artifact_max_negative_value );
-                    }
-                }
-            }
+            spawn_artifact();
             break;
 
         case debug_menu_index::SPAWN_CLAIRVOYANCE:
