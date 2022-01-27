@@ -367,7 +367,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_6",
     "type": "mission_definition",
-    "name": { "str": "Gather 75 Rocks" },
+    "name": { "str": "Gather 75 rocks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
