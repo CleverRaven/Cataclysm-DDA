@@ -1064,9 +1064,11 @@ static void spawn_artifact()
         relic_list.emplace_back( elem.id );
     }
     relic_menu.text = _( "Choose artifact data:" );
+    std::sort( relic_list.begin(), relic_list.end(), localized_compare );
     int menu_ind = 0;
     for( auto &elem : relic_list ) {
-        relic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, elem );
+        relic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s" ),
+                             elem );
         ++menu_ind;
     }
     relic_menu.query();
