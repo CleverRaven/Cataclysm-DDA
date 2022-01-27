@@ -2474,7 +2474,7 @@ void debug()
             relic_menu.text = _( "Choose artifact data:" );
             int menu_ind = 0;
             for( auto &elem : relic_list ) {
-                relic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s" ), elem );
+                relic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, elem );
                 ++menu_ind;
             }
             relic_menu.query();
