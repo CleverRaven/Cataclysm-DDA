@@ -9,6 +9,8 @@
 #include <vector>
 
 #include "enums.h"
+#include "item_location.h"
+#include "item_stack.h"
 
 class JsonIn;
 class JsonObject;

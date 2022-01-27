@@ -6,6 +6,7 @@
 #include <memory>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "cata_utility.h"
 #include "character.h"
@@ -16,6 +17,7 @@
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_stack.h"
 #include "itype.h"
 #include "map.h"
 #include "json.h"
