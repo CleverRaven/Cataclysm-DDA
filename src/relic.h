@@ -125,12 +125,12 @@ class relic_procgen_data
         // power level of the active spell
         int power_level( const fake_spell &sp ) const;
 
-        static std::vector<relic_procgen_data> &get_all();
         item create_item( const relic_procgen_data::generation_rules &rules ) const;
         relic generate( const generation_rules &rules, const itype_id &it_id ) const;
 
         bool was_loaded = false;
 
+        static std::vector<relic_procgen_data> get_all();
         static void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & = "" );
         void deserialize( const JsonObject &jobj );

@@ -1057,10 +1057,11 @@ static void change_spells( Character &character )
 
 static void spawn_artifact()
 {
+    map &here = get_map();
     uilist relic_menu;
-    std::vector<relic_procgen_data> relic_list;
+    std::vector<relic_procgen_id> relic_list;
     for( auto &elem : relic_procgen_data::get_all() ) {
-        relic_list.emplace_back( elem->id );
+        relic_list.emplace_back( elem.id );
     }
     relic_menu.text = _( "Choose artifact data:" );
     int menu_ind = 0;
