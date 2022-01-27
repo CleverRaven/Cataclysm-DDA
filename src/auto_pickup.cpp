@@ -221,18 +221,12 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
 }
 
 /**
- * Select which items from the given stack of items should be auto-picked up.
- * The result will be reflected in `pickup` function parameter in the way where
- * each entry with `pick` set to true should be picked up.
+ * Select which items on the map tile should be auto-picked up.
+ * The return value represents locations of the selected items on the map.
  *
- * Any additional items that should be picked up such as nested items that are not
- * directly present in the given stack will be passed in `result` function parameter.
- *
- * @param from list of items to select from.
- * @param pickup data about items being picked up.
- * @param result vector of items to autopickup.
- * @param location where items are located on the map.
- * @return true if any items were selected for autopickup.
+ * @param from stack of item entries on a map tile.
+ * @param location where the stack of items is located on the map.
+ * @return sequence of selected items on the map.
  */
 std::vector<item_location> auto_pickup::select_items(
     const std::vector<item_stack::iterator> &from, const tripoint &location )

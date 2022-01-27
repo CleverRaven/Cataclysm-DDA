@@ -346,7 +346,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     return !problem;
 }
 
-// Pick up items at (pos).
+// Auto pickup items at given location
 void Pickup::autopickup( const tripoint &p )
 {
     map &local = get_map();
