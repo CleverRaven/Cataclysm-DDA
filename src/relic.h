@@ -125,6 +125,7 @@ class relic_procgen_data
         // power level of the active spell
         int power_level( const fake_spell &sp ) const;
 
+        const std::vector<relic_procgen_data> &get_all();
         item create_item( const relic_procgen_data::generation_rules &rules ) const;
         relic generate( const generation_rules &rules, const itype_id &it_id ) const;
 
@@ -134,11 +135,6 @@ class relic_procgen_data
         void load( const JsonObject &jo, const std::string & = "" );
         void deserialize( const JsonObject &jobj );
 };
-
-namespace relic_procgen_data
-{
-const std::vector<relic_procgen_data> &get_all();
-} // namespace relic_procgen_data
 
 enum class relic_recharge_has : int {
     WIELD,
