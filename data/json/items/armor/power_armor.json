@@ -660,5 +660,60 @@
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
+  },
+  {
+  "id": "power_armor_m2",
+  "repairs_like": "power_armor_light",
+  "looks_like": "m2browning",
+  "type": "TOOL_ARMOR",
+  "name": { "str": "exoskeleton mounted M2HB", "str_pl": "exoskeleton mounted M2HBs" },
+  "description": "This is a M2HB in a special mount that attaches to powered exoskeletons.  The trigger and grips have been removed, replaced by a handheld trigger that retracts when not in use.",
+  "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID", "CLIMATE_CONTROL", "COMBAT_TOGGLEABLE" ],
+  "power_armor": true,
+  "material_thickness": 4,
+  "ammo": "battery",
+  "sided": true,
+  "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_m2 (active)", "active": true },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ]
+      }
+	  ]
+	  },
+	  {
+	  "id": "power_armor_m2 (active)",
+	  "copy-from": "power_armor_m2"
+  "repairs_like": "power_armor_m2",
+  "looks_like": "power_armor_m2",
+  "name": { "str": "exoskeleton mounted M2HB (active)", "str_pl": "str": "exoskeleton mounted M2HBs (active)" },
+  "fake_weapon": "exo_m2",
+  },
+  {
+    "id": "exo_m2",
+    "looks_like": "m2browning",
+    "type": "GUN",
+	"name": { "str": "exoskeleton mounted M2HB", "str_pl": "str": "exoskeleton mounted M2HBs" },
+    "description": "A modified M2HB attached to the arm of an exoskeleton.",
+    "volume": "9020 ml",
+    "longest_side": "165 cm",
+    "price": 0,
+    "to_hit": -2,
+    "bashing": 3,
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "rifle",
+    "ammo": [ "50" ],
+    "range": 110,
+    "dispersion": 250,
+    "durability": 8,
+    "min_cycle_recoil": 23625,
+    "reload": 400,
+    "barrel_volume": "1250 ml",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt50" ] } ]
   }
 ]
