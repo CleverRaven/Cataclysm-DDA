@@ -354,17 +354,15 @@ void Pickup::autopickup( const tripoint &p )
     if( local.i_at( p ).empty() && !get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) {
         return;
     }
-
     // which items are we grabbing?
     std::vector<item_stack::iterator> here;
-    map_stack mapitems = local.i_at( p );
+    const map_stack mapitems = local.i_at( p );
     for( item_stack::iterator it = mapitems.begin(); it != mapitems.end(); ++it ) {
         here.push_back( it );
     }
-
-    Character &player_character = get_player_character();
+    Character &player = get_player_character();
     // Recursively pick up adjacent items if that option is on.
-    if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player_character.pos() == p ) {
+    if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player.pos() == p ) {
         //Autopickup adjacent
         direction adjacentDir[8] = {
             direction::NORTH, direction::NORTHEAST, direction::EAST,
@@ -379,61 +377,26 @@ void Pickup::autopickup( const tripoint &p )
             autopickup( apos );
         }
     }
-
     // Bail out if this square cannot be auto-picked-up
-    if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ) {
+    if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ||
+        local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
         return;
     }
-    if( local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
-        return;
-    }
-
-    std::vector<std::list<item_stack::iterator>> stacked_here;
-    for( const item_stack::iterator &it : here ) {
-        bool found_stack = false;
-        for( std::list<item_stack::iterator> &stack : stacked_here ) {
-            if( stack.front()->display_stacked_with( *it ) ) {
-                stack.push_back( it );
-                found_stack = true;
-                break;
-            }
-        }
-        if( !found_stack ) {
-            stacked_here.emplace_back( std::list<item_stack::iterator>( { it } ) );
-        }
-    }
-
-    // Items are stored unordered in colonies on the map, so sort them for a nice display.
-    std::sort( stacked_here.begin(), stacked_here.end(), []( const auto & lhs, const auto & rhs ) {
-        return *lhs.front() < *rhs.front();
-    } );
-
-    std::vector<item_location> target_items;
-    std::vector<bool> pickup_stacked( stacked_here.size() );
-
-    if( !auto_pickup::select_autopickup_items( stacked_here, pickup_stacked, target_items, p ) ) {
-        // If we didn't find anything, bail out now.
+    std::vector<int> quantities;
+    std::vector<item_location> target_items = auto_pickup::select_items( here, p );
+    if( target_items.empty() ) {
         return;
     }
     // At this point we've selected our items, register an activity to pick them up.
-    std::vector<std::pair<item_stack::iterator, int>> pick_values;
-    for( size_t i = 0; i < stacked_here.size(); i++ ) {
-        if( !pickup_stacked.at( i ) ) {
-            continue;
-        }
-        for( const item_stack::iterator &it : stacked_here[i] ) {
-            pick_values.emplace_back( it, it->count_by_charges() ? it->charges : 0 );
-        }
+    for( size_t i = 0; i < target_items.size(); i++ ) {
+        item *it = target_items.at( i ).get_item();
+        quantities.push_back( it->count_by_charges() ? it->charges : 0 );
     }
-    std::vector<int> quantities( target_items.size(), 0 );
-    for( std::pair<item_stack::iterator, int> &iter_qty : pick_values ) {
-        target_items.emplace_back( map_cursor( p ), &*iter_qty.first );
-        quantities.push_back( iter_qty.second );
-    }
-    player_character.assign_activity( player_activity( pickup_activity_actor( target_items, quantities,
-                                      player_character.pos() ) ) );
+    pickup_activity_actor actor = pickup_activity_actor( target_items, quantities, player.pos() );
+    player.assign_activity( player_activity( actor ) );
+
     // Auto pickup will need to auto resume since there can be several of them on the stack.
-    player_character.activity.auto_resume = true;
+    player.activity.auto_resume = true;
 }
 
 int Pickup::cost_to_move_item( const Character &who, const item &it )

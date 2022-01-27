@@ -130,12 +130,12 @@ static void empty_autopickup_target( item *what, tripoint where )
  *
  * - the parent container is non-rigid and the item is not whitelisted.
  *
- * @param container item to search for items to autopickup from.
+ * @param from item to search for items to autopickup from.
  * @return sequence of items to autopickup from given container.
  */
-static std::vector<item_location> get_autopickup_items( item_location &container )
+static std::vector<item_location> get_autopickup_items( item_location &from )
 {
-    item *container_item = container.get_item();
+    item *container_item = from.get_item();
     // items sealed in containers should never be unsealed by autopickup
     bool force_pick_container = container_item->any_pockets_sealed();
     bool pick_all_items = true;
@@ -160,17 +160,17 @@ static std::vector<item_location> get_autopickup_items( item_location &container
         if( pickup_state == rule_state::WHITELISTED ) {
             if( item_entry->is_container() ) {
                 // whitelisted containers should exclude contained blacklisted items
-                empty_autopickup_target( item_entry, container.position() );
+                empty_autopickup_target( item_entry, from.position() );
             } else if( item_entry->made_of_from_type( phase_id::LIQUID ) ) {
                 // liquid items should never be picked up without container
                 force_pick_container = true;
                 break;
             }
             // pick up the whitelisted item
-            result.emplace_back( container, item_entry );
+            result.emplace_back( from, item_entry );
         } else if( item_entry->is_container() && !item_entry->is_container_empty() ) {
             // get pickup list from nested item container
-            item_location location = item_location( container, item_entry );
+            item_location location = item_location( from, item_entry );
             std::vector<item_location> result_nested = get_autopickup_items( location );
 
             // container with content was NOT marked for pickup
@@ -209,7 +209,7 @@ static std::vector<item_location> get_autopickup_items( item_location &container
         // when picking up batteries from powered containers don't pick container
         if( within_autopickup_limits( container_item ) && !batteries_from_tool ) {
             result.clear();
-            result.push_back( container );
+            result.push_back( from );
         } else if( force_pick_container ) {
             // when force picking never pick individual items
             result.clear();
@@ -232,15 +232,15 @@ static std::vector<item_location> get_autopickup_items( item_location &container
  * @param location where items are located on the map.
  * @return true if any items were selected for autopickup.
  */
-bool auto_pickup::select_autopickup_items( std::vector<std::list<item_stack::iterator>> &from,
-        std::vector<bool> &pickup, std::vector<item_location> &result, const tripoint &location )
+std::vector<item_location> auto_pickup::select_items(
+    const std::vector<item_stack::iterator> &from, const tripoint &location )
 {
-    bool bFoundSomething = false;
+    std::vector<item_location> result;
     const map_cursor map_location = map_cursor( location );
 
     // iterate over all item stacks found in location
-    for( size_t i = 0; i < from.size(); i++ ) {
-        item *item_entry = &*from[i].front();
+    for( const item_stack::iterator &stack : from ) {
+        item *item_entry = &*( stack );
         // do not autopickup owned containers or items
         if( !get_option<bool>( "AUTO_PICKUP_OWNED" ) &&
             item_entry->is_owned_by( get_player_character() ) ) {
@@ -259,17 +259,15 @@ bool auto_pickup::select_autopickup_items( std::vector<std::list<item_stack::ite
             if( !within_autopickup_limits( item_entry ) ) {
                 continue;
             }
-            pickup[i] = true;
-            bFoundSomething = true;
+            result.emplace_back( map_location, item_entry );
         } else if( is_container || item_entry->ammo_capacity( ammo_battery ) ) {
             item_location container_location = item_location( map_location, item_entry );
             for( const item_location &add_item : get_autopickup_items( container_location ) ) {
-                result.insert( result.begin(), add_item );
-                bFoundSomething = true;
+                result.push_back( add_item );
             }
         }
     }
-    return bFoundSomething;
+    return result;
 }
 
 void user_interface::show()
