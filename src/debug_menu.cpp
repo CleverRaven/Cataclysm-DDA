@@ -1067,8 +1067,7 @@ static void spawn_artifact()
     std::sort( relic_list.begin(), relic_list.end(), localized_compare );
     int menu_ind = 0;
     for( auto &elem : relic_list ) {
-        relic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s" ),
-                             elem );
+        relic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, elem.c_str() );
         ++menu_ind;
     }
     relic_menu.query();
