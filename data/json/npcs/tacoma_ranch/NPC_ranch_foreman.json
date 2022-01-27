@@ -136,7 +136,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_2",
     "type": "mission_definition",
-    "name": { "str": "Find 25 Blankets" },
+    "name": { "str": "Find 25 blankets" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -200,7 +200,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_3",
     "type": "mission_definition",
-    "name": { "str": "Gather 2500 Nails" },
+    "name": { "str": "Gather 2500 nails" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -258,7 +258,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_4",
     "type": "mission_definition",
-    "name": { "str": "Gather 300 Salt" },
+    "name": { "str": "Gather 300 salt" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -322,7 +322,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_5",
     "type": "mission_definition",
-    "name": { "str": "30 Liquid Fertilizer" },
+    "name": { "str": "Gather 30 liquid fertilizer" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -414,7 +414,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_7",
     "type": "mission_definition",
-    "name": { "str": "Gather 50 Pipes" },
+    "name": { "str": "Gather 50 pipes" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -464,7 +464,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_8",
     "type": "mission_definition",
-    "name": { "str": "Gather 2 Electric Motors" },
+    "name": { "str": "Gather 2 electric motors" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -524,7 +524,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_9",
     "type": "mission_definition",
-    "name": { "str": "Gather 150 Bleach" },
+    "name": { "str": "Gather 150 bleach" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -617,7 +617,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_11",
     "type": "mission_definition",
-    "name": { "str": "Find 2 Arc Welders" },
+    "name": { "str": "Find 2 arc welders" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -667,7 +667,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_12",
     "type": "mission_definition",
-    "name": { "str": "Find 12 Car Batteries" },
+    "name": { "str": "Find 12 car batteries" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -704,7 +704,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_13",
     "type": "mission_definition",
-    "name": { "str": "Find 2 Two-Way Radios" },
+    "name": { "str": "Find 2 two-way radios" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -738,7 +738,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_14",
     "type": "mission_definition",
-    "name": { "str": "Gather 5 Backpacks" },
+    "name": { "str": "Gather 5 backpacks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -778,7 +778,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_15",
     "type": "mission_definition",
-    "name": { "str": "Find Homebrewer's Bible" },
+    "name": { "str": "Find a copy of Homebrewer's Bible" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -804,7 +804,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_16",
     "type": "mission_definition",
-    "name": { "str": "Gather 80 Sugar" },
+    "name": { "str": "Gather 80 sugar" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -836,7 +836,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_17",
     "type": "mission_definition",
-    "name": { "str": "Collect 30 Glass Sheets" },
+    "name": { "str": "Collect 30 glass sheets" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
