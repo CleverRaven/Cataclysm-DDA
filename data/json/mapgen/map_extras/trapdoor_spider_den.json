@@ -32,6 +32,7 @@
       ],
       "terrain": { "t": [ "t_region_tree", "t_dirt" ], "s": [ "t_dirt" ] },
       "traps": { "s": { "trap": "tr_spider" } }
-    }
+    },
+    "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
   }
 ]
