@@ -273,9 +273,7 @@ static std::vector<item_location> get_autopickup_items( item_location &container
  * @return true if any items were selected for autopickup.
  */
 static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>> &from,
-                                     std::vector<pickup_count> &pickup,
-                                     std::vector<item_location> &result,
-                                     const tripoint &location )
+                                     std::vector<bool> &pickup, std::vector<item_location> &result, const tripoint &location )
 {
     bool bFoundSomething = false;
     const map_cursor map_location = map_cursor( location );
@@ -301,7 +299,7 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
             if( !within_autopickup_limits( item_entry ) ) {
                 continue;
             }
-            pickup[i].pick = true;
+            pickup[i] = true;
             bFoundSomething = true;
         } else if( is_container || item_entry->ammo_capacity( ammo_battery ) ) {
             item_location container_location = item_location( map_location, item_entry );
@@ -598,7 +596,11 @@ void Pickup::autopickup( const tripoint &p )
     // Recursively pick up adjacent items if that option is on.
     if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player_character.pos() == p ) {
         //Autopickup adjacent
-        direction adjacentDir[8] = {direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST};
+        direction adjacentDir[8] = {
+            direction::NORTH, direction::NORTHEAST, direction::EAST,
+            direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST,
+            direction::WEST, direction::NORTHWEST
+        };
         for( auto &elem : adjacentDir ) {
 
             tripoint apos = tripoint( displace_XY( elem ), 0 );
@@ -636,39 +638,21 @@ void Pickup::autopickup( const tripoint &p )
         return *lhs.front() < *rhs.front();
     } );
 
-    std::vector<pickup_count> getitem( stacked_here.size() );
     std::vector<item_location> target_items;
+    std::vector<bool> pickup_stacked( stacked_here.size() );
 
-    if( !select_autopickup_items( stacked_here, getitem, target_items, p ) ) {
+    if( !select_autopickup_items( stacked_here, pickup_stacked, target_items, p ) ) {
         // If we didn't find anything, bail out now.
         return;
     }
     // At this point we've selected our items, register an activity to pick them up.
     std::vector<std::pair<item_stack::iterator, int>> pick_values;
     for( size_t i = 0; i < stacked_here.size(); i++ ) {
-        const pickup_count &selection = getitem[i];
-        if( !selection.pick ) {
+        if( !pickup_stacked.at( i ) ) {
             continue;
         }
-
-        const std::list<item_stack::iterator> &stack = stacked_here[i];
-        // Note: items can be both charged and stacked
-        // For robustness, let's assume they can be both in the same stack
-        bool pick_all = selection.count == 0;
-        int count = selection.count;
-        for( const item_stack::iterator &it : stack ) {
-            if( !pick_all && count == 0 ) {
-                break;
-            }
-
-            if( it->count_by_charges() ) {
-                int num_picked = std::min( it->charges, count );
-                pick_values.emplace_back( it, num_picked );
-                count -= num_picked;
-            } else {
-                pick_values.emplace_back( it, 0 );
-                --count;
-            }
+        for( const item_stack::iterator &it : stacked_here[i] ) {
+            pick_values.emplace_back( it, it->count_by_charges() ? it->charges : 0 );
         }
     }
     std::vector<int> quantities( target_items.size(), 0 );
