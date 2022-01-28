@@ -188,7 +188,7 @@
   {
     "id": "MISSION_ISHERWOOD_EDDIE_1",
     "type": "mission_definition",
-    "name": { "str": "Gather 120 rocks" },
+    "name": { "str": "Gather 120 Rocks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
