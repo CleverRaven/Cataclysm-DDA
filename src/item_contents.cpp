@@ -1521,14 +1521,17 @@ void item_contents::add_pocket( const item &pocket_item )
 item item_contents::remove_pocket( int index )
 {
     // start at the first pocket
-    auto it = contents.begin();
+    auto rit = contents.rbegin();
+
 
     // find the pockets to remove from the item
-    for( int i = 0; i < index; ++i ) {
+    for( int i = additional_pockets.size() - 1; i >= index; --i ) {
         // move the iterator past all the pockets we aren't removing
-        std::advance( it, additional_pockets[i].get_all_contained_pockets().value().size() );
+        std::advance( rit, additional_pockets[i].get_all_contained_pockets().value().size() );
     }
 
+    // at this point reveresed past the pockets we want to get rid of so now start going forward
+    auto it = std::next( rit ).base();
     units::volume total_nonrigid_volume = 0_ml;
     for( item_pocket *i_pocket : additional_pockets[index].get_all_contained_pockets().value() ) {
         total_nonrigid_volume += i_pocket->max_contains_volume();

@@ -191,6 +191,8 @@ static const species_id species_ROBOT( "ROBOT" );
 
 static const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
 static const sub_bodypart_str_id sub_body_part_torso_hanging_back( "torso_hanging_back" );
+static const sub_bodypart_str_id sub_body_part_torso_lower( "torso_lower" );
+static const sub_bodypart_str_id sub_body_part_torso_upper( "torso_upper" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_JITTERY( "JITTERY" );
@@ -7284,7 +7286,14 @@ std::vector<layer_level> item::get_layer( bodypart_id bp ) const
         }
         for( const bodypart_str_id &bpid : data.covers.value() ) {
             if( bp == bpid ) {
-                return data.layers;
+                // if the item has additional pockets and is on the torso it should also be strapped
+                if( bp == body_part_torso && contents.has_additional_pockets() ) {
+                    std::vector<layer_level> with_belted = data.layers;
+                    with_belted.push_back( layer_level::BELTED );
+                    return with_belted;
+                } else {
+                    return data.layers;
+                }
             }
         }
     }
@@ -7297,7 +7306,7 @@ std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
         // additional test for gun straps
-        if( is_gun() && sbp == sub_bodypart_id( "torso_hanging_back" ) ) {
+        if( is_gun() && sbp == sub_body_part_torso_hanging_back ) {
             return { layer_level::BELTED };
         }
         return std::vector<layer_level>();
@@ -7306,7 +7315,15 @@ std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
     for( const armor_portion_data &data : t->sub_data ) {
         for( const sub_bodypart_str_id &bpid : data.sub_coverage ) {
             if( sbp == bpid ) {
-                return data.layers;
+                // if the item has additional pockets and is on the torso it should also be strapped
+                if( ( sbp == sub_body_part_torso_upper || sbp == sub_body_part_torso_lower ) &&
+                    contents.has_additional_pockets() ) {
+                    std::vector<layer_level> with_belted = data.layers;
+                    with_belted.push_back( layer_level::BELTED );
+                    return with_belted;
+                } else {
+                    return data.layers;
+                }
             }
         }
     }
