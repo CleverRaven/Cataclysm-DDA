@@ -5125,40 +5125,50 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.emplace_back( "DESCRIPTION",
                                _( "You know of nothing you could craft with it." ) );
         } else {
-            if( item_recipes.size() > 24 ) {
-                insert_separation_line( info );
-                info.emplace_back( "DESCRIPTION",
-                                   _( "You know dozens of things you could craft with it." ) );
-            } else if( item_recipes.size() > 12 ) {
-                insert_separation_line( info );
-                info.emplace_back( "DESCRIPTION",
-                                   _( "You could use it to craft various other things." ) );
-            } else {
-                // Extract item names from recipes and sort them
-                std::vector<std::pair<std::string, bool>> result_names;
-                std::transform(
-                    item_recipes.begin(), item_recipes.end(),
-                    std::back_inserter( result_names ),
-                [&crafting_inv]( const recipe * r ) {
-                    bool can_make = r->deduped_requirements().can_make_with_inventory(
-                                        crafting_inv, r->get_component_filter() );
-                    return std::make_pair( r->result_name( /*decorated=*/true ), can_make );
-                } );
-                std::sort( result_names.begin(), result_names.end(), localized_compare );
-                const std::string recipes =
-                    enumerate_as_string( result_names.begin(), result_names.end(),
-                []( const std::pair<std::string, bool> &p ) {
-                    if( p.second ) {
-                        return p.first;
-                    } else {
-                        return string_format( "<dark>%s</dark>", p.first );
-                    }
-                } );
-                insert_separation_line( info );
-                info.emplace_back( "DESCRIPTION",
-                                   string_format( _( "You could use it to craft: %s" ),
-                                                  recipes ) );
+            // Maximum number of recipes to display
+            constexpr int max_recipes = 12;
+
+            // Pairs of <item name, can_craft_with_inventory>
+            std::vector<std::pair<std::string, bool>> result_names;
+
+            int processed_recipes = 0;
+
+            // Build result_names vector of at most the first `max_recipes` items
+            for( const recipe *r : item_recipes ) {
+                // Break out early if we've hit our limit
+                if( processed_recipes++ > max_recipes ) {
+                    break;
+                }
+
+                bool can_make = r->deduped_requirements().can_make_with_inventory(
+                                    crafting_inv, r->get_component_filter() );
+
+                result_names.emplace_back( std::make_pair( r->result_name( /*decorated=*/true ), can_make ) );
             }
+
+            // Sort according to the user's locale
+            std::sort( result_names.begin(), result_names.end(), localized_compare );
+
+            // Endarken recipes that can't be constructed with the survivor's inventory
+            const std::string recipes =
+                enumerate_as_string( result_names.begin(), result_names.end(),
+            []( const std::pair<std::string, bool> &p ) {
+                if( p.second ) {
+                    return p.first;
+                } else {
+                    return string_format( "<dark>%s</dark>", p.first );
+                }
+            } );
+
+            insert_separation_line( info );
+
+            const int num_undisplayed_recipes = item_recipes.size() - max_recipes;
+
+            const std::string fmt = ( num_undisplayed_recipes > 0 )
+                                    ? string_format( _( "You could use it to craft: %s, and more" ), recipes )
+                                    : string_format( _( "You could use it to craft: %s" ), recipes );
+
+            info.emplace_back( " DESCRIPTION", fmt );
         }
     }
 
