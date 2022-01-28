@@ -38,7 +38,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
-    "skills_required": [ "survival", 1 ],
     "difficulty": 1,
     "time": "10m",
     "autolearn": true,
