@@ -48,24 +48,10 @@
     "description": "A vehicle mountable electric range and sink unit with integrated tool storage for cooking utensils."
   },
   {
-    "id": "gas_kitchen_unit",
-    "copy-from": "vehicle_rig",
-    "type": "GENERIC",
-    "name": { "str": "RV gas kitchen unit" },
-    "description": "A vehicle mountable gas range and sink unit with integrated tool storage for cooking utensils."
-  },
-  {
     "id": "weldrig",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
     "name": { "str": "vehicle welding rig" },
     "description": "A welding rig made to run off a vehicle's storage battery.  It has a soldering iron attachment for delicate work, and a compartment to store your extra tools in."
-  },
-  {
-    "id": "gas_cooker",
-    "copy-from": "vehicle_rig",
-    "type": "GENERIC",
-    "name": { "str": "gas cooker" },
-    "description": "A gas-powered grill and cooking surface."
   }
 ]

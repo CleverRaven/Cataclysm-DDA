@@ -245,21 +245,5 @@
     "symbol": "Y",
     "price": 100000,
     "price_postapoc": 1000
-  },
-  {
-    "type": "GENERIC",
-    "id": "gas_cooker",
-    "name": { "str": "gas cooker" },
-    "description": "A gas-fueled grill, powered by an attached tank.",
-    "weight": "900 g",
-    "to_hit": -1,
-    "color": "light_gray",
-    "symbol": ";",
-    "material": [ "steel" ],
-    "volume": "750 ml",
-    "bashing": 2,
-    "category": "veh_parts",
-    "price": 3000,
-    "price_postapoc": 50
   }
 ]
