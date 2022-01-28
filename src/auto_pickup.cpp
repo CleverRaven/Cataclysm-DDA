@@ -236,7 +236,7 @@ std::vector<item_location> auto_pickup::select_items(
 
     // iterate over all item stacks found in location
     for( const item_stack::iterator &stack : from ) {
-        item *item_entry = &*( stack );
+        item *item_entry = &*stack;
         // do not autopickup owned containers or items
         if( !get_option<bool>( "AUTO_PICKUP_OWNED" ) &&
             item_entry->is_owned_by( get_player_character() ) ) {
