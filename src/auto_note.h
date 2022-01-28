@@ -89,7 +89,6 @@ class auto_note_manager_gui
 
         void fill_custom_symbols_cache();
 
-        bool bCharacter = true;
         bool charwasChanged{false};
         bool globalwasChanged{false};
 };
