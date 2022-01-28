@@ -1358,7 +1358,7 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
         jo.read( "string_id", string_id );
         jo.read( "type", type );
         jo.read( "when", when );
-        point pt( 0, 0 );
+        point pt;
         for( JsonObject jp : jo.get_array( "revert" ) ) {
             revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
             revert.set_ter( pt, ter_id( jp.get_string( "ter" ) ) );
