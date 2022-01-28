@@ -125,6 +125,7 @@ static const matype_id style_none( "style_none" );
 static const mtype_id mon_generator( "mon_generator" );
 
 static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
+static const relic_procgen_id relic_procgen_data_portalmancy( "portalmancy" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_NONE( "NONE" );
@@ -163,6 +164,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::EDIT_PLAYER: return "EDIT_PLAYER";
         case debug_menu::debug_menu_index::CONTROL_NPC: return "CONTROL_NPC";
         case debug_menu::debug_menu_index::SPAWN_ARTIFACT: return "SPAWN_ARTIFACT";
+        case debug_menu::debug_menu_index::SPAWN_PORTAL_ARTIFACT: return "SPAWN_PORTAL_ARTIFACT";
         case debug_menu::debug_menu_index::SPAWN_CLAIRVOYANCE: return "SPAWN_CLAIRVOYANCE";
         case debug_menu::debug_menu_index::MAP_EDITOR: return "MAP_EDITOR";
         case debug_menu::debug_menu_index::CHANGE_WEATHER: return "CHANGE_WEATHER";
@@ -370,6 +372,7 @@ static int spawning_uilist()
         { uilist_entry( debug_menu_index::SPAWN_MON, true, 'm', _( "Spawn monster" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 'v', _( "Spawn a vehicle" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_ARTIFACT, true, 'a', _( "Spawn artifact" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_PORTAL_ARTIFACT, true, 'p', _( "Spawn portal artifact" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_CLAIRVOYANCE, true, 'c', _( "Spawn clairvoyance artifact" ) ) },
     };
 
@@ -2475,6 +2478,11 @@ void debug()
                                                  ARTPROP_MAX - 1 ) );
                 here.create_anomaly( *center, prop );
                 here.spawn_artifact( *center, relic_procgen_data_alien_reality );
+            }
+            break;
+        case debug_menu_index::SPAWN_PORTAL_ARTIFACT:
+            if( const cata::optional<tripoint> center = g->look_around() ) {
+                here.spawn_artifact( *center, relic_procgen_data_portalmancy );
             }
             break;
 
