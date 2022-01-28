@@ -77,7 +77,7 @@ bool auto_note_settings::save( bool bCharacter )
             jout.member( "custom_symbols" );
             jout.start_array();
             for( const std::pair<const map_extra_id &, const auto_notes::custom_symbol &> symbol_entry :
-                 ( bCharacter ?  character_custom_symbols : global_custom_symbols ) ) {
+                 bCharacter ?  character_custom_symbols : global_custom_symbols ) {
                 jout.start_object();
 
                 jout.member( "map_extra" );
