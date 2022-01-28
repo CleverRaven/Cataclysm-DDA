@@ -65,25 +65,33 @@ class auto_note_manager_gui
 
         void show();
 
-        bool was_changed() const;
+        bool was_changed( bool bCharacter ) const;
 
-        void set_cached_custom_symbol( const map_extra_id &mapExtId, const custom_symbol &symbol );
+        void set_cached_custom_symbol( const map_extra_id &mapExtId, const custom_symbol &symbol,
+                                       bool bCharacter );
 
     private:
         /// The map extra type cache. This is initialized with all known map extra types
         /// and their auto note status with every call of initialize(). All changes to this
-        /// will be applied to the per-character auto notes settings object after the user
+        /// will be applied to the per-character or global auto notes settings object after the user
         /// closes the GUI.
-        std::unordered_map<map_extra_id, std::pair<const map_extra, bool>> mapExtraCache;
+        std::unordered_map<map_extra_id, std::pair<const map_extra, bool>> char_mapExtraCache;
+        std::unordered_map<map_extra_id, std::pair<const map_extra, bool>> global_mapExtraCache;
 
-        /// All map extra types that will be displayed in the GUI.
-        std::vector<map_extra_id> displayCache;
+        /// All map extra types for the character that will be displayed in the GUI.
+        std::vector<map_extra_id> char_displayCache;
 
-        std::unordered_map<map_extra_id, custom_symbol> custom_symbol_cache;
+        /// All map extra types for global types that will be displayed in the GUI.
+        std::vector<map_extra_id> global_displayCache;
+
+        std::unordered_map<map_extra_id, custom_symbol> char_custom_symbol_cache;
+        std::unordered_map<map_extra_id, custom_symbol> global_custom_symbol_cache;
 
         void fill_custom_symbols_cache();
 
-        bool wasChanged{false};
+        bool bCharacter = true;
+        bool charwasChanged{false};
+        bool globalwasChanged{false};
 };
 
 /**
@@ -99,9 +107,9 @@ class auto_note_settings
         friend class auto_note_manager_gui;
 
     public:
-        bool has_auto_note_enabled( const map_extra_id &mapExtId ) const;
+        bool has_auto_note_enabled( const map_extra_id &mapExtId, bool bCharacter ) const;
 
-        void set_auto_note_status( const map_extra_id &mapExtId, bool enabled );
+        void set_auto_note_status( const map_extra_id &mapExtId, bool enabled, bool bCharacter );
 
         void set_discovered( const map_extra_id &mapExtId );
 
@@ -110,14 +118,15 @@ class auto_note_settings
     public:
         cata::optional<custom_symbol> get_custom_symbol( const map_extra_id &mapExtId ) const;
 
-        void set_custom_symbol( const map_extra_id &mapExtId, const custom_symbol &symbol );
+        void set_custom_symbol( const map_extra_id &mapExtId, const custom_symbol &symbol,
+                                bool bCharacter );
 
-        void clear_all_custom_symbols();
+        void clear_all_custom_symbols( bool bCharacter );
 
     public:
-        void load();
+        void load( bool bCharacter );
 
-        bool save();
+        bool save( bool bCharacter );
 
         void clear();
 
@@ -132,15 +141,21 @@ class auto_note_settings
         std::string build_save_path() const;
 
     private:
-        /// This set contains the ID strings of all map extras that have auto note enabled.
-        std::unordered_set<map_extra_id> autoNoteEnabled;
+        /// This set contains the ID strings of all map extras that have auto note enabled for a character.
+        std::unordered_set<map_extra_id> character_autoNoteEnabled;
+
+        /// This set contains the ID strings of all map extras that have auto note disabled globally.
+        std::unordered_set<map_extra_id> global_autoNoteDisabled;
 
         /// This set contains the ID strings of all map extras that were already encountered by the player.
         /// This is used in order to avoid spoilers in the GUI.
         std::unordered_set<map_extra_id> discovered;
 
-        /// User-defined symbols and colors for the auto notes.
-        std::unordered_map<map_extra_id, custom_symbol> custom_symbols;
+        /// User-defined symbols and colors for the auto notes for this character.
+        std::unordered_map<map_extra_id, custom_symbol> character_custom_symbols;
+
+        /// User-defined symbols and colors for the auto notes globably.
+        std::unordered_map<map_extra_id, custom_symbol> global_custom_symbols;
 };
 } // namespace auto_notes
 

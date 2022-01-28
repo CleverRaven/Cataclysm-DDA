@@ -444,6 +444,7 @@ void game::load_static_data()
     // be moved to game::load_mod or game::load_core_data
 
     get_auto_pickup().load_global();
+    get_auto_notes_settings().load( false );
     get_safemode().load_global();
 }
 
@@ -2687,7 +2688,7 @@ bool game::load( const save_t &name )
 
     init_autosave();
     get_auto_pickup().load_character(); // Load character auto pickup rules
-    get_auto_notes_settings().load();   // Load character auto notes settings
+    get_auto_notes_settings().load( true ); // Load character auto notes settings
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
     read_from_file_optional( PATH_INFO::world_base_save_path() + "/uistate.json", [](
@@ -2923,7 +2924,7 @@ bool game::save()
             !save_factions_missions_npcs() ||
             !save_maps() ||
             !get_auto_pickup().save_character() ||
-            !get_auto_notes_settings().save() ||
+            !get_auto_notes_settings().save( true ) ||
             !get_safemode().save_character() ||
         !write_to_file( PATH_INFO::world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
