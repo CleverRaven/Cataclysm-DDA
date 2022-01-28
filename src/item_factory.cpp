@@ -3415,6 +3415,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "price_postapoc", def.price_post, false, 0_cent );
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
+    assign( jo, "integral_longest_side", def.integral_longest_side, false, 0_mm );
     assign( jo, "bashing", def.melee[static_cast<int>( damage_type::BASH )], strict, 0 );
     assign( jo, "cutting", def.melee[static_cast<int>( damage_type::CUT )], strict, 0 );
     if( jo.has_int( "to_hit" ) ) {

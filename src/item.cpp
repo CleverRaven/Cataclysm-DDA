@@ -6377,6 +6377,7 @@ units::length item::length() const
     if( is_gun() ) {
         units::length length_adjusted = type->longest_side;
 
+        //TODO: Unhardcode this now that integral_longest_side can be used
         if( gunmod_find( itype_barrel_small ) ) {
             int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
             units::length reduce_by = ( type->longest_side / 100 ) * barrel_percentage;
@@ -6384,31 +6385,26 @@ units::length item::length() const
         }
 
         std::vector<const item *> mods = gunmods();
+        // only the longest thing sticking off the gun matters for length adjustment
+        // TODO: Differentiate from back end mods like stocks vs front end like bayonets and muzzle devices
+        units::length max_length = 0_mm;
         for( const item *mod : mods ) {
-            itype_id itype_location( "location" );
-            if( mod->type->gunmod ) {
-                if( mod->type->gunmod->location.str() == "muzzle" ) {
-                    length_adjusted += mod->length();
-                }
-
-                if( mod->type->gunmod->location.str() == "underbarrel" ) {
-                    //checks for melee gunmods (like bayonets)
-                    for( const std::pair<const gun_mode_id, gun_modifier_data> &m : mod->type->gunmod->mode_modifier ) {
-                        if( m.first == gun_mode_REACH ) {
-                            length_adjusted += mod->length();
-                            break;
-                        }
-                    }
-                }
+            units::length l = mod->integral_length();
+            if( l > max_length ) {
+                max_length = l;
             }
         }
-
-        return length_adjusted;
+        return length_adjusted + max_length;
     }
 
     units::length max = is_soft() ? 0_mm : type->longest_side;
     max = std::max( contents.item_length_modifier(), max );
     return max;
+}
+
+units::length item::integral_length() const
+{
+    return type->integral_longest_side;
 }
 
 units::volume item::collapsed_volume_delta() const

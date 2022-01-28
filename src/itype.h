@@ -1180,6 +1180,11 @@ struct itype {
         */
         units::length longest_side = -1_mm;
 
+        /**
+        * length added when integrated as part of another item (defaults to 0)
+        */
+        units::length integral_longest_side = -1_mm;
+
         /** Number of items per above volume for @ref count_by_charges items */
         int stack_size = 0;
 
