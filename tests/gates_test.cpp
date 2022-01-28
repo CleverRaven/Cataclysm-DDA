@@ -179,3 +179,89 @@ TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
         }
     }
 }
+
+TEST_CASE( "character should lose moves when opening or closing doors or windows", "[gates]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map();
+
+    tripoint pos = get_adjecent_tile();
+    tripoint direction = tripoint( 1, 0, 0 );
+
+    // the movement cost for opening and closing gates
+    // remember to update this if changing value in code
+    const int open_move_cost = 100;
+
+    // set move value to 0 so we know how many
+    // move points were spent opening and closing gates
+    they.moves = 0;
+
+    WHEN( "avatar opens door" ) {
+        assert_create_terrain( t_door_c, pos );
+        REQUIRE( avatar_action::move( they, here, direction ) );
+
+        THEN( "avatar should spend move points" ) {
+            REQUIRE( they.moves == -open_move_cost );
+        }
+    }
+    WHEN( "avatar fails to open locked door" ) {
+        assert_create_terrain( t_door_locked, pos );
+        REQUIRE_FALSE( avatar_action::move( they, here, direction ) );
+
+        THEN( "avatar should not spend move points" ) {
+            REQUIRE( they.moves == 0 );
+        }
+    }
+    GIVEN( "that avatar is outdoors" ) {
+        REQUIRE( here.is_outside( pos ) );
+
+        WHEN( "avatar fails to open window" ) {
+            assert_create_terrain( t_window_no_curtains, pos );
+            REQUIRE_FALSE( avatar_action::move( they, here, direction ) );
+
+            THEN( "avatar should spend move points" ) {
+                REQUIRE( they.moves == 0 );
+            }
+        }
+    }
+    GIVEN( "that avatar is indoors" ) {
+        ter_id ter_flat_roof = ter_id( "t_flat_roof" );
+        ter_id ter_concrete_floor = ter_id( "t_thconc_floor" );
+        ter_id ter_concrete_wall = ter_id( "t_concrete_wall" );
+
+        // enclose the player in single tile room surrounded with
+        // concrete floor and roof to test opening windows from indoors
+        const std::vector<tripoint> room_walls{
+            tripoint( pos.x + 1, pos.y + 1, pos.z ),
+            tripoint( pos.x, pos.y + 1, pos.z ),
+            tripoint( pos.x - 1, pos.y + 1, pos.z ),
+            tripoint( pos.x - 1, pos.y, pos.z ),
+            tripoint( pos.x - 1, pos.y - 1, pos.z ),
+            tripoint( pos.x, pos.y - 1, pos.z ),
+            tripoint( pos.x + 1, pos.y - 1, pos.z )
+        };
+        for( tripoint point : room_walls ) {
+            REQUIRE( here.ter_set( point, ter_concrete_wall ) );
+        }
+        REQUIRE( here.ter_set( pos, ter_concrete_floor ) );
+        REQUIRE( here.ter_set( tripoint( pos.x, pos.y, pos.z + 1 ), ter_flat_roof ) );
+
+        // mark map cache as dirty and rebuild it so that map starts
+        // recognizing that tile player is standing on is indoors
+        here.set_outside_cache_dirty( pos.z );
+        here.build_outside_cache( pos.z );
+        REQUIRE_FALSE( here.is_outside( pos ) );
+
+        WHEN( "avatar opens window" ) {
+            assert_create_terrain( t_window_no_curtains, pos );
+            REQUIRE( avatar_action::move( they, here, direction ) );
+
+            THEN( "avatar should spend move points" ) {
+                REQUIRE( they.moves == -open_move_cost );
+            }
+        }
+    }
+}
