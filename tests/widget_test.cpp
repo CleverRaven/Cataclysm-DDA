@@ -97,6 +97,7 @@ static const widget_id widget_test_status_sym_torso_text( "test_status_sym_torso
 static const widget_id widget_test_status_torso_text( "test_status_torso_text" );
 static const widget_id widget_test_str_num( "test_str_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
+static const widget_id widget_test_torso_armor_outer_text( "test_torso_armor_outer_text" );
 static const widget_id widget_test_weariness_num( "test_weariness_num" );
 static const widget_id widget_test_weather_text( "test_weather_text" );
 static const widget_id widget_test_weather_text_height5( "test_weather_text_height5" );
@@ -777,6 +778,32 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         check_bp_has_status( bp_legend.layout( ava, sidebar_width ),
         { "<color_c_yellow>B</color> bitten", "<color_c_pink>I</color> infected", "<color_c_light_red>b</color> bleeding" } );
     }
+}
+
+TEST_CASE( "outer armor widget", "[widget][armor]" )
+{
+    widget torso_armor_w = widget_test_torso_armor_outer_text.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    // Empty when no armor is worn
+    CHECK( torso_armor_w.layout( ava ) == "Torso Armor: -" );
+
+    // Wearing something covering torso
+    ava.worn.emplace_back( "test_zentai" );
+    CHECK( torso_armor_w.layout( ava ) ==
+           "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
+
+    // Wearing socks doesn't affect the torso
+    ava.worn.emplace_back( "test_socks" );
+    CHECK( torso_armor_w.layout( ava ) ==
+           "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
+
+    // Wearing something else on the torso
+    ava.worn.emplace_back( "test_hazmat_suit" );
+    CHECK( torso_armor_w.layout( ava ) ==
+           "Torso Armor: <color_c_light_green>||</color>\u00A0TEST hazmat suit (poor fit)" );
 }
 
 TEST_CASE( "radiation badge widget", "[widget][radiation]" )

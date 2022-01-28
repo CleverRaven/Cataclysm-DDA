@@ -413,7 +413,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_1_JOBS",
     "type": "talk_topic",
-    "dynamic_line": "Your handling of our 'rogue robot' situation was impressive, and its become clear that we greatly underestimated your usefulness.  If you are interested, we are willing to offer you extra contracts, all of them with  proper compensation from now on.",
+    "dynamic_line": "Your handling of our 'rogue robot' situation was impressive, and its become clear that we greatly underestimated your usefulness.  If you are interested, we are willing to offer you extra contracts, all of them with proper compensation from now on.",
     "speaker_effect": {
       "effect": { "npc_add_var": "npc_intercom_job_speech", "type": "dialogue", "context": "intercom", "value": "yes" },
       "sentinel": "intercom_1_jobs"

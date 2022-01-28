@@ -43,6 +43,13 @@ submap::~submap() = default;
 
 submap &submap::operator=( submap && ) noexcept = default;
 
+void submap::clear_fields( const point &p )
+{
+    field &f = get_field( p );
+    field_count -= f.field_count();
+    f.clear();
+}
+
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
 // Handle GCC warning: 'warning: returning reference to temporary'

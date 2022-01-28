@@ -51,6 +51,16 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
   },
   {
+    "id": "xs_chainmail_hood",
+    "type": "ARMOR",
+    "copy-from": "chainmail_hood",
+    "looks_like": "chainmail_hood",
+    "name": { "str": "XS chainmail coif" },
+    "description": "A customized chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "UNDERSIZE" ]
+  },
+  {
     "id": "hood_rain",
     "type": "ARMOR",
     "name": { "str": "rain hood" },

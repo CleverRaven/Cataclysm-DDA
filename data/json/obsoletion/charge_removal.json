@@ -1,5 +1,9 @@
 [
   {
+    "type": "charge_migration_blacklist",
+    "list": [  ]
+  },
+  {
     "type": "charge_removal_blacklist",
     "list": [
       "22_casing_new",

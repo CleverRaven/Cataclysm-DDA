@@ -181,7 +181,7 @@
         "time_in_future_max": "90 minutes"
       },
       {
-        "u_message": "Reality is begining to break.  It is subtle but something deep inside you feels the wrongness.",
+        "u_message": "Reality is beginning to break.  It is subtle but something deep inside you feels the wrongness.",
         "type": "bad",
         "popup": true
       }

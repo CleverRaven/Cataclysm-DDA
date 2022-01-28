@@ -216,6 +216,8 @@ struct body_part_type {
         int encumbrance_threshold = 0;
         // Limit of encumbrance, after reaching this point the limb contributes no scores
         int encumbrance_limit = 0;
+        // Health at which the limb stops contributing its conditional flags / techs
+        int health_limit = 0;
 
         // If true, extra encumbrance on this limb affects dodge effectiveness
         bool encumb_impacts_dodge = false;
@@ -254,6 +256,7 @@ struct body_part_type {
         // Wetness morale bonus/malus of the limb
         int wet_morale = 0;
         cata::flat_set<json_character_flag> flags;
+        cata::flat_set<json_character_flag> conditional_flags;
         bool has_flag( const json_character_flag &flag ) const;
 
         // Limb-specific attacks
@@ -467,6 +470,7 @@ class bodypart
         int get_encumbrance_threshold() const;
         // Check if we're above our encumbrance limit
         bool is_limb_overencumbered() const;
+        bool has_conditional_flag( const json_character_flag &flag ) const;
 
         // Get our limb attacks
         std::set<matec_id> get_limb_techs() const;

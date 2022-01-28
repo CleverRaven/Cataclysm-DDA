@@ -213,6 +213,7 @@
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
+    "weakpoint_sets": [ "wps_sauropod_body" ],
     "hp": 200,
     "aggression": -10,
     "morale": 90,

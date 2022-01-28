@@ -16,7 +16,8 @@
     "symbol": "\\",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "FLAILS" ]
   },
   {
     "id": "2h_flail_wood",
@@ -35,7 +36,8 @@
     "symbol": "\\",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "FLAILS" ]
   },
   {
     "type": "GENERIC",
@@ -150,7 +152,7 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "category": "weapons"
   },
   {
@@ -438,7 +440,7 @@
     "symbol": "/",
     "material": [ "wood", "steel" ],
     "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_HAMMERS" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "volume": "1250 ml",
     "longest_side": "80 cm",
@@ -499,6 +501,7 @@
     "material": [ "wood", "steel" ],
     "looks_like": "hammer_sledge",
     "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "GREAT_HAMMERS" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE" ],
     "volume": "1700 ml",
     "longest_side": "100 cm",
@@ -672,6 +675,7 @@
     "material": [ "iron", "wood" ],
     "techniques": [ "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "80 cm",
     "//": "Same total damage and slightly higher weight than a morningstar - exchanged.",
@@ -732,6 +736,7 @@
     "material": [ "iron", "wood" ],
     "techniques": [ "SWEEP" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "60 cm",
     "bashing": 22,
@@ -795,6 +800,7 @@
     "cutting": 8,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE" ],
+    "weapon_category": [ "MACES" ],
     "price": 120000,
     "price_postapoc": 8000,
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -1169,7 +1175,7 @@
     "material": [ "iron", "wood" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE", "BELT_CLIP" ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_HAMMERS" ],
     "volume": "1250 ml",
     "longest_side": "120 cm",
     "bashing": 22,
