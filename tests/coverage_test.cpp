@@ -24,14 +24,11 @@ static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint mon_pos( HALF_MAPSIZE_X - 1, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint badguy_pos( HALF_MAPSIZE_X - 3, HALF_MAPSIZE_Y, 0 );
 
-static void check_near( std::string subject, float prob, const float expected,
+static void check_near( std::string subject, float actual, const float expected,
                         const float tolerance )
 {
-    const float low = expected - tolerance;
-    const float high = expected + tolerance;
-    THEN( string_format( "%s is between %.1f and %.1f", subject, low, high ) ) {
-        REQUIRE( prob > low );
-        REQUIRE( prob < high );
+    THEN( string_format( "%s is about %.1f (+/- %.1f)", subject, expected, tolerance ) ) {
+        CHECK( actual == Approx( expected ).margin( tolerance ) );
     }
 }
 
