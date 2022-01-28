@@ -2,6 +2,19 @@
   {
     "type": "palette",
     "id": "microlab_distorted_chunk",
+    "remove_all": {
+      "!": {  },
+      "2": {  },
+      ":": {  },
+      "X": {  },
+      "3": {  },
+      "4": {  },
+      "ó": {  },
+      "R": {  },
+      ">": {  },
+      "<": {  },
+      "&": {  }
+    },
     "terrain": {
       " ": "t_null",
       ".": "t_strconc_floor",
@@ -44,6 +57,7 @@
         "| ||      .|",
         "|..      ..|"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "microlab_distorted_chunk" ]
     }
   },
@@ -67,6 +81,7 @@
         "| ||,, ,.,.|",
         "|.|.  ||| .|"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "microlab_distorted_chunk" ]
     }
   },
@@ -90,6 +105,7 @@
         "| ||     ,,|",
         "|..      ..|"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "microlab_distorted_chunk" ]
     }
   },
@@ -113,6 +129,7 @@
         "    ..  |22|",
         "  ||| . |   "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "microlab_distorted_chunk" ]
     }
   },
@@ -136,6 +153,7 @@
         "            ",
         " ||         "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "microlab_distorted_chunk" ]
     }
   },
@@ -159,6 +177,7 @@
         "..         .",
         "|.|.        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "microlab_distorted_chunk" ]
     }
   },
@@ -182,6 +201,7 @@
         ",.          ",
         "|           "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "microlab_distorted_chunk" ]
     }
   },
@@ -205,6 +225,7 @@
         "      |.||..",
         "|         .."
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "microlab_distorted_chunk" ]
     }
   },

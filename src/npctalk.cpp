@@ -1589,6 +1589,25 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             item tmp( item_type );
             tmp.charges = u.charges_of( item_type );
             phrase.replace( fa, l, format_money( tmp.price( true ) ) );
+        } else if( tag.find( "<u_val:" ) != std::string::npos ) {
+            //adding a user variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            phrase.replace( fa, l, u.get_value( var ) );
+        } else if( tag.find( "<npc_val:" ) != std::string::npos ) {
+            //adding a npc variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            phrase.replace( fa, l, me.get_value( var ) );
+        } else if( tag.find( "<global_val:" ) != std::string::npos ) {
+            //adding a global variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            global_variables &globvars = get_globals();
+            phrase.replace( fa, l, globvars.get_global_value( var ) );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
@@ -2576,7 +2595,8 @@ void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
     };
 }
 
-void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
 {
     std::string message = jo.get_string( member );
     const bool snippet = jo.get_bool( "snippet", false );
@@ -3505,7 +3525,8 @@ void talk_effect_fun_t::set_add_faction_trust( const JsonObject &jo, const std::
     };
 }
 
-void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo,
+        const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member );
     function = [iov]( const dialogue & d ) {
@@ -3513,7 +3534,8 @@ void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
+        const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member, true );
     duration_or_var dov_length_min = get_duration_or_var( jo, "length_min", false, 0_seconds );
@@ -3612,7 +3634,8 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &member,
+                                   bool is_npc )
 {
     field_type_str_id new_field = field_type_str_id( jo.get_string( member ) );
     int_or_var iov_intensity = get_int_or_var( jo, "intensity", false, 1 );
@@ -3646,7 +3669,8 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
     };
 }
 
-void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
 {
     var_info var = read_var_info( jo.get_object( member ), false );
     var_type type = var.type;

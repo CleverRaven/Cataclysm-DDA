@@ -944,6 +944,7 @@
         "police": 100,
         "police_1": 100,
         "police_2": 100,
+        "police_dept": 1250,
         "fire_station": 200,
         "fire_station_1": 200,
         "home_improvement": 200,
@@ -1069,6 +1070,7 @@
         "flurries",
         "snowing",
         "snowstorm",
+        "early_portal_storm",
         "portal_storm"
       ]
     },

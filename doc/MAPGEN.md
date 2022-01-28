@@ -337,7 +337,7 @@ Example:
 ```
 
 ### Row terrains in "terrain"
-**required by "rows"**
+**usually required by "rows"**
 
 Defines terrain ids for "rows", each key is a single character with a terrain id string
 
@@ -403,6 +403,30 @@ Example:
   "l": "f_locker"
 },
 ```
+
+## Mapgen flags
+`"flags"` may provide a list of flags to be applied to the mapgen.
+
+Example:
+```json
+"flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+```
+
+Currently the defined flags are as follows:
+
+* `ERASE_ALL_BEFORE_PLACING_TERRAIN` and `ALLOW_TERRAIN_UNDER_OTHER_DATA` are
+  mutually exclusive flags that can be used with any mapgen which is layered on
+  top of existing terrain.  This can be update mapgen, nested mapgen, or
+  regular mapgen with a predecessor.  It specifies the behaviour to follow when
+  an existing terrain is changed by the update, but the tile has existing
+  items, trap, or furniture on it.  If neither flag is provided this is an
+  error.  If `ERASE_ALL_BEFORE_PLACING_TERRAIN` is given then any items, trap,
+  or furniture will be removed before changing the terrain.  If
+  `ALLOW_TERRAIN_UNDER_OTHER_DATA` is given then they will be retained without
+  an error.  If you require more fine-grained control over this behaviour than
+  can be provided by these flags, then each of these things can be removed
+  either individually or together.  See the other entries below, such as
+  `remove_all`.
 
 ## Set terrain, furniture, or traps with a "set" array
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.
@@ -500,7 +524,7 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | chance      | Percentage chance to do spawning. If repeat is used each repeat has separate chance.
 | repeat      | The spawning is repeated this many times. Can be a number or a range.
 | pack_size   | How many monsters are spawned. Can be single number or range like `[1-4]`. Is affected by the chance and spawn density. Ignored when spawning from a group.
-| one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this defaults to true true, otherwise this defaults to false. Ignored when spawning from a group.
+| one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this defaults to true, otherwise this defaults to false. Ignored when spawning from a group.
 | friendly    | Set true to make the monster friendly. Default false.
 | name        | Extra name to display on the monster.
 | target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
@@ -539,7 +563,7 @@ This optional object can have two fields:
 | Field       | Description
 | ---         | ---
 | ammo        | A list of objects, each of which has an `"ammo_id"` field and a `"qty"` list of two integers. The monster will spawn with items of "ammo_id", with at least the first number in the "qty" and no more than the second.
-| patrol      | A list of objects, each of which has an `"x"` field and a `"y"` field. Either value can be a range or a single number. The x,y co-ordinates define a patrol point as an relative mapsquare point offset from the (0, 0) local mapsquare of the overmap terrain tile that the monster spawns in. Patrol points are converted to absolute mapsquare tripoints inside the monster generator.
+| patrol      | A list of objects, each of which has an `"x"` field and a `"y"` field. Either value can be a range or a single number. The x,y co-ordinates define a patrol point as a relative mapsquare point offset from the (0, 0) local mapsquare of the overmap terrain tile that the monster spawns in. Patrol points are converted to absolute mapsquare tripoints inside the monster generator.
 
 Monsters with a patrol point list will move to each patrol point, in order, whenever they have no more pressing action to take on their turn. Upon reaching the last point in the patrol point list, the monster will continue on to the first point in the list.
 
@@ -759,7 +783,7 @@ Places a vending machine (furniture) and fills it with items from an item group.
 | ---        | ---
 | item_group | (optional, string) the item group that is used to create items inside the machine. It defaults to either "vending_food" or "vending_drink" (randomly chosen).
 | reinforced | (optional, bool) setting which will make vending machine spawn as reinforced. Defaults to false.
-| lootable   | (optional, bool) setting which indicates whether this particular vending machine should have a chance to spawn ransacked (i.e. broken and with no loot inside). The chance for this is increased with each day passed after the Cataclysm. Defaults to false.
+| lootable   | (optional, bool) setting which indicates whether this particular vending machine should have a chance to spawn ransacked (i.e. broken and with no loot inside). The chance for this is increased with each day passed after the Cataclysm. Valid only if `reinforced` is false. Defaults to false.
 
 
 ### Place a toilet with some amount of water with "toilets"
@@ -773,12 +797,12 @@ Places a toilet (furniture) and adds water to it.
 
 ### Place a gas or diesel pump with some fuel with "gaspumps"
 
-Places a gas pump with gasoline (or sometimes diesel) in it.
+Places a gas pump with fuel in it.
 
 | Field  | Description
 | ---    | ---
-| amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump.
-| fuel   | (optional, string: "gasoline" or "diesel") the type of fuel to be placed in the pump.
+| amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump. If not specified, the amount is randomized between 10'000 and 50'000.
+| fuel   | (optional, string: "gasoline", "diesel", "jp8", or "avgas") the type of fuel to be placed in the pump. If not specified, the fuel is gasoline (75% chance) or diesel (25% chance).
 
 
 ### Place items from an item group with "items"
@@ -827,7 +851,7 @@ Note that vehicles cannot be placed over overmap boundaries. So it needs to be 2
 
 ```json 
 "remove_vehicles": [ 
-    { "vehicles": ["fire_engine"], "x": [10,15], "y": [10,15] }
+    { "vehicles": [ "fire_engine" ], "x": [ 10, 15 ], "y": [ 10, 15 ] }
 ]
 ```
 
@@ -859,7 +883,7 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 
 ```json 
 "remove_items": [ 
-    { "items": ["rock"], "x": [10,15], "y": [10,15] }
+    { "items": [ "rock" ], "x": [ 10, 15 ], "y": [ 10, 15 ] }
 ]
 ```
 
@@ -919,7 +943,7 @@ To use this type with explicit coordinates use the name "place_rubble" (no plura
 ### Place spilled liquids with "place_liquids"
 
 Creates a liquid item at the specified location. Liquids can't currently be picked up (except for gasoline in tanks or
-pumps), but can be used to add flavor to mapgen.
+pumps, or unless terrain the liquid spilled on has `LIQUIDCONT` flag), but can be used to add flavor to mapgen.
 
 | Field  | Description
 | ---    | ---
@@ -1016,6 +1040,14 @@ The `type` field values affect NPC behavior. NPCs will:
 - Not move to the see the source of unseen sounds coming from outside `NPC_INVESTIGATE_ONLY` zones.
 
 
+### Remove everything with "remove_all"
+
+This has no additional fields, and will remove all fields, items, traps,
+graffiti, and furniture from a tile.  This can be useful in e.g. nests or other
+update mapgen to clear out existing stuff that might exist but wouldn't make
+sense in the nest.
+
+
 ### Translate terrain type with "translate_ter"
 
 Translates one type of terrain into another type of terrain.  There is no reason to do this with normal mapgen, but it
@@ -1085,6 +1117,45 @@ Example for placing a monster corpse (either by using a character in the rows ar
 },
 "place_corpses": [
     { "group": "GROUP_PETS", "x": 3, "y": 5 }
+],
+```
+
+
+### Place computer console with "computers" or "place_computers"
+
+Creates a `f_console` furniture. Despite the only required field is `name`, you should also define either `options` or (`eocs` and `chat_topics`) to make interaction with the computer sensible.
+
+| Field  | Description
+| ---    | ---
+| name          | (required, string) a name for a computer
+| options       | (optional, array of objects) set of options available for player. `name` (string) - displayed name for an option. `action` - id of a hardcoded action from `computer_session.cpp`
+| failures      | (optional, array of objects) set of failures that could happen in case of unsuccessful hacking attempt. `action` - id of a hardcoded computer failure from `computer_session.cpp`. Only one random failure from the set could happen per one unsuccessful hacking attempt
+| security      | (optional, integer) value for determining the difficulty of hacking this computer. It's checked versus player's computer skill and intelligence
+| access_denied | (optional, string) message displayed to the player if `security` > 0. Defaults to `"ERROR!  Access denied!"`
+| eocs          | (optional, array of strings) a name for an `effect` that will shoot when player examines the computer
+| chat_topics   | (optional, array of strings) conversation topics if dialog is opened with the computer
+
+
+Example for placing computer console (either by using a character in the rows array or explicit coordinates):
+
+```json
+"computers": {
+  "a": {
+    "name": "Test computer 1",
+    "security": 3,
+    "options": [ { "name": "Test unlock action", "action": "unlock" } ],
+    "failures": [ { "action": "shutdown" }, { "action": "alarm" } ],
+    "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!"
+  }
+},
+"place_computers": [
+  {
+    "name": "Test computer 2",
+    "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
+    "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ],
+    "x": 20,
+    "y": 20
+  }
 ],
 ```
 

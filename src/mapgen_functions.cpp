@@ -3135,10 +3135,12 @@ void mapgen_lake_shore( mapgendata &dat )
 void mapgen_ravine_edge( mapgendata &dat )
 {
     map *const m = &dat.m;
+    // A solid chunk of z layer appropiate wall or floor is first generated to carve the cliffside off from
     if( dat.zlevel() == 0 ) {
         dat.fill_groundcover();
     } else {
-        m->draw_fill_background( t_rock );
+        run_mapgen_func( dat.region.default_oter[ OVERMAP_DEPTH + dat.zlevel() ].id()->get_mapgen_id(),
+                         dat );
     }
 
     const auto is_ravine = [&]( const oter_id & id ) {

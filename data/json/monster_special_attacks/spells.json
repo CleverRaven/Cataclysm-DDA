@@ -476,5 +476,49 @@
     "type": "ter_furn_transform",
     "id": "portal_cage_revert_transform",
     "furniture": [ { "result": [ "f_null" ], "valid_furniture": [ "f_absence" ] } ]
+  },
+  {
+    "id": "boomer_claymore_initial",
+    "type": "SPELL",
+    "//": "exist because zed try to use boomer_claymore on max range except trying to minimize the distance (ty venera for idea)",
+    "name": { "str": "Initial boomer claymore attack" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": 3,
+    "max_range": 3,
+    "extra_effects": [ { "id": "boomer_claymore" } ]
+  },
+  {
+    "id": "boomer_claymore",
+    "type": "SPELL",
+    "name": { "str": "Boomer claymore attack" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "effect": "attack",
+    "shape": "cone",
+    "min_damage": 30,
+    "max_damage": 30,
+    "damage_type": "cut",
+    "min_range": 6,
+    "max_range": 6,
+    "min_aoe": 120,
+    "max_aoe": 120,
+    "extra_effects": [ { "id": "boomer_claymore_suicide", "hit_self": true } ]
+  },
+  {
+    "id": "boomer_claymore_suicide",
+    "type": "SPELL",
+    "name": { "str": "Boomer suicide spell" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile", "ally", "self" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "biological",
+    "min_damage": 9999,
+    "max_damage": 9999
   }
 ]

@@ -114,6 +114,18 @@ static nc_color focus_color( int focus )
     }
 }
 
+static int get_wgt_height( const widget_id &wgt )
+{
+    if( wgt->_widgets.empty() || wgt->_arrange == "columns" ) {
+        return wgt->_height > 0 ? wgt->_height : 1;
+    }
+    int h = 0;
+    for( const widget_id &w : wgt->_widgets ) {
+        h += get_wgt_height( w );
+    }
+    return h;
+}
+
 int window_panel::get_height() const
 {
     if( height == -1 ) {
@@ -124,6 +136,9 @@ int window_panel::get_height() const
         } else {
             return 0;
         }
+    }
+    if( wgt.is_valid() && wgt->_arrange != "columns" ) {
+        return get_wgt_height( wgt );
     }
     return height;
 }
@@ -303,17 +318,6 @@ static nc_color value_color( int stat )
         valuecolor = c_magenta;
     }
     return valuecolor;
-}
-
-static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
-{
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
-        --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, truncate );
-        }
-    }
-    return "-";
 }
 
 // ===============================
@@ -1239,16 +1243,21 @@ static void draw_armor_padding( const draw_args &args )
     const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
                                + 2;
     const int max_length = getmaxx( w ) - heading_length;
-    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
-                    bodypart_id( "head" ) ) );
-    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
-                    bodypart_id( "torso" ) ) );
-    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
-                    bodypart_id( "arm_r" ) ) );
-    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
-                    bodypart_id( "leg_r" ) ) );
-    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
-                    bodypart_id( "foot_r" ) ) );
+    trim_and_print( w, point( heading_length, 0 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -1268,16 +1277,21 @@ static void draw_armor( const draw_args &args )
     const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
                                + 1;
     const int max_length = getmaxx( w ) - heading_length;
-    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
-                    bodypart_id( "head" ) ) );
-    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
-                    bodypart_id( "torso" ) ) );
-    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
-                    bodypart_id( "arm_r" ) ) );
-    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
-                    bodypart_id( "leg_r" ) ) );
-    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
-                    bodypart_id( "foot_r" ) ) );
+    trim_and_print( w, point( heading_length, 0 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -1920,9 +1934,6 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, width, true, default_render, true ) );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_compass_padding_compact, "Compass",
-                                    to_translation( "Compass" ),
-                                    5, width, false ) );
 
     return ret;
 }

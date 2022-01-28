@@ -190,6 +190,16 @@
     "flags": [ "POCKETS", "OVERSIZE" ]
   },
   {
+    "id": "jumpsuit_xs",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "jumpsuit",
+    "name": { "str": "XS jumpsuit" },
+    "description": "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "UNDERSIZE" ]
+  },
+  {
     "id": "robofac_jumpsuit",
     "repairs_like": "jumpsuit",
     "type": "ARMOR",

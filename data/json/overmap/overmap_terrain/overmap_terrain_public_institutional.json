@@ -109,6 +109,70 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "police_dept_u000",
+      "police_dept_u010",
+      "police_dept_u100",
+      "police_dept_u110",
+      "police_dept_u001",
+      "police_dept_u011",
+      "police_dept_u101",
+      "police_dept_u111",
+      "police_dept_u002",
+      "police_dept_u012",
+      "police_dept_u102",
+      "police_dept_u112",
+      "police_dept_d000",
+      "police_dept_d010",
+      "police_dept_d100",
+      "police_dept_d110",
+      "police_dept_d001",
+      "police_dept_d011",
+      "police_dept_d101",
+      "police_dept_d111",
+      "police_dept_d002",
+      "police_dept_d012",
+      "police_dept_d102",
+      "police_dept_d112"
+    ],
+    "name": "police department",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow",
+    "extend": { "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "police_dept_u002",
+      "police_dept_u012",
+      "police_dept_u102",
+      "police_dept_u112",
+      "police_dept_d002",
+      "police_dept_d012",
+      "police_dept_d102",
+      "police_dept_d112"
+    ],
+    "name": "police department roof",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "police_dept_skyway", "police_dept_skyway_roof" ],
+    "name": "skybridge",
+    "copy-from": "generic_city_building",
+    "sym": "│",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "police_dept_b00", "police_dept_b10", "police_dept_b01", "police_dept_b11" ],
+    "name": "police department garage",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_hospital",
     "copy-from": "generic_city_building",
     "name": "hospital",
