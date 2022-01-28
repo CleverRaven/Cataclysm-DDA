@@ -1,14 +1,18 @@
+# 
 # Translators:
-# KosmicGR <KosmasLink99@gmail.com>, 2019
 # LaScapigliata <ditri2000@hotmail.com>, 2019
+# KosmicGR <KosmasLink99@gmail.com>, 2019
+# Johnny Darko <j.papadopulos@gmail.com>, 2020
+# Stelios Stamatis <5t3liostamatis@gmail.com>, 2021
+# sappergr, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-26 11:55+0800\n"
+"POT-Creation-Date: 2019-02-22 10:10+0800\n"
 "PO-Revision-Date: 2019-02-25 09:21+0000\n"
-"Last-Translator: LaScapigliata <ditri2000@hotmail.com>, 2019\n"
+"Last-Translator: sappergr, 2021\n"
 "Language-Team: Greek (https://www.transifex.com/cataclysm-dda-translators/teams/2217/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,10 +31,12 @@ msgstr[1] ""
 msgid ""
 "A set of universal batteries.  Used to charge almost any electronic device."
 msgstr ""
+"Ένα σετ κοινών μπαταριών. Χρησιμοποιείται για τη φόρτιση σχεδόν οποιασδήποτε"
+" ηλεκτρονικής συσκευής."
 
 #: lang/json/AMMO_from_json.py
 msgid "aluminum foil"
-msgstr ""
+msgstr "αλουμινόχαρτο"
 
 #. ~ Description for aluminum foil
 #: lang/json/AMMO_from_json.py
@@ -38,44 +44,48 @@ msgid ""
 "A thin foil made of aluminum.  Sometimes called 'tin foil' due to being made"
 " of tin in the past."
 msgstr ""
+"Ένα λεπτό φύλλο από αλουμίνιο. Μερικές φορές ονομάζεται \"φύλλο κασσίτερου\""
+" λόγω της κατασκευής από κασσίτερο στο παρελθόν."
 
 #: lang/json/AMMO_from_json.py
 msgid "cent"
-msgstr ""
+msgstr "σεντ"
 
 #. ~ Description for cent
 #. ~ Description for placeholder ammunition
 #. ~ Description for software
 #: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
 msgid "IF YOU ARE SEEING THIS IT IS A BUG."
-msgstr ""
+msgstr "ΑΝ ΤΟ ΔΕΙΣ ΑΥΤΟ ΕΙΝΑΙ ΣΦΑΛΜΑ."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "thread"
-msgstr ""
+msgstr "νήμα"
 
 #. ~ Description for thread
 #: lang/json/AMMO_from_json.py
 msgid "A small quantity of thread that could be used to refill a sewing kit."
 msgstr ""
+"Μια μικρή ποσότητα νήματος που θα μπορούσε να ξαναγεμίσει ένα σετ ραπτικής."
 
 #: lang/json/AMMO_from_json.py
 msgid "sinew"
-msgstr ""
+msgstr "τένοντας"
 
 #. ~ Description for sinew
 #: lang/json/AMMO_from_json.py
 msgid "A tough sinew cut from a corpse, usable as thread."
-msgstr ""
+msgstr "Ένας σκληρός τένοντας κομμένος από ένα πτώμα, χρήσιμος ως νήμα."
 
 #: lang/json/AMMO_from_json.py
 msgid "plant fiber"
-msgstr ""
+msgstr "φυτική ίνα"
 
 #. ~ Description for plant fiber
 #: lang/json/AMMO_from_json.py
 msgid "Tough thin fiber, taken from a plant.  Can be used as thread."
 msgstr ""
+"Σκληρή, λεπτή ίνα, παρμένη από ένα φυτό. Μπορεί να χρησιμοποιηθεί ως νήμα."
 
 #: lang/json/AMMO_from_json.py
 msgid "yarn"
@@ -85,42 +95,47 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "Wool yarn, could be used to knit wool clothing."
 msgstr ""
+"Νήματα από μαλλί, θα μπορούσε να χρησιμοποιηθεί για πλέξιμο μάλλινων ρούχων."
 
 #: lang/json/AMMO_from_json.py
 msgid "soap bar"
-msgstr ""
+msgstr "σαπούνι"
 
 #. ~ Description for soap bar
 #: lang/json/AMMO_from_json.py
 msgid "A cleansing agent made into bars."
-msgstr ""
+msgstr "Ένα μέσο καθαρισμού κατασκευασμένο σε ράβδους."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "duct tape"
-msgstr ""
+msgstr "κολλητική ταινία"
 
 #. ~ Description for duct tape
 #: lang/json/AMMO_from_json.py
 msgid "A roll of incredibly strong tape.  Its uses are innumerable."
-msgstr ""
+msgstr "Ένα ρολό ιδιαίτερα ισχυρής ταινίας. Οι χρήσεις της είναι αμέτρητες."
 
 #: lang/json/AMMO_from_json.py
 msgid "rolling paper"
-msgstr ""
+msgstr "χαρτάκια στριφτού"
 
 #. ~ Description for rolling paper
 #: lang/json/AMMO_from_json.py
 msgid "These are thin paper strips intended for the rolling of cigarettes."
 msgstr ""
+"Αυτές είναι λεπτές χάρτινες λωρίδες που προορίζονται για το στρίψιμο των "
+"τσιγάρων."
 
 #: lang/json/AMMO_from_json.py
 msgid "copper wire"
-msgstr ""
+msgstr "χάλκινο σύρμα"
 
 #. ~ Description for copper wire
 #: lang/json/AMMO_from_json.py
 msgid "Plastic jacketed copper cable of the type used in small electronics."
 msgstr ""
+"Πλαστικό καλώδιο χαλκού με περίβλημα του τύπου που χρησιμοποιείται σε μικρές"
+" ηλεκτρονικές συσκευές."
 
 #: lang/json/AMMO_from_json.py
 msgid "plutonium cell"
@@ -131,10 +146,12 @@ msgstr ""
 msgid ""
 "A nuclear-powered battery.  Used to charge advanced and rare electronics."
 msgstr ""
+"Μια πυρηνική μπαταρία. Χρησιμοποιείται για την φόρτιση προηγμένων και "
+"σπάνιων ηλεκτρονικών συσκευών."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "plutonium slurry"
-msgstr ""
+msgstr "πολτό πλουτωνίου"
 
 #. ~ Description for plutonium slurry
 #. ~ Description for watery plutonium slurry
@@ -142,6 +159,7 @@ msgstr ""
 msgid ""
 "Highly radioactive slurry.  It is probably best to get far away from this."
 msgstr ""
+"Ιδιαίτερα ραδιενεργό πολτό. Είναι ίσως καλύτερο να απομακρυνθείτε από αυτό."
 
 #: lang/json/AMMO_from_json.py
 msgid "watery plutonium slurry"
@@ -149,22 +167,23 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "pebble"
-msgstr ""
+msgstr "χαλίκι"
 
 #. ~ Description for pebble
 #: lang/json/AMMO_from_json.py
 msgid "A handful of pebbles, useful as ammunition for slings or slingshots."
-msgstr ""
+msgstr "Μια χούφτα από χαλίκια, χρήσιμα ως πυρομαχικά για σφενδόνες."
 
 #: lang/json/AMMO_from_json.py
 msgid "marble"
-msgstr ""
+msgstr "μπίλια"
 
 #. ~ Description for marble
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A handful of glass marbles, useful as ammunition for slings or slingshots."
 msgstr ""
+"Μια χούφτα από γυάλινες μπίλιες, χρήσιμες ως πυρομαχικά για σφενδόνες."
 
 #: lang/json/AMMO_from_json.py
 msgid "bearings"
@@ -174,15 +193,18 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "A box of ball bearings, useful as ammunition for slings or slingshots."
 msgstr ""
+"Ένα κουτί από σφαιρίδια του ρουλεμάν, χρήσιμα ως πυρομαχικά για σφενδόνες."
 
 #: lang/json/AMMO_from_json.py
 msgid "BB"
-msgstr ""
+msgstr "BB"
 
 #. ~ Description for BB
 #: lang/json/AMMO_from_json.py
 msgid "A box of small steel balls.  They deal virtually no damage."
 msgstr ""
+"Ένα κουτί με μικρές ατσάλινες μπάλες. Ουσιαστικά δεν κάνουν σχεδόν καθόλου "
+"ζημιά."
 
 #: lang/json/AMMO_from_json.py
 msgid "feather"
@@ -191,20 +213,20 @@ msgstr "φτερό"
 #. ~ Description for feather
 #: lang/json/AMMO_from_json.py
 msgid "Feathers from a bird.  Useful for fletching arrows."
-msgstr ""
+msgstr "Φτερά από πουλί. Χρήσιμο για τα βέλη"
 
 #: lang/json/AMMO_from_json.py
 msgid "down feather"
-msgstr ""
+msgstr "πούπουλο"
 
 #. ~ Description for down feather
 #: lang/json/AMMO_from_json.py
 msgid "Fluffy down feathers from a bird.  Useful for making cozy bedclothes."
-msgstr ""
+msgstr "Αφράτα πούπουλα πουλιού. Χρήσιμα για δημιουργία ζεστών σκεπασμάτων."
 
 #: lang/json/AMMO_from_json.py
 msgid "fusion pack"
-msgstr ""
+msgstr "πακέτο σύντηξης"
 
 #. ~ Description for fusion pack
 #: lang/json/AMMO_from_json.py
@@ -213,10 +235,14 @@ msgid ""
 "energy based weapons.  The result was the standard fusion pack, capable of "
 "delivering bolts of superheated gas at near light speed with no recoil."
 msgstr ""
+"Στα μέσα του 21ου αιώνα, οι στρατιωτικές δυνάμεις άρχισαν να δείχνουν τα "
+"όπλα με βάση την ενέργεια. Το αποτέλεσμα ήταν το τυπικό πακέτο σύντηξης, "
+"ικανό να παραδώσει μπουλόνια υπερθερμαινόμενου αερίου σε κοντινή ταχύτητα "
+"φωτός χωρίς ανάκρουση."
 
 #: lang/json/AMMO_from_json.py
 msgid "66mm HEAT"
-msgstr ""
+msgstr "66mm HEAT"
 
 #. ~ Description for 66mm HEAT
 #: lang/json/AMMO_from_json.py
@@ -224,20 +250,24 @@ msgid ""
 "A 60mm high-explosive anti-tank round.  It could blow through up to two feet"
 " of concrete."
 msgstr ""
+"Αντιαρματικά πυρομαχικά  60mm υψηλής εκρηκτικότητας. Μπορεί να διαπεράσει "
+"μέχρι και δύο μέτρα τσιμέντο."
 
 #: lang/json/AMMO_from_json.py
 msgid "120mm HEAT"
-msgstr ""
+msgstr "120mm HEAT"
 
 #. ~ Description for 120mm HEAT
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A 120mm high-explosive anti-tank round.  It could ruin anyone's whole day."
 msgstr ""
+"Ένα ισχυρό εκρηκτικό αντιαρματικό βλήμα. Θα μπορούσε να καταστρέψει τη μέρα "
+"οποιουδήποτε."
 
 #: lang/json/AMMO_from_json.py
 msgid "hydrogen canister"
-msgstr ""
+msgstr "κάνιστρα υδρογόνου"
 
 #. ~ Description for hydrogen canister
 #: lang/json/AMMO_from_json.py
@@ -245,6 +275,8 @@ msgid ""
 "A canister of pressurized hydrogen so heavily compressed it has turned "
 "solid.  With proper equipment, it could be heated to plasma."
 msgstr ""
+"Κάνιστρο πεπιεσμένου υδρογόνου τόσο ισχυρά συμπιεσμένο που έχει γίνει "
+"στερεό. Με σωστό εξοπλισμό, μπορεί να θερμανθεί σε πλάσμα."
 
 #: lang/json/AMMO_from_json.py
 msgid "unused .22 casing"
@@ -257,7 +289,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "gunpowder"
-msgstr ""
+msgstr "μπαρούτι"
 
 #. ~ Description for gunpowder
 #: lang/json/AMMO_from_json.py
@@ -271,7 +303,7 @@ msgstr ""
 #. ~ Description for oxidizer powder
 #: lang/json/AMMO_from_json.py
 msgid "Volatile powdered chemical oxidizer."
-msgstr ""
+msgstr "Πτητικός χημικός οξειδωτής σε σκόνη."
 
 #: lang/json/AMMO_from_json.py
 msgid "lye powder"
@@ -280,7 +312,7 @@ msgstr ""
 #. ~ Description for lye powder
 #: lang/json/AMMO_from_json.py
 msgid "Powdered caustic soda."
-msgstr ""
+msgstr "Σκόνη καυστικής σόδας."
 
 #: lang/json/AMMO_from_json.py
 msgid "shotgun primer"
@@ -298,7 +330,7 @@ msgstr ""
 #. ~ Description for small pistol primer
 #: lang/json/AMMO_from_json.py
 msgid "Primer from a small caliber pistol round."
-msgstr ""
+msgstr "Καψύλλιο από σφαίρα για μικρού διαμέτρου πιστόλι."
 
 #: lang/json/AMMO_from_json.py
 msgid "large pistol primer"
@@ -307,7 +339,7 @@ msgstr ""
 #. ~ Description for large pistol primer
 #: lang/json/AMMO_from_json.py
 msgid "Primer from a large caliber pistol round."
-msgstr ""
+msgstr "Καψύλλια από σφαίρα για μεγάλου διαμέτρου πιστόλι."
 
 #: lang/json/AMMO_from_json.py
 msgid "small rifle primer"
@@ -316,7 +348,7 @@ msgstr ""
 #. ~ Description for small rifle primer
 #: lang/json/AMMO_from_json.py
 msgid "Primer from a small caliber rifle round."
-msgstr ""
+msgstr "Πυροκροτητής σφαίρας από μικρού διαμετρήματος τουφέκι."
 
 #: lang/json/AMMO_from_json.py
 msgid "large rifle primer"
@@ -325,7 +357,7 @@ msgstr ""
 #. ~ Description for large rifle primer
 #: lang/json/AMMO_from_json.py
 msgid "Primer from a large caliber rifle round."
-msgstr ""
+msgstr "Πυροκροτητής σφαίρας για μεγάλου διαμετρήματος τουφέκι."
 
 #: lang/json/AMMO_from_json.py
 msgid "rubber slug"
@@ -340,7 +372,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "copper"
-msgstr ""
+msgstr "χαλκός"
 
 #. ~ Description for copper
 #: lang/json/AMMO_from_json.py
@@ -358,6 +390,8 @@ msgstr ""
 msgid ""
 "A small spool of solder, able to be used in ammunition and electronics."
 msgstr ""
+"Ένα μικρό καρούλι καλάι, ικανό να χρησιμοποιηθεί σε πυρομαχικά και "
+"ηλεκτρονικά."
 
 #: lang/json/AMMO_from_json.py
 msgid "tin"
@@ -367,6 +401,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "Tin and pewter scraps.  Usable in making ammo."
 msgstr ""
+"Κασσίτερος και υπολείμματα κασσιτέρου. Αξιοποιήσιμο στην κατασκευή "
+"πυρομαχικών."
 
 #: lang/json/AMMO_from_json.py
 msgid "medical tape"
@@ -375,7 +411,7 @@ msgstr "ιατρική ταινία"
 #. ~ Description for medical tape
 #: lang/json/AMMO_from_json.py
 msgid "A roll of medical tape, similar to duct tape."
-msgstr ""
+msgstr "Ένα ρολό ιατρικής ταινίας, παρόμοιο με μονωτική ταινία."
 
 #: lang/json/AMMO_from_json.py
 msgid "PG-7VL 93mm rocket"
@@ -384,7 +420,7 @@ msgstr ""
 #. ~ Description for PG-7VL 93mm rocket
 #: lang/json/AMMO_from_json.py
 msgid "93mm single-stage high-explosive ammunition for the RPG-7."
-msgstr ""
+msgstr "93mm μονής φάσης, υψηλής εκρηκτικής δύναμης πυρομαχικά για το RPG-7."
 
 #: lang/json/AMMO_from_json.py
 msgid "M235 66mm TPA rocket"
@@ -397,6 +433,9 @@ msgid ""
 "warheads are filled with a thickened pyrophoric agent, which burns at 2200 "
 "degrees Fahrenheit."
 msgstr ""
+"66mm εμπρηστικές ρουκέτες που χρησιμοποιούνται στον εκτοξευτή πυραύλων M202 "
+"FLASH. Οι κεφαλές τους είναι γεμάτες με έναν παχύρρευστο πυροφορικό "
+"παράγοντα, ο οποίος καίει στους 2200 βαθμούς Φαρενάιτ."
 
 #: lang/json/AMMO_from_json.py
 msgid "placeholder ammunition"
@@ -404,7 +443,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "charcoal"
-msgstr ""
+msgstr "ξυλοκάρβουνο"
 
 #. ~ Description for charcoal
 #: lang/json/AMMO_from_json.py
@@ -416,7 +455,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "coal"
-msgstr ""
+msgstr "κάρβουνο"
 
 #. ~ Description for coal
 #: lang/json/AMMO_from_json.py
@@ -449,6 +488,10 @@ msgid ""
 " be activated by a Rivtech jet injector device.  A label on the side warns "
 "against using more than two doses per hour."
 msgstr ""
+"Ένα μικροσκοπικό γυάλινο φιαλίδιο γεμάτο με προηγμένες ταχείας θεραπείας "
+"χημικές ουσίες που μπορούν να ενεργοποιηθούν μόνο από μια συσκευή έγχυσης "
+"Jet Rivtech. Μια ετικέτα στην πλευρά προειδοποιεί για τη μη χρήση "
+"περισσότερων από δύο δόσεις ανά ώρα."
 
 #: lang/json/AMMO_from_json.py
 msgid "RA10K stimulant module"
@@ -469,16 +512,16 @@ msgstr ""
 #. ~ Description for rebreather filter cartridge
 #: lang/json/AMMO_from_json.py
 msgid "A replacement filter cartridge for a rebreather."
-msgstr ""
+msgstr "Φίλτρο αντικατάστασης αναπνευστήρα."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "filter mask cartridge"
-msgstr ""
+msgstr "κασέτα μάσκα φίλτρου"
 
 #. ~ Description for filter mask cartridge
 #: lang/json/AMMO_from_json.py
 msgid "Small replacement filter cartridge for air filtration masks."
-msgstr ""
+msgstr "Μικρό ανταλλακτικό φίλτρο για μάσκες φιλτραρίσματος του αέρα"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "gas mask cartridge"
@@ -500,7 +543,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "nicotine liquid"
-msgstr ""
+msgstr "Υγρό νικοτίνης"
 
 #. ~ Description for nicotine liquid
 #: lang/json/AMMO_from_json.py
@@ -508,15 +551,17 @@ msgid ""
 "A liquid that is made up of propylene glycol, vegetable glycerin, flavorings"
 " and nicotine."
 msgstr ""
+"Ένα υγρό που περιέχει προπυλενογλυκόλη, φυτική γλυκερίνη, αρωματικές ουσίες "
+"και νικοτίνη."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "fish bait"
-msgstr ""
+msgstr "δόλωμα ψαρέματος"
 
 #. ~ Description for fish bait
 #: lang/json/AMMO_from_json.py
 msgid "A bait used in traps to lure fish."
-msgstr ""
+msgstr "Δόλωμα που χρησιμοποιείται στις παγίδες για προσέλκυση ψαριών"
 
 #: lang/json/AMMO_from_json.py
 msgid "oxygen"
@@ -525,7 +570,7 @@ msgstr ""
 #. ~ Description for oxygen
 #: lang/json/AMMO_from_json.py
 msgid "A canister of oxygen."
-msgstr ""
+msgstr "Μία φιάλη οξυγόνου."
 
 #: lang/json/AMMO_from_json.py
 msgid "spiked home-made rocket"
@@ -768,6 +813,8 @@ msgid ""
 "This arrow has a flaming rag wrapped around the shaft near the head.  You "
 "should shoot it soon before it burns your bow."
 msgstr ""
+"Αυτό το βέλος έχει ένα φλεγόμενο πανί τυλιγμένο γύρω από το κοντάρι κοντά "
+"στη μύτη. Θα πρέπει να το εκτοξεύσετε σύντομα πριν κάψει το τόξο σας."
 
 #: lang/json/AMMO_from_json.py
 msgid "throwing knife"
@@ -781,6 +828,8 @@ msgid ""
 "A thin and flat knife made for throwing.  Its ineffective cutting edge and "
 "odd shape makes it unsuitable for use as a tool."
 msgstr ""
+"Ένα λεπτό και επίπεδο μαχαίρι φτιαγμένο για ρίψη. Η αναποτελεσματική αιχμή "
+"και το περίεργο σχήμα το καθιστούν ακατάλληλο για χρήση ως εργαλείο."
 
 #: lang/json/AMMO_from_json.py
 msgid "throwing axe"
@@ -792,6 +841,8 @@ msgid ""
 "A lightweight hatchet made for throwing.  Its ineffective cutting edge and "
 "light weight makes it unsuitable for use as a tool."
 msgstr ""
+"Ένα ελαφρύς πέλεκυς φτιαγμένος για ρίψη. Η αναποτελεσματική αιχμή και το "
+"ελαφρύ βάρος του το καθιστούν ακατάλληλο για χρήση ως εργαλείο."
 
 #: lang/json/AMMO_from_json.py
 msgid "lawn dart"
@@ -800,7 +851,7 @@ msgstr ""
 #. ~ Description for lawn dart
 #: lang/json/AMMO_from_json.py
 msgid "A large plastic dart made for outdoor games."
-msgstr ""
+msgstr "Ένα μεγάλο πλαστικό βέλος φτιαγμένο για υπαίθρια παιχνίδια."
 
 #: lang/json/AMMO_from_json.py
 msgid "wooden fishing spear"
@@ -900,6 +951,10 @@ msgid ""
 "ubiquitous binder can be used for all kinds of advanced masonry.  Just add "
 "water."
 msgstr ""
+"Το Πόρτλαντ πιθανότατα να είναι παρελθόν εδώ και πολύ καιρό, αλλά η μνήμη "
+"του παραμένει στο τσιμέντο. Αυτό το πολυχρησιμοποίητο συνδετικό υλικό μπορεί"
+" να χρησιμοποιηθεί για όλα τα είδη προηγμένης τοιχοποιίας. Απλά προσθέστε "
+"νερό."
 
 #: lang/json/AMMO_from_json.py
 msgid "limestone"
@@ -942,6 +997,9 @@ msgid ""
 "A handful of New England sand.  If you had a stoked furnace, you could turn "
 "it into glass.  Otherwise, it's only good for making cement."
 msgstr ""
+"Μια χούφτα άμμου της Νέας Αγγλίας. Εάν είχατε έναν κλίβανο, θα μπορούσατε να"
+" την μετατρέψετε σε γυαλί. Διαφορετικά, είναι καλό μόνο για την κατασκευή "
+"τσιμέντου."
 
 #: lang/json/AMMO_from_json.py
 msgid "aluminum powder"
@@ -1324,6 +1382,8 @@ msgid ""
 "A sharp bolt made from steel.  Deadly in skilled hands.  Stands an excellent"
 " chance of remaining intact once fired."
 msgstr ""
+"Ένα αιχμηρό βέλος βαλλίστρας κατασκευασμένα από χάλυβα. Θανατηφόρο σε "
+"έμπειρα χέρια. Έχει μεγάλη πιθανότητα να παραμείνει άθικτο μόλις εκτοξευθεί."
 
 #: lang/json/AMMO_from_json.py
 msgid "steel bodkin bolt"
@@ -1359,6 +1419,9 @@ msgid ""
 "unwieldy and only provides moderate accuracy, due to being filled with "
 "explosives and fitted with an impact trigger."
 msgstr ""
+"Ένα ελαφρύ, αιχμηρό βέλος βαλλίστρας φτιαγμένο από κάποιο είδος μετάλλου. "
+"Είναι αρκετά δύσκαμπτο και παρέχει μέτρια ακρίβεια, λόγω του ότι είναι "
+"γεμάτο με εκρηκτικά και εφοδιασμένο με έναν εκπυρσοκροτητή."
 
 #: lang/json/AMMO_from_json.py
 msgid "ethanol"
@@ -1421,6 +1484,8 @@ msgid ""
 "Gasoline is a highly flammable liquid.  When under pressure, it has the "
 "potential for violent explosion."
 msgstr ""
+"Η βενζίνη είναι ένα πολύ εύφλεκτο υγρό. Όταν βρίσκεται υπό πίεση, έχει τη "
+"δυνατότητα να εκραγεί βίαια."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "lamp oil"
@@ -1431,7 +1496,7 @@ msgstr[1] ""
 #. ~ Description for lamp oil
 #: lang/json/AMMO_from_json.py
 msgid "A thin and clean-burning oil made for use in oil lamps."
-msgstr ""
+msgstr "Ένα λεπτό και καθαρό λάδι φτιαγμένο για χρήση σε λαμπτήρες λαδιού."
 
 #: lang/json/AMMO_from_json.py
 msgid "napalm"
@@ -1446,6 +1511,9 @@ msgid ""
 "surface and increase burning temperature, meant to be used with a "
 "flamethrower."
 msgstr ""
+"Αυτή η βενζίνη είναι αναμεμιγμένη με μερικά άλλα συστατικά για να κολλάει "
+"στην επιφάνεια και να αυξάνει τη θερμοκρασία καύσης, προορίζεται να "
+"χρησιμοποιηθεί με ένα φλογοβόλο."
 
 #: lang/json/AMMO_from_json.py
 msgid "red paint"
@@ -1456,7 +1524,7 @@ msgstr[1] ""
 #. ~ Description for red paint
 #: lang/json/AMMO_from_json.py
 msgid "A can of red paint."
-msgstr ""
+msgstr "Ένα δοχείο κόκκινης μπογιάς."
 
 #: lang/json/AMMO_from_json.py
 msgid "blue paint"
@@ -1467,7 +1535,7 @@ msgstr[1] ""
 #. ~ Description for blue paint
 #: lang/json/AMMO_from_json.py
 msgid "A can of blue paint."
-msgstr ""
+msgstr "Ένα δοχείο μπλε μπογιάς."
 
 #: lang/json/AMMO_from_json.py
 msgid "white paint"
@@ -1478,7 +1546,7 @@ msgstr[1] ""
 #. ~ Description for white paint
 #: lang/json/AMMO_from_json.py
 msgid "A can of white paint."
-msgstr ""
+msgstr "Ένα δοχείο άσπρης μπογιάς."
 
 #: lang/json/AMMO_from_json.py
 msgid "green paint"
@@ -1489,7 +1557,7 @@ msgstr[1] ""
 #. ~ Description for green paint
 #: lang/json/AMMO_from_json.py
 msgid "A can of green paint."
-msgstr ""
+msgstr "Ένα δοχείο πράσινης μπογιάς."
 
 #: lang/json/AMMO_from_json.py
 msgid "purple paint"
@@ -1500,7 +1568,7 @@ msgstr[1] ""
 #. ~ Description for purple paint
 #: lang/json/AMMO_from_json.py
 msgid "A can of purple paint."
-msgstr ""
+msgstr "Ένα δοχείο μωβ μπογιάς."
 
 #: lang/json/AMMO_from_json.py
 msgid "yellow paint"
@@ -1511,7 +1579,7 @@ msgstr[1] ""
 #. ~ Description for yellow paint
 #: lang/json/AMMO_from_json.py
 msgid "A can of yellow paint."
-msgstr ""
+msgstr "Ένα δοχείο κίτρινης μπογιάς."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "red carpet"
@@ -1520,7 +1588,7 @@ msgstr ""
 #. ~ Description for red carpet
 #: lang/json/AMMO_from_json.py
 msgid "A roll of red carpet."
-msgstr ""
+msgstr "Ένα ρολό από κόκκινο χαλί."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "green carpet"
@@ -1529,7 +1597,7 @@ msgstr ""
 #. ~ Description for green carpet
 #: lang/json/AMMO_from_json.py
 msgid "A roll of green carpet."
-msgstr ""
+msgstr "Ένα ρολό από πράσινο χαλί."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "yellow carpet"
@@ -1538,7 +1606,7 @@ msgstr ""
 #. ~ Description for yellow carpet
 #: lang/json/AMMO_from_json.py
 msgid "A roll of yellow carpet."
-msgstr ""
+msgstr "Ένα ρολό από κίτρινο χαλί."
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "purple carpet"
@@ -1547,7 +1615,7 @@ msgstr ""
 #. ~ Description for purple carpet
 #: lang/json/AMMO_from_json.py
 msgid "A roll of purple carpet."
-msgstr ""
+msgstr "Ένα ρολό από μωβ χαλί."
 
 #: lang/json/AMMO_from_json.py
 msgid "shrapnel"
@@ -1593,7 +1661,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "bootleg fusion pack"
-msgstr ""
+msgstr "παράνομο πακέτο σύντηξης"
 
 #. ~ Description for bootleg fusion pack
 #: lang/json/AMMO_from_json.py
@@ -1603,6 +1671,11 @@ msgid ""
 "delivering bolts of superheated gas at near light speed with no recoil.  "
 "This one has been hand-crafted from spare parts."
 msgstr ""
+"Στα μέσα του 21ου αιώνα, οι στρατιωτικές δυνάμεις άρχισαν να δείχνουν τα "
+"όπλα με βάση την ενέργεια. Το αποτέλεσμα ήταν το τυπικό πακέτο σύντηξης, "
+"ικανό να παραδώσει βολίδες υπερθερμαινόμενου αερίου σε κοντινή ταχύτητα "
+"φωτός χωρίς ανάκρουση. Αυτό εδώ είναι χειροποίητο και φτιαγμένο από "
+"ανταλλακτικά."
 
 #: lang/json/AMMO_from_json.py
 msgid "H&K 12mm"
@@ -1614,6 +1687,8 @@ msgid ""
 "The Heckler & Koch 12mm projectiles are used in H&K railguns.  It's made of "
 "a ferromagnetic metal, probably cobalt."
 msgstr ""
+"Τα βλήματα των Heckler & Koch 12mm χρησιμοποιούνται στα αεροπολυβόλα H&K. "
+"Είναι φτιαγμένα από φερρομαγνητικό μέταλλο, μάλλον κοβαλτίου."
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm beanbag"
@@ -1626,6 +1701,9 @@ msgid ""
 "ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be "
 "disassembled or reloaded."
 msgstr ""
+"20x66mm σφαίρες χωρίς κασετίνα, τύπου beanbag. Ιδιόκτητα πυρομαχικά για "
+"καραμπίνες Rivtech. Οι σφαίρες δεν μπορούν να αποσυναρμολογηθούν ή να "
+"οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "handmade 20x66mm flechette"
@@ -1637,6 +1715,8 @@ msgid ""
 "Handcrafted bootleg duplicates of Rivtech 20x66mm caseless flechette rounds."
 "  Being caseless rounds, these cannot be disassembled or reloaded."
 msgstr ""
+"Χειροποίητα λαθραίο αντίγραφα του Rivtech 20x66mm χωρίς κασετίνα τύπου "
+"flechette. Οι σφαίρες δεν μπορούν να αποσυναρμολογηθούν ή να οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "handmade 20x66mm buckshot"
@@ -1648,6 +1728,8 @@ msgid ""
 "Handcrafted bootleg duplicates of Rivtech 20x66mm caseless buckshot rounds."
 "  Being caseless rounds, these cannot be disassembled or reloaded."
 msgstr ""
+"Χειροποίητα λαθραίο αντίγραφα του Rivtech 8x40mm χωρίς κασετίνα τύπου "
+"buckshot. Οι σφαίρες δεν μπορούν να αποσυναρμολογηθούν ή να οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "handmade 20x66mm slug"
@@ -1659,6 +1741,8 @@ msgid ""
 "Handcrafted bootleg duplicates of Rivtech 20x66mm caseless solid projectile "
 "rounds.  Being caseless rounds, these cannot be disassembled or reloaded."
 msgstr ""
+"Χειροποίητα λαθραία αντίγραφα του Rivtech 20x66mm χωρίς κασετίνα βλήματα. Τα"
+" βλήματα δεν μπορούν να αποσυναρμολογηθούν ή να οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm explosive"
@@ -1671,6 +1755,9 @@ msgid ""
 "ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be "
 "disassembled or reloaded."
 msgstr ""
+"20x66mm χωρίς κασετίνα, εκρηκτικός τύπος βλήματος. Ιδιόκτητα πυρομαχικά για "
+"καραμπίνες Rivtech. Οι σφαίρες δεν μπορούν να αποσυναρμολογηθούν ή να "
+"οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm flare"
@@ -1683,6 +1770,9 @@ msgid ""
 "for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled "
 "or reloaded."
 msgstr ""
+"20x66mm χωρίς κασετίνα, τύπου φωτοβολίδας. Ιδιόκτητα πυρομαχικά για "
+"καραμπίνες Rivtech. Οι σφαίρες δεν μπορούν να αποσυναρμολογηθούν ή να "
+"οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm flechette"
@@ -1695,6 +1785,8 @@ msgid ""
 " Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or "
 "reloaded."
 msgstr ""
+"20x66mm χωρίς κασετίνα, τύπου flechette, Ιδιόκτητα πυρομαχικά για καραμπίνες"
+" Rivtech. Οι σφαίρες δεν μπορούν να αποσυναρμολογηθούν ή να οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm frag"
@@ -1707,6 +1799,9 @@ msgid ""
 "ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be "
 "disassembled or reloaded."
 msgstr ""
+"20x66mm χωρίς κασετίνα, εκρηκτικά-διατρητικές. Ιδιόκτητα πυρομαχικά για "
+"καραμπίνες Rivtech. Οι σφαίρες δεν μπορούν να αποσυναρμολογηθούν ή να "
+"οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm incendiary"
@@ -1719,6 +1814,8 @@ msgid ""
 "for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled "
 "or reloaded."
 msgstr ""
+"20x66mm χωρίς κασετίνα, εμπρηστικές. Ιδιόκτητα πυρομαχικά για καραμπίνες "
+"Rivtech. Οι σφαίρες δεν μπορούν να αποσυναρμολογηθούν ή να οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm buckshot"
@@ -1731,6 +1828,9 @@ msgid ""
 "Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or "
 "reloaded."
 msgstr ""
+"20x66mm σφαίρες χωρίς κασετίνα, τύπου buckshot. Ιδιόκτητα πυρομαχικά για "
+"καραμπίνες Rivtech. Οι σφαίρες δεν μπορούν να αποσυναρμολογηθούν ή να "
+"οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm slug"
@@ -1743,6 +1843,9 @@ msgid ""
 "ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be "
 "disassembled or reloaded."
 msgstr ""
+"20x66mm χωρίς κασετίνα, συμπαγής τύπος βλήματος. Ιδιόκτητα πυρομαχικά για "
+"καραμπίνες Rivtech. Οι σφαίρες δεν μπορούν να αποσυναρμολογηθούν ή να "
+"οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid ".22 CB"
@@ -1873,6 +1976,10 @@ msgid ""
 "many shooting disciplines.  The cartridge has found use by hunters, military"
 " units, and law enforcement departments.  This one has been hand-reloaded."
 msgstr ""
+"Το .300 Winchester Magnum είναι εξαιρετικά ευπροσάρμοστο και έχει υιοθετηθεί"
+" από πολλούς κλάδους που οπλοφορούν. Το όπλο έχει βρει χρήση από κυνηγούς, "
+"στρατιωτικές μονάδες και τμήματα επιβολής του νόμου. Αυτό εδώ έχει "
+"επαναφορτωθεί με το χέρι."
 
 #: lang/json/AMMO_from_json.py
 msgid ".270 Winchester"
@@ -2043,6 +2150,8 @@ msgid ""
 "A paper cartridge containing a premeasured amount of black powder and a .36 "
 "projectile.  Used by the Colt M1861 Navy."
 msgstr ""
+"Ένα χάρτινο φυσίγγιο που περιέχει μια προκαθορισμένη ποσότητα πυρίτιδας και "
+"ένα βλήμα .36mm. Χρησιμοποιείται από το Navy Colt M1861."
 
 #: lang/json/AMMO_from_json.py
 msgid ".38 FMJ"
@@ -2164,6 +2273,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "A 40mm beanbag that deals massive, but less-lethal, force."
 msgstr ""
+"Μία 40mm beanbag βολίδα που ελευθερώνει τεράστια, αλλά λιγότερο θανατηφόρα, "
+"δύναμη."
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm concussive"
@@ -2172,7 +2283,7 @@ msgstr ""
 #. ~ Description for 40mm concussive
 #: lang/json/AMMO_from_json.py
 msgid "A 40mm grenade with a concussive explosion load."
-msgstr ""
+msgstr "Μια χειροβομβίδα 40mm με φορτίο έκρηξης από διάσειση."
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm flare"
@@ -2184,6 +2295,8 @@ msgid ""
 "A 40mm signal flare.  It will burn brightly for up to a minute, and will "
 "also leave a streak of smoke cover in its wake."
 msgstr ""
+"Μια φωτοβολίδα 40mm. Θα καεί φωτεινά για ένα λεπτό, και θα αφήσει μια σειρά "
+"από κάλυμμα καπνού στο πέρασμά του."
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm flashbang"
@@ -2195,6 +2308,9 @@ msgid ""
 "A 40mm grenade with a flashbang load.  It will detonate with a blast of "
 "light and sound, designed to blind, deafen, and disorient anyone nearby."
 msgstr ""
+"Μια χειροβομβίδα 40mm με φορτίο κρότου λάμψης. Θα εκραγεί με μια ριπή φωτός "
+"και ήχου, σχεδιασμένη να τυφλώνει, να κουφαίνει και να αποπροσανατολίζει "
+"οποιονδήποτε είναι κοντά."
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm flechette"
@@ -2203,7 +2319,7 @@ msgstr ""
 #. ~ Description for 40mm flechette
 #: lang/json/AMMO_from_json.py
 msgid "A 40mm grenade with an armor-piercing flechette load."
-msgstr ""
+msgstr "Μια χειροβομβίδα 40mm με ένα φορτίο που διαπερνάει την πανοπλία."
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm frag"
@@ -2215,6 +2331,8 @@ msgid ""
 "A 40mm grenade with a small explosive load and a high number of damaging "
 "fragments."
 msgstr ""
+"Μια χειροβομβίδα 40mm με ένα μικρό εκρηκτικό φορτίο και έναν μεγάλο αριθμό "
+"επιβλαβών θραυσμάτων."
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm incendiary"
@@ -2228,6 +2346,8 @@ msgid ""
 "A 40mm grenade with a small napalm load, designed to create a burst of "
 "flame."
 msgstr ""
+"Μια χειροβομβίδα 40mm με ένα μικρό φορτίο ναπάλμ, σχεδιασμένο να δημιουργεί "
+"μια έκρηξη φωτιάς."
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm buckshot"
@@ -2236,7 +2356,7 @@ msgstr ""
 #. ~ Description for 40mm buckshot
 #: lang/json/AMMO_from_json.py
 msgid "A 40mm grenade with a buckshot load."
-msgstr ""
+msgstr "Μια χειροβομβίδα 40mm με φορτίο από σκάγια."
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm smoke cover"
@@ -2259,6 +2379,8 @@ msgid ""
 "A 40mm grenade with a teargas load.  It will burst in a cloud of highly "
 "incapacitating gas."
 msgstr ""
+"Μια χειροβομβίδα 40mm με φορτίο δακρυγόνων. Θα εκραγεί σε ένα σύννεφο υψηλής"
+" εξουδετέρωσης αερίου."
 
 #: lang/json/AMMO_from_json.py
 msgid ".44 Magnum FMJ"
@@ -2270,6 +2392,8 @@ msgid ""
 "A brass-jacketed variant of the .44 Magnum round.  This increases "
 "penetration slightly at the cost of reduced damage from expansion."
 msgstr ""
+"Μια παραλλαγή του .44 Magnum οπλισμού. Αυτό αυξάνει ελαφρώς τη διάτρηση στο "
+"κόστος της μειωμένης ζημίας από την επέκταση."
 
 #: lang/json/AMMO_from_json.py
 msgid ".44 Magnum"
@@ -2301,6 +2425,8 @@ msgid ""
 "A paper cartridge containing a premeasured amount of black powder and a .44 "
 "projectile.  Used by the Colt M1860 Army."
 msgstr ""
+"Ένα χάρτινο φυσίγγιο που περιέχει μια προκαθορισμένη ποσότητα πυρίτιδας και "
+"ένα βλήμα .44mm. Χρησιμοποιείται από το Colt M1860 Army."
 
 #: lang/json/AMMO_from_json.py
 msgid ".45 ACP FMJ"
@@ -2446,6 +2572,10 @@ msgid ""
 " stupendous accuracy and armor piercing capabilities make it one of the most"
 " deadly rounds available, offset only by its drastic recoil and noise."
 msgstr ""
+"Τα .50 BMG είναι πολύ ισχυρά πυρομαχικά για  τουφέκι σχεδιασμένα για μεγάλης"
+" εμβέλειας χρήση. Η καταπληκτική ακρίβεια και οι δυνατότητες διάτρησης "
+"πανοπλιών τα καθιστούν ένα από τα πιο θανατηφόρα που μας είναι διαθέσιμα, "
+"αντισταθμίζονται μόνο από τη δραστική ανάκρουση και το θόρυβο."
 
 #: lang/json/AMMO_from_json.py
 msgid ".50 BMG AP"
@@ -2459,6 +2589,9 @@ msgid ""
 "Variant of the .50 BMG round that uses a core of very dense, hardened "
 "tungsten steel.  Penetration is increased, but damage is reduced."
 msgstr ""
+"Παραλλαγή του .50 BMG πυρομαχικών που χρησιμοποιεί ένα πυρήνα από πολύ "
+"πυκνό, σκληρυμένο χάλυβα βολφραμίου. Η διείσδυση αυξάνεται, αλλά η ζημιά "
+"μειώνεται."
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .50 BMG tracer"
@@ -2484,6 +2617,11 @@ msgid ""
 " deadly rounds available, offset only by its drastic recoil and noise.  This"
 " one has been hand-reloaded."
 msgstr ""
+"Τα .50 BMG είναι πολύ ισχυρά πυρομαχικά για  τουφέκι σχεδιασμένα για μεγάλης"
+" εμβέλειας χρήση. Η καταπληκτική ακρίβεια και οι δυνατότητες διάτρησης "
+"πανοπλιών τα καθιστούν ένα από τα πιο θανατηφόρα που μας είναι διαθέσιμα, "
+"αντισταθμίζονται μόνο από τη δραστική ανάκρουση και το θόρυβο. Αυτό εδώ έχει"
+" επαναφορτωθεί με το χέρι."
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .50 BMG AP"
@@ -2496,6 +2634,9 @@ msgid ""
 "tungsten steel.  Penetration is increased, but damage is reduced.  This one "
 "has been hand-reloaded."
 msgstr ""
+"Παραλλαγή του .50 BMG πυρομαχικών που χρησιμοποιεί ένα πυρήνα από πολύ "
+"πυκνό, σκληρυμένο χάλυβα βολφραμίου. Η διείσδυση αυξάνεται, αλλά η ζημιά "
+"μειώνεται. Αυτό εδώ έχει επαναφορτωθεί με το χέρι."
 
 #: lang/json/AMMO_from_json.py
 msgid ".500 S&W Magnum"
@@ -2589,6 +2730,9 @@ msgid ""
 "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round "
 "features a biodegradable sabot and a single, fin-stabilized penetrator."
 msgstr ""
+"Σχεδιασμένο για να νικήσει τη σύγχρονη πανοπλία του σώματος, ο στρογγυλός "
+"τύπος σφαίρας Rivtech 5x50mm διαθέτει ένα βιοδιασπώμενο  και ένα ενιαίο "
+"σταθεροποιημένο πτερύγιο τύπου sabot."
 
 #: lang/json/AMMO_from_json.py
 msgid "RA119 5x50mm penetrator"
@@ -2613,6 +2757,10 @@ msgid ""
 "features a biodegradable sabot and a single, fin-stabilized penetrator.  "
 "This one has been hand-reloaded."
 msgstr ""
+"Σχεδιασμένο για να νικήσει τη σύγχρονη πανοπλία του σώματος, ο στρογγυλός "
+"τύπος σφαίρας Rivtech 5x50mm διαθέτει ένα βιοδιασπώμενο  και ένα ενιαίο "
+"σταθεροποιημένο πτερύγιο τύπου sabot. Αυτό εδώ έχει επαναφορτωθεί με το "
+"χέρι."
 
 #: lang/json/AMMO_from_json.py
 msgid ".700 NX"
@@ -2626,6 +2774,11 @@ msgid ""
 "one of the most deadly rounds available, offset only by its drastic recoil "
 "and noise."
 msgstr ""
+"Τα .700 Nitro Express είναι πολύ ισχυρά πυρομαχικά τουφεκιού σχεδιασμένα για"
+" χρήση μεγάλης εμβέλειας. Η καταπληκτική ακρίβεια και οι δυνατότητες "
+"διάτρησης πανοπλιών το καθιστούν ένα από τα πιο θανατηφόρα πυρομαχικά που "
+"είναι διαθέσιμα, αντισταθμίζονται μόνο από τη δραστική ανάκρουση και το "
+"θόρυβο."
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .700 NX"
@@ -2741,6 +2894,8 @@ msgid ""
 "A 84x246mm High Explosive anti-personnel round for the Carl Gustav M3 "
 "recoilless rifle.  Designed to be highly effective against personnel."
 msgstr ""
+"Υψηλά εκρηκτικά πυρομαχικά των 84 x246mm για το τουφέκι του Carl Gustav M3 ."
+" Σχεδιασμένα για να είναι άκρως αποτελεσματικα κατά του προσωπικού."
 
 #: lang/json/AMMO_from_json.py
 msgid "84x246mm HEDP rocket"
@@ -2753,6 +2908,9 @@ msgid ""
 "Gustav M3 recoilless rifle.  Designed to be highly effective against "
 "vehicles and structures."
 msgstr ""
+"Υψηλά εκρηκτικά πυρομαχικά των 84 x246mm για το τουφέκι του Carl Gustav M3 ."
+" Σχεδιασμένο για να είναι εξαιρετικά αποτελεσματικό έναντι των οχημάτων και "
+"των δομών."
 
 #: lang/json/AMMO_from_json.py
 msgid "84x246mm smoke rocket"
@@ -2787,6 +2945,8 @@ msgid ""
 "8x40mm caseless rounds.  Proprietary ammunition for Rivtech firearms.  Being"
 " caseless rounds, these cannot be disassembled or reloaded."
 msgstr ""
+"8x40mm χωρίς κασετίνα. Ιδιόκτητα πυρομαχικά για όπλα Rivtech. Οι σφαίρες δεν"
+" μπορούν να αποσυναρμολογηθούν ή να οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "8x40mm sporting"
@@ -2811,6 +2971,8 @@ msgid ""
 "Rivtech firearms.  Being caseless rounds, these cannot be disassembled or "
 "reloaded."
 msgstr ""
+"8x40mm χωρίς κασετίνα. Στρατιωτικά πυρομαχικά για όπλα Rivtech. Οι σφαίρες "
+"δεν μπορούν να αποσυναρμολογηθούν ή να οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "8x40mm HVP"
@@ -2824,6 +2986,10 @@ msgid ""
 "uranium flechette.  Being caseless rounds, these cannot be disassembled or "
 "reloaded."
 msgstr ""
+"8x40mm σφαίρες χωρίς κασετίνα, υψηλής ταχύτητας τύπου διείσδυσης sabot. "
+"Υψηλό στρατιωτικό επίπεδο, διατρητικά πυρομαχικά που πυροδοτούν φυσίγγιο με "
+"απεμπλουτισμένο ουράνιο. Οι σφαίρες δεν μπορούν να αποσυναρμολογηθούν ή να "
+"οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "8x40mm tracer"
@@ -2849,6 +3015,8 @@ msgid ""
 " Rivtech firearms.  Being caseless rounds, these cannot be disassembled or "
 "reloaded."
 msgstr ""
+"8x40mm χωρίς κασετίνα με σφαιρικό σχήμα. Στρατιωτικά πυρομαχικά για όπλα "
+"Rivtech. Οι σφαίρες δεν μπορούν να αποσυναρμολογηθούν ή να οπλιστούν ξανά."
 
 #: lang/json/AMMO_from_json.py
 msgid "9x19mm JHP"
@@ -2994,6 +3162,9 @@ msgid ""
 "A paper cartridge containing black powder and a metallic projectile.  "
 "Historically used to reload muzzleloaders in a more reasonable time."
 msgstr ""
+"Χάρτινο φυσίγγιο που περιέχει μαύρη σκόνη και μεταλλικό βλήμα. Ιστορικά "
+"χρησιμοποιήθηκε για αναγόμωση εκ νέου τα εμπροσθογεμής όπλα σε πιο λογικό "
+"χρόνο."
 
 #: lang/json/AMMO_from_json.py
 msgid "paper shot cartridge"
@@ -3096,6 +3267,8 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid "A beanbag round for shotguns, not deadly but designed to disable."
 msgstr ""
+"Σακούλα φασολιών σε σφαίρα για καραμπίνες, όχι θανατηφόρα, αλλά σχεδιασμένη "
+"να ακινητοποιεί."
 
 #: lang/json/AMMO_from_json.py
 msgid "birdshot"
@@ -3107,6 +3280,8 @@ msgid ""
 "Weak shotgun ammunition.  Designed for hunting birds and other small game, "
 "its applications in combat are very limited."
 msgstr ""
+"Αδύναμα πυρομαχικά για καραμπίνες. Σχεδιασμένα για κυνήγι πτηνών και άλλα "
+"μικρά παιχνίδια, οι εφαρμογές του στη μάχη είναι πολύ περιορισμένες."
 
 #: lang/json/AMMO_from_json.py
 msgid "flechette shell"
@@ -3119,6 +3294,9 @@ msgid ""
 "spread makes it very accurate at short range.  Slices through most forms of "
 "armor with ease."
 msgstr ""
+"Ένα κέλυφος από καραμπίνα γεμάτο με μικροσκοπικά ατσάλινα βελάκια. "
+"Εξαιρετικά επιζήμια, συν το ότι η εξάπλωση την καθιστά πολύ ακριβή σε μικρή "
+"απόσταση. Διαπερνά από τις περισσότερες μορφές πανοπλίας με ευκολία."
 
 #: lang/json/AMMO_from_json.py
 msgid "explosive slug"
@@ -3163,6 +3341,8 @@ msgid ""
 "A heavy plastic cartridge made for use in flare guns.  It appears to be a "
 "modified 12 gauge shotgun shell."
 msgstr ""
+"Ένα βαρύ πλαστικό φυσίγγιο φτιαγμένο για χρήση σε φωτοβολίδες. Φαίνεται να "
+"είναι ένα τροποποιημένο κέλυφος όπλου 12mm για καραμπίνα."
 
 #: lang/json/AMMO_from_json.py
 msgid "oxyacetylene"
@@ -3184,7 +3364,7 @@ msgstr[1] ""
 #. ~ Description for fungal seeds
 #: lang/json/AMMO_from_json.py
 msgid "Some fungal seeds."
-msgstr ""
+msgstr "Μερικοί σπόροι μυκήτων."
 
 #: lang/json/AMMO_from_json.py lang/json/furniture_from_json.py
 #: lang/json/furniture_from_json.py
@@ -3313,6 +3493,8 @@ msgid ""
 "Material from an incendiary round, useful in constructing incendiary "
 "ammunition."
 msgstr ""
+"Υλικό από εμπρηστικές σφαίρες, χρήσιμο στην κατασκευή εμπρηστικών "
+"πυρομαχικών."
 
 #: lang/json/AMMO_from_json.py
 msgid "handloaded .22 CB"
@@ -3393,7 +3575,7 @@ msgstr ""
 #. ~ Description for dart
 #: lang/json/AMMO_from_json.py
 msgid "A handful of darts, useful as ammunition for blowguns."
-msgstr ""
+msgstr "Μια χούφτα βελάκια, χρήσιμα σαν πυρομαχικά για φυσοκάλαμα."
 
 #: lang/json/AMMO_from_json.py
 msgid "6.54x42mm 9N8"
@@ -3436,6 +3618,8 @@ msgid ""
 "These metal pellets are propelled with the help of electromagnets, therefore"
 " they do not produce sound, flash or heat signature."
 msgstr ""
+"Αυτά τα σφαιρίδια μετάλλων κινούνται με τη βοήθεια ηλεκτρομαγνητών, επομένως"
+" δεν παράγουν ήχο, φλας ή θερμική τροχιά."
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 6.54x42mm"
@@ -3792,7 +3976,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "clay pellet"
-msgstr ""
+msgstr "πήλινα σφαιρίδια"
 
 #. ~ Description for clay pellet
 #: lang/json/AMMO_from_json.py
@@ -3800,6 +3984,8 @@ msgid ""
 "A handful of round projectiles made of clay, useful for slings or "
 "slingshots."
 msgstr ""
+"Μια χούφτα από σφαιρίδια φτιαγμένα από πηλό, χρήσιμα ως πυρομαχικά για "
+"σφενδόνες."
 
 #: lang/json/AMMO_from_json.py
 msgid "lead pellet"
@@ -3939,6 +4125,8 @@ msgstr ""
 msgid ""
 "A 120mm High Explosive Anti Tank round.  It could ruin anyone's whole day."
 msgstr ""
+"Αντιαρματικά πυρομαχικά  120mm υψηλής εκρηκτικότητας. Θα μπορούσε να "
+"καταστρέψει ολόκληρη την ημέρα σε οποιονδήποτε."
 
 #: lang/json/AMMO_from_json.py
 msgid "120mm APFSDS"
@@ -4120,6 +4308,10 @@ msgid ""
 "explode on impact.  While it is now somewhat lighter than before, it can no "
 "longer be triggered manually."
 msgstr ""
+"Μια βαριά τροποποιημένη φορητή πυρηνική συσκευή. Με σκοπό να εκτοξευθεί από "
+"ένα εξειδικευμένο εκτοξευτή, η καλούπι του έχει κοπεί και έχει κατασκευαστεί"
+" να εκραγεί κατά την πρόσκρουση. Ενώ είναι τώρα κάπως ελαφρύτερο από πριν, "
+"δεν μπορεί πλέον να ενεργοποιείται χειροκίνητα."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "harpoon"
@@ -4510,6 +4702,8 @@ msgid ""
 "These may not be the Great Plains, but you can still be the Boss with this "
 "high-crowned, wide-brimmed hat."
 msgstr ""
+"Αυτά μπορεί να μην είναι οι μεγάλες πεδιάδες, αλλά μπορείτε να είστε ακόμα "
+"το αφεντικό με αυτό το καπέλο υψηλού στεφάνου και με μεγάλα άκρα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of 2-by-arm guards"
@@ -4552,6 +4746,9 @@ msgid ""
 " body armor, it provides excellent protection against both physical harm and"
 " ambient radiation."
 msgstr ""
+"Μια θωρακισμένη προστατευτική στολή. Ερασιτεχνικά φτιαγμένη από μια στολή "
+"καθαρισμού και πανοπλία, παρέχει εξαιρετική προστασία από σωματική βλάβη και"
+" την ακτινοβολία του περιβάλλοντος."
 
 #: lang/json/ARMOR_from_json.py
 msgid "American flag"
@@ -4611,7 +4808,7 @@ msgstr[1] ""
 #. ~ Description for pair of arm warmers
 #: lang/json/ARMOR_from_json.py
 msgid "Snug, soft cloth sleeves to keep your arms warm."
-msgstr ""
+msgstr "Απολαυστικά, μαλακά μανίκια για να κρατάτε τα χέρια σας ζεστά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of bone arm guards"
@@ -4638,6 +4835,8 @@ msgid ""
 "A pair of arm guards made from the exoskeletons of insects.  Light and "
 "durable."
 msgstr ""
+"Ένα ζευγάρι προστατευτικά βραχιόνων κατασκευάζονται από τα εξωσκλημάτια των "
+"εντόμων. Ελαφρύ και ανθεκτικό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of biosilicified chitin arm guards"
@@ -4662,6 +4861,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of neoprene arm sleeves covered with molded plastic sheaths."
 msgstr ""
+"Ένα ζευγάρι μανίκια από βραχίονα νεοπρενίου που καλύπτονται με χυτευμένες "
+"πλαστικές θήκες."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of leather arm guards"
@@ -4700,6 +4901,8 @@ msgid ""
 "A pair of arm guards hammered out from metal.  Perfect for the Post-"
 "Apocalyptic Warrior look."
 msgstr ""
+"Ένα ζεύγος από προστατευτικούς βραχίονες σφυρηλατημένο από μέταλλο. Ιδανική "
+"λύση για εμφάνιση μετά-αποκαλυπτικού πολεμιστή."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of paper arm guards"
@@ -4735,6 +4938,8 @@ msgid ""
 "Thick leather body armor that has been hardened via chemical treatment.  "
 "Light and strong."
 msgstr ""
+"Πλούσια δερμάτινη θωράκιση που έχει σκληρυνθεί μέσω χημικής επεξεργασίας. "
+"Ελαφριά και ισχυρή."
 
 #: lang/json/ARMOR_from_json.py
 msgid "bone body armor"
@@ -4761,6 +4966,8 @@ msgid ""
 "Leg and body armor made from the exoskeletons of insects.  Light and "
 "durable."
 msgstr ""
+"Πανοπλία για πόδια και σώμα κατασκευασμένη από τους εξωσκελετούς των "
+"εντόμων. Ελαφρύ και ανθεκτικό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "biosilicified chitin armor"
@@ -4784,7 +4991,7 @@ msgstr[1] ""
 #. ~ Description for fur body armor
 #: lang/json/ARMOR_from_json.py
 msgid "Thick body armor made from furs.  Warm and comfortable."
-msgstr ""
+msgstr "Παχιά πανοπλία φτιαγμένη από γούνες. Ζεστή και άνετη."
 
 #: lang/json/ARMOR_from_json.py
 msgid "leather body armor"
@@ -4795,7 +5002,7 @@ msgstr[1] ""
 #. ~ Description for leather body armor
 #: lang/json/ARMOR_from_json.py
 msgid "Thick leather body armor.  Light and comfortable."
-msgstr ""
+msgstr "Παχιά δερμάτινη πανοπλία. Ελαφριά και άνετη."
 
 #: lang/json/ARMOR_from_json.py
 msgid "plate armor"
@@ -4847,6 +5054,8 @@ msgid ""
 "Thick leather body armor that has been reinforced with strategically-placed "
 "metal plates.  Strong and comfortable."
 msgstr ""
+"Παχιά δερμάτινη πανοπλία που έχει ενισχυθεί με στρατηγικά τοποθετημένες "
+"μεταλλικές πλάκες. Δυνατή και άνετη."
 
 #: lang/json/ARMOR_from_json.py
 msgid "ornamental plate armor"
@@ -4906,7 +5115,7 @@ msgstr[1] ""
 #. ~ Description for camo tank top
 #: lang/json/ARMOR_from_json.py
 msgid "A sleeveless cotton shirt with camouflage dye.  Very easy to move in."
-msgstr ""
+msgstr "Ένα αμάνικο βαμβακερό πουκάμισο με βαφή παραλλαγής. Πολύ άνετο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "basketball shorts"
@@ -4988,6 +5197,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A tarnished silver star gives an air of authority to the wearer."
 msgstr ""
+"Ένα ξεθωριασμένο ασημένιο αστέρι πού δίνει ένα αέρα εξουσίας σε όποιον το "
+"φοράει."
 
 #: lang/json/ARMOR_from_json.py
 msgid "detective badge"
@@ -5103,6 +5314,8 @@ msgid ""
 "A cotton bandana, worn over the mouth for warmth and minor protection from "
 "dust and other contaminants."
 msgstr ""
+"Μία βαμβακερή μπαντάνα, που φοριέται πάνω από το στόμα για τη ζεστασιά και "
+"μικρή προστασία από τη σκόνη και άλλους ρύπους."
 
 #: lang/json/ARMOR_from_json.py
 msgid "barrette"
@@ -5113,7 +5326,7 @@ msgstr[1] ""
 #. ~ Description for barrette
 #: lang/json/ARMOR_from_json.py
 msgid "A barrette with lots of ornaments."
-msgstr ""
+msgstr "Ένα κοκαλάκι με πολλά κοσμήματα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "laundry basket"
@@ -5135,7 +5348,7 @@ msgstr[1] ""
 #. ~ Description for pair of beekeeping gloves
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of white beekeeping gloves made out of smooth leather."
-msgstr ""
+msgstr "Ένα ζευγάρι λευκά γάντια μελισσοκόμου κατασκευασμένα από λείο δέρμα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "beekeeping hood"
@@ -5207,7 +5420,7 @@ msgstr[1] ""
 #. ~ Description for bikini top
 #: lang/json/ARMOR_from_json.py
 msgid "A simple bikini top."
-msgstr ""
+msgstr "Ένα απλό πάνω μέρος μπικίνι."
 
 #: lang/json/ARMOR_from_json.py
 msgid "fur bikini top"
@@ -5218,7 +5431,7 @@ msgstr[1] ""
 #. ~ Description for fur bikini top
 #: lang/json/ARMOR_from_json.py
 msgid "A simple fur bikini top."
-msgstr ""
+msgstr "Ένα απλό γούνινο μπικίνι πάνω."
 
 #: lang/json/ARMOR_from_json.py
 msgid "leather bikini top"
@@ -5229,7 +5442,7 @@ msgstr[1] ""
 #. ~ Description for leather bikini top
 #: lang/json/ARMOR_from_json.py
 msgid "A simple leather bikini top."
-msgstr ""
+msgstr "Ένα απλό δερμάτινο μπικίνι πάνω μέρος."
 
 #: lang/json/ARMOR_from_json.py
 msgid "bindle"
@@ -5263,7 +5476,7 @@ msgstr[1] ""
 #. ~ Description for blazer
 #: lang/json/ARMOR_from_json.py
 msgid "A professional-looking wool blazer.  Quite cumbersome."
-msgstr ""
+msgstr "Ένα επαγγελματικό μάλλινο σακάκι. Αρκετά δύσκαμπτο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "blindfold"
@@ -5300,6 +5513,8 @@ msgid ""
 "A tight mask made of black leather.  The eyes and mouth can be closed using "
 "zippers."
 msgstr ""
+"Μια σφιχτή μάσκα από μαύρο δέρμα. Τα μάτια και το στόμα μπορούν να κλείσουν "
+"με φερμουάρ."
 
 #: lang/json/ARMOR_from_json.py
 msgid "bondage mask (zipped)"
@@ -5336,6 +5551,8 @@ msgid ""
 "A suit of snug, black leather.  Has no pockets, but does feature an "
 "abundance of unusually located zippers."
 msgstr ""
+"Ένα κοστούμι από σφιχτό, μαύρο δέρμα. Δεν έχει τσέπες, αλλά διαθέτει πληθώρα"
+" ασυνήθιστα τοποθετημένα φερμουάρ."
 
 #: lang/json/ARMOR_from_json.py
 msgid "bookplate"
@@ -5429,6 +5646,8 @@ msgid ""
 "The only hat for a made man.  Look like a real good fella while laughing in "
 "the face of your foes!"
 msgstr ""
+"Το μόνο καπέλο φτιαγμένο για έναν πετυχημένο άντρα. Φανείτε σαν εξαιρετικά "
+"καλοί άνθρωποι, ενώ γελάτε στο πρόσωπο των εχθρών σας!"
 
 #: lang/json/ARMOR_from_json.py
 msgid "boxer briefs"
@@ -5451,7 +5670,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Men's boxer shorts.  More fashionable than briefs and just as comfortable."
-msgstr ""
+msgstr "Ανδρικά μποξεράκια. Πιο μοντέρνα από τα σλιπ και εξίσου άνετα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of boxing gloves"
@@ -5489,6 +5708,7 @@ msgstr[1] ""
 msgid ""
 "A simple bra.  For protecting those bits you don't want zombies to look at."
 msgstr ""
+"Ένα απλό σουτιέν. Για την προστασία αυτών, που δεν θέλετε ζόμπι να κοιτάνε."
 
 #: lang/json/ARMOR_from_json.py
 msgid "breeches"
@@ -5523,7 +5743,7 @@ msgstr[1] ""
 #. ~ Description for briefs
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of briefs.  Comfortable underwear worn by men."
-msgstr ""
+msgstr "Ένα ζευγάρι σλιπάκια. Άνετα εσώρουχα φοριούνται από άνδρες."
 
 #: lang/json/ARMOR_from_json.py
 msgid "jade brooch"
@@ -5562,6 +5782,8 @@ msgid ""
 "A heavy protective coat worn by firefighters.  Highly resistant to heat and "
 "flame, it provides excellent protection from injury."
 msgstr ""
+"Ένα βαρύ προστατευτικό παλτό που φορούν οι πυροσβέστες. Ιδιαίτερα ανθεκτική "
+"στη θερμότητα και τη φλόγα, παρέχει εξαιρετική προστασία από τραυματισμούς."
 
 #: lang/json/ARMOR_from_json.py
 msgid "turnout trousers"
@@ -5575,6 +5797,9 @@ msgid ""
 "A heavy pair of protective overalls worn by firefighters.  Highly resistant "
 "to heat and flame, they provide excellent protection from injury."
 msgstr ""
+"Ένα βαρύ ζευγάρι προστατευτικών παντελονιών που φορούν οι πυροσβέστες. "
+"Ιδιαίτερα ανθεκτικά στη θερμότητα και τη φλόγα, παρέχουν εξαιρετική "
+"προστασία από τραυματισμούς."
 
 #: lang/json/ARMOR_from_json.py
 msgid "camisole"
@@ -5744,6 +5969,9 @@ msgid ""
 " fragile, wearing it will provide excellent protection against ambient "
 "radiation."
 msgstr ""
+"Μία απλή στολή χειρισμού επικίνδυνων υλικών. Αν και κάπως περιοριστική και "
+"εύθραυστη, φορώντας τες θα παρέχουν εξαιρετική προστασία έναντι ακτινοβολίας"
+" περιβάλλοντος."
 
 #: lang/json/ARMOR_from_json.py
 msgid "cloak"
@@ -5802,6 +6030,8 @@ msgstr[1] ""
 msgid ""
 "A colorful and ridiculous costume fit for a clown.  Provides decent storage."
 msgstr ""
+"Ένα πολύχρωμο και γελοίο κοστούμι που ταιριάζει σε έναν κλόουν. Παρέχει "
+"αξιοπρεπή αποθήκευση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "fur coat"
@@ -5812,7 +6042,7 @@ msgstr[1] ""
 #. ~ Description for fur coat
 #: lang/json/ARMOR_from_json.py
 msgid "A fur coat with a couple small pockets.  Extremely warm."
-msgstr ""
+msgstr "Ένα γούνινο παλτό με ζευγάρι μικρές τσέπες. Εξαιρετικά ζεστό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "faux fur coat"
@@ -5839,6 +6069,8 @@ msgid ""
 "A very well-made fur coat, featuring thick panels of sable fur.  Very warm "
 "and very good-looking."
 msgstr ""
+"Ένα πολύ καλό γούνινο παλτό, με παχιά πάνινα πανωφόρια από γούνα ζεμπιλίνας."
+" Πολύ ζεστό και πολύ όμορφο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "lab coat"
@@ -5888,7 +6120,7 @@ msgstr[1] ""
 #. ~ Description for winter coat
 #: lang/json/ARMOR_from_json.py
 msgid "A padded coat with deep pockets and a hood.  Very warm."
-msgstr ""
+msgstr "Ένα φουσκωτό παλτό με βαθιές τσέπες και κουκούλα. Πολύ ζεστό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "collar pin"
@@ -5912,7 +6144,7 @@ msgstr[1] ""
 #. ~ Description for copper bracelet
 #: lang/json/ARMOR_from_json.py
 msgid "An old-fashioned, copper bracelet."
-msgstr ""
+msgstr "Ένα παλιομοδίτικο, χάλκινο βραχιόλι."
 
 #: lang/json/ARMOR_from_json.py
 msgid "copper earring"
@@ -5939,6 +6171,8 @@ msgid ""
 "A snug, black leather corset.  Has no pockets, but its thick material "
 "provides good protection from harm."
 msgstr ""
+"Ένα σφιχτό, μαύρο δερμάτινο κορσέ. Δεν έχει τσέπες, αλλά το παχύ υλικό του "
+"παρέχει καλή προστασία από το τραυματισμό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "cowboy hat"
@@ -6052,6 +6286,8 @@ msgid ""
 "A gold ring with a sparkling diamond mounted on top of it.  Back in the old "
 "days this could be worth a fortune."
 msgstr ""
+"Ένα χρυσό δαχτυλίδι με ένα λαμπερό διαμάντι τοποθετημένο στην κορυφή του. "
+"Πίσω στις παλιές ημέρες αυτό θα μπορούσε να αξίζει μια περιουσία."
 
 #: lang/json/ARMOR_from_json.py
 msgid "dinosaur suit"
@@ -6065,6 +6301,8 @@ msgid ""
 "A full-body costume in the form of an anthropomorphic dinosaur.  It is quite"
 " encumbering and has little storage but is very warm."
 msgstr ""
+"Μια ολόσωμη στολή με τη μορφή δεινοσαύρου. Είναι αρκετά βαριά και έχει μικρό"
+" αποθηκευτικό χώρο, αλλά είναι πολύ ζεστή."
 
 #: lang/json/ARMOR_from_json.py
 msgid "dive bag"
@@ -6116,6 +6354,9 @@ msgid ""
 "ceramic disks used in its construction make it impossible to repair, only "
 "replace."
 msgstr ""
+"Ένα υπερσύγχρονο, ελαφρύ, εύκαμπτο, ανθεκτικό στη σφαίρα γιλέκο. Οι "
+"κεραμικοί δίσκοι που χρησιμοποιούνται στην κατασκευή του καθιστούν αδύνατη "
+"την επισκευή, αλλάζουν μόνο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "dress"
@@ -6129,6 +6370,8 @@ msgid ""
 "A long cotton dress.  Though comfortable to wear, it lacks any storage "
 "space."
 msgstr ""
+"Ένα μακρύ βαμβακερό φόρεμα. Αν και άνετο να το φοράς, στερείται κάθε "
+"αποθηκευτικό χώρο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "dress shirt"
@@ -6139,7 +6382,7 @@ msgstr[1] ""
 #. ~ Description for dress shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A white button-down shirt with long sleeves.  Looks professional!"
-msgstr ""
+msgstr "Ένα λευκό πουκάμισο με μακριά μανίκια. Φαίνεται επαγγελματικό!"
 
 #: lang/json/ARMOR_from_json.py
 msgid "wedding dress"
@@ -6150,7 +6393,7 @@ msgstr[1] ""
 #. ~ Description for wedding dress
 #: lang/json/ARMOR_from_json.py
 msgid "A beautiful white wedding dress.  What good will it be now?"
-msgstr ""
+msgstr "Ένα όμορφο λευκό νυφικό. Τι το καλό έχει τώρα;"
 
 #: lang/json/ARMOR_from_json.py
 msgid "duffel bag"
@@ -6176,6 +6419,8 @@ msgid ""
 "An expandable pouch secured with straps.  Provides a bit of extra storage "
 "with minimal encumbrance."
 msgstr ""
+"Μια επεκτάσιμη θήκη ασφαλισμένη με ιμάντες. Παρέχει λίγο επιπλέον "
+"αποθηκευτικό χώρο με ελάχιστη επιβάρυνση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "duster"
@@ -6283,6 +6528,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of elbow pads made of stout plastic and cloth."
 msgstr ""
+"Ένα ζευγάρι περιαγκωνίδων κατασκευασμένων από χοντρό πλαστικό και  πανί."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of stylish sunglasses"
@@ -6306,7 +6552,7 @@ msgstr[1] ""
 #. ~ Description for fanny pack
 #: lang/json/ARMOR_from_json.py
 msgid "Provides a bit of extra storage, with minimal encumbrance."
-msgstr ""
+msgstr "Παρέχει λίγο επιπλέον αποθηκευτικό χώρο, με ελάχιστη επιβάρυνση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "fencing jacket"
@@ -6342,6 +6588,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of reinforced pants used by fencers to prevent injuries."
 msgstr ""
+"Ένα ζευγάρι από οπλισμένο παντελόνι που χρησιμοποιούνται από ξιφομάχους για "
+"την πρόληψη των τραυματισμών."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of fire gauntlets"
@@ -6356,6 +6604,9 @@ msgid ""
 "protection.  Highly resistant to heat and flame, they provide excellent "
 "protection from injury."
 msgstr ""
+"Ένα βαρύ ζευγάρι γάντια, που χρησιμοποιείται από πυροσβέστες και "
+"μεταλλουργούς για θερμική προστασία. Ιδιαίτερα ανθεκτικά στη θερμότητα και "
+"τη φλόγα, παρέχουν εξαιρετική προστασία από τραυματισμούς."
 
 #: lang/json/ARMOR_from_json.py
 msgid "firefighter helmet"
@@ -6406,7 +6657,7 @@ msgstr[1] ""
 #. ~ Description for pair of fishing waders
 #: lang/json/ARMOR_from_json.py
 msgid "Waterproof plastic fishing waders with a single large front pocket."
-msgstr ""
+msgstr "Αδιάβροχες πλαστικές γαλότσες με μια μονή μεγάλη μπροστινή τσέπη."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of fit-over sunglasses"
@@ -6430,7 +6681,7 @@ msgstr[1] ""
 #. ~ Description for flag shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A t-shirt embroidered with the pattern of an American flag."
-msgstr ""
+msgstr "Ένα μπλουζάκι κεντημένο με το μοτίβο μιας αμερικανικής σημαίας."
 
 #: lang/json/ARMOR_from_json.py
 msgid "flotation vest"
@@ -6443,6 +6694,8 @@ msgstr[1] ""
 msgid ""
 "A brightly-colored vest designed to keep you upright and floating in water."
 msgstr ""
+"Ένα πανέμορφο γιλέκο σχεδιασμένο για να σας κρατάει όρθιο και να επιπλέει "
+"στο νερό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "makeshift flotation vest"
@@ -6467,6 +6720,8 @@ msgid ""
 "Heavy plastic armor for your upper torso.  Normally worn by football "
 "players."
 msgstr ""
+"Βαριά πλαστική θωράκιση για πάνω μέρος του κορμού σας. Κανονικά φοριούνται "
+"από ποδοσφαιριστές."
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor firesuit"
@@ -6594,7 +6849,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Leather gauntlets with bone armor reinforcement.  Very light and strong."
-msgstr ""
+msgstr "Δερμάτινα ενισχυμένα γάντια από οστά. Πολύ ελαφριά και ισχυρά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of chitinous gauntlets"
@@ -6607,6 +6862,8 @@ msgstr[1] ""
 msgid ""
 "Gauntlets made from the exoskeletons of insects.  Very light and durable."
 msgstr ""
+"Γάντια κατασκευασμένα από τα εξωσκελετούς εντόμων. Πολύ ελαφριά και "
+"ανθεκτικά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of biosilicified chitin gauntlets"
@@ -6630,7 +6887,7 @@ msgstr[1] ""
 #. ~ Description for pair of leather armor gauntlets
 #: lang/json/ARMOR_from_json.py
 msgid "Heavy fingerless leather gloves.  Very flexible and comfortable."
-msgstr ""
+msgstr "Βαριά χωρίς δάχτυλα, δερμάτινα γάντια. Πολύ ευέλικτα και άνετα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of geta"
@@ -6735,6 +6992,9 @@ msgid ""
 "A pair of plastic glasses, used in workshops, sports, chemistry labs, and "
 "many other places.  Provides great protection from damage."
 msgstr ""
+"Ένα ζευγάρι πλαστικά γυαλιά, που χρησιμοποιούνται σε συνεργεία, αθλητισμό, "
+"εργαστήρια χημείας, και πολλά άλλα μέρη. Παρέχει μεγαλύτερη προστασία από "
+"τραυματισμούς."
 
 #: lang/json/ARMOR_from_json.py
 msgid "white glove"
@@ -6769,6 +7029,8 @@ msgstr[1] ""
 msgid ""
 "A pair of leather gloves with no fingers, allowing greater manual dexterity."
 msgstr ""
+"Ένα ζευγάρι δερμάτινα γάντια χωρίς δάχτυλα, επιτρέποντας μεγαλύτερη "
+"επιδεξιότητα στα χέρια."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of armored fingerless gloves"
@@ -6782,6 +7044,9 @@ msgid ""
 "A pair of leather gloves with no fingers, allowing greater manual dexterity."
 "  These have been crudely reinforced with steel guards across the back."
 msgstr ""
+"Ένα ζευγάρι δερμάτινα γάντια χωρίς δάκτυλα, επιτρέποντας μεγαλύτερη "
+"χειρωνακτική επιδεξιότητα. Αυτά έχουν ενισχυθεί με χαλύβδινο προστατευτικό "
+"κάλυμμα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of survivor firegloves"
@@ -6805,7 +7070,7 @@ msgstr[1] ""
 #. ~ Description for pair of fur gloves
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of warm fur gloves.  They are somewhat cumbersome."
-msgstr ""
+msgstr "Ένα ζευγάρι ζεστά γούνινα γάντια. Είναι κάπως δυσκίνητα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of survivor wetsuit gloves"
@@ -6843,7 +7108,7 @@ msgstr[1] ""
 #. ~ Description for pair of leather gloves
 #: lang/json/ARMOR_from_json.py
 msgid "A thin pair of black leather gloves."
-msgstr ""
+msgstr "Ένα λεπτό ζευγάρι μαύρα δερμάτινα γάντια."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of light gloves"
@@ -6854,7 +7119,7 @@ msgstr[1] ""
 #. ~ Description for pair of light gloves
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of cotton gloves."
-msgstr ""
+msgstr "Ένα ζευγάρι βαμβακερά γάντια."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of glove liners"
@@ -6867,6 +7132,8 @@ msgstr[1] ""
 msgid ""
 "A pair of thin cotton gloves.  Often used as a liner beneath other gloves."
 msgstr ""
+"Ένα ζευγάρι λεπτά βαμβακερά γάντια. Συχνά χρησιμοποιείται ως επένδυση κάτω "
+"από άλλα γάντια."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of light survivor gloves"
@@ -6891,6 +7158,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of thin latex gloves, designed to limit the spread of disease."
 msgstr ""
+"Ένα ζευγάρι από λεπτά γάντια από λάτεξ, σχεδιασμένα για να περιορίσουν την "
+"εξάπλωση της νόσου."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of armored gauntlets"
@@ -6914,6 +7183,8 @@ msgstr[1] ""
 msgid ""
 "A pair of rubber gloves, often used while cleaning with caustic materials."
 msgstr ""
+"Ένα ζευγάρι γάντια από καουτσούκ, που χρησιμοποιούνται συχνά κατά τον "
+"καθαρισμό με καυστικά υλικά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of survivor gloves"
@@ -7092,7 +7363,7 @@ msgstr[1] ""
 #. ~ Description for pair of swim goggles
 #: lang/json/ARMOR_from_json.py
 msgid "A small pair of goggles made for swimming."
-msgstr ""
+msgstr "Ένα μικρό ζευγάρι γυαλιών για κολύμπι."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of welding goggles"
@@ -7106,6 +7377,8 @@ msgid ""
 "A dark pair of goggles.  They make seeing very difficult, but protect you "
 "from bright flashes."
 msgstr ""
+"Ένα ζευγάρι μαύρα γυαλιά. Είναι πολύ δύσκολο να δεις μέσα απ'αυτά, σε "
+"προστατεύουν όμως από πολύ έντονες αναλαμπές."
 
 #: lang/json/ARMOR_from_json.py
 msgid "gold bracelet"
@@ -7119,6 +7392,8 @@ msgid ""
 "A fancy golden bracelet.  You can wear it if you like, but it won't provide "
 "any effects."
 msgstr ""
+"Ένα φανταχτερό χρυσό βραχιόλι. Μπορείτε να το φορέσετε αν σας αρέσει, αλλά "
+"δεν θα προσφέρει καμία επίδραση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "gold dental grill"
@@ -7145,6 +7420,8 @@ msgid ""
 "A shiny gold earring.  You can wear it if you like, but it won't provide any"
 " effects."
 msgstr ""
+"Ένα λαμπερό χρυσό σκουλαρίκι. Μπορείτε να το φορέσετε αν σας αρέσει, αλλά "
+"δεν θα δεν θα προσφέρει καμία επίδραση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "gold watch"
@@ -7228,7 +7505,7 @@ msgstr[1] ""
 #. ~ Description for baseball cap
 #: lang/json/ARMOR_from_json.py
 msgid "A Red Sox cap.  It provides a little bit of warmth."
-msgstr ""
+msgstr "Ένα καπέλο Red Sox. Παρέχει λίγη ζεστασιά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "boonie hat"
@@ -7242,6 +7519,8 @@ msgid ""
 "Also called a \"bucket hat.\" Often used in the military.  Its wide brim "
 "helps keep the sun out of your eyes."
 msgstr ""
+"Ονομάζεται επίσης \"καπέλο κουβάς\". Συχνά χρησιμοποιείται στο στρατό. Το "
+"φαρδύ χείλος του βοηθάει να κρατήσει τον ήλιο έξω από τα μάτια σας."
 
 #: lang/json/ARMOR_from_json.py
 msgid "toque"
@@ -7265,7 +7544,7 @@ msgstr[1] ""
 #. ~ Description for cotton hat
 #: lang/json/ARMOR_from_json.py
 msgid "A snug-fitting cotton hat.  Quite warm."
-msgstr ""
+msgstr "Ένα καπέλο από βαμβάκι. Αρκετά ζεστό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "fur hat"
@@ -7276,7 +7555,7 @@ msgstr[1] ""
 #. ~ Description for fur hat
 #: lang/json/ARMOR_from_json.py
 msgid "A hat made from the pelts of animals.  Extremely warm."
-msgstr ""
+msgstr "Ένα καπέλο φτιαγμένο από τα δέρματα των ζώων. Εξαιρετικά ζεστό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "faux fur hat"
@@ -7303,6 +7582,8 @@ msgid ""
 "A hard plastic hat worn in construction sites.  Excellent protection from "
 "cuts and percussion."
 msgstr ""
+"Ένα σκληρό πλαστικό καπέλο που φοριέται σε εργοτάξια. Εξαιρετική προστασία "
+"από κοψίματα και κρουστά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "hooded hard hat"
@@ -7327,7 +7608,7 @@ msgstr[1] ""
 #. ~ Description for hunting cap
 #: lang/json/ARMOR_from_json.py
 msgid "A red plaid hunting cap with ear flaps.  Notably warm."
-msgstr ""
+msgstr "Ένα κοκκινοφόρο καπέλο κυνηγιού με ωτασπίδες. Είναι ιδιαίτερα ζεστό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "knit hat"
@@ -7338,7 +7619,7 @@ msgstr[1] ""
 #. ~ Description for knit hat
 #: lang/json/ARMOR_from_json.py
 msgid "A snug-fitting wool hat.  Very warm."
-msgstr ""
+msgstr "Ένα πλεκτό καπέλο. Αρκετά ζεστό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "newsboy cap"
@@ -7391,6 +7672,8 @@ msgstr[1] ""
 msgid ""
 "Lightweight sports headgear designed to protect the head while sparring."
 msgstr ""
+"Ελαφριά προστατευτική κάσκα κεφαλής σχεδιασμένη για να προστατεύει το κεφάλι"
+" κατά την προπόνηση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "army helmet"
@@ -7403,6 +7686,7 @@ msgstr[1] ""
 msgid ""
 "A heavy helmet that provides excellent protection from all sorts of damage."
 msgstr ""
+"Ένα βαρύ κράνος που παρέχει εξαιρετική προστασία από κάθε είδους ζημιά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "baseball helmet"
@@ -7416,6 +7700,8 @@ msgid ""
 "A hard plastic helmet that covers the head and ears.  Designed to protect "
 "against a baseball to the head."
 msgstr ""
+"Ένα σκληρό πλαστικό κράνος που καλύπτει το κεφάλι και τα αυτιά. Σχεδιασμένο "
+"να προστατεύει το κεφάλι από μπάλα μπέιζμπολ."
 
 #: lang/json/ARMOR_from_json.py
 msgid "barbute helm"
@@ -7440,6 +7726,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A thick foam helmet.  Designed to protect against concussion."
 msgstr ""
+"Ένα συμπαγές κράνος με αφρολέξ. Σχεδιασμένο για προστασία από τη διάσειση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "bone armor helmet"
@@ -7453,6 +7740,8 @@ msgid ""
 "A grotesque, horned helmet carved from bone.  Covers the entire head; very "
 "light and strong."
 msgstr ""
+"Ένα γκροτέσκο, με κέρατο κράνος σκαλισμένο από οστά. Καλύπτει ολόκληρο το "
+"κεφάλι, πολύ ελαφρύ και ισχυρό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "chitinous helmet"
@@ -7466,6 +7755,8 @@ msgid ""
 "A helmet made from the exoskeletons of insects.  Covers the entire head; "
 "very light and durable."
 msgstr ""
+"Ένα κράνος φτιαγμένο από τα εξωσκελετούς εντόμων. Καλύπτει όλο το κεφάλι, "
+"πολύ ελαφρύ και ανθεκτικό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "biosilicified chitin helmet"
@@ -7490,7 +7781,7 @@ msgstr[1] ""
 #. ~ Description for football helmet
 #: lang/json/ARMOR_from_json.py
 msgid "A heavy plastic helmet normally worn by football players."
-msgstr ""
+msgstr "Ένα βαρύ πλαστικό κράνος που φορούν συνήθως οι ποδοσφαιριστές."
 
 #: lang/json/ARMOR_from_json.py
 msgid "heavy survivor helmet"
@@ -7541,6 +7832,8 @@ msgstr[1] ""
 msgid ""
 "This goes inside a helmet to help keep your head warm in cold climates."
 msgstr ""
+"Αυτό πηγαίνει μέσα σε ένα κράνος για να κρατήσει το κεφάλι σας ζεστό σε κρύα"
+" κλίματα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "lobster helmet"
@@ -7554,6 +7847,8 @@ msgid ""
 "A heavy helmet that provides excellent protection from all sorts of damage."
 "  It has a tail coming off the back that provides protection to your neck."
 msgstr ""
+"Ένα βαρύ κράνος που παρέχει εξαιρετική προστασία από κάθε είδους ζημιά. Έχει"
+" μια ουρά που έρχεται από το πίσω μέρος που παρέχει προστασία στο λαιμό σας."
 
 #: lang/json/ARMOR_from_json.py
 msgid "motorcycle helmet"
@@ -7567,6 +7862,8 @@ msgid ""
 "A helmet with covers for your head and chin, leaving space in-between for "
 "you to wear goggles."
 msgstr ""
+"Ένα κράνος με καλύμματα για το κεφάλι και το σαγόνι σας, αφήνοντας χώρο στο "
+"ενδιάμεσο για να μπορείτε να φοράτε γυαλιά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "nomad cowl"
@@ -7593,6 +7890,8 @@ msgid ""
 "A medieval helmet that provides excellent protection to the entire head, at "
 "the cost of great encumbrance."
 msgstr ""
+"Ένα μεσαιωνικό κράνος που παρέχει εξαιρετική προστασία σε ολόκληρο το "
+"κεφάλι, με το κόστος της μεγάλης επιβάρυνσης."
 
 #: lang/json/ARMOR_from_json.py
 msgid "scavenger cowl"
@@ -7619,6 +7918,8 @@ msgid ""
 "A small metal helmet that covers the head and protects against cuts and "
 "percussion."
 msgstr ""
+"Ένα μικρό μεταλλικό κράνος που καλύπτει το κεφάλι και προστατεύει από "
+"κοψίματα και κτυπήματα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor helmet"
@@ -7715,6 +8016,8 @@ msgid ""
 "A waterproof hood made to be worn in bad weather.  Provides extra protection"
 " from rain."
 msgstr ""
+"Μια αδιάβροχη κουκούλα που φοριέται σε κακοκαιρία. Παρέχει επιπλέον "
+"προστασία από βροχή."
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor hood"
@@ -7774,7 +8077,7 @@ msgstr[1] ""
 #. ~ Description for hot pants
 #: lang/json/ARMOR_from_json.py
 msgid "A simple pair of short shorts."
-msgstr ""
+msgstr "Ένα απλό ζευγάρι κοντά σορτσάκια."
 
 #: lang/json/ARMOR_from_json.py
 msgid "fur hot pants"
@@ -7785,7 +8088,7 @@ msgstr[1] ""
 #. ~ Description for fur hot pants
 #: lang/json/ARMOR_from_json.py
 msgid "A simple pair of fur short shorts."
-msgstr ""
+msgstr "Ένα απλό ζευγάρι γούνινα κοντά σορτσάκια."
 
 #: lang/json/ARMOR_from_json.py
 msgid "leather hot pants"
@@ -7796,7 +8099,7 @@ msgstr[1] ""
 #. ~ Description for leather hot pants
 #: lang/json/ARMOR_from_json.py
 msgid "A simple pair of leather short shorts."
-msgstr ""
+msgstr "Ένα απλό ζευγάρι δερμάτινα κοντά σορτς."
 
 #: lang/json/ARMOR_from_json.py
 msgid "housecoat"
@@ -7832,7 +8135,7 @@ msgstr[1] ""
 #. ~ Description for army jacket
 #: lang/json/ARMOR_from_json.py
 msgid "A tough jacket with lots of pockets.  Favored by the military."
-msgstr ""
+msgstr "Ένα σκληρό μπουφάν με πολλές τσέπες. Προτιμούνται από τον στρατό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "chef's jacket"
@@ -7859,6 +8162,8 @@ msgid ""
 "A bright & cheaply made FEMA-issue windbreaker jacket with a hood.  One "
 "size, fits none.  Helps keep you unfrozen & visible for rescuers."
 msgstr ""
+"Ένα φωτεινό και φθηνό μπουφάν με κουκούλα από την FEMA. Ένα μέγεθος, δεν "
+"ταιριάζει σε κανένα. Σας κρατά ζεστούς και ορατούς για διασώστες."
 
 #: lang/json/ARMOR_from_json.py
 msgid "flannel jacket"
@@ -7883,6 +8188,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A jacket made from denim.  Provides decent protection from cuts."
 msgstr ""
+"Ένα μπουφάν φτιαγμένο από τζιν. Παρέχει αξιοπρεπή προστασία από κοψίματα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "leather jacket"
@@ -7896,6 +8202,8 @@ msgid ""
 "A jacket made from thick leather.  Cumbersome, but offers excellent "
 "protection from cuts."
 msgstr ""
+"Ένα μπουφάν φτιαγμένο από παχύ δέρμα. Περίπλοκο, αλλά προσφέρει εξαιρετική "
+"προστασία από τις περικοπές."
 
 #: lang/json/ARMOR_from_json.py
 msgid "armored leather jacket"
@@ -7932,7 +8240,7 @@ msgstr[1] ""
 #. ~ Description for light jacket
 #: lang/json/ARMOR_from_json.py
 msgid "A thin cotton jacket with a hood.  Good for brisk weather."
-msgstr ""
+msgstr "Ένα λεπτό βαμβακερό μπουφάν με κουκούλα. Καλό για τον ζωηρό καιρό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "windbreaker"
@@ -7956,7 +8264,7 @@ msgstr[1] ""
 #. ~ Description for jeans
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of blue jeans with two deep pockets."
-msgstr ""
+msgstr "Ένα ζευγάρι μπλε τζιν με δύο βαθιές τσέπες."
 
 #: lang/json/ARMOR_from_json.py
 msgid "red jeans"
@@ -8005,6 +8313,8 @@ msgid ""
 "A shirt made of thick material imprinted with the name and logo of a sports "
 "team."
 msgstr ""
+"Ένα μπουζάκι από χοντρό υλικό με τυπωμένο το όνομα και το λογότυπο της "
+"αθλητικής ομάδας."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -8178,6 +8488,8 @@ msgid ""
 "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  "
 "Provides decent storage and is not very encumbering."
 msgstr ""
+"Μια λεπτή, κοντή φόρμα, παρόμοια με εκείνες που φορούσαν οι κρατούμενοι. "
+"Παρέχει αξιοπρεπή αποθήκευση και δεν επιβαρύνει πολύ."
 
 #: lang/json/ARMOR_from_json.py
 msgid "XL jumpsuit"
@@ -8254,6 +8566,8 @@ msgstr[1] ""
 msgid ""
 "A lightweight, bullet resistant vest.  Suitable for wearing under clothing."
 msgstr ""
+"Ένα ελαφρύ, ανθεκτικό γιλέκο για προστασία από σφαίρες. Κατάλληλο να φορεθεί"
+" κάτω από τα ρούχα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "kilt"
@@ -8405,6 +8719,8 @@ msgid ""
 "A bag stitched together from leather scraps.  Doesn't hold an awful lot but "
 "is easy to wear."
 msgstr ""
+"Μία τσάντα από δερμάτινα κομμάτια ραμμένα μαζί. Δεν κρατάει και πάρα πολλά "
+"αλλά είναι ευκολοφόρετη."
 
 #: lang/json/ARMOR_from_json.py
 msgid "leg splint"
@@ -8434,7 +8750,7 @@ msgstr[1] ""
 #. ~ Description for pair of leg warmers
 #: lang/json/ARMOR_from_json.py
 msgid "Snug, soft cloth sleeves to keep your legs warm."
-msgstr ""
+msgstr "Απολαυστικά, μαλακά μανίκια για να κρατάτε τα πόδια σας ζεστά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of XL leg warmers"
@@ -8446,6 +8762,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "Large, soft, snug cloth sleeves to keep your exotic anatomy warm."
 msgstr ""
+"Μεγάλα, μαλακά, αναπαυτικά μανίκια για να διατηρήσετε την εξωτική ανατομία "
+"σας ζεστή."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of fetlock furs"
@@ -8456,7 +8774,7 @@ msgstr[1] ""
 #. ~ Description for pair of fetlock furs
 #: lang/json/ARMOR_from_json.py
 msgid "Snug fur sleeves to keep your fetlocks warm."
-msgstr ""
+msgstr "Χνουδωτή γούνα για να ζεσταθούν η πατούσες σου."
 
 #: lang/json/ARMOR_from_json.py
 msgid "leggings"
@@ -8470,6 +8788,8 @@ msgid ""
 "Skin-tight nylon leggings, sometimes used when exercising, that keep your "
 "legs nice and warm."
 msgstr ""
+"Σφιχτό κολάν από νάιλον, μερικές φορές χρησιμοποιείται κατά την άσκηση,  "
+"κρατά τα πόδια σας όμορφα και ζεστά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of hard leg guards"
@@ -8602,6 +8922,8 @@ msgstr[1] ""
 msgid ""
 "A small locket with a frame inside to store photographs or small objects."
 msgstr ""
+"Ένα μικρό μενταγιόν με ένα εσωτερικό πλαίσιο για την αποθήκευση φωτογραφιών "
+"ή μικρών αντικειμένων."
 
 #: lang/json/ARMOR_from_json.py
 msgid "loincloth"
@@ -8615,6 +8937,8 @@ msgid ""
 "Rags stitched together and tied into a makeshift loincloth.  Covers your "
 "modesty, but not much else."
 msgstr ""
+"Κουρέλια ραμμένα μαζί και δεμένα σε ένα αυτοσχέδιο εσώρουχο. Καλύπτει τη "
+"σεμνότητα σας, αλλά όχι πολλά άλλα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "fur loincloth"
@@ -8628,6 +8952,8 @@ msgid ""
 "A fur pelt tied into a loincloth.  Covers your modesty, but not much else.  "
 "Now you are a true barbarian warrior."
 msgstr ""
+"Ένα δέρμα γούνας δεμένο σε ένα κουρέλι. Καλύπτει τη σεμνότητα σας, αλλά όχι "
+"πολλά άλλα. Τώρα είσαι ένας πραγματικός βάρβαρος πολεμιστής."
 
 #: lang/json/ARMOR_from_json.py
 msgid "leather loincloth"
@@ -8641,6 +8967,8 @@ msgid ""
 "Leather patches stitched together and tied into a makeshift loincloth.  "
 "Covers your modesty, but not much else."
 msgstr ""
+"δερμάτινα κουρέλια ραμμένα μαζί και δεμένα σε ένα αυτοσχέδιο εσώρουχο. "
+"Καλύπτει τη σεμνότητα σας, αλλά όχι πολλά άλλα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "wool loincloth"
@@ -8676,6 +9004,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of long underwear that help to maintain body temperature."
 msgstr ""
+"Ένα ζευγάρι σκελέας που βοηθάει στη διατήρηση της θερμοκρασίας του σώματος."
 
 #: lang/json/ARMOR_from_json.py
 msgid "long underwear top"
@@ -8687,6 +9016,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A long underwear top that helps to maintain body temperature."
 msgstr ""
+"Μακρυμάνικη μπλούζα εσωρούχων που βοηθά στη διατήρηση της θερμοκρασίας του "
+"σώματος."
 
 #: lang/json/ARMOR_from_json.py
 msgid "long-sleeved shirt"
@@ -8697,7 +9028,7 @@ msgstr[1] ""
 #. ~ Description for long-sleeved shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A long-sleeved cotton shirt."
-msgstr ""
+msgstr "Ένα μακρυμάνικο βαμβακερό μπλουζάκι."
 
 #: lang/json/ARMOR_from_json.py
 msgid "light survivor body armor"
@@ -8748,7 +9079,7 @@ msgstr[1] ""
 #. ~ Description for French maid clothes
 #: lang/json/ARMOR_from_json.py
 msgid "The French maid dress, blue with a frilly white apron."
-msgstr ""
+msgstr "Φόρεμα Γαλλικής υπηρέτριας, μπλε με μια άσπρη ποδιά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "French maid hat"
@@ -8759,7 +9090,7 @@ msgstr[1] ""
 #. ~ Description for French maid hat
 #: lang/json/ARMOR_from_json.py
 msgid "A frilly white headpiece."
-msgstr ""
+msgstr "Ένα λευκό καπέλο με κρόσσια."
 
 #: lang/json/ARMOR_from_json.py
 msgid "makeshift knapsack"
@@ -8858,6 +9189,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "Light and easy to wear, but doesn't offer much storage."
 msgstr ""
+"Ελαφρύ και εύκολο στην χρήση, αλλά δεν προσφέρει πολλή χώρο αποθήκευσης."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of mittens"
@@ -8868,7 +9200,7 @@ msgstr[1] ""
 #. ~ Description for pair of mittens
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of warm mittens.  They are extremely cumbersome."
-msgstr ""
+msgstr "Ένα ζευγάρι ζεστά μονοκόμματα γάντια. Είναι εξαιρετικά δυσκίνητα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "MOLLE pack"
@@ -8883,6 +9215,9 @@ msgid ""
 "backpack.  Covered with pockets and straps, it strikes a fine balance "
 "between storage space and encumbrance."
 msgstr ""
+"Ένα Συναρμολογούμενο Ελαφρύ Φορτίο Εξοπλισμού είναι ένα προηγμένο "
+"στρατιωτικό σακίδιο πλάτης. Καλυμμένο με τσέπες και ιμάντες, επιτυγχάνει μια"
+" ισορροπία μεταξύ του χώρου αποθήκευσης και του βάρους."
 
 #: lang/json/ARMOR_from_json.py
 msgid "motorcycle armor"
@@ -8918,6 +9253,9 @@ msgid ""
 "A protective piece of equipment commonly used by athletes, which is worn "
 "inside the mouth to protect your teeth."
 msgstr ""
+"Ένα προστατευτικό κομμάτι του εξοπλισμού που χρησιμοποιείται συνήθως από "
+"τους αθλητές, η οποία φοριέται στο εσωτερικό του στόματος για την προστασία "
+"των δοντιών σας."
 
 #: lang/json/ARMOR_from_json.py
 msgid "nanoskirt"
@@ -8942,6 +9280,8 @@ msgid ""
 "A nice silver necklace.  You can wear it if you like, but it won't provide "
 "any effects."
 msgstr ""
+"Ένα ωραίο ασημένιο περιδέραιο. Μπορείτε να το φορέσετε αν σας αρέσει, αλλά "
+"δεν θα δεν θα προσφέρει καμία επίδραση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of flame-resistant gloves"
@@ -8956,6 +9296,9 @@ msgid ""
 "resistant fabric.  Tough yet breathable, they are light and comfortable to "
 "wear under clothing."
 msgstr ""
+"Ένα άνετο ζευγάρι γάντια από λεπτό και ελαφρύ ύφασμα ανθεκτικό στη φωτιά "
+"Nomex. Ανθεκτικά αλλά αναπνεύσιμα, είναι ελαφριά και άνετα για να φορεθούν "
+"κάτω από τα ρούχα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "flame-resistant hood"
@@ -8970,6 +9313,9 @@ msgid ""
 "lightweight Nomex fire-resistant fabric.  Tough yet breathable, it is light "
 "and comfortable to wear under clothing."
 msgstr ""
+"Ένα απαλό ένδυμα που προστατεύει το κεφάλι και το λαιμό σας, κατασκευασμένο "
+"από ελαφρύ ύφασμα Nomex ανθεκτικό στη φωτιά. Σκληρό, αλλά αναπνεύσιμο, είναι"
+" ελαφρύ και άνετο να φορεθεί κάτω από τα ρούχα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of flame-resistant socks"
@@ -8984,6 +9330,9 @@ msgid ""
 "resistant fabric.  Tough yet breathable, they are light and comfortable to "
 "wear under clothing."
 msgstr ""
+"Ένα ωραίο ζευγάρι καλτσόν που κατασκευάζεται από λεπτό και ελαφρύ ύφασμα "
+"Nomex ανθεκτικό στη φωτιά. Ανθεκτικά αλλά αναπνεύσιμα, είναι ελαφριά και "
+"άνετα, φοριούνται κάτω από τα ρούχα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "flame-resistant suit"
@@ -8997,6 +9346,8 @@ msgid ""
 "A snug body suit made from thin and lightweight Nomex fire-resistant fabric."
 "  Tough yet breathable, it is light and comfortable to wear under clothing."
 msgstr ""
+"Ένα άνετο κοστούμι από λεπτό και ελαφρύ Nomex ύφασμα ανθεκτικό στη φωτιά. "
+"Σκληρό, αλλά πανάλαφρο και άνετο, φοριέται κάτω από τα ρούχα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "obi"
@@ -9045,6 +9396,8 @@ msgid ""
 "Underwear designed to be worn by women.  Preserves your modesty in desperate"
 " times."
 msgstr ""
+"Εσώρουχα σχεδιασμένα να φοριούνται από γυναίκες. Διατηρεί τη σεμνότητα σας "
+"σε απελπισμένους καιρούς."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pants"
@@ -9055,7 +9408,7 @@ msgstr[1] ""
 #. ~ Description for pants
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of khaki pants.  Slightly warmer than jeans."
-msgstr ""
+msgstr "Ένα ζευγάρι χακί παντελόνι. Λίγο πιο ζεστό από το τζιν."
 
 #: lang/json/ARMOR_from_json.py
 msgid "army pants"
@@ -9067,6 +9420,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A tough pair of pants lined with pockets.  Favored by the military."
 msgstr ""
+"Ένα σκληρό παντελόνι με επένδυση από τσέπες. Προτιμούνται από το στρατό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "cargo pants"
@@ -9078,6 +9432,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of pants lined with pockets, offering lots of storage."
 msgstr ""
+"Ένα ζευγάρι παντελόνια με επένδυση από τσέπες, προσφέροντας μεγάλη αποθήκη."
 
 #: lang/json/ARMOR_from_json.py
 msgid "checkered pants"
@@ -9099,7 +9454,7 @@ msgstr[1] ""
 #. ~ Description for fur pants
 #: lang/json/ARMOR_from_json.py
 msgid "A hefty pair of fur-lined pants."
-msgstr ""
+msgstr "Ένα μεγάλο ζευγάρι γούνινο παντελόνι."
 
 #: lang/json/ARMOR_from_json.py
 msgid "faux fur pants"
@@ -9124,6 +9479,8 @@ msgid ""
 "A pair of black leather pants.  Very tough, but cumbersome and without much "
 "storage."
 msgstr ""
+"Ένα ζευγάρι μαύρα δερμάτινα παντελόνια. Πολύ σκληρά, αλλά δύσκαμπτα και "
+"χωρίς μεγάλο χώρο αποθήκευσης."
 
 #: lang/json/ARMOR_from_json.py
 msgid "ski pants"
@@ -9134,7 +9491,7 @@ msgstr[1] ""
 #. ~ Description for ski pants
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of pants meant for alpine skiing."
-msgstr ""
+msgstr "Ένα παντελόνι που προοριζόταν για αλπικό σκι."
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor cargo pants"
@@ -9158,7 +9515,7 @@ msgstr[1] ""
 #. ~ Description for peacoat
 #: lang/json/ARMOR_from_json.py
 msgid "A heavy wool coat.  Cumbersome, but warm and with deep pockets."
-msgstr ""
+msgstr "Ένα  βαρύ μάλλινο παλτό. Βαρύ, αλλά ζεστό και με βαθιές τσέπες."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pearl collar"
@@ -9172,6 +9529,8 @@ msgid ""
 "A collar made from round and lustrous pearls, its former owner must be a "
 "wealthy individual."
 msgstr ""
+"Ένα κολάρο από στρογγυλά και λαμπερά μαργαριτάρια, ο πρώην ιδιοκτήτης του "
+"πρέπει να είναι ένα πλούσιο άτομο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pickelhaube"
@@ -9185,6 +9544,8 @@ msgid ""
 "A spiked helmet once worn by German military officers.  The spike is very "
 "sharp."
 msgstr ""
+"Ένα κράνος με δόρυ που φορούσαν κάποτε Γερμανοί στρατιωτικοί. Η ακίδα είναι "
+"πολύ μυτερή."
 
 #: lang/json/ARMOR_from_json.py
 msgid "plastic shopping bag"
@@ -9207,6 +9568,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A short-sleeved cotton shirt, slightly thicker than a t-shirt."
 msgstr ""
+"Ένα κοντομάνικο βαμβακερό μπλουζάκι, ελαφρώς παχύτερο από ένα μπλουζάκι."
 
 #: lang/json/ARMOR_from_json.py
 msgid "wool poncho"
@@ -9219,6 +9581,8 @@ msgstr[1] ""
 msgid ""
 "A simple wool garment worn over the torso.  Provides a bit of protection."
 msgstr ""
+"Ένα απλό μάλλινο ένδυμα που φοριέται πάνω από τον κορμό. Παρέχει λίγη "
+"προστασία."
 
 #: lang/json/ARMOR_from_json.py
 msgid "porkpie hat"
@@ -9233,6 +9597,10 @@ msgid ""
 "the 40s and 50s, still common among those in the mod scene, hipsters, and "
 "people named Heisenberg."
 msgstr ""
+"Ένα καπέλο επίπεδης κορυφής με κυκλική παύλα και στενό χείλος. Τα πιο "
+"δημοφιλή στη δεκαετία του '40 και του '50, ακόμα κοινά μεταξύ εκείνων που "
+"ασχολούνται με τη σκηνή μόδας, χίπστερς και ανθρώπους που ονομάζονται "
+"Heisenberg."
 
 #: lang/json/ARMOR_from_json.py
 msgid "mail carrier hat"
@@ -9246,6 +9614,9 @@ msgid ""
 "A traditional mail carrier's cap, with the US postal service logo "
 "embroidered on the front above the plastic cap.  A symbol of a bygone world."
 msgstr ""
+"Ένα καπέλο του παραδοσιακού ταχυδρομείου, με το λογότυπο της αμερικανικής "
+"ταχυδρομικής υπηρεσίας κεντημένο μπροστά πάνω από το πλαστικό καπάκι. Ένα "
+"σύμβολο ενός παρελθόντος κόσμου."
 
 #: lang/json/ARMOR_from_json.py
 msgid "mail carrier shirt"
@@ -9259,6 +9630,8 @@ msgid ""
 "A light blue button down shirt with a couple of pockets in front and the US "
 "postal service logo embroidered on it."
 msgstr ""
+"Ένα ανοιχτό μπλε μπλουζάκι με δύο τσέπες μπροστά και το λογότυπο της "
+"ταχυδρομικής υπηρεσίας των ΗΠΑ κεντημένο πάνω του."
 
 #: lang/json/ARMOR_from_json.py
 msgid "mail carrier shorts"
@@ -9270,6 +9643,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of dark blue shorts, the kind used by postal service workers."
 msgstr ""
+"Ένα ζευγάρι σκούρο μπλε σορτς, το είδος που χρησιμοποιείται από τους "
+"ταχυδρόμους."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pot helmet"
@@ -9403,7 +9778,7 @@ msgstr[1] ""
 #. ~ Description for purse
 #: lang/json/ARMOR_from_json.py
 msgid "A bit cumbersome to wear, but provides some storage."
-msgstr ""
+msgstr "Λίγο δυσκίνητο να φορεθεί, αλλά παρέχει κάποια αποθήκευση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "quiver"
@@ -9471,6 +9846,9 @@ msgid ""
 "as it is exposed to radiation.  Wear on your lapel so you can notice if it "
 "changes."
 msgstr ""
+"Ένα πλαστικό σήμα με ενσωματωμένη λωρίδα ταινίας. Η λωρίδα φιλμ αλλάζει "
+"χρώμα καθώς εκτίθεται σε ακτινοβολία. Να φοράτε στο γιακά σας, ώστε να "
+"μπορείτε να παρατηρήσετε αν αλλάζει."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pouch"
@@ -9484,6 +9862,8 @@ msgid ""
 "A makeshift bag, cobbled together from rags.  Really gets in the way, but "
 "provides a decent amount of storage."
 msgstr ""
+"Μια αυτοσχέδια σακούλα, μπαλωμένη από κουρέλια. Πραγματικά παρεμποδίζει, "
+"αλλά παρέχει έναν αξιοπρεπή χώρο αποθήκευσης."
 
 #: lang/json/ARMOR_from_json.py
 msgid "gold ring"
@@ -9497,6 +9877,8 @@ msgid ""
 "A flashy gold ring.  You can wear it if you like, but it won't provide any "
 "effects."
 msgstr ""
+"Ένα φανταχτερό χρυσό δαχτυλίδι. Μπορείτε να το φορέσετε αν σας αρέσει, αλλά "
+"δεν θα προσφέρει καμία επίδραση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "robe"
@@ -9521,6 +9903,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A huge military rucksack, provides a lot of storage."
 msgstr ""
+"Ένα τεράστιο στρατιωτικό σακίδιο, παρέχει πάρα πολλή χώρο αποθήκευσης."
 
 #: lang/json/ARMOR_from_json.py
 msgid "runner pack"
@@ -9534,6 +9917,9 @@ msgid ""
 "The obvious choice for outdoor athletes, this ergonomic backpack is light "
 "and easy to wear, ensuring comfort when carrying heavy and bulky items."
 msgstr ""
+"Η προφανής επιλογή για υπαίθριους αθλητές, αυτό το εργονομικό σακίδιο είναι "
+"ελαφρύ και εύκολο στην χρήση, εξασφαλίζοντας άνεση κατά τη μεταφορά βαριών "
+"και ογκωδών αντικειμένων."
 
 #: lang/json/ARMOR_from_json.py
 msgid "scabbard"
@@ -9547,6 +9933,8 @@ msgid ""
 "A large, adjustable sheath for holding swords and other large blades.  "
 "Activate to sheathe/draw a weapon."
 msgstr ""
+"Μεγάλο, ρυθμιζόμενο θηκάρι για την κατοχή ξιφών και άλλων μεγάλων λεπίδων. "
+"Ενεργοποιήστε το για να εναποθέσετε /τραβήξτε ένα όπλο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "fancy watch"
@@ -9624,7 +10012,7 @@ msgstr[1] ""
 #. ~ Description for sheriff's shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A tan button-down shirt with long sleeves."
-msgstr ""
+msgstr "Ένα μαύρο μπλουζάκι με μακριά μανίκια."
 
 #: lang/json/ARMOR_from_json.py
 msgid "shorts"
@@ -9635,7 +10023,7 @@ msgstr[1] ""
 #. ~ Description for shorts
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of khaki shorts."
-msgstr ""
+msgstr "Ένα ζευγάρι χακί σορτς."
 
 #: lang/json/ARMOR_from_json.py
 msgid "cargo shorts"
@@ -9646,7 +10034,7 @@ msgstr[1] ""
 #. ~ Description for cargo shorts
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of shorts lined with pockets, offering decent storage."
-msgstr ""
+msgstr "Ένα ζευγάρι σορτς με τσέπες, προσφέροντας αξιοπρεπή αποθήκευση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "denim shorts"
@@ -9660,6 +10048,8 @@ msgid ""
 "A pair of denim shorts.  Thick and tough, they provide excellent protection "
 "from cuts."
 msgstr ""
+"Ένα ζευγάρι τζιν σορτς. Πυκνά και σκληρά, παρέχουν άριστη προστασία από τα "
+"κοψίματα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "silver bracelet"
@@ -9673,6 +10063,8 @@ msgid ""
 "A nice silver bracelet.  You can wear it if you like, but it won't provide "
 "any effects."
 msgstr ""
+"Ένα όμορφο ασημένιο βραχιόλι. Μπορείτε να το φορέσετε αν σας αρέσει, αλλά "
+"δεν θα δεν θα προσφέρει καμία επίδραση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "silver earring"
@@ -9686,6 +10078,8 @@ msgid ""
 "A beautiful silver earring.  You can wear it if you like, but it won't "
 "provide any effects."
 msgstr ""
+"Ένα όμορφο ασημένιο σκουλαρίκι. Μπορείτε να το φορέσετε αν σας αρέσει, αλλά "
+"δεν θα δεν θα προσφέρει καμία επίδραση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "skinny tie"
@@ -9696,7 +10090,7 @@ msgstr[1] ""
 #. ~ Description for skinny tie
 #: lang/json/ARMOR_from_json.py
 msgid "A skinny black and white checkered necktie."
-msgstr ""
+msgstr "Μία λεπτή ασπρόμαυρη ψηφιδωτή γραβάτα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "skirt"
@@ -9710,6 +10104,7 @@ msgid ""
 "A short, breezy cotton skirt.  Easy to move in, but only has a single small "
 "pocket."
 msgstr ""
+"Μια κοντή, φαρδιά βαμβακερή φούστα. Άνετη, αλλά έχει μόνο μια μικρή τσέπη."
 
 #: lang/json/ARMOR_from_json.py
 msgid "leather skirt"
@@ -9722,6 +10117,8 @@ msgstr[1] ""
 msgid ""
 "A very short leather skirt, clearly designed to look good, not be practical."
 msgstr ""
+"Μια πολύ μικρή δερμάτινη φούστα, σαφώς σχεδιασμένη για να φαίνεται καλή, δεν"
+" είναι πρακτική."
 
 #: lang/json/ARMOR_from_json.py
 msgid "sleeping bag"
@@ -9969,6 +10366,8 @@ msgid ""
 "A small relic from a forgotten saint.  As extraordinary as the world has "
 "become it may have some power yet."
 msgstr ""
+"Ένα μικρό λείψανο από έναν ξεχασμένο άγιο. Έτσι ασυνήθιστος που έχει "
+"καταντήσει αυτός ο κόσμος, αυτό μπορεί να έχει ακόμα κάποια δύναμη."
 
 #: lang/json/ARMOR_from_json.py
 msgid "snuggie"
@@ -10002,7 +10401,7 @@ msgstr[1] ""
 #. ~ Description for pair of socks
 #: lang/json/ARMOR_from_json.py
 msgid "Socks.  Put 'em on your feet."
-msgstr ""
+msgstr "Κάλτσες. Φόρα τες στα πόδια σου."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of bag socks"
@@ -10037,7 +10436,7 @@ msgstr[1] ""
 #. ~ Description for pair of wool socks
 #: lang/json/ARMOR_from_json.py
 msgid "Warm socks made of wool."
-msgstr ""
+msgstr "Ζεστές κάλτσες από μαλλί."
 
 #: lang/json/ARMOR_from_json.py
 msgid "sports bra"
@@ -10051,6 +10450,9 @@ msgid ""
 "A sturdy nylon bra to provide additional support during physical movement.  "
 "Typically worn when exercising, it clings to the skin and is easy to wear."
 msgstr ""
+"Ένα ανθεκτικό νάιλον σουτιέν για να παρέχει πρόσθετη υποστήριξη κατά τη "
+"διάρκεια της φυσικής κίνησης. Συνήθως φοριέται κατά την άσκηση, προσκολλάται"
+" στο δέρμα και είναι εύκολοφόρετο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "WS-47G moisture retention suit"
@@ -10079,6 +10481,8 @@ msgstr[1] ""
 msgid ""
 "Long cotton socks that reach above the knees to help protect from the cold."
 msgstr ""
+"Μακρές βαμβακερές κάλτσες που φτάνουν πάνω από τα γόνατα για να "
+"προστατεύσουν από το κρύο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of tentacle sleeves"
@@ -10092,6 +10496,8 @@ msgid ""
 "Long cotton tubes sized to fit over tentacles and help protect them from the"
 " cold."
 msgstr ""
+"Μακριές βαμβακερές λυχνίες μεγέθους για να ταιριάζουν πάνω από τα πλοκάμια "
+"και να τους προστατεύουν από το κρύο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of tentacle stockings"
@@ -10105,6 +10511,8 @@ msgid ""
 "Six long cotton tubes sized to fit over tentacles and help protect them from"
 " the cold."
 msgstr ""
+"Μεγάλου μεγέθους βαμβακερά σωληνάρια για να χωρέσουν πάνω από τα πλοκάμια "
+"και να τα προστατεύσουν από το κρύο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "straw basket"
@@ -10165,6 +10573,9 @@ msgid ""
 "tailoring and adjustment points...  maybe you don't want to know who wore "
 "it.  Provides nominal storage and is not very encumbering."
 msgstr ""
+"Ένα λεπτό, κοντομάνικο ολόσωμο κοστούμι. Κρίνοντας από την περίεργη ραφή και"
+" σημεία αναπροσαρμογής ... ίσως δεν θέλετε να ξέρετε ποιος το φορούσε. "
+"Παρέχει εικονική αποθήκευση και δεν επιβαρύνει πολύ."
 
 #: lang/json/ARMOR_from_json.py
 msgid "suit"
@@ -10178,6 +10589,8 @@ msgid ""
 "A full-body cotton suit.  Makes the apocalypse a truly gentlemanly "
 "experience."
 msgstr ""
+"Ένα ολόσωμο βαμβακερό κουστούμι. Κάνει την αποκάλυψη μια πραγματικά  "
+"εμπειρία για τζέντλεμαν."
 
 #: lang/json/ARMOR_from_json.py
 msgid "suitcase"
@@ -10200,6 +10613,9 @@ msgid ""
 "possessions during trips, provides a decent amount of storage but hauling it"
 " around is not exactly comfortable."
 msgstr ""
+"Μια βαλίτσα μεσαίου μεγέθους που χρησιμοποιείται κυρίως για τη μεταφορά "
+"ρούχων και άλλων ειδών κατά τη διάρκεια ταξιδιών, παρέχει μια αξιοπρεπή "
+"ποσότητα αποθήκευσης, αλλά η μεταφορά του δεν είναι ακριβώς άνετη."
 
 #: lang/json/ARMOR_from_json.py
 msgid "sundress"
@@ -10213,6 +10629,8 @@ msgid ""
 "A light and breezy cotton dress.  Though cool and comfortable to wear, it "
 "lacks any storage space."
 msgstr ""
+"Ένα ελαφρύ και δροσερό βαμβακερό φόρεμα. Αν και δροσερό και άνετο για να "
+"φορεθεί, στερείται κάθε αποθηκευτικό χώρο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of sunglasses"
@@ -10224,6 +10642,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of sunglasses, good for keeping the glare out of your eyes."
 msgstr ""
+"Ένα ζευγάρι γυαλιά ηλίου, καλό για να κρατήσει την αντηλιά έξω από τα μάτια "
+"σας."
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor belt"
@@ -10257,6 +10677,8 @@ msgid ""
 "A custom-built heavy duffel bag.  Durable and carefully crafted to hold as "
 "much stuff as possible."
 msgstr ""
+"Ένα βαρύ σακίδιο. Ανθεκτικό και προσεκτικά κατασκευασμένο για να κρατήσει "
+"όσο το δυνατόν περισσότερα πράγματα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor goggles"
@@ -10283,6 +10705,8 @@ msgid ""
 "A custom-built backpack.  Durable and carefully crafted to hold as much "
 "stuff as possible."
 msgstr ""
+"Ένα προσαρμοσμένο σακίδιο. Ανθεκτικό και προσεκτικά σχεδιασμένο για να "
+"κρατάει όσο το δυνατόν περισσότερα πράγματα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor rucksack"
@@ -10296,6 +10720,8 @@ msgid ""
 "A custom-built heavy backpack.  Durable and carefully crafted to hold as "
 "much stuff as possible."
 msgstr ""
+"Ένα βαρύ σακίδιο προσαρμοσμένο στις ανάγκες σας. Ανθεκτικό και προσεκτικά "
+"σχεδιασμένο για να κρατάει όσο το δυνατόν περισσότερα πράγματα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor runner pack"
@@ -10309,6 +10735,8 @@ msgid ""
 "A custom-built lightweight runner pack.  Durable and carefully crafted to "
 "hold as much stuff as possible."
 msgstr ""
+"Ένα ελαφρύ σακίδιο δρομέων προσαρμοσμένο στις ανάγκες σας. Ανθεκτικό και "
+"προσεκτικά σχεδιασμένο για να κρατάει όσο το δυνατόν περισσότερα πράγματα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor suit"
@@ -10358,7 +10786,7 @@ msgstr[1] ""
 #. ~ Description for sweater
 #: lang/json/ARMOR_from_json.py
 msgid "A wool shirt.  Provides warmth."
-msgstr ""
+msgstr "Ένα μάλλινο πουλόβερ. Παρέχει ζεστασιά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "sweatshirt"
@@ -10369,7 +10797,7 @@ msgstr[1] ""
 #. ~ Description for sweatshirt
 #: lang/json/ARMOR_from_json.py
 msgid "A thick cotton shirt.  Provides warmth and a bit of padding."
-msgstr ""
+msgstr "Ένα παχύ βαμβακερό μπλουζάκι. Παρέχει ζεστασιά και λίγο γέμισμα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of tabi"
@@ -10428,7 +10856,7 @@ msgstr[1] ""
 #. ~ Description for tank top
 #: lang/json/ARMOR_from_json.py
 msgid "A sleeveless cotton shirt.  Very easy to move in."
-msgstr ""
+msgstr "Ένα μπλουζάκι χωρίς μανίκια. Πολύ άνετο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "work pants"
@@ -10503,6 +10931,8 @@ msgid ""
 "A snug cloth garment which clings tightly to the legs and feet to protect "
 "them from the cold."
 msgstr ""
+"Ένα εφαρμοστό ρούχο που προσκολλάται σφιχτά στα πόδια για να τα προστατεύσει"
+" από το κρύο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "tinfoil hat"
@@ -10543,6 +10973,8 @@ msgid ""
 "The only hat for a gentleman.  Look exquisite while laughing in the face of "
 "danger!"
 msgstr ""
+"Το μόνο καπέλο για έναν κύριο. Φανείτε εξαίσιοι, ενώ γελάτε μπροστά στον "
+"κίνδυνο!"
 
 #: lang/json/ARMOR_from_json.py
 msgid "leather touring suit"
@@ -10556,6 +10988,8 @@ msgid ""
 "A thick leather body suit made for protection while riding motorcycles.  "
 "Light and very comfortable."
 msgstr ""
+"Μια παχιά δερμάτινη στολή που φτιάχτηκε για προστασία για τους "
+"μοτοσικλετιστές. Ελαφριά και πολύ άνετη."
 
 #: lang/json/ARMOR_from_json.py
 msgid "trenchcoat"
@@ -10567,6 +11001,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A thin cotton trenchcoat, lined with pockets.  Great for storage."
 msgstr ""
+"Ένα λεπτό βαμβακερό παλτό, επενδεδυμένο με τσέπες. Εξαιρετικό για "
+"αποθήκευση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "fur trenchcoat"
@@ -10578,6 +11014,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A thick fur trenchcoat, lined with pockets.  Great for storage."
 msgstr ""
+"Ένα παχύ μάλλινο παλτό, επενδεδυμένο με τσέπες. Εξαιρετικό για την "
+"αποθήκευση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "faux fur trenchcoat"
@@ -10602,6 +11040,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A thick leather trenchcoat, lined with pockets.  Great for storage."
 msgstr ""
+"Ένα παχύ δερμάτινο παλτό, επενδεδυμένο με τσέπες. Εξαιρετικό για την "
+"αποθήκευση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor trenchcoat"
@@ -10641,7 +11081,7 @@ msgstr[1] ""
 #. ~ Description for pair of swimming trunks
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of swimming trunks, with netting."
-msgstr ""
+msgstr "Ένα ζευγάρι μαγιό, με δίχτυ."
 
 #: lang/json/ARMOR_from_json.py
 msgid "t-shirt"
@@ -10652,13 +11092,15 @@ msgstr[1] ""
 #. ~ Description for t-shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A short-sleeved cotton shirt."
-msgstr ""
+msgstr "Ένα κοντομάνικο βαμβακερό μπλουζάκι."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A short-sleeved cotton shirt with the text \"chown -R us ~your/base\" "
 "printed on the front."
 msgstr ""
+"Ένα βαμβακερό πουκάμισο κοντομάνικο με το κείμενο «cchown -R us ~your/base» "
+"τυπωμένο στην μπροστινή πλευρά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "tunic"
@@ -10705,6 +11147,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A full-body tuxedo.  Makes the apocalypse feel a little more classy."
 msgstr ""
+"Ένα πλήρες σμόκιν. Κάνει την αποκάλυψη να αισθάνεται λίγο πιο φινετσάτη."
 
 #: lang/json/ARMOR_from_json.py
 msgid "compression top"
@@ -10717,6 +11160,8 @@ msgstr[1] ""
 msgid ""
 "Nylon sportswear that clings to your chest and maintains body temperature."
 msgstr ""
+"Νάιλον αθλητικός ρουχισμός που αγκαλιάζει το στήθος σας και διατηρεί τη "
+"θερμοκρασία του σώματος."
 
 #: lang/json/ARMOR_from_json.py
 msgid "compression shorts"
@@ -10730,6 +11175,8 @@ msgid ""
 "Nylon sportswear that clings to your upper legs, aiding muscle tone and "
 "maintaining warmth."
 msgstr ""
+"Νάιλον αθλητικός ρουχισμός που αγκαλιάζει τα μπούτια σας και διατηρεί τη "
+"θερμοκρασία του σώματος."
 
 #: lang/json/ARMOR_from_json.py
 msgid "undershirt"
@@ -10743,6 +11190,8 @@ msgid ""
 "A simple white undershirt.  Worn beneath your regular clothes, it provides a"
 " little extra warmth."
 msgstr ""
+"Μια απλή άσπρη φανέλα. Φοριέται κάτω από τα συνηθισμένα σου ρούχα, προσφέρει"
+" λίγη επιπλέον ζεστασιά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "union suit"
@@ -10788,7 +11237,7 @@ msgstr[1] ""
 #. ~ Description for utility vest
 #: lang/json/ARMOR_from_json.py
 msgid "A light vest covered in pockets and straps for storage."
-msgstr ""
+msgstr "Ένα ελαφρύ γιλέκο καλυμμένο με τσέπες και ιμάντες για αποθήκευση."
 
 #: lang/json/ARMOR_from_json.py
 msgid "leather vest"
@@ -10801,6 +11250,8 @@ msgstr[1] ""
 msgid ""
 "A vest made from thick leather.  Offers excellent protection from cuts."
 msgstr ""
+"Ένα γιλέκο από χοντρό δέρμα. Προσφέρει εξαιρετική προστασία από τις "
+"περικοπές."
 
 #: lang/json/ARMOR_from_json.py
 msgid "armored leather vest"
@@ -10827,6 +11278,9 @@ msgid ""
 "An elegant waistcoat.  Ideal for those occasions when wearing only a shirt "
 "would be too casual and a suit would be just overdoing it."
 msgstr ""
+"Ένα κομψό γιλέκο. Ιδανικό για αυτές τις περιπτώσεις όταν φορώντας μόνο ένα "
+"πουκάμισο θα ήταν πολύ χαλαρό και ένα κοστούμι θα ήταν απλά να το "
+"παρακάνεις."
 
 #: lang/json/ARMOR_from_json.py
 msgid "wetsuit"
@@ -10837,7 +11291,7 @@ msgstr[1] ""
 #. ~ Description for wetsuit
 #: lang/json/ARMOR_from_json.py
 msgid "A full-body neoprene wetsuit."
-msgstr ""
+msgstr "Μία ολόσωμη στολή κολύμβησης νεοπρενίου."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of swimming gloves"
@@ -10861,7 +11315,7 @@ msgstr[1] ""
 #. ~ Description for wetsuit hood
 #: lang/json/ARMOR_from_json.py
 msgid "A neoprene hood, commonly worn by divers."
-msgstr ""
+msgstr "Μια κουκούλα νεοπρένιο, φοριέται συνήθως από δύτες."
 
 #: lang/json/ARMOR_from_json.py
 msgid "spring suit"
@@ -10900,6 +11354,8 @@ msgid ""
 "A tough hooded jacket with lots of pockets, thickly padded for warmth.  "
 "Favored by the military."
 msgstr ""
+"Ένα σκληρό μπουφάν με κουκούλα και πολλές τσέπες, παχιά επένδυση για "
+"ζεστασιά. Προτιμούνται από τον στρατό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "army winter pants"
@@ -10913,6 +11369,8 @@ msgid ""
 "A tough pair of pants lined with pockets, thickly padded for warmth.  "
 "Favored by the military."
 msgstr ""
+"Ένα σκληρό ζευγάρι παντελόνια με τσέπες, με παχιά επένδυση για ζεστασιά. "
+"Προτιμούνται από τον στρατό."
 
 #: lang/json/ARMOR_from_json.py
 msgid "wolf suit"
@@ -10926,6 +11384,8 @@ msgid ""
 "A full body fursuit in the form of an anthropomorphic wolf.  It is quite "
 "encumbering and has little storage but is very warm."
 msgstr ""
+"Μια ολόσωμη στολή με τη μορφή λυκανθρώπου. Είναι αρκετά βαριά και έχει μικρό"
+" αποθηκευτικό χώρο, αλλά είναι πολύ ζεστή."
 
 #: lang/json/ARMOR_from_json.py
 msgid "wool hoodie"
@@ -11453,6 +11913,8 @@ msgid ""
 "Lightweight sandals made from wound cord.  They offer little in the way of "
 "protection, but keep you cool during warmer months."
 msgstr ""
+"Ελαφριά σανδάλια κατασκευασμένα από το καραβόσκοινο. Προσφέρουν λίγα στον "
+"τρόπο προστασίας, αλλά σας κρατούν δροσερά τους θερμότερους μήνες."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of boots"
@@ -11463,7 +11925,7 @@ msgstr[1] ""
 #. ~ Description for pair of boots
 #: lang/json/ARMOR_from_json.py
 msgid "Tough leather boots.  Very durable."
-msgstr ""
+msgstr "Σκληρές δερμάτινες μπότες. Πολύ ανθεκτικές."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of bone armor boots"
@@ -11476,6 +11938,7 @@ msgstr[1] ""
 msgid ""
 "Leather boots armored with reinforcements made from bone.  Light and strong."
 msgstr ""
+"Δερμάτινες μπότες θωρακισμένες με ενισχύσεις από οστά. Ελαφριές και δυνατές."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of turnout boots"
@@ -11489,6 +11952,9 @@ msgid ""
 "A pair of steel-toed rubber boots, the sort worn by firefighters.  Highly "
 "resistant to heat and flame, they provide excellent protection from injury."
 msgstr ""
+"Ένα ζευγάρι μπότες από καουτσούκ και χάλυβα, το είδος που φορούσαν οι "
+"πυροσβέστες. Ιδιαίτερα ανθεκτικά στη θερμότητα και τη φλόγα, παρέχουν "
+"εξαιρετική προστασία από τραυματισμούς."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of chitinous boots"
@@ -11499,7 +11965,7 @@ msgstr[1] ""
 #. ~ Description for pair of chitinous boots
 #: lang/json/ARMOR_from_json.py
 msgid "Boots made from the exoskeletons of insects.  Light and durable."
-msgstr ""
+msgstr "Μπότες φτιαγμένες από εξωσκελετούς εντόμων. Ελαφριές και ανθεκτικές."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of biosilicified chitin boots"
@@ -11523,7 +11989,7 @@ msgstr[1] ""
 #. ~ Description for pair of combat boots
 #: lang/json/ARMOR_from_json.py
 msgid "Modern reinforced tactical combat boots.  Very durable."
-msgstr ""
+msgstr "Σύγχρονες ενισχυμένες τακτικές μπότες μάχης. Πολύ ανθεκτικές."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of survivor fireboots"
@@ -11548,7 +12014,7 @@ msgstr[1] ""
 #. ~ Description for pair of fur boots
 #: lang/json/ARMOR_from_json.py
 msgid "Boots lined with fur for warmth."
-msgstr ""
+msgstr "Μπότες επενδεδυμένες με γούνα για ζεστασιά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of survivor wetsuit boots"
@@ -11573,7 +12039,7 @@ msgstr[1] ""
 #. ~ Description for pair of hiking boots
 #: lang/json/ARMOR_from_json.py
 msgid "Tough yet light leather boots.  Durable and comfortable."
-msgstr ""
+msgstr "Σκληρές αλλά ελαφριές δερμάτινες μπότες. Ανθεκτικές και άνετες."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of heavy survivor boots"
@@ -11599,6 +12065,8 @@ msgstr[1] ""
 msgid ""
 "Thick leather boots made specifically to protect the feet.  Light and tough."
 msgstr ""
+"Χοντρές δερμάτινες μπότες φτιαγμένα ειδικά για να προστατεύουν τα πόδια. "
+"Ελαφριές και σκληρές."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of light survivor boots"
@@ -11635,6 +12103,8 @@ msgstr[1] ""
 msgid ""
 "A pair of rubber boots, often used while cleaning with caustic materials."
 msgstr ""
+"Ένα ζευγάρι μπότες από καουτσούκ, που χρησιμοποιούνται συχνά κατά τον "
+"καθαρισμό με καυστικά υλικά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of steeltoed boots"
@@ -11645,7 +12115,7 @@ msgstr[1] ""
 #. ~ Description for pair of steeltoed boots
 #: lang/json/ARMOR_from_json.py
 msgid "Leather boots with a steel toe.  Extremely durable."
-msgstr ""
+msgstr "Δερμάτινες μπότες με ατσάλινη μύτη. Εξαιρετικά ανθεκτικές."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of survivor boots"
@@ -11683,7 +12153,7 @@ msgstr[1] ""
 #. ~ Description for pair of winter boots
 #: lang/json/ARMOR_from_json.py
 msgid "Cumbersome boots designed for warmth."
-msgstr ""
+msgstr "Δύσκαμπτες μπότες σχεδιασμένες για ζεστασιά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of winter survivor boots"
@@ -11724,6 +12194,8 @@ msgid ""
 "Sport shoes with hard undersides, and studs on the bottom designed to dig "
 "into the grass."
 msgstr ""
+"Αθλητικά παπούτσια με σκληρή πατούσα και καρφιά στο κάτω μέρος που έχουν "
+"σχεδιαστεί για να σκάβουν στο γρασίδι."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of golf shoes"
@@ -11748,6 +12220,9 @@ msgid ""
 "Known as klompen in the Netherlands and sabots in France, these wooden shoes"
 " have endured through the ages due to their simple design and durability."
 msgstr ""
+"Γνωστό ως klompen στην Ολλανδία και sabots στη Γαλλία, αυτά τα ξύλινα "
+"παπούτσια έχουν αντέξει μέσα στο χρόνο λόγω του απλού σχεδιασμού και της "
+"αντοχής τους."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of clown shoes"
@@ -11759,6 +12234,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "Gigantic shoes fit for a clown.  Incredibly difficult to walk in."
 msgstr ""
+"Τεράστια παπούτσια που ταιριάζουν σε κλόουν. Απίστευτα δύσκολο να περπατάς "
+"με αυτά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of dance shoes"
@@ -11780,7 +12257,7 @@ msgstr[1] ""
 #. ~ Description for pair of dress shoes
 #: lang/json/ARMOR_from_json.py
 msgid "Fancy patent leather shoes.  Not designed for running in."
-msgstr ""
+msgstr "Φανταχτερά δερμάτινα παπούτσια. Δεν έχουν σχεδιαστεί για τρέξιμο."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of flip-flops"
@@ -11791,7 +12268,7 @@ msgstr[1] ""
 #. ~ Description for pair of flip-flops
 #: lang/json/ARMOR_from_json.py
 msgid "Simple sandals.  Very difficult to run in."
-msgstr ""
+msgstr "Απλά σανδάλια. Πολύ δύσκολο να τρέξεις με αυτά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of foot rags"
@@ -11805,6 +12282,8 @@ msgid ""
 "Rags tied around your feet.  Not much of an improvement over being barefoot,"
 " still better than nothing."
 msgstr ""
+"Κουρέλια δεμένα γύρω από τα πόδια σας. Δεν είναι και μεγάλη βελτίωση από το "
+"να είσαι ξυπόλητος, όμως καλύτερα από το τίποτα."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of fur foot wraps"
@@ -11854,7 +12333,7 @@ msgstr[1] ""
 #. ~ Description for pair of heels
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of high heels.  Difficult to even walk in."
-msgstr ""
+msgstr "Ένα ζευγάρι ψηλά τακούνια. Δύσκολο ακόμη και να περπατήσει με αυτά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of knee-high boots"
@@ -11868,6 +12347,8 @@ msgid ""
 "Very long leather boots that cover the lower legs.  Difficult to wear but "
 "extremely durable."
 msgstr ""
+"Πολύ μεγάλες δερμάτινες μπότες που καλύπτουν τα πόδια. Δύσκολο να φορεθούν, "
+"αλλά εξαιρετικά ανθεκτικά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of leather sandals"
@@ -11881,6 +12362,9 @@ msgid ""
 "Sturdy leather hiking sandals with a heel strap.  Offers little in the way "
 "of protection, but keeps you cool during warmer months."
 msgstr ""
+"Ανθεκτικά δερμάτινα σανδάλια πεζοπορίας με λουράκι τακουνιού. Προσφέρει λίγα"
+" στον τρόπο προστασίας, αλλά σας κρατά δροσερό κατά τη διάρκεια των "
+"θερμότερων μηνών."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of lowtop tennis shoes"
@@ -11891,7 +12375,7 @@ msgstr[1] ""
 #. ~ Description for pair of lowtop tennis shoes
 #: lang/json/ARMOR_from_json.py
 msgid "Lightweight shoes made of cloth and rubber."
-msgstr ""
+msgstr "Ελαφριά παπούτσια από ύφασμα και καουτσούκ."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of moccasins"
@@ -11902,7 +12386,7 @@ msgstr[1] ""
 #. ~ Description for pair of moccasins
 #: lang/json/ARMOR_from_json.py
 msgid "Simple shoes made from animal pelts."
-msgstr ""
+msgstr "Απλά παπούτσια φτιαγμένα από δέρματα ζώων."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of motorcycle boots"
@@ -11927,6 +12411,8 @@ msgid ""
 "A pair of inline skates.  Very fast on flat floors, but they make it hard to"
 " move on rough terrain, or to dodge effectively."
 msgstr ""
+"Ένα ζευγάρι πατίνια. Πολύ γρήγορα σε επίπεδο έδαφος, αλλά δυσκολεύουν να "
+"μετακινηθούν σε ανώμαλο έδαφος ή να αποφύγουν αποτελεσματικά."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of rollerskates"
@@ -11940,6 +12426,9 @@ msgid ""
 "An old-fashioned pair of leather rollerskates with steel frames.  While "
 "quite fast on flat floors, they make it difficult to move on rough terrain."
 msgstr ""
+"Ένα παλιομοδίτικο ζευγάρι δερμάτινα πατίνια με ατσάλινο σκελετό. Ενώ είναι "
+"αρκετά γρήγορα σε επίπεδες επιφάνειες, καθιστούν δύσκολο την μετακίνηση με "
+"αυτά σε ανώμαλο έδαφος."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of birchbark shoes"
@@ -11965,6 +12454,8 @@ msgstr[1] ""
 msgid ""
 "A pair of flat-soled shoes designed to give you a grip on slippery surfaces."
 msgstr ""
+"Ένα ζευγάρι επίπεδων παπουτσιών σχεδιασμένο για να σας δώσει κράτημα σε "
+"ολισθηρές επιφάνειες."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of slippers"
@@ -11987,6 +12478,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "Guaranteed to make you run faster and jump higher!"
 msgstr ""
+"Εγγυημένα θα σας κάνουν να τρέξετε γρηγορότερα και να πηδήξετε ψηλότερα!"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of straw sandals"
@@ -12013,6 +12505,9 @@ msgid ""
 "A pair of rubber flippers worn on the feet which improve swimming speed "
 "while greatly impeding the wearer's ability to walk."
 msgstr ""
+"Ένα ζευγάρι βατραχοπέδιλα από καουτσούκ που φοριούνται στα πόδια,  "
+"βελτιώνουν την ταχύτητα στο κολύμπι , ενώ εμποδίζουν σημαντικά την ικανότητα"
+" του χρήστη να περπατήσει."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of thigh-high boots"
@@ -12037,6 +12532,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of neoprene swimming booties, with individual toes."
 msgstr ""
+"Ένα ζευγάρι μποτάκια κολύμβησης νεοπρενίου, με ανατομικά δάχτυλα ποδιών."
 
 #: lang/json/ARMOR_from_json.py
 msgid "back holster"
@@ -12163,6 +12659,8 @@ msgid ""
 "Stiff leather boots with intricate embroidery and one-inch heels.  They look"
 " good, but aren't made for running."
 msgstr ""
+"Σκληρές δερμάτινες μπότες με περίτεχνα κεντήματα και τακούνια 1 ίντσα. "
+"Φαίνονται καλά, αλλά δεν είναι φτιαγμένα για τρέξιμο."
 
 #. ~ Description for pistol bandolier
 #: lang/json/ARMOR_from_json.py
@@ -13910,6 +14408,9 @@ msgid ""
 "Normally this glossy, ad-filled magazine about cars would be pointless, but "
 "it has a series of articles on haggling techniques."
 msgstr ""
+"Κανονικά αυτό το γυαλιστερό, γεμάτο από διαφημίσεις περιοδικό για τα "
+"αυτοκίνητα θα ήταν άσκοπο, αλλά έχει μια σειρά από άρθρα σχετικά με τις "
+"τεχνικές παλαίωσης."
 
 #: lang/json/BOOK_from_json.py
 msgid "How to Succeed in Business"
@@ -13946,6 +14447,9 @@ msgid ""
 "colorful, full-page photos of skilled athletes demonstrating proper form and"
 " technique."
 msgstr ""
+"Ένα περιοδικό για μπέιζμπολ που επικεντρώνεται στις άκρες του χτυπήματος. "
+"Υπάρχουν πολλές πολύχρωμες, πλήρους σελίδας φωτογραφίες των ειδικευμένων "
+"αθλητών που αποδεικνύουν τη σωστή μορφή και τεχνική."
 
 #: lang/json/BOOK_from_json.py
 msgid "tactical baton defense manual"
@@ -13960,6 +14464,10 @@ msgid ""
 "law enforcement and military market, it is packed with time tested, no-"
 "nonsense information and written to be understandable for beginners."
 msgstr ""
+"Ένας κατατοπιστικός οδηγός για αυτοάμυνα, χρησιμοποιώντας ρόπαλα και γκλομπ."
+" Με στόχο την επιβολή του νόμου και τη στρατιωτική αγορά, είναι γεμάτη με "
+"δοκιμασμένο χρόνο, χωρίς ανόητες πληροφορίες και γραμμένο να είναι κατανοητή"
+" για αρχάριους."
 
 #: lang/json/BOOK_from_json.py
 msgid "SICP"
@@ -14007,6 +14515,8 @@ msgstr[1] ""
 msgid ""
 "An informative magazine all about computers, both hardware and software."
 msgstr ""
+"Ένα ενημερωτικό περιοδικό για όλους τους υπολογιστές, τόσο σε υλικό όσο και "
+"σε λογισμικό."
 
 #: lang/json/BOOK_from_json.py
 msgid "Computer Science 101"
@@ -14134,6 +14644,8 @@ msgstr[1] ""
 msgid ""
 "Exciting recipes and restaurant reviews.  Full of handy tips about cooking."
 msgstr ""
+"Συναρπαστικές συνταγές και κριτικές εστιατορίων. Γεμάτες χρήσιμες συμβουλές "
+"για το μαγείρεμα."
 
 #: lang/json/BOOK_from_json.py
 msgid "Glamopolitan"
@@ -14148,6 +14660,9 @@ msgid ""
 "recipes and some simple cooking tips somewhere in between the fashion photos"
 " and the sex advice columns."
 msgstr ""
+"Αυτό είναι ένα πλήρες μέγεθος γυναικείο περιοδικό. Υπάρχουν μερικές μη "
+"πρωτότυπες συνταγές και μερικές απλές συμβουλές μαγειρικής κάπου ανάμεσα "
+"στις φωτογραφίες της μόδας και τις στήλες συμβουλών σεξ."
 
 #: lang/json/BOOK_from_json.py
 msgid "The Modern Tanner"
@@ -14344,6 +14859,8 @@ msgid ""
 "An interesting magazine that contains information about swords and sword "
 "fighting techniques from all across the world."
 msgstr ""
+"Ένα ενδιαφέρον περιοδικό που περιέχει πληροφορίες για σπαθιά και τεχνικές "
+"μάχης σπαθιού από όλο τον κόσμο."
 
 #: lang/json/BOOK_from_json.py
 msgid "knife fighter's notes"
@@ -14358,6 +14875,9 @@ msgid ""
 "released on spiral- bound paper.  Still, there are lots of useful tips for "
 "beginners."
 msgstr ""
+"Φαίνεται να είναι ένας οδηγός για το αιχμηρό όπλο μάχης, κακή φωτοτυπία και "
+"απελευθερώνεται σε σπειροειδές χαρτί. Ωστόσο, υπάρχουν πολλές χρήσιμες "
+"συμβουλές για αρχάριους."
 
 #: lang/json/BOOK_from_json.py
 msgid "Spetsnaz Knife Techniques"
@@ -14429,7 +14949,7 @@ msgstr[1] ""
 #. ~ Description for Top Gear magazine
 #: lang/json/BOOK_from_json.py
 msgid "Lots of articles about cars and driving techniques."
-msgstr ""
+msgstr "Πολλά άρθρα σχετικά με τα αυτοκίνητα και τις τεχνικές οδήγησης."
 
 #: lang/json/BOOK_from_json.py
 msgid "The Rules of the Road"
@@ -14476,6 +14996,8 @@ msgid ""
 "An amusing magazine about ham radio, with lots of diagrams and illustrations"
 " for making your own electronic devices."
 msgstr ""
+"Ένα διασκεδαστικό περιοδικό για το ham radio, με πολλά διαγράμματα και "
+"εικονογραφήσεις για τη δημιουργία των δικών σας ηλεκτρονικών συσκευών."
 
 #: lang/json/BOOK_from_json.py
 msgid "What's a Transistor?"
@@ -14995,6 +15517,8 @@ msgid ""
 "A hardbound book detailing advanced first aid techniques and field-expedient"
 " medical care."
 msgstr ""
+"Ένα βιβλίο με λεπτομέρειες για προηγμένες τεχνικές πρώτων βοηθειών και την "
+"κατάλληλη ιατρική φροντίδα."
 
 #: lang/json/BOOK_from_json.py
 msgid "First Aid Kit Instruction Booklet"
@@ -15058,6 +15582,9 @@ msgid ""
 "rifles.  There are lots of large, exciting photos of explosions and "
 "weaponry."
 msgstr ""
+"Μια ενδιαφέρουσα τριμηνιαία αναφορά για εκτοξευτές πυραύλων και τουφέκια "
+"χωρίς στοιχεία. Υπάρχουν πολλές μεγάλες, συναρπαστικές φωτογραφίες από "
+"εκρήξεις και όπλα."
 
 #: lang/json/BOOK_from_json.py
 msgid "Jane's Mortars and Rocket Launchers"
@@ -15072,6 +15599,9 @@ msgid ""
 "and recoilless weaponry.  Lavishly illustrated with color photographs, it "
 "contains a wealth of information."
 msgstr ""
+"Ένας απίστευτα Λεπτομερής οδηγός για σύγχρονους πυραύλους, όλμους, "
+"εκτοξευτές βομβίδων και όπλα χωρίς συστήματα. Πλουσιοπάροχα εικονογραφημένο "
+"με έγχρωμες φωτογραφίες, περιέχει μια πληθώρα πληροφοριών."
 
 #: lang/json/BOOK_from_json.py
 msgid "Internal Combustion Fundamentals"
@@ -15111,6 +15641,8 @@ msgid ""
 "A magazine about mechanical innovations.  Full of entertaining articles and "
 "advertisements for esoteric gadgets."
 msgstr ""
+"Ένα περιοδικό για τις μηχανικές καινοτομίες. Γεμάτο διασκεδαστικά άρθρα και "
+"διαφημίσεις για εσωτερικά gadgets."
 
 #: lang/json/BOOK_from_json.py
 msgid "Under the Hood"
@@ -15159,6 +15691,8 @@ msgid ""
 "An in-depth look at various styles of close quarters fighting.  There's an "
 "amusing essay about dirty tricks in the front section."
 msgstr ""
+"Μια σε βάθος ματιά σε διάφορα στυλ της στενής μάχης. Υπάρχει μια "
+"διασκεδαστική έκθεση για βρώμικα κόλπα στης πρώτες σελίδες."
 
 #: lang/json/BOOK_from_json.py
 msgid "Close Quarter Fighting Manual"
@@ -15172,6 +15706,8 @@ msgid ""
 "A well-thumbed hardbound book which illustrates simple strategies and "
 "techniques for close quarters combat encounters."
 msgstr ""
+"Ένα βιβλίο με σκληρό περίβλημα που απεικονίζει απλές στρατηγικές και "
+"τεχνικές για μάχες σώμα με σώμα."
 
 #: lang/json/BOOK_from_json.py
 msgid "Zombie Survival Guide"
@@ -15535,6 +16071,8 @@ msgstr[1] ""
 #: lang/json/BOOK_from_json.py
 msgid "Current events concerning a bunch of people who're all (un)dead now."
 msgstr ""
+"Σημερινά γεγονότα που αφορούν ένα μάτσο ανθρώπους που είναι όλοι νεκροί "
+"τώρα."
 
 #: lang/json/BOOK_from_json.py
 msgid "Playboy"
@@ -15545,7 +16083,7 @@ msgstr[1] ""
 #. ~ Description for Playboy
 #: lang/json/BOOK_from_json.py
 msgid "You can read it for the articles.  Or not."
-msgstr ""
+msgstr "Μπορείτε να το διαβάσετε για τα άρθρα. Μπορεί και όχι."
 
 #: lang/json/BOOK_from_json.py
 msgid "frequency list"
@@ -15571,6 +16109,9 @@ msgid ""
 "snowstorms and several letters to the editor concerning the community "
 "response."
 msgstr ""
+"Μια εβδομαδιαία είδηση που καλύπτει περιφερειακές εκδηλώσεις. Υπάρχει ένα "
+"άρθρο για τις χιονοθύελλες του χειμώνα και αρκετά γράμματα προς τον συντάκτη"
+" σχετικά με την ανταπόκριση της Κοινότητας."
 
 #: lang/json/BOOK_from_json.py
 msgid "adventure novel"
@@ -15919,6 +16460,9 @@ msgid ""
 "the people in them, but seeing these pictures still makes you think of "
 "happier times."
 msgstr ""
+"Ένα δερμάτινο άλμπουμ γεμάτο φωτογραφίες από την οικογένεια κάποιου. Δεν "
+"ξέρω κανέναν από τους ανθρώπους σε αυτές, αλλά βλέποντας αυτές τις εικόνες "
+"ακόμα σας κάνει να σκεφτείτε για κάτι ευτυχισμένο."
 
 #: lang/json/BOOK_from_json.py
 msgid "book of plays"
@@ -16053,6 +16597,8 @@ msgid ""
 "A glossy magazine all about handguns and shooting.  There is a good article "
 "about proper sighting near the middle."
 msgstr ""
+"Ένα γυαλιστερό περιοδικό για πιστόλια και πυροβολισμούς. Υπάρχει ένα καλό "
+"άρθρο για τη σωστή θέαση κάπου κοντά στη μέση."
 
 #: lang/json/BOOK_from_json.py
 msgid "The Tao of the Handgun"
@@ -16066,6 +16612,9 @@ msgid ""
 "This introspective volume covers proper usage of handguns, from safety and "
 "stance, to maintenance and proper sighting technique."
 msgstr ""
+"Αυτή η ενδοσκοπική ένταση καλύπτει τη σωστή χρήση των όπλων, από την "
+"ασφάλεια και τη στάση, μέχρι τη συντήρηση και την κατάλληλη τεχνική "
+"παρατήρησης."
 
 #: lang/json/BOOK_from_json.py
 msgid "Modern Rifleman"
@@ -16079,6 +16628,8 @@ msgid ""
 "An informative magazine all about rifles and shooting.  There is an "
 "excellent article about proper maintenance in this issue."
 msgstr ""
+"Ένα ενημερωτικό περιοδικό για τουφέκια και πυροβολισμούς. Υπάρχει ένα "
+"εξαιρετικό άρθρο σχετικά με την κατάλληλη συντήρηση σε αυτό το θέμα."
 
 #: lang/json/BOOK_from_json.py
 msgid "FM 23-16 Army marksmanship manual"
@@ -16092,6 +16643,8 @@ msgid ""
 "A hefty military field manual about automatic rifle usage and techniques "
 "which improve marksmanship and proper weapons-handling."
 msgstr ""
+"Ένα βαρύ στρατιωτικό εγχειρίδιο πεδίου για την αυτόματη χρήση τουφεκιού και "
+"τεχνικές που βελτιώνουν την σκοποβολή και τον κατάλληλο χειρισμό όπλων."
 
 #: lang/json/BOOK_from_json.py
 msgid "Trap and Field"
@@ -16105,6 +16658,8 @@ msgid ""
 "An in-depth magazine all about shotguns and shooting.  There is an "
 "informative article about proper shooting stance in the back pages."
 msgstr ""
+"Ένα αναλυτικό περιοδικό για καραμπίνες και πυροβολισμούς. Υπάρχει ένα "
+"ενημερωτικό άρθρο σχετικά με τη σωστή στάση σκοποβολής στις πίσω σελίδες."
 
 #: lang/json/BOOK_from_json.py
 msgid "Shotguns: The art and science"
@@ -16118,6 +16673,9 @@ msgid ""
 "This book claims to address every problem the shotgunner is likely to face, "
 "and offers solutions to ensure that shooters can make every shot count."
 msgstr ""
+"Αυτό το βιβλίο ισχυρίζεται ότι αντιμετωπίζει κάθε πρόβλημα που ο χειριστής "
+"είναι πιθανό να αντιμετωπίσει, και προσφέρει λύσεις για να εξασφαλίσει ότι "
+"οι σκοπευτές μπορούν να κάνουν κάθε βολή να μετράει."
 
 #: lang/json/BOOK_from_json.py
 msgid "Submachine Gun Enthusiast"
@@ -16131,6 +16689,9 @@ msgid ""
 "An in-depth magazine about submachine guns and shooting.  There is an "
 "exhaustive article about close quarter combat techniques in the front."
 msgstr ""
+"Ένα αναλυτικό περιοδικό για τα υποπολυβόλα και τους πυροβολισμούς. Υπάρχει "
+"ένα εξαντλητικό άρθρο σχετικά με τις τεχνικές μάχης σώμα με σώμα κάπου στην "
+"αρχή."
 
 #: lang/json/BOOK_from_json.py
 msgid "The Submachine Gun Handbook"
@@ -16145,6 +16706,10 @@ msgid ""
 "machine pistols and submachine guns currently used by regular armed and "
 "reserve forces as well as several obsolete weapons."
 msgstr ""
+"Αυτός ο συνοπτικός οδηγός περιγράφει λεπτομερώς την κατάλληλη φροντίδα και "
+"λειτουργία των περισσότερων μορφών πολυβόλα και υπο-πολυβόλα που "
+"χρησιμοποιούνται σήμερα από τακτικές ένοπλες και εφεδρείες, καθώς και αρκετά"
+" απαρχαιωμένα όπλα."
 
 #: lang/json/BOOK_from_json.py
 msgid "US Weekly"
@@ -16156,6 +16721,8 @@ msgstr[1] ""
 #: lang/json/BOOK_from_json.py
 msgid "Weekly news about a bunch of famous people who're all (un)dead now."
 msgstr ""
+"Εβδομαδιαίες ειδήσεις για ένα μάτσο διάσημων ανθρώπων που είναι όλοι νεκροί "
+"τώρα."
 
 #: lang/json/BOOK_from_json.py
 msgid "Self-Esteem for Dummies"
@@ -16178,6 +16745,8 @@ msgstr[1] ""
 #: lang/json/BOOK_from_json.py
 msgid "A hardbound book devoted to being an effective and persuasive speaker."
 msgstr ""
+"Ένα βιβλίο αφιερωμένο στο πως να είναι κάποιος αποτελεσματικός και πειστικός"
+" ομιλητής."
 
 #: lang/json/BOOK_from_json.py
 msgid "Dungeon Master's Guide: 6th Edition"
@@ -16205,6 +16774,8 @@ msgid ""
 "An annual publication about fencing and dueling.  There are many good "
 "illustrations which describe proper technique and form."
 msgstr ""
+"Μια ετήσια δημοσίευση για ξιφασκία και μονομαχία. Υπάρχουν πολλές καλές "
+"εικονογραφήσεις που περιγράφουν την κατάλληλη τεχνική και μορφή."
 
 #: lang/json/BOOK_from_json.py
 msgid "FM 23-25 Army bayonet manual"
@@ -16231,6 +16802,10 @@ msgid ""
 "wrote this was a terrible writer, and gleaning knowledge from the rants is a"
 " chore."
 msgstr ""
+"Ένας λαμπρός και περίπλοκος οδηγός για την άγρια φύση και την αστική "
+"επιβίωση σε ένα χειρότερο σενάριο. Ενώ γέμισε με πολλές χρήσιμες "
+"πληροφορίες, ο τρελός που το έγραψε αυτό ήταν ένας απαίσιος συγγραφέας, και "
+"η γνώση από τις ασυναρτησίες είναι μια αγγαρεία."
 
 #: lang/json/BOOK_from_json.py
 msgid "Through the Lens"
@@ -16245,6 +16820,9 @@ msgid ""
 "photos are beautiful, though the terminology in the sections on "
 "survivalcraft assume some proficiency."
 msgstr ""
+"Ένα πολύχρωμο κομμάτι αφιερωμένο στην φωτογραφία και στην φύση. Οι "
+"φωτογραφίες είναι όμορφες, παρόλο που η ορολογία στα τμήματα για τα "
+"επιβιωσιμότητα υποθέτουν κάποια ικανότητα."
 
 #: lang/json/BOOK_from_json.py
 msgid "Alpha Male Quarterly"
@@ -16259,6 +16837,10 @@ msgid ""
 "hiking and a list of simple wilderness survival tips somewhere in between "
 "the photos of bikini-clad women and the gadget advertisements."
 msgstr ""
+"Είναι ένα πλήρες περιοδικό για αντρικά περιοδικά. Υπάρχει ένα σύντομο άρθρο "
+"σχετικά με την πεζοπορία και μια λίστα με απλές συμβουλές επιβίωσης στην "
+"ερημιά κάπου ανάμεσα στις φωτογραφίες των γυναικών με μπικίνι και τις "
+"διαφημίσεις gadget."
 
 #: lang/json/BOOK_from_json.py
 msgid "Outdoor Adventures"
@@ -16272,6 +16854,8 @@ msgid ""
 "A glossy magazine about surviving and hunting in the wilderness.  There's an"
 " exciting article about a bear attack in the back pages."
 msgstr ""
+"Ένα γυαλιστερό περιοδικό για την επιβίωση και το κυνήγι στην έρημο. Υπάρχει "
+"ένα συναρπαστικό άρθρο για μια επίθεση αρκούδας στις πίσω σελίδες."
 
 #: lang/json/BOOK_from_json.py
 msgid "Pitching a Tent"
@@ -16311,6 +16895,9 @@ msgid ""
 "in the wild, potentially containing great insights for an experienced "
 "outdoorsman."
 msgstr ""
+"Ένα διασκεδαστικό ιστορικό μυθιστόρημα γεμάτο με λεπτομερείς περιγραφές της "
+"επιβίωσης στην άγρια φύση, που ενδέχεται να περιέχει μεγάλες ιδέες για έναν "
+"έμπειρο υπαίθριο ταξιδιώτη."
 
 #: lang/json/BOOK_from_json.py
 msgid "Outdoor Survival Guide"
@@ -16324,6 +16911,8 @@ msgid ""
 "A thick soft-cover book filled with vital information about surviving in the"
 " wild, aimed at the experienced backpacker."
 msgstr ""
+"Ένα χοντρό βιβλίο με μαλακό κάλυμμα, γεμάτο με ζωτικές πληροφορίες για την "
+"επιβίωση στην άγρια φύση, με στόχο τον έμπειρο τουρίστα."
 
 #: lang/json/BOOK_from_json.py
 msgid "Swim Planet"
@@ -16376,6 +16965,9 @@ msgid ""
 "patterns and basic sewing tips somewhere in between the fashion photos and "
 "the makeup advertisements."
 msgstr ""
+"Αυτό είναι ένα πλήρες μέγεθος γυναικείο περιοδικό. Υπάρχουν μερικά απλά "
+"μοτίβα και βασικές συμβουλές ραπτικής κάπου ανάμεσα στις φωτογραφίες της "
+"μόδας και τις διαφημίσεις μακιγιάζ."
 
 #: lang/json/BOOK_from_json.py
 msgid "Sew Awesome Monthly"
@@ -16491,6 +17083,8 @@ msgid ""
 "An in-depth magazine about trapping game.  There are lots of articles and "
 "diagrams that explain simple trap designs."
 msgstr ""
+"Ένα περιληπτικό σε βάθος περιοδικό για της τεχνικές των παγίδων. Υπάρχουν "
+"πολλά άρθρα και διαγράμματα που εξηγούν απλά σχέδια παγίδων."
 
 #: lang/json/BOOK_from_json.py
 msgid "The Modern Trapper"
@@ -16515,6 +17109,8 @@ msgid ""
 "An in-depth book about trapping game animals, covering methods both modern "
 "and ancient."
 msgstr ""
+"Ένα αναλυτικό βιβλίο σχετικά με την παγίδευση των ζώων, καλύπτοντας μεθόδους"
+" τόσο σύγχρονες όσο και αρχαίες."
 
 #: lang/json/BOOK_from_json.py
 msgid "The Trapper's Companion"
@@ -16529,6 +17125,9 @@ msgid ""
 "depth for the beginner, it can provide a wealth of information to a "
 "knowledgeable trapper."
 msgstr ""
+"Ένας λαϊκός οδηγός για την παγίδευση άγριων θηραμάτων με μεθόδους "
+"δοκιμασμένες στο χρόνο. Λίγο σε βάθος για τον αρχάριο, μπορεί να παρέχει μια"
+" πληθώρα πληροφοριών σε έναν έμπειρο κυνηγό."
 
 #: lang/json/BOOK_from_json.py
 msgid "Boxing Monthly"
@@ -16542,6 +17141,8 @@ msgid ""
 "An exciting monthly magazine about boxing.  There are lots of large, "
 "colorful photos of pugilistic exploits."
 msgstr ""
+"Ένα συναρπαστικό μηνιαίο περιοδικό για την πυγμαχία. Υπάρχουν πολλές "
+"μεγάλες, πολύχρωμες φωτογραφίες από τα μυστικά στην πυγμαχία."
 
 #: lang/json/BOOK_from_json.py
 msgid "101 Wrestling Moves"
@@ -24857,7 +25458,7 @@ msgstr[1] ""
 #. ~ Description for hop rhizomes
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Roots of a hop plant, for growing your own."
-msgstr ""
+msgstr "Ρίζες φυτού λυκίσκου, για να καλλιεργήσετε την δικιά σας σοδειά."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "hops"
@@ -24887,7 +25488,7 @@ msgstr[1] ""
 #. ~ Description for blueberry seeds
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some blueberry seeds."
-msgstr ""
+msgstr "Μερικοί σπόροι βατόμουρου."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "blueberry"
@@ -24977,7 +25578,7 @@ msgstr[1] ""
 #. ~ Description for strawberry seeds
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some strawberry seeds."
-msgstr ""
+msgstr "Μερικοί σπόροι φράουλας."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "strawberry"
@@ -25039,7 +25640,7 @@ msgstr[1] ""
 #. ~ Description for barley seeds
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some barley seeds."
-msgstr ""
+msgstr "Μερικοί σπόροι κριθαριού."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sugar beet seeds"
@@ -25050,7 +25651,7 @@ msgstr[1] ""
 #. ~ Description for sugar beet seeds
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some sugar beet seeds."
-msgstr ""
+msgstr "Μερικοί σπόροι ζαχαρότευτλων."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "lettuce seeds"
@@ -25083,7 +25684,7 @@ msgstr[1] ""
 #. ~ Description for tomato seeds
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some tomato seeds."
-msgstr ""
+msgstr "Μερικοί σπόροι ντομάτας."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cotton seeds"
@@ -25095,6 +25696,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some cotton seeds.  Can be processed to produce an edible oil."
 msgstr ""
+"Μερικοί σπόροι βαμβακιού. Μπορεί να επεξεργαστεί για παραγωγή φαγώσιμου "
+"λαδιού."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cotton"
@@ -25484,7 +26087,7 @@ msgstr[1] ""
 #. ~ Description for wheat seeds
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some wheat seeds."
-msgstr ""
+msgstr "Μερικοί σπόροι σιταριού."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wheat"
@@ -30872,6 +31475,8 @@ msgid ""
 "A rock the size of a baseball.  Makes a decent melee weapon, and is also "
 "good for throwing at enemies."
 msgstr ""
+"Ένας βράχος στο μέγεθος ενός μπέιζ-μπώλ. Κάνει μια αξιοπρεπή όπλο σώμα με "
+"σώμα, και είναι επίσης καλό για τη ρίψη σε εχθρούς."
 
 #: lang/json/GENERIC_from_json.py
 msgid "sharp rock"
@@ -34816,7 +35421,7 @@ msgstr[1] ""
 #. ~ Description for .223 casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .223 round."
-msgstr ""
+msgstr "Άδειος κάλυκας από .223 σφαίρα."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".22 LR casing"
@@ -34838,7 +35443,7 @@ msgstr[1] ""
 #. ~ Description for .30-06 casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .30-06 round."
-msgstr ""
+msgstr "Άδειος κάλυκας από .30-06 σφαίρα."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".300 Win Mag casing"
@@ -34849,7 +35454,7 @@ msgstr[1] ""
 #. ~ Description for .300 Win Mag casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .300 Winchester Magnum round."
-msgstr ""
+msgstr "Άδειος κάλυκας από .300 Winchester Magnum σφαίρα."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".308 casing"
@@ -34860,7 +35465,7 @@ msgstr[1] ""
 #. ~ Description for .308 casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .308 round."
-msgstr ""
+msgstr "Άδειος κάλυκας από .308 σφαίρα."
 
 #: lang/json/GENERIC_from_json.py
 msgid "7.62x51mm casing"
@@ -34915,7 +35520,7 @@ msgstr[1] ""
 #. ~ Description for 40mm canister
 #: lang/json/GENERIC_from_json.py
 msgid "A large canister from a spent 40mm grenade."
-msgstr ""
+msgstr "Ένα μεγάλο δοχείο από μια χειροβομβίδα 40mm."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".44 Magnum casing"
@@ -34937,7 +35542,7 @@ msgstr[1] ""
 #. ~ Description for .454 Casull casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .454 Casull round."
-msgstr ""
+msgstr "Άδειος κάλυκας από .454 Casull σφαίρα."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".45 ACP casing"
@@ -34960,7 +35565,7 @@ msgstr[1] ""
 #. ~ Description for 4.6x30mm casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 4.6x30mm round."
-msgstr ""
+msgstr "Άδειος κάλυκας από 4.6x30mm σφαίρα."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".460 Rowland casing"
@@ -34984,7 +35589,7 @@ msgstr[1] ""
 #. ~ Description for 5x50mm hull
 #: lang/json/GENERIC_from_json.py
 msgid "An empty plastic hull from a 5x50mm flechette round."
-msgstr ""
+msgstr "Ένα άδειο πλαστικό φυσίγγιο από μια 5x50mm σφαίρα τύπου flechette."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".500 S&W Magnum casing"
@@ -34995,7 +35600,7 @@ msgstr[1] ""
 #. ~ Description for .500 S&W Magnum casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .500 S&W Magnum round."
-msgstr ""
+msgstr "Άδειος κάλυκας από .500 S&W Magnum σφαίρα."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".50 BMG casing"
@@ -35009,6 +35614,8 @@ msgid ""
 "An empty casing from a .50 BMG round.  These are rare, so you might want to "
 "hold onto these."
 msgstr ""
+"Άδειος κάλυκας από .50 BMG σφαίρα. Αυτοί οι κάλυκες είναι πολύ σπάνιοι, "
+"οπότε ίσως να θέλετε να τα κρατήσετε."
 
 #: lang/json/GENERIC_from_json.py
 msgid "5.45x39mm casing"
@@ -35019,7 +35626,7 @@ msgstr[1] ""
 #. ~ Description for 5.45x39mm casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 5.45x39mm round."
-msgstr ""
+msgstr "Άδειος κάλυκας από 5.45x39mm σφαίρα."
 
 #: lang/json/GENERIC_from_json.py
 msgid "5.7x28mm casing"
@@ -35030,7 +35637,7 @@ msgstr[1] ""
 #. ~ Description for 5.7x28mm casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 5.7x28mm round."
-msgstr ""
+msgstr "Άδειος κάλυκας από 5.7x28mm σφαίρα."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".700 NX casing"
@@ -35044,6 +35651,8 @@ msgid ""
 "An empty casing from a .700 NX round.  These are rare, so you might want to "
 "hold onto these."
 msgstr ""
+"Άδειος κάλυκας από .700 NX σφαίρα. Αυτοί οι κάλυκες είναι πολύ σπάνιοι, "
+"οπότε ίσως να θέλετε να τα κρατήσετε."
 
 #: lang/json/GENERIC_from_json.py
 msgid "7.62x54mmR casing"
@@ -35054,7 +35663,7 @@ msgstr[1] ""
 #. ~ Description for 7.62x54mmR casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 7.62x54mmR round."
-msgstr ""
+msgstr "Άδειος κάλυκας από 7.62x54mmR σφαίρα."
 
 #: lang/json/GENERIC_from_json.py
 msgid "7.62x39mm casing"
@@ -35065,7 +35674,7 @@ msgstr[1] ""
 #. ~ Description for 7.62x39mm casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 7.62x39mm round."
-msgstr ""
+msgstr "Άδειος κάλυκας από 7.62x39mm σφαίρα."
 
 #: lang/json/GENERIC_from_json.py
 msgid "7.62x25mm casing"
@@ -35790,6 +36399,8 @@ msgid ""
 "A single capacitor charged with current to be used by a laser weapon or "
 "similar armament."
 msgstr ""
+"Ένας μονός πυκνωτής φορτισμένος με ρεύμα που θα χρησιμοποιηθεί από όπλο "
+"λέιζερ ή παρόμοιο οπλισμό."
 
 #: lang/json/GENERIC_from_json.py
 msgid "lead battery plate"
@@ -36242,7 +36853,7 @@ msgstr[1] ""
 #. ~ Description for 6.54x42mm casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a 6.54x42 round."
-msgstr ""
+msgstr "Άδειος κάλυκας από 6.54x42 σφαίρα."
 
 #: lang/json/GENERIC_from_json.py
 msgid "pistol ammo casing"
@@ -46674,7 +47285,7 @@ msgstr[1] ""
 #. ~ Description for fancy hairpin
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "A pink hairpin with cute flower textures."
-msgstr ""
+msgstr "Μια ροζ φουρκέτα με χαριτωμένες υφές λουλουδιών."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "towel"
@@ -53363,12 +53974,12 @@ msgstr[1] ""
 #. ~ Use action msg for heavy duty flashlight (off).
 #: lang/json/TOOL_from_json.py
 msgid "You turn the heavy duty flashlight on."
-msgstr ""
+msgstr "Άναψες τον ανθεκτικό φακό."
 
 #. ~ Use action need_charges_msg for heavy duty flashlight (off).
 #: lang/json/TOOL_from_json.py
 msgid "The heavy duty flashlight's batteries are dead."
-msgstr ""
+msgstr "Οι μπαταρίες του ανθεκτικού φακού άδειασαν."
 
 #. ~ Description for heavy duty flashlight (off)
 #: lang/json/TOOL_from_json.py
@@ -77806,7 +78417,7 @@ msgstr ""
 
 #: lang/json/morale_type_from_json.py
 msgid "Caffeine Craving"
-msgstr "Λαχτάρα για Καφεϊνη"
+msgstr "Λαχτάρα για Καφεΐνη"
 
 #: lang/json/morale_type_from_json.py
 msgid "Alcohol Craving"
@@ -77822,7 +78433,7 @@ msgstr ""
 
 #: lang/json/morale_type_from_json.py
 msgid "Cocaine Craving"
-msgstr "Λαχτάρα για Κοκαϊνη"
+msgstr "Λαχτάρα για Κοκαΐνη"
 
 #: lang/json/morale_type_from_json.py
 msgid "Crack Cocaine Craving"
@@ -80551,7 +81162,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Claws"
-msgstr ""
+msgstr "Νύχια"
 
 #. ~ Description for Claws
 #: lang/json/mutation_from_json.py
@@ -109046,9 +109657,9 @@ msgstr ""
 msgid ""
 "Huh.  Hadn't thought about it in ages, but now that you mention it, that was"
 " a weird job.  It was just a boarded up warehouse in the middle of nowhere, "
-"and I was not a cheap contractor in those days.  Coulda got any fat "
-"rent-a-cop to watch it.  I had only just started working there when the shit"
-" hit the fan, and I kinda forgot about that to be honest."
+"and I was not a cheap contractor in those days.  Coulda got any fat rent-a-"
+"cop to watch it.  I had only just started working there when the shit hit "
+"the fan, and I kinda forgot about that to be honest."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -141013,10 +141624,6 @@ msgid "You should read your %s when you get to the surface."
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "It's too dark to read."
-msgstr ""
-
-#: src/iuse_actor.cpp
 msgid "Light where?"
 msgstr ""
 
@@ -150624,26 +151231,6 @@ msgid "Linear filtering"
 msgstr ""
 
 #: src/options.cpp
-msgid "Scaling factor"
-msgstr ""
-
-#: src/options.cpp
-msgid "Factor by which to scale the display. Requires restart."
-msgstr ""
-
-#: src/options.cpp
-msgid "1x"
-msgstr ""
-
-#: src/options.cpp
-msgid "2x"
-msgstr ""
-
-#: src/options.cpp
-msgid "4x"
-msgstr ""
-
-#: src/options.cpp
 msgid "Distance initial visibility"
 msgstr ""
 
@@ -151157,8 +151744,8 @@ msgstr ""
 #: src/options.cpp
 msgid ""
 "While touching the screen, wait this long before showing the virtual "
-"joystick and repeating input, in milliseconds. Also used to determine tap"
-"/double-tap detection, flick detection and toggling quick shortcuts."
+"joystick and repeating input, in milliseconds. Also used to determine "
+"tap/double-tap detection, flick detection and toggling quick shortcuts."
 msgstr ""
 
 #: src/options.cpp
@@ -151607,7 +152194,7 @@ msgstr "Σημειώσεις:"
 
 #: src/overmap_ui.cpp
 msgid "< Prev notes"
-msgstr "<Προηγούμενες σημειώσεις"
+msgstr "< Προηγούμενες σημειώσεις"
 
 #: src/overmap_ui.cpp
 msgid "Next notes >"
@@ -152164,11 +152751,11 @@ msgstr "Αυτή"
 
 #: src/player.cpp
 msgid "an unemployed male"
-msgstr "ένας εργαζόμενος άντρας"
+msgstr "ένας άνεργος άντρας"
 
 #: src/player.cpp
 msgid "an unemployed female"
-msgstr "μια εργαζόμενη γυναίκα"
+msgstr "μια άνεργη γυναίκα"
 
 #: src/player.cpp
 #, c-format

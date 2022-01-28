@@ -1,13 +1,15 @@
+# 
 # Translators:
 # Rasmus Nylander <nylander24@gmail.com>, 2019
+# Sm1leey Twitch, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-26 11:55+0800\n"
+"POT-Creation-Date: 2019-02-22 10:10+0800\n"
 "PO-Revision-Date: 2019-02-25 09:21+0000\n"
-"Last-Translator: Rasmus Nylander <nylander24@gmail.com>, 2019\n"
+"Last-Translator: Sm1leey Twitch, 2022\n"
 "Language-Team: Danish (https://www.transifex.com/cataclysm-dda-translators/teams/2217/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,7 +69,7 @@ msgstr "sene"
 #. ~ Description for sinew
 #: lang/json/AMMO_from_json.py
 msgid "A tough sinew cut from a corpse, usable as thread."
-msgstr ""
+msgstr "En sej sene skåret fra et lig, brugbar som tråd"
 
 #: lang/json/AMMO_from_json.py
 msgid "plant fiber"
@@ -5136,7 +5138,7 @@ msgstr[1] ""
 #. ~ Description for pair of beekeeping gloves
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of white beekeeping gloves made out of smooth leather."
-msgstr ""
+msgstr "Et par hvide biavlhandsker lavet fra glat læder"
 
 #: lang/json/ARMOR_from_json.py
 msgid "beekeeping hood"
@@ -6855,7 +6857,7 @@ msgstr[1] ""
 #. ~ Description for pair of light gloves
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of cotton gloves."
-msgstr ""
+msgstr "Et par bomuldshandsker"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of glove liners"
@@ -7716,6 +7718,8 @@ msgid ""
 "A waterproof hood made to be worn in bad weather.  Provides extra protection"
 " from rain."
 msgstr ""
+"En vandtæt hætte lavet til at blive båret i dårligt vejr. Giver ekstra "
+"beskyttelse mod regn"
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor hood"
@@ -7833,7 +7837,7 @@ msgstr[1] ""
 #. ~ Description for army jacket
 #: lang/json/ARMOR_from_json.py
 msgid "A tough jacket with lots of pockets.  Favored by the military."
-msgstr ""
+msgstr "En stærk jakke med mange lommer. Fortrukket af militæret."
 
 #: lang/json/ARMOR_from_json.py
 msgid "chef's jacket"
@@ -8698,7 +8702,7 @@ msgstr[1] ""
 #. ~ Description for long-sleeved shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A long-sleeved cotton shirt."
-msgstr ""
+msgstr "En langærmet bomuldstrøje."
 
 #: lang/json/ARMOR_from_json.py
 msgid "light survivor body armor"
@@ -9125,6 +9129,8 @@ msgid ""
 "A pair of black leather pants.  Very tough, but cumbersome and without much "
 "storage."
 msgstr ""
+"Et par sorte læderbukser. Meget stærke, men besværlige og uden meget "
+"opbevaringsplads."
 
 #: lang/json/ARMOR_from_json.py
 msgid "ski pants"
@@ -9159,7 +9165,7 @@ msgstr[1] ""
 #. ~ Description for peacoat
 #: lang/json/ARMOR_from_json.py
 msgid "A heavy wool coat.  Cumbersome, but warm and with deep pockets."
-msgstr ""
+msgstr "En tung uldfrakke. Besværlig at have på, men varm og med dybe lommer."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pearl collar"
@@ -9207,7 +9213,7 @@ msgstr[1] ""
 #. ~ Description for polo shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A short-sleeved cotton shirt, slightly thicker than a t-shirt."
-msgstr ""
+msgstr "En kortærmet bomuldstrøje, en anelse tykkere end en t-shirt."
 
 #: lang/json/ARMOR_from_json.py
 msgid "wool poncho"
@@ -10003,7 +10009,7 @@ msgstr[1] ""
 #. ~ Description for pair of socks
 #: lang/json/ARMOR_from_json.py
 msgid "Socks.  Put 'em on your feet."
-msgstr ""
+msgstr "Sokker. Put dem på dine fødder"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of bag socks"
@@ -10038,7 +10044,7 @@ msgstr[1] ""
 #. ~ Description for pair of wool socks
 #: lang/json/ARMOR_from_json.py
 msgid "Warm socks made of wool."
-msgstr ""
+msgstr "Varme sokker lavet af uld"
 
 #: lang/json/ARMOR_from_json.py
 msgid "sports bra"
@@ -10080,6 +10086,7 @@ msgstr[1] ""
 msgid ""
 "Long cotton socks that reach above the knees to help protect from the cold."
 msgstr ""
+"Lange bomuld sokker som når op over knæene til at beskytte mod kulden."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of tentacle sleeves"
@@ -10284,6 +10291,8 @@ msgid ""
 "A custom-built backpack.  Durable and carefully crafted to hold as much "
 "stuff as possible."
 msgstr ""
+"En specialbygget taske. Holdbar og omhyggeligt lavet til at holde så mange "
+"ting muligt."
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor rucksack"
@@ -10359,7 +10368,7 @@ msgstr[1] ""
 #. ~ Description for sweater
 #: lang/json/ARMOR_from_json.py
 msgid "A wool shirt.  Provides warmth."
-msgstr ""
+msgstr "En uldtrøje. Giver varme"
 
 #: lang/json/ARMOR_from_json.py
 msgid "sweatshirt"
@@ -10653,7 +10662,7 @@ msgstr[1] ""
 #. ~ Description for t-shirt
 #: lang/json/ARMOR_from_json.py
 msgid "A short-sleeved cotton shirt."
-msgstr ""
+msgstr "En kortærmet bomuldstrøje."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -11464,7 +11473,7 @@ msgstr[1] ""
 #. ~ Description for pair of boots
 #: lang/json/ARMOR_from_json.py
 msgid "Tough leather boots.  Very durable."
-msgstr ""
+msgstr "Stærke læder støvler. Meget holdbare"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of bone armor boots"
@@ -11646,7 +11655,7 @@ msgstr[1] ""
 #. ~ Description for pair of steeltoed boots
 #: lang/json/ARMOR_from_json.py
 msgid "Leather boots with a steel toe.  Extremely durable."
-msgstr ""
+msgstr "Læder støvler med en stålkappe. Ekstremt holdbare."
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of survivor boots"
@@ -11792,7 +11801,7 @@ msgstr[1] ""
 #. ~ Description for pair of flip-flops
 #: lang/json/ARMOR_from_json.py
 msgid "Simple sandals.  Very difficult to run in."
-msgstr ""
+msgstr "Enkle sandaler. Meget svære at løbe i"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of foot rags"
@@ -11903,7 +11912,7 @@ msgstr[1] ""
 #. ~ Description for pair of moccasins
 #: lang/json/ARMOR_from_json.py
 msgid "Simple shoes made from animal pelts."
-msgstr ""
+msgstr "Enkle sko lavet fra dyreskind"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of motorcycle boots"
@@ -11987,7 +11996,7 @@ msgstr[1] ""
 #. ~ Description for pair of sneakers
 #: lang/json/ARMOR_from_json.py
 msgid "Guaranteed to make you run faster and jump higher!"
-msgstr ""
+msgstr "Garanteret til at få dig til at løbe hurtigere og hoppe højere!"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of straw sandals"
@@ -98834,7 +98843,7 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py src/crafting_gui.cpp
 msgid "no"
-msgstr ""
+msgstr "nej"
 
 #: lang/json/snippet_from_json.py
 msgid "not gonna happen"
@@ -109049,9 +109058,9 @@ msgstr ""
 msgid ""
 "Huh.  Hadn't thought about it in ages, but now that you mention it, that was"
 " a weird job.  It was just a boarded up warehouse in the middle of nowhere, "
-"and I was not a cheap contractor in those days.  Coulda got any fat "
-"rent-a-cop to watch it.  I had only just started working there when the shit"
-" hit the fan, and I kinda forgot about that to be honest."
+"and I was not a cheap contractor in those days.  Coulda got any fat rent-a-"
+"cop to watch it.  I had only just started working there when the shit hit "
+"the fan, and I kinda forgot about that to be honest."
 msgstr ""
 
 #: lang/json/talk_topic_from_json.py
@@ -115463,12 +115472,12 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "roof"
-msgstr ""
+msgstr "tag"
 
 #. ~ Description for roof
 #: lang/json/vehicle_part_from_json.py
 msgid "A metal roof."
-msgstr ""
+msgstr "Et metaltag."
 
 #: lang/json/vehicle_part_from_json.py
 msgid "heavy duty roof"
@@ -115477,7 +115486,7 @@ msgstr ""
 #. ~ Description for heavy duty roof
 #: lang/json/vehicle_part_from_json.py
 msgid "A thick metal roof."
-msgstr ""
+msgstr "Et tykt metaltag."
 
 #: lang/json/vehicle_part_from_json.py
 msgid "door"
@@ -115642,11 +115651,11 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wood box"
-msgstr ""
+msgstr "trækasse"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "folding wood box"
-msgstr ""
+msgstr "foldbar trækasse"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "storage bag"
@@ -115666,7 +115675,7 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wood table"
-msgstr ""
+msgstr "træbord"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "controls"
@@ -116061,7 +116070,7 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wooden door"
-msgstr ""
+msgstr "trædør"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "opaque wooden door"
@@ -116860,7 +116869,7 @@ msgstr ""
 #. ~ Description for wheel
 #: lang/json/vehicle_part_from_json.py
 msgid "A wheel."
-msgstr ""
+msgstr "Et hjul."
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wheel (steerable)"
@@ -116888,12 +116897,12 @@ msgstr ""
 #. ~ Description for unicycle wheel
 #: lang/json/vehicle_part_from_json.py
 msgid "A small wheel."
-msgstr ""
+msgstr "Et lille hjul."
 
 #. ~ Description for bicycle wheel
 #: lang/json/vehicle_part_from_json.py
 msgid "A thin bicycle wheel."
-msgstr ""
+msgstr "Et tyndt cykelhjul"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "bicycle wheel (steerable)"
@@ -116921,7 +116930,7 @@ msgstr ""
 #. ~ Description for motorbike wheel
 #: lang/json/vehicle_part_from_json.py
 msgid "A small wheel from a motorcycle."
-msgstr ""
+msgstr "Et lille hjul fra en motorcykel."
 
 #: lang/json/vehicle_part_from_json.py
 msgid "motorbike wheel (steerable)"
@@ -116945,12 +116954,12 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wheelchair wheel"
-msgstr ""
+msgstr "kørestol hjul"
 
 #. ~ Description for wheelchair wheel
 #: lang/json/vehicle_part_from_json.py
 msgid "A pair of wheelchair wheels."
-msgstr ""
+msgstr "Et par kørestol hjule"
 
 #. ~ Description for wide wheel
 #: lang/json/vehicle_part_from_json.py
@@ -116969,7 +116978,7 @@ msgstr ""
 #. ~ Description for wooden cart wheel
 #: lang/json/vehicle_part_from_json.py
 msgid "A wooden wheel."
-msgstr ""
+msgstr "Et træhjul"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "wooden boat hull"
@@ -119819,27 +119828,27 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "SW"
-msgstr ""
+msgstr "SV"
 
 #: src/advanced_inv.cpp
 msgid "South West"
-msgstr ""
+msgstr "Sydvest"
 
 #: src/advanced_inv.cpp
 msgid "S"
-msgstr ""
+msgstr "S"
 
 #: src/advanced_inv.cpp
 msgid "South"
-msgstr ""
+msgstr "Syd"
 
 #: src/advanced_inv.cpp
 msgid "SE"
-msgstr ""
+msgstr "SØ"
 
 #: src/advanced_inv.cpp
 msgid "South East"
-msgstr ""
+msgstr "Sydvest"
 
 #: src/advanced_inv.cpp
 msgid "W"
@@ -119847,7 +119856,7 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "West"
-msgstr ""
+msgstr "Vest"
 
 #: src/advanced_inv.cpp
 msgid "DN"
@@ -119855,39 +119864,39 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "Directly below you"
-msgstr ""
+msgstr "Direkte under dig"
 
 #: src/advanced_inv.cpp
 msgid "E"
-msgstr ""
+msgstr "Ø"
 
 #: src/advanced_inv.cpp
 msgid "East"
-msgstr ""
+msgstr "Øst"
 
 #: src/advanced_inv.cpp
 msgid "NW"
-msgstr ""
+msgstr "NV"
 
 #: src/advanced_inv.cpp
 msgid "North West"
-msgstr ""
+msgstr "Nordvest"
 
 #: src/advanced_inv.cpp
 msgid "N"
-msgstr ""
+msgstr "N"
 
 #: src/advanced_inv.cpp
 msgid "North"
-msgstr ""
+msgstr "Nord"
 
 #: src/advanced_inv.cpp
 msgid "NE"
-msgstr ""
+msgstr "NØ"
 
 #: src/advanced_inv.cpp
 msgid "North East"
-msgstr ""
+msgstr "Nordøst"
 
 #: src/advanced_inv.cpp
 msgid "GR"
@@ -119928,11 +119937,11 @@ msgstr ""
 
 #: src/advanced_inv.cpp src/newcharacter.cpp
 msgid "name"
-msgstr ""
+msgstr "navn"
 
 #: src/advanced_inv.cpp
 msgid "weight"
-msgstr ""
+msgstr "vægt"
 
 #: src/advanced_inv.cpp
 msgid "volume"
@@ -119944,7 +119953,7 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "category"
-msgstr ""
+msgstr "kategori"
 
 #: src/advanced_inv.cpp src/bonuses.cpp src/effect.cpp src/effect.cpp
 msgid "damage"
@@ -119984,15 +119993,15 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "All 9 squares"
-msgstr ""
+msgstr "Alle 9 firkanter"
 
 #: src/advanced_inv.cpp
 msgid " <color_white_red>FIRE</color>"
-msgstr ""
+msgstr "<color_white_red>ILD</color>"
 
 #: src/advanced_inv.cpp
 msgid " DANGER"
-msgstr ""
+msgstr "FARE"
 
 #: src/advanced_inv.cpp
 msgid " TRAP"
@@ -120000,7 +120009,7 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid " WATER"
-msgstr ""
+msgstr "VAND"
 
 #: src/advanced_inv.cpp
 #, c-format
@@ -120030,7 +120039,7 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "There isn't enough room, do you really want to move all?"
-msgstr ""
+msgstr "Der er ikke nok plads, vil du virkelig prøve at flytte alt?"
 
 #: src/advanced_inv.cpp
 msgid "Really move everything from your inventory?"
@@ -120062,7 +120071,7 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "You can't put items there!"
-msgstr ""
+msgstr "Du kan ikke sætte ting der!"
 
 #: src/advanced_inv.cpp
 #, c-format
@@ -120111,7 +120120,7 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "This is too heavy!"
-msgstr ""
+msgstr "Dette er alt for tungt!"
 
 #: src/advanced_inv.cpp
 #, c-format
@@ -120207,11 +120216,11 @@ msgstr ""
 
 #: src/armor_layers.cpp
 msgid "This is strapped onto you."
-msgstr ""
+msgstr "Dette er spændt fast på dig."
 
 #: src/armor_layers.cpp
 msgid "Properties"
-msgstr ""
+msgstr "Egenskaber:"
 
 #: src/armor_layers.cpp
 msgid "Coverage:"
@@ -120223,7 +120232,7 @@ msgstr ""
 
 #: src/armor_layers.cpp
 msgid "Warmth:"
-msgstr ""
+msgstr "Varme:"
 
 #: src/armor_layers.cpp
 #, c-format
@@ -120232,7 +120241,7 @@ msgstr ""
 
 #: src/armor_layers.cpp
 msgid "Protection"
-msgstr ""
+msgstr "Beskyttelse"
 
 #: src/armor_layers.cpp
 msgid "Bash:"
@@ -120248,7 +120257,7 @@ msgstr ""
 
 #: src/armor_layers.cpp
 msgid "It fits you well."
-msgstr ""
+msgstr "Den passer dig godt."
 
 #: src/armor_layers.cpp
 msgid "It could be refitted."
@@ -120256,15 +120265,15 @@ msgstr ""
 
 #: src/armor_layers.cpp
 msgid "It has a hood."
-msgstr ""
+msgstr "Den har en hætte"
 
 #: src/armor_layers.cpp
 msgid "It has pockets."
-msgstr ""
+msgstr "Den har lommer."
 
 #: src/armor_layers.cpp
 msgid "It is waterproof."
-msgstr ""
+msgstr "Den er vandtæt."
 
 #: src/armor_layers.cpp
 msgid "It is water friendly."
@@ -120288,7 +120297,7 @@ msgstr ""
 
 #: src/armor_layers.cpp
 msgid "It helps you to see clearly underwater."
-msgstr ""
+msgstr "Det hjælper dig at se under vand."
 
 #: src/armor_layers.cpp
 #, c-format
@@ -120311,7 +120320,7 @@ msgstr ""
 
 #: src/armor_layers.cpp
 msgid "(Innermost)"
-msgstr ""
+msgstr "(Inderste)"
 
 #: src/armor_layers.cpp
 #, c-format
@@ -120320,7 +120329,7 @@ msgstr ""
 
 #: src/armor_layers.cpp
 msgid "(Outermost)"
-msgstr ""
+msgstr "(Yderste)"
 
 #: src/armor_layers.cpp
 msgid "<more>"
@@ -120332,7 +120341,7 @@ msgstr ""
 
 #: src/armor_layers.cpp
 msgid "Nothing to see here!"
-msgstr ""
+msgstr "Intet at se her!"
 
 #: src/armor_layers.cpp
 msgid "Encumbrance and Warmth"
@@ -120345,7 +120354,7 @@ msgstr ""
 #: src/armor_layers.cpp
 #, c-format
 msgid "Swap side for %s?"
-msgstr ""
+msgstr "Skift side for %s?"
 
 #: src/armor_layers.cpp
 msgid "Can't put this on!"
@@ -121091,7 +121100,7 @@ msgstr ""
 
 #: src/auto_pickup.cpp src/game.cpp src/safemode_ui.cpp
 msgid "<+-> Move up/down"
-msgstr ""
+msgstr "<+-> Flyt op/ned"
 
 #: src/auto_pickup.cpp src/color.cpp src/game.cpp src/safemode_ui.cpp
 msgid "<Enter>-Edit"
@@ -121099,11 +121108,11 @@ msgstr ""
 
 #: src/auto_pickup.cpp src/safemode_ui.cpp
 msgid "<Tab>-Switch Page"
-msgstr ""
+msgstr "<Tab>-Skift Side"
 
 #: src/auto_pickup.cpp src/safemode_ui.cpp
 msgid "Rules"
-msgstr ""
+msgstr "Regler"
 
 #: src/auto_pickup.cpp
 msgid "I/E"
@@ -121172,7 +121181,7 @@ msgstr ""
 #: src/auto_pickup.cpp src/color.cpp src/game.cpp src/input.cpp
 #: src/options.cpp src/safemode_ui.cpp
 msgid "Save changes?"
-msgstr ""
+msgstr "Gem ændringer?"
 
 #: src/auto_pickup.cpp
 #, c-format
@@ -124755,7 +124764,7 @@ msgstr ""
 
 #: src/crafting_gui.cpp
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: src/crafting_gui.cpp
 msgid "recipes which are <color_cyan>memorized</color> or not"
@@ -135961,7 +135970,7 @@ msgstr ""
 
 #: src/item.cpp
 msgid "yellow"
-msgstr ""
+msgstr "gul"
 
 #: src/item.cpp
 msgctxt "color"
@@ -141013,10 +141022,6 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "You should read your %s when you get to the surface."
-msgstr ""
-
-#: src/iuse_actor.cpp
-msgid "It's too dark to read."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -150608,26 +150613,6 @@ msgid "Linear filtering"
 msgstr ""
 
 #: src/options.cpp
-msgid "Scaling factor"
-msgstr ""
-
-#: src/options.cpp
-msgid "Factor by which to scale the display. Requires restart."
-msgstr ""
-
-#: src/options.cpp
-msgid "1x"
-msgstr ""
-
-#: src/options.cpp
-msgid "2x"
-msgstr ""
-
-#: src/options.cpp
-msgid "4x"
-msgstr ""
-
-#: src/options.cpp
 msgid "Distance initial visibility"
 msgstr ""
 
@@ -151141,8 +151126,8 @@ msgstr ""
 #: src/options.cpp
 msgid ""
 "While touching the screen, wait this long before showing the virtual "
-"joystick and repeating input, in milliseconds. Also used to determine tap"
-"/double-tap detection, flick detection and toggling quick shortcuts."
+"joystick and repeating input, in milliseconds. Also used to determine "
+"tap/double-tap detection, flick detection and toggling quick shortcuts."
 msgstr ""
 
 #: src/options.cpp
@@ -154164,7 +154149,7 @@ msgstr ""
 
 #: src/player.cpp
 msgid " (deaf)"
-msgstr ""
+msgstr "(døv)"
 
 #: src/player.cpp
 msgid " (too sad)"
@@ -154172,7 +154157,7 @@ msgstr ""
 
 #: src/player.cpp
 msgid " (reading aloud to you)"
-msgstr ""
+msgstr "(læser højt til dig)"
 
 #: src/player.cpp
 #, c-format
@@ -154226,12 +154211,12 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "%s studies with you."
-msgstr ""
+msgstr "%s studerer med dig."
 
 #: src/player.cpp
 #, c-format
 msgid "%s study with you."
-msgstr ""
+msgstr "%s studerer med dig."
 
 #: src/player.cpp
 #, c-format
@@ -158174,7 +158159,7 @@ msgstr ""
 
 #: src/vehicle_use.cpp
 msgid "freezer"
-msgstr ""
+msgstr "fryser"
 
 #: src/vehicle_use.cpp
 msgid "recharger"
