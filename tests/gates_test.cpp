@@ -109,3 +109,23 @@ TEST_CASE( "doors should be able to open and close", "[gates]" )
         }
     }
 }
+
+TEST_CASE( "windows should be able to open and close", "[gates]" )
+{
+    clear_map();
+    tripoint pos = get_adjecent_tile();
+
+    // create closed window on tile next to player
+    assert_create_terrain( t_window_no_curtains, pos );
+
+    WHEN( "the window is opened from the inside" ) {
+        THEN( "the window should be able to open" ) {
+            assert_open_gate( t_window_no_curtains_open, pos, true );
+        }
+    }
+    WHEN( "the window is opened from the outside" ) {
+        THEN( "the window should not be able to open" ) {
+            assert_open_gate_fail( t_window_no_curtains, pos, false );
+        }
+    }
+}
