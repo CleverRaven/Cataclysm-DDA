@@ -129,3 +129,53 @@ TEST_CASE( "windows should be able to open and close", "[gates]" )
         }
     }
 }
+
+TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
+{
+    clear_map();
+    clear_avatar();
+    sounds::reset_sounds();
+
+    tripoint pos = get_adjecent_tile();
+
+    WHEN( "the door is opened" ) {
+        assert_create_terrain( t_door_c, pos );
+        // make sure there is no sounds before action
+        REQUIRE( sounds::get_monster_sounds().first.empty() );
+        assert_open_gate( t_door_o, pos, true );
+
+        THEN( "the door should make a swish sound" ) {
+            REQUIRE_FALSE( sounds::get_monster_sounds().first.empty() );
+        }
+    }
+    WHEN( "the door is closed" ) {
+        assert_create_terrain( t_door_o, pos );
+        // make sure there is no sounds before action
+        REQUIRE( sounds::get_monster_sounds().first.empty() );
+        assert_close_gate( t_door_c, pos, true );
+
+        THEN( "the door should make a swish sound" ) {
+            REQUIRE_FALSE( sounds::get_monster_sounds().first.empty() );
+        }
+    }
+    WHEN( "the window is opened" ) {
+        assert_create_terrain( t_window_no_curtains, pos );
+        // make sure there is no sounds before action
+        REQUIRE( sounds::get_monster_sounds().first.empty() );
+        assert_open_gate( t_window_no_curtains_open, pos, true );
+
+        THEN( "the window should make a swish sound" ) {
+            REQUIRE_FALSE( sounds::get_monster_sounds().first.empty() );
+        }
+    }
+    WHEN( "the window is closed" ) {
+        assert_create_terrain( t_window_no_curtains_open, pos );
+        // make sure there is no sounds before action
+        REQUIRE( sounds::get_monster_sounds().first.empty() );
+        assert_close_gate( t_window_no_curtains, pos, true );
+
+        THEN( "the window should make a swish sound" ) {
+            REQUIRE_FALSE( sounds::get_monster_sounds().first.empty() );
+        }
+    }
+}
