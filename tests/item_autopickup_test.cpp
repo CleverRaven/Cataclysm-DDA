@@ -520,7 +520,7 @@ TEST_CASE( "auto pickup should consider item ownership", "[autopickup][item]" )
     }
 }
 
-SCENARIO( "auto pickup should not implicitly pickup corpses", "[autopickup][item]" )
+TEST_CASE( "auto pickup should not implicitly pickup corpses", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     clear_everything();
