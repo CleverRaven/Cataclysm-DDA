@@ -931,5 +931,205 @@
     "material_thickness": 5,
     "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "lc_demi_gaunt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel demi-gauntlet", "str_pl": "mild steel demi-gauntlets" },
+    "description": "A leather glove with chainmail protecting the fingers and palm, then plating over the back of the hand and wrist.",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "light_gray",
+    "warmth": 15,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "covers": [ "arm_elbow_l", "arm_elbow_r" ],
+          "coverage": 30,
+          "encumbrance": 5,
+          "layers": [ "OUTER" ]
+        },
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1 },
+            { "type": "low_steel", "covered_by_mat": 60, "thickness": 0.25 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "covers": [ "hand_l", "hand_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "mc_demi_gaunt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "medium steel demi-gauntlet", "str_pl": "medium steel demi-gauntlets" },
+    "description": "A leather glove with chainmail protecting the fingers and palm, then plating over the back of the hand and wrist.",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "light_gray",
+    "warmth": 15,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "covers": [ "arm_elbow_l", "arm_elbow_r" ],
+          "coverage": 30,
+          "encumbrance": 5,
+          "layers": [ "OUTER" ]
+        },
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1 },
+            { "type": "med_steel", "covered_by_mat": 60, "thickness": 0.25 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "covers": [ "hand_l", "hand_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "hc_demi_gaunt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "high steel demi-gauntlet", "str_pl": "pairs of high steel demi-gauntlets" },
+    "description": "A leather glove with chainmail protecting the fingers and palm, then plating over the back of the hand and wrist.",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "light_gray",
+    "warmth": 15,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "covers": [ "arm_elbow_l", "arm_elbow_r" ],
+          "coverage": 30,
+          "encumbrance": 5,
+          "layers": [ "OUTER" ]
+        },
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1 },
+            { "type": "high_steel", "covered_by_mat": 60, "thickness": 0.25 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "covers": [ "hand_l", "hand_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "ch_demi_gaunt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "hardened steel demi-gauntlet", "str_pl": "hardened steel demi-gauntlets" },
+    "description": "A leather glove with chainmail protecting the fingers and palm, then plating over the back of the hand and wrist.",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "light_gray",
+    "warmth": 15,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "covers": [ "arm_elbow_l", "arm_elbow_r" ],
+          "coverage": 30,
+          "encumbrance": 5,
+          "layers": [ "OUTER" ]
+        },
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1 },
+            { "type": "case_hardened_steel", "covered_by_mat": 60, "thickness": 0.25 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "covers": [ "hand_l", "hand_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "tq_demi_gaunt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tempered steel demi-gauntlet", "str_pl": "tempered steel demi-gauntlets" },
+    "description": "A leather glove with chainmail protecting the fingers and palm, then plating over the back of the hand and wrist.",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "light_gray",
+    "warmth": 15,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "covers": [ "arm_elbow_l", "arm_elbow_r" ],
+          "coverage": 30,
+          "encumbrance": 5,
+          "layers": [ "OUTER" ]
+        },
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1 },
+            { "type": "tempered_steel", "covered_by_mat": 60, "thickness": 0.25 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "covers": [ "hand_l", "hand_r" ],
+          "coverage": 100,
+          "encumbrance": 10
+        }
+      ]
+    }
   }
 ]
