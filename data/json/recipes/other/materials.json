@@ -896,6 +896,7 @@
   {
     "type": "recipe",
     "result": "steel_lump",
+    "id_suffix": "from_other_steel",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
