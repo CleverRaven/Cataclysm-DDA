@@ -5,6 +5,7 @@
 #include "creature.h"
 #include "damage.h"
 #include "dispersion.h"
+#include "map_helpers.h"
 #include "monster.h"
 #include "npc.h"
 #include "player_helpers.h"
@@ -71,6 +72,7 @@ static float get_avg_melee_dmg( std::string clothing_id, bool infect_risk = fals
 
 static float get_avg_bullet_dmg( std::string clothing_id )
 {
+    clear_map();
     standard_npc badguy( "TestBaddie", badguy_pos, {}, 0, 8, 8, 8, 8 );
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
