@@ -79,17 +79,10 @@ static void assert_create_terrain( ter_id &what, tripoint &where )
     REQUIRE( here.ter( where ).obj().id == what->id );
 }
 
-// Returns tile adjecent to avatar position along x axis.
-static tripoint get_adjecent_tile()
-{
-    tripoint pos = get_avatar().pos();
-    return tripoint( pos.x + 1, pos.y, pos.z );
-}
-
 TEST_CASE( "doors should be able to open and close", "[gates]" )
 {
     clear_map();
-    tripoint pos = get_adjecent_tile();
+    tripoint pos = get_avatar().pos() + point_east;
 
     WHEN( "the door is unlocked" ) {
         // create closed door on tile next to player
@@ -113,7 +106,7 @@ TEST_CASE( "doors should be able to open and close", "[gates]" )
 TEST_CASE( "windows should be able to open and close", "[gates]" )
 {
     clear_map();
-    tripoint pos = get_adjecent_tile();
+    tripoint pos = get_avatar().pos() + point_east;
 
     // create closed window on tile next to player
     assert_create_terrain( t_window_no_curtains, pos );
@@ -136,7 +129,7 @@ TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
     clear_avatar();
     sounds::reset_sounds();
 
-    tripoint pos = get_adjecent_tile();
+    tripoint pos = get_avatar().pos() + point_east;
 
     WHEN( "the door is opened" ) {
         assert_create_terrain( t_door_c, pos );
@@ -188,8 +181,7 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
     clear_avatar();
     clear_map();
 
-    tripoint pos = get_adjecent_tile();
-    tripoint direction = tripoint( 1, 0, 0 );
+    tripoint pos = get_avatar().pos() + point_east;
 
     // the movement cost for opening and closing gates
     // remember to update this if changing value in code
@@ -201,7 +193,7 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
 
     WHEN( "avatar opens door" ) {
         assert_create_terrain( t_door_c, pos );
-        REQUIRE( avatar_action::move( they, here, direction ) );
+        REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
         THEN( "avatar should spend move points" ) {
             REQUIRE( they.moves == -open_move_cost );
@@ -209,7 +201,7 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
     }
     WHEN( "avatar fails to open locked door" ) {
         assert_create_terrain( t_door_locked, pos );
-        REQUIRE_FALSE( avatar_action::move( they, here, direction ) );
+        REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
 
         THEN( "avatar should not spend move points" ) {
             REQUIRE( they.moves == 0 );
@@ -220,7 +212,7 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
 
         WHEN( "avatar fails to open window" ) {
             assert_create_terrain( t_window_no_curtains, pos );
-            REQUIRE_FALSE( avatar_action::move( they, here, direction ) );
+            REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
 
             THEN( "avatar should spend move points" ) {
                 REQUIRE( they.moves == 0 );
@@ -235,19 +227,19 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
         // enclose the player in single tile room surrounded with
         // concrete floor and roof to test opening windows from indoors
         const std::vector<tripoint> room_walls{
-            tripoint( pos.x + 1, pos.y + 1, pos.z ),
-            tripoint( pos.x, pos.y + 1, pos.z ),
-            tripoint( pos.x - 1, pos.y + 1, pos.z ),
-            tripoint( pos.x - 1, pos.y, pos.z ),
-            tripoint( pos.x - 1, pos.y - 1, pos.z ),
-            tripoint( pos.x, pos.y - 1, pos.z ),
-            tripoint( pos.x + 1, pos.y - 1, pos.z )
+            pos + point_south_east,
+            pos + point_south,
+            pos + point_south_west,
+            pos + point_west,
+            pos + point_north_west,
+            pos + point_north,
+            pos + point_north_east
         };
         for( tripoint point : room_walls ) {
             REQUIRE( here.ter_set( point, ter_concrete_wall ) );
         }
         REQUIRE( here.ter_set( pos, ter_concrete_floor ) );
-        REQUIRE( here.ter_set( tripoint( pos.x, pos.y, pos.z + 1 ), ter_flat_roof ) );
+        REQUIRE( here.ter_set( pos + tripoint_above, ter_flat_roof ) );
 
         // mark map cache as dirty and rebuild it so that map starts
         // recognizing that tile player is standing on is indoors
@@ -257,7 +249,7 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
 
         WHEN( "avatar opens window" ) {
             assert_create_terrain( t_window_no_curtains, pos );
-            REQUIRE( avatar_action::move( they, here, direction ) );
+            REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
             THEN( "avatar should spend move points" ) {
                 REQUIRE( they.moves == -open_move_cost );
