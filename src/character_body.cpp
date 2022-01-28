@@ -174,6 +174,17 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     update_stomach( from, to );
     recalculate_enchantment_cache();
+    // after recalcing the enchantment cache can properly remove and add mutations
+    for( const trait_id &mut : mutations_to_remove ) {
+        mutation_loss_effect( mut );
+        enchantment_wear_change();
+    }
+    for( const trait_id &mut : mutations_to_add ) {
+        mutation_effect( mut, true );
+        enchantment_wear_change();
+    }
+    mutations_to_add.clear();
+    mutations_to_remove.clear();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
         magic->update_mana( *this, to_turns<float>( 3_minutes ) );
     }
