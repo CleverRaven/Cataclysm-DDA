@@ -16,12 +16,18 @@
  * @param expect terrain id to expect at given location after opening door.
  * @param where location of the door to open.
  * @param indoors whether to open the door from indoors.
+ * @param require when true test will stop executing clause if assertion fails.
  */
-static void assert_open_gate( ter_id &expect, tripoint &where, bool indoors )
+static void assert_open_gate( ter_id &expect, tripoint &where, bool indoors, bool require )
 {
     map &here = get_map();
-    REQUIRE( here.open_door( where, indoors, false ) );
-    REQUIRE( here.ter( where ).obj().id == expect->id );
+    if( require ) {
+        REQUIRE( here.open_door( where, indoors, false ) );
+        REQUIRE( here.ter( where ).obj().id == expect->id );
+    } else {
+        CHECK( here.open_door( where, indoors, false ) );
+        CHECK( here.ter( where ).obj().id == expect->id );
+    }
 }
 
 /**
@@ -30,12 +36,18 @@ static void assert_open_gate( ter_id &expect, tripoint &where, bool indoors )
  * @param expect terrain id to expect at given location after opening door.
  * @param where location of the door to open.
  * @param indoors whether to open the door from indoors.
+ * @param require when true test will stop executing clause if assertion fails.
  */
-static void assert_open_gate_fail( ter_id &expect, tripoint &where, bool indoors )
+static void assert_open_gate_fail( ter_id &expect, tripoint &where, bool indoors, bool require )
 {
     map &here = get_map();
-    REQUIRE_FALSE( here.open_door( where, indoors, false ) );
-    REQUIRE( here.ter( where ).obj().id == expect->id );
+    if( require ) {
+        REQUIRE_FALSE( here.open_door( where, indoors, false ) );
+        REQUIRE( here.ter( where ).obj().id == expect->id );
+    } else {
+        CHECK_FALSE( here.open_door( where, indoors, false ) );
+        CHECK( here.ter( where ).obj().id == expect->id );
+    }
 }
 
 /**
@@ -44,12 +56,18 @@ static void assert_open_gate_fail( ter_id &expect, tripoint &where, bool indoors
  * @param expect terrain id to expect at given location after closing door.
  * @param where location of the door to close.
  * @param indoors whether to close the door from indoors.
+ * @param require when true test will stop executing clause if assertion fails.
  */
-static void assert_close_gate( ter_id &expect, tripoint &where, bool indoors )
+static void assert_close_gate( ter_id &expect, tripoint &where, bool indoors, bool require )
 {
     map &here = get_map();
-    REQUIRE( here.close_door( where, indoors, false ) );
-    REQUIRE( here.ter( where ).obj().id == expect->id );
+    if( require ) {
+        REQUIRE( here.close_door( where, indoors, false ) );
+        REQUIRE( here.ter( where ).obj().id == expect->id );
+    } else {
+        CHECK( here.close_door( where, indoors, false ) );
+        CHECK( here.ter( where ).obj().id == expect->id );
+    }
 }
 
 /**
@@ -58,12 +76,18 @@ static void assert_close_gate( ter_id &expect, tripoint &where, bool indoors )
  * @param expect terrain id to expect at given location after closing door.
  * @param where location of the door to close.
  * @param indoors whether to close the door from indoors.
+ * @param require when true test will stop executing clause if assertion fails.
  */
-static void assert_close_gate_fail( ter_id &expect, tripoint &where, bool indoors )
+static void assert_close_gate_fail( ter_id &expect, tripoint &where, bool indoors, bool require )
 {
     map &here = get_map();
-    REQUIRE_FALSE( here.close_door( where, indoors, false ) );
-    REQUIRE( here.ter( where ).obj().id == expect->id );
+    if( require ) {
+        REQUIRE_FALSE( here.close_door( where, indoors, false ) );
+        REQUIRE( here.ter( where ).obj().id == expect->id );
+    } else {
+        CHECK_FALSE( here.close_door( where, indoors, false ) );
+        CHECK( here.ter( where ).obj().id == expect->id );
+    }
 }
 
 /**
@@ -89,8 +113,8 @@ TEST_CASE( "doors should be able to open and close", "[gates]" )
         assert_create_terrain( t_door_c, pos );
 
         THEN( "the door should be able to open and close" ) {
-            assert_open_gate( t_door_o, pos, true );
-            assert_close_gate( t_door_c, pos, true );
+            assert_open_gate( t_door_o, pos, true, false );
+            assert_close_gate( t_door_c, pos, true, false );
         }
     }
     WHEN( "the door is locked" ) {
@@ -98,7 +122,7 @@ TEST_CASE( "doors should be able to open and close", "[gates]" )
         assert_create_terrain( t_door_locked, pos );
 
         THEN( "the door should not be able to open" ) {
-            assert_close_gate_fail( t_door_locked, pos, true );
+            assert_close_gate_fail( t_door_locked, pos, true, false );
         }
     }
 }
@@ -113,12 +137,12 @@ TEST_CASE( "windows should be able to open and close", "[gates]" )
 
     WHEN( "the window is opened from the inside" ) {
         THEN( "the window should be able to open" ) {
-            assert_open_gate( t_window_no_curtains_open, pos, true );
+            assert_open_gate( t_window_no_curtains_open, pos, true, false );
         }
     }
     WHEN( "the window is opened from the outside" ) {
         THEN( "the window should not be able to open" ) {
-            assert_open_gate_fail( t_window_no_curtains, pos, false );
+            assert_open_gate_fail( t_window_no_curtains, pos, false, false );
         }
     }
 }
@@ -135,40 +159,40 @@ TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
         assert_create_terrain( t_door_c, pos );
         // make sure there is no sounds before action
         REQUIRE( sounds::get_monster_sounds().first.empty() );
-        assert_open_gate( t_door_o, pos, true );
+        assert_open_gate( t_door_o, pos, true, true );
 
         THEN( "the door should make a swish sound" ) {
-            REQUIRE_FALSE( sounds::get_monster_sounds().first.empty() );
+            CHECK_FALSE( sounds::get_monster_sounds().first.empty() );
         }
     }
     WHEN( "the door is closed" ) {
         assert_create_terrain( t_door_o, pos );
         // make sure there is no sounds before action
         REQUIRE( sounds::get_monster_sounds().first.empty() );
-        assert_close_gate( t_door_c, pos, true );
+        assert_close_gate( t_door_c, pos, true, true );
 
         THEN( "the door should make a swish sound" ) {
-            REQUIRE_FALSE( sounds::get_monster_sounds().first.empty() );
+            CHECK_FALSE( sounds::get_monster_sounds().first.empty() );
         }
     }
     WHEN( "the window is opened" ) {
         assert_create_terrain( t_window_no_curtains, pos );
         // make sure there is no sounds before action
         REQUIRE( sounds::get_monster_sounds().first.empty() );
-        assert_open_gate( t_window_no_curtains_open, pos, true );
+        assert_open_gate( t_window_no_curtains_open, pos, true, true );
 
         THEN( "the window should make a swish sound" ) {
-            REQUIRE_FALSE( sounds::get_monster_sounds().first.empty() );
+            CHECK_FALSE( sounds::get_monster_sounds().first.empty() );
         }
     }
     WHEN( "the window is closed" ) {
         assert_create_terrain( t_window_no_curtains_open, pos );
         // make sure there is no sounds before action
         REQUIRE( sounds::get_monster_sounds().first.empty() );
-        assert_close_gate( t_window_no_curtains, pos, true );
+        assert_close_gate( t_window_no_curtains, pos, true, true );
 
         THEN( "the window should make a swish sound" ) {
-            REQUIRE_FALSE( sounds::get_monster_sounds().first.empty() );
+            CHECK_FALSE( sounds::get_monster_sounds().first.empty() );
         }
     }
 }
@@ -196,7 +220,7 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
         REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
         THEN( "avatar should spend move points" ) {
-            REQUIRE( they.moves == -open_move_cost );
+            CHECK( they.moves == -open_move_cost );
         }
     }
     WHEN( "avatar fails to open locked door" ) {
@@ -204,7 +228,7 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
         REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
 
         THEN( "avatar should not spend move points" ) {
-            REQUIRE( they.moves == 0 );
+            CHECK( they.moves == 0 );
         }
     }
     GIVEN( "that avatar is outdoors" ) {
@@ -215,7 +239,7 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
             REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
 
             THEN( "avatar should spend move points" ) {
-                REQUIRE( they.moves == 0 );
+                CHECK( they.moves == 0 );
             }
         }
     }
@@ -252,7 +276,7 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
             REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
             THEN( "avatar should spend move points" ) {
-                REQUIRE( they.moves == -open_move_cost );
+                CHECK( they.moves == -open_move_cost );
             }
         }
     }
