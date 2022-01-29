@@ -102,6 +102,7 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ],
       "nested": { "1": { "chunks": [ "cave_chunk_l" ] }, "2": { "chunks": [ "cave_chunk_r" ] } }
     }
@@ -138,6 +139,7 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ],
       "nested": { "1": { "chunks": [ "cave_chunk_l" ] }, "2": { "chunks": [ "cave_chunk_r" ] } }
     }
@@ -174,6 +176,7 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ],
       "nested": { "1": { "chunks": [ "cave_chunk_l" ] }, "2": { "chunks": [ "cave_chunk_r" ] } }
     }
@@ -210,6 +213,7 @@
         "                   ###  ",
         "                     ###"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ],
       "nested": { "1": { "chunks": [ "cave_chunk_l" ] }, "2": { "chunks": [ "cave_chunk_r" ] } }
     }
@@ -246,6 +250,7 @@
         "##                    ##",
         "##                   ###"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -281,6 +286,7 @@
         "####                 ###",
         "###                  ###"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -316,6 +322,7 @@
         "####               #####",
         "###                  ###"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -351,6 +358,7 @@
         "#### #0               ##",
         "##                   ###"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -386,6 +394,7 @@
         "###              0######",
         "##                 # ###"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -421,6 +430,7 @@
         "###                  ###",
         "###                 ####"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -456,6 +466,7 @@
         "#0#00               000#",
         "##0                 ####"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -479,6 +490,7 @@
         " ###        ",
         "###         "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -502,6 +514,7 @@
         " ###        ",
         "###         "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -525,6 +538,7 @@
         "#####       ",
         "###         "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -548,6 +562,7 @@
         "##          ",
         "###         "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -571,6 +586,7 @@
         "####        ",
         "###         "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -594,6 +610,7 @@
         "######      ",
         "###         "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -617,6 +634,7 @@
         "##          ",
         "###         "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -640,6 +658,7 @@
         "   #        ",
         "          ##"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -663,6 +682,7 @@
         "          ##",
         "         ###"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -686,6 +706,7 @@
         "          ##",
         "         ###"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -709,6 +730,7 @@
         "          ##",
         "          ##"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -732,6 +754,7 @@
         "          ##",
         "         ###"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -755,6 +778,7 @@
         "       #####",
         "         ###"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -778,6 +802,7 @@
         "  ##       #",
         "   #     ###"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   }
