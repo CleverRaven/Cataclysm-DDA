@@ -1004,7 +1004,7 @@ TEST_CASE( "compass widget", "[widget][compass]" )
                "N:                                  " );
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
                "N:                                  " );
-        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+        CHECK( c5s_legend1.layout( ava, sidebar_width + 3 ) ==
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
@@ -1026,7 +1026,7 @@ TEST_CASE( "compass widget", "[widget][compass]" )
                "N:                                 <color_c_white>+</color>" );
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
                "N:                                  " );
-        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+        CHECK( c5s_legend1.layout( ava, sidebar_width + 3 ) ==
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
@@ -1053,7 +1053,7 @@ TEST_CASE( "compass widget", "[widget][compass]" )
                "N:                                 <color_c_white>+</color>" );
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
                "N:                                  " );
-        CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
+        CHECK( c5s_legend1.layout( ava, sidebar_width + 5 ) ==
                "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
                "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>\n" );
