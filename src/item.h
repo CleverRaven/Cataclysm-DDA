@@ -1955,6 +1955,7 @@ class item : public visitable
         enum class encumber_flags : int {
             none = 0,
             assume_full = 1,
+            assume_empty = 2
         };
 
         const armor_portion_data *portion_for_bodypart( const bodypart_id &bodypart ) const;
