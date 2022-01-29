@@ -286,7 +286,7 @@ void overmapbuffer::mark_note_dangerous( const tripoint_abs_omt &p, int radius, 
     }
 }
 
-void overmapbuffer::add_extra( const tripoint_abs_omt &p, const string_id<map_extra> &id )
+void overmapbuffer::add_extra( const tripoint_abs_omt &p, const map_extra_id &id )
 {
     overmap_with_local_coords om_loc = get_om_global( p );
     om_loc.om->add_extra( om_loc.local, id );
@@ -414,12 +414,12 @@ bool overmapbuffer::has_extra( const tripoint_abs_omt &p )
     return false;
 }
 
-const string_id<map_extra> &overmapbuffer::extra( const tripoint_abs_omt &p )
+const map_extra_id &overmapbuffer::extra( const tripoint_abs_omt &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
         return om_loc.om->extra( om_loc.local );
     }
-    static const string_id<map_extra> id;
+    static const map_extra_id id;
     return id;
 }
 
@@ -1602,7 +1602,7 @@ overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::stri
         for( int i = 0; i < OMAPX; i++ ) {
             for( int j = 0; j < OMAPY; j++ ) {
                 tripoint_om_omt p( i, j, z );
-                const string_id<map_extra> &extra = om.extra( p );
+                const map_extra_id &extra = om.extra( p );
                 if( extra.is_null() ) {
                     continue;
                 }

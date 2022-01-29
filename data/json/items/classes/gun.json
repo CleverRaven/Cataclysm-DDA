@@ -184,12 +184,14 @@
     "abstract": "rifle_semi",
     "copy-from": "rifle_base",
     "type": "GUN",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "name": { "str": "semi-automatic rifle" }
   },
   {
     "abstract": "rifle_auto",
     "copy-from": "rifle_base",
     "type": "GUN",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "name": { "str": "fully automatic rifle" }
   },
   {

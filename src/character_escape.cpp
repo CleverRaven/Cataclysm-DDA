@@ -16,6 +16,7 @@ static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_webbed( "webbed" );
 
 static const itype_id itype_beartrap( "beartrap" );
@@ -185,14 +186,35 @@ bool Character::try_remove_grab()
                 zed_number += mon->get_grab_strength();
             }
         }
+
+        /** @EFFECT_STR increases chance to escape grab */
+        /** @EFFECT_DEX increases chance to escape grab */
+        int defender_check = rng( 0, std::max( get_str(), get_dex() ) );
+        int attacker_check = rng( get_effect_int( effect_grabbed, body_part_torso ), 8 );
+
+        if( has_grab_break_tec() ) {
+            defender_check = defender_check + 2;
+        }
+
+        if( is_throw_immune() ) {
+            defender_check = defender_check + 2;
+        }
+
+        if( get_effect_int( effect_stunned ) ) {
+            defender_check = defender_check - 2;
+        }
+
+        if( get_effect_int( effect_downed ) ) {
+            defender_check = defender_check - 2;
+        }
+
         if( zed_number == 0 ) {
             add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
                                    _( "<npcname> finds themselves no longer grabbed." ) );
             remove_effect( effect_grabbed );
 
             /** @EFFECT_STR increases chance to escape grab */
-        } else if( rng( 0, get_str() ) < rng( get_effect_int( effect_grabbed, body_part_torso ),
-                                              8 ) ) {
+        } else if( defender_check < attacker_check ) {
             add_msg_player_or_npc( m_bad, _( "You try to break out of the grab, but fail!" ),
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
             return false;

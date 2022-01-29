@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "cata_utility.h"
+#include "coordinates.h"
 #include "item.h"
 #include "magic_enchantment.h"
 #include "proficiency.h"
@@ -131,8 +132,8 @@ class inventory : public visitable
          * the player's worn items / weapon
          */
         void restack( Character &p );
-        void form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl = nullptr,
-                             bool assign_invlet = true );
+        void form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
+                             const Character *pl = nullptr, bool assign_invlet = true );
         void form_from_map( const tripoint &origin, int range, const Character *pl = nullptr,
                             bool assign_invlet = true,
                             bool clear_path = true );
@@ -250,7 +251,7 @@ class inventory : public visitable
         std::pair<int, int> kcal_range( const itype_id &id,
                                         const std::function<bool( const item & )> &filter, Character &player_character );
 
-        // specifically used to for displaying non-empty liquid container colour in crafting screen
+        // specifically used to for displaying non-empty liquid container color in crafting screen
         bool must_use_liq_container( const itype_id &id, int to_use ) const;
         void update_liq_container_count( const itype_id &id, int count );
         void replace_liq_container_count( const std::map<itype_id, int> newmap, bool use_max = false );

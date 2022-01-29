@@ -88,7 +88,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 1 ], [ "HAMMER", 1 ] ],
-    "use_action": [ "CROWBAR" ],
+    "use_action": [ "CROWBAR_WEAK" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
   },

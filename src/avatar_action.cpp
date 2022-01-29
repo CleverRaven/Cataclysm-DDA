@@ -62,6 +62,7 @@ class gun_mode;
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_hunger_engorged( "hunger_engorged" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
@@ -604,9 +605,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             !( you.shoe_type_count( itype_swim_fins ) == 2 ||
                ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
             add_msg( m_bad, _( "You sink like a rock!" ) );
-            you.set_underwater( true );
             ///\EFFECT_STR increases breath-holding capacity while sinking
-            you.oxygen = 30 + 2 * you.str_cur;
+            you.set_oxygen();
+            you.set_underwater( true );
         }
     }
     if( you.oxygen <= 5 && you.is_underwater() ) {
@@ -645,16 +646,14 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         you.burn_move_stamina( movecost );
     }
 
-    body_part_set drenchFlags{ {
-            body_part_leg_l, body_part_leg_r, body_part_torso, body_part_arm_l,
-            body_part_arm_r, body_part_foot_l, body_part_foot_r, body_part_hand_l, body_part_hand_r
-        }
-    };
-
-    if( you.is_underwater() ) {
-        drenchFlags.unify_set( { { body_part_head, body_part_eyes, body_part_mouth, body_part_hand_l, body_part_hand_r } } );
+    body_part_set flags;
+    if( !you.is_underwater() ) {
+        flags = you.get_drenching_body_parts( false, true, true );
+    } else {
+        flags = you.get_drenching_body_parts();
     }
-    you.drench( 100, drenchFlags, true );
+
+    you.drench( 100, flags, false );
 }
 
 static float rate_critter( const Creature &c )
@@ -869,12 +868,11 @@ bool avatar_action::eat_here( avatar &you )
     map &here = get_map();
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
         ( here.ter( you.pos() ) == t_underbrush || here.ter( you.pos() ) == t_shrub ) ) {
-        if( you.get_hunger() < 20 ) {
+        if( you.has_effect( effect_hunger_engorged ) ) {
             add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos() )->name() );
             return true;
         } else {
             here.ter_set( you.pos(), t_grass );
-            add_msg( _( "You eat the underbrush." ) );
             item food( "underbrush", calendar::turn, 1 );
             you.assign_activity( player_activity( consume_activity_actor( food ) ) );
             return true;
@@ -882,11 +880,10 @@ bool avatar_action::eat_here( avatar &you )
     }
     if( you.has_active_mutation( trait_GRAZER ) && ( here.ter( you.pos() ) == t_grass ||
             here.ter( you.pos() ) == t_grass_long || here.ter( you.pos() ) == t_grass_tall ) ) {
-        if( you.get_hunger() < 8 ) {
+        if( you.has_effect( effect_hunger_engorged ) ) {
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
-            add_msg( _( "You eat the grass." ) );
             item food( item( "grass", calendar::turn, 1 ) );
             you.assign_activity( player_activity( consume_activity_actor( food ) ) );
             if( here.ter( you.pos() ) == t_grass_tall ) {

@@ -95,6 +95,7 @@ class craft_command
 
         bool continue_prompt_liquids( const std::function<bool( const item & )> &filter,
                                       bool no_prompt = false );
+        static bool safe_to_unload_comp( const item &it );
 
     private:
         const recipe *rec = nullptr;

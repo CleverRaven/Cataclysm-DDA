@@ -80,6 +80,7 @@
         [ "ant_egg", 1 ],
         [ "spider_egg", 4 ],
         [ "egg_roach", 4 ],
+        [ "egg_roach_plague", 4 ],
         [ "egg_locust", 4 ],
         [ "egg_dragonfly", 4 ],
         [ "egg_firefly", 4 ],
@@ -1019,5 +1020,11 @@
     "type": "requirement",
     "//": "Small can, 250ml.",
     "components": [ [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ] ] ]
+  },
+  {
+    "id": "flour_any",
+    "type": "requirement",
+    "//": "Flour, irrespective of whether it's wheat-free or wheat-full.",
+    "components": [ [ [ "flour", 1 ], [ "flour_wheat_free", 1 ] ] ]
   }
 ]

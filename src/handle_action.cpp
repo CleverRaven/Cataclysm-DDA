@@ -33,6 +33,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "diary.h"
 #include "do_turn.h"
 #include "event.h"
 #include "event_bus.h"
@@ -57,6 +58,7 @@
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "mapsharing.h"
 #include "messages.h"
@@ -134,6 +136,8 @@ static const skill_id skill_melee( "melee" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+static const trait_id trait_WATERSLEEPER( "WATERSLEEPER" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
@@ -147,6 +151,8 @@ static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
+
+static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -612,15 +618,31 @@ static void grab()
         add_msg( _( "Never mind." ) );
         return;
     }
-    const tripoint grabp = *grabp_;
+    tripoint grabp = *grabp_;
 
     if( grabp == you.pos() ) {
         add_msg( _( "You get a hold of yourself." ) );
         you.grab( object_type::NONE );
         return;
     }
+
+    // Object might not be on the same z level if on a ramp.
+    if( !( here.veh_at( grabp ) || here.has_furn( grabp ) ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, grabp ) ||
+            here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, you.pos() ) ) {
+            grabp.z += 1;
+        } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, grabp ) ||
+                   here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, you.pos() ) ) {
+            grabp.z -= 1;
+        }
+    }
+
     if( const optional_vpart_position vp = here.veh_at( grabp ) ) {
         if( !vp->vehicle().handle_potential_theft( you ) ) {
+            return;
+        }
+        if( vp->vehicle().has_tag( flag_CANT_DRAG ) ) {
+            add_msg( m_info, _( "There's nothing to grab there!" ) );
             return;
         }
         you.grab( object_type::VEHICLE, grabp - you.pos() );
@@ -686,11 +708,11 @@ static void smash()
     ///\EFFECT_STR increases smashing capability
     if( player_character.is_mounted() ) {
         auto *mon = player_character.mounted_creature.get();
-        smashskill = player_character.str_cur + mon->mech_str_addition() + mon->type->melee_dice *
+        smashskill = player_character.get_arm_str() + mon->mech_str_addition() + mon->type->melee_dice *
                      mon->type->melee_sides;
         mech_smash = true;
     } else {
-        smashskill = player_character.str_cur + player_character.get_wielded_item().damage_melee(
+        smashskill = player_character.get_arm_str() + player_character.get_wielded_item().damage_melee(
                          damage_type::BASH );
     }
 
@@ -1024,7 +1046,11 @@ static void sleep()
         return;
     }
 
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) ) {
+    vehicle *const boat = veh_pointer_or_null( get_map().veh_at( player_character.pos() ) );
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) &&
+        !player_character.has_trait( trait_WATERSLEEPER ) &&
+        !player_character.has_trait( trait_WATERSLEEP ) &&
+        boat == nullptr ) {
         add_msg( m_info, _( "You cannot sleep while swimming." ) );
         return;
     }
@@ -2811,13 +2837,15 @@ bool game::handle_action()
         if( !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
-                add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), evt.long_description(), ch );
+                std::string msg = string_format( _( "Unknown command: \"%s\" (%ld)" ), evt.long_description(), ch );
                 if( const cata::optional<std::string> hint =
                         press_x_if_bound( ACTION_KEYBINDINGS ) ) {
-                    add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
-                                        "the current context." ),
-                             *hint );
+                    msg = string_format( "%s\n%s", msg,
+                                         string_format( _( "%s at any time to see and edit keybindings relevant to "
+                                                           "the current context." ),
+                                                        *hint ) );
                 }
+                add_msg( m_info, msg );
             }
         }
         return false;

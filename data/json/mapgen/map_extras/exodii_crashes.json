@@ -3,7 +3,6 @@
     "type": "palette",
     "id": "exodii_crash_ground_palette",
     "terrain": {
-      " ": "t_null",
       ".": [ [ "t_glassed_sand", 10 ], "t_sandmound" ],
       ",": [ [ "t_glassed_sand", 3 ], [ "t_grass_dead", 3 ], "t_sandmound", "t_sand" ],
       ";": [ "t_rock_floor_no_roof", [ "t_sand", 5 ], "t_sandmound" ],
@@ -20,7 +19,6 @@
     "type": "palette",
     "id": "exodii_crash_palette",
     "terrain": {
-      " ": "t_null",
       "|": "t_wall_metal",
       "M": "t_door_metal_locked",
       "m": "t_secretdoor_metal_c",
@@ -68,6 +66,7 @@
         "    ................    ",
         "       ..........       "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_ground_palette" ],
       "place_nested": [
         {
@@ -115,6 +114,7 @@
         "      ...  ..  .   .    ",
         "      .                 "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_ground_palette" ],
       "place_nested": [
         {

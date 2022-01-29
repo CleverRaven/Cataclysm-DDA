@@ -590,6 +590,8 @@ class map
         }
         bool is_wall_adjacent( const tripoint &center ) const;
 
+        bool is_open_air( const tripoint & ) const;
+
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
         */
@@ -808,9 +810,9 @@ class map
         * furn_reset should be true if new_furniture is being set to f_null
         * when the player is grab-moving furniture
         */
-        void furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
-        void furn_set( const point &p, const furn_id &new_furniture ) {
-            furn_set( tripoint( p, abs_sub.z ), new_furniture );
+        bool furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
+        bool furn_set( const point &p, const furn_id &new_furniture ) {
+            return furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
         void furn_clear( const tripoint &p ) {
             furn_set( p, f_clear );
@@ -1480,6 +1482,10 @@ class map
          * Remove field entry at xy, ignored if the field entry is not present.
          */
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
+        /**
+         * Remove all field entries at location.
+         */
+        void clear_fields( const tripoint &p );
 
         /**
          * Get applicable fd_electricity field type for a given point

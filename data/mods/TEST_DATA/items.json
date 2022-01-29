@@ -1040,6 +1040,33 @@
     "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ] } ]
   },
   {
+    "id": "test_complex_tanktop",
+    "type": "ARMOR",
+    "name": { "str": "test composite tanktop" },
+    "description": "The tanktop of the future.  Super armor with almost infinite defensive power.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 3,
+    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "hardsteel", "covered_by_mat": 5, "thickness": 1 }
+        ],
+        "encumbrance": 7
+      }
+    ]
+  },
+  {
     "id": "test_umbrella",
     "type": "GENERIC",
     "category": "tools",
@@ -1289,6 +1316,31 @@
     "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {
+    "id": "test_condom",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test condom" },
+    "description": "This condom is only for testing, and should not be used as a birth control device.",
+    "weight": "5 g",
+    "volume": "15 ml",
+    "price": 0,
+    "price_postapoc": 25,
+    "to_hit": -5,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "3750 ml",
+        "max_contains_weight": "7 kg",
+        "max_item_length": "26 cm"
+      }
+    ],
+    "properties": [ [ "burst_when_filled", "75" ] ]
+  },
+  {
     "id": "test_can_drink",
     "type": "GENERIC",
     "category": "container",
@@ -1311,6 +1363,32 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
+  },
+  {
+    "id": "test_can_food",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test small tin can" },
+    "description": "A steel can that thinks its made of tin, maybe useful for testing, but you wouldn't want to eat out of it.",
+    "weight": "40 g",
+    "volume": "262 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "steel" ],
+    "symbol": ")",
+    "color": "blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -2628,5 +2706,108 @@
       "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
       "moves": 500
     }
+  },
+  {
+    "id": "test_armor_chitin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "chitinous armor" },
+    "description": "Leg and body armor made from the exoskeletons of insects.",
+    "weight": "2632 g",
+    "volume": "17500 ml",
+    "price": 120000,
+    "price_postapoc": 3000,
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "chitin" ],
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "green",
+    "warmth": 10,
+    "longest_side": "60 cm",
+    "material_thickness": 4,
+    "environmental_protection": 6,
+    "environmental_protection_with_filter": 10,
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "test_armor_chitin_copy",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor" },
+    "copy-from": "test_armor_chitin",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "test_armor_chitin_copy_w_armor",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor" },
+    "copy-from": "test_armor_chitin",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "test_armor_chitin_copy_prop",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor" },
+    "copy-from": "test_armor_chitin",
+    "proportional": {
+      "weight": 1.125,
+      "volume": 1.13,
+      "price": 1.25,
+      "material_thickness": 1.2,
+      "environmental_protection": 1.2,
+      "environmental_protection_with_filter": 1.2
+    },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "test_armor_chitin_copy_w_armor_prop",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor" },
+    "copy-from": "test_armor_chitin",
+    "proportional": {
+      "weight": 1.125,
+      "volume": 1.13,
+      "price": 1.25,
+      "material_thickness": 1.2,
+      "environmental_protection": 1.2,
+      "environmental_protection_with_filter": 1.2
+    },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "test_armor_chitin_copy_rel",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor" },
+    "copy-from": "test_armor_chitin",
+    "relative": {
+      "weight": 200,
+      "volume": 1000,
+      "price": 100,
+      "material_thickness": 2,
+      "environmental_protection": 2,
+      "environmental_protection_with_filter": 2
+    },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "test_armor_chitin_copy_w_armor_rel",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor" },
+    "copy-from": "test_armor_chitin",
+    "relative": {
+      "weight": 200,
+      "volume": 1000,
+      "price": 100,
+      "material_thickness": 2,
+      "environmental_protection": 2,
+      "environmental_protection_with_filter": 2
+    },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   }
 ]

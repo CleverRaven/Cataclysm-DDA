@@ -2576,17 +2576,8 @@
         "     ",
         "ccc %"
       ],
-      "terrain": {
-        " ": "t_carpet_green",
-        "!": "t_carpet_green",
-        "@": "t_carpet_green",
-        "V": "t_carpet_green",
-        "B": "t_carpet_green",
-        "c": "t_carpet_green",
-        "O": "t_carpet_green",
-        "%": "t_carpet_green",
-        "=": "t_carpet_green"
-      },
+      "remove_all": { " ": {  }, "B": {  }, "c": {  }, "%": {  }, "=": {  } },
+      "terrain": { " ": "t_carpet_green", "B": "t_carpet_green", "c": "t_carpet_green", "%": "t_carpet_green", "=": "t_carpet_green" },
       "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" }
     }
@@ -2604,15 +2595,12 @@
         "   = ",
         "B  B "
       ],
+      "remove_all": { "B": {  }, "c": {  }, "%": {  }, "=": {  } },
       "terrain": {
         " ": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
-        "@": "t_carpet_yellow",
-        "V": "t_carpet_yellow",
         "B": "t_carpet_yellow",
         "c": "t_carpet_yellow",
         "%": "t_carpet_yellow",
-        "O": "t_carpet_yellow",
         "=": "t_carpet_yellow"
       },
       "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
@@ -2632,17 +2620,8 @@
         "     ",
         "cc  %"
       ],
-      "terrain": {
-        " ": "t_carpet_red",
-        "!": "t_carpet_red",
-        "@": "t_carpet_red",
-        "V": "t_carpet_red",
-        "B": "t_carpet_red",
-        "c": "t_carpet_red",
-        "O": "t_carpet_red",
-        "%": "t_carpet_red",
-        "=": "t_carpet_red"
-      },
+      "remove_all": { "B": {  }, "c": {  }, "%": {  }, "=": {  } },
+      "terrain": { " ": "t_carpet_red", "B": "t_carpet_red", "c": "t_carpet_red", "%": "t_carpet_red", "=": "t_carpet_red" },
       "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" }
     }
@@ -2750,6 +2729,8 @@
         "      = ",
         "      B "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "remove_all": { "!": {  }, "@": {  }, "V": {  }, "B": {  }, "c": {  }, "=": {  } },
       "terrain": {
         " ": "t_carpet_purple",
         "!": "t_carpet_purple",
@@ -2757,7 +2738,6 @@
         "V": "t_carpet_purple",
         "B": "t_carpet_purple",
         "c": "t_carpet_purple",
-        "O": "t_carpet_purple",
         "=": "t_carpet_purple"
       },
       "furniture": {

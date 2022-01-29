@@ -450,12 +450,12 @@ void inventory::form_from_map( const tripoint &origin, int range, const Characte
     form_from_map( get_map(), origin, range, pl, assign_invlet, clear_path );
 }
 
-void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl,
-                                bool assign_invlet )
+void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
+                                const Character *pl, bool assign_invlet )
 {
     std::vector<tripoint> pts;
     pts.reserve( zone_pts.size() );
-    for( const tripoint &elem : zone_pts ) {
+    for( const tripoint_abs_ms &elem : zone_pts ) {
         pts.push_back( m.getlocal( elem ) );
     }
     form_from_map( m, pts, pl, assign_invlet );
@@ -522,7 +522,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                 fire->charges = 1;
             }
         }
-        // Handle any water from infinite map sources.
+        // Handle any water from map sources.
         item water = m.water_from( p );
         if( !water.is_null() ) {
             add_item( water );
@@ -545,8 +545,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
 
         // keg-kludge
-        if( m.furn( p )->has_examine( iexamine::keg ) ||
-            m.ter( p )->has_examine( iexamine::finite_water_source ) ) {
+        if( m.furn( p )->has_examine( iexamine::keg ) ) {
             map_stack liq_contained = m.i_at( p );
             for( auto &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
@@ -1144,7 +1143,7 @@ bool inventory::must_use_liq_container( const itype_id &id, int to_use ) const
         return total > 0;
     }
     const int leftover = iter->second - to_use;
-    return leftover < 0 && leftover * -1 < total - iter->second;
+    return leftover < 0 && leftover * -1 <= total - iter->second;
 }
 
 void inventory::replace_liq_container_count( const std::map<itype_id, int> newmap, bool use_max )

@@ -44,12 +44,15 @@ static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
 
 static const itype_id itype_anvil( "anvil" );
 static const itype_id itype_awl_bone( "awl_bone" );
+static const itype_id itype_candle( "candle" );
+static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_chisel( "chisel" );
 static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_needle_bone( "needle_bone" );
 static const itype_id itype_pockknife( "pockknife" );
 static const itype_id itype_scissors( "scissors" );
+static const itype_id itype_sewing_kit( "sewing_kit" );
 static const itype_id itype_water( "water" );
 
 static const morale_type morale_food_good( "morale_food_good" );
@@ -1502,6 +1505,86 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
                 CHECK( m.i_at( c.pos() ).empty() );
                 CHECK( c.worn.begin()->all_items_top().size() == 10 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "Unloading non-empty components", "[crafting]" )
+{
+    item candle( itype_candle );
+    item cash_card( itype_cash_card );
+    item sewing_kit( itype_sewing_kit );
+    candle.ammo_set( candle.ammo_default(), -1 );
+    cash_card.ammo_set( cash_card.ammo_default(), -1 );
+    sewing_kit.ammo_set( sewing_kit.ammo_default(), -1 );
+    REQUIRE( !candle.is_container_empty() );
+    REQUIRE( !cash_card.is_container_empty() );
+    REQUIRE( !sewing_kit.is_container_empty() );
+
+    // candle -> candle wax: not ok
+    CHECK( craft_command::safe_to_unload_comp( candle ) == false );
+    // cash card -> cents: not ok
+    CHECK( craft_command::safe_to_unload_comp( cash_card ) == false );
+    // sewing kit -> thread: ok
+    CHECK( craft_command::safe_to_unload_comp( sewing_kit ) == true );
+}
+
+TEST_CASE( "Warn when using favorited component", "[crafting]" )
+{
+    map &m = get_map();
+    item pocketknife( itype_pockknife );
+
+    GIVEN( "crafting 1 makeshift funnel" ) {
+        WHEN( "no favorited components" ) {
+            item plastic_bottle( "bottle_plastic" );
+            Character &c = get_player_character();
+            clear_and_setup( c, m, pocketknife );
+            REQUIRE( m.i_at( c.pos() ).empty() );
+            c.i_add_or_drop( plastic_bottle, 3 );
+            REQUIRE( !m.i_at( c.pos() ).begin()->is_favorite );
+            THEN( "no warning" ) {
+                CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
+                CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
+            }
+        }
+        WHEN( "all favorited components" ) {
+            item plastic_bottle( "bottle_plastic" );
+            plastic_bottle.is_favorite = true;
+            Character &c = get_player_character();
+            clear_and_setup( c, m, pocketknife );
+            REQUIRE( m.i_at( c.pos() ).empty() );
+            c.i_add_or_drop( plastic_bottle, 3 );
+            REQUIRE( m.i_at( c.pos() ).begin()->is_favorite );
+            THEN( "warning" ) {
+                CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
+                CHECK( !c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
+            }
+        }
+        WHEN( "1 favorited component" ) {
+            item plastic_bottle( "bottle_plastic" );
+            Character &c = get_player_character();
+            clear_and_setup( c, m, pocketknife );
+            REQUIRE( m.i_at( c.pos() ).empty() );
+            c.i_add_or_drop( plastic_bottle, 3 );
+            m.i_at( c.pos() ).begin()->is_favorite = true;
+            REQUIRE( m.i_at( c.pos() ).begin()->is_favorite );
+            THEN( "warning" ) {
+                CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
+                CHECK( !c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
+            }
+        }
+        WHEN( "1 favorited component, extra non-favorited components" ) {
+            item plastic_bottle( "bottle_plastic" );
+            Character &c = get_player_character();
+            clear_and_setup( c, m, pocketknife );
+            REQUIRE( m.i_at( c.pos() ).empty() );
+            c.i_add_or_drop( plastic_bottle, 4 );
+            m.i_at( c.pos() ).begin()->is_favorite = true;
+            REQUIRE( m.i_at( c.pos() ).begin()->is_favorite );
+            THEN( "no warning" ) {
+                CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
+                CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
             }
         }
     }

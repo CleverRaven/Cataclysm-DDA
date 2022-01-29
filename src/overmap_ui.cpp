@@ -38,6 +38,7 @@
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "cursesport.h"
+#include "display.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
@@ -1178,12 +1179,8 @@ static void draw_om_sidebar(
         print_hint( "QUIT" );
     }
 
-    point_abs_omt abs_omt = center.xy();
-    point_abs_om om;
-    point_om_omt omt;
-    std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
-    mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red,
-               _( "LEVEL %i, %d'%d, %d'%d" ), center.z(), om.x(), omt.x(), om.y(), omt.y() );
+    const std::string coords = display::overmap_position_text( center );
+    mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red, coords );
     wnoutrefresh( wbar );
 }
 

@@ -1,9 +1,44 @@
 [
   {
     "type": "start_location",
+    "id": "sloc_fort",
+    "name": "Bastion Fort",
+    "terrain": [
+      "fort_1a",
+      "fort_2a",
+      "fort_3a",
+      "fort_4a",
+      "fort_1b",
+      "fort_2b",
+      "fort_3b",
+      "fort_4b",
+      "fort_1c",
+      "fort_2c",
+      "fort_3c",
+      "fort_4c"
+    ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_shelter_a",
     "name": "Shelter - Open Floorplan",
     "terrain": [ "shelter" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_town_hall",
+    "name": "Town Hall",
+    "terrain": [
+      "town_hall_0_0_0",
+      "town_hall_1_0_0",
+      "town_hall_0_1_0",
+      "town_hall_1_1_0",
+      "town_hall_0_0_1",
+      "town_hall_1_0_1",
+      "town_hall_0_1_1",
+      "town_hall_1_1_1",
+      "town_hall_0_0_roof"
+    ]
   },
   {
     "type": "start_location",

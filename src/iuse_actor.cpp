@@ -145,7 +145,6 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
@@ -239,12 +238,14 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
 
     if( p.is_worn( it ) ) {
         item tmp = item( target );
-        for( const trait_id &mut : p.get_mutations() ) {
-            const mutation_branch &branch = mut.obj();
-            if( branch.conflicts_with_item( tmp ) ) {
-                p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
-                                     branch.name() );
-                return cata::nullopt;
+        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_SEMITANGIBLE ) ) {
+            for( const trait_id &mut : p.get_mutations() ) {
+                const mutation_branch &branch = mut.obj();
+                if( branch.conflicts_with_item( tmp ) ) {
+                    p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
+                                         branch.name() );
+                    return cata::nullopt;
+                }
             }
         }
     }
@@ -276,6 +277,17 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         p.moves -= moves;
     }
 
+    if( possess && need_fire && p.has_trait( trait_PYROMANIA ) ) {
+        if( one_in( 2 ) ) {
+            p.add_msg_if_player( m_mixed,
+                                 _( "You light a fire, but it isn't enough.  You need to light more." ) );
+        } else {
+            p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
+            p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
+            p.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        }
+    }
+
     item obj_copy( it );
     item *obj;
     // defined here to allow making a new item assigned to the pointer
@@ -297,6 +309,8 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
                 obj->ammo_set( ammo_type, qty );
             } else if( !obj->ammo_current().is_null() ) {
                 obj->ammo_set( obj->ammo_current(), qty );
+            } else if( obj->has_flag( flag_RADIO_ACTIVATION ) && obj->has_flag( flag_BOMB ) ) {
+                obj->set_countdown( 1 );
             } else {
                 obj->set_countdown( qty );
             }
@@ -852,11 +866,8 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
         }
     }
 
-    // for vitamins that accumulate (max > 0) multivitamins risk causing hypervitaminosis
     for( const auto &v : vitamins ) {
-        // players with mutations that remove the requirement for a vitamin cannot suffer accumulation of it
-        p.vitamin_mod( v.first, rng( v.second.first, v.second.second ),
-                       p.vitamin_rate( v.first ) <= 0_turns );
+        p.vitamin_mod( v.first, rng( v.second.first, v.second.second ) );
     }
 
     // Output message.
@@ -1142,7 +1153,10 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
         p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
         return cata::nullopt;
     }
-
+    if( here.has_items( pnt ) ) {
+        p.add_msg_if_player( m_info, _( "Before deploying furniture, you need to clear the tile." ) );
+        return cata::nullopt;
+    }
     here.furn_set( pnt, furn_type );
     it.spill_contents( pnt );
     p.mod_moves( -to_moves<int>( 2_seconds ) );
@@ -1247,7 +1261,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint &pos 
         target_is_firewood = true;
     } else {
         zone_manager &mgr = zone_manager::get_manager();
-        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getabs( pos ) );
+        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getglobal( pos ) );
         if( !zones.empty() ) {
             target_is_firewood = true;
         }
@@ -1357,10 +1371,13 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
+        const int minutes = moves / to_moves<int>( 1_minutes );
         p.add_msg_if_player( m_info, need_sunlight ?
-                             _( "If the current weather holds, it will take around %d minutes to light a fire." ) :
-                             _( "At your skill level, it will take around %d minutes to light a fire." ),
-                             moves / to_moves<int>( 1_minutes ) );
+                             n_gettext( "If the current weather holds, it will take around %d minute to light a fire.",
+                                        "If the current weather holds, it will take around %d minutes to light a fire.", minutes ) :
+                             n_gettext( "At your skill level, it will take around %d minute to light a fire.",
+                                        "At your skill level, it will take around %d minutes to light a fire.", minutes ),
+                             minutes );
     } else if( moves < to_moves<int>( 2_turns ) && get_map().is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
@@ -1762,10 +1779,10 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
     }
 
     if( material_restricted && !cut.made_of_any( material_whitelist ) ) {
-        std::string lower_verb = verb.translated();
-        std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower );
+        std::wstring lower_verb = utf8_to_wstr( verb.translated() );
+        std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), towlower );
         add_msg( m_info, _( "You can't %1$s %2$s because of the material it is made of." ),
-                 lower_verb, cut.display_name() );
+                 wstr_to_utf8( lower_verb ), cut.display_name() );
         return false;
     }
 
@@ -2250,7 +2267,8 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
         if( !player_descriptions.empty() && p.is_avatar() ) {
             desc = random_entry( player_descriptions ).translated();
         } else if( !npc_descriptions.empty() && p.is_npc() ) {
-            desc = string_format( _( "%1$s %2$s" ), p.disp_name( false ),
+            //~ %1$s: npc name, %2$s: npc action description
+            desc = string_format( pgettext( "play music", "%1$s %2$s" ), p.disp_name( false ),
                                   random_entry( npc_descriptions ) );
         }
     } else if( morale_effect < 0 && calendar::once_every( 1_minutes ) ) {
@@ -3358,7 +3376,7 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
     // NPCs can use first aid now, but they can't perform long actions
     if( long_action && &patient == &p && !p.is_npc() ) {
         // Assign first aid long action.
-        p.assign_activity( ACT_FIRSTAID, cost, 0, 0, it.tname() );
+        p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname() ) ) );
         p.activity.targets.emplace_back( p, &it );
         p.activity.str_values.emplace_back( hpp.c_str() );
         p.moves = 0;
@@ -3587,8 +3605,7 @@ static bodypart_id pick_part_to_heal(
     const bool bleed = bleed_stop > 0;
     const bool bite = bite_chance > 0.0f;
     const bool infect = infect_chance > 0.0f;
-    const bool precise = &healer == &patient ?
-                         patient.has_trait( trait_SELFAWARE ) :
+    const bool precise = &healer == &patient ? false :
                          /** @EFFECT_PER slightly increases precision when using first aid on someone else */
                          /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
                          ( ( healer.get_skill_level( skill_firstaid ) +
@@ -4316,6 +4333,7 @@ cata::optional<int> mutagen_actor::use( Character &p, item &it, bool, const trip
     p.mod_stored_nutr( m_category.mutagen_hunger * mut_count );
     p.mod_thirst( m_category.mutagen_thirst * mut_count );
     p.mod_fatigue( m_category.mutagen_fatigue * mut_count );
+    p.vitamins_mod( it.get_comestible()->default_nutrition.vitamins );
 
     return it.type->charges_to_use();
 }
@@ -4374,6 +4392,7 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
     p.mod_hunger( m_category.iv_hunger * mut_count );
     p.mod_thirst( m_category.iv_thirst * mut_count );
     p.mod_fatigue( m_category.iv_fatigue * mut_count );
+    p.vitamins_mod( it.get_comestible()->default_nutrition.vitamins );
 
     if( m_category.id == mutation_category_CHIMERA ) {
         p.add_morale( MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max );
@@ -4623,36 +4642,28 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
         bool enab = false;
         std::string prompt;
         if( !mod.has_own_flag( obj.flag ) ) {
-            // TODO: Fix for UTF-8 strings
-            // TODO: find other places where this is used and make a global function for all
-            static const auto tolower = []( std::string t ) {
-                if( !t.empty() ) {
-                    t.front() = std::tolower( t.front() );
-                }
-                return t;
-            };
             // Mod not already present, check if modification is possible
             if( obj.restricted &&
                 std::find( valid_mods.begin(), valid_mods.end(), obj.flag.str() ) == valid_mods.end() ) {
                 //~ %1$s: modification desc, %2$s: mod name
                 prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
-                                        tolower( obj.implement_prompt.translated() ),
+                                        lowercase_first_letter( obj.implement_prompt.translated() ),
                                         mod.tname( 1, false ) );
             } else if( !it.ammo_sufficient( &p, thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
-                                        tolower( obj.implement_prompt.translated() ), thread_needed );
+                                        lowercase_first_letter( obj.implement_prompt.translated() ), thread_needed );
             } else if( !has_enough[obj.item_string] ) {
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
                 prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ),
-                                        tolower( obj.implement_prompt.translated() ),
+                                        lowercase_first_letter( obj.implement_prompt.translated() ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
             } else {
                 // Modification is possible
                 enab = true;
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
                 prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ),
-                                        tolower( obj.implement_prompt.translated() ),
+                                        lowercase_first_letter( obj.implement_prompt.translated() ),
                                         items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
             }
 

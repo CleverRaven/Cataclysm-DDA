@@ -177,31 +177,7 @@
       }
     ],
     "techniques": [ "tec_barbaran_impale", "tec_barbaran_disarm" ],
-    "weapons": [
-      "2h_flail_steel",
-      "2h_flail_wood",
-      "battleaxe",
-      "battleaxe_inferior",
-      "battleaxe_fake",
-      "hammer_sledge",
-      "hammer_sledge_heavy",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "mace",
-      "mace_inferior",
-      "mace_fake",
-      "morningstar",
-      "morningstar_inferior",
-      "morningstar_fake",
-      "sword_nail",
-      "sword_crude",
-      "sword_wood",
-      "warhammer",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake"
-    ]
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "FLAILS", "MACES", "GREAT_SWORDS", "GREAT_HAMMERS", "GREAT_AXES" ]
   },
   {
     "type": "martial_art",
@@ -215,7 +191,7 @@
       {
         "id": "buff_boxing_static",
         "name": "Boxing Stance",
-        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+1 Accuracy, Blocked damge reduced by 50% of Strength.",
+        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+1 Accuracy, Blocked damage reduced by 50% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
       }
@@ -257,6 +233,7 @@
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
     "autolearn": [ [ "melee", 1 ] ],
     "arm_block": 1,
+    "nonstandard_block": 5,
     "static_buffs": [
       {
         "id": "buff_brawling_block",
@@ -384,7 +361,7 @@
     "type": "martial_art",
     "id": "style_dragon",
     "name": { "str": "Dragon Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damaage instead of Dexterity and Strength.  Dodging and blocking increases your damage.  Pausing increases your defenses.  You can perform a powerful strike against a downed opponent.",
+    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damage instead of Dexterity and Strength.  Dodging and blocking increases your damage.  Pausing increases your defenses.  You can perform a powerful strike against a downed opponent.",
     "initiate": [ "You relax and patiently await conflict like the great dragon.", "%s assumes a dragon-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 2,
@@ -675,7 +652,7 @@
       {
         "id": "buff_karate_onhit",
         "name": "Karate Kata",
-        "description": "Landing a hit allows you to perfectly position yourself for maximum defense against multiple opponents.\n\n+1 Block attempts, +1 Dodges attempts, blocked damge reduced by 50% of Strength, -10% move cost.\nLasts 2 turns.",
+        "description": "Landing a hit allows you to perfectly position yourself for maximum defense against multiple opponents.\n\n+1 Block attempts, +1 Dodges attempts, blocked damage reduced by 50% of Strength, -10% move cost.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
@@ -997,25 +974,7 @@
       }
     ],
     "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapons": [
-      "bio_blade_weapon",
-      "bokken",
-      "bokken_inferior",
-      "bokken_fake",
-      "katana",
-      "katana_inferior",
-      "katana_fake",
-      "nodachi",
-      "nodachi_inferior",
-      "nodachi_fake",
-      "sword_nail",
-      "sword_crude",
-      "sword_metal",
-      "sword_wood",
-      "wakizashi",
-      "wakizashi_inferior",
-      "wakizashi_fake"
-    ]
+    "weapon_category": [ "JAPANESE_SWORDS", "BIONIC_SWORDS" ]
   },
   {
     "type": "martial_art",

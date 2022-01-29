@@ -156,7 +156,6 @@ struct talk_effect_fun_t {
         void set_add_faction_trust( const JsonObject &jo, const std::string &member );
         void set_lose_faction_trust( const JsonObject &jo, const std::string &member );
         void set_arithmetic( const JsonObject &jo, const std::string &member );
-        std::function<void( const dialogue &, int )> get_set_int( const JsonObject &jo );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
@@ -394,23 +393,51 @@ struct dynamic_line_t {
         }
 };
 
+struct var_info {
+    var_info( var_type in_type, std::string in_name, std::string in_default_val ): type( in_type ),
+        name( in_name ), default_val( in_default_val ) {}
+    var_type type;
+    std::string name;
+    std::string default_val;
+};
+
+static std::string read_var_value( var_type type, std::string name, talker *talk )
+{
+    global_variables &globvars = get_globals();
+    switch( type ) {
+        case var_type::global:
+            return globvars.get_global_value( name );
+            break;
+        case var_type::u:
+        case var_type::npc:
+            return talk->get_value( name );
+            break;
+        case var_type::faction:
+            debugmsg( "Not implemented yet." );
+            break;
+        case var_type::party:
+            debugmsg( "Not implemented yet." );
+            break;
+        default:
+            debugmsg( "Invalid type." );
+            break;
+    }
+    return "";
+}
 
 struct int_or_var {
     cata::optional<int> int_val;
     cata::optional<std::string> var_val;
     cata::optional<int> default_val;
-    bool global = false;
+    var_type type = var_type::u;
+    bool is_npc() const {
+        return type == var_type::npc;
+    }
     int evaluate( talker *talk ) const {
         if( int_val.has_value() ) {
             return int_val.value();
         } else if( var_val.has_value() ) {
-            std::string val;
-            if( global ) {
-                global_variables &globvars = get_globals();
-                val = globvars.get_global_value( var_val.value() );
-            } else {
-                val = talk->get_value( var_val.value() );
-            }
+            std::string val = read_var_value( type, var_val.value(), talk );
             if( !val.empty() ) {
                 return std::stoi( val );
             }
@@ -426,18 +453,15 @@ struct duration_or_var {
     cata::optional<time_duration> dur_val;
     cata::optional<std::string> var_val;
     cata::optional<time_duration> default_val;
-    bool global = false;
+    var_type type = var_type::u;
+    bool is_npc() const {
+        return type == var_type::npc;
+    }
     time_duration evaluate( talker *talk ) const {
         if( dur_val.has_value() ) {
             return dur_val.value();
         } else if( var_val.has_value() ) {
-            std::string val;
-            if( global ) {
-                global_variables &globvars = get_globals();
-                val = globvars.get_global_value( var_val.value() );
-            } else {
-                val = talk->get_value( var_val.value() );
-            }
+            std::string val = read_var_value( type, var_val.value(), talk );
             if( !val.empty() ) {
                 time_duration ret_val;
                 ret_val = time_duration::from_turns( std::stoi( val ) );

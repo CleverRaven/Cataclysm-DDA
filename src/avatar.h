@@ -14,7 +14,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
-#include "diary.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "json.h"
@@ -26,6 +25,7 @@
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
+class diary;
 class faction;
 class item;
 class item_location;
@@ -198,12 +198,17 @@ class avatar : public Character
                              int base_cost = INVENTORY_HANDLING_PENALTY );
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
+        void set_location( const tripoint_abs_ms &loc );
         /** Handles reading effects and returns true if activity started */
         bool read( item_location &book, item_location ereader = {} );
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;
         void clear_identified();
+
+        void add_snippet( snippet_id snippet );
+        bool has_seen_snippet( const snippet_id &snippet ) const;
+        const std::set<snippet_id> &get_snippets();
 
         // the encumbrance on your limbs reducing your dodging ability
         int limb_dodge_encumbrance() const;
@@ -279,6 +284,10 @@ class avatar : public Character
             return mon_visible;
         }
 
+        const monster_visible_info &get_mon_visible() const {
+            return mon_visible;
+        }
+
         struct daily_calories {
             int spent = 0;
             int gained = 0;
@@ -344,13 +353,9 @@ class avatar : public Character
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 
-        const mood_face_id &character_mood_face();
-        void clear_mood_face();
+        const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
     private:
-
-        bool mood_face_horizontal = false;
-        cata::optional<mood_face_id> mood_face_cache;
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;
@@ -388,6 +393,9 @@ class avatar : public Character
 
         // Items the player has identified.
         std::unordered_set<itype_id> items_identified;
+
+        // Snippets the player has seen
+        std::set<snippet_id> snippets_read;
 
         object_type grab_type;
 

@@ -369,35 +369,27 @@
     "effect": [
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "+",
           { "const": 20 }
         ]
       },
       {
         "arithmetic": [
-          { "global_val": "var", "var_name": "ps_shifting_mass_stamina", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_shifting_mass_stamina" },
           "=",
-          { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" },
+          { "global_val": "var", "var_name": "ps_str" },
           "+",
           { "const": 50 }
         ]
       },
       {
-        "arithmetic": [
-          { "u_val": "fatigue" },
-          "+=",
-          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue", "type": "weather", "context": "ps" }
-        ]
+        "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" } ]
       },
       {
-        "arithmetic": [
-          { "u_val": "stamina" },
-          "+=",
-          { "global_val": "var", "var_name": "ps_shifting_mass_stamina", "type": "weather", "context": "ps" }
-        ]
+        "arithmetic": [ { "u_val": "stamina" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_stamina" } ]
       },
       { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
     ]
@@ -455,25 +447,16 @@
     "id": "EOC_absence_capture_attack",
     "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, { "const": 3 } ], "op": ">" },
     "effect": [
-      { "u_location_variable": { "value": "cage", "type": "eoc", "context": "transform", "global": true } },
+      { "u_location_variable": { "global_val": "portal_cage" } },
       {
         "u_transform_radius": 2,
         "ter_furn_transform": "portal_cage_transform",
-        "target_var": { "value": "cage", "type": "eoc", "context": "transform", "global": true }
+        "target_var": { "global_val": "portal_cage" }
       },
       {
-        "set_queue_effect_on_condition": [
-          {
-            "id": "EOC_PORTAL_ABSENCE_CHANGE",
-            "effect": [
-              {
-                "u_transform_radius": 2,
-                "ter_furn_transform": "portal_cage_revert_transform",
-                "target_var": { "value": "cage", "type": "eoc", "context": "transform", "global": true }
-              }
-            ]
-          }
-        ],
+        "u_transform_radius": 2,
+        "ter_furn_transform": "portal_cage_revert_transform",
+        "target_var": { "global_val": "portal_cage" },
         "time_in_future_min": "3 seconds",
         "time_in_future_max": "5 seconds"
       },
@@ -493,5 +476,49 @@
     "type": "ter_furn_transform",
     "id": "portal_cage_revert_transform",
     "furniture": [ { "result": [ "f_null" ], "valid_furniture": [ "f_absence" ] } ]
+  },
+  {
+    "id": "boomer_claymore_initial",
+    "type": "SPELL",
+    "//": "exist because zed try to use boomer_claymore on max range except trying to minimize the distance (ty venera for idea)",
+    "name": { "str": "Initial boomer claymore attack" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": 3,
+    "max_range": 3,
+    "extra_effects": [ { "id": "boomer_claymore" } ]
+  },
+  {
+    "id": "boomer_claymore",
+    "type": "SPELL",
+    "name": { "str": "Boomer claymore attack" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "effect": "attack",
+    "shape": "cone",
+    "min_damage": 30,
+    "max_damage": 30,
+    "damage_type": "cut",
+    "min_range": 6,
+    "max_range": 6,
+    "min_aoe": 120,
+    "max_aoe": 120,
+    "extra_effects": [ { "id": "boomer_claymore_suicide", "hit_self": true } ]
+  },
+  {
+    "id": "boomer_claymore_suicide",
+    "type": "SPELL",
+    "name": { "str": "Boomer suicide spell" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile", "ally", "self" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "biological",
+    "min_damage": 9999,
+    "max_damage": 9999
   }
 ]

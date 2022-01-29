@@ -195,6 +195,16 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
+    "id": "helmet_barbute_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_barbute",
+    "looks_like": "helmet_barbute",
+    "name": { "str": "XS barbute helm" },
+    "description": "A medieval helmet that provides excellent protection for the head, with a Y shaped opening for the face.  This one is goblin sized.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "helmet_bike",
     "repairs_like": "balclava",
     "type": "ARMOR",
@@ -250,6 +260,16 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
+    "id": "helmet_chitin_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_chitin",
+    "looks_like": "helmet_chitin",
+    "name": { "str": "XS chitinous helmet" },
+    "description": "A helmet made from the exoskeletons of insects.  Covers the entire head; very light and durable.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "WATERPROOF", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "helmet_conical",
     "type": "ARMOR",
     "category": "armor",
@@ -280,6 +300,16 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
+    "id": "helmet_conical_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_conical",
+    "looks_like": "helmet_conical",
+    "name": { "str": "XS conical helm" },
+    "description": "A conical iron helm with additional protection for the neck, associated with the Mongol Empire.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "helmet_acidchitin",
     "copy-from": "helmet_chitin",
     "looks_like": "helmet_chitin",
@@ -301,6 +331,16 @@
     "description": "A helmet made from giant acidic insects for giant humanoids.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "helmet_acidchitin_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_acidchitin",
+    "looks_like": "helmet_acidchitin",
+    "name": { "str": "XS biosilicified chitin helmet" },
+    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "UNDERSIZE" ]
   },
   {
     "id": "helmet_football",
@@ -357,6 +397,16 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
+    "id": "helmet_galea_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_galea",
+    "looks_like": "helmet_galea",
+    "name": { "str": "galea XS", "str_pl": "galeae XS" },
+    "description": "An Imperial Roman helmet, with distinct projections protecting the sides of the head.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "helmet_kabuto",
     "type": "ARMOR",
     "category": "armor",
@@ -393,6 +443,16 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
+    "id": "helmet_kabuto_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_kabuto",
+    "looks_like": "helmet_kabuto",
+    "name": { "str": "kabuto XS" },
+    "description": "A medieval Japanese helmet with a scowling facemask that provides excellent protection to the entire head and face.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "helmet_larmor",
     "type": "ARMOR",
     "category": "armor",
@@ -420,6 +480,16 @@
     "description": "A thick leather helmet that provides excellent protection for the head.  This one is quite large.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "helmet_larmor_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_larmor",
+    "looks_like": "helmet_larmor",
+    "name": { "str": "XS leather armor helmet" },
+    "description": "A thick leather helmet that provides excellent protection for the head.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "helmet_skull",
@@ -578,6 +648,16 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
+    "id": "helmet_nasal_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_nasal",
+    "looks_like": "helmet_nasal",
+    "name": { "str": "XS nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "helmet_plate",
     "type": "ARMOR",
     "category": "armor",
@@ -611,6 +691,16 @@
     "description": "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.  Larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "helmet_plate_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_plate",
+    "looks_like": "helmet_plate",
+    "name": { "str": "XS great helm" },
+    "description": "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.  Smaller than average.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "UNDERSIZE" ]
   },
   {
     "id": "helmet_kettle",
@@ -676,6 +766,16 @@
     "description": "An oversized helmet made from scraps of metal secured by simple strings.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "helmet_scrap_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_scrap",
+    "looks_like": "helmet_scrap",
+    "name": { "str": "XS scrap helmet" },
+    "description": "A helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "UNDERSIZE" ]
   },
   {
     "id": "helmet_skid",
@@ -756,6 +856,16 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
+    "id": "helmet_corinthian_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_corinthian",
+    "looks_like": "helmet_corinthian",
+    "name": { "str": "XS Corinthian helm" },
+    "description": "An ancient Greek bronze helmet that provides excellent protection for the head, with slits for the eyes and mouth.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "pot_xlhelmet",
     "type": "ARMOR",
     "name": { "str": "XL pot helmet" },
@@ -768,7 +878,18 @@
     "symbol": "[",
     "looks_like": "pot_helmet",
     "copy-from": "pot_helmet",
+    "material_thickness": 2,
     "extend": { "flags": [ "OVERSIZE" ] },
     "armor": [ { "encumbrance": 50, "coverage": 55, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "pot_helmet_xs",
+    "type": "ARMOR",
+    "copy-from": "pot_helmet",
+    "looks_like": "pot_helmet",
+    "name": { "str": "XS pot helmet" },
+    "description": "A helmet made from a soup pot.  It's not very good protection, but it's better than nothing.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "UNDERSIZE" ]
   }
 ]

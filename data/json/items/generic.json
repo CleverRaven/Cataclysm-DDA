@@ -207,7 +207,7 @@
     "color": "white",
     "name": { "str_sp": "rubber cement" },
     "looks_like": "superglue",
-    "description": "A tin of adhesive typically used to glue rubber.  It forms a less rigid bond than typical superglue making it ideal for projects requiring flexbility.  Typically smelly and toxic.",
+    "description": "A tin of adhesive typically used to glue rubber.  It forms a less rigid bond than typical superglue making it ideal for projects requiring flexibility.  Typically smelly and toxic.",
     "price": 1800,
     "price_postapoc": 80,
     "material": [ "plastic" ],
@@ -556,6 +556,20 @@
     ],
     "to_hit": -3,
     "flags": [ "MC_USED" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "usb_drive_nano",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "secured USB drive" },
+    "description": "A USB thumb drive.  Useful for holding software.  This one seems like it could get ran over by a truck and be fine.",
+    "price": 10000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "55 g",
+    "volume": "5 ml",
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
@@ -1709,6 +1723,18 @@
   },
   {
     "type": "GENERIC",
+    "id": "template_armor",
+    "copy-from": "standard_template_construct",
+    "color": "yellow",
+    "name": { "str": "nanofabricator template (UHMWPE)", "str_pl": "nanofabricator templates (UHMWPE)" },
+    "description": "A state-of-the-art optical storage system, containing the instruction set required for the fabrication of advanced armor materials.  This seems to just be routines to work with the materials not actual armor schematics.",
+    "price": 100000000,
+    "price_postapoc": 3000,
+    "//": "given to HUB 01 for even better armor",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "antenna",
     "symbol": ",",
     "color": "light_gray",
@@ -1986,11 +2012,13 @@
     "symbol": ",",
     "color": "brown",
     "name": { "str": "pinecone" },
-    "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
-    "weight": "90 g",
+    "description": "A spiny pod from a pine tree.",
+    "material": [ "wood" ],
+    "//": "Commercial pinecones average 300g. We're assuming wild ones weigh less than this.",
+    "weight": "200 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -2515,7 +2543,7 @@
         }
       ]
     },
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
   },
   {
     "type": "GENERIC",
@@ -2562,7 +2590,7 @@
         }
       ]
     },
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
   },
   {
     "type": "GENERIC",
@@ -2609,7 +2637,7 @@
         }
       ]
     },
-    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
+    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
   },
   {
     "type": "GENERIC",
@@ -3084,6 +3112,15 @@
     "color": "green",
     "name": { "str": "broken M2 autonomous CROWS II", "str_pl": "broken M2 autonomous CROWS II turrets" },
     "weight": "100 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_artisans",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken custom plated turret" },
+    "weight": "75 kg",
     "copy-from": "broken_turret"
   },
   {

@@ -1091,5 +1091,39 @@
     "book_learn": [ [ "manual_shotgun", 4 ] ],
     "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 150 ] ] ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "pipe", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "m249semi",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "rifle", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "difficulty": 4,
+    "time": "5 h",
+    "book_learn": [ [ "manual_rifle", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
+    "tools": [ [ [ "m249", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
+    "components": [ [ [ "sheet_metal_small", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "m240semi",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "rifle", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "difficulty": 4,
+    "time": "5 h",
+    "book_learn": [ [ "manual_rifle", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
+    "tools": [ [ [ "m249", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
+    "components": [ [ [ "sheet_metal_small", 5 ] ] ]
   }
 ]

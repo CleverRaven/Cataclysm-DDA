@@ -399,8 +399,13 @@ static void draw_description( const catacurses::window &win, const bionic &bio,
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         const bool each_bp_on_new_line = ypos + num_of_bp + 1 < getmaxy( win );
-        fold_and_print( win, point( 0, ypos ), width, c_light_gray, list_occupied_bps( bio.id,
-                        _( "This bionic occupies the following body parts:" ), each_bp_on_new_line ) );
+        ypos += fold_and_print( win, point( 0, ypos ), width, c_light_gray, list_occupied_bps( bio.id,
+                                _( "This bionic occupies the following body parts:" ), each_bp_on_new_line ) );
+    }
+
+    if( bio.has_weapon() ) {
+        fold_and_print( win, point( 0, ypos ), width, c_light_gray,
+                        _( "Installed weapon: %s" ), bio.get_weapon().tname() );
     }
     wnoutrefresh( win );
 }
@@ -896,16 +901,76 @@ void avatar::power_bionics()
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
                     int b = tmp - &( *my_bionics )[0];
+                    bionic &bio = ( *my_bionics )[b];
                     hide = true;
                     ui.mark_resize();
                     if( tmp->powered ) {
-                        deactivate_bionic( b );
+                        deactivate_bionic( bio );
                     } else {
-                        bool close_ui = false;
-                        activate_bionic( b, false, &close_ui );
-                        // Exit this ui if we are firing a complex bionic
-                        if( close_ui && tmp->get_weapon().ammo_remaining( this ) ) {
-                            break;
+                        bool activate = true;
+
+                        if( bio.can_install_weapon() ) {
+                            const bool has_weapon = bio.has_weapon();
+                            activate = false;
+
+                            uilist activate_action_menu;
+                            activate_action_menu.title = _( "Select action" );
+                            activate_action_menu.addentry( 0, has_weapon, 'a', _( "Activate" ) );
+                            activate_action_menu.addentry( 1, has_weapon, 'u', _( "Uninstall weapon" ) );
+                            activate_action_menu.addentry( 2, !has_weapon, 'i', _( "Install weapon" ) );
+
+                            activate_action_menu.query();
+
+                            switch( activate_action_menu.ret ) {
+                                case 0:
+                                    activate = true;
+                                    break;
+                                case 1:
+                                    // TODO: Move to function, create activity and add tool requirements
+                                    if( cata::optional<item> weapon = bio.uninstall_weapon() ) {
+                                        i_add_or_drop( *weapon );
+                                    }
+                                    break;
+                                case 2: {
+                                    // TODO: Move to activity, create activity, add tool requirements, improve UI
+                                    uilist install_weapon_menu;
+                                    install_weapon_menu.title = _( "Select weapon to install" );
+                                    // TODO: Choose from items around, obtain items before installing
+                                    std::vector<item *> valid_weapons = items_with( [&bio]( const item & it ) {
+                                        return it.has_any_flag( bio.id->installable_weapon_flags );
+                                    } );
+                                    for( size_t i = 0; i < valid_weapons.size(); i++ ) {
+                                        install_weapon_menu.addentry( i, true, MENU_AUTOASSIGN, valid_weapons[i]->tname() );
+                                    }
+                                    if( install_weapon_menu.entries.empty() ) {
+                                        popup( _( "You don't have any items you can install in this bionic" ) );
+                                    } else {
+                                        install_weapon_menu.query();
+                                        if( install_weapon_menu.ret >= 0 &&
+                                            static_cast<size_t>( install_weapon_menu.ret ) < valid_weapons.size() ) {
+                                            item &new_weapon = *valid_weapons[install_weapon_menu.ret];
+                                            if( bio.can_install_weapon( new_weapon ) && bio.install_weapon( new_weapon ) ) {
+                                                item_location loc( *this, &new_weapon );
+                                                loc.remove_item();
+                                            } else {
+                                                popup( _( "Unable to install %s" ), new_weapon.tname() );
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                                default:
+                                    break;
+                            }
+                        }
+
+                        if( activate ) {
+                            bool close_ui = false;
+                            activate_bionic( bio, false, &close_ui );
+                            // Exit this ui if we are firing a complex bionic
+                            if( close_ui && tmp->get_weapon().ammo_remaining( this ) ) {
+                                break;
+                            }
                         }
                     }
                     hide = false;
