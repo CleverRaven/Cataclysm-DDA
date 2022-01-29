@@ -11,6 +11,7 @@
 #include "generic_factory.h"
 #include "debug.h"
 #include "json.h"
+#include "translations.h"
 
 using namespace behavior;
 
@@ -90,7 +91,7 @@ std::string tree::tick( const oracle_t *subject )
 
 std::string tree::goal() const
 {
-    return active_node == nullptr ? "idle" : active_node->goal();
+    return active_node == nullptr ? _( "idle" ) : active_node->goal();
 }
 
 void tree::add( const node_t *new_node )
