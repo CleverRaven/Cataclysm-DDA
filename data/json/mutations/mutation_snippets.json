@@ -1,78 +1,72 @@
 [
     {
-        "type": "snippet",
-        "category": "<arm_itch>",
-        "text": [
-            "Your arms start itching.",
-            "Something is crawling under your skin.",
-            "You pause for a moment.  The movement under your skin doesn't."
-        ]
-    },
-    {
-        "type": "snippet",
-        "category": "<arm_pain>",
-        "text": [
-            "Your arms hurt!",
-            "Your arms cramp!"
-        ]
-    },
-    {
-        "type": "snippet",
-        "category": "<arm_drop>",
-        "text": [
-            "Your hands seize up for a moment, and you drop your weapon!",
-            "Your arms fall down paralyzed, and your weapon tumbles to the ground!"
-        ]
-    },
-    {
       "type": "snippet",
-      "category": "<mutagen_bird>",
+      "category": "<eyes_progress_general>",
       "text": [
-          "You long for the skies, to watch the tiny problems of the ground disappear below you.",
-          "You remember feeling less attached to the ground.  What are you missing?",
-          "You need more if you are to fly South before the cold comes.  Much more.",
-          "Is your beak strong enough?  Your feathers long?  No, you need more."
-        ]
-    },
-    {
-      "type": "snippet",
-      "category": "<mutagen_raptor>",
-      "text": [
-          "Slow.  Too slow.  Slower than prey.",
-          "You'll never wet your talons at this rate.  You need to become better.",
-          "Scenes of a chase, claws, blood on the leaves flash before your eyes.  You need more to truly understand it.",
-          "Not a care in the world, only the hunt.  How you wish you were that far gone already."
-        ]
-    },
-    {
-      "type": "snippet",
-      "category": "<mutagen_bird_raptor>",
-      "text": [
-        "<mutagen_bird>",
-        "<mutagen_raptor>"
+        "Something is shifting inside your eyes!",
+        "Dozens of dark points are dancing around your vision's periphery.",
+        "The world takes on a slightly different color.  Or did <color> always look so <color>?",
+        "Strange shapes float across your vision.",
+        "Your eyes hurt.  That will stop happening soon, right?"
       ]
     },
     {
       "type": "snippet",
-      "category": "<arms_feathered_dream>",
+      "category": "<eyes_ceph>",
       "text": [
-        "You are desperate to stop your hands from pulling out handfuls of your beautiful feathers, but they move on their own accord.  You manage to hold one of the useless things between your talons, and bring your beak down on it…Just a dream.  Still, food for thought.",
-        "Clouds surround you as you soar through the sky.  You look down and see the wilderness stretching out as far as the eye can see, but you can't stay here.  You need to go somewhere else, to the land of warmth and plenty.  Your eyes wander over your beautiful wings propelling you along, and you're mesmerized by their rhytmic beating.  Much better than your…hands.  You have hands, not wings.  Not yet.",
-        "You are but a child again, fighting over the dinner's remains with your brothers and sisters.  There were times for mirth and playfulness, but this is not one of those - the time nears when the smallest will be cast aside, and you're all terrified of being chosen."
+        "<eyes_progress_general>",
+        "The light hurts your eyes, and you struggle to blink.",
+        "The center of your vision swims in and out of focus.",
+        "You are obsessed with the colors of your surroundings, before you remember your skin could never match them."
       ]
     },
     {
       "type": "snippet",
-      "category": "<wings_bird_success>",
+      "category": "<eyes_compound>",
       "text": [
-        "You dream of jumping from a cliff for your first flight, but the feathers on your clumsy arms can't hold you.  You hit the ground, and your hands are mangled beyond recognition.  After waking, the pain persists, and you're startled to see your useless fingers snap and disappear in your rich plumage.  Good riddance, you think, before falling unconscious."
+        "<eyes_progress_general>",
+        "You recognize new colors on previously drab things.",
+        "You catch yourself trying to blink, as if your eyes could still dry out.",
+        "The field of view is dizzying, but seeing behind yourself has its advantages."
       ]
     },
     {
-        "type": "snippet",
-        "category": "<slime_dream>",
-        "text": [
-            "It took you so long to get here - all those funny looks, all the neighbors complaining about the smell…you lift the last canister with a grunt and empty its contents into the churning bathtub.  You strip down and dive into the liquid.  For a brief moment you're wracked by unimaginable pain until the acid mercifully burns your nerves away, letting you lose yourself in the ecstasy of dissolution.\n\nYou wake drenched in sweat.  Surely, it could not be that simple…could it?"
-        ]
+      "type": "snippet",
+      "category": "<eyes_elfa>",
+      "text": [
+        "<eyes_progress_general>",
+        "You wish everything was greener.  You close your eyes, and when you open them your wish came true.",
+        "For a moment, you see Them, waiting to taint your world.",
+        "You are distracted by the myriad details your old eyes couldn't see."
+      ]
+    },
+    {
+      "type": "snippet",
+      "category": "<eyes_feline>",
+      "text": [
+        "<eyes_progress_general>",
+        "Your eyes obsessively snap to the smallest movement.",
+        "The light is growing painfully bright."
+      ]
+    },
+    {
+      "type": "snippet",
+      "category": "<eyes_snail>",
+      "text": [
+        "<eyes_progress_general>",
+        "Your vision inverts!",
+        "You occasionally forget you can move your head, instead moving your…eyes.",
+        "Something snaps in the base of your right eyestalk, and you retract it reflexively!"
+      ]
+    },
+    {
+      "type": "snippet",
+      "category": "<eyes_lizard>",
+      "text": [
+        "<eyes_progress_general>",
+        "Your eyes dry out, and you try to give them a reflexive lick.",
+        "To lay out in the warm sun and take in the rays…"
+      ]
     }
   ]
+  
