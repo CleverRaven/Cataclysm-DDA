@@ -384,5 +384,54 @@
     "time": "945 m",
     "byproducts": [ [ "rag", 3 ], [ "scrap_cotton", 86 ] ],
     "using": [ [ "armor_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
+  },  
+  {
+    "result": "gambeson_sleeve",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 12 ], [ "fabric_standard_nostretch", 9 ], [ "fastener_small", 1 ] ]
+  },
+  {
+    "result": "xl_gambeson_sleeve",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "2 h 30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 17 ], [ "fastener_small", 1 ] ]
+  },
+  {
+    "result": "k_gambeson_sleeve",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
+    "difficulty": 6,
+    "time": "4 h 45 m",
+    "autolearn": [ [ "tailor", 8 ] ],
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "sewing_standard", 11 ], [ "tailoring_kevlar_fabric", 4 ], [ "fastener_small", 1 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 6 ] ] ]
+  },
+  {
+    "result": "xl_k_gambeson_sleeve",
+    "type": "recipe",
+    "copy-from": "k_gambeson_sleeve",
+    "time": "6 h",
+    "using": [ [ "sewing_standard", 17 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_small", 2 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 12 ] ] ]
   }
 ]
