@@ -1148,15 +1148,12 @@
     "looks_like": "fire_gauntlets",
     "color": "light_gray",
     "warmth": 15,
-
     "environmental_protection": 1,
     "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
         {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.25 }
-          ],
+          "material": [ { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
           "covers": [ "arm_lower_l", "arm_lower_r" ],
           "coverage": 30,
           "encumbrance": 10,
@@ -1191,15 +1188,12 @@
     "looks_like": "fire_gauntlets",
     "color": "light_gray",
     "warmth": 15,
-
     "environmental_protection": 1,
     "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
         {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.25 }
-          ],
+          "material": [ { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
           "covers": [ "arm_lower_l", "arm_lower_r" ],
           "coverage": 30,
           "encumbrance": 10,
@@ -1234,15 +1228,12 @@
     "looks_like": "fire_gauntlets",
     "color": "light_gray",
     "warmth": 15,
-
     "environmental_protection": 1,
     "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
         {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.25 }
-          ],
+          "material": [ { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
           "covers": [ "arm_lower_l", "arm_lower_r" ],
           "coverage": 30,
           "encumbrance": 10,
@@ -1277,15 +1268,12 @@
     "looks_like": "fire_gauntlets",
     "color": "light_gray",
     "warmth": 15,
-
     "environmental_protection": 1,
     "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
         {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.25 }
-          ],
+          "material": [ { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
           "covers": [ "arm_lower_l", "arm_lower_r" ],
           "coverage": 30,
           "encumbrance": 10,
@@ -1320,15 +1308,12 @@
     "looks_like": "fire_gauntlets",
     "color": "light_gray",
     "warmth": 15,
-
     "environmental_protection": 1,
     "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
         {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.25 }
-          ],
+          "material": [ { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
           "covers": [ "arm_lower_l", "arm_lower_r" ],
           "coverage": 30,
           "encumbrance": 10,
