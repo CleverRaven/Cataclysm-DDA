@@ -31,6 +31,7 @@
         "************************",
         "************************"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel_any" ]
     }
   },
@@ -66,6 +67,7 @@
         "   ,,   ,,, ,,,         ",
         "         ,,,,           "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel_any" ]
     }
   },
@@ -89,6 +91,7 @@
         "   ,    ,,  ",
         "            "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel_any" ]
     }
   },
@@ -112,6 +115,7 @@
         "    ######  ",
         "      ##    "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel_any" ]
     }
   },
@@ -135,6 +139,7 @@
         "     I#,,#, ",
         "         ,, "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel_any" ]
     }
   },
@@ -170,6 +175,7 @@
         "   ,,   ,,, ,,,         ",
         "         ,,,,           "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel_any" ]
     }
   },
@@ -205,6 +211,7 @@
         "   s,   ,,, ,,, ,,      ",
         " ,       ,,,,    ,,     "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel_any" ]
     }
   },
@@ -240,6 +247,7 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel_any" ]
     }
   },
@@ -252,7 +260,8 @@
       "set": [
         { "point": "furniture", "id": "f_boulder_medium", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 8, 30 ] },
         { "point": "furniture", "id": "f_boulder_large", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 8, 14 ] }
-      ]
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   }
 ]
