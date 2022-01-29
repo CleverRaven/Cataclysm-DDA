@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <vector>
 
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
