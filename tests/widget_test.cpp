@@ -787,7 +787,7 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
     WHEN( "bitten" ) {
         ava.add_effect( effect_bite, 1_minutes, arm );
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
-               "L ARM:                             <color_c_yellow>B</color>" );
+               "L ARM: <color_c_yellow>B</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
         CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_yellow>B</color> bitten\n" );
     }
@@ -797,19 +797,19 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         ava.add_effect( effect_bleed, 1_minutes, arm );
         ava.get_effect( effect_bleed, arm ).set_intensity( 5 );
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
-               "L ARM:                             <color_c_light_red>b</color>" );
+               "L ARM: <color_c_light_red>b</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
         CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_light_red>b</color> bleeding\n" );
         // medium-intensity
         ava.get_effect( effect_bleed, arm ).set_intensity( 15 );
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
-               "L ARM:                             <color_c_red>b</color>" );
+               "L ARM: <color_c_red>b</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
         CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_red>b</color> bleeding\n" );
         // high-intensity
         ava.get_effect( effect_bleed, arm ).set_intensity( 25 );
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
-               "L ARM:                             <color_c_red_red>b</color>" );
+               "L ARM: <color_c_red_red>b</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
         CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_red_red>b</color> bleeding\n" );
     }
@@ -817,7 +817,7 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
     WHEN( "bandaged" ) {
         ava.add_effect( effect_bandaged, 1_minutes, arm );
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
-               "L ARM:                             <color_c_white>+</color>" );
+               "L ARM: <color_c_white>+</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
         CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_white>+</color> bandaged\n" );
     }
@@ -826,7 +826,7 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         ava.set_part_hp_cur( arm, 0 );
         REQUIRE( ava.is_limb_broken( arm ) );
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
-               "L ARM:                             <color_c_magenta>%</color>" );
+               "L ARM: <color_c_magenta>%</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
         CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_magenta>%</color> broken\n" );
     }
@@ -846,7 +846,7 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
     WHEN( "infected" ) {
         ava.add_effect( effect_infected, 1_minutes, arm );
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
-               "L ARM:                             <color_c_pink>I</color>" );
+               "L ARM: <color_c_pink>I</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
         CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_pink>I</color> infected\n" );
     }
@@ -854,7 +854,7 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
     WHEN( "disinfected" ) {
         ava.add_effect( effect_disinfected, 1_minutes, arm );
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
-               "L ARM:                             <color_c_light_green>$</color>" );
+               "L ARM: <color_c_light_green>$</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
         CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_light_green>$</color> disinfected\n" );
     }
@@ -1021,9 +1021,9 @@ TEST_CASE( "compass widget", "[widget][compass]" )
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  1 );
         CHECK( c5s_N.layout( ava, sidebar_width ) ==
-               "N:                                 <color_c_white>B</color>" );
+               "N: <color_c_white>B</color>                                " );
         CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
-               "N:                                 <color_c_white>+</color>" );
+               "N: <color_c_white>+</color>                                " );
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
                "N:                                  " );
         CHECK( c5s_legend1.layout( ava, sidebar_width + 3 ) ==
@@ -1048,9 +1048,9 @@ TEST_CASE( "compass widget", "[widget][compass]" )
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  1 );
         CHECK( c5s_N.layout( ava, sidebar_width ) ==
-               "N:                                 <color_c_white>B</color>" );
+               "N: <color_c_white>B</color>                                " );
         CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
-               "N:                                 <color_c_white>+</color>" );
+               "N: <color_c_white>+</color>                                " );
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
                "N:                                  " );
         CHECK( c5s_legend1.layout( ava, sidebar_width + 5 ) ==
@@ -1075,10 +1075,10 @@ TEST_CASE( "compass widget", "[widget][compass]" )
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  3 );
         CHECK( c5s_N.layout( ava, sidebar_width ) ==
-               "N:                               <color_c_white>B</color>"
-               "<color_c_white>B</color><color_c_white>S</color>" );
+               "N: <color_c_white>B</color><color_c_white>B</color>"
+               "<color_c_white>S</color>                              " );
         CHECK( c5s_N_nowidth.layout( ava, sidebar_width ) ==
-               "N:                                 <color_c_white>+</color>" );
+               "N: <color_c_white>+</color>                                " );
         CHECK( c5s_N_nodir_nowidth.layout( ava, sidebar_width ) ==
                "N:                                  " );
         CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
@@ -1135,80 +1135,72 @@ TEST_CASE( "layout widgets in columns", "[widget][layout][columns]" )
 
     // Two columns
     // string ruler:                   123456789012345678901234567890123456
-    CHECK( two_w.layout( ava, 24 ) == "MOVE:    50  SPEED:  100" );
-    CHECK( two_w.layout( ava, 25 ) == "MOVE:     50  SPEED:  100" );
-    CHECK( two_w.layout( ava, 26 ) == "MOVE:     50  SPEED:   100" );
-    CHECK( two_w.layout( ava, 27 ) == "MOVE:      50  SPEED:   100" );
-    CHECK( two_w.layout( ava, 28 ) == "MOVE:      50  SPEED:    100" );
-    CHECK( two_w.layout( ava, 29 ) == "MOVE:       50  SPEED:    100" );
-    CHECK( two_w.layout( ava, 30 ) == "MOVE:       50  SPEED:     100" );
-    CHECK( two_w.layout( ava, 31 ) == "MOVE:        50  SPEED:     100" );
-    CHECK( two_w.layout( ava, 32 ) == "MOVE:        50  SPEED:      100" );
-    CHECK( two_w.layout( ava, 33 ) == "MOVE:         50  SPEED:      100" );
-    CHECK( two_w.layout( ava, 34 ) == "MOVE:         50  SPEED:       100" );
-    CHECK( two_w.layout( ava, 35 ) == "MOVE:          50  SPEED:       100" );
-    CHECK( two_w.layout( ava, 36 ) == "MOVE:          50  SPEED:        100" );
+    CHECK( two_w.layout( ava, 24 ) == "MOVE: 50     SPEED: 100 " );
+    CHECK( two_w.layout( ava, 25 ) == "MOVE: 50      SPEED: 100 " );
+    CHECK( two_w.layout( ava, 26 ) == "MOVE: 50      SPEED: 100  " );
+    CHECK( two_w.layout( ava, 27 ) == "MOVE: 50       SPEED: 100  " );
+    CHECK( two_w.layout( ava, 28 ) == "MOVE: 50       SPEED: 100   " );
+    CHECK( two_w.layout( ava, 29 ) == "MOVE: 50        SPEED: 100   " );
+    CHECK( two_w.layout( ava, 30 ) == "MOVE: 50        SPEED: 100    " );
+    CHECK( two_w.layout( ava, 31 ) == "MOVE: 50         SPEED: 100    " );
+    CHECK( two_w.layout( ava, 32 ) == "MOVE: 50         SPEED: 100     " );
+    CHECK( two_w.layout( ava, 33 ) == "MOVE: 50          SPEED: 100     " );
+    CHECK( two_w.layout( ava, 34 ) == "MOVE: 50          SPEED: 100      " );
+    CHECK( two_w.layout( ava, 35 ) == "MOVE: 50           SPEED: 100      " );
+    CHECK( two_w.layout( ava, 36 ) == "MOVE: 50           SPEED: 100       " );
     // string ruler:                   123456789012345678901234567890123456
 
     // Three columns
     // string ruler:                     1234567890123456789012345678901234567890
-    CHECK( three_w.layout( ava, 36 ) == "MOVE:    50  SPEED:  100  FOCUS: 120" );
-    CHECK( three_w.layout( ava, 37 ) == "MOVE:    50  SPEED:  100  FOCUS:  120" );
-    CHECK( three_w.layout( ava, 38 ) == "MOVE:     50  SPEED:  100  FOCUS:  120" );
-    CHECK( three_w.layout( ava, 39 ) == "MOVE:     50  SPEED:   100  FOCUS:  120" );
-    CHECK( three_w.layout( ava, 40 ) == "MOVE:     50  SPEED:   100  FOCUS:   120" );
-    CHECK( three_w.layout( ava, 41 ) == "MOVE:      50  SPEED:   100  FOCUS:   120" );
-    CHECK( three_w.layout( ava, 42 ) == "MOVE:      50  SPEED:    100  FOCUS:   120" );
-    CHECK( three_w.layout( ava, 43 ) == "MOVE:      50  SPEED:    100  FOCUS:    120" );
-    CHECK( three_w.layout( ava, 44 ) == "MOVE:       50  SPEED:    100  FOCUS:    120" );
-    CHECK( three_w.layout( ava, 45 ) == "MOVE:       50  SPEED:     100  FOCUS:    120" );
-    CHECK( three_w.layout( ava, 46 ) == "MOVE:       50  SPEED:     100  FOCUS:     120" );
+    CHECK( three_w.layout( ava, 36 ) == "MOVE: 50     SPEED: 100   FOCUS: 120" );
+    CHECK( three_w.layout( ava, 37 ) == "MOVE: 50     SPEED: 100   FOCUS: 120 " );
+    CHECK( three_w.layout( ava, 38 ) == "MOVE: 50      SPEED: 100   FOCUS: 120 " );
+    CHECK( three_w.layout( ava, 39 ) == "MOVE: 50      SPEED: 100    FOCUS: 120 " );
+    CHECK( three_w.layout( ava, 40 ) == "MOVE: 50      SPEED: 100    FOCUS: 120  " );
+    CHECK( three_w.layout( ava, 41 ) == "MOVE: 50       SPEED: 100    FOCUS: 120  " );
+    CHECK( three_w.layout( ava, 42 ) == "MOVE: 50       SPEED: 100     FOCUS: 120  " );
+    CHECK( three_w.layout( ava, 43 ) == "MOVE: 50       SPEED: 100     FOCUS: 120   " );
+    CHECK( three_w.layout( ava, 44 ) == "MOVE: 50        SPEED: 100     FOCUS: 120   " );
+    CHECK( three_w.layout( ava, 45 ) == "MOVE: 50        SPEED: 100      FOCUS: 120   " );
+    CHECK( three_w.layout( ava, 46 ) == "MOVE: 50        SPEED: 100      FOCUS: 120    " );
     // string ruler:                     1234567890123456789012345678901234567890123456
 
     // Four columns
     // string ruler:                    123456789012345678901234567890123456789012
-    CHECK( stat_w.layout( ava, 32 ) == "STR:  8  DEX:  8  INT: 8  PER: 8" );
-    CHECK( stat_w.layout( ava, 33 ) == "STR:  8  DEX:  8  INT:  8  PER: 8" );
-    CHECK( stat_w.layout( ava, 34 ) == "STR:  8  DEX:  8  INT:  8  PER:  8" );
-    CHECK( stat_w.layout( ava, 35 ) == "STR:   8  DEX:  8  INT:  8  PER:  8" );
-    CHECK( stat_w.layout( ava, 36 ) == "STR:   8  DEX:   8  INT:  8  PER:  8" );
-    CHECK( stat_w.layout( ava, 37 ) == "STR:   8  DEX:   8  INT:   8  PER:  8" );
-    CHECK( stat_w.layout( ava, 38 ) == "STR:   8  DEX:   8  INT:   8  PER:   8" );
-    CHECK( stat_w.layout( ava, 39 ) == "STR:    8  DEX:   8  INT:   8  PER:   8" );
-    CHECK( stat_w.layout( ava, 40 ) == "STR:    8  DEX:    8  INT:   8  PER:   8" );
-    CHECK( stat_w.layout( ava, 41 ) == "STR:    8  DEX:    8  INT:    8  PER:   8" );
-    CHECK( stat_w.layout( ava, 42 ) == "STR:    8  DEX:    8  INT:    8  PER:    8" );
-    CHECK( stat_w.layout( ava, 43 ) == "STR:     8  DEX:    8  INT:    8  PER:    8" );
-    CHECK( stat_w.layout( ava, 44 ) == "STR:     8  DEX:     8  INT:    8  PER:    8" );
-    CHECK( stat_w.layout( ava, 45 ) == "STR:     8  DEX:     8  INT:     8  PER:    8" );
-    CHECK( stat_w.layout( ava, 46 ) == "STR:     8  DEX:     8  INT:     8  PER:     8" );
+    CHECK( stat_w.layout( ava, 32 ) == "STR: 8   DEX: 8   INT: 8  PER: 8" );
+    CHECK( stat_w.layout( ava, 33 ) == "STR: 8   DEX: 8   INT: 8   PER: 8" );
+    CHECK( stat_w.layout( ava, 34 ) == "STR: 8   DEX: 8   INT: 8   PER: 8 " );
+    CHECK( stat_w.layout( ava, 35 ) == "STR: 8    DEX: 8   INT: 8   PER: 8 " );
+    CHECK( stat_w.layout( ava, 36 ) == "STR: 8    DEX: 8    INT: 8   PER: 8 " );
+    CHECK( stat_w.layout( ava, 37 ) == "STR: 8    DEX: 8    INT: 8    PER: 8 " );
+    CHECK( stat_w.layout( ava, 38 ) == "STR: 8    DEX: 8    INT: 8    PER: 8  " );
+    CHECK( stat_w.layout( ava, 39 ) == "STR: 8     DEX: 8    INT: 8    PER: 8  " );
+    CHECK( stat_w.layout( ava, 40 ) == "STR: 8     DEX: 8     INT: 8    PER: 8  " );
+    CHECK( stat_w.layout( ava, 41 ) == "STR: 8     DEX: 8     INT: 8     PER: 8  " );
+    CHECK( stat_w.layout( ava, 42 ) == "STR: 8     DEX: 8     INT: 8     PER: 8   " );
+    CHECK( stat_w.layout( ava, 43 ) == "STR: 8      DEX: 8     INT: 8     PER: 8   " );
+    CHECK( stat_w.layout( ava, 44 ) == "STR: 8      DEX: 8      INT: 8     PER: 8   " );
+    CHECK( stat_w.layout( ava, 45 ) == "STR: 8      DEX: 8      INT: 8      PER: 8   " );
+    CHECK( stat_w.layout( ava, 46 ) == "STR: 8      DEX: 8      INT: 8      PER: 8    " );
     // string ruler:                    1234567890123456789012345678901234567890123456
 
     // Column alignment
     // Layout keeps labels vertically aligned for layouts with the same number of widgets
     // string ruler:                    123456789012345678901234567890123456789012345678
-    CHECK( stat_w.layout( ava, 48 ) == "STR:      8  DEX:      8  INT:     8  PER:     8" );
-    CHECK( four_w.layout( ava, 48 ) == "MOVE:    50  SPEED:  100  FOCUS: 120  MANA: 1000" );
+    CHECK( stat_w.layout( ava, 48 ) == "STR: 8       DEX: 8       INT: 8      PER: 8    " );
+    CHECK( four_w.layout( ava, 48 ) == "MOVE: 50     SPEED: 100   FOCUS: 120  MANA: 1000" );
 
     // string ruler:                    1234567890123456789012345678901234567890123456789012
-    CHECK( stat_w.layout( ava, 52 ) == "STR:       8  DEX:       8  INT:      8  PER:      8" );
-    CHECK( four_w.layout( ava, 52 ) == "MOVE:     50  SPEED:   100  FOCUS:  120  MANA:  1000" );
+    CHECK( stat_w.layout( ava, 52 ) == "STR: 8        DEX: 8        INT: 8       PER: 8     " );
+    CHECK( four_w.layout( ava, 52 ) == "MOVE: 50      SPEED: 100    FOCUS: 120   MANA: 1000 " );
 
     // string ruler:                    12345678901234567890123456789012345678901234567890123456
-    CHECK( stat_w.layout( ava, 56 ) == "STR:        8  DEX:        8  INT:       8  PER:       8" );
-    CHECK( four_w.layout( ava, 56 ) == "MOVE:      50  SPEED:    100  FOCUS:   120  MANA:   1000" );
+    CHECK( stat_w.layout( ava, 56 ) == "STR: 8         DEX: 8         INT: 8        PER: 8      " );
+    CHECK( four_w.layout( ava, 56 ) == "MOVE: 50       SPEED: 100     FOCUS: 120    MANA: 1000  " );
 
     // string ruler:                    123456789012345678901234567890123456789012345678901234567890
-    CHECK( stat_w.layout( ava, 60 ) == "STR:         8  DEX:         8  INT:        8  PER:        8" );
-    CHECK( four_w.layout( ava, 60 ) == "MOVE:       50  SPEED:     100  FOCUS:    120  MANA:    1000" );
-
-    // TODO: Consider re-distributing space so values are closer to labels, like this:
-    // 48 width
-    //     "STR: 8      DEX: 8      INT: 8      PER: 8      "
-    //     "MOVE: 0     SPEED: 100  FOCUS: 100  MANA: 1000  "
-    // 60 width
-    //     "STR: 8         DEX: 8         INT: 8         PER: 8         "
-    //     "MOVE: 0        SPEED: 100     FOCUS: 100     MANA: 1000     "
+    CHECK( stat_w.layout( ava, 60 ) == "STR: 8          DEX: 8          INT: 8         PER: 8       " );
+    CHECK( four_w.layout( ava, 60 ) == "MOVE: 50        SPEED: 100      FOCUS: 120     MANA: 1000   " );
 }
 
 TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
