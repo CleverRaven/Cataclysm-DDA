@@ -949,12 +949,12 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
         {
           "material": [ { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "covers": [ "arm_elbow_l", "arm_elbow_r" ],
+          "covers": [ "arm_lower_l", "arm_lower_r" ],
           "coverage": 30,
           "encumbrance": 5,
           "layers": [ "OUTER" ]
@@ -989,12 +989,12 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
         {
           "material": [ { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "covers": [ "arm_elbow_l", "arm_elbow_r" ],
+          "covers": [ "arm_lower_l", "arm_lower_r" ],
           "coverage": 30,
           "encumbrance": 5,
           "layers": [ "OUTER" ]
@@ -1029,12 +1029,12 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
         {
           "material": [ { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "covers": [ "arm_elbow_l", "arm_elbow_r" ],
+          "covers": [ "arm_lower_l", "arm_lower_r" ],
           "coverage": 30,
           "encumbrance": 5,
           "layers": [ "OUTER" ]
@@ -1069,12 +1069,12 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
         {
           "material": [ { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "covers": [ "arm_elbow_l", "arm_elbow_r" ],
+          "covers": [ "arm_lower_l", "arm_lower_r" ],
           "coverage": 30,
           "encumbrance": 5,
           "layers": [ "OUTER" ]
@@ -1109,12 +1109,12 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
         {
           "material": [ { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "covers": [ "arm_elbow_l", "arm_elbow_r" ],
+          "covers": [ "arm_lower_l", "arm_lower_r" ],
           "coverage": 30,
           "encumbrance": 5,
           "layers": [ "OUTER" ]
@@ -1128,6 +1128,221 @@
           "covers": [ "hand_l", "hand_r" ],
           "coverage": 100,
           "encumbrance": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "lc_mitten_gaunt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel mitten gauntlet", "str_pl": "mild steel mitten gauntlet" },
+    "description": "A leather glove with chainmail protecting the fingers and palm, then steel plating over the hand, fingers, and wrist for additional protection.",
+    "weight": "1250 g",
+    "volume": "1250 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "light_gray",
+    "warmth": 15,
+
+    "environmental_protection": 1,
+    "flags": [ "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.25 }
+          ],
+          "covers": [ "arm_lower_l", "arm_lower_r" ],
+          "coverage": 30,
+          "encumbrance": 10,
+          "layers": [ "OUTER" ]
+        },
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 1 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+          ],
+          "covers": [ "hand_l", "hand_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "mc_mitten_gaunt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "medium steel mitten gauntlet", "str_pl": "medium steel mitten gauntlet" },
+    "description": "A leather glove with chainmail protecting the fingers and palm, then steel plating over the hand, fingers, and wrist for additional protection.",
+    "weight": "1250 g",
+    "volume": "1250 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "light_gray",
+    "warmth": 15,
+
+    "environmental_protection": 1,
+    "flags": [ "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.25 }
+          ],
+          "covers": [ "arm_lower_l", "arm_lower_r" ],
+          "coverage": 30,
+          "encumbrance": 10,
+          "layers": [ "OUTER" ]
+        },
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 1 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+          ],
+          "covers": [ "hand_l", "hand_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "hc_mitten_gaunt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "high steel mitten gauntlet", "str_pl": "high steel mitten gauntlet" },
+    "description": "A leather glove with chainmail protecting the fingers and palm, then steel plating over the hand, fingers, and wrist for additional protection.",
+    "weight": "1250 g",
+    "volume": "1250 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "light_gray",
+    "warmth": 15,
+
+    "environmental_protection": 1,
+    "flags": [ "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.25 }
+          ],
+          "covers": [ "arm_lower_l", "arm_lower_r" ],
+          "coverage": 30,
+          "encumbrance": 10,
+          "layers": [ "OUTER" ]
+        },
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 1 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+          ],
+          "covers": [ "hand_l", "hand_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "ch_mitten_gaunt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "hardened mitten gauntlet", "str_pl": "hardened mitten gauntlet" },
+    "description": "A leather glove with chainmail protecting the fingers and palm, then steel plating over the hand, fingers, and wrist for additional protection.",
+    "weight": "1250 g",
+    "volume": "1250 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "light_gray",
+    "warmth": 15,
+
+    "environmental_protection": 1,
+    "flags": [ "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.25 }
+          ],
+          "covers": [ "arm_lower_l", "arm_lower_r" ],
+          "coverage": 30,
+          "encumbrance": 10,
+          "layers": [ "OUTER" ]
+        },
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+          ],
+          "covers": [ "hand_l", "hand_r" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "tq_mitten_gaunt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tempered steel mitten gauntlet", "str_pl": "mild steel mitten gauntlet" },
+    "description": "A leather glove with chainmail protecting the fingers and palm, then steel plating over the hand, fingers, and wrist for additional protection.",
+    "weight": "1250 g",
+    "volume": "1250 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "light_gray",
+    "warmth": 15,
+
+    "environmental_protection": 1,
+    "flags": [ "STURDY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.25 }
+          ],
+          "covers": [ "arm_lower_l", "arm_lower_r" ],
+          "coverage": 30,
+          "encumbrance": 10,
+          "layers": [ "OUTER" ]
+        },
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+          ],
+          "covers": [ "hand_l", "hand_r" ],
+          "coverage": 100,
+          "encumbrance": 20
         }
       ]
     }
