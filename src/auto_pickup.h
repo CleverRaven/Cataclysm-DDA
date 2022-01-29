@@ -45,10 +45,12 @@ class rule
         std::string sRule;
         bool bActive = false;
         bool bExclude = false;
+        int maxHeld = 0;
 
         rule() = default;
 
-        rule( const std::string &r, const bool a, const bool e ) : sRule( r ), bActive( a ), bExclude( e ) {
+        rule( const std::string &r, const bool a, const bool e, const int m ) : sRule( r ), bActive( a ),
+            bExclude( e ), maxHeld( m ) {
         }
 
         void serialize( JsonOut &jsout ) const;

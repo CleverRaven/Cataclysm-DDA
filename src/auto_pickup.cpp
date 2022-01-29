@@ -47,7 +47,7 @@ void user_interface::show()
 
     const int iHeaderHeight = 4;
     int iContentHeight = 0;
-    const int iTotalCols = 2;
+    const int iTotalCols = 3;
 
     catacurses::window w_border;
     catacurses::window w_header;
@@ -121,6 +121,7 @@ void user_interface::show()
         mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
         mvwprintz( w_header, point( 8, 3 ), c_white, _( "Rules" ) );
         mvwprintz( w_header, point( 52, 3 ), c_white, _( "I/E" ) );
+        mvwprintz( w_header, point( 62, 3 ), c_white, _( "Max" ) );
 
         rule_list &cur_rules = tabs[iTab].new_rules;
         int locx = 17;
@@ -178,6 +179,10 @@ void user_interface::show()
                 mvwprintz( w, point( 52, i - iStartPos ), iLine == i && iColumn == 2 ?
                            hilite( cLineColor ) : cLineColor, "%s",
                            cur_rules[i].bExclude ? _( "Exclude" ) :  _( "Include" ) );
+
+                mvwprintz( w, point( 62, i - iStartPos ), iLine == i && iColumn == 3 ?
+                           hilite( cLineColor ) : cLineColor, "%s",
+                           std::to_string( cur_rules[i].maxHeld ) );
             }
         }
 
@@ -242,13 +247,11 @@ void user_interface::show()
             break;
         } else if( action == "DOWN" ) {
             iLine++;
-            iColumn = 1;
             if( iLine >= recmax ) {
                 iLine = 0;
             }
         } else if( action == "UP" ) {
             iLine--;
-            iColumn = 1;
             if( iLine < 0 ) {
                 iLine = cur_rules.size() - 1;
             }
@@ -296,7 +299,7 @@ void user_interface::show()
         } else if( action == "ADD_RULE" || ( action == "CONFIRM" && currentPageNonEmpty ) ) {
             const int old_iLine = iLine;
             if( action == "ADD_RULE" ) {
-                cur_rules.push_back( rule( "", true, false ) );
+                cur_rules.push_back( rule( "", true, false, 0 ) );
                 iLine = cur_rules.size() - 1;
             }
             ui_manager::redraw();
@@ -354,6 +357,12 @@ void user_interface::show()
             } else if( iColumn == 2 ) {
                 bStuffChanged = true;
                 cur_rules[iLine].bExclude = !cur_rules[iLine].bExclude;
+            } else if( iColumn == 3 ) {
+                int m;
+                if( query_int( m, _( "Maximum to carry (0 to disable):" ), cur_rules[iLine].maxHeld ) && m >= 0 ) {
+                    bStuffChanged = true;
+                    cur_rules[iLine].maxHeld = m;
+                }
             }
         } else if( action == "ENABLE_RULE" && currentPageNonEmpty ) {
             bStuffChanged = true;
@@ -581,7 +590,7 @@ bool player_settings::has_rule( const item *it )
 
 void player_settings::add_rule( const item *it )
 {
-    character_rules.push_back( rule( it->tname( 1, false ), true, false ) );
+    character_rules.push_back( rule( it->tname( 1, false ), true, false, 0 ) );
     create_rule( it );
 
     if( !get_option<bool>( "AUTO_PICKUP" ) &&
@@ -807,6 +816,7 @@ void rule::serialize( JsonOut &jsout ) const
     jsout.member( "rule", sRule );
     jsout.member( "active", bActive );
     jsout.member( "exclude", bExclude );
+    jsout.member( "max", maxHeld );
     jsout.end_object();
 }
 
@@ -824,6 +834,7 @@ void rule::deserialize( const JsonObject &jo )
     sRule = jo.get_string( "rule" );
     bActive = jo.get_bool( "active" );
     bExclude = jo.get_bool( "exclude" );
+    maxHeld = jo.get_int( "max" );
 }
 
 void rule_list::deserialize( JsonIn &jsin )
