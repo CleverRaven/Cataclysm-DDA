@@ -404,10 +404,7 @@
     "time": "45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [
-      [ "tailoring_nylon", 1 ],
-      [ "clasps", 3 ]
-    ]
+    "using": [ [ "tailoring_nylon", 1 ], [ "clasps", 3 ] ]
   },
   {
     "result": "bscabbard",
