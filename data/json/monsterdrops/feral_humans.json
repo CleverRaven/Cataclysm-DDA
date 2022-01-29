@@ -503,6 +503,14 @@
     "items": [ [ "scar_l", 200 ], [ "m4_carbine", 200 ], [ "ruger_mini", 200 ], [ "ar_pistol", 200 ], [ "ar15", 200 ] ]
   },
   {
+    "type": "item_group",
+    "subtype": "distribution",
+    "magazine": 100,
+    "ammo": 10,
+    "id": "feral_jackboot_shotgun",
+    "items": [ [ "mossberg_500", 200 ], [ "mossberg_590", 200 ], [ "remington_870", 200 ], [ "remington_870_express", 200 ], [ "mossberg_930", 200 ] ]
+  },
+  {
     "id": "mon_feral_soldier_death_drops",
     "type": "item_group",
     "subtype": "collection",
@@ -525,6 +533,41 @@
       { "item": "mask_gas", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "item": "two_way_radio", "prob": 15, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "item": "knife_combat", "prob": 100, "damage": [ 3, 4 ] }
+    ]
+  },
+  {
+    "id": "mon_feral_jackboot_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 20,
+    "entries": [
+      {
+        "distribution": [
+          { "item": "jacket_leather", "prob": 65, "damage": [ 1, 4 ] },
+          { "item": "trenchcoat_leather", "prob": 65, "damage": [ 1, 4 ] },
+          { "item": "duster_leather", "prob": 35, "damage": [ 1, 4 ] }
+        ]
+      },
+      {
+        "distribution": [
+              { "item": "longshirt", "prob": 10 },
+              { "item": "polo_shirt", "prob": 50 },
+              { "item": "tshirt", "prob": 80 },
+              { "item": "linuxtshirt", "prob": 10 },
+              { "item": "tshirt_tour", "prob": 50 }
+        ]
+      },
+      { "group": "feral_jackboot_shotgun", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "clothing_outdoor_shoes", "damage": [ 1, 4 ] },
+      { "group": "clothing_outdoor_pants", "damage": [ 1, 4 ] },
+      { "item": "sunglasses", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ], "prob": 100 },
+      { "item": "gloves_leather", "prob": 80, "damage": [ 1, 4 ] },
+      { "group": "salty_snacks", "prob": 70 },
+      { "group": "snacks", "prob": 70 },
+      { "item": "meth", "prob": 40, "charges": [ 1, 6 ] },
+      { "group": "meth_ingredients", "prob": 10 }
     ]
   }
 ]
