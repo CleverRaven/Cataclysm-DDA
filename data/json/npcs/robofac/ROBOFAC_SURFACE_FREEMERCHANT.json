@@ -108,7 +108,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "I keep to my own business, and you keep to yours, marshal.  Seems like a fair deal?",
-      "no": "We have been supplying this lab here with food from a few hunting and farming communities nearby.  The roads are though and dangerous, but it makes good money, and beats scavenging the cities for scraps."
+      "no": "We have been supplying this lab here with food from a few hunting and farming communities nearby.  The roads are tough and dangerous, but it makes good money, and beats scavenging the cities for scraps."
     },
     "responses": [ { "text": "Keep safe, then.", "topic": "TALK_ROBOFAC_FREE_MERCHANT" } ]
   }

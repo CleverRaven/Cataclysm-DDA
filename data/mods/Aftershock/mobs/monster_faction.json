@@ -10,11 +10,29 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "alien_predator",
+    "neutral": [ "bot" ],
+    "by_mood": [ "WraitheonRobotics", "alien_predator", "cop_bot", "defense_bot" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "garlander",
+    "base_faction": "alien_predator",
+    "by_mood": [ "alien_predator" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "boatman",
+    "base_faction": "alien_predator",
+    "by_mood": [ "alien_predator" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "WraitheonRobotics",
     "base_faction": "robofac",
     "neutral": [ "cop_bot", "defense_bot", "utility_bot", "animal", "UPLIFT", "robofac" ],
     "by_mood": "human",
-    "hate": [ "zombie", "fungus", "cult", "triffid", "nether", "PrepNet", "moxie", "bio_machine" ]
+    "hate": [ "zombie", "fungus", "cult", "alien_predator", "triffid", "nether", "PrepNet", "moxie", "bio_machine" ]
   },
   {
     "type": "MONSTER_FACTION",
