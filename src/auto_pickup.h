@@ -20,8 +20,8 @@ struct itype;
 
 namespace auto_pickup
 {
-std::vector<item_location> select_items(
-    const std::vector<item_stack::iterator> &from, const tripoint &location );
+std::list<std::pair<item_location, int>> select_items(
+        const std::vector<item_stack::iterator> &from, const tripoint &location );
 /**
  * The currently-active set of auto-pickup rules, in a form that allows quick
  * lookup. When this is filled (by @ref auto_pickup::create_rule()), every

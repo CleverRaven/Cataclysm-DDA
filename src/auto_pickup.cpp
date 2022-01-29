@@ -228,10 +228,10 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
  * @param location where the stack of items is located on the map.
  * @return sequence of selected items on the map.
  */
-std::vector<item_location> auto_pickup::select_items(
+drop_locations auto_pickup::select_items(
     const std::vector<item_stack::iterator> &from, const tripoint &location )
 {
-    std::vector<item_location> result;
+    drop_locations result;
     const map_cursor map_location = map_cursor( location );
 
     // iterate over all item stacks found in location
@@ -255,11 +255,14 @@ std::vector<item_location> auto_pickup::select_items(
             if( !within_autopickup_limits( item_entry ) ) {
                 continue;
             }
-            result.emplace_back( map_location, item_entry );
+            int it_count = 0; // TODO: factor in autopickup max_quantity here
+            item_location it_location = item_location( map_location, item_entry );
+            result.emplace_back( std::make_pair( it_location, it_count ) );
         } else if( is_container || item_entry->ammo_capacity( ammo_battery ) ) {
             item_location container_location = item_location( map_location, item_entry );
             for( const item_location &add_item : get_autopickup_items( container_location ) ) {
-                result.push_back( add_item );
+                int it_count = 0; // TODO: factor in autopickup max_quantity here
+                result.emplace_back( std::make_pair( add_item, it_count ) );
             }
         }
     }
