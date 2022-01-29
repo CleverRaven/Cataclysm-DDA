@@ -55,7 +55,12 @@
         "ππππππλλ;;;;;;;;λπππππππ",
         "πππππππλλλλλλλλλλπππππππ"
       ],
-      "palettes": [ "aircraft_carrier_palette" ]
+      "palettes": [ "aircraft_carrier_palette" ],
+      "place_monster": [
+        { "monster": "mon_turret_rifle", "x": 5, "y": 34},
+        { "monster": "mon_turret_rifle", "x": 3, "y": 35},
+        { "monster": "mon_turret_rifle", "x": 3, "y": 37}
+      ]
     }
   }
 ]
