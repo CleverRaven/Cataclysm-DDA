@@ -165,6 +165,7 @@
     "sym": "A",
     "color": "red",
     "see_cost": 5,
+        "spawns": { "group": "GROUP_AIRCRAFT_CARRIER", "population": [ 10, 40 ], "chance": 100 },
     "flags": [ "RISK_HIGH", "LAKE" ]
   }
 ]
