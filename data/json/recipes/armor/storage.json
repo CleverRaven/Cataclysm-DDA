@@ -394,6 +394,22 @@
     "components": [ [ [ "rope_natural_short", 1, "LIST" ] ] ]
   },
   {
+    "result": "single_sling",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "45 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [
+      [ "tailoring_nylon", 1 ],
+      [ "clasps", 3 ]
+    ]
+  },
+  {
     "result": "bscabbard",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
