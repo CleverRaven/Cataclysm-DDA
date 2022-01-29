@@ -255,6 +255,15 @@
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
+    "id": "armor_junk_lightplate",
+    "type": "ARMOR",
+    "category": "armor",
+	"copy-from": "armor_lightplate"
+    "name": { "str": "junk plate armor" },
+    "description": "A suit of Gothic plate armor.  The metal shows signs of rust and corrosion and the leather straps are tattered.",
+    "material": [ "budget_steel", "leather" ]
+  },
+  {
     "id": "xl_armor_lightplate",
     "type": "ARMOR",
     "name": { "str": "XL plate armor" },
@@ -1140,6 +1149,15 @@
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER" ],
     "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "armor_junk_plate",
+    "type": "ARMOR",
+    "category": "armor",
+	"copy-from": "armor_plate"
+    "name": { "str": "junk ornamental plate armor" },
+    "description": "An extremely heavy suit of ornamental armor.  The metal shows signs of rust and corrosion and the leather straps are tattered.",
+    "material": [ "budget_steel", "leather" ]
   },
   {
     "id": "xl_armor_plate",
