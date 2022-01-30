@@ -342,7 +342,7 @@
     "type": "GENERIC",
     "id": "makeshift_cane",
     "name": { "str": "makeshift walking cane" },
-    "description": "An improvised cane. It also works as a basic bashing weapon in a pinch.",
+    "description": "An improvised cane.  It also works as a basic bashing weapon in a pinch.",
     "weight": "453 g",
     "color": "dark_gray",
     "symbol": "/",
