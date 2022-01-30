@@ -1767,7 +1767,7 @@
     "name": { "str": "XS gambeson vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ],
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" },
+    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
   },
   {
     "id": "gambeson_vest_xs_loose",
