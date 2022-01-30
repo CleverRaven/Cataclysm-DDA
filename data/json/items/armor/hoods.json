@@ -56,7 +56,7 @@
     "copy-from": "chainmail_hood",
     "looks_like": "chainmail_hood",
     "name": { "str": "XS chainmail coif" },
-    "description": "A customized chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
+    "description": "A customized chainmail hood.  Can be worn comfortably under helmets. Comes in size XS.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "UNDERSIZE" ]
   },
@@ -65,7 +65,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "gambeson hood" },
-    "description": "A customized hood made from quilted fabrics. Can be worn under helmets.",
+    "description": "A customized hood made from quilted fabrics.  Can be worn under helmets.",
     "weight": "340 g",
     "volume": "300 ml",
     "price": 412,
@@ -94,7 +94,7 @@
     "type": "ARMOR",
     "copy-from": "gambeson_hood",
     "name": { "str": "XL gambeson hood" },
-    "description": "A customized hood made from quilted fabrics. Can be worn under helmets.  Comes in size XL.",
+    "description": "A customized hood made from quilted fabrics.  Can be worn under helmets.  Comes in size XL.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
   },
@@ -103,7 +103,7 @@
     "type": "ARMOR",
     "copy-from": "gambeson_hood",
     "name": { "str": "XS gambeson hood" },
-    "description": "A customized hood made from quilted fabrics. Can be worn under helmets.  Comes in size XS.",
+    "description": "A customized hood made from quilted fabrics.  Can be worn under helmets.  Comes in size XS.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE", "HELMET_COMPAT" ]
   },
@@ -112,7 +112,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "kevlar gambeson hood" },
-    "description": "A customized gambeson hood made from kevlar. Can be worn under helmets.",
+    "description": "A customized gambeson hood made from kevlar.  Can be worn under helmets.",
     "weight": "340 g",
     "volume": "300 ml",
     "price": 412,
@@ -141,7 +141,7 @@
     "type": "ARMOR",
     "copy-from": "k_gambeson_hood",
     "name": { "str": "XL kevlar gambeson hood" },
-    "description": "A customized gambeson hood made from kevlar. Can be worn under helmets.  Comes in size XL.",
+    "description": "A customized gambeson hood made from kevlar.  Can be worn under helmets.  Comes in size XL.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
   },
@@ -150,7 +150,7 @@
     "type": "ARMOR",
     "copy-from": "k_gambeson_hood",
     "name": { "str": "XS gambeson hood" },
-    "description": "A customized hood made from quilted fabrics and kevlar. Can be worn under helmets.  Comes in size XS.",
+    "description": "A customized hood made from quilted fabrics and kevlar.  Can be worn under helmets.  Comes in size XS.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE", "HELMET_COMPAT" ]
   },
