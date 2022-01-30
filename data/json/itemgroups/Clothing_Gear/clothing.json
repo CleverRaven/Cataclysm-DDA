@@ -2381,9 +2381,9 @@
       [ "armor_scrapsuit", 12 ],
       [ "armor_tiresuit", 12 ],
       [ "armor_chitin", 2 ],
-      [ "armor_junk_lightplate", 1 ],
+      [ "armor_lightplate", 1 ],
       [ "cuirass_lightplate", 2 ],
-      [ ""armor_junk_plate"", 1 ]
+      [ "armor_plate", 1 ]
     ]
   },
   {
@@ -2613,10 +2613,10 @@
     "type": "item_group",
     "id": "museum_armor",
     "items": [
-      [ ""armor_junk_plate"", 60 ],
+      [ "armor_plate", 60 ],
       [ "gloves_plate", 60 ],
       [ "boots_plate", 60 ],
-      [ "armor_junk_lightplate", 45 ],
+      [ "armor_lightplate", 45 ],
       [ "cuirass_lightplate", 45 ],
       [ "armguard_lightplate", 30 ],
       [ "legguard_lightplate", 30 ],
@@ -2645,8 +2645,8 @@
     "type": "item_group",
     "id": "museum_armor_torso",
     "items": [
-      [ ""armor_junk_plate"", 60 ],
-      [ "armor_junk_lightplate", 45 ],
+      [ "armor_plate", 60 ],
+      [ "armor_lightplate", 45 ],
       [ "cuirass_lightplate", 45 ],
       [ "armor_lamellar", 20 ],
       [ "armor_lorica", 25 ],

@@ -953,13 +953,6 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "covers": [ "arm_lower_l", "arm_lower_r" ],
-          "coverage": 30,
-          "encumbrance": 5,
-          "layers": [ "OUTER" ]
-        },
-        {
           "material": [
             { "type": "low_steel", "covered_by_mat": 100, "thickness": 1 },
             { "type": "low_steel", "covered_by_mat": 60, "thickness": 0.25 },
@@ -992,13 +985,6 @@
     "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
-        {
-          "material": [ { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "covers": [ "arm_lower_l", "arm_lower_r" ],
-          "coverage": 30,
-          "encumbrance": 5,
-          "layers": [ "OUTER" ]
-        },
         {
           "material": [
             { "type": "med_steel", "covered_by_mat": 100, "thickness": 1 },
@@ -1033,13 +1019,6 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "covers": [ "arm_lower_l", "arm_lower_r" ],
-          "coverage": 30,
-          "encumbrance": 5,
-          "layers": [ "OUTER" ]
-        },
-        {
           "material": [
             { "type": "high_steel", "covered_by_mat": 100, "thickness": 1 },
             { "type": "high_steel", "covered_by_mat": 60, "thickness": 0.25 },
@@ -1072,13 +1051,6 @@
     "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
-        {
-          "material": [ { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "covers": [ "arm_lower_l", "arm_lower_r" ],
-          "coverage": 30,
-          "encumbrance": 5,
-          "layers": [ "OUTER" ]
-        },
         {
           "material": [
             { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1 },
@@ -1113,13 +1085,6 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "covers": [ "arm_lower_l", "arm_lower_r" ],
-          "coverage": 30,
-          "encumbrance": 5,
-          "layers": [ "OUTER" ]
-        },
-        {
           "material": [
             { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1 },
             { "type": "tempered_steel", "covered_by_mat": 60, "thickness": 0.25 },
@@ -1152,13 +1117,6 @@
     "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
-        {
-          "material": [ { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
-          "covers": [ "arm_lower_l", "arm_lower_r" ],
-          "coverage": 30,
-          "encumbrance": 10,
-          "layers": [ "OUTER" ]
-        },
         {
           "material": [
             { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
@@ -1193,13 +1151,6 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
-          "covers": [ "arm_lower_l", "arm_lower_r" ],
-          "coverage": 30,
-          "encumbrance": 10,
-          "layers": [ "OUTER" ]
-        },
-        {
           "material": [
             { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
             { "type": "med_steel", "covered_by_mat": 95, "thickness": 1 },
@@ -1232,13 +1183,6 @@
     "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
-        {
-          "material": [ { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
-          "covers": [ "arm_lower_l", "arm_lower_r" ],
-          "coverage": 30,
-          "encumbrance": 10,
-          "layers": [ "OUTER" ]
-        },
         {
           "material": [
             { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
@@ -1273,13 +1217,6 @@
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
-          "covers": [ "arm_lower_l", "arm_lower_r" ],
-          "coverage": 30,
-          "encumbrance": 10,
-          "layers": [ "OUTER" ]
-        },
-        {
           "material": [
             { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
             { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1 },
@@ -1312,13 +1249,6 @@
     "flags": [ "STURDY" ],
     "armor_data": {
       "armor": [
-        {
-          "material": [ { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
-          "covers": [ "arm_lower_l", "arm_lower_r" ],
-          "coverage": 30,
-          "encumbrance": 10,
-          "layers": [ "OUTER" ]
-        },
         {
           "material": [
             { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
