@@ -491,7 +491,12 @@
     "difficulty": 5,
     "time": "6 d 12 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 2 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "lc_steel_standard", 2 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -507,7 +512,12 @@
     "type": "recipe",
     "copy-from": "armor_lc_lightarmguard",
     "time": "7 d 8 h 16 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "lc_steel_standard", 3 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "lc_steel_standard", 3 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -521,7 +531,12 @@
     "difficulty": 5,
     "time": "6 d 12 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 2 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "mc_steel_standard", 2 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -537,7 +552,12 @@
     "type": "recipe",
     "copy-from": "armor_mc_lightarmguard",
     "time": "7 d 8 h 16 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "mc_steel_standard", 3 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "mc_steel_standard", 3 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -551,7 +571,12 @@
     "difficulty": 5,
     "time": "6 d 12 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 2 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "hc_steel_standard", 2 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -567,7 +592,12 @@
     "type": "recipe",
     "copy-from": "armor_hc_lightarmguard",
     "time": "7 d 8 h 16 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "hc_steel_standard", 3 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "hc_steel_standard", 3 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -581,7 +611,12 @@
     "difficulty": 6,
     "time": "7 d 3 h 36 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 2 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "lc_steel_standard", 2 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -597,7 +632,12 @@
     "type": "recipe",
     "copy-from": "armor_ch_lightarmguard",
     "time": "8 d 1 h 54 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "lc_steel_standard", 3 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "lc_steel_standard", 3 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -611,7 +651,12 @@
     "difficulty": 7,
     "time": "7 d 11 h 24 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 2 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "mc_steel_standard", 2 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
@@ -627,7 +672,12 @@
     "type": "recipe",
     "copy-from": "armor_qt_lightarmguard",
     "time": "8 d 10 h 43 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "mc_steel_standard", 3 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "mc_steel_standard", 3 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
@@ -641,7 +691,12 @@
     "difficulty": 6,
     "time": "7 d 3 h 36 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 3 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "lc_steel_standard", 3 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -657,7 +712,12 @@
     "type": "recipe",
     "copy-from": "armor_lc_armguard",
     "time": "8 d 1 h 54 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "lc_steel_standard", 4 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "lc_steel_standard", 4 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -671,7 +731,12 @@
     "difficulty": 6,
     "time": "7 d 3 h 36 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 3 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "mc_steel_standard", 3 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -687,7 +752,12 @@
     "type": "recipe",
     "copy-from": "armor_mc_armguard",
     "time": "8 d 1 h 54 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "mc_steel_standard", 4 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "mc_steel_standard", 4 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -701,7 +771,12 @@
     "difficulty": 7,
     "time": "7 d 3 h 36 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 3 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "hc_steel_standard", 3 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -717,7 +792,12 @@
     "type": "recipe",
     "copy-from": "armor_hc_armguard",
     "time": "8 d 1 h 54 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "hc_steel_standard", 4 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "hc_steel_standard", 4 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -731,7 +811,12 @@
     "difficulty": 7,
     "time": "7 d 20 h 45 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 3 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "lc_steel_standard", 3 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -747,7 +832,12 @@
     "type": "recipe",
     "copy-from": "armor_ch_armguard",
     "time": "8 d 21 h 19 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "lc_steel_standard", 4 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "lc_steel_standard", 4 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -761,7 +851,12 @@
     "difficulty": 8,
     "time": "8 d 5 h 8 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 3 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "mc_steel_standard", 3 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
@@ -777,7 +872,12 @@
     "type": "recipe",
     "copy-from": "armor_qt_armguard",
     "time": "9 d 6 h 59 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "mc_steel_standard", 4 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "mc_steel_standard", 4 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
@@ -791,7 +891,12 @@
     "difficulty": 7,
     "time": "7 d 19 h 12 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 4 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "lc_steel_standard", 4 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -807,7 +912,12 @@
     "type": "recipe",
     "copy-from": "armor_lc_heavyarmguard",
     "time": "8 d 19 h 32 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "lc_steel_standard", 5 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "lc_steel_standard", 5 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -821,7 +931,12 @@
     "difficulty": 7,
     "time": "7 d 19 h 12 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "mc_steel_standard", 4 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -837,7 +952,12 @@
     "type": "recipe",
     "copy-from": "armor_mc_heavyarmguard",
     "time": "8 d 19 h 32 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "mc_steel_standard", 5 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "mc_steel_standard", 5 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -851,7 +971,12 @@
     "difficulty": 7,
     "time": "7 d 19 h 12 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 4 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "hc_steel_standard", 4 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -867,7 +992,12 @@
     "type": "recipe",
     "copy-from": "armor_hc_heavyarmguard",
     "time": "8 d 19 h 32 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "hc_steel_standard", 5 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "hc_steel_standard", 5 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -881,7 +1011,12 @@
     "difficulty": 8,
     "time": "8 d 13 h 55 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 4 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "lc_steel_standard", 4 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
@@ -897,7 +1032,12 @@
     "type": "recipe",
     "copy-from": "armor_ch_heavyarmguard",
     "time": "9 d 16 h 41 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "lc_steel_standard", 5 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "lc_steel_standard", 5 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -911,7 +1051,12 @@
     "difficulty": 9,
     "time": "8 d 23 h 16 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ], [ "armor_chainmail_assembling", 1 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 1 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "mc_steel_standard", 4 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
@@ -927,7 +1072,12 @@
     "type": "recipe",
     "copy-from": "armor_qt_heavyarmguard",
     "time": "10 d 3 h 15 m",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "mc_steel_standard", 5 ], [ "armor_chainmail_assembling", 2 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "mc_steel_standard", 5 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   }

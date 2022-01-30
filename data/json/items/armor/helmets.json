@@ -1106,12 +1106,7 @@
     "volume": "3 L",
     "price": 55000,
     "price_postapoc": 5500,
-    "use_action": {
-      "type": "transform",
-      "msg": "You raise the helm's visor.",
-      "target": "hc_helm_close_raised",
-      "menu_text": "Raise"
-    },
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "hc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
     "symbol": "o",
     "looks_like": "helmet_sallet",
