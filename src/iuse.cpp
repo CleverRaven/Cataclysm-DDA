@@ -1211,6 +1211,7 @@ cata::optional<int> iuse::purifier( Character *p, item *it, bool, const tripoint
     }
 
     do_purify( *p );
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
     return it->type->charges_to_use();
 }
 
@@ -1253,6 +1254,7 @@ cata::optional<int> iuse::purify_iv( Character *p, item *it, bool, const tripoin
         p->mod_thirst( 2 * num_cured );
         p->mod_fatigue( 2 * num_cured );
     }
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
     return it->type->charges_to_use();
 }
 
@@ -1305,6 +1307,7 @@ cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const trip
 
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
     return it->type->charges_to_use();
 }
 
