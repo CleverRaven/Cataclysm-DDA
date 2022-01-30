@@ -3084,20 +3084,33 @@ static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
     const int encumb = std::max( 0, it.get_encumber( c, bp ) - reduce_encumbrance_by );
     const int encumb_max = std::max( 0, it.get_encumber( c, bp,
                                      item::encumber_flags::assume_full ) - reduce_encumbrance_by );
+
+    const int encumb_min = std::max( 0, it.get_encumber( c, bp,
+                                     item::encumber_flags::assume_empty ) - reduce_encumbrance_by );
+
     const bool has_max = encumb != encumb_max;
+    const bool has_min = encumb != encumb_min;
     const std::string bp_name = to_display.translated();
 
     // NOLINTNEXTLINE(cata-translate-string-literal)
     const std::string bp_cat = string_format( "{%s}ARMOR", bp_name );
     // NOLINTNEXTLINE(cata-translate-string-literal)
     info.emplace_back( bp_cat, string_format( "<bold>%s %s</bold>:", bp_name,
-                       _( "Encumbrance" ) ) + space, "",
-                       ( has_max ? iteminfo::no_newline : iteminfo::no_flags ) | iteminfo::lower_is_better, encumb );
-    const std::string when_full_message = space + _( "When full:" ) + space;
+                       _( "Encumbrance" ) ) + space, "", iteminfo::no_newline | iteminfo::lower_is_better, encumb );
+
     if( has_max ) {
-        info.emplace_back( bp_cat, when_full_message, "", iteminfo::no_flags | iteminfo::lower_is_better,
+        const std::string when_full_message = space + _( "When full:" ) + space;
+        info.emplace_back( bp_cat, when_full_message, "", iteminfo::no_newline | iteminfo::lower_is_better,
                            encumb_max );
     }
+
+    if( has_min ) {
+        const std::string when_empty_message = space + _( "When empty:" ) + space;
+        info.emplace_back( bp_cat, when_empty_message, "", iteminfo::no_newline | iteminfo::lower_is_better,
+                           encumb_min );
+    }
+
+    info.back().bNewLine = true;
 
     std::string layering;
 
@@ -7206,9 +7219,15 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     }
 
     int encumber = 0;
-    float relative_encumbrance = 1.0f;
-    // Additional encumbrance from non-rigid pockets
-    if( !( flags & encumber_flags::assume_full ) ) {
+    float relative_encumbrance;
+
+    if( flags & encumber_flags::assume_full ) {
+        relative_encumbrance = 1.0f;
+    } else if( flags & encumber_flags::assume_empty ) {
+        relative_encumbrance = 0.0f;
+    } else {
+        // Additional encumbrance from non-rigid pockets
+
         // p.get_check_encumbrance() may be set when it's not possible
         // to reset `cached_relative_encumbrance` for individual items
         // (e.g. when dropping via AIM, see #42983)
