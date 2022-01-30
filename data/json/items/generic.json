@@ -313,6 +313,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "ballast",
+    "category": "spare_parts",
+    "symbol": "o",
+    "color": "light_gray",
+    "name": { "str": "ballast organs", "str_pl": "clusters of ballast organs" },
+    "description": "This is a cluster of hydrostatic organs, each about the size of a baseball, retrieved from inside a kraken mutant.  Some of them seem to be lighter than air, and some seem to weigh as much as air.",
+    "price": 0,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "50 g",
+    "volume": "250 ml",
+    "to_hit": -4
+  },
+  {
+    "type": "GENERIC",
     "id": "ceramicdisks",
     "category": "spare_parts",
     "symbol": ",",

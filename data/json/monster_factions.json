@@ -39,6 +39,13 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "kraken",
+    "base_faction": "mutant",
+    "hate": [ "aquatic_predator", "zombie" ],
+    "by_mood": [ "fish" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "science",
     "base_faction": "zombie",
     "neutral": [ "defense_bot", "mech_bot" ]
