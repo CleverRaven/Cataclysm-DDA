@@ -837,7 +837,7 @@ void rule::deserialize( const JsonObject &jo )
     if( jo.has_int( "max" ) ) {
         maxHeld = jo.get_int( "max" );
     } else {
-        maxHeld = 0
+        maxHeld = 0;
     }
 }
 
