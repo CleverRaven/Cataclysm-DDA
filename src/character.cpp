@@ -8676,14 +8676,10 @@ void Character::on_item_wear( const item &it )
 {
     invalidate_inventory_validity_cache();
     for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
-        mutation_effect( mut, true );
-        recalc_sight_limits();
-        calc_encumbrance();
-
-        // If the stamina is higher than the max (Languorous), set it back to max
-        if( get_stamina() > get_stamina_max() ) {
-            set_stamina( get_stamina_max() );
-        }
+        // flag these mutations to be added at the start of the next turn
+        // without doing this you still count as wearing the item providing
+        // the traits so most the calcs don't work in mutation_loss_effect
+        mutations_to_add.push_back( mut );
     }
     morale->on_item_wear( it );
 }
@@ -8691,15 +8687,23 @@ void Character::on_item_wear( const item &it )
 void Character::on_item_takeoff( const item &it )
 {
     invalidate_inventory_validity_cache();
-    for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
-        mutation_loss_effect( mut );
-        recalc_sight_limits();
-        calc_encumbrance();
-        if( get_stamina() > get_stamina_max() ) {
-            set_stamina( get_stamina_max() );
-        }
+    for( const trait_id &mut : it.mutations_from_wearing( *this, true ) ) {
+        // flag these mutations to be removed at the start of the next turn
+        // without doing this you still count as wearing the item providing
+        // the traitssdd so most the calcs don't work in mutation_loss_effect
+        mutations_to_remove.push_back( mut );
+
     }
     morale->on_item_takeoff( it );
+}
+
+void Character::enchantment_wear_change()
+{
+    recalc_sight_limits();
+    calc_encumbrance();
+    if( get_stamina() > get_stamina_max() ) {
+        set_stamina( get_stamina_max() );
+    }
 }
 
 void Character::on_item_acquire( const item &it )

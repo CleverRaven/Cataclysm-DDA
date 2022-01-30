@@ -411,6 +411,15 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
         }
+
+        // if an item gives an enchantment it shouldn't break or be shoved off
+        for( const enchantment &ench : armor.get_enchantments() ) {
+            for( const trait_id &inner_mut : ench.get_mutations() ) {
+                if( mut == inner_mut ) {
+                    return false;
+                }
+            }
+        }
         if( !worn_destroyed_override && branch.destroys_gear ) {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is destroyed!" ),

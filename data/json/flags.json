@@ -1333,6 +1333,12 @@
     "type": "json_flag"
   },
   {
+    "id": "MUNDANE",
+    "//": "For items that have relic data but aren't actually magic",
+    "info": "This item is designed to have special effects",
+    "type": "json_flag"
+  },
+  {
     "id": "MYCUS_OK",
     "type": "json_flag"
   },

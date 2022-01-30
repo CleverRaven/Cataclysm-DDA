@@ -5405,7 +5405,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         ret = c_red;
     } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
-    } else if( is_relic() ) {
+    } else if( is_relic() && !has_flag( flag_MUNDANE ) ) {
         ret = c_pink;
     } else if( is_bionic() ) {
         if( !player_character.has_bionic( type->bionic->id ) || type->bionic->id->dupes_allowed ) {
@@ -11790,7 +11790,7 @@ void item::reset_temp_check()
     last_temp_check = calendar::turn;
 }
 
-std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
+std::vector<trait_id> item::mutations_from_wearing( const Character &guy, bool removing ) const
 {
     if( !is_relic() ) {
         return std::vector<trait_id> {};
@@ -11804,7 +11804,7 @@ std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
         }
     }
 
-    for( const trait_id &char_mut : guy.get_mutations() ) {
+    for( const trait_id &char_mut : guy.get_mutations( true, removing ) ) {
         for( auto iter = muts.begin(); iter != muts.end(); ) {
             if( char_mut == *iter ) {
                 iter = muts.erase( iter );
