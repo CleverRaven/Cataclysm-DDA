@@ -1802,18 +1802,19 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
 }
 
 item_pocket *item_pocket::best_pocket_in_contents(
-        item_location &parent, const item &it, const item *avoid,
-        const bool allow_sealed, const bool ignore_settings ) {
+    item_location &parent, const item &it, const item *avoid,
+    const bool allow_sealed, const bool ignore_settings )
+{
     item_pocket *ret = nullptr;
 
     for( item *contained_item : this->all_items_top() ) {
-        if ( contained_item == &it || contained_item == avoid ) {
+        if( contained_item == &it || contained_item == avoid ) {
             continue;
         }
         const auto nested_pocket = contained_item->best_pocket( it, parent, avoid,
-            allow_sealed, ignore_settings, /*nested=*/true );
-        if ( nested_pocket.second != nullptr &&
-            ( ret == nullptr || ret->better_pocket( *nested_pocket.second, it, /*nested=*/true) ) ) {
+                                   allow_sealed, ignore_settings, /*nested=*/true );
+        if( nested_pocket.second != nullptr &&
+            ( ret == nullptr || ret->better_pocket( *nested_pocket.second, it, /*nested=*/true ) ) ) {
             ret = nested_pocket.second;
         }
     }

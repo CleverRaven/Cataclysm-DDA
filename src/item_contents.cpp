@@ -571,7 +571,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // Item forbidden by whitelist / blacklist
             continue;
         }
-        const auto nested_content_pocket =
+        item_pocket *const nested_content_pocket =
             pocket.best_pocket_in_contents( parent, it, avoid, allow_sealed, ignore_settings );
         if( nested_content_pocket != nullptr ) {
             // item fits in pockets contents, no need to check the pocket itself.
