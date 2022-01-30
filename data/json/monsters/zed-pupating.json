@@ -119,7 +119,7 @@
     "armor_cut": 10,
     "armor_bullet": 10,
     "armor_elec": 6,
-    "vision_day": 83,
+    "vision_day": 40,
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -170,7 +170,7 @@
     "armor_cut": 10,
     "armor_bullet": 10,
     "armor_elec": 6,
-    "vision_day": 83,
+    "vision_day": 40,
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [
