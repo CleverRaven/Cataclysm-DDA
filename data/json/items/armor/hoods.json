@@ -77,7 +77,17 @@
     "color": "light_red",
     "material_thickness": 5,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 8, "coverage": 90, "covers": [ "head" ] }, { "encumbrance": 4, "coverage": 45, "cover_vitals": 80, "covers": [ "torso", "arm_l", "arm_r" ],  "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "torso_upper" ], "layers": [ "OUTER" ] } ]
+    "armor": [
+      { "encumbrance": 8, "coverage": 90, "covers": [ "head" ] },
+      {
+        "encumbrance": 4,
+        "coverage": 45,
+        "cover_vitals": 80,
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "torso_upper" ],
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_gambeson_hood",
@@ -114,7 +124,17 @@
     "color": "light_red",
     "material_thickness": 3.2,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "head" ] }, { "encumbrance": 6, "coverage": 45, "cover_vitals": 80, "covers": [ "torso", "arm_l", "arm_r" ],  "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "torso_upper" ], "layers": [ "OUTER" ] } ]
+    "armor": [
+      { "encumbrance": 12, "coverage": 90, "covers": [ "head" ] },
+      {
+        "encumbrance": 6,
+        "coverage": 45,
+        "cover_vitals": 80,
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "torso_upper" ],
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_k_gambeson_hood",
