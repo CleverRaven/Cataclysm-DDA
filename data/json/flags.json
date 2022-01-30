@@ -1846,5 +1846,11 @@
     "type": "json_flag",
     "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
     "name": "laser sight"
+  },
+  {
+    "id": "GAS_TANK",
+    "type": "json_flag",
+    "info": "Airtight tanks for propane, natural gas, etc.",
+    "name": "gas tank"
   }
 ]
