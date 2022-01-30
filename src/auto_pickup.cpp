@@ -834,7 +834,11 @@ void rule::deserialize( const JsonObject &jo )
     sRule = jo.get_string( "rule" );
     bActive = jo.get_bool( "active" );
     bExclude = jo.get_bool( "exclude" );
-    maxHeld = jo.get_int( "max" );
+    if( jo.has_int( "max" ) ) {
+        maxHeld = jo.get_int( "max" );
+    } else {
+        maxHeld = 0
+    }
 }
 
 void rule_list::deserialize( JsonIn &jsin )
