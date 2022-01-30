@@ -794,7 +794,7 @@ int rule_list::capacity_for_item( const item *it )
                 return VisitResponse::NEXT;
             } );
             if( numHeld < elem.maxHeld ) {
-                capacity += elem.maxHeld + numHeld;
+                capacity += elem.maxHeld - numHeld;
             }
         }
     }
