@@ -2502,7 +2502,7 @@ void debug()
         case debug_menu_index::SPAWN_ARTIFACT:
             spawn_artifact();
             break;
-
+        
         case debug_menu_index::SPAWN_CLAIRVOYANCE:
             player_character.i_add( item( "architect_cube", calendar::turn ) );
             break;

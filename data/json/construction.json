@@ -2365,6 +2365,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_anvil",
+    "group": "place_anvil",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "anvil", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_anvil"
+  },
+  {
+    "type": "construction",
     "id": "constr_forge",
     "group": "place_forge",
     "category": "FURN",

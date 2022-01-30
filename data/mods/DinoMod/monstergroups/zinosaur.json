@@ -275,8 +275,18 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_zapatosaurus_BRUTE",
+    "monsters": [ { "monster": "mon_zapatosaurus_hulk", "weight": 600 }, { "monster": "mon_zapatosaurus_tank", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_zankylosaurus_BRUTE",
     "monsters": [ { "monster": "mon_zankylosaurus_hulk", "weight": 600 }, { "monster": "mon_zankylosaurus_tank", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zriceratops_BRUTE",
+    "monsters": [ { "monster": "mon_zriceratops_hulk", "weight": 600 }, { "monster": "mon_zriceratops_tank", "weight": 400 } ]
   },
   {
     "type": "monstergroup",

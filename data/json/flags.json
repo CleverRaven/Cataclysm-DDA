@@ -1333,6 +1333,12 @@
     "type": "json_flag"
   },
   {
+    "id": "MUNDANE",
+    "//": "For items that have relic data but aren't actually magic",
+    "info": "This item is designed to have special effects",
+    "type": "json_flag"
+  },
+  {
     "id": "MYCUS_OK",
     "type": "json_flag"
   },
@@ -1846,5 +1852,11 @@
     "type": "json_flag",
     "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
     "name": "laser sight"
+  },
+  {
+    "id": "GAS_TANK",
+    "type": "json_flag",
+    "info": "Airtight tanks for propane, natural gas, etc.",
+    "name": "gas tank"
   }
 ]

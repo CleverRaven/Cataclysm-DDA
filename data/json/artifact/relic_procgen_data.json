@@ -915,5 +915,21 @@
       { "weight": 100, "item": "altered_keyring" },
       { "weight": 100, "item": "altered_rubicks_cube" }
     ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "portalmancy",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 1, 1 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 1 ], "power": 25 },
+        "recharge_type": "none"
+      }
+    ],
+    "active_procgen_values": [ { "weight": 100, "spell_id": "AO_CLOSE_TEAR", "base_power": 1000 } ],
+    "type_weights": [ { "weight": 100, "value": "active_enchantment" } ],
+    "items": [ { "weight": 100, "item": "altered_exposed_wiring_prototype" } ]
   }
 ]

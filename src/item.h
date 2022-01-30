@@ -633,6 +633,8 @@ class item : public visitable
 
         units::length length() const;
 
+        units::length integral_length() const;
+
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
          * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
@@ -1613,7 +1615,7 @@ class item : public visitable
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
         bool has_relic_activation() const;
-        std::vector<trait_id> mutations_from_wearing( const Character &guy ) const;
+        std::vector<trait_id> mutations_from_wearing( const Character &guy, bool removing = false ) const;
 
         /**
          * Name of the item type (not the item), with proper plural.
@@ -1953,6 +1955,7 @@ class item : public visitable
         enum class encumber_flags : int {
             none = 0,
             assume_full = 1,
+            assume_empty = 2
         };
 
         const armor_portion_data *portion_for_bodypart( const bodypart_id &bodypart ) const;

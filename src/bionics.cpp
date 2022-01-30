@@ -238,7 +238,9 @@ void bionic::initialize_pseudo_items( bool create_weapon )
 
     for( const itype_id &id : bid.passive_pseudo_items ) {
         if( !id.is_empty() && id.is_valid() ) {
-            passive_pseudo_items.emplace_back( item( id ) );
+            item pseudo( id );
+            pseudo.set_flag( flag_PSEUDO );
+            passive_pseudo_items.emplace_back( pseudo );
         }
     }
 

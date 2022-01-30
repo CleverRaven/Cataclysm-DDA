@@ -736,7 +736,7 @@ static item_location set_item_map_or_vehicle( const Character &p, const tripoint
         // Couldn't add the in progress craft to the target part, so drop it to the map.
         p.add_msg_player_or_npc(
             //~ %1$s: vehicle part name, %2$s: name of the item being placed
-            pgettext( "furniture, item", "Not enough space on the %1$s. You drop the %1$s on the ground." ),
+            pgettext( "furniture, item", "Not enough space on the %1$s. You drop the %2$s on the ground." ),
             pgettext( "furniture, item",
                       "Not enough space on the %1$s. <npcname> drops the %2$s on the ground." ),
             vp->part().name(), newit.tname() );

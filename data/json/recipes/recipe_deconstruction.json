@@ -2437,9 +2437,9 @@
     "result": "sheet_cotton_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "filament", 2, "LIST" ] ] ]
+    "time": "1 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cotton_patchwork", 1 ] ] ]
   },
   {
     "result": "cotton_patchwork",

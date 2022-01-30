@@ -576,6 +576,9 @@ units::mass item_pocket::item_weight_modifier() const
 
 units::length item_pocket::item_length_modifier() const
 {
+    if( is_type( item_pocket::pocket_type::EBOOK ) ) {
+        return 0_mm;
+    }
     units::length total_length = 0_mm;
     for( const item &it : contents ) {
         total_length = std::max( static_cast<units::length>( it.length() * std::cbrt(
