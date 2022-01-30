@@ -197,6 +197,15 @@
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   },
   {
+    "id": "hybrid_sight_4x",
+    "type": "GUNMOD",
+    "copy-from": "acog_scope",
+    "name": { "str": "hybrid 4x scope" },
+    "description": "A high end military grade ACOG scope.  This one has additional mounting brackets on top for another sight.",
+    "flags": [ "DISABLE_SIGHTS", "ZOOM" ],
+    "add_mod": [ [ "sights", 1 ] ],
+  },
+  {
     "id": "acog_scope_mod",
     "copy-from": "acog_scope",
     "type": "GUNMOD",

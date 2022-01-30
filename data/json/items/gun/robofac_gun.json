@@ -1,13 +1,13 @@
 [
   {
-    "abstract": "robofac_gun",
+    "id": "robofac_gun",
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "Hub 01 HWP" },
-    "description": "The Hub 01 Hybrid Weapons Platform.  Made with a combination of dark finished steel, blue polymer furniture, and a number of proprietary bolts and fixings to hold the pieces in place, this weapon looks like it belongs in a science fiction movie.  This version has no installed barrel and is clearly missing a part on the bullpup magazine well.",
-    "weight": "3319 g",
-    "volume": "4000 ml",
+    "description": "The Hub 01 Hybrid Weapons Platform.  Made with a combination of dark finished steel, blue polymer furniture, and a number of proprietary bolts and fixings to hold the pieces in place, this weapon looks like it belongs in a science fiction movie.  The body has 'MULTI CALIBER' inlayed in the steel near a quick release for exchanging the installed barrel and changing a magazine well adaptor.",
+    "weight": "2500 g",
+    "volume": "3500 ml",
     "longest_side": "70 cm",
     "price": 125000,
     "price_postapoc": 2000,
@@ -24,16 +24,44 @@
     "min_cycle_recoil": 1350,
     "default_mods": [ "robofac_handguard", "robofac_hybrid_sight_4x", "robofac_hybrid_sight_1x", "robofac_laser_sight" ],
     "//": "Forward ejection port would require a different brass catcher design, so there is no slot for it. Bullpup design requires the factory stock to function.",
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sling", 1 ], [ "stock", 1 ], [ "grip", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "robofac40" ] } ]
+  },
+  {
+    "id": "retool_ar15_300blk",
+    "type": "GUNMOD",
+    "name": { "str": ".300 AAC Blackout AR-15 conversion kit" },
+    "description": "A complete AR-15 upper assembly with a .300 AAC Blackout barrel.",
+    "weight": "1000 g",
+    "volume": "500 ml",
+    "integral_volume": "0 ml",
+    "integral_weight": "0 g",
+    "price": 50000,
+    "price_postapoc": 1000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "green",
+    "location": "bore",
+    "mod_targets": [ "ar15", "m4a1", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
+    "install_time": "1 m",
+    "ammo_modifier": [ "300blk" ],
+    "magazine_adaptor": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
+    "min_skills": [ [ "weapon", 1 ] ],
+    "flags": [ "IRREMOVABLE" ]
   },
   {
     "id": "robofac_gun_ar",
     "copy-from": "robofac_gun",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str_sp": "Hub 01 HWP assault" },
-    "description": "The Hub 01 Hybrid Weapons Platform.  Made with a combination of dark finished steel, blue polymer furniture, and a number of proprietary bolts and fixings to hold the pieces in place, this weapon looks like it belongs in a science fiction movie.  This version has a long barrel with '5.56 NATO ASSAULT' stamped into the metal."
+    "looks_like": "retool_ar15_300blk",
+    "weight": "1000 g",
+    "volume": "500 ml",
+    "integral_volume": "500 ml",
+    "integral_weight": "1000 g",
+    "integral_length"
+    "type": "GUNMOD",
+    "name": { "str_sp": "HWP assault configuration" },
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 3 ] ],
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit. This version has a long barrel with '5.56 NATO ASSAULT' stamped into the metal."
   },
   {
     "id": "robofac_gun_smg",
@@ -87,22 +115,6 @@
     "copy-from": "grip",
     "name": { "str": "integrated front grip" },
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
-  },
-  {
-    "id": "robofac_hybrid_sight_4x",
-    "type": "GUNMOD",
-    "copy-from": "acog_scope",
-    "name": { "str": "hybrid 4x scope" },
-    "description": "A high end military grade ACOG scope.  This one has additional mounting brackets on top for a holographic sight.",
-    "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
-  },
-  {
-    "id": "robofac_hybrid_sight_1x",
-    "type": "GUNMOD",
-    "name": { "str": "top mounted 1x scope" },
-    "description": "A small low profile holographic sight mounted on top of an ACOG sight.",
-    "copy-from": "holo_sight",
-    "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
   },
   {
     "id": "robofac40",
