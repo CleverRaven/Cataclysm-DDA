@@ -893,7 +893,7 @@
     "flags": [ "UNDERSIZE" ]
   },
   {
-    "id": "lc_helmet_close",
+    "id": "lc_helm_close",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel close helm" },
@@ -902,7 +902,7 @@
     "volume": "3 L",
     "price": 55000,
     "price_postapoc": 5500,
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helmet_close_raised", "menu_text": "Raise" },
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -936,11 +936,11 @@
     "flags": [ "STURDY" ]
   },
   {
-    "id": "lc_helmet_close_raised",
-    "copy-from": "lc_helmet_close",
+    "id": "lc_helm_close_raised",
+    "copy-from": "lc_helm_close",
     "type": "ARMOR",
     "name": { "str": "mild steel close helm (raised)", "str_pl": "mild steel close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "med_helmet_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor_data": {
       "armor": [
@@ -961,7 +961,7 @@
     "flags": [ "STURDY" ]
   },
   {
-    "id": "med_helmet_close",
+    "id": "mc_helm_close",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "medium steel close helm" },
@@ -970,7 +970,7 @@
     "volume": "3 L",
     "price": 55000,
     "price_postapoc": 5500,
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helmet_close_raised", "menu_text": "Raise" },
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -1004,11 +1004,11 @@
     "flags": [ "STURDY" ]
   },
   {
-    "id": "med_helmet_close_raised",
-    "copy-from": "med_helmet_close",
+    "id": "mc_helm_close_raised",
+    "copy-from": "mc_helm_close",
     "type": "ARMOR",
     "name": { "str": "medium steel close helm (raised)", "str_pl": "medium steel close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "high_helmet_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor_data": {
       "armor": [
@@ -1029,7 +1029,7 @@
     "flags": [ "STURDY" ]
   },
   {
-    "id": "high_helmet_close",
+    "id": "hc_helm_close",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "high steel close helm" },
@@ -1038,7 +1038,7 @@
     "volume": "3 L",
     "price": 55000,
     "price_postapoc": 5500,
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "med_helmet_close_raised", "menu_text": "Raise" },
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "mc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -1072,11 +1072,11 @@
     "flags": [ "STURDY" ]
   },
   {
-    "id": "high_helmet_close_raised",
-    "copy-from": "high_helmet_close",
+    "id": "hc_helm_close_raised",
+    "copy-from": "hc_helm_close",
     "type": "ARMOR",
     "name": { "str": "high steel close helm (raised)", "str_pl": "high steel close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helmet_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor_data": {
       "armor": [
@@ -1097,7 +1097,7 @@
     "flags": [ "STURDY" ]
   },
   {
-    "id": "ch_helmet_close",
+    "id": "ch_helm_close",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "case hardened steel close helm" },
@@ -1109,7 +1109,7 @@
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
-      "target": "high_helmet_close_raised",
+      "target": "hc_helm_close_raised",
       "menu_text": "Raise"
     },
     "bashing": 8,
@@ -1145,11 +1145,11 @@
     "flags": [ "STURDY" ]
   },
   {
-    "id": "ch_helmet_close_raised",
-    "copy-from": "ch_helmet_close",
+    "id": "ch_helm_close_raised",
+    "copy-from": "ch_helm_close",
     "type": "ARMOR",
     "name": { "str": "case hardened steel close helm (raised)", "str_pl": "case hardened steel close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helmet_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor_data": {
       "armor": [
@@ -1170,7 +1170,7 @@
     "flags": [ "STURDY" ]
   },
   {
-    "id": "tq_helmet_close",
+    "id": "qt_helm_close",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tempered steel close helm" },
@@ -1179,7 +1179,7 @@
     "volume": "3 L",
     "price": 55000,
     "price_postapoc": 5500,
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "tq_helmet_close_raised", "menu_text": "Raise" },
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "qt_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -1213,11 +1213,11 @@
     "flags": [ "STURDY" ]
   },
   {
-    "id": "tq_helmet_close_raised",
-    "copy-from": "tq_helmet_close",
+    "id": "qt_helm_close_raised",
+    "copy-from": "qt_helm_close",
     "type": "ARMOR",
     "name": { "str": "tempered steel close helm (raised)", "str_pl": "tempered steel close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "tq_helmet_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor_data": {
       "armor": [

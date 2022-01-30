@@ -257,7 +257,7 @@
   {
     "id": "armor_junk_lightplate",
     "type": "ARMOR",
-	"copy-from": "armor_lightplate",
+    "copy-from": "armor_lightplate",
     "name": { "str": "junk plate armor" },
     "description": "A suit of Gothic plate armor.  The metal shows signs of rust and corrosion and the leather straps are tattered.",
     "material": [ "budget_steel", "leather" ]
@@ -1152,7 +1152,7 @@
   {
     "id": "armor_junk_plate",
     "type": "ARMOR",
-	"copy-from": "armor_plate",
+    "copy-from": "armor_plate",
     "name": { "str": "junk ornamental plate armor" },
     "description": "An extremely heavy suit of ornamental armor.  The metal shows signs of rust and corrosion and the leather straps are tattered.",
     "material": [ "budget_steel", "leather" ]

@@ -1065,7 +1065,7 @@
     }
   },
   {
-    "id": "tq_demi_gaunt",
+    "id": "qt_demi_gaunt",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tempered steel demi-gauntlet", "str_pl": "tempered steel demi-gauntlets" },
@@ -1230,7 +1230,7 @@
     }
   },
   {
-    "id": "tq_mitten_gaunt",
+    "id": "qt_mitten_gaunt",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tempered steel mitten gauntlet", "str_pl": "mild steel mitten gauntlet" },
