@@ -1159,7 +1159,7 @@ std::string widget::graph( int value )
 }
 
 // For widget::layout, process each row to append to the layout string
-static std::string append_line( const std::string &line, bool first_row, unsigned int max_width,
+static std::string append_line( const std::string &line, bool first_row, int max_width,
                                 const translation &label, int label_width, widget_alignment text_align,
                                 widget_alignment label_align )
 {
@@ -1212,9 +1212,21 @@ static std::string append_line( const std::string &line, bool first_row, unsigne
         lbl_w += padding;
     }
 
+    // If the text is too long, start eating the free space next to the label.
+    // This only works because labels are not colorized (no color tags).
+    if( txt_w + lbl_w > max_width ) {
+        std::wstring tmplbl = utf8_to_wstr( lbl );
+        for( int i = lbl_w - 1; txt_w + lbl_w > max_width && i > 0 && tmplbl[i] == ' ' &&
+             tmplbl[i - 1] != ':'; i-- ) {
+            tmplbl.pop_back();
+            lbl_w--;
+        }
+        lbl = wstr_to_utf8( tmplbl );
+    }
+
     // Text padding
-    if( static_cast<int>( max_width ) - lbl_w > txt_w ) {
-        const int tpad = ( static_cast<int>( max_width ) - lbl_w ) - txt_w;
+    if( max_width - lbl_w > txt_w ) {
+        const int tpad = ( max_width - lbl_w ) - txt_w;
         // Left side
         int padding = 0;
         if( text_align != widget_alignment::LEFT &&
@@ -1302,6 +1314,7 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                                 row_num == 0 ? label_width : 0, _text_align, _label_align );
         }
     }
-    return ret;
+    return ret.find( '\n' ) != std::string::npos || max_width == 0 ?
+           ret : trim_by_length( ret, max_width );
 }
 
