@@ -930,7 +930,7 @@ nc_color display::rad_badge_color( const int rad )
 std::pair<std::string, nc_color> display::rad_badge_text_color( const Character &u )
 {
     // Default - no radiation badge
-    std::string rad_text = "Unknown";
+    std::string rad_text = _( "Unknown" );
     nc_color rad_color = c_light_gray;
     // Get all items that can detect radiation
     for( const item *it : u.all_items_with_flag( json_flag_RAD_DETECT ) ) {
