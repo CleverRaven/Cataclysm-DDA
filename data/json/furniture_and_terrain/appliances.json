@@ -187,7 +187,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_solar_panel",
-    "name": { "str": "mounted solar panel" },
+    "name": { "str": "solar panel" },
     "symbol": "#",
     "categories": [ "energy" ],
     "color": "yellow",
