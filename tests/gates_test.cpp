@@ -67,6 +67,9 @@ TEST_CASE( "windows should be able to open and close", "[gates]" )
     }
 }
 
+// Note that it is not intended for all doors and windows to make swish sound,
+// some doors and windows might make other types of sounds in the future
+// TODO: update test case when door and window sounds become defined in JSON.
 TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
 {
     map& here = get_map();
