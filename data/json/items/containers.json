@@ -2143,6 +2143,7 @@
     "id": "small_propane_tank",
     "type": "TOOL",
     "name": { "str": "small propane tank" },
+    "//": "1 gallon tank.",
     "description": "This is a small tank of propane, commonly used for camping stoves and torches.",
     "weight": "907 g",
     "volume": "5030 ml",
@@ -2164,12 +2165,13 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "GAS_TANK" ]
   },
   {
     "id": "medium_propane_tank",
     "type": "TOOL",
     "name": { "str": "medium propane tank" },
+    "//": "5 gallon tank.",
     "description": "This is a medium tank of propane, commonly used for barbeques.",
     "weight": "4082 g",
     "volume": "13600 ml",
@@ -2191,12 +2193,13 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "GAS_TANK" ]
   },
   {
     "id": "large_propane_tank",
     "type": "TOOL",
     "name": { "str": "large propane tank" },
+    "//": "20 gallon tank.",
     "description": "This is a large tank of propane, commonly used for heating.",
     "weight": "8164 g",
     "volume": "44 L",
@@ -2218,6 +2221,34 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "GAS_TANK" ]
+  },
+  {
+    "id": "xl_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "extra large propane tank" },
+    "//": "100 gallon tank.",
+    "description": "This is a massive tank of propane, commonly used for a home or vehicle.",
+    "weight": "132 kg",
+    "volume": "44 L",
+    "longest_side": "46 cm",
+    "price": 6000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 1510 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "GAS_TANK" ]
   }
 ]

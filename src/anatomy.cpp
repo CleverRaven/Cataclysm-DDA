@@ -135,6 +135,32 @@ std::vector<bodypart_id> anatomy::get_bodyparts() const
     return cached_bps;
 }
 
+float anatomy::get_size_ratio( const anatomy_id &base ) const
+{
+    float ret = get_hit_size_sum() / get_base_hit_size_sum( base );
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "Anatomy hitsize ratio %.3f",
+                   ret );
+    return ret;
+}
+
+float anatomy::get_hit_size_sum() const
+{
+    float ret = 0.0f;
+    for( const bodypart_id &bp : cached_bps ) {
+        ret += bp->hit_size;
+    }
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "Current anatomy hitsize sum %.1f",
+                   ret );
+    return ret;
+}
+
+float anatomy::get_base_hit_size_sum( const anatomy_id &base ) const
+{
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "Base anatomy hitsize sum %.1f",
+                   base->size_sum );
+    return base->size_sum;
+}
+
 anatomy::anatomy( const std::vector<bodypart_id> &parts )
 {
     for( const bodypart_id &part : parts ) {

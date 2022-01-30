@@ -1211,6 +1211,7 @@ cata::optional<int> iuse::purifier( Character *p, item *it, bool, const tripoint
     }
 
     do_purify( *p );
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
     return it->type->charges_to_use();
 }
 
@@ -1253,6 +1254,7 @@ cata::optional<int> iuse::purify_iv( Character *p, item *it, bool, const tripoin
         p->mod_thirst( 2 * num_cured );
         p->mod_fatigue( 2 * num_cured );
     }
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
     return it->type->charges_to_use();
 }
 
@@ -1305,6 +1307,7 @@ cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const trip
 
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
     return it->type->charges_to_use();
 }
 
@@ -4381,7 +4384,7 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
-    const bool do_effects = p.can_hear( source, volume );
+    const bool do_effects = p.can_hear( source, volume ) && !p.in_sleep_state();
     std::string sound = "music";
     if( calendar::once_every( 5_minutes ) ) {
         // Every 5 minutes, describe the music
@@ -4389,7 +4392,7 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
         if( !music.empty() ) {
             sound = music;
             // descriptions aren't printed for sounds at our position
-            if( p.pos() == source && p.can_hear( source, volume ) ) {
+            if( p.pos() == source && do_effects ) {
                 p.add_msg_if_player( _( "You listen to %s" ), music );
             }
         }

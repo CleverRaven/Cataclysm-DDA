@@ -1503,5 +1503,23 @@
         "default_magazine": "medium_battery_cell"
       }
     ]
+  },
+  {
+    "id": "propane_torch",
+    "type": "TOOL",
+    "name": { "str": "propane torch", "str_pl": "propane torches" },
+    "description": "A compact tool kit intended for cutting metal, this portable propane torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It requires connecting to pressurized propane cylinders before use.  While not appropriate for welding, you can activate it in order to destroy metal barriers.",
+    "weight": "1600 g",
+    "volume": "1 L",
+    "price": 20000,
+    "price_postapoc": 750,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "propane" ],
+    "charges_per_use": 8,
+    "use_action": [ "OXYTORCH" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "FIRESTARTER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "small_propane_tank", "medium_propane_tank" ] } ]
   }
 ]
