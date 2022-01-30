@@ -103,7 +103,7 @@
     "price_postapoc": 1500,
 	"flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2500 } } ],
-    "symbol": "U",
+    "symbol": "U"
   },
   {
     "type": "GENERIC",
