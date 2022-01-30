@@ -7340,9 +7340,13 @@ std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
                 // if the item has additional pockets and is on the torso it should also be strapped
                 if( ( sbp == sub_body_part_torso_upper || sbp == sub_body_part_torso_lower ) &&
                     contents.has_additional_pockets() ) {
-                    std::vector<layer_level> with_belted = data.layers;
-                    with_belted.push_back( layer_level::BELTED );
-                    return with_belted;
+                    const auto it = std::find( data.layers.begin(), data.layers.end(), layer_level::BELTED );
+                    //if the item doesn't already cover belted
+                    if( it == data.layers.end() ) {
+                        std::vector<layer_level> with_belted = data.layers;
+                        with_belted.push_back( layer_level::BELTED );
+                        return with_belted;
+                    }
                 } else {
                     return data.layers;
                 }
