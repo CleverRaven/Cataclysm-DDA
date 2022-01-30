@@ -750,6 +750,57 @@ rule_state base_settings::check_item( const std::string &sItemName ) const
     return rule_state::NONE;
 }
 
+int player_settings::capacity_for_item( const item *it )
+{
+    if( check_item( it->tname( 1, false ) ) == rule_state::BLACKLISTED ) {
+        return 0;
+    } else {
+        int globalc = global_rules.capacity_for_item( it );
+        int charc = character_rules.capacity_for_item( it );
+        if( globalc < 0 || charc < 0 ) {
+            return -1;
+        } else {
+            return globalc + charc;
+        }
+    }
+}
+
+int rule_list::capacity_for_item( const item *it )
+{
+    // TODO first check only the rules that have infinite capacity to reduce
+    // the number of times we have to check the entire player inventory
+
+    int capacity = 0;
+    for( rule elem : *this ) {
+        if( elem.sRule.empty() || !elem.bActive ) {
+            continue;
+        }
+        if( ( wildcard_match( it->tname( 1, false ), elem.sRule ) ||
+              check_special_rule( it->made_of(), elem.sRule ) )
+            ^ elem.bExclude ) {
+            // If there's a matching rule with infinite capacity,
+            // there's infinite space for the item
+            if( elem.maxHeld == 0 ) {
+                return -1;
+            }
+            // otherwise check the number of matching items in the player's inventory
+            int numHeld = 0;
+            get_player_character().visit_items( [&]( const item * invItem, item * ) {
+                if( ( wildcard_match( invItem->tname( 1, false ), elem.sRule ) ||
+                      check_special_rule( invItem->made_of(), elem.sRule ) )
+                    ^ elem.bExclude ) {
+                    numHeld += invItem->count();
+                }
+                return VisitResponse::NEXT;
+            } );
+            if( numHeld < elem.maxHeld ) {
+                capacity += elem.maxHeld + numHeld;
+            }
+        }
+    }
+    return capacity;
+}
+
 void player_settings::clear_character_rules()
 {
     character_rules.clear();

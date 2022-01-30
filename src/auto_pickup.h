@@ -72,6 +72,9 @@ class rule_list : public std::vector<rule>
 
         void create_rule( cache &map_items, const std::string &to_match );
         void create_rule( cache &map_items, const item &it );
+
+        /** Returns a negative number if player can hold an unlimited number of that item */
+        int capacity_for_item( const item *it );
 };
 
 class user_interface
@@ -130,6 +133,8 @@ class player_settings : public base_settings
         bool has_rule( const item *it );
         void add_rule( const item *it );
         void remove_rule( const item *it );
+        /** Returns a negative number if player can hold an unlimited number of that item */
+        int capacity_for_item( const item *it );
 
         void clear_character_rules();
 

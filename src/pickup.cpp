@@ -87,17 +87,23 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
             if( begin_iterator->volume() / units::legacy_volume_factor == static_cast<int>( iVol ) ) {
                 iNumChecked++;
                 const std::string sItemName = begin_iterator->tname( 1, false );
+                const item it = item( begin_iterator->typeId() );
 
                 //Check the Pickup Rules
-                if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
-                    bPickup = true;
-                } else if( get_auto_pickup().check_item( sItemName ) != rule_state::BLACKLISTED ) {
+                if( get_auto_pickup().check_item( sItemName ) == rule_state::NONE ) {
                     //No prematched pickup rule found
                     //check rules in more detail
                     get_auto_pickup().create_rule( &*begin_iterator );
+                }
 
-                    if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
+                //Pickup only as many as allowed by 'max' user settings
+                if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
+                    int toPickup = get_auto_pickup().capacity_for_item( &it );
+                    if( toPickup != 0 ) {
                         bPickup = true;
+                    }
+                    if( toPickup > 0 ) {
+                        getitem[i].count = toPickup;
                     }
                 }
 
