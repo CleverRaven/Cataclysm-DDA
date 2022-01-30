@@ -190,6 +190,7 @@
     "name": { "str": "solar panel" },
     "symbol": "#",
     "categories": [ "energy" ],
+    "location": "structure",
     "color": "yellow",
     "broken_symbol": "x",
     "broken_color": "yellow",
