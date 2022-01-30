@@ -1484,14 +1484,16 @@ class item : public visitable
         /**
          * Can the pocket contain the specified item?
          * @param it the item being put in
+         * @param nested whether or not the current call is nested (used recursively).
          */
         /*@{*/
-        ret_val<bool> can_contain( const item &it ) const;
+        ret_val<bool> can_contain( const item &it, const bool nested = false ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
+                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
+                bool nested = false);
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
