@@ -134,6 +134,7 @@
     "name": { "str": "small grid battery" },
     "symbol": "B",
     "categories": [ "energy" ],
+    "location": "structure",
     "color": "yellow",
     "broken_symbol": "x",
     "broken_color": "yellow",
