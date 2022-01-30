@@ -104,7 +104,7 @@
     "id": "URSINE",
     "name": "Ursine",
     "threshold_mut": "THRESH_URSINE",
-    "mutagen_message": "You feel an urge to… patrol?  the forests?",
+    "mutagen_message": "You feel an urge to… patrol?  The forests?",
     "iv_message": "You feel yourself quite equipped for wilderness survival.",
     "memorial_message": "Became one with the bears."
   },

@@ -748,7 +748,7 @@
     "type": "effect_type",
     "id": "mutagen",
     "//name": [ "Mutagen" ],
-    "desc": [ "You consumed mutagen.  It was probably a good idea.", "You can feel your insides shifting.  It feels…nice." ],
+    "desc": [ "You consumed mutagen.  It was probably a good idea.", "You can feel your insides shifting.  It feels… nice." ],
     "max_intensity": 2,
     "show_intensity": false
   },
@@ -842,7 +842,7 @@
     "//name": [ "Plant Mutagen" ],
     "desc": [
       "You consumed plant mutagen.",
-      "All this running…why don't you just find a nice, fertile spot and bask in the sun."
+      "All this running… why don't you just find a nice, fertile spot and bask in the sun."
     ],
     "max_intensity": 2
   },
