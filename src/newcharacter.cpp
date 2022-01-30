@@ -2923,10 +2923,12 @@ tab_direction set_scenario( avatar &u, pool_type pool )
     catacurses::window w_vehicle;
     catacurses::window w_initial_date;
     catacurses::window w_flags;
+    catacurses::window w_genderswap;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - 10;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 4, TERMX - 2, point( 1, TERMY - 5 ) );
+        w_genderswap = catacurses::newwin( 1, 55, point( TERMX / 2, 6 ) );
         const int second_column_w = TERMX / 2 - 1;
         point origin = point( second_column_w + 1, 5 );
         const int w_sorting_h = 2;
@@ -2970,6 +2972,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "QUIT" );
@@ -3096,6 +3099,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         werase( w_vehicle );
         werase( w_initial_date );
         werase( w_flags );
+        werase( w_genderswap );
 
         if( cur_id_is_valid ) {
             draw_sorting_indicator( w_sorting, ctxt, scenario_sorter );
@@ -3178,6 +3182,16 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                 wprintz( w_flags, c_light_gray, _( "Starting location is bordered by an immense wall" ) );
                 wprintz( w_flags, c_light_gray, "\n" );
             }
+              const char *g_switch_msg = u.male ?
+                                       //~ Gender switch message. 1s - change key name, 2s - profession name.
+                                       _( "Press <color_light_green>%1$s</color> to switch "
+                                          "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
+                                       //~ Gender switch message. 1s - change key name, 2s - profession name.
+                                       _( "Press <color_light_green>%1$s</color> to switch "
+                                          "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>)." );
+            fold_and_print( w_genderswap, point_zero, ( TERMX / 2 ), c_light_gray, g_switch_msg,
+                            ctxt.get_desc( "CHANGE_GENDER" ),
+                            sorted_scens[cur_id]->gender_appropriate_name( !u.male ) );
         }
 
         draw_scrollbar( w, cur_id, iContentHeight, scens_length, point( 0, 5 ) );
@@ -3197,6 +3211,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         wnoutrefresh( w_vehicle );
         wnoutrefresh( w_initial_date );
         wnoutrefresh( w_flags );
+        wnoutrefresh( w_genderswap );
     } );
 
     do {
@@ -3286,6 +3301,8 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             retval = tab_direction::BACKWARD;
         } else if( action == "NEXT_TAB" ) {
             retval = tab_direction::FORWARD;
+        }else if( action == "CHANGE_GENDER" ) {
+            u.male = !u.male;
         } else if( action == "SORT" ) {
             scenario_sorter.sort_by_points = !scenario_sorter.sort_by_points;
             recalc_scens = true;
