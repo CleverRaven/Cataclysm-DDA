@@ -791,6 +791,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Not compatable on weapons that have this mod slot */
     std::set<gunmod_location> blacklist_mod;
+
+    // minimum recoil to cycle while this is installed
+    int overwrite_min_cycle_recoil = -1;
 };
 
 struct islot_magazine {

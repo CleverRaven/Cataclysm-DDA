@@ -575,8 +575,8 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             qty = ammo_capacity( ammo_type );
 
             // else try to add a magazine using default ammo count property if set
-        } else if( !magazine_default().is_null() ) {
-            item mag( magazine_default() );
+        } else if( !magazine_default( true ).is_null() ) {
+            item mag( magazine_default( true ) );
             if( mag.type->magazine->count > 0 ) {
                 qty = mag.type->magazine->count;
             } else {
@@ -9600,6 +9600,24 @@ skill_id item::melee_skill() const
     return res;
 }
 
+
+int item::min_cycle_recoil() const
+{
+    if( !is_gun() ) {
+        return 0;
+    }
+    int to_cycle = type->gun->min_cycle_recoil;
+    // This should only be used for one mod or it'll mess things up
+    // TODO: maybe generalize this so you can have mods for hot loads or whatever
+    for( const item *mod : gunmods() ) {
+        // this value defaults to -1
+        if( mod->type->gunmod->overwrite_min_cycle_recoil > 0 ) {
+            to_cycle = mod->type->gunmod->overwrite_min_cycle_recoil;
+        }
+    }
+    return to_cycle;
+}
+
 int item::gun_dispersion( bool with_ammo, bool with_scaling ) const
 {
     if( !is_gun() ) {
@@ -10117,8 +10135,20 @@ bool item::uses_magazine() const
     return contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL );
 }
 
-itype_id item::magazine_default( bool /* conversion */ ) const
+itype_id item::magazine_default( bool conversion ) const
 {
+    // consider modded ammo types
+    if( conversion && !ammo_types().empty() ) {
+        const itype_id ammo = ammo_default();
+        for( const itype_id mag : contents.magazine_compatible() ) {
+            auto mag_types = mag->magazine->type;
+            if( mag_types.find( ammo->ammo->type ) != mag_types.end() ) {
+                return mag;
+            }
+        }
+    }
+
+    // otherwise return the default
     return contents.magazine_default();
 }
 
