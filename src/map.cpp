@@ -4009,7 +4009,15 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if( !check_only ) {
-            int volume = get_player_character().is_crouching() ? 3 : 6;
+            Character &player = get_player_character();
+            int volume = 6;
+            // sneaking while opening gates is quiet
+            if( player.is_crouching() ) {
+                volume *= 0.5;
+            } else if( player.is_running() && !ter.has_flag( ter_furn_flag::TFLAG_WINDOW ) ) {
+                // dashing while opening doors is loud
+                volume *= 2;
+            }
             sounds::sound( p, volume, sounds::sound_t::movement, _( "swish" ), true,
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
