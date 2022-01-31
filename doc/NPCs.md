@@ -909,7 +909,7 @@ Condition | Type | Description
 {
   "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana with at maximum a value of 15.",
   "topic": "TALK_DONE",
-  "condition": { "compare_int": [ { "u_val": "strength" }, { "const": 5 } ], "op": ">=" }
+  "condition": { "compare_int": [ { "u_val": "strength" }, ">=", { "const": 5 } ] }
   "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "u_val": "focus" }, "*", { "u_val": "mana_max" } ], "max":15 }
 },
 ```
@@ -969,7 +969,7 @@ Example | Description
 `"hour"` | Hours since midnight.
 `"moon"` | Phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
 ```
-"condition": { "compare_int": [ { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] }, { "const": 5 } ], "op": ">" }
+"condition": { "compare_int": [ { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] }, ">", { "const": 5 } ] }
 ```
 
 #### Sample responses with conditions and effects

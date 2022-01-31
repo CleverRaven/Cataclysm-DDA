@@ -985,16 +985,18 @@ template<class T>
 void conditional_t<T>::set_compare_int( const JsonObject &jo, const std::string &member )
 {
     JsonArray objects = jo.get_array( member );
-    if( objects.size() != 2 ) {
-        jo.throw_error( "incorrect number of values.  Expected two in " + jo.str() );
+    if( objects.size() != 3 ) {
+        jo.throw_error( "incorrect number of values.  Expected three in " + jo.str() );
         condition = []( const T & ) {
             return false;
         };
         return;
     }
-    std::function<int( const T & )> get_first_int = objects.has_object(0) ? get_get_int( objects.get_object( 0 ) ) : get_get_int( objects.get_string( 0 ), jo );
-    std::function<int( const T & )> get_second_int = objects.has_object(1) ? get_get_int( objects.get_object( 1 ) ) : get_get_int( objects.get_string( 1 ), jo );
-    const std::string &op = jo.get_string( "op" );
+    std::function<int( const T & )> get_first_int = objects.has_object( 0 ) ? get_get_int(
+                objects.get_object( 0 ) ) : get_get_int( objects.get_string( 0 ), jo );
+    std::function<int( const T & )> get_second_int = objects.has_object( 2 ) ? get_get_int(
+                objects.get_object( 2 ) ) : get_get_int( objects.get_string( 2 ), jo );
+    const std::string &op = objects.get_string( 1 );
 
     if( op == "==" || op == "=" ) {
         condition = [get_first_int, get_second_int]( const T & d ) {
@@ -1361,15 +1363,16 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
 }
 
 template<class T>
-std::function<int( const T & )> conditional_t<T>::get_get_int( std::string value, const JsonObject &jo )
+std::function<int( const T & )> conditional_t<T>::get_get_int( std::string value,
+        const JsonObject &jo )
 {
     if( value == "moon" ) {
         return []( const T & ) {
             return static_cast<int>( get_moon_phase( calendar::turn ) );
         };
-    } else if (value == "hour") {
-        return [](const T&) {
-            return to_hours<int>( time_past_midnight(calendar::turn) );
+    } else if( value == "hour" ) {
+        return []( const T & ) {
+            return to_hours<int>( time_past_midnight( calendar::turn ) );
         };
     }
     jo.throw_error( "unrecognized integer source in " + value );

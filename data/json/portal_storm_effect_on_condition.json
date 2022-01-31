@@ -50,7 +50,7 @@
                 "u_can_see",
                 "u_is_outside",
                 { "not": { "u_has_effect": "sleep" } },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 3 } ], "op": "<" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, "<", { "const": 3 } ] }
               ]
             },
             "effect": [
@@ -73,7 +73,7 @@
                 "u_can_see",
                 { "not": "u_is_outside" },
                 { "not": { "u_has_effect": "sleep" } },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 3 } ], "op": "<" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, "<", { "const": 3 } ] }
               ]
             },
             "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_1", "snippet": true } ]
@@ -85,8 +85,8 @@
                 "u_can_see",
                 "u_is_outside",
                 { "not": { "u_has_effect": "sleep" } },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 6 } ], "op": "<" },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 3 } ], "op": ">=" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, "<", { "const": 6 } ] },
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, ">=", { "const": 3 } ] }
               ]
             },
             "effect": [
@@ -109,8 +109,8 @@
                 "u_can_see",
                 { "not": "u_is_outside" },
                 { "not": { "u_has_effect": "sleep" } },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 6 } ], "op": "<" },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 3 } ], "op": ">=" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, "<", { "const": 6 } ] },
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, ">=", { "const": 3 } ] }
               ]
             },
             "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_2", "snippet": true } ]
@@ -122,7 +122,7 @@
                 "u_can_see",
                 "u_is_outside",
                 { "not": { "u_has_effect": "sleep" } },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 6 } ], "op": ">=" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, ">=", { "const": 6 } ] }
               ]
             },
             "effect": [
@@ -145,7 +145,7 @@
                 "u_can_see",
                 { "not": "u_is_outside" },
                 { "not": { "u_has_effect": "sleep" } },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 6 } ], "op": ">=" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, ">=", { "const": 6 } ] }
               ]
             },
             "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_3", "snippet": true } ]
@@ -164,11 +164,8 @@
         "or": [
           { "is_weather": "portal_storm" },
           { "is_weather": "early_portal_storm" },
-          { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" },
-          {
-            "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, { "const": 1 } ],
-            "op": "="
-          }
+          { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] },
+          { "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
         ]
       }
     },
@@ -196,7 +193,7 @@
       "not": {
         "or": [
           { "is_weather": "portal_storm" },
-          { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" }
+          { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] }
         ]
       }
     },
@@ -230,15 +227,13 @@
       "or": [
         { "is_weather": "portal_storm" },
         { "is_weather": "early_portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" },
-        {
-          "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, { "const": 1 } ],
-          "op": "="
-        }
+        { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
       ]
     },
     "effect": [
       { "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 0 } ] },
       "next_weather",
       { "u_message": "The damage to reality fades.  Hopefully the scarring is minimal.", "type": "good" },
       { "set_queue_effect_on_condition": [ "EOC_WORSEN_PORTAL_STORM" ] }
@@ -278,7 +273,7 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 2 } ], "op": "<=" }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 2 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -314,8 +309,8 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 2 } ], "op": ">" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 4 } ], "op": "<=" }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 2 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 4 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -354,7 +349,7 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 4 } ], "op": ">" }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -394,22 +389,22 @@
         "set_queue_effect_on_condition": [
           {
             "id": "EOC_PORTAL_STORM_MESSAGE_1",
-            "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 2 } ], "op": "<=" },
+            "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 2 } ] },
             "effect": [ { "u_message": "PORTAL_STORM_MESSAGES_1", "snippet": true } ]
           },
           {
             "id": "EOC_PORTAL_STORM_MESSAGE_2",
             "condition": {
               "and": [
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 4 } ], "op": "<" },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 2 } ], "op": ">=" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<", { "const": 4 } ] },
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">=", { "const": 2 } ] }
               ]
             },
             "effect": [ { "u_message": "PORTAL_STORM_MESSAGES_2", "snippet": true } ]
           },
           {
             "id": "EOC_PORTAL_STORM_MESSAGE_3",
-            "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 4 } ], "op": ">=" },
+            "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">=", { "const": 4 } ] },
             "effect": [ { "u_message": "PORTAL_STORM_MESSAGES_3", "snippet": true } ]
           }
         ]
