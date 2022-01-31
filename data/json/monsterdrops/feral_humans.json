@@ -508,7 +508,13 @@
     "magazine": 100,
     "ammo": 10,
     "id": "feral_jackboot_shotgun",
-    "items": [ [ "mossberg_500", 200 ], [ "mossberg_590", 200 ], [ "remington_870", 200 ], [ "remington_870_express", 200 ], [ "mossberg_930", 200 ] ]
+    "items": [
+      [ "mossberg_500", 200 ],
+      [ "mossberg_590", 200 ],
+      [ "remington_870", 200 ],
+      [ "remington_870_express", 200 ],
+      [ "mossberg_930", 200 ]
+    ]
   },
   {
     "id": "mon_feral_soldier_death_drops",
@@ -551,18 +557,18 @@
       },
       {
         "distribution": [
-              { "item": "longshirt", "prob": 10 },
-              { "item": "polo_shirt", "prob": 50 },
-              { "item": "tshirt", "prob": 80 },
-              { "item": "linuxtshirt", "prob": 10 },
-              { "item": "tshirt_tour", "prob": 50 }
+          { "item": "longshirt", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "polo_shirt", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "tshirt", "prob": 80, "damage": [ 1, 4 ] },
+          { "item": "linuxtshirt", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "tshirt_tour", "prob": 50, "damage": [ 1, 4 ] }
         ]
       },
       { "group": "feral_jackboot_shotgun", "prob": 100, "damage": [ 1, 4 ] },
       { "group": "clothing_outdoor_shoes", "damage": [ 1, 4 ] },
       { "group": "clothing_outdoor_pants", "damage": [ 1, 4 ] },
       { "item": "sunglasses", "prob": 20, "damage": [ 1, 4 ] },
-      { "group": "underwear", "damage": [ 1, 4 ], "prob": 100 },
+      { "group": "underwear", "damage": [ 1, 4 ] },
       { "item": "gloves_leather", "prob": 80, "damage": [ 1, 4 ] },
       { "group": "salty_snacks", "prob": 70 },
       { "group": "snacks", "prob": 70 },
