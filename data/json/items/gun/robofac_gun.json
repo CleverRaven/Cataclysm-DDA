@@ -49,11 +49,11 @@
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 3 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "223" ],
-    "magazine_adaptor": [ [ "223", [ "robofac40" ] ] ],
     "min_skills": [ [ "weapon", 1 ] ],
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 14,
+    "overwrite_min_cycle_recoil": 1350,
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit. This version has a long barrel with '5.56 NATO ASSAULT' stamped into the metal and an integrated muzzle break."
   },
   {
@@ -78,10 +78,10 @@
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 4 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "9mm" ],
-    "magazine_adaptor": [ [ "9mm", [ "robofac60" ] ] ],
     "min_skills": [ [ "weapon", 1 ] ],
     "handling_modifier": 2,
     "loudness_modifier": -50,
+    "overwrite_min_cycle_recoil": 450,
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit. This version has a short barrel with '9mm Parabellum PDW' stamped into the metal and an integrated silencer."
   },
   {
@@ -106,11 +106,11 @@
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "308" ],
-    "magazine_adaptor": [ [ "308", [ "robofac20" ] ] ],
     "min_skills": [ [ "weapon", 1 ] ],
     "dispersion_modifier": 12,
     "handling_modifier": 2,
     "loudness_modifier": -10,
+    "overwrite_min_cycle_recoil": 2700,
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit. This version has a long barrel with '7.62 NATO DMR' stamped into the metal and an integrated flash hider."
   },
   {
@@ -135,10 +135,10 @@
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 2 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "shot" ],
-    "magazine_adaptor": [ [ "shot", [ "robofac10" ] ] ],
     "min_skills": [ [ "weapon", 1 ] ],
     "shot_spread_multiplier_modifier": -0.3,
     "flags": [ "CHOKE" ],
+    "overwrite_min_cycle_recoil": 1250,
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit. This version has a long barrel with '00 CQC' stamped into the metal and an integrated choke."
   },
   {
