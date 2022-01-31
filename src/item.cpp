@@ -3531,7 +3531,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 temp = sbp->opposite;
             } else {
                 // if it doesn't have an opposite print it alone and continue
-                coverage += _( " The <info>" + sbp->name + "</info>" );
+                coverage += string_format( _( " The <info>%s</info>" ), sbp->name );
                 coverage += string_format( " (%d).",
                                            this->get_coverage( sbp ) );
                 continue;
@@ -3543,7 +3543,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 // go through each body part and test if its partner is there as well
                 if( temp == *sbp_it ) {
                     // add the multiple name not the single
-                    coverage += _( " The <info>" + sbp->name_multiple + "</info>" );
+                    coverage += string_format( _( " The <info>%s</info>" ), sbp->name_multiple );
                     // average the coverage of both locations
                     coverage += string_format( " (%d).",
                                                ( this->get_coverage( sbp ) + this->get_coverage( *sbp_it ) ) / 2 );
@@ -3555,7 +3555,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
             // if we didn't find its pair print it normally
             if( !found ) {
-                coverage += _( " The <info>" + sbp->name + "</info>" );
+                coverage += string_format( _( " The <info>%s</info>" ), sbp->name );
                 coverage += string_format( " (%d).",
                                            this->get_coverage( sbp ) );
             }
