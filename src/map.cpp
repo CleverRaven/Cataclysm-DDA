@@ -3998,67 +3998,70 @@ bool map::hit_with_fire( const tripoint &p )
     return true;
 }
 
+/**
+ * Play the sound of door opening or closing.
+ *
+ * @param volume how loud is the sound.
+ * @param where location where to play the sound.
+ * @param desc description of the sound.
+ * @param id sound identification.
+ * @param from id of object producing the sound.
+ */
+static void play_door_sound( int volume, const tripoint &where, const std::string desc,
+                             const std::string id, const std::string from )
+{
+    avatar &player = get_avatar();
+    // when crouching we want to open gates quiet but it's slow
+    if( player.is_crouching() ) {
+        volume *= 0.5;
+    } else if( player.is_running() ) {
+        // when running we want to open gates fast but it's loud
+        volume *= 2;
+    }
+    sounds::sound( where, volume, sounds::sound_t::movement, desc, true, id, from );
+}
+
 bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
 {
+    avatar &you = get_avatar();
     const auto &ter = this->ter( p ).obj();
     const auto &furn = this->furn( p ).obj();
-    avatar &player_character = get_avatar();
     if( ter.open ) {
         if( has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) && !inside ) {
             return false;
         }
-
         if( !check_only ) {
-            Character &player = get_player_character();
-            int volume = 6;
-            // when crouching we want to open gates quiet but it's slow
-            if( player.is_crouching() ) {
-                volume *= 0.5;
-            } else if( player.is_running() ) {
-                // when running we want to open gates fast but it's loud
-                volume *= 2;
-            }
-            sounds::sound( p, volume, sounds::sound_t::movement, _( "swish" ), true,
-                           "open_door", ter.id.str() );
+            play_door_sound( 6, p, _( "swish" ), "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( player_character.has_trait( trait_SCHIZOPHRENIC ) &&
+            if( you.has_trait( trait_SCHIZOPHRENIC ) &&
                 one_in( 50 ) && !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
-                tripoint mp = p + -2 * player_character.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
+                tripoint mp = p + -2 * you.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );
             }
         }
-
         return true;
     } else if( furn.open ) {
         if( has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) && !inside ) {
             return false;
         }
-
         if( !check_only ) {
-            int volume = get_player_character().is_crouching() ? 3 : 6;
-            sounds::sound( p, volume, sounds::sound_t::movement, _( "swish" ), true, "open_door",
-                           furn.id.str() );
+            play_door_sound( 6, p, _( "swish" ), "open_door", furn.id.str() );
             furn_set( p, furn.open );
         }
-
         return true;
     } else if( const optional_vpart_position vp = veh_at( p ) ) {
         int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
         if( openable >= 0 ) {
             if( !check_only ) {
-                if( !vp->vehicle().handle_potential_theft( player_character ) ) {
+                if( !vp->vehicle().handle_potential_theft( you ) ) {
                     return false;
                 }
                 vp->vehicle().open_all_at( openable );
             }
-
             return true;
         }
-
-        return false;
     }
-
     return false;
 }
 
@@ -4134,17 +4137,13 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
     const auto &furn = this->furn( p ).obj();
     if( ter.close && !furn.id ) {
         if( !check_only ) {
-            int volume = get_player_character().is_crouching() ? 5 : 10;
-            sounds::sound( p, volume, sounds::sound_t::movement, _( "swish" ), true,
-                           "close_door", ter.id.str() );
+            play_door_sound( 10, p, _( "swish" ), "close_door", ter.id.str() );
             ter_set( p, ter.close );
         }
         return true;
     } else if( furn.close ) {
         if( !check_only ) {
-            int volume = get_player_character().is_crouching() ? 5 : 10;
-            sounds::sound( p, volume, sounds::sound_t::movement, _( "swish" ), true,
-                           "close_door", furn.id.str() );
+            play_door_sound( 10, p, _( "swish" ), "close_door", furn.id.str() );
             furn_set( p, furn.close );
         }
         return true;
