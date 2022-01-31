@@ -215,17 +215,17 @@ TEST_CASE( "text widgets", "[widget][text]" )
         words._var_max = 10;
         REQUIRE( words._style == "text" );
 
-        CHECK( words.text( 0 ) == "Zero" );
-        CHECK( words.text( 1 ) == "One" );
-        CHECK( words.text( 2 ) == "Two" );
-        CHECK( words.text( 3 ) == "Three" );
-        CHECK( words.text( 4 ) == "Four" );
-        CHECK( words.text( 5 ) == "Five" );
-        CHECK( words.text( 6 ) == "Six" );
-        CHECK( words.text( 7 ) == "Seven" );
-        CHECK( words.text( 8 ) == "Eight" );
-        CHECK( words.text( 9 ) == "Nine" );
-        CHECK( words.text( 10 ) == "Ten" );
+        CHECK( words.text( 0, 0, false ) == "Zero" );
+        CHECK( words.text( 1, 0, false ) == "One" );
+        CHECK( words.text( 2, 0, false ) == "Two" );
+        CHECK( words.text( 3, 0, false ) == "Three" );
+        CHECK( words.text( 4, 0, false ) == "Four" );
+        CHECK( words.text( 5, 0, false ) == "Five" );
+        CHECK( words.text( 6, 0, false ) == "Six" );
+        CHECK( words.text( 7, 0, false ) == "Seven" );
+        CHECK( words.text( 8, 0, false ) == "Eight" );
+        CHECK( words.text( 9, 0, false ) == "Nine" );
+        CHECK( words.text( 10, 0, false ) == "Ten" );
     }
 }
 

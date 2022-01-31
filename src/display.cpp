@@ -1150,36 +1150,7 @@ std::string display::colorized_bodypart_status_legend_text( const Character &u,
             }
         }
     }
-    // Split legend keys into X lines, where X = height.
-    // Lines use the provided width.
-    // This effectively limits the text to a 'width'x'height' box.
-    std::string ret;
-    height = 0;
-    const int h_max = max_height == 0 ? INT_MAX : max_height;
-    const int nsize = keys.size();
-    for( int row = 0, nidx = 0; row < h_max && nidx < nsize; row++ ) {
-        int wavail = width;
-        int nwidth = utf8_width( keys[nidx], true );
-        bool startofline = true;
-        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
-            startofline = false;
-            wavail -= nwidth;
-            ret += keys[nidx];
-            nidx++;
-            if( nidx < nsize ) {
-                nwidth = utf8_width( keys[nidx], true );
-                if( wavail > nwidth ) {
-                    ret += "  ";
-                    wavail -= 2;
-                }
-            }
-        }
-        if( row < h_max - 1 ) {
-            ret += "\n";
-        }
-        height++;
-    }
-    return ret;
+    return format_widget_multiline( keys, max_height, width, height );
 }
 
 std::string display::colorized_bodypart_outer_armor( const Character &u, const bodypart_id &bp )
@@ -1586,36 +1557,7 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
         name = string_format( "%s %s", colorize( m.first->sym, m.first->color ), colorize( name, danger ) );
         names.emplace_back( name );
     }
-    // Split names into X lines, where X = height.
-    // Lines use the provided width.
-    // This effectively limits the text to a 'width'x'height' box.
-    std::string ret;
-    height = 0;
-    const int h_max = max_height == 0 ? INT_MAX : max_height;
-    const int nsize = names.size();
-    for( int row = 0, nidx = 0; row < h_max && nidx < nsize; row++ ) {
-        int wavail = width;
-        int nwidth = utf8_width( names[nidx], true );
-        bool startofline = true;
-        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
-            startofline = false;
-            wavail -= nwidth;
-            ret += names[nidx];
-            nidx++;
-            if( nidx < nsize ) {
-                nwidth = utf8_width( names[nidx], true );
-                if( wavail > nwidth ) {
-                    ret += "  ";
-                    wavail -= 2;
-                }
-            }
-        }
-        if( row < h_max - 1 ) {
-            ret += "\n";
-        }
-        height++;
-    }
-    return ret;
+    return format_widget_multiline( names, max_height, width, height );
 }
 
 // Print monster info to the given window
