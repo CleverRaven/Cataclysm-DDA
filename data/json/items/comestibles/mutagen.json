@@ -289,8 +289,7 @@
     "name": { "str": "mouse serum" },
     "description": "A super-concentrated mutagen resembling liquefied metal.  You need a syringe to inject it… if you really want to?",
     "color": "light_gray",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "MOUSE" },
-    "vitamins": [ [ "mutagen_mouse", 500 ] ]
+    "use_action": { "type": "mutagen_iv", "mutation_category": "MOUSE" }
   },
   {
     "id": "mutagen",
