@@ -10291,7 +10291,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
 {
     std::map<gun_mode_id, gun_mode> res;
 
-    if( !is_gun() || is_gunmod() ) {
+    if( !is_gun() && !is_gunmod() ) {
         return res;
     }
 
