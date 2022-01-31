@@ -429,7 +429,7 @@ Comfort: Cozy
    Pain: No Pain
 ```
 
-By default, labels are assumed to be left-aligned while text/values are assumed to be right-aligned.
+Values may be "left", "right", or "center". The default is "left" alignment for both labels and text.
 
 
 ## `colors`

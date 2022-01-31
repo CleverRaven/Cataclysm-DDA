@@ -351,7 +351,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
-    optional( jo, was_loaded, "text_align", _text_align, widget_alignment::RIGHT );
+    optional( jo, was_loaded, "text_align", _text_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "flags", _flags );
 
