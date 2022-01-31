@@ -3531,7 +3531,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 temp = sbp->opposite;
             } else {
                 // if it doesn't have an opposite print it alone and continue
-                coverage += string_format( _( "The <info> %s </info>" ), sbp->name );
+                coverage += string_format( _( " The <info>%s</info>" ), sbp->name );
                 coverage += string_format( " (%d).",
                                            this->get_coverage( sbp ) );
                 continue;
