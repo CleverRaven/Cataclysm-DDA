@@ -102,9 +102,6 @@ std::pair<std::string, nc_color> move_mode_letter_color( const Character &u );
 std::pair<std::string, nc_color> move_mode_text_color( const Character &u );
 // Movement counter and mode letter, like "50(R)" or "100(W)"
 std::pair<std::string, nc_color> move_count_and_mode_text_color( const avatar &u );
-std::string colorized_bodypart_status_legend_text( const Character &u,
-        const std::set<bodypart_id> &bplist, const std::string &wgt_id, int width, int max_height,
-        int &height );
 // Item type name (including damage bars) of outermost armor on given body part
 std::string colorized_bodypart_outer_armor( const Character &u, const bodypart_id &bp );
 

@@ -1744,6 +1744,13 @@ TEST_CASE( "Widget alignment", "[widget]" )
     SECTION( "Multiline text" ) {
         widget bp_legend = widget_test_status_legend_text.obj();
 
+        const std::string line1 =
+            "<color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_magenta>%</color> broken";
+        const std::string line2 =
+            "<color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged  ";
+        const std::string line3 =
+            "<color_c_light_green>$</color> disinfected  <color_c_light_red>b</color> bleeding";
+
         ava.add_effect( effect_infected, 1_minutes, torso );
         ava.add_effect( effect_bleed, 1_minutes, torso );
         ava.get_effect( effect_bleed, torso ).set_intensity( 5 );
@@ -1755,72 +1762,72 @@ TEST_CASE( "Widget alignment", "[widget]" )
         bp_legend._text_align = widget_alignment::RIGHT;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "    <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "    <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "                       <color_c_light_green>$</color> disinfected" );
+               "      " + line1 + "\n" +
+               "            " + line2 + "\n" +
+               "           " + line3 );
 
         bp_legend._label_align = widget_alignment::RIGHT;
         bp_legend._text_align = widget_alignment::RIGHT;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "    <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "    <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "                       <color_c_light_green>$</color> disinfected" );
+               "      " + line1 + "\n" +
+               "            " + line2 + "\n" +
+               "           " + line3 );
 
         bp_legend._label_align = widget_alignment::CENTER;
         bp_legend._text_align = widget_alignment::RIGHT;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "    <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "    <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "                       <color_c_light_green>$</color> disinfected" );
+               "      " + line1 + "\n" +
+               "            " + line2 + "\n" +
+               "           " + line3 );
 
         bp_legend._label_align = widget_alignment::LEFT;
         bp_legend._text_align = widget_alignment::LEFT;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "<color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "<color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "<color_c_light_green>$</color> disinfected                       " );
+               line1 + "\n" +
+               line2 + "\n" +
+               line3 + "           " );
 
         bp_legend._label_align = widget_alignment::RIGHT;
         bp_legend._text_align = widget_alignment::LEFT;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "<color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "<color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "<color_c_light_green>$</color> disinfected                       " );
+               line1 + "\n" +
+               line2 + "\n" +
+               line3 + "           " );
 
         bp_legend._label_align = widget_alignment::CENTER;
         bp_legend._text_align = widget_alignment::LEFT;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "<color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "<color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "<color_c_light_green>$</color> disinfected                       " );
+               line1 + "\n" +
+               line2 + "\n" +
+               line3 + "           " );
 
         bp_legend._label_align = widget_alignment::LEFT;
         bp_legend._text_align = widget_alignment::CENTER;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "  <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "  <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "            <color_c_light_green>$</color> disinfected           " );
+               "   " + line1 + "\n" +
+               "      " + line2 + "\n" +
+               "      " + line3 + "     " );
 
         bp_legend._label_align = widget_alignment::RIGHT;
         bp_legend._text_align = widget_alignment::CENTER;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "  <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "  <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "            <color_c_light_green>$</color> disinfected           " );
+               "   " + line1 + "\n" +
+               "      " + line2 + "\n" +
+               "      " + line3 + "     " );
 
         bp_legend._label_align = widget_alignment::CENTER;
         bp_legend._text_align = widget_alignment::CENTER;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "  <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "  <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "            <color_c_light_green>$</color> disinfected           " );
+               "   " + line1 + "\n" +
+               "      " + line2 + "\n" +
+               "      " + line3 + "     " );
     }
 }
