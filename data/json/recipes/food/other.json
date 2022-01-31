@@ -77,7 +77,7 @@
     "book_learn": [ [ "cookbook_sushi", 6 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 80, "LIST" ] ], [ [ "mortar_pestle", -1 ], [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "soybean", 1 ] ], [ [ "flour", 10 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ]
+    "components": [ [ [ "soybean", 1 ] ], [ [ "flour", 10 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "type": "recipe",
