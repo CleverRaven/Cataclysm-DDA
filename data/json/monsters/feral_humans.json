@@ -167,7 +167,7 @@
     "id": "mon_feral_human_tool",
     "type": "MONSTER",
     "name": "feral mechanic",
-    "description": "This wild human-like creature was probably mechanic before the cataclysm.  You can see it by his worker uniform, or by his blood-covered hammer in hand, or by his all-hating view.",
+    "description": "This wild human-like creature was probably a mechanic before the cataclysm.  You can see it by his worker uniform, or by his blood-covered hammer in hand, or by his all-hating view.",
     "copy-from": "mon_feral_human_pipe",
     "melee_dice": 2,
     "melee_dice_sides": 8,
