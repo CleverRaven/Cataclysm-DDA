@@ -13,8 +13,10 @@
   - [height](#height)
   - [alignment](#text_align--label_align)
   - [colors](#colors)
-  - [phrases](#phrases)
   - [flags](#flags)
+- [Phrases and conditions](#phrases-and-conditions)
+  - [Conditions](#conditions)
+  - [Default phrase](#default-phrase)
 - [Variable ranges](#variable-ranges)
 - [Variables](#variables)
   - [Numeric variables](#numeric-variables)
@@ -74,6 +76,8 @@ Each widget has a "style" field that may be:
 - `text`: Show text from a `*_text` variable
 - `layout`: Layout container for arranging other widgets in rows or columns
 - `sidebar`: Special top-level widget for defining custom sidebars
+
+"style" can also be `symbol` or `legend`, which are specific to [phrases](#phrases-and-conditions).
 
 Let's start at the top, with the "sidebar" widget, composed of several "layout" widgets.
 
@@ -185,6 +189,14 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
 {
   "var": "bp_hp",
   "bodypart": "arm_r"
+}
+```
+
+Some widgets can take advantage of multiple "bodyparts" like so:
+
+```json
+{
+  "bodyparts": [ "head", "torso", "arm_l", "arm_r" ]
 }
 ```
 
@@ -475,41 +487,6 @@ mapped as closely as possible to the spectrum of colors, with one exception - va
 "normal" value or range always use white (`c_white`) when the value is within normal.
 
 
-## `phrases`
-
-Some widgets can take advantage of "phrases" - definitions for what text/values to display and
-how to display them. These take the form of a nested object containing several optional fields:
-
-```json
-{
-  "id": "bp_status_indicator_template",
-  "type": "widget",
-  "style": "phrase",
-  "phrases": [
-    { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow" },
-    { "id": "infected", "text": "infected", "sym": "I", "color": "pink" },
-    { "id": "broken", "text": "broken", "sym": "%", "color": "magenta" },
-    { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray" },
-    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white" },
-    { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green" },
-    { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red" },
-    { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red" },
-    { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red" }
-  ]
-}
-```
-
-| JSON Field | Description
-|---         |---
-| `id`       | Which "phrase" this definition should apply to.
-| `text`     | Translated text that may be interpreted and displayed in the widget.
-| `sym`      | A shortened symbol representing the text.
-| `color`    | Defines the color for the text derived from this "phrase".
-| `value`    | A numeric value for this "phrase", which may be interpreted differently based on the context of the parent widget.
-
-In the above example, the widget is simply used as a template for other widgets to `copy-from`,
-which provides text and color definitions for different bodypart status conditions.
-
 ## `flags`
 
 Widgets can use flags to specify special behaviors:
@@ -532,6 +509,101 @@ Here are some flags that can be included:
 | `W_LABEL_NONE`     | Prevents the widget's label from being displayed in the sidebar
 | `W_DISABLED`       | Makes this widget disabled by default (only applies to top-level widgets/layouts)
 | `W_DYNAMIC_HEIGHT` | Allows certain multi-line widgets to dynamically adjust their height
+
+
+# Phrases and conditions
+
+Widgets can take advantage of "phrases" - definitions for what text/values to display and
+how to display them. These take the form of a nested object containing several optional fields:
+
+```json
+{
+  "id": "bp_status_indicator_template",
+  "type": "widget",
+  "style": "text",
+  "phrases": [
+    { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": { ... } },
+    { "id": "infected", "text": "infected", "sym": "I", "color": "pink", "condition": { ... } },
+    { "id": "broken", "text": "broken", "sym": "%", "color": "magenta", "condition": { ... } },
+    { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray", "condition": { ... } },
+    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white", "condition": { ... } },
+    { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green", "condition": { ... } },
+    { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red", "condition": { ... } },
+    { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red", "condition": { ... } },
+    { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red", "condition": { ... } }
+  ]
+}
+```
+
+In the above example, the widget is simply used as a template for other widgets to `copy-from`,
+which provides text and color definitions for different bodypart status conditions.
+
+| JSON Field  | Description
+|---          |---
+| `id`        | An optional identifier for this phrase
+| `text`      | Translated text that may be interpreted and displayed in the widget.
+| `sym`       | A shortened symbol representing the text.
+| `color`     | Defines the color for the text derived from this "phrase".
+| `value`     | A numeric value for this "phrase", which may be interpreted differently based on the context of the parent widget.
+| `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this phrase will be used or not. If the condition is true (or when no condition is defined), the phrase can be used to its text/symbol/color in the widget's value.
+
+
+## Conditions
+
+Widget phrases and conditions can be used to define new widgets completely from JSON, using
+[dialogue conditions](NPCs.md#dialogue-conditions). By omitting the widget's `var` field, the
+widget is interpreted as either a "text", "number", "symbol", or "legend" depending on the given
+`style`. The widget will evaluate each of its phrases to determine which ones to draw values from:
+
+| Widget style | Phrase field used    | Details | Example
+|---           |---                   |---      |---
+| `"number"`   | `"value"`            | Lists values as comma-separated-values from all phrases that have true conditions. | `Next threshold: 30, 40, 55`
+| `"text"`     | `"text"`             | Lists text as comma-separated-values from all phrases that have true conditions. | `TORSO: bleeding, broken, infected`
+| `"symbol"`   | `"sym"`              | Lists syms sequentially from all phrases that have true conditions. | `TORSO: b%I`
+| `"legend"`   | `"sym"` and `"text"` | Lists syms and text in a paragraph format, with spaces between pairs, from all phrases that have true conditions. | `b bleeding  % broken  I infected`
+
+Widgets using the `legend` style can be multiple lines high using a `height` > 1 (and optionally, the `W_DYNAMIC_HEIGHT` flag), so that the generated list can span the given vertical space.
+
+Some conditions can be specific to certain bodyparts. In order to simplify phrases, these conditions can pull from the parent widget's `bodypart` field (or `bodyparts` field if defining multiple). This allows the same phrases to be `copy-from`'d to multiple widgets, and each widget can display the phrases depending on whether its bodypart(s) passes the condition (assuming the condition relies on a bodypart).
+
+
+## Default phrase
+
+Widgets can define a default phrase that will be used if none of the phrases in the `phrases`
+array pass their conditions:
+
+```json
+{
+  "id": "observ_widget",
+  "type": "widget",
+  "style": "text",
+  "label": "Observation",
+  "phrases": [
+    {
+      "text": "Good!",
+      "color": "light_green",
+      "condition": { "u_has_trait": "EAGLEEYED" }
+    },
+    {
+      "text": "Bad!",
+      "color": "light_red",
+      "condition": { "u_has_trait": "UNOBSERVANT" }
+    }
+  ],
+  "default_phrase": {
+    "text": "Neutral!",
+    "color": "white"
+  }
+}
+```
+
+In the example above, the widget would print out the following text:
+
+| Player has trait | Widget text
+|---               |---
+| Scout            | `Observation: Good!`
+| Topographagnosia | `Observation: Bad!`
+| -                | `Observation: Neutral!`
 
 
 # Variable ranges
