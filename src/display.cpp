@@ -1089,23 +1089,6 @@ static const std::string &sym_for_bp_status( const bodypart_status &stat )
     return sym == symmap.end() ? none : sym->second;
 }
 
-std::string display::colorized_bodypart_status_sym_text( const Character &u, const bodypart_id &bp,
-        const std::string &wgt_id )
-{
-    std::string ret;
-    widget_id wid( wgt_id );
-    for( const auto &bpcol : bodypart_status_colors( u, bp, wgt_id ) ) {
-        std::string sym;
-        if( wid.is_valid() ) {
-            // Check if there's a phrase defining this status' symbol
-            sym = widget_phrase::get_sym_for_id( io::enum_to_string( bpcol.first ), wid );
-        }
-        sym = sym.empty() ? sym_for_bp_status( bpcol.first ) : sym;
-        ret += colorize( sym, bpcol.second );
-    }
-    return ret;
-}
-
 std::string display::colorized_bodypart_status_legend_text( const Character &u,
         const std::set<bodypart_id> &bplist, const std::string &wgt_id, int width, int max_height,
         int &height )

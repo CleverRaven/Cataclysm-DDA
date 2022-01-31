@@ -124,8 +124,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "body_temp_text";
         case widget_var::bp_armor_outer_text:
             return "bp_armor_outer_text";
-        case widget_var::bp_status_sym_text:
-            return "bp_status_sym_text";
         case widget_var::bp_status_legend_text:
             return "bp_status_legend_text";
         case widget_var::date_text:
@@ -839,7 +837,6 @@ bool widget::uses_text_function()
         case widget_var::activity_text:
         case widget_var::body_temp_text:
         case widget_var::bp_armor_outer_text:
-        case widget_var::bp_status_sym_text:
         case widget_var::bp_status_legend_text:
         case widget_var::compass_text:
         case widget_var::compass_legend_text:
@@ -895,7 +892,7 @@ static std::set<bodypart_id> get_bodyparts_from_status_widgets()
 {
     std::set<bodypart_id> ret;
     for( const widget &w : widget::get_all() ) {
-        if( w._var == widget_var::bp_status_sym_text ) {
+        if( !w._bps.empty() ) {
             ret.emplace( w.only_bp() );
         }
     }
@@ -927,10 +924,6 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::bp_armor_outer_text:
             desc.first = display::colorized_bodypart_outer_armor( ava, only_bp() );
             apply_color = false; // Item name already colorized by tname
-            break;
-        case widget_var::bp_status_sym_text:
-            desc.first = display::colorized_bodypart_status_sym_text( ava, only_bp(), id.str() );
-            apply_color = false; // Already colorized
             break;
         case widget_var::bp_status_legend_text:
             desc.first = display::colorized_bodypart_status_legend_text( ava,

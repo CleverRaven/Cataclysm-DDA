@@ -85,8 +85,7 @@
     "id": "bodypart_status_sym_text",
     "//": "Base widget for body part status symbols; needs bodypart field defined in derived widget.",
     "type": "widget",
-    "style": "text",
-    "var": "bp_status_sym_text",
+    "style": "symbol",
     "text_align": "left",
     "copy-from": "bodypart_status_indicator_template"
   },

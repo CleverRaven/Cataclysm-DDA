@@ -425,8 +425,7 @@
   {
     "id": "test_status_sym_torso_text",
     "type": "widget",
-    "style": "text",
-    "var": "bp_status_sym_text",
+    "style": "symbol",
     "label": "TORSO",
     "bodypart": "torso",
     "copy-from": "test_bp_status_indicator_template"
@@ -434,8 +433,7 @@
   {
     "id": "test_status_sym_left_arm_text",
     "type": "widget",
-    "style": "text",
-    "var": "bp_status_sym_text",
+    "style": "symbol",
     "label": "L ARM",
     "bodypart": "arm_l",
     "copy-from": "test_bp_status_indicator_template"
