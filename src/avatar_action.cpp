@@ -500,7 +500,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             }
             move_cost = 50;
         }
-        // TODO: Vary this? Based on strength, broken legs, and so on
+        // weak characters open gates slower
+        move_cost *= 8 / std::min( you.get_str(), 8 );
         // apply movement point cost to player
         you.mod_moves( -move_cost );
         if( veh1 != nullptr ) {
