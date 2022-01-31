@@ -490,13 +490,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         // instance of the gate that just opened
         ter_t gate = m.ter( dest_loc ).obj();
         // movement point cost of opening gates
-        int move_cost = 0;
-        if( !you.is_running() ) {
-            move_cost = you.is_crouching() ? 300 : 100;
-        } else if( !gate.has_flag( ter_furn_flag::TFLAG_WINDOW ) ) {
+        int move_cost = 100;
+        if( you.is_crouching() ) {
+            move_cost = 300;
+        } else if( you.is_running() ) {
             // dash through doors with blinding speed
-            // note that characters cannot dash through windows
-            g->walk_move( dest_loc, via_ramp );
+            if( !gate.has_flag( ter_furn_flag::TFLAG_WINDOW ) ) {
+                g->walk_move( dest_loc, via_ramp );
+            }
             move_cost = 50;
         }
         // TODO: Vary this? Based on strength, broken legs, and so on

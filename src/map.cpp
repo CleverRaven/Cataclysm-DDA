@@ -4011,11 +4011,11 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         if( !check_only ) {
             Character &player = get_player_character();
             int volume = 6;
-            // sneaking while opening gates is quiet
+            // when crouching we want to open gates quiet but it's slow
             if( player.is_crouching() ) {
                 volume *= 0.5;
-            } else if( player.is_running() && !ter.has_flag( ter_furn_flag::TFLAG_WINDOW ) ) {
-                // dashing while opening doors is loud
+            } else if( player.is_running() ) {
+                // when running we want to open gates fast but it's loud
                 volume *= 2;
             }
             sounds::sound( p, volume, sounds::sound_t::movement, _( "swish" ), true,
