@@ -250,21 +250,13 @@ static float workbench_crafting_speed_multiplier( const item &craft,
     return multiplier;
 }
 
-float Character::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
+float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
     const float result = morale_crafting_speed_multiplier( rec ) *
                          lighting_craft_speed_multiplier( rec ) *
                          get_limb_score( limb_score_manip );
-    // Can't start if we'd need 300% time, but we can still finish the job
-    if( !in_progress && result < 0.33f ) {
-        return 0.0f;
-    }
-    // If we're working below 10% speed, just give up
-    if( result < 0.1f ) {
-        return 0.0f;
-    }
 
-    return result;
+    return std::max( result, 0.0f );
 }
 
 float Character::crafting_speed_multiplier( const item &craft,
