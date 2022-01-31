@@ -50,8 +50,8 @@
         {
           "condition": {
             "and": [
-              { "compare_int": [ { "u_val": "hour" }, { "const": 1 } ], "op": ">" },
-              { "compare_int": [ { "u_val": "hour" }, { "const": 3 } ], "op": "<" }
+              { "compare_int": [ "hour", { "const": 1 } ], "op": ">" },
+              { "compare_int": [ "hour", { "const": 3 } ], "op": "<" }
             ]
           },
           "msg_on": { "text": "It's 2 am and it triggers the trigger.", "rating": "mixed" }
@@ -101,8 +101,8 @@
         {
           "condition": {
             "or": [
-              { "compare_int": [ { "u_val": "hour" }, { "const": 1 } ], "op": "<" },
-              { "compare_int": [ { "u_val": "hour" }, { "const": 2 } ], "op": ">" }
+              { "compare_int": [ "hour", { "const": 1 } ], "op": "<" },
+              { "compare_int": [ "hour", { "const": 2 } ], "op": ">" }
             ]
           },
           "msg_on": { "text": "It's no longer 2 am and it triggers the trigger.", "rating": "mixed" }

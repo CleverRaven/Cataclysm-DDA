@@ -934,8 +934,6 @@ Example | Description
 `"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
 `"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. If `global_val` is used then a global variable will be used. If `default` is given as either an int or a variable_object then that value will be used if the variable is empty. If `default_time` is the same thing will happen, but it will be parsed as a time string aka "10 hours". Otherwise 0 will be used if the variable is empty.
 `"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used is turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
-`"u_val": "hour"` | Hours since midnight.
-`"u_val": "moon"` | Phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
 `"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
 `"u_val": "cash"` | Amount of money the character has. Only supported for the player character. Can be read but not written to.
 `"u_val": "owed"` | Owed money to the NPC you're talking to.
@@ -965,7 +963,11 @@ Example | Description
 `"u_val": "anger"` | Current anger level, only works for monsters.
 `"u_val": "friendly"` | Current friendly level, only works for monsters.
 `"u_val": "vitamin"` | Current vitamin level. `name` must also be specified which is the vitamins id.
+`"u_val": "age"` | Current age in years.
+`"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
 `"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.
+`"hour"` | Hours since midnight.
+`"moon"` | Phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
 ```
 "condition": { "compare_int": [ { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] }, { "const": 5 } ], "op": ">" }
 ```

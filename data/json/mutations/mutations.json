@@ -145,8 +145,8 @@
         {
           "condition": {
             "or": [
-              { "compare_int": [ { "u_val": "hour" }, { "const": 6 } ], "op": "<" },
-              { "compare_int": [ { "u_val": "hour" }, { "const": 21 } ], "op": ">" }
+              { "compare_int": [ "hour", { "const": 6 } ], "op": "<" },
+              { "compare_int": [ "hour", { "const": 21 } ], "op": ">" }
             ]
           },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
@@ -169,8 +169,8 @@
         {
           "condition": {
             "and": [
-              { "compare_int": [ { "u_val": "hour" }, { "const": 6 } ], "op": ">" },
-              { "compare_int": [ { "u_val": "hour" }, { "const": 21 } ], "op": "<" }
+              { "compare_int": [ "hour", { "const": 6 } ], "op": ">" },
+              { "compare_int": [ "hour", { "const": 21 } ], "op": "<" }
             ]
           },
           "msg_on": { "text": "As the morning comes, you return back to normal.", "rating": "good" }

@@ -2210,8 +2210,8 @@ The `id` must be exact as it is hardcoded to look for that.
     {
       "condition": { //dialog condition(see NPCs.md)
         "or": [
-          { "compare_int": [ { "u_val": "hour" }, { "const": 2 } ], "op": "<" },
-          { "compare_int": [ { "u_val": "hour" }, { "const": 20 } ], "op": ">" }
+          { "compare_int": [ { "hour", { "const": 2 } ], "op": "<" },
+          { "compare_int": [ { "hour", { "const": 20 } ], "op": ">" }
         ]
       },
       "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
