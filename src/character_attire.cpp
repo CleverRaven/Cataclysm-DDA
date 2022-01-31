@@ -821,8 +821,8 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
                  penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
                 vals[bp].layer( penalty_layer, layering_encumbrance, conflicts );
             }
-            vals[bp].armor_encumbrance += encumber_val;
         }
+        vals[bp].armor_encumbrance += encumber_val;
     }
 }
 
