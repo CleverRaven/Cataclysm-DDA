@@ -1709,7 +1709,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
     } );
 
     for( item *it : picklocks ) {
-        if( !query_yn( _( "Pick lock the lock of %1$s using your %2$s?" ),
+        if( !query_yn( _( "Pick the lock of %1$s using your %2$s?" ),
                        here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() ) ) {
             return;
         }

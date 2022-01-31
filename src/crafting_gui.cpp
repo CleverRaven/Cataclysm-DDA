@@ -1694,8 +1694,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     if( player_character.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
     } else if( player_character.crafting_speed_multiplier( rec ) <= 0.0f ) {
-        // Technically not always only too sad, but must be too sad
-        right_print( w, 0, 1, i_red, _( "too sad to craft" ) );
+        right_print( w, 0, 1, i_red, _( "unable to craft" ) );
     } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
         right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
                      static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );

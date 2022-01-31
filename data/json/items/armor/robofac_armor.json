@@ -216,7 +216,7 @@
     "material_thickness": 6,
     "environmental_protection": 5,
     "warmth": 20,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_TAIL" ],
     "armor": [
       {
         "encumbrance": 3,
