@@ -1072,26 +1072,6 @@ static std::map<bodypart_status, nc_color> bodypart_status_colors( const Charact
     return ret;
 }
 
-std::string display::colorized_bodypart_status_text( const Character &u, const bodypart_id &bp,
-        const std::string &wgt_id )
-{
-    // Colorized strings for each status
-    std::vector<std::string> color_strings;
-    widget_id wid( wgt_id );
-    // Get all status strings and colorize them
-    for( const auto &sc : bodypart_status_colors( u, bp, wgt_id ) ) {
-        std::string txt = io::enum_to_string( sc.first );
-        if( wid.is_valid() ) {
-            // Check if there's a phrase defining this status' text
-            translation t = widget_phrase::get_text_for_id( txt, wid );
-            txt = t.empty() ? txt : t.translated();
-        }
-        color_strings.emplace_back( colorize( txt, sc.second ) );
-    }
-    // Join with commas, or return "--" if no statuses
-    return color_strings.empty() ? "--" : join( color_strings, ", " );
-}
-
 static const std::string &sym_for_bp_status( const bodypart_status &stat )
 {
     static const std::string none = ".";
@@ -1150,7 +1130,36 @@ std::string display::colorized_bodypart_status_legend_text( const Character &u,
             }
         }
     }
-    return format_widget_multiline( keys, max_height, width, height );
+    // Split legend keys into X lines, where X = height.
+    // Lines use the provided width.
+    // This effectively limits the text to a 'width'x'height' box.
+    std::string ret;
+    height = 0;
+    const int h_max = max_height == 0 ? INT_MAX : max_height;
+    const int nsize = keys.size();
+    for( int row = 0, nidx = 0; row < h_max && nidx < nsize; row++ ) {
+        int wavail = width;
+        int nwidth = utf8_width( keys[nidx], true );
+        bool startofline = true;
+        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
+            startofline = false;
+            wavail -= nwidth;
+            ret += keys[nidx];
+            nidx++;
+            if( nidx < nsize ) {
+                nwidth = utf8_width( keys[nidx], true );
+                if( wavail > nwidth ) {
+                    ret += "  ";
+                    wavail -= 2;
+                }
+            }
+        }
+        if( row < h_max - 1 ) {
+            ret += "\n";
+        }
+        height++;
+    }
+    return ret;
 }
 
 std::string display::colorized_bodypart_outer_armor( const Character &u, const bodypart_id &bp )

@@ -46,7 +46,6 @@ enum class widget_var : int {
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
     bp_armor_outer_text, // Outermost armor on body part, with color/damage bars
-    bp_status_text, // Status of bodypart (bleeding, bitten, and/or infected)
     bp_status_sym_text, // Status of bodypart (same as above, but shortened to 1 char per status)
     bp_status_legend_text, // Legend describing the status indicators from bp_status_sym_text
     compass_text,   // Compass / visible threats by cardinal direction
