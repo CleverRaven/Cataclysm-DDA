@@ -250,7 +250,7 @@
     "description": "A super-concentrated mutagen with the consistency of snot.  You need a syringe to inject it… if you really want to?",
     "color": "light_gray",
     "use_action": { "type": "mutagen_iv", "mutation_category": "GASTROPOD" },
-    "vitamins": [ [ "mutagen_gastropod", 500 ] ]
+    "vitamins": [ [ "mutagen_snail", 500 ] ]
   },
   {
     "id": "iv_mutagen_batrachian",
