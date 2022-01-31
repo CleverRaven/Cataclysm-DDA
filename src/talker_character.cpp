@@ -71,6 +71,11 @@ void talker_character::set_pos( tripoint new_pos )
     me_chr->setpos( new_pos );
 }
 
+int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
+{
+    return me_chr_const->get_hp( bp );
+}
+
 int talker_character_const::str_cur() const
 {
     return me_chr_const->str_cur;
@@ -405,14 +410,19 @@ void talker_character::mod_pain( int amount )
     me_chr->mod_pain( amount );
 }
 
-bool talker_character_const::worn_with_flag( const flag_id &flag ) const
+bool talker_character_const::worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
 {
-    return me_chr_const->worn_with_flag( flag );
+    return me_chr_const->worn_with_flag( flag, bp );
 }
 
 bool talker_character_const::wielded_with_flag( const flag_id &flag ) const
 {
     return me_chr_const->get_wielded_item().has_flag( flag );
+}
+
+bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
+{
+    return me_chr_const->has_item_with_flag( flag );
 }
 
 units::energy talker_character_const::power_cur() const

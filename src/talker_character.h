@@ -42,6 +42,7 @@ class talker_character_const: public talker
         int posz() const override;
         tripoint pos() const override;
         tripoint_abs_omt global_omt_location() const override;
+        int get_cur_hp( const bodypart_id &bp ) const override;
 
         // stats, skills, traits, bionics, and magic
         int str_cur() const override;
@@ -101,8 +102,9 @@ class talker_character_const: public talker
         bool is_in_control_of( const vehicle &veh ) const override;
 
 
-        bool worn_with_flag( const flag_id &flag ) const override;
+        bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
+        bool has_item_with_flag( const flag_id &flag ) const override;
 
         bool can_see() const override;
         int morale_cur() const override;
