@@ -196,7 +196,7 @@
     "container": "bottle_glass",
     "symbol": "~",
     "quench": -20,
-    "healthy": -1,
+    "healthy": -4,
     "fun": -15,
     "calories": 17,
     "price_postapoc": 10,
