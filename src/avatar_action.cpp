@@ -27,6 +27,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "gates.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -447,11 +448,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // open it if we are walking
     // vault over it if we are running
     std::string door_name = m.obstacle_name( dest_loc );
-    if( m.passable_ter_furn( dest_loc )
-        && you.is_walking()
-        && !veh_closed_door
-        && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
-        you.moves -= 100;
+    if( m.passable_ter_furn( dest_loc ) && you.is_walking()
+        && !veh_closed_door && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
+        // apply movement point cost to player
+        you.mod_moves( -doors::get_action_move_cost( you, dest_loc, true ) );
         you.add_msg_if_player( _( "You open the %s." ), door_name );
         // if auto-move is on, continue moving next turn
         if( you.is_auto_moving() ) {
@@ -478,7 +478,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             //~ %1$s - vehicle name, %2$s - part name
             you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
         }
-        you.moves -= 100;
+        // apply movement point cost to player
+        you.mod_moves( -doors::get_action_move_cost( you, dest_loc, false ) );
         // if auto-move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
@@ -487,23 +488,16 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
-        // instance of the gate that just opened
-        ter_t gate = m.ter( dest_loc ).obj();
-        // movement point cost of opening gates
-        int move_cost = 100;
-        if( you.is_crouching() ) {
-            move_cost = 300;
-        } else if( you.is_running() ) {
+        // instance of the door or window that just opened
+        ter_t door = m.ter( dest_loc ).obj();
+        if( you.is_running() ) {
             // dash through doors with blinding speed
-            if( !gate.has_flag( ter_furn_flag::TFLAG_WINDOW ) ) {
+            if( !door.has_flag( ter_furn_flag::TFLAG_WINDOW ) ) {
                 g->walk_move( dest_loc, via_ramp );
             }
-            move_cost = 50;
         }
-        // weak characters open gates slower
-        move_cost *= 8 / std::min( you.get_str(), 8 );
         // apply movement point cost to player
-        you.mod_moves( -move_cost );
+        you.mod_moves( -doors::get_action_move_cost( you, dest_loc, true ) );
         if( veh1 != nullptr ) {
             //~ %1$s - vehicle name, %2$s - part name
             you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
@@ -523,7 +517,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         add_msg( _( "You bump into the %s!" ), m.obstacle_name( dest_loc ) );
         // Only lose movement if we're blind
         if( waste_moves ) {
-            you.moves -= 100;
+            // apply movement point cost to player
+            you.mod_moves( -doors::get_action_move_cost( you, dest_loc, true ) );
         }
     } else if( m.ter( dest_loc ) == t_door_locked || m.ter( dest_loc ) == t_door_locked_peep ||
                m.ter( dest_loc ) == t_door_locked_alarm || m.ter( dest_loc ) == t_door_locked_interior ) {

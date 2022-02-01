@@ -348,7 +348,23 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
     }
 
     if( didit ) {
-        // TODO: Vary this? Based on strength, broken legs, and so on.
-        who.mod_moves( who.as_character()->is_crouching() ? -270 : -90 );
+        who.mod_moves( -doors::get_action_move_cost( *who.as_character(), closep, false ) );
     }
+}
+
+unsigned doors::get_action_move_cost( const Character &who, const tripoint where, const bool open )
+{
+    // get door at given location
+    ter_t what = get_map().ter( where ).obj();
+
+    // movement point cost of opening gates
+    int move_cost = open ? what.open_cost : what.close_cost;
+    if( who.is_crouching() ) {
+        move_cost *= 3;
+    } else if( who.is_running() ) {
+        move_cost /= 2;
+    }
+    // weak characters open gates slower
+    move_cost = std::max( move_cost * 8 / std::min( who.get_str(), 8 ), 100 );
+    return move_cost;
 }
