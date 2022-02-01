@@ -54,7 +54,7 @@
     "subtype": "collection",
     "items": [
       { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-      { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+      { "item": "robofac40", "ammo-item": "556", "charges": 40 },
       { "item": "grenade_emp" },
       { "item": "bot_grenade_hack", "count": 2 }
     ]
@@ -65,11 +65,10 @@
     "subtype": "collection",
     "items": [
       {
-        "item": "m16_auto_rifle",
-        "variant": "acr",
+        "item": "robofac_gun",
         "ammo-item": "556",
-        "charges": 30,
-        "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
+        "charges": 40,
+        "contents-item": [ "shoulder_strap", "robofac_gun_ar" ]
       }
     ]
   },
@@ -189,6 +188,11 @@
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "What do you know about our employers?", "topic": "TALK_ROBOFAC_MERC_1_ASK_HUB" },
+      {
+        "text": "[Notice high end gun]",
+        "condition": { "or": [{ "u_has_perception": 10 }, { "u_has_skill": { "skill": "mechanics", "level": 4 } }, { "u_has_skill": { "skill": "gun", "level": 2 } } ]},
+        "topic": "TALK_ROBOFAC_MERC_1_RANDOM_THOUGHTS"
+      },
       { "text": "Well, I should get going.", "topic": "TALK_DONE" }
     ]
   },
