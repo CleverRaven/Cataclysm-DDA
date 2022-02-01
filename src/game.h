@@ -834,7 +834,8 @@ class game
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
-        void place_player_overmap( const tripoint_abs_omt &om_dest );
+        // If in debug mode skips processing placing the character at the new OM
+        void place_player_overmap( const tripoint_abs_omt &om_dest, bool debug = false );
 
         unsigned int get_seed() const;
 
