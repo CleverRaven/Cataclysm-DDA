@@ -467,6 +467,65 @@
     "height": 3
   },
   {
+    "id": "test_phrase_number",
+    "type": "widget",
+    "style": "number",
+    "label": "Num Values",
+    "default_phrase": { "value": 1, "color": "dark_gray" },
+    "phrases": [
+      { "value": -20, "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "value": -10, "color": "i_yellow", "condition": "u_is_deaf" },
+      { "value": 0, "color": "yellow", "condition": "is_day" },
+      { "value": 10, "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "value": 20, "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ]
+  },
+  {
+    "id": "test_phrase_text",
+    "type": "widget",
+    "style": "text",
+    "label": "Text Values",
+    "default_phrase": { "text": "None", "color": "dark_gray" },
+    "phrases": [
+      { "text": "blind", "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "text": "deaf", "color": "i_yellow", "condition": "u_is_deaf" },
+      { "text": "daylight", "color": "yellow", "condition": "is_day" },
+      { "text": "good hearing", "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "text": "good vision", "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ]
+  },
+  {
+    "id": "test_phrase_sym",
+    "type": "widget",
+    "style": "symbol",
+    "label": "Symbol Values",
+    "default_phrase": { "sym": ".", "color": "dark_gray" },
+    "phrases": [
+      { "sym": "<", "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "sym": "-", "color": "i_yellow", "condition": "u_is_deaf" },
+      { "sym": "=", "color": "yellow", "condition": "is_day" },
+      { "sym": "+", "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "sym": ">", "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ]
+  },
+  {
+    "id": "test_phrase_legend",
+    "type": "widget",
+    "style": "legend",
+    "label": "Legend Values",
+    "height": 5,
+    "width": 0,
+    "default_phrase": { "text": "None", "sym": ".", "color": "dark_gray" },
+    "phrases": [
+      { "text": "blind", "sym": "<", "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "text": "deaf", "sym": "-", "color": "i_yellow", "condition": "u_is_deaf" },
+      { "text": "daylight", "sym": "=", "color": "yellow", "condition": "is_day" },
+      { "text": "good hearing", "sym": "+", "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "text": "good vision", "sym": ">", "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ],
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
+  },
+  {
     "id": "test_stat_panel",
     "type": "widget",
     "style": "layout",

@@ -40,12 +40,17 @@ static const efftype_id effect_infected( "infected" );
 
 static const flag_id json_flag_SPLINT( "SPLINT" );
 
+static const itype_id itype_blindfold( "blindfold" );
+static const itype_id itype_ear_plugs( "ear_plugs" );
 static const itype_id itype_rad_badge( "rad_badge" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
+
+static const trait_id trait_GOODHEARING( "GOODHEARING" );
+static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 
 static const weather_type_id weather_acid_rain( "acid_rain" );
 static const weather_type_id weather_cloudy( "cloudy" );
@@ -85,6 +90,10 @@ static const widget_id widget_test_move_mode_text( "test_move_mode_text" );
 static const widget_id widget_test_move_num( "test_move_num" );
 static const widget_id widget_test_overmap_3x3_text( "test_overmap_3x3_text" );
 static const widget_id widget_test_per_color_num( "test_per_color_num" );
+static const widget_id widget_test_phrase_legend( "test_phrase_legend" );
+static const widget_id widget_test_phrase_number( "test_phrase_number" );
+static const widget_id widget_test_phrase_sym( "test_phrase_sym" );
+static const widget_id widget_test_phrase_text( "test_phrase_text" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
 static const widget_id widget_test_rad_badge_text( "test_rad_badge_text" );
 static const widget_id widget_test_speed_num( "test_speed_num" );
@@ -1829,5 +1838,83 @@ TEST_CASE( "Widget alignment", "[widget]" )
                "   " + line1 + "\n" +
                "      " + line2 + "\n" +
                "      " + line3 + "     " );
+    }
+}
+
+TEST_CASE( "Phrase conditions - pure JSON widgets", "[widget][phrase][condition]" )
+{
+    const int sidebar_width = 20;
+
+    const time_point midnight = calendar::turn_zero + 0_hours;
+    const time_point midday = calendar::turn_zero + 12_hours;
+
+    const item blindfold( itype_blindfold );
+    const item earplugs( itype_ear_plugs );
+
+    widget w_num = widget_test_phrase_number.obj();
+    widget w_txt = widget_test_phrase_text.obj();
+    widget w_sym = widget_test_phrase_sym.obj();
+    widget w_lgd = widget_test_phrase_legend.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+    set_time( midnight );
+
+    REQUIRE( !ava.has_trait( trait_GOODHEARING ) );
+    REQUIRE( !ava.has_trait( trait_NIGHTVISION ) );
+    REQUIRE( !is_day( calendar::turn ) );
+    REQUIRE( !ava.is_deaf() );
+    REQUIRE( !ava.is_blind() );
+
+    SECTION( "Default values" ) {
+        CHECK( w_num.layout( ava ) == "Num Values: <color_c_dark_gray>1</color>" );
+        CHECK( w_txt.layout( ava ) == "Text Values: <color_c_dark_gray>None</color>" );
+        CHECK( w_sym.layout( ava ) == "Symbol Values: <color_c_dark_gray>.</color>" );
+        CHECK( w_lgd.layout( ava, sidebar_width ) == "<color_c_dark_gray>. None</color>              " );
+    }
+
+    SECTION( "GOODHEARING" ) {
+        ava.toggle_trait( trait_GOODHEARING );
+        CHECK( w_num.layout( ava ) == "Num Values: <color_c_white_green>10</color>" );
+        CHECK( w_txt.layout( ava ) == "Text Values: <color_c_white_green>good hearing</color>" );
+        CHECK( w_sym.layout( ava ) == "Symbol Values: <color_c_white_green>+</color>" );
+        CHECK( w_lgd.layout( ava, sidebar_width ) == "<color_c_white_green>+</color> good hearing\n" );
+    }
+
+    SECTION( "Daylight" ) {
+        set_time( midday );
+        CHECK( w_num.layout( ava ) == "Num Values: <color_c_yellow>0</color>" );
+        CHECK( w_txt.layout( ava ) == "Text Values: <color_c_yellow>daylight</color>" );
+        CHECK( w_sym.layout( ava ) == "Symbol Values: <color_c_yellow>=</color>" );
+        CHECK( w_lgd.layout( ava, sidebar_width ) == "<color_c_yellow>=</color> daylight\n" );
+    }
+
+    SECTION( "Daylight / Blind" ) {
+        set_time( midday );
+        ava.wear_item( blindfold, false );
+        CHECK( w_num.layout( ava ) ==
+               "Num Values: <color_c_red_red>-20</color>, <color_c_yellow>0</color>" );
+        CHECK( w_txt.layout( ava ) ==
+               "Text Values: <color_c_red_red>blind</color>, <color_c_yellow>daylight</color>" );
+        CHECK( w_sym.layout( ava ) ==
+               "Symbol Values: <color_c_red_red><</color><color_c_yellow>=</color>" );
+        CHECK( w_lgd.layout( ava, sidebar_width ) ==
+               "<color_c_red_red><</color> blind  <color_c_yellow>=</color> daylight\n" );
+    }
+
+    SECTION( "Daylight / Blind / Deaf / GOODHEARING / NIGHTVISION" ) {
+        set_time( midday );
+        ava.wear_item( blindfold, false );
+        ava.wear_item( earplugs, false );
+        ava.toggle_trait( trait_GOODHEARING );
+        ava.toggle_trait( trait_NIGHTVISION );
+        CHECK( w_num.layout( ava ) ==
+               "Num Values: <color_c_red_red>-20</color>, <color_i_yellow>-10</color>, <color_c_yellow>0</color>, <color_c_white_green>10</color>, <color_c_light_green>20</color>" );
+        CHECK( w_txt.layout( ava ) ==
+               "Text Values: <color_c_red_red>blind</color>, <color_i_yellow>deaf</color>, <color_c_yellow>daylight</color>, <color_c_white_green>good hearing</color>, <color_c_light_green>good vision</color>" );
+        CHECK( w_sym.layout( ava ) ==
+               "Symbol Values: <color_c_red_red><</color><color_i_yellow>-</color><color_c_yellow>=</color><color_c_white_green>+</color><color_c_light_green>></color>" );
+        CHECK( w_lgd.layout( ava, sidebar_width ) ==
+               "<color_c_red_red><</color> blind  <color_i_yellow>-</color> deaf\n<color_c_yellow>=</color> daylight\n<color_c_white_green>+</color> good hearing\n<color_c_light_green>></color> good vision\n" );
     }
 }
