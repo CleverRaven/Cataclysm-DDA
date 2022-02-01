@@ -489,8 +489,13 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
     for( const auto &m : get_mutations() ) {
         const auto &mut = m.obj();
         auto iter = mut.vitamin_rates.find( vit );
-        if( iter != mut.vitamin_rates.end() ) {
-            res += iter->second;
+        if( iter != mut.vitamin_rates.end() && iter->second != 0_turns ) {
+            if( res != 0_turns ) {
+                const float recip_vit = 1 / to_turns<float>( res ) + 1 / to_turns<float>( iter->second );
+                res = recip_vit == 0 ? 0_turns : time_duration::from_turns( 1 / recip_vit );
+            } else {
+                res = iter->second;
+            }
         }
     }
 
