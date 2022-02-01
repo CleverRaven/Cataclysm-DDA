@@ -909,7 +909,7 @@
         [ "lc_steel_chunk", 4 ]
       ]
     ]
-  }
+  },
   {
     "type": "recipe",
     "result": "stick",
