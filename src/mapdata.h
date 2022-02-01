@@ -497,6 +497,11 @@ struct map_data_common_t {
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
 
+        // opening cost of door (in moves)
+        int open_cost = 100;
+        // closing cost of door (in moves)
+        int close_cost = 100;
+
         translation description;
 
         // The color the sym will draw in on the GUI.
