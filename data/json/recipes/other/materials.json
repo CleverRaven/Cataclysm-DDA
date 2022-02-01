@@ -925,6 +925,5 @@
     "components": [ "2x4", 1 ],
     "byproducts": [ [ "splinter", 5 ] ],
     "autolearn": [ [ "fabrication", 0 ] ]
-    ]
   }
 ]
