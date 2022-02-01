@@ -25,6 +25,13 @@
         "move_cost": 1500
       }
     ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
+      }
+    ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "USE_UPS" ]
   }
 ]

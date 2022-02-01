@@ -1,6 +1,6 @@
 [
   {
-    "id": "exo_mounted_drill", 
+    "id": "exo_mounted_drill",
     "type": "TOOL_ARMOR",
     "name": { "str": "exosuit mounted drill" },
     "category": "tool",
@@ -39,22 +39,5 @@
     "power_draw": 2000,
     "revert_to": "exo_mounted_drill",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "You turn off the drill.", "target": "exo_mounted_drill" }
-  },
-  {
-    "id": "exo_hydraulic_gauntlet",
-    "copy-from": "afs_hydraulic_gauntlet",
-    "type": "ARMOR",
-    "name": { "str": "exosuit hydraulic gauntlet" },
-    "description": "A huge, heavy metal gauntlet lined with tubing and gauges worn in place of standard exosuit gauntlets.  Slow and unwieldy, it uses internal pressure to deliver devastating blows, but takes tremendous strength to use effectively.",
-    "looks_like": "gauntlets_chitin",
-    "color": "light_gray",
-    "bashing": 50,
-    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "good" },
-    "warmth": 20,
-    "material": "hardsteel",
-    "material_thickness": 2,
-    "flags": [ "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "UNARMED_WEAPON", "CANT_WEAR", "ABLATIVE_LARGE", "EXO_GLOVE_PLATE" ],
-    "techniques": [ "BRUTAL", "AFS_PRESSURE_CRUNCH" ],
-    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "hand_r" ] } ]
   }
 ]

@@ -259,45 +259,6 @@
     "flags": [ "LIGHT_500", "USE_UPS", "CANT_WEAR", "EXO_SMALL_GADGET" ]
   },
   {
-    "id": "exo_hearing",
-    "type": "TOOL_ARMOR",
-    "category": "exosuit",
-    "name": { "str_sp": "audio protection (off)" },
-    "description": "This is an audio protection exosuit module.  While active, it also protects your hearing from loud noises.",
-    "weight": "500 g",
-    "volume": "500 ml",
-    "material": [ "steel", "plastic" ],
-    "symbol": "o",
-    "color": "white",
-    "charges_per_use": 1,
-    "ammo": [ "battery" ],
-    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET", "ONLY_ONE" ],
-    "use_action": {
-      "type": "transform",
-      "msg": "You activate the helmet's audio protection.",
-      "target": "exo_hearing_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "There is not enough charge to activate the module."
-    }
-  },
-  {
-    "id": "exo_hearing_on",
-    "copy-from": "exo_hearing",
-    "type": "TOOL",
-    "name": { "str_sp": "audio protection (on)" },
-    "power_draw": 500,
-    "revert_to": "exo_hearing",
-    "use_action": {
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "type": "transform",
-      "msg": "You turn off the helmet's audio protection.",
-      "target": "exo_hearing"
-    },
-    "flags": [ "PARTIAL_DEAF", "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET", "ONLY_ONE" ]
-  },
-  {
     "id": "exo_recoil",
     "type": "TOOL_ARMOR",
     "category": "exosuit",
@@ -341,46 +302,5 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -50 } ] } ]
     }
-  },
-  {
-    "id": "exo_optics",
-    "type": "TOOL_ARMOR",
-    "category": "exosuit",
-    "symbol": "8",
-    "color": "light_gray",
-    "name": { "str_sp": "exosuit enhanced optics (off)" },
-    "description": "A set of enhanced optics for an exosuit.  Provides telescopic vision as well as protection from glare and bright flashes of light.  Activate to enable infrared vision.",
-    "price": 30000,
-    "price_postapoc": 500,
-    "material": [ "plastic", "glass" ],
-    "flags": [ "ZOOM", "USE_UPS", "SUN_GLASSES", "FLASH_PROTECTION", "EXO_HELMET_GADGET", "ONLY_ONE" ],
-    "weight": "500 g",
-    "volume": "500 ml",
-    "bashing": 4,
-    "to_hit": -1,
-    "use_action": {
-      "type": "transform",
-      "msg": "You activate the helmet's optical enhancement.",
-      "target": "exo_optics_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "There is not enough charge to activate the module."
-    }
-  },
-  {
-    "id": "exo_optics_on",
-    "copy-from": "exo_optics",
-    "type": "TOOL",
-    "name": { "str_sp": "exosuit enhanced optics (on)" },
-    "power_draw": 500,
-    "revert_to": "exo_optics",
-    "use_action": {
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "type": "transform",
-      "msg": "You turn off helmet's optical enhancement.",
-      "target": "exo_optics"
-    },
-    "flags": [ "ZOOM", "USE_UPS", "CANT_WEAR", "IR_EFFECT", "EXO_HELMET_GADGET", "ONLY_ONE" ]
   }
 ]
