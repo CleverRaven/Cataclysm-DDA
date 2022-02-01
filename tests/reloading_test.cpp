@@ -110,7 +110,7 @@ TEST_CASE( "reload_magazines", "[reload]" )
 
         SECTION( "with one ammo of different type" ) {
             item ammo( "223" );
-            test_reloading( mag, ammo, false );
+            test_reloading( mag, ammo );
         }
 
         SECTION( "with wrong ammo" ) {
@@ -178,6 +178,11 @@ TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
 
         SECTION( "with one ammo of different type" ) {
             item ammo( "bp_40sw" );
+            test_reloading( gun, ammo );
+        }
+
+        SECTION( "with one ammo of different ammo type" ) {
+            item ammo( "10mm_fmj" );
             test_reloading( gun, ammo, false );
         }
 

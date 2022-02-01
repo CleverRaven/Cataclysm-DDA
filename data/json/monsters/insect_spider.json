@@ -981,7 +981,7 @@
     "id": "mon_fly_mega",
     "type": "MONSTER",
     "name": { "str": "frigate fly", "str_pl": "frigate flies" },
-    "description": "An mutant housefly the size of a cow, creating a loud buzzing sound as it inexplicably stays airborne.",
+    "description": "A mutant housefly the size of a cow, creating a loud buzzing sound as it inexplicably stays airborne.",
     "copy-from": "mon_fly",
     "diff": 5,
     "proportional": { "hp": 20, "speed": 0.25, "vision_day": 2 },

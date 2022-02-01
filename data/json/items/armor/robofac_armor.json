@@ -75,7 +75,7 @@
       }
     ],
     "armor": [
-      { "encumbrance": [ 4, 6 ], "coverage": 100, "cover_vitals": 90, "covers": [ "torso" ], "layers": [ "Outer", "Belted" ] },
+      { "encumbrance": [ 4, 6 ], "coverage": 100, "cover_vitals": 90, "covers": [ "torso" ], "layers": [ "OUTER", "BELTED" ] },
       {
         "encumbrance": [ 4, 4 ],
         "coverage": 100,
@@ -216,7 +216,7 @@
     "material_thickness": 6,
     "environmental_protection": 5,
     "warmth": 20,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_TAIL" ],
     "armor": [
       {
         "encumbrance": 3,

@@ -162,7 +162,7 @@
       "type": "barter",
       "context": "flag",
       "value": "yes",
-      "yes": "Sure.  As agreed, 25 merch, .",
+      "yes": "Sure.  As agreed, 3 merch.",
       "no": {
         "u_has_var": "Fatima_Mission1",
         "type": "mission",

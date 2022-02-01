@@ -73,6 +73,16 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
+    "id": "xs_lsurvivor_pants",
+    "type": "ARMOR",
+    "copy-from": "lsurvivor_pants",
+    "looks_like": "lsurvivor_pants",
+    "name": { "str_sp": "XS light survivor cargo pants" },
+    "description": "Lightweight, Kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof and sized for smaller than average.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "pants_survivor",
     "type": "ARMOR",
     "category": "armor",
@@ -159,5 +169,15 @@
     "description": "A pair of oversized Kevlar armored pants covered with pouches and pockets.  Custom-built to be durable, comfortable, and easy to wear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_pants_survivor",
+    "type": "ARMOR",
+    "copy-from": "pants_survivor",
+    "looks_like": "pants_survivor",
+    "name": { "str_sp": "XS survivor cargo pants" },
+    "description": "A pair of undersized Kevlar armored pants covered with pouches and pockets.  Custom-built to be durable, comfortable, and easy to wear.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "UNDERSIZE" ]
   }
 ]

@@ -929,7 +929,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         comp_list npc_list = get_mission_workers( "_faction_camp_clearcut" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_clearcut" ];
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to a clear a nearby forest.\n\n"
+                                  "Send a companion to clear a nearby forest.\n\n"
                                   "Skill used: fabrication\n"
                                   "Difficulty: 1\n"
                                   "Effects:\n"
@@ -1838,7 +1838,7 @@ void basecamp::worker_assignment_ui()
         followers.clear();
         for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-            if( !npc_to_get || !npc_to_get->is_following() ) {
+            if( !npc_to_get || !npc_to_get->is_following() || npc_to_get->is_hallucination() ) {
                 continue;
             }
             npc *npc_to_add = npc_to_get.get();

@@ -474,7 +474,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "freezing_point": -30,
     "fun": 5
   },
@@ -1439,7 +1439,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EATEN_COLD", "FREEZERBURN" ],
+    "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN" ],
     "fun": 20,
     "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ] ],
     "freezing_point": -11

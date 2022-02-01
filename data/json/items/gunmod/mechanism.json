@@ -68,6 +68,26 @@
     "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
   },
   {
+    "id": "bars",
+    "type": "GUNMOD",
+    "name": { "str": "balanced recoil system" },
+    "description": "This is a complex set of parts designed to minimize recoil using a reciprocating counterweight.",
+    "weight": "60 g",
+    "volume": "250 ml",
+    "integral_volume": "0 ml",
+    "price": 24000,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "red",
+    "location": "mechanism",
+    "mod_targets": [ "kord" ],
+    "install_time": "15 m",
+    "handling_modifier": 15,
+    "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
+    "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
+  },
+  {
     "id": "waterproof_gunmod",
     "type": "GUNMOD",
     "name": { "str": "firearm waterproofing" },

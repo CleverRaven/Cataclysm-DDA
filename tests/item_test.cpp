@@ -57,8 +57,8 @@ TEST_CASE( "item_volume", "[item]" )
 
 TEST_CASE( "simple_item_layers", "[item]" )
 {
-    CHECK( item( "arm_warmers" ).get_layer().front() == layer_level::UNDERWEAR );
-    CHECK( item( "10gal_hat" ).get_layer().front() == layer_level::REGULAR );
+    CHECK( item( "arm_warmers" ).get_layer().front() == layer_level::SKINTIGHT );
+    CHECK( item( "10gal_hat" ).get_layer().front() == layer_level::NORMAL );
     CHECK( item( "baldric" ).get_layer().front() == layer_level::WAIST );
     CHECK( item( "armor_lightplate" ).get_layer().front() == layer_level::OUTER );
     CHECK( item( "legrig" ).get_layer().front() == layer_level::BELTED );

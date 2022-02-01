@@ -3679,10 +3679,10 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
     return result;
 }
 
-void input_manager::set_timeout( const int t )
+void input_manager::set_timeout( const int delay )
 {
-    input_timeout = t;
-    inputdelay = t;
+    input_timeout = delay;
+    inputdelay = delay;
 }
 
 void input_manager::pump_events()

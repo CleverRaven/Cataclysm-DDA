@@ -209,11 +209,15 @@ struct body_part_type {
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
         body_part_type::type limb_type = body_part_type::type::num_types;
+        cata::flat_set <body_part_type::type> secondary_types;
+        bool has_type( const body_part_type::type &type ) const;
 
         // Threshold to start encumbrance scaling
         int encumbrance_threshold = 0;
         // Limit of encumbrance, after reaching this point the limb contributes no scores
         int encumbrance_limit = 0;
+        // Health at which the limb stops contributing its conditional flags / techs
+        int health_limit = 0;
 
         // If true, extra encumbrance on this limb affects dodge effectiveness
         bool encumb_impacts_dodge = false;
@@ -233,13 +237,26 @@ struct body_part_type {
 
         int base_hp = 60;
         stat_hp_mods hp_mods;
+        // Innate healing rate of the bodypart
+        int heal_bonus = 0;
+        float mend_rate = 1.0f;
 
         // if a limb is vital and at 0 hp, you die.
         bool is_vital = false;
         bool is_limb = false;
 
+        // Intrinsic temperature bonus of the bodypart
+        int temp_min = 0;
+        // Temperature bonus to apply when not overheated
+        int temp_max = 0;
         int drench_max = 0;
+        int drench_increment = 2;
+        int drying_chance = 1;
+        int drying_increment = 1;
+        // Wetness morale bonus/malus of the limb
+        int wet_morale = 0;
         cata::flat_set<json_character_flag> flags;
+        cata::flat_set<json_character_flag> conditional_flags;
         bool has_flag( const json_character_flag &flag ) const;
 
         // Limb-specific attacks
@@ -453,6 +470,7 @@ class bodypart
         int get_encumbrance_threshold() const;
         // Check if we're above our encumbrance limit
         bool is_limb_overencumbered() const;
+        bool has_conditional_flag( const json_character_flag &flag ) const;
 
         // Get our limb attacks
         std::set<matec_id> get_limb_techs() const;

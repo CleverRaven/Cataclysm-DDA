@@ -338,11 +338,12 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ## Bodyparts
 
--```ALWAYS_BLOCK``` This nonstandard bodypart is eligible to block in unarmed combat even if your martial arts don't allow such blocks. No effect without `NONSTANDARD_BLOCK`
--```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
--```LIMB_LOWER```  This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
--```LIMB_UPPER```  This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags
--```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`
+- ```ALWAYS_BLOCK``` This nonstandard bodypart is always eligible to block in unarmed combat even if your martial arts don't allow such blocks.
+- ```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
+- ```LIMB_LOWER``` This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
+- ```LIMB_UPPER``` This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags`
+- ```MEND_LIMB``` This bodypart can heal from being broken without needing a splint.
+- ```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`. Either block flag is **required** for non-arm / non-leg limbs to be eligible to block.
 
 
 ## Books
@@ -651,6 +652,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
 - ```WINDOW``` This terrain is a window, though it may be closed, broken, or covered up.  Used by the tiles code to align furniture sprites away from the window.
+- ```WIRED_WALL``` This terrain is a wall with electric wires inside. Allows the `Reveal wall wirings` construction.
 - ```WORKOUT_LEGS``` This furniture is for training your legs. Needed for checks like `is_limb_broken()`.
 - ```WORKOUT_ARMS``` This furniture is for training your arms. Needed for checks like `is_limb_broken()`.
 
@@ -966,7 +968,7 @@ Other monster flags.
 - ```BASHES``` Bashes down doors.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```BIRDFOOD``` Becomes friendly / tamed with bird food.
-- ```BONES``` May produce bones and sinews when butchered.
+- ```BONES``` May produce bones and sinews when butchered. If combined with `POISON` flag, tainted bones, if combined with `HUMAN`, human bones.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180).
 - ```CAN_DIG``` Can dig _and_ walk.
 - ```CAN_OPEN_DOORS``` Can open doors on its path.
@@ -988,9 +990,11 @@ Other monster flags.
 - ```DOGFOOD``` Becomes friendly / tamed with dog food.
 - ```DRIPS_GASOLINE``` Occasionally drips gasoline on move.
 - ```DRIPS_NAPALM``` Occasionally drips napalm on move.
+- ```DROPS_AMMO``` This monster drops ammo. Should not be set for monsters that use pseudo ammo.
 - ```ELECTRIC``` Shocks unarmed attackers.
+- ```ELECTRIC_FIELD``` This monster is surrounded by an electrical field that ignites flammable liquids near it.
 - ```ELECTRONIC``` e.g. a robot; affected by emp blasts and other stuff.
-- ```FAT``` May produce fat when butchered.
+- ```FAT``` May produce fat when butchered. If combined with `POISON` flag, tainted fat.
 - ```FILTHY``` Any clothing it drops will be filthy.  The squeamish trait prevents wearing clothing with this flag, one can't craft anything from filthy components, and wearing filthy clothes may result in infection if hit in melee.
 - ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
@@ -999,10 +1003,10 @@ Other monster flags.
 - ```FUR``` May produce fur when butchered.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
 - ```GRABS``` Its attacks may grab you!
-- ```GROUP_BASH``` Gets help from monsters around it when bashing.
+- ```GROUP_BASH``` Gets help from monsters around it when bashing, adding their strength together.
 - ```GROUP_MORALE``` More courageous when near friends.
 - ```GUILT``` You feel guilty for killing it.
-- ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less then `MS_TINY`.
+- ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less than the `TINY` flag.
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```INSECTICIDEPROOF``` It's immune to insecticide even though it's made of bug flesh ("iflesh").
@@ -1019,6 +1023,7 @@ Other monster flags.
 - ```MECH_DEFENSIVE``` This mech can protect you thoroughly when piloted.
 - ```MILITARY_MECH``` Is a military-grade mech.
 - ```MILKABLE``` Produces milk when milked.
+- ```NEMESIS``` Tags Nemesis enemies for the HAS_NEMESIS mutation.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOT_HALLUCINATION``` This monster does not appear while the player is hallucinating.
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
@@ -1026,28 +1031,38 @@ Other monster flags.
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
 - ```NO_BREED``` Creature doesn't reproduce even though it has reproduction data - useful when using copy-from to make child versions of adult creatures.
 - ```NO_FUNG_DMG``` This monster can't be damaged by fungal spores and can't be fungalized either.
+- ```NO_NECRO``` This monster can't be revived by necros. It will still rise on its own.
+- ```PATH_AVOID_DANGER_1``` This monster will path around some dangers instead of through them.
+- ```PATH_AVOID_DANGER_2``` This monster will path around most dangers instead of through them.
+- ```PATH_AVOID_FIRE``` This monster will path around heat-related dangers instead of through them.
+- ```PATH_AVOID_FALL``` This monster will path around cliffs instead of off of them.
 - ```PAY_BOT``` Creature can be turned into a pet for a limited time in exchange of e-money.
 - ```PET_MOUNTABLE``` Creature can be ridden or attached to an harness.
-- ```PET_HARNESSABLE```Creature can be attached to an harness.
+- ```PET_HARNESSABLE``` Creature can be attached to an harness.
+- ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.
+- ```PRIORITIZE_TARGETS``` This monster will prioritize targets depending on their danger levels.
 - ```NULL``` Source use only.
-- ```PACIFIST``` Monster will never do melee attacks.
+- ```PACIFIST``` Monster will never do melee attacks. Useful for having them use grab without attacking the player.
 - ```KEEP_DISTANCE``` Monster will try to keep `tracking_distance` number of tiles between it and its current target.
 - ```PARALYZE``` Attack may paralyze the player with venom.
 - ```PLASTIC``` Absorbs physical damage to a great degree.
 - ```POISON``` Poisonous to eat.
 - ```PUSH_MON``` Can push creatures out of its way.
+- ```PUSH_VEH``` Can push vehicles out of its way.
 - ```QUEEN``` When it dies, local populations start to die off too.
 - ```RANGED_ATTACKER``` Monster has any sort of ranged attack.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
+- ```REVIVES_HEALTHY``` When revived, this monster has full hitpoints and speed.
 - ```RIDEABLE_MECH``` This monster is a mech suit that can be piloted.
 - ```SEES``` It can see you (and will run/follow).
 - ```SHEARABLE``` This monster can be sheared for wool.
+- ```SHORTACIDTRAIL``` Leaves an intermittent trail of acid. See also `ACIDTRAIL`.
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
 - ```SMALLSLUDGETRAIL``` Causes the monster to occasionally leave a 1-tile sludge trail when moving.
 - ```SMELLS``` It can smell you.
 - ```STUMBLES``` Stumbles in its movement.
-- ```STUN_IMMUNE``` - This monster is immune to stun.
+- ```STUN_IMMUNE``` This monster is immune to stun.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
 - ```SWIMS``` Treats water as 50 movement point terrain.
@@ -1382,7 +1397,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```OBSTACLE``` Cannot walk through part, unless the part is also ```OPENABLE```.
 - ```ODDTURN``` Only on during odd turns.
 - ```ON_CONTROLS``` Can only be installed on a part with ```CONTROLS``` flag.
-- ```ON_ROOF``` - Parts with this flag could only be installed on a roof (parts with ```ROOF``` flag).
+- ```ON_ROOF``` Parts with this flag could only be installed on a roof (parts with ```ROOF``` flag).
 - ```OPAQUE``` Cannot be seen through.
 - ```OPENABLE``` Can be opened or closed.
 - ```OPENCLOSE_INSIDE```  Can be opened or closed, but only from inside the vehicle.
@@ -1500,6 +1515,7 @@ Gun fault flags:
 - ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.
 - ```SUPER_HEARING``` You can hear much better than a normal person.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
+-````CLIMB_NO_LADDER``` Capable of climbing up single-level walls without support.
 - ```DEAF``` Makes you deaf.
 - ```BLIND``` Makes you blind.
 - ```EYE_MEMBRANE``` Lets you see underwater.
@@ -1509,6 +1525,7 @@ Gun fault flags:
 - ```HYPEROPIC``` You are far-sighted - close combat is hampered and reading is impossible without glasses.
 - ```MYOPIC``` You are nearsighted - vision range is severely reduced without glasses.
 - ```MYOPIC_IN_LIGHT``` You are nearsighted in light, but can see normally in low-light conditions.
+- ```MEND_ALL``` You need no splint to heal broken bones.
 - ```NIGHT_VISION``` You can see in the dark.
 - ```INFRARED``` You can see infrared, aka heat vision.
 - ```SEESLEEP``` You can see while sleeping, and aren't bothered by light when trying to fall asleep.
@@ -1533,5 +1550,7 @@ Gun fault flags:
 - ```THERMOMETER``` You always know what temperature it is.
 - ```CBQ_LEARN_BONUS``` You learn CBQ from the bionic bio_cqb faster.
 - ```GILLS``` You can breathe underwater.
+- ```WEB_RAPPEL``` You can rappel down staircases and sheer drops of any height.
+- ```WALL_CLING``` You can ascend/descend sheer cliffs as long as the tile above borders at least one wall. Chance to slip and fall each step.
 - ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
 - ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).

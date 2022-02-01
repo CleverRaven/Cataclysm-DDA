@@ -132,6 +132,7 @@ tripoint displace( direction dir );
 point displace_XY( direction dir );
 std::string direction_name( direction dir );
 std::string direction_name_short( direction dir );
+std::string direction_arrow( direction dir );
 
 /* Get suffix describing vector from p to q (e.g. 1NW, 2SE) or empty string if p == q */
 std::string direction_suffix( const tripoint &p, const tripoint &q );

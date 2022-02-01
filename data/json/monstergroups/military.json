@@ -10,7 +10,8 @@
       { "monster": "mon_dispatch_military", "weight": 5, "cost_multiplier": 80 },
       { "monster": "mon_talon_m202a1", "weight": 15, "cost_multiplier": 50 },
       { "monster": "mon_zombie_flamer", "weight": 10, "cost_multiplier": 50 },
-      { "monster": "mon_zombie_military_pilot", "weight": 0 }
+      { "monster": "mon_zombie_military_pilot", "weight": 0 },
+      { "monster": "mon_feral_soldier", "weight": 15 }
     ]
   },
   {
@@ -34,7 +35,8 @@
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
       { "monster": "mon_zombie_bio_op", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_bio_op2", "weight": 25, "cost_multiplier": 5, "starts": "60 days" },
-      { "monster": "mon_zombie_armored", "weight": 10, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_armored", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_feral_soldier", "weight": 15 }
     ]
   },
   {
@@ -53,7 +55,8 @@
       { "monster": "mon_zombie_armored", "weight": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_scorched", "weight": 25 },
       { "monster": "mon_zombie_hazmat", "weight": 25 },
-      { "monster": "mon_zombie", "weight": 10 }
+      { "monster": "mon_zombie", "weight": 10 },
+      { "monster": "mon_feral_soldier", "weight": 15 }
     ]
   },
   {
@@ -83,7 +86,8 @@
       { "monster": "mon_zombie_soldier", "weight": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
-      { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 }
+      { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
+      { "monster": "mon_feral_soldier", "weight": 300 }
     ]
   },
   {
@@ -114,7 +118,8 @@
       { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
       { "monster": "mon_zombie_military_pilot", "weight": 20 },
       { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
-      { "monster": "mon_zombie_scientist", "weight": 100 }
+      { "monster": "mon_zombie_scientist", "weight": 100 },
+      { "monster": "mon_feral_soldier", "weight": 300 }
     ]
   }
 ]

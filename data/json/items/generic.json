@@ -558,6 +558,20 @@
     "flags": [ "MC_USED" ]
   },
   {
+    "type": "TOOL",
+    "id": "usb_drive_nano",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "secured USB drive" },
+    "description": "A USB thumb drive.  Useful for holding software.  This one seems like it could get ran over by a truck and be fine.",
+    "price": 10000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "55 g",
+    "volume": "5 ml",
+    "to_hit": -3
+  },
+  {
     "type": "GENERIC",
     "id": "data_card",
     "symbol": ",",
@@ -1998,11 +2012,13 @@
     "symbol": ",",
     "color": "brown",
     "name": { "str": "pinecone" },
-    "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
-    "weight": "90 g",
+    "description": "A spiny pod from a pine tree.",
+    "material": [ "wood" ],
+    "//": "Commercial pinecones average 300g. We're assuming wild ones weigh less than this.",
+    "weight": "200 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -3096,6 +3112,15 @@
     "color": "green",
     "name": { "str": "broken M2 autonomous CROWS II", "str_pl": "broken M2 autonomous CROWS II turrets" },
     "weight": "100 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_artisans",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken custom plated turret" },
+    "weight": "75 kg",
     "copy-from": "broken_turret"
   },
   {

@@ -385,5 +385,11 @@
     "//": "Making a waterproof layer from plastic bags duct taped together, per 25 g of such waterproofing.  Takes 15 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "bag_plastic", 1 ] ], [ [ "duct_tape", 5 ] ] ]
+  },
+  {
+    "id": "tanning_agent",
+    "type": "requirement",
+    "//": "Enough to make one tanned hide/pelt",
+    "components": [ [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ], [ "brain", 3 ] ] ]
   }
 ]

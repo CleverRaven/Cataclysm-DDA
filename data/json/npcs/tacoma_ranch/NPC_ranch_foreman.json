@@ -322,7 +322,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_5",
     "type": "mission_definition",
-    "name": { "str": "30 Liquid Fertilizer" },
+    "name": { "str": "Gather 30 Liquid Fertilizer" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -778,7 +778,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_15",
     "type": "mission_definition",
-    "name": { "str": "Find Homebrewer's Bible" },
+    "name": { "str": "Find a copy of Homebrewer's Bible" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
