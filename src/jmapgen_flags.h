@@ -4,6 +4,8 @@
 enum class jmapgen_flags {
     allow_terrain_under_other_data,
     erase_all_before_placing_terrain,
+    // just remove the items from the tile
+    erase_items_before_placing_items,
     last
 };
 

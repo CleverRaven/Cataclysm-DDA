@@ -1455,6 +1455,8 @@ std::string enum_to_string<jmapgen_flags>( jmapgen_flags v )
         case jmapgen_flags::allow_terrain_under_other_data: return "ALLOW_TERRAIN_UNDER_OTHER_DATA";
         case jmapgen_flags::erase_all_before_placing_terrain:
             return "ERASE_ALL_BEFORE_PLACING_TERRAIN";
+        case jmapgen_flags::erase_items_before_placing_items:
+            return "ERASE_ITEMS_BEFORE_PLACING_ITEMS";
         // *INDENT-ON*
         case jmapgen_flags::last:
             break;
@@ -2105,7 +2107,7 @@ class jmapgen_item_group : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             dat.m.place_items( group_id, chance.get(), point( x.val, y.val ), point( x.valmax, y.valmax ), true,
-                               calendar::start_of_cataclysm );
+                               calendar::start_of_cataclysm, dat.has_flag( jmapgen_flags::erase_items_before_placing_items ) );
         }
 };
 
@@ -4129,9 +4131,19 @@ static bool check_furn( const furn_id &id, const std::string &context )
 
 void mapgen_function_json_base::check_common() const
 {
-    if( flags_.test( jmapgen_flags::allow_terrain_under_other_data ) &&
-        flags_.test( jmapgen_flags::erase_all_before_placing_terrain ) ) {
-        debugmsg( "In %s, flags ERASE_ALL_BEFORE_PLACING_TERRAIN and "
+    int count = 0;
+    if( flags_.test( jmapgen_flags::allow_terrain_under_other_data ) ) {
+        count++;
+    }
+    if( flags_.test( jmapgen_flags::erase_all_before_placing_terrain ) ) {
+        count++;
+    }
+    if( flags_.test( jmapgen_flags::erase_items_before_placing_items ) ) {
+        count++;
+    }
+    if( count > 1 ) {
+        debugmsg( "In %s, flags ERASE_ALL_BEFORE_PLACING_TERRAIN,  "
+                  "ERASE_ITEMS_BEFORE_PLACING_TERRAIN and  "
                   "ALLOW_TERRAIN_UNDER_OTHER_DATA cannot be used together", context_ );
     }
     for( const jmapgen_setmap &setmap : setmap_points ) {
@@ -6475,7 +6487,7 @@ void map::apply_faction_ownership( const point &p1, const point &p2, const facti
 // the item group should be responsible for determining the amount of items.
 std::vector<item *> map::place_items(
     const item_group_id &group_id, const int chance, const tripoint &p1, const tripoint &p2,
-    const bool ongrass, const time_point &turn, const int magazine, const int ammo )
+    const bool ongrass, const time_point &turn, const int magazine, const int ammo, const bool replace )
 {
     std::vector<item *> res;
 
@@ -6495,9 +6507,11 @@ std::vector<item *> map::place_items(
     // spawn rates < 1 are handled in item_group
     const float spawn_rate = std::max( get_option<float>( "ITEM_SPAWNRATE" ), 1.0f ) ;
     const int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
+    std::unordered_set<tripoint> visited_point;
     for( int i = 0; i < spawn_count; i++ ) {
         // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
+        // this appears to return false if it is valid and true if it isn't valid
         auto is_valid_terrain = [this, ongrass]( const tripoint & p ) {
             const ter_t &terrain = ter( p ).obj();
             return terrain.movecost == 0           &&
@@ -6514,6 +6528,11 @@ std::vector<item *> map::place_items(
             tries++;
         } while( is_valid_terrain( p ) && tries < 20 );
         if( tries < 20 ) {
+            // if we are replacing items and have not visited this point to spawn during this itteration
+            if( replace && visited_point.find( p ) == visited_point.end() ) {
+                i_clear( p );
+                visited_point.insert( p );
+            }
             auto put = put_items_from_loc( group_id, p, turn );
             res.insert( res.end(), put.begin(), put.end() );
         }

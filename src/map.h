@@ -1329,12 +1329,12 @@ class map
         */
         std::vector<item *> place_items(
             const item_group_id &group_id, int chance, const tripoint &p1, const tripoint &p2,
-            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0 );
+            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0, const bool replace = false );
         std::vector<item *> place_items(
             const item_group_id &group_id, int chance, const point &p1, const point &p2,
-            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0 ) {
+            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0, const bool replace = false ) {
             return place_items( group_id, chance, tripoint( p1, abs_sub.z ),
-                                tripoint( p2, abs_sub.z ), ongrass, turn, magazine, ammo );
+                                tripoint( p2, abs_sub.z ), ongrass, turn, magazine, ammo, replace );
         }
         /**
         * Place items from an item group at p. Places as much items as the item group says.
