@@ -165,7 +165,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmk_2_brewery_migo_resin",
-    "description": "Let's build a the mi-go resin brewery.",
+    "description": "Let's build a mi-go resin brewery.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

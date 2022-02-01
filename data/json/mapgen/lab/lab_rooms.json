@@ -732,7 +732,6 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "A" ],
-      "terrain": { "A": "t_thconc_floor" },
       "furniture": {
         "A": [
           "f_machinery_heavy",
@@ -1082,7 +1081,6 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "a" ],
-      "terrain": { "a": "t_thconc_floor" },
       "furniture": { "a": "f_ash" },
       "item": { "a": [ { "item": "ash", "amount": 49, "chance": 100 }, { "item": "bone_human", "amount": [ 3, 5 ], "chance": 50 } ] },
       "items": { "a": { "item": "science", "chance": 10 } }

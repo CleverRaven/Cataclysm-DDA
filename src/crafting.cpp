@@ -250,21 +250,13 @@ static float workbench_crafting_speed_multiplier( const item &craft,
     return multiplier;
 }
 
-float Character::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
+float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
     const float result = morale_crafting_speed_multiplier( rec ) *
                          lighting_craft_speed_multiplier( rec ) *
                          get_limb_score( limb_score_manip );
-    // Can't start if we'd need 300% time, but we can still finish the job
-    if( !in_progress && result < 0.33f ) {
-        return 0.0f;
-    }
-    // If we're working below 10% speed, just give up
-    if( result < 0.1f ) {
-        return 0.0f;
-    }
 
-    return result;
+    return std::max( result, 0.0f );
 }
 
 float Character::crafting_speed_multiplier( const item &craft,
@@ -574,7 +566,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         // add containers separately from their contents
         if( !it->empty_container() ) {
             // is the non-empty container used for BOIL?
-            if( !it->is_watertight_container() || it->get_raw_quality( qual_BOIL ) <= 0 ) {
+            if( !it->is_watertight_container() || it->get_quality( qual_BOIL, false ) <= 0 ) {
                 item tmp = item( it->typeId(), it->birthday() );
                 tmp.is_favorite = it->is_favorite;
                 *crafting_cache.crafting_inventory += tmp;
@@ -736,7 +728,7 @@ static item_location set_item_map_or_vehicle( const Character &p, const tripoint
         // Couldn't add the in progress craft to the target part, so drop it to the map.
         p.add_msg_player_or_npc(
             //~ %1$s: vehicle part name, %2$s: name of the item being placed
-            pgettext( "furniture, item", "Not enough space on the %1$s. You drop the %1$s on the ground." ),
+            pgettext( "furniture, item", "Not enough space on the %1$s. You drop the %2$s on the ground." ),
             pgettext( "furniture, item",
                       "Not enough space on the %1$s. <npcname> drops the %2$s on the ground." ),
             vp->part().name(), newit.tname() );
@@ -1101,7 +1093,8 @@ static void destroy_random_component( item &craft, const Character &crafter )
 
     item destroyed = random_entry_removed( craft.components );
 
-    crafter.add_msg_player_or_npc( _( "You mess up and destroy the %s." ),
+    crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
+                                   _( "You mess up and destroy the %s." ),
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
 }
 

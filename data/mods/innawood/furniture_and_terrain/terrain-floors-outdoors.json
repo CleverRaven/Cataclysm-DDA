@@ -34,17 +34,5 @@
       "str_min_supported": 100,
       "items": [ { "item": "rock", "count": [ 2, 10 ] } ]
     }
-  },
-  {
-    "type": "terrain",
-    "id": "t_bog_iron",
-    "name": "bog iron",
-    "description": "A wet pit full of raw bog iron, suitable for bloomery refining if it was extracted properly.",
-    "symbol": "*",
-    "looks_like": "f_wreckage",
-    "color": "brown",
-    "move_cost": 6,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   }
 ]

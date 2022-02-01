@@ -76,7 +76,6 @@ static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -438,51 +437,6 @@ static std::list<act_item> convert_to_act_item( const player_activity &act, Char
         res.emplace_back( act.targets[i], act.values[i], act.targets[i].obtain_cost( guy, act.values[i] ) );
     }
     return res;
-}
-
-void activity_on_turn_wear( player_activity &act, Character &you )
-{
-    // ACT_WEAR has item_location targets, and int quantities
-    while( you.moves > 0 && !act.targets.empty() ) {
-        item_location target = std::move( act.targets.back() );
-        int quantity = act.values.back();
-        act.targets.pop_back();
-        act.values.pop_back();
-
-        if( !target ) {
-            debugmsg( "Lost target item of ACT_WEAR" );
-            continue;
-        }
-
-        // Make copies so the original remains untouched if wearing fails
-        item newit = *target;
-        item leftovers = newit;
-
-        // Handle charges, quantity == 0 means move all
-        if( quantity != 0 && newit.count_by_charges() ) {
-            leftovers.charges = newit.charges - quantity;
-            if( leftovers.charges > 0 ) {
-                newit.charges = quantity;
-            }
-        } else {
-            leftovers.charges = 0;
-        }
-
-        if( you.wear_item( newit ) ) {
-            // If we wore up a whole stack, remove the original item
-            // Otherwise, replace the item with the leftovers
-            if( leftovers.charges > 0 ) {
-                *target = std::move( leftovers );
-            } else {
-                target.remove_item();
-            }
-        }
-    }
-
-    // If there are no items left we are done
-    if( act.targets.empty() ) {
-        you.cancel_activity();
-    }
 }
 
 void activity_handlers::washing_finish( player_activity *act, Character *you )
@@ -981,20 +935,6 @@ static activity_reason_info find_base_construction(
     }
     //only cc failed, no pre-req
     return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
-}
-
-static std::string random_string( size_t length )
-{
-    auto randchar = []() -> char {
-        static constexpr char charset[] =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-        static constexpr size_t num_chars = sizeof( charset ) - 1;
-        return charset[rng( 0, num_chars - 1 )];
-    };
-    std::string str( length, 0 );
-    std::generate_n( str.begin(), length, randchar );
-    return str;
 }
 
 static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
@@ -2375,7 +2315,7 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
 static bool mop_activity( Character &you, const tripoint &src_loc )
 {
     // iuse::mop costs 15 moves per use
-    you.assign_activity( ACT_MOP, 15 );
+    you.assign_activity( player_activity( mop_activity_actor( 15 ) ) );
     you.activity.placement = get_map().getabs( src_loc );
     return true;
 }

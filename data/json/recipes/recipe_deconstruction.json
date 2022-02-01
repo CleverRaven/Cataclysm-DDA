@@ -547,14 +547,6 @@
     "components": [ [ [ "silver_small", 20 ] ] ]
   },
   {
-    "result": "baseball",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "leather", 2 ] ], [ [ "string_6", 2 ] ] ]
-  },
-  {
     "result": "battery_car",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -1319,6 +1311,29 @@
       [ [ "power_supply", 1 ] ],
       [ [ "robot_controls", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_turret_artisans",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "m249", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ],
+      [ [ "steel_armor", 3 ] ]
     ]
   },
   {
@@ -2422,9 +2437,9 @@
     "result": "sheet_cotton_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patchwork", 2 ] ], [ [ "filament", 2, "LIST" ] ] ]
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cotton_patchwork", 1 ] ] ]
   },
   {
     "result": "cotton_patchwork",
@@ -2458,6 +2473,14 @@
     "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "tanned_pelt",
+    "type": "uncraft",
+    "time": "2 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "fur", 6 ] ] ]
   },
   {
     "result": "eink_tablet_pc",
@@ -5768,5 +5791,33 @@
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "ballistic_vest_esapi",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 10 ] ], [ [ "sheet_kevlar_layered", 12 ] ] ]
+  },
+  {
+    "result": "ballistic_vest_light",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 6 ] ] ]
+  },
+  {
+    "result": "towel",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 7 ] ], [ [ "rag", 5 ] ] ]
   }
 ]

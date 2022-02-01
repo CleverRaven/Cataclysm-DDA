@@ -38,7 +38,7 @@ Furthermore, there are additional criteria:
 
 A mod curator's role is to curate additions to mods and ensure they fit the concept of the mod.  Curators are also responsible for at least acknowledging bug reports related to the mod: while curators don't have to personally manage every bugfix, if a bug is reported, the curator should be around to comment and help to find someone to fix it.
 
-It's important to understand that if a mod is in the repository, it is expected that people other than the curator are going to contribute to it, as with anything.  On github, mod curators should Approve or Request Changes on PRs to the mod.  If the curator has approved it, developers with merge permissions will treat that as a request to merge the changes.
+It's important to understand that if a mod is in the repository, it is expected that people other than the curator are going to contribute to it, as with anything.  On GitHub, mod curators should Approve or Request Changes on PRs to the mod.  If the curator has approved it, developers with merge permissions will treat that as a request to merge the changes.
 
 ## When do mods get removed?
 

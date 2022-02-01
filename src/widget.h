@@ -27,6 +27,7 @@ enum class widget_var : int {
     fatigue,        // Current fatigue, integer
     health,         // Current hidden health value, -200 to +200
     mana,           // Current available mana, integer
+    max_mana,       // Current maximum mana, integer
     morale_level,   // Current morale level, integer (may be negative)
     weariness_level, // Current weariness level, integer
     stat_str,       // Base STR (strength) stat, integer
@@ -45,7 +46,10 @@ enum class widget_var : int {
     // Text vars
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
+    bp_armor_outer_text, // Outermost armor on body part, with color/damage bars
     bp_status_text, // Status of bodypart (bleeding, bitten, and/or infected)
+    bp_status_sym_text, // Status of bodypart (same as above, but shortened to 1 char per status)
+    bp_status_legend_text, // Legend describing the status indicators from bp_status_sym_text
     compass_text,   // Compass / visible threats by cardinal direction
     compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
@@ -56,8 +60,11 @@ enum class widget_var : int {
     lighting_text,  // Current light level, color string
     mood_text,      // Mood as a text emote, color string
     moon_phase_text,// Current phase of the moon
+    move_count_mode_text, // Movement counter and mode letter like "50(R)", color string
     move_mode_letter, // Movement mode, color letter (W/R/C/P)
     move_mode_text, // Movement mode, color text (walking/running/crouching/prone)
+    overmap_loc_text,// Local overmap position, pseudo latitude/longitude with Z-level
+    overmap_text,   // Local overmap and mission marker, multi-line color string
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
@@ -107,6 +114,36 @@ struct enum_traits<cardinal_direction> {
     static constexpr cardinal_direction last = cardinal_direction::num_cardinal_directions;
 };
 
+// Used when determining bodypart status indicators in sidebar widgets.
+enum class bodypart_status : int {
+    BITTEN,
+    INFECTED,
+    BROKEN,
+    SPLINTED,
+    BANDAGED,
+    DISINFECTED,
+    BLEEDING,
+    num_bodypart_status
+};
+
+template<>
+struct enum_traits<bodypart_status> {
+    static constexpr bodypart_status last = bodypart_status::num_bodypart_status;
+};
+
+// Determines how text and labels are aligned for widgets
+enum class widget_alignment : int {
+    LEFT,
+    CENTER,
+    RIGHT,
+    num_widget_alignments
+};
+
+template<>
+struct enum_traits<widget_alignment> {
+    static constexpr widget_alignment last = widget_alignment::num_widget_alignments;
+};
+
 // Use generic_factory for loading JSON data.
 class JsonObject;
 template<typename T>
@@ -114,6 +151,24 @@ class generic_factory;
 
 // Forward declaration, due to codependency on panels.h
 class window_panel;
+
+struct widget_phrase {
+    private:
+        std::string id;
+        std::string sym;
+        translation text;
+        nc_color color;
+        int value;
+
+    public:
+        void load( const JsonObject &jo );
+
+        static int get_val_for_id( const std::string &phrase_id, const widget_id &wgt );
+        static const translation &get_text_for_id( const std::string &phrase_id, const widget_id &wgt );
+        static const std::string &get_sym_for_id( const std::string &phrase_id, const widget_id &wgt );
+        static nc_color get_color_for_id( const std::string &phrase_id,
+                                          const widget_id &wgt, int val = INT_MIN );
+};
 
 // A widget is a UI element displaying information from the underlying value of a widget_var.
 // It may be loaded from a JSON object having "type": "widget".
@@ -135,18 +190,24 @@ class widget
         std::string _style;
         // Displayed label in the UI
         translation _label;
+        // Width of the longest label within this layout's widgets (for "rows")
+        int _label_width = 0;
         // Binding variable enum like stamina, bp_hp or stat_dex
         widget_var _var;
-        // Minimum var value, optional
-        int _var_min = 0;
-        // Maximum var value, required for graph widgets
-        int _var_max = 10;
+        // Minimum meaningful var value, set by set_default_var_range
+        int _var_min = INT_MIN;
+        // Maximum meaningful var value, set by set_default_var_range
+        int _var_max = INT_MAX;
+        // Normal var range (low, high), set by set_default_var_range
+        std::pair<int, int> _var_norm = std::make_pair( INT_MIN, INT_MAX );
         // Body part variable is linked to
         bodypart_id _bp_id;
         // Width in characters of widget, not including label
         int _width = 0;
         // Height in characters of widget, only matters for style == widget
         int _height = 0;
+        // Maximum height this widget can occupy (0 == no limit)
+        int _height_max = 0;
         // String of symbols for graph widgets, mapped in increasing order like "0123..."
         std::string _symbols;
         // Graph fill style ("bucket" or "pool")
@@ -163,21 +224,31 @@ class widget
         cardinal_direction _direction;
         // Flags for special widget behaviors
         std::set<flag_id> _flags;
+        // Phrases used to define text, colors and values
+        std::vector<widget_phrase> _phrases;
+        // Alignment of the widget text (Default = RIGHT)
+        widget_alignment _text_align;
+        // Alignment of the widget label, if any (Default = LEFT)
+        widget_alignment _label_align;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string &src );
         // Finalize anything that must wait until all widgets are loaded
         static void finalize();
+        // Recursively derive _label_width for nested layouts in this widget
+        static int finalize_label_width_recursive( const widget_id &id );
         // Reset to defaults using generic widget_factory
         static void reset();
         // Get all widget instances from the factory
         static const std::vector<widget> &get_all();
+        // Get this widget's id
+        const widget_id &getId() const;
 
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the
         // label area, so the returned string is equal to max_width.
-        std::string layout( const avatar &ava, unsigned int max_width = 0 );
+        std::string layout( const avatar &ava, unsigned int max_width = 0, int label_width = 0 );
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava, unsigned int max_width );
         // Return a window_panel for rendering this widget at given width (and possibly height)
@@ -189,25 +260,26 @@ class widget
 
         // Evaluate and return the bound "var" associated value for an avatar
         int get_var_value( const avatar &ava ) const;
-        // Return the maximum "var" value from "var_max", or max for avatar (HP, mana, etc.)
-        int get_var_max( const avatar &ava ) const;
         // True if this widget has the given flag. Used to specify certain behaviors.
         bool has_flag( const flag_id &flag ) const;
         bool has_flag( const std::string &flag ) const;
 
+        // Set _var_min, _var_norm, and _var_max to values from the avatar
+        void set_default_var_range( const avatar &ava );
+
         // Return a color-enhanced value_string
-        std::string color_value_string( int value, int value_max = 0 );
+        std::string color_value_string( int value );
         // Return a string for how a given value will render in the UI
-        std::string value_string( int value, int value_max = 0 );
+        std::string value_string( int value );
         // Return a suitable color for a given value
-        nc_color value_color( int value, int value_max = 0 );
+        nc_color value_color( int value );
 
         // Return a formatted numeric string
-        std::string number( int value, int value_max = 0 );
+        std::string number( int value );
         // Return the text phrase mapped to a given value for "text" style
-        std::string text( int value, int value_max = 0 );
+        std::string text( int value );
         // Return the graph part of this widget, rendered with "bucket" or "pool" fill
-        std::string graph( int value, int value_max = 0 );
+        std::string graph( int value );
         // Takes a string generated by widget::layout and draws the text to the window w.
         // If the string contains newline characters, the text is broken up into lines.
         // Returns the new row index after drawing.

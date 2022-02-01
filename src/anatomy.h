@@ -46,6 +46,9 @@ class anatomy
                                           bool nonstandard ) const;
 
         std::vector<bodypart_id> get_bodyparts() const;
+        float get_size_ratio( const anatomy_id &base ) const;
+        float get_hit_size_sum() const;
+        float get_base_hit_size_sum( const anatomy_id &base ) const;
         void add_body_part( const bodypart_str_id &new_bp );
         // TODO: remove_body_part
 

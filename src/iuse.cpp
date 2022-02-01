@@ -256,6 +256,8 @@ static const itype_id itype_data_card( "data_card" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_ecig( "ecig" );
+static const itype_id itype_emf_detector( "emf_detector" );
+static const itype_id itype_emf_detector_on( "emf_detector_on" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_firecracker_act( "firecracker_act" );
 static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
@@ -390,6 +392,8 @@ static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_redcells( "redcells" );
 
 static const vproto_id vehicle_prototype_none( "none" );
+
+static const weather_type_id weather_portal_storm( "portal_storm" );
 
 // how many characters per turn of radio
 static constexpr int RADIO_PER_TURN = 25;
@@ -1207,6 +1211,7 @@ cata::optional<int> iuse::purifier( Character *p, item *it, bool, const tripoint
     }
 
     do_purify( *p );
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
     return it->type->charges_to_use();
 }
 
@@ -1249,6 +1254,7 @@ cata::optional<int> iuse::purify_iv( Character *p, item *it, bool, const tripoin
         p->mod_thirst( 2 * num_cured );
         p->mod_fatigue( 2 * num_cured );
     }
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
     return it->type->charges_to_use();
 }
 
@@ -1301,6 +1307,7 @@ cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const trip
 
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
     return it->type->charges_to_use();
 }
 
@@ -2615,6 +2622,77 @@ cata::optional<int> iuse::noise_emitter_on( Character *p, item *it, bool t, cons
     } else { // Turning it off
         p->add_msg_if_player( _( "The infernal racket dies as the noise emitter turns off." ) );
         it->convert( itype_noise_emitter ).active = false;
+    }
+    return it->type->charges_to_use();
+}
+
+cata::optional<int> iuse::emf_passive_off( Character *p, item *it, bool, const tripoint & )
+{
+    if( !it->ammo_sufficient( p ) ) {
+        p->add_msg_if_player( _( "It's dead." ) );
+        return cata::nullopt;
+    } else {
+        p->add_msg_if_player( _( "You turn the EMF detector on." ) );
+        it->convert( itype_emf_detector_on ).active = true;
+    }
+    return it->type->charges_to_use();
+}
+
+cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const tripoint &pos )
+{
+    if( t ) { // Normal use
+        // need to calculate distance to closest electrical thing
+
+        // set distance as farther than the radius
+        const int max = 10;
+        int distance = max + 1;
+
+        creature_tracker &creatures = get_creature_tracker();
+        map &here = get_map();
+        // can't get a reading during a portal storm
+        if( get_weather().weather_id == weather_portal_storm ) {
+            sounds::sound( pos, 6, sounds::sound_t::alarm, _( "BEEEEE-CHHHHHHH-eeEEEEEEE-CHHHHHHHHHHHH" ), true,
+                           "tool", "emf_detector" );
+            // skip continuing to check for locations
+            return it->type->charges_to_use();
+        }
+
+        for( const auto &loc : closest_points_first( pos, max ) ) {
+            const Creature *critter = creatures.creature_at( loc );
+
+            // if the creature exists and is either a robot or electric
+            bool found = critter != nullptr && critter->is_electrical();
+
+            // check for an electrical field
+            if( !found ) {
+                for( const auto &fd : here.field_at( loc ) ) {
+                    if( fd.first->has_elec ) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            // if an electrical field or creature is nearby
+            if( found ) {
+                distance = rl_dist( pos, loc );
+                if( distance <= 3 ) {
+                    sounds::sound( pos, 4, sounds::sound_t::alarm, _( "BEEEEEEP BEEEEEEP" ), true, "tool",
+                                   "emf_detector" );
+                } else if( distance <= 7 ) {
+                    sounds::sound( pos, 3, sounds::sound_t::alarm, _( "BEEP BEEP" ), true, "tool",
+                                   "emf_detector" );
+                } else if( distance <= 10 ) {
+                    sounds::sound( pos, 2, sounds::sound_t::alarm, _( "beep… beep" ), true, "tool",
+                                   "emf_detector" );
+                }
+                // skip continuing to check for locations
+                return it->type->charges_to_use();
+            }
+        }
+    } else { // Turning it off
+        p->add_msg_if_player( _( "The noise of your EMF detector slows to a halt." ) );
+        it->convert( itype_emf_detector ).active = false;
     }
     return it->type->charges_to_use();
 }
@@ -4306,7 +4384,7 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
-    const bool do_effects = p.can_hear( source, volume );
+    const bool do_effects = p.can_hear( source, volume ) && !p.in_sleep_state();
     std::string sound = "music";
     if( calendar::once_every( 5_minutes ) ) {
         // Every 5 minutes, describe the music
@@ -4314,7 +4392,7 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
         if( !music.empty() ) {
             sound = music;
             // descriptions aren't printed for sounds at our position
-            if( p.pos() == source && p.can_hear( source, volume ) ) {
+            if( p.pos() == source && do_effects ) {
                 p.add_msg_if_player( _( "You listen to %s" ), music );
             }
         }

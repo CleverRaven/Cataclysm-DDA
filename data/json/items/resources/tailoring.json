@@ -14,7 +14,7 @@
   },
   {
     "id": "scrap_cotton",
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "other",
     "name": { "str_sp": "cotton scraps" },
     "description": "Oddly-shaped smallish bits of cotton, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some thread if you really want.",
@@ -25,13 +25,12 @@
     "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": "components",
     "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "scrap_faux_fur",
     "copy-from": "scrap_cotton",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "faux fur scraps" },
     "description": "Oddly-shaped smallish bits of faux fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
@@ -41,7 +40,7 @@
   {
     "id": "scrap_felt",
     "copy-from": "scrap_cotton",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "felt scraps" },
     "description": "Oddly-shaped smallish bits of felt, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some wool fiber if you really want.",
     "material": [ "wool" ]
@@ -49,7 +48,7 @@
   {
     "id": "scrap_fur",
     "copy-from": "scrap_cotton",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "fur scraps" },
     "description": "Oddly-shaped smallish bits of fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
@@ -58,7 +57,7 @@
   {
     "id": "scrap_kevlar",
     "copy-from": "scrap_cotton",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "Kevlar scraps" },
     "description": "Oddly-shaped smallish bits of Kevlar fabric, waste material from tailoring projects.  Normally it's disposed of, but since Kevlar would be very difficult to make in a post-apocalyptic world, it might be worth recycling it for Kevlar thread.",
     "price": 5,
@@ -67,7 +66,7 @@
   {
     "id": "scrap_leather",
     "copy-from": "scrap_cotton",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "leather scraps" },
     "description": "Oddly-shaped smallish bits of leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
@@ -76,7 +75,7 @@
   {
     "id": "scrap_lycra",
     "copy-from": "scrap_cotton",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "Lycra scraps" },
     "description": "Oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
@@ -85,7 +84,7 @@
   {
     "id": "scrap_neoprene",
     "copy-from": "scrap_cotton",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "neoprene scraps" },
     "description": "Oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
@@ -94,7 +93,7 @@
   {
     "id": "scrap_nylon",
     "copy-from": "scrap_cotton",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "synthetic fabric scraps" },
     "description": "Oddly-shaped smallish bits of synthetic fabric, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
@@ -103,14 +102,14 @@
   {
     "id": "scrap_nomex",
     "copy-from": "scrap_cotton",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "Nomex scraps" },
     "description": "Oddly-shaped smallish bits of heat-resistant Nomex fabric, waste material from tailoring projects.  Normally it's disposed of, but since Nomex would be very difficult to make in a post-apocalyptic world, it might be worth recycling it.",
     "price": 5,
     "material": [ "nomex" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "fur",
     "symbol": ",",
     "color": "brown",
@@ -122,11 +121,10 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "114 g",
     "volume": "250 ml",
-    "category": "spare_parts",
-    "ammo_type": "components"
+    "category": "spare_parts"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "faux_fur",
     "copy-from": "fur",
     "color": "pink",
@@ -137,7 +135,7 @@
     "material": [ "faux_fur" ]
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "leather",
     "symbol": ",",
     "color": "brown",
@@ -149,8 +147,7 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "100 g",
     "volume": "250 ml",
-    "category": "spare_parts",
-    "ammo_type": "components"
+    "category": "spare_parts"
   },
   {
     "type": "GENERIC",
@@ -158,7 +155,7 @@
     "symbol": ",",
     "color": "white",
     "name": { "str": "cotton patch", "str_pl": "cotton patches" },
-    "description": "A smallish patch of felt, could be disassembled for wool fiber.",
+    "description": "A smallish patch of felt, could be disassembled for thread.",
     "price": 2000,
     "price_postapoc": 10,
     "material": [ "cotton" ],
@@ -168,7 +165,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "felt_patch",
     "symbol": ",",
     "color": "white",
@@ -180,11 +177,10 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "100 g",
     "volume": "250 ml",
-    "category": "spare_parts",
-    "ammo_type": "components"
+    "category": "spare_parts"
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "nomex",
     "category": "spare_parts",
     "symbol": ",",
@@ -196,8 +192,7 @@
     "material": [ "nomex" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "42 g",
-    "volume": "250 ml",
-    "ammo_type": "components"
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -261,7 +256,7 @@
   },
   {
     "id": "sheet_cotton",
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "cotton sheet" },
     "description": "A 12 inch by 24 inch sheet of cotton fabric, suitable for making clothing.",
@@ -272,24 +267,23 @@
     "price_postapoc": 100,
     "material": [ "cotton" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "sheet_cotton_patchwork",
     "copy-from": "sheet_cotton",
-    "type": "AMMO",
-    "name": { "str": "patchwork cotton sheet" },
-    "description": "A 12 inch by 24 inch sheet of various cotton pieces, sewn together from cotton patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
-    "weight": "39 g",
-    "volume": "47 ml",
-    "//density": "Medium weight cotton fabric with a GSM of 203, with an extra gram added per sheet for thread to stitch the patches together",
+    "type": "GENERIC",
+    "name": { "str_sp": "patchwork cotton sheet" },
+    "description": "A selection of various clothing parts, sewn together from cotton patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
+    "weight": "100 g",
+    "volume": "65 ml",
+    "//density": "1.55 grams per mL",
     "price": 200,
     "price_postapoc": 50
   },
   {
     "id": "sheet_faux_fur",
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "faux fur sheet" },
     "description": "A sheet of fake synthetic colorful fur, suitable for making clothing.",
@@ -300,26 +294,23 @@
     "price_postapoc": 100,
     "material": [ "faux_fur" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "count": 100,
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "sheet_faux_fur_patchwork",
     "copy-from": "sheet_faux_fur",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "patchwork faux fur clothing parts" },
     "description": "A selection of various clothing parts, sewn together from faux fur patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "200 g",
     "volume": "450 ml",
     "//": "Guesstimated density of 0.44 grams per mL based on felt",
     "price": 1000,
-    "price_postapoc": 50,
-    "count": 1
+    "price_postapoc": 50
   },
   {
     "id": "sheet_felt",
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "felt sheet" },
     "description": "A sheet of felt, suitable for making clothing.",
@@ -330,26 +321,23 @@
     "price_postapoc": 250,
     "material": [ "wool" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "count": 100,
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "sheet_felt_patchwork",
     "copy-from": "sheet_felt",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "patchwork felt clothing parts" },
     "description": "A selection of various clothing parts, sewn together from felt patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "160 g",
     "volume": "360 ml",
     "//": "Density of 0.44 grams per mL",
     "price": 500,
-    "price_postapoc": 100,
-    "count": 1
+    "price_postapoc": 100
   },
   {
     "id": "sheet_kevlar",
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Kevlar sheet" },
     "description": "A sheet of Kevlar synthetic fabric, suitable for making cut-resistant, durable clothing.  In this form, unlike rigid plates, it can be stitched.",
@@ -360,13 +348,11 @@
     "price_postapoc": 500,
     "material": [ "kevlar" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "count": 100,
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "sheet_lycra",
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Lycra sheet" },
     "description": "A sheet of synthetic fabric blended with stretchy Lycra fibers, suitable for making flexible yet strong clothing.",
@@ -377,9 +363,7 @@
     "price_postapoc": 100,
     "material": [ "lycra" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "count": 100,
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "sheet_kevlar_layered",
@@ -414,19 +398,18 @@
   {
     "id": "sheet_lycra_patchwork",
     "copy-from": "sheet_lycra",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "patchwork Lycra clothing parts" },
     "description": "A selection of various clothing parts, sewn together from Lycra patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "60 g",
     "volume": "45 ml",
     "//": "Density of 1.21-1.35 grams per mL, using 1.28",
     "price": 1000,
-    "price_postapoc": 50,
-    "count": 1
+    "price_postapoc": 50
   },
   {
     "id": "sheet_neoprene",
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "neoprene sheet" },
     "description": "A sheet of neoprene, a synthetic rubber, suitable for making underwater gear.",
@@ -437,26 +420,23 @@
     "price_postapoc": 100,
     "material": [ "neoprene" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "count": 100,
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "sheet_neoprene_patchwork",
     "copy-from": "sheet_neoprene",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "patchwork neoprene clothing parts" },
     "description": "A selection of various clothing parts, sewn together from neoprene patches in a patchwork fashion, with waterproofed seams.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "120 g",
     "volume": "100 ml",
     "//": "Density of 1.23 grams per mL",
     "price": 1000,
-    "price_postapoc": 50,
-    "count": 1
+    "price_postapoc": 50
   },
   {
     "id": "sheet_nomex",
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Nomex sheet" },
     "description": "A sheet of Nomex synthetic fabric, suitable for making heat-resistant clothing.",
@@ -467,26 +447,23 @@
     "price_postapoc": 250,
     "material": [ "nomex" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "count": 100,
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "sheet_nomex_patchwork",
     "copy-from": "sheet_nomex",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "patchwork Nomex clothing parts" },
     "description": "A selection of various clothing parts, sewn together with Nomex thread from Nomex patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "100 g",
     "volume": "110 ml",
     "//": "Density of 0.72-1.1 grams per mL, using 0.91",
     "price": 3000,
-    "price_postapoc": 50,
-    "count": 1
+    "price_postapoc": 50
   },
   {
     "id": "sheet_nylon",
-    "type": "AMMO",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "synthetic fabric sheet" },
     "description": "A sheet of synthetic fabric, suitable for making clothing.",
@@ -497,22 +474,19 @@
     "price_postapoc": 100,
     "material": [ "nylon" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "count": 100,
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "sheet_nylon_patchwork",
     "copy-from": "sheet_nylon",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str_sp": "patchwork synthetic fabric clothing parts" },
     "description": "A selection of various clothing parts, sewn together from synthetic fabric patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "weight": "60 g",
     "volume": "50 ml",
     "//": "Density of 1.15 grams per mL",
     "price": 1000,
-    "price_postapoc": 50,
-    "count": 1
+    "price_postapoc": 50
   },
   {
     "type": "AMMO",

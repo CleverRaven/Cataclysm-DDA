@@ -469,6 +469,7 @@
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 5 },
       { "item": "can_sealer", "prob": 2 },
+      { "item": "oil_press_manual", "prob": 2 },
       { "group": "dishes_utility", "prob": 50, "count": [ 1, 3 ] }
     ]
   },
