@@ -147,22 +147,24 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
 
     tripoint pos = get_avatar().pos() + point_east;
 
-    // the movement cost for opening and closing gates
-    // remember to update this if changing value in code
-    const int open_move_cost = 100;
-
     // set move value to 0 so we know how many
     // move points were spent opening and closing gates
     they.moves = 0;
 
+    // ensure all relevant stats are at default values
+    REQUIRE( they.get_str() == 8 );
+    REQUIRE( they.get_dex() == 8 );
+
     WHEN( "avatar opens door" ) {
         REQUIRE( here.ter_set( pos, t_door_c ) );
-        REQUIRE( here.ter( pos ).obj().id == t_door_c->id );
+
+        const ter_t door = here.ter( pos ).obj();
+        REQUIRE( door.id == t_door_c->id );
 
         REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
         THEN( "avatar should spend move points" ) {
-            CHECK( they.moves == -open_move_cost );
+            CHECK( they.moves == -door.open_cost );
         }
     }
     WHEN( "avatar fails to open locked door" ) {
@@ -184,7 +186,7 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
 
             REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
 
-            THEN( "avatar should spend move points" ) {
+            THEN( "avatar should not spend move points" ) {
                 CHECK( they.moves == 0 );
             }
         }
@@ -219,12 +221,14 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
 
         WHEN( "avatar opens window" ) {
             REQUIRE( here.ter_set( pos, t_window_no_curtains ) );
-            REQUIRE( here.ter( pos ).obj().id == t_window_no_curtains->id );
+
+            const ter_t window = here.ter( pos ).obj();
+            REQUIRE( window.id == t_window_no_curtains->id );
 
             REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
             THEN( "avatar should spend move points" ) {
-                CHECK( they.moves == -open_move_cost );
+                CHECK( they.moves == -window.open_cost );
             }
         }
     }
