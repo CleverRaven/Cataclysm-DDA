@@ -157,6 +157,16 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
+    "id": "xs_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "chainmail_legs",
+    "looks_like": "chainmail_legs",
+    "name": { "str": "XS chainmail leggings", "str_pl": "pairs of XS chainmail leggings" },
+    "description": "Customized chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "leggings_thessalonian",
     "type": "ARMOR",
     "category": "armor",
@@ -320,6 +330,16 @@
     "flags": [ "OUTER", "STURDY", "OVERSIZE" ]
   },
   {
+    "id": "xs_legguard_bronze",
+    "type": "ARMOR",
+    "copy-from": "legguard_bronze",
+    "looks_like": "legguard_bronze",
+    "name": { "str": "XS bronze greaves", "str_pl": "pairs of XS bronze greaves" },
+    "description": "A pair of tiny bronze leg guards with a simple leather lining.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "STURDY", "ALLOWS_TAIL", "UNDERSIZE" ]
+  },
+  {
     "id": "legguard_hard",
     "type": "ARMOR",
     "category": "armor",
@@ -390,6 +410,16 @@
     "flags": [ "OUTER", "STURDY", "OVERSIZE", "VARSIZE" ]
   },
   {
+    "id": "xs_legguard_lightplate",
+    "type": "ARMOR",
+    "copy-from": "legguard_lightplate",
+    "looks_like": "legguard_lightplate",
+    "name": { "str": "pair of XS steel leg guards", "str_pl": "pairs of XS steel leg guards" },
+    "description": "A full assembly of medieval leg protection for the smallest of knights.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "ALLOWS_TAIL", "UNDERSIZE" ]
+  },
+  {
     "id": "legguard_metal",
     "type": "ARMOR",
     "category": "armor",
@@ -427,6 +457,16 @@
     "description": "A pair of extra large iron leg guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE", "ALLOWS_TAIL" ]
+  },
+  {
+    "id": "xs_legguard_metal",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal",
+    "looks_like": "legguard_metal",
+    "name": { "str": "pair of XS iron greaves", "str_pl": "pairs of XS iron greaves" },
+    "description": "A pair of extra small iron leg guards with a simple leather lining.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL", "UNDERSIZE" ]
   },
   {
     "id": "legguard_metal_sheets",
@@ -467,6 +507,16 @@
     "description": "A pair of extra large hammered metal plates tied to your legs.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE", "ALLOWS_TAIL" ]
+  },
+  {
+    "id": "xs_legguard_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets",
+    "looks_like": "legguard_metal_sheets",
+    "name": { "str": "pair of XS metal leg guards", "str_pl": "pairs of XS metal leg guards" },
+    "description": "A pair of extra small leg guards hammered out of metal shaped to strap on to the upper and lower leg avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL", "UNDERSIZE" ]
   },
   {
     "id": "legguard_paper",
@@ -570,6 +620,16 @@
     "flags": [ "OUTER", "OVERSIZE" ]
   },
   {
+    "id": "xs_legguard_scrap",
+    "type": "ARMOR",
+    "copy-from": "legguard_scrap",
+    "looks_like": "legguard_scrap",
+    "name": { "str": "pair of XS scrap leg guards", "str_pl": "pairs of XS scrap leg guards" },
+    "description": "A pair of leg guards made from scraps of metal secured by simple strings.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "ALLOWS_TAIL", "UNDERSIZE" ]
+  },
+  {
     "id": "legguard_tire",
     "type": "ARMOR",
     "category": "armor",
@@ -607,6 +667,16 @@
     "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.  You look like a trash giant.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "xs_legguard_tire",
+    "type": "ARMOR",
+    "copy-from": "legguard_tire",
+    "looks_like": "legguard_tire",
+    "name": { "str": "pair of XS tire leg guards", "str_pl": "pairs of XS tire leg guards" },
+    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "ALLOWS_TAIL", "NONCONDUCTIVE", "UNDERSIZE" ]
   },
   {
     "id": "motorbike_pants",

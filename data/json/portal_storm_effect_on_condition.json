@@ -181,7 +181,7 @@
         "time_in_future_max": "90 minutes"
       },
       {
-        "u_message": "Reality is begining to break.  It is subtle but something deep inside you feels the wrongness.",
+        "u_message": "Reality is beginning to break.  It is subtle but something deep inside you feels the wrongness.",
         "type": "bad",
         "popup": true
       }
@@ -775,7 +775,14 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_MAPGEN",
     "effect": [
-      { "u_location_variable": { "global_val": "portal_dungeon" }, "target_params": { "om_terrain": "field" } },
+      { "u_location_variable": { "global_val": "portal_dungeon" } },
+      {
+        "mapgen_update": "portal_dungeon",
+        "target_var": { "global_val": "portal_dungeon" },
+        "revert": true,
+        "time_in_future_min": "5 minutes",
+        "time_in_future_max": "5 minutes"
+      },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "portal_dungeon" } }
     ]
   },

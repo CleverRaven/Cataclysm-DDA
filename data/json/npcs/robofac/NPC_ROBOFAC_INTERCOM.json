@@ -413,7 +413,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_1_JOBS",
     "type": "talk_topic",
-    "dynamic_line": "Your handling of our 'rogue robot' situation was impressive, and its become clear that we greatly underestimated your usefulness.  If you are interested, we are willing to offer you extra contracts, all of them with  proper compensation from now on.",
+    "dynamic_line": "Your handling of our 'rogue robot' situation was impressive, and its become clear that we greatly underestimated your usefulness.  If you are interested, we are willing to offer you extra contracts, all of them with proper compensation from now on.",
     "speaker_effect": {
       "effect": { "npc_add_var": "npc_intercom_job_speech", "type": "dialogue", "context": "intercom", "value": "yes" },
       "sentinel": "intercom_1_jobs"
@@ -578,7 +578,7 @@
       ]
     },
     "responses": [
-      { "text": "very well.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "Very well.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll see you then.", "topic": "TALK_DONE" }
     ]
   },
@@ -593,7 +593,7 @@
     "responses": [
       { "text": "…", "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_NEUTRAL" },
       {
-        "text": "[int 10] The armor seemed warped.  Whatever you are using to reinforce the core of the pieces isn't strong enough.",
+        "text": "[INT 10] The armor seemed warped.  Whatever you are using to reinforce the core of the pieces isn't strong enough.",
         "condition": { "u_has_intelligence": 10 },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE"
       }
@@ -602,7 +602,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_NEUTRAL",
     "type": "talk_topic",
-    "dynamic_line": "[You hear a short, muffled conversation from across the intercom] understood.  [the microphone squeals as the voice gets close again] As an additional reward for helping us please keep the modular defense system.  Recently we have been developing some additional pieces and would be happy to trade for some.  Please let us know how they perform in the field.",
+    "dynamic_line": "[You hear a short, muffled conversation from across the intercom] understood.  [The microphone squeals as the voice gets close again] As an additional reward for helping us please keep the modular defense system.  Recently we have been developing some additional pieces and would be happy to trade for some.  Please let us know how they perform in the field.",
     "responses": [
       { "text": "Thanks!", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I've always wanted to be a lab rat.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
@@ -647,7 +647,7 @@
     "dynamic_line": "Given the current context, we are willing to sell you a set of our protective gear: gas mask, suit and gear, at a considerable discount.  We will sell it for two of our coins.\n\nthe intercom: Hmm wait, we might not have your size…",
     "responses": [
       {
-        "text": "[ 2 HGC ] Deal!",
+        "text": "[2 HGC] Deal!",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },
@@ -667,7 +667,7 @@
     "dynamic_line": "To assist your operations we are willing to sell you a map of the local area, as surveyed by our cam-spy drones.  Its standing price is 1 HGC.",
     "responses": [
       {
-        "text": "[ 1 HGC ] Deal!",
+        "text": "[1 HGC] Deal!",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 1 },
@@ -693,7 +693,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK",
     "type": "talk_topic",
-    "dynamic_line": "Sure what project would you like to know about?",
+    "dynamic_line": "Sure, what project would you like to know about?",
     "responses": [
       {
         "text": "How goes work on the armor disk?",
@@ -720,7 +720,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH"
       },
       {
-        "text": "[ 6 HGC ] I'd like to buy the rest of the armor set",
+        "text": "[6 HGC] I'd like to buy the rest of the armor set",
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 6 } },
@@ -736,7 +736,7 @@
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
-      { "text": "Lets talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+      { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
   },
   {
@@ -746,7 +746,7 @@
     "dynamic_line": "Yes, we've made great progress!  I'll spare you the details but we've developed much more resilient materials for our armors while sacrificing no maneuverability.  As a thank you for bringing this to us the first working model is yours merc.  That said these do take a considerable amount of high-end materials.  If you want the matching pieces we'll need 6 of our coins to barely cover the materials cost.  Also, I've been told to inform you we would be happy to collaborate like this again in the future.",
     "responses": [
       {
-        "text": "[ 6 HGC ] I'll take it now.",
+        "text": "[6 HGC] I'll take it now.",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 6 } },
         "effect": [
           { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },

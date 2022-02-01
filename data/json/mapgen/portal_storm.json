@@ -43,7 +43,8 @@
         "aaaaaaaaaaaaaaaaaaaaaaaa",
         "aaaaaaaaaaaaaaaaaaaaaaaa"
       ],
-      "palettes": [ "portal_storm_palette" ]
+      "palettes": [ "portal_storm_palette" ],
+      "set": [ { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 } ]
     }
   },
   {

@@ -164,7 +164,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -189,7 +189,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -214,7 +214,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -408,7 +408,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -432,7 +432,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -456,7 +456,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -480,7 +480,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -504,7 +504,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -552,7 +552,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -600,7 +600,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -624,7 +624,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -792,7 +792,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -816,7 +816,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -840,7 +840,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -864,7 +864,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -888,7 +888,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -1991,6 +1991,30 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zapatosaurus_tank",
+    "name": { "str_sp": "Choppersaurus" },
+    "copy-from": "mon_zapatosaurus_brute",
+    "looks_like": "mon_zapatosaurus",
+    "description": "Enormous zombie sauropod lifting what looks like a crashed Apache military helicopter.",
+    "diff": 30,
+    "color": "dark_gray_red",
+    "luminance": 20,
+    "proportional": { "hp": 1.5, "speed": 0.8 },
+    "relative": { "armor_bash": 30, "armor_cut": 37, "armor_bullet": 30, "armor_stab": 30, "armor_acid": 3 },
+    "bleed_rate": 50,
+    "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
+    "special_attacks": [ [ "MULTI_ROBOT", 30 ] ],
+    "upgrades": {  },
+    "death_drops": [
+      { "item": "mil_plate", "count": 4 },
+      { "group": "helicopter", "count": 10 },
+      { "group": "mil_hw", "count": 10 },
+      { "group": "supplies_metal", "count": 10 }
+    ],
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zankylosaurus_tank",
     "name": { "str_sp": "Tankylosaurus" },
     "copy-from": "mon_zankylosaurus_brute",
@@ -2015,11 +2039,49 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zriceratops_tank",
+    "name": { "str_sp": "APCeratops" },
+    "copy-from": "mon_zriceratops_brute",
+    "looks_like": "mon_zriceratops",
+    "description": "Enormous zombie dinosaur with dramatic horns lifting what looks like a US Army armored personnel carrier.  There is movement inside.",
+    "diff": 30,
+    "color": "dark_gray_red",
+    "luminance": 20,
+    "proportional": { "hp": 1.5, "speed": 0.8 },
+    "relative": { "armor_bash": 30, "armor_cut": 37, "armor_bullet": 30, "armor_stab": 30, "armor_acid": 3 },
+    "bleed_rate": 50,
+    "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
+    "special_attacks": [ [ "MULTI_ROBOT", 30 ] ],
+    "upgrades": {  },
+    "death_drops": [
+      { "item": "mil_plate", "count": 4 },
+      { "group": "helicopter", "count": 10 },
+      { "group": "mil_hw", "count": 10 },
+      { "group": "supplies_metal", "count": 10 }
+    ],
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zyrannosaurus_hulk",
     "name": { "str_sp": "Goliath Rex" },
     "copy-from": "mon_zyrannosaurus_brute",
     "looks_like": "mon_zyrannosaurus",
-    "description": "A hideously swollen zombified tyrannosaurus body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",
+    "description": "A hideously swollen zombified tyrannosaurid body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 5,
+    "color": "white_magenta",
+    "proportional": { "hp": 4, "speed": 1.25 },
+    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "bleed_rate": 0,
+    "special_attacks": [ [ "SMASH", 20 ] ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zapatosaurus_hulk",
+    "name": { "str_sp": "sauropod hulk" },
+    "copy-from": "mon_zapatosaurus_brute",
+    "looks_like": "mon_zapatosaurus",
+    "description": "A hideously swollen zombified sauropod body towering into the sky even more than usual.  Its massive body bulges with distended muscles and swollen, festering wounds.",
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
@@ -2030,10 +2092,24 @@
   {
     "type": "MONSTER",
     "id": "mon_zankylosaurus_hulk",
-    "name": { "str_sp": "Ankylosaurus hulk" },
+    "name": { "str_sp": "ankylosaurid hulk" },
     "copy-from": "mon_zankylosaurus_brute",
     "looks_like": "mon_ankylosaurus",
-    "description": "A hideously swollen zombified Ankylosaurus body towering into the sky.  Its massive body bulges with distended muscles and enormous bony armor.",
+    "description": "A hideously swollen zombified ankylosaurid body towering into the sky.  Its massive body bulges with distended muscles and enormous bony armor.",
+    "diff": 5,
+    "color": "white_magenta",
+    "proportional": { "hp": 4, "speed": 1.25 },
+    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "bleed_rate": 0,
+    "special_attacks": [ [ "SMASH", 20 ] ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zriceratops_hulk",
+    "name": { "str_sp": "ceratopsian hulk" },
+    "copy-from": "mon_zriceratops_brute",
+    "looks_like": "mon_zriceratops",
+    "description": "A hideously swollen zombified ceratopsian body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wound.",
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },

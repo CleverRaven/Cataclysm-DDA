@@ -202,7 +202,7 @@
       "advice": "There's a lot of places to look.  Trees are pretty common.",
       "inquire": "How is the search going?  Have you found'em?",
       "success": "I really appreciate your help.  Don't worry, you won't leave empty-handed.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
     "end": { "effect": [ { "u_spawn_item": "cattlefodder", "count": 2 } ] }
@@ -226,7 +226,7 @@
       "advice": "Find someone growing berries or an orchard.",
       "inquire": "Have you found the fruit?",
       "success": "Thank you for your help.  Here's your reward.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
     "end": { "effect": [ { "u_spawn_item": "petpack", "count": 1 } ] }

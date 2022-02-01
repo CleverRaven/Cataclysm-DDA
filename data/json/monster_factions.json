@@ -121,7 +121,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "rat",
-    "base_faction": "vermin"
+    "base_faction": "vermin",
+    "neutral": "ratkin"
   },
   {
     "type": "MONSTER_FACTION",
@@ -239,6 +240,12 @@
     "type": "MONSTER_FACTION",
     "name": "corvid",
     "base_faction": "mutant"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ratkin",
+    "base_faction": "mutant",
+    "neutral": "rat"
   },
   {
     "type": "MONSTER_FACTION",

@@ -126,16 +126,16 @@ std::string move_mode::type_name() const
 {
     switch( _type ) {
         case move_mode_type::PRONE:
-            return "prone";
+            return _( "prone" );
         case move_mode_type::CROUCHING:
-            return "crouching";
+            return _( "crouching" );
         case move_mode_type::WALKING:
-            return "walking";
+            return _( "walking" );
         case move_mode_type::RUNNING:
-            return "running";
+            return _( "running" );
         default:
             // Shouldn't happen, but make it visible if it does
-            return "bugging out";
+            return _( "bugging out" );
     }
 }
 

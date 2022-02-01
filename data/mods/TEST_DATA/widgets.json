@@ -31,8 +31,7 @@
     "label": "POOL",
     "width": 4,
     "symbols": "0123",
-    "fill": "pool",
-    "var_max": 240
+    "fill": "pool"
   },
   {
     "id": "test_number_widget",
@@ -45,9 +44,6 @@
     "type": "widget",
     "label": "COLORNUM",
     "style": "number",
-    "//": "var_min to var_max maps exactly 1:1 with color index",
-    "var_min": 0,
-    "var_max": 2,
     "colors": [ "c_red", "c_yellow", "c_green" ]
   },
   {
@@ -57,8 +53,6 @@
     "style": "graph",
     "width": 5,
     "symbols": "-=#",
-    "var_min": 0,
-    "var_max": 10,
     "colors": [ "c_red", "c_yellow", "c_light_green", "c_green" ]
   },
   {
@@ -69,8 +63,6 @@
     "width": 10,
     "symbols": "-=#",
     "fill": "pool",
-    "var_min": 0,
-    "var_max": 10000,
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
   },
   {
@@ -173,8 +165,7 @@
     "style": "graph",
     "fill": "pool",
     "width": 10,
-    "symbols": "-=#",
-    "var_max": 10000
+    "symbols": "-=#"
   },
   {
     "id": "test_sound_num",
@@ -219,31 +210,80 @@
     "style": "text"
   },
   {
+    "id": "test_stat_num",
+    "//": "Plain text stat widget, for use in column-layout tests where color tags would interfere",
+    "type": "widget",
+    "style": "number"
+  },
+  {
     "id": "test_str_num",
     "type": "widget",
     "label": "STR",
     "var": "stat_str",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_dex_num",
     "type": "widget",
     "label": "DEX",
     "var": "stat_dex",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_int_num",
     "type": "widget",
     "label": "INT",
     "var": "stat_int",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_per_num",
     "type": "widget",
     "label": "PER",
     "var": "stat_per",
+    "copy-from": "test_stat_num"
+  },
+  {
+    "id": "test_stat_color_num",
+    "//": "Stat widget with color, to indicate below/at/above normal level",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_cyan", "c_light_green", "c_green" ],
+    "type": "widget",
+    "style": "number"
+  },
+  {
+    "id": "test_str_color_num",
+    "type": "widget",
+    "label": "STR",
+    "var": "stat_str",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_dex_color_num",
+    "type": "widget",
+    "label": "DEX",
+    "var": "stat_dex",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_int_color_num",
+    "type": "widget",
+    "label": "INT",
+    "var": "stat_int",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_per_color_num",
+    "type": "widget",
+    "label": "PER",
+    "var": "stat_per",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_health_color_num",
+    "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ],
+    "type": "widget",
+    "label": "Health",
+    "var": "health",
     "style": "number"
   },
   {
@@ -350,6 +390,14 @@
     "height": 3,
     "text_align": "left",
     "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "test_torso_armor_outer_text",
+    "type": "widget",
+    "style": "text",
+    "label": "Torso Armor",
+    "var": "bp_armor_outer_text",
+    "bodypart": "torso"
   },
   {
     "id": "test_overmap_3x3_text",

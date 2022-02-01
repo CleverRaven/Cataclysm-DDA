@@ -99,7 +99,8 @@ static std::string keys_text()
         colorize( "i", c_light_green ) + _( " item, " ) +
         colorize( "c", c_light_green ) + _( " category, " ) +
         colorize( "w", c_light_green ) + _( " whitelist, " ) +
-        colorize( "b", c_light_green ) + _( " blacklist" );
+        colorize( "b", c_light_green ) + _( " blacklist, " ) +
+        colorize( "x", c_light_green ) + _( " clear" );
 }
 
 bool pocket_favorite_callback::key( const input_context &, const input_event &event, int,
@@ -141,15 +142,12 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         selected_pocket->settings.set_unloadable( !selected_pocket->settings.is_unloadable() );
         return true;
     }
-
-    const bool item_id = input == 'i';
-    const bool cat_id = input == 'c';
     uilist selector_menu;
 
     const std::string remove_prefix = "<color_light_red>-</color> ";
     const std::string add_prefix = "<color_green>+</color> ";
 
-    if( item_id ) {
+    if( input == 'i' ) {
         const cata::flat_set<itype_id> &listed_itypes = whitelist
                 ? selected_pocket->settings.get_item_whitelist()
                 : selected_pocket->settings.get_item_blacklist();
@@ -213,7 +211,7 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         }
 
         return true;
-    } else if( cat_id ) {
+    } else if( input == 'c' ) {
         // Get all categories and sort by name
         std::vector<item_category> all_cat = item_category::get_all();
         const cata::flat_set<item_category_id> &listed_cat = whitelist
@@ -247,6 +245,11 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
             }
         }
         return true;
+    } else if( input == 'x' ) {
+        const int pocket_num = menu->selected + 1;
+        if( query_yn( _( "Are you sure you want to clear settings for pocket %d?" ), pocket_num ) ) {
+            selected_pocket->settings.clear();
+        }
     }
 
     return false;
@@ -1521,14 +1524,17 @@ void item_contents::add_pocket( const item &pocket_item )
 item item_contents::remove_pocket( int index )
 {
     // start at the first pocket
-    auto it = contents.begin();
+    auto rit = contents.rbegin();
+
 
     // find the pockets to remove from the item
-    for( int i = 0; i < index; ++i ) {
+    for( int i = additional_pockets.size() - 1; i >= index; --i ) {
         // move the iterator past all the pockets we aren't removing
-        std::advance( it, additional_pockets[i].get_all_contained_pockets().value().size() );
+        std::advance( rit, additional_pockets[i].get_all_contained_pockets().value().size() );
     }
 
+    // at this point reveresed past the pockets we want to get rid of so now start going forward
+    auto it = std::next( rit ).base();
     units::volume total_nonrigid_volume = 0_ml;
     for( item_pocket *i_pocket : additional_pockets[index].get_all_contained_pockets().value() ) {
         total_nonrigid_volume += i_pocket->max_contains_volume();

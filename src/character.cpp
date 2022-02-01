@@ -4243,7 +4243,7 @@ int Character::get_sleep_deprivation() const
 bool Character::is_deaf() const
 {
     return get_effect_int( effect_deaf ) > 2 || worn_with_flag( flag_DEAF ) ||
-           has_flag( json_flag_DEAF ) ||
+           has_flag( json_flag_DEAF ) || has_effect( effect_narcosis ) ||
            ( has_trait( trait_M_SKIN3 ) && get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() )
              && in_sleep_state() );
 }
@@ -8676,14 +8676,10 @@ void Character::on_item_wear( const item &it )
 {
     invalidate_inventory_validity_cache();
     for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
-        mutation_effect( mut, true );
-        recalc_sight_limits();
-        calc_encumbrance();
-
-        // If the stamina is higher than the max (Languorous), set it back to max
-        if( get_stamina() > get_stamina_max() ) {
-            set_stamina( get_stamina_max() );
-        }
+        // flag these mutations to be added at the start of the next turn
+        // without doing this you still count as wearing the item providing
+        // the traits so most the calcs don't work in mutation_loss_effect
+        mutations_to_add.push_back( mut );
     }
     morale->on_item_wear( it );
 }
@@ -8691,15 +8687,23 @@ void Character::on_item_wear( const item &it )
 void Character::on_item_takeoff( const item &it )
 {
     invalidate_inventory_validity_cache();
-    for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
-        mutation_loss_effect( mut );
-        recalc_sight_limits();
-        calc_encumbrance();
-        if( get_stamina() > get_stamina_max() ) {
-            set_stamina( get_stamina_max() );
-        }
+    for( const trait_id &mut : it.mutations_from_wearing( *this, true ) ) {
+        // flag these mutations to be removed at the start of the next turn
+        // without doing this you still count as wearing the item providing
+        // the traitssdd so most the calcs don't work in mutation_loss_effect
+        mutations_to_remove.push_back( mut );
+
     }
     morale->on_item_takeoff( it );
+}
+
+void Character::enchantment_wear_change()
+{
+    recalc_sight_limits();
+    calc_encumbrance();
+    if( get_stamina() > get_stamina_max() ) {
+        set_stamina( get_stamina_max() );
+    }
 }
 
 void Character::on_item_acquire( const item &it )
@@ -10160,6 +10164,9 @@ bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
 {
     for( const bodypart_id &bp : get_all_body_parts() ) {
         if( bp->has_flag( flag ) ) {
+            return true;
+        }
+        if( get_part( bp )->has_conditional_flag( flag ) ) {
             return true;
         }
     }

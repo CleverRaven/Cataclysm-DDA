@@ -930,7 +930,7 @@ nc_color display::rad_badge_color( const int rad )
 std::pair<std::string, nc_color> display::rad_badge_text_color( const Character &u )
 {
     // Default - no radiation badge
-    std::string rad_text = "Unknown";
+    std::string rad_text = _( "Unknown" );
     nc_color rad_color = c_light_gray;
     // Get all items that can detect radiation
     for( const item *it : u.all_items_with_flag( json_flag_RAD_DETECT ) ) {
@@ -1180,6 +1180,17 @@ std::string display::colorized_bodypart_status_legend_text( const Character &u,
         height++;
     }
     return ret;
+}
+
+std::string display::colorized_bodypart_outer_armor( const Character &u, const bodypart_id &bp )
+{
+    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
+        --it;
+        if( it->covers( bp ) ) {
+            return it->tname( 1, true, 0 );
+        }
+    }
+    return "-";
 }
 
 // Single-letter move mode (W, R, C, P)

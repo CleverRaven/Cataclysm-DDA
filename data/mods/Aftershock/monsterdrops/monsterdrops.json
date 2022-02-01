@@ -288,6 +288,37 @@
     ]
   },
   {
+    "id": "alien_arthropod",
+    "type": "harvest",
+    "message": "<centipede_harvest>",
+    "entries": [
+      { "drop": "insect_sample", "type": "mutagen_group" },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.05 },
+      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.2 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.08 }
+    ]
+  },
+  {
+    "id": "alien_floater",
+    "//": "mostly hydrogen bubbles",
+    "message": "The freeze-burned leather parts easily, and thousands of fleshy floating bubbles erupt from the distended carcass.  Most fly away before you can reach them.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "mutant_bug_hydrogen_sacs", "type": "offal", "mass_ratio": 2.0 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.0035 },
+      { "drop": "raw_alien_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 }
+    ]
+  },
+  {
     "id": "alien_moxphore",
     "type": "harvest",
     "message": "<arachnid_harvest>",

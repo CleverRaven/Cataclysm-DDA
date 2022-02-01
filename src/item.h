@@ -353,6 +353,12 @@ class item : public visitable
         bool is_ebook_storage() const;
 
         /**
+         * A heuristic on whether it's a good idea to use this as a melee weapon.
+         * Used for nicer messages only.
+         */
+        bool is_maybe_melee_weapon() const;
+
+        /**
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
          */
         std::string dirt_symbol() const;
@@ -480,10 +486,14 @@ class item : public visitable
                              bool debug ) const;
         void bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
-        void combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                          bool debug ) const;
+        void melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                bool debug ) const;
         void contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                             bool debug ) const;
+        void properties_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                              bool debug ) const;
+        void ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
         void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
 
@@ -622,6 +632,8 @@ class item : public visitable
                               int charges_in_vol = -1 ) const;
 
         units::length length() const;
+
+        units::length integral_length() const;
 
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
@@ -1603,7 +1615,7 @@ class item : public visitable
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
         bool has_relic_activation() const;
-        std::vector<trait_id> mutations_from_wearing( const Character &guy ) const;
+        std::vector<trait_id> mutations_from_wearing( const Character &guy, bool removing = false ) const;
 
         /**
          * Name of the item type (not the item), with proper plural.
@@ -1943,6 +1955,7 @@ class item : public visitable
         enum class encumber_flags : int {
             none = 0,
             assume_full = 1,
+            assume_empty = 2
         };
 
         const armor_portion_data *portion_for_bodypart( const bodypart_id &bodypart ) const;
@@ -2231,7 +2244,7 @@ class item : public visitable
         /** Get the default magazine type (if any) for the current effective ammo type
          *  @param conversion whether to include the effect of any flags or mods which convert item's ammo type
          *  @return magazine type or "null" if item has integral magazine or no magazines for current ammo type */
-        itype_id magazine_default( bool conversion = true ) const;
+        itype_id magazine_default( bool conversion = false ) const;
 
         /** Get compatible magazines (if any) for this item
          *  @return magazine compatibility which is always empty if item has integral magazine
@@ -2331,6 +2344,10 @@ class item : public visitable
          * Returns empty instance on non-gun items.
          */
         damage_instance gun_damage( bool with_ammo = true, bool shot = false ) const;
+        /**
+         * The minimum force required to cycle the gun, can be overridden by mods
+         */
+        int min_cycle_recoil() const;
         /**
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */
