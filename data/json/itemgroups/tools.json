@@ -767,7 +767,8 @@
       { "item": "reciprocating_saw", "prob": 50, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
-      { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] }
+      { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] },
+      { "item": "masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] }
     ]
   },
   {
