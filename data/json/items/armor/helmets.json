@@ -1111,7 +1111,7 @@
     "id": "hc_helm_close_raised",
     "copy-from": "hc_helm_close",
     "type": "ARMOR",
-    "name": { "str": "high steel close helm (raised)", "str_pl": "high steel close helms (raised)"},
+    "name": { "str": "high steel close helm (raised)", "str_pl": "high steel close helms (raised)" },
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor_data": {
@@ -1135,7 +1135,7 @@
   {
     "id": "xl_hc_helm_close",
     "type": "ARMOR",
-    "name": { "str": "XL high steel close helm", "str_pl": "XL high steel close helms (raised)"},
+    "name": { "str": "XL high steel close helm", "str_pl": "XL high steel close helms (raised)" },
     "copy-from": "hc_helm_close",
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_hc_helm_close_raised", "menu_text": "Raise" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1154,7 +1154,7 @@
     "id": "ch_helm_close",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "hardened steel close helm", "str_pl": "hardened steel close helms (raised)"},
+    "name": { "str": "hardened steel close helm", "str_pl": "hardened steel close helms (raised)" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "weight": "2750 g",
     "volume": "3 L",
