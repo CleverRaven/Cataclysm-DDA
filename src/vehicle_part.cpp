@@ -280,7 +280,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
     // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
     if( is_tank() && qty != 0 ) {
         const itype *ammo_itype = item::find_type( ammo );
-        if( ammo_itype && ammo_itype->phase >= phase_id::LIQUID ) {
+        if( ammo_itype && ammo_itype->ammo && ammo_itype->phase >= phase_id::LIQUID ) {
             base.clear_items();
             const int limit = ammo_capacity( ammo_itype->ammo->type );
             // assuming "ammo" isn't really going into a magazine as this is a vehicle part
@@ -305,7 +305,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 
     if( is_fuel_store() ) {
         const itype *ammo_itype = item::find_type( ammo );
-        if( ammo_itype ) {
+        if( ammo_itype && ammo_itype->ammo ) {
             base.ammo_set( ammo, qty >= 0 ? qty : ammo_capacity( ammo_itype->ammo->type ) );
             return base.ammo_remaining();
         }
@@ -412,7 +412,13 @@ bool vehicle_part::can_reload( const item &obj ) const
         return true; // empty tank
     }
 
-    return ammo_remaining() < ammo_capacity( ammo_current().obj().ammo->type );
+    // Despite checking for an empty tank, item::find_type can still turn up with an empty ammo pointer
+    if( cata::value_ptr<islot_ammo> a_val = item::find_type( ammo_current() )->ammo ) {
+        return ammo_remaining() < ammo_capacity( a_val->type );
+    }
+
+    // Nothing in tank
+    return ammo_capacity( obj.ammo_type() ) > 0;
 }
 
 void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
