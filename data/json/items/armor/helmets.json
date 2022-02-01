@@ -939,7 +939,7 @@
     "id": "lc_helm_close_raised",
     "copy-from": "lc_helm_close",
     "type": "ARMOR",
-    "name": { "str": "mild steel close helm (raised)" },
+    "name": { "str": "mild steel close helm (raised)", "str_pl": "mild steel close helms (raised)" },
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor_data": {
@@ -963,7 +963,7 @@
   {
     "id": "xl_lc_helm_close",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel close helm" },
+    "name": { "str": "XL mild steel close helm", "str_pl": "XL mild steel close helms" },
     "copy-from": "lc_helm_close",
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_lc_helm_close_raised", "menu_text": "Raise" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -972,7 +972,7 @@
   {
     "id": "xl_lc_helm_close_raised",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel close helm (raised)" },
+    "name": { "str": "XL mild steel close helm (raised)", "str_pl": "XL mild steel close helms (raised)" },
     "copy-from": "lc_helm_close_raised",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_lc_helm_close", "menu_text": "Lower" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1025,7 +1025,7 @@
     "id": "mc_helm_close_raised",
     "copy-from": "mc_helm_close",
     "type": "ARMOR",
-    "name": { "str": "medium steel close helm (raised)" },
+    "name": { "str": "medium steel close helm (raised)", "str_pl": "medium steel close helms (raised)" },
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor_data": {
@@ -1049,7 +1049,7 @@
   {
     "id": "xl_mc_helm_close",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel close helm" },
+    "name": { "str": "XL medium steel close helm", "str_pl": "XL medium steel close helms" },
     "copy-from": "mc_helm_close",
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_mc_helm_close_raised", "menu_text": "Raise" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1058,7 +1058,7 @@
   {
     "id": "xl_mc_helm_close_raised",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel close helm (raised)" },
+    "name": { "str": "XL medium steel close helm (raised)", "str_pl": "XL medium steel close helms (raised)" },
     "copy-from": "mc_helm_close_raised",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_mc_helm_close", "menu_text": "Lower" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
