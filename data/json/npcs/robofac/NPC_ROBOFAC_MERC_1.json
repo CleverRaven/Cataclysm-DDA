@@ -191,7 +191,7 @@
       {
         "text": "[Notice high end gun]",
         "condition": { "or": [{ "u_has_perception": 10 }, { "u_has_skill": { "skill": "mechanics", "level": 4 } }, { "u_has_skill": { "skill": "gun", "level": 2 } } ]},
-        "topic": "TALK_ROBOFAC_MERC_1_RANDOM_THOUGHTS"
+        "topic": "TALK_ROBOFAC_MERC_1_HWP"
       },
       { "text": "Well, I should get going.", "topic": "TALK_DONE" }
     ]
@@ -229,6 +229,12 @@
       "You noticed this place has working WI-FI?  Well not the rest of the net works anyways."
     ],
     "responses": [ { "text": "…", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_HWP",
+    "type": "talk_topic",
+    "dynamic_line": "[You've never seen anything like it.  Steel body with composite blue furniture, it looks lightweight and cutting edge.  Modern hybrid scope, built-in attachments, and a strange quick-release button on the side.  The magazine is definitely for 5.56 NATO but the magazine well seems strangely designed] Admiring the hardware?",
+    "responses": [ { "text": "Didn't mean to stare.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_1_GOLD_MISSION",
