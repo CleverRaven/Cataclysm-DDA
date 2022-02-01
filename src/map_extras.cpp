@@ -2884,7 +2884,7 @@ void apply_function( const map_extra_id &id, map &m, const tripoint_abs_sm &abs_
     if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ) {
 
         // Only place note if the user has not disabled it via the auto note manager
-        if( !auto_note_settings.has_auto_note_enabled( id ) ) {
+        if( !auto_note_settings.has_auto_note_enabled( id, true ) ) {
             return;
         }
 
