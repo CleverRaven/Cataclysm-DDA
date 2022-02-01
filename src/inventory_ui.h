@@ -335,7 +335,7 @@ class inventory_column
         void draw( const catacurses::window &win, const point &p,
                    std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
 
-        void add_entry( const inventory_entry &entry );
+        void add_entry( const inventory_entry &entry, bool update_width = true );
         void move_entries_to( inventory_column &dest );
         void clear();
         void set_stack_favorite( std::vector<item_location> &locations, bool favorite );
@@ -817,6 +817,7 @@ class inventory_selector
         bool is_empty = true;
         bool display_stats = true;
         bool use_invlet = true;
+        bool do_width_calc = true;
         selector_invlet_type invlet_type_ = SELECTOR_INVLET_DEFAULT;
         size_t entry_generation_number = 0;
 

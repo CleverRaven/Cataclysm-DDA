@@ -920,7 +920,7 @@ void inventory_column::on_change( const inventory_entry &/* entry */ )
     // stub
 }
 
-void inventory_column::add_entry( const inventory_entry &entry )
+void inventory_column::add_entry( const inventory_entry &entry, bool update_width )
 {
     if( std::find( entries.begin(), entries.end(), entry ) != entries.end() ) {
         debugmsg( "Tried to add a duplicate entry." );
@@ -949,14 +949,16 @@ void inventory_column::add_entry( const inventory_entry &entry )
             nentry.topmost_parent = entry_with_loc->topmost_parent;
             nentry.generation = entry_with_loc->generation;
             entries.erase( entry_with_loc );
-            add_entry( nentry );
+            add_entry( nentry, update_width );
         }
     }
     if( !has_loc ) {
         entries.emplace_back( entry );
     }
     entries_cell_cache.clear();
-    expand_to_fit( entry );
+    if( update_width ) {
+        expand_to_fit( entry );
+    }
     paging_is_valid = false;
 }
 
@@ -1324,13 +1326,14 @@ selection_column::selection_column( const std::string &id, const std::string &na
 
 selection_column::~selection_column() = default;
 
+static bool always_yes( const inventory_entry & )
+{
+    return true;
+}
+
 void selection_column::reset_width( const std::vector<inventory_column *> &all_columns )
 {
     inventory_column::reset_width( all_columns );
-
-    const auto always_yes = []( const inventory_entry & ) {
-        return true;
-    };
 
     for( const inventory_column *const col : all_columns ) {
         if( col && !dynamic_cast<const selection_column *>( col ) ) {
@@ -1490,7 +1493,7 @@ void inventory_selector::add_entry( inventory_column &target_column,
     entry.collapsed = locations.front()->is_collapsed();
     entry.topmost_parent = topmost_parent;
     entry.generation = entry_generation_number++;
-    target_column.add_entry( entry );
+    target_column.add_entry( entry, do_width_calc );
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( current_ui ) {
@@ -1579,6 +1582,7 @@ void inventory_selector::add_contained_ebooks( item_location &container )
 
 void inventory_selector::add_character_items( Character &character )
 {
+    do_width_calc = false;
     character.visit_items( [ this, &character ]( item * it, item * ) {
         if( it == &character.get_wielded_item() ) {
             add_item( own_gear_column, item_location( character, it ),
@@ -1596,6 +1600,13 @@ void inventory_selector::add_character_items( Character &character )
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ),
         &item_category_ITEMS_WORN.obj() );
     }
+    do_width_calc = true;
+    for( inventory_column *elem : columns ) {
+        for( inventory_entry *e : elem->get_entries( always_yes ) ) {
+            elem->expand_to_fit( *e );
+        }
+    }
+
     // this is a little trick; we want the default behavior for contained items to be in own_inv_column
     // and this function iterates over all the entries after we added them to the inventory selector
     // to put them in the right place
