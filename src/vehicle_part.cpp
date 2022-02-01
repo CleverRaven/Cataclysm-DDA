@@ -441,7 +441,13 @@ bool vehicle_part::fill_with( item &liquid, int qty )
         return false;
     }
 
-    int charges_max = ammo_capacity( item::find_type( ammo_current() )->ammo->type ) - ammo_remaining();
+    int charges_max = 0;
+    if( cata::value_ptr<islot_ammo> a_val = item::find_type( ammo_current() )->ammo ) {
+        charges_max = ammo_capacity( a_val->type ) - ammo_remaining();
+    } else {
+        // Nothing in tank
+        charges_max = ammo_capacity( liquid.ammo_type() );
+    }
     qty = qty < liquid.charges ? qty : liquid.charges;
 
     if( charges_max < liquid.charges ) {
