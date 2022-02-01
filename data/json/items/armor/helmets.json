@@ -961,6 +961,24 @@
     "flags": [ "STURDY" ]
   },
   {
+    "id": "xl_lc_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel close helm", "str_pl": "XL mild steel close helms" },
+    "copy-from": "lc_helm_close",
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_lc_helm_close_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_lc_helm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel close helm (raised)", "str_pl": "XL mild steel close helms (raised)" },
+    "copy-from": "lc_helm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_lc_helm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "mc_helm_close",
     "type": "ARMOR",
     "category": "armor",
@@ -1027,6 +1045,24 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY" ]
+  },
+  {
+    "id": "xl_mc_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel close helm", "str_pl": "XL medium steel close helms" },
+    "copy-from": "mc_helm_close",
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_mc_helm_close_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_mc_helm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel close helm (raised)", "str_pl": "XL medium steel close helms (raised)" },
+    "copy-from": "mc_helm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_mc_helm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "hc_helm_close",
@@ -1097,6 +1133,24 @@
     "flags": [ "STURDY" ]
   },
   {
+    "id": "xl_hc_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel close helm", "str_pl": "XL high steel close helms" },
+    "copy-from": "hc_helm_close",
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_hc_helm_close_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_hc_helm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel close helm (raised)", "str_pl": "XL high steel close helms (raised)" },
+    "copy-from": "hc_helm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_hc_helm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "ch_helm_close",
     "type": "ARMOR",
     "category": "armor",
@@ -1165,6 +1219,24 @@
     "flags": [ "STURDY" ]
   },
   {
+    "id": "xl_ch_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened steel close helm", "str_pl": "XL hardened steel close helms" },
+    "copy-from": "ch_helm_close",
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_ch_helm_close_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_ch_helm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened steel close helm (raised)", "str_pl": "XL hardened steel close helms (raised)" },
+    "copy-from": "ch_helm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_ch_helm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "qt_helm_close",
     "type": "ARMOR",
     "category": "armor",
@@ -1231,5 +1303,23 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY" ]
-  }
+  },
+  {
+    "id": "xl_qt_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered steel close helm", "str_pl": "XL tempered steel close helms" },
+    "copy-from": "qt_helm_close",
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_qt_helm_close_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_qt_helm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered steel close helm (raised)", "str_pl": "XL tempered steel close helms (raised)" },
+    "copy-from": "qt_helm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_qt_helm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
 ]

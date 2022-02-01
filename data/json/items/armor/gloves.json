@@ -966,6 +966,14 @@
     }
   },
   {
+    "id": "xl_lc_demi_gaunt",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL low steel demi-gauntlet" },
+    "copy-from": "lc_demi_gaunt",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "mc_demi_gaunt",
     "type": "ARMOR",
     "category": "armor",
@@ -997,6 +1005,14 @@
         }
       ]
     }
+  },
+  {
+    "id": "xl_mc_demi_gaunt",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL medium steel demi-gauntlet" },
+    "copy-from": "mc_demi_gaunt",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "hc_demi_gaunt",
@@ -1032,6 +1048,14 @@
     }
   },
   {
+    "id": "xl_hc_demi_gaunt",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL high steel demi-gauntlet" },
+    "copy-from": "hc_demi_gaunt",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "ch_demi_gaunt",
     "type": "ARMOR",
     "category": "armor",
@@ -1063,6 +1087,14 @@
         }
       ]
     }
+  },
+  {
+    "id": "xl_ch_demi_gaunt",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL hardened steel demi-gauntlet" },
+    "copy-from": "ch_demi_gaunt",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "qt_demi_gaunt",
@@ -1098,6 +1130,14 @@
     }
   },
   {
+    "id": "xl_qt_demi_gaunt",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL tempered steel demi-gauntlet" },
+    "copy-from": "qt_demi_gaunt",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "lc_mitten_gaunt",
     "type": "ARMOR",
     "category": "armor",
@@ -1129,6 +1169,14 @@
         }
       ]
     }
+  },
+  {
+    "id": "xl_lc_mitten_gaunt",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL low steel mitten gauntlet" },
+    "copy-from": "lc_mitten_gaunt",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "mc_mitten_gaunt",
@@ -1164,6 +1212,14 @@
     }
   },
   {
+    "id": "xl_mc_mitten_gaunt",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL medium steel mitten gauntlet" },
+    "copy-from": "mc_mitten_gaunt",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "hc_mitten_gaunt",
     "type": "ARMOR",
     "category": "armor",
@@ -1195,6 +1251,14 @@
         }
       ]
     }
+  },
+  {
+    "id": "xl_hc_mitten_gaunt",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL high steel mitten gauntlet" },
+    "copy-from": "hc_mitten_gaunt",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "ch_mitten_gaunt",
@@ -1230,6 +1294,14 @@
     }
   },
   {
+    "id": "xl_ch_mitten_gaunt",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL hardened steel mitten gauntlet" },
+    "copy-from": "ch_mitten_gaunt",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "qt_mitten_gaunt",
     "type": "ARMOR",
     "category": "armor",
@@ -1261,5 +1333,13 @@
         }
       ]
     }
+  },
+  {
+    "id": "xl_qt_mitten_gaunt",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL tempered steel mitten gauntlet" },
+    "copy-from": "qt_mitten_gaunt",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   }
 ]
