@@ -175,10 +175,6 @@ map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
         grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE ), nullptr );
     }
 
-    for( auto &ptr : caches ) {
-        ptr = std::make_unique<level_cache>();
-    }
-
     for( auto &ptr : pathfinding_caches ) {
         ptr = std::make_unique<pathfinding_cache>();
     }
@@ -246,10 +242,12 @@ void map::rebuild_vehicle_level_caches()
 
     for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
         // Cache all vehicles
-        level_cache &ch = get_cache( gridz );
+        level_cache *ch = get_cache_lazy( gridz );
 
-        for( const auto &elem : ch.vehicle_list ) {
-            add_vehicle_to_cache( elem );
+        if( ch ) {
+            for( const auto &elem : ch->vehicle_list ) {
+                add_vehicle_to_cache( elem );
+            }
         }
     }
 }
@@ -282,26 +280,32 @@ void map::clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt )
         return;
     }
 
-    level_cache &ch = get_cache( pt.z );
-    if( inbounds( pt ) ) {
-        ch.set_veh_exists_at( pt, false );
+    level_cache *ch = get_cache_lazy( pt.z );
+    if( ch ) {
+        if( inbounds( pt ) ) {
+            ch->set_veh_exists_at( pt, false );
+        }
+        ch->clear_veh_from_veh_cached_parts( pt, veh );
     }
-    ch.clear_veh_from_veh_cached_parts( pt, veh );
 }
 
 void map::clear_vehicle_level_caches( )
 {
     for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-        level_cache &ch = get_cache( gridz );
-        ch.clear_vehicle_cache();
+        level_cache *ch = get_cache_lazy( gridz );
+        if( ch ) {
+            ch->clear_vehicle_cache();
+        }
     }
 }
 
 void map::clear_vehicle_list( const int zlev )
 {
-    auto &ch = get_cache( zlev );
-    ch.vehicle_list.clear();
-    ch.zone_vehicles.clear();
+    auto *ch = get_cache_lazy( zlev );
+    if( ch ) {
+        ch->vehicle_list.clear();
+        ch->zone_vehicles.clear();
+    }
 }
 
 void map::update_vehicle_list( const submap *const to, const int zlev )
@@ -394,7 +398,11 @@ void map::vehmove()
     int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     const tripoint player_pos = get_player_character().pos();
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache &cache = get_cache( zlev );
+        level_cache *cache_lazy = get_cache_lazy( zlev );
+        if( !cache_lazy ) {
+            continue;
+        }
+        level_cache &cache = *cache_lazy;
         for( vehicle *veh : cache.vehicle_list ) {
             if( veh->is_following ) {
                 veh->drive_to_local_target( getabs( player_pos ), true );
@@ -432,8 +440,10 @@ void map::vehmove()
     // The bool tracks whether the vehicles is on the map or not.
     std::map<vehicle *, bool> connected_vehicles;
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache &cache = get_cache( zlev );
-        vehicle::enumerate_vehicles( connected_vehicles, cache.vehicle_list );
+        level_cache *cache = get_cache_lazy( zlev );
+        if( cache ) {
+            vehicle::enumerate_vehicles( connected_vehicles, cache->vehicle_list );
+        }
     }
     for( std::pair<vehicle *const, bool> &veh_pair : connected_vehicles ) {
         veh_pair.first->idle( veh_pair.second );
@@ -6836,7 +6846,11 @@ void map::shift( const point &sp )
     const int zmin = zlevels ? -OVERMAP_DEPTH : abs.z;
     const int zmax = zlevels ? OVERMAP_HEIGHT : abs.z;
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
-        for( vehicle *veh : get_cache( gridz ).vehicle_list ) {
+        level_cache *cache = get_cache_lazy( gridz );
+        if( !cache ) {
+            continue;
+        }
+        for( vehicle *veh : cache->vehicle_list ) {
             veh->zones_dirty = true;
         }
     }
@@ -6850,8 +6864,11 @@ void map::shift( const point &sp )
         // mlangsdorf 2020 - this is kind of insane, building the cache is not free, why are
         // we doing this?
         clear_vehicle_list( gridz );
-        shift_bitset_cache<MAPSIZE_X, SEEX>( get_cache( gridz ).map_memory_seen_cache, sp );
-        shift_bitset_cache<MAPSIZE, 1>( get_cache( gridz ).field_cache, sp );
+        level_cache *cache = get_cache_lazy( gridz );
+        if( cache ) {
+            shift_bitset_cache<MAPSIZE_X, SEEX>( cache->map_memory_seen_cache, sp );
+            shift_bitset_cache<MAPSIZE, 1>( cache->field_cache, sp );
+        }
         if( sp.x >= 0 ) {
             for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
                 if( sp.y >= 0 ) {
@@ -7975,10 +7992,11 @@ int map::determine_wall_corner( const tripoint &p ) const
 
 void map::build_outside_cache( const int zlev )
 {
-    auto &ch = get_cache( zlev );
-    if( !ch.outside_cache_dirty ) {
+    auto *ch_lazy = get_cache_lazy( zlev );
+    if( !ch_lazy || !ch_lazy->outside_cache_dirty ) {
         return;
     }
+    level_cache &ch = *ch_lazy;
 
     // Make a bigger cache to avoid bounds checking
     // We will later copy it to our regular cache
@@ -8131,10 +8149,11 @@ std::bitset<OVERMAP_LAYERS> map::get_inter_level_visibility( const int origin_zl
 
 bool map::build_floor_cache( const int zlev )
 {
-    auto &ch = get_cache( zlev );
-    if( !ch.floor_cache_dirty ) {
+    auto *ch_lazy = get_cache_lazy( zlev );
+    if( !ch_lazy || !ch_lazy->floor_cache_dirty ) {
         return false;
     }
+    level_cache &ch = *ch_lazy;
 
     auto &floor_cache = ch.floor_cache;
     std::uninitialized_fill_n(
@@ -8231,8 +8250,11 @@ static void vehicle_caching_internal_above( level_cache &zch_above, const vpart_
 
 void map::do_vehicle_caching( int z )
 {
-    level_cache &ch = get_cache( z );
-    for( vehicle *v : ch.vehicle_list ) {
+    level_cache *ch = get_cache_lazy( z );
+    if( !ch ) {
+        return;
+    }
+    for( vehicle *v : ch->vehicle_list ) {
         for( const vpart_reference &vp : v->get_all_parts() ) {
             const tripoint part_pos = v->global_part_pos3( vp.part() );
             if( !inbounds( part_pos.xy() ) ) {
@@ -8795,7 +8817,11 @@ std::list<Creature *> map::get_creatures_in_radius( const tripoint &center, size
 level_cache &map::access_cache( int zlev )
 {
     if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {
-        return *caches[zlev + OVERMAP_DEPTH];
+        std::unique_ptr<level_cache> &cache = caches[zlev + OVERMAP_DEPTH];
+        if( !cache ) {
+            cache = std::make_unique<level_cache>();
+        }
+        return *cache;
     }
 
     debugmsg( "access_cache called with invalid z-level: %d", zlev );
@@ -8805,7 +8831,11 @@ level_cache &map::access_cache( int zlev )
 const level_cache &map::access_cache( int zlev ) const
 {
     if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {
-        return *caches[zlev + OVERMAP_DEPTH];
+        std::unique_ptr<level_cache> &cache = caches[zlev + OVERMAP_DEPTH];
+        if( !cache ) {
+            cache = std::make_unique<level_cache>();
+        }
+        return *cache;
     }
 
     debugmsg( "access_cache called with invalid z-level: %d", zlev );
