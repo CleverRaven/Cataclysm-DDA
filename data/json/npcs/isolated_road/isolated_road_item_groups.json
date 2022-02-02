@@ -28,7 +28,6 @@
     "entries": [
       { "item": "gambeson", "prob": 2 },
       { "item": "armor_lamellar", "prob": 2 },
-      { "item": "armor_junk_lightplate", "prob": 2 },
       { "item": "cuirass_lightplate", "prob": 2 },
       { "item": "armguard_lightplate", "prob": 2 },
       { "item": "legguard_lightplate", "prob": 2 },
