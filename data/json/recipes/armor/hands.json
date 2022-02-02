@@ -952,7 +952,7 @@
     "components": [ [ [ "gloves_light", 1 ], [ "gloves_liner", 1 ] ], [ [ "gloves_leather", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
-    "result": "lc_gauntlet",
+    "result": "lc_demi_gaunt",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -978,9 +978,9 @@
     ]
   },
   {
-    "result": "xl_lc_gauntlet",
+    "result": "xl_lc_demi_gaunt",
     "type": "recipe",
-    "copy-from": "lc_gauntlet",
+    "copy-from": "lc_demi_gaunt",
     "time": "2 d 16 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -992,7 +992,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "mc_gauntlet",
+    "result": "mc_demi_gaunt",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1018,9 +1018,9 @@
     ]
   },
   {
-    "result": "xl_mc_gauntlet",
+    "result": "xl_mc_demi_gaunt",
     "type": "recipe",
-    "copy-from": "mc_gauntlet",
+    "copy-from": "mc_demi_gaunt",
     "time": "2 d 16 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -1032,7 +1032,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "hc_gauntlet",
+    "result": "hc_demi_gaunt",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1058,9 +1058,9 @@
     ]
   },
   {
-    "result": "xl_hc_gauntlet",
+    "result": "xl_hc_demi_gaunt",
     "type": "recipe",
-    "copy-from": "hc_gauntlet",
+    "copy-from": "hc_demi_gaunt",
     "time": "2 d 16 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -1072,7 +1072,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "ch_gauntlet",
+    "result": "ch_demi_gaunt",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1098,9 +1098,9 @@
     ]
   },
   {
-    "result": "xl_ch_gauntlet",
+    "result": "xl_ch_demi_gaunt",
     "type": "recipe",
-    "copy-from": "ch_gauntlet",
+    "copy-from": "ch_demi_gaunt",
     "time": "3 d 4 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -1112,7 +1112,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "qt_gauntlet",
+    "result": "qt_demi_gaunt",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1138,9 +1138,9 @@
     ]
   },
   {
-    "result": "xl_qt_gauntlet",
+    "result": "xl_qt_demi_gaunt",
     "type": "recipe",
-    "copy-from": "qt_gauntlet",
+    "copy-from": "qt_demi_gaunt",
     "time": "3 d 6 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
