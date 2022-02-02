@@ -1491,7 +1491,6 @@
   {
     "id": "lc_sabaton",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "mild steel sabaton" },
     "description": "A leather boot with jointed plates for protection.",
     "weight": "750 g",
@@ -1525,7 +1524,6 @@
   {
     "id": "mc_sabaton",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "medium steel sabaton" },
     "description": "A leather boot with jointed plates for protection.",
     "weight": "750 g",
@@ -1559,7 +1557,6 @@
   {
     "id": "hc_sabaton",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "high steel sabaton" },
     "description": "A leather boot with jointed plates for protection.",
     "weight": "750 g",
@@ -1593,7 +1590,6 @@
   {
     "id": "ch_sabaton",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "hardened steel sabaton" },
     "description": "A leather boot with jointed plates for protection.",
     "weight": "750 g",
@@ -1627,7 +1623,6 @@
   {
     "id": "qt_sabaton",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "tempered steel sabaton" },
     "description": "A leather boot with jointed plates for protection.",
     "weight": "750 g",
