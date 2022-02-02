@@ -248,36 +248,43 @@ TEST_CASE( "opening and closing doors should cost movement points", "[gates]" )
 
         WHEN( "avatar opens the door while walking" ) {
             REQUIRE( they.is_walking() );
+           
+            // movement cost of opening doors
+            int open_cost = here.ter( pos ).obj().open_cost;
 
             // move towards the door to open them
             REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
             THEN( "avatar should lose movement points" ) {
-                ter_t door = here.ter( pos ).obj();
-                CHECK( they.moves == -door.open_cost );
+                CHECK( they.moves == -open_cost );
             }
         }
         WHEN( "avatar opens the door while running" ) {
             they.toggle_run_mode();
             REQUIRE( they.is_running() );
 
+            // movement cost of opening doors
+            int open_cost = here.ter( pos ).obj().open_cost;
+
             // move towards the door to open them
             REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
             THEN( "avatar should lose movement points" ) {
-                ter_t door = here.ter( pos ).obj();
-                CHECK( they.moves == -( they.run_cost( 100, false ) + door.open_cost / 2 ) );
+                CHECK( they.moves == -( they.run_cost( 100, false ) + open_cost / 2 ) );
             }
         }
         WHEN( "avatar opens the door while crouching" ) {
             they.toggle_crouch_mode();
             REQUIRE( they.is_crouching() );
 
+            // movement cost of opening doors
+            int open_cost = here.ter( pos ).obj().open_cost;
+
             // move towards the door to open them
             REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
             THEN( "avatar should lose movement points" ) {
-                CHECK( they.moves == -( here.ter( pos ).obj().open_cost * 3 ) );
+                CHECK( they.moves == -( open_cost * 1.17 ) );
             }
         }
     }
