@@ -920,7 +920,7 @@
     "skill_used": "fabrication",
     "difficulty": 0,
     "time": "30 minutes",
-    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1, "time_multiplier": 2} ],
+    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1, "time_multiplier": 2 } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ "2x4", 1 ],
     "byproducts": [ [ "splinter", 5 ] ],
