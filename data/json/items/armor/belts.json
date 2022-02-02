@@ -322,7 +322,7 @@
     "description": "A pair of leather suspenders, which reach over the wearer's shoulders and hook to their waist. Gives a wonderful western feel!",
     "material": [ "leather", "steel" ],
     "color": "brown",
-    "copy_from": "suspenders_cloth",
+    "copy_from": "suspenders_cloth"
   },
   {
     "id": "suspenders_holster",
