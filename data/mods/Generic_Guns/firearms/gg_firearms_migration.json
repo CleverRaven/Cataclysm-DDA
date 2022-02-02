@@ -290,7 +290,8 @@
       "mosin44",
       "famas",
       "aksemi",
-      "fs2000"
+      "fs2000",
+      "rifle_robofac"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"

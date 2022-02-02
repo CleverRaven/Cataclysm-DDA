@@ -167,7 +167,8 @@
       "cz75mag_26rd",
       "skorpion82mag",
       "mp5_10_mag",
-      "tdi_10mm_mag"
+      "tdi_10mm_mag",
+      "robofac60"
     ],
     "type": "MIGRATION",
     "replace": "pistol_smg_mag"
@@ -273,7 +274,8 @@
       "8x40_25_mag",
       "8x40_500_mag",
       "8x40_50_mag",
-      "famasmag"
+      "famasmag",
+      "robofac40"
     ],
     "type": "MIGRATION",
     "replace": "rifle_mag"
@@ -299,7 +301,8 @@
       "ar10_makeshiftmag",
       "762x39_clip",
       "762R_clip",
-      "borealmosin_clip"
+      "borealmosin_clip",
+      "robofac20"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sniper_mag"
@@ -320,7 +323,7 @@
     "replace": "rifle_rail_mag"
   },
   {
-    "id": [ "saiga410mag_10rd", "saiga410mag_30rd", "saiga10mag", "saiga30mag", "USAS10mag", "USAS20mag", "shotbelt_20" ],
+    "id": [ "saiga410mag_10rd", "saiga410mag_30rd", "saiga10mag", "saiga30mag", "USAS10mag", "USAS20mag", "shotbelt_20", "robofac10" ],
     "type": "MIGRATION",
     "replace": "shot_mag"
   },
