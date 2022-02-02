@@ -113,6 +113,8 @@ class talker_character_const: public talker
         int get_stamina() const override;
         int get_sleep_deprivation() const override;
         int get_kill_xp() const override;
+        int get_age() const override;
+        int get_height() const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;
@@ -187,6 +189,8 @@ class talker_character: public talker_character_const
         void set_stamina( int ) override;
         void set_sleep_deprivation( int ) override;
         void set_kill_xp( int ) override;
+        void set_age( int ) override;
+        void set_height( int ) override;
         void add_bionic( const bionic_id &new_bionic ) override;
         void remove_bionic( const bionic_id &old_bionic ) override;
         std::vector<skill_id> skills_teacheable() const override;

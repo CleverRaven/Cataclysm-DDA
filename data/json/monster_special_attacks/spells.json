@@ -445,7 +445,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_absence_capture_attack",
-    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, { "const": 3 } ], "op": ">" },
+    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 3 } ] },
     "effect": [
       { "u_location_variable": { "global_val": "portal_cage" } },
       {
