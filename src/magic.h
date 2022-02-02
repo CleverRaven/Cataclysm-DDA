@@ -24,7 +24,6 @@
 
 class Character;
 class Creature;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class nc_color;
@@ -59,6 +58,7 @@ enum class spell_flag : int {
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
     NO_HANDS, // hands do not affect spell energy cost
     UNSAFE_TELEPORT, // teleport spell risks killing the caster or others
+    TARGET_TELEPORT, // aoe is teleport variance from target
     NO_LEGS, // legs do not affect casting time
     CONCENTRATE, // focus affects spell fail %
     RANDOM_AOE, // picks random number between min+increment*level and max instead of normal behavior
@@ -74,6 +74,7 @@ enum class spell_flag : int {
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
+    SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
     LAST
 };
 
@@ -147,9 +148,9 @@ struct fake_spell {
     // a chance to trigger the enchantment spells
     int trigger_once_in = trigger_once_in_default;
     // a message when the enchantment is triggered
-    translation trigger_message;
+    translation trigger_message; // NOLINT(cata-serialize)
     // a message when the enchantment is triggered and is on npc
-    translation npc_trigger_message;
+    translation npc_trigger_message; // NOLINT(cata-serialize)
 
     fake_spell() = default;
     explicit fake_spell( const spell_id &sp_id, bool hit_self = false,
@@ -172,7 +173,7 @@ struct fake_spell {
     bool is_valid() const;
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 class spell_events : public event_subscriber
@@ -208,9 +209,11 @@ class spell_type
         std::string sound_variant;
         // spell effect string. used to look up spell function
         std::string effect_name;
+        // NOLINTNEXTLINE(cata-serialize)
         std::function<void( const spell &, Creature &, const tripoint & )> effect;
         std::function<std::set<tripoint>( const spell_effect::override_parameters &params,
-                                          const tripoint &source, const tripoint &target )> spell_area_function;
+                                          const tripoint &source, const tripoint &target )>
+        spell_area_function; // NOLINT(cata-serialize)
         // the spell shape found in the json
         spell_shape spell_area = spell_shape::line;
         // extra information about spell effect. allows for combinations for effects
@@ -581,12 +584,12 @@ class known_magic
         // invlets assigned to spell_id
         std::map<spell_id, int> invlets;
         // the base mana a Character would start with
-        int mana_base = 0;
+        int mana_base = 0; // NOLINT(cata-serialize)
         // current mana
         int mana = 0;
     public:
         // ignores all distractions when casting a spell when true
-        bool casting_ignore = false;
+        bool casting_ignore = false; // NOLINT(cata-serialize)
 
         known_magic();
 
@@ -631,7 +634,7 @@ class known_magic
         void on_mutation_loss( const trait_id &mid );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         // returns false if invlet is already used
         bool set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets );
@@ -661,7 +664,7 @@ struct override_parameters {
     }
 };
 
-void teleport_random( const spell &sp, Creature &caster, const tripoint & );
+void short_range_teleport( const spell &sp, Creature &caster, const tripoint &target );
 void pain_split( const spell &, Creature &, const tripoint & );
 void attack( const spell &sp, Creature &caster,
              const tripoint &epicenter );
@@ -688,6 +691,8 @@ void timed_event( const spell &sp, Creature &caster, const tripoint & );
 void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
 void noise( const spell &sp, Creature &, const tripoint &target );
 void vomit( const spell &sp, Creature &caster, const tripoint &target );
+// intended to be a spell version of Character::longpull
+void pull_to_caster( const spell &sp, Creature &caster, const tripoint &target );
 void explosion( const spell &sp, Creature &, const tripoint &target );
 void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void mod_moves( const spell &sp, Creature &caster, const tripoint &target );
@@ -706,7 +711,10 @@ void guilt( const spell &sp, Creature &caster, const tripoint &target );
 void remove_effect( const spell &sp, Creature &caster, const tripoint &target );
 void emit( const spell &sp, Creature &caster, const tripoint &target );
 void fungalize( const spell &sp, Creature &caster, const tripoint &target );
+void remove_field( const spell &sp, Creature &caster, const tripoint &center );
+void effect_on_condition( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
+void slime_split_on_death( const spell &sp, Creature &, const tripoint &target );
 
 static const std::map<spell_shape, std::function<std::set<tripoint>
 ( const override_parameters &, const tripoint &, const tripoint & )>> shape_map = {
@@ -721,7 +729,7 @@ effect_map{
     { "pain_split", spell_effect::pain_split },
     { "attack", spell_effect::attack },
     { "targeted_polymorph", spell_effect::targeted_polymorph },
-    { "teleport_random", spell_effect::teleport_random },
+    { "short_range_teleport", spell_effect::short_range_teleport },
     { "spawn_item", spell_effect::spawn_ethereal_item },
     { "recover_energy", spell_effect::recover_energy },
     { "summon", spell_effect::spawn_summoned_monster },
@@ -734,6 +742,7 @@ effect_map{
     { "ter_transform", spell_effect::transform_blast },
     { "noise", spell_effect::noise },
     { "vomit", spell_effect::vomit },
+    { "pull_target", spell_effect::pull_to_caster },
     { "explosion", spell_effect::explosion },
     { "flashbang", spell_effect::flashbang },
     { "mod_moves", spell_effect::mod_moves },
@@ -750,6 +759,9 @@ effect_map{
     { "remove_effect", spell_effect::remove_effect },
     { "emit", spell_effect::emit },
     { "fungalize", spell_effect::fungalize },
+    { "remove_field", spell_effect::remove_field },
+    { "effect_on_condition", spell_effect::effect_on_condition },
+    { "slime_split", spell_effect::slime_split_on_death },
     { "none", spell_effect::none }
 };
 } // namespace spell_effect

@@ -87,7 +87,7 @@
         { "x": 18, "y": 19, "item": "meth" },
         { "x": 21, "y": 12, "item": "meth", "amount": [ 5, 20 ] },
         { "x": 15, "y": [ 12, 13 ], "item": "meth", "chance": 90 },
-        { "x": 21, "y": 12, "item": "money_bundle", "amount": [ 3, 10 ] },
+        { "x": 21, "y": 12, "item": "money_strap_twenty", "amount": [ 3, 9 ] },
         { "x": 15, "y": 5, "item": "corpse" },
         { "x": 18, "y": 19, "item": "chemistry_set" },
         { "x": 11, "y": 10, "item": "towel" },

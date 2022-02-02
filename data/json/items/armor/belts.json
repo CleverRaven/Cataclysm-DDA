@@ -119,7 +119,7 @@
       {
         "holster": true,
         "max_contains_volume": "1 L",
-        "max_contains_weight": "600 g",
+        "max_contains_weight": "750 g",
         "max_item_length": "70 cm",
         "moves": 60,
         "flag_restriction": [ "BELT_CLIP" ]
@@ -159,6 +159,9 @@
     "color": "brown",
     "pocket_data": [
       { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
+      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
+      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
+      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "holster": true,
         "max_contains_volume": "2250 ml",
@@ -173,79 +176,32 @@
     "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
-    "id": "survivor_belt_notools",
+    "id": "santa_belt",
     "type": "ARMOR",
-    "name": { "str": "survivor belt" },
-    "description": "A custom-built leather utility belt covered with straps and pouches with a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
-    "weight": "1249 g",
-    "volume": "2250 ml",
-    "price": 15000,
-    "price_postapoc": 2500,
-    "material": [ "leather" ],
+    "name": { "str": "broad belt" },
+    "description": "A broad, buckled leather belt, commonly used by bearded men on Christmas.  Usually worn over a red jacket.",
+    "weight": "150 g",
+    "volume": "350 ml",
+    "price": 9000,
+    "price_postapoc": 250,
+    "bashing": 5,
+    "material": [ "leather", "steel" ],
     "symbol": "[",
-    "looks_like": "holster",
-    "color": "brown",
-    "material_thickness": 2,
+    "color": "dark_gray",
+    "material_thickness": 1.5,
     "pocket_data": [
       {
         "holster": true,
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "70 cm",
-        "moves": 20,
-        "flag_restriction": [ "SHEATH_KNIFE" ]
-      },
-      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "max_item_length": "40 cm", "moves": 100 },
-      {
-        "holster": true,
-        "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1500 g",
-        "max_item_length": "70 cm",
-        "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
-      },
-      {
-        "holster": true,
-        "min_item_volume": "50 ml",
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1500 g",
-        "max_item_length": "70 cm",
-        "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
-      },
-      {
-        "holster": true,
-        "min_item_volume": "50 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1500 g",
-        "max_item_length": "70 cm",
-        "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
-      },
-      {
-        "holster": true,
-        "min_item_volume": "50 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1500 g",
-        "max_item_length": "70 cm",
-        "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
-      },
-      {
-        "holster": true,
-        "min_item_volume": "50 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1500 g",
-        "max_item_length": "70 cm",
-        "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "max_contains_volume": "1200 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "90 cm",
+        "moves": 60,
+        "flag_restriction": [ "BELT_CLIP" ]
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 15, "covers": [ "torso" ] } ]
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "tool_belt",

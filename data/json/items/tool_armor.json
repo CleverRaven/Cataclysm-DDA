@@ -29,8 +29,23 @@
     "volume": "2 L",
     "price": 25000,
     "price_postapoc": 50,
+    "material": [ "wood", "cotton" ],
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ],
     "armor": [ { "encumbrance": 140 } ]
+  },
+  {
+    "id": "arm_xs_splint",
+    "type": "ARMOR",
+    "name": { "str": "arm splint XS", "str_pl": "arm splints XS" },
+    "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Tiny survivors.",
+    "copy-from": "arm_splint",
+    "looks_like": "arm_splint",
+    "weight": "150 g",
+    "volume": "500 ml",
+    "price": 15000,
+    "price_postapoc": 50,
+    "flags": [ "UNDERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ],
+    "armor": [ { "encumbrance": 35 } ]
   },
   {
     "id": "tourniquet_upper",
@@ -64,6 +79,18 @@
     "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
   },
   {
+    "id": "tourniquet_upper_XS",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (arm XS)", "str_pl": "tourniquets (arm XS)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "copy-from": "tourniquet_upper",
+    "looks_like": "tourniquet_upper",
+    "covers": [ "arm_l", "arm_r" ],
+    "sided": true,
+    "use_action": { "target": "tourniquet_lower", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "UNDERSIZE" ]
+  },
+  {
     "id": "tourniquet_lower",
     "type": "ARMOR",
     "name": { "str": "tourniquet (leg)", "str_pl": "tourniquets (leg)" },
@@ -71,6 +98,7 @@
     "copy-from": "tourniquet_upper",
     "looks_like": "tourniquet_upper",
     "sided": true,
+    "material": [ "wood", "leather" ],
     "use_action": { "target": "tourniquet_lower_XL", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
     "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET" ],
     "armor": [ { "encumbrance": 70, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
@@ -99,13 +127,11 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "yellow",
-    "covers": [ "eyes" ],
-    "coverage": 95,
-    "encumbrance": 10,
     "warmth": 0,
     "material_thickness": 0.1,
     "environmental_protection": 0,
-    "flags": [ "BLIND" ]
+    "flags": [ "BLIND" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes" ] } ]
   },
   {
     "id": "blindfold",
@@ -114,7 +140,7 @@
     "//": "A folded bandana still takes up some space on the head.",
     "description": "A simple fabric covering tied over the eyes to block sight.  Useful for sleeping in bright areas.",
     "weight": "72 g",
-    "volume": "250 ml",
+    "volume": "100 ml",
     "price": 600,
     "price_postapoc": 10,
     "material": [ "cotton" ],
@@ -181,7 +207,14 @@
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "use_action": { "type": "unpack", "group": "gobag_contents", "filthy_volume_threshold": "10 L" },
-    "armor": [ { "encumbrance": 35, "coverage": 50, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 35,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "specifically_covers": [ "torso_hanging_back", "arm_shoulder_r", "arm_shoulder_l" ]
+      }
+    ]
   },
   {
     "id": "personal_gobag",
@@ -222,8 +255,22 @@
     "volume": "2 L",
     "price": 25000,
     "price_postapoc": 50,
+    "material": [ "wood", "cotton" ],
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 140, "coverage": 75, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "leg_xs_splint",
+    "type": "ARMOR",
+    "name": { "str": "leg splint XS", "str_pl": "leg splints XS" },
+    "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Tiny people.",
+    "copy-from": "leg_splint",
+    "weight": "250 g",
+    "volume": "500 ml",
+    "price": 25000,
+    "price_postapoc": 50,
+    "flags": [ "UNDERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ],
+    "armor": [ { "encumbrance": 35 } ]
   },
   {
     "id": "miner_hat",
@@ -256,19 +303,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "head" ] } ]
@@ -283,7 +320,7 @@
     "flags": [ "LIGHT_450", "CHARGEDIM", "WATERPROOF", "TRADER_AVOID" ],
     "power_draw": 15000,
     "revert_to": "miner_hat",
-    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "miner_hat" },
+    "use_action": { "ammo_scale": 0, "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "miner_hat" },
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -303,7 +340,7 @@
     "color": "dark_gray",
     "warmth": 5,
     "material_thickness": 3,
-    "qualities": [ [ "GLARE", 3 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
     "armor": [ { "encumbrance": 60, "coverage": 90, "covers": [ "head", "eyes", "mouth" ] } ]
   },
@@ -328,7 +365,7 @@
     "color": "dark_gray",
     "warmth": 5,
     "material_thickness": 2,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
     "armor": [ { "encumbrance": 60, "coverage": 90, "covers": [ "head", "eyes", "mouth" ] } ]
   },
@@ -400,11 +437,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_battery_cell"
       }
     ],
     "armor": [ { "coverage": 15, "covers": [ "hand_l", "hand_r" ] } ]
@@ -415,7 +450,7 @@
     "name": { "str": "fitness band" },
     "category": "clothing",
     "volume": "100 ml",
-    "description": "A fitness band that can track your heartbeat, exercise level and also has a clock.  Activate to see your metrics.",
+    "description": "A fitness band that can track your heartbeat, exercise level, calories and also has a clock.  Activate to see your metrics.",
     "weight": "30 g",
     "to_hit": -1,
     "color": "light_gray",
@@ -441,16 +476,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_atomic_battery_cell" ]
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "light_atomic_battery_cell" ] } ],
     "ammo": "battery",
     "charges_per_use": 25,
     "warmth": 10,
@@ -509,19 +535,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
@@ -536,7 +552,13 @@
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
     "power_draw": 7500,
     "revert_to": "thermal_socks",
-    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_socks" },
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "Your %s deactivates.",
+      "target": "thermal_socks"
+    },
     "warmth": 60
   },
   {
@@ -568,19 +590,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ],
     "armor": [ { "coverage": 100, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
@@ -596,7 +608,13 @@
     "power_draw": 120000,
     "revert_to": "thermal_suit",
     "warmth": 60,
-    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_suit" }
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "Your %s deactivates.",
+      "target": "thermal_suit"
+    }
   },
   {
     "id": "thermal_gloves",
@@ -627,19 +645,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
@@ -654,7 +662,13 @@
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
     "power_draw": 7500,
     "revert_to": "thermal_gloves",
-    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_gloves" },
+    "use_action": {
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "Your %s deactivates.",
+      "target": "thermal_gloves"
+    },
     "warmth": 60
   },
   {
@@ -686,19 +700,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ],
     "armor": [ { "coverage": 100, "covers": [ "head", "mouth" ] } ]
@@ -713,7 +717,13 @@
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
     "power_draw": 7500,
     "revert_to": "thermal_mask",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_mask" },
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "thermal_mask"
+    },
     "warmth": 60
   },
   {
@@ -734,7 +744,7 @@
     "to_hit": -1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "id": "wearable_light",
@@ -765,19 +775,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ],
     "armor": [ { "coverage": 15, "covers": [ "head" ] } ]
@@ -792,7 +792,13 @@
     "flags": [ "LIGHT_300", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
     "power_draw": 10000,
     "revert_to": "wearable_light",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" }
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The %s flicks off.",
+      "target": "wearable_light"
+    }
   },
   {
     "id": "survivor_light",
@@ -823,19 +829,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ],
     "armor": [ { "coverage": 20, "covers": [ "head" ] } ]
@@ -850,7 +846,13 @@
     "flags": [ "LIGHT_350", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
     "power_draw": 10000,
     "revert_to": "survivor_light",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" }
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The %s flicks off.",
+      "target": "survivor_light"
+    }
   },
   {
     "id": "wearable_atomic_light",
@@ -864,7 +866,7 @@
     "price": 4000,
     "price_postapoc": 1500,
     "material": [ "steel", "plastic" ],
-    "flags": [ "LIGHT_200", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "LIGHT_200", "LEAK_DAM", "RADIOACTIVE", "STURDY", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "SPAWN_ACTIVE" ],
     "weight": "1 kg",
     "volume": "1500 ml",
     "bashing": 2,
@@ -872,8 +874,7 @@
       "type": "transform",
       "msg": "You close the headlamp's cover.",
       "menu_text": "Close cover",
-      "target": "wearable_atomic_light_off",
-      "active": true
+      "target": "wearable_atomic_light_off"
     },
     "material_thickness": 1,
     "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "head" ] } ]
@@ -886,12 +887,13 @@
     "looks_like": "survivor_light",
     "name": { "str": "atomic headlamp (covered)", "str_pl": "atomic headlamps (covered)" },
     "description": "This is a custom-made reinforced headlamp powered by the magic of nuclear decay, focused for more usable brightness.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to open the cover and show the light.",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "STURDY", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
     "use_action": {
       "type": "transform",
       "msg": "You open the headlamp's cover.",
       "menu_text": "Open cover",
-      "target": "wearable_atomic_light"
+      "target": "wearable_atomic_light",
+      "active": true
     }
   },
   {
@@ -914,11 +916,13 @@
     "color": "light_gray",
     "environmental_protection": 2,
     "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
     ],
     "use_action": {
       "type": "transform",
@@ -953,22 +957,14 @@
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_RESIST" ],
     "price": 50000000,
     "price_postapoc": 10000,
-    "material": [ "ceramic", "kevlar_layered" ],
+    "material": [ "hyperweave_off", "kevlar_layered" ],
     "weight": "6820 g",
     "volume": "9 L",
     "to_hit": -3,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_atomic_battery_cell" ]
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "heavy_atomic_battery_cell" ] } ],
     "ammo": "battery",
     "charges_per_use": 5,
+    "relic_data": { "passive_effects": [ { "id": "RM13" } ] },
     "use_action": [ "RM13ARMOR_OFF" ],
     "warmth": 30,
     "environmental_protection": 15,
@@ -987,7 +983,7 @@
     "repairs_like": "rm13_armor",
     "type": "TOOL_ARMOR",
     "name": { "str": "RM13 combat armor (on)", "str_pl": "RM13 combat armors (on)" },
-    "description": "Internally powered by plutonium fuel batteries, exclusively, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  It is turned on, and continually draining power.  Use it to turn it off.",
+    "description": "Internally powered by plutonium fuel batteries, exclusively, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  As you move your fingers over the surface the armor tenses almost as though it were alive.  Use it to turn it off.",
     "flags": [
       "VARSIZE",
       "STURDY",
@@ -1008,7 +1004,7 @@
     "revert_to": "rm13_armor",
     "use_action": [ "RM13ARMOR_ON" ],
     "environmental_protection": 40,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 5,
     "armor": [
       {
@@ -1032,16 +1028,7 @@
     "material": [ "ceramic", "kevlar" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_atomic_battery_cell" ]
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "medium_atomic_battery_cell" ] } ],
     "ammo": "battery",
     "use_action": {
       "type": "transform",
@@ -1072,7 +1059,7 @@
       "msg": "The %s LED light flickers off.",
       "target": "dimensional_anchor"
     },
-    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED" ]
+    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "PORTAL_PROOF" ]
   },
   {
     "id": "broken_dimensional_anchor",
@@ -1103,16 +1090,7 @@
     "material": [ "carbide" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_atomic_battery_cell" ]
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "heavy_atomic_battery_cell" ] } ],
     "ammo": "battery",
     "use_action": {
       "type": "transform",
@@ -1127,6 +1105,7 @@
     "material_thickness": 2,
     "flags": [
       "RAD_PROOF",
+      "PORTAL_PROOF",
       "STURDY",
       "WATERPROOF",
       "HYGROMETER",
@@ -1159,6 +1138,7 @@
     "environmental_protection": 80,
     "flags": [
       "RAD_PROOF",
+      "PORTAL_PROOF",
       "STURDY",
       "WATERPROOF",
       "HYGROMETER",
@@ -1175,6 +1155,13 @@
       "PSYSHIELD_PARTIAL",
       "GNV_EFFECT",
       "CLIMATE_CONTROL"
+    ],
+    "armor": [
+      {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
     ]
   },
   {
@@ -1213,12 +1200,13 @@
     "copy-from": "rebreather",
     "repairs_like": "rebreather",
     "type": "TOOL_ARMOR",
+    "material": [ "plastic", "aluminum" ],
     "name": { "str": "rebreather mask (on)", "str_pl": "rebreather masks (on)" },
     "description": "A mask worn over your mouth which, when loaded with the proper filters, recycles your exhaled breath for rebreathing while underwater.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "WATER_FRIENDLY", "REBREATHER", "TRADER_AVOID" ],
     "turns_per_charge": 30,
     "revert_to": "rebreather",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "rebreather" },
+    "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "rebreather" },
     "environmental_protection": 15,
     "armor": [ { "encumbrance": 20, "coverage": 75, "covers": [ "mouth" ] } ]
   },
@@ -1259,13 +1247,67 @@
     "repairs_like": "rebreather_xl",
     "type": "TOOL_ARMOR",
     "name": { "str": "XL rebreather mask (on)", "str_pl": "XL rebreather masks (on)" },
+    "material": [ "plastic", "aluminum" ],
     "description": "A mask worn over your mouth which, when loaded with the proper filters, recycles your exhaled breath for rebreathing while underwater.  This model has been expanded substantially and can accommodate exotic anatomy.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "WATER_FRIENDLY", "REBREATHER", "OVERSIZE", "TRADER_AVOID" ],
     "turns_per_charge": 30,
     "revert_to": "rebreather_xl",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "rebreather_xl" },
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "rebreather_xl"
+    },
     "environmental_protection": 15,
     "armor": [ { "encumbrance": 20, "coverage": 75, "covers": [ "mouth" ] } ]
+  },
+  {
+    "id": "rebreather_xs",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str": "XS rebreather mask" },
+    "description": "A mask worn over your mouth which, when loaded with the proper filters, recycles your exhaled breath for rebreathing while underwater.  This model has been shrunk dramatically to fit a smaller face.  Use it to turn it on.",
+    "flags": [ "WATER_FRIENDLY", "UNDERSIZE" ],
+    "price": 25000,
+    "price_postapoc": 500,
+    "material": [ "plastic", "aluminum" ],
+    "weight": "480 g",
+    "volume": "250 ml",
+    "to_hit": -3,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
+    "ammo": "rebreather_filter",
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "rebreather_xs_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's filter is used up."
+    },
+    "covers": [ "mouth" ],
+    "warmth": 10,
+    "environmental_protection": 1,
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 30, "coverage": 75 } ]
+  },
+  {
+    "id": "rebreather_xs_on",
+    "copy-from": "rebreather_xs",
+    "repairs_like": "rebreather_xs",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "XS rebreather mask (on)", "str_pl": "XS rebreather masks (on)" },
+    "description": "A mask worn over your mouth which, when loaded with the proper filters, recycles your exhaled breath for rebreathing while underwater.  This model has been shrunk dramatically to fit a smaller face.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
+    "flags": [ "WATER_FRIENDLY", "REBREATHER", "UNDERSIZE", "TRADER_AVOID" ],
+    "turns_per_charge": 30,
+    "revert_to": "rebreather_xs",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "rebreather_xs" },
+    "covers": [ "mouth" ],
+    "environmental_protection": 15,
+    "armor": [ { "encumbrance": 20 } ]
   },
   {
     "id": "mask_filter",
@@ -1280,6 +1322,7 @@
     "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": "[",
+    "looks_like": "mask_dust",
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 2,
@@ -1345,6 +1388,33 @@
     "flags": [ "OVERSIZE", "SLEEP_IGNORE" ]
   },
   {
+    "id": "mask_gas_xs",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "XS gas mask" },
+    "category": "clothing",
+    "description": "A rather small gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and other contaminants.  It must be prepared before use.",
+    "weight": "470 g",
+    "volume": "500 ml",
+    "price": 25000,
+    "price_postapoc": 750,
+    "to_hit": -3,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
+    ],
+    "warmth": 20,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "ammo": "gasfilter_m",
+    "use_action": [ "GASMASK" ],
+    "flags": [ "UNDERSIZE", "SLEEP_IGNORE" ]
+  },
+  {
     "id": "mask_fsurvivor",
     "type": "TOOL_ARMOR",
     "category": "armor",
@@ -1363,7 +1433,7 @@
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
     ],
     "warmth": 15,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
@@ -1391,7 +1461,7 @@
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 35 }
     ],
     "warmth": 15,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
@@ -1399,6 +1469,16 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
+  },
+  {
+    "id": "mask_fsurvivorxs",
+    "type": "TOOL_ARMOR",
+    "copy-from": "mask_fsurvivor",
+    "looks_like": "mask_fsurvivor",
+    "name": { "str": "XS survivor firemask" },
+    "description": "A custom-built, Nomex-insulated gas mask that covers the face and eyes.  It provides excellent protection from heat, smoke, teargas, and shrapnel.  It must be prepared before use.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE" ]
   },
   {
     "id": "mask_bunker",
@@ -1426,7 +1506,7 @@
       { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 20 }
     ],
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3
   },
   {
@@ -1454,7 +1534,6 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1482,7 +1561,6 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1510,7 +1588,6 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1538,8 +1615,17 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
+  },
+  {
+    "id": "mask_survivorxs",
+    "type": "TOOL_ARMOR",
+    "copy-from": "mask_survivor",
+    "looks_like": "mask_survivor",
+    "name": { "str": "XS survivor mask" },
+    "description": "A custom-built, leather reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE" ]
   },
   {
     "id": "mask_wsurvivor_nofur",
@@ -1566,6 +1652,16 @@
     "color": "pink"
   },
   {
+    "id": "mask_wsurvivor_nofur_xs",
+    "type": "TOOL_ARMOR",
+    "copy-from": "mask_wsurvivor_nofur",
+    "looks_like": "mask_wsurvivor_nofur",
+    "name": { "str": "XS faux fur winter survivor mask" },
+    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes.  It provides excellent protection from smoke, teargas, and shrapnel and while not quite as warm as real fur it's pretty good.  It must be prepared before use.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "UNDERSIZE" ]
+  },
+  {
     "id": "mask_wsurvivor",
     "type": "TOOL_ARMOR",
     "category": "armor",
@@ -1590,7 +1686,6 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1618,8 +1713,17 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
+  },
+  {
+    "id": "mask_wsurvivorxs",
+    "type": "TOOL_ARMOR",
+    "copy-from": "mask_wsurvivor",
+    "looks_like": "mask_wsurvivor",
+    "name": { "str": "XS winter survivor mask" },
+    "description": "A custom-built, fur-trimmed gas mask that covers the face and eyes.  Quite warm, it still provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE" ]
   },
   {
     "id": "goggles_nv",
@@ -1652,19 +1756,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ] } ]
@@ -1676,11 +1770,12 @@
     "type": "TOOL_ARMOR",
     "name": { "str_pl": "pairs of light amp goggles (on)", "str": "pair of light amp goggles (on)" },
     "description": "A pair of battery-powered light amplifying goggles with an infrared illuminator, allowing you to see in the dark.  It is turned on, and continually draining batteries.  Use it to turn them off.",
+    "material": [ "plastic", "steel" ],
     "flags": [ "GNV_EFFECT", "FRAGILE", "TRADER_AVOID" ],
     "//": "2019 commercial models can operate at under 0.375W with the IR illuminator on",
     "power_draw": 375,
     "revert_to": "goggles_nv",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_nv" },
+    "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_nv" },
     "warmth": 25,
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ] } ]
   },
@@ -1715,19 +1810,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ] } ]
@@ -1739,10 +1824,11 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "pair of infrared goggles (on)", "str_pl": "pairs of infrared goggles (on)" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
+    "material": [ "plastic", "steel" ],
     "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID" ],
     "power_draw": 1000,
     "revert_to": "goggles_ir",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
+    "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
     "warmth": 25,
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ] } ]
   },
@@ -1829,7 +1915,13 @@
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "REBREATHER", "SWIM_GOGGLES" ],
     "turns_per_charge": 30,
     "revert_to": "mask_h20survivor",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "mask_h20survivor" },
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "mask_h20survivor"
+    },
     "environmental_protection": 16
   },
   {
@@ -1867,6 +1959,16 @@
     "material_thickness": 2
   },
   {
+    "id": "mask_h20survivorxs",
+    "type": "TOOL_ARMOR",
+    "copy-from": "mask_h20survivor",
+    "looks_like": "mask_h20survivor",
+    "name": { "str": "XS survivor divemask" },
+    "description": "A custom-built, armored rebreather mask that covers the face and eyes.  It provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SWIM_GOGGLES", "UNDERSIZE" ]
+  },
+  {
     "id": "mask_h20survivorxl_on",
     "copy-from": "mask_h20survivorxl",
     "repairs_like": "mask_h20survivorxl",
@@ -1876,7 +1978,13 @@
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "REBREATHER", "SWIM_GOGGLES", "OVERSIZE", "TRADER_AVOID" ],
     "turns_per_charge": 30,
     "revert_to": "mask_h20survivorxl",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "mask_h20survivorxl" },
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "mask_h20survivorxl"
+    },
     "environmental_protection": 16
   },
   {
@@ -1981,11 +2089,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_battery_cell"
       }
     ],
     "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
@@ -2002,9 +2108,7 @@
     "price_postapoc": 25,
     "material": [ "iron" ],
     "weight": "2 g",
-    "volume": "1 ml",
-    "use_action": [ "PICK_LOCK" ],
-    "qualities": [ [ "LOCKPICK", 3 ] ]
+    "volume": "1 ml"
   },
   {
     "id": "fc_hairpin",
@@ -2019,8 +2123,6 @@
     "material": [ "plastic" ],
     "weight": "4 g",
     "volume": "1 ml",
-    "use_action": [ "PICK_LOCK" ],
-    "qualities": [ [ "LOCKPICK", 1 ] ],
     "flags": [ "FANCY" ]
   },
   {
@@ -2467,11 +2569,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "armor": [
@@ -2491,7 +2591,13 @@
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
     "power_draw": 130000,
     "revert_to": "thermal_outfit",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_outfit" },
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "thermal_outfit"
+    },
     "warmth": 60
   },
   {
@@ -2510,7 +2616,12 @@
     "color": "white",
     "warmth": 35,
     "material_thickness": 0.5,
-    "use_action": { "target": "turtleneck_rolled", "msg": "You adjust the neck and collar of the turtleneck.", "type": "transform" },
+    "use_action": {
+      "target": "turtleneck_rolled",
+      "menu_text": "Roll neck",
+      "msg": "You adjust the neck and collar of the turtleneck.",
+      "type": "transform"
+    },
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "mouth" ] } ]
   },
@@ -2530,7 +2641,12 @@
     "color": "white",
     "warmth": 35,
     "material_thickness": 0.5,
-    "use_action": { "target": "turtleneck", "msg": "You adjust the neck and collar of the turtleneck.", "type": "transform" },
+    "use_action": {
+      "target": "turtleneck",
+      "menu_text": "Unroll neck",
+      "msg": "You adjust the neck and collar of the turtleneck.",
+      "type": "transform"
+    },
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
@@ -2552,6 +2668,7 @@
     "material_thickness": 0.5,
     "use_action": {
       "target": "turtleneck_shirt_rolled",
+      "menu_text": "Roll neck",
       "msg": "You adjust the neck and collar of the turtleneck shirt.",
       "type": "transform"
     },
@@ -2574,7 +2691,12 @@
     "color": "white",
     "warmth": 20,
     "material_thickness": 0.5,
-    "use_action": { "target": "turtleneck_shirt", "msg": "You adjust the neck and collar of the turtleneck shirt.", "type": "transform" },
+    "use_action": {
+      "target": "turtleneck_shirt",
+      "menu_text": "Unroll neck",
+      "msg": "You adjust the neck and collar of the turtleneck shirt.",
+      "type": "transform"
+    },
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 4, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
@@ -2684,19 +2806,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 10, "covers": [ "head" ] } ]
@@ -2721,25 +2833,21 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "revert_to": "powered_earmuffs",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "powered_earmuffs" },
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The %s flicks off.",
+      "target": "powered_earmuffs"
+    },
     "warmth": 5,
     "material_thickness": 2,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 10, "covers": [ "head" ] } ]
@@ -2757,7 +2865,7 @@
     "weight": "150 g",
     "volume": "250 ml",
     "flags": [ "BELTED", "SAFECRACK" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "makeshift_stethoscope",
@@ -2772,7 +2880,7 @@
     "weight": "400 g",
     "volume": "500 ml",
     "flags": [ "BELTED", "SAFECRACK" ],
-    "armor": [ { "encumbrance": 3, "coverage": 8, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "solarpack",
@@ -2821,22 +2929,51 @@
     "category": "armor",
     "name": { "str": "riot helmet" },
     "description": "A helmet with a plastic shield that covers your entire face.  Activate to raise the face shield.",
-    "use_action": { "type": "transform", "target": "helmet_riot_raised", "msg": "You raise your visor." },
+    "use_action": { "type": "transform", "target": "helmet_riot_raised", "menu_text": "Raise visor", "msg": "You raise your visor." },
     "weight": "2260 g",
     "volume": "2250 ml",
     "price": 22000,
     "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "thermo_resin" ],
     "symbol": "[",
     "color": "dark_gray",
-    "warmth": 10,
-    "material_thickness": 3,
+    "warmth": 15,
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 80,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 50,
+        "encumbrance": 2,
+        "layers": [ "OUTER" ]
+      }
+    ],
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "eyes", "mouth" ] } ]
+    "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
     "id": "helmet_riot_raised",
@@ -2845,22 +2982,135 @@
     "category": "armor",
     "name": { "str": "riot helmet (raised visor)", "str_pl": "riot helmets (raised visor)" },
     "description": "A riot helmet with a plastic face shield which is raised up.  Activate to lower the shield.",
-    "use_action": { "type": "transform", "target": "helmet_riot", "msg": "You put down your visor." },
+    "use_action": { "type": "transform", "target": "helmet_riot", "menu_text": "Lower visor", "msg": "You put down your visor." },
     "weight": "2260 g",
     "volume": "2250 ml",
     "price": 22000,
     "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "thermo_resin" ],
     "symbol": "[",
     "color": "dark_gray",
-    "warmth": 10,
-    "material_thickness": 3,
+    "warmth": 15,
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ],
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head" ] } ]
+    "flags": [ "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "helmet_sallet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "sallet helm" },
+    "description": "A popular german helmet of the late medieval era, the sallet covers the head and eyes.  Activate it to toggle the visor.",
+    "weight": "1800 g",
+    "volume": "2050 ml",
+    "price": 35000,
+    "price_postapoc": 4500,
+    "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "helmet_sallet_raised", "menu_text": "Raise" },
+    "bashing": 8,
+    "material": [ "steel", "leather" ],
+    "symbol": "s",
+    "looks_like": "helmet_barbute",
+    "color": "light_gray",
+    "armor": [
+      { "covers": [ "head" ], "coverage": 90, "encumbrance": 20 },
+      { "covers": [ "eyes" ], "coverage": 60, "encumbrance": 20 }
+    ],
+    "warmth": 5,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "helmet_sallet_raised",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "sallet helm (raised)", "str_pl": "sallet helms (raised)" },
+    "description": "A popular german helmet of the late medieval era, the sallet covers the head and eyes.  Activate it to toggle the visor.",
+    "weight": "1800 g",
+    "volume": "2050 ml",
+    "price": 35000,
+    "price_postapoc": 4500,
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the sallet visor over your eyes.",
+      "target": "helmet_sallet",
+      "menu_text": "Lower"
+    },
+    "bashing": 8,
+    "material": [ "steel", "leather" ],
+    "symbol": "s",
+    "looks_like": "helmet_barbute",
+    "color": "light_gray",
+    "armor": [ { "covers": [ "head" ], "coverage": 90, "encumbrance": 20 } ],
+    "warmth": 5,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "helmet_armet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "armet helm" },
+    "description": "An iconic knightly helm of the late middle ages.  When you think of a knight's helmet, it looks something like this.  Activate it to toggle the visor.",
+    "weight": "2300 g",
+    "volume": "2050 ml",
+    "price": 55000,
+    "price_postapoc": 5500,
+    "use_action": { "type": "transform", "msg": "You raise the armet visor.", "target": "helmet_armet_raised", "menu_text": "Raise" },
+    "bashing": 8,
+    "material": [ "steel", "leather" ],
+    "symbol": "s",
+    "looks_like": "helmet_barbute",
+    "color": "light_gray",
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 40 },
+      { "covers": [ "eyes" ], "coverage": 70, "encumbrance": 20 },
+      { "covers": [ "mouth" ], "coverage": 85, "encumbrance": 30 }
+    ],
+    "warmth": 5,
+    "material_thickness": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "helmet_armet_raised",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "armet helm (raised)", "str_pl": "armet helms (raised)" },
+    "description": "An iconic knightly helm of the late middle ages.  When you think of a knight's helmet, it looks something like this.  Activate it to toggle the visor.",
+    "weight": "2300 g",
+    "volume": "2050 ml",
+    "price": 55000,
+    "price_postapoc": 5500,
+    "use_action": { "type": "transform", "msg": "You lower the armet visor.", "target": "helmet_armet", "menu_text": "Lower" },
+    "bashing": 8,
+    "material": [ "steel", "leather" ],
+    "symbol": "s",
+    "looks_like": "helmet_barbute",
+    "color": "light_gray",
+    "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 45 } ],
+    "warmth": 5,
+    "material_thickness": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "scuba_tank",
@@ -2887,7 +3137,7 @@
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
     "use_action": [ "DIVE_TANK" ],
-    "armor": [ { "encumbrance": 30, "coverage": 25, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "scuba_tank_on",
@@ -2917,7 +3167,9 @@
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
     "use_action": [ "DIVE_TANK" ],
-    "armor": [ { "encumbrance": 30, "coverage": 25, "covers": [ "torso", "mouth" ] } ]
+    "armor": [
+      { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   },
   {
     "id": "small_scuba_tank",
@@ -2944,7 +3196,7 @@
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
     "use_action": [ "DIVE_TANK" ],
-    "armor": [ { "encumbrance": 30, "coverage": 25, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "small_scuba_tank_on",
@@ -2974,7 +3226,9 @@
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
     "use_action": [ "DIVE_TANK" ],
-    "armor": [ { "encumbrance": 30, "coverage": 25, "covers": [ "torso", "mouth" ] } ]
+    "armor": [
+      { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
   },
   {
     "id": "electric_blanket",
@@ -3006,11 +3260,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "armor": [
@@ -3026,12 +3278,17 @@
     "type": "TOOL_ARMOR",
     "repairs_like": "electric_blanket",
     "name": { "str": "electric blanket (on)", "str_pl": "electric blankets (on)" },
-    "description": "A heated blanket made of polyster.  It's turned on, making it nice and toasty while it lasts.",
+    "description": "A heated blanket made of polyester.  It's turned on, making it nice and toasty while it lasts.",
     "copy-from": "electric_blanket",
     "warmth": 90,
     "power_draw": 100000,
     "revert_to": "electric_blanket",
-    "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" }
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "msg": "You turn the blanket's heating elements off.",
+      "target": "electric_blanket"
+    }
   },
   {
     "id": "foodperson_mask",
@@ -3065,11 +3322,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
@@ -3116,6 +3371,38 @@
     "delete": { "flags": [ "DEAF" ] }
   },
   {
+    "id": "makeshift_ear_plugs_on",
+    "type": "ARMOR",
+    "name": { "str": "pair of makeshift ear plugs (in)", "str_pl": "pairs of makeshift ear plugs (in)" },
+    "description": "A pair of makeshift ear plugs made from lumps of wax on the ends of a piece of string.  They are inside your ears, activate them to take them out.",
+    "copy-from": "ear_plugs",
+    "material": [ "beeswax", "cotton" ],
+    "repairs_like": "makeshift_ear_plugs_off",
+    "use_action": {
+      "type": "transform",
+      "msg": "You take the ear plugs out.",
+      "target": "makeshift_ear_plugs_off",
+      "menu_text": "Unplug",
+      "need_worn": true
+    }
+  },
+  {
+    "id": "makeshift_ear_plugs_off",
+    "type": "ARMOR",
+    "name": { "str": "pair of makeshift ear plugs (out)", "str_pl": "pairs of makeshift ear plugs (out)" },
+    "description": "A pair of makeshift ear plugs made from lumps of wax on the ends of a piece of string.  They hang around your neck, use them to plug them in.",
+    "copy-from": "ear_plugs",
+    "material": [ "beeswax", "cotton" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You plug up your ears.",
+      "target": "makeshift_ear_plugs_on",
+      "menu_text": "Plug in",
+      "need_worn": true
+    },
+    "delete": { "flags": [ "DEAF" ] }
+  },
+  {
     "id": "flight_helmet",
     "repairs_like": "nomex_hood",
     "type": "TOOL_ARMOR",
@@ -3128,7 +3415,7 @@
     "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "nomex" ],
+    "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "dark_gray",
@@ -3154,19 +3441,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ]
   },
@@ -3175,8 +3452,8 @@
     "repairs_like": "nomex_hood",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "military flight helmet" },
-    "description": "A military flight helmet.  Adorned with a visor, microphone and a noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
+    "name": { "str": "military flight helmet (on)", "str_pl": "military flight helmets (on)" },
+    "description": "A military flight helmet with various LED's devices blinking periodically.  Adorned with a visor, microphone and a noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
     "weight": "1324 g",
     "volume": "2 L",
     "price": 50000,
@@ -3204,20 +3481,142 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
       }
     ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "id": "combo_cover",
+    "name": { "str": "Combo cover" },
+    "weight": "500 g",
+    "color": "white",
+    "use_action": {
+      "menu_text": "Salute",
+      "type": "transform",
+      "target": "combo_cover",
+      "msg": "You bring your hand to your cover and issue a salute."
+    },
+    "symbol": "[",
+    "description": "A military officer's combo cover, or peaked cap.  It conveys an air of authority, while keeping the sun out of your eyes.",
+    "price": 10000,
+    "price_postapoc": 1000,
+    "material": [ "cotton" ],
+    "volume": "1750 ml",
+    "warmth": 7,
+    "environmental_protection": 3,
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 }
+    ],
+    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ],
+    "material_thickness": 0.5
+  },
+  {
+    "id": "utility_exoskeleton_off",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "battery powered utility exoskeleton" },
+    "//": "This is based on the Sarcos Guardian, a production model with independent battery power, all weather operation, and capable of lifting up to 200 lbs. It uses three 12 lb batteries that provide 8 hours of operation. The battery life in-game is significantly less in order to utilize medium storage batteries, otherwise this would require the unit to be active to reload itself. This can also be changed out to use other battery types.",
+    "description": "This is a skeletal frame of sturdy metal with attached motors to allow the user to move heavier loads with less strain on the body.",
+    "weight": "90 kg",
+    "volume": "130 L",
+    "price": 11500000,
+    "price_postapoc": 40000,
+    "to_hit": 1,
+    "bashing": 1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "[",
+    "looks_like": "depowered_armor",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "medium_storage_battery" ],
+        "default_magazine": "medium_storage_battery"
+      }
+    ],
+    "warmth": 0,
+    "material_thickness": 8,
+    "environmental_protection": 0,
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
+    "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": 20,
+        "coverage": 20,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "utility_exoskeleton_on",
+    "copy-from": "utility_exoskeleton_off",
+    "repairs_like": "utility_exoskeleton_off",
+    "looks_like": "power_armor_light",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "battery powered utility exoskeleton (on)", "str_pl": "battery powered utility exoskeletons (on)" },
+    "description": "This is a skeletal frame of sturdy metal with attached motors to allow the user to move heavier loads with less strain on the body.  It is turned on and continually drawing power.  Use it to turn it off.",
+    "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "TRADER_AVOID" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
+    "ammo": "battery",
+    "power_draw": 972216,
+    "//": "Battery should last two hours (02:00:07).",
+    "revert_to": "utility_exoskeleton_off",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "utility_exoskeleton_off" }
+  },
+  {
+    "id": "ice_utility_exoskeleton_off",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "ICE utility exoskeleton" },
+    "description": "This is a skeletal frame of sturdy metal with attached motors to allow the user to move heavier loads with less strain on the body.  This model uses a compact internal combustion engine for power.",
+    "weight": "110 kg",
+    "volume": "130 L",
+    "price": 11500000,
+    "price_postapoc": 40000,
+    "to_hit": 1,
+    "bashing": 1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "[",
+    "looks_like": "depowered_armor",
+    "color": "dark_gray",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 10000 } } ],
+    "warmth": 0,
+    "material_thickness": 8,
+    "environmental_protection": 0,
+    "ammo": "gasoline",
+    "charges_per_use": 1,
+    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
+    "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": 20,
+        "coverage": 20,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "ice_utility_exoskeleton_on",
+    "copy-from": "ice_utility_exoskeleton_off",
+    "repairs_like": "ice_utility_exoskeleton_off",
+    "looks_like": "power_armor_light",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "ICE utility exoskeleton (on)", "str_pl": "ICE utility exoskeletons (on)" },
+    "description": "This is a skeletal frame of sturdy metal with attached motors to allow the user to move heavier loads with less strain on the body.  This model uses a compact internal combustion engine for power.  It is turned on and continually draining gasoline.  Use it to turn it off.",
+    "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "TRADER_AVOID" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 20 } ] } ] },
+    "turns_per_charge": 1,
+    "//": "Full tank lasts a bit under three hours (166.66 minutes).",
+    "revert_to": "ice_utility_exoskeleton_off",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "ice_utility_exoskeleton_off" }
   }
 ]

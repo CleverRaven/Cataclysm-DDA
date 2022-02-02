@@ -15,6 +15,7 @@
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "yellow",
+    "longest_side": "60 cm",
     "warmth": 15,
     "material_thickness": 3,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
@@ -27,6 +28,15 @@
     "copy-from": "armor_cuirass",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
+    "id": "xs_armor_cuirass",
+    "type": "ARMOR",
+    "copy-from": "armor_cuirass",
+    "looks_like": "armor_cuirass",
+    "name": { "str": "XS bell cuirass", "str_pl": "XS bell cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "armor_lamellar",
@@ -42,6 +52,7 @@
     "looks_like": "vest_leather",
     "copy-from": "armor_chitin",
     "color": "brown",
+    "longest_side": "60 cm",
     "warmth": 20,
     "material_thickness": 8,
     "flags": [ "VARSIZE", "STURDY" ],
@@ -56,6 +67,15 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
+    "id": "xs_armor_lamellar",
+    "type": "ARMOR",
+    "copy-from": "armor_lamellar",
+    "looks_like": "armor_lamellar",
+    "name": { "str": "XS lamellar cuirass", "str_pl": "XS lamellar cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "armor_lorica",
     "type": "ARMOR",
     "name": { "str_sp": "lorica segmentata" },
@@ -68,12 +88,21 @@
     "bashing": 6,
     "material": [ "iron", "leather" ],
     "symbol": "[",
+    "longest_side": "60 cm",
     "looks_like": "armor_lamellar",
     "color": "light_gray",
     "warmth": 15,
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
-    "armor": [ { "encumbrance": 15, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [
+      { "encumbrance": 15, "coverage": 90, "covers": [ "torso" ] },
+      {
+        "encumbrance": 3,
+        "coverage": 90,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ]
+      }
+    ]
   },
   {
     "id": "xl_armor_lorica",
@@ -84,11 +113,60 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
   },
   {
+    "id": "xs_armor_lorica",
+    "type": "ARMOR",
+    "copy-from": "armor_lorica",
+    "looks_like": "armor_lorica",
+    "name": { "str_sp": "XS lorica segmentata" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "armor_thessalonian",
+    "type": "ARMOR",
+    "name": { "str": "cataphract armor", "str_pl": "suits of cataphract armor" },
+    "description": "This armor, made of interlocking plates of burnished bronze, appears to be either a high-quality recreation or a genuine artifact.  Despite having an ancient design, it is in mint condition aside from some battle damage.  It covers from head to waist and is of extremely high quality.",
+    "weight": "7286 g",
+    "volume": "6 L",
+    "price": 50000,
+    "price_postapoc": 7000,
+    "to_hit": -5,
+    "bashing": 6,
+    "material": [ "fancy_bronze", "leather" ],
+    "symbol": "[",
+    "longest_side": "60 cm",
+    "looks_like": "armor_lorica",
+    "color": "brown",
+    "warmth": 18,
+    "material_thickness": 5,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [
+      { "encumbrance": 17, "coverage": 93, "cover_melee": 95, "cover_ranged": 90, "cover_vitals": 100, "covers": [ "torso" ] },
+      {
+        "encumbrance": 17,
+        "coverage": 93,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ]
+      },
+      {
+        "encumbrance": 4,
+        "coverage": 93,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
+  },
+  {
     "id": "bookplate",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "bookplate" },
-    "description": "A crude form of armor made from stacked paper and rolls of duct tape, this breastplate offers a surprising amount of protection.",
+    "description": "A crude form of armor made from thickly-stacked paper and rolls of duct tape.",
     "weight": "5790 g",
     "volume": "9500 ml",
     "price": 4200,
@@ -99,8 +177,30 @@
     "looks_like": "armor_scrapsuit",
     "color": "light_gray",
     "warmth": 10,
+    "longest_side": "60 cm",
     "material_thickness": 12,
-    "flags": [ "BELTED" ],
+    "flags": [ "OUTER" ],
+    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "tireplate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tireplate" },
+    "description": "Armor fashioned from from overlapping chunks of tire and rolls of duct tape, covering the shoulders and torso.",
+    "weight": "5790 g",
+    "volume": "9500 ml",
+    "price": 4200,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "material": [ "rubber" ],
+    "symbol": "O",
+    "looks_like": "armor_scrapsuit",
+    "color": "light_gray",
+    "warmth": 10,
+    "longest_side": "40 cm",
+    "material_thickness": 4,
+    "flags": [ "OUTER", "NONCONDUCTIVE" ],
     "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
@@ -114,11 +214,11 @@
     "price": 10000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_red",
-    "material_thickness": 4,
+    "material_thickness": 3,
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
@@ -129,6 +229,15 @@
     "copy-from": "chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_chainmail_vest",
+    "type": "ARMOR",
+    "copy-from": "chainmail_vest",
+    "looks_like": "chainmail_vest",
+    "name": { "str": "XS chainmail vest" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "chestguard_hard",
@@ -147,6 +256,7 @@
     "looks_like": "cuirass_lightplate",
     "color": "dark_gray",
     "warmth": 20,
+    "longest_side": "20 cm",
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "STURDY", "OUTER" ],
@@ -168,9 +278,24 @@
     "looks_like": "chestguard_hard",
     "color": "light_gray",
     "warmth": 20,
+    "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] },
+      {
+        "encumbrance": 4,
+        "coverage": 95,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      {
+        "encumbrance": 4,
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "xl_cuirass_lightplate",
@@ -181,11 +306,20 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
   },
   {
+    "id": "xs_cuirass_lightplate",
+    "type": "ARMOR",
+    "copy-from": "cuirass_lightplate",
+    "looks_like": "cuirass_lightplate",
+    "name": { "str": "XS cuirass", "str_pl": "XS cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "cuirass_scrap",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "scrap cuirass", "str_pl": "scrap cuirasses" },
-    "description": "A cuirass made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A cuirass made from scraps of metal secured by simple strings.",
     "weight": "3366 g",
     "volume": "5750 ml",
     "price": 20000,
@@ -197,6 +331,7 @@
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
+    "longest_side": "40 cm",
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "OUTER" ],
@@ -211,11 +346,58 @@
     "flags": [ "OVERSIZE", "OUTER" ]
   },
   {
+    "id": "xs_cuirass_scrap",
+    "type": "ARMOR",
+    "copy-from": "cuirass_scrap",
+    "looks_like": "cuirass_scrap",
+    "name": { "str": "XS scrap cuirass", "str_pl": "XS scrap cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "UNDERSIZE" ]
+  },
+  {
+    "id": "cuirass_tire",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tire cuirass", "str_pl": "tire cuirasses" },
+    "description": "A cuirass made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": "4800 g",
+    "volume": "5750 ml",
+    "price": 20000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "cuirass_lightplate",
+    "color": "light_gray",
+    "longest_side": "40 cm",
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "OUTER", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "xl_cuirass_tire",
+    "type": "ARMOR",
+    "name": { "str": "XL tire cuirass", "str_pl": "XL tire cuirasses" },
+    "copy-from": "cuirass_scrap",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "OVERSIZE", "OUTER", "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "xs_cuirass_tire",
+    "type": "ARMOR",
+    "copy-from": "cuirass_tire",
+    "looks_like": "cuirass_tire",
+    "name": { "str": "XS tire cuirass", "str_pl": "XS tire cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "NONCONDUCTIVE", "UNDERSIZE" ]
+  },
+  {
     "id": "fencing_jacket",
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "fencing jacket" },
-    "description": "A padded jacket with the zipper on the back used by fencers to prevent accidents.  It doesn't have any storage room, but it is very comfortable.",
+    "description": "A padded jacket with a zipper on the back, used by fencers to prevent accidents.",
     "weight": "800 g",
     "volume": "2500 ml",
     "price": 3000,
@@ -234,7 +416,7 @@
     "id": "jacket_leather_mod",
     "type": "ARMOR",
     "name": { "str": "armored leather jacket" },
-    "description": "An armored jacket made from thick leather and metal plates.  Cumbersome, but offers excellent protection from harm.",
+    "description": "An armored jacket made from thick leather and metal plates.",
     "weight": "2180 g",
     "volume": "5500 ml",
     "price": 17900,
@@ -267,6 +449,35 @@
     "copy-from": "jacket_leather_mod",
     "material_thickness": 4,
     "material": [ "leather", "bone" ]
+  },
+  {
+    "id": "jacket_leather_tire",
+    "repairs_like": "jacket_leather",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "tire leather armor" },
+    "description": "A jacket reinforced with chunks of thick rubber tire on the shoulders, back and front.  Bulky and heavy, but thick and electric proof.",
+    "weight": "6250 g",
+    "volume": "7 L",
+    "price": 11000,
+    "price_postapoc": 250,
+    "material": [ "rubber", "leather" ],
+    "symbol": "[",
+    "looks_like": "jacket_leather_mod",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 5,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "NONCONDUCTIVE" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 20, 23 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 20, 22 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ]
   },
   {
     "id": "lame_foil",
@@ -310,19 +521,27 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football armor" },
-    "description": "Heavy plastic armor for your upper torso.  Normally worn by football players.",
+    "description": "Heavy polycarbonate armor for your upper torso.  Normally worn by football players.",
     "weight": "2810 g",
     "volume": "7 L",
     "price": 11000,
     "price_postapoc": 250,
-    "material": [ "plastic", "cotton" ],
+    "material": [ "thermo_resin", "cotton" ],
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 6,
-    "flags": [ "BELTED" ],
-    "armor": [ { "encumbrance": 35, "coverage": 45, "covers": [ "torso" ] } ]
+    "flags": [ "OUTER" ],
+    "armor": [
+      { "encumbrance": 35, "coverage": 75, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
+      {
+        "encumbrance": 16,
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ]
   },
   {
     "id": "kevlar",
@@ -345,42 +564,6 @@
     "material_thickness": 3,
     "flags": [ "STURDY", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "lsurvivor_armor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "light survivor body armor" },
-    "description": "Lightweight, custom-built body armor made from Kevlar and tough fabric.  Mostly waterproof.",
-    "weight": "3000 g",
-    "volume": "6 L",
-    "price": 60000,
-    "price_postapoc": 4000,
-    "material": [ "kevlar", "cotton" ],
-    "symbol": "[",
-    "looks_like": "lsurvivor_suit",
-    "color": "green",
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
-    "warmth": 15,
-    "material_thickness": 4,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": [ 8, 16 ], "coverage": 95, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "xl_lsurvivor_armor",
-    "type": "ARMOR",
-    "name": { "str": "XL light survivor body armor" },
-    "copy-from": "lsurvivor_armor",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "motorbike_armor",
@@ -449,7 +632,7 @@
     "id": "vest_leather_mod",
     "type": "ARMOR",
     "name": { "str": "armored leather vest" },
-    "description": "An armored vest made from thick leather and metal plates.  Cumbersome, but offers excellent protection from harm.",
+    "description": "An armored vest made from thick leather and metal plates.",
     "weight": "1210 g",
     "volume": "3 L",
     "price": 17900,
@@ -477,7 +660,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "EOD jacket" },
-    "description": "A thick armored jacket constructed from Kevlar and Nomex for explosive ordnance disposal.  It is designed to protect against overpressure, fragmentation, impact, and heat.",
+    "description": "A thick armored jacket constructed from Kevlar and Nomex for use by explosive ordnance disposal technicians.",
     "weight": "16300 g",
     "volume": "15 L",
     "price": 200000,
@@ -496,7 +679,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "light EOD jacket" },
-    "description": "An armored jacket constructed from Kevlar and Nomex, designed to protect against overpressure, fragmentation, impact, and heat in hostile environments.  It is lighter than normal EOD armor to provide more maneuverability and can be worn over ballistic armor.",
+    "description": "An armored jacket constructed from Kevlar and Nomex for use by explosive ordnance disposal technicians.  It is lighter than normal EOD armor to provide more maneuverability and can be worn over ballistic armor.",
     "weight": "7000 g",
     "volume": "15 L",
     "price": 200000,
@@ -508,5 +691,479 @@
     "material_thickness": 7,
     "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "armor_lc_light_chestplate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel 2 mm chestplate" },
+    "description": "A light chestplate, 2 mm thick.  This one has been made with mild steel.",
+    "weight": "7500 g",
+    "volume": "8750 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "cuirass_lightplate",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 2,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_lc_light_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel 2 mm chestplate" },
+    "copy-from": "armor_lc_light_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_mc_light_chestplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_light_chestplate",
+    "name": { "str": "medium steel 2 mm chestplate" },
+    "description": "A light chestplate, 2 mm thick.  Made with tougher medium steel, this offers solid protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_mc_light_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel 2 mm chestplate" },
+    "copy-from": "armor_mc_light_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_hc_light_chestplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_light_chestplate",
+    "name": { "str": "high steel 2 mm chestplate" },
+    "description": "A light chestplate, 2 mm thick.  Made with high carbon steel offering excellent protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_hc_light_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel 2 mm chestplate" },
+    "copy-from": "armor_hc_light_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_ch_light_chestplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_light_chestplate",
+    "name": { "str": "case hardened 2 mm chestplate" },
+    "description": "A light chestplate, 2 mm thick.  The mild steel has been case hardened, offering superior protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_ch_light_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL case hardened 2 mm chestplate" },
+    "copy-from": "armor_ch_light_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_qt_light_chestplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_light_chestplate",
+    "name": { "str": "tempered 2 mm chestplate" },
+    "description": "A light chestplate, 2 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.0 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_qt_light_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered 2 mm chestplate" },
+    "copy-from": "armor_qt_light_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_lc_chestplate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel 4 mm chestplate" },
+    "description": "A chestplate, 4 mm thick.  This one has been made with mild steel.",
+    "weight": "10 kg",
+    "volume": "17500 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 4,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_lc_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel 4 mm chestplate" },
+    "copy-from": "armor_lc_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_mc_chestplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_chestplate",
+    "name": { "str": "medium steel 4 mm chestplate" },
+    "description": "A chestplate, 4 mm thick.  Made with tougher medium steel, this offers solid protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_mc_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel 4 mm chestplate" },
+    "copy-from": "armor_mc_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_hc_chestplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_chestplate",
+    "name": { "str": "high steel 4 mm chestplate" },
+    "description": "A chestplate, 4 mm thick.  Made with high carbon steel offering excellent protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_hc_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel 4 mm chestplate" },
+    "copy-from": "armor_hc_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_ch_chestplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_chestplate",
+    "name": { "str": "case hardened 4 mm chestplate" },
+    "description": "A chestplate, 4 mm thick.  The mild steel has been case hardened, offering superior protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_ch_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL case hardened 4 mm chestplate" },
+    "copy-from": "armor_ch_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_qt_chestplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_chestplate",
+    "name": { "str": "tempered 4 mm chestplate" },
+    "description": "A chestplate, 4 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 3.0 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_qt_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered 4 mm chestplate" },
+    "copy-from": "armor_qt_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_lc_heavy_chestplate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel 6 mm chestplate" },
+    "description": "A heavy chestplate, 6 mm thick.  This one has been made with mild steel.",
+    "weight": "17500 g",
+    "volume": "17500 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 6,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 25
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_lc_heavy_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel 6 mm chestplate" },
+    "copy-from": "armor_lc_heavy_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_mc_heavy_chestplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_heavy_chestplate",
+    "name": { "str": "medium steel 6 mm chestplate" },
+    "description": "A heavy chestplate, 6 mm thick.  Made with tougher medium steel, this offers solid protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 25
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_mc_heavy_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel 6 mm chestplate" },
+    "copy-from": "armor_mc_heavy_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_hc_heavy_chestplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_heavy_chestplate",
+    "name": { "str": "high steel 6 mm chestplate" },
+    "description": "A heavy chestplate, 6 mm thick.  Made with high carbon steel offering excellent protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 25
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_hc_heavy_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel 6 mm chestplate" },
+    "copy-from": "armor_hc_heavy_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_ch_heavy_chestplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_heavy_chestplate",
+    "name": { "str": "case hardened 6 mm chestplate" },
+    "description": "A heavy chestplate, 6 mm thick.  The mild steel has been case hardened, offering superior protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 25
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_ch_heavy_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL case hardened 6 mm chestplate" },
+    "copy-from": "armor_ch_heavy_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_qt_heavy_chestplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lc_heavy_chestplate",
+    "name": { "str": "tempered 6 mm chestplate" },
+    "description": "A heavy chestplate, 6 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 5.0 },
+            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+          ],
+          "covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": 25
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_armor_qt_heavy_chestplate",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered 6 mm chestplate" },
+    "copy-from": "armor_qt_heavy_chestplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   }
 ]

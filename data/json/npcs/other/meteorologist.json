@@ -147,7 +147,7 @@
       {
         "text": "Bye.",
         "topic": "TALK_DONE",
-        "effect": [ { "u_buy_item": "adv_chemistry" }, "stop_following", { "npc_first_topic": "TALK_meteorologist_safe" } ]
+        "effect": [ { "u_spawn_item": "adv_chemistry" }, "stop_following", { "npc_first_topic": "TALK_meteorologist_safe" } ]
       }
     ]
   },
@@ -218,22 +218,22 @@
     "type": "mission_definition",
     "has_generic_rewards": false,
     "name": { "str": "Find lens_small 5" },
-    "description": "The meteorologist asked to bring him 5 little high-quality lenses.",
+    "description": "The meteorologist asked to bring him 5 small high-quality lenses.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "lens_small",
-    "count": 6,
+    "count": 5,
     "difficulty": 0,
     "value": 100,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_meteorologist_4",
     "dialogue": {
-      "describe": "We need high quality lenses for our drone…",
+      "describe": "We need small high quality lenses for our drone…",
       "offer": "Well, what's next on the list… yeah, lenses.  5 small high-quality lenses would be enough.",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
-      "advice": "Try looking for cameras to dismantle.  Telescopes or microscopes would also work.",
+      "advice": "Try looking for cameras to dismantle.  Smart Phones, Telescopes or microscopes would also work.",
       "inquire": "How's it going?",
-      "success": "Great, I'm continue to work on it…",
+      "success": "Great, I'm continuing to work on it…",
       "success_lie": "Why do you say that?",
       "failure": "…"
     }
@@ -251,7 +251,7 @@
     "end": {
       "effect": [
         { "npc_add_var": "meteorologist_wait", "type": "time", "context": "mission", "time": true },
-        { "u_buy_item": "textbook_electronics" }
+        { "u_spawn_item": "textbook_electronics" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

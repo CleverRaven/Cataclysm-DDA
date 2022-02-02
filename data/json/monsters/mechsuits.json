@@ -3,7 +3,7 @@
     "id": "mon_mech_recon",
     "type": "MONSTER",
     "name": { "str": "X-03: 'Spectre' Recon Mech" },
-    "description": "The Boeing-Daewoo RMES (Recon Mechanical Exoskeleton Suit), a recent acquisition by the US military, it was designed to be used in a scout-recon-sniper role, due to its mobility and integrated laser sniper rifle and suite of optics for target designation and battlefield awareness.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits it can act as a UPS from its large battery.",
+    "description": "The Boeing-Daewoo RMES (Recon Mechanical Exoskeleton Suit), a recent acquisition by the U.S. military, it was designed to be used in a scout-recon-sniper role, due to its mobility, integrated laser sniper rifle, and suite of optics for target designation and battlefield awareness.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits, it can act as a UPS from its large battery.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
     "diff": 5,
@@ -30,6 +30,7 @@
     "revert_to_itype": "broken_mech_recon",
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "MECH_RECON_VISION",
@@ -42,14 +43,15 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2"
+      "PATH_AVOID_DANGER_1",
+      "STUN_IMMUNE"
     ]
   },
   {
     "id": "mon_mech_combat",
     "type": "MONSTER",
     "name": { "str": "X-02: 'Grunt' Combat Mech" },
-    "description": "The Boeing-Daewoo CMES (Combat Mechanical Exoskeleton Suit), a recent acquisition by the US military, it was designed to be used in a fire support role, due to its fearsome integrated gatling laser.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits it can act as a UPS from its large battery.",
+    "description": "The Boeing-Daewoo CMES (Combat Mechanical Exoskeleton Suit), a recent acquisition by the U.S. military, it was designed to be used in a fire support role, due to its fearsome integrated gatling laser.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits, it can act as a UPS from its large battery.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
     "diff": 5,
@@ -76,6 +78,7 @@
     "revert_to_itype": "broken_mech_combat",
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "HEARS",
@@ -87,15 +90,16 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
-      "LOUDMOVES"
+      "PATH_AVOID_DANGER_1",
+      "LOUDMOVES",
+      "STUN_IMMUNE"
     ]
   },
   {
     "id": "mon_mech_lifter",
     "type": "MONSTER",
     "name": { "str": "X-01: 'Jack' Lifting Mech" },
-    "description": "The Boeing-Daewoo LMES (Lifting Mechanical Exoskeleton Suit), a recent acquisition by the US military, it was designed to be piloted by an operator to load and unload heavy material, and for limited combat support roles, it was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits it can act as a UPS from its large battery.",
+    "description": "The Boeing-Daewoo LMES (Lifting Mechanical Exoskeleton Suit), a recent acquisition by the U.S. military, it was designed to be piloted by an operator to load and unload heavy material, and for limited combat support roles.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits, it can act as a UPS from its large battery.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
     "diff": 5,
@@ -120,9 +124,10 @@
     "mech_battery": "huge_atomic_battery_cell",
     "attack_cost": 150,
     "revert_to_itype": "broken_mech_lifter",
-    "special_attacks": [ [ "SMASH", 40 ] ],
     "death_function": { "corpse_type": "BROKEN" },
+    "special_attacks": [ { "id": "smash", "throw_strength": 96, "cooldown": 40 } ],
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "HEARS",
@@ -135,8 +140,9 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_2",
-      "LOUDMOVES"
+      "PATH_AVOID_DANGER_1",
+      "LOUDMOVES",
+      "STUN_IMMUNE"
     ]
   }
 ]

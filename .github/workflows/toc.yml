@@ -18,8 +18,11 @@ jobs:
         with:
           commit-message: Update the table of contents
           branch: update-toc
+          token: ${{ secrets.TX_PR_CREATOR }}
           title: Update the table of contents in doc/JSON_INFO.md
           body: |
             ```sh
+            #### Summary
+            None
             npx doctoc doc/JSON_INFO.md --github
             ```

@@ -27,6 +27,16 @@ struct body_part_type;
 using bodypart_id = int_id<body_part_type>;
 using bodypart_str_id = string_id<body_part_type>;
 
+struct sub_body_part_type;
+using sub_bodypart_id = int_id<sub_body_part_type>;
+using sub_bodypart_str_id = string_id<sub_body_part_type>;
+
+struct character_modifier;
+using character_modifier_id = string_id<character_modifier>;
+
+struct limb_score;
+using limb_score_id = string_id<limb_score>;
+
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
@@ -57,6 +67,9 @@ using emit_id = string_id<emit>;
 class enchantment;
 using enchantment_id = string_id<enchantment>;
 
+class event_statistic;
+using event_statistic_id = string_id<event_statistic>;
+
 class fault;
 using fault_id = string_id<fault>;
 
@@ -71,6 +84,9 @@ using furn_str_id = string_id<furn_t>;
 class gun_mode;
 using gun_mode_id = string_id<gun_mode>;
 
+class harvest_drop_type;
+using harvest_drop_type_id = string_id<harvest_drop_type>;
+
 class harvest_list;
 using harvest_id = string_id<harvest_list>;
 
@@ -84,6 +100,9 @@ using item_group_id = string_id<Item_spawn_data>;
 struct itype;
 using itype_id = string_id<itype>;
 
+class weapon_category;
+using weapon_category_id = string_id<weapon_category>;
+
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 
@@ -92,6 +111,12 @@ using matype_id = string_id<martialart>;
 
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+
+class map_extra;
+using map_extra_id = string_id<map_extra>;
+
+class mapgen_palette;
+using palette_id = string_id<mapgen_palette>;
 
 class material_type;
 using material_id = string_id<material_type>;
@@ -115,8 +140,14 @@ using morale_type = string_id<morale_type_data>;
 struct mtype;
 using mtype_id = string_id<mtype>;
 
+class nested_mapgen;
+using nested_mapgen_id = string_id<nested_mapgen>;
+
 class npc_class;
 using npc_class_id = string_id<npc_class>;
+
+class npc_template;
+using npc_template_id = string_id<npc_template>;
 
 class faction;
 using faction_id = string_id<faction>;
@@ -129,6 +160,18 @@ struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
+class overmap_connection;
+using overmap_connection_id = string_id<overmap_connection>;
+
+struct overmap_location;
+using overmap_location_id = string_id<overmap_location>;
+
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
+
+struct overmap_special_migration;
+using overmap_special_migration_id = string_id<overmap_special_migration>;
+
 class profession;
 using profession_id = string_id<profession>;
 
@@ -138,6 +181,9 @@ using recipe_id = string_id<recipe>;
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
 
+class score;
+using score_id = string_id<score>;
+
 class Skill;
 using skill_id = string_id<Skill>;
 
@@ -146,6 +192,12 @@ using skill_displayType_id = string_id<SkillDisplayType>;
 
 struct species_type;
 using species_id = string_id<species_type>;
+
+class speed_description;
+using speed_description_id = string_id<speed_description>;
+
+class mood_face;
+using mood_face_id = string_id<mood_face>;
 
 class spell_type;
 using spell_id = string_id<spell_type>;
@@ -183,6 +235,9 @@ using trap_str_id = string_id<trap>;
 struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
 
+class update_mapgen;
+using update_mapgen_id = string_id<update_mapgen>;
+
 struct quality;
 using quality_id = string_id<quality>;
 
@@ -215,5 +270,11 @@ class json_flag;
 using flag_id = string_id<json_flag>;
 
 using json_character_flag = string_id<json_flag>;
+
+class widget;
+using widget_id = string_id<widget>;
+
+struct weakpoints;
+using weakpoints_id = string_id<weakpoints>;
 
 #endif // CATA_SRC_TYPE_ID_H

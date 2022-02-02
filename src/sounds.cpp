@@ -14,6 +14,7 @@
 #include "character.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -27,8 +28,8 @@
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
+#include "output.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "rng.h"
@@ -76,14 +77,104 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
-static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
-static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
-
+static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
-static const itype_id fuel_type_battery( "battery" );
-
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
+
+static const material_id material_bone( "bone" );
+static const material_id material_flesh( "flesh" );
+static const material_id material_hflesh( "hflesh" );
+static const material_id material_iflesh( "iflesh" );
+static const material_id material_steel( "steel" );
+static const material_id material_stone( "stone" );
+static const material_id material_veggy( "veggy" );
+
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_stabbing( "stabbing" );
+
+static const ter_str_id ter_t_bridge( "t_bridge" );
+static const ter_str_id ter_t_chainfence( "t_chainfence" );
+static const ter_str_id ter_t_clay( "t_clay" );
+static const ter_str_id ter_t_claymound( "t_claymound" );
+static const ter_str_id ter_t_conveyor( "t_conveyor" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_dirtfloor( "t_dirtfloor" );
+static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
+static const ter_str_id ter_t_dirtmoundfloor( "t_dirtmoundfloor" );
+static const ter_str_id ter_t_elevator( "t_elevator" );
+static const ter_str_id ter_t_golf_hole( "t_golf_hole" );
+static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
+static const ter_str_id ter_t_grass_golf( "t_grass_golf" );
+static const ter_str_id ter_t_grass_long( "t_grass_long" );
+static const ter_str_id ter_t_grass_tall( "t_grass_tall" );
+static const ter_str_id ter_t_grass_white( "t_grass_white" );
+static const ter_str_id ter_t_grate( "t_grate" );
+static const ter_str_id ter_t_guardrail_bg_dp( "t_guardrail_bg_dp" );
+static const ter_str_id ter_t_machinery_electronic( "t_machinery_electronic" );
+static const ter_str_id ter_t_machinery_heavy( "t_machinery_heavy" );
+static const ter_str_id ter_t_machinery_light( "t_machinery_light" );
+static const ter_str_id ter_t_machinery_old( "t_machinery_old" );
+static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
+static const ter_str_id ter_t_moss( "t_moss" );
+static const ter_str_id ter_t_ov_smreb_cage( "t_ov_smreb_cage" );
+static const ter_str_id ter_t_palisade_gate_o( "t_palisade_gate_o" );
+static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
+static const ter_str_id ter_t_railroad_tie( "t_railroad_tie" );
+static const ter_str_id ter_t_railroad_tie_d( "t_railroad_tie_d" );
+static const ter_str_id ter_t_railroad_tie_d1( "t_railroad_tie_d1" );
+static const ter_str_id ter_t_railroad_tie_d2( "t_railroad_tie_d2" );
+static const ter_str_id ter_t_railroad_tie_h( "t_railroad_tie_h" );
+static const ter_str_id ter_t_railroad_tie_v( "t_railroad_tie_v" );
+static const ter_str_id ter_t_railroad_track( "t_railroad_track" );
+static const ter_str_id ter_t_railroad_track_d( "t_railroad_track_d" );
+static const ter_str_id ter_t_railroad_track_d1( "t_railroad_track_d1" );
+static const ter_str_id ter_t_railroad_track_d2( "t_railroad_track_d2" );
+static const ter_str_id ter_t_railroad_track_d_on_tie( "t_railroad_track_d_on_tie" );
+static const ter_str_id ter_t_railroad_track_h( "t_railroad_track_h" );
+static const ter_str_id ter_t_railroad_track_h_on_tie( "t_railroad_track_h_on_tie" );
+static const ter_str_id ter_t_railroad_track_on_tie( "t_railroad_track_on_tie" );
+static const ter_str_id ter_t_railroad_track_v( "t_railroad_track_v" );
+static const ter_str_id ter_t_railroad_track_v_on_tie( "t_railroad_track_v_on_tie" );
+static const ter_str_id ter_t_rootcellar( "t_rootcellar" );
+static const ter_str_id ter_t_sand( "t_sand" );
+static const ter_str_id ter_t_sandbox( "t_sandbox" );
+static const ter_str_id ter_t_sandmound( "t_sandmound" );
+static const ter_str_id ter_t_shrub( "t_shrub" );
+static const ter_str_id ter_t_shrub_blackberry( "t_shrub_blackberry" );
+static const ter_str_id ter_t_shrub_blackberry_harvested( "t_shrub_blackberry_harvested" );
+static const ter_str_id ter_t_shrub_blueberry( "t_shrub_blueberry" );
+static const ter_str_id ter_t_shrub_blueberry_harvested( "t_shrub_blueberry_harvested" );
+static const ter_str_id ter_t_shrub_grape( "t_shrub_grape" );
+static const ter_str_id ter_t_shrub_grape_harvested( "t_shrub_grape_harvested" );
+static const ter_str_id ter_t_shrub_huckleberry( "t_shrub_huckleberry" );
+static const ter_str_id ter_t_shrub_huckleberry_harvested( "t_shrub_huckleberry_harvested" );
+static const ter_str_id ter_t_shrub_hydrangea( "t_shrub_hydrangea" );
+static const ter_str_id ter_t_shrub_hydrangea_harvested( "t_shrub_hydrangea_harvested" );
+static const ter_str_id ter_t_shrub_lilac( "t_shrub_lilac" );
+static const ter_str_id ter_t_shrub_lilac_harvested( "t_shrub_lilac_harvested" );
+static const ter_str_id ter_t_shrub_peanut( "t_shrub_peanut" );
+static const ter_str_id ter_t_shrub_peanut_harvested( "t_shrub_peanut_harvested" );
+static const ter_str_id ter_t_shrub_raspberry( "t_shrub_raspberry" );
+static const ter_str_id ter_t_shrub_raspberry_harvested( "t_shrub_raspberry_harvested" );
+static const ter_str_id ter_t_shrub_rose( "t_shrub_rose" );
+static const ter_str_id ter_t_shrub_rose_harvested( "t_shrub_rose_harvested" );
+static const ter_str_id ter_t_shrub_strawberry( "t_shrub_strawberry" );
+static const ter_str_id ter_t_shrub_strawberry_harvested( "t_shrub_strawberry_harvested" );
+static const ter_str_id ter_t_slide( "t_slide" );
+static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
+static const ter_str_id ter_t_underbrush( "t_underbrush" );
+static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
+static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
+static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
+static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
+
+static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
 
 struct monster_sound_event {
     int volume;
@@ -98,6 +189,7 @@ struct sound_event {
     bool footstep;
     std::string id;
     std::string variant;
+    std::string season;
 };
 
 struct centroid {
@@ -131,8 +223,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
     case sounds::sound_t::order: return "order";
     case sounds::sound_t::_LAST: break;
     }
-    debugmsg( "Invalid valid_target" );
-    abort();
+    cata_fatal( "Invalid valid_target" );
 }
 // *INDENT-ON*
 } // namespace io
@@ -169,6 +260,22 @@ static int sound_distance( const tripoint &source, const tripoint &sink )
     return rl_dist( source.xy(), sink.xy() ) + vertical_attenuation;
 }
 
+static std::string season_str( const season_type &season )
+{
+    switch( season ) {
+        case season_type::SPRING:
+            return "spring";
+        case season_type::SUMMER:
+            return "summer";
+        case season_type::AUTUMN:
+            return "autumn";
+        case season_type::WINTER:
+            return "winter";
+        default:
+            return "";
+    }
+}
+
 static bool is_provocative( sounds::sound_t category )
 {
     switch( category ) {
@@ -189,8 +296,7 @@ static bool is_provocative( sounds::sound_t category )
         case sounds::sound_t::_LAST:
             break;
     }
-    debugmsg( "Invalid sound_t category" );
-    abort();
+    cata_fatal( "Invalid sound_t category" );
 }
 
 void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
@@ -211,10 +317,12 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const std::str
     if( description.empty() ) {
         debugmsg( "Sound at %d:%d has no description!", p.x, p.y );
     }
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
     recent_sounds.emplace_back( std::make_pair( p, monster_sound_event{ vol, is_provocative( category ) } ) );
     sounds_since_last_turn.emplace_back( std::make_pair( p,
-                                         sound_event {vol, category, description, ambient,
-                                                 false, id, variant} ) );
+                                         sound_event { vol, category, description, ambient,
+                                                 false, id, variant, seas_str } ) );
 }
 
 void sounds::sound( const tripoint &p, int vol, sound_t category, const translation &description,
@@ -226,8 +334,10 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const translat
 void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
                            const std::string &footstep )
 {
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
     sounds_since_last_turn.emplace_back( std::make_pair( p, sound_event { volume,
-                                         sound_t::movement, footstep, false, true, "", ""} ) );
+                                         sound_t::movement, footstep, false, true, "", "", seas_str} ) );
 }
 
 template <typename C>
@@ -417,10 +527,10 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
     return true;
 }
 
-void sounds::process_sound_markers( player *p )
+void sounds::process_sound_markers( Character *you )
 {
-    bool is_deaf = p->is_deaf();
-    const float volume_multiplier = p->hearing_ability();
+    bool is_deaf = you->is_deaf();
+    const float volume_multiplier = you->hearing_ability();
     const int weather_vol = get_weather().weather_id->sound_attn;
     // NOLINTNEXTLINE(modernize-loop-convert)
     for( std::size_t i = 0; i < sounds_since_last_turn.size(); i++ ) {
@@ -429,7 +539,7 @@ void sounds::process_sound_markers( player *p )
         // so the references may become invalid after the vector enlarged its internal buffer
         const tripoint pos = sounds_since_last_turn[i].first;
         const sound_event sound = sounds_since_last_turn[i].second;
-        const int distance_to_sound = sound_distance( p->pos(), pos );
+        const int distance_to_sound = sound_distance( you->pos(), pos );
         const int raw_volume = sound.volume;
 
         // The felt volume of a sound is not affected by negative multipliers, such as already
@@ -443,23 +553,23 @@ void sounds::process_sound_markers( player *p )
 
         // Deaf players hear no sound, but still are at risk of additional hearing loss.
         if( is_deaf ) {
-            if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
-                p->add_effect( effect_deaf, std::min( 4_minutes,
-                                                      time_duration::from_turns( felt_volume - 130 ) / 8 ) );
-                if( !p->has_trait( trait_id( "NOPAIN" ) ) ) {
-                    p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
-                    if( p->get_pain() < 10 ) {
-                        p->mod_pain( rng( 0, 2 ) );
+            if( is_sound_deafening && !you->is_immune_effect( effect_deaf ) ) {
+                you->add_effect( effect_deaf, std::min( 4_minutes,
+                                                        time_duration::from_turns( felt_volume - 130 ) / 8 ) );
+                if( !you->has_trait( trait_NOPAIN ) ) {
+                    you->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
+                    if( you->get_pain() < 10 ) {
+                        you->mod_pain( rng( 0, 2 ) );
                     }
                 }
             }
             continue;
         }
 
-        if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
+        if( is_sound_deafening && !you->is_immune_effect( effect_deaf ) ) {
             const time_duration deafness_duration = time_duration::from_turns( felt_volume - 130 ) / 4;
-            p->add_effect( effect_deaf, deafness_duration );
-            if( p->is_deaf() && !is_deaf ) {
+            you->add_effect( effect_deaf, deafness_duration );
+            if( you->is_deaf() && !is_deaf ) {
                 is_deaf = true;
                 continue;
             }
@@ -469,102 +579,106 @@ void sounds::process_sound_markers( player *p )
         const int heard_volume = static_cast<int>( ( raw_volume - weather_vol ) *
                                  volume_multiplier ) - distance_to_sound;
 
-        if( heard_volume <= 0 && pos != p->pos() ) {
+        if( heard_volume <= 0 && pos != you->pos() ) {
             continue;
         }
 
         // Player volume meter includes all sounds from their tile and adjacent tiles
         if( distance_to_sound <= 1 ) {
-            p->volume = std::max( p->volume, heard_volume );
+            you->volume = std::max( you->volume, heard_volume );
         }
 
         // Noises from vehicle player is in.
-        if( p->controlling_vehicle ) {
-            vehicle *veh = veh_pointer_or_null( get_map().veh_at( p->pos() ) );
+        if( you->controlling_vehicle ) {
+            vehicle *veh = veh_pointer_or_null( get_map().veh_at( you->pos() ) );
             const int noise = veh ? static_cast<int>( veh->vehicle_noise ) : 0;
 
-            p->volume = std::max( p->volume, noise );
+            you->volume = std::max( you->volume, noise );
         }
 
         // Secure the flag before wake_up() clears the effect
-        bool slept_through = p->has_effect( effect_slept_through_alarm );
+        bool slept_through = you->has_effect( effect_slept_through_alarm );
         // See if we need to wake someone up
-        if( p->has_effect( effect_sleep ) ) {
-            if( ( ( !( p->has_trait( trait_HEAVYSLEEPER ) ||
-                       p->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
-                  ( p->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
-                  ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
-                !p->has_effect( effect_narcosis ) ) {
+        if( you->has_effect( effect_sleep ) ) {
+            if( ( ( !( you->has_trait( trait_HEAVYSLEEPER ) ||
+                       you->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
+                  ( you->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
+                  ( you->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
+                !you->has_effect( effect_narcosis ) ) {
                 //Not kidding about sleep-through-firefight
-                p->wake_up();
+                you->wake_up();
                 add_msg( m_warning, _( "Something is making noise." ) );
             } else {
                 continue;
             }
         }
         const std::string &description = sound.description.empty() ? _( "a noise" ) : sound.description;
-        if( p->is_npc() ) {
+        if( you->is_npc() ) {
             if( !sound.ambient ) {
-                npc *guy = dynamic_cast<npc *>( p );
+                npc *guy = dynamic_cast<npc *>( you );
                 guy->handle_sound( sound.category, description, heard_volume, pos );
             }
             continue;
         }
 
         // don't print our own noise or things without descriptions
-        if( !sound.ambient && ( pos != p->pos() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
-            if( !p->activity.is_distraction_ignored( distraction_type::noise ) &&
-                !get_safemode().is_sound_safe( sound.description, distance_to_sound ) ) {
-                const std::string query = string_format( _( "Heard %s!" ), description );
+        if( !sound.ambient && ( pos != you->pos() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
+            if( !you->activity.is_distraction_ignored( distraction_type::noise ) &&
+                !get_safemode().is_sound_safe( sound.description, distance_to_sound, you->controlling_vehicle ) ) {
+                const std::string query = string_format( _( "Heard %s!" ),
+                                          trim_trailing_punctuations( description ) );
                 g->cancel_activity_or_ignore_query( distraction_type::noise, query );
             }
         }
 
         // skip some sounds to avoid message spam
-        if( describe_sound( sound.category, pos == p->pos() ) ) {
+        const bool from_player = pos == you->pos() || ( sound.category == sound_t::movement &&
+                                 distance_to_sound <= 1 );
+        if( describe_sound( sound.category, from_player ) ) {
             game_message_type severity = m_info;
             if( sound.category == sound_t::combat || sound.category == sound_t::alarm ) {
                 severity = m_warning;
             }
             // if we can see it, don't print a direction
-            if( pos == p->pos() ) {
+            if( pos == you->pos() ) {
                 add_msg( severity, _( "From your position you hear %1$s" ), description );
-            } else if( p->sees( pos ) ) {
+            } else if( you->sees( pos ) ) {
                 add_msg( severity, _( "You hear %1$s" ), description );
             } else {
-                std::string direction = direction_name( direction_from( p->pos(), pos ) );
+                std::string direction = direction_name( direction_from( you->pos(), pos ) );
                 add_msg( severity, _( "From the %1$s you hear %2$s" ), direction, description );
             }
         }
 
-        if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) &&
-            !p->has_flag( STATIC( json_character_flag( "ALARMCLOCK" ) ) ) ) {
+        if( !you->has_effect( effect_sleep ) && you->has_effect( effect_alarm_clock ) &&
+            !you->has_flag( STATIC( json_character_flag( "ALARMCLOCK" ) ) ) ) {
             // if we don't have effect_sleep but we're in_sleep_state, either
             // we were trying to fall asleep for so long our alarm is now going
             // off or something disturbed us while trying to sleep
-            const bool trying_to_sleep = p->in_sleep_state();
-            if( p->get_effect( effect_alarm_clock ).get_duration() == 1_turns ) {
+            const bool trying_to_sleep = you->in_sleep_state();
+            if( you->get_effect( effect_alarm_clock ).get_duration() == 1_turns ) {
                 if( slept_through ) {
                     add_msg( _( "Your alarm clock finally wakes you up." ) );
                 } else if( !trying_to_sleep ) {
                     add_msg( _( "Your alarm clock wakes you up." ) );
                 } else {
                     add_msg( _( "Your alarm clock goes off and you haven't slept a wink." ) );
-                    p->activity.set_to_null();
+                    you->activity.set_to_null();
                 }
                 add_msg( _( "You turn off your alarm-clock." ) );
-                p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
+                you->get_effect( effect_alarm_clock ).set_duration( 0_turns );
             }
         }
 
         const std::string &sfx_id = sound.id;
         const std::string &sfx_variant = sound.variant;
+        const std::string &sfx_season = sound.season;
         if( !sfx_id.empty() ) {
-            sfx::play_variant_sound( sfx_id, sfx_variant, sfx::get_heard_volume( pos ) );
+            sfx::play_variant_sound( sfx_id, sfx_variant, sfx_season, sfx::get_heard_volume( pos ) );
         }
 
         // Place footstep markers.
-        if( pos == p->pos() || p->sees( pos ) ) {
+        if( pos == you->pos() || you->sees( pos ) ) {
             // If we are or can see the source, don't draw a marker.
             continue;
         }
@@ -579,13 +693,13 @@ void sounds::process_sound_markers( player *p )
         }
 
         // If Z-coordinate is different, draw even when you can see the source
-        const bool diff_z = pos.z != p->posz();
+        const bool diff_z = pos.z != you->posz();
 
         // Enumerate the valid points the player *cannot* see.
         // Unless the source is on a different z-level, then any point is fine
         std::vector<tripoint> unseen_points;
         for( const tripoint &newp : get_map().points_in_radius( pos, err_offset ) ) {
-            if( diff_z || !p->sees( newp ) ) {
+            if( diff_z || !you->sees( newp ) ) {
                 unseen_points.emplace_back( newp );
             }
         }
@@ -595,7 +709,7 @@ void sounds::process_sound_markers( player *p )
             sound_markers.emplace( random_entry( unseen_points ), sound );
         }
     }
-    if( p->is_player() ) {
+    if( you->is_avatar() ) {
         sounds_since_last_turn.clear();
     }
 }
@@ -744,11 +858,13 @@ void sfx::do_vehicle_engine_sfx()
     }
 
     std::pair<std::string, std::string> id_and_variant;
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
             if( sfx::has_variant_sound( "engine_working_internal",
-                                        veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
+                                        veh->part_info( veh->engines[ e ] ).get_id().str(), seas_str ) ) {
                 id_and_variant = std::make_pair( "engine_working_internal",
                                                  veh->part_info( veh->engines[ e ] ).get_id().str() );
             } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
@@ -764,7 +880,7 @@ void sfx::do_vehicle_engine_sfx()
     }
 
     if( !is_channel_playing( ch ) ) {
-        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
+        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, seas_str,
                                     sfx::get_heard_volume( player_character.pos() ), ch, 1000 );
         add_msg_debug( debugmode::DF_SOUND, "START %s %s", id_and_variant.first, id_and_variant.second );
     } else {
@@ -802,15 +918,15 @@ void sfx::do_vehicle_engine_sfx()
     }
 
     if( current_gear > previous_gear ) {
-        play_variant_sound( "vehicle", "gear_shift", get_heard_volume( player_character.pos() ),
+        play_variant_sound( "vehicle", "gear_shift", seas_str, get_heard_volume( player_character.pos() ),
                             0_degrees, 0.8, 0.8 );
         add_msg_debug( debugmode::DF_SOUND, "GEAR UP" );
     } else if( current_gear < previous_gear ) {
-        play_variant_sound( "vehicle", "gear_shift", get_heard_volume( player_character.pos() ),
+        play_variant_sound( "vehicle", "gear_shift", seas_str, get_heard_volume( player_character.pos() ),
                             0_degrees, 1.2, 1.2 );
         add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
     }
-    if( ( safe_speed != 0 ) ) {
+    if( safe_speed != 0 ) {
         if( current_gear == 0 ) {
             pitch = 1.0;
         } else if( current_gear == -1 ) {
@@ -826,7 +942,7 @@ void sfx::do_vehicle_engine_sfx()
     if( current_speed != previous_speed ) {
         Mix_HaltChannel( static_cast<int>( ch ) );
         add_msg_debug( debugmode::DF_SOUND, "STOP speed %d =/= %d", current_speed, previous_speed );
-        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
+        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, seas_str,
                                     sfx::get_heard_volume( player_character.pos() ), ch, 1000, pitch );
         add_msg_debug( debugmode::DF_SOUND, "PITCH %f", pitch );
     }
@@ -880,11 +996,13 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
     vol = MIX_MAX_VOLUME * noise_factor / veh->vehicle_noise;
     std::pair<std::string, std::string> id_and_variant;
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
             if( sfx::has_variant_sound( "engine_working_external",
-                                        veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
+                                        veh->part_info( veh->engines[ e ] ).get_id().str(), seas_str ) ) {
                 id_and_variant = std::make_pair( "engine_working_external",
                                                  veh->part_info( veh->engines[ e ] ).get_id().str() );
             } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
@@ -904,13 +1022,12 @@ void sfx::do_vehicle_exterior_engine_sfx()
             Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
             set_channel_volume( ch, vol );
             add_msg_debug( debugmode::DF_SOUND, "PLAYING exterior_engine_sound, vol: ex:%d true:%d", vol,
-                           Mix_Volume( ch_int,
-                                       -1 ) );
+                           Mix_Volume( ch_int, -1 ) );
         } else {
             engine_external_id_and_variant = id_and_variant;
             Mix_HaltChannel( ch_int );
             add_msg_debug( debugmode::DF_SOUND, "STOP exterior_engine_sound, change id/var" );
-            play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, ch, 0 );
+            play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, seas_str, 128, ch, 0 );
             Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
             set_channel_volume( ch, vol );
             add_msg_debug( debugmode::DF_SOUND, "START exterior_engine_sound %s %s vol: %d",
@@ -919,7 +1036,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
                            Mix_Volume( ch_int, -1 ) );
         }
     } else {
-        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, ch, 0 );
+        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, seas_str, 128, ch, 0 );
         add_msg_debug( debugmode::DF_SOUND, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
         Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
         add_msg_debug( debugmode::DF_SOUND, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
@@ -950,18 +1067,20 @@ void sfx::do_ambient()
     const bool is_underground = player_character.pos().z < 0;
     const bool is_sheltered = g->is_sheltered( player_character.pos() );
     const bool weather_changed = get_weather().weather_id != previous_weather;
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
     // Step in at night time / we are not indoors
     if( is_night( calendar::turn ) && !is_sheltered &&
         !is_channel_playing( channel::nighttime_outdoors_env ) && !is_deaf ) {
         fade_audio_group( group::time_of_day, 1000 );
-        play_ambient_variant_sound( "environment", "nighttime", heard_volume,
+        play_ambient_variant_sound( "environment", "nighttime", seas_str, heard_volume,
                                     channel::nighttime_outdoors_env, 1000 );
         // Step in at day time / we are not indoors
     } else if( !is_night( calendar::turn ) && !is_channel_playing( channel::daytime_outdoors_env ) &&
                !is_sheltered && !is_deaf ) {
         fade_audio_group( group::time_of_day, 1000 );
-        play_ambient_variant_sound( "environment", "daytime", heard_volume, channel::daytime_outdoors_env,
-                                    1000 );
+        play_ambient_variant_sound( "environment", "daytime", seas_str, heard_volume,
+                                    channel::daytime_outdoors_env, 1000 );
     }
     // We are underground
     if( ( is_underground && !is_channel_playing( channel::underground_env ) &&
@@ -969,8 +1088,8 @@ void sfx::do_ambient()
                           weather_changed && !is_deaf ) ) {
         fade_audio_group( group::weather, 1000 );
         fade_audio_group( group::time_of_day, 1000 );
-        play_ambient_variant_sound( "environment", "underground", heard_volume, channel::underground_env,
-                                    1000 );
+        play_ambient_variant_sound( "environment", "underground", seas_str, heard_volume,
+                                    channel::underground_env, 1000 );
         // We are indoors
     } else if( ( is_sheltered && !is_underground &&
                  !is_channel_playing( channel::indoors_env ) && !is_deaf ) ||
@@ -978,15 +1097,16 @@ void sfx::do_ambient()
                  weather_changed && !is_deaf ) ) {
         fade_audio_group( group::weather, 1000 );
         fade_audio_group( group::time_of_day, 1000 );
-        play_ambient_variant_sound( "environment", "indoors", heard_volume, channel::indoors_env, 1000 );
+        play_ambient_variant_sound( "environment", "indoors", seas_str, heard_volume, channel::indoors_env,
+                                    1000 );
     }
 
     // We are indoors and it is also raining
     if( get_weather().weather_id->rains &&
         get_weather().weather_id->precip != precip_class::very_light &&
         !is_underground && is_sheltered && !is_channel_playing( channel::indoors_rain_env ) ) {
-        play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, channel::indoors_rain_env,
-                                    1000 );
+        play_ambient_variant_sound( "environment", "indoors_rain", seas_str, heard_volume,
+                                    channel::indoors_rain_env, 1000 );
     }
     if( ( !is_sheltered &&
           get_weather().weather_id->sound_category != weather_sound_category::silent && !is_deaf &&
@@ -995,42 +1115,56 @@ void sfx::do_ambient()
           !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
           !is_channel_playing( channel::outdoors_rain_env ) &&
           !is_channel_playing( channel::outdoors_drizzle_env ) &&
-          !is_channel_playing( channel::outdoor_blizzard ) )
+          !is_channel_playing( channel::outdoor_blizzard ) &&
+          !is_channel_playing( channel::outdoors_clear_env ) &&
+          !is_channel_playing( channel::outdoors_sunny_env )  &&
+          !is_channel_playing( channel::outdoors_cloudy_env ) )
         || ( !is_sheltered &&
              weather_changed  && !is_deaf ) ) {
         fade_audio_group( group::weather, 1000 );
         // We are outside and there is precipitation
         switch( get_weather().weather_id->sound_category ) {
             case weather_sound_category::drizzle:
-                play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume,
-                                            channel::outdoors_drizzle_env,
-                                            1000 );
+                play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", seas_str, heard_volume,
+                                            channel::outdoors_drizzle_env, 1000 );
                 break;
             case weather_sound_category::rainy:
-                play_ambient_variant_sound( "environment", "WEATHER_RAINY", heard_volume,
-                                            channel::outdoors_rain_env,
-                                            1000 );
+                play_ambient_variant_sound( "environment", "WEATHER_RAINY", seas_str, heard_volume,
+                                            channel::outdoors_rain_env, 1000 );
                 break;
             case weather_sound_category::thunder:
-                play_ambient_variant_sound( "environment", "WEATHER_THUNDER", heard_volume,
-                                            channel::outdoors_thunderstorm_env,
-                                            1000 );
+                play_ambient_variant_sound( "environment", "WEATHER_THUNDER", seas_str, heard_volume,
+                                            channel::outdoors_thunderstorm_env, 1000 );
                 break;
             case weather_sound_category::flurries:
-                play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", heard_volume,
-                                            channel::outdoors_flurry_env,
-                                            1000 );
+                play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", seas_str, heard_volume,
+                                            channel::outdoors_flurry_env, 1000 );
                 break;
             case weather_sound_category::snowstorm:
-                play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", heard_volume,
-                                            channel::outdoor_blizzard,
-                                            1000 );
+                play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", seas_str, heard_volume,
+                                            channel::outdoor_blizzard, 1000 );
                 break;
             case weather_sound_category::snow:
-                play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, channel::outdoors_snow_env,
-                                            1000 );
+                play_ambient_variant_sound( "environment", "WEATHER_SNOW", seas_str, heard_volume,
+                                            channel::outdoors_snow_env, 1000 );
                 break;
             case weather_sound_category::silent:
+                break;
+            case weather_sound_category::portal_storm:
+                play_ambient_variant_sound( "environment", "WEATHER_PORTAL_STORM", seas_str, heard_volume,
+                                            channel::outdoors_portal_storm_env, 1000 );
+                break;
+            case weather_sound_category::clear:
+                play_ambient_variant_sound( "environment", "WEATHER_CLEAR", seas_str, heard_volume,
+                                            channel::outdoors_clear_env, 1000 );
+                break;
+            case weather_sound_category::sunny:
+                play_ambient_variant_sound( "environment", "WEATHER_SUNNY", seas_str, heard_volume,
+                                            channel::outdoors_sunny_env, 1000 );
+                break;
+            case weather_sound_category::cloudy:
+                play_ambient_variant_sound( "environment", "WEATHER_CLOUDY", seas_str, heard_volume,
+                                            channel::outdoors_cloudy_env, 1000 );
                 break;
             case weather_sound_category::last:
                 debugmsg( "Invalid weather sound category." );
@@ -1044,7 +1178,7 @@ void sfx::do_ambient()
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
 // gunmod. p is the character that is firing, this may be a pseudo-character (used by monattack/
 // vehicle turrets) or a NPC.
-void sfx::generate_gun_sound( const player &source_arg, const item &firing )
+void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
 {
     if( test_mode ) {
         return;
@@ -1066,6 +1200,8 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
     int distance = 0;
     std::string selected_sound;
     const Character &player_character = get_player_character();
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
     // this does not mean p == avatar (it could be a vehicle turret)
     if( player_character.pos() == source ) {
         selected_sound = "fire_gun";
@@ -1088,7 +1224,7 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
         }
     }
 
-    play_variant_sound( selected_sound, weapon_id.str(), heard_volume, angle, 0.8, 1.2 );
+    play_variant_sound( selected_sound, weapon_id.str(), seas_str, heard_volume, angle, 0.8, 1.2 );
     start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 }
 
@@ -1148,10 +1284,10 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
 {
     // This is function is run in the main thread.
     const int heard_volume = get_heard_volume( source );
-    npc *np = g->critter_at<npc>( source );
-    const player &p = np ? static_cast<player &>( *np ) :
-                      dynamic_cast<player &>( get_player_character() );
-    if( !p.is_npc() ) {
+    npc *np = get_creature_tracker().creature_at<npc>( source );
+    const Character &you = np ? static_cast<Character &>( *np ) :
+                           dynamic_cast<Character &>( get_player_character() );
+    if( !you.is_npc() ) {
         // sound comes from the same place as the player is, calculation of angle wouldn't work
         ang_src = 0_degrees;
         vol_src = heard_volume;
@@ -1161,9 +1297,10 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
         vol_src = std::max( heard_volume - 30, 0 );
         vol_targ = std::max( heard_volume - 20, 0 );
     }
+    const item weapon = you.get_wielded_item();
     ang_targ = get_heard_angle( target );
-    weapon_skill = p.weapon.melee_skill();
-    weapon_volume = p.weapon.volume() / units::legacy_volume_factor;
+    weapon_skill = weapon.melee_skill();
+    weapon_volume = weapon.volume() / units::legacy_volume_factor;
 }
 
 // Operator overload required for thread API.
@@ -1174,44 +1311,42 @@ void sfx::sound_thread::operator()() const
     // runs).
     std::this_thread::sleep_for( std::chrono::milliseconds( rng( 1, 2 ) ) );
     std::string variant_used;
-
-    static const skill_id skill_bashing( "bashing" );
-    static const skill_id skill_cutting( "cutting" );
-    static const skill_id skill_stabbing( "stabbing" );
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
 
     if( weapon_skill == skill_bashing && weapon_volume <= 8 ) {
         variant_used = "small_bash";
-        play_variant_sound( "melee_swing", "small_bash", vol_src, ang_src, 0.8, 1.2 );
+        play_variant_sound( "melee_swing", "small_bash", seas_str, vol_src, ang_src, 0.8, 1.2 );
     } else if( weapon_skill == skill_bashing && weapon_volume >= 9 ) {
         variant_used = "big_bash";
-        play_variant_sound( "melee_swing", "big_bash", vol_src, ang_src, 0.8, 1.2 );
+        play_variant_sound( "melee_swing", "big_bash", seas_str, vol_src, ang_src, 0.8, 1.2 );
     } else if( ( weapon_skill == skill_cutting || weapon_skill == skill_stabbing ) &&
                weapon_volume <= 6 ) {
         variant_used = "small_cutting";
-        play_variant_sound( "melee_swing", "small_cutting", vol_src, ang_src, 0.8, 1.2 );
+        play_variant_sound( "melee_swing", "small_cutting", seas_str, vol_src, ang_src, 0.8, 1.2 );
     } else if( ( weapon_skill == skill_cutting || weapon_skill == skill_stabbing ) &&
                weapon_volume >= 7 ) {
         variant_used = "big_cutting";
-        play_variant_sound( "melee_swing", "big_cutting", vol_src, ang_src, 0.8, 1.2 );
+        play_variant_sound( "melee_swing", "big_cutting", seas_str, vol_src, ang_src, 0.8, 1.2 );
     } else {
         variant_used = "default";
-        play_variant_sound( "melee_swing", "default", vol_src, ang_src, 0.8, 1.2 );
+        play_variant_sound( "melee_swing", "default", seas_str, vol_src, ang_src, 0.8, 1.2 );
     }
     if( hit ) {
         if( targ_mon ) {
             if( material == "steel" ) {
                 std::this_thread::sleep_for( std::chrono::milliseconds( rng( weapon_volume * 12,
                                              weapon_volume * 16 ) ) );
-                play_variant_sound( "melee_hit_metal", variant_used, vol_targ, ang_targ, 0.8, 1.2 );
+                play_variant_sound( "melee_hit_metal", variant_used, seas_str, vol_targ, ang_targ, 0.8, 1.2 );
             } else {
                 std::this_thread::sleep_for( std::chrono::milliseconds( rng( weapon_volume * 12,
                                              weapon_volume * 16 ) ) );
-                play_variant_sound( "melee_hit_flesh", variant_used, vol_targ, ang_targ, 0.8, 1.2 );
+                play_variant_sound( "melee_hit_flesh", variant_used, seas_str, vol_targ, ang_targ, 0.8, 1.2 );
             }
         } else {
             std::this_thread::sleep_for( std::chrono::milliseconds( rng( weapon_volume * 9,
                                          weapon_volume * 12 ) ) );
-            play_variant_sound( "melee_hit_flesh", variant_used, vol_targ, ang_targ, 0.8, 1.2 );
+            play_variant_sound( "melee_hit_flesh", variant_used, seas_str, vol_targ, ang_targ, 0.8, 1.2 );
         }
     }
 }
@@ -1224,34 +1359,33 @@ void sfx::do_projectile_hit( const Creature &target )
 
     const int heard_volume = sfx::get_heard_volume( target.pos() );
     const units::angle angle = get_heard_angle( target.pos() );
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
         static const std::set<material_id> fleshy = {
-            material_id( "flesh" ),
-            material_id( "hflesh" ),
-            material_id( "iflesh" ),
-            material_id( "veggy" ),
-            material_id( "bone" ),
+            material_flesh,
+            material_hflesh,
+            material_iflesh,
+            material_veggy,
+            material_bone,
         };
         const bool is_fleshy = std::any_of( fleshy.begin(), fleshy.end(), [&mon]( const material_id & m ) {
             return mon.made_of( m );
         } );
 
-        if( is_fleshy ) {
-            play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
+        if( !is_fleshy && mon.made_of( material_stone ) ) {
+            play_variant_sound( "bullet_hit", "hit_wall", seas_str, heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon.made_of( material_id( "stone" ) ) ) {
-            play_variant_sound( "bullet_hit", "hit_wall", heard_volume, angle, 0.8, 1.2 );
-            return;
-        } else if( mon.made_of( material_id( "steel" ) ) ) {
-            play_variant_sound( "bullet_hit", "hit_metal", heard_volume, angle, 0.8, 1.2 );
+        } else if( !is_fleshy && mon.made_of( material_steel ) ) {
+            play_variant_sound( "bullet_hit", "hit_metal", seas_str, heard_volume, angle, 0.8, 1.2 );
             return;
         } else {
-            play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
+            play_variant_sound( "bullet_hit", "hit_flesh", seas_str, heard_volume, angle, 0.8, 1.2 );
             return;
         }
     }
-    play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
+    play_variant_sound( "bullet_hit", "hit_flesh", seas_str, heard_volume, angle, 0.8, 1.2 );
 }
 
 void sfx::do_player_death_hurt( const Character &target, bool death )
@@ -1260,16 +1394,18 @@ void sfx::do_player_death_hurt( const Character &target, bool death )
         return;
     }
 
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
     int heard_volume = get_heard_volume( target.pos() );
     const bool male = target.male;
     if( !male && !death ) {
-        play_variant_sound( "deal_damage", "hurt_f", heard_volume );
+        play_variant_sound( "deal_damage", "hurt_f", seas_str, heard_volume );
     } else if( male && !death ) {
-        play_variant_sound( "deal_damage", "hurt_m", heard_volume );
+        play_variant_sound( "deal_damage", "hurt_m", seas_str, heard_volume );
     } else if( !male && death ) {
-        play_variant_sound( "clean_up_at_end", "death_f", heard_volume );
+        play_variant_sound( "clean_up_at_end", "death_f", seas_str, heard_volume );
     } else if( male && death ) {
-        play_variant_sound( "clean_up_at_end", "death_m", heard_volume );
+        play_variant_sound( "clean_up_at_end", "death_m", seas_str, heard_volume );
     }
 }
 
@@ -1279,6 +1415,8 @@ void sfx::do_danger_music()
         return;
     }
 
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
     Character &player_character = get_player_character();
     if( player_character.in_sleep_state() && !audio_muted ) {
         fade_audio_channel( channel::any, 100 );
@@ -1305,23 +1443,27 @@ void sfx::do_danger_music()
         return;
     } else if( hostiles >= 5 && hostiles <= 9 && !is_channel_playing( channel::danger_low_theme ) ) {
         fade_audio_group( group::context_themes, 1000 );
-        play_ambient_variant_sound( "danger_low", "default", 100, channel::danger_low_theme, 1000 );
+        play_ambient_variant_sound( "danger_low", "default", seas_str, 100, channel::danger_low_theme,
+                                    1000 );
         prev_hostiles = hostiles;
         return;
     } else if( hostiles >= 10 && hostiles <= 14 &&
                !is_channel_playing( channel::danger_medium_theme ) ) {
         fade_audio_group( group::context_themes, 1000 );
-        play_ambient_variant_sound( "danger_medium", "default", 100, channel::danger_medium_theme, 1000 );
+        play_ambient_variant_sound( "danger_medium", "default", seas_str, 100, channel::danger_medium_theme,
+                                    1000 );
         prev_hostiles = hostiles;
         return;
     } else if( hostiles >= 15 && hostiles <= 19 && !is_channel_playing( channel::danger_high_theme ) ) {
         fade_audio_group( group::context_themes, 1000 );
-        play_ambient_variant_sound( "danger_high", "default", 100, channel::danger_high_theme, 1000 );
+        play_ambient_variant_sound( "danger_high", "default", seas_str, 100, channel::danger_high_theme,
+                                    1000 );
         prev_hostiles = hostiles;
         return;
     } else if( hostiles >= 20 && !is_channel_playing( channel::danger_extreme_theme ) ) {
         fade_audio_group( group::context_themes, 1000 );
-        play_ambient_variant_sound( "danger_extreme", "default", 100, channel::danger_extreme_theme, 1000 );
+        play_ambient_variant_sound( "danger_extreme", "default", seas_str, 100,
+                                    channel::danger_extreme_theme, 1000 );
         prev_hostiles = hostiles;
         return;
     }
@@ -1334,6 +1476,8 @@ void sfx::do_fatigue()
         return;
     }
 
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
     Character &player_character = get_player_character();
     /*15: Stamina 75%
     16: Stamina 50%
@@ -1345,37 +1489,37 @@ void sfx::do_fatigue()
                player_character.get_stamina() >= player_character.get_stamina_max() * .5 &&
                player_character.male && !is_channel_playing( channel::stamina_75 ) ) {
         fade_audio_group( group::fatigue, 1000 );
-        play_ambient_variant_sound( "plmove", "fatigue_m_low", 100, channel::stamina_75, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_m_low", seas_str, 100, channel::stamina_75, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .49 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .25 &&
                player_character.male && !is_channel_playing( channel::stamina_50 ) ) {
         fade_audio_group( group::fatigue, 1000 );
-        play_ambient_variant_sound( "plmove", "fatigue_m_med", 100, channel::stamina_50, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_m_med", seas_str, 100, channel::stamina_50, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .24 &&
                player_character.get_stamina() >= 0 && player_character.male &&
                !is_channel_playing( channel::stamina_35 ) ) {
         fade_audio_group( group::fatigue, 1000 );
-        play_ambient_variant_sound( "plmove", "fatigue_m_high", 100, channel::stamina_35, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_m_high", seas_str, 100, channel::stamina_35, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .74 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .5 &&
                !player_character.male && !is_channel_playing( channel::stamina_75 ) ) {
         fade_audio_group( group::fatigue, 1000 );
-        play_ambient_variant_sound( "plmove", "fatigue_f_low", 100, channel::stamina_75, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_f_low", seas_str, 100, channel::stamina_75, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .49 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .25 &&
                !player_character.male && !is_channel_playing( channel::stamina_50 ) ) {
         fade_audio_group( group::fatigue, 1000 );
-        play_ambient_variant_sound( "plmove", "fatigue_f_med", 100, channel::stamina_50, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_f_med", seas_str, 100, channel::stamina_50, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .24 &&
                player_character.get_stamina() >= 0 && !player_character.male &&
                !is_channel_playing( channel::stamina_35 ) ) {
         fade_audio_group( group::fatigue, 1000 );
-        play_ambient_variant_sound( "plmove", "fatigue_f_high", 100, channel::stamina_35, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_f_high", seas_str, 100, channel::stamina_35, 1000 );
         return;
     }
 }
@@ -1386,6 +1530,8 @@ void sfx::do_hearing_loss( int turns )
         return;
     }
 
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
     g_sfx_volume_multiplier = .1;
     fade_audio_group( group::weather, 50 );
     fade_audio_group( group::time_of_day, 50 );
@@ -1394,15 +1540,17 @@ void sfx::do_hearing_loss( int turns )
     if( turns == -1 ) {
         return;
     }
-    play_variant_sound( "environment", "deafness_shock", 100 );
-    play_variant_sound( "environment", "deafness_tone_start", 100 );
+    play_variant_sound( "environment", "deafness_shock", seas_str, 100 );
+    play_variant_sound( "environment", "deafness_tone_start", seas_str, 100 );
     if( turns <= 35 ) {
-        play_ambient_variant_sound( "environment", "deafness_tone_light", 90, channel::deafness_tone, 100 );
+        play_ambient_variant_sound( "environment", "deafness_tone_light", seas_str, 90,
+                                    channel::deafness_tone, 100 );
     } else if( turns <= 90 ) {
-        play_ambient_variant_sound( "environment", "deafness_tone_medium", 90, channel::deafness_tone,
-                                    100 );
+        play_ambient_variant_sound( "environment", "deafness_tone_medium", seas_str, 90,
+                                    channel::deafness_tone, 100 );
     } else if( turns >= 91 ) {
-        play_ambient_variant_sound( "environment", "deafness_tone_heavy", 90, channel::deafness_tone, 100 );
+        play_ambient_variant_sound( "environment", "deafness_tone_heavy", seas_str, 90,
+                                    channel::deafness_tone, 100 );
     }
 }
 
@@ -1429,145 +1577,148 @@ void sfx::do_footstep()
         int heard_volume = sfx::get_heard_volume( player_character.pos() );
         const auto terrain = get_map().ter( player_character.pos() ).id();
         static const std::set<ter_str_id> grass = {
-            ter_str_id( "t_grass" ),
-            ter_str_id( "t_shrub" ),
-            ter_str_id( "t_shrub_peanut" ),
-            ter_str_id( "t_shrub_peanut_harvested" ),
-            ter_str_id( "t_shrub_blueberry" ),
-            ter_str_id( "t_shrub_blueberry_harvested" ),
-            ter_str_id( "t_shrub_strawberry" ),
-            ter_str_id( "t_shrub_strawberry_harvested" ),
-            ter_str_id( "t_shrub_blackberry" ),
-            ter_str_id( "t_shrub_blackberry_harvested" ),
-            ter_str_id( "t_shrub_huckleberry" ),
-            ter_str_id( "t_shrub_huckleberry_harvested" ),
-            ter_str_id( "t_shrub_raspberry" ),
-            ter_str_id( "t_shrub_raspberry_harvested" ),
-            ter_str_id( "t_shrub_grape" ),
-            ter_str_id( "t_shrub_grape_harvested" ),
-            ter_str_id( "t_shrub_rose" ),
-            ter_str_id( "t_shrub_rose_harvested" ),
-            ter_str_id( "t_shrub_hydrangea" ),
-            ter_str_id( "t_shrub_hydrangea_harvested" ),
-            ter_str_id( "t_shrub_lilac" ),
-            ter_str_id( "t_shrub_lilac_harvested" ),
-            ter_str_id( "t_underbrush" ),
-            ter_str_id( "t_underbrush_harvested_spring" ),
-            ter_str_id( "t_underbrush_harvested_summer" ),
-            ter_str_id( "t_underbrush_harvested_autumn" ),
-            ter_str_id( "t_underbrush_harvested_winter" ),
-            ter_str_id( "t_moss" ),
-            ter_str_id( "t_grass_white" ),
-            ter_str_id( "t_grass_long" ),
-            ter_str_id( "t_grass_tall" ),
-            ter_str_id( "t_grass_dead" ),
-            ter_str_id( "t_grass_golf" ),
-            ter_str_id( "t_golf_hole" ),
-            ter_str_id( "t_trunk" ),
-            ter_str_id( "t_stump" ),
+            ter_t_grass,
+            ter_t_shrub,
+            ter_t_shrub_peanut,
+            ter_t_shrub_peanut_harvested,
+            ter_t_shrub_blueberry,
+            ter_t_shrub_blueberry_harvested,
+            ter_t_shrub_strawberry,
+            ter_t_shrub_strawberry_harvested,
+            ter_t_shrub_blackberry,
+            ter_t_shrub_blackberry_harvested,
+            ter_t_shrub_huckleberry,
+            ter_t_shrub_huckleberry_harvested,
+            ter_t_shrub_raspberry,
+            ter_t_shrub_raspberry_harvested,
+            ter_t_shrub_grape,
+            ter_t_shrub_grape_harvested,
+            ter_t_shrub_rose,
+            ter_t_shrub_rose_harvested,
+            ter_t_shrub_hydrangea,
+            ter_t_shrub_hydrangea_harvested,
+            ter_t_shrub_lilac,
+            ter_t_shrub_lilac_harvested,
+            ter_t_underbrush,
+            ter_t_underbrush_harvested_spring,
+            ter_t_underbrush_harvested_summer,
+            ter_t_underbrush_harvested_autumn,
+            ter_t_underbrush_harvested_winter,
+            ter_t_moss,
+            ter_t_grass_white,
+            ter_t_grass_long,
+            ter_t_grass_tall,
+            ter_t_grass_dead,
+            ter_t_grass_golf,
+            ter_t_golf_hole,
+            ter_t_trunk,
+            ter_t_stump,
         };
         static const std::set<ter_str_id> dirt = {
-            ter_str_id( "t_dirt" ),
-            ter_str_id( "t_dirtmound" ),
-            ter_str_id( "t_dirtmoundfloor" ),
-            ter_str_id( "t_sand" ),
-            ter_str_id( "t_clay" ),
-            ter_str_id( "t_dirtfloor" ),
-            ter_str_id( "t_palisade_gate_o" ),
-            ter_str_id( "t_sandbox" ),
-            ter_str_id( "t_claymound" ),
-            ter_str_id( "t_sandmound" ),
-            ter_str_id( "t_rootcellar" ),
-            ter_str_id( "t_railroad_rubble" ),
-            ter_str_id( "t_railroad_track" ),
-            ter_str_id( "t_railroad_track_h" ),
-            ter_str_id( "t_railroad_track_v" ),
-            ter_str_id( "t_railroad_track_d" ),
-            ter_str_id( "t_railroad_track_d1" ),
-            ter_str_id( "t_railroad_track_d2" ),
-            ter_str_id( "t_railroad_tie" ),
-            ter_str_id( "t_railroad_tie_d" ),
-            ter_str_id( "t_railroad_tie_d" ),
-            ter_str_id( "t_railroad_tie_h" ),
-            ter_str_id( "t_railroad_tie_v" ),
-            ter_str_id( "t_railroad_tie_d" ),
-            ter_str_id( "t_railroad_track_on_tie" ),
-            ter_str_id( "t_railroad_track_h_on_tie" ),
-            ter_str_id( "t_railroad_track_v_on_tie" ),
-            ter_str_id( "t_railroad_track_d_on_tie" ),
-            ter_str_id( "t_railroad_tie" ),
-            ter_str_id( "t_railroad_tie_h" ),
-            ter_str_id( "t_railroad_tie_v" ),
-            ter_str_id( "t_railroad_tie_d1" ),
-            ter_str_id( "t_railroad_tie_d2" ),
+            ter_t_dirt,
+            ter_t_dirtmound,
+            ter_t_dirtmoundfloor,
+            ter_t_sand,
+            ter_t_clay,
+            ter_t_dirtfloor,
+            ter_t_palisade_gate_o,
+            ter_t_sandbox,
+            ter_t_claymound,
+            ter_t_sandmound,
+            ter_t_rootcellar,
+            ter_t_railroad_rubble,
+            ter_t_railroad_track,
+            ter_t_railroad_track_h,
+            ter_t_railroad_track_v,
+            ter_t_railroad_track_d,
+            ter_t_railroad_track_d1,
+            ter_t_railroad_track_d2,
+            ter_t_railroad_tie,
+            ter_t_railroad_tie_d,
+            ter_t_railroad_tie_d,
+            ter_t_railroad_tie_h,
+            ter_t_railroad_tie_v,
+            ter_t_railroad_tie_d,
+            ter_t_railroad_track_on_tie,
+            ter_t_railroad_track_h_on_tie,
+            ter_t_railroad_track_v_on_tie,
+            ter_t_railroad_track_d_on_tie,
+            ter_t_railroad_tie,
+            ter_t_railroad_tie_h,
+            ter_t_railroad_tie_v,
+            ter_t_railroad_tie_d1,
+            ter_t_railroad_tie_d2,
         };
         static const std::set<ter_str_id> metal = {
-            ter_str_id( "t_ov_smreb_cage" ),
-            ter_str_id( "t_metal_floor" ),
-            ter_str_id( "t_grate" ),
-            ter_str_id( "t_bridge" ),
-            ter_str_id( "t_elevator" ),
-            ter_str_id( "t_guardrail_bg_dp" ),
-            ter_str_id( "t_slide" ),
-            ter_str_id( "t_conveyor" ),
-            ter_str_id( "t_machinery_light" ),
-            ter_str_id( "t_machinery_heavy" ),
-            ter_str_id( "t_machinery_old" ),
-            ter_str_id( "t_machinery_electronic" ),
+            ter_t_ov_smreb_cage,
+            ter_t_metal_floor,
+            ter_t_grate,
+            ter_t_bridge,
+            ter_t_elevator,
+            ter_t_guardrail_bg_dp,
+            ter_t_slide,
+            ter_t_conveyor,
+            ter_t_machinery_light,
+            ter_t_machinery_heavy,
+            ter_t_machinery_old,
+            ter_t_machinery_electronic,
         };
         static const std::set<ter_str_id> chain_fence = {
-            ter_str_id( "t_chainfence" ),
+            ter_t_chainfence,
         };
 
-        const auto play_plmove_sound_variant = [&]( const std::string & variant ) {
-            play_variant_sound( "plmove", variant, heard_volume, 0_degrees, 0.8, 1.2 );
+        const auto play_plmove_sound_variant = [&]( const std::string & variant,
+        const std::string & season ) {
+            play_variant_sound( "plmove", variant, season, heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
         };
 
         auto veh_displayed_part = get_map().veh_at( player_character.pos() ).part_displayed();
 
-        if( !veh_displayed_part && ( terrain->has_flag( TFLAG_DEEP_WATER ) ||
-                                     terrain->has_flag( TFLAG_SHALLOW_WATER ) ) ) {
-            play_plmove_sound_variant( "walk_water" );
+        const season_type seas = season_of_year( calendar::turn );
+        const std::string seas_str = season_str( seas );
+        if( !veh_displayed_part && ( terrain->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
+                                     terrain->has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ) ) {
+            play_plmove_sound_variant( "walk_water", seas_str );
             return;
         }
         if( !player_character.wearing_something_on( bodypart_id( "foot_l" ) ) ) {
-            play_plmove_sound_variant( "walk_barefoot" );
+            play_plmove_sound_variant( "walk_barefoot", seas_str );
             return;
         }
         if( veh_displayed_part ) {
             const std::string &part_id = veh_displayed_part->part().info().get_id().str();
-            if( has_variant_sound( "plmove", part_id ) ) {
-                play_plmove_sound_variant( part_id );
+            if( has_variant_sound( "plmove", part_id, seas_str ) ) {
+                play_plmove_sound_variant( part_id, seas_str );
             } else if( veh_displayed_part->has_feature( VPFLAG_AISLE ) ) {
-                play_plmove_sound_variant( "walk_tarmac" );
+                play_plmove_sound_variant( "walk_tarmac", seas_str );
             } else {
-                play_plmove_sound_variant( "clear_obstacle" );
+                play_plmove_sound_variant( "clear_obstacle", seas_str );
             }
             return;
         }
-        if( sfx::has_variant_sound( "plmove", terrain.str() ) ) {
-            play_plmove_sound_variant( terrain.str() );
+        if( sfx::has_variant_sound( "plmove", terrain.str(), seas_str ) ) {
+            play_plmove_sound_variant( terrain.str(), seas_str );
             return;
         }
         if( grass.count( terrain ) > 0 ) {
-            play_plmove_sound_variant( "walk_grass" );
+            play_plmove_sound_variant( "walk_grass", seas_str );
             return;
         }
         if( dirt.count( terrain ) > 0 ) {
-            play_plmove_sound_variant( "walk_dirt" );
+            play_plmove_sound_variant( "walk_dirt", seas_str );
             return;
         }
         if( metal.count( terrain ) > 0 ) {
-            play_plmove_sound_variant( "walk_metal" );
+            play_plmove_sound_variant( "walk_metal", seas_str );
             return;
         }
         if( chain_fence.count( terrain ) > 0 ) {
-            play_plmove_sound_variant( "clear_obstacle" );
+            play_plmove_sound_variant( "clear_obstacle", seas_str );
             return;
         }
 
-        play_plmove_sound_variant( "walk_tarmac" );
+        play_plmove_sound_variant( "walk_tarmac", seas_str );
     }
 }
 
@@ -1577,15 +1728,17 @@ void sfx::do_obstacle( const std::string &obst )
         return;
     }
 
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
     int heard_volume = sfx::get_heard_volume( get_player_character().pos() );
-    if( sfx::has_variant_sound( "plmove", obst ) ) {
-        play_variant_sound( "plmove", obst, heard_volume, 0_degrees, 0.8, 1.2 );
+    if( sfx::has_variant_sound( "plmove", obst, seas_str ) ) {
+        play_variant_sound( "plmove", obst, seas_str, heard_volume, 0_degrees, 0.8, 1.2 );
     } else if( ter_str_id( obst ).is_valid() &&
-               ( ter_id( obst )->has_flag( TFLAG_SHALLOW_WATER ) ||
-                 ter_id( obst )->has_flag( TFLAG_DEEP_WATER ) ) ) {
-        play_variant_sound( "plmove", "walk_water", heard_volume, 0_degrees, 0.8, 1.2 );
+               ( ter_id( obst )->has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ||
+                 ter_id( obst )->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) ) {
+        play_variant_sound( "plmove", "walk_water", seas_str, heard_volume, 0_degrees, 0.8, 1.2 );
     } else {
-        play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0_degrees, 0.8, 1.2 );
+        play_variant_sound( "plmove", "clear_obstacle", seas_str, heard_volume, 0_degrees, 0.8, 1.2 );
     }
     // prevent footsteps from triggering
     start_sfx_timestamp = std::chrono::high_resolution_clock::now();
@@ -1593,13 +1746,21 @@ void sfx::do_obstacle( const std::string &obst )
 
 void sfx::play_activity_sound( const std::string &id, const std::string &variant, int volume )
 {
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
+    play_activity_sound( id, variant, seas_str, volume );
+}
+
+void sfx::play_activity_sound( const std::string &id, const std::string &variant,
+                               const std::string &season, int volume )
+{
     if( test_mode ) {
         return;
     }
     Character &player_character = get_player_character();
     if( act != player_character.activity.id() ) {
         act = player_character.activity.id();
-        play_ambient_variant_sound( id, variant, volume, channel::player_activities, 0 );
+        play_ambient_variant_sound( id, variant, season, volume, channel::player_activities, 0 );
     }
 }
 
@@ -1610,6 +1771,37 @@ void sfx::end_activity_sounds()
     }
     act = activity_id::NULL_ID();
     fade_audio_channel( channel::player_activities, 2000 );
+}
+
+void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume )
+{
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
+    play_variant_sound( id, variant, seas_str, volume );
+}
+
+void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume,
+                              units::angle angle, double pitch_min, double pitch_max )
+{
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
+    play_variant_sound( id, variant, seas_str, volume, angle, pitch_min, pitch_max );
+}
+
+void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
+                                      channel channel, int fade_in_duration, double pitch, int loops )
+{
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
+    play_ambient_variant_sound( id, variant, seas_str, volume, channel, fade_in_duration, pitch,
+                                loops );
+}
+
+bool sfx::has_variant_sound( const std::string &id, const std::string &variant )
+{
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
+    return has_variant_sound( id, variant, seas_str );
 }
 
 #else // if defined(SDL_SOUND)
@@ -1626,7 +1818,7 @@ void sfx::play_ambient_variant_sound( const std::string &, const std::string &, 
                                       double, int ) { }
 void sfx::play_activity_sound( const std::string &, const std::string &, int ) { }
 void sfx::end_activity_sounds() { }
-void sfx::generate_gun_sound( const player &, const item & ) { }
+void sfx::generate_gun_sound( const Character &, const item & ) { }
 void sfx::generate_melee_sound( const tripoint &, const tripoint &, bool, bool,
                                 const std::string & ) { }
 void sfx::do_hearing_loss( int ) { }
@@ -1652,10 +1844,11 @@ bool sfx::has_variant_sound( const std::string &, const std::string & )
     return false;
 }
 void sfx::stop_sound_effect_fade( channel, int ) { }
-void sfx::stop_sound_effect_timed( channel, int ) {}
+void sfx::stop_sound_effect_timed( channel, int ) { }
 void sfx::do_player_death_hurt( const Character &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle( const std::string & ) { }
+void sfx::play_variant_sound( const std::string &, const std::string &, const std::string &, int ) { }
 /*@}*/
 
 #endif // if defined(SDL_SOUND)
@@ -1673,7 +1866,7 @@ int sfx::get_heard_volume( const tripoint &source )
         heard_volume = 0;
     }
     heard_volume *= g_sfx_volume_multiplier;
-    return ( heard_volume );
+    return heard_volume;
 }
 
 units::angle sfx::get_heard_angle( const tripoint &source )

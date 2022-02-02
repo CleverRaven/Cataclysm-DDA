@@ -26,9 +26,6 @@
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "m9mag", "m9mag_10rd", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9bigmag", "m9mag_32rd", "m9mag_35rd" ]
       }
     ]
@@ -73,15 +70,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "calicomag", "calicomag_100rd" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "calicomag", "calicomag_100rd" ] } ]
   },
   {
     "id": "cx4",
@@ -126,9 +115,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "m9bigmag", "m9mag_10rd", "m9mag", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9mag_32rd", "m9mag_35rd" ]
       }
     ]
@@ -157,13 +143,11 @@
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
       }
     ]
@@ -212,9 +196,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "mp5mag", "mp5mag_10rd", "mp5mag_15rd", "mp5mag_20rd", "mp5mag_38rd", "mp5mag_40rd", "mp5bigmag", "mp5mag_100rd" ]
       }
     ]
@@ -310,8 +291,17 @@
     "sight_dispersion": 520,
     "armor_data": {
       "sided": true,
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+      "armor": [
+        {
+          "material": [
+            { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 }
+          ],
+          "encumbrance": 30,
+          "coverage": 10,
+          "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+        }
+      ]
     },
     "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS" ],
     "valid_mod_locations": [  ],
@@ -319,9 +309,6 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "mp5mag", "mp5mag_10rd", "mp5mag_15rd", "mp5mag_20rd" ]
       }
     ]
@@ -362,16 +349,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [
-      {
-        "magazine_well": "55 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "p08mag_8rd", "p08mag_32rd" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "55 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_8rd", "p08mag_32rd" ] } ]
   },
   {
     "id": "mp18",
@@ -410,16 +388,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [
-      {
-        "magazine_well": "30 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "p08mag_32rd", "p08mag_8rd" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "30 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_32rd", "p08mag_8rd" ] } ]
   },
   {
     "id": "mauser_c96",
@@ -457,7 +426,14 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 10 }, "allowed_speedloaders": [ "clip9mm_10rd" ] } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "9mm": 10 },
+        "allowed_speedloaders": [ "clip9mm_10rd" ]
+      }
+    ]
   },
   {
     "id": "mauser_m714",
@@ -470,14 +446,7 @@
     "price": 90000,
     "price_postapoc": 500,
     "pocket_data": [
-      {
-        "magazine_well": "60 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "mausermag_20rd", "mausermag_10rd" ]
-      }
+      { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mausermag_20rd", "mausermag_10rd" ] }
     ]
   },
   {
@@ -517,16 +486,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "SLOW_WIELD" ],
-    "pocket_data": [
-      {
-        "magazine_well": "40 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "mp40mag_32rd" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mp40mag_32rd" ] } ]
   },
   {
     "id": "mp40semi",
@@ -598,9 +558,6 @@
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
       }
     ]
@@ -628,13 +585,11 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "m9mag", "m9mag_10rd", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9bigmag", "m9mag_32rd", "m9mag_35rd" ]
       }
     ]
@@ -665,9 +620,6 @@
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "px4mag", "px4mag_10rd", "px4mag_15rd", "px4mag_20rd" ]
       }
     ]
@@ -754,15 +706,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "survivor9mm_mag", "stenmag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "survivor9mm_mag", "stenmag" ] } ]
   },
   {
     "id": "sten",
@@ -799,15 +743,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "stenmag", "survivor9mm_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stenmag", "survivor9mm_mag" ] } ]
   },
   {
     "id": "tec9",
@@ -850,9 +786,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "tec9mag", "tec9mag_10rd", "tec9mag_20rd", "tec9mag_30rd", "tec9mag_36rd", "tec9mag_50rd", "tec9mag_72rd" ]
       }
     ]
@@ -880,13 +813,11 @@
     "durability": 9,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "usp9mag", "usp9mag_10rd", "usp9mag_18rd", "usp9mag_20rd", "usp9mag_32rd" ]
       }
     ]
@@ -932,9 +863,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "uzimag", "uzimag_20rd", "uzimag_25rd", "uzimag_40rd", "uzimag_50rd", "uzimag_100rd" ]
       }
     ]
@@ -962,14 +890,12 @@
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "//2": "Glock 17s cannot load magazines shorter than the standard 17rd magazine.",
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ]
       }
     ]
@@ -1001,16 +927,7 @@
     "bashing": 2,
     "ammo": [ "9mm" ],
     "min_cycle_recoil": 450,
-    "pocket_data": [
-      {
-        "magazine_well": "65 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "kpf9mag", "kpf9mag_8rd" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "65 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kpf9mag", "kpf9mag_8rd" ] } ]
   },
   {
     "id": "m11",
@@ -1031,16 +948,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "p228mag_13rd_9x19mm" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p228mag_13rd_9x19mm" ] } ]
   },
   {
     "id": "m17",
@@ -1062,14 +970,12 @@
     "dispersion": 480,
     "durability": 6,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "p320mag_10rd_9x19mm", "p320mag_17rd_9x19mm", "p320mag_21rd_9x19mm" ]
+        "item_restriction": [ "p320mag_17rd_9x19mm", "p320mag_21rd_9x19mm", "p320mag_10rd_9x19mm" ]
       }
     ]
   },
@@ -1088,7 +994,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": "SIG P226 MK25" },
-    "description": "The P226 MK25 is a full-size semi-automatic DA/SA, short-recoil operated pistol with corrosion resitant internal coating, and an engraved anchor on the side of the slide.",
+    "description": "The P226 MK25 is a full-size semi-automatic DA/SA, short-recoil operated pistol with corrosion resistant internal coating, and an engraved anchor on the side of the slide.",
     "weight": "804 g",
     "volume": "570 ml",
     "longest_side": "237 mm",
@@ -1106,9 +1012,6 @@
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "p226mag_10rd_9x19mm", "p226mag_15rd_9x19mm" ]
       }
     ]
@@ -1135,10 +1038,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "magazine_well": "250 ml",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "sp2022mag_10rd_9mm", "sp2022mag_12rd_9mm", "sp2022mag_15rd_9mm" ]
       }
     ]
@@ -1163,15 +1062,9 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
-      {
-        "magazine_well": "191 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "bhp9mag_13rd", "bhp9mag_15rd" ]
-      }
+      { "magazine_well": "191 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bhp9mag_13rd", "bhp9mag_15rd" ] }
     ]
   },
   {
@@ -1194,16 +1087,8 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 450,
-    "pocket_data": [
-      {
-        "magazine_well": "228 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "p38mag" ]
-      }
-    ]
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "228 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p38mag" ] } ]
   },
   {
     "id": "walther_ppq_9mm",
@@ -1224,13 +1109,11 @@
     "dispersion": 480,
     "durability": 9,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "207 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ]
       }
     ]
@@ -1259,9 +1142,6 @@
       {
         "magazine_well": "284 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ]
       }
     ]
@@ -1286,13 +1166,11 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
         "magazine_well": "230 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "cz75mag_12rd", "cz75mag_20rd", "cz75mag_26rd" ]
       }
     ]
@@ -1317,16 +1195,8 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 450,
-    "pocket_data": [
-      {
-        "magazine_well": "176 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "ccpmag", "ccpmag_9rd" ]
-      }
-    ]
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "176 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ccpmag", "ccpmag_9rd" ] } ]
   },
   {
     "id": "colt_ro635",
@@ -1369,9 +1239,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "uzimag", "uzimag_20rd", "uzimag_25rd", "uzimag_40rd", "uzimag_50rd", "uzimag_100rd" ]
       }
     ]
@@ -1414,9 +1281,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [
           "btmp9mag_9x19mm_15",
           "btmp9mag_9x19mm_10rd",

@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "activity_actor.h"
+#include "calendar.h"
 #include "clone_ptr.h"
 #include "compatibility.h"
 #include "enums.h"
@@ -21,11 +22,10 @@
 #include "type_id.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class avatar;
 class monster;
-class player;
 class translation;
 
 class player_activity
@@ -34,15 +34,15 @@ class player_activity
         activity_id type;
         cata::clone_ptr<activity_actor> actor;
 
-        std::set<distraction_type> ignored_distractions;
+        std::set<distraction_type> ignored_distractions; // NOLINT(cata-serialize)
 
-        bool ignoreQuery = false;
+        bool ignoreQuery = false; // NOLINT(cata-serialize)
 
     public:
         /** Total number of moves required to complete the activity */
         int moves_total = 0;
         /** The number of moves remaining in this activity before it is complete. */
-        int moves_left = 0;
+        int moves_left = calendar::INDEFINITELY_LONG;
         /** Controls whether this activity can be cancelled at all */
         bool interruptable = true;
         /** Controls whether this activity can be cancelled with 'pause' action */
@@ -65,8 +65,8 @@ class player_activity
         std::vector<weak_ptr_fast<monster>> monsters;
         tripoint placement;
 
-        bool no_drink_nearby_for_auto_consume = false;
-        bool no_food_nearby_for_auto_consume = false;
+        bool no_drink_nearby_for_auto_consume = false; // NOLINT(cata-serialize)
+        bool no_food_nearby_for_auto_consume = false; // NOLINT(cata-serialize)
         /** If true, the activity will be auto-resumed next time the player attempts
          *  an identical activity. This value is set dynamically.
          */
@@ -74,7 +74,7 @@ class player_activity
         /** Flag that will suppress the relatively expensive fire refueling search process.
          *  Initially assume there is a fire unless the activity proves not to have one.
          */
-        bool have_fire = true;
+        bool have_fire = true; // NOLINT(cata-serialize)
 
         player_activity();
         // This constructor does not work with activities using the new activity_actor system
@@ -134,7 +134,7 @@ class player_activity
         bool is_suspendable() const;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         // used to migrate the item indices to item_location
         // obsolete after 0.F stable
         void migrate_item_position( Character &guy );
@@ -153,7 +153,7 @@ class player_activity
          * at the end of the turn, do_turn also executes whatever actions, if
          * any, are needed to conclude the activity.
          */
-        void do_turn( player &p );
+        void do_turn( Character &you );
 
         /**
          * Performs activity-specific cleanup when Character::cancel_activity() is called
@@ -167,12 +167,19 @@ class player_activity
         bool can_resume_with( const player_activity &other, const Character &who ) const;
 
         bool is_interruptible() const;
+        bool is_interruptible_with_kb() const;
         bool is_distraction_ignored( distraction_type ) const;
         void ignore_distraction( distraction_type );
         void allow_distractions();
         void inherit_distractions( const player_activity & );
 
         float exertion_level() const;
+
+        bool do_drop_invalid_inventory() const {
+            return !actor || actor->do_drop_invalid_inventory();
+        }
+
+        std::map<distraction_type, std::string> get_distractions();
 };
 
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

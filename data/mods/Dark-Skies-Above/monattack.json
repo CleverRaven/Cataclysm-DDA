@@ -7,7 +7,7 @@
     "accuracy": 6,
     "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
     "body_parts": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
-    "no_infection_chance": 100,
+    "infection_chance": 0,
     "damage_max_instance": [
       { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
       { "damage_type": "bash", "amount": 15, "armor_multiplier": 0.5 }

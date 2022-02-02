@@ -13,6 +13,7 @@
 #include "profession.h"
 #include "rng.h"
 #include "start_location.h"
+#include "string_id.h"
 #include "translations.h"
 
 namespace
@@ -37,6 +38,7 @@ bool string_id<scenario>::is_valid() const
 static scen_blacklist sc_blacklist;
 
 scenario::scenario()
+// NOLINTNEXTLINE(cata-static-string_id-constants)
     : id( "" ), _name_male( no_translation( "null" ) ),
       _name_female( no_translation( "null" ) ),
       _description_male( no_translation( "null" ) ),
@@ -78,42 +80,39 @@ void scenario::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "blacklist_professions", blacklist );
     optional( jo, was_loaded, "add_professions", extra_professions );
-    optional( jo, was_loaded, "professions", professions,
-              auto_flags_reader<string_id<profession>> {} );
+    optional( jo, was_loaded, "professions", professions, string_id_reader<::profession> {} );
 
-    optional( jo, was_loaded, "traits", _allowed_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "forced_traits", _forced_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "allowed_locs", _allowed_locs, auto_flags_reader<start_location_id> {} );
+    optional( jo, was_loaded, "traits", _allowed_traits, string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "forced_traits", _forced_traits, string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
+              string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "allowed_locs", _allowed_locs, string_id_reader<::start_location> {} );
     if( _allowed_locs.empty() ) {
         jo.throw_error( "at least one starting location (member \"allowed_locs\") must be defined" );
     }
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
-    optional( jo, was_loaded, "map_extra", _map_extra, "mx_null" );
-    optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
+    optional( jo, was_loaded, "map_extra", _map_extra, map_extra_id::NULL_ID() );
+    optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
+
+    optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
     if( !was_loaded ) {
         if( jo.has_member( "custom_initial_date" ) ) {
-            _custom_initial_date = true;
+            _custom_start_date = true;
 
             JsonObject jocid = jo.get_member( "custom_initial_date" );
             if( jocid.has_member( "hour" ) ) {
-                optional( jocid, was_loaded, "hour", _initial_hour );
+                optional( jocid, was_loaded, "hour", _start_hour );
             }
             if( jocid.has_member( "day" ) ) {
-                optional( jocid, was_loaded, "day", _initial_day );
+                optional( jocid, was_loaded, "day", _start_day );
             }
             if( jocid.has_member( "season" ) ) {
-                optional( jocid, was_loaded, "season", _initial_season );
+                optional( jocid, was_loaded, "season", _start_season );
             }
             if( jocid.has_member( "year" ) ) {
-                optional( jocid, was_loaded, "year", _initial_year );
+                optional( jocid, was_loaded, "year", _start_year );
             }
-        } else {
-            _initial_hour = get_option<int>( "INITIAL_TIME" );
-            _initial_day = get_option<int>( "INITIAL_DAY" );
-            _initial_season = SPRING;
-            _initial_year = 1;
         }
     }
 
@@ -122,7 +121,8 @@ void scenario::load( const JsonObject &jo, const std::string & )
     }
 
     for( JsonArray ja : jo.get_array( "surround_groups" ) ) {
-        _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ), ja.get_float( 1 ) );
+        _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ),
+                                       static_cast<float>( ja.get_float( 1 ) ) );
     }
 }
 
@@ -214,7 +214,16 @@ void scenario::check_definition() const
     check_traits( _allowed_traits, id );
     check_traits( _forced_traits, id );
     check_traits( _forbidden_traits, id );
-    MapExtras::get_function( _map_extra ); // triggers a debug message upon invalid input
+
+    if( !_map_extra.is_valid() )  {
+        debugmsg( "there is no map extra with id %s", _map_extra.str() );
+    }
+
+    for( const auto &e : eoc() ) {
+        if( !e.is_valid() ) {
+            debugmsg( "effect on condition %s for scenario %s does not exist", e.c_str(), id.c_str() );
+        }
+    }
 
     for( const auto &m : _missions ) {
         if( !m.is_valid() ) {
@@ -332,6 +341,7 @@ void scen_blacklist::finalize()
 void reset_scenarios_blacklist()
 {
     sc_blacklist.scenarios.clear();
+    sc_blacklist.whitelist = false;
 }
 
 std::vector<string_id<profession>> scenario::permitted_professions() const
@@ -340,9 +350,12 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
         return cached_permitted_professions;
     }
 
-    const auto all = profession::get_all();
+    const std::vector<profession> &all = profession::get_all();
     std::vector<string_id<profession>> &res = cached_permitted_professions;
     for( const profession &p : all ) {
+        if( p.is_hobby() ) {
+            continue;
+        }
         const bool present = std::find( professions.begin(), professions.end(),
                                         p.ident() ) != professions.end();
 
@@ -445,51 +458,50 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
-bool scenario::custom_initial_date() const
+bool scenario::custom_start_date() const
 {
-    return _custom_initial_date;
+    return _custom_start_date;
 }
 
 bool scenario::is_random_hour() const
 {
-    return _initial_hour == -1;
+    return _start_hour == -1;
 }
 
 bool scenario::is_random_day() const
 {
-    return _initial_day == -1;
+    return _start_day == -1;
 }
 
 bool scenario::is_random_year() const
 {
-    return _initial_year == -1;
+    return _start_year == -1;
 }
 
-int scenario::initial_hour() const
+int scenario::start_hour() const
 {
-    return _initial_hour == -1 ? rng( 0, 23 ) : _initial_hour;
+    return _start_hour == -1 ? rng( 0, 23 ) : _start_hour;
 }
 
-int scenario::initial_day() const
+int scenario::day_of_season() const
 {
-    if( _initial_day == -1 ) {
-        // with custom initial date day is only rolled for the season instead of the year
-        return _custom_initial_date
-               ? rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 )
-               : rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
-    } else {
-        return _initial_day;
-    }
+    return _start_day == -1 ? rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 ) : _start_day;
 }
 
-season_type scenario::initial_season() const
+int scenario::start_day() const
 {
-    return _initial_season;
+    return day_of_season() + get_option<int>( "SEASON_LENGTH" ) * ( start_season() + 4 *
+            ( start_year() - 1 ) );
 }
 
-int scenario::initial_year() const
+season_type scenario::start_season() const
 {
-    return _initial_year == -1 ? rng( 1, 11 ) : _initial_year;
+    return _start_season;
+}
+
+int scenario::start_year() const
+{
+    return _start_year == -1 ? rng( 1, 11 ) : _start_year;
 }
 
 vproto_id scenario::vehicle() const
@@ -535,15 +547,19 @@ bool scenario::can_pick( const scenario &current_scenario, const int points ) co
 }
 bool scenario::has_map_extra() const
 {
-    return _map_extra != "mx_null";
+    return !_map_extra.is_null();
 }
-const std::string &scenario::get_map_extra() const
+const map_extra_id &scenario::get_map_extra() const
 {
     return _map_extra;
 }
 const std::vector<mission_type_id> &scenario::missions() const
 {
     return _missions;
+}
+const std::vector<effect_on_condition_id> &scenario::eoc() const
+{
+    return _eoc;
 }
 const std::vector<std::pair<mongroup_id, float>> &scenario::surround_groups() const
 {

@@ -5,15 +5,7 @@
     "name": "Radio Tower Technician",
     "description": "From your spot at the top of the tower you were working on, you had a good view of the end of the world; of streaks of light falling from the sky, blossoming into mushroom clouds, barely a flicker on the horizon before your optical dampers flicked down.  You rushed to safety before the shockwaves could blast you from your perch.  The bionic implants included with your contract might come in handy now…",
     "points": 4,
-    "CBMs": [
-      "bio_weight",
-      "bio_shock_absorber",
-      "bn_bio_solar",
-      "bio_power_storage_mkII",
-      "bio_flashlight",
-      "bio_tools",
-      "bio_sunglasses"
-    ],
+    "CBMs": [ "bio_weight", "bn_bio_solar", "bio_power_storage_mkII", "bio_flashlight", "bio_tools", "bio_sunglasses" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
     "items": {
       "both": {
@@ -94,6 +86,59 @@
   },
   {
     "type": "profession",
+    "id": "afs_captain_bearman",
+    "name": "Captain Schwarz Walder, Cannibal",
+    "description": "Several years ago, you were newly stationed at a remote corporate facility when it came under a personality rewrite attack that affected all of your human coworkers.  It had seemed likely that the few Uplifted staff would perish and most did.  But you disappeared into the wilderness surrounding the facilities and began hunting the things that had been your friends.  Eating them to stay alive and to power your bionics.  Recapturing the facility earned you a buyout of the remainder of your contract, but most people are uncomfortable around you once they realize how very different you are.  Now you are here on a mostly abandoned planet hunting a bounty.",
+    "points": 10,
+    "CBMs": [
+      "bio_targeting",
+      "bio_purifier",
+      "bio_carbon",
+      "bio_geiger",
+      "bio_adrenaline",
+      "bio_night_vision",
+      "bio_metabolics",
+      "bio_power_storage_mkII",
+      "afs_bio_missiles"
+    ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_disarming" ],
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "smg" },
+      { "level": 3, "name": "rifle" },
+      { "level": 2, "name": "cutting" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "dodge" },
+      { "level": 3, "name": "traps" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "swimming" },
+      { "level": 4, "name": "survival" }
+    ],
+    "traits": [ "STR_UP_3", "UPLIFTED", "THRESH_URSINE", "URSINE_FUR", "CANNIBAL", "HUGE_OK" ],
+    "//": "replace esapu armor with an XL environmentally controlled armor once those exist",
+    "items": {
+      "both": {
+        "items": [ "xlboots_combat", "xlgloves_tactical", "wristwatch" ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "sheath", "contents-item": "kukri" },
+          {
+            "item": "afs_gibrifle",
+            "ammo-item": "afs_7.50mm_caseless",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "acog_scope" ]
+          },
+          { "item": "xlballistic_vest_esapi" },
+          { "item": "xlpolice_belt" },
+          { "item": "legpouch_large", "contents-group": "afs_UICASTA30" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "afs_cryosleep_survivor",
     "name": "Cryosleep Survivor",
     "description": "A sudden power failure woke you from the cryosleep sarcophagus in which you had entombed yourself lifetimes ago.  It seems the emergency reanimation procedure has damaged your memory, and now, bearing almost no knowledge of your past life, you must find a way to survive in a ruined and alien world.",
@@ -118,7 +163,7 @@
         "socks",
         "mbag",
         "afs_atomic_smartphone",
-        "atomic_light",
+        "atomic_light_off",
         "atomic_coffeepot",
         "atomic_lamp_off",
         "afs_atompot",
@@ -389,5 +434,35 @@
     "traits": [ "PROF_MED", "UPLIFTED", "THRESH_CEPHALOPOD", "CEPH_EYES", "GILLS", "INT_UP_2", "LEG_TENTACLES", "SLIMY" ],
     "//": "Need to add underwater gear for this.  See extended leg_tentacles mutation.",
     "items": { "both": { "items": [ "wetsuit_cecalia", "trident", "dive_bag" ] } }
+  },
+  {
+    "type": "profession",
+    "id": "robot_scavenger",
+    "name": "Robot Scavenger",
+    "description": "Scavenging and reselling abandoned robotics is what you call your \"job.\" It certainly isn't official in any means of the word, but it rakes in the dough and that is all that matters to you, even if it involves dangerous activities, be it cracking old Wraitheon security cyphers or crossing well-worn wires on ancient mining drones.",
+    "points": 4,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 3, "name": "computer" },
+      { "level": 3, "name": "electronics" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "jumpsuit", "hazmat_suit", "mask_gas", "socks", "molle_pack", "wristwatch", "bot_manhack", "bot_manhack" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
+          {
+            "item": "afs_cartridge",
+            "ammo-item": "battery",
+            "charges": 1500,
+            "container-item": "makeshift_scrambler"
+          }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
   }
 ]

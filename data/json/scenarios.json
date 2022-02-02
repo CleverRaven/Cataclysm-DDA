@@ -66,7 +66,7 @@
     "id": "surrounded",
     "name": "Surrounded",
     "points": -2,
-    "description": "You've attracted the attention of living dead in some way, now they're all around and you'll likely have to fight thorough them if you want to escape.",
+    "description": "You've attracted the attention of living dead in some way, now they're all around and you'll likely have to fight through them if you want to escape.",
     "allowed_locs": [
       "sloc_house",
       "sloc_house_boarded",
@@ -83,7 +83,8 @@
       "sloc_church",
       "sloc_cemetery",
       "sloc_fire_station",
-      "sloc_police"
+      "sloc_police",
+      "sloc_town_hall"
     ],
     "start_name": "In Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
@@ -115,7 +116,7 @@
     "type": "scenario",
     "name": "Infected",
     "description": "In the chaos and panic of evacuation, you got bitten by something!  You didn't get proper medical care, and now the wound has started turning green.",
-    "flags": [ "INFECTED", "CITY_START" ],
+    "flags": [ "CITY_START" ],
     "id": "infected",
     "points": -4,
     "start_name": "In Town",
@@ -135,7 +136,41 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "missions": [ "MISSION_INFECTED_START_FIND_ANTIBIOTICS" ]
+    "eoc": [ "scenario_infected" ]
+  },
+  {
+    "type": "scenario",
+    "id": "hunted_start",
+    "name": "Challenge - Hunted",
+    "points": -2,
+    "forced_traits": [ "HAS_NEMESIS" ],
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
+    "allowed_locs": [
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_school",
+      "sloc_grocery_store",
+      "sloc_gun_store",
+      "sloc_garage",
+      "sloc_pawn_shop",
+      "sloc_bank",
+      "sloc_military_surplus",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_golfcourse_mid_course",
+      "sloc_golfcourse_clubhouse",
+      "sloc_church",
+      "sloc_cemetery",
+      "sloc_apartments_rooftop",
+      "sloc_apartments_rooftop2",
+      "sloc_hospital"
+    ],
+    "start_name": "In Town",
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "missions": [ "MISSION_KILL_NEMESIS" ]
   },
   {
     "type": "scenario",
@@ -160,7 +195,8 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "flags": [ "FUNGAL_INFECTION", "CHALLENGE", "LONE_START" ]
+    "eoc": [ "scenario_fungal_infection" ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -181,11 +217,19 @@
       "sloc_bookstore",
       "sloc_zoo_giftshop",
       "sloc_zoo_cages",
-      "sloc_golfcourse_mid_course",
       "sloc_golfcourse_clubhouse",
       "sloc_church",
       "sloc_cemetery"
     ]
+  },
+  {
+    "type": "scenario",
+    "name": "(un)living History",
+    "description": "",
+    "id": "BastionFortStart",
+    "points": -2,
+    "start_name": "Bastion Fort",
+    "allowed_locs": [ "sloc_fort" ]
   },
   {
     "type": "scenario",
@@ -215,7 +259,8 @@
       "sloc_cemetery"
     ],
     "professions": [ "svictim", "tweaker" ],
-    "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START", "LONE_START" ]
+    "eoc": [ "scenario_infected", "scenario_bad_day" ],
+    "flags": [ "FIRE_START", "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -293,6 +338,18 @@
     "professions": [ "labtech", "security", "medic" ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "lab_cargo_staff_1",
+    "name": "Challenge - Trans-Coast Logistics Concourse",
+    "points": -6,
+    "description": "You were deemed an essential employee and required to stay behind during the facility's evacuation.  You better find your misplaced lanyard with your badge before the automated defenses notice that you don't have one.",
+    "start_name": "Locked Lab",
+    "professions": [ "security" ],
+    "allowed_locs": [ "sloc_lab_concourse_area" ],
+    "map_extra": "mx_lab_concourse_area",
+    "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -533,7 +590,7 @@
     "points": -5,
     "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
     "start_name": "Crash site",
-    "allowed_locs": [ "sloc_field", "sloc_forest" ],
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
     "professions": [
       "rifleman",
       "recruit",
@@ -609,5 +666,79 @@
     "start_name": "Crash Site",
     "map_extra": "mx_mayhem",
     "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "strong_portal_storm",
+    "name": "Outside In Strong Portal Storm",
+    "points": -3,
+    "description": "A powerful portal storm is happening and you need to find shelter.",
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "start_name": "Field",
+    "allowed_locs": [ "sloc_field" ],
+    "eoc": [ "scenario_strong_portal_storm" ]
+  },
+  {
+    "type": "scenario",
+    "id": "strong_portal_storm_base",
+    "name": "Stronger Portal Storms",
+    "points": -4,
+    "description": "You've managed to get to a shelter, but reality has grown weaker than normal and portal storms will be quite strong.",
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "start_name": "Evac Shelter",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "eoc": [ "scenario_strong_portal_storm_base" ]
+  },
+  {
+    "type": "scenario",
+    "id": "quick_portal_storm_base",
+    "name": "Frequent Portal Storms",
+    "points": -4,
+    "description": "You've managed to get to a shelter, but reality has grown weaker than normal, portal storms will be more frequent.",
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "start_name": "Evac Shelter",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "eoc": [ "scenario_quick_portal_storm" ]
+  },
+  {
+    "type": "scenario",
+    "id": "portal_dependent",
+    "name": "Challenge - Portal Dependent",
+    "points": -8,
+    "description": "You were caught on a huge and unstable portal storm.  You feel… different.",
+    "forced_traits": [ "PORTAL_DEPENDENT" ],
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "start_name": "Field",
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
+    "eoc": [ "scenario_strong_portal_storm" ],
+    "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed", "naked" ]
+  },
+  {
+    "type": "scenario",
+    "id": "Mansion",
+    "name": "Mansion Escape",
+    "points": -1,
+    "description": "You were living the high life when the world ended, surrounded by riches and extravagant food every day, but now you find yourself awakening from an induced paralysis and carried to the basement of the mansion in which you used to live, heavy footsteps resound around you, are you ready to survive in this new world?",
+    "allowed_locs": [ "sloc_mansion_basement" ],
+    "start_name": "Mansion",
+    "surround_groups": [ [ "GROUP_MANSION_START", 90.0 ], [ "GROUP_MANSION_ARMORED", 10.0 ] ],
+    "eoc": [ "scenario_paralyzepoison" ],
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "professions": [
+      "maid",
+      "frat",
+      "lost_sub",
+      "lawyer",
+      "politician",
+      "dancer",
+      "spouse",
+      "musician",
+      "chef",
+      "groundskeeper",
+      "homemaker",
+      "mafia_boss",
+      "major-general"
+    ],
+    "missions": [ "MISSION_MANSION_START" ]
   }
 ]

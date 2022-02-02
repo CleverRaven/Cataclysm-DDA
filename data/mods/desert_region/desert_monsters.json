@@ -55,9 +55,7 @@
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "SMASH", 15 ], [ "FUNGUS_BRISTLE", 20 ], [ "FUNGUS_BIG_BLOSSOM", 30 ] ],
     "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
-    "delete": {
-      "flags": [ "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "GROUP_MORALE", "GOODHEARING", "SWARMS" ]
-    }
+    "delete": { "flags": [ "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GROUP_MORALE", "GOODHEARING", "SWARMS" ] }
   },
   {
     "id": "mon_zandcrawler",

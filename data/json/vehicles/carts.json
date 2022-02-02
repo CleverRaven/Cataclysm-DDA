@@ -216,7 +216,7 @@
     "blueprint": [ "#" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "folding_frame", "folding_seat", "wheel_mount_light" ] },
-      { "x": 0, "y": 0, "parts": [ "wheel_wheelchair", "hand_rims", "basketsm" ] }
+      { "x": 0, "y": 0, "parts": [ "wheel_wheelchair", "hand_rims", "basketsm_wheelchair" ] }
     ]
   },
   {

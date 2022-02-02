@@ -16,7 +16,7 @@ namespace cata
 {
 class event;
 }  // namespace cata
-class JsonIn;
+class JsonObject;
 class JsonOut;
 
 class memorial_log_entry
@@ -29,7 +29,7 @@ class memorial_log_entry
 
         std::string to_string() const;
 
-        void deserialize( JsonIn & );
+        void deserialize( const JsonObject &jo );
         void serialize( JsonOut & ) const;
     private:
         time_point time_;

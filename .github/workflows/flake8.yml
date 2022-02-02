@@ -4,13 +4,11 @@ on:
   push:
     branches:
     - master
-    - 0.F-dev
     paths:
     - '**.py'
   pull_request:
     branches:
     - master
-    - 0.F-dev
     paths:
     - '**.py'
 
@@ -20,7 +18,7 @@ jobs:
 
     steps:
     - name: checkout repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
         fetch-depth: 1
     - name: install dependencies

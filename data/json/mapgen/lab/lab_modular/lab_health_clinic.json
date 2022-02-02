@@ -1,0 +1,192 @@
+[
+  {
+    "method": "json",
+    "om_terrain": "lab_health_z-2_A",
+    "type": "mapgen",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        ";é;;;;;;;;;;;|||||||||||",
+        ";;;;;;;;;;;;;|.........|",
+        "%%%%;;;;é;;;;|.........|",
+        "~~~%%;;;;;;;;|.........|",
+        "~~~~%%;;;;;;;|....ë....|",
+        "~~~~~%%;;;;;;|.........|",
+        "~~~~~~%%;;;;;|.........|",
+        "~~~~~~~%%;;;;|.........|",
+        "~~~~~~~~%%;;;:j........#",
+        "~~~~~~~~~%;;;:j...ë....#",
+        "~~~~~~~~~%;;;|||||--||||",
+        "~~~~~~~~~%;;;|221...|.>|",
+        "~~~~~~~~~%;é;|22-...-.>|",
+        "~~~~~~~~~%;;;|||||--||||",
+        "~~~~~~~~~%;;;:j...ë....#",
+        "~~~~~~~~%%;;;:j........#",
+        "~~~~~~~%%;;;;|.........|",
+        "~~~~~~%%;;;;;|.........|",
+        "~~~~~%%;;;;;;|.........|",
+        "~~~~%%;;;;;;;|....ë....|",
+        "~~~%%;;;;;;;;|.........|",
+        "%%%%;;;;é;;;;|.........|",
+        ";;;;;;;;;;;;;|.........|",
+        ";é;;;;;;;;;;;|||||||||||"
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "place_nested": [
+        { "chunks": [ [ "lab_medical_9x9_S", 75 ], [ "lab_medical_9x9_S_autodoc", 20 ] ], "x": 14, "y": 1 },
+        { "chunks": [ [ "lab_medical_9x9_N", 75 ], [ "lab_medical_9x9_N_autodoc", 20 ] ], "x": 14, "y": 14 }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "lab_health_z-3_A",
+    "type": "mapgen",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "|_|__|_______#U|.......|",
+        "|_|__|_______|.|.......|",
+        "|||||||==ƶ||||||.......|",
+        "££_________|t.y|...ë...|",
+        "_££________|S.Y|.......|",
+        "__££______|||+||.......|",
+        "___££_____|,.,.].......|",
+        "____££____|.,ë,|]]|)|]]|",
+        "_____££___|,.,.,.,.,.,.#",
+        "______££__X.,.,.,ë,.,.,#",
+        "££££ä£££__X,.||||,.|||||",
+        "``````££__-.,|221.,|,.<|",
+        "``````££__-,.|22),.-.,<|",
+        "££££ä£££__X.,||||.,|||||",
+        "______££__X,.,.,.ê.,.,.#",
+        "_____££___|.,.,.,.,.,.,#",
+        "____££____|,.ê.|]]|)|]]|",
+        "___££_____|.,.,].......|",
+        "__££______|||+||.......|",
+        "_££________|S.y|.......|",
+        "££_________|t.Y|...ë...|",
+        "|||||||==¥||||||.......|",
+        "|_|__|_______|U|.......|",
+        "|_|__|_______#.|.......|"
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "terrain": { "¥": "t_card_science_maintenance_yellow", "ƶ": "t_card_science_medical_red" },
+      "place_monster": [
+        { "monster": "mon_flashbang_hack", "x": 1, "y": 0, "chance": 100 },
+        { "monster": "mon_gasbomb_hack", "x": 1, "y": 1, "chance": 100 },
+        { "monster": "mon_flashbang_hack", "x": 3, "y": 0, "chance": 100 },
+        { "monster": "mon_gasbomb_hack", "x": 4, "y": 0, "chance": 100 },
+        { "monster": "mon_flashbang_hack", "x": 3, "y": 1, "chance": 100 },
+        { "monster": "mon_gasbomb_hack", "x": 4, "y": 1, "chance": 100 },
+        { "monster": "mon_skitterbot", "x": 1, "y": 22, "chance": 100 },
+        { "monster": "mon_flashbang_hack", "x": 1, "y": 23, "chance": 100 },
+        { "monster": "mon_skitterbot", "x": 3, "y": 22, "chance": 100 },
+        { "monster": "mon_gasbomb_hack", "x": 4, "y": 22, "chance": 100 },
+        { "monster": "mon_flashbang_hack", "x": 3, "y": 23, "chance": 100 },
+        { "monster": "mon_gasbomb_hack", "x": 4, "y": 23, "chance": 100 }
+      ],
+      "place_nested": [
+        { "chunks": [ [ "lab_generic_7x7_open", 50 ], [ "lab_generic_7x7_S", 50 ] ], "x": 16, "y": 0 },
+        { "chunks": [ [ "lab_generic_7x7_open", 50 ], [ "lab_generic_7x7_N", 50 ] ], "x": 16, "y": 17 }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "lab_health_z-3_B",
+    "type": "mapgen",
+    "weight": 200,
+    "//": "TODO: Move the boss to a nest when more variants are added",
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "||||||||||||||||||||||||",
+        "|.........|UU|.........|",
+        "|.........+..|.........|",
+        "|.........||||.........|",
+        "|....ë....|UU|....ë....|",
+        "|.........|..+.........|",
+        "|.........||||.........|",
+        "|.........|.ƃ|.........|",
+        ".......................±",
+        "...ë.......ë.......ë...|",
+        "||||||............||||||",
+        "|VVVV|............|aJJF|",
+        "|....+............+....|",
+        "||||||............||||||",
+        ".......................|",
+        "...ë.......ë.......ë...±",
+        "|.........|ƃ.|.........|",
+        "|.........||||.........|",
+        "|.........+..|.........|",
+        "|....ë....|UU|....ë....|",
+        "|.........||||.........|",
+        "|.........|..+.........|",
+        "|.........|UU|.........|",
+        "||||||||||||||||||||||||"
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "place_loot": [ { "item": "id_science_medical_red", "x": [ 20, 22 ], "y": 11, "chance": 100 } ],
+      "place_nested": [
+        { "chunks": [ [ "lab_medical_9x9_S", 95 ], [ "lab_medical_9x9_S_autodoc", 5 ] ], "x": 1, "y": 1 },
+        { "chunks": [ [ "lab_medical_9x9_S", 95 ], [ "lab_medical_9x9_S_autodoc", 5 ] ], "x": 14, "y": 1 },
+        { "chunks": [ [ "lab_medical_9x9_N", 95 ], [ "lab_medical_9x9_N_autodoc", 5 ] ], "x": 14, "y": 14 },
+        { "chunks": [ [ "lab_medical_9x9_N", 95 ], [ "lab_medical_9x9_N_autodoc", 5 ] ], "x": 1, "y": 14 },
+        { "chunks": [ "lab_medical_boss_child" ], "x": 9, "y": 9 }
+      ],
+      "vehicles": { "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 } }
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "lab_health_z-2_B",
+    "type": "mapgen",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "||||||||||||||||||||||||",
+        "|aVVVVa|oւ4|9|5ւ.|9|4ւ.|",
+        "|..ë...|...+.|o..+.+...|",
+        "||||#|||.ë.|t|.ë.|t|.ëo|",
+        "|......|ppp|||ppp|||ppp|",
+        "|..ë..A|h...S|E..S|S..5|",
+        "||JɤJJJ|]⁸]|||]⁸]|||]⁸]|",
+        "|......................|",
+        "...ë.......ë.......ë..ƃ±",
+        "........||||||||+|||||||",
+        "|||||o..|yHHs|.h..|QQQQ|",
+        "|UUU|ƃ..⁸....|hfh.|Që.Q|",
+        "|Uë.+...]..ë.|hfh.|Q..Q|",
+        "|||||...|.HHT|.h.Y|Q..Q|",
+        "........||||||||+||||=||",
+        "...ë.......ë.......ë..6±",
+        "|......................|",
+        "||JɤJJJ|]⁸]|||]⁸]|||]⁸]|",
+        "|...A..|h...S|E..S|S..5|",
+        "|..ë...|ppp|||ppp|||ppp|",
+        "||||#|||.ë.|9|.ë.|9|.ë.|",
+        "|o.ë...|...+.|...+.+...|",
+        "|aVVVVa|oГ.|t|oГ.|t|.Гo|",
+        "||||||||||||||||||||||||"
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "vehicles": {
+        "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 },
+        "Г": { "vehicle": "hospital_bed", "chance": 100, "rotation": 90 },
+        "ւ": { "vehicle": "hospital_bed", "chance": 100, "rotation": 270 }
+      },
+      "computers": {
+        "6": {
+          "name": "Pharmacy",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 3 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  }
+]

@@ -81,6 +81,8 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "moonshine",
+    "//": "should produce 12-15% foreshot with significant methanol",
+    "//2": "1 unit of methanol in the JSON is 250 units in game",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",

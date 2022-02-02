@@ -32,7 +32,7 @@
         ".$............................................$.",
         ".$............................................$."
       ],
-      "terrain": { "$": "t_splitrail_fence", ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ] },
+      "palettes": [ "farm_dairy_palette" ],
       "place_monsters": [
         { "monster": "GROUP_COWS", "x": [ 1, 10 ], "y": [ 1, 9 ], "density": 0.5 },
         { "monster": "GROUP_COWS", "x": [ 1, 12 ], "y": [ 1, 12 ], "density": 0.5 },
@@ -80,11 +80,7 @@
         ",$............................................$,",
         ",$............................................$,"
       ],
-      "terrain": {
-        "$": "t_splitrail_fence",
-        ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
-        ",": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ]
-      },
+      "palettes": [ "farm_dairy_palette" ],
       "monsters": { ".": { "monster": "GROUP_ZOMBIE_BOVINE", "chance": 1, "density": 0.0005 } }
     }
   },
@@ -121,15 +117,14 @@
         ".$$$$$$$$$$$$$$$$$fffffff$$$$$$$$$$$$$$$$$$$$$$.",
         "................................................"
       ],
+      "palettes": [ "farm_dairy_palette" ],
       "terrain": {
-        "$": "t_splitrail_fence",
         "'": "t_door_o",
         "%": "t_milking_machine",
         "!": "t_window_bars",
         "*": "t_window_domestic",
         "=": "t_door_o",
         "+": "t_door_locked_interior",
-        ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
         "N": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
         "X": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
         "O": "t_bulk_tank",
@@ -137,7 +132,6 @@
         "Y": "t_floor",
         "_": "t_floor",
         "a": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
-        "f": "t_splitrail_fencegate_c",
         "|": "t_wall_w",
         "4": "t_gutter_downspout"
       },

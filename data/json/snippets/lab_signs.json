@@ -62,6 +62,24 @@
   },
   {
     "type": "snippet",
+    "category": "lab_safety_alpha_snippet",
+    "//": "signage for research scientist levels (working lab areas).",
+    "text": [
+      "<color_yellow_red>Biohazard</color>",
+      "PE150 is no longer to be administered to the following specimens <scratched out text>",
+      "There have been\n[21]\ndays without a breach incident",
+      "Do not name the rodents!",
+      "PE050 is to be administered twice a day to the remaining subjects",
+      "Safety First\nWork Safely",
+      "Report ALL incidents of coworkers speaking to the subjects",
+      "Computer lessons will continue for Mr Jingles, Abelard, and Ratty",
+      "<color_yellow_red>Biohazard</color>",
+      "<color_yellow_red>Biohazard</color>",
+      "<color_yellow_red>Biohazard</color>"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_volunteer_snippet",
     "//": "propaganda signage for the volunteer mutant level.",
     "text": [
@@ -80,6 +98,20 @@
       "<color_white>Humans only have 5 senses</color>",
       "<color_yellow_red>Find your spirit animal guide!</color>\n      Group meditation\n      Wednesdays 13:00",
       "<color_white>  Do Not\n   Share\n<color_white_red>Medications</color>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_safety_maintenance_snippets",
+    "//": "snippets of pithy safety messages that can be delvivered via sign or drone.",
+    "text": [
+      "There have been\n[4]\ndays without a life-threatening workplace accident",
+      "Be Alert, Don't get Hurt!",
+      "Safety First\nWork Safely",
+      "Report ALL Accidents",
+      "Think!\nDo it the safe way.\nDo it the right way.\nDo it everyday.",
+      "Think Safety First!",
+      "<color_white_red>Always Keep ID visible</color>"
     ]
   }
 ]

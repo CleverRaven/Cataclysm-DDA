@@ -4,6 +4,7 @@
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "creature_tracker.h"
 #include "game.h"
 #include "magic.h"
 #include "map_helpers.h"
@@ -12,6 +13,9 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
+
+static const spell_id spell_test_spell_box( "test_spell_box" );
+static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 
 // Magic Spell tests
 // -----------------
@@ -340,9 +344,8 @@ TEST_CASE( "spell duration", "[magic][spell][duration]" )
 TEST_CASE( "permanent spell duration depends on effect and level", "[magic][spell][permanent]" )
 {
     GIVEN( "spell with spawn_item effect, nonzero duration, and PERMANENT flag" ) {
-        const spell_id box_id( "test_spell_box" );
-        const spell_type &box_type = box_id.obj();
-        const spell box_spell( box_id );
+        const spell_type &box_type = spell_test_spell_box.obj();
+        const spell box_spell( spell_test_spell_box );
         REQUIRE( box_type.effect_name == "spawn_item" );
         REQUIRE( box_type.duration_increment > 0 );
         REQUIRE( box_type.min_duration > 0 );
@@ -351,27 +354,26 @@ TEST_CASE( "permanent spell duration depends on effect and level", "[magic][spel
         REQUIRE( box_spell.get_max_level() > 9 );
 
         THEN( "spell has increasing duration before reaching max level" ) {
-            CHECK( spell_duration_string( box_id, 0 ) == "10 minutes" );
-            CHECK( spell_duration_string( box_id, 1 ) == "15 minutes" );
-            CHECK( spell_duration_string( box_id, 2 ) == "20 minutes" );
-            CHECK( spell_duration_string( box_id, 3 ) == "25 minutes" );
-            CHECK( spell_duration_string( box_id, 4 ) == "30 minutes" );
-            CHECK( spell_duration_string( box_id, 5 ) == "35 minutes" );
-            CHECK( spell_duration_string( box_id, 6 ) == "40 minutes" );
-            CHECK( spell_duration_string( box_id, 7 ) == "45 minutes" );
-            CHECK( spell_duration_string( box_id, 8 ) == "50 minutes" );
-            CHECK( spell_duration_string( box_id, 9 ) == "55 minutes" );
+            CHECK( spell_duration_string( spell_test_spell_box, 0 ) == "10 minutes" );
+            CHECK( spell_duration_string( spell_test_spell_box, 1 ) == "15 minutes" );
+            CHECK( spell_duration_string( spell_test_spell_box, 2 ) == "20 minutes" );
+            CHECK( spell_duration_string( spell_test_spell_box, 3 ) == "25 minutes" );
+            CHECK( spell_duration_string( spell_test_spell_box, 4 ) == "30 minutes" );
+            CHECK( spell_duration_string( spell_test_spell_box, 5 ) == "35 minutes" );
+            CHECK( spell_duration_string( spell_test_spell_box, 6 ) == "40 minutes" );
+            CHECK( spell_duration_string( spell_test_spell_box, 7 ) == "45 minutes" );
+            CHECK( spell_duration_string( spell_test_spell_box, 8 ) == "50 minutes" );
+            CHECK( spell_duration_string( spell_test_spell_box, 9 ) == "55 minutes" );
         }
 
         THEN( "spell is permanent at max level" ) {
-            CHECK( spell_duration_string( box_id, box_spell.get_max_level() ) == "Permanent" );
+            CHECK( spell_duration_string( spell_test_spell_box, box_spell.get_max_level() ) == "Permanent" );
         }
     }
 
     GIVEN( "spell with summon effect, zero duration, and PERMANENT flag" ) {
-        const spell_id mummy_id( "test_spell_tp_mummy" );
-        const spell_type &mummy_type = mummy_id.obj();
-        const spell mummy_spell( mummy_id );
+        const spell_type &mummy_type = spell_test_spell_tp_mummy.obj();
+        const spell mummy_spell( spell_test_spell_tp_mummy );
         REQUIRE( mummy_type.effect_name == "summon" );
         REQUIRE( mummy_type.min_duration == 0 );
         REQUIRE( mummy_type.max_duration == 0 );
@@ -379,10 +381,11 @@ TEST_CASE( "permanent spell duration depends on effect and level", "[magic][spel
         REQUIRE( mummy_spell.get_max_level() > 0 );
 
         THEN( "spell has permanent duration at every level" ) {
-            CHECK( spell_duration_string( mummy_id, 0 ) == "Permanent" );
-            CHECK( spell_duration_string( mummy_id, 1 ) == "Permanent" );
-            CHECK( spell_duration_string( mummy_id, 2 ) == "Permanent" );
-            CHECK( spell_duration_string( mummy_id, mummy_spell.get_max_level() ) == "Permanent" );
+            CHECK( spell_duration_string( spell_test_spell_tp_mummy, 0 ) == "Permanent" );
+            CHECK( spell_duration_string( spell_test_spell_tp_mummy, 1 ) == "Permanent" );
+            CHECK( spell_duration_string( spell_test_spell_tp_mummy, 2 ) == "Permanent" );
+            CHECK( spell_duration_string( spell_test_spell_tp_mummy,
+                                          mummy_spell.get_max_level() ) == "Permanent" );
         }
     }
 }
@@ -525,18 +528,19 @@ TEST_CASE( "spell effect - target_attack", "[magic][spell][effect][target_attack
     int before_hp = 0;
     int after_hp = 0;
 
+    creature_tracker &creatures = get_creature_tracker();
     // Avatar/spellcaster
     avatar &dummy = get_avatar();
     clear_character( dummy );
     dummy.setpos( dummy_loc );
     REQUIRE( dummy.pos() == dummy_loc );
-    REQUIRE( g->critter_at( dummy_loc ) );
+    REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
 
     // Monster/defender
     monster &mummy = spawn_test_monster( "mon_zombie", mummy_loc );
     REQUIRE( mummy.pos() == mummy_loc );
-    REQUIRE( g->critter_at( mummy_loc ) );
+    REQUIRE( creatures.creature_at( mummy_loc ) );
     REQUIRE( g->num_creatures() == 2 );
 
     // Spell with ranged target_attack effect
@@ -576,10 +580,11 @@ TEST_CASE( "spell effect - summon", "[magic][spell][effect][summon]" )
     const tripoint mummy_loc = { 61, 60, 0 };
 
     avatar &dummy = get_avatar();
+    creature_tracker &creatures = get_creature_tracker();
     clear_character( dummy );
     dummy.setpos( dummy_loc );
     REQUIRE( dummy.pos() == dummy_loc );
-    REQUIRE( g->critter_at( dummy_loc ) );
+    REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
 
     spell_id mummy_id( "test_spell_tp_mummy" );
@@ -590,7 +595,7 @@ TEST_CASE( "spell effect - summon", "[magic][spell][effect][summon]" )
     // Summon the mummy in the adjacent space
     mummy_spell.cast_spell_effect( dummy, mummy_loc );
 
-    CHECK( g->critter_at( mummy_loc ) );
+    CHECK( creatures.creature_at( mummy_loc ) );
     CHECK( g->num_creatures() == 2 );
 }
 

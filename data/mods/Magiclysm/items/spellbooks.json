@@ -14,6 +14,7 @@
       "spells": [
         "debug_hp",
         "debug_stamina",
+        "debug_teleport_to",
         "example_template",
         "debug_bionic",
         "pain_split",
@@ -30,6 +31,7 @@
   {
     "id": "wizard_beginner",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "A Beginner's Guide to Magic", "str_pl": "copies of A Beginner's Guide to Magic" },
     "//": "2 Magus, 1 classless spell",
     "description": "You would describe this as more like a pamphlet than a spellbook, but it seems to have at least one interesting spell you can use.",
@@ -44,6 +46,7 @@
   {
     "id": "novice_stormshaper_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "An Introduction to Applied Meteorology", "str_pl": "copies of An Introduction to Applied Meteorology" },
     "//": "2 stormshaper",
     "description": "A professional-looking book on stormshaping, structured after many college textbooks.  It has less to apply than one might expect from its size.",
@@ -58,6 +61,7 @@
   {
     "id": "wizard_utility",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Wizarding Guide to Backpacking", "str_pl": "copies of Wizarding Guide to Backpacking" },
     "//": "2 Magus, 1 Biomancer, 1, Kelvinist, 1 classless spell",
     "description": "This appears to be the spell version of a guide for what things to take with you when backpacking.  It's a little bulky, but will certainly prove useful.",
@@ -75,6 +79,7 @@
   {
     "id": "pyro",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Pyromancy for Heretics", "str_pl": "copies of Pyromancy for Heretics" },
     "//": "4 Kelvinist spells",
     "description": "This charred husk of a book still contains many ways to light things aflame.",
@@ -92,6 +97,7 @@
   {
     "id": "wizard_advanced",
     "type": "BOOK",
+    "category": "manuals",
     "//": "1 Magus, 1 biomancer, 2 kelvinist spells",
     "name": { "str": "A Treatise on Magical Elements", "str_pl": "copies of A Treatise on Magical Elements" },
     "description": "This details complex diagrams, rituals, and choreography that describes various spells.",
@@ -106,6 +112,7 @@
   {
     "id": "priest_beginner",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Introduction to the Divine", "str_pl": "copies of Introduction to the Divine" },
     "//": "1 technomancer, 1 biomancer, 1 classless spells",
     "description": "This appears to mostly be a religious text, but it does have some notes on healing.",
@@ -120,6 +127,7 @@
   {
     "id": "priest_advanced",
     "type": "BOOK",
+    "category": "manuals",
     "name": {
       "str": "The Paladin's Guide to Modern Spellcasting",
       "str_pl": "copies of The Paladin's Guide to Modern Spellcasting"
@@ -137,6 +145,7 @@
   {
     "id": "winter_grasp",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Winter's Eternal Grasp", "str_pl": "copies of Winter's Eternal Grasp" },
     "//": "5 Kelvinist spells",
     "description": "This slim book almost seems to be made from ice, it's cold to the touch.",
@@ -151,6 +160,7 @@
   {
     "id": "tome_of_storms",
     "type": "BOOK",
+    "category": "manuals",
     "//": "6 Stormshaper spells",
     "name": { "str": "The Tome of The Oncoming Storm", "str_pl": "copies of The Tome of The Oncoming Storm" },
     "description": "A large book embossed with crossed lightning bolts and storm clouds, it tingles to the touch.",
@@ -168,6 +178,7 @@
   {
     "id": "generic_spellbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Nondescript Spellbook", "str_pl": "copies of Nondescript Spellbook" },
     "//": "1 technomancer, 1 earthshaper, 1 classless spell",
     "description": "A small book, containing spells created by a novice magician.",
@@ -181,6 +192,7 @@
   {
     "id": "light_manipulation_spellbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Of Light and Falsehoods", "str_pl": "copies of Of Light and Falsehoods" },
     "//": "3 technomancer, 4 classless spell",
     "description": "A small white book, it subtly amplifies the ambient light around it.",
@@ -207,6 +219,7 @@
   {
     "id": "biomancer_spellbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Tome of Flesh", "str_pl": "copies of The Tome of Flesh" },
     "//": "5 Biomancer spells",
     "description": "A small tome, seemingly covered in tanned human skin.",
@@ -224,8 +237,9 @@
   {
     "id": "druid_spellbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Book of Trees", "str_pl": "copies of The Book of Trees" },
-    "//": "4 Druid spells",
+    "//": "5 Druid spells",
     "description": "A bark covered book.",
     "weight": "355 g",
     "volume": "500 ml",
@@ -233,11 +247,15 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "druid_woodshaft", "druid_veggrasp", "druid_rootstrike", "druid_naturebow1" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "druid_woodshaft", "druid_veggrasp", "druid_rootstrike", "druid_naturebow1", "druid_natures_commune" ]
+    }
   },
   {
     "id": "recovery_spellbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Utility of Mana as an Energy Source", "str_pl": "copies of The Utility of Mana as an Energy Source" },
     "description": "This book details spells that use your mana to recover various physiological effects.",
     "//": "1 technomancer, 2 animist, 1 druid, 1 earthshaper spell",
@@ -255,6 +273,7 @@
   {
     "id": "magus_spellbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Tome of The Battle Mage", "str_pl": "copies of The Tome of The Battle Mage" },
     "//": "4 Magus spells",
     "description": "Your standard wizardy looking spellbook, filled with Magus combat spells.  You sure lucked out!",
@@ -272,6 +291,7 @@
   {
     "id": "eshaper_spellbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Tome of the Hollow Earth", "str_pl": "copies of The Tome of the Hollow Earth" },
     "//": "4 earthshaper spells",
     "description": "This large dusty spellbook seems perpetually, well, dusty.  It contains the power of the earth.",
@@ -289,6 +309,7 @@
   {
     "id": "magus_spellbook_move",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Tome of Magical Movement", "str_pl": "copies of The Tome of Magical Movement" },
     "//": "3 Magus spells",
     "description": "This small lightweight book seems to almost not entirely exist, let's say it 97% does.  It contains Magus spells focused on movement.",
@@ -303,6 +324,7 @@
   {
     "id": "summon_scroll_smudged",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Smudged Scroll" },
     "//": "Druid spell",
     "description": "This looks like someone was designing a new spell, but spilled a mug of coffee on it and crumpled it up in anger.  You can tell that it will definitely cast something, but you can't be sure that it will work very well.",
@@ -317,6 +339,7 @@
   {
     "id": "summon_undead_spellbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Necromantic Minions for Dummies", "str_pl": "copies of Necromantic Minions for Dummies" },
     "//": "3 Animist spells",
     "description": "This book details various ways of summoning an undead minion to fight for you.  They all appear to disappear after a short time, crumbling to dust.",
@@ -331,6 +354,7 @@
   {
     "id": "techno_fundamentals",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Fundamentals of Technomancy", "str_pl": "copies of Fundamentals of Technomancy" },
     "//": "4 Technomancer spells",
     "description": "This thick manual instructs the spellcaster on manipulating and empowering various forms of matter and energy.",
@@ -348,6 +372,7 @@
   {
     "id": "techno_idiots",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Complete Idiot's Guide to Technomancy", "str_pl": "copies of Complete Idiot's Guide to Technomancy" },
     "description": "This colorful guide, full of diagrams and cartoons, teaches a couple of very basic Technomancy spells for the not-so-bright pupils.",
     "//": "2 Technomancer spells",
@@ -362,6 +387,7 @@
   {
     "id": "techno_em",
     "type": "BOOK",
+    "category": "manuals",
     "name": {
       "str": "Technomancy and the Electromagnetic Spectrum",
       "str_pl": "copies of Technomancy and the Electromagnetic Spectrum"
@@ -379,6 +405,7 @@
   {
     "id": "animist_shadows",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Runic Tablet shard" },
     "//": "1 classless spell",
     "description": "A small tablet of blackened stone, apparently cut from a much larger slab.  Golden runes glow over its surface, and slowly shift into intelligible sentences when you stare at them.",
@@ -393,6 +420,7 @@
   {
     "id": "translocate_spellbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Geospatial Systems: The Lie Of Linearity", "str_pl": "copies of Geospatial Systems: The Lie Of Linearity" },
     "//": "1 classless spell",
     "description": "This book outlines in great detail how time and space are wibbly-wobbly and non-Euclidean.  It also appears to have a dozen different coordinate systems that it uses nearly interchangeably, which makes it hard to follow.  There's lots of jargon, but with intense study you can probably learn a thing or two about portals.",
@@ -405,8 +433,23 @@
     "use_action": { "type": "learn_spell", "spells": [ "translocate_self" ] }
   },
   {
+    "id": "forbidden_tome",
+    "type": "BOOK",
+    "name": { "str": "Forbidden Tome" },
+    "//": "1 Magus spell, 1 Druid spell, 1 Animist spell",
+    "description": "A very, very old and heavy tome of various spells lost to the ages, either for good reason, or simply through the passage of time.  There are very few copies in existance, usually owned by those of great power, and yet all of them seem to have the last dozen pages or so torn out, in haste.",
+    "weight": "2400 g",
+    "volume": "5000 ml",
+    "price": 7500,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "brown",
+    "use_action": { "type": "learn_spell", "spells": [ "focused_bolt", "rupture", "cause_rot" ] }
+  },
+  {
     "id": "stat_up_spellbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Transcendence of the Human Condition", "str_pl": "copies of Transcendence of the Human Condition" },
     "//": "4 Magus spells",
     "description": "The Human is the only creature that seeks to improve himself.  This study examines different spells that can heighten various senses temporarily, in hopes to discover a more permanent solution.",

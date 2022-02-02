@@ -24,7 +24,6 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
-#include "item.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "kill_tracker.h"
@@ -51,12 +50,15 @@
 
 static const efftype_id effect_no_ammo( "no_ammo" );
 
+static const harvest_drop_type_id harvest_drop_bone( "bone" );
+static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
+
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
-void mdeath::normal( monster &z )
+item *mdeath::normal( monster &z )
 {
     if( z.no_corpse_quiet ) {
-        return;
+        return nullptr;
     }
 
     if( !z.quiet_death ) {
@@ -77,11 +79,17 @@ void mdeath::normal( monster &z )
         z.bleed(); // leave some blood if we have to
 
         if( pulverized ) {
-            splatter( z );
+            return splatter( z );
         } else {
-            make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+            const float damage = std::floor( corpse_damage * itype::damage_scale );
+            item *corpse = make_mon_corpse( z, static_cast<int>( damage ) );
+            if( corpse->is_null() ) {
+                return nullptr;
+            }
+            return corpse;
         }
     }
+    return nullptr;
 }
 
 static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &z, int distance,
@@ -127,7 +135,7 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
     }
 }
 
-void mdeath::splatter( monster &z )
+item *mdeath::splatter( monster &z )
 {
     const bool gibbable = !z.type->has_flag( MF_NOGIB );
 
@@ -165,11 +173,11 @@ void mdeath::splatter( monster &z )
         int gib_distance = std::round( rng( 2, 4 ) );
         for( const auto &entry : *z.type->harvest ) {
             // only flesh and bones survive.
-            if( entry.type == "flesh" || entry.type == "bone" ) {
+            if( entry.type == harvest_drop_flesh || entry.type == harvest_drop_bone ) {
                 // the larger the overflow damage, the less you get
                 const int chunk_amt =
                     entry.mass_ratio / overflow_ratio / 10 *
-                    z.get_weight() / ( item::find_type( itype_id( entry.drop ) ) )->weight;
+                    z.get_weight() / item::find_type( itype_id( entry.drop ) )->weight;
                 scatter_chunks( itype_id( entry.drop ), chunk_amt, z, gib_distance,
                                 chunk_amt / ( gib_distance - 1 ) );
                 gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.get_weight() );
@@ -178,20 +186,24 @@ void mdeath::splatter( monster &z )
         if( gibbed_weight > 0 ) {
             const itype_id &leftover_id = z.type->id->harvest->leftovers;
             const int chunk_amount =
-                gibbed_weight / to_gram( ( item::find_type( leftover_id ) )->weight );
+                gibbed_weight / to_gram( item::find_type( leftover_id )->weight );
             scatter_chunks( leftover_id, chunk_amount, z, gib_distance,
                             chunk_amount / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
+        if( corpse.is_null() ) {
+            return nullptr;
+        }
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
         corpse.set_flag( STATIC( flag_id( "GIBBED" ) ) );
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
-        here.add_item_or_charges( z.pos(), corpse );
+        return &here.add_item_or_charges( z.pos(), corpse );
     }
+    return nullptr;
 }
 
 void mdeath::disappear( monster &z )
@@ -231,8 +243,7 @@ void mdeath::broken( monster &z )
                         if( gun.typeId()->magazine_default.count( item( ammo_entry.first ).ammo_type() ) ) {
                             same_ammo = true;
                         }
-                        const bool uses_mags = !gun.magazine_compatible().empty();
-                        if( same_ammo && uses_mags ) {
+                        if( same_ammo && gun.uses_magazine() ) {
                             std::vector<item> mags;
                             int ammo_count = ammo_entry.second;
                             while( ammo_count > 0 ) {
@@ -257,14 +268,14 @@ void mdeath::broken( monster &z )
     }
 
     // TODO: make mdeath::splatter work for robots
-    if( ( broken_mon.damage() >= broken_mon.max_damage() ) ) {
+    if( broken_mon.damage() >= broken_mon.max_damage() ) {
         add_msg_if_player_sees( z.pos(), m_good, _( "The %s is destroyed!" ), z.name() );
     } else {
         add_msg_if_player_sees( z.pos(), m_good, _( "The %s collapses!" ), z.name() );
     }
 }
 
-void make_mon_corpse( monster &z, int damageLvl )
+item *make_mon_corpse( monster &z, int damageLvl )
 {
     item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
     // All corpses are at 37 C at time of death
@@ -276,5 +287,5 @@ void make_mon_corpse( monster &z, int damageLvl )
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
-    get_map().add_item_or_charges( z.pos(), corpse );
+    return &get_map().add_item_or_charges( z.pos(), corpse );
 }

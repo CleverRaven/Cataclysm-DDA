@@ -195,7 +195,7 @@
     "id": "NC_ARSONIST_rifle",
     "subtype": "distribution",
     "entries": [
-      { "item": "nato_assault_rifle", "variant": "m4a1", "prob": 35 },
+      { "item": "m4_carbine", "variant": "m4a1", "prob": 35 },
       { "item": "m1a", "prob": 35 },
       { "item": "ak47", "prob": 35 }
     ]

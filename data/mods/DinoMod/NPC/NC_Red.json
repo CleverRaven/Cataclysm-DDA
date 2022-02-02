@@ -129,7 +129,7 @@
     "followup": "MISSION_OLD_GUARD_DINO_4",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus_chain", "count": 1, "name": "Betty" }, { "u_buy_item": "meth" } ]
+      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus_chain", "count": 1, "name": "Betty" }, { "u_spawn_item": "meth" } ]
     },
     "dialogue": {
       "describe": "We need help…",
@@ -157,7 +157,7 @@
     "followup": "MISSION_OLD_GUARD_DINO_5",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus_chain", "count": 1, "name": "Stromer" }, { "u_buy_item": "meth" } ]
+      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus_chain", "count": 1, "name": "Stromer" }, { "u_spawn_item": "meth" } ]
     },
     "dialogue": {
       "describe": "We need help…",
@@ -186,7 +186,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ "npc_die", { "u_buy_monster": "mon_zyrannosaurus_chain", "count": 1, "name": "Wilma" }, { "u_buy_item": "meth" } ]
+      "effect": [ "npc_die", { "u_buy_monster": "mon_zyrannosaurus_chain", "count": 1, "name": "Wilma" }, { "u_spawn_item": "meth" } ]
     },
     "dialogue": {
       "describe": "We need help…",

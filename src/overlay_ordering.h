@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <map>
+#include <string>
 
 class JsonObject;
 

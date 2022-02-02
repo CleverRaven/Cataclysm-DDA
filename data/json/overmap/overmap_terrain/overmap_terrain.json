@@ -33,7 +33,32 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "park",
+    "id": "deep_rock",
+    "//": "Ugly placeholder solution to differentiate between subway tunnels, remove if per-special connection subtyping is implemented.",
+    "name": "solid rock",
+    "looks_like": "empty_rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "park",
+      "park_2",
+      "park_3",
+      "park_4",
+      "park_5",
+      "park_6",
+      "park_7",
+      "playground",
+      "playground_1",
+      "dog_park",
+      "volleyball_court",
+      "tennis_court",
+      "baskeball_court"
+    ],
     "name": "park",
     "sym": "O",
     "color": "green",
@@ -109,6 +134,7 @@
     "name": "island",
     "sym": "F",
     "color": "green",
+    "looks_like": "forest",
     "see_cost": 1
   },
   {
@@ -117,6 +143,7 @@
     "name": "island",
     "sym": "F",
     "color": "cyan",
+    "looks_like": "forest_water",
     "see_cost": 1
   },
   {
@@ -125,6 +152,7 @@
     "name": "island",
     "sym": ".",
     "color": "brown",
+    "looks_like": "field",
     "see_cost": 1
   },
   {
@@ -175,6 +203,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "lake_cabin_water" ],
+    "name": "lake",
+    "sym": "#",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "cabin_lake_roof", "lake_cabin_boathouse_roof" ],
     "name": "cabin roof",
     "sym": "C",
@@ -200,7 +236,19 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "cabin", "cabin_1", "cabin_2", "cabin_3", "cabin_4", "cabin_5", "cabin_6", "cabin_7", "cabin_lapin", "bandit_cabin" ],
+    "id": [
+      "cabin",
+      "cabin_1",
+      "cabin_2",
+      "cabin_3",
+      "cabin_4",
+      "cabin_5",
+      "cabin_6",
+      "cabin_7",
+      "cabin_lapin",
+      "bandit_cabin",
+      "cabin_prepper"
+    ],
     "name": "cabin",
     "sym": "C",
     "color": "i_green",
@@ -249,12 +297,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodge_basement_residential1", "lodge_basement_residential2", "lodge_basement_laboratory_entrance" ],
+    "id": [ "lodge_basement_residential1", "lodge_basement_residential2" ],
     "name": "hunting lodge basement",
     "copy-from": "generic_forest",
     "sym": "L",
     "see_cost": 4,
     "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_basement_laboratory_entrance" ],
+    "copy-from": "lodge_basement_residential1",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -308,6 +362,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "crater",
+    "name": "crater",
+    "sym": "O",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "crater_core",
+    "copy-from": "crater"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "radio_tower",
       "radio_tower_even",
@@ -343,6 +411,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "wind_turbine_ground", "wind_turbine_pillar", "wind_turbine_pillar_platform", "wind_turbine_roof" ],
+    "name": "wind turbine",
+    "sym": "o",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wind_turbine_nacelle" ],
+    "name": "wind turbine",
+    "sym": "Y",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
     "name": "wooden fort",
     "sym": "+",
@@ -353,19 +435,11 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "looted_building",
-    "name": "looted building",
-    "sym": "#",
-    "color": "light_gray",
-    "see_cost": 2
-  },
-  {
-    "type": "overmap_terrain",
     "id": "debug_ramps",
     "name": "ramp testing area",
     "sym": "%",
     "color": "white",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -414,24 +488,6 @@
     "color": "light_blue",
     "see_cost": 5,
     "mondensity": 1
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_forest",
-    "name": "basin",
-    "sym": "F",
-    "color": "blue",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_swamp",
-    "name": "bog",
-    "sym": "F",
-    "color": "blue",
-    "see_cost": 5,
-    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -535,7 +591,8 @@
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 2
+    "see_cost": 2,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -646,6 +703,7 @@
     "type": "overmap_terrain",
     "id": "airliner_2c_-1",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5
@@ -706,7 +764,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -755,6 +813,25 @@
     "name": "rock border",
     "sym": "#",
     "color": "white",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE" ],
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spider_pit",
+    "name": "spider pit",
+    "sym": "S",
+    "color": "white",
+    "see_cost": 3,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spider_pit_under",
+    "name": "cavern",
+    "looks_like": "cave_underground",
+    "sym": "0",
+    "color": "light_gray",
+    "see_cost": 5
   }
 ]

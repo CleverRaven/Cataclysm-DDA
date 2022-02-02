@@ -5,7 +5,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "turnout coat" },
-    "description": "A heavy protective coat worn by firefighters.  Highly resistant to heat and flame, it provides excellent protection from injury.",
+    "description": "A heavy protective coat worn by firefighters, highly resistant to heat and flame.",
     "weight": "1930 g",
     "volume": "5 L",
     "price": 91000,
@@ -117,6 +117,15 @@
     "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
   },
   {
+    "id": "xs_coat_fur",
+    "type": "ARMOR",
+    "copy-from": "coat_fur",
+    "looks_like": "coat_fur",
+    "name": { "str": "XS fur coat" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "UNDERSIZE" ]
+  },
+  {
     "id": "coat_faux_fur",
     "type": "ARMOR",
     "copy-from": "coat_fur",
@@ -135,6 +144,15 @@
     "copy-from": "coat_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "SUPER_FANCY" ]
+  },
+  {
+    "id": "xs_coat_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "coat_faux_fur",
+    "looks_like": "coat_faux_fur",
+    "name": { "str": "XS faux fur coat" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY", "UNDERSIZE" ]
   },
   {
     "id": "coat_fur_sf",
@@ -227,7 +245,7 @@
     "id": "coat_rain",
     "type": "ARMOR",
     "name": { "str": "rain coat" },
-    "description": "A plastic coat with a hood and two very large pockets.  Provides protection from rain.",
+    "description": "A plastic coat with a hood and two very large pockets, meant to provide protection from rain.",
     "weight": "960 g",
     "volume": "1750 ml",
     "price": 7900,
@@ -373,7 +391,12 @@
     "color": "dark_gray",
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 7, 13 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 7, 9 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 90,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 7, 7 ] }
     ],
     "pocket_data": [
@@ -441,7 +464,12 @@
     "color": "brown",
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 16 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 9, 11 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 90,
+        "encumbrance": [ 5, 6 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
     ],
     "pocket_data": [
@@ -503,12 +531,30 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
   },
   {
+    "id": "xs_duster_fur",
+    "type": "ARMOR",
+    "copy-from": "duster_fur",
+    "looks_like": "duster_fur",
+    "name": { "str": "XS fur duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "UNDERSIZE" ]
+  },
+  {
     "id": "xl_duster",
     "type": "ARMOR",
     "name": { "str": "XL duster" },
     "copy-from": "duster",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_duster",
+    "type": "ARMOR",
+    "copy-from": "duster",
+    "looks_like": "duster",
+    "name": { "str": "XS duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "UNDERSIZE" ]
   },
   {
     "id": "duster_faux_fur",
@@ -530,6 +576,15 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "FANCY", "OVERSIZE" ]
   },
   {
+    "id": "xs_duster_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "duster_faux_fur",
+    "looks_like": "duster_faux_fur",
+    "name": { "str": "XS faux fur duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY", "UNDERSIZE" ]
+  },
+  {
     "id": "duster_leather",
     "type": "ARMOR",
     "name": { "str": "leather duster" },
@@ -545,7 +600,12 @@
     "color": "brown",
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 15 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 8, 10 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 90,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 8, 8 ] }
     ],
     "pocket_data": [
@@ -607,82 +667,13 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
   },
   {
-    "id": "duster_survivor",
+    "id": "xs_duster_leather",
     "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "survivor duster" },
-    "description": "A Kevlar armored custom full-length duster, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
-    "weight": "2592 g",
-    "volume": "9500 ml",
-    "price": 40000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
-    "symbol": "[",
+    "copy-from": "duster_leather",
     "looks_like": "duster_leather",
-    "color": "brown",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 7, 9 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "31 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "31 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "25 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "25 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
-      }
-    ],
-    "warmth": 10,
-    "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
-  },
-  {
-    "id": "xl_duster_survivor",
-    "type": "ARMOR",
-    "name": { "str": "XL survivor duster" },
-    "copy-from": "duster_survivor",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "OVERSIZE" ]
+    "name": { "str": "XS leather duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "UNDERSIZE" ]
   },
   {
     "id": "greatcoat",
@@ -812,7 +803,7 @@
       }
     ],
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 0.8,
     "environmental_protection": 1,
     "flags": [ "OUTER", "OVERSIZE" ]
   },
@@ -821,7 +812,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str_sp": "army jacket" },
-    "description": "A tough jacket with lots of pockets.  Favored by the military.",
+    "description": "A vintage army jacket, or at least a copy of one, with lots of pockets.  Favored by the military.",
     "weight": "780 g",
     "volume": "3 L",
     "price": 3500,
@@ -884,11 +875,70 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "jacket_army_modern",
+    "type": "ARMOR",
+    "name": { "str_sp": "combat blouse" },
+    "description": "A sleek blouse in a camouflage pattern with angled breast pockets and lots of loop velcro for affixing patches.  You might call it a jacket but it's really a blouse.  It has a pocket for your pen!",
+    "weight": "650 g",
+    "volume": "3 L",
+    "price": 6400,
+    "price_postapoc": 750,
+    "material": [ "nylon", "cotton" ],
+    "symbol": "[",
+    "looks_like": "jacket_army",
+    "color": "green",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 7, 9 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 9 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 ml",
+        "max_contains_weight": "50 g",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "warmth": 20,
+    "material_thickness": 0.4,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
     "id": "jacket_chef",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "chef's jacket" },
-    "description": "This double-breasted uniform is unusually thick to protect against the heat of the kitchen.",
+    "description": "This double-breasted uniform is to protect against the heat of the kitchen.",
     "weight": "720 g",
     "volume": "1750 ml",
     "price": 7000,
@@ -957,7 +1007,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "flannel jacket" },
-    "description": "A jacket made from flannel-style denim, favored by outdoorsy types.  Provides decent protection from cuts.",
+    "description": "A jacket made from flannel-style denim, favored by outdoorsy types.",
     "weight": "958 g",
     "volume": "4250 ml",
     "price": 6000,
@@ -995,7 +1045,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "jean jacket" },
-    "description": "A jacket made from denim.  Provides decent protection from cuts.",
+    "description": "A jacket made from denim.",
     "weight": "800 g",
     "volume": "3250 ml",
     "price": 4000,
@@ -1029,7 +1079,7 @@
     "snippet_category": [
       {
         "id": "patched",
-        "text": "A jacket made from denim.  Provides decent protection from cuts.  This one is haphazardly covered with patches featuring metal band logos."
+        "text": "A jacket made from denim.  This one is haphazardly covered with patches featuring metal band logos."
       }
     ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
@@ -1038,7 +1088,7 @@
     "id": "jacket_leather",
     "type": "ARMOR",
     "name": { "str": "leather jacket" },
-    "description": "A jacket made from thick leather.  Cumbersome, but offers excellent protection from cuts.",
+    "description": "A jacket made from thick leather.  Offers more protection than your average jacket.",
     "weight": "1450 g",
     "volume": "4500 ml",
     "price": 17900,
@@ -1204,7 +1254,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "judo gi" },
-    "description": "Plain white judo gi.  Thick and a little stiff, it gives minor protection from cuts and punches.",
+    "description": "Plain white judo gi.",
     "weight": "1000 g",
     "volume": "1500 ml",
     "price": 5000,
@@ -1223,7 +1273,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "karate gi" },
-    "description": "Plain white karate gi.  Loose and flowing, it offers little protection, and little encumbrance.",
+    "description": "Plain white karate gi.  Made from loose and flowing cotton.",
     "weight": "400 g",
     "volume": "1500 ml",
     "price": 5000,
@@ -1299,7 +1349,7 @@
   {
     "id": "kimono",
     "type": "ARMOR",
-    "name": { "str": "kimono" },
+    "name": { "str_sp": "kimono" },
     "description": "A traditional, ankle-length Japanese robe, wrapped around the body with a sash.",
     "weight": "1200 g",
     "volume": "5 L",
@@ -1400,10 +1450,39 @@
     "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
+    "id": "leather_police_jacket",
+    "type": "ARMOR",
+    "name": { "str": "leather police jacket" },
+    "description": "A thick and heavy leather jacket emblazoned with the insignia of the local police force.",
+    "repairs_like": "jacket_leather",
+    "weight": "1450 g",
+    "volume": "4500 ml",
+    "price": 17900,
+    "price_postapoc": 500,
+    "to_hit": 1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "motorbike_armor",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 10, 10 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
+    "warmth": 30,
+    "material_thickness": 1.5,
+    "environmental_protection": 1,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
     "id": "peacoat",
     "type": "ARMOR",
     "name": { "str": "peacoat" },
-    "description": "A heavy wool coat.  Cumbersome, but warm and with deep pockets.",
+    "description": "A heavy wool coat, warm and with deep pockets.",
     "weight": "1800 g",
     "volume": "3 L",
     "price": 18000,
@@ -1457,7 +1536,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "robe" },
-    "description": "A loose-fitting outer garment with sleeves, and a mysterious amount of well-hidden pockets.",
+    "description": "A loose-fitting outer garment with sleeves and a mysterious amount of well-hidden pockets.",
     "weight": "1000 g",
     "volume": "5 L",
     "price": 5000,
@@ -1525,7 +1604,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "samghati" },
-    "description": "A traditional, double layered Buddhist coat, used as an outer cloak for various occasions.",
+    "description": "A traditional, double-layered Buddhist coat.  Used as an outer cloak for various occasions.",
     "weight": "800 g",
     "volume": "2250 ml",
     "price": 6500,
@@ -1539,6 +1618,65 @@
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "OUTER" ],
     "armor": [ { "encumbrance": 2, "coverage": 90, "covers": [ "leg_l", "leg_r", "torso" ] } ]
+  },
+  {
+    "id": "santa_jacket",
+    "type": "ARMOR",
+    "name": { "str": "santa jacket" },
+    "description": "A red jacket, trimmed with white faux fur, commonly used by bearded men on Christmas.  Warm and has a couple of small pockets.",
+    "weight": "1500 g",
+    "volume": "4500 ml",
+    "price": 45000,
+    "price_postapoc": 500,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 20, 25 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 18, 18 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "santa_jacket_short",
+    "type": "ARMOR",
+    "name": { "str": "short santa jacket" },
+    "description": "A short red jacket with white faux fur as trim, similar to a Santa jacket but sleeveless, for a more revealing look on Christmas.",
+    "weight": "1200 g",
+    "volume": "2000 ml",
+    "price": 18000,
+    "price_postapoc": 70,
+    "to_hit": -5,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "jacket_leather_red",
+    "color": "red",
+    "armor": [ { "covers": [ "torso" ], "coverage": 75, "encumbrance": 6 } ],
+    "warmth": 15,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "OUTER" ]
   },
   {
     "id": "ski_jacket",
@@ -1611,7 +1749,12 @@
     "color": "dark_gray",
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 7, 12 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 7, 10 ] }
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 90,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      }
     ],
     "pocket_data": [
       {
@@ -1679,7 +1822,12 @@
     "color": "brown",
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 17 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 9, 11 ] }
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 90,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      }
     ],
     "pocket_data": [
       {
@@ -1758,7 +1906,12 @@
     "color": "brown",
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 15 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 8, 10 ] }
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 90,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      }
     ],
     "pocket_data": [
       {
@@ -1809,40 +1962,6 @@
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
-  },
-  {
-    "id": "sleeveless_duster_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "sleeveless survivor duster" },
-    "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
-    "description": "A custom Kevlar armored full-length duster without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
-    "weight": "2203 g",
-    "volume": "8 L",
-    "price": 34000,
-    "price_postapoc": 4500,
-    "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
-    "symbol": "[",
-    "looks_like": "duster_survivor",
-    "color": "brown",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 7, 9 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
-    "warmth": 10,
-    "material_thickness": 2,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
   {
     "id": "sleeveless_trenchcoat",
@@ -1944,37 +2063,6 @@
     "armor": [ { "encumbrance": [ 8, 17 ], "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
-    "id": "sleeveless_trenchcoat_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "sleeveless survivor trenchcoat" },
-    "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
-    "description": "A custom Kevlar armored trenchcoat without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
-    "weight": "1632 g",
-    "volume": "6 L",
-    "price": 34000,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
-    "symbol": "[",
-    "looks_like": "sleeveless_duster_survivor",
-    "color": "brown",
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
-    "warmth": 10,
-    "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ],
-    "armor": [ { "encumbrance": [ 7, 15 ], "coverage": 85, "covers": [ "torso" ] } ]
-  },
-  {
     "id": "sleeveless_tunic",
     "type": "ARMOR",
     "name": { "str": "sleeveless tunic" },
@@ -1998,7 +2086,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str_sp": "thawb" },
-    "description": "A long, loose-fitting robe with wide sleeves, a traditional Arab garment.",
+    "description": "A long, loose-fitting robe with wide sleeves.  A traditional Arab garment.",
     "weight": "1200 g",
     "volume": "4500 ml",
     "price": 10000,
@@ -2119,75 +2207,6 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
-    "id": "trenchcoat_survivor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "survivor trenchcoat" },
-    "description": "A Kevlar armored custom trenchcoat, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
-    "weight": "1920 g",
-    "volume": "7 L",
-    "price": 40000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
-    "symbol": "[",
-    "looks_like": "trenchcoat",
-    "color": "brown",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 15 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "31 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "31 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "25 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "25 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
-      }
-    ],
-    "warmth": 10,
-    "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
-  },
-  {
     "id": "tunic",
     "type": "ARMOR",
     "name": { "str": "tunic" },
@@ -2269,7 +2288,7 @@
     ],
     "warmth": 30,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "POCKETS", "SUPER_FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "SUPER_FANCY", "OUTER" ]
   },
   {
     "id": "waistcoat",
@@ -2318,7 +2337,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "army winter jacket" },
-    "description": "A tough hooded jacket with lots of pockets, thickly padded for warmth.  Favored by the military.",
+    "description": "A hooded jacket with lots of pockets, thickly padded for warmth.  Favored by the military.",
     "weight": "1000 g",
     "volume": "3 L",
     "price": 4375,

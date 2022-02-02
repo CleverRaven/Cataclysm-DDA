@@ -251,6 +251,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_metal_trashcan",
+    "name": "Build Metal Trash Can"
+  },
+  {
+    "type": "construction_group",
     "id": "build_gravelbag_wall",
     "name": "Build Gravelbag Wall"
   },
@@ -268,6 +273,11 @@
     "type": "construction_group",
     "id": "build_exercise_machine",
     "name": "Build Exercise Machine"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_parkour_bars",
+    "name": "Build Parkour Bars"
   },
   {
     "type": "construction_group",
@@ -506,6 +516,51 @@
   },
   {
     "type": "construction_group",
+    "id": "build_reinforced_concrete_wall_ropes",
+    "name": "Build Reinforced Concrete Wall with Ropes"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_brick_wall_embrasure",
+    "name": "Build Brick Wall with Embrasure"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_brick_wall_embrasure_from_adobe",
+    "name": "Build Brick Wall with Embrasure from Adobe"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_rock_wall_embrasure",
+    "name": "Build Stone Wall with Embrasure"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wood_wall_embrasure",
+    "name": "Build Wood Wall with Embrasure"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_log_wall_embrasure",
+    "name": "Build Log Wall with Embrasure"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_palisade_wall_embrasure",
+    "name": "Build Palisade Wall with Embrasure"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_sconcrete_wall_embrasure",
+    "name": "Build Simple Concrete Wall with Embrasure"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_strconcrete_wall_embrasure",
+    "name": "Build Reinforced Concrete Wall with Embrasure"
+  },
+  {
+    "type": "construction_group",
     "id": "build_reinforced_double_glazed_glass_window",
     "name": "Build Reinforced Double Glazed Glass Window"
   },
@@ -668,6 +723,11 @@
     "type": "construction_group",
     "id": "build_sofa",
     "name": "Build Sofa"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_spinwheel",
+    "name": "Build Spinwheel"
   },
   {
     "type": "construction_group",
@@ -921,6 +981,11 @@
   },
   {
     "type": "construction_group",
+    "id": "pit_straw",
+    "name": "Fill Shallow Pit with Straw"
+  },
+  {
+    "type": "construction_group",
     "id": "fill_salt_water_with_dirt",
     "name": "Fill Salt Water With Dirt"
   },
@@ -958,6 +1023,11 @@
     "type": "construction_group",
     "id": "make_gravel_floor",
     "name": "Make Gravel Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "make_rubber_mulch",
+    "name": "Make Rubber Mulch Floor"
   },
   {
     "type": "construction_group",
@@ -1023,6 +1093,31 @@
     "type": "construction_group",
     "id": "paint_wall_yellow",
     "name": "Paint Wall Yellow"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_fridge",
+    "name": "Place Fridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_oven",
+    "name": "Place Oven"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_standing_lamp",
+    "name": "Place Standing Lamp"
+  },
+  {
+    "type": "construction_group",
+    "id": "reveal_wall_wiring",
+    "name": "Reveal Wall Wirings"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil",
+    "name": "Place Anvil"
   },
   {
     "type": "construction_group",
@@ -1163,5 +1258,100 @@
     "type": "construction_group",
     "id": "remove_gravel",
     "name": "Remove Gravel"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_rubber_mulch",
+    "name": "Remove Rubber Mulch"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_empty_window",
+    "name": "Remove Empty Window Frame"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_linoleum_tiles",
+    "name": "Remove Linoleum Tiles"
+  },
+  {
+    "type": "construction_group",
+    "id": "advanced_object_deconstruction",
+    "name": "Advanced Object Deconstruction"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_reinforced_concrete_floor",
+    "name": "Remove Reinforced Concrete Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_concrete_floor",
+    "name": "Remove Concrete Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_floor",
+    "name": "Remove Wooden Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_concrete_wall",
+    "name": "Remove Concrete Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_brick_wall",
+    "name": "Remove Brick Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_wooden_wall",
+    "name": "Remove Wooden Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_wall",
+    "name": "Remove Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_rock_wall",
+    "name": "Remove Rock Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_roadway",
+    "name": "Remove Segment of Road/Sidewalk"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_metal_door",
+    "name": "Remove Metal Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_concrete_column",
+    "name": "Remove Concrete Column"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_reinforced_concrete_wall",
+    "name": "Remove Reinforced Concrete Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_rebar_cage",
+    "name": "Remove Rebar Cage"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_glass_wall",
+    "name": "Remove Glass Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_glass_door",
+    "name": "Remove Glass Door"
   }
 ]

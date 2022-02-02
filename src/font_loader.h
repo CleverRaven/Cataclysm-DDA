@@ -3,7 +3,6 @@
 #define CATA_SRC_FONT_LOADER_H
 
 #include <algorithm>
-#include <fstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -17,8 +16,9 @@
 // Ensure that unifont is always loaded as a fallback font to prevent users from shooting themselves in the foot
 static void ensure_unifont_loaded( std::vector<std::string> &font_list )
 {
-    if( std::find( std::begin( font_list ), std::end( font_list ), "unifont" ) == font_list.end() ) {
-        font_list.emplace_back( PATH_INFO::fontdir() + "unifont.ttf" );
+    const std::string unifont = PATH_INFO::fontdir() + "unifont.ttf";
+    if( std::find( font_list.begin(), font_list.end(), unifont ) == font_list.end() ) {
+        font_list.emplace_back( unifont );
     }
 }
 
@@ -42,7 +42,7 @@ class font_loader
     private:
         void load_throws( const std::string &path ) {
             try {
-                std::ifstream stream( path.c_str(), std::ifstream::binary );
+                cata::ifstream stream( fs::u8path( path ), std::ifstream::binary );
                 JsonIn json( stream );
                 JsonObject config = json.get_object();
                 if( config.has_string( "typeface" ) ) {

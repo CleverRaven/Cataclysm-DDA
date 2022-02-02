@@ -7,7 +7,8 @@
     "bodytype": "human",
     "copy-from": "mon_zombie",
     "symbol": "h",
-    "zombify_into": "mon_zombie"
+    "zombify_into": "mon_zombie",
+    "extend": { "flags": [ "NOT_HALLUCINATION" ] }
   },
   {
     "id": "mon_bat",
@@ -84,6 +85,7 @@
     "melee_cut": 4,
     "dodge": 3,
     "armor_bash": 2,
+    "armor_elec": 1,
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
@@ -124,7 +126,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_zombeaver",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_black_rat",
@@ -155,6 +157,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
+    "upgrades": { "half_life": 45, "into_group": "GROUP_RATKIN_EVOLVED" },
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "STUMBLES", "PATH_AVOID_DANGER_1" ]
   },
@@ -185,6 +188,7 @@
     "vision_night": 15,
     "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
+    "upgrades": { "half_life": 13, "into_group": "GROUP_RATKIN_EVOLVED" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
@@ -193,7 +197,7 @@
     "id": "mon_boar_wild_piglet",
     "type": "MONSTER",
     "name": { "str": "wild boar piglet" },
-    "description": "Originally not native in the US, this wild omnivore is a crossbreed between the Eurasian wild boar escaped from hunting reserves and the domesticated pig went feral in the wilderness.  Its population has skyrocketed in the US during the last few decades.",
+    "description": "Originally not native in the U.S., this wild omnivore is a crossbreed between the Eurasian wild boar escaped from hunting reserves and the domesticated pig gone feral in the wilderness.  This one is just a baby, and is surprisingly cute.",
     "default_faction": "pig",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
@@ -226,7 +230,7 @@
     "id": "mon_boar_wild",
     "type": "MONSTER",
     "name": { "str": "wild boar" },
-    "description": "Originally not native in the US, this wild omnivore is a crossbreed between the Eurasian wild boar escaped from hunting reserves and the domesticated pig went feral in the wilderness.  Its population has skyrocketed in the US during the last few decades.",
+    "description": "Originally not native in the U.S., this wild omnivore is a crossbreed between the Eurasian wild boar escaped from hunting reserves and the domesticated pig gone feral in the wilderness.  Its population has skyrocketed during the last few decades.",
     "looks_like": "mon_pig",
     "default_faction": "pig",
     "bodytype": "pig",
@@ -307,17 +311,22 @@
     "color": "light_gray",
     "melee_cut": 2,
     "dodge": 14,
-    "special_attacks": [ [ "scratch", 10 ] ],
+    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
+      "pet": "The %s softly purrs as you pet it.  It demands more."
+    },
     "flags": [
       "SEES",
       "HEARS",
       "GOODHEARING",
       "SMELLS",
       "ANIMAL",
-      "CATFOOD",
+      "CANPLAY",
       "PATH_AVOID_DANGER_1",
       "WARM",
       "HIT_AND_RUN",
@@ -349,18 +358,23 @@
     "melee_cut": 2,
     "dodge": 8,
     "vision_night": 20,
-    "special_attacks": [ [ "scratch", 10 ] ],
+    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
     "reproduction": { "baby_monster": "mon_cat_kitten", "baby_count": 4, "baby_timer": 60 },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
+      "pet": "The %s softly purrs as you pet it.  It demands more."
+    },
     "flags": [
       "SEES",
       "HEARS",
       "GOODHEARING",
       "SMELLS",
       "ANIMAL",
-      "CATFOOD",
+      "CANPLAY",
       "CLIMBS",
       "PATH_AVOID_DANGER_1",
       "WARM",
@@ -372,7 +386,7 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": { "str": "longhair cat" },
-    "description": "This cat's long fur appears difficult to groom, but the cat seems to manage it despite the environmental conditions.",
+    "description": "This cat's long fur appears difficult to groom, but it seems to manage despite the circumstances.",
     "volume": "6000 ml",
     "weight": "6 kg",
     "reproduction": { "baby_monster": "mon_cat_longhair_kitten", "baby_count": 4, "baby_timer": 60 }
@@ -507,7 +521,7 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": { "str": "calico cat" },
-    "description": "Partly white with patches of orange and black, the calico coloring tells you this cat is probably female.  The Calico was the Maryland State cat (back when there were still states).",
+    "description": "Partly white with patches of orange and black, the calico coloring tells you this cat is probably female.  The calico was the Maryland state cat, back when there were still states.",
     "reproduction": { "baby_monster": "mon_cat_calico_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
@@ -523,7 +537,7 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": { "str": "golden chonker" },
-    "description": "Lawd, he comin!  This impressive feline would once have been celebrated on internet cat forums for its chonkiness and majestic golden mane.  Appears surprisingly well-groomed for a feral cat.",
+    "description": "Oh lawd, he comin'!  This impressive feline would once have been celebrated on internet cat forums for its chonkiness and majestic golden mane.  Appears surprisingly well-groomed for a feral cat.",
     "volume": "8000 ml",
     "weight": "10 kg",
     "hp": 20,
@@ -610,6 +624,7 @@
     "symbol": "T",
     "morale": 60,
     "melee_dice": 3,
+    "armor_elec": 1,
     "dodge": 2,
     "zombify_into": "mon_ziger"
   },
@@ -617,7 +632,7 @@
     "id": "mon_cow_calf",
     "type": "MONSTER",
     "name": { "str": "calf", "str_pl": "calves" },
-    "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.",
+    "description": "The domestic cow, a baleful, ruminating farm animal.  This one is still a juvenile; it'll take a while before you can get any milk or a meaningful amount of meat from her.",
     "default_faction": "herbivore",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
@@ -647,13 +662,14 @@
     "upgrades": { "age_grow": 180, "into": "mon_cow" },
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW" ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
   },
   {
     "id": "mon_cow",
     "type": "MONSTER",
     "name": { "str": "cow" },
-    "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.",
+    "description": "The domestic cow, a baleful, ruminating farm animal.  She is quite muscular, and would be a great source of milk if domesticated or of meat and leather if slaughtered.",
     "default_faction": "herbivore",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
@@ -671,6 +687,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 10,
     "melee_cut": 6,
+    "armor_elec": 1,
     "dodge": 2,
     "armor_bash": 2,
     "starting_ammo": { "milk_raw": 40 },
@@ -680,23 +697,13 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
     "zombify_into": "mon_zow",
-    "harvest": "mammal_large_leather",
+    "harvest": "mammal_large_bovine",
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "PET_MOUNTABLE",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CATTLEFODDER",
-      "PET_WONT_FOLLOW",
-      "MILKABLE"
-    ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_coyote",
@@ -726,7 +733,7 @@
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
-    "harvest": "mammal_fur",
+    "harvest": "mammal_fur_lupine",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
   },
   {
@@ -830,14 +837,14 @@
     "id": "mon_dog",
     "type": "MONSTER",
     "name": { "str": "Labrador mutt" },
-    "description": "This once-average Labrador mixed breed dog has clearly gone feral.  Though it likely still instinctively trusts humans, it's probably far from domestic by now.",
+    "description": "This once-average Labrador mixed-breed dog has clearly gone feral.  Though it likely still instinctively trusts humans, it's probably far from domestic by now.",
     "default_faction": "dog",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
     "volume": "30000 ml",
     "weight": "30 kg",
-    "harvest": "mammal_small_fur",
+    "harvest": "mammal_small_fur_lupine",
     "hp": 30,
     "speed": 150,
     "material": [ "flesh" ],
@@ -851,6 +858,7 @@
     "melee_cut": 3,
     "dodge": 3,
     "vision_night": 5,
+    "zombify_into": "mon_zombie_dog",
     "path_settings": { "max_dist": 10 },
     "reproduction": { "baby_monster": "mon_dog_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
@@ -859,9 +867,15 @@
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "GROUP_MORALE",
       "HEARS",
       "PET_MOUNTABLE",
@@ -901,7 +915,7 @@
     "copy-from": "mon_dog",
     "type": "MONSTER",
     "name": { "str": "bulldog" },
-    "description": "The American bulldog is a hardy, well built dog, that seems suited for surviving the apocalypse.",
+    "description": "The American bulldog is a hardy, well-built dog that seems suited for surviving the apocalypse.",
     "volume": "25000 ml",
     "weight": "25 kg",
     "hp": 47,
@@ -913,9 +927,15 @@
     "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_bull_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "7 puppies and 300-320 days per-litter for size medium canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -954,14 +974,19 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_bull" },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_pitbullmix",
     "copy-from": "mon_dog",
     "type": "MONSTER",
     "name": { "str": "pit bull mix", "str_pl": "pit bull mixes" },
-    "description": "The oft-misunderstood pit bull is not actually a single breed but a label for several kinds of terriers.  It has average abilities, and is well-known for its 'lock jaw' - which isn't real, but their incredible determination is.",
+    "description": "The oft-misunderstood pit bull is not actually a single breed but a label for several kinds of terriers.  It has average abilities, and is well-known for its 'lock jaw' - which isn't real, but its incredible determination is.",
     "hp": 27,
     "weight": "25 kg",
     "speed": 135,
@@ -974,9 +999,15 @@
     "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_pitbullmix_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1017,14 +1048,19 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_beagle",
     "copy-from": "mon_dog",
     "type": "MONSTER",
     "name": { "str": "beagle" },
-    "description": "An adorable beagle that has managed to survive the apocalypse.  Being agile and small, they are difficult to shoot at.  Generally attacks in packs.",
+    "description": "An adorable beagle that has managed to survive the apocalypse.  Small and agile, but not especially tough.  Generally attacks in packs.",
     "weight": "10 kg",
     "harvest": "mammal_small_leather",
     "hp": 13,
@@ -1036,9 +1072,15 @@
     "fear_triggers": [ "HURT" ],
     "reproduction": { "baby_monster": "mon_dog_beagle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size tiny canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "GROUP_MORALE",
       "HARDTOSHOOT",
       "PET_MOUNTABLE",
@@ -1082,7 +1124,24 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "GROUP_MORALE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "GROUP_MORALE",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_bcollie",
@@ -1100,10 +1159,16 @@
     "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
     "reproduction": { "baby_monster": "mon_dog_bcollie_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "CLIMBS",
       "DOGFOOD",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1144,7 +1209,12 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_boxer",
@@ -1196,9 +1266,15 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "GROUP_MORALE",
       "HEARS",
@@ -1230,9 +1306,15 @@
     "fear_triggers": [ "HURT" ],
     "reproduction": { "baby_monster": "mon_dog_chihuahua_pup", "baby_count": 3, "baby_timer": 240 },
     "//": "1-3 puppies & 240 days per-litter for size tiny canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "HARDTOSHOOT",
       "HEARS",
       "HIT_AND_RUN",
@@ -1273,14 +1355,19 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_dachshund",
     "copy-from": "mon_dog",
     "type": "MONSTER",
     "name": { "str": "dachshund" },
-    "description": "A wiener dog!  This awkward looking dog can be a useful watchdog, plus it looks adorable as it bumbles around.  Its tiny size also makes it hard to shoot (you monster).",
+    "description": "A wiener dog!  This awkward looking dog can be a useful watchdog, plus it looks adorable as it bumbles around.  Needless to say, it doesn't make a good attack dog.",
     "hp": 10,
     "weight": "10 kg",
     "speed": 135,
@@ -1293,9 +1380,15 @@
     "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_dachshund_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "HARDTOSHOOT",
       "HEARS",
       "PET_MOUNTABLE",
@@ -1338,14 +1431,31 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "STUMBLES", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "HARDTOSHOOT",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "STUMBLES",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_gshepherd",
     "copy-from": "mon_dog",
     "type": "MONSTER",
     "name": { "str": "German Shepherd" },
-    "description": "The original K-9 breed.  An easy to train and great attack dog that will also defend its owner to the death, however they don't work well in packs.",
+    "description": "The original K-9 breed.  An easily trained and powerful attack dog that will defend its owner to the death, however they don't work well in packs.",
     "volume": "35000 ml",
     "weight": "35 kg",
     "hp": 36,
@@ -1356,7 +1466,23 @@
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_gshepherd_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
-    "flags": [ "ANIMAL", "DOGFOOD", "PET_MOUNTABLE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "PET_MOUNTABLE",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_gshepherd_pup",
@@ -1388,7 +1514,12 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_gpyrenees",
@@ -1411,9 +1542,15 @@
     "harvest": "mammal_fur",
     "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 320 },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1454,7 +1591,12 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_rottweiler",
@@ -1477,9 +1619,15 @@
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 300 },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1520,7 +1668,12 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_auscattle",
@@ -1540,10 +1693,16 @@
     "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
     "reproduction": { "baby_monster": "mon_dog_auscattle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
-      "CLIMBS",
       "DOGFOOD",
+      "CLIMBS",
+      "CANPLAY",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1584,7 +1743,12 @@
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
+    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_samoyed",
@@ -1614,7 +1778,7 @@
     "id": "mon_fox_gray",
     "type": "MONSTER",
     "name": { "str": "fox", "str_pl": "foxes" },
-    "description": "A small omnivorous canine with an almost cat-like manner.  It is a solitary hunter, and one of the only canids able to climb trees.",
+    "description": "A small, omnivorous canine with almost cat-like mannerisms.  It is a solitary hunter, and one of the only canids able to climb trees.",
     "default_faction": "fox",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
@@ -1638,7 +1802,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "CLIMBS" ]
   },
   {
     "id": "mon_fox_red",
@@ -1716,7 +1880,7 @@
     "morale": -5,
     "melee_cut": 0,
     "dodge": 6,
-    "harvest": "mammal_small_fur",
+    "harvest": "mammal_small_fur_rabbit",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
   },
@@ -1724,7 +1888,7 @@
     "id": "mon_horse",
     "type": "MONSTER",
     "name": { "str": "horse" },
-    "description": "A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-looking muscles.",
+    "description": "A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-looking muscles.  A stalwart companion to humans for longer than recorded history, with some effort you should be able to get this one to trust you enough to ride it.",
     "default_faction": "herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
@@ -1733,6 +1897,7 @@
     "weight": "550 kg",
     "hp": 90,
     "speed": 300,
+    "attack_cost": 230,
     "material": [ "flesh" ],
     "symbol": "H",
     "color": "brown",
@@ -1741,6 +1906,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 12,
     "melee_cut": 0,
+    "armor_elec": 1,
     "dodge": 2,
     "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
@@ -1750,17 +1916,8 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "zombify_into": "mon_zombie_horse",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "CATTLEFODDER",
-      "PET_WONT_FOLLOW",
-      "PET_MOUNTABLE",
-      "PATH_AVOID_DANGER_1",
-      "WARM"
-    ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
     "id": "mon_lemming",
@@ -1813,13 +1970,13 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "SWIMS" ]
   },
   {
     "id": "mon_moose",
     "type": "MONSTER",
     "name": { "str_sp": "moose" },
-    "description": "The Eastern moose, the largest living species of deer.  While they aren't aggressive unless angered, the mating season can make the bulls quite ill-tempered.",
+    "description": "The Eastern moose, the largest living species of deer.  While they aren't typically aggressive unless provoked, the autumn mating season can make the bulls quite ill-tempered.",
     "default_faction": "herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
@@ -1841,13 +1998,14 @@
     "armor_bash": 4,
     "armor_cut": 1,
     "armor_bullet": 1,
+    "armor_elec": 1,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON" ],
     "zombify_into": "mon_zoose",
     "baby_flags": [ "AUTUMN" ],
     "//": "Baby moose don't actually exist (yet), but autumn is their mating season so baby_flags is defined so that they get angry then",
-    "harvest": "mammal_large_leather",
+    "harvest": "mammal_large_bovine",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
@@ -1906,9 +2064,10 @@
     "armor_bash": 5,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "armor_elec": 1,
     "vision_day": 0,
     "vision_night": 0,
-    "harvest": "mutant_mammal_large_leather",
+    "harvest": "mutant_mammal_molerat_leather",
     "special_attacks": [ [ "SHRIEK_ALERT", 10 ], [ "SHRIEK_STUN", 1 ], { "type": "bite", "cooldown": 6 }, [ "impale", 10 ] ],
     "anger_triggers": [ "HURT", "SOUND", "STALK" ],
     "fear_triggers": [ "FIRE" ],
@@ -1949,7 +2108,7 @@
     "id": "mon_otter",
     "type": "MONSTER",
     "name": { "str": "otter" },
-    "description": "The North American river otter is a shy water dwelling relative of the weasel, living in large families along the banks of streams.  It is an excellent fisher and a resourceful survivor, using the abandoned dens of beavers and other animals to raise its own young.",
+    "description": "The North American river otter, a shy water-dwelling relative of the weasel that lives in large families along the banks of streams.  It is an excellent fisher and a resourceful survivor, using the abandoned dens of beavers and other animals to raise its own young.",
     "default_faction": "small_animal",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
@@ -1969,13 +2128,13 @@
     "dodge": 4,
     "harvest": "mammal_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_pig_piglet",
     "type": "MONSTER",
     "name": { "str": "piglet" },
-    "description": "A domesticated omnivore descended from the wild boar, intelligent and inquisitive.  Left to its own devices, it has gone feral.  Unlike the fully grown version it can be tamed.",
+    "description": "A domesticated omnivore descended from the wild boar, intelligent and inquisitive.  Left to its own devices, it has gone feral.  Unlike the fully grown version, this juvenile can be tamed.",
     "default_faction": "pig",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
@@ -2002,7 +2161,8 @@
     "upgrades": { "age_grow": 38, "into": "mon_pig" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CATTLEFODDER", "PET_WONT_FOLLOW", "WARM", "KEENNOSE" ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_pig",
@@ -2044,7 +2204,7 @@
     "id": "mon_rabbit",
     "type": "MONSTER",
     "name": { "str": "rabbit" },
-    "description": "A small mammal with a cute wiggling nose, cotton tail, and made of delicious flesh.",
+    "description": "A small mammal with a cute wiggling nose, a cotton ball tail, and a body made of delicious flesh.",
     "default_faction": "small_animal",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
@@ -2061,15 +2221,16 @@
     "melee_cut": 0,
     "dodge": 6,
     "reproduction": { "baby_monster": "mon_rabbit", "baby_count": 3, "baby_timer": 55 },
-    "harvest": "mammal_small_fur",
+    "harvest": "mammal_small_fur_rabbit",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CATTLEFODDER", "PET_WONT_FOLLOW", "WARM" ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM" ]
   },
   {
     "id": "mon_raccoon",
     "type": "MONSTER",
     "name": { "str": "raccoon" },
-    "description": "A small mammal native to North America, distinctive for its dexterous paws and facial markings.  It is resourceful and agile enough to open sealed containers with its paws.",
+    "description": "A small mammal native to North America, distinctive for its dexterous paws and facial markings.  It is resourceful and agile enough to open sealed containers in search of food.",
     "default_faction": "small_animal",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
@@ -2144,6 +2305,7 @@
     "vision_day": 1,
     "vision_night": 30,
     "harvest": "mammal_tiny",
+    "upgrades": { "half_life": 23, "into_group": "GROUP_RATKIN_EVOLVED" },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES" ]
@@ -2211,7 +2373,8 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_squirrel",
@@ -2315,7 +2478,7 @@
     "dodge": 4,
     "armor_bash": 1,
     "vision_night": 5,
-    "harvest": "mammal_fur",
+    "harvest": "mammal_fur_lupine",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
@@ -2326,7 +2489,7 @@
     "id": "mon_reindeer",
     "type": "MONSTER",
     "name": { "str": "Reindeer" },
-    "description": "Also known as the Caribou, this deer is native to North America and parts of Eurasia, although usually friendly, they can be aggressive during mating season as well as when hungry.",
+    "description": "Also known as the caribou, this deer is native to North America and parts of Eurasia.  Although usually friendly, they can be aggressive during the autumn and winter mating season as well as when hungry.",
     "default_faction": "herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
@@ -2335,6 +2498,7 @@
     "weight": "240 kg",
     "hp": 120,
     "speed": 325,
+    "attack_cost": 250,
     "material": [ "flesh" ],
     "symbol": "R",
     "color": "brown",
@@ -2345,6 +2509,7 @@
     "melee_dice_sides": 3,
     "melee_cut": 0,
     "dodge": 5,
+    "armor_elec": 1,
     "vision_night": 13,
     "harvest": "mammal_large_leather",
     "path_settings": { "max_dist": 14 },
@@ -2362,7 +2527,7 @@
     "type": "MONSTER",
     "copy-from": "mon_reindeer",
     "name": { "str": "Reindeer fawn" },
-    "description": "A juvenile Caribou, it seems to be smaller than its adult counterparts, as well as having shorter antlers.",
+    "description": "A juvenile caribou, it is smaller than its adult counterparts, as well as having shorter antlers.",
     "volume": "30000 ml",
     "weight": "120 g",
     "hp": 35,

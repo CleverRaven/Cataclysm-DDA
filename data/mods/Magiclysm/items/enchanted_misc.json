@@ -61,8 +61,7 @@
     "max_charges": 5,
     "charges_per_use": 1,
     "qualities": [ [ "LOCKPICK", 50 ] ],
-    "flags": [ "PERFECT_LOCKPICK" ],
-    "use_action": [ "PICK_LOCK" ]
+    "flags": [ "PERFECT_LOCKPICK" ]
   },
   {
     "id": "mtorch_everburning",
@@ -116,7 +115,7 @@
     "category": "clothing",
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "use_action": {
-      "target": "magic_whiskey",
+      "target": "whiskey",
       "msg": "You open the flask and discover it full of sweet, sweet, whiskey!",
       "container": "mflask_hip_whiskey",
       "target_charges": 7,
@@ -197,8 +196,6 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "thread" ],
-    "initial_charges": 500,
-    "max_charges": 1000,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 1000 } } ]
   },

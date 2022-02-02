@@ -1,0 +1,10 @@
+[
+  {
+    "id": "thirst_desc",
+    "type": "widget",
+    "label": "Thirst",
+    "style": "text",
+    "var": "thirst_text",
+    "//": "Uses display::thirst_text_color"
+  }
+]

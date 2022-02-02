@@ -11,7 +11,7 @@
 #include "npc.h"
 #include "npctrade.h"
 #include "output.h"
-#include "player.h"
+#include "skill.h"
 #include "talker.h"
 #include "talker_avatar.h"
 #include "translations.h"
@@ -19,18 +19,22 @@
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pet( "pet" );
 
+static const itype_id itype_foodperson_mask( "foodperson_mask" );
+static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 talker_avatar::talker_avatar( avatar *new_me )
 {
     me_chr = new_me;
+    me_chr_const = new_me;
 }
 
 std::vector<std::string> talker_avatar::get_topics( bool )
 {
     std::vector<std::string> add_topics;
-    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
-                                            is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_foodperson_mask ) ||
+                                            is_wearing( itype_foodperson_mask_on ) ) ) {
         add_topics.emplace_back( "TALK_NOFACE" );
     }
     return add_topics;
@@ -60,6 +64,22 @@ int talker_avatar::trial_chance_mod( const std::string &trial_type ) const
     return chance;
 }
 
+std::vector<skill_id> talker_avatar::skills_offered_to( const talker &student ) const
+{
+    if( !student.get_character() ) {
+        return {};
+    }
+    const Character &c = *student.get_character();
+    std::vector<skill_id> ret;
+    for( const auto &pair : *me_chr->_skills ) {
+        const skill_id &id = pair.first;
+        if( c.get_knowledge_level( id ) < pair.second.level() ) {
+            ret.push_back( id );
+        }
+    }
+    return ret;
+}
+
 void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost,
                                  int count, bool pacified, const translation &name )
 {
@@ -68,7 +88,7 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
         popup( _( "%s can't sell you any %s" ), seller.disp_name(), mtype.obj().nname( 2 ) );
         return;
     }
-    if( !npc_trading::pay_npc( *seller_guy, cost ) ) {
+    if( cost > 0 && !npc_trading::pay_npc( *seller_guy, cost ) ) {
         popup( _( "You can't afford it!" ) );
         return;
     }
@@ -95,9 +115,9 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
     }
 
     if( name.empty() ) {
-        popup( _( "%1$s gives you %2$d %3$s." ), seller_guy->name,
+        popup( _( "%1$s gives you %2$d %3$s." ), seller_guy->get_name(),
                count, mtype.obj().nname( count ) );
     } else {
-        popup( _( "%1$s gives you %2$s." ), seller_guy->name, name );
+        popup( _( "%1$s gives you %2$s." ), seller_guy->get_name(), name );
     }
 }

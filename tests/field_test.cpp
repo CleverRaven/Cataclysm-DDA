@@ -11,9 +11,15 @@
 #include "map_helpers.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "options_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
+#include "weather.h"
+
+static const field_type_str_id field_fd_acid( "fd_acid" );
+
+static const ter_str_id ter_t_tree_walnut( "t_tree_walnut" );
 
 static int count_fields( const field_type_str_id &field_type )
 {
@@ -35,20 +41,19 @@ TEST_CASE( "acid_field_expiry_on_map", "[field]" )
 {
     clear_map();
     map &m = get_map();
-    const field_type_str_id field_type( "fd_acid" );
     // place a smoke field
     for( const tripoint &cursor : m.points_on_zlevel() ) {
-        m.add_field( cursor, field_type, 1 );
+        m.add_field( cursor, field_fd_acid, 1 );
     }
-    REQUIRE( count_fields( field_type ) == 17424 );
+    REQUIRE( count_fields( field_fd_acid ) == 17424 );
     const time_point before_time = calendar::turn;
     // run time forward until it goes away
-    while( calendar::turn - before_time < field_type.obj().half_life ) {
+    while( calendar::turn - before_time < field_fd_acid.obj().half_life ) {
         m.process_fields();
         calendar::turn += 1_seconds;
     }
 
-    CHECK( count_fields( field_type ) == Approx( 8712 ).margin( 300 ) );
+    CHECK( count_fields( field_fd_acid ) == Approx( 8712 ).margin( 300 ) );
 }
 
 static void test_field_expiry( const std::string &field_type_str )
@@ -192,9 +197,11 @@ TEST_CASE( "fd_acid falls down", "[field]" )
     fields_test_cleanup();
 }
 
-TEST_CASE( "fire spreading", "[field]" )
+TEST_CASE( "fire spreading", "[field][!mayfail]" )
 {
     fields_test_setup();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+    weather_clear.with_windspeed( 0 );
 
     const tripoint p{ 33, 33, 0 };
     const tripoint far_p = p + tripoint_east * 3;
@@ -203,11 +210,13 @@ TEST_CASE( "fire spreading", "[field]" )
 
     m.add_field( p, fd_fire, 3 );
 
-    const auto check_spreading = [&]( const time_duration time_limit ) {
+    const auto check_spreading = [&m, &p, &far_p]( const time_duration time_limit ) {
         const int time_limit_turns = to_turns<int>( time_limit );
+        REQUIRE( fields_test_turns() == 0 );
         while( !m.get_field( far_p, fd_fire ) && fields_test_turns() < time_limit_turns ) {
             calendar::turn += 1_turns;
             m.process_fields();
+            REQUIRE( m.get_field( p, fd_fire ) );
         }
         {
             INFO( string_format( "Fire should've spread to the far point in under %d turns",
@@ -232,8 +241,8 @@ TEST_CASE( "fire spreading", "[field]" )
     }
     SECTION( "fire spreads on flammable terrain" ) {
         for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
-            REQUIRE( ter_str_id( "t_tree_walnut" )->has_flag( TFLAG_FLAMMABLE_ASH ) );
-            m.ter_set( p0, ter_str_id( "t_tree_walnut" ) );
+            REQUIRE( ter_t_tree_walnut->has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) );
+            m.ter_set( p0, ter_t_tree_walnut );
         }
         // note: time limit here was chosen arbitrarily. It could be too low or too high.
         check_spreading( 30_minutes );

@@ -32,57 +32,6 @@
     "effect_str": "STAMINA"
   },
   {
-    "id": "stamina_damage_mi-go_slaver_beam",
-    "type": "SPELL",
-    "name": { "str": "Tired" },
-    "description": "decreases stamina.  Designed for mi-go slaver beam",
-    "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT" ],
-    "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
-    "min_damage": -500,
-    "max_damage": -5500,
-    "damage_increment": -500.0,
-    "max_level": 10,
-    "shape": "blast",
-    "effect": "recover_energy",
-    "effect_str": "STAMINA"
-  },
-  {
-    "id": "pain_damage_mi-go_slaver_beam",
-    "type": "SPELL",
-    "name": { "str": "Pain" },
-    "description": "Increases pain.  Designed for mi-go slaver beam",
-    "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT" ],
-    "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
-    "min_damage": -8,
-    "max_damage": -148,
-    "damage_increment": -14.0,
-    "max_level": 10,
-    "shape": "blast",
-    "effect": "recover_energy",
-    "effect_str": "PAIN"
-  },
-  {
-    "id": "mi-go_slaver_beam",
-    "type": "SPELL",
-    "name": { "str": "mi-go slaver beam" },
-    "description": "Mi-go slaver beams cause pain, lower stamina, and give a short-lasting daze effect.  Starts very short range, increases rapidly with level.",
-    "valid_targets": [ "hostile" ],
-    "shape": "blast",
-    "effect": "attack",
-    "effect_str": "dazed",
-    "extra_effects": [ { "id": "pain_damage_mi-go_slaver_beam" }, { "id": "stamina_damage_mi-go_slaver_beam" } ],
-    "base_casting_time": 100,
-    "max_level": 5,
-    "min_range": 1,
-    "max_range": 25,
-    "range_increment": 5.0,
-    "min_duration": 100,
-    "max_duration": 1000,
-    "duration_increment": 200
-  },
-  {
     "type": "SPELL",
     "id": "mon_summon_zombie_gasbag_crawler",
     "name": { "str": "Summon Gangrenous Crawlers" },
@@ -240,7 +189,7 @@
     "id": "phase_skulker_teleport",
     "name": { "str": "Phase Skulker Teleport" },
     "description": "Teleports the monster.",
-    "effect": "teleport_random",
+    "effect": "short_range_teleport",
     "shape": "blast",
     "valid_targets": [ "none" ],
     "flags": [ "SOMATIC", "SILENT", "NO_LEGS" ],
@@ -293,6 +242,28 @@
   },
   {
     "type": "SPELL",
+    "id": "spur_shrill",
+    "name": { "str": "spur shrill" },
+    "description": "Heals nearby scrap swarms.",
+    "valid_targets": [ "hostile", "ground", "self", "ally" ],
+    "targeted_monster_ids": [ "mon_shrapnel_swarm" ],
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE" ],
+    "base_casting_time": 100,
+    "min_damage": -50,
+    "max_damage": -100,
+    "min_aoe": 12,
+    "max_aoe": 12,
+    "min_range": 2,
+    "max_range": 6,
+    "field_id": "fd_biolum",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 3
+  },
+  {
+    "type": "SPELL",
     "id": "dermatik_emergence",
     "name": { "str": "Dermatik Emergence" },
     "description": "The incubating dermatik larvae flee their host.",
@@ -310,5 +281,244 @@
     "effect": "summon",
     "effect_str": "mon_dermatik_larva",
     "extra_effects": [ { "id": "frog_mother_hurt_self", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "mutant_frenzy",
+    "name": { "str": "Mutant frenzy" },
+    "description": "Speeds up allied mutants in a radius.",
+    "valid_targets": [ "ally" ],
+    "targeted_monster_ids": [
+      "mon_mutant_antler",
+      "mon_mutant_arthropod",
+      "mon_mutant_camouflaged",
+      "mon_mutant_mollusk",
+      "mon_mutant_experimental",
+      "mon_mutant_evolved"
+    ],
+    "effect": "attack",
+    "shape": "blast",
+    "effect_str": "frenzy",
+    "max_level": 1,
+    "min_range": 10,
+    "max_range": 10,
+    "min_aoe": 8,
+    "max_aoe": 12,
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_duration": 9000,
+    "max_duration": 9000,
+    "base_casting_time": 200,
+    "flags": [ "RANDOM_AOE" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "spread_sludge",
+    "name": { "str": "Spread Sludge" },
+    "description": "Splatters sludge along the ground in a cone.",
+    "valid_targets": [ "hostile", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "min_aoe": 45,
+    "max_aoe": 45,
+    "base_casting_time": 75,
+    "min_range": 4,
+    "max_range": 4,
+    "effect": "attack",
+    "shape": "cone",
+    "field_id": "fd_sludge",
+    "field_chance": 2,
+    "min_field_intensity": 2,
+    "max_field_intensity": 2
+  },
+  {
+    "type": "SPELL",
+    "id": "shifting_mass",
+    "name": { "str": "Shifting Mass Attack" },
+    "description": "Drains some of your essence.",
+    "valid_targets": [ "hostile", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 1,
+    "max_range": 1,
+    "min_damage": -25,
+    "max_damage": -50,
+    "damage_increment": -10.0,
+    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_shifting_mass_attack"
+  },
+  {
+    "type": "SPELL",
+    "id": "portal_hurt_self",
+    "name": { "str": "Hurt Self" },
+    "description": "Touching/perceiving you is bad for the other side as well.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE" ],
+    "min_damage": 5,
+    "max_damage": 5,
+    "damage_type": "cut",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_shifting_mass_attack",
+    "effect": [
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" },
+          "=",
+          { "global_val": "var", "var_name": "ps_str" },
+          "+",
+          { "const": 20 }
+        ]
+      },
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "ps_shifting_mass_stamina" },
+          "=",
+          { "global_val": "var", "var_name": "ps_str" },
+          "+",
+          { "const": 50 }
+        ]
+      },
+      {
+        "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_fatigue" } ]
+      },
+      {
+        "arithmetic": [ { "u_val": "stamina" }, "+=", { "global_val": "var", "var_name": "ps_shifting_mass_stamina" } ]
+      },
+      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "impossible_shape_attack",
+    "name": { "str": "Impossible Shape Attack" },
+    "description": "Hurts you mentally.",
+    "valid_targets": [ "hostile", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 6,
+    "max_range": 6,
+    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_impossible_shape_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_impossible_shape_attack",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_add_effect": "nightmares", "duration": "18 hours" },
+      { "u_add_effect": "disrupted_sleep", "duration": "18 hours" },
+      {
+        "u_add_morale": "morale_impossible_shape",
+        "bonus": -20,
+        "max_bonus": -60,
+        "duration": "36 hours",
+        "decay_start": "24 hours"
+      },
+      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "absence_capture_attack",
+    "name": { "str": "Absence Capture Attack" },
+    "description": "Traps you with nothing.",
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 12,
+    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_absence_capture_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_absence_capture_attack",
+    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 3 } ] },
+    "effect": [
+      { "u_location_variable": { "global_val": "portal_cage" } },
+      {
+        "u_transform_radius": 2,
+        "ter_furn_transform": "portal_cage_transform",
+        "target_var": { "global_val": "portal_cage" }
+      },
+      {
+        "u_transform_radius": 2,
+        "ter_furn_transform": "portal_cage_revert_transform",
+        "target_var": { "global_val": "portal_cage" },
+        "time_in_future_min": "3 seconds",
+        "time_in_future_max": "5 seconds"
+      },
+      { "u_message": "All the empty space around you is suddenly even emptier than should be possible." }
+    ],
+    "false_effect": [
+      { "set_queue_effect_on_condition": [ "EOC_impossible_shape_attack", "EOC_shifting_mass_attack" ] },
+      { "u_message": "For an instant you feel the absence's hunger upon you." }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "portal_cage_transform",
+    "furniture": [ { "result": [ "f_absence" ], "valid_furniture": [ "f_null" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "portal_cage_revert_transform",
+    "furniture": [ { "result": [ "f_null" ], "valid_furniture": [ "f_absence" ] } ]
+  },
+  {
+    "id": "boomer_claymore_initial",
+    "type": "SPELL",
+    "//": "exist because zed try to use boomer_claymore on max range except trying to minimize the distance (ty venera for idea)",
+    "name": { "str": "Initial boomer claymore attack" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": 3,
+    "max_range": 3,
+    "extra_effects": [ { "id": "boomer_claymore" } ]
+  },
+  {
+    "id": "boomer_claymore",
+    "type": "SPELL",
+    "name": { "str": "Boomer claymore attack" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "effect": "attack",
+    "shape": "cone",
+    "min_damage": 30,
+    "max_damage": 30,
+    "damage_type": "cut",
+    "min_range": 6,
+    "max_range": 6,
+    "min_aoe": 120,
+    "max_aoe": 120,
+    "extra_effects": [ { "id": "boomer_claymore_suicide", "hit_self": true } ]
+  },
+  {
+    "id": "boomer_claymore_suicide",
+    "type": "SPELL",
+    "name": { "str": "Boomer suicide spell" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile", "ally", "self" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "biological",
+    "min_damage": 9999,
+    "max_damage": 9999
   }
 ]

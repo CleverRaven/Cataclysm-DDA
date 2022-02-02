@@ -12,11 +12,23 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "portalmancy_i",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "portalmancy",
+        "artifact": { "procgen_id": "portalmancy", "rules": { "power_level": 1000, "max_attributes": 1, "max_negative_power": -1000 } },
+        "prob": 100
+      }
+    ]
+  },
+  {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc  |   c|  |c  c|r    ",
         " cc  |   c|  |c  c|r  c ",
@@ -52,10 +64,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "     | cc |  | cc |     ",
         "     2    2  2    | c c ",
@@ -92,10 +104,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "     | cc 2  2 cc |     ",
         "     |    |^^|    |cccc ",
@@ -132,10 +144,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         " cc  |   c|  |c  c|r    ",
         " cc  |   c| u|c  c|r  c ",
@@ -175,10 +187,10 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "     | cc 2  2 cc |     ",
         "     |    |^^|    |cccc ",
@@ -231,10 +243,68 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "nested_mapgen_id": "microlab_generic_tile",
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "     | cc 2  2 cc |     ",
+        "     |    |^^|    |cccc ",
+        "  ||||||||||||||||||||c ",
+        "  |#---------------#|6  ",
+        "  |#-Y y -   5 y Y-#|r  ",
+        "|||#-  y -5-5-7y  -#|||2",
+        "  |#- my 9 p 9 y  -#|   ",
+        "  |#- Ay 9 Q 9syA -#|c  ",
+        "  |#-Y y 99999 y Y-#|c  ",
+        "  |#-- yü  As  y --#|   ",
+        "2||||Y yyyyyyy76 Y||||||",
+        "    |    y   yh % | %   ",
+        " %  | dDdy   y   M|     ",
+        "||  |  h y  %y   M|   ||",
+        " |  | %  y   y   M|   |c",
+        " |  | dDdy   y66 M|   | ",
+        " |  |Y h y   yh  Y|   | ",
+        "c|  |tttt|G55|tttt|   |c",
+        "||  ||((||   ||((||   ||",
+        "c|         YY    %    |F",
+        " |   %     YY         |F",
+        " ||||||||||  |||||||||||",
+        " cccc|c   |  |    |  cc ",
+        "    c|c   2  2    |     "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "G": "t_card_science", "9": "t_reinforced_glass_shutter" },
+      "furniture": { "t": "f_counter", "p": "f_counter", "M": "f_server", "A": "f_xedra_antenna", "D": "f_desk" },
+      "fields": { "Q": { "field": "fd_fatigue", "intensity": 3 } },
+      "item": {
+        "D": [ { "item": "artifact_scp_doc", "chance": 30 }, { "item": "monitoring_equipment_doc", "chance": 30 } ],
+        "m": { "item": "xedra_microphone", "chance": 90 },
+        "s": { "item": "xedra_seismograph", "chance": 90 },
+        "ü": { "item": "UPS_off", "chance": 80 },
+        "%": { "item": "slime_scrap", "chance": 80 }
+      },
+      "items": { "p": { "item": "portalmancy_i", "chance": 50 } },
+      "place_monsters": [ { "monster": "GROUP_NETHER", "chance": 50, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 4 ] } ],
+      "computers": {
+        "7": {
+          "name": "Portal Isolation Chamber",
+          "security": 0,
+          "options": [
+            { "name": "Toggle safety shutters", "action": "shutters", "security": 0 },
+            { "name": "Unlock isolation chamber", "action": "unlock", "security": 6 }
+          ],
+          "failures": [ { "action": "secubots" }, { "action": "manhacks" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "^|FFF|c  c|  |c  c|     ",
         " ||||||||||  |||||||||| ",

@@ -26,16 +26,19 @@
   {
     "type": "SPECIES",
     "id": "ORC",
+    "description": "a stocky, green-skinned humanoid",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
   },
   {
     "type": "SPECIES",
     "id": "GOLEM",
+    "description": "an automaton, animated by magical forces",
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ]
   },
   {
     "type": "SPECIES",
     "id": "OGRE",
+    "description": "a monstrous, powerful humanoid",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
   }
 ]

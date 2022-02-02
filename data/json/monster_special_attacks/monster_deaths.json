@@ -42,21 +42,36 @@
     "extra_effects": [ { "id": "necro_boomer_revive", "hit_self": true }, { "id": "necro_boomer_upgrade", "hit_self": true } ]
   },
   {
-    "id": "zombie_child_guilt",
+    "id": "death_guilt",
     "type": "SPELL",
-    "name": { "str": "Zombie Child Guilt" },
-    "description": "Causes guilt to the target as if the caster was killed by it.",
+    "name": { "str": "Death Guilt" },
+    "description": "Feeling guilty over killing a monster",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],
     "shape": "blast",
     "effect": "guilt",
-    "effect_str": "ZOMBIE",
+    "effect_str": "NULL",
     "min_damage": 100,
     "max_damage": 100,
     "min_duration": 180000,
     "max_duration": 180000,
     "min_range": 5,
     "max_range": 5
+  },
+  {
+    "id": "death_portal",
+    "type": "SPELL",
+    "name": { "str": "Death Portal" },
+    "description": "Spawns a tear in reality, field intensity depends on spell level",
+    "valid_targets": [ "ground" ],
+    "shape": "blast",
+    "effect": "attack",
+    "max_level": 2,
+    "field_id": "fd_fatigue",
+    "field_chance": 1,
+    "min_field_intensity": 1,
+    "field_intensity_increment": 1,
+    "max_field_intensity": 3
   },
   {
     "id": "death_acid",
@@ -80,12 +95,12 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 2,
     "max_damage": 2,
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_halfworm",
-    "min_aoe": 1,
-    "max_aoe": 1
+    "min_aoe": 2,
+    "max_aoe": 2
   },
   {
     "id": "death_blobsplit_large",
@@ -93,12 +108,9 @@
     "name": { "str": "Death Blobsplit Large" },
     "description": "A large blob splits in half",
     "valid_targets": [ "ground", "self" ],
-    "min_damage": 2,
-    "max_damage": 2,
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
     "shape": "blast",
-    "effect": "summon",
-    "effect_str": "mon_blob",
+    "effect": "slime_split",
     "min_aoe": 1,
     "max_aoe": 1
   },
@@ -108,12 +120,9 @@
     "name": { "str": "Death Blobsplit" },
     "description": "A blob splits in half",
     "valid_targets": [ "ground", "self" ],
-    "min_damage": 2,
-    "max_damage": 2,
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
     "shape": "blast",
-    "effect": "summon",
-    "effect_str": "mon_blob_small",
+    "effect": "slime_split",
     "min_aoe": 1,
     "max_aoe": 1
   },
@@ -123,12 +132,9 @@
     "name": { "str": "Death Blobsplit Brain" },
     "description": "A blob brain splits in half",
     "valid_targets": [ "ground", "self" ],
-    "min_damage": 3,
-    "max_damage": 3,
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
     "shape": "blast",
-    "effect": "summon",
-    "effect_str": "mon_blob_large",
+    "effect": "slime_split",
     "min_aoe": 1,
     "max_aoe": 1
   },
@@ -144,7 +150,7 @@
     "shape": "blast",
     "effect": "remove_effect",
     "effect_str": "controlled",
-    "targeted_monster_ids": [ "blob_small", "blob", "blob_large" ],
+    "targeted_monster_ids": [ "mon_blob_small", "mon_blob", "mon_blob_large" ],
     "extra_effects": [ { "id": "death_blobsplit_brain", "hit_self": true } ]
   },
   {
@@ -192,6 +198,17 @@
     "shape": "blast",
     "effect": "emit",
     "effect_str": "emit_tear_gas_blast",
+    "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
+  },
+  {
+    "id": "death_relax_gas",
+    "type": "SPELL",
+    "name": { "str": "Relaxation Gas Explosion" },
+    "description": "Causes a small explosion of relaxation gas.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "emit",
+    "effect_str": "emit_relax_gas_blast",
     "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
   },
   {
@@ -377,7 +394,7 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
     "max_damage": 1,
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_thing",
@@ -392,12 +409,12 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
     "max_damage": 3,
-    "flags": [ "RANDOM_DAMAGE" ],
+    "flags": [ "RANDOM_DAMAGE", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_giant_cockroach_nymph",
-    "min_aoe": 1,
-    "max_aoe": 1
+    "min_aoe": 2,
+    "max_aoe": 2
   },
   {
     "id": "death_boomer",
@@ -445,10 +462,11 @@
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_sewer_rat",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
     "min_damage": 7,
     "max_damage": 7,
-    "min_aoe": 1,
-    "max_aoe": 1
+    "min_aoe": 3,
+    "max_aoe": 3
   },
   {
     "id": "death_ratking",
@@ -563,5 +581,41 @@
     "min_range": 48,
     "max_range": 48,
     "shape": "blast"
+  },
+  {
+    "id": "death_slimespring",
+    "type": "SPELL",
+    "name": { "str": "Death Slimespring" },
+    "description": "Slimespring dies",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "shape": "blast",
+    "effect": "guilt",
+    "effect_str": "MUTANT",
+    "min_damage": 100,
+    "max_damage": 100,
+    "min_duration": 180000,
+    "max_duration": 180000,
+    "min_range": 5,
+    "max_range": 5,
+    "extra_effects": [ { "id": "death_acid", "hit_self": true } ]
+  },
+  {
+    "id": "death_zombie_kinderling",
+    "type": "SPELL",
+    "name": { "str": "Death Zombie Kinderling" },
+    "description": "Zombie kinderling dies",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "shape": "blast",
+    "effect": "guilt",
+    "effect_str": "ZOMBIE",
+    "min_damage": 100,
+    "max_damage": 100,
+    "min_duration": 180000,
+    "max_duration": 180000,
+    "min_range": 5,
+    "max_range": 5,
+    "extra_effects": [ { "id": "death_smokeburst", "hit_self": true } ]
   }
 ]

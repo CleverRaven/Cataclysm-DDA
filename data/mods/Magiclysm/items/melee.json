@@ -48,7 +48,7 @@
     "description": "Laevateinn, the staff of Loki.  Said to have been plucked from the gates of Hel by Loki.  Imbued with a mysterious magic, the magic of the trickster god himself.",
     "price": 160000,
     "material": [ "steel", "gold", "orichalcum_metal" ],
-    "flags": [ "MAGIC_FOCUS" ],
+    "extend": { "flags": [ "MAGIC_FOCUS" ] },
     "techniques": [ "WBLOCK_2", "SPIN", "RAPID", "SWEEP" ],
     "weight": "1860 g",
     "bashing": 20,
@@ -98,5 +98,15 @@
     "cutting": 35,
     "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "wolfsbane" } ] } ] },
     "price": 200000
+  },
+  {
+    "id": "longsword_mithril",
+    "copy-from": "longsword",
+    "type": "TOOL",
+    "name": { "str": "longsword" },
+    "description": "This is a classic medieval sword, the size being in-between the lighter arming sword and later two-handed swords.  Thanks to the mysterious silvery metal it was forged from, it is stronger than tempered steel while weighing substantially less.",
+    "material": [ "mithril_metal" ],
+    "weight": "939 g",
+    "proportional": { "cutting": 1.5, "bashing": 0.7 }
   }
 ]

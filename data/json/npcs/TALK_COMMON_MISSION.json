@@ -10,6 +10,7 @@
     "id": [
       "TALK_SHELTER",
       "TALK_EVAC_MERCHANT",
+      "TALK_FREE_MERCHANTS_MERCHANT",
       "TALK_ARSONIST",
       "TALK_OLD_GUARD_REP",
       "TALK_EVAC_GUARD2",
@@ -110,7 +111,7 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "I'm sorry…  I failed.",
+        "text": "I'm sorry… I failed.",
         "condition": "mission_failed",
         "topic": "TALK_MISSION_FAILURE",
         "opinion": { "trust": -1, "value": -1, "anger": 1 }

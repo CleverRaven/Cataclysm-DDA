@@ -185,7 +185,7 @@
     "vision_night": 3,
     "harvest": "mutant_human",
     "path_settings": { "max_dist": 4 },
-    "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.75, "no_infection_chance": 10 }, [ "GRAB", 6 ], [ "SHRIEK", 10 ] ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.75, "infection_chance": 90 }, [ "GRAB", 6 ], [ "SHRIEK", 10 ] ],
     "death_drops": "default_zombie_death_drops",
     "upgrades": { "half_life": 21, "into": "dks_mon_stray_eater" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "PUSH_MON", "STUMBLES", "WARM", "POISON", "FILTHY", "REVIVES" ]
@@ -219,7 +219,7 @@
     "vision_night": 3,
     "harvest": "mutant_human",
     "path_settings": { "max_dist": 4 },
-    "special_attacks": [ [ "BOOMER", 20 ], { "type": "bite", "cooldown": 5, "min_mul": 0.75, "no_infection_chance": 10 }, [ "SHRIEK", 10 ] ],
+    "special_attacks": [ [ "BOOMER", 20 ], { "type": "bite", "cooldown": 5, "min_mul": 0.75, "infection_chance": 90 }, [ "SHRIEK", 10 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explode!" },
     "upgrades": { "half_life": 21, "into": "dks_mon_stray_tender" },
@@ -726,6 +726,7 @@
     "harvest": "mutant_human",
     "path_settings": { "max_dist": 2 },
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 10 ] ],
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 4 } },
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "upgrades": { "half_life": 50, "into": "dks_mon_stray_wretch" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "STUMBLES", "WARM", "GUILT", "POISON", "FILTHY", "REVIVES" ]

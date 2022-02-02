@@ -234,7 +234,7 @@
         { "chance": 10, "item": "building_rubble", "x": 8, "y": 16 },
         { "chance": 10, "item": "building_rubble", "x": 9, "y": 4 }
       ],
-      "place_rubble": [ { "repeat": [ 2, 20 ], "x": [ 7, 5 ], "y": [ 18, 18 ] } ],
+      "place_rubble": [ { "repeat": [ 2, 20 ], "x": [ 5, 7 ], "y": [ 18, 18 ] } ],
       "place_nested": [
         { "chunks": [ [ "ruins_4x4_front", 60 ], [ "ruins_4x4_junk", 40 ] ], "x": 11, "y": 6 },
         { "chunks": [ [ "null", 80 ], [ "ruins_4x4_junk", 20 ] ], "x": 8, "y": 10 },

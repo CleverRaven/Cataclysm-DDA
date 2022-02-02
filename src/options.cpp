@@ -54,6 +54,19 @@
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
+// Map from old option name to pair of <new option name and map of old option value to new option value>
+// Options and values not listed here will not be changed.
+static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>>
+&get_migrated_options()
+{
+    static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>> opt
+    = {
+        {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } },
+        {"SKILL_RUST", { "SKILL_RUST", { {"int", "vanilla" }, {"intcap", "capped"} } } }
+    };
+    return opt;
+}
+
 options_manager &get_options()
 {
     static options_manager single_instance;
@@ -80,8 +93,6 @@ options_manager::options_manager() :
 #if defined(__ANDROID__)
     pages_.emplace_back( android_page_ );
 #endif
-
-    mMigrateOption = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
 
     enable_json( "DEFAULT_REGION" );
     // to allow class based init_data functions to add values to a 'string' type option, add:
@@ -469,7 +480,7 @@ bool options_manager::cOpt::checkPrerequisite() const
 bool options_manager::cOpt::is_hidden() const
 {
     switch( hide ) {
-        case COPT_NO_HIDE:
+        case COPT_NO_HIDE: // NOLINT(bugprone-branch-clone)
             return false;
 
         case COPT_SDL_HIDE:
@@ -479,8 +490,8 @@ bool options_manager::cOpt::is_hidden() const
             return false;
 #endif
 
-        case COPT_CURSES_HIDE:
-#if !defined(TILES) // If not defined.  it's curses interface.
+        case COPT_CURSES_HIDE: // NOLINT(bugprone-branch-clone)
+#if !defined(TILES) // If not defined, it's the curses interface.
             return true;
 #else
             return false;
@@ -924,10 +935,8 @@ static std::vector<options_manager::id_and_option> build_resource_list(
                 std::string sOption;
                 fin >> sOption;
 
-                if( sOption.empty() ) {
-                    getline( fin, sOption );    // Empty line, chomp it
-                } else if( sOption[0] == '#' ) { // # indicates a comment
-                    getline( fin, sOption );
+                if( sOption.empty() || sOption[0] == '#' ) {
+                    getline( fin, sOption );    // Empty line or comment, chomp it
                 } else {
                     if( sOption.find( "NAME" ) != std::string::npos ) {
                         resource_name.clear();
@@ -1019,12 +1028,10 @@ std::unordered_set<std::string> options_manager::get_langs_with_translation_file
     const std::string start_str = locale_dir();
     std::vector<std::string> lang_dirs =
         get_directories_with( PATH_INFO::lang_file(), start_str, true );
-    const std::size_t start_len = start_str.length();
-    const std::string end_str = "/LC_MESSAGES";
     std::for_each( lang_dirs.begin(), lang_dirs.end(), [&]( std::string & dir ) {
-        const std::size_t start = dir.find( start_str ) + start_len + 1;
-        const std::size_t len = dir.rfind( end_str ) - start;
-        dir = dir.substr( start, len );
+        const std::size_t end = dir.rfind( "/LC_MESSAGES" );
+        const std::size_t begin = dir.rfind( '/', end - 1 ) + 1;
+        dir = dir.substr( begin, end - begin );
     } );
     return std::unordered_set<std::string>( lang_dirs.begin(), lang_dirs.end() );
 #else // !LOCALIZE
@@ -1211,9 +1218,16 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
+    add( "AUTO_MOPPING", "general", to_translation( "Auto mopping" ),
+         to_translation( "If true, enables automatic use of wielded mops to clean surrounding terrain." ),
+         false
+       );
+
+    get_option( "AUTO_MOPPING" ).setPrerequisite( "AUTO_FEATURES" );
+
     add( "AUTO_FORAGING", "general", to_translation( "Auto foraging" ),
-         to_translation( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Everything: Forage bushes, trees, and everything else including flowers, cattails etc." ),
-    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", to_translation( "Bushes" ) }, { "trees", to_translation( "Trees" ) }, { "both", to_translation( "Everything" ) } },
+         to_translation( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Crops: Only forage crops.  - Everything: Forage bushes, trees, crops, and everything else including flowers, cattails etc." ),
+    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", to_translation( "Bushes" ) }, { "trees", to_translation( "Trees" ) }, { "crops", to_translation( "Crops" ) }, { "all", to_translation( "Everything" ) } },
     "off"
        );
 
@@ -1333,6 +1347,11 @@ void options_manager::add_options_general()
     "ask"
        );
 
+    add( "EVENT_SPAWNS", "general", to_translation( "Special event spawns" ),
+         to_translation( "If enabled, unique items and/or monsters can spawn during special events (Christmas, Halloween, etc.)" ),
+    { { "off", to_translation( "Disabled" ) }, { "items", to_translation( "Items" ) }, { "monsters", to_translation( "Monsters" ) }, { "both", to_translation( "Both" ) } },
+    "off" );
+
     add_empty_line();
 
     add( "SOUND_ENABLED", "general", to_translation( "Sound Enabled" ),
@@ -1421,12 +1440,20 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "SHOW_GUN_VARIANTS", "interface", to_translation( "Show gun brand names" ),
-         to_translation( "Show brand names for guns, intead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+         to_translation( "Show brand names for guns, instead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
          false );
     add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
          to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
          true
        );
+    add( "DETAILED_CONTAINERS", "interface", to_translation( "Detailed Containers" ),
+         to_translation( "All: every container has detailed remaining volume info - Worn: only worn containers have detailed remaining volume info - None: no additional info is provided" ),
+    {
+        { "ALL", to_translation( "All" ) },
+        { "WORN", to_translation( "Worn" ) },
+        { "NONE", to_translation( "None" ) }
+    },
+    "WORN" );
 
     add_empty_line();
 
@@ -1495,6 +1522,12 @@ void options_manager::add_options_interface()
     "symbol"
        );
 
+    add( "HIGHLIGHT_UNREAD_RECIPES", "interface",
+         to_translation( "Highlight unread recipes" ),
+         to_translation( "Highlight unread recipes to allow tracking of newly learned recipes." ),
+         true
+       );
+
     add_empty_line();
 
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
@@ -1533,8 +1566,17 @@ void options_manager::add_options_interface()
          * `Shift` + `Cursor Right` -> `9` = `Move Northeast`;
          * `Ctrl` + `Cursor Right` -> `1` = `Move Southwest`.
 
+         # Mode 4: Diagonal Lock
+
+         * Holding Ctrl or Shift locks movement to diagonal only
+         * This ensures that pressing ↑ + → will results in ↗ and not ↑ or →
+         * Reject input if it doesn't make sense
+         * Example 1: Press → while holding Shift and ↑ results in ↗
+         * Example 2: Press → while holding Shift, ↑ and ← results in input rejection
+         * Example 3: Press → while holding Shift and ← results in input rejection
+
          */
-    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) } },
+    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) }, { "mode4", to_translation( "Mode 4: Diagonal Lock" ) } },
     "none", COPT_CURSES_HIDE );
 
     add_empty_line();
@@ -1615,12 +1657,6 @@ void options_manager::add_options_interface()
          to_translation( "Switch between look around panel being left or right." ),
     { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) } },
     "right"
-       );
-
-    add( "PICKUP_POSITION", "interface", to_translation( "Pickup position" ),
-         to_translation( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
-    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) }, { "overlapping", to_translation( "Overlapping" ) } },
-    "left"
        );
 
     add( "ACCURACY_DISPLAY", "interface", to_translation( "Aim window display style" ),
@@ -1872,7 +1908,19 @@ void options_manager::add_options_graphics()
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
+    add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
+         to_translation( "Choose the overmap tileset you want to use." ),
+         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
+    get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
+
     add_empty_line();
+
+    add( "NV_GREEN_TOGGLE", "graphics", to_translation( "Night Vision color overlay" ),
+         to_translation( "Toggle the color overlay from night vision goggles and other similar tools." ),
+         true, COPT_CURSES_HIDE
+       );
 
     add( "MEMORY_MAP_MODE", "graphics", to_translation( "Memory map overlay preset" ),
     to_translation( "Specified the overlay in which the memory map is drawn.  Requires restart.  For custom overlay define gamma and RGB values for dark and light colors." ), {
@@ -2162,12 +2210,12 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_DAY", "world_default", to_translation( "Initial day" ),
-         to_translation( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+         to_translation( "How many days into the year the Cataclysm ended.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
          -1, 999, 60
        );
 
     add( "SPAWN_DELAY", "world_default", to_translation( "Spawn delay" ),
-         to_translation( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
+         to_translation( "How many days after the end of the Cataclysm the player spawns.  Day 0 is immediately after the end of the Cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
          0, 9999, 0
        );
 
@@ -2184,6 +2232,14 @@ void options_manager::add_options_world_default()
     add( "ETERNAL_SEASON", "world_default", to_translation( "Eternal season" ),
          to_translation( "Keep the initial season for ever." ),
          false
+       );
+
+    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day / night cycle" ),
+    to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
+        { "normal", to_translation( "Normal" ) },
+        { "day", to_translation( "Eternal Day" ) },
+        { "night", to_translation( "Eternal Night" ) },
+    }, "normal"
        );
 
     add_empty_line();
@@ -2257,18 +2313,14 @@ void options_manager::add_options_debug()
     add_empty_line();
 
     add( "SKILL_RUST", "debug", to_translation( "Skill rust" ),
-         to_translation( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
+         to_translation( "Set the type of skill rust.  Vanilla: Skill rust can decrease levels - Capped: Skill rust cannot decrease levels - Off: None at all." ),
          //~ plain, default, normal
     {   { "vanilla", to_translation( "Vanilla" ) },
         //~ capped at a value
         { "capped", to_translation( "Capped" ) },
-        //~ based on intelligence
-        { "int", to_translation( "Int" ) },
-        //~ based on intelligence and capped
-        { "intcap", to_translation( "IntCap" ) },
         { "off", to_translation( "Off" ) }
     },
-    "off" );
+    "vanilla" );
 
     add_empty_line();
 
@@ -2283,11 +2335,6 @@ void options_manager::add_options_debug()
        );
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
-
-    add( "ENCODING_CONV", "debug", to_translation( "Experimental path name encoding conversion" ),
-         to_translation( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
-         true
-       );
 }
 
 void options_manager::add_options_android()
@@ -2308,6 +2355,13 @@ void options_manager::add_options_android()
          to_translation( "If true, the back button will NOT back out of the app and will be passed to the application as SDL_SCANCODE_AC_BACK.  Requires restart." ),
          // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
          android_get_default_setting( "Trap Back button", true )
+       );
+
+
+    add( "ANDROID_NATIVE_UI", "android", to_translation( "Use native Android UI menus" ),
+         to_translation( "If true, native Android dialogs are used for some in-game menus, "
+                         "such as popup messages and yes/no dialogs." ),
+         android_get_default_setting( "Native Android UI", true )
        );
 
     add( "ANDROID_AUTO_KEYBOARD", "android", to_translation( "Auto-manage virtual keyboard" ),
@@ -2550,15 +2604,34 @@ void options_manager::add_options_android()
 static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame )
 {
     if( used_tiles_changed ) {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
-            tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+            tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                       /*precheck=*/false, /*force=*/false,
+                                       /*pump_events=*/true );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
+            use_tiles = false;
+            use_tiles_overmap = false;
+        }
+        try {
+            overmap_tilecontext->reinit();
+            overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
+                                               /*precheck=*/false, /*force=*/false,
+                                               /*pump_events=*/true );
+            //game_ui::init_ui is called when zoom is changed
+            g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
+            overmap_tilecontext->do_tile_loading_report();
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
             use_tiles = false;
             use_tiles_overmap = false;
         }
@@ -2771,8 +2844,14 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                        value );
         }
 
-        draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
-                        page_items.size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( iTooltipHeight + 2 + iWorldOffset )
+        .content_size( page_items.size() )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w_options_border );
+
         wnoutrefresh( w_options_border );
 
         //Draw Tabs
@@ -2807,9 +2886,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             new_window_width = projected_window_width();
 
             fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            ngettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
-                                      "%s #%s -- The window will be %d pixels wide with the selected value.",
-                                      new_window_width ),
+                            n_gettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
+                                       "%s #%s -- The window will be %d pixels wide with the selected value.",
+                                       new_window_width ),
                             current_opt.getTooltip(),
                             current_opt.getDefaultText(),
                             new_window_width );
@@ -2822,9 +2901,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             new_window_height = projected_window_height();
 
             fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            ngettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
-                                      "%s #%s -- The window will be %d pixels tall with the selected value.",
-                                      new_window_height ),
+                            n_gettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
+                                       "%s #%s -- The window will be %d pixels tall with the selected value.",
+                                       new_window_height ),
                             current_opt.getTooltip(),
                             current_opt.getDefaultText(),
                             new_window_height );
@@ -2995,7 +3074,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 || iter.first == "PIXEL_MINIMAP_SCALE_TO_FIT" ) {
                 pixel_minimap_changed = true;
 
-            } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {
+            } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "OVERMAP_TILES" ) {
                 used_tiles_changed = true;
 
             } else if( iter.first == "USE_LANG" ) {
@@ -3044,6 +3123,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     }
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
 #if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {
@@ -3112,15 +3194,15 @@ void options_manager::deserialize( JsonIn &jsin )
 
 std::string options_manager::migrateOptionName( const std::string &name ) const
 {
-    const auto iter = mMigrateOption.find( name );
-    return iter != mMigrateOption.end() ? iter->second.first : name;
+    const auto iter = get_migrated_options().find( name );
+    return iter != get_migrated_options().end() ? iter->second.first : name;
 }
 
 std::string options_manager::migrateOptionValue( const std::string &name,
         const std::string &val ) const
 {
-    const auto iter = mMigrateOption.find( name );
-    if( iter == mMigrateOption.end() ) {
+    const auto iter = get_migrated_options().find( name );
+    if( iter == get_migrated_options().end() ) {
         return val;
     }
 

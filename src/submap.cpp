@@ -13,6 +13,8 @@
 #include "units.h"
 #include "vehicle.h"
 
+static const furn_str_id furn_f_console( "f_console" );
+
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
 {
@@ -40,6 +42,13 @@ submap::submap( submap && ) noexcept( map_is_noexcept ) = default;
 submap::~submap() = default;
 
 submap &submap::operator=( submap && ) noexcept = default;
+
+void submap::clear_fields( const point &p )
+{
+    field &f = get_field( p );
+    field_count -= f.field_count();
+    f.clear();
+}
 
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
@@ -105,7 +114,7 @@ void submap::delete_graffiti( const point &p )
 }
 bool submap::has_signage( const point &p ) const
 {
-    if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
+    if( frn[p.x][p.y].obj().has_flag( ter_furn_flag::TFLAG_SIGN ) ) {
         return find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE ).result;
     }
 
@@ -113,7 +122,7 @@ bool submap::has_signage( const point &p ) const
 }
 std::string submap::get_signage( const point &p ) const
 {
-    if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
+    if( frn[p.x][p.y].obj().has_flag( ter_furn_flag::TFLAG_SIGN ) ) {
         const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
         if( fresult.result ) {
             return cosmetics[ fresult.ndx ].str;
@@ -148,7 +157,7 @@ void submap::update_legacy_computer()
     if( legacy_computer ) {
         for( int x = 0; x < SEEX; ++x ) {
             for( int y = 0; y < SEEY; ++y ) {
-                if( frn[x][y] == furn_str_id( "f_console" ) ) {
+                if( frn[x][y] == furn_f_console ) {
                     computers.emplace( point( x, y ), *legacy_computer );
                 }
             }
@@ -160,7 +169,7 @@ void submap::update_legacy_computer()
 bool submap::has_computer( const point &p ) const
 {
     return computers.find( p ) != computers.end() || ( legacy_computer && frn[p.x][p.y]
-            == furn_str_id( "f_console" ) );
+            == furn_f_console );
 }
 
 const computer *submap::get_computer( const point &p ) const
@@ -171,7 +180,7 @@ const computer *submap::get_computer( const point &p ) const
     if( it != computers.end() ) {
         return &it->second;
     }
-    if( legacy_computer && frn[p.x][p.y] == furn_str_id( "f_console" ) ) {
+    if( legacy_computer && frn[p.x][p.y] == furn_f_console ) {
         return legacy_computer.get();
     }
     return nullptr;
@@ -214,6 +223,12 @@ bool submap::contains_vehicle( vehicle *veh )
         return v.get() == veh;
     } );
     return match != vehicles.end();
+}
+
+bool submap::is_open_air( const point &p ) const
+{
+    ter_id t = get_ter( p );
+    return t->trap == tr_ledge;
 }
 
 void submap::rotate( int turns )
@@ -288,4 +303,71 @@ void submap::rotate( int turns )
         rot_comp.emplace( rotate_point( elem.first ), elem.second );
     }
     computers = rot_comp;
+}
+
+void submap::mirror( bool horizontally )
+{
+    std::map<point, computer> mirror_comp;
+
+    if( horizontally ) {
+        for( int i = 0, ie = SEEX / 2; i < ie; i++ ) {
+            for( int k = 0; k < SEEY; k++ ) {
+                swap_soa_tile( { i, k }, { SEEX - 1 - i, k } );
+            }
+        }
+
+        for( auto &elem : cosmetics ) {
+            elem.pos = point( -elem.pos.x, elem.pos.y ) + point( SEEX - 1, 0 );
+        }
+
+        active_items.mirror( { SEEX, SEEY }, true );
+
+        for( auto &elem : computers ) {
+            mirror_comp.emplace( point( -elem.first.x, elem.first.y ) + point( SEEX - 1, 0 ), elem.second );
+        }
+        computers = mirror_comp;
+    } else {
+        for( int k = 0, ke = SEEY / 2; k < ke; k++ ) {
+            for( int i = 0; i < SEEX; i++ ) {
+                swap_soa_tile( { i, k }, { i, SEEY - 1 - k } );
+            }
+        }
+
+        for( auto &elem : cosmetics ) {
+            elem.pos = point( elem.pos.x, -elem.pos.y ) + point( 0, SEEY - 1 );
+        }
+
+        active_items.mirror( { SEEX, SEEY }, false );
+
+        for( auto &elem : computers ) {
+            mirror_comp.emplace( point( elem.first.x, -elem.first.y ) + point( 0, SEEY - 1 ), elem.second );
+        }
+        computers = mirror_comp;
+    }
+}
+
+void submap::revert_submap( submap_revert &sr )
+{
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            point pt( x, y );
+            frn[x][y] = sr.get_furn( pt );
+            ter[x][y] = sr.get_ter( pt );
+            trp[x][y] = sr.get_trap( pt );
+        }
+    }
+}
+
+submap_revert submap::get_revert_submap() const
+{
+    submap_revert ret;
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            point pt( x, y );
+            ret.set_furn( pt, frn[x][y] );
+            ret.set_ter( pt, ter[x][y] );
+            ret.set_trap( pt, trp[x][y] );
+        }
+    }
+    return ret;
 }

@@ -30,9 +30,8 @@ class too_old_memorial_file_error : std::runtime_error
         using runtime_error::runtime_error;
 };
 
-past_game_info::past_game_info( JsonIn &jsin )
+past_game_info::past_game_info( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     int version;
     jo.read( "memorial_version", version );
     if( version == 0 ) {
@@ -116,7 +115,7 @@ void past_games_info::ensure_loaded()
         std::istringstream iss( read_entire_file( filename ) );
         try {
             JsonIn jsin( iss );
-            info_.emplace_back( jsin );
+            info_.emplace_back( jsin.get_object() );
         } catch( const JsonError &err ) {
             debugmsg( "Error reading memorial file %s: %s", filename, err.what() );
         } catch( const too_old_memorial_file_error & ) {
@@ -142,6 +141,7 @@ void past_games_info::ensure_loaded()
             achievement_id ach = ach_it->second.get<achievement_id>();
             completed_achievements_[ach].games_completed.push_back( &game );
         }
+        inp_mngr.pump_events();
     }
 }
 

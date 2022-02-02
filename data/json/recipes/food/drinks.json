@@ -1,0 +1,24 @@
+[
+  {
+    "type": "recipe",
+    "result": "tea_willowbark",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 5 ],
+    "difficulty": 4,
+    "time": "12 m",
+    "batch_time_factors": [ 80, 4 ],
+    "book_learn": [
+      [ "textbook_survival", 4 ],
+      [ "atomic_survival", 4 ],
+      [ "survival_book", 3 ],
+      [ "textbook_botany", 4 ],
+      [ "textbook_chemistry", 4 ]
+    ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "willowbark", 1 ] ] ]
+  }
+]

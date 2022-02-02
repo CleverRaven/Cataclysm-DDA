@@ -109,6 +109,7 @@
       "parameters": {
         "roof_type": {
           "type": "ter_str_id",
+          "scope": "omt",
           "default": { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
         }
       },

@@ -221,7 +221,7 @@
     "count": 50,
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_spawn_item": "FMCNote", "count": 25 },
         { "u_add_var": "FMBroker_Mission1", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },

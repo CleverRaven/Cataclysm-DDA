@@ -4,10 +4,12 @@
 #include <cstdlib>
 #include <sstream>
 
+#include "computer.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "json.h"
 #include "output.h"
+#include "talker_furniture.h"
 #include "translations.h"
 
 template <typename E> struct enum_traits;
@@ -32,9 +34,8 @@ void computer_option::serialize( JsonOut &jout ) const
     jout.end_object();
 }
 
-void computer_option::deserialize( JsonIn &jin )
+void computer_option::deserialize( const JsonObject &jo )
 {
-    const JsonObject jo = jin.get_object();
     name = jo.get_string( "name" );
     action = jo.get_enum_value<computer_action>( "action" );
     security = jo.get_int( "security" );
@@ -53,17 +54,17 @@ void computer_failure::serialize( JsonOut &jout ) const
     jout.end_object();
 }
 
-void computer_failure::deserialize( JsonIn &jin )
+void computer_failure::deserialize( const JsonObject &jo )
 {
-    const JsonObject jo = jin.get_object();
     type = jo.get_enum_value<computer_failure_type>( "action" );
 }
 
-computer::computer( const std::string &new_name, int new_security )
+computer::computer( const std::string &new_name, int new_security, tripoint new_loc )
     : name( new_name ), mission_id( -1 ), security( new_security ), alerts( 0 ),
       next_attempt( calendar::before_time_starts ),
       access_denied( _( "ERROR!  Access denied!" ) )
 {
+    loc = new_loc;
 }
 
 void computer::set_security( int Security )
@@ -74,6 +75,16 @@ void computer::set_security( int Security )
 void computer::add_option( const computer_option &opt )
 {
     options.emplace_back( opt );
+}
+
+void computer::add_eoc( const effect_on_condition_id &eoc )
+{
+    eocs.emplace_back( eoc );
+}
+
+void computer::add_chat_topic( const std::string &topic )
+{
+    chat_topics.emplace_back( topic );
 }
 
 void computer::add_option( const std::string &opt_name, computer_action action,
@@ -100,6 +111,23 @@ void computer::set_access_denied_msg( const std::string &new_msg )
 void computer::set_mission( const int id )
 {
     mission_id = id;
+}
+
+// Methods for setting/getting misc key/value pairs.
+void computer::set_value( const std::string &key, const std::string &value )
+{
+    values[ key ] = value;
+}
+
+void computer::remove_value( const std::string &key )
+{
+    values.erase( key );
+}
+
+std::string computer::get_value( const std::string &key ) const
+{
+    auto it = values.find( key );
+    return ( it == values.end() ) ? "" : it->second;
 }
 
 static computer_action computer_action_from_legacy_enum( int val );
@@ -168,15 +196,19 @@ void computer::serialize( JsonOut &jout ) const
     jout.member( "options", options );
     jout.member( "failures", failures );
     jout.member( "access_denied", access_denied );
+    jout.member( "eocs", eocs );
+    jout.member( "chat_topics", chat_topics );
+    jout.member( "values", values );
+    jout.member( "loc", loc );
     jout.end_object();
 }
 
-void computer::deserialize( JsonIn &jin )
+void computer::deserialize( const JsonValue &jv )
 {
-    if( jin.test_string() ) {
-        load_legacy_data( jin.get_string() );
+    if( jv.test_string() ) {
+        load_legacy_data( jv.get_string() );
     } else {
-        const JsonObject jo = jin.get_object();
+        const JsonObject jo = jv.get_object();
         jo.read( "name", name );
         jo.read( "mission", mission_id );
         jo.read( "security", security );
@@ -185,6 +217,10 @@ void computer::deserialize( JsonIn &jin )
         jo.read( "options", options );
         jo.read( "failures", failures );
         jo.read( "access_denied", access_denied );
+        jo.read( "eocs", eocs );
+        jo.read( "chat_topics", chat_topics );
+        jo.read( "values", values );
+        jo.read( "loc", loc );
     }
 }
 
@@ -203,7 +239,7 @@ static computer_action computer_action_from_legacy_enum( const int val )
     switch( val ) {
         // Used to migrate old saves. Do not change the numbers!
         // *INDENT-OFF*
-        default: return COMPACT_NULL;
+        default:
         case 0: return COMPACT_NULL;
         case 1: return COMPACT_OPEN;
         case 2: return COMPACT_LOCK;
@@ -263,7 +299,7 @@ static computer_failure_type computer_failure_type_from_legacy_enum( const int v
     switch( val ) {
         // Used to migrate old saves. Do not change the numbers!
         // *INDENT-OFF*
-        default: return COMPFAIL_NULL;
+        default:
         case 0: return COMPFAIL_NULL;
         case 1: return COMPFAIL_SHUTDOWN;
         case 2: return COMPFAIL_ALARM;
@@ -309,7 +345,10 @@ std::string enum_to_string<computer_action>( const computer_action act )
         case COMPACT_MAP_SUBWAY: return "map_subway";
         case COMPACT_MAPS: return "maps";
         case COMPACT_MISS_DISARM: return "miss_disarm";
+        case COMPACT_MISS_LAUNCH: return "miss_launch";
         case COMPACT_OPEN: return "open";
+        case COMPACT_OPEN_GATE: return "open_gate";
+        case COMPACT_CLOSE_GATE: return "close_gate";
         case COMPACT_OPEN_DISARM: return "open_disarm";
         case COMPACT_PORTAL: return "portal";
         case COMPACT_RADIO_ARCHIVE: return "radio_archive";
@@ -339,8 +378,7 @@ std::string enum_to_string<computer_action>( const computer_action act )
         case NUM_COMPUTER_ACTIONS:
             break;
     }
-    debugmsg( "Invalid computer_action" );
-    abort();
+    cata_fatal( "Invalid computer_action" );
 }
 
 template<>
@@ -363,8 +401,7 @@ std::string enum_to_string<computer_failure_type>( const computer_failure_type f
         case NUM_COMPUTER_FAILURES:
             break;
     }
-    debugmsg( "Invalid computer_failure_type" );
-    abort();
+    cata_fatal( "Invalid computer_failure_type" );
 }
 } // namespace io
 
@@ -391,4 +428,13 @@ computer_failure computer_failure::from_json( const JsonObject &jo )
 {
     const computer_failure_type type = jo.get_enum_value<computer_failure_type>( "action" );
     return computer_failure( type );
+}
+
+std::unique_ptr<talker> get_talker_for( computer &me )
+{
+    return std::make_unique<talker_furniture>( &me );
+}
+std::unique_ptr<talker> get_talker_for( computer *me )
+{
+    return std::make_unique<talker_furniture>( me );
 }

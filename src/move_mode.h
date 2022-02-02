@@ -23,6 +23,7 @@ enum class steed_type : int {
 };
 
 enum class move_mode_type : int {
+    PRONE,
     CROUCHING,
     WALKING,
     RUNNING
@@ -69,7 +70,10 @@ class move_mode
 
         move_mode() = default;
 
+        // name: walk, run, crouch, prone
         std::string name() const;
+        // type name: walking, running, crouching, prone
+        std::string type_name() const;
         std::string change_message( bool success, steed_type steed ) const;
 
         move_mode_id cycle() const;

@@ -1,0 +1,182 @@
+[
+  {
+    "id": "hitpoint_graph",
+    "type": "widget",
+    "style": "graph",
+    "width": 5,
+    "symbols": ".\\|",
+    "fill": "bucket",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "hitpoint_num",
+    "type": "widget",
+    "style": "number",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "hp_head_graph",
+    "type": "widget",
+    "label": "HEAD",
+    "var": "bp_hp",
+    "bodypart": "head",
+    "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "hp_torso_graph",
+    "type": "widget",
+    "label": "TORSO",
+    "var": "bp_hp",
+    "bodypart": "torso",
+    "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "hp_left_arm_graph",
+    "type": "widget",
+    "label": "L ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_l",
+    "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "hp_right_arm_graph",
+    "type": "widget",
+    "label": "R ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_r",
+    "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "hp_left_leg_graph",
+    "type": "widget",
+    "label": "L LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_l",
+    "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "hp_right_leg_graph",
+    "type": "widget",
+    "label": "R LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_r",
+    "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "hp_head_num",
+    "type": "widget",
+    "label": "HEAD",
+    "var": "bp_hp",
+    "bodypart": "head",
+    "copy-from": "hitpoint_num"
+  },
+  {
+    "id": "hp_torso_num",
+    "type": "widget",
+    "label": "TORSO",
+    "var": "bp_hp",
+    "bodypart": "torso",
+    "copy-from": "hitpoint_num"
+  },
+  {
+    "id": "hp_left_arm_num",
+    "type": "widget",
+    "label": "L ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_l",
+    "copy-from": "hitpoint_num"
+  },
+  {
+    "id": "hp_right_arm_num",
+    "type": "widget",
+    "label": "R ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_r",
+    "copy-from": "hitpoint_num"
+  },
+  {
+    "id": "hp_left_leg_num",
+    "type": "widget",
+    "label": "L LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_l",
+    "copy-from": "hitpoint_num"
+  },
+  {
+    "id": "hp_right_leg_num",
+    "type": "widget",
+    "label": "R LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_r",
+    "copy-from": "hitpoint_num"
+  },
+  {
+    "id": "hitpoint_graphs_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "HP Top",
+    "arrange": "columns",
+    "widgets": [ "hp_left_arm_graph", "hp_head_graph", "hp_right_arm_graph" ]
+  },
+  {
+    "id": "hitpoint_graphs_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "HP Bottom",
+    "arrange": "columns",
+    "widgets": [ "hp_left_leg_graph", "hp_torso_graph", "hp_right_leg_graph" ]
+  },
+  {
+    "id": "hitpoints_head_torso_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "hp_head_graph", "hp_torso_graph" ]
+  },
+  {
+    "id": "hitpoints_arms_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "hp_left_arm_graph", "hp_right_arm_graph" ]
+  },
+  {
+    "id": "hitpoints_legs_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "hp_left_leg_graph", "hp_right_leg_graph" ]
+  },
+  {
+    "id": "hitpoint_nums_top_layout",
+    "type": "widget",
+    "label": "HP Nums Top",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "hp_left_arm_num", "hp_head_num", "hp_right_arm_num" ]
+  },
+  {
+    "id": "hitpoint_nums_bottom_layout",
+    "type": "widget",
+    "label": "HP Nums Bottom",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "hp_left_leg_num", "hp_torso_num", "hp_right_leg_num" ]
+  },
+  {
+    "id": "hitpoints_all_nums_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "HP Numbers",
+    "arrange": "rows",
+    "widgets": [ "hitpoint_nums_top_layout", "hitpoint_nums_bottom_layout" ]
+  },
+  {
+    "id": "hitpoints_all_narrow_graphs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Hit Points",
+    "arrange": "rows",
+    "widgets": [ "hitpoints_head_torso_layout", "hitpoints_arms_layout", "hitpoints_legs_layout" ]
+  }
+]

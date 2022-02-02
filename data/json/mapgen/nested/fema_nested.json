@@ -492,6 +492,7 @@
         ],
         "C": { "item": "dissection", "chance": 90, "repeat": [ 0, 3 ] }
       },
+      "place_loot": [ { "item": "id_science_visitor_1", "x": 8, "y": [ 8, 15 ], "chance": 100 } ],
       "monsters": { ",": { "monster": "GROUP_LAB_FEMA", "chance": 1, "density": 0.001 } }
     }
   }

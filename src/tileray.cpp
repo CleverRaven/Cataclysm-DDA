@@ -197,7 +197,7 @@ void tileray::advance( int num )
         return;
     }
     int anum = std::abs( num );
-    steps = anum;
+    steps += anum;
     const bool vertical = mostly_vertical();
     if( abs_d.x && abs_d.y ) {
         for( int i = 0; i < anum; i++ ) {
@@ -233,10 +233,7 @@ void tileray::advance( int num )
     }
 }
 
-bool tileray::end()
+int tileray::get_steps() const
 {
-    if( infinite ) {
-        return true;
-    }
-    return mostly_vertical() ? steps >= abs_d.y - 1 : steps >= abs_d.x - 1;
+    return steps;
 }

@@ -21,32 +21,37 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bodypart.h"
-#include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "contents_change_handler.h"
 #include "craft_command.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "field_type.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "gates.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
+#include "harvest.h"
 #include "iexamine.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "memory_fast.h"
+#include "martialarts.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -57,7 +62,6 @@
 #include "output.h"
 #include "pickup.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "ranged.h"
@@ -68,6 +72,7 @@
 #include "shearing.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "skill.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "ui.h"
@@ -77,31 +82,129 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_BIKERACK_RACKING( "ACT_BIKERACK_RACKING" );
+static const activity_id ACT_BIKERACK_UNRACKING( "ACT_BIKERACK_UNRACKING" );
+static const activity_id ACT_BINDER_COPY_RECIPE( "ACT_BINDER_COPY_RECIPE" );
+static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
+static const activity_id ACT_CONSUME( "ACT_CONSUME" );
+static const activity_id ACT_CRACKING( "ACT_CRACKING" );
+static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_DIG( "ACT_DIG" );
+static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
+static const activity_id ACT_DISABLE( "ACT_DISABLE" );
+static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
+static const activity_id ACT_DROP( "ACT_DROP" );
+static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
+static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
+static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
+static const activity_id ACT_HACKING( "ACT_HACKING" );
+static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
+static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
+static const activity_id ACT_HARVEST( "ACT_HARVEST" );
+static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
+static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
+static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
+static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
+static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
+static const activity_id ACT_MILK( "ACT_MILK" );
+static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
+static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
+static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
+static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
+static const activity_id ACT_PRYING( "ACT_PRYING" );
+static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_SHAVE( "ACT_SHAVE" );
+static const activity_id ACT_SHEARING( "ACT_SHEARING" );
+static const activity_id ACT_STASH( "ACT_STASH" );
+static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
+static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
+static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
+static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
+static const activity_id ACT_WEAR( "ACT_WEAR" );
+static const activity_id ACT_WIELD( "ACT_WIELD" );
+static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
+static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
+static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
+static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
+
+static const ammotype ammo_plutonium( "plutonium" );
+
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_worked_on( "worked_on" );
 
+static const faction_id faction_your_followers( "your_followers" );
+
+static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
+static const furn_str_id furn_f_safe_o( "f_safe_o" );
+
+static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
+
+static const item_group_id Item_spawn_data_allclothes( "allclothes" );
+static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
+static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
+static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
+static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
+static const item_group_id Item_spawn_data_grave( "grave" );
+static const item_group_id Item_spawn_data_jewelry_front( "jewelry_front" );
+static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
+
+static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_paper( "paper" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
+static const itype_id itype_splinter( "splinter" );
+static const itype_id itype_stick_long( "stick_long" );
 
-static const skill_id skill_computer( "computer" );
-static const skill_id skill_mechanics( "mechanics" );
-static const skill_id skill_traps( "traps" );
+static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+
+static const move_mode_id move_mode_prone( "prone" );
+static const move_mode_id move_mode_walk( "walk" );
+
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_skeleton( "mon_skeleton" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
-
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
-static const mtype_id mon_skeleton( "mon_skeleton" );
-static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
+static const quality_id qual_PRY( "PRY" );
+static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
 static const quality_id qual_SHEAR( "SHEAR" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_traps( "traps" );
+
+static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
+static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
+static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
+static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
+
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
 std::string activity_actor::get_progress_message( const player_activity &act ) const
 {
@@ -216,7 +319,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 
     // Fire!
     gun_mode gun = weapon->gun_current_mode();
-    int shots_fired = static_cast<player *>( &who )->fire_gun( fin_trajectory.back(), gun.qty, *gun );
+    int shots_fired = who.fire_gun( fin_trajectory.back(), gun.qty, *gun );
 
     // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
     if( shots_fired && ( bp_cost_per_shot > 0_J ) ) {
@@ -236,6 +339,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "fake_weapon", fake_weapon );
     jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
+    jsout.member( "fin_trajectory", fin_trajectory );
     jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
     jsout.member( "aif_duration", aif_duration );
@@ -243,11 +347,13 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "snap_to_target", snap_to_target );
     jsout.member( "shifting_view", shifting_view );
     jsout.member( "initial_view_offset", initial_view_offset );
+    jsout.member( "aborted", aborted );
+    jsout.member( "reload_requested", reload_requested );
 
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin )
 {
     aim_activity_actor actor = aim_activity_actor();
 
@@ -255,6 +361,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
     data.read( "fake_weapon", actor.fake_weapon );
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
+    data.read( "fin_trajectory", actor.fin_trajectory );
     data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
     data.read( "aif_duration", actor.aif_duration );
@@ -262,6 +369,8 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "snap_to_target", actor.snap_to_target );
     data.read( "shifting_view", actor.shifting_view );
     data.read( "initial_view_offset", actor.initial_view_offset );
+    data.read( "aborted", actor.aborted );
+    data.read( "reload_requested", actor.reload_requested );
 
     return actor.clone();
 }
@@ -274,8 +383,8 @@ item *aim_activity_actor::get_weapon()
     } else {
         // Check for lost gun (e.g. yanked by zombie technician)
         // TODO: check that this is the same gun that was used to start aiming
-        item *weapon = &get_player_character().weapon;
-        return weapon->is_null() ? nullptr : weapon;
+        item &weapon = get_player_character().get_wielded_item();
+        return weapon.is_null() ? nullptr : &weapon;
     }
 }
 
@@ -293,7 +402,7 @@ void aim_activity_actor::restore_view()
 bool aim_activity_actor::load_RAS_weapon()
 {
     // TODO: use activity for fetching ammo and loading weapon
-    player &you = get_avatar();
+    Character &you = get_avatar();
     item *weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
     const auto ammo_location_is_valid = [&]() -> bool {
@@ -301,7 +410,7 @@ bool aim_activity_actor::load_RAS_weapon()
         {
             return false;
         }
-        if( !gun->can_reload_with( you.ammo_location->typeId() ) )
+        if( !gun->can_reload_with( *you.ammo_location.get_item(), false ) )
         {
             return false;
         }
@@ -324,9 +433,9 @@ bool aim_activity_actor::load_RAS_weapon()
         return false;
     }
 
-    // Burn 0.2% max base stamina x the strength required to fire.
-    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
-                     get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    // Burn 0.6% max base stamina without cardio/BMI factored in x the strength required to fire.
+    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.006f *
+                     get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
     // At low stamina levels, firing starts getting slow.
     int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
@@ -359,50 +468,54 @@ void aim_activity_actor::unload_RAS_weapon()
     }
 }
 
-void autodrive_activity_actor::start( player_activity &act, Character &who )
+void autodrive_activity_actor::start( player_activity &, Character &who )
 {
     const bool in_vehicle = who.in_vehicle && who.controlling_vehicle;
-    const map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( who.pos() );
+    const optional_vpart_position vp = get_map().veh_at( who.pos() );
     if( !( vp && in_vehicle ) ) {
         who.cancel_activity();
         return;
     }
 
     player_vehicle = &vp->vehicle();
-    act.moves_left = calendar::INDEFINITELY_LONG;
-    who.moves = 0;
+    player_vehicle->is_autodriving = true;
 }
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( who.in_vehicle && who.controlling_vehicle && player_vehicle && player_vehicle->is_autodriving &&
-        !who.omt_path.empty() && !player_vehicle->omt_path.empty() ) {
-        player_vehicle->do_autodrive();
-        if( who.global_omt_location() == who.omt_path.back() ) {
-            who.omt_path.pop_back();
+    if( who.in_vehicle && who.controlling_vehicle && player_vehicle ) {
+        if( who.moves <= 0 ) {
+            // out of moves? the driver's not doing anything this turn
+            // (but the vehicle will continue moving)
+            return;
         }
-        who.moves = 0;
+        switch( player_vehicle->do_autodrive( who ) ) {
+            case autodrive_result::ok:
+                if( who.moves > 0 ) {
+                    // if do_autodrive() didn't eat up all our moves, end the turn
+                    // equivalent to player pressing the "pause" button
+                    who.moves = 0;
+                }
+                sounds::reset_markers();
+                break;
+            case autodrive_result::abort:
+                who.cancel_activity();
+                break;
+            case autodrive_result::finished:
+                act.moves_left = 0;
+                break;
+        }
     } else {
         who.cancel_activity();
-        return;
-    }
-    if( player_vehicle->omt_path.empty() ) {
-        act.moves_left = 0;
     }
 }
 
 void autodrive_activity_actor::canceled( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
-    if( player_vehicle && !player_vehicle->omt_path.empty() ) {
-        player_vehicle->omt_path.clear();
-    }
-    if( !who.omt_path.empty() ) {
-        who.omt_path.clear();
-    }
+    who.omt_path.clear();
     if( player_vehicle ) {
-        player_vehicle->is_autodriving = false;
+        player_vehicle->stop_autodriving( false );
     }
     act.set_to_null();
 }
@@ -410,7 +523,7 @@ void autodrive_activity_actor::canceled( player_activity &act, Character &who )
 void autodrive_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_info, _( "You have reached your destination." ) );
-    player_vehicle->is_autodriving = false;
+    player_vehicle->stop_autodriving( false );
     act.set_to_null();
 }
 
@@ -420,7 +533,7 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonValue & )
 {
     return autodrive_activity_actor().clone();
 }
@@ -463,16 +576,17 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             here.furn_set( location, f_coffin_c );
         }
         std::vector<item *> dropped =
-            here.place_items( item_group_id( "allclothes" ), 50, location, location, false,
+            here.place_items( Item_spawn_data_allclothes, 50, location, location, false,
                               calendar::turn );
-        here.place_items( item_group_id( "grave" ), 25, location, location, false,
+        here.place_items( Item_spawn_data_grave, 25, location, location, false,
                           calendar::turn );
-        here.place_items( item_group_id( "jewelry_front" ), 20, location, location, false,
+        here.place_items( Item_spawn_data_jewelry_front, 20, location, location, false,
                           calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
                 it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
+                it->rand_degradation();
             }
         }
         get_event_bus().send<event_type::exhumes_grave>( who.getID() );
@@ -513,7 +627,7 @@ void dig_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonValue &jsin )
 {
     dig_activity_actor actor( 0, tripoint_zero,
                               {}, tripoint_zero, 0, {} );
@@ -580,7 +694,7 @@ void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonValue &jsin )
 {
     dig_channel_activity_actor actor( 0, tripoint_zero,
                                       {}, tripoint_zero, 0, {} );
@@ -632,7 +746,7 @@ bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
     }
     // TODO: unloading gunmods happens instantaneously in some cases, but should take time
     item_location loc = item_location( who, &gunmod );
-    return !( gunmod.ammo_remaining() && !who.as_player()->unload( loc, true ) );
+    return !( gunmod.ammo_remaining() && !who.unload( loc, true ) );
 }
 
 void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, item &mod )
@@ -641,7 +755,7 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
         return;
     }
 
-    gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
+    gun.gun_set_mode( gun_mode_DEFAULT );
     const itype *modtype = mod.type;
 
     who.i_add_or_drop( mod );
@@ -681,7 +795,7 @@ void gunmod_remove_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> gunmod_remove_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> gunmod_remove_activity_actor::deserialize( JsonValue &jsin )
 {
     gunmod_remove_activity_actor actor( 0, item_location(), -1 );
 
@@ -727,8 +841,7 @@ static hack_result hack_attempt( Character &who )
 {
     // TODO: Remove this once player -> Character migration is complete
     {
-        player *p = dynamic_cast<player *>( &who );
-        p->practice( skill_computer, 20 );
+        who.practice( skill_computer, 20 );
     }
 
     // only skilled supergenius never cause short circuits, but the odds are low for people
@@ -794,7 +907,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             map &here = get_map();
             if( type == hack_type::GAS ) {
                 int tankUnits;
-                std::string fuelType;
+                fuel_station_fuel_type fuelType;
                 const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
                                                         fuelType );
                 if( !pTank_ ) {
@@ -812,12 +925,12 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                 }
             } else if( type == hack_type::SAFE ) {
                 who.add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
-                here.furn_set( examp, furn_str_id( "f_safe_o" ) );
+                here.furn_set( examp, furn_f_safe_o );
             } else if( type == hack_type::DOOR ) {
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
                 here.ter_set( examp, t_card_reader_broken );
-                for( const tripoint &tmp : here.points_in_radius( ( examp ), 3 ) ) {
+                for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
                     if( here.ter( tmp ) == t_door_metal_locked ) {
                         here.ter_set( tmp, t_door_metal_c );
                     }
@@ -830,9 +943,82 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
 
 void hacking_activity_actor::serialize( JsonOut & ) const {}
 
-std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue & )
 {
     hacking_activity_actor actor;
+    return actor.clone();
+}
+
+void bookbinder_copy_activity_actor::start( player_activity &act, Character & )
+{
+    pages = 1 + rec_id->difficulty / 2;
+    act.moves_total = to_moves<int>( pages * 10_minutes );
+    act.moves_left = to_moves<int>( pages * 10_minutes );
+}
+
+void bookbinder_copy_activity_actor::do_turn( player_activity &, Character &p )
+{
+    if( p.fine_detail_vision_mod() > 4.0f ) {
+        p.cancel_activity();
+        p.add_msg_if_player( m_info, _( "It's too dark to write!" ) );
+        return;
+    }
+}
+
+void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p )
+{
+    if( !book_binder->can_contain( item( itype_paper, calendar::turn, pages ) ).success() ) {
+        debugmsg( "Book binder can not contain '%s' recipe when it should.", rec_id.str() );
+        act.set_to_null();
+        return;
+    }
+
+    const bool rec_added = book_binder->eipc_recipe_add( rec_id );
+    if( rec_added ) {
+        p.add_msg_if_player( m_good, _( "You copy the recipe for %1$s into your recipe book." ),
+                             rec_id->result_name() );
+
+        p.use_charges( itype_paper, pages );
+
+        const std::vector<const item *> writing_tools_filter =
+        p.crafting_inventory().items_with( [&]( const item & it ) {
+            return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_remaining() >= it.ammo_required() ;
+        } );
+
+        std::vector<tool_comp> writing_tools;
+        writing_tools.reserve( writing_tools_filter.size() );
+        for( const item *tool : writing_tools_filter ) {
+            writing_tools.emplace_back( tool_comp( tool->typeId(), 1 ) );
+        }
+
+        p.consume_tools( writing_tools, pages );
+        book_binder->put_in( item( itype_paper, calendar::turn, pages ),
+                             item_pocket::pocket_type::MAGAZINE );
+    } else {
+        debugmsg( "Recipe book already has '%s' recipe when it should not.", rec_id.str() );
+    }
+
+    act.set_to_null();
+}
+
+void bookbinder_copy_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "book_binder", book_binder );
+    jsout.member( "rec_id", rec_id );
+    jsout.member( "pages", pages );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> bookbinder_copy_activity_actor::deserialize( JsonValue &jsin )
+{
+    bookbinder_copy_activity_actor actor;
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "book_binder", actor.book_binder );
+    jsobj.read( "rec_id", actor.rec_id );
+    jsobj.read( "pages", actor.pages );
+
     return actor.clone();
 }
 
@@ -898,7 +1084,7 @@ void hotwire_car_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonValue &jsin )
 {
     hotwire_car_activity_actor actor( 0, tripoint_zero );
 
@@ -907,6 +1093,163 @@ std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonIn 
     data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
 
+    return actor.clone();
+}
+
+void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    const map &here = get_map();
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->hacksaw->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s hacksaw is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        act.moves_total = to_moves<int>( furn_type->hacksaw->duration() );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->hacksaw->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s hacksaw is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+        act.moves_total = to_moves<int>( ter_type->hacksaw->duration() );
+    } else {
+        if( !testing ) {
+            debugmsg( "hacksaw activity called on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
+    act.moves_left = act.moves_total;
+}
+
+void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+{
+    std::string method = "HACKSAW";
+
+    if( tool->ammo_sufficient( &who, method ) ) {
+        int ammo_consumed = tool->ammo_required();
+        std::map<std::string, float>::const_iterator iter = tool->type->ammo_scale.find( method );
+        if( iter != tool->type->ammo_scale.end() ) {
+            ammo_consumed *= iter->second;
+        }
+
+        tool->ammo_consume( ammo_consumed, tool.position(), &who );
+        sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
+        if( calendar::once_every( 1_minutes ) ) {
+            //~ Sound of a metal sawing tool at work!
+            sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+        }
+    } else {
+        if( who.is_avatar() ) {
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+        } else { // who.is_npc()
+            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                    true ), tool->tname() );
+        }
+        who.cancel_activity();
+    }
+}
+
+void hacksaw_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    const activity_data_common *data;
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->hacksaw->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s hacksaw is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const furn_str_id new_furn = furn_type->hacksaw->result();
+        if( !new_furn.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "hacksaw furniture: %s invalid furniture", new_furn.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*furn_type->hacksaw );
+        here.furn_set( target, new_furn );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->hacksaw->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s hacksaw is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const ter_str_id new_ter = ter_type->hacksaw->result();
+        if( !new_ter.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "hacksaw terrain: %s invalid terrain", new_ter.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*ter_type->hacksaw );
+        here.ter_set( target, new_ter );
+    } else {
+        if( !testing ) {
+            debugmsg( "hacksaw activity finished on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    for( const activity_byproduct &byproduct : data->byproducts() ) {
+        const int amount = byproduct.roll();
+        if( byproduct.item->count_by_charges() ) {
+            item byproduct_item( byproduct.item, calendar::turn, amount );
+            here.add_item_or_charges( target, byproduct_item );
+        } else {
+            item byproduct_item( byproduct.item, calendar::turn );
+            for( int i = 0; i < amount; ++i ) {
+                here.add_item_or_charges( target, byproduct_item );
+            }
+        }
+    }
+
+    if( !data->message().empty() ) {
+        who.add_msg_if_player( m_info, data->message().translated() );
+    }
+
+    act.set_to_null();
+}
+
+void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "tool", tool );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonValue &jsin )
+{
+    hacksaw_activity_actor actor( {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor.target );
+    data.read( "tool", actor.tool );
     return actor.clone();
 }
 
@@ -938,7 +1281,7 @@ void bikerack_racking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( JsonValue &jsin )
 {
     vehicle veh;
     bikerack_racking_activity_actor actor( 0, veh, std::vector<std::vector<int>>() );
@@ -980,7 +1323,7 @@ void bikerack_unracking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( JsonValue &jsin )
 {
     vehicle veh;
     bikerack_unracking_activity_actor actor( 0, veh, std::vector<int>(), std::vector<int>() );
@@ -989,6 +1332,555 @@ std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( 
     data.read( "parent_vehicle", actor.parent_vehicle );
     data.read( "parts", actor.parts );
     data.read( "racks", actor.racks );
+
+    return actor.clone();
+}
+
+static bool is_valid_book( const item_location &book )
+{
+    // If book is invalid, perhaps we lost it during the activity
+    // If book is valid but not a book, it's probably due to a bug where
+    // `item_location` points to the wrong item after a save/load cycle.
+    // In both cases cancel activity to avoid segfault.
+    return book && book->is_book();
+}
+
+static bool cancel_if_book_invalid(
+    player_activity &act, const item_location &book, const Character &who )
+{
+    if( !is_valid_book( book ) ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the book!" ),
+            _( "<npcname> no longer has the book!" ) );
+        act.set_to_null();
+        return true;
+    }
+    return false;
+}
+
+void read_activity_actor::start( player_activity &act, Character &who )
+{
+    if( cancel_if_book_invalid( act, book, who ) ) {
+        return;
+    }
+
+    // book item_location must be of type character
+    // or else there will be item_location errors while loading
+    if( book.where() != item_location::type::character ) {
+        book = item_location( who, book.get_item() );
+    }
+
+    using_ereader = !!ereader;
+
+    bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
+             book_type::martial_art : book_type::normal;
+
+    // push copy of book for focus calculation
+    // avatar::update_mental_focus and avatar::calc_focus_equilibrium
+    act.targets.push_back( book );
+
+    add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
+                   to_string_writable( time_duration::from_moves( moves_total ) ) );
+
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void read_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( cancel_if_book_invalid( act, book, who ) ) {
+        return;
+    }
+
+    if( !bktype.has_value() ) {
+        bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
+                 book_type::martial_art : book_type::normal;
+    }
+
+    if( who.is_avatar() ) {
+        // he following check doesn't work for NPCs
+        // because it is counted for player's submap and z-level only
+        if( who.fine_detail_vision_mod() > 4 ) {
+            // It got too dark during the process of reading, bail out.
+            act.set_to_null();
+            who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
+            return;
+        }
+
+        if( bktype.value() == book_type::martial_art && one_in( 3 ) ) {
+            who.mod_stamina( -1 );
+        }
+
+        // do not spam the message log
+        if( calendar::once_every( 5_minutes ) ) {
+            add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
+                           to_string_writable( time_duration::from_moves( act.moves_left ) ) );
+        }
+    } else {
+        who.moves = 0;
+    }
+
+    if( using_ereader && !ereader ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the e-book!" ),
+            _( "<npcname> no longer has the e-book!" ) );
+        who.cancel_activity();
+        return;
+    } else if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
+        add_msg_if_player_sees(
+            who,
+            _( "%1$s %2$s ran out of batteries." ),
+            who.disp_name( true, true ),
+            item::nname( ereader->typeId() ) );
+        who.cancel_activity();
+        return;
+    }
+}
+
+void read_activity_actor::read_book( Character &learner,
+                                     const cata::value_ptr<islot_book> &islotbook,
+                                     SkillLevel &skill_level, double penalty )
+{
+    const int originalSkillLevel = skill_level.knowledgeLevel();
+
+    // Calculate experience gained
+    /** @EFFECT_INT increases reading comprehension */
+    // Enhanced Memory Banks modestly boosts experience
+    int min_ex = std::max( 1, islotbook->time / 10 + learner.get_int() / 4 );
+    int max_ex = islotbook->time / 5 + learner.get_int() / 2 - originalSkillLevel;
+
+    min_ex = learner.enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
+
+    min_ex = learner.adjust_for_focus( min_ex ) / 100;
+    max_ex = learner.adjust_for_focus( max_ex ) / 100;
+
+    max_ex = clamp( max_ex, 2, 10 );
+    max_ex = std::max( min_ex, max_ex );
+
+    min_ex *= ( originalSkillLevel + 1 ) * penalty;
+    min_ex = std::max( min_ex, 1 );
+
+    max_ex *= ( originalSkillLevel + 1 ) * penalty;
+    max_ex = std::max( min_ex, max_ex );
+
+    add_msg_debug( debugmode::DF_ACT_READ, "%s read exp: min_ex %d; max_ex %d",
+                   learner.disp_name(), min_ex, max_ex );
+    skill_level.readBook( min_ex, max_ex, islotbook->level );
+}
+
+bool read_activity_actor::player_read( avatar &you )
+{
+    if( !you.has_identified( book->typeId() ) ) {
+        you.identify( *book );
+        return true;
+    }
+
+    std::vector<std::string> fail_messages;
+    const Character *reader = you.get_book_reader( *book, fail_messages );
+    if( reader == nullptr ) {
+        // We can't read, and neither can our followers
+        for( const std::string &reason : fail_messages ) {
+            add_msg( m_bad, reason );
+        }
+        return true;
+    }
+
+    const cata::value_ptr<islot_book> &islotbook = book->type->book;
+    const skill_id &skill = islotbook->skill;
+
+    std::vector<std::string> little_learned;
+    std::vector<std::string> cant_learn;
+
+    std::vector<Character *> learners;
+    for( npc *npc_learner : you.get_crafting_helpers() ) {
+        const book_mastery mastery = npc_learner->get_book_mastery( *book );
+        const bool morale_req = npc_learner->fun_to_read( *book ) || npc_learner->has_morale_to_read();
+
+        if( npc_learner->is_deaf() && npc_learner != reader ) {
+            continue;
+        }
+
+        if( // fun readers
+            ( mastery == book_mastery::MASTERED && npc_learner->fun_to_read( *book ) ) ||
+            // reading for experience
+            ( mastery == book_mastery::LEARNING && morale_req ) ) {
+            learners.push_back( npc_learner->as_character() );
+        }
+    }
+
+    // caller should check if player
+    // can understand the book
+    learners.push_back( you.as_character() );
+
+    // NPCs can move while learning from a book
+    // Check ID of all learners to avoid
+    // getting stuck in an infinite loop
+    bool learner_left = true;
+    for( Character *learner : learners ) {
+
+        double penalty = 1.0;
+
+        const bool reading_for_skill =
+            learner->get_book_mastery( *book ) == book_mastery::LEARNING;
+
+        const int book_fun = learner->book_fun_for( *book, *learner );
+        if( book_fun != 0 ) {
+            // Fun bonus is no longer calculated here.
+            learner->add_morale( MORALE_BOOK,
+                                 book_fun * 5, book_fun * 15,
+                                 1_hours, 30_minutes, true,
+                                 book->type );
+        }
+
+        book->mark_chapter_as_read( *learner );
+        if( reading_for_skill ) {
+            if( !learner->is_avatar() ) {
+                const int npc_read_time = you.time_to_read( *book, *reader, learner );
+                penalty = static_cast<double>( moves_total ) / npc_read_time;
+            }
+        } else {
+            continue;   // reading for fun
+        }
+
+        if( skill &&
+            learner->get_knowledge_level( skill ) < islotbook->level &&
+            learner->get_skill_level_object( skill ).can_train() ) {
+
+            SkillLevel &skill_level = learner->get_skill_level_object( skill );
+            std::string skill_name = skill.obj().name();
+            const int originalSkillLevel = skill_level.knowledgeLevel();
+
+            read_book( *learner, islotbook, skill_level, penalty );
+            const int newSkillLevel = skill_level.knowledgeLevel();
+
+
+            // levels up the skill
+            if( newSkillLevel != originalSkillLevel ) {
+                get_event_bus().send<event_type::gains_skill_level>(
+                    learner->getID(), skill, skill_level.knowledgeLevel() );
+
+                if( learner->is_avatar() ) {
+                    add_msg( m_good, _( "You theoretical knowledge of %s increases to level %d." ), skill.obj().name(),
+                             originalSkillLevel + 1 );
+                } else {
+                    add_msg( m_good, _( "%s increases their %s knowledge." ), learner->disp_name(),
+                             skill.obj().name() );
+                }
+
+                if( learner->getID().get_value() == learner_id ) {
+                    continuous = false;
+                }
+
+            } else {
+                if( learner->is_avatar() ) {
+                    add_msg( m_info, _( "You learn a little about %s!  (%d%%)" ), skill_name,
+                             skill_level.knowledgeExperience() );
+                } else {
+                    little_learned.push_back( learner->disp_name() );
+                }
+            }
+
+            if( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
+                ( learner->has_trait( trait_SCHIZOPHRENIC ) && !learner->has_effect( effect_took_thorazine ) &&
+                  one_in( 25 ) ) ) {
+                if( learner->is_avatar() ) {
+                    add_msg( m_info, _( "You can no longer learn from %s." ), book->type_name() );
+                } else {
+                    cant_learn.push_back( learner->disp_name() );
+                }
+            }
+        }
+
+        if( learner_left && learner->getID().get_value() == learner_id ) {
+            learner_left = false;
+        }
+    }   // end for all learners
+
+    if( little_learned.size() == 1 ) {
+        add_msg( m_info, _( "%s learns a little about %s!" ), little_learned.begin()->c_str(),
+                 skill.obj().name() );
+
+    } else if( !little_learned.empty() ) {
+        const std::string little_learned_msg = enumerate_as_string( little_learned );
+        add_msg( m_info, _( "%s learn a little about %s!" ), little_learned_msg, skill.obj().name() );
+    }
+
+    if( !cant_learn.empty() ) {
+        const std::string names = enumerate_as_string( cant_learn );
+        add_msg( m_info, _( "%s can no longer learn from %s." ), names, book->type_name() );
+    }
+
+    // read non-skill books only once
+    if( learner_left || !skill ) {
+        continuous = false;
+    }
+
+    return false;
+}
+
+bool read_activity_actor::player_readma( avatar &you )
+{
+    // NPCs can't learn martial arts from manuals (yet).
+
+    if( !you.has_identified( book->typeId() ) ) {
+        you.identify( *book );
+        return true;
+    }
+
+    // std::map<std::string, use_function>::const_iterator
+    auto mart_iter = book->type->use_methods.find( "MA_MANUAL" );
+    if( mart_iter == book->type->use_methods.end() ) {
+        debugmsg( "ACT_READ MARTIAL ARTS BOOK HAS NO MARTIAL ART" );
+        return true;
+    }
+
+    const matype_id style_to_learn = martial_art_learned_from( *book->type );
+    skill_id skill_used = style_to_learn->primary_skill;
+
+    int difficulty = std::max( 1, style_to_learn->learn_difficulty );
+    difficulty = std::max( 1, 20 + difficulty * 2 - you.get_knowledge_level( skill_used ) * 2 );
+    add_msg_debug( debugmode::DF_ACT_READ, "Chance to learn one in: %d", difficulty );
+
+    if( one_in( difficulty ) ) {
+        // learn martial art
+        mart_iter->second.call( you, *book, false, you.pos() );
+        return true;
+    } else if( continuous ) {
+        switch( rng( 1, 5 ) ) {
+            case 1:
+                add_msg( m_info,
+                         _( "You train the moves according to the book, but can't get a grasp of the style, so you start from the beginning." ) );
+                break;
+            case 2:
+                add_msg( m_info,
+                         _( "This martial art is not easy to grasp.  You start training the moves from the beginning." ) );
+                break;
+            case 3:
+                add_msg( m_info,
+                         _( "You decide to read the manual and train even more.  In martial arts, patience leads to mastery." ) );
+                break;
+            case 4: // intentionally empty
+            case 5:
+                add_msg( m_info, _( "You try again.  This training will finally pay off." ) );
+                break;
+        }
+    } else {
+        add_msg( m_info, _( "You train for a while." ) );
+    }
+    return false;
+}
+
+bool read_activity_actor::npc_read( npc &learner )
+{
+    const cata::value_ptr<islot_book> &islotbook = book->type->book;
+    const skill_id &skill = islotbook->skill;
+
+    // NPCs don't need to identify the book or learn recipes yet.
+    // NPCs don't read to other NPCs yet.
+    const bool display_messages = learner.get_fac_id() == faction_your_followers &&
+                                  get_player_character().sees( learner );
+
+    const int book_fun = learner.book_fun_for( *book, learner );
+    if( book_fun != 0 ) {
+        // Fun bonus is no longer calculated here.
+        learner.add_morale( MORALE_BOOK,
+                            book_fun * 5, book_fun * 15,
+                            1_hours, 30_minutes, true,
+                            book->type );
+    }
+
+    book->mark_chapter_as_read( learner );
+
+    if( skill &&
+        learner.get_knowledge_level( skill ) < islotbook->level &&
+        learner.get_skill_level_object( skill ).can_train() ) {
+
+        SkillLevel &skill_level = learner.get_skill_level_object( skill );
+        std::string skill_name = skill.obj().name();
+        const int originalSkillLevel = skill_level.knowledgeLevel();
+
+        read_book( learner, islotbook, skill_level, 1.0 );
+
+        const int newSkillLevel = skill_level.knowledgeLevel();
+        if( newSkillLevel != originalSkillLevel ) {
+            get_event_bus().send<event_type::gains_skill_level>(
+                learner.getID(), skill, skill_level.knowledgeLevel() );
+
+            if( display_messages ) {
+                add_msg( m_good, _( "%s increases their %s level." ), learner.disp_name(),
+                         skill_name );
+            }
+
+            continuous = false;
+
+        } else if( display_messages ) {
+            add_msg( m_info, _( "%s learns a little about %s!" ), learner.disp_name(),
+                     skill_name );
+        }
+
+        if( display_messages &&
+            ( ( skill_level == islotbook->level || !skill_level.can_train() ) ||
+              ( learner.has_trait( trait_SCHIZOPHRENIC ) && !learner.has_effect( effect_took_thorazine ) &&
+                one_in( 25 ) ) ) ) {
+            add_msg( m_info, _( "%s can no longer learn from %s." ), learner.disp_name(),
+                     book->type_name() );
+        }
+
+    } else if( display_messages && skill ) {
+        add_msg( m_info, _( "%s can no longer learn from %s." ), learner.disp_name(),
+                 book->type_name() );
+        continuous = false;
+        // read non-skill books only once
+    } else if( !skill ) {
+        continuous = false;
+    }
+
+    return false;
+}
+
+void read_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( cancel_if_book_invalid( act, book, who ) ) {
+        return;
+    }
+
+    const bool is_mabook = bktype.value() == book_type::martial_art;
+    if( who.is_avatar() ) {
+        get_event_bus().send<event_type::reads_book>( who.getID(), book->typeId() );
+
+        const bool should_null = is_mabook ?
+                                 player_readma( *who.as_avatar() ) : player_read( *who.as_avatar() );
+
+        if( should_null ) {
+            act.set_to_null();
+            return;
+        }
+    } else { // who.is_npc()
+
+        // npcs can't read martial arts books yet
+        if( is_mabook ) {
+            act.set_to_null();
+            return;
+        }
+
+        if( npc_read( static_cast<npc &>( who ) ) ) {
+            act.set_to_null();
+            return;
+        }
+    }
+
+    if( continuous ) {
+        int time_taken;
+
+        // caller should check if npc can read first
+        if( who.is_npc() ) {
+            npc &n = static_cast<npc &>( who );
+            time_taken = n.time_to_read( *book, n );
+
+        } else {    // who.is_avatar()
+
+            // check if there can still be a reader before restarting
+            // because npcs can move while reading for the player
+            std::vector<std::string> fail_messages;
+            const Character *reader = who.as_avatar()->get_book_reader( *book, fail_messages );
+            if( reader == nullptr ) {
+                // We can't read, and neither can our followers
+                for( const std::string &reason : fail_messages ) {
+                    add_msg( m_bad, reason );
+                }
+                act.set_to_null();
+                return;
+            }
+
+            time_taken = who.as_avatar()->time_to_read( *book, *reader );
+            add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
+                           to_string_writable( time_duration::from_moves( time_taken ) ) );
+        }
+
+        // restart the activity
+        moves_total = time_taken;
+        act.moves_total = time_taken;
+        act.moves_left = time_taken;
+        return;
+    } else  {
+        who.add_msg_if_player( m_info, _( "You finish reading." ) );
+    }
+
+    act.set_to_null();
+}
+
+bool read_activity_actor::can_resume_with_internal( const activity_actor &other,
+        const Character & ) const
+{
+    const read_activity_actor &actor = static_cast<const read_activity_actor &>( other );
+
+    // The ereader gets transformed into the _on version
+    // which means the item_location of the book changes
+    // this check is to prevent a segmentation fault
+    if( !is_valid_book( book ) || !is_valid_book( actor.book ) ) {
+        return false;
+    }
+
+    return continuous == actor.continuous &&
+           learner_id == actor.learner_id &&
+           book->typeId() == actor.book->typeId();
+}
+
+std::string read_activity_actor::get_progress_message( const player_activity & ) const
+{
+    if( !is_valid_book( book ) ) {
+        return std::string();
+    }
+
+    Character &you = get_player_character();
+    const cata::value_ptr<islot_book> &islotbook = book->type->book;
+    const skill_id &skill = islotbook->skill;
+
+    if( skill &&
+        you.get_knowledge_level( skill ) < islotbook->level &&
+        you.get_skill_level_object( skill ).can_train() &&
+        you.has_identified( book->typeId() ) ) {
+        const SkillLevel &skill_level = you.get_skill_level_object( skill );
+        //~ skill_name current_skill_level -> next_skill_level (% to next level)
+        return string_format( pgettext( "reading progress", "%1$s %2$d -> %3$d (%4$d%%)" ),
+                              skill.obj().name(),
+                              skill_level.knowledgeLevel(),
+                              skill_level.knowledgeLevel() + 1,
+                              skill_level.knowledgeExperience() );
+    }
+
+    return std::string();
+}
+
+void read_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    if( is_valid_book( book ) ) {
+        jsout.member( "book", book );
+    }
+    if( ereader ) {
+        jsout.member( "ereader", ereader );
+    }
+    jsout.member( "using_ereader", using_ereader );
+    jsout.member( "continuous", continuous );
+    jsout.member( "learner_id", learner_id );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsin )
+{
+    read_activity_actor actor;
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+    data.read( "book", actor.book );
+    data.read( "ereader", actor.ereader );
+    data.read( "using_ereader", actor.using_ereader );
+    data.read( "continuous", actor.continuous );
+    data.read( "learner_id", actor.learner_id );
 
     return actor.clone();
 }
@@ -1068,7 +1960,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValue &jsin )
 {
     move_items_activity_actor actor( {}, {}, false, tripoint_zero );
 
@@ -1088,6 +1980,7 @@ static void cancel_pickup( Character &who )
     if( who.is_hauling() && !get_map().has_haulable_items( who.pos() ) ) {
         who.stop_hauling();
     }
+    who.drop_invalid_inventory();
 }
 
 void pickup_activity_actor::do_turn( player_activity &, Character &who )
@@ -1141,7 +2034,7 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &jsin )
 {
     pickup_activity_actor actor( {}, {}, cata::nullopt );
 
@@ -1153,6 +2046,160 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin
 
     return actor.clone();
 }
+
+void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    const map &here = get_map();
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->boltcut->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        act.moves_total = to_moves<int>( furn_type->boltcut->duration() );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->boltcut->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+        act.moves_total = to_moves<int>( ter_type->boltcut->duration() );
+    } else {
+        if( !testing ) {
+            debugmsg( "boltcut activity called on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
+    act.moves_left = act.moves_total;
+}
+
+void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+{
+    if( tool->ammo_sufficient( &who ) ) {
+        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+    } else {
+        if( who.is_avatar() ) {
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+        } else { // who.is_npc()
+            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                    true ), tool->tname() );
+        }
+        who.cancel_activity();
+    }
+}
+
+void boltcutting_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    const activity_data_common *data;
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->boltcut->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const furn_str_id new_furn = furn_type->boltcut->result();
+        if( !new_furn.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "boltcut furniture: %s invalid furniture", new_furn.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*furn_type->boltcut );
+        here.furn_set( target, new_furn );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->boltcut->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const ter_str_id new_ter = ter_type->boltcut->result();
+        if( !new_ter.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "boltcut terrain: %s invalid terrain", new_ter.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*ter_type->boltcut );
+        here.ter_set( target, new_ter );
+    } else {
+        if( !testing ) {
+            debugmsg( "boltcut activity finished on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    if( data->sound().empty() ) {
+        sounds::sound( target, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ),
+                       true, "tool", "boltcutters" );
+    } else {
+        sounds::sound( target, 5, sounds::sound_t::combat, data->sound().translated(),
+                       true, "tool", "boltcutters" );
+    }
+
+
+    for( const activity_byproduct &byproduct : data->byproducts() ) {
+        const int amount = byproduct.roll();
+        if( byproduct.item->count_by_charges() ) {
+            item byproduct_item( byproduct.item, calendar::turn, amount );
+            here.add_item_or_charges( target, byproduct_item );
+        } else {
+            item byproduct_item( byproduct.item, calendar::turn );
+            for( int i = 0; i < amount; ++i ) {
+                here.add_item_or_charges( target, byproduct_item );
+            }
+        }
+    }
+
+    if( !data->message().empty() ) {
+        who.add_msg_if_player( m_info, data->message().translated() );
+    }
+
+    act.set_to_null();
+}
+
+void boltcutting_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "tool", tool );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonValue &jsin )
+{
+    boltcutting_activity_actor actor( {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor.target );
+    data.read( "tool", actor.tool );
+    return actor.clone();
+}
+
 
 lockpick_activity_actor lockpick_activity_actor::use_item(
     int moves_total,
@@ -1186,7 +2233,8 @@ void lockpick_activity_actor::start( player_activity &act, Character & )
     act.moves_total = moves_total;
 
     const time_duration lockpicking_time = time_duration::from_moves( moves_total );
-    add_msg_debug( debugmode::DF_ACT_LOCKPICK, "lockpicking time = %s", to_string( lockpicking_time ) );
+    add_msg_debug( debugmode::DF_ACT_LOCKPICK, "lockpicking time = %s",
+                   to_string_writable( lockpicking_time ) );
 }
 
 void lockpick_activity_actor::finish( player_activity &act, Character &who )
@@ -1274,9 +2322,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     // In the meantime, let's roll 3d5-3, giving us a range of 0-12.
     int lock_roll = rng( 0, 4 ) + rng( 0, 4 ) + rng( 0, 4 );
 
-    add_msg_debug( debugmode::DF_ACT_LOCKPICK, _( "Rolled %i. Mean_roll %g. Difficulty %i." ),
-                   pick_roll,
-                   mean_roll, lock_roll );
+    add_msg_debug( debugmode::DF_ACT_LOCKPICK, "Rolled %i. Mean_roll %g. Difficulty %i.",
+                   pick_roll, mean_roll, lock_roll );
 
     // Your base skill XP gain is derived from the lock difficulty (which is currently random but shouldn't be).
     int xp_gain = 3 * lock_roll;
@@ -1285,13 +2332,15 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             // Increase your XP if you successfully pick the lock, unless you were using a Perfect Lockpick.
             xp_gain = xp_gain * 2;
         }
-        here.has_furn( target ) ?
-        here.furn_set( target, new_furn_type ) :
-        static_cast<void>( here.ter_set( target, new_ter_type ) );
+        if( here.has_furn( target ) ) {
+            here.furn_set( target, new_furn_type );
+        } else {
+            here.ter_set( target, new_ter_type );
+        }
         who.add_msg_if_player( m_good, open_message );
     } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
-        here.furn_set( target, furn_str_id( "f_gunsafe_mj" ) );
+        here.furn_set( target, furn_f_gunsafe_mj );
     } else if( lock_roll > ( 1.5 * pick_roll ) ) {
         if( it->inc_damage() ) {
             who.add_msg_if_player( m_bad,
@@ -1347,7 +2396,7 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
         if( p == you.pos() ) {
             return false;
         }
-        return get_map().has_flag( "PICKABLE", p );
+        return get_map().has_flag( ter_furn_flag::TFLAG_PICKABLE, p );
     };
 
     const cata::optional<tripoint> target = choose_adjacent_highlight(
@@ -1363,7 +2412,7 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
     const ter_id terr_type = get_map().ter( *target );
     if( *target == you.pos() ) {
         you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
-    } else if( g->critter_at<npc>( *target ) ) {
+    } else if( get_creature_tracker().creature_at<npc>( *target ) ) {
         you.add_msg_if_player( m_info,
                                _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose." ) );
     } else if( terr_type == t_door_c ) {
@@ -1386,7 +2435,7 @@ void lockpick_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonValue &jsin )
 {
     lockpick_activity_actor actor( 0, cata::nullopt, cata::nullopt, tripoint_zero );
 
@@ -1399,6 +2448,68 @@ std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonIn &js
 
     return actor.clone();
 }
+
+void ebooksave_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    const int pages = pages_in_book( book->typeId() );
+    const time_duration scanning_time = pages < 1 ? time_per_page : pages * time_per_page;
+    add_msg_debug( debugmode::DF_ACT_EBOOK, "ebooksave pages = %d", pages );
+    add_msg_debug( debugmode::DF_ACT_EBOOK, "scanning_time time = %s",
+                   to_string_writable( scanning_time ) );
+    act.moves_total = to_moves<int>( scanning_time );
+    act.moves_left = act.moves_total;
+}
+
+void ebooksave_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+{
+    // only consume charges every 25 pages
+    if( calendar::once_every( 25 * time_per_page ) ) {
+        if( !ereader->ammo_sufficient( &who ) ) {
+            add_msg_if_player_sees(
+                who,
+                _( "%1$s %2$s ran out of batteries." ),
+                who.disp_name( true, true ),
+                item::nname( ereader->typeId() ) );
+            who.cancel_activity();
+            return;
+        }
+
+        ereader->ammo_consume( ereader->ammo_required(), who.pos(), &who );
+    }
+}
+
+void ebooksave_activity_actor::finish( player_activity &act, Character &who )
+{
+    item book_copy = *book;
+    ereader->put_in( book_copy, item_pocket::pocket_type::EBOOK );
+    if( who.is_avatar() ) {
+        add_msg( m_info, _( "You scan the book into your device." ) );
+    } else { // who.is_npc()
+        add_msg_if_player_sees( who, _( "%s scans the book into their device." ),
+                                who.disp_name( false, true ) );
+    }
+    act.set_to_null();
+}
+
+void ebooksave_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "book", book );
+    jsout.member( "ereader", ereader );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonValue &jsin )
+{
+    ebooksave_activity_actor actor = ebooksave_activity_actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+    data.read( "book", actor.book );
+    data.read( "ereader", actor.ereader );
+    return actor.clone();
+}
+
+constexpr time_duration ebooksave_activity_actor::time_per_page;
 
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
 {
@@ -1423,7 +2534,7 @@ void migration_cancel_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( JsonValue & )
 {
     return migration_cancel_activity_actor().clone();
 }
@@ -1450,7 +2561,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue &jsin )
 {
     open_gate_activity_actor actor( 0, tripoint_zero );
 
@@ -1464,7 +2575,7 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
 
 void consume_activity_actor::start( player_activity &act, Character &guy )
 {
-    int moves;
+    int moves = 0;
     Character &player_character = get_player_character();
     if( consume_location ) {
         ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
@@ -1479,9 +2590,9 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
             consume_menu_filter.clear();
-            return;
+        } else {
+            moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
         }
-        moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
     } else if( !consume_item.is_null() ) {
         ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
         if( refuel ) {
@@ -1494,13 +2605,12 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
             consume_menu_filter.clear();
-            return;
+        } else {
+            moves = to_moves<int>( guy.get_consume_time( consume_item ) );
         }
-        moves = to_moves<int>( guy.get_consume_time( consume_item ) );
     } else {
         debugmsg( "Item/location to be consumed should not be null." );
         canceled = true;
-        return;
     }
 
     act.moves_total = moves;
@@ -1536,7 +2646,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         }
     }
 
-    if( act.id() == activity_id( "ACT_CONSUME" ) ) {
+    if( act.id() == ACT_CONSUME ) {
         act.set_to_null();
     }
 
@@ -1566,11 +2676,13 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "consume_menu_selected_items", consume_menu_selected_items );
     jsout.member( "consume_menu_filter", consume_menu_filter );
     jsout.member( "canceled", canceled );
+    jsout.member( "type", type );
+    jsout.member( "refuel", refuel );
 
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &jsin )
 {
     item_location null;
     consume_activity_actor actor( null );
@@ -1583,14 +2695,18 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     data.read( "consume_menu_selected_items", actor.consume_menu_selected_items );
     data.read( "consume_menu_filter", actor.consume_menu_filter );
     data.read( "canceled", actor.canceled );
+    data.read( "type", actor.type );
+    data.read( "refuel", actor.refuel );
 
     return actor.clone();
 }
 
-void try_sleep_activity_actor::start( player_activity &act, Character &/*who*/ )
+void try_sleep_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = to_moves<int>( duration );
     act.moves_left = act.moves_total;
+    who.set_movement_mode( move_mode_prone );
+    who.add_msg_if_player( _( "You lie down preparing to fall asleep." ) );
 }
 
 void try_sleep_activity_actor::do_turn( player_activity &act, Character &who )
@@ -1598,7 +2714,7 @@ void try_sleep_activity_actor::do_turn( player_activity &act, Character &who )
     if( who.has_effect( effect_sleep ) ) {
         return;
     }
-    if( dynamic_cast<player *>( &who )->can_sleep() ) {
+    if( who.can_sleep() ) {
         who.fall_asleep(); // calls act.set_to_null()
         if( !who.has_effect( effect_sleep ) ) {
             // Character can potentially have immunity for 'effect_sleep'
@@ -1621,6 +2737,15 @@ void try_sleep_activity_actor::finish( player_activity &act, Character &who )
     if( !who.has_effect( effect_sleep ) ) {
         who.add_msg_if_player( _( "You try to sleep, but can't." ) );
     }
+    who.set_movement_mode( move_mode_walk );
+}
+
+
+void try_sleep_activity_actor::canceled( player_activity &, Character &who )
+{
+    if( who.movement_mode_is( move_mode_prone ) ) {
+        who.set_movement_mode( move_mode_walk );
+    }
 }
 
 void try_sleep_activity_actor::query_keep_trying( player_activity &act, Character &who )
@@ -1640,6 +2765,7 @@ void try_sleep_activity_actor::query_keep_trying( player_activity &act, Characte
         case UILIST_CANCEL:
         case 1:
             act.set_to_null();
+            who.set_movement_mode( move_mode_walk );
             break;
         case 3:
             disable_query = true;
@@ -1660,7 +2786,7 @@ void try_sleep_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonValue &jsin )
 {
     try_sleep_activity_actor actor = try_sleep_activity_actor( 0_seconds );
 
@@ -1669,6 +2795,108 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &j
     data.read( "disable_query", actor.disable_query );
     data.read( "duration", actor.duration );
 
+    return actor.clone();
+}
+
+time_duration safecracking_activity_actor::safecracking_time( const Character &who )
+{
+    time_duration cracking_time = 150_minutes;
+    /** @EFFECT_DEVICES decreases time needed for safe cracking */
+    cracking_time -= 20_minutes * ( who.get_skill_level( skill_traps ) - 3 ) ;
+    /** @EFFECT_PER decreases time needed for safe cracking */
+    cracking_time -= 10_minutes * ( who.get_per() - 8 );
+    cracking_time = std::max( 30_minutes, cracking_time );
+
+    if( !who.has_proficiency( proficiency_prof_safecracking ) ) {
+        cracking_time *= 3;
+    }
+
+    return cracking_time;
+}
+
+void safecracking_activity_actor::start( player_activity &act, Character &who )
+{
+    time_duration cracking_time = safecracking_time( who );
+
+    if( who.is_avatar() ) {
+        add_msg( m_info, _( "You start cracking the safe." ) );
+    } else { // who.is_npc
+        // npcs can't crack safes yet, this is for when they are able to
+        add_msg_if_player_sees( who, _( "%1$s starts cracking the safe." ), who.disp_name() );
+    }
+
+    add_msg_debug( debugmode::DF_ACT_SAFECRACKING, "safecracking time = %s",
+                   to_string_writable( cracking_time ) );
+
+    act.moves_total = to_moves<int>( cracking_time );
+    act.moves_left = act.moves_total;
+}
+
+void safecracking_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    bool can_crack = who.has_flag( json_flag_SUPER_HEARING );
+    // short-circuit to avoid the more expensive iteration over items
+    can_crack = can_crack || who.has_item_with_flag( flag_SAFECRACK );
+
+    if( !can_crack ) {
+        // We lost our cracking tool somehow, bail out.
+        act.set_to_null();
+        return;
+    }
+
+    if( calendar::once_every( 5_minutes ) ) {
+        add_msg_debug( debugmode::DF_ACT_SAFECRACKING, "safecracking time left = %s",
+                       to_string_writable( time_duration::from_moves( act.moves_left ) ) );
+    }
+
+    /* Split experience gain in 20 parts, each giving 5% of the total*/
+    const int current_step =
+        ( 100 * ( act.moves_total - act.moves_left ) / act.moves_total ) / 5;
+    const int difference = current_step - exp_step ;
+    if( difference > 0 ) {
+        exp_step += difference;
+        if( !who.has_proficiency( proficiency_prof_safecracking ) ) {
+            who.practice_proficiency( proficiency_prof_safecracking, 3_minutes * difference );
+            // player gained the proficiency mid-way through cracking
+            if( who.has_proficiency( proficiency_prof_safecracking ) ) {
+                int new_time = to_moves<int>( safecracking_time( who ) );
+                act.moves_total = act.moves_total > new_time ? new_time : act.moves_total;
+                act.moves_left = act.moves_left > new_time ? new_time : act.moves_left;
+            }
+        }
+
+        const int skill_level = who.get_skill_level( skill_traps );
+        who.practice( skill_traps, std::max( 1,  skill_level / 2 ) );
+        if( who.get_skill_level( skill_traps ) > skill_level ) {
+            int new_time = to_moves<int>( safecracking_time( who ) );
+            act.moves_total = act.moves_total > new_time ? new_time : act.moves_total;
+            act.moves_left = act.moves_left > new_time ? new_time : act.moves_left;
+        }
+    }
+}
+
+void safecracking_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
+    get_map().furn_set( safe, f_safe_c );
+    act.set_to_null();
+}
+
+void safecracking_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "safe", safe );
+    jsout.member( "exp_step", exp_step );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> safecracking_activity_actor::deserialize( JsonValue &jsin )
+{
+    safecracking_activity_actor actor = safecracking_activity_actor( {} );
+
+    JsonObject data = jsin.get_object();
+    data.read( "safe", actor.safe );
+    data.read( "exp_step", actor.exp_step );
     return actor.clone();
 }
 
@@ -1693,9 +2921,9 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.is_container() ) {
         contents_change_handler handler;
         bool changed = false;
-        for( item *contained : it.all_items_top() ) {
+        for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
             int old_charges = contained->charges;
-            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it );
+            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
             if( consumed || contained->charges != old_charges ) {
                 changed = true;
                 handler.unseal_pocket_containing( item_location( target, contained ) );
@@ -1715,10 +2943,10 @@ void unload_activity_actor::unload( Character &who, item_location &target )
 
     std::vector<item *> remove_contained;
     for( item *contained : it.all_items_top() ) {
-        if( contained->ammo_type() == ammotype( "plutonium" ) ) {
+        if( contained->ammo_type() == ammo_plutonium ) {
             contained->charges /= PLUTONIUM_CHARGES;
         }
-        if( who.as_player()->add_or_drop_with_msg( *contained, true, &it ) ) {
+        if( who.add_or_drop_with_msg( *contained, true, &it, contained ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
             actually_unloaded = true;
@@ -1734,7 +2962,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.is_ammo_belt() ) {
         if( it.type->magazine->linkage ) {
             item link( *it.type->magazine->linkage, calendar::turn, qty );
-            if( who.as_player()->add_or_drop_with_msg( link, true ) ) {
+            if( who.add_or_drop_with_msg( link, true ) ) {
                 actually_unloaded = true;
             }
         }
@@ -1760,7 +2988,7 @@ void unload_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonValue &jsin )
 {
     unload_activity_actor actor = unload_activity_actor( 0, item_location::nowhere );
 
@@ -1812,7 +3040,6 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     if( !check_if_craft_okay( craft_item, crafter ) ) {
         act.set_to_null();
     }
-    act.moves_left = calendar::INDEFINITELY_LONG;
     activity_override = craft_item.get_item()->get_making().exertion_level();
     cached_crafting_speed = 0;
 }
@@ -1881,15 +3108,16 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const int ticks_per_practice = 10'000'000.0 / total_practice_ticks;
     int num_practice_ticks = craft.item_counter / ticks_per_practice -
                              old_counter / ticks_per_practice;
+    bool level_up = false;
     if( num_practice_ticks > 0 ) {
-        crafter.craft_skill_gain( craft, num_practice_ticks );
+        level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
     }
     // Proficiencies and tools are gained/consumed after every 5% progress
     int five_percent_steps = craft.item_counter / 500'000 - old_counter / 500'000;
     if( five_percent_steps > 0 ) {
         // Divide by 100 for seconds, 20 for 5%
         const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
-        crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
+        level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
         // Invalidate the crafting time cache because proficiencies may have changed
         cached_crafting_speed = 0;
     }
@@ -1910,10 +3138,16 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 
     // if item_counter has reached 100% or more
     if( craft.item_counter >= 10'000'000 ) {
+        if( rec.is_practice() && !is_long && craft.charges == 1 ) {
+            if( query_yn( _( "Keep practicing until proficiency increase?" ) ) ) {
+                is_long = true;
+                *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
+            }
+        }
         item craft_copy = craft;
         craft_item.remove_item();
         // We need to cache this before we cancel the activity else we risk Use After Free
-        bool will_continue = is_long;
+        const bool will_continue = is_long;
         crafter.cancel_activity();
         crafter.complete_craft( craft_copy, location );
         if( will_continue ) {
@@ -1921,14 +3155,19 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
                 crafter.last_craft->execute( location );
             }
         }
-    } else if( craft.item_counter >= craft.get_next_failure_point() ) {
-        bool destroy = craft.handle_craft_failure( crafter );
-        // If the craft needs to be destroyed, do it and stop crafting.
-        if( destroy ) {
-            crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
-                                           _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
-            craft_item.remove_item();
+    } else {
+        if( level_up && craft.get_making().is_practice() &&
+            query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
             crafter.cancel_activity();
+        } else if( craft.item_counter >= craft.get_next_failure_point() ) {
+            bool destroy = craft.handle_craft_failure( crafter );
+            // If the craft needs to be destroyed, do it and stop crafting.
+            if( destroy ) {
+                crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
+                                               _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
+                craft_item.remove_item();
+                crafter.cancel_activity();
+            }
         }
     }
 }
@@ -1958,21 +3197,20 @@ void craft_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "craft_loc", craft_item );
     jsout.member( "long", is_long );
+    jsout.member( "activity_override", activity_override );
 
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &jsin )
 {
-    item_location tmp_item_loc;
-    bool tmp_long;
-
     JsonObject data = jsin.get_object();
 
-    data.read( "craft_loc", tmp_item_loc );
-    data.read( "long", tmp_long );
+    craft_activity_actor actor = craft_activity_actor();
 
-    craft_activity_actor actor = craft_activity_actor( tmp_item_loc, tmp_long );
+    data.read( "craft_loc", actor.craft_item );
+    data.read( "long", actor.is_long );
+    data.read( "activity_override", actor.activity_override );
 
     return actor.clone();
 }
@@ -2001,17 +3239,17 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     // free training requires all limbs intact, but specialized workout machines
     // train upper or lower parts of body only and may permit workout with
     // broken limbs as long as they are not involved by the machine
-    bool hand_equipment = here.has_flag_furn( "WORKOUT_ARMS", location );
-    bool leg_equipment = here.has_flag_furn( "WORKOUT_LEGS", location );
+    bool hand_equipment = here.has_flag_furn( ter_furn_flag::TFLAG_WORKOUT_ARMS, location );
+    bool leg_equipment = here.has_flag_furn( ter_furn_flag::TFLAG_WORKOUT_LEGS, location );
 
-    if( hand_equipment && ( ( who.is_limb_broken( body_part_arm_l ) ) ||
+    if( hand_equipment && ( who.is_limb_broken( body_part_arm_l ) ||
                             who.is_limb_broken( body_part_arm_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken arm." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
         return;
     }
-    if( leg_equipment && ( ( who.is_limb_broken( body_part_leg_l ) ) ||
+    if( leg_equipment && ( who.is_limb_broken( body_part_leg_l ) ||
                            who.is_limb_broken( body_part_leg_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken leg." ) );
         act_id = activity_id::NULL_ID();
@@ -2048,20 +3286,20 @@ void workout_activity_actor::start( player_activity &act, Character &who )
             act_id = activity_id::NULL_ID();
             return;
         case 4:
-            act_id = activity_id( "ACT_WORKOUT_HARD" );
+            act_id = ACT_WORKOUT_HARD;
             intensity_modifier = 4;
             break;
         case 3:
-            act_id = activity_id( "ACT_WORKOUT_ACTIVE" );
+            act_id = ACT_WORKOUT_ACTIVE;
             intensity_modifier = 3;
             break;
         case 2:
-            act_id = activity_id( "ACT_WORKOUT_MODERATE" );
+            act_id = ACT_WORKOUT_MODERATE;
             intensity_modifier = 2;
             break;
         case 1:
         default:
-            act_id = activity_id( "ACT_WORKOUT_LIGHT" );
+            act_id = ACT_WORKOUT_LIGHT;
             intensity_modifier = 1;
             break;
     }
@@ -2192,7 +3430,7 @@ void workout_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonValue &jsin )
 {
     workout_activity_actor actor = workout_activity_actor( tripoint_zero );
 
@@ -2269,9 +3507,9 @@ static std::list<item> obtain_activity_items(
 
         // Take off the item or remove it from the player's inventory
         if( who.is_worn( *loc ) ) {
-            who.as_player()->takeoff( loc, &res );
+            who.takeoff( loc, &res );
         } else if( loc->count_by_charges() ) {
-            res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
+            res.push_back( who.reduce_charges( &*loc, it->count() ) );
         } else {
             res.push_back( who.i_rem( &*loc ) );
         }
@@ -2290,9 +3528,8 @@ void drop_or_stash_item_info::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void drop_or_stash_item_info::deserialize( JsonIn &jsin )
+void drop_or_stash_item_info::deserialize( const JsonObject &jsobj )
 {
-    JsonObject jsobj = jsin.get_object();
     jsobj.read( "loc", _loc );
     jsobj.read( "count", _count );
 }
@@ -2327,7 +3564,7 @@ void drop_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonValue &jsin )
 {
     drop_activity_actor actor;
 
@@ -2337,6 +3574,101 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
     jsobj.read( "placement", actor.placement );
     jsobj.read( "force_ground", actor.force_ground );
 
+    return actor.clone();
+}
+
+void harvest_activity_actor::start( player_activity &act, Character &who )
+{
+    map &here = get_map();
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn = here.furn( target );
+
+        if( furn->has_examine( iexamine::harvest_furn ) ) {
+            exam_furn = true;
+        } else if( furn->has_examine( iexamine::harvest_furn_nectar ) )  {
+            exam_furn = true;
+            nectar = true;
+        }
+    }
+
+    const harvest_id harvest = here.get_harvest( target );
+    if( harvest.is_null() || harvest->empty() ) {
+        if( !auto_forage ) {
+            who.add_msg_if_player( m_info,
+                                   _( "Nothing can be harvested from this plant in current season." ) );
+        }
+
+        if( who.manual_examine ) {
+            iexamine::none( who, target );
+        }
+
+        act.set_to_null();
+        return;
+    }
+
+    const time_duration forage_time = rng( 5_seconds, 15_seconds );
+    add_msg_debug( debugmode::DF_ACT_HARVEST, "harvest time: %s", to_string_writable( forage_time ) );
+    act.moves_total = to_moves<int>( forage_time );
+    act.moves_left = act.moves_total;
+}
+
+void harvest_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+
+    map &here = get_map();
+
+    // If nothing can be harvested, neither can nectar
+    // Incredibly low priority TODO: Allow separating nectar seasons
+    if( nectar && iexamine_helper::drink_nectar( who ) ) {
+        return;
+    }
+
+    const int survival_skill = who.get_skill_level( skill_survival );
+    bool got_anything = false;
+    for( const harvest_entry &entry : here.get_harvest( target ).obj() ) {
+        const float min_num = entry.scale_num.first * survival_skill + entry.base_num.first;
+        const float max_num = entry.scale_num.second * survival_skill + entry.base_num.second;
+        const int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
+        got_anything = roll > 0;
+        for( int i = 0; i < roll; i++ ) {
+            iexamine_helper::handle_harvest( who, entry.drop, false );
+        }
+    }
+
+    if( !got_anything ) {
+        who.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
+    }
+
+    if( exam_furn ) {
+        here.furn_set( target, f_null );
+    } else {
+        here.ter_set( target, here.get_ter_transforms_into( target ) );
+    }
+
+    iexamine::practice_survival_while_foraging( who );
+}
+
+void harvest_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "exam_furn", exam_furn );
+    jsout.member( "nectar", nectar );
+    jsout.member( "auto_forage", auto_forage );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonValue &jsin )
+{
+    harvest_activity_actor actor( tripoint_zero );
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "target", actor.target );
+    jsobj.read( "exam_furn", actor.exam_furn );
+    jsobj.read( "nectar", actor.nectar );
+    jsobj.read( "auto_forage", actor.auto_forage );
     return actor.clone();
 }
 
@@ -2369,7 +3701,7 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint pos = placement + who.pos();
 
-    monster *pet = g->critter_at<monster>( pos );
+    monster *pet = get_creature_tracker().creature_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
         stash_on_pet( obtain_activity_items( items, handler, who ),
                       *pet, who );
@@ -2396,7 +3728,7 @@ void stash_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonValue &jsin )
 {
     stash_activity_actor actor;
 
@@ -2404,6 +3736,109 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     jsobj.read( "items", actor.items );
     jsobj.read( "unhandled_containers", actor.handler );
     jsobj.read( "placement", actor.placement );
+
+    return actor.clone();
+}
+
+void disable_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+    monster &critter = *get_creature_tracker().creature_at<monster>( target );
+    critter.add_effect( effect_worked_on, 1_turns );
+}
+
+void disable_activity_actor::do_turn( player_activity &, Character &who )
+{
+    monster *const mon_ptr = get_creature_tracker().creature_at<monster>( target );
+    if( !mon_ptr ) {
+        who.add_msg_if_player( _( "The robot has moved somewhere else." ) );
+        who.cancel_activity();
+        return;
+    }
+
+    monster &critter = *mon_ptr;
+    if( !can_disable_or_reprogram( critter ) ) {
+        // I think recovery from stunned is the only reason this could happen
+        who.add_msg_if_player( _( "The %s recovers before you can finish." ), critter.name() );
+        who.cancel_activity();
+        return;
+    }
+
+    critter.add_effect( effect_worked_on, 1_turns );
+}
+
+void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
+{
+    // Should never be null as we just checked in do_turn
+    monster &critter = *get_creature_tracker().creature_at<monster>( target );
+
+    if( reprogram ) {
+        if( critter.has_effect( effect_docile ) ) {
+            critter.remove_effect( effect_docile );
+            if( one_in( 3 ) ) {
+                add_msg( _( "The %s hovers momentarily as it surveys the area." ),
+                         critter.name() );
+            }
+        } else {
+            critter.add_effect( effect_docile, 1_turns, true );
+            if( one_in( 3 ) ) {
+                add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
+                         critter.name() );
+            }
+        }
+    } else {
+        get_map().add_item_or_charges( target, critter.to_item() );
+        if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
+            for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
+                if( ammodef.second > 0 ) {
+                    get_map().spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
+                }
+            }
+        }
+        g->remove_zombie( critter );
+    }
+
+    act.set_to_null();
+}
+
+bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
+{
+    if( get_avatar().get_knowledge_level( skill_electronics ) + get_avatar().get_knowledge_level(
+            skill_mechanics ) <= 0 ) {
+        return false;
+    }
+
+    return ( ( monster.friendly != 0 || monster.has_effect( effect_sensor_stun ) ) &&
+             !monster.has_flag( MF_RIDEABLE_MECH ) &&
+             !( monster.has_flag( MF_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
+           ( !monster.type->revert_to_itype.is_empty() || monster.type->id == mon_manhack );
+}
+
+int disable_activity_actor::get_disable_turns()
+{
+    return 2000 / ( get_avatar().get_skill_level( skill_electronics ) + get_avatar().get_skill_level(
+                        skill_mechanics ) );
+}
+
+void disable_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "reprogram", reprogram );
+    jsout.member( "moves_total", moves_total );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> disable_activity_actor::deserialize( JsonValue &jsin )
+{
+    disable_activity_actor actor = disable_activity_actor();
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target", actor.target );
+    data.read( "reprogram", actor.reprogram );
+    data.read( "moves_total", actor.moves_total );
 
     return actor.clone();
 }
@@ -2437,7 +3872,7 @@ void move_furniture_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonValue &jsin )
 {
     move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_zero, false );
 
@@ -2465,7 +3900,7 @@ void insert_item_activity_actor::start( player_activity &act, Character &who )
         act.set_to_null();
     }
 
-    all_pockets_rigid = holster->contents.all_pockets_rigid();
+    all_pockets_rigid = holster->all_pockets_rigid();
 
     const int total_moves = item_move_cost( who, items.front().first );
     act.moves_left = total_moves;
@@ -2479,8 +3914,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     if( holstered_item.first ) {
         item &it = *holstered_item.first;
         if( !it.count_by_charges() ) {
-            if( holster->can_contain( it ) && ( all_pockets_rigid ||
-                                                holster.parents_can_contain_recursive( &it ) ) ) {
+            if( holster->can_contain( it ).success() && ( all_pockets_rigid ||
+                    holster.parents_can_contain_recursive( &it ) ) ) {
 
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
                                            /*unseal_pockets=*/true ).success();
@@ -2562,7 +3997,7 @@ void insert_item_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonValue &jsin )
 {
     insert_item_activity_actor actor;
 
@@ -2653,29 +4088,62 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     } else {
         add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
     }
-    item_location loc = reload_targets[0];
+
+    // Volume change should only affect container that cantains the "base" item
+    // For example a reloaded gun mod never "spills" from the gun
+    // It just affect the container that cantains the gun
+    if( !reload_targets[0].has_parent() ) {
+        debugmsg( "item_location of item to be reloaded is not available" );
+        return;
+    }
+
+    item_location loc = reload_targets[0].parent_item();
     // Reload may have caused the item to increase in size more than the pocket/location can contain.
     // We want to avoid this because items will be deleted on a save/load.
-    if( loc.volume_capacity() < units::volume() ||
-        loc.weight_capacity() < units::mass() ) {
-        // In player inventory and player is wielding nothing.
-        if( !who.is_armed() && loc.held_by( who ) ) {
+    if( loc.volume_capacity() >= units::volume() &&
+        loc.weight_capacity() >= units::mass() ) {
+        return;
+    }
+
+    // Attempt to put item in another pocket before prompting
+    if( who.try_add( reloadable, nullptr, nullptr, false ) != nullptr ) {
+        // try_add copied the old item, so remove it now.
+        loc.remove_item();
+        return;
+    }
+
+    // Build prompt
+    uilist reload_query;
+    const bool wield_check = who.can_wield( reloadable ).success();
+    reload_query.text = string_format( _( "The %s no longer fits in your inventory" ),
+                                       reloadable_name );
+    if( who.has_wield_conflicts( reloadable ) ) {
+        reload_query.addentry( 1, wield_check, 'w',
+                               _( "Dispose of %s and wield %s" ), who.get_wielded_item().display_name(),
+                               reloadable_name );
+    } else {
+        reload_query.addentry( 1, wield_check, 'w', _( "Wield %s" ), reloadable_name );
+    }
+    reload_query.addentry( 2, true, 'd', _( "Drop %s" ), reloadable_name );
+    reload_query.query();
+
+    switch( reload_query.ret ) {
+        case 1:
+            // This case is only reachable if wield_check is true
+            who.wield( reloadable );
             add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
                      reloadable_name );
-            who.wield( reloadable );
-        } else {
+            break;
+        case 2:
+        default:
             // In player inventory and player is wielding something.
             if( loc.held_by( who ) ) {
                 add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
                          reloadable_name );
-                // Default handling message.
-            } else {
-                add_msg( m_neutral, _( "The %s no longer fits its location so you drop it instead." ),
-                         reloadable_name );
             }
             get_map().add_item_or_charges( loc.position(), reloadable );
             loc.remove_item();
-        }
+            break;
     }
 }
 
@@ -2696,7 +4164,7 @@ void reload_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonValue &jsin )
 {
     reload_activity_actor actor;
 
@@ -2722,7 +4190,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     }
     map &here = get_map();
     const tripoint source_pos = here.getlocal( monster_coords.at( 0 ) );
-    monster *source_mon = g->critter_at<monster>( source_pos );
+    monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         debugmsg( "could not find source creature for liquid transfer" );
         return;
@@ -2766,7 +4234,7 @@ void milk_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonValue &jsin )
 {
     milk_activity_actor actor;
     JsonObject data = jsin.get_object();
@@ -2780,7 +4248,7 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
 
 void shearing_activity_actor::start( player_activity &act, Character &who )
 {
-    monster *mon = g->critter_at<monster>( mon_coords );
+    monster *mon = get_creature_tracker().creature_at<monster>( mon_coords );
     if( !mon ) {
         debugmsg( "shearing lost monster when starting" );
         act.set_to_null();
@@ -2791,7 +4259,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
                                        true ) : mon->unique_name;
 
     if( !mon->shearable() ) {
-        add_msg( _( "$1%s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
+        add_msg( _( "%1$s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
         if( shearing_tie ) {
             mon->remove_effect( effect_tied );
         }
@@ -2801,7 +4269,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
 
     const int shearing_quality = who.max_quality( qual_SHEAR );
     if( !( shearing_quality > 0 ) ) {
-        if( who.is_player() ) {
+        if( who.is_avatar() ) {
             add_msg( m_info, _( "%1$s don't have a shearing tool." ), who.disp_name( false, true ) );
         } else { // who.is_npc
             // npcs can't shear monsters yet, this is for when they are able to
@@ -2816,9 +4284,10 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
     }
 
     const time_duration shearing_time = 30_minutes / shearing_quality;
-    add_msg_debug( debugmode::DF_ACT_SHEARING, "shearing_time time = %s", to_string( shearing_time ) );
+    add_msg_debug( debugmode::DF_ACT_SHEARING, "shearing_time time = %s",
+                   to_string_writable( shearing_time ) );
 
-    if( who.is_player() ) {
+    if( who.is_avatar() ) {
         add_msg( m_info,
                  _( "%1$s start shearing %2$s." ), who.disp_name( false, true ), mon->disp_name() );
     } else { // who.is_npc
@@ -2834,7 +4303,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
 void shearing_activity_actor::do_turn( player_activity &, Character &who )
 {
     if( !who.has_quality( qual_SHEAR ) ) {
-        if( who.is_player() ) {
+        if( who.is_avatar() ) {
             add_msg(
                 m_bad,
                 _( "%1$s don't have a shearing tool anymore." ),
@@ -2851,7 +4320,7 @@ void shearing_activity_actor::do_turn( player_activity &, Character &who )
 
 void shearing_activity_actor::finish( player_activity &act, Character &who )
 {
-    monster *mon = g->critter_at<monster>( mon_coords );
+    monster *mon = get_creature_tracker().creature_at<monster>( mon_coords );
     if( !mon ) {
         debugmsg( "shearing monster at position disappeared" );
         act.set_to_null();
@@ -2904,7 +4373,7 @@ void shearing_activity_actor::finish( player_activity &act, Character &who )
 
 void shearing_activity_actor::canceled( player_activity &, Character & )
 {
-    monster *mon = g->critter_at<monster>( mon_coords );
+    monster *mon = get_creature_tracker().creature_at<monster>( mon_coords );
     if( !mon ) {
         return;
     }
@@ -2923,7 +4392,7 @@ void shearing_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> shearing_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> shearing_activity_actor::deserialize( JsonValue &jsin )
 {
     shearing_activity_actor actor = shearing_activity_actor( {} );
 
@@ -2956,12 +4425,10 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         act.set_to_null();
         return;
     }
-
-    if( act.targets.back()->typeId() != itype_disassembly ) {
-        target = who.create_in_progress_disassembly( act.targets.back() );
-    } else {
-        target = act.targets.back();
+    if( act.targets.back()->typeId() == itype_disassembly ) {
+        act.position = act.targets.back()->charges;
     }
+    target = who.create_in_progress_disassembly( act.targets.back() );
     act.targets.pop_back();
 
     if( !check_if_disassemble_okay( target, who ) ) {
@@ -2969,12 +4436,10 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    // We already checked if this is nullptr above
-    item *craft = target.get_item();
-    double counter = craft->item_counter;
+    // Mark the item, not available for other characters
+    target->set_var( "activity_var", who.name );
 
-    act.moves_left = moves_total - ( counter / 10'000'000.0 ) * moves_total;
-    act.moves_total = moves_total;
+    activity_override = target->get_making().exertion_level();
 }
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
@@ -2985,21 +4450,55 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     // We already checked if this is nullptr above
-    item *craft = target.get_item();
+    item &craft = *target;
 
-    double moves_left = act.moves_left;
-    double moves_total = act.moves_total;
-    // Current progress as a percent of base_total_moves to 2 decimal places
-    craft->item_counter = std::round( ( moves_total - moves_left ) / moves_total * 10'000'000.0 );
-}
+    const cata::optional<tripoint> location = target.where() == item_location::type::character
+            ? cata::optional<tripoint>() : cata::optional<tripoint>( target.position() );
+    const float crafting_speed = who.crafting_speed_multiplier( craft, location );
 
-void disassemble_activity_actor::finish( player_activity &act, Character &who )
-{
-    if( !check_if_disassemble_okay( target, who ) ) {
-        act.set_to_null();
+    if( crafting_speed <= 0.0f ) {
+        who.cancel_activity();
         return;
     }
-    who.complete_disassemble( target );
+
+    if( moves_total == 0 ) {
+        craft.item_counter = 10'000'000;
+    } else {
+        const int spent_moves = who.get_moves() * who.exertion_adjusted_move_multiplier( exertion_level() );
+        craft.item_counter += std::round( spent_moves * crafting_speed * 10'000'000.0 / moves_total );
+        craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+        who.set_moves( 0 );
+    }
+
+    if( craft.item_counter >= 10'000'000 ) {
+        who.complete_disassemble( target );
+    }
+}
+
+void disassemble_activity_actor::finish( player_activity &act, Character & )
+{
+    act.set_to_null();
+}
+
+void disassemble_activity_actor::canceled( player_activity &, Character & )
+{
+    if( target.get_item() ) {
+        target->erase_var( "activity_var" );
+    }
+}
+
+float disassemble_activity_actor::exertion_level() const
+{
+    return activity_override;
+}
+
+std::string disassemble_activity_actor::get_progress_message( const player_activity & ) const
+{
+    if( !target ) {
+        // We have somehow lost the disassembly item.  This will be handled in do_turn in the check_if_disassemble_okay call.
+        return "";
+    }
+    return target->tname();
 }
 
 void disassemble_activity_actor::serialize( JsonOut &jsout ) const
@@ -3007,18 +4506,175 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "moves_total", moves_total );
+    jsout.member( "target", target );
+    jsout.member( "activity_override", activity_override );
 
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonValue &jsin )
 {
     disassemble_activity_actor actor = disassemble_activity_actor( 0 );
 
     JsonObject data = jsin.get_object();
 
+    data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
+    data.read( "activity_override", actor.activity_override );
 
+    return actor.clone();
+}
+
+void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    const map &here = get_map();
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->oxytorch->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s oxytorch is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        act.moves_total = to_moves<int>( furn_type->oxytorch->duration() );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->oxytorch->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s oxytorch is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+        act.moves_total = to_moves<int>( ter_type->oxytorch->duration() );
+    } else {
+        if( !testing ) {
+            debugmsg( "oxytorch activity called on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
+    act.moves_left = act.moves_total;
+}
+
+void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+{
+    if( tool->ammo_sufficient( &who ) ) {
+        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
+        if( calendar::once_every( 2_turns ) ) {
+            sounds::sound( target, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
+        }
+    } else {
+        if( who.is_avatar() ) {
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+        } else { // who.is_npc()
+            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                    true ), tool->tname() );
+        }
+        who.cancel_activity();
+    }
+}
+
+void oxytorch_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    const activity_data_common *data;
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->oxytorch->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s oxytorch is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const furn_str_id new_furn = furn_type->oxytorch->result();
+        if( !new_furn.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "oxytorch furniture: %s invalid furniture", new_furn.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*furn_type->oxytorch );
+        here.furn_set( target, new_furn );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->oxytorch->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s oxytorch is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const ter_str_id new_ter = ter_type->oxytorch->result();
+        if( !new_ter.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "oxytorch terrain: %s invalid terrain", new_ter.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*ter_type->oxytorch );
+        here.ter_set( target, new_ter );
+    } else {
+        if( !testing ) {
+            debugmsg( "oxytorch activity finished on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    for( const activity_byproduct &byproduct : data->byproducts() ) {
+        const int amount = byproduct.roll();
+        if( byproduct.item->count_by_charges() ) {
+            item byproduct_item( byproduct.item, calendar::turn, amount );
+            here.add_item_or_charges( target, byproduct_item );
+        } else {
+            item byproduct_item( byproduct.item, calendar::turn );
+            for( int i = 0; i < amount; ++i ) {
+                here.add_item_or_charges( target, byproduct_item );
+            }
+        }
+    }
+
+    // 50% chance of starting a fire.
+    if( one_in( 2 ) && here.flammable_items_at( target ) ) {
+        here.add_field( target, fd_fire, 1, 10_minutes );
+    }
+
+    if( !data->message().empty() ) {
+        who.add_msg_if_player( m_info, data->message().translated() );
+    }
+
+    act.set_to_null();
+}
+
+void oxytorch_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "tool", tool );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> oxytorch_activity_actor::deserialize( JsonValue &jsin )
+{
+    oxytorch_activity_actor actor( {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor.target );
+    data.read( "tool", actor.tool );
     return actor.clone();
 }
 
@@ -3072,7 +4728,7 @@ void tent_placement_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> tent_placement_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> tent_placement_activity_actor::deserialize( JsonValue &jsin )
 {
     item it;
     tent_placement_activity_actor actor( 0, {}, 0, it, {}, {}, {}, {} );
@@ -3114,7 +4770,7 @@ void tent_deconstruct_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( JsonValue &jsin )
 {
     tent_deconstruct_activity_actor actor( 0, 0, {}, {} );
     JsonObject data = jsin.get_object();
@@ -3144,7 +4800,7 @@ void meditate_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> meditate_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> meditate_activity_actor::deserialize( JsonValue & )
 {
     return meditate_activity_actor().clone();
 }
@@ -3158,6 +4814,11 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
+
+    if( !playstr.empty() ) {
+        who.add_msg_if_player( m_good, playstr, pet_name );
+    }
+
     who.add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
                            pet_name );
     act.set_to_null();
@@ -3166,19 +4827,330 @@ void play_with_pet_activity_actor::finish( player_activity &act, Character &who 
 void play_with_pet_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-
     jsout.member( "pet_name", pet_name );
-
+    jsout.member( "playstr", playstr );
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonValue &jsin )
 {
     play_with_pet_activity_actor actor = play_with_pet_activity_actor();
-
     JsonObject data = jsin.get_object();
-
     data.read( "pet_name", actor.pet_name );
+    data.read( "playstr", actor.playstr );
+    return actor.clone();
+}
+
+time_duration prying_activity_actor::prying_time( const activity_data_common &data,
+        const item_location &tool, const Character &who )
+{
+    const pry_data &pdata = data.prying_data();
+    if( pdata.prying_nails ) {
+        return data.duration();
+    }
+
+    int difficulty = pdata.difficulty;
+    difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
+    return time_duration::from_moves(
+               /** @ARM_STR speeds up crowbar prying attempts */
+               std::max( 20, 5 * ( 4 * difficulty - who.get_arm_str() ) ) );
+}
+
+void prying_activity_actor::start( player_activity &act, Character &who )
+{
+    const map &here = get_map();
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->prying->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s prying is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        prying_nails = furn_type->prying->prying_data().prying_nails;
+        act.moves_total = to_moves<int>(
+                              prying_time( *furn_type->prying, tool, who ) );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->prying->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s prying is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        prying_nails = ter_type->prying->prying_data().prying_nails;
+        act.moves_total = to_moves<int>(
+                              prying_time( *ter_type->prying, tool, who ) );
+    } else {
+        if( !testing ) {
+            debugmsg( "prying activity called on invalid terrain" );
+        }
+        act.set_to_null();
+        return;
+    }
+
+    if( prying_nails && !tool->has_quality( qual_PRYING_NAIL ) ) {
+        who.add_msg_if_player( _( "You can't use your %1$s to pry up the nails." ), tool->tname() );
+        act.set_to_null();
+        return;
+    }
+
+    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
+    act.moves_left = act.moves_total;
+}
+
+void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+{
+    if( tool->ammo_sufficient( &who ) ) {
+        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        if( prying_nails ) {
+            sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( target ) );
+        }
+    } else {
+        if( who.is_avatar() ) {
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+        } else { // who.is_npc()
+            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                    true ), tool->tname() );
+        }
+        who.cancel_activity();
+    }
+}
+
+void prying_activity_actor::handle_prying( Character &who )
+{
+    map &here = get_map();
+    const activity_data_common *data;
+
+    // check if Character passed the difficulty check
+    auto difficulty_check = [&]( const activity_data_common & data ) -> bool {
+        const pry_data &pdata = data.prying_data();
+
+        int difficulty = pdata.difficulty;
+        difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
+
+        /** @ARM_STR increases chance of prying success */
+        const int dice_str = dice( 4, who.get_arm_str() );
+
+        return dice( 4, difficulty ) < dice_str;
+    };
+
+    auto handle_failure = [&]( const pry_data & pdata ) -> void {
+        if( !pdata.breakable )
+        {
+            return;
+        }
+
+        int difficulty = pdata.difficulty;
+        difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
+
+        /** @EFFECT_MECHANICS reduces chance of breaking when prying */
+        const int dice_mech = dice( 2, who.get_skill_level( skill_mechanics ) );
+        /** @ARM_STR reduces chance of breaking when prying */
+        const int dice_str = dice( 2, who.get_arm_str() );
+
+        if( dice( 4, difficulty ) > dice_mech + dice_str )
+        {
+            // bash will always succeed
+            here.bash( target, 0, false, true );
+        }
+
+        if( !data->prying_data().failure.empty() )
+        {
+            who.add_msg_if_player( m_info, data->prying_data().failure.translated() );
+        }
+    };
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->prying->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s prying is invalid", furn_type.id().str() );
+            }
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*furn_type->prying );
+        if( !difficulty_check( *furn_type->prying ) ) {
+            handle_failure( furn_type->prying->prying_data() );
+            return;
+        }
+
+        const furn_str_id new_furn = furn_type->prying->result();
+        if( !new_furn.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "prying furniture: %s invalid furniture", new_furn.str() );
+            }
+            return;
+        }
+
+        here.furn_set( target, new_furn );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->prying->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s prying is invalid", ter_type.id().str() );
+            }
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*ter_type->prying );
+        if( !difficulty_check( *ter_type->prying ) ) {
+            handle_failure( ter_type->prying->prying_data() );
+            return;
+        }
+
+        const ter_str_id new_ter = ter_type->prying->result();
+        if( !new_ter.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "prying terrain: %s invalid terrain", new_ter.str() );
+            }
+            return;
+        }
+
+        here.ter_set( target, new_ter );
+    } else {
+        if( !testing ) {
+            debugmsg( "prying activity finished on invalid terrain" );
+        }
+        return;
+    }
+
+    for( const activity_byproduct &byproduct : data->byproducts() ) {
+        const int amount = byproduct.roll();
+        if( byproduct.item->count_by_charges() ) {
+            item byproduct_item( byproduct.item, calendar::turn, amount );
+            here.add_item_or_charges( target, byproduct_item );
+        } else {
+            item byproduct_item( byproduct.item, calendar::turn );
+            for( int i = 0; i < amount; ++i ) {
+                here.add_item_or_charges( target, byproduct_item );
+            }
+        }
+    }
+
+    const pry_data &pdata = data->prying_data();
+    if( pdata.noisy ) {
+        sounds::sound( target, 12, sounds::sound_t::combat, _( "crunch!" ), true, "tool", "crowbar" );
+    }
+
+    if( pdata.alarm ) {
+        get_event_bus().send<event_type::triggers_alarm>( who.getID() );
+        sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
+                       "alarm" );
+        if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
+            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
+                                    who.global_sm_location() );
+        }
+    }
+
+    if( !data->message().empty() ) {
+        who.add_msg_if_player( m_info, data->message().translated() );
+    }
+}
+
+void prying_activity_actor::handle_prying_nails( Character &who )
+{
+    map &here = get_map();
+    const activity_data_common *data;
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->prying->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s prying is invalid", furn_type.id().str() );
+            }
+            return;
+        }
+
+        const furn_str_id new_furn = furn_type->prying->result();
+        if( !new_furn.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "prying furniture: %s invalid furniture", new_furn.str() );
+            }
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*furn_type->prying );
+        here.furn_set( target, new_furn );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->prying->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s prying is invalid", ter_type.id().str() );
+            }
+            return;
+        }
+
+        const ter_str_id new_ter = ter_type->prying->result();
+        if( !new_ter.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "prying terrain: %s invalid terrain", new_ter.str() );
+            }
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*ter_type->prying );
+        here.ter_set( target, new_ter );
+    } else {
+        if( !testing ) {
+            debugmsg( "prying nails activity finished on invalid terrain" );
+        }
+        return;
+    }
+
+    for( const activity_byproduct &byproduct : data->byproducts() ) {
+        const int amount = byproduct.roll();
+        if( byproduct.item->count_by_charges() ) {
+            item byproduct_item( byproduct.item, calendar::turn, amount );
+            here.add_item_or_charges( target, byproduct_item );
+        } else {
+            item byproduct_item( byproduct.item, calendar::turn );
+            for( int i = 0; i < amount; ++i ) {
+                here.add_item_or_charges( target, byproduct_item );
+            }
+        }
+    }
+
+    if( !data->message().empty() ) {
+        who.add_msg_if_player( m_info, data->message().translated() );
+    }
+
+    who.practice( skill_fabrication, 1, 1 );
+}
+
+void prying_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+
+    if( prying_nails ) {
+        handle_prying_nails( who );
+    } else {
+        handle_prying( who );
+    }
+}
+
+void prying_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "tool", tool );
+    jsout.member( "prying_nails", prying_nails );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> prying_activity_actor::deserialize( JsonValue &jsin )
+{
+    prying_activity_actor actor( {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "target", actor.target );
+    data.read( "tool", actor.tool );
+    data.read( "prying_nails", actor.prying_nails );
     return actor.clone();
 }
 
@@ -3200,7 +5172,7 @@ void shave_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> shave_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> shave_activity_actor::deserialize( JsonValue & )
 {
     return shave_activity_actor().clone();
 }
@@ -3215,6 +5187,19 @@ void haircut_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( _( "You give your hair a trim." ) );
     who.add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    if( who.is_avatar() ) {
+        uilist amenu;
+        amenu.title = _( "Change what?" );
+        amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change hairstyle" ) );
+        amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change facial hairstyle" ) );
+
+        amenu.query();
+        if( amenu.ret == 0 ) {
+            who.customize_appearance( customize_appearance_choice::HAIR );
+        } else if( amenu.ret == 1 ) {
+            who.customize_appearance( customize_appearance_choice::HAIR_F );
+        }
+    }
     act.set_to_null();
 }
 
@@ -3223,53 +5208,748 @@ void haircut_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonValue & )
 {
     return haircut_activity_actor().clone();
+}
+
+static bool check_stealing( Character &who, item &it )
+{
+    if( !it.is_owned_by( who, true ) ) {
+        // Has the player given input on if stealing is ok?
+        if( who.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+            Pickup::query_thief();
+        }
+        if( who.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void wield_activity_actor::do_turn( player_activity &, Character &who )
+{
+    if( who.moves > 0 ) {
+        if( target_item ) {
+            // Make copies so the original remains untouched if wielding fails
+            item newit = *target_item;
+            item leftovers = newit;
+
+            // Handle charges, quantity == 0 means move all
+            if( quantity != 0 && newit.count_by_charges() ) {
+                leftovers.charges = newit.charges - quantity;
+                if( leftovers.charges > 0 ) {
+                    newit.charges = quantity;
+                }
+            } else {
+                leftovers.charges = 0;
+            }
+
+            if( check_stealing( who, newit ) ) {
+                handler.unseal_pocket_containing( target_item );
+                if( who.wield( newit ) ) {
+                    // If we wielded up a whole stack, remove the original item
+                    // Otherwise, replace the item with the leftovers
+                    if( leftovers.charges > 0 ) {
+                        *target_item = std::move( leftovers );
+                    } else {
+                        target_item.remove_item();
+                    }
+                }
+                handler.handle_by( who );
+            }
+        }
+
+        who.cancel_activity();
+    }
+}
+
+void wield_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "target_items", target_item );
+    jsout.member( "quantities", quantity );
+    jsout.member( "handler", handler );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> wield_activity_actor::deserialize( JsonValue &jsin )
+{
+    wield_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target_items", actor.target_item );
+    data.read( "quantities", actor.quantity );
+    data.read( "handler", actor.handler );
+
+    return actor.clone();
+}
+
+void wear_activity_actor::do_turn( player_activity &, Character &who )
+{
+    // ACT_WEAR has item_location targets, and int quantities
+    while( who.moves > 0 && !target_items.empty() ) {
+        item_location target = std::move( target_items.back() );
+        int quantity = quantities.back();
+        target_items.pop_back();
+        quantities.pop_back();
+
+        if( !target ) {
+            debugmsg( "Lost target item of ACT_WEAR" );
+            continue;
+        }
+
+        // Make copies so the original remains untouched if wearing fails
+        item newit = *target;
+        item leftovers = newit;
+
+        // Handle charges, quantity == 0 means move all
+        if( quantity != 0 && newit.count_by_charges() ) {
+            leftovers.charges = newit.charges - quantity;
+            if( leftovers.charges > 0 ) {
+                newit.charges = quantity;
+            }
+        } else {
+            leftovers.charges = 0;
+        }
+
+        if( check_stealing( who, newit ) ) {
+            handler.unseal_pocket_containing( target );
+            if( who.wear_item( newit ) ) {
+                // If we wore up a whole stack, remove the original item
+                // Otherwise, replace the item with the leftovers
+                if( leftovers.charges > 0 ) {
+                    *target = std::move( leftovers );
+                } else {
+                    target.remove_item();
+                }
+            }
+        }
+    }
+
+    // If there are no items left we are done
+    if( target_items.empty() ) {
+        handler.handle_by( who );
+        who.cancel_activity();
+    }
+}
+
+void wear_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "target_items", target_items );
+    jsout.member( "quantities", quantities );
+    jsout.member( "handler", handler );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> wear_activity_actor::deserialize( JsonValue &jsin )
+{
+    wear_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target_items", actor.target_items );
+    data.read( "quantities", actor.quantities );
+    data.read( "handler", actor.handler );
+
+    return actor.clone();
+}
+
+void pickup_menu_activity_actor::do_turn( player_activity &, Character &who )
+{
+    cata::optional<tripoint> p( where );
+    std::vector<drop_location> s( selection );
+    who.cancel_activity();
+    who.pick_up( game_menus::inv::pickup( *who.as_avatar(), p, s ) );
+}
+
+void pickup_menu_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "where", where );
+    jsout.member( "selection", selection );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> pickup_menu_activity_actor::deserialize( JsonValue &jsin )
+{
+    pickup_menu_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "where", actor.where );
+    data.read( "selection", actor.selection );
+
+    return actor.clone();
+}
+
+static void chop_single_do_turn( player_activity &act )
+{
+    const map &here = get_map();
+    sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( here.getlocal( act.placement ) ) );
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a wood chopping tool at work!
+        sounds::sound( here.getlocal( act.placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
+    }
+}
+
+void chop_logs_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void chop_logs_activity_actor::do_turn( player_activity &act, Character & )
+{
+    chop_single_do_turn( act );
+}
+
+void chop_logs_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    const tripoint &pos = here.getlocal( act.placement );
+    int log_quan;
+    int stick_quan;
+    int splint_quan;
+    if( here.ter( pos ) == t_trunk ) {
+        log_quan = rng( 2, 3 );
+        stick_quan = rng( 0, 1 );
+        splint_quan = 0;
+    } else if( here.ter( pos ) == t_stump ) {
+        log_quan = rng( 0, 2 );
+        stick_quan = 0;
+        splint_quan = rng( 5, 15 );
+    } else {
+        log_quan = 0;
+        stick_quan = 0;
+        splint_quan = 0;
+    }
+    for( int i = 0; i != log_quan; ++i ) {
+        item obj( itype_log, calendar::turn );
+        obj.set_var( "activity_var", who.name );
+        here.add_item_or_charges( pos, obj );
+    }
+    for( int i = 0; i != stick_quan; ++i ) {
+        item obj( itype_stick_long, calendar::turn );
+        obj.set_var( "activity_var", who.name );
+        here.add_item_or_charges( pos, obj );
+    }
+    for( int i = 0; i != splint_quan; ++i ) {
+        item obj( itype_splinter, calendar::turn );
+        obj.set_var( "activity_var", who.name );
+        here.add_item_or_charges( pos, obj );
+    }
+    here.ter_set( pos, t_dirt );
+    who.add_msg_if_player( m_good, _( "You finish chopping wood." ) );
+
+    act.set_to_null();
+    activity_handlers::resume_for_multi_activities( who );
+}
+
+void chop_logs_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "tool", tool );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> chop_logs_activity_actor::deserialize( JsonValue &jsin )
+{
+    chop_logs_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "tool", actor.tool );
+
+    return actor.clone();
+}
+
+void chop_planks_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void chop_planks_activity_actor::do_turn( player_activity &act, Character & )
+{
+    chop_single_do_turn( act );
+}
+
+void chop_planks_activity_actor::finish( player_activity &act, Character &who )
+{
+    const int max_planks = 10;
+    /** @EFFECT_FABRICATION increases number of planks cut from a log */
+    int planks = normal_roll( 2 + who.get_skill_level( skill_fabrication ), 1 );
+    int wasted_planks = max_planks - planks;
+    int scraps = rng( wasted_planks, wasted_planks * 3 );
+    planks = std::min( planks, max_planks );
+
+    map &here = get_map();
+    if( planks > 0 ) {
+        here.spawn_item( here.getlocal( act.placement ), itype_2x4, planks, 0, calendar::turn );
+        who.add_msg_if_player( m_good, n_gettext( "You produce %d plank.", "You produce %d planks.",
+                               planks ), planks );
+    }
+    if( scraps > 0 ) {
+        here.spawn_item( here.getlocal( act.placement ), itype_splinter, scraps, 0, calendar::turn );
+        who.add_msg_if_player( m_good, n_gettext( "You produce %d splinter.", "You produce %d splinters.",
+                               scraps ), scraps );
+    }
+    if( planks < max_planks / 2 ) {
+        who.add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
+    }
+    act.set_to_null();
+    activity_handlers::resume_for_multi_activities( who );
+}
+
+void chop_planks_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> chop_planks_activity_actor::deserialize( JsonValue &jsin )
+{
+    chop_planks_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+
+    return actor.clone();
+}
+
+void chop_tree_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void chop_tree_activity_actor::do_turn( player_activity &act, Character & )
+{
+    chop_single_do_turn( act );
+}
+
+void chop_tree_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    const tripoint &pos = here.getlocal( act.placement );
+
+    tripoint direction;
+    if( !who.is_npc() ) {
+        if( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) {
+            while( true ) {
+                if( const cata::optional<tripoint> dir = choose_direction(
+                            _( "Select a direction for the tree to fall in." ) ) ) {
+                    direction = *dir;
+                    break;
+                }
+                // try again
+            }
+        }
+    } else {
+        creature_tracker &creatures = get_creature_tracker();
+        for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
+            bool cantuse = false;
+            tripoint direc = elem - pos;
+            tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
+            std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
+            for( const tripoint &elem : rough_tree_line ) {
+                if( creatures.creature_at( elem ) ) {
+                    cantuse = true;
+                    break;
+                }
+            }
+            if( !cantuse ) {
+                direction = direc;
+            }
+        }
+    }
+
+    const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
+    std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
+    for( const tripoint &elem : tree ) {
+        here.batter( elem, 300, 5 );
+        here.ter_set( elem, t_trunk );
+    }
+
+    here.ter_set( pos, t_stump );
+    who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
+    // sound of falling tree
+    sfx::play_variant_sound( "misc", "timber",
+                             sfx::get_heard_volume( here.getlocal( act.placement ) ) );
+    get_event_bus().send<event_type::cuts_tree>( who.getID() );
+    act.set_to_null();
+    activity_handlers::resume_for_multi_activities( who );
+}
+
+void chop_tree_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "tool", tool );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> chop_tree_activity_actor::deserialize( JsonValue &jsin )
+{
+    chop_tree_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "tool", actor.tool );
+
+    return actor.clone();
+}
+
+void firstaid_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+    act.name = name;
+}
+
+void firstaid_activity_actor::finish( player_activity &act, Character &who )
+{
+    static const std::string iuse_name_string( "heal" );
+
+    item &it = *act.targets.front();
+    item *used_tool = it.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for healing" );
+        act.set_to_null();
+        return;
+    }
+
+    const use_function *use_fun = used_tool->get_use( iuse_name_string );
+    const heal_actor *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act.set_to_null();
+        return;
+    }
+
+    // TODO: Store the patient somehow, retrieve here
+    Character &patient = who;
+    const bodypart_id healed = bodypart_id( act.str_values[0] );
+    const int charges_consumed = actor->finish_using( who, patient, *used_tool, healed );
+    who.consume_charges( it, charges_consumed );
+
+    // Erase activity and values.
+    act.set_to_null();
+    act.values.clear();
+}
+
+void firstaid_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "name", name );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> firstaid_activity_actor::deserialize( JsonValue &jsin )
+{
+    firstaid_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "name", actor.name );
+
+    return actor.clone();
+}
+
+void forage_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void forage_activity_actor::finish( player_activity &act, Character &who )
+{
+    // Don't forage if we aren't next to the bush - otherwise we get weird bugs
+    bool next_to_bush = false;
+    map &here = get_map();
+    for( const tripoint &pnt : here.points_in_radius( who.pos(), 1 ) ) {
+        // TODO: fix point types
+        if( here.getglobal( pnt ) == tripoint_abs_ms( act.placement ) ) {
+            next_to_bush = true;
+            break;
+        }
+    }
+
+    if( !next_to_bush ) {
+        act.set_to_null();
+        return;
+    }
+
+    const int veggy_chance = rng( 1, 100 );
+    bool found_something = false;
+
+    item_group_id group_id;
+    ter_str_id next_ter;
+
+    switch( season_of_year( calendar::turn ) ) {
+        case SPRING:
+            group_id = Item_spawn_data_forage_spring;
+            next_ter = ter_t_underbrush_harvested_spring;
+            break;
+        case SUMMER:
+            group_id = Item_spawn_data_forage_summer;
+            next_ter = ter_t_underbrush_harvested_summer;
+            break;
+        case AUTUMN:
+            group_id = Item_spawn_data_forage_autumn;
+            next_ter = ter_t_underbrush_harvested_autumn;
+            break;
+        case WINTER:
+            group_id = Item_spawn_data_forage_winter;
+            next_ter = ter_t_underbrush_harvested_winter;
+            break;
+        default:
+            debugmsg( "Invalid season" );
+    }
+
+    const tripoint bush_pos = here.getlocal( act.placement );
+    here.ter_set( bush_pos, next_ter );
+
+    // Survival gives a bigger boost, and Perception is leveled a bit.
+    // Both survival and perception affect time to forage
+
+    ///\EFFECT_PER slightly increases forage success chance
+    ///\EFFECT_SURVIVAL increases forage success chance
+    if( veggy_chance < who.get_skill_level( skill_survival ) * 3 + who.per_cur - 2 ) {
+        const std::vector<item *> dropped =
+            here.put_items_from_loc( group_id, who.pos(), calendar::turn );
+        for( item *it : dropped ) {
+            add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            found_something = true;
+            if( it->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
+                it->set_flag( flag_HIDDEN_POISON );
+                it->poison = rng( 2, 7 );
+            }
+            if( it->has_flag( flag_FORAGE_HALLU ) && !it->has_flag( flag_HIDDEN_POISON ) && one_in( 10 ) ) {
+                it->set_flag( flag_HIDDEN_HALLU );
+            }
+        }
+    }
+    // 10% to drop a item/items from this group.
+    if( one_in( 10 ) ) {
+        const std::vector<item *> dropped =
+            here.put_items_from_loc( Item_spawn_data_trash_forest, who.pos(), calendar::turn );
+        for( item * const &it : dropped ) {
+            add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            found_something = true;
+        }
+    }
+
+    if( !found_something ) {
+        add_msg( _( "You didn't find anything." ) );
+    }
+
+    iexamine::practice_survival_while_foraging( who );
+
+    act.set_to_null();
+
+    here.maybe_trigger_trap( bush_pos, who, true );
+}
+
+void forage_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> forage_activity_actor::deserialize( JsonValue &jsin )
+{
+    forage_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+
+    return actor.clone();
+}
+
+void longsalvage_activity_actor::start( player_activity &act, Character & )
+{
+    act.index = index;
+
+    //todo: refactor the actor to process items in ::do_turn, then remove setting the moves to 0
+    //this currently still can't get interrupted before you get attacked
+    act.moves_left = 0;
+}
+
+void longsalvage_activity_actor::finish( player_activity &act, Character &who )
+{
+    static const std::string salvage_string = "salvage";
+    item &main_tool = who.i_at( act.index );
+    map &here = get_map();
+    map_stack items = here.i_at( who.pos() );
+    item *salvage_tool = main_tool.get_usable_item( salvage_string );
+    if( salvage_tool == nullptr ) {
+        debugmsg( "Lost tool used for long salvage" );
+        act.set_to_null();
+        return;
+    }
+
+    const use_function *use_fun = salvage_tool->get_use( salvage_string );
+    const salvage_actor *actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act.set_to_null();
+        return;
+    }
+
+    for( item &it : items ) {
+        if( actor->valid_to_cut_up( it ) ) {
+            item_location item_loc( map_cursor( who.pos() ), &it );
+            actor->cut_up( who, *salvage_tool, item_loc );
+            return;
+        }
+    }
+
+    add_msg( _( "You finish salvaging." ) );
+    act.set_to_null();
+}
+
+void longsalvage_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "index", index );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> longsalvage_activity_actor::deserialize( JsonValue &jsin )
+{
+    longsalvage_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "index", actor.index );
+
+    return actor.clone();
+}
+
+void mop_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void mop_activity_actor::finish( player_activity &act, Character &who )
+{
+    // Blind character have a 1/3 chance of actually mopping.
+    const bool will_mop = one_in( who.is_blind() ? 1 : 3 );
+    if( will_mop ) {
+        map &here = get_map();
+        here.mop_spills( here.getlocal( act.placement ) );
+    }
+    activity_handlers::resume_for_multi_activities( who );
+}
+
+void mop_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin )
+{
+    mop_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+
+    return actor.clone();
 }
 
 namespace activity_actors
 {
 
 // Please keep this alphabetically sorted
-const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
+const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonValue & )>
 deserialize_functions = {
-    { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
-    { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
-    { activity_id( "ACT_BIKERACK_RACKING" ), &bikerack_racking_activity_actor::deserialize },
-    { activity_id( "ACT_BIKERACK_UNRACKING" ), &bikerack_unracking_activity_actor::deserialize },
-    { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
-    { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
-    { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
-    { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
-    { activity_id( "ACT_DISASSEMBLE" ), &disassemble_activity_actor::deserialize },
-    { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
-    { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
-    { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
-    { activity_id( "ACT_HAIRCUT" ), &haircut_activity_actor::deserialize },
-    { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
-    { activity_id( "ACT_INSERT_ITEM" ), &insert_item_activity_actor::deserialize },
-    { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
-    { activity_id( "ACT_MEDITATE" ), &meditate_activity_actor::deserialize },
-    { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
-    { activity_id( "ACT_MILK" ), &milk_activity_actor::deserialize },
-    { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
-    { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
-    { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
-    { activity_id( "ACT_PLAY_WITH_PET" ), &play_with_pet_activity_actor::deserialize },
-    { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },
-    { activity_id( "ACT_SHAVE" ), &shave_activity_actor::deserialize },
-    { activity_id( "ACT_SHEARING" ), &shearing_activity_actor::deserialize },
-    { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
-    { activity_id( "ACT_TENT_DECONSTRUCT" ), &tent_deconstruct_activity_actor::deserialize },
-    { activity_id( "ACT_TENT_PLACE" ), &tent_placement_activity_actor::deserialize },
-    { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
-    { activity_id( "ACT_UNLOAD" ), &unload_activity_actor::deserialize },
-    { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },
-    { activity_id( "ACT_WORKOUT_ACTIVE" ), &workout_activity_actor::deserialize },
-    { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },
-    { activity_id( "ACT_WORKOUT_LIGHT" ), &workout_activity_actor::deserialize },
-    { activity_id( "ACT_FURNITURE_MOVE" ), &move_furniture_activity_actor::deserialize },
+    { ACT_AIM, &aim_activity_actor::deserialize },
+    { ACT_AUTODRIVE, &autodrive_activity_actor::deserialize },
+    { ACT_BIKERACK_RACKING, &bikerack_racking_activity_actor::deserialize },
+    { ACT_BIKERACK_UNRACKING, &bikerack_unracking_activity_actor::deserialize },
+    { ACT_BINDER_COPY_RECIPE, &bookbinder_copy_activity_actor::deserialize },
+    { ACT_BOLTCUTTING, &boltcutting_activity_actor::deserialize },
+    { ACT_CONSUME, &consume_activity_actor::deserialize },
+    { ACT_CRACKING, &safecracking_activity_actor::deserialize },
+    { ACT_CRAFT, &craft_activity_actor::deserialize },
+    { ACT_DIG, &dig_activity_actor::deserialize },
+    { ACT_DIG_CHANNEL, &dig_channel_activity_actor::deserialize },
+    { ACT_DISABLE, &disable_activity_actor::deserialize },
+    { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
+    { ACT_DROP, &drop_activity_actor::deserialize },
+    { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
+    { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
+    { ACT_GUNMOD_REMOVE, &gunmod_remove_activity_actor::deserialize },
+    { ACT_HACKING, &hacking_activity_actor::deserialize },
+    { ACT_HACKSAW, &hacksaw_activity_actor::deserialize },
+    { ACT_HAIRCUT, &haircut_activity_actor::deserialize },
+    { ACT_HARVEST, &harvest_activity_actor::deserialize},
+    { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
+    { ACT_INSERT_ITEM, &insert_item_activity_actor::deserialize },
+    { ACT_LOCKPICK, &lockpick_activity_actor::deserialize },
+    { ACT_MEDITATE, &meditate_activity_actor::deserialize },
+    { ACT_MIGRATION_CANCEL, &migration_cancel_activity_actor::deserialize },
+    { ACT_MILK, &milk_activity_actor::deserialize },
+    { ACT_MOVE_ITEMS, &move_items_activity_actor::deserialize },
+    { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
+    { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
+    { ACT_PICKUP, &pickup_activity_actor::deserialize },
+    { ACT_PICKUP_MENU, &pickup_menu_activity_actor::deserialize },
+    { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
+    { ACT_PRYING, &prying_activity_actor::deserialize },
+    { ACT_READ, &read_activity_actor::deserialize },
+    { ACT_RELOAD, &reload_activity_actor::deserialize },
+    { ACT_SHAVE, &shave_activity_actor::deserialize },
+    { ACT_SHEARING, &shearing_activity_actor::deserialize },
+    { ACT_STASH, &stash_activity_actor::deserialize },
+    { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },
+    { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
+    { ACT_TRY_SLEEP, &try_sleep_activity_actor::deserialize },
+    { ACT_UNLOAD, &unload_activity_actor::deserialize },
+    { ACT_WEAR, &wear_activity_actor::deserialize },
+    { ACT_WIELD, &wield_activity_actor::deserialize},
+    { ACT_WORKOUT_ACTIVE, &workout_activity_actor::deserialize },
+    { ACT_WORKOUT_HARD, &workout_activity_actor::deserialize },
+    { ACT_WORKOUT_LIGHT, &workout_activity_actor::deserialize },
+    { ACT_WORKOUT_MODERATE, &workout_activity_actor::deserialize },
 };
 } // namespace activity_actors
 
@@ -3298,7 +5978,8 @@ void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin )
             data.read( "actor_type", actor_type );
             auto deserializer = activity_actors::deserialize_functions.find( actor_type );
             if( deserializer != activity_actors::deserialize_functions.end() ) {
-                actor = deserializer->second( *data.get_raw( "actor_data" ) );
+                JsonValue jv = data.get_member( "actor_data" );
+                actor = deserializer->second( jv );
             } else {
                 debugmsg( "Failed to find activity actor deserializer for type \"%s\"", actor_type.c_str() );
                 actor = nullptr;

@@ -122,9 +122,10 @@
     "items": [
       [ "gasbomb_makeshift", 30 ],
       [ "molotov", 100 ],
-      [ "nail_bomb", 100 ],
       [ "improvised_pipebomb", 30 ],
-      [ "can_bomb", 30 ]
+      [ "can_bomb", 30 ],
+      [ "40x46mm_hornets_nest_22lr", 5 ],
+      [ "40x46mm_hornets_nest_410", 5 ]
     ]
   },
   {

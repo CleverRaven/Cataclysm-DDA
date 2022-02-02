@@ -123,5 +123,15 @@
     "symbol": "~",
     "color": "green",
     "emissions": [ "emit_rad_cloud" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_fog_breather",
+    "description": "This is misty water vapor.",
+    "copy-from": "f_fog",
+    "looks_like": "t_gelatinous_groundcover",
+    "symbol": "~",
+    "color": "pink",
+    "emissions": [ "emit_fog_plume" ]
   }
 ]

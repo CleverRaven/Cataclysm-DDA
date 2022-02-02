@@ -1,0 +1,78 @@
+[
+  {
+    "id": "wetness_num",
+    "type": "widget",
+    "style": "number"
+  },
+  {
+    "id": "wetness_graph",
+    "type": "widget",
+    "style": "graph",
+    "width": 5,
+    "symbols": ".oO",
+    "fill": "bucket",
+    "colors": [ "c_blue", "c_light_blue", "c_cyan", "c_white" ]
+  },
+  {
+    "id": "wetness_head_num",
+    "type": "widget",
+    "label": "wet:HE",
+    "var": "bp_wetness",
+    "bodypart": "head",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_torso_num",
+    "type": "widget",
+    "label": "wet:TO",
+    "var": "bp_wetness",
+    "bodypart": "torso",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_left_arm_num",
+    "type": "widget",
+    "label": "wet:LA",
+    "var": "bp_wetness",
+    "bodypart": "arm_l",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_right_arm_num",
+    "type": "widget",
+    "label": "wet:RA",
+    "var": "bp_wetness",
+    "bodypart": "arm_r",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_left_leg_num",
+    "type": "widget",
+    "label": "wet:LL",
+    "var": "bp_wetness",
+    "bodypart": "leg_l",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_right_leg_num",
+    "type": "widget",
+    "label": "wet:RL",
+    "var": "bp_wetness",
+    "bodypart": "leg_r",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "wetness_left_arm_num", "wetness_head_num", "wetness_right_arm_num" ]
+  },
+  {
+    "id": "wetness_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "wetness_left_leg_num", "wetness_torso_num", "wetness_right_leg_num" ]
+  }
+]

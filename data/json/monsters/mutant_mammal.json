@@ -24,6 +24,7 @@
     "dodge": 3,
     "armor_bash": 8,
     "armor_cut": 12,
+    "armor_elec": 1,
     "bleed_rate": 80,
     "vision_day": 30,
     "vision_night": 10,
@@ -45,7 +46,7 @@
     "id": "mon_beaver_mutant_huge",
     "type": "MONSTER",
     "name": { "str": "dambreaker" },
-    "description": "This mutated beaver's size is almost double what it should be, and its back is covered with tough-looking bristles.",
+    "description": "This mutated beaver is almost double its normal size, and its back is covered with tough-looking bristles.",
     "default_faction": "small_animal",
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
@@ -114,6 +115,7 @@
     "material": [ "flesh" ],
     "symbol": "c",
     "color": "light_gray",
+    "luminance": 4,
     "looks_like": "mon_cat",
     "aggression": -99,
     "morale": 2,
@@ -123,18 +125,23 @@
     "melee_cut": 2,
     "dodge": 8,
     "vision_night": 20,
-    "special_attacks": [ [ "scratch", 10 ] ],
+    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
     "reproduction": { "baby_monster": "mon_cat_mutant_kitten_prism", "baby_count": 2, "baby_timer": 80 },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
+      "pet": "The %s softly purrs as you pet it.  It demands more."
+    },
     "flags": [
       "SEES",
       "HEARS",
       "GOODHEARING",
       "SMELLS",
       "ANIMAL",
-      "CATFOOD",
+      "CANPLAY",
       "CLIMBS",
       "PATH_AVOID_DANGER_1",
       "WARM",
@@ -157,14 +164,20 @@
     "material": [ "flesh" ],
     "symbol": "c",
     "color": "light_gray",
+    "luminance": 4,
     "looks_like": "mon_cat_kitten",
     "melee_cut": 2,
     "dodge": 14,
-    "special_attacks": [ [ "scratch", 10 ] ],
+    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ],
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
+      "pet": "The %s softly purrs as you pet it.  It demands more."
+    },
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CANPLAY", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ],
     "upgrades": { "age_grow": 120, "into": "mon_cat_mutant_prism" }
   },
   {
@@ -196,6 +209,7 @@
     "special_attacks": [
       {
         "type": "bite",
+        "attack_upper": false,
         "cooldown": 5,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 10 } ]
       }
@@ -277,6 +291,7 @@
     "dodge": 2,
     "armor_bash": 8,
     "armor_cut": 10,
+    "armor_elec": 1,
     "bleed_rate": 60,
     "vision_day": 50,
     "vision_night": 5,
@@ -394,9 +409,15 @@
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s happily wags its tail while you pat their head."
+    },
     "flags": [
       "ANIMAL",
       "DOGFOOD",
+      "CANPLAY",
       "GROUP_MORALE",
       "HEARS",
       "PET_MOUNTABLE",

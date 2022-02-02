@@ -43,9 +43,12 @@ class recipe_dictionary
 
         /** Returns disassembly recipe (or null recipe if no match) */
         static const recipe &get_uncraft( const itype_id &id );
+        /** Returns crafting recipe (or null recipe if no match) */
+        static const recipe &get_craft( const itype_id &id );
 
         static void load_recipe( const JsonObject &jo, const std::string &src );
         static void load_uncraft( const JsonObject &jo, const std::string &src );
+        static void load_practice( const JsonObject &jo, const std::string &src );
 
         static void finalize();
         static void check_consistency();

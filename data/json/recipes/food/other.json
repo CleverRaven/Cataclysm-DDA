@@ -13,7 +13,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
-    "components": [ [ [ "beet_syrup", 6 ] ] ]
+    "components": [ [ [ "beet_syrup", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -31,6 +31,70 @@
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "sweet_fruit", 1, "LIST" ] ], [ [ "sugar", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "young_yeast",
+    "id_suffix": "from_honey",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "survival", 4 ],
+    "time": "20 m",
+    "batch_time_factors": [ 90, 1 ],
+    "charges": 1,
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "honey_bottled", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "young_koji",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "skills_required": [ "survival", 6 ],
+    "time": "2 m",
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" } ],
+    "book_learn": [ [ "brewing_cookbook", 6 ] ],
+    "components": [ [ [ "rice_cooked", 1 ] ], [ [ "ash", 1 ] ], [ [ "empty_corn_cob", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "soy_wheat_dough",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "4 h",
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" } ],
+    "book_learn": [ [ "cookbook_sushi", 6 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 80, "LIST" ] ], [ [ "mortar_pestle", -1 ], [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "soybean", 1 ] ], [ [ "flour", 10 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ], [ [ "paper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "soysauce",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "20 m",
+    "batch_time_factors": [ 95, 4 ],
+    "autolearn": true,
+    "book_learn": [ [ "cookbook_sushi", 3 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "components": [ [ [ "soy_sauce_unstrained", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -209,7 +273,7 @@
     "charges": 12,
     "book_learn": [ [ "sweets_book", 2 ], [ "baking_book", 2 ], [ "family_cookbook", 2 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 16, "LIST" ] ], [ [ "mold_plastic", 1 ] ] ],
+    "tools": [ [ [ "surface_heat", 16, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
       [ [ "beet_syrup", 1 ] ],
@@ -231,7 +295,7 @@
     "charges": 12,
     "book_learn": [ [ "sweets_book", 2 ], [ "baking_book", 2 ], [ "family_cookbook", 2 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 16, "LIST" ] ], [ [ "mold_plastic", 1 ] ] ],
+    "tools": [ [ [ "surface_heat", 16, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
       [ [ "beet_syrup", 1 ] ],

@@ -237,7 +237,7 @@
   {
     "type": "furniture",
     "id": "f_tourist_table",
-    "name": "tourist table",
+    "name": "folding table",
     "description": "Small metal folding table, ideal for off-road trips into the wild.  Can be used as a workbench in a pinch.",
     "symbol": "#",
     "bgcolor": "light_gray",

@@ -2,8 +2,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_MINER",
-    "default": "mon_zombie_miner",
-    "monsters": [  ]
+    "monsters": [ { "monster": "mon_zombie_miner" } ]
   },
   {
     "type": "mapgen",
@@ -38,6 +37,7 @@
         "########################################################################"
       ],
       "terrain": {
+        " ": [ [ "t_puddle_underground", 1 ], [ "t_rock_floor", 10 ] ],
         "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ],
         "#": "t_rock",
         "*": "t_railroad_track_small",

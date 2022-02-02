@@ -1,0 +1,72 @@
+[
+  {
+    "id": "holy_shield",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "Holy Shield" },
+    "description": "A Crusader's magical shield, enhanced to protect the Crusader from all that stands in their way.",
+    "weight": "1905 g",
+    "volume": "4 L",
+    "longest_side": "100 cm",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 3,
+    "bashing": 14,
+    "material": [ "steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "sided": true,
+    "armor": [
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 70, "encumbrance": [ 12, 12 ] },
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": [ 12, 12 ] }
+    ],
+    "material_thickness": 6,
+    "flags": [
+      "OVERSIZE",
+      "BELTED",
+      "RESTRICT_HANDS",
+      "BLOCK_WHILE_WORN",
+      "ONLY_ONE",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "TRADER_AVOID"
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "ARMOR_CUT", "add": -6 },
+            { "value": "ARMOR_BASH", "add": -6 },
+            { "value": "ARMOR_STAB", "add": -6 },
+            { "value": "ARMOR_BULLET", "add": -3 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "holy_shield",
+    "type": "SPELL",
+    "name": "Holy Shield",
+    "description": "Crusaders have the ability to summon a magically enhanced shield to their arm to protect them in armed combat.",
+    "valid_targets": [ "none" ],
+    "flags": [ "CONCENTRATE", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "effect": "spawn_item",
+    "shape": "blast",
+    "effect_str": "holy_shield",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 0,
+    "max_duration": 3240000,
+    "duration_increment": 92572,
+    "spell_class": "CRUSADER",
+    "difficulty": 1,
+    "max_level": 35,
+    "base_casting_time": 1500,
+    "base_energy_cost": 500,
+    "energy_source": "MANA"
+  }
+]

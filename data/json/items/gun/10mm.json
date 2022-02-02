@@ -6,6 +6,7 @@
     "type": "GUN",
     "name": { "str": "10mm/.40 revolver" },
     "description": "A classic six-shooter revolver chambered for 10mm and .40 rounds.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "sw_610",
@@ -33,7 +34,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "holster": true,
+        "rigid": true,
         "ammo_restriction": { "10mm": 6, "40": 6 },
         "allowed_speedloaders": [ "40_speedloader6" ]
       }
@@ -46,6 +47,7 @@
     "type": "GUN",
     "name": { "str": "compact Glock pistol" },
     "description": "A small pistol accepting Glock magazines and chambered in 10mm.  Because of it size, it is easy to carry, but it has rather fierce recoil.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "glock_29",
@@ -74,9 +76,6 @@
       {
         "magazine_well": "99 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "glock_29mag", "glock_20mag", "tdi_10mm_mag" ]
       }
     ]
@@ -88,6 +87,7 @@
     "type": "GUN",
     "name": { "str": "Glock pistol" },
     "description": "This is a semi-automatic pistol chambered in 10mm, and accepting Glock magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "glock_20",
@@ -119,16 +119,7 @@
     "durability": 8,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 570,
-    "pocket_data": [
-      {
-        "magazine_well": "103 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "103 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ]
   },
   {
     "id": "hk_mp5_10_semi",
@@ -137,6 +128,7 @@
     "type": "GUN",
     "name": { "str": "BA10 rifle" },
     "description": "A semi-automatic rifle, chambered in 10mm, accepting BA10 magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "hk_mp5_10_semi",
@@ -157,16 +149,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "built_in_mods": [ "folding_stock" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "62 ml",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "mp5_10_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "62 ml", "item_restriction": [ "mp5_10_mag" ] } ]
   },
   {
     "id": "m1911_10",
@@ -175,6 +158,7 @@
     "type": "GUN",
     "name": { "str": "Colt Delta Elite pistol" },
     "description": "A semi-automatic pistol chambered in 10mm.  It accepts Colt Delta Elite magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "m1911_10",
@@ -199,16 +183,7 @@
     "durability": 6,
     "min_cycle_recoil": 570,
     "blackpowder_tolerance": 48,
-    "pocket_data": [
-      {
-        "magazine_well": "60 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "m1911_10mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911_10mag" ] } ]
   },
   {
     "id": "witness_10",
@@ -217,6 +192,7 @@
     "type": "GUN",
     "name": { "str": "EAA Witness pistol" },
     "description": "A semi-automatic pistol chambered in 10mm, and accepting EAA Witness magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "witness_10",
@@ -238,16 +214,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 675,
-    "pocket_data": [
-      {
-        "magazine_well": "84 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "witness_mag_10" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "84 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "witness_mag_10" ] } ]
   },
   {
     "id": "p220_10",
@@ -256,6 +223,7 @@
     "type": "GUN",
     "name": { "str": "SIG pistol" },
     "description": "A semi-automatic pistol chambered in 10mmm, and accepting SIG magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "p220_10",
@@ -278,28 +246,20 @@
     "dispersion": 410,
     "durability": 7,
     "min_cycle_recoil": 675,
-    "pocket_data": [
-      {
-        "magazine_well": "60 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "p220_10_mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p220_10_mag" ] } ]
   },
   {
     "id": "xd_10",
     "copy-from": "pistol_base",
     "looks_like": "glock_19",
     "type": "GUN",
-    "name": { "str": "XD(M) pistol" },
-    "description": "A semi-automatic pistol chambered in 10mm, and accepting XD(M) magazines",
+    "name": { "str": "XD-M pistol" },
+    "description": "A semi-automatic pistol chambered in 10mm, and accepting XD-M magazines",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "xd_10",
-        "name": { "str": "XD(M) Competition 10mm" },
+        "name": { "str": "XD-M Competition 10mm" },
         "description": "Designed by HS Produkt in Croatia, the HS2000 has become a commercial success for Springfield Armory, who imports and markets it as the eXtreme Duty.  The XD has since been offered in a variety of chamberings and sizes, including this full-sized match grade variant in 10mm Auto.",
         "weight": 1
       }
@@ -318,16 +278,7 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 675,
-    "pocket_data": [
-      {
-        "magazine_well": "81 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "xd_10_mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "81 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xd_10_mag" ] } ]
   },
   {
     "id": "TDI_10",
@@ -341,6 +292,7 @@
     ],
     "name": { "str": "Glock SMG" },
     "description": "This is a submachine gun chambered in 10mm, accepting Glock magazines.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "TDI_10",
@@ -358,15 +310,6 @@
     "ammo": "10mm",
     "min_cycle_recoil": 675,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "103 ml",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "103 ml", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ]
   }
 ]

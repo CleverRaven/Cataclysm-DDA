@@ -6,16 +6,16 @@
     "symbol": "(",
     "color": "brown",
     "name": { "ctxt": "weapon", "str": "sling" },
-    "description": "A leather sling, can launch rocks much further and faster than throwing them by hand.",
+    "description": "A leather sling, easy to use and accurate.  It uses pebbles as ammunition.",
     "price": 150,
     "//": "It's little more than a piece of slightly shaped leather",
     "material": [ "leather" ],
     "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "WATERPROOF_GUN" ],
     "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "skill": "throw",
-    "ammo": [ "rock" ],
+    "ammo": [ "pebble" ],
     "weight": "96 g",
-    "volume": "250 ml",
+    "volume": "80 ml",
     "price_postapoc": 250,
     "to_hit": -2,
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
@@ -23,7 +23,8 @@
     "dispersion": 150,
     "durability": 6,
     "clip_size": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1 } } ]
+    "reload": 50,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
   },
   {
     "id": "slingshot",
@@ -49,6 +50,7 @@
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
   },
   {
@@ -72,6 +74,7 @@
       "ALWAYS_TWOHAND",
       "WATERPROOF_GUN"
     ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "skill": "throw",
@@ -87,7 +90,9 @@
     "dispersion": 200,
     "durability": 8,
     "clip_size": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1 } } ]
+    "valid_mod_locations": [ [ "bore", 1 ] ],
+    "reload": 50,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1, "sling-ready_grenade": 1 } } ]
   },
   {
     "id": "wristrocket",
@@ -113,6 +118,7 @@
     "durability": 7,
     "clip_size": 1,
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
   }
 ]

@@ -271,6 +271,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "sling-ready_grenade",
+    "name": "sling-ready grenades",
+    "default": "sling-ready_molotov"
+  },
+  {
+    "type": "ammunition_type",
     "id": "gasoline",
     "name": "gasoline",
     "default": "gasoline"
@@ -421,6 +427,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "propane",
+    "name": "propane",
+    "default": "propane"
+  },
+  {
+    "type": "ammunition_type",
     "id": "conc_alcohol",
     "name": "concentrated alcohol",
     "default": "denat_alcohol"
@@ -465,13 +477,7 @@
     "type": "ammunition_type",
     "id": "metal_rail",
     "name": "ferrous rail projectile",
-    "default": "rebar_rail"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "UPS",
-    "name": "UPS",
-    "default": "UPS"
+    "default": "steel_rail"
   },
   {
     "type": "ammunition_type",
@@ -646,6 +652,12 @@
     "id": "nitrox",
     "name": "compressed air",
     "default": "nitrox"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "paper",
+    "name": "paper",
+    "default": "paper"
   },
   {
     "type": "ammunition_type",

@@ -1,8 +1,8 @@
 #include "mapsharing.h"
 
 #include <cstdlib>
-#include <fstream>
 #include <stdexcept>
+#include <sstream>
 #include <string>
 
 #include "filesystem.h"
@@ -107,20 +107,25 @@ void ofstream_wrapper::open( const std::ios::openmode mode )
     // Create a *unique* temporary path. No other running program should
     // use this path. If the file exists, it must be of a *former* program
     // instance and can safely be deleted.
+    temp_path = path;
+    std::ostringstream suffix;
+    // Some locale may insert unwanted thousands separators,
+    // which may not be in utf-8 encoding, so imbue with the classic locale.
+    suffix.imbue( std::locale::classic() );
 #if defined(__linux__)
-    temp_path = path + "." + std::to_string( getpid() ) + ".temp";
-
+    suffix << "." << getpid() << ".temp";
+    temp_path += fs::u8path( suffix.str() );
 #elif defined(_WIN32)
-    temp_path = path + "." + std::to_string( GetCurrentProcessId() ) + ".temp";
-
+    suffix << "." << GetCurrentProcessId() << ".temp";
+    temp_path += fs::u8path( suffix.str() );
 #else
     // TODO: exclusive I/O for other systems
-    temp_path = path + ".temp";
-
+    temp_path += fs::u8path( ".temp" );
 #endif
 
-    if( file_exist( temp_path ) ) {
-        remove_file( temp_path );
+    if( fs::exists( temp_path ) && !fs::is_directory( temp_path ) ) {
+        std::error_code ec;
+        fs::remove( temp_path, ec );
     }
 
     file_stream.open( temp_path, mode );
@@ -141,11 +146,14 @@ void ofstream_wrapper::close()
     if( failed ) {
         // Remove the incomplete or otherwise faulty file (if possible).
         // Failures from it are ignored as we can't really do anything about them.
-        remove_file( temp_path );
+        std::error_code ec;
+        fs::remove( temp_path, ec );
         throw std::runtime_error( "writing to file failed" );
     }
-    if( !rename_file( temp_path, path ) ) {
+    std::error_code ec2;
+    fs::rename( temp_path, path, ec2 );
+    if( ec2 ) {
         // Leave the temp path, so the user can move it if possible.
-        throw std::runtime_error( "moving temporary file \"" + temp_path + "\" failed" );
+        throw std::runtime_error( "moving temporary file \"" + temp_path.u8string() + "\" failed" );
     }
 }

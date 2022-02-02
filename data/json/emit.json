@@ -97,6 +97,22 @@
     "chance": 15
   },
   {
+    "id": "emit_relax_gas_blast",
+    "type": "emit",
+    "//": "Large blast of relaxation gas (similar to riot control bot)",
+    "field": "fd_relax_gas",
+    "intensity": 3,
+    "qty": 200
+  },
+  {
+    "id": "emit_relax_gas_leak",
+    "type": "emit",
+    "//": "Periodic leaking of relaxation gas",
+    "field": "fd_relax_gas",
+    "intensity": 3,
+    "chance": 15
+  },
+  {
     "id": "emit_tindalos_gas_leak",
     "type": "emit",
     "//": "Slow infrequent leak of tindalos gas (example: hound of tindalos movement)",
@@ -160,16 +176,16 @@
     "type": "emit",
     "//": "Thick cloud of lightning (example: incandescent husk)",
     "field": "fd_electricity",
-    "intensity": 3,
-    "qty": 20
+    "intensity": 7,
+    "qty": 6
   },
   {
     "id": "emit_shock_cloud_big",
     "type": "emit",
     "//": "Large cloud of lightning (example: supercharged incandescent husk)",
     "field": "fd_electricity",
-    "intensity": 3,
-    "qty": 40
+    "intensity": 10,
+    "qty": 12
   },
   {
     "id": "emit_cold_air2_stream",
@@ -294,6 +310,13 @@
     "chance": 75
   },
   {
+    "id": "emit_plasma_continuously",
+    "type": "emit",
+    "field": "fd_plasma",
+    "qty": 4,
+    "chance": 100
+  },
+  {
     "id": "emit_fungicidal_stream",
     "type": "emit",
     "field": "fd_fungicidal_gas",
@@ -375,5 +398,21 @@
     "field": "fd_nuke_gas",
     "intensity": 3,
     "qty": 100
+  },
+  {
+    "id": "emit_web_small",
+    "type": "emit",
+    "//": "Occasionally leave a web, not too often because we spawn in mixed groups",
+    "field": "fd_web",
+    "intensity": 3,
+    "chance": 50
+  },
+  {
+    "id": "emit_sludge_puddle",
+    "type": "emit",
+    "//": "Infrequent emission of sludge along the ground, made because sludge trail is too frequent",
+    "field": "fd_sludge",
+    "intensity": 3,
+    "chance": 20
   }
 ]

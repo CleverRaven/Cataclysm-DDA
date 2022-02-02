@@ -25,21 +25,20 @@
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
  *
- * Consists of six JSON manipulation tools:
+ * Consists of four JSON manipulation tools:
  * JsonIn - for low-level parsing of an input JSON stream
  * JsonOut - for outputting JSON
  * JsonObject - convenience-wrapper for reading JSON objects from a JsonIn
  * JsonArray - convenience-wrapper for reading JSON arrays from a JsonIn
- * JsonSerializer - inheritable interface for custom datatype serialization
- * JsonDeserializer - inheritable interface for custom datatype deserialization
  *
  * Further documentation can be found below.
  */
 
+template<typename E>
+class enum_bitset;
 class JsonArray;
-class JsonDeserializer;
+class JsonIn;
 class JsonObject;
-class JsonSerializer;
 class JsonValue;
 class item;
 
@@ -101,6 +100,76 @@ struct json_source_location {
     shared_ptr_fast<std::string> path;
     int offset = 0;
 };
+
+class JsonValue
+{
+    private:
+        JsonIn &jsin_;
+        int pos_;
+
+        JsonIn &seek() const;
+
+    public:
+        JsonValue( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
+
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator std::string() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator int() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator bool() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator double() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator JsonObject() const;
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator JsonArray() const;
+        template<typename T>
+        bool read( T &t, bool throw_on_error = false ) const;
+
+        bool test_string() const;
+        bool test_int() const;
+        bool test_bool() const;
+        bool test_float() const;
+        bool test_object() const;
+        bool test_array() const;
+        bool test_null() const;
+
+        std::string get_string() const;
+        int get_int() const;
+        bool get_bool() const;
+        double get_float() const;
+        JsonObject get_object() const;
+        JsonArray get_array() const;
+
+        [[noreturn]] void string_error( const std::string &err, int offset = 0 ) const;
+        [[noreturn]] void throw_error( const std::string &err, int offset = 0 ) const;
+};
+
+
+namespace detail
+{
+// A c++11 compatible older compiler compatible implementation of void_t
+template<typename... Ts> struct make_void {
+    using type = void;
+};
+template<typename... Ts> using void_t = typename make_void<Ts...>::type;
+
+template<class, typename = void>
+struct IsJsonInDeserializable : std::false_type {};
+
+template<class T>
+struct IsJsonInDeserializable<T, void_t<decltype( std::declval<T>().deserialize( std::declval<JsonIn &>() ) )>> :
+std::true_type {};
+
+template<class, typename = void>
+struct IsJsonValueDeserializable : std::false_type {};
+
+template<class T>
+struct IsJsonValueDeserializable<T, void_t<decltype( std::declval<T>().deserialize( std::declval<const JsonValue &>() ) )>> :
+std::true_type {};
+} // namespace detail
+
 
 /* JsonIn
  * ======
@@ -244,6 +313,7 @@ class JsonIn
         std::string get_member_name(); // also strips the ':'
         JsonObject get_object();
         JsonArray get_array();
+        JsonValue get_value(); // just returns a JsonValue at the current position.
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value() {
@@ -280,6 +350,7 @@ class JsonIn
         // optionally-fatal reading into values by reference
         // returns true if the data was read successfully, false otherwise
         // if throw_on_error then throws JsonError rather than returning false.
+        bool read_null( bool throw_on_error = false );
         bool read( bool &b, bool throw_on_error = false );
         bool read( char &c, bool throw_on_error = false );
         bool read( signed char &c, bool throw_on_error = false );
@@ -295,15 +366,14 @@ class JsonIn
         bool read( std::string &s, bool throw_on_error = false );
         template<size_t N>
         bool read( std::bitset<N> &b, bool throw_on_error = false );
-        bool read( JsonDeserializer &j, bool throw_on_error = false );
-        // This is for the string_id type
+
         template <typename T>
-        auto read( T &thing, bool throw_on_error = false ) -> decltype( thing.str(), true ) {
+        auto read( string_id<T> &thing, bool throw_on_error = false ) -> bool {
             std::string tmp;
             if( !read( tmp, throw_on_error ) ) {
                 return false;
             }
-            thing = T( tmp );
+            thing = string_id<T>( tmp );
             return true;
         }
 
@@ -334,10 +404,30 @@ class JsonIn
         }
 
         /// Overload that calls a member function `T::deserialize(JsonIn&)`, if available.
+        /// And also that `T::deserialize(const JsonValue&)` is not available.
         template<typename T>
-        auto read( T &v, bool throw_on_error = false ) -> decltype( v.deserialize( *this ), true ) {
+        auto read( T &v, bool throw_on_error = false ) -> typename std::enable_if <
+        detail::IsJsonInDeserializable<T>::value &&
+        !detail::IsJsonValueDeserializable<T>::value, bool >::type {
             try {
                 v.deserialize( *this );
+                return true;
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
+        }
+
+        /// Overload that calls a member function `T::deserialize(const JsonValue&)`, if available.
+        /// But only if `T::deserialize(JsonIn&)` is not available.
+        template<typename T>
+        auto read( T &v, bool throw_on_error = false ) -> typename std::enable_if <
+        !detail::IsJsonInDeserializable<T>::value &&
+        detail::IsJsonValueDeserializable<T>::value, bool >::type {
+            try {
+                v.deserialize( this->get_value() );
                 return true;
             } catch( const JsonError & ) {
                 if( throw_on_error ) {
@@ -468,6 +558,38 @@ class JsonIn
                                        throw_on_error,
                                        "Duplicate entry in set defined by json array" );
                         }
+                    } else {
+                        skip_value();
+                    }
+                }
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
+
+            return true;
+        }
+
+        // special case for enum_bitset
+        template <typename T>
+        bool read( enum_bitset<T> &v, bool throw_on_error = false ) {
+            if( !test_array() ) {
+                return error_or_false( throw_on_error, "Expected json array" );
+            }
+            try {
+                start_array();
+                v = {};
+                while( !end_array() ) {
+                    T element;
+                    if( read( element, throw_on_error ) ) {
+                        if( v.test( element ) ) {
+                            return error_or_false(
+                                       throw_on_error,
+                                       "Duplicate entry in set defined by json array" );
+                        }
+                        v.set( element );
                     } else {
                         skip_value();
                     }
@@ -638,7 +760,6 @@ class JsonIn
  * which inserts newlines and whitespace liberally, if turned on.
  *
  * Basic containers such as maps, sets and vectors,
- * as well as anything inheriting the JsonSerializer interface,
  * can be serialized automatically by write() and member().
  */
 class JsonOut
@@ -727,10 +848,8 @@ class JsonOut
         template<size_t N>
         void write( const std::bitset<N> &b );
 
-        void write( const JsonSerializer &thing );
-        // This is for the string_id type
         template <typename T>
-        auto write( const T &thing ) -> decltype( thing.str(), ( void )0 ) {
+        auto write( const string_id<T> &thing ) {
             write( thing.str() );
         }
 
@@ -912,8 +1031,8 @@ class JsonOut
  * and for member existence with has_member(name).
  *
  * They can also read directly into compatible data structures,
- * including sets, vectors, maps, and any class inheriting JsonDeserializer,
- * using read(name, value).
+ * including sets, vectors, maps, and any class with a compatible
+ * deserialize() routine.
  *
  * read() returns true on success, false on failure.
  *
@@ -988,7 +1107,8 @@ class JsonObject
         bool has_member( const std::string &name ) const; // true iff named member exists
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
-        [[noreturn]] void throw_error( const std::string &err, const std::string &name ) const;
+        [[noreturn]] void throw_error( const std::string &err, const std::string &name,
+                                       int offset = 0 ) const;
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
         JsonValue get_member( const std::string &name ) const;
@@ -1130,12 +1250,12 @@ class JsonObject
  * -------------------------
  *
  * Elements can also be automatically read into compatible containers,
- * such as maps, sets, vectors, and classes implementing JsonDeserializer,
+ * such as maps, sets, vectors, and classes using a deserialize routine,
  * using the read_next() and read() methods.
  *
  *     JsonArray ja = jo.get_array("custom_datatype_array");
  *     while (ja.has_more()) {
- *         MyDataType mydata; // MyDataType implementing JsonDeserializer
+ *         MyDataType mydata;
  *         ja.read_next(mydata);
  *         process(mydata);
  *     }
@@ -1166,8 +1286,8 @@ class JsonArray
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
-        [[noreturn]] void throw_error( const std::string &err );
-        [[noreturn]] void throw_error( const std::string &err, int idx );
+        [[noreturn]] void throw_error( const std::string &err ) const;
+        [[noreturn]] void throw_error( const std::string &err, int idx ) const;
         // See JsonIn::string_error
         [[noreturn]] void string_error( const std::string &err, int idx, int offset );
 
@@ -1179,6 +1299,7 @@ class JsonArray
         std::string next_string();
         JsonArray next_array();
         JsonObject next_object();
+        JsonValue next_value();
         void skip_value(); // ignore whatever is next
 
         // static access
@@ -1241,88 +1362,105 @@ class JsonArray
         }
 };
 
-class JsonValue
+// NOLINTNEXTLINE(google-explicit-constructor)
+inline JsonValue::operator std::string() const
 {
-    private:
-        JsonIn &jsin_;
-        int pos_;
+    return seek().get_string();
+}
+// NOLINTNEXTLINE(google-explicit-constructor)
+inline JsonValue::operator int() const
+{
+    return seek().get_int();
+}
+// NOLINTNEXTLINE(google-explicit-constructor)
+inline JsonValue::operator bool() const
+{
+    return seek().get_bool();
+}
+// NOLINTNEXTLINE(google-explicit-constructor)
+inline JsonValue::operator double() const
+{
+    return seek().get_float();
+}
+// NOLINTNEXTLINE(google-explicit-constructor)
+inline JsonValue::operator JsonObject() const
+{
+    return seek().get_object();
+}
+// NOLINTNEXTLINE(google-explicit-constructor)
+inline JsonValue::operator JsonArray() const
+{
+    return seek().get_array();
+}
+template<typename T>
+inline bool JsonValue::read( T &t, bool throw_on_error ) const
+{
+    return seek().read( t, throw_on_error );
+}
 
-        JsonIn &seek() const;
+inline bool JsonValue::test_string() const
+{
+    return seek().test_string();
+}
+inline bool JsonValue::test_int() const
+{
+    return seek().test_int();
+}
+inline bool JsonValue::test_bool() const
+{
+    return seek().test_bool();
+}
+inline bool JsonValue::test_float() const
+{
+    return seek().test_float();
+}
+inline bool JsonValue::test_object() const
+{
+    return seek().test_object();
+}
+inline bool JsonValue::test_array() const
+{
+    return seek().test_array();
+}
+inline bool JsonValue::test_null() const
+{
+    return seek().test_null();
+}
 
-    public:
-        JsonValue( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
+[[noreturn]] inline void JsonValue::string_error( const std::string &err, int offset ) const
+{
+    seek().string_error( err, offset );
+}
 
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator std::string() const {
-            return seek().get_string();
-        }
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator int() const {
-            return seek().get_int();
-        }
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator bool() const {
-            return seek().get_bool();
-        }
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator double() const {
-            return seek().get_float();
-        }
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator JsonObject() const {
-            return seek().get_object();
-        }
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator JsonArray() const {
-            return seek().get_array();
-        }
-        template<typename T>
-        bool read( T &t, bool throw_on_error = false ) const {
-            return seek().read( t, throw_on_error );
-        }
+[[noreturn]] inline void JsonValue::throw_error( const std::string &err, int offset ) const
+{
+    seek().error( err, offset );
+}
 
-        bool test_string() const {
-            return seek().test_string();
-        }
-        bool test_int() const {
-            return seek().test_int();
-        }
-        bool test_bool() const {
-            return seek().test_bool();
-        }
-        bool test_float() const {
-            return seek().test_float();
-        }
-        bool test_object() const {
-            return seek().test_object();
-        }
-        bool test_array() const {
-            return seek().test_array();
-        }
-
-        [[noreturn]] void throw_error( const std::string &err ) const {
-            seek().error( err );
-        }
-
-        std::string get_string() const {
-            return seek().get_string();
-        }
-        int get_int() const {
-            return seek().get_int();
-        }
-        bool get_bool() const {
-            return seek().get_bool();
-        }
-        double get_float() const {
-            return seek().get_float();
-        }
-        JsonObject get_object() const {
-            return seek().get_object();
-        }
-        JsonArray get_array() const {
-            return seek().get_array();
-        }
-};
+inline std::string JsonValue::get_string() const
+{
+    return seek().get_string();
+}
+inline int JsonValue::get_int() const
+{
+    return seek().get_int();
+}
+inline bool JsonValue::get_bool() const
+{
+    return seek().get_bool();
+}
+inline double JsonValue::get_float() const
+{
+    return seek().get_float();
+}
+inline JsonObject JsonValue::get_object() const
+{
+    return seek().get_object();
+}
+inline JsonArray JsonValue::get_array() const
+{
+    return seek().get_array();
+}
 
 class JsonArray::const_iterator
 {
@@ -1484,72 +1622,6 @@ Res JsonObject::get_tags( const std::string &name ) const
  */
 void add_array_to_set( std::set<std::string> &, const JsonObject &json, const std::string &name );
 
-/* JsonSerializer
- * ==============
- *
- * JsonSerializer is an inheritable interface,
- * allowing classes to define how they are to be serialized,
- * and then treated as a basic type for serialization purposes.
- *
- * All a class must to do satisfy this interface,
- * is define a `void serialize(JsonOut&) const` method,
- * which should use the provided JsonOut to write its data as JSON.
- *
- *     class point : public JsonSerializer {
- *         int x, y;
- *         void serialize(JsonOut &jsout) const {
- *             jsout.start_array();
- *             jsout.write(x);
- *             jsout.write(y);
- *             jsout.end_array();
- *         }
- *     }
- */
-class JsonSerializer
-{
-    public:
-        virtual ~JsonSerializer() = default;
-        virtual void serialize( JsonOut &jsout ) const = 0;
-        JsonSerializer() = default;
-        JsonSerializer( JsonSerializer && ) = default;
-        JsonSerializer( const JsonSerializer & ) = default;
-        JsonSerializer &operator=( JsonSerializer && ) = default;
-        JsonSerializer &operator=( const JsonSerializer & ) = default;
-};
-
-/* JsonDeserializer
- * ==============
- *
- * JsonDeserializer is an inheritable interface,
- * allowing classes to define how they are to be deserialized,
- * and then treated as a basic type for deserialization purposes.
- *
- * All a class must to do satisfy this interface,
- * is define a `void deserialize(JsonIn&)` method,
- * which should read its data from the provided JsonIn,
- * assuming it to be in the correct form.
- *
- *     class point : public JsonDeserializer {
- *         int x, y;
- *         void deserialize(JsonIn &jsin) {
- *             JsonArray ja = jsin.get_array();
- *             x = ja.get_int(0);
- *             y = ja.get_int(1);
- *         }
- *     }
- */
-class JsonDeserializer
-{
-    public:
-        virtual ~JsonDeserializer() = default;
-        virtual void deserialize( JsonIn &jsin ) = 0;
-        JsonDeserializer() = default;
-        JsonDeserializer( JsonDeserializer && ) = default;
-        JsonDeserializer( const JsonDeserializer & ) = default;
-        JsonDeserializer &operator=( JsonDeserializer && ) = default;
-        JsonDeserializer &operator=( const JsonDeserializer & ) = default;
-};
-
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
 
 template<typename T>
@@ -1563,13 +1635,23 @@ void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 }
 
 template<typename T>
-void deserialize( cata::optional<T> &obj, JsonIn &jsin )
+void deserialize( cata::optional<T> &obj, const JsonValue &jsin )
 {
     if( jsin.test_null() ) {
         obj.reset();
     } else {
         obj.emplace();
         jsin.read( *obj, true );
+    }
+}
+
+template<typename T>
+void deserialize( cata::optional<T> &obj, JsonIn &jsin )
+{
+    if( jsin.read_null() ) {
+        obj.reset();
+    } else {
+        deserialize( obj, jsin.get_value() );
     }
 }
 

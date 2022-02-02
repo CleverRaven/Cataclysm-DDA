@@ -1,20 +1,34 @@
 name: astyle
 
-on:
-  pull_request:
-    paths:
-    - '**.cpp'
-    - '**.h'
-    - '**.c'
+on: pull_request
 
 jobs:
+  skip-duplicates:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+    - id: skip_check
+      uses: fkirc/skip-duplicate-actions@master
+      with:
+        cancel_others: 'true'
+        paths: '[".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]'
+    - run: echo ${{ github.event.number }} > pull_request_id
+    - uses: actions/upload-artifact@v2
+      with:
+        name: pull_request_id
+        path: pull_request_id
   astyle-code:
     name: astyle check
+    needs: skip-duplicates
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
         fetch-depth: 1
 

@@ -11,7 +11,7 @@
 #include "sounds.h"
 #include "tileray.h"
 #include "translations.h"
-#include "units.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -79,6 +79,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
     //vehicle movement: strength check
     int mc = 0;
     int str_req = grabbed_vehicle->total_mass() / 25_kilogram; //strength required to move vehicle.
+    // ARM_STR governs dragging heavy things
+    int str = u.get_arm_str();
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
 
@@ -109,25 +111,25 @@ bool game::grabbed_veh_move( const tripoint &dp )
     } else {
         str_req++;
         //if vehicle has no wheels str_req make a noise.
-        if( str_req <= u.get_str() ) {
+        if( str_req <= str ) {
             sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2, sounds::sound_t::movement,
                            _( "a scraping noise." ), true, "misc", "scraping" );
         }
     }
 
     //final strength check and outcomes
-    ///\EFFECT_STR determines ability to drag vehicles
-    if( str_req <= u.get_str() ) {
+    ///\ARM_STR determines ability to drag vehicles
+    if( str_req <= str ) {
         //calculate exertion factor and movement penalty
         ///\EFFECT_STR increases speed of dragging vehicles
-        u.moves -= 100 * str_req / std::max( 1, u.get_str() );
+        u.moves -= 100 * str_req / std::max( 1, str );
         const int ex = dice( 1, 3 ) - 1 + str_req;
-        if( ex > u.get_str() + 1 ) {
+        if( ex > str + 1 ) {
             // Pain and movement penalty if exertion exceeds character strength
             add_msg( m_bad, _( "You strain yourself to move the %s!" ), grabbed_vehicle->name );
             u.moves -= 200;
             u.mod_pain( 1 );
-        } else if( ex >= u.get_str() ) {
+        } else if( ex >= str ) {
             // Movement is slow if exertion nearly equals character strength
             add_msg( _( "It takes some time to move the %s." ), grabbed_vehicle->name );
             u.moves -= 200;
@@ -143,16 +145,22 @@ bool game::grabbed_veh_move( const tripoint &dp )
         tileray mdir;
 
         mdir.init( dir.xy() );
-        grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
+        units::angle turn = normalize( mdir.dir() - grabbed_vehicle->face.dir() );
+        if( grabbed_vehicle->is_on_ramp && turn == 180_degrees ) {
+            add_msg( m_bad, _( "The %s can't be turned around while on a ramp." ), grabbed_vehicle->name );
+            return tripoint_zero;
+        }
+        grabbed_vehicle->turn( turn );
         grabbed_vehicle->face = tileray( grabbed_vehicle->turn_dir );
         grabbed_vehicle->precalc_mounts( 1, mdir.dir(), grabbed_vehicle->pivot_point() );
+        grabbed_vehicle->pos -= grabbed_vehicle->pivot_displacement();
 
         // Grabbed part has to stay at distance 1 to the player
         // and in roughly the same direction.
         const tripoint new_part_pos = grabbed_vehicle->global_pos3() +
                                       grabbed_vehicle->part( grabbed_part ).precalc[ 1 ];
         const tripoint expected_pos = u.pos() + dp + from;
-        const tripoint actual_dir = expected_pos - new_part_pos;
+        const tripoint actual_dir = tripoint( ( expected_pos - new_part_pos ).xy(), 0 );
 
         // Set player location to illegal value so it can't collide with vehicle.
         const tripoint player_prev = u.pos();

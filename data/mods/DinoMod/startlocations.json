@@ -4,5 +4,11 @@
     "id": "sloc_dinoexhibit",
     "name": "Dinosaur exhibit",
     "terrain": [ "dinoexhibit" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_dinolab",
+    "name": "DinoLab",
+    "terrain": [ "microlab_DinoLab_edge" ]
   }
 ]

@@ -54,7 +54,10 @@
     "count": 100,
     "price_postapoc": 400,
     "dispersion": 0,
-    "proportional": { "range": 0.6, "damage": { "damage_type": "bullet", "amount": 0.5 }, "recoil": 0.5 },
+    "projectile_count": 20,
+    "shot_damage": { "damage_type": "bullet", "amount": 0.1 },
+    "damage": { "damage_type": "bullet", "amount": 10 },
+    "proportional": { "range": 0.6, "recoil": 0.5 },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
   },
   {

@@ -6,6 +6,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
@@ -15,6 +16,17 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
+
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+
+static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
+
+static const skill_id skill_dodge( "dodge" );
+
+static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 
 // The test cases below cover polymorphic functions related to melee hit and dodge rates
 // for the Character, player, and monster classes, including:
@@ -37,7 +49,7 @@ static float dodge_base_with_dex_and_skill( avatar &dummy, int dexterity, int do
 {
     clear_character( dummy );
     dummy.dex_max = dexterity;
-    dummy.set_skill_level( skill_id( "dodge" ), dodge_skill );
+    dummy.set_skill_level( skill_dodge, dodge_skill );
 
     return dummy.get_dodge_base();
 }
@@ -79,7 +91,7 @@ TEST_CASE( "monster::get_hit_base", "[monster][melee][hit]" )
     clear_map();
 
     SECTION( "monster get_hit_base is equal to melee skill level" ) {
-        monster zed( mtype_id( "mon_zombie" ) );
+        monster zed( mon_zombie );
         CHECK( zed.get_hit_base() == zed.type->melee_skill );
     }
 }
@@ -108,7 +120,7 @@ TEST_CASE( "monster::get_dodge_base", "[monster][melee][dodge]" )
     clear_map();
 
     SECTION( "monster get_dodge_base is equal to dodge skill level" ) {
-        monster smoker( mtype_id( "mon_zombie_smoker" ) );
+        monster smoker( mon_zombie_smoker );
         CHECK( smoker.get_dodge_base() == smoker.type->sk_dodge );
     }
 }
@@ -178,7 +190,7 @@ TEST_CASE( "monster::get_dodge with effects", "[monster][melee][dodge][effect]" 
 {
     clear_map();
 
-    monster zombie( mtype_id( "mon_zombie_smoker" ) );
+    monster zombie( mon_zombie_smoker );
 
     const float base_dodge = zombie.get_dodge_base();
     REQUIRE( base_dodge > 0 );
@@ -267,7 +279,7 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
         REQUIRE( heelys.has_flag( flag_ROLLER_ONE ) );
 
         SECTION( "amateur skater: 1/5 dodge" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "PROF_SKATER" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_PROF_SKATER ) );
 
             CHECK( dodge_wearing_item( dummy, skates ) == base_dodge / 5 );
             CHECK( dodge_wearing_item( dummy, blades ) == base_dodge / 5 );
@@ -275,8 +287,8 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
         }
 
         SECTION( "professional skater: 1/2 dodge" ) {
-            dummy.toggle_trait( trait_id( "PROF_SKATER" ) );
-            REQUIRE( dummy.has_trait( trait_id( "PROF_SKATER" ) ) );
+            dummy.toggle_trait( trait_PROF_SKATER );
+            REQUIRE( dummy.has_trait( trait_PROF_SKATER ) );
 
             CHECK( dodge_wearing_item( dummy, skates ) == base_dodge / 2 );
             CHECK( dodge_wearing_item( dummy, blades ) == base_dodge / 2 );
@@ -289,6 +301,7 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
 {
     clear_map();
 
+    creature_tracker &creatures = get_creature_tracker();
     avatar &dummy = get_avatar();
     clear_character( dummy );
 
@@ -302,59 +315,59 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
     tripoint mon4_pos = dummy.pos() + tripoint_west;
 
     // Surrounded by zombies!
-    monster *zed1 = g->place_critter_at( mtype_id( "debug_mon" ), mon1_pos );
-    monster *zed2 = g->place_critter_at( mtype_id( "debug_mon" ), mon2_pos );
-    monster *zed3 = g->place_critter_at( mtype_id( "debug_mon" ), mon3_pos );
-    monster *zed4 = g->place_critter_at( mtype_id( "debug_mon" ), mon4_pos );
+    monster *zed1 = g->place_critter_at( debug_mon, mon1_pos );
+    monster *zed2 = g->place_critter_at( debug_mon, mon2_pos );
+    monster *zed3 = g->place_critter_at( debug_mon, mon3_pos );
+    monster *zed4 = g->place_critter_at( debug_mon, mon4_pos );
 
     // Make sure zombies are in their places
-    REQUIRE( g->critter_at<monster>( mon1_pos ) );
-    REQUIRE( g->critter_at<monster>( mon2_pos ) );
-    REQUIRE( g->critter_at<monster>( mon3_pos ) );
-    REQUIRE( g->critter_at<monster>( mon4_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon1_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon2_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon3_pos ) );
+    REQUIRE( creatures.creature_at<monster>( mon4_pos ) );
 
     // Get grabbed
-    dummy.add_effect( efftype_id( "grabbed" ), 1_minutes );
-    REQUIRE( dummy.has_effect( efftype_id( "grabbed" ) ) );
+    dummy.add_effect( effect_grabbed, 1_minutes );
+    REQUIRE( dummy.has_effect( effect_grabbed ) );
 
     // When grabbed, dodge skill reduces for each additional grab
 
     SECTION( "1 grab: 1/2 dodge" ) {
-        zed1->add_effect( efftype_id( "grabbing" ), 1_minutes );
-        REQUIRE( zed1->has_effect( efftype_id( "grabbing" ) ) );
+        zed1->add_effect( effect_grabbing, 1_minutes );
+        REQUIRE( zed1->has_effect( effect_grabbing ) );
 
         CHECK( dummy.get_dodge() == base_dodge / 2 );
     }
 
     SECTION( "2 grabs: 1/3 dodge" ) {
-        zed1->add_effect( efftype_id( "grabbing" ), 1_minutes );
-        zed2->add_effect( efftype_id( "grabbing" ), 1_minutes );
-        REQUIRE( zed1->has_effect( efftype_id( "grabbing" ) ) );
-        REQUIRE( zed2->has_effect( efftype_id( "grabbing" ) ) );
+        zed1->add_effect( effect_grabbing, 1_minutes );
+        zed2->add_effect( effect_grabbing, 1_minutes );
+        REQUIRE( zed1->has_effect( effect_grabbing ) );
+        REQUIRE( zed2->has_effect( effect_grabbing ) );
 
         CHECK( dummy.get_dodge() == base_dodge / 3 );
     }
 
     SECTION( "3 grabs: 1/4 dodge" ) {
-        zed1->add_effect( efftype_id( "grabbing" ), 1_minutes );
-        zed2->add_effect( efftype_id( "grabbing" ), 1_minutes );
-        zed3->add_effect( efftype_id( "grabbing" ), 1_minutes );
-        REQUIRE( zed1->has_effect( efftype_id( "grabbing" ) ) );
-        REQUIRE( zed2->has_effect( efftype_id( "grabbing" ) ) );
-        REQUIRE( zed3->has_effect( efftype_id( "grabbing" ) ) );
+        zed1->add_effect( effect_grabbing, 1_minutes );
+        zed2->add_effect( effect_grabbing, 1_minutes );
+        zed3->add_effect( effect_grabbing, 1_minutes );
+        REQUIRE( zed1->has_effect( effect_grabbing ) );
+        REQUIRE( zed2->has_effect( effect_grabbing ) );
+        REQUIRE( zed3->has_effect( effect_grabbing ) );
 
         CHECK( dummy.get_dodge() == base_dodge / 4 );
     }
 
     SECTION( "4 grabs: 1/5 dodge" ) {
-        zed1->add_effect( efftype_id( "grabbing" ), 1_minutes );
-        zed2->add_effect( efftype_id( "grabbing" ), 1_minutes );
-        zed3->add_effect( efftype_id( "grabbing" ), 1_minutes );
-        zed4->add_effect( efftype_id( "grabbing" ), 1_minutes );
-        REQUIRE( zed1->has_effect( efftype_id( "grabbing" ) ) );
-        REQUIRE( zed2->has_effect( efftype_id( "grabbing" ) ) );
-        REQUIRE( zed3->has_effect( efftype_id( "grabbing" ) ) );
-        REQUIRE( zed4->has_effect( efftype_id( "grabbing" ) ) );
+        zed1->add_effect( effect_grabbing, 1_minutes );
+        zed2->add_effect( effect_grabbing, 1_minutes );
+        zed3->add_effect( effect_grabbing, 1_minutes );
+        zed4->add_effect( effect_grabbing, 1_minutes );
+        REQUIRE( zed1->has_effect( effect_grabbing ) );
+        REQUIRE( zed2->has_effect( effect_grabbing ) );
+        REQUIRE( zed3->has_effect( effect_grabbing ) );
+        REQUIRE( zed4->has_effect( effect_grabbing ) );
 
         CHECK( dummy.get_dodge() == base_dodge / 5 );
     }

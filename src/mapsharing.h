@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <set>
+#include <string>
 
 namespace MAP_SHARING
 {

@@ -40,7 +40,7 @@ def gen_new(path):
     # Having troubles with this script halting?
     # Uncomment below to find the file it's halting on
     #print(path)
-    with open(path, "r") as json_file:
+    with open(path, "r", encoding="utf-8") as json_file:
         try:
             json_data = json.load(json_file)
         except json.JSONDecodeError:
@@ -86,6 +86,6 @@ for root, directories, filenames in os.walk(args_dict["dir"]):
         path = os.path.join(root, filename)
         new = gen_new(path)
         if new is not None:
-            with open(path, "w") as jf:
+            with open(path, "w", encoding="utf-8") as jf:
                 json.dump(new, jf, ensure_ascii=False)
             os.system(f"./tools/format/json_formatter.cgi {path}")

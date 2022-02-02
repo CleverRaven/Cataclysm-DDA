@@ -3,7 +3,6 @@
 #define CATA_SRC_COLOR_LOADER_H
 
 #include <array>
-#include <fstream>
 #include <map>
 #include <string>
 
@@ -48,7 +47,7 @@ class color_loader
         }
 
         void load_colorfile( const std::string &path ) {
-            std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
+            cata::ifstream colorfile( fs::u8path( path ), std::ifstream::in | std::ifstream::binary );
             JsonIn jsin( colorfile );
             jsin.start_array();
             while( !jsin.end_array() ) {

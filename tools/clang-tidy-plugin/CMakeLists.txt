@@ -12,17 +12,24 @@ add_library(CataAnalyzerPlugin MODULE
         DeterminismCheck.cpp
         HeaderGuardCheck.cpp
         JsonTranslationInputCheck.cpp
+        LargeStackObjectCheck.cpp
         NoLongCheck.cpp
         NoStaticGettextCheck.cpp
+        OtMatchCheck.cpp
         PointInitializationCheck.cpp
+        RedundantParenthesesCheck.cpp
+        SerializeCheck.cpp
         SimplifyPointConstructorsCheck.cpp
         StaticDeclarationsCheck.cpp
+        StaticInitializationOrderCheck.cpp
         StaticIntIdConstantsCheck.cpp
         StaticStringIdConstantsCheck.cpp
         StringLiteralIterator.cpp
         TestFilenameCheck.cpp
         TestsMustRestoreGlobalStateCheck.cpp
         TextStyleCheck.cpp
+        TranslateStringLiteralCheck.cpp
+        TranslationsInDebugMessagesCheck.cpp
         TranslatorCommentsCheck.cpp
         UnsequencedCallsCheck.cpp
         UnusedStaticsCheck.cpp
@@ -30,6 +37,7 @@ add_library(CataAnalyzerPlugin MODULE
         UseNamedPointConstantsCheck.cpp
         UsePointApisCheck.cpp
         UsePointArithmeticCheck.cpp
+        UTF8ToLowerUpperCheck.cpp
         Utils.cpp
         XYCheck.cpp)
 

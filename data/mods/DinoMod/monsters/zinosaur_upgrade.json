@@ -17,6 +17,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -41,6 +42,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -64,6 +66,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -87,6 +90,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -110,6 +114,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -133,8 +138,34 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zorgosaurus_brute",
+    "name": { "str": "Gorgosaurus Goliath" },
+    "copy-from": "mon_zorgosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "description": "Massive jaws lifted by an upright undead dinosaur body bulging with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -157,7 +188,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -181,7 +213,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -205,6 +238,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -228,6 +262,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -251,6 +286,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -274,6 +310,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -298,6 +335,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -321,6 +359,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -329,7 +368,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zapatosaurus_brute",
-    "name": { "str": "Anabolic Apatosaurus" },
+    "name": { "str_sp": "Anabolic Apatosaurus" },
     "copy-from": "mon_zapatosaurus",
     "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -344,6 +383,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -367,7 +407,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -390,7 +431,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -413,7 +455,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -436,7 +479,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -444,7 +488,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zalamosaurus_brute",
-    "name": { "str": "Anabolic Alamosaurus" },
+    "name": { "str_sp": "Anabolic Alamosaurus" },
     "copy-from": "mon_zalamosaurus",
     "description": "Gigantic, four-legged dinosaur corpse with a long neck and a spiked whip-like tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -459,7 +503,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -482,6 +527,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -505,7 +551,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -528,6 +575,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -551,7 +599,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -574,7 +623,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -597,6 +647,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -620,6 +671,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -643,6 +695,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -666,6 +719,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -689,6 +743,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -712,6 +767,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -735,7 +791,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -743,7 +800,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zentaceratops_brute",
-    "name": { "str": "Five Horn Death Punch" },
+    "name": { "str": "Five Horn Death Punch", "str_pl": "Five Horn Death Punches" },
     "copy-from": "mon_zentaceratops",
     "description": "A massive, shambling, rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -758,7 +815,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -781,7 +839,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -804,7 +863,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -827,7 +887,8 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -850,6 +911,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -857,11 +919,65 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zeratosaurus_shady",
+    "name": { "str_sp": "shady ceratosaurus zombie" },
+    "copy-from": "mon_zeratosaurus",
+    "color": "light_gray",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of an enormous, bipedal dinosaur with horns, spikes, and big sharp teeth.",
+    "upgrades": {  },
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
+    "vision_day": 3,
+    "vision_night": 40,
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zpinosaurus_shady",
-    "name": { "str": "Spinosaurus shady zombie" },
+    "name": { "str": "shady spinosaurus zombie" },
     "copy-from": "mon_zpinosaurus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with a tattered sail.  The head is long and narrow, with a V-shaped snout.",
+    "upgrades": {  },
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
+    "vision_day": 3,
+    "vision_night": 30,
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zallosaurus_shady",
+    "name": { "str_sp": "shady allosaurus zombie" },
+    "copy-from": "mon_zallosaurus",
+    "color": "light_gray",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with big, sharp teeth.",
+    "upgrades": {  },
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
+    "vision_day": 3,
+    "vision_night": 40,
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zorgosaurus_shady",
+    "name": { "str_sp": "shady gorgosaurus zombie" },
+    "copy-from": "mon_zorgosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "color": "light_gray",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks big, like it could hold many enormous sharp teeth.",
+    "upgrades": {  },
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
+    "vision_day": 3,
+    "vision_night": 30,
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zalbertosaurus_shady",
+    "name": { "str_sp": "shady albertosaurus zombie" },
+    "copy-from": "mon_zalbertosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "color": "light_gray",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks big, and below are long, grasping claws.",
     "upgrades": {  },
     "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
     "vision_day": 3,
@@ -884,48 +1000,8 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_zalbertosaurus_shady",
-    "name": { "str_sp": "shady Albertosaurus" },
-    "copy-from": "mon_zalbertosaurus",
-    "looks_like": "mon_zyrannosaurus",
-    "color": "light_gray",
-    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks big, and below are long, grasping claws.",
-    "upgrades": {  },
-    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
-    "vision_day": 3,
-    "vision_night": 30,
-    "categories": [ "DINOSAUR" ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_zankylosaurus_shady",
-    "name": { "str_sp": "shady Ankylosaurus" },
-    "copy-from": "mon_zankylosaurus",
-    "color": "light_gray",
-    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, heavily-armored, four-legged dinosaur with a spiked tail.",
-    "upgrades": {  },
-    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
-    "vision_day": 3,
-    "vision_night": 40,
-    "categories": [ "DINOSAUR" ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_zallosaurus_shady",
-    "name": { "str_sp": "shady Allosaurus" },
-    "copy-from": "mon_zallosaurus",
-    "color": "light_gray",
-    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with big, sharp teeth.",
-    "upgrades": {  },
-    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
-    "vision_day": 3,
-    "vision_night": 40,
-    "categories": [ "DINOSAUR" ]
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_zothronychus_shady",
-    "name": { "str_sp": "shady Nothronychus" },
+    "name": { "str_sp": "shady nothronychus zombie" },
     "copy-from": "mon_zothronychus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
@@ -938,7 +1014,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeinonychus_shady",
-    "name": { "str_sp": "shady Deinonychus" },
+    "name": { "str_sp": "shady deinonychus zombie" },
     "copy-from": "mon_zeinonychus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
@@ -951,7 +1027,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zutahraptor_shady",
-    "name": { "str_sp": "shady Utahraptor" },
+    "name": { "str_sp": "shady utahraptor zombie" },
     "copy-from": "mon_zutahraptor",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a big, bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
@@ -963,11 +1039,11 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_zeratosaurus_shady",
-    "name": { "str_sp": "shady Ceratosaurus" },
-    "copy-from": "mon_zeratosaurus",
+    "id": "mon_zankylosaurus_shady",
+    "name": { "str_sp": "shady ankylosaurus zombie" },
+    "copy-from": "mon_zankylosaurus",
     "color": "light_gray",
-    "description": "An uncanny shadow envelops this creature.  You can make out the outline of an enormous, bipedal dinosaur with horns, spikes, and big sharp teeth.",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, heavily-armored, four-legged dinosaur with a spiked tail.",
     "upgrades": {  },
     "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
     "vision_day": 3,
@@ -995,6 +1071,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1021,6 +1098,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1029,7 +1107,7 @@
   {
     "type": "MONSTER",
     "id": "mon_skinosaurus",
-    "name": { "str_sp": "skeletal Spinosaurus" },
+    "name": { "str_sp": "skeletal spinosaurus" },
     "copy-from": "mon_zpinosaurus",
     "looks_like": "mon_zpinosaurus",
     "color": "white",
@@ -1047,6 +1125,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1055,7 +1134,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sallosaurus",
-    "name": { "str_sp": "skeletal Allosaurus" },
+    "name": { "str_sp": "skeletal allosaurus" },
     "copy-from": "mon_zallosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1072,6 +1151,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1080,7 +1160,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sacrocanthosaurus",
-    "name": { "str_sp": "skeletal Acrocanthosaurus" },
+    "name": { "str_sp": "skeletal acrocanthosaurus" },
     "copy-from": "mon_zacrocanthosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1097,6 +1177,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1105,7 +1186,7 @@
   {
     "type": "MONSTER",
     "id": "mon_skiats",
-    "name": { "str_sp": "skeletal Siats" },
+    "name": { "str_sp": "skeletal siats" },
     "copy-from": "mon_ziats",
     "color": "white",
     "material": [ "bone" ],
@@ -1122,6 +1203,34 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sorgosaurus",
+    "name": { "str_sp": "skeletal gorgosaurus" },
+    "copy-from": "mon_zorgosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "Monstrous columns of dense bone lifting sharp, pointed teeth dripping with black goo.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_cut": 7,
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1130,7 +1239,7 @@
   {
     "type": "MONSTER",
     "id": "mon_salbertosaurus",
-    "name": { "str_sp": "skeletal Albertosaurus" },
+    "name": { "str_sp": "skeletal albertosaurus" },
     "copy-from": "mon_zalbertosaurus",
     "looks_like": "mon_zyrannosaurus",
     "color": "white",
@@ -1148,6 +1257,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1156,7 +1266,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sianzhousaurus",
-    "name": { "str_sp": "skeletal Qianzhousaurus" },
+    "name": { "str_sp": "skeletal qianzhousaurus" },
     "copy-from": "mon_zianzhousaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1173,6 +1283,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1199,6 +1310,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1207,7 +1319,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sallimimus",
-    "name": { "str_sp": "skeletal Gallimimus" },
+    "name": { "str_sp": "skeletal gallimimus" },
     "copy-from": "mon_zallimimus",
     "color": "white",
     "material": [ "bone" ],
@@ -1224,6 +1336,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1232,7 +1345,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sothronychus",
-    "name": { "str_sp": "skeletal Nothronychus" },
+    "name": { "str_sp": "skeletal nothronychus" },
     "copy-from": "mon_zothronychus",
     "color": "white",
     "material": [ "bone" ],
@@ -1249,6 +1362,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1257,7 +1371,7 @@
   {
     "type": "MONSTER",
     "id": "mon_seinonychus",
-    "name": { "str_sp": "Deino Bones" },
+    "name": { "str_sp": "skeletal deinonychus" },
     "copy-from": "mon_zeinonychus",
     "color": "white",
     "material": [ "bone" ],
@@ -1274,6 +1388,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1299,6 +1414,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1307,7 +1423,7 @@
   {
     "type": "MONSTER",
     "id": "mon_samargasaurus",
-    "name": { "str_sp": "armored Amargasaurus" },
+    "name": { "str_sp": "armored amargasaurus" },
     "copy-from": "mon_zamargasaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1324,6 +1440,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1332,7 +1449,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sapatosaurus",
-    "name": { "str_sp": "armored Apatosaurus" },
+    "name": { "str_sp": "armored apatosaurus" },
     "copy-from": "mon_zapatosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1349,6 +1466,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1357,7 +1475,7 @@
   {
     "type": "MONSTER",
     "id": "mon_srontosaurus",
-    "name": { "str": "armored Brontosaurus" },
+    "name": { "str_sp": "armored brontosaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "hp": 0.8 },
     "description": "This zombified Brontosaurus has grown dense bone armor, completely covering the massive, four-legged body and long, whip-like tail."
@@ -1365,7 +1483,7 @@
   {
     "type": "MONSTER",
     "id": "mon_siplodocus",
-    "name": { "str_sp": "armored Diplodocus" },
+    "name": { "str_sp": "armored diplodocus" },
     "copy-from": "mon_ziplodocus",
     "color": "white",
     "material": [ "bone" ],
@@ -1382,6 +1500,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1390,7 +1509,7 @@
   {
     "type": "MONSTER",
     "id": "mon_samarasaurus",
-    "name": { "str": "armored Camarasaurus" },
+    "name": { "str_sp": "armored camarasaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "speed": 0.8 },
     "description": "This zombified Camarasaurus has grown dense body armor, completely covering the massive, long-necked, four-legged body."
@@ -1398,7 +1517,7 @@
   {
     "type": "MONSTER",
     "id": "mon_srachiosaurus",
-    "name": { "str": "armored Brachiosaurus" },
+    "name": { "str_sp": "armored brachiosaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "speed": 0.6, "hp": 3 },
     "description": "This zombified Brachiosaurus has grown dense body armor, completely covering the gigantic, long-necked, four-legged body."
@@ -1406,7 +1525,7 @@
   {
     "type": "MONSTER",
     "id": "mon_salamosaurus",
-    "name": { "str_sp": "armored Alamosaurus" },
+    "name": { "str_sp": "armored alamosaurus" },
     "copy-from": "mon_zalamosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1423,6 +1542,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1431,7 +1551,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sktegosaurus",
-    "name": { "str_sp": "skeletal Stegosaurus" },
+    "name": { "str_sp": "skeletal stegosaurus" },
     "copy-from": "mon_ztegosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1448,6 +1568,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1456,7 +1577,7 @@
   {
     "type": "MONSTER",
     "id": "mon_syoplosaurus",
-    "name": { "str_sp": "skeletal Dyoplosaurus" },
+    "name": { "str_sp": "skeletal dyoplosaurus" },
     "copy-from": "mon_zyoplosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1473,6 +1594,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1499,6 +1621,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1507,7 +1630,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sodosaurus",
-    "name": { "str_sp": "armored Nodosaurus" },
+    "name": { "str_sp": "armored nodosaurus" },
     "copy-from": "mon_zodosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1524,6 +1647,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1532,7 +1656,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sedmontonia",
-    "name": { "str_sp": "armored Edmontonia" },
+    "name": { "str_sp": "armored edmontonia" },
     "copy-from": "mon_zedmontonia",
     "color": "white",
     "material": [ "bone" ],
@@ -1549,6 +1673,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1557,7 +1682,7 @@
   {
     "type": "MONSTER",
     "id": "mon_samptosaurus",
-    "name": { "str_sp": "armored Camptosaurus" },
+    "name": { "str_sp": "armored camptosaurus" },
     "copy-from": "mon_zamptosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1574,6 +1699,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1582,7 +1708,7 @@
   {
     "type": "MONSTER",
     "id": "mon_saiasaura",
-    "name": { "str_sp": "armored Maiasaura" },
+    "name": { "str_sp": "armored maiasaura" },
     "copy-from": "mon_zaiasaura",
     "color": "white",
     "material": [ "bone" ],
@@ -1599,6 +1725,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1607,7 +1734,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sarasaurolophus",
-    "name": { "str_sp": "armored Parasaurolophus" },
+    "name": { "str_sp": "armored parasaurolophus" },
     "copy-from": "mon_zarasaurolophus",
     "color": "white",
     "material": [ "bone" ],
@@ -1624,6 +1751,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1632,7 +1760,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sorythosaurus",
-    "name": { "str_sp": "armored Corythosaurus" },
+    "name": { "str_sp": "armored corythosaurus" },
     "copy-from": "mon_zorythosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1649,6 +1777,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1674,6 +1803,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1682,7 +1812,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sachycephalosaurus",
-    "name": { "str_sp": "protected Pachycephalosaurus" },
+    "name": { "str_sp": "protected pachycephalosaurus" },
     "copy-from": "mon_zachycephalosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1699,6 +1829,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1707,7 +1838,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sachyrhinosaurus",
-    "name": { "str_sp": "protected Pachyrhinosaurus" },
+    "name": { "str_sp": "protected pachyrhinosaurus" },
     "copy-from": "mon_zachyrhinosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1724,6 +1855,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1732,7 +1864,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sentaceratops",
-    "name": { "str_sp": "protected Pentaceratops" },
+    "name": { "str_sp": "protected pentaceratops" },
     "copy-from": "mon_zentaceratops",
     "color": "white",
     "material": [ "bone" ],
@@ -1749,6 +1881,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1757,7 +1890,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sosmoceratops",
-    "name": { "str_sp": "armored Kosmoceratops" },
+    "name": { "str_sp": "armored kosmoceratops" },
     "copy-from": "mon_zosmoceratops",
     "color": "white",
     "material": [ "bone" ],
@@ -1774,6 +1907,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1782,7 +1916,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sorosaurus",
-    "name": { "str_sp": "armored Torosaurus" },
+    "name": { "str_sp": "armored torosaurus" },
     "copy-from": "mon_zorosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -1799,6 +1933,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1807,7 +1942,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sriceratops",
-    "name": { "str_sp": "armored Triceratops" },
+    "name": { "str_sp": "armored triceratops" },
     "copy-from": "mon_zriceratops",
     "color": "white",
     "material": [ "bone" ],
@@ -1824,6 +1959,7 @@
       "armor_acid": 3,
       "vision_day": -20
     },
+    "bleed_rate": 50,
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1841,6 +1977,7 @@
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
     "relative": { "armor_bash": 30, "armor_cut": 37 },
+    "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "special_attacks": [ [ "GRAB", 30 ], [ "FLAMETHROWER", 30 ] ],
     "upgrades": {  },
@@ -1848,6 +1985,30 @@
       { "item": "wheel", "count": 4 },
       { "group": "supplies_spares_vehicle", "count": 10 },
       { "group": "supplies_mechanics", "count": 10 },
+      { "group": "supplies_metal", "count": 10 }
+    ],
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zapatosaurus_tank",
+    "name": { "str_sp": "Choppersaurus" },
+    "copy-from": "mon_zapatosaurus_brute",
+    "looks_like": "mon_zapatosaurus",
+    "description": "Enormous zombie sauropod lifting what looks like a crashed Apache military helicopter.",
+    "diff": 30,
+    "color": "dark_gray_red",
+    "luminance": 20,
+    "proportional": { "hp": 1.5, "speed": 0.8 },
+    "relative": { "armor_bash": 30, "armor_cut": 37, "armor_bullet": 30, "armor_stab": 30, "armor_acid": 3 },
+    "bleed_rate": 50,
+    "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
+    "special_attacks": [ [ "MULTI_ROBOT", 30 ] ],
+    "upgrades": {  },
+    "death_drops": [
+      { "item": "mil_plate", "count": 4 },
+      { "group": "helicopter", "count": 10 },
+      { "group": "mil_hw", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
     "death_function": { "effect": { "id": "death_fireball", "hit_self": true } }
@@ -1864,6 +2025,31 @@
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
     "relative": { "armor_bash": 30, "armor_cut": 37, "armor_bullet": 30, "armor_stab": 30, "armor_acid": 3 },
+    "bleed_rate": 50,
+    "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
+    "special_attacks": [ [ "MULTI_ROBOT", 30 ] ],
+    "upgrades": {  },
+    "death_drops": [
+      { "item": "mil_plate", "count": 4 },
+      { "group": "helicopter", "count": 10 },
+      { "group": "mil_hw", "count": 10 },
+      { "group": "supplies_metal", "count": 10 }
+    ],
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zriceratops_tank",
+    "name": { "str_sp": "APCeratops" },
+    "copy-from": "mon_zriceratops_brute",
+    "looks_like": "mon_zriceratops",
+    "description": "Enormous zombie dinosaur with dramatic horns lifting what looks like a US Army armored personnel carrier.  There is movement inside.",
+    "diff": 30,
+    "color": "dark_gray_red",
+    "luminance": 20,
+    "proportional": { "hp": 1.5, "speed": 0.8 },
+    "relative": { "armor_bash": 30, "armor_cut": 37, "armor_bullet": 30, "armor_stab": 30, "armor_acid": 3 },
+    "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "special_attacks": [ [ "MULTI_ROBOT", 30 ] ],
     "upgrades": {  },
@@ -1881,24 +2067,54 @@
     "name": { "str_sp": "Goliath Rex" },
     "copy-from": "mon_zyrannosaurus_brute",
     "looks_like": "mon_zyrannosaurus",
-    "description": "A hideously swollen zombified tyrannosaurus body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",
+    "description": "A hideously swollen zombified tyrannosaurid body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "bleed_rate": 0,
+    "special_attacks": [ [ "SMASH", 20 ] ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zapatosaurus_hulk",
+    "name": { "str_sp": "sauropod hulk" },
+    "copy-from": "mon_zapatosaurus_brute",
+    "looks_like": "mon_zapatosaurus",
+    "description": "A hideously swollen zombified sauropod body towering into the sky even more than usual.  Its massive body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 5,
+    "color": "white_magenta",
+    "proportional": { "hp": 4, "speed": 1.25 },
+    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ]
   },
   {
     "type": "MONSTER",
     "id": "mon_zankylosaurus_hulk",
-    "name": { "str_sp": "Ankylosaurus hulk" },
+    "name": { "str_sp": "ankylosaurid hulk" },
     "copy-from": "mon_zankylosaurus_brute",
     "looks_like": "mon_ankylosaurus",
-    "description": "A hideously swollen zombified Ankylosaurus body towering into the sky.  Its massive body bulges with distended muscles and enormous bony armor.",
+    "description": "A hideously swollen zombified ankylosaurid body towering into the sky.  Its massive body bulges with distended muscles and enormous bony armor.",
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "bleed_rate": 0,
+    "special_attacks": [ [ "SMASH", 20 ] ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zriceratops_hulk",
+    "name": { "str_sp": "ceratopsian hulk" },
+    "copy-from": "mon_zriceratops_brute",
+    "looks_like": "mon_zriceratops",
+    "description": "A hideously swollen zombified ceratopsian body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wound.",
+    "diff": 5,
+    "color": "white_magenta",
+    "proportional": { "hp": 4, "speed": 1.25 },
+    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ]
   }
 ]

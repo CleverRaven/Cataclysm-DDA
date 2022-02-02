@@ -76,13 +76,23 @@ Special prefixes that are used include:
 
 `explosion_` for spell explosion effects.  Multitile is required; only supports "center", "edge" and "corner".
 
+Special suffixes that are used include:
+
+`_intx` for fields with a specific intensity level where x is the intensity level. Intensity counts from 1 and there are usually three levels so: `_int1` `_int2` `_int3`
+
 #### Optional gendered variants
 
-Are defined by adding `_female` or `_male` part to the `overlay_` part of a prefix: `overlay_female_` or `overlay_male_`.
+Are defined by adding `_female` or `_male` part to the `overlay_` part of a prefix before other parts: `overlay_female_` or `overlay_male_`, `overlay_female_worn_`, `overlay_male_worn_`.
 
 #### Optional seasonal variants
 
 Are defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
+
+#### Item variant sprite variants
+
+Are defined by adding `_var_variant_id`, where `variant_id` is replaced by the id of the variant you want to sprite.
+
+e.g. for an item with the id `item1`, with variants `orange` and `pear`, to specify a tile for the item, simply use `item1`. For the variants, use `item1_var_orange` and `item1_var_pear`.
 
 #### Rotations
 
@@ -131,12 +141,17 @@ Each JSON file can have either a single object or an array of one or more object
       "sprite_width": 64,   // Overriding values example
       "sprite_height": 80,
       "sprite_offset_x": -16,
-      "sprite_offset_y": -48
+      "sprite_offset_y": -48,
+      "sprites_across": 4   // Change the sheet width, default is 16. Reducing empty space in the end helps a bit with CDDA memory consumption
     }
   }, {
     "fillerhoder.png": {    // Unknown keys like `source` will be ignored by `compose.py` and can be used as comments.
       "source": "https://github.com/CleverRaven/Cataclysm-DDA/tree/b2d1f9f6cf6fae9c5076d29f9779e0ca6c03c222/gfx/HoderTileset",
-      "filler": true 
+      "filler": true,
+      "exclude": [          // all subdirectories of this sheet directory mentioned here will not be visited
+        "dir_that_will_be_ignored",
+        "subdir/with/any/depth"
+      ]
     }
   }, {
     "fallback.png": {
@@ -155,6 +170,44 @@ Tilesheet directory names are expected to use the following format: `pngs_{tiles
 ### Expansion tile entries
 
 A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a single `id` value, where the `"rotates": false"`, and `"fg": 0` keys are set.  Expansion tile entry JSONs are the only tile entry JSONs that may use an integer value for `fg`, and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each tilesheet directory.
+
+### layering.json
+
+An optional file called layering.json can be provided. this file defines layering data for specific furniture and terrain. A default layering.json is provided with the repository. an example would be:
+
+```c++
+{
+"item_variants": [
+  {
+    "context": "f_desk",
+    "variants": [
+      {
+        "item": "laptop",
+        "sprite": [{"id": "desk_laptop", "weight": 1}],
+        "layer": 90
+      },
+      {
+        "item": "pen",
+        "sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}],
+        "layer": 100
+      }
+    ]
+  }
+]
+}
+```
+
+This entry sets it so that the f_desk furniture if it contains either a pen or a laptop will draw a custom sprite for them in addition to a normal top item sprite.
+
+`"context": "f_desk"` the furniture or terrain that this should apply to.
+
+`"variants":` the definitions for what will have a variant sprite.
+
+`"item": "laptop"` the item id.
+
+`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. For variation multiple sprites can be provided with specific weights.
+
+`"layer": 100` this defines the order the sprites will draw in. 1 drawing first 100 drawing last (so 100 ends up on top)
 
 ## `compose.py`
 
@@ -189,11 +242,11 @@ Requires `pyvips` module, see below.
 ### Windows
 
 #### Python and pyvips
- * Install Python with the latest installer https://www.python.org/downloads/windows/
+ * Install Python with the latest **installer** https://www.python.org/downloads/windows/ (do not uncheck setting up the `py` shortcut unless you know what you are doing)
  * Open Console (Window key + `R` key, type `cmd` and hit `Enter`)
  * Install pyvips with these commands:
 ```
-py -m pip install -U pip
+py -m pip install --upgrade pip
 py -m pip install --user pyvips
 ```
 
@@ -203,7 +256,7 @@ py -m pip install --user pyvips
  * Alternatively go to `Control Panel > System > Advanced System Settings > Environment Variables`
  * In the `User variables` section, select `Path` and click `Edit`.
  * Select an empty line and press `New`
- * Copy and paste the path to `vips\bin` folder, it should look something like `C:\Users\username\AppData\Roaming\Python\Python39\site-packages\pyvips\vips-dev-8.10\bin`
+ * Copy and paste the path to the extracted `vips-dev-#.##\bin` folder, it should look something like `C:\Users\username\Downloads\vips-dev-8.10\bin`
  * If you have the Console open, close it so the changes take effect.
 
 #### Launching scripts
@@ -215,6 +268,17 @@ _TODO, please ask if you need it or send suggestions if you want to help_
 
 ### MacOS
 _TODO, please ask if you need it or send suggestions if you want to help_
+
+
+## Including tilesets with the distribution
+
+In order to be included in the distribution of the game, a tileset must meet the following criteria:
+
+- Licensing: ALL ART must be distributed under a CC-BY-SA 3.0 license or compatible.  Any exceptions cannot be tolerated.  If an art item's license is unclear it cannot be included.
+- Crediting: Appropriate crediting as requested by artists must be met.  You probably don't need to be told this, adding a credits.txt costs you nothing.
+- Maintenance: A tileset must have had at least one PR updating its art since the previous stable release to be included in subsequent stable releases.  While a formal maintainer isn't required for a tileset, it's much more likely that sets will not be marked obsolete if they have someone to speak up for them.
+- Imagery: in general we do not have rules about imagery and content in tilesets, but we may request changes or refuse admission if a set includes overt hate imagery (swastikas for example).
+
 
 ## Legacy tilesets
 

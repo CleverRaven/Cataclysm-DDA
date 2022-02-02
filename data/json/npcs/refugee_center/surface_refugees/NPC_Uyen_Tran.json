@@ -18,7 +18,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
-    "//": "A paramedic who suffers a bit of racism for being asian",
+    "//": "A paramedic who suffers a bit of racism for being Asian",
     "bonus_str": { "rng": [ -1, 1 ] },
     "bonus_dex": { "rng": [ -2, 2 ] },
     "bonus_int": { "rng": [ 0, 3 ] },
@@ -179,7 +179,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 8 },
+        { "u_spawn_item": "FMCNote", "count": 8 },
         { "u_add_var": "Uyen_Mission1", "type": "mission", "context": "flag", "value": "yes" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
       ]
@@ -210,7 +210,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 7 },
+        { "u_spawn_item": "FMCNote", "count": 7 },
         { "u_add_var": "Uyen_Mission2", "type": "mission", "context": "flag", "value": "yes" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
       ]
@@ -219,8 +219,8 @@
   {
     "id": "MISSION_REFUGEE_Uyen_3",
     "type": "mission_definition",
-    "name": { "str": "Find 6 bottles of Prozac" },
-    "description": "Find 6 bottles of Prozac for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> Merch.",
+    "name": { "str": "Find 6 bottles of antidepressant" },
+    "description": "Find 6 bottles of antidepressant for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> Merch.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
@@ -232,7 +232,7 @@
       "offer": "I probably shouldn't be prescribing things, but there's a ton of people needing help with sleep in here.  If you could get us some antidepressants, Rhyzaea and I can probably make sure they're doled out appropriately without people having to starve to pay for them.  Three month's worth - about 6 bottles - would last us a little while.",
       "accepted": "Thanks so much.  It's a small thing but it'd be really helpful.",
       "rejected": "That's okay.  I'm sure we'll make do somehow.",
-      "advice": "Prozac was really common.  You can probably find it in most medicine cabinets and pharmacies.",
+      "advice": "Antidepressant was really common.  You can probably find it in most medicine cabinets and pharmacies.",
       "inquire": "How is the search going?",
       "success": "Thanks so much.  Listen, I told some of the others what you were up to for us and we pooled our cash to thank you.  You've done a lot to help us out.",
       "success_lie": "What good does this do us?",
@@ -240,7 +240,7 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 5 },
+        { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Uyen_Mission3", "type": "mission", "context": "flag", "value": "yes" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
       ]

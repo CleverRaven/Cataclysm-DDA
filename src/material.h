@@ -16,7 +16,6 @@
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
 class material_type;
 
 enum class damage_type : int;
@@ -37,7 +36,7 @@ struct fuel_explosion_data {
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct fuel_data {
@@ -50,7 +49,7 @@ struct fuel_data {
 
         bool was_loaded = false;
         void load( const JsonObject &jsobj );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 class material_type
@@ -73,6 +72,8 @@ class material_type
         int _density = 1;                             // relative to "powder", which is 1
         // ability of a fabric to allow moisture vapor to be transmitted through the material
         int _breathability = 0;
+        // How resistant this material is to wind as a percentage - 0 to 100
+        cata::optional<int> _wind_resist;
         float _specific_heat_liquid = 4.186f;
         float _specific_heat_solid = 2.108f;
         float _latent_heat = 334.0f;
@@ -128,6 +129,7 @@ class material_type
         float freeze_point() const;
         int density() const;
         int breathability() const;
+        cata::optional<int> wind_resist() const;
         bool edible() const;
         bool rotting() const;
         bool soft() const;

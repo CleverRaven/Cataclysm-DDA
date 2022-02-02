@@ -18,6 +18,9 @@
 #include "test_statistics.h"
 #include "type_id.h"
 
+static const trait_id trait_ALBINO( "ALBINO" );
+static const trait_id trait_SUNBURN( "SUNBURN" );
+
 // Tests for Character suffering
 //
 // Covers functions:
@@ -117,8 +120,8 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
         calendar::turn = calendar::turn_zero + 12_hours;
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
 
-        dummy.toggle_trait( trait_id( "ALBINO" ) );
-        REQUIRE( dummy.has_trait( trait_id( "ALBINO" ) ) );
+        dummy.toggle_trait( trait_ALBINO );
+        REQUIRE( dummy.has_trait( trait_ALBINO ) );
 
         WHEN( "totally naked and exposed" ) {
             dummy.worn.clear();
@@ -140,7 +143,7 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
 
         WHEN( "wielding an umbrella and wearing sunglasses" ) {
             dummy.wield( umbrella );
-            REQUIRE( dummy.weapon.has_flag( flag_RAIN_PROTECT ) );
+            REQUIRE( dummy.get_wielded_item().has_flag( flag_RAIN_PROTECT ) );
 
             dummy.wear_item( shades, false );
             REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
@@ -213,8 +216,8 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
         calendar::turn = calendar::turn_zero + 12_hours;
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
 
-        dummy.toggle_trait( trait_id( "SUNBURN" ) );
-        REQUIRE( dummy.has_trait( trait_id( "SUNBURN" ) ) );
+        dummy.toggle_trait( trait_SUNBURN );
+        REQUIRE( dummy.has_trait( trait_SUNBURN ) );
 
         std::map<bodypart_id, int> bp_hp_lost;
         WHEN( "totally naked and exposed" ) {
@@ -240,7 +243,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
         WHEN( "naked and wielding an umbrella, with or without sunglasses" ) {
             dummy.worn.clear();
             dummy.wield( umbrella );
-            REQUIRE( dummy.weapon.has_flag( flag_RAIN_PROTECT ) );
+            REQUIRE( dummy.get_wielded_item().has_flag( flag_RAIN_PROTECT ) );
 
             // Umbrella completely shields the skin from exposure when wielded
             THEN( "they suffer no injury" ) {

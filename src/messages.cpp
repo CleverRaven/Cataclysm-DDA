@@ -34,15 +34,15 @@
 namespace
 {
 
-struct game_message : public JsonDeserializer, public JsonSerializer {
+struct game_message {
     std::string       message;
     time_point timestamp_in_turns  = calendar::turn_zero;
-    int               timestamp_in_user_actions = 0;
+    int               timestamp_in_user_actions = 0; // NOLINT(cata-serialize)
     int               count = 1;
     // number of times this message has been seen while it was in cooldown.
-    unsigned cooldown_seen = 1;
+    unsigned cooldown_seen = 1; // NOLINT(cata-serialize)
     // hide the message, because at some point it was in cooldown period.
-    bool cooldown_hidden = false;
+    bool cooldown_hidden = false; // NOLINT(cata-serialize)
     game_message_type type  = m_neutral;
 
     game_message() = default;
@@ -94,15 +94,14 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         return c_dark_gray;
     }
 
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject obj = jsin.get_object();
+    void deserialize( const JsonObject &obj )  {
         obj.read( "turn", timestamp_in_turns );
         message = obj.get_string( "message" );
         count = obj.get_int( "count" );
         type = static_cast<game_message_type>( obj.get_int( "type" ) );
     }
 
-    void serialize( JsonOut &jsout ) const override {
+    void serialize( JsonOut &jsout ) const {
         jsout.start_object();
         jsout.member( "turn", timestamp_in_turns );
         jsout.member( "message", message );

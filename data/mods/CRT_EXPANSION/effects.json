@@ -1,0 +1,29 @@
+[
+  {
+    "type": "effect_type",
+    "id": "blood_spiders",
+    "name": [ "Blood Spiders" ],
+    "desc": [
+      "You have contracted an interdimensional disease, specifically Blood Spiders.  Symptoms can be alleviated by medication (antiparasitic)."
+    ],
+    "apply_memorial_log": "Caught blood spiders.",
+    "remove_memorial_log": "Eradicated the spiders in his blood.",
+    "apply_message": "Your veins itch…",
+    "rating": "bad",
+    "resist_traits": [ "PARAIMMUNE", "ACIDBLOOD" ],
+    "base_mods": {
+      "thirst_tick": [ 580 ],
+      "thirst_min": [ 1 ],
+      "fatigue_tick": [ 300 ],
+      "fatigue_min": [ 1 ],
+      "str_mod": [ -2, -1 ],
+      "dex_mod": [ -1, 0 ],
+      "per_mod": [ -1, 0 ],
+      "pain_max_val": [ 30 ],
+      "pain_min": [ 2, 0 ],
+      "pain_chance": [ 3, 9 ],
+      "health_amount": [ -2, -12 ]
+    },
+    "blood_analysis_description": "Unknown Hemolytic Parasite"
+  }
+]

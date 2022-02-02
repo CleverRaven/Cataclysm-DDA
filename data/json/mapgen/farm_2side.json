@@ -417,7 +417,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "    <#>                 ",
+        "     #≷                 ",
         "    III                 ",
         "  III.III               ",
         "  II...II               ",
@@ -430,7 +430,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_open_air_rooved", "I": "t_wall_metal", ">": "t_ladder_down", "<": "t_ladder_up" }
+      "terrain": { ".": "t_open_air_rooved", "I": "t_wall_metal", "≷": "t_ladder_up_down" }
     }
   },
   {
@@ -454,7 +454,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "    >#<                 ",
+        "     #≷                 ",
         "    III                 ",
         "  III.III               ",
         "  II...II               ",
@@ -467,7 +467,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_open_air_rooved", "I": "t_wall_metal", ">": "t_ladder_down", "<": "t_ladder_up" }
+      "terrain": { ".": "t_open_air_rooved", "I": "t_wall_metal", "≷": "t_ladder_up_down" }
     }
   },
   {
@@ -491,7 +491,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "    ##>                 ",
+        "    ##≷                 ",
         "    ...                 ",
         "  .......               ",
         "  .......               ",
@@ -504,7 +504,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof", ">": "t_ladder_down" }
+      "terrain": { ".": "t_shingle_flat_roof", "≷": "t_ladder_up_down" }
     }
   }
 ]

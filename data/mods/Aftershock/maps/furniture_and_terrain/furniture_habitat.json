@@ -1,0 +1,36 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_habitat_kitchenette",
+    "name": "habitat kitchenette",
+    "symbol": "#",
+    "looks_like": "f_oven",
+    "description": "A tiny sink and cooking surface only big enough to fit an electric hotplate, placed above and below many integrated storage units.  The minimal space in which you could technically cook",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
+    "connects_to": "COUNTER",
+    "deconstruct": {
+      "items": [
+        { "item": "plastic_chunk", "count": 3 },
+        { "item": "rigid_plastic_sheet", "count": 1 },
+        { "item": "polycarbonate_sheet", "count": [ 2, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "polycarbonate_sheet", "count": [ 1, 3 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 2, 16 ] }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "50L" }
+  }
+]

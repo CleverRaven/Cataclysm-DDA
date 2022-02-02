@@ -21,7 +21,9 @@
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "mapbuffer.h"
 #include "mapdata.h"
+#include "mapgen_functions.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
@@ -30,10 +32,13 @@
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
 
 static const itype_id itype_petrified_eye( "petrified_eye" );
+
+static const map_extra_id map_extra_mx_dsa_alrp( "mx_dsa_alrp" );
 
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_copbot( "mon_copbot" );
@@ -46,12 +51,39 @@ static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 
-timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint p )
+static const spell_id spell_dks_summon_alrp( "dks_summon_alrp" );
+
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
+                          int s )
     : type( e_t )
     , when( w )
     , faction_id( f_id )
     , map_point( p )
+    , strength( s )
 {
+}
+
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
+                          int s, std::string s_id )
+    : type( e_t )
+    , when( w )
+    , faction_id( f_id )
+    , map_point( p )
+    , strength( s )
+    , string_id( s_id )
+{
+}
+
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
+                          int s, std::string s_id, submap_revert &sr )
+    : type( e_t )
+    , when( w )
+    , faction_id( f_id )
+    , map_point( p )
+    , strength( s )
+    , string_id( s_id )
+{
+    revert = sr;
 }
 
 void timed_event::actualize()
@@ -64,14 +96,14 @@ void timed_event::actualize()
             break;
 
         case timed_event_type::ROBOT_ATTACK: {
-            const tripoint u_pos = player_character.global_sm_location();
+            const tripoint_abs_sm u_pos = player_character.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
                 get_event_bus().send<event_type::becomes_wanted>( player_character.getID() );
-                point rob( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4,
-                           u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
-                g->place_critter_at( robot_type, tripoint( rob, player_character.posz() ) );
+                point rob( u_pos.x() > map_point.x() ? 0 - SEEX * 2 : SEEX * 4,
+                           u_pos.y() > map_point.y() ? 0 - SEEY * 2 : SEEY * 4 );
+                g->place_critter_at( robot_type, tripoint( rob, u_pos.z() ) );
             }
         }
         break;
@@ -83,12 +115,14 @@ void timed_event::actualize()
             get_memorial().add(
                 pgettext( "memorial_male", "Drew the attention of more dark wyrms!" ),
                 pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
-            int num_wyrms = rng( 1, 4 );
-            for( int i = 0; i < num_wyrms; i++ ) {
-                if( monster *const mon = g->place_critter_around( mon_dark_wyrm, player_character.pos(), 2 ) ) {
-                    here.ter_set( mon->pos(), t_rock_floor );
+
+            // 50% chance to spawn a dark wyrm near every orifice on the level.
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == ter_id( "t_orifice" ) ) {
+                    g->place_critter_around( mon_dark_wyrm, p, 1 );
                 }
             }
+
             // You could drop the flag, you know.
             if( player_character.has_amount( itype_petrified_eye, 1 ) ) {
                 sounds::sound( player_character.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false,
@@ -99,11 +133,7 @@ void timed_event::actualize()
                     player_character.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
                 }
             }
-            // They just keep coming!
-            if( !one_in( 25 ) ) {
-                get_timed_events().add( timed_event_type::SPAWN_WYRMS,
-                                        calendar::turn + rng( 1_minutes, 3_minutes ) );
-            }
+
         }
         break;
 
@@ -247,22 +277,40 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::DSA_ALRP_SUMMON: {
-            const tripoint u_pos = player_character.global_sm_location();
+            const tripoint_abs_sm u_pos = player_character.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
-                const tripoint spot = here.getlocal( sm_to_ms_copy( map_point ) );
+                const tripoint spot = here.getlocal( project_to<coords::ms>( map_point ).raw() );
                 monster dispatcher( mon_dsa_alien_dispatch );
-                fake_spell summoning( spell_id( "dks_summon_alrp" ), true, 12 );
+                fake_spell summoning( spell_dks_summon_alrp, true, 12 );
                 summoning.get_spell().cast_all_effects( dispatcher, spot );
             } else {
                 tinymap mx_map;
-                tripoint_abs_sm map_pt( map_point );
-                mx_map.load( map_pt, false );
-                MapExtras::apply_function( "mx_dsa_alrp", mx_map, map_point );
+                mx_map.load( map_point, false );
+                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, map_point );
                 g->load_npcs();
-                here.invalidate_map_cache( map_point.z );
+                here.invalidate_map_cache( map_point.z() );
             }
         }
         break;
+
+        case timed_event_type::TRANSFORM_RADIUS:
+            get_map().transform_radius( ter_furn_transform_id( string_id ), strength,
+                                        tripoint( map_point.x(), map_point.y(), map_point.z() ) );
+            get_map().invalidate_map_cache( map_point.z() );
+            break;
+
+        case timed_event_type::UPDATE_MAPGEN:
+            run_mapgen_update_func( update_mapgen_id( string_id ), project_to<coords::omt>( map_point ),
+                                    nullptr );
+            get_map().invalidate_map_cache( map_point.z() );
+            break;
+
+        case timed_event_type::REVERT_SUBMAP: {
+            submap *sm = MAPBUFFER.lookup_submap( tripoint( map_point.x(), map_point.y(), map_point.z() ) );
+            sm->revert_submap( revert );
+            get_map().invalidate_map_cache( map_point.z() );
+            break;
+        }
 
         default:
             // Nothing happens for other events
@@ -298,17 +346,38 @@ void timed_event::per_turn()
                 when -= 1_turns;
                 return;
             }
-            if( calendar::once_every( 3_turns ) && !player_character.is_deaf() ) {
+            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) &&
+                !player_character.is_deaf() ) {
                 add_msg( m_warning, _( "You hear screeches from the rock above and around you!" ) );
             }
             break;
 
         case timed_event_type::AMIGARA:
-            add_msg( m_warning, _( "The entire cavern shakes!" ) );
+            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) ) {
+                add_msg( m_warning, _( "The entire cavern shakes!" ) );
+            }
             break;
 
+        case timed_event_type::AMIGARA_WHISPERS: {
+            bool faults = false;
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == t_fault ) {
+                    faults = true;
+                    break;
+                }
+            }
+
+            if( calendar::once_every( time_duration::from_seconds( 10 ) ) && faults ) {
+                add_msg( m_info, _( "You hear someone whispering \"%s\"" ),
+                         SNIPPET.random_from_category( "amigara_whispers" ).value_or( translation() ) );
+            }
+        }
+        break;
+
         case timed_event_type::TEMPLE_OPEN:
-            add_msg( m_warning, _( "The earth rumbles." ) );
+            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) ) {
+                add_msg( m_warning, _( "The earth rumbles." ) );
+            }
             break;
 
         default:
@@ -331,16 +400,33 @@ void timed_event_manager::process()
 }
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
-                               const int faction_id )
+                               const int faction_id, int strength )
 {
-    add( type, when, faction_id, get_player_character().global_sm_location() );
+    add( type, when, faction_id, get_player_character().global_sm_location(), strength );
 }
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
                                const int faction_id,
-                               const tripoint &where )
+                               const tripoint_abs_sm &where,
+                               int strength )
 {
-    events.emplace_back( type, when, faction_id, where );
+    events.emplace_back( type, when, faction_id, where, strength );
+}
+
+void timed_event_manager::add( const timed_event_type type, const time_point &when,
+                               const int faction_id,
+                               const tripoint_abs_sm &where,
+                               int strength, std::string string_id )
+{
+    events.emplace_back( type, when, faction_id, where, strength, string_id );
+}
+
+void timed_event_manager::add( const timed_event_type type, const time_point &when,
+                               const int faction_id,
+                               const tripoint_abs_sm &where,
+                               int strength, std::string string_id, submap_revert sr )
+{
+    events.emplace_back( type, when, faction_id, where, strength, string_id, sr );
 }
 
 bool timed_event_manager::queued( const timed_event_type type ) const

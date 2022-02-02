@@ -28,6 +28,7 @@
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "color.h"
+#include "compatibility.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -45,6 +46,8 @@
 #include "type_id.h"
 #include "weather.h"
 #include "worldfactory.h"
+
+static const mod_id MOD_INFORMATION_dda( "dda" );
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -88,7 +91,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 {
     if( !assure_dir_exist( user_dir ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_assert( !"Unable to make user_dir directory.  Check permissions." );
+        cata_fatal( "Unable to make user_dir directory.  Check permissions." );
     }
 
     PATH_INFO::init_base_path( "" );
@@ -97,17 +100,17 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_assert( !"Unable to make config directory.  Check permissions." );
+        cata_fatal( "Unable to make config directory.  Check permissions." );
     }
 
     if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_assert( !"Unable to make save directory.  Check permissions." );
+        cata_fatal( "Unable to make save directory.  Check permissions." );
     }
 
     if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_assert( !"Unable to make templates directory.  Check permissions." );
+        cata_fatal( "Unable to make templates directory.  Check permissions." );
     }
 
     get_options().init();
@@ -161,6 +164,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     map &here = get_map();
     // TODO: fix point types
     here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
+    get_avatar().move_to( tripoint_abs_ms( tripoint_zero ) );
 
     get_weather().update_weather();
 }
@@ -248,11 +252,16 @@ struct CataListener : Catch::TestEventListenerBase {
 
     void sectionEnded( Catch::SectionStats const &sectionStats ) override {
         TestEventListenerBase::sectionEnded( sectionStats );
-        if( !sectionStats.assertions.allPassed() ) {
+        if( !sectionStats.assertions.allPassed() ||
+            m_config->includeSuccessfulResults() ) {
             std::vector<std::pair<std::string, std::string>> messages =
                         Messages::recent_messages( 0 );
             if( !messages.empty() ) {
-                stream << "Log messages during failed test:\n";
+                if( !sectionStats.assertions.allPassed() ) {
+                    stream << "Log messages during failed test:\n";
+                } else {
+                    stream << "Log messages during successful test:\n";
+                }
             }
             for( const std::pair<std::string, std::string> &message : messages ) {
                 stream << message.first << ": " << message.second << '\n';
@@ -281,13 +290,14 @@ CATCH_REGISTER_LISTENER( CataListener )
 
 int main( int argc, const char *argv[] )
 {
+    reset_floating_point_mode();
     Catch::Session session;
 
     std::vector<const char *> arg_vec( argv, argv + argc );
 
     std::vector<mod_id> mods = extract_mod_selection( arg_vec );
-    if( std::find( mods.begin(), mods.end(), mod_id( "dda" ) ) == mods.end() ) {
-        mods.insert( mods.begin(), mod_id( "dda" ) ); // @todo move unit test items to core
+    if( std::find( mods.begin(), mods.end(), MOD_INFORMATION_dda ) == mods.end() ) {
+        mods.insert( mods.begin(), MOD_INFORMATION_dda ); // @todo move unit test items to core
     }
 
     option_overrides_t option_overrides_for_test_suite = extract_option_overrides( arg_vec );
@@ -305,6 +315,21 @@ int main( int argc, const char *argv[] )
         error_log_format = error_log_format_t::human_readable;
     } else {
         printf( "Unknown format %s", error_fmt.c_str() );
+        return EXIT_FAILURE;
+    }
+
+    std::string check_plural_str = extract_argument( arg_vec, "--check-plural=" );
+    if( check_plural_str == "none" ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        check_plural = check_plural_t::none;
+    } else if( check_plural_str == "certain" || check_plural_str.empty() ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        check_plural = check_plural_t::certain;
+    } else if( check_plural_str == "possible" ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        check_plural = check_plural_t::possible;
+    } else {
+        printf( "Unknown check_plural value %s", check_plural_str.c_str() );
         return EXIT_FAILURE;
     }
 

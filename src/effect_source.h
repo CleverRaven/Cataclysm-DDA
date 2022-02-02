@@ -10,7 +10,7 @@
 
 class Character;
 class Creature;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class faction;
 class monster;
@@ -40,7 +40,7 @@ class effect_source
         Creature *resolve_creature() const;
 
         void serialize( JsonOut & ) const;
-        void deserialize( JsonIn & );
+        void deserialize( const JsonObject &data );
 
     private:
         cata::optional<character_id> character = character_id();

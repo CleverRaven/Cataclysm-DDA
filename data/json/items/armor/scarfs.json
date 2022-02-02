@@ -55,8 +55,8 @@
     "warmth": 30,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "HOOD", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ]
+    "flags": [ "OVERSIZE", "COLLAR", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "head" ] } ]
   },
   {
     "id": "marloss_scarf",

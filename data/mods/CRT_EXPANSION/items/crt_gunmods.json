@@ -115,6 +115,6 @@
     "revert_to": "flash_acc",
     "flags": [ "LIGHT_75", "CHARGEDIM", "TRADER_AVOID" ],
     "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "You turn the tactical flashlight off.", "target": "flash_acc" }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "You turn the tactical flashlight off.", "target": "flash_acc" }
   }
 ]

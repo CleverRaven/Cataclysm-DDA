@@ -176,6 +176,11 @@
         [ "egg_grouse", 5 ],
         [ "egg_duck", 3 ],
         [ "egg_crow", 5 ],
+        [ "egg_raven", 5 ],
+        [ "egg_bluejay", 5 ],
+        [ "egg_cardinal", 5 ],
+        [ "egg_robin", 5 ],
+        [ "egg_sparrow", 7 ],
         [ "egg_chicken", 5 ],
         [ "egg_pheasant", 5 ],
         [ "egg_cockatrice", 5 ],
@@ -245,7 +250,7 @@
       [ [ "surface_heat", 10, "LIST" ] ],
       [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ]
     ],
-    "components": [ [ [ "potion_starter", 5 ] ], [ [ "blood", 3 ] ], [ [ "slime_scrap", 4 ], [ "meat_tainted", 12 ] ] ]
+    "components": [ [ [ "potion_starter", 5 ] ], [ [ "edible_blood", 3, "LIST" ] ], [ [ "slime_scrap", 4 ], [ "meat_tainted", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -265,9 +270,31 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
     "components": [
       [ [ "potion_starter", 5 ] ],
-      [ [ "blood", 5 ] ],
+      [ [ "edible_blood", 5, "LIST" ] ],
       [ [ "slime_scrap", 5 ], [ "meat_tainted", 15 ] ],
       [ [ "bandages", 5 ], [ "bandages_makeshift_bleached", 7 ], [ "bandages_makeshift_boiled", 7 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "alchemist_bomb",
+    "qualities": [
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "MANA_FOCUS", "level": 1 },
+      { "id": "MAGIC_CAULDRON", "level": 1 }
+    ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [ [ [ "potion_starter", 6 ] ], [ [ "crystallized_mana", 25 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": true } ],
+    "time": "30 m",
+    "skill_used": "chemistry",
+    "batch_time_factors": [ 65, 4 ],
+    "difficulty": 6,
+    "skills_required": [ "spellcraft", 4 ],
+    "book_learn": [ [ "alchemy_basic", 4 ] ],
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_OTHER"
   }
 ]

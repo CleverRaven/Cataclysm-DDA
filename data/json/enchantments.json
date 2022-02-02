@@ -1,0 +1,36 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ENCH_DEBUG_TAIL",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "gain": "debug_tail" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_DEBUG_ONLY_HEAD",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [
+      { "lose": "torso" },
+      { "lose": "arm_l" },
+      { "lose": "arm_r" },
+      { "lose": "leg_l" },
+      { "lose": "leg_r" },
+      { "lose": "foot_r" },
+      { "lose": "foot_l" },
+      { "lose": "hand_l" },
+      { "lose": "hand_r" }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "RM13",
+    "condition": "ACTIVE",
+    "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "SQUEAKY_ANKLES",
+    "condition": "ALWAYS",
+    "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 3 } ]
+  }
+]

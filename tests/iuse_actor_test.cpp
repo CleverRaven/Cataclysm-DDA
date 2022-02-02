@@ -10,9 +10,9 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "colony.h"
+#include "creature_tracker.h"
 #include "game.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -25,22 +25,29 @@
 #include "monster.h"
 #include "mtype.h"
 #include "optional.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 
+static const ammotype ammo_battery( "battery" );
+
+static const itype_id itype_bot_manhack( "bot_manhack" );
+static const itype_id itype_light_battery_cell( "light_battery_cell" );
+
+static const mtype_id mon_manhack( "mon_manhack" );
+
 static monster *find_adjacent_monster( const tripoint &pos )
 {
     tripoint target = pos;
+    creature_tracker &creatures = get_creature_tracker();
     for( target.x = pos.x - 1; target.x <= pos.x + 1; target.x++ ) {
         for( target.y = pos.y - 1; target.y <= pos.y + 1; target.y++ ) {
             if( target == pos ) {
                 continue;
             }
-            if( monster *const candidate = g->critter_at<monster>( target ) ) {
+            if( monster *const candidate = creatures.creature_at<monster>( target ) ) {
                 return candidate;
             }
         }
@@ -51,7 +58,7 @@ static monster *find_adjacent_monster( const tripoint &pos )
 TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 {
     clear_avatar();
-    player &player_character = get_avatar();
+    Character &player_character = get_avatar();
     clear_map();
 
     g->clear_zombies();
@@ -66,32 +73,32 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     player_character.invoke_item( &test_item );
 
     REQUIRE( !player_character.has_item_with( []( const item & it ) {
-        return it.typeId() == itype_id( "bot_manhack" );
+        return it.typeId() == itype_bot_manhack;
     } ) );
 
     new_manhack = find_adjacent_monster( player_character.pos() );
     REQUIRE( new_manhack != nullptr );
-    REQUIRE( new_manhack->type->id == mtype_id( "mon_manhack" ) );
+    REQUIRE( new_manhack->type->id == mon_manhack );
     g->clear_zombies();
 }
 
 TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
 {
-    player &dummy = get_avatar();
+    Character &dummy = get_avatar();
     clear_avatar();
 
     GIVEN( "flashlight with a charged battery installed" ) {
         item flashlight( "flashlight" );
         item bat_cell( "light_battery_cell" );
-        REQUIRE( flashlight.is_reloadable_with( itype_id( "light_battery_cell" ) ) );
+        REQUIRE( flashlight.can_reload_with( item( itype_light_battery_cell ), true ) );
 
         // Charge the battery
-        const int bat_charges = bat_cell.ammo_capacity( ammotype( "battery" ) );
+        const int bat_charges = bat_cell.ammo_capacity( ammo_battery );
         bat_cell.ammo_set( bat_cell.ammo_default(), bat_charges );
         REQUIRE( bat_cell.ammo_remaining() == bat_charges );
 
         // Put battery in flashlight
-        REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
         ret_val<bool> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         REQUIRE( result.success() );
         REQUIRE( flashlight.magazine_current() );
@@ -119,7 +126,7 @@ TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
 static void cut_up_yields( const std::string &target )
 {
     map &here = get_map();
-    player &guy = get_avatar();
+    Character &guy = get_avatar();
     clear_avatar();
     // Nominal dex to avoid yield penalty.
     guy.dex_cur = 12;
@@ -130,11 +137,14 @@ static void cut_up_yields( const std::string &target )
     salvage_actor test_actor;
     item cut_up_target{ target };
     item tool{ "knife_butcher" };
-    const std::vector<material_id> &target_materials = cut_up_target.made_of();
+    const std::map<material_id, int> &target_materials = cut_up_target.made_of();
+    const float mat_total = cut_up_target.type->mat_portion_total == 0 ? 1 :
+                            cut_up_target.type->mat_portion_total;
     units::mass smallest_yield_mass = units::mass_max;
-    for( const material_id &mater : target_materials ) {
-        if( const cata::optional<itype_id> item_id = mater->salvaged_into() ) {
-            smallest_yield_mass = std::min( smallest_yield_mass, item_id->obj().weight );
+    for( const auto &mater : target_materials ) {
+        if( const cata::optional<itype_id> item_id = mater.first->salvaged_into() ) {
+            units::mass portioned_weight = item_id->obj().weight * ( mater.second / mat_total );
+            smallest_yield_mass = std::min( smallest_yield_mass, portioned_weight );
         }
     }
     REQUIRE( smallest_yield_mass != units::mass_max );
@@ -153,7 +163,6 @@ static void cut_up_yields( const std::string &target )
         salvaged_mass += salvage.weight();
     }
     CHECK( salvaged_mass <= cut_up_target_mass );
-    CHECK( salvaged_mass >= ( cut_up_target_mass * 0.99 ) - smallest_yield_mass );
 }
 
 TEST_CASE( "cut_up_yields" )
@@ -179,7 +188,7 @@ TEST_CASE( "cut_up_yields" )
     cut_up_yields( "stick" );
     cut_up_yields( "stick_long" );
     cut_up_yields( "tazer" );
-    cut_up_yields( "control_laptop" );
+    cut_up_yields( "laptop" );
     cut_up_yields( "voltmeter" );
     cut_up_yields( "burette" );
     cut_up_yields( "eink_tablet_pc" );

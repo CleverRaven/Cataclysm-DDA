@@ -1,0 +1,50 @@
+[
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "stomp_DinoMod",
+    "cooldown": 20,
+    "move_cost": 180,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 16 } ],
+    "body_parts": [
+      [ "foot_l", 2 ],
+      [ "foot_r", 2 ],
+      [ "leg_l", 3 ],
+      [ "leg_r", 3 ],
+      [ "hand_l", 2 ],
+      [ "hand_r", 2 ],
+      [ "head", 3 ],
+      [ "eyes", 2 ],
+      [ "mouth", 1 ],
+      [ "arm_l", 3 ],
+      [ "arm_r", 3 ],
+      [ "torso", 4 ]
+    ],
+    "hit_dmg_u": "The %1$s stomps on your %2$s!",
+    "hit_dmg_npc": "The %1$s stomps on <npcname>!",
+    "miss_msg_u": "The %1$s tries to stomp on you, but you dodge!",
+    "miss_msg_npc": "The %1$s tries stomp on <npcname>, but they dodge!",
+    "no_dmg_msg_u": "The %1$s stomps on your %2$s, but your armor protects you.",
+    "no_dmg_msg_npc": "The %1$s stomps on <npcname>, but their armor protects them.",
+    "dodgeable": true,
+    "blockable": false
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "tailsmash_DinoMod",
+    "move_cost": 400,
+    "range": 3,
+    "no_adjacent": true,
+    "cooldown": 20,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
+    "body_parts": [ [ "torso", 3 ], [ "leg_r", 1 ], [ "leg_l", 1 ], [ "arm_r", 1 ], [ "arm_l", 1 ] ],
+    "throw_strength": 100,
+    "hit_dmg_u": "The %1$s swings its massive tail at your %2$s, pulverizing it!",
+    "hit_dmg_npc": "The %1$s swings its massive tail at <npcname>'s %2$s!",
+    "no_dmg_msg_u": "The %s swings its tail at you, but it's blunted by your armor.",
+    "no_dmg_msg_npc": "The %s swings its tail at <npcname>, but they appear unharmed.",
+    "miss_msg_u": "The %s swings its tail at you, but you dodge it!",
+    "miss_msg_npc": "The %s swings its tail at <npcname>, who dodges it!"
+  }
+]

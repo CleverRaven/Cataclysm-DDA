@@ -405,7 +405,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         if( ch == KEY_ESCAPE ) {
 #if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                SDL_StopTextInput();
+                StopTextInput();
             }
 #endif
             _text.clear();
@@ -439,7 +439,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             } else {
                 _handled = false;
             }
-        } else if( ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == 9 ) {
+            // NOLINTNEXTLINE(bugprone-branch-clone)
+        } else if( ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == '\t' ) {
             _handled = false;
         } else if( ch == KEY_RIGHT ) {
             if( _position + 1 <= static_cast<int>( ret.size() ) ) {

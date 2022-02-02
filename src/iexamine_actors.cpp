@@ -1,5 +1,7 @@
 #include "iexamine_actors.h"
 
+#include "avatar.h"
+#include "effect_on_condition.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "itype.h"
@@ -7,34 +9,72 @@
 #include "mapgen_functions.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "mtype.h"
 #include "output.h"
-#include "player.h"
 
-void cardreader_examine_actor::consume_card( player &guy ) const
+static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
+static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+
+void cardreader_examine_actor::consume_card( const std::vector<item_location> &cards ) const
 {
-    std::vector<itype_id> cards;
-    for( const flag_id &flag : allowed_flags ) {
-        for( const item *it : guy.all_items_with_flag( flag ) ) {
-            itype_id card_type = it->typeId();
-            if( std::find( cards.begin(), cards.end(), card_type ) == cards.end() ) {
-                cards.push_back( card_type );
-            }
-        }
-    }
-    if( cards.size() > 1 ) {
-        uilist query;
-        query.text = _( "Use which item?" );
-        for( size_t i = 0; i < cards.size(); ++i ) {
-            query.entries.emplace_back( static_cast<int>( i ), true, -1, cards[i]->nname( 1 ) );
-        }
-        query.query();
-        while( query.ret == UILIST_CANCEL ) {
-            query.query();
-        }
-        guy.use_amount( cards[query.ret], 1 );
+    if( !consume ) {
         return;
     }
-    guy.use_amount( cards[0], 1 );
+    std::vector<item_location> opts;
+    for( const item_location &it : cards ) {
+        const auto stacks = [&it]( const item_location & compare ) {
+            return it->stacks_with( *compare );
+        };
+        if( std::any_of( opts.begin(), opts.end(), stacks ) ) {
+            continue;
+        }
+        opts.push_back( it );
+    }
+
+    if( opts.size() == 1 ) {
+        opts[0].remove_item();
+        return;
+    }
+
+    uilist query;
+    query.text = _( "Use which item?" );
+    query.allow_cancel = false;
+    for( size_t i = 0; i < opts.size(); ++i ) {
+        query.entries.emplace_back( static_cast<int>( i ), true, -1, opts[i]->tname() );
+    }
+    query.query();
+    opts[query.ret].remove_item();
+}
+
+std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
+        const tripoint &examp )const
+{
+    std::vector<item_location> ret;
+
+    for( const item_location &it : you.all_items_loc() ) {
+        const auto has_card_flag = [&it]( const flag_id & flag ) {
+            return it->has_flag( flag );
+        };
+        if( std::none_of( allowed_flags.begin(), allowed_flags.end(), has_card_flag ) ) {
+            continue;
+        }
+        if( omt_allowed_radius ) {
+            tripoint cardloc = it->get_var( "spawn_location_omt", tripoint_min );
+            // Cards without a location are treated as valid
+            if( cardloc == tripoint_min ) {
+                ret.push_back( it );
+                continue;
+            }
+            int dist = rl_dist( cardloc.xy(), ms_to_omt_copy( get_map().getabs( examp ) ).xy() );
+            if( dist > *omt_allowed_radius ) {
+                continue;
+            }
+        }
+
+        ret.push_back( it );
+    }
+
+    return ret;
 }
 
 bool cardreader_examine_actor::apply( const tripoint &examp ) const
@@ -45,7 +85,7 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
     if( map_regen ) {
         tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getabs( examp ) ) );
         if( !run_mapgen_update_func( mapgen_id, omt_pos, nullptr, false ) ) {
-            debugmsg( "Failed to apply magen function %s", mapgen_id );
+            debugmsg( "Failed to apply magen function %s", mapgen_id.str() );
         }
         here.set_seen_cache_dirty( examp );
         here.set_transparency_cache_dirty( examp.z );
@@ -72,22 +112,15 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
 /**
  * Use id/hack reader. Using an id despawns turrets.
  */
-void cardreader_examine_actor::call( player &guy, const tripoint &examp ) const
+void cardreader_examine_actor::call( Character &you, const tripoint &examp ) const
 {
     bool open = false;
     map &here = get_map();
 
-    bool has_item = false;
-    for( const flag_id &flag : allowed_flags ) {
-        if( guy.has_item_with_flag( flag ) ) {
-            has_item = true;
-            break;
-        }
-    }
+    std::vector<item_location> cards = get_cards( you, examp );
 
-
-    if( has_item && query_yn( _( query_msg ) ) ) {
-        guy.mod_moves( -to_moves<int>( 1_seconds ) );
+    if( !cards.empty() && query_yn( _( query_msg ) ) ) {
+        you.mod_moves( -to_moves<int>( 1_seconds ) );
         open = apply( examp );
         for( monster &critter : g->all_monsters() ) {
             if( !despawn_monsters ) {
@@ -96,18 +129,18 @@ void cardreader_examine_actor::call( player &guy, const tripoint &examp ) const
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
                 critter.has_flag( MF_ID_CARD_DESPAWN ) &&
-                critter.attitude_to( guy ) == Creature::Attitude::HOSTILE ) {
+                critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );
             }
         }
         if( open ) {
             add_msg( _( success_msg ) );
-            consume_card( guy );
+            consume_card( cards );
         } else {
             add_msg( _( redundant_msg ) );
         }
     } else if( allow_hacking && query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-        iexamine::try_start_hacking( guy, examp );
+        iexamine::try_start_hacking( you, examp );
     }
 }
 
@@ -117,6 +150,7 @@ void cardreader_examine_actor::load( const JsonObject &jo )
     optional( jo, false, "consume_card", consume, true );
     optional( jo, false, "allow_hacking", allow_hacking, true );
     optional( jo, false, "despawn_monsters", despawn_monsters, true );
+    optional( jo, false, "omt_allowed_radius", omt_allowed_radius );
     if( jo.has_string( "mapgen_id" ) ) {
         optional( jo, false, "mapgen_id", mapgen_id );
         map_regen = true;
@@ -144,7 +178,7 @@ void cardreader_examine_actor::finalize() const
         }
     }
 
-    if( terrain_changes.empty() && furn_changes.empty() && mapgen_id.empty() ) {
+    if( terrain_changes.empty() && furn_changes.empty() && mapgen_id.is_empty() ) {
         debugmsg( "Cardreader examine actor does not change either terrain or furniture" );
     }
 
@@ -153,8 +187,8 @@ void cardreader_examine_actor::finalize() const
     }
 
     if( allow_hacking && ( !furn_changes.empty() || terrain_changes.size() != 1 ||
-                           terrain_changes.count( ter_str_id( "t_door_metal_locked" ) ) != 1 ||
-                           terrain_changes.at( ter_str_id( "t_door_metal_locked" ) ) != ter_str_id( "t_door_metal_c" ) ) ) {
+                           terrain_changes.count( ter_t_door_metal_locked ) != 1 ||
+                           terrain_changes.at( ter_t_door_metal_locked ) != ter_t_door_metal_c ) ) {
         debugmsg( "Cardreader allows hacking, but activites different that if hacked." );
     }
 }
@@ -162,4 +196,33 @@ void cardreader_examine_actor::finalize() const
 std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
 {
     return std::make_unique<cardreader_examine_actor>( *this );
+}
+
+void eoc_examine_actor::call( Character &you, const tripoint & ) const
+{
+    dialogue d( get_talker_for( you ), nullptr );
+    for( const effect_on_condition_id &eoc : eocs ) {
+        eoc->activate( d );
+    }
+}
+
+void eoc_examine_actor::load( const JsonObject &jo )
+{
+    for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
+        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+}
+
+void eoc_examine_actor::finalize() const
+{
+    for( const effect_on_condition_id &eoc : eocs ) {
+        if( !eoc.is_valid() ) {
+            debugmsg( "Invalid effect_on_condition_id: %s", eoc.str() );
+        }
+    }
+}
+
+std::unique_ptr<iexamine_actor> eoc_examine_actor::clone() const
+{
+    return std::make_unique<eoc_examine_actor>( *this );
 }

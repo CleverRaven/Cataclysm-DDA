@@ -1,0 +1,9 @@
+[
+  {
+    "type": "character_mod",
+    "id": "test_char_cost_mod",
+    "description": "Test character cost modifier",
+    "mod_type": "x",
+    "value": { "limb_score": "test", "limb_type": "tail", "max": 1000.0, "nominator": 30.0, "subtract": 30.0 }
+  }
+]

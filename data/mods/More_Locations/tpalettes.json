@@ -389,7 +389,7 @@
     },
     "toilets": { "&": { "amount": [ 0, 50 ] } },
     "items": {
-      "$": { "item": "bionics_mil", "chance": 100 },
+      "$": { "item": "Zomborg_CBM_harvest_combat", "chance": 100 },
       "b": { "item": "textbooks", "chance": 40 },
       "B": { "item": "bed", "chance": 100 },
       "C": { "item": "hospital_lab", "chance": 30 },

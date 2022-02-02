@@ -147,7 +147,7 @@
     "name": { "str": "Clawed Feet" },
     "copy-from": "RAP_TALONS",
     "description": "Your toenails have grown long and sharp, preventing you from wearing shoes, but providing you with a set of powerful claws on your feet.  Fortunately they don't impede your movement.",
-    "category": [ "DRAGON_BLACK" ],
+    "category": [ "DRAGON_BLACK", "LIZARD" ],
     "changes_to": [ "DRAGON_FEET" ]
   },
   {
@@ -158,7 +158,7 @@
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "The claws on your toes have developed in to incredibly tough talons.  These are fearsome and powerful, but still prevent you from wearing shoes and slighly impede your movement.",
+    "description": "The claws on your toes have developed in to incredibly tough talons.  These are fearsome and powerful, but still prevent you from wearing shoes and slightly impede your movement.",
     "valid": false,
     "types": [ "LEGS" ],
     "category": [ "DRAGON_BLACK" ],
@@ -379,7 +379,7 @@
     "description": "Your digestive issues have developed to become overly acidic which greatly impacts your ability to normally digest food, resulting in getting far less nutrition from the food you eat and making your need to eat more often.",
     "points": -3,
     "prereqs": [ "NAUSEA" ],
-    "category": [ "DRAGON_BLACK" ],
+    "category": [ "DRAGON_BLACK", "SLIME" ],
     "metabolism_modifier": 0.5,
     "vitamins_absorb_multi": [ [ "all", [ [ "vitA", 0.5 ], [ "vitB", 0.5 ], [ "vitC", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ] ] ]
   },
@@ -485,24 +485,6 @@
   },
   {
     "type": "mutation",
-    "id": "MANA_SIPHON_3",
-    "copy-from": "MANA_SIPHON_3",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "MANA_ADD3",
-    "copy-from": "MANA_ADD3",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "MANA_REGEN3",
-    "copy-from": "MANA_REGEN3",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
-  },
-  {
-    "type": "mutation",
     "id": "MUZZLE_DRAGON",
     "name": { "str": "Scaled Mouth" },
     "points": -3,
@@ -574,6 +556,7 @@
     "prereqs2": [ "SCALES", "DRAGON_SCALES_BLACK" ],
     "changes_to": [ "DRAGON_TAIL" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You whap %s with your tail",
@@ -594,6 +577,7 @@
     "prereqs": [ "DRAGON_TAIL_SCALED" ],
     "category": [ "DRAGON_BLACK" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You smash %s with your tail",
@@ -617,7 +601,7 @@
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
     "destroys_gear": true,
-    "description": "Your scales have grown to cover your hands and elongate the tips in to jagged claws that can be servicable as cutting and piercing weapons in unarmed combat.  You can still use them normally, but you can't wear gloves.",
+    "description": "Your scales have grown to cover your hands and elongate the tips in to jagged claws that can be serviceable as cutting and piercing weapons in unarmed combat.  You can still use them normally, but you can't wear gloves.",
     "types": [ "CLAWS" ],
     "prereqs": [ "SCALES", "DRAGON_SCALES_BLACK" ],
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],

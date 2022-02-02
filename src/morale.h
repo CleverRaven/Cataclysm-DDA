@@ -12,7 +12,6 @@
 #include "morale_types.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class item;
@@ -94,7 +93,7 @@ class player_morale
                     decay_start( std::max( decay_start, 0_turns ) ),
                     age( 0_turns ) {}
 
-                void deserialize( JsonIn &jsin );
+                void deserialize( const JsonObject &jo );
                 void serialize( JsonOut &json ) const;
 
                 std::string get_name() const;
@@ -124,7 +123,7 @@ class player_morale
                 /**
                  *this point's percent contribution to the total positive or total negative morale effect
                  */
-                double percent_contribution = 0;
+                double percent_contribution = 0; // NOLINT(cata-serialize)
 
                 /**
                  * Returns either new_time or remaining time (which one is greater).

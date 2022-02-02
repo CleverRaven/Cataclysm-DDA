@@ -33,7 +33,8 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "item": "flour", "prob": 50 },
+      { "item": "flour", "charges": [ 1, 70 ], "prob": 40 },
+      { "item": "flour", "charges": [ 1, 175 ], "prob": 10, "container-item": "bag_plastic" },
       { "item": "yeast", "prob": 50 },
       { "item": "cornmeal", "prob": 40 },
       { "item": "dry_meat", "prob": 10 },
@@ -102,6 +103,7 @@
       { "item": "cookbook_italian", "prob": 25 },
       { "item": "cookbook_daintydishes", "prob": 20 },
       { "item": "cookbook_liverforkids", "prob": 12 },
+      { "item": "sweets_book", "prob": 6 },
       { "item": "family_cookbook", "prob": 6 },
       { "item": "brewing_cookbook", "prob": 4 },
       { "group": "ketchup_sealed_rng", "prob": 35 },
@@ -208,7 +210,8 @@
       { "item": "soup_dumplings", "prob": 15 },
       { "item": "curry_veggy", "prob": 15 },
       { "item": "curry_meat", "prob": 15 },
-      { "item": "flour", "prob": 30 },
+      { "item": "flour", "charges": [ 1, 70 ], "prob": 25 },
+      { "item": "flour", "charges": [ 1, 175 ], "prob": 5, "container-item": "bag_plastic" },
       { "item": "milk_powder", "prob": 20 },
       { "item": "cornmeal", "prob": 30 },
       { "item": "powder_eggs", "prob": 20 },
@@ -265,7 +268,8 @@
       { "item": "sauce_red", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "group": "big_canned_food", "prob": 4 },
-      { "group": "teabag_box", "prob": 20 }
+      { "group": "teabag_box", "prob": 20 },
+      { "group": "soup_box", "prob": 20 }
     ]
   },
   {
@@ -294,6 +298,7 @@
       { "item": "sauce_red", "prob": 20 },
       { "item": "sauce_pesto", "prob": 15 },
       { "item": "bread", "prob": 14 },
+      { "item": "bread_wheat_free", "prob": 14 },
       { "item": "cornbread", "prob": 7 },
       { "item": "flatbread", "prob": 7 },
       { "item": "crackers", "prob": 20 },
@@ -486,7 +491,8 @@
       { "item": "fruit_leather", "prob": 25 },
       { "item": "kernels", "prob": 25 },
       { "item": "pine_nuts", "prob": 20 },
-      { "group": "teabag_box", "prob": 10 }
+      { "group": "teabag_box", "prob": 10 },
+      { "group": "soup_box", "prob": 10 }
     ]
   },
   {
@@ -513,6 +519,7 @@
       { "item": "water_clean", "prob": 90 },
       { "item": "water_mineral", "prob": 10 },
       { "item": "sandwich_deluxe", "prob": 20 },
+      { "item": "sandwich_reuben", "prob": 10 },
       { "item": "sandwich_veggy", "prob": 30 },
       { "item": "sandwich_cucumber", "prob": 25 },
       { "item": "oj", "prob": 50 },
@@ -543,7 +550,8 @@
       { "item": "pizza_veggy", "prob": 8 },
       { "item": "pizza_cheese", "prob": 8 },
       { "item": "pizza_meat", "prob": 8 },
-      { "item": "cheeseburger", "prob": 8 },
+      { "item": "cheeseburger", "prob": 4 },
+      { "item": "deluxe_cheeseburger", "prob": 6 },
       { "item": "hamburger", "prob": 8 },
       { "item": "tofu_rice", "prob": 4 },
       { "item": "fish_fried", "prob": 8 },
@@ -598,6 +606,7 @@
       { "group": "mixed_alcoholic_drinks", "prob": 141 },
       { "item": "dandelion_wine", "prob": 8 },
       { "item": "hb_beer", "prob": 8 },
+      { "item": "hb_seltzer", "prob": 8 },
       { "item": "moonshine", "prob": 8 },
       { "item": "brandied_fruit", "prob": 2, "charges": 12, "container-item": "jar_3l_glass_sealed" }
     ]
@@ -699,6 +708,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "beer", "prob": 15 },
+      { "item": "drink_hard_seltzer", "prob": 15 },
       { "item": "meat", "prob": 65 },
       { "item": "glazed_tenderloin", "prob": 55 },
       { "item": "fish", "prob": 10 },
@@ -725,11 +735,13 @@
       { "item": "bacon", "prob": 20 },
       { "item": "potato_baked", "prob": 15 },
       { "item": "bread", "prob": 40 },
+      { "item": "bread_wheat_free", "prob": 40 },
       { "group": "ketchup_sealed_rng", "prob": 80 },
       { "group": "mustard_sealed_rng", "prob": 75 },
       { "item": "pickle", "prob": 20, "charges": 6, "container-item": "jar_glass_sealed" },
       { "item": "pickle", "prob": 20 },
-      { "item": "cheeseburger", "prob": 30 },
+      { "item": "cheeseburger", "prob": 20 },
+      { "item": "deluxe_cheeseburger", "prob": 50 },
       { "item": "hamburger", "prob": 70 },
       { "item": "cheese", "prob": 45 },
       { "item": "ceramic_plate", "prob": 30 },
@@ -743,6 +755,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "cheeseburger", "count": [ 0, 3 ] },
+      { "item": "deluxe_cheeseburger", "count": [ 0, 3 ] },
       { "item": "hamburger", "count": [ 0, 3 ] },
       { "item": "hamburger", "count": [ 0, 3 ] },
       { "item": "sloppyjoe", "count": [ 0, 3 ] },
@@ -808,7 +821,8 @@
       { "item": "pepper", "prob": 20 },
       { "item": "meat_smoked", "prob": 4 },
       { "item": "fish_smoked", "prob": 4 },
-      { "item": "cheeseburger", "prob": 35 },
+      { "item": "cheeseburger", "prob": 20 },
+      { "item": "deluxe_cheeseburger", "prob": 60 },
       { "item": "hotdogs_frozen", "prob": 12 },
       { "item": "hotdogs_cooked", "prob": 35 },
       { "item": "foodplace_food", "prob": 8 },
@@ -831,7 +845,8 @@
       { "item": "touristmap", "prob": 2 },
       { "item": "noodles_fast", "prob": 30 },
       { "item": "milkshake_fastfood", "prob": 15 },
-      { "group": "teabag_box", "prob": 5 }
+      { "group": "teabag_box", "prob": 5 },
+      { "group": "soup_box", "prob": 5 }
     ]
   },
   {
@@ -845,6 +860,33 @@
       { "item": "tea_bag_chamomile", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
       { "item": "herbal_tea_bag", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
       { "item": "tea_bag_dandelion", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "soup_box",
+    "subtype": "distribution",
+    "entries": [ { "group": "soup_packet", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "soup_packet",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "soup_instant_chicken_noodle_powder",
+        "prob": 50,
+        "container-item": "bag_paper_powder",
+        "charges-min": 1,
+        "charges-max": 1
+      },
+      {
+        "item": "soup_instant_vegetable_powder",
+        "prob": 50,
+        "container-item": "bag_paper_powder",
+        "charges-min": 1,
+        "charges-max": 1
+      }
     ]
   }
 ]

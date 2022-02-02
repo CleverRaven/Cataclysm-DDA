@@ -5,7 +5,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "blunderbuss", "str_pl": "blunderbusses" },
-    "description": "A homemade version of a crude precursor to the shotgun.  Able to fire just about anything you put down the barrel, but it will degrade pretty quick.",
+    "description": "A homemade version of a crude precursor to the shotgun.",
     "ascii_picture": "blunderbuss",
     "weight": "8267 g",
     "volume": "3 L",
@@ -23,7 +23,8 @@
     "durability": 3,
     "loudness": 200,
     "clip_size": 1,
-    "reload": 300,
+    "//": "Similar reload process to a musket, which sources place at up to 4 / minute for elite professionals. Nominal 30s will be cut down to 15s at skill 10.",
+    "reload": 3000,
     "valid_mod_locations": [
       [ "sling", 1 ],
       [ "stock", 1 ],

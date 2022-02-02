@@ -1,0 +1,8 @@
+[
+  {
+    "id": "zone_disassemble",
+    "type": "LOOT_ZONE",
+    "name": "Disassembly Work",
+    "description": "Items in this zone are marked for disassembly"
+  }
+]

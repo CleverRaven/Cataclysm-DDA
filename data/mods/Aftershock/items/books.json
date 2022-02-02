@@ -21,7 +21,7 @@
     "id": "afs_welcome1_book",
     "type": "BOOK",
     "name": { "str": "Unofficial History of Salus IV Vol. 1", "str_pl": "copies of Unofficial History of Salus IV Vol. 1" },
-    "description": "Welcome to Frozen Hell, an unofficial history of Salus IV by Bette Lapin.  Salus IV was founded in the early days of the Hyperspace Era by the interstellar Soviet community.  At its height several hundred years ago Salus IV had just over one billion sentient citizens, but that population had begun to decline even before the Discontinuity as people migrated to planets that while more hostile to life during the earliest colonization phases than Salus IV were much simpler to terraform into a place more enjoyable by human and uplift citizens.",
+    "description": "Welcome to Frozen Hell, an unofficial history of Salus IV by Bette Lapin.  Salus IV was founded in the early days of the Hyperspace Era as a joint venture between Mercurial Genomics and a Soviet Design Bureau.  At its height several hundred years ago Salus IV had just over 110 million citizens (including both uplifts and humans). However, that population had begun to decline even before the Discontinuity as people migrated to planets that, while more hostile to life during the earliest colonization phases than Salus IV, were much simpler to terraform into a place more enjoyable by human and uplift citizens.",
     "weight": "700 g",
     "volume": "750 ml",
     "price": 5000,
@@ -39,7 +39,7 @@
     "id": "afs_welcome2_book",
     "type": "BOOK",
     "name": { "str": "Unofficial History of Salus IV Vol. 2", "str_pl": "copies of Unofficial History of Salus IV Vol. 2" },
-    "description": "Even during the Discontinuity Salus IV's population continued to drop as there were easier places to live even in the Salus system, from honeycombed asteroid habitats, to domed cities with gorgeous views.  As with many other governments during the Discontinuity the Interstellar Soviet collapsed into a vipers pit of microstates, solar corporations and other forms of self governance.  During this time Mercurial Genomics a corporation specializing in Uplifts successfully laid claim to Salus IV in the court system set up by ESCA.  The Whately family, which runs Mercurial Genomics begins leasing development and exploitation permits and allows the establishment of minor UICA outposts within Salus IV.  There is an official citizen count of less than fifty thousand sentient beings mostly in orbit of Salus IV.  It is believed however that there are at least that many non-citizen sentients spread amongst squatter, smuggler, pirate, and feral uplift communities.",
+    "description": "Even during the Discontinuity Salus IV's population continued to drop as there were easier places to live even in the Salus system - from honeycombed asteroid habitats to domed cities with gorgeous views.  Mercurial Genomics was an early member of the nascent post-Discontinuity government efforts.  As a result of this membership, they have successfully reclaimed Salus IV in the court system set up by ESCA.  The Whately family, which runs Mercurial Genomics, began leasing development and exploitation permits and allows the establishment of minor UICA outposts within Salus IV.  There is an official citizen count of less than twenty thousand sentient beings, albeit mostly in orbit.  It is believed, however, that there are at least that many non-citizen sentients spread amongst squatter, smuggler, pirate, and feral uplift communities.",
     "copy-from": "afs_welcome1_book"
   },
   {
@@ -52,6 +52,7 @@
   {
     "id": "textbook_atomic",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Nuclear Physics Made Easy", "str_pl": "copies of Nuclear Physics Made Easy" },
     "description": "A book detailing the workings of state of the art atomic technology, and the physics behind it.",
     "weight": "2063 g",
@@ -72,6 +73,7 @@
   {
     "id": "afs_bugbrew_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "mealworm farm logbook" },
     "description": "A binder containing detailed production logs from an industrial mealworm farm.  You could use its recordings to start your own farming operations.",
     "weight": "700 g",
@@ -127,6 +129,7 @@
   {
     "id": "afs_landfall_kit_2_instructions",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "landfall survival manual" },
     "description": "A small folio indicating how to best utilize the equipment of your landfall survival kit during an emergency.  Its first page urges you to remain calm, and to consult your escape pod's control console for further instructions.",
     "weight": "120 g",
@@ -145,6 +148,7 @@
   {
     "id": "cyrus'_notes",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Cyrus Whateley's Notes on Repurposing mi-go victims", "str_pl": "copies of Cyrus Whateley's Notes" },
     "description": "A folio of notes written by a madman.  They seem to suggest ways to re-animate the dead and create various affronts to the natural order.",
     "weight": "2063 g",
@@ -175,6 +179,7 @@
   {
     "id": "millyficents_diary",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Millyficent's Diary", "str_pl": "copies of Millyficent's Diary" },
     "description": "A pocket-sized book filled to the margins with cramped handwriting and notes on the biology of Mi-Go and other musings.  It's hard to understand and quite gruesome in some places and written in a shorthand or cipher in others.",
     "weight": "600 g",
@@ -194,6 +199,7 @@
   {
     "id": "recipes_resistance",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "useful recipes for resistance", "str_pl": "copies of useful recipes for resistance" },
     "description": "Recipes for Resistance is a collection of tales, strategies and recipes for working against corporate rule.  Very simple language is used in the recipes but it drags out the explanations.",
     "weight": "2000 g",
@@ -214,6 +220,7 @@
   {
     "id": "recipes_cryolab",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Working in Boreal Conditions and beyond", "str_pl": "copies of Working in Boreal Conditions and beyond" },
     "description": "A corporate manual for conditions of inhospitable cold.  It includes instructions for building devices and substances that will aid in survival in extreme weather or even the lack thereof.",
     "weight": "2000 g",
@@ -234,6 +241,7 @@
   {
     "id": "recipe_unusual_ammos",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Unusual Ammunitions of the Corporations", "str_pl": "copies of Unusual Ammunitions of the Corporations" },
     "description": "A lab book dedicated to reverse engineering various ammunitions found throughout the solar system.  Written in a format to allow barely trained technicians to *safely* replicate these rounds.",
     "weight": "2063 g",
@@ -254,6 +262,7 @@
   {
     "id": "recipe_lichenlog",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Applications of Salus IV Lichen", "str_pl": "copies of Applications of Salus IV Lichen" },
     "description": "A sheaf of notes detailing some species of lichen.  Most of the information is useless to you except for the fact that the majority of Salus IV lifeform's metabolism rely on a macronutrient that acts like a neurotoxin for humans.  One useful note is a detailed procedure to neutralize said neurotoxin.",
     "weight": "50 g",
@@ -268,6 +277,25 @@
     "max_level": 2,
     "intelligence": 9,
     "fun": -2,
+    "time": "50 m"
+  },
+  {
+    "id": "exosuit_maintenance",
+    "type": "BOOK",
+    "name": { "str": "TsKBEM Exoskeleton user manual", "str_pl": "copies of TsKBEM Exoskeleton user manuals" },
+    "description": "A somewhat hefty manual in Russian with accompanying English text which goes in-depth into the proper usage and maintenance of TsKBEM brand Exoskeletons.\n\nWhile it mainly pertains to the old TsKBEM exoskeletons, the knowledge within could still help out with modular exoskeletons in general.",
+    "weight": "50 g",
+    "volume": "500 ml",
+    "price": "5000 cent",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "adv_chemistry",
+    "color": "light_green",
+    "skill": "fabrication",
+    "required_level": 5,
+    "max_level": 8,
+    "intelligence": 9,
+    "fun": -3,
     "time": "50 m"
   }
 ]

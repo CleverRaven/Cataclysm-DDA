@@ -230,14 +230,14 @@ void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
         );
     Finder->addMatcher(
         callExpr(
-            callee( functionDecl( hasAnyName( "_", "gettext" ) ) ),
+            callee( functionDecl( hasAnyName( "_", "translation_argument_identity", "gettext" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentBound )
         ),
         this
     );
     Finder->addMatcher(
         callExpr(
-            callee( functionDecl( hasName( "ngettext" ) ) ),
+            callee( functionDecl( hasName( "n_gettext" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentBound ),
             hasImmediateArgument( 1, stringLiteralArgumentUnbound )
         ),

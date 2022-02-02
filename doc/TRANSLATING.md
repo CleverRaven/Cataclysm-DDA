@@ -290,7 +290,8 @@ jsobj.read( "name", name );
 ```
 
 If neither "str_pl" nor "str_sp" is specified, the plural form defaults to the
-singular form + "s".
+singular form + "s". However, "str_pl" may still be needed if the unit test cannot
+determine whether the correct plural form can be formed by simply appending "s".
 
 You can also add comments for translators by writing it like below (the order
 of the entries does not matter):

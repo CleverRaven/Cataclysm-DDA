@@ -8,6 +8,6 @@
     "category": "content",
     "dependencies": [ "dda" ],
     "version": "0.1",
-    "obsolete": false
+    "obsolete": true
   }
 ]
