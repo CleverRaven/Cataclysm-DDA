@@ -241,3 +241,34 @@ TEST_CASE( "verify_vehicle_tank_refill", "[vehicle]" )
     check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_water, 240 );
     check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_flammable, 60000 );
 }
+
+TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
+{
+    GIVEN( "tank is empty" ) {
+        vehicle_part vp( vpart_tank_test, "", point_zero, item( itype_metal_tank_test ) );
+        REQUIRE( vp.ammo_remaining() == 0 );
+        THEN( "ammo_current ammotype is always null" ) {
+            CHECK( vp.ammo_current().is_null() );
+            CHECK( !item::find_type( vp.ammo_current() )->ammo );
+            // Segmentation fault:
+            //vp.ammo_capacity( item::find_type( vp.ammo_current() )->ammo->type );
+        }
+        THEN( "using explicit ammotype for ammo_capacity returns expected value" ) {
+            CHECK( vp.ammo_capacity( ammo_flammable ) == 60000 );
+        }
+    }
+
+    GIVEN( "tank is not empty" ) {
+        vehicle_part vp( vpart_tank_test, "", point_zero, item( itype_metal_tank_test ) );
+        item tank( itype_metal_tank_test );
+        REQUIRE( tank.fill_with( item( itype_water_clean ), 100 ) == 100 );
+        vp.set_base( tank );
+        REQUIRE( vp.ammo_remaining() == 100 );
+
+        THEN( "ammo_current is not null" ) {
+            CHECK( vp.ammo_current() == itype_water_clean );
+            CHECK( !!item::find_type( vp.ammo_current() )->ammo );
+            CHECK( vp.ammo_capacity( item::find_type( vp.ammo_current() )->ammo->type ) == 240 );
+        }
+    }
+}
