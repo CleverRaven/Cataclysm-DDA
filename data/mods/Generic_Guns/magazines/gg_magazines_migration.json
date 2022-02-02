@@ -323,7 +323,16 @@
     "replace": "rifle_rail_mag"
   },
   {
-    "id": [ "saiga410mag_10rd", "saiga410mag_30rd", "saiga10mag", "saiga30mag", "USAS10mag", "USAS20mag", "shotbelt_20", "robofac10" ],
+    "id": [
+      "saiga410mag_10rd",
+      "saiga410mag_30rd",
+      "saiga10mag",
+      "saiga30mag",
+      "USAS10mag",
+      "USAS20mag",
+      "shotbelt_20",
+      "robofac10"
+    ],
     "type": "MIGRATION",
     "replace": "shot_mag"
   },
