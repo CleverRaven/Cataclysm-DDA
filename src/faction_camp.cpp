@@ -2419,7 +2419,7 @@ point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distanc
                             lowest_found ) {
                             lowest_found = path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y
                                            + k];
-                            found = { pt.x + i, pt.y + k };
+                            found = pt + point( i, k );
                         }
                     }
                 }
@@ -2435,7 +2435,7 @@ int salt_water_pipe_segment_of( const recipe &making )
 
 {
     int segment_number = -1;
-    const auto requires = making.blueprint_requires();
+    const auto &requires = making.blueprint_requires();
     for( auto const &element : requires ) {
         if( element.first.substr( 0, salt_water_pipe_string_base.length() ) == salt_water_pipe_string_base
             &&
@@ -2602,14 +2602,14 @@ void basecamp::start_salt_water_pipe( const point &dir, const std::string &bldg_
                 const oter_id &omt_ref = overmap_buffer.ter( tile );
                 bool match = false;
                 for( const std::string &pos_om : allowed_locations ) {
-                    if( ( omt_ref )->get_type_id() == oter_type_str_id( pos_om ) ) {
+                    if( omt_ref->get_type_id() == oter_type_str_id( pos_om ) ) {
                         match = true;
                         break;
                     }
                 }
                 if( match ) {
                     path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_legal;
-                } else if( ( omt_ref )->get_type_id() == oter_type_str_id( allowed_start_location ) ) {
+                } else if( omt_ref->get_type_id() == oter_type_str_id( allowed_start_location ) ) {
                     path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_swamp;
                 } else {
                     path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_illegal;
@@ -3496,7 +3496,7 @@ bool basecamp::salt_water_pipe_return( const point &dir, const std::string &miss
 
     point next_construction_direction;
 
-    if( segment_number == ( int )pipe->segments.size() - 1 ) {
+    if( segment_number == static_cast<int>( pipe->segments.size() - 1 ) ) {
         next_construction_direction = { -connection_dir.x, -connection_dir.y };
     } else {
         next_construction_direction = { pipe->segments[segment_number + 1].point.x() - pipe->segments[segment_number].point.x(),
