@@ -1750,10 +1750,11 @@
   {
     "id": "bio_faulty_powercell",
     "type": "bionic",
-    "name": { "str": "Unstable Power Core" },
+    "name": { "str": "Unstable Power Cell" },
     "description": "A damaged, highly unsafe nuclear fuel cell.  You cannot control its function, but it occasionally powers up for a moment and recharges your batteries, irradiating you in the process.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_FAULTY" ],
+    "trigger_cost": "25 kJ",
   },
   {
     "id": "bio_psychopath",
