@@ -695,6 +695,33 @@
   },
   {
     "type": "terrain",
+    "id": "t_salt_water_pump",
+    "name": "salt water pump",
+    "looks_like": "t_water_pump",
+    "description": "A water pump connected to a pipe supplying it with salt water. Not useful to drink, but it has other usages.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost": 6,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SALT_WATER" ],
+    "deconstruct": { "ter_set": "t_covered_well", "items": [ { "item": "well_pump", "count": 1 }, { "item": "pipe", "count": [ 1, 6 ] } ] },
+    "bash": {
+      "str_min": 15,
+      "str_max": 80,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "pipe_fittings", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 2 ] }
+      ]
+    },
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
     "id": "t_water_dispenser",
     "name": "water dispenser",
     "looks_like": "f_sink",
@@ -1217,6 +1244,31 @@
     "description": "Deep well collecting ground water.  Requires a method to draw water from.",
     "symbol": "#",
     "color": "dark_gray",
+    "move_cost": 2,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "FLAT", "MINEABLE" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit",
+      "items": [
+        { "item": "rock", "count": [ 8, 18 ] },
+        { "item": "2x4", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 4 ] },
+        { "item": "splinter", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_covered_salt_water_well",
+    "name": "covered salt_water well",
+    "description": "Deep well collecting water from a surrounding swamp.  Requires a method to draw water from.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "looks_like": "t_covered_well",
     "move_cost": 2,
     "coverage": 40,
     "flags": [ "TRANSPARENT", "FLAT", "MINEABLE" ],
