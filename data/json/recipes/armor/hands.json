@@ -952,7 +952,7 @@
     "components": [ [ [ "gloves_light", 1 ], [ "gloves_liner", 1 ] ], [ [ "gloves_leather", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
-    "result": "armor_lc_gauntlet",
+    "result": "lc_gauntlet",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -978,9 +978,9 @@
     ]
   },
   {
-    "result": "xl_armor_lc_gauntlet",
+    "result": "xl_lc_gauntlet",
     "type": "recipe",
-    "copy-from": "armor_lc_gauntlet",
+    "copy-from": "lc_gauntlet",
     "time": "2 d 16 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -992,7 +992,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "armor_mc_gauntlet",
+    "result": "mc_gauntlet",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1018,9 +1018,9 @@
     ]
   },
   {
-    "result": "xl_armor_mc_gauntlet",
+    "result": "xl_mc_gauntlet",
     "type": "recipe",
-    "copy-from": "armor_mc_gauntlet",
+    "copy-from": "mc_gauntlet",
     "time": "2 d 16 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -1032,7 +1032,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "armor_hc_gauntlet",
+    "result": "hc_gauntlet",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1058,9 +1058,9 @@
     ]
   },
   {
-    "result": "xl_armor_hc_gauntlet",
+    "result": "xl_hc_gauntlet",
     "type": "recipe",
-    "copy-from": "armor_hc_gauntlet",
+    "copy-from": "hc_gauntlet",
     "time": "2 d 16 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -1072,7 +1072,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "armor_ch_gauntlet",
+    "result": "ch_gauntlet",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1098,9 +1098,9 @@
     ]
   },
   {
-    "result": "xl_armor_ch_gauntlet",
+    "result": "xl_ch_gauntlet",
     "type": "recipe",
-    "copy-from": "armor_ch_gauntlet",
+    "copy-from": "ch_gauntlet",
     "time": "3 d 4 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -1112,7 +1112,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "armor_qt_gauntlet",
+    "result": "qt_gauntlet",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1138,9 +1138,9 @@
     ]
   },
   {
-    "result": "xl_armor_qt_gauntlet",
+    "result": "xl_qt_gauntlet",
     "type": "recipe",
-    "copy-from": "armor_qt_gauntlet",
+    "copy-from": "qt_gauntlet",
     "time": "3 d 6 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -1152,7 +1152,7 @@
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
   {
-    "result": "armor_lc_mitten_gaunt",
+    "result": "lc_mitten_gaunt",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1178,9 +1178,9 @@
     ]
   },
   {
-    "result": "xl_armor_lc_mitten_gaunt",
+    "result": "xl_lc_mitten_gaunt",
     "type": "recipe",
-    "copy-from": "armor_lc_mitten_gaunt",
+    "copy-from": "lc_mitten_gaunt",
     "time": "3 d 10 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -1192,7 +1192,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "armor_mc_mitten_gaunt",
+    "result": "mc_mitten_gaunt",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1218,9 +1218,9 @@
     ]
   },
   {
-    "result": "xl_armor_mc_mitten_gaunt",
+    "result": "xl_mc_mitten_gaunt",
     "type": "recipe",
-    "copy-from": "armor_mc_mitten_gaunt",
+    "copy-from": "mc_mitten_gaunt",
     "time": "3 d 10 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -1232,7 +1232,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "armor_hc_mitten_gaunt",
+    "result": "hc_mitten_gaunt",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1258,9 +1258,9 @@
     ]
   },
   {
-    "result": "xl_armor_hc_mitten_gaunt",
+    "result": "xl_hc_mitten_gaunt",
     "type": "recipe",
-    "copy-from": "armor_hc_mitten_gaunt",
+    "copy-from": "hc_mitten_gaunt",
     "time": "3 d 10 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -1272,7 +1272,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "armor_ch_mitten_gaunt",
+    "result": "ch_mitten_gaunt",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1298,9 +1298,9 @@
     ]
   },
   {
-    "result": "xl_armor_ch_mitten_gaunt",
+    "result": "xl_ch_mitten_gaunt",
     "type": "recipe",
-    "copy-from": "armor_ch_mitten_gaunt",
+    "copy-from": "ch_mitten_gaunt",
     "time": "3 d 17 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
@@ -1312,7 +1312,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "armor_qt_mitten_gaunt",
+    "result": "qt_mitten_gaunt",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
@@ -1338,9 +1338,9 @@
     ]
   },
   {
-    "result": "xl_armor_qt_mitten_gaunt",
+    "result": "xl_qt_mitten_gaunt",
     "type": "recipe",
-    "copy-from": "armor_qt_mitten_gaunt",
+    "copy-from": "qt_mitten_gaunt",
     "time": "3 d 23 h",
     "using": [
       [ "fabric_leather_fur_hide", 2 ],
