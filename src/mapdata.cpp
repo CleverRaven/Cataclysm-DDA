@@ -1345,9 +1345,6 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "curtain_transform", curtain_transform );
 
-    optional( jo, was_loaded, "open_cost", open_cost, 100 );
-    optional( jo, was_loaded, "close_cost", close_cost, 100 );
-
     if( jo.has_object( "shoot" ) ) {
         shoot = cata::make_value<map_shoot_info>();
         shoot->load( jo, "shoot", was_loaded );
@@ -1364,6 +1361,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
+    optional( jo, was_loaded, "open_cost", open_cost, 100 );
+    optional( jo, was_loaded, "close_cost", close_cost, 100 );
     optional( jo, was_loaded, "coverage", coverage );
     assign( jo, "max_volume", max_volume, src == "dda" );
     optional( jo, was_loaded, "trap", trap_id_str );
