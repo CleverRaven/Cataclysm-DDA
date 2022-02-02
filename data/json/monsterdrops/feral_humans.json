@@ -350,13 +350,13 @@
       },
       {
         "distribution": [
-          { "item": "armor_plate", "prob": 50, "damage": [ 2, 4 ] },
+          { "item": "armor_junk_plate", "prob": 50, "damage": [ 2, 4 ] },
           { "item": "armor_lorica", "prob": 40, "damage": [ 2, 4 ] },
           { "item": "armor_samurai", "prob": 30, "damage": [ 2, 4 ] },
           { "item": "armor_cuirass", "prob": 30, "damage": [ 2, 4 ] },
           {
             "distribution": [
-              { "item": "armor_lightplate", "prob": 40, "damage": [ 2, 4 ] },
+              { "item": "armor_junk_lightplate", "prob": 40, "damage": [ 2, 4 ] },
               {
                 "collection": [
                   { "item": "cuirass_lightplate", "prob": 80, "damage": [ 2, 4 ] },
