@@ -371,8 +371,9 @@ unsigned doors::get_action_move_cost( const Character &who, std::string door, co
     }
     // weak characters open heavy doors slower
     if( base_move_cost > 100 ) {
-        float factor = (std::min(base_move_cost, 200) - 100) * 0.01;
-        move_cost *= ( 8 / std::min( who.get_str(), 8 )) * factor;
+        float base_cost_factor = ( std::min( base_move_cost, 200 ) - 100 ) * 0.01;
+        float strength_factor = 8.0 / std::min( ( double ) who.get_str(), 8.0 ) - 1;
+        move_cost *= 1 + strength_factor * base_cost_factor ;
     }
     return move_cost;
 }
