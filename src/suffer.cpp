@@ -1284,7 +1284,7 @@ void suffer::from_bad_bionics( Character &you )
         you.get_power_level() >= you.get_max_power_level() * .75 ) {
         you.mod_str_bonus( -3 );
     }
-    if( you.has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
+    if( you.has_bionic( bio_faulty_powercell ) && one_turn_in( 60_minutes ) ) {
         you.add_msg_if_player( m_bad, _( "Your power cell releases a burst of energy!" ) );
         you.mod_rad( 1 );
         you.mod_power_level( bio_faulty_powercell->power_trigger );
