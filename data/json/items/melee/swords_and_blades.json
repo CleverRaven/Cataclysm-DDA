@@ -961,7 +961,7 @@
     "name": { "str_sp": "tanto" },
     "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  This one doesn't feel well-balanced.",
     "proportional": { "bashing": 6.5, "cutting": 0.28 },
-	"to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "uneven" },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "uneven" },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "weight": "3 g",
