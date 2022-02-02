@@ -136,6 +136,7 @@ namespace io
             case enchant_vals::mod::ITEM_COVERAGE: return "ITEM_COVERAGE";
             case enchant_vals::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
             case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
+            case enchant_vals::mod::RECOIL: return "RECOIL";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
