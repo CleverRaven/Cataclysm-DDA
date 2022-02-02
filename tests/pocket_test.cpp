@@ -9,6 +9,7 @@
 
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -1316,6 +1317,35 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
     }
 }
 
+/**
+  * Remove all equipment of the Character instance.
+  * @param dummy Character instance to remove equipment from.
+  */
+static void reset_dummy_equipment( Character &dummy )
+{
+    dummy.worn.clear();
+    dummy.remove_weapon();
+}
+
+/**
+  * Add the given item to the best pocket of the dummy character.
+  * @param dummy The character to add the item to.
+  * @param it The item to add to the characters' pockets.
+  *
+  * @returns A pointer to the newly added item, if successfull.
+  */
+static item *add_item_to_best_pocket( Character &dummy, const item &it )
+{
+    auto pocket = dummy.best_pocket( it ).second;
+    REQUIRE( pocket );
+
+    item *ret = nullptr;
+    pocket->add( it, &ret );
+    REQUIRE( pocket->has_item( *ret ) );
+
+    return ret;
+}
+
 // Character::best_pocket
 // - See if wielded item can hold it - start with this as default
 // - For each worn item, see if best_pocket is better; if so, use it
@@ -1327,11 +1357,138 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
 // (Second argument is `avoid` item pointer, not parent item location)
 TEST_CASE( "character best pocket", "[pocket][character][best]" )
 {
-    // TODO:
-    // Includes wielded item
-    // Includes worn items
-    // Uses best of multiple worn items
-    // Skips avoided items
+    item_location loc;
+    Character &dummy = get_player_character();
+
+    // reset dummy equipment before each test.
+    reset_dummy_equipment( dummy );
+
+    WHEN( "the player is wielding a container" ) {
+        item socks( "test_socks" );
+        item container( "test_watertight_open_sealed_container_1L" );
+
+        // wield the container item.
+        dummy.set_wielded_item( container );
+
+        THEN( "the player can stash an item in it" ) {
+            // check to see if the item can be stored in any pocket.
+            CHECK( dummy.can_stash_partial( socks ) );
+
+            // and check to see if the item is actually stored in the wielded container.
+            auto pocket = dummy.best_pocket( socks );
+            REQUIRE( pocket.second );
+            CHECK( *pocket.second == *get_only_pocket( container ) );
+        }
+    }
+
+    WHEN( "the player is wearing a container" ) {
+        item socks( "test_socks" );
+        item backpack( "test_backpack" );
+
+        // wear the backpack item.
+        REQUIRE( dummy.wear_item( backpack, false, false ) );
+
+        THEN( "the player can stash an item in it" ) {
+            // check to see if the item can be stored in any pocket.
+            CHECK( dummy.can_stash_partial( socks ) );
+
+            // and check to see if the item is actually stored in the wielded container.
+            auto pocket = dummy.best_pocket( socks );
+            REQUIRE( pocket.second );
+            CHECK( *pocket.second == *get_only_pocket( backpack ) );
+        }
+    }
+
+    WHEN( "wielding- and wearing a container" ) {
+        item socks( "test_socks" );
+        item container_wear( "test_watertight_open_sealed_container_1L" );
+        item container_wield( "test_watertight_open_sealed_container_1L" );
+
+        // wield- and wear the respective container items.
+        REQUIRE( dummy.wield( container_wield ) );
+        REQUIRE( dummy.wear_item( container_wear, false, false ) );
+
+        THEN( "the wielded container has priority" ) {
+            // check to see if the item can be stored in any pocket.
+            CHECK( dummy.can_stash_partial( socks ) );
+
+            // and try to find a fitting pocket.
+            // then check to see if it is, indeed, the wielded container.
+            auto pocket = dummy.best_pocket( socks );
+            REQUIRE( pocket.second );
+            CHECK( *pocket.second == *get_only_pocket( container_wield ) );
+        }
+    }
+
+    WHEN( "wearing a container with a nested rigid container" ) {
+        item socks( "test_socks" );
+        item backpack( "test_backpack" );
+        item container( "test_watertight_open_sealed_container_1L" );
+
+        // wear the backpack item.
+        REQUIRE( dummy.wear_item( backpack ) );
+
+        // nest the rigid container inside of the worn backpack.
+        add_item_to_best_pocket( dummy, container );
+
+        THEN( "best pocket will be in nested rigid container" ) {
+            // check to see if the item can be stored in any pocket.
+            CHECK( dummy.can_stash_partial( socks ) );
+
+            // and try to find a fitting pocket.
+            // then check to see if it is, indeed, the nested container.
+            auto best_pocket = dummy.best_pocket( socks );
+            REQUIRE( best_pocket.second );
+            CHECK( *best_pocket.second == *get_only_pocket( container ) );
+        }
+    }
+
+    WHEN( "wearing a container with a nested non-rigid container" ) {
+        item socks( "test_socks" );
+        item backpack( "test_backpack" );
+        item backpack_nested( "test_backpack" );
+
+        // wear the backpack item.
+        REQUIRE( dummy.wear_item( backpack ) );
+
+        // nest the non-rigid container inside of the worn backpack.
+        add_item_to_best_pocket( dummy, backpack_nested );
+
+        THEN( "best pocket will be in worn container" ) {
+            // check to see if the item can be stored in any pocket.
+            CHECK( dummy.can_stash_partial( socks ) );
+
+            // and try to find a fitting pocket.
+            // then check to see if it is, indeed, the worn container.
+            auto best_pocket = dummy.best_pocket( socks );
+            REQUIRE( best_pocket.second );
+            CHECK( *best_pocket.second == *get_only_pocket( backpack ) );
+        }
+    }
+
+    WHEN( "wearing a container with a nested rigid container which should be avoided" ) {
+        item socks( "test_socks" );
+        item backpack( "test_backpack" );
+        item container( "test_watertight_open_sealed_container_1L" );
+
+        // wear the backpack item.
+        REQUIRE( dummy.wear_item( backpack ) );
+
+        // nest the rigid container inside of the worn backpack.
+        item *nested_container = add_item_to_best_pocket( dummy, container );
+
+        THEN( "best pocket for new item will be in worn container" ) {
+            // check to see if the item can be stored in any pocket.
+            CHECK( dummy.can_stash_partial( socks ) );
+
+            // and try to find a fitting pocket.
+            // then check to see if it is, indeed, the worn backpack
+            // when the nested (preferable) container should be avoided.
+            auto best_pocket = dummy.best_pocket( socks, nested_container );
+            REQUIRE( best_pocket.second );
+            CHECK( *best_pocket.second == *get_only_pocket( backpack ) );
+        }
+    }
 }
 
 TEST_CASE( "guns and gunmods", "[pocket][gunmod]" )

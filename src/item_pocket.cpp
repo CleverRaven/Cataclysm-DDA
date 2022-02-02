@@ -1807,11 +1807,11 @@ item_pocket *item_pocket::best_pocket_in_contents(
 {
     item_pocket *ret = nullptr;
 
-    for( item *contained_item : this->all_items_top() ) {
-        if( contained_item == &it || contained_item == avoid ) {
+    for( item &contained_item : contents ) {
+        if( &contained_item == &it || &contained_item == avoid ) {
             continue;
         }
-        const auto nested_pocket = contained_item->best_pocket( it, parent, avoid,
+        const auto nested_pocket = contained_item.best_pocket( it, parent, avoid,
                                    allow_sealed, ignore_settings, /*nested=*/true );
         if( nested_pocket.second != nullptr &&
             ( ret == nullptr || ret->better_pocket( *nested_pocket.second, it, /*nested=*/true ) ) ) {
