@@ -147,8 +147,7 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
 
     tripoint pos = get_avatar().pos() + point_east;
 
-    // set move value to 0 so we know how many
-    // move points were spent opening and closing gates
+    // spend all moves so we know how many move points were spent
     they.moves = 0;
 
     // ensure all relevant stats are at default values
@@ -229,6 +228,64 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
 
             THEN( "avatar should spend move points" ) {
                 CHECK( they.moves == -window.open_cost );
+            }
+        }
+    }
+}
+
+TEST_CASE( "opening and closing doors should cost movement points", "[gates]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+
+    clear_map();
+    clear_avatar();
+
+    tripoint pos = they.pos() + tripoint_east;
+
+    // spend all moves so we know how many move points were spent
+    they.moves = 0;
+
+    // ensure all relevant stats are at default values
+    REQUIRE( they.get_str() == 8 );
+    REQUIRE( they.get_dex() == 8 );
+
+    GIVEN( "that door is closed" ) {
+        REQUIRE( here.ter_set( pos, t_door_c ) );
+        REQUIRE( here.ter( pos ).obj().id == t_door_c->id );
+
+        WHEN( "avatar opens the door while walking" ) {
+            REQUIRE( they.is_walking() );
+
+            // move towards the door to open them
+            REQUIRE( avatar_action::move( they, here, tripoint_east ) );
+
+            THEN( "avatar should lose movement points" ) {
+                ter_t door = here.ter( pos ).obj();
+                CHECK( they.moves == -door.open_cost );
+            }
+        }
+        WHEN( "avatar opens the door while running" ) {
+            they.toggle_run_mode();
+            REQUIRE( they.is_running() );
+
+            // move towards the door to open them
+            REQUIRE( avatar_action::move( they, here, tripoint_east ) );
+
+            THEN( "avatar should lose movement points" ) {
+                ter_t door = here.ter( pos ).obj();
+                CHECK( they.moves == -( they.run_cost( 100, false ) + door.open_cost / 2 ) );
+            }
+        }
+        WHEN( "avatar opens the door while crouching" ) {
+            they.toggle_crouch_mode();
+            REQUIRE( they.is_crouching() );
+
+            // move towards the door to open them
+            REQUIRE( avatar_action::move( they, here, tripoint_east ) );
+
+            THEN( "avatar should lose movement points" ) {
+                CHECK( they.moves == -( here.ter( pos ).obj().open_cost * 3 ) );
             }
         }
     }
