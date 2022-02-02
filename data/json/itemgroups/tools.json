@@ -171,7 +171,7 @@
       [ "shovel_snow_plastic", 15 ],
       [ "hose_garden", 20 ],
       [ "big_pliers", 10 ],
-      [ "heavy_crowbar", 10]
+      [ "heavy_crowbar", 10 ]
     ]
   },
   {
@@ -299,7 +299,7 @@
       [ "halligan", 10 ],
       [ "pike_pole", 10 ],
       [ "ny_hook", 10 ],
-      [ "heavy_crowbar", 10]
+      [ "heavy_crowbar", 10 ]
     ]
   },
   {
