@@ -996,7 +996,7 @@
     "symbol": "/",
     "color": "brown",
     "name": { "str": "bō", "str_pl": "bōs" },
-    "description": "A wooden staff weapon used in Okinawan martial arts.  Finally sanded and treated with oil for integrity",
+    "description": "A wooden staff weapon used in Okinawan martial arts.  Finely sanded and treated with oil for integrity.",
     "price": 4000,
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "SWEEP" ],
