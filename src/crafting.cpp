@@ -1282,7 +1282,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                     comp.set_flag_recursive( flag_COOKED );
                 }
 
-                //when batch crafting, set_components depends on components being merged, so merge any unmerged ones here
+                // when batch crafting, set_components depends on components being merged, so merge any unmerged ones here
                 if( comp.count_by_charges() ) {
                     auto it = std::find_if( usedbp.begin(), usedbp.end(), [&comp]( const item & usedit ) {
                         return usedit.type == comp.type;
