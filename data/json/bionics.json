@@ -1738,5 +1738,38 @@
     "dupes_allowed": true,
     "description": "A broken implant that sends electromagnetic impulses that reduce other implants capacity to store charge.",
     "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
+    "id": "bio_faulty_grossfood",
+    "type": "bionic",
+    "name": { "str": "Taste Fouler" },
+    "occupied_bodyparts": [ [ "head", 1 ], [ "mouth", 1 ] ],
+    "description": "A malfunctioning processor haphazardly interfaced with your taste receptors has given everything you consume a horrid bitter taste.  Food and drink will severely harm your morale.",
+    "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
+    "id": "bio_faulty_powercell",
+    "type": "bionic",
+    "name": { "str": "Unstable Power Core" },
+    "description": "A damaged, highly unsafe nuclear fuel cell.  You cannot control its function, but it occasionally powers up for a moment and recharges your batteries, irradiating you in the process.",
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_FAULTY" ]
+  },
+  {
+    "id": "bio_psychopath",
+    "type": "bionic",
+    "name": { "str": "Empathy Supppressor" },
+    "description": "This chip interfaces with your frontal lobe and eliminates harmful feelings like guilt and compassion that would negatively impact your mood.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
+    "id": "bio_recoil",
+    "type": "bionic",
+    "name": { "str": "Recoil Compensators" },
+    "description": "Reactive shock absorbers installed in your wrists and elbows which greatly reduce felt recoil.",
+    "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 2 ], [ "hand_r", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RECOIL", "multiply": -0.4 } ] } ]
   }
 ]
