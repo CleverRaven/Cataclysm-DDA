@@ -357,14 +357,20 @@ unsigned doors::get_action_move_cost( const Character &who, const tripoint where
     // get door at given location
     ter_t what = get_map().ter( where ).obj();
 
-    // movement point cost of opening gates
-    int move_cost = open ? what.open_cost : what.close_cost;
+    // movement point cost of opening doors
+    const int base_move_cost = open ? what.open_cost : what.close_cost;
+    int move_cost = base_move_cost;
+
+    // apply movement point modifiers
     if( who.is_crouching() ) {
         move_cost *= 3;
     } else if( who.is_running() ) {
         move_cost /= 2;
     }
-    // weak characters open gates slower
-    move_cost = std::max( move_cost * 8 / std::min( who.get_str(), 8 ), 100 );
+    // weak characters open heavy doors slower
+    if( base_move_cost > 100 ) {
+        float factor = (std::min(base_move_cost, 200) - 100) * 0.01;
+        move_cost *= ( 8 / std::min( who.get_str(), 8 )) * factor;
+    }
     return move_cost;
 }
