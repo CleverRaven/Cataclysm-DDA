@@ -248,7 +248,7 @@ TEST_CASE( "opening and closing doors should cost movement points", "[gates]" )
 
         WHEN( "avatar opens the door while walking" ) {
             REQUIRE( they.is_walking() );
-           
+
             // movement cost of opening doors
             int open_cost = here.ter( pos ).obj().open_cost;
 
@@ -284,7 +284,94 @@ TEST_CASE( "opening and closing doors should cost movement points", "[gates]" )
             REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
             THEN( "avatar should lose movement points" ) {
+                CHECK( they.moves == -( open_cost * 3 ) );
+            }
+        }
+    }
+    GIVEN( "that door is opened" ) {
+        REQUIRE( here.ter_set( pos, t_door_o ) );
+        REQUIRE( here.ter( pos ).obj().id == t_door_o->id );
+
+        WHEN( "avatar closes the door while walking" ) {
+            REQUIRE( they.is_walking() );
+
+            // movement cost of opening doors
+            int close_cost = here.ter( pos ).obj().close_cost;
+            doors::close_door( here, they, pos );
+            REQUIRE( here.ter( pos ).obj().id == t_door_c->id );
+
+            THEN( "avatar should lose movement points" ) {
+                CHECK( they.moves == -close_cost );
+            }
+        }
+        WHEN( "avatar closes the door while running" ) {
+            they.toggle_run_mode();
+            REQUIRE( they.is_running() );
+
+            // movement cost of opening doors
+            int close_cost = here.ter( pos ).obj().close_cost;
+            doors::close_door( here, they, pos );
+            REQUIRE( here.ter( pos ).obj().id == t_door_c->id );
+
+            THEN( "avatar should lose movement points" ) {
+                CHECK( they.moves == -( close_cost / 2 ) );
+            }
+        }
+        WHEN( "avatar closes the door while crouching" ) {
+            they.toggle_crouch_mode();
+            REQUIRE( they.is_crouching() );
+
+            // movement cost of opening doors
+            int close_cost = here.ter( pos ).obj().close_cost;
+            doors::close_door( here, they, pos );
+            REQUIRE( here.ter( pos ).obj().id == t_door_c->id );
+
+            THEN( "avatar should lose movement points" ) {
+                CHECK( they.moves == -( close_cost * 3 ) );
+            }
+        }
+    }
+    GIVEN( "that heavy door is closed" ) {
+        REQUIRE( here.ter_set( pos, t_door_metal_c ) );
+        REQUIRE( here.ter( pos ).obj().id == t_door_metal_c->id );
+
+        WHEN( "weak avatar opens the door" ) {
+            REQUIRE( they.is_walking() );
+
+            // make character physically weak
+            they.mod_str_bonus( -4 );
+            REQUIRE( they.get_str() == 4 );
+
+            // movement cost of opening doors
+            int open_cost = here.ter( pos ).obj().open_cost;
+
+            // move towards the door to open them
+            REQUIRE( avatar_action::move( they, here, tripoint_east ) );
+
+            THEN( "avatar should lose movement points" ) {
                 CHECK( they.moves == -( open_cost * 1.17 ) );
+            }
+        }
+    }
+    GIVEN( "that heavy door is open" ) {
+        REQUIRE( here.ter_set( pos, t_door_metal_o ) );
+        REQUIRE( here.ter( pos ).obj().id == t_door_metal_o->id );
+
+        WHEN( "weak avatar closes the door" ) {
+            REQUIRE( they.is_walking() );
+
+            // make character physically weak
+            they.mod_str_bonus( -2 );
+            REQUIRE( they.get_str() == 6 );
+
+            // movement cost of opening doors
+            int close_cost = here.ter( pos ).obj().close_cost;
+
+            doors::close_door( here, they, pos );
+            REQUIRE( here.ter( pos ).obj().id == t_door_metal_c->id );
+
+            THEN( "avatar should lose movement points" ) {
+                CHECK( they.moves == -( close_cost * 1.25 ) );
             }
         }
     }
