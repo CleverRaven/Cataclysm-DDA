@@ -150,10 +150,6 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
     // spend all moves so we know how many move points were spent
     they.moves = 0;
 
-    // ensure all relevant stats are at default values
-    REQUIRE( they.get_str() == 8 );
-    REQUIRE( they.get_dex() == 8 );
-
     WHEN( "avatar opens door" ) {
         REQUIRE( here.ter_set( pos, t_door_c ) );
 
@@ -245,10 +241,6 @@ TEST_CASE( "opening and closing doors should cost movement points", "[gates]" )
 
     // spend all moves so we know how many move points were spent
     they.moves = 0;
-
-    // ensure all relevant stats are at default values
-    REQUIRE( they.get_str() == 8 );
-    REQUIRE( they.get_dex() == 8 );
 
     GIVEN( "that door is closed" ) {
         REQUIRE( here.ter_set( pos, t_door_c ) );
