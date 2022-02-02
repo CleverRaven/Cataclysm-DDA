@@ -19,7 +19,9 @@
       "robofac_gun_ar",
       "robofac_gun_dmr",
       "robofac_gun_shotgun",
-      "robofac_gun_smg"
+      "robofac_gun_smg",
+      "robofac_laser_sight",
+      "robofac_handguard"
     ]
   }
 ]
