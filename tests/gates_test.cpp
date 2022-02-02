@@ -290,3 +290,50 @@ TEST_CASE( "opening and closing doors should cost movement points", "[gates]" )
         }
     }
 }
+
+TEST_CASE( "doors should be dashed through when running", "[gates]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+
+    clear_map();
+    clear_avatar();
+
+    tripoint pos = they.pos() + point_east;
+
+    GIVEN( "that door is closed" ) {
+        REQUIRE( here.ter_set( pos, t_door_c ) );
+        REQUIRE( here.ter( pos ).obj().id == t_door_c->id );
+
+        WHEN( "avatar runs through the door" ) {
+            they.toggle_run_mode();
+            REQUIRE( they.is_running() );
+
+            // move towards the door to open them
+            REQUIRE( avatar_action::move( they, here, tripoint_east ) );
+
+            THEN( "avatar should be dashing through" ) {
+                // the player should move into the door frame
+                CHECK( they.pos() == pos );
+                // the player should still be running
+                CHECK( they.is_running() );
+            }
+        }
+        WHEN( "avatar opens the door while walking" ) {
+            REQUIRE( they.is_walking() );
+
+            // record player current position before moving
+            const tripoint last_pos = they.pos();
+
+            // move towards the door to open them
+            REQUIRE( avatar_action::move( they, here, tripoint_east ) );
+
+            THEN( "avatar should remain at the same position" ) {
+                // the player should remain one tile away from the door
+                CHECK( they.pos() == last_pos );
+                // the player should still be walking
+                CHECK( they.is_walking() );
+            }
+        }
+    }
+}
