@@ -121,10 +121,10 @@
     "flags": [ "PSEUDO", "PERFECT_LOCKPICK" ]
   },
   {
-	"id": "heavy_crowbar",
+    "id": "heavy_crowbar",
     "type": "TOOL",
     "name": { "str": "heavy crowbar" },
-	"looks_like": "crowbar",
+    "looks_like": "crowbar",
     "description": "A 5 foot long construction prybar. Essentially a long solid steel rod with a hardened chisel tip.",
     "weight": "8 kg",
     "to_hit": 1,
@@ -138,7 +138,7 @@
     "longest_side": "150 cm",
     "bashing": 45,
     "price": 10000,
-	"qualities": [ [ "HAMMER", 1 ], [ "PRY", 3], [ "COOK", 1] ],
-	"use_action": [ "HAMMER", "CROWBAR" ]
+    "qualities": [ [ "HAMMER", 1 ], [ "PRY", 3 ], [ "COOK", 1 ] ],
+    "use_action": [ "HAMMER", "CROWBAR" ]
   }
 ]
