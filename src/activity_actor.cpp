@@ -165,7 +165,6 @@ static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
-static const itype_id itype_log( "log" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 static const itype_id itype_splinter( "splinter" );
@@ -194,7 +193,6 @@ static const quality_id qual_SHEAR( "SHEAR" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
