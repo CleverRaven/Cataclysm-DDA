@@ -297,7 +297,7 @@
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "WAIST", "WATER_FRIENDLY" ],
     "armor": [ { "coverage": 5, "covers": [ "torso" ] } ]
-  }
+  },
   {
     "id": "suspenders_cloth",
     "type": "ARMOR",
