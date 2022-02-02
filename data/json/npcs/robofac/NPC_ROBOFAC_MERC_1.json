@@ -64,12 +64,7 @@
     "id": "NC_ROBOFAC_MERC_1_wield",
     "subtype": "collection",
     "items": [
-      {
-        "item": "robofac_gun",
-        "ammo-item": "556",
-        "charges": 40,
-        "contents-item": [ "shoulder_strap", "robofac_gun_ar" ]
-      }
+      { "item": "robofac_gun", "ammo-item": "556", "charges": 40, "contents-item": [ "shoulder_strap", "robofac_gun_ar" ] }
     ]
   },
   {
@@ -190,8 +185,52 @@
       { "text": "What do you know about our employers?", "topic": "TALK_ROBOFAC_MERC_1_ASK_HUB" },
       {
         "text": "[Notice high end gun]",
-        "condition": { "or": [{ "u_has_perception": 10 }, { "u_has_skill": { "skill": "mechanics", "level": 4 } }, { "u_has_skill": { "skill": "gun", "level": 2 } } ]},
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "u_has_perception": 10 },
+                { "u_has_skill": { "skill": "mechanics", "level": 4 } },
+                { "u_has_skill": { "skill": "gun", "level": 2 } }
+              ]
+            },
+            {
+              "not": { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" }
+            }
+          ]
+        },
         "topic": "TALK_ROBOFAC_MERC_1_HWP"
+      },
+      {
+        "text": "What's the deal with your gun again?",
+        "condition": { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+        "topic": "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION"
+      },
+      {
+        "text": "Could I get a gun like that?",
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "u_has_var": "favor", "type": "favor_owed_to_u", "context": "robofac_merc_1", "value": "1" },
+            {
+              "not": { "u_has_var": "u_can_research_rifle", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_MERC_1_HWP_YES"
+      },
+      {
+        "text": "Could I get a gun like that?",
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "not": { "u_has_var": "favor", "type": "favor_owed_to_u", "context": "robofac_merc_1", "value": "1" } },
+            {
+              "not": { "u_has_var": "u_can_research_rifle", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_MERC_1_HWP_NO"
       },
       { "text": "Well, I should get going.", "topic": "TALK_DONE" }
     ]
@@ -234,7 +273,52 @@
     "id": "TALK_ROBOFAC_MERC_1_HWP",
     "type": "talk_topic",
     "dynamic_line": "[You've never seen anything like it.  Steel body with composite blue furniture, it looks lightweight and cutting edge.  Modern hybrid scope, built-in attachments, and a strange quick-release button on the side.  The magazine is definitely for 5.56 NATO but the magazine well seems strangely designed] Admiring the hardware?",
-    "responses": [ { "text": "Didn't mean to stare.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+    "responses": [
+      { "text": "Is that a custom Hub rifle?", "topic": "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION" },
+      { "text": "Didn't mean to stare.", "topic": "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION" },
+      { "text": "Sweet piece of salvage.", "topic": "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION",
+    "type": "talk_topic",
+    "dynamic_line": "It's from our employers.  Weapon is a custom platform they produce for field agents.  It's got quick swap barrels for 9mm, the standard NATO cartridges and shot-shells great for if you're on a long field mission and run out of ammo.  Lots of morons bit it on their way home from the gun store with a box of 9mm.  Better them than us; they don't need it now.",
+    "speaker_effect": {
+      "effect": { "u_add_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+      "sentinel": "robofac_merc_1_HWP"
+    },
+    "responses": [ { "text": "…", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_HWP_YES",
+    "type": "talk_topic",
+    "dynamic_line": "I do owe you one.  I'll let the eggheads know you're worth manufacturing some proper gear for.",
+    "speaker_effect": { "effect": { "u_add_var": "u_can_research_rifle", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_HWP_NO",
+    "type": "talk_topic",
+    "dynamic_line": "You'll have to work it out with the intercom.  I don't want to vouch for someone I'm not sure I can trust.",
+    "responses": [
+      {
+        "text": "Anything I can do to change your mind?",
+        "condition": { "and": [ { "not": "has_many_assigned_mission" }, { "not": "has_assigned_mission" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      {
+        "text": "Anything I can do to change your mind?",
+        "condition": { "not": { "and": [ { "not": "has_many_assigned_mission" }, { "not": "has_assigned_mission" } ] } },
+        "topic": "TALK_ROBOFAC_MERC_1_HWP_IF_I_OWE_YOU"
+      },
+      { "text": "Alright.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_HWP_IF_I_OWE_YOU",
+    "type": "talk_topic",
+    "dynamic_line": "Once we finish up this job, I'll vouch for you with our benefactors.",
+    "responses": [ { "text": "Alright.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_1_GOLD_MISSION",

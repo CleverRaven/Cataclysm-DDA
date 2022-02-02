@@ -18,7 +18,7 @@
     "color": "dark_gray",
     "ammo": [ "NULL" ],
     "ranged_damage": { "damage_type": "stab", "amount": -2 },
-    "modes": [ ],
+    "modes": [  ],
     "dispersion": 150,
     "durability": 9,
     "min_cycle_recoil": 1350,
