@@ -2371,6 +2371,9 @@ const double salt_pipe_swamp = -0.2;
 //  resulted in rather odd paths. At the time of this writing there is no corresponding construction cost difference, though, as that
 //  doesn't match with the fixed recipe approach taken.
 point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distance + 1][2 *
+                                 max_salt_water_pipe_distance + 1], int x, int y );
+
+point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distance + 1][2 *
                                  max_salt_water_pipe_distance + 1], int x, int y )
 {
     point found = { -999, -999 };
@@ -2421,7 +2424,10 @@ point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distanc
     return found;
 };
 
+int salt_water_pipe_segment_of( const recipe &making );
+
 int salt_water_pipe_segment_of( const recipe &making )
+
 {
     int segment_number = -1;
     const auto requires = making.blueprint_requires();
@@ -2460,6 +2466,8 @@ int salt_water_pipe_segment_of( const recipe &making )
 //  The operation (ab)uses the conditional rotation/mirror flags of a recipe that uses a blueprint that isn't
 //  actually going to be used as a blueprint for something constructed in the expansion itself to determine
 //  the direction of the tile to connect to.
+point connection_direction_of( const point &dir, const recipe &making );
+
 point connection_direction_of( const point &dir, const recipe &making )
 {
     point connection_dir = { 0, -1 };  // North
@@ -2503,7 +2511,6 @@ bool basecamp::common_salt_water_pipe_construction( const point &dir, const std:
                                   get_player_character() ) );
 
     int remaining_segments = pipe->segments.size() - 1;
-    int food_need = time_to_food( work_days );
 
     if( segment_number == 0 ) {
         if( !query_yn( _( "Number of additional sessions required: %i" ), remaining_segments ) ) {
@@ -2536,7 +2543,7 @@ bool basecamp::common_salt_water_pipe_construction( const point &dir, const std:
     }
 
     return comp != nullptr;
-};
+}
 
 void basecamp::start_salt_water_pipe( const point &dir, const std::string &bldg_exp,
                                       const std::string &key )
@@ -2710,7 +2717,7 @@ void basecamp::start_salt_water_pipe( const point &dir, const std::string &bldg_
             //  those actually in the recipe, as the tokens needed can't be determined by the recipe.
             //  Shouldn't need to check that the tokens don't exist previously, so could just set them to 1.
             auto e = expansions.find( dir );
-            for( int i = 1; i < pipe->segments.size(); i++ ) {
+            for( size_t i = 1; i < pipe->segments.size(); i++ ) {
                 const std::string token = salt_water_pipe_string_base + std::to_string(
                                               i ) + salt_water_pipe_string_suffix;
                 if( e->second.provides.find( token ) == e->second.provides.end() ) {
@@ -2745,7 +2752,6 @@ void basecamp::continue_salt_water_pipe( const point &dir, const std::string &bl
         return;
     }
 
-    point connection_dir = pipe->connection_direction;
     const int segment_number = salt_water_pipe_segment_of( making );
 
     if( segment_number == -1 ) {
@@ -2757,7 +2763,7 @@ void basecamp::continue_salt_water_pipe( const point &dir, const std::string &bl
         return;
     }
 
-    bool dummy = common_salt_water_pipe_construction( dir, bldg_exp, key, pipe, segment_number );
+    common_salt_water_pipe_construction( dir, bldg_exp, key, pipe, segment_number );
 }
 
 void basecamp::start_combat_mission( const std::string &miss )
@@ -3302,6 +3308,9 @@ void basecamp::fortifications_return()
 }
 
 void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
+        bool &mirror_vertical, bool &mirror_horizontal, int &rotation );
+
+void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
         bool &mirror_vertical, bool &mirror_horizontal, int &rotation )
 {
     orthogonal = true;
@@ -3353,7 +3362,6 @@ void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
 bool basecamp::salt_water_pipe_swamp_return( const point &dir, const std::string &miss,
         const std::string &bldg, const time_duration work_days )
 {
-    const recipe &making = recipe_id( bldg ).obj();
     npc_ptr comp = companion_choose_return( miss, work_days );
 
     if( comp == nullptr ) {
@@ -3397,10 +3405,6 @@ bool basecamp::salt_water_pipe_swamp_return( const point &dir, const std::string
     salt_water_pipe_orientation_adjustment( next_construction_direction, orthogonal, mirror_vertical,
                                             mirror_horizontal, rotation );
 
-    tripoint_abs_omt tile = tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x +
-                            pipe->segments[segment_number].point.x(),
-                            omt_pos.y() + dir.y + connection_dir.y + pipe->segments[segment_number].point.y(), omt_pos.z() );
-
     if( orthogonal ) {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_N };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
@@ -3416,7 +3420,7 @@ bool basecamp::salt_water_pipe_swamp_return( const point &dir, const std::string
     auto e = expansions.find( dir );
     //  Should be safe as the caller has already checked the result. Repeating rather than adding an additional parameter to the function.
 
-    int finished_segments = 0;
+    size_t finished_segments = 0;
     for( std::vector<expansion_salt_water_pipe_segment>::iterator::value_type element :
          pipe->segments ) {
         if( element.finished ) {
@@ -3469,7 +3473,7 @@ bool basecamp::salt_water_pipe_return( const point &dir, const std::string &miss
     }
 
     point connection_dir = pipe->connection_direction;
-    const int segment_number = salt_water_pipe_segment_of( making );
+    const size_t segment_number = salt_water_pipe_segment_of( making );
 
     if( segment_number == -1 ) {
         return false;
@@ -3525,7 +3529,7 @@ bool basecamp::salt_water_pipe_return( const point &dir, const std::string &miss
     auto e = expansions.find( dir );
     //  Should be safe as the caller has already checked the result. Repeating rather than adding an additional parameter to the function.
 
-    int finished_segments = 0;
+    size_t finished_segments = 0;
     for( std::vector<expansion_salt_water_pipe_segment>::iterator::value_type element :
          pipe->segments ) {
         if( element.finished ) {
