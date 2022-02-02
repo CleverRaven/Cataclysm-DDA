@@ -8109,6 +8109,22 @@ float item::fire_resist( const sub_bodypart_id &bp, bool to_self, int base_env_r
     return resist + mod;
 }
 
+int item::breathability() const
+{
+    float breathability = 0.0f;
+
+    const std::vector<const material_type *> mat_types = made_of_types();
+    if( !mat_types.empty() ) {
+        for( const material_type *mat : mat_types ) {
+            breathability += mat->breathability();
+        }
+        // Average based on number of materials.
+        breathability /= mat_types.size();
+    }
+
+    return std::lround( breathability );
+}
+
 int item::chip_resistance( bool worst, const bodypart_id &bp ) const
 {
     int res = worst ? INT_MAX : INT_MIN;
