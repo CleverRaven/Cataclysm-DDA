@@ -2,8 +2,8 @@
   {
     "id": "bodypart_status_indicator_template",
     "type": "widget",
-    "style": "phrase",
-    "phrases": [
+    "style": "clause",
+    "clauses": [
       { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": { "u_has_effect": "bite" } },
       {
         "id": "infected",
@@ -78,7 +78,7 @@
     "//": "Base widget for showing body part status; needs bodypart field defined in derived widget.",
     "type": "widget",
     "style": "text",
-    "default_phrase": { "text": "--" },
+    "default_clause": { "text": "--" },
     "copy-from": "bodypart_status_indicator_template"
   },
   {

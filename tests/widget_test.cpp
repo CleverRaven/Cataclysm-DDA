@@ -90,10 +90,10 @@ static const widget_id widget_test_move_mode_text( "test_move_mode_text" );
 static const widget_id widget_test_move_num( "test_move_num" );
 static const widget_id widget_test_overmap_3x3_text( "test_overmap_3x3_text" );
 static const widget_id widget_test_per_color_num( "test_per_color_num" );
-static const widget_id widget_test_phrase_legend( "test_phrase_legend" );
-static const widget_id widget_test_phrase_number( "test_phrase_number" );
-static const widget_id widget_test_phrase_sym( "test_phrase_sym" );
-static const widget_id widget_test_phrase_text( "test_phrase_text" );
+static const widget_id widget_test_clause_legend( "test_clause_legend" );
+static const widget_id widget_test_clause_number( "test_clause_number" );
+static const widget_id widget_test_clause_sym( "test_clause_sym" );
+static const widget_id widget_test_clause_text( "test_clause_text" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
 static const widget_id widget_test_rad_badge_text( "test_rad_badge_text" );
 static const widget_id widget_test_speed_num( "test_speed_num" );
@@ -1841,7 +1841,7 @@ TEST_CASE( "Widget alignment", "[widget]" )
     }
 }
 
-TEST_CASE( "Phrase conditions - pure JSON widgets", "[widget][phrase][condition]" )
+TEST_CASE( "Clause conditions - pure JSON widgets", "[widget][clause][condition]" )
 {
     const int sidebar_width = 20;
 
@@ -1851,10 +1851,10 @@ TEST_CASE( "Phrase conditions - pure JSON widgets", "[widget][phrase][condition]
     const item blindfold( itype_blindfold );
     const item earplugs( itype_ear_plugs );
 
-    widget w_num = widget_test_phrase_number.obj();
-    widget w_txt = widget_test_phrase_text.obj();
-    widget w_sym = widget_test_phrase_sym.obj();
-    widget w_lgd = widget_test_phrase_legend.obj();
+    widget w_num = widget_test_clause_number.obj();
+    widget w_txt = widget_test_clause_text.obj();
+    widget w_sym = widget_test_clause_sym.obj();
+    widget w_lgd = widget_test_clause_legend.obj();
 
     avatar &ava = get_avatar();
     clear_avatar();

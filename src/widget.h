@@ -149,7 +149,7 @@ class widget;
 // Forward declaration, due to codependency on panels.h
 class window_panel;
 
-struct widget_phrase {
+struct widget_clause {
     private:
         friend class widget;
         std::string id;
@@ -158,13 +158,13 @@ struct widget_phrase {
         nc_color color = c_unset;
         int value = INT_MIN;
 
-        // Condition for using this phrase
+        // Condition for using this clause
         bool has_condition = false;
         std::function<bool( const dialogue & )> condition;
         bool meets_condition( const std::string &opt_var = "" ) const;
         bool meets_condition( const std::set<bodypart_id> &bps ) const;
 
-        static const widget_phrase *get_phrase_for_id( const std::string &phrase_id, const widget_id &wgt,
+        static const widget_clause *get_clause_for_id( const std::string &clause_id, const widget_id &wgt,
                 int thresh_val = INT_MIN, bool skip_condition = false );
 
     public:
@@ -184,17 +184,17 @@ struct widget_phrase {
          * If multiple entries meet the requirement, you can specify a threshold value to get the
          * entry with the highest value below that threshold.
          *
-         * If a phrase also has a "condition" field, that condition must also return true in order
-         * for that phrase to be usable.
+         * If a clause also has a "condition" field, that condition must also return true in order
+         * for that clause to be usable.
          */
 
-        static int get_val_for_id( const std::string &phrase_id,
+        static int get_val_for_id( const std::string &clause_id,
                                    const widget_id &wgt, bool skip_condition = false );
-        static const translation &get_text_for_id( const std::string &phrase_id,
+        static const translation &get_text_for_id( const std::string &clause_id,
                 const widget_id &wgt, bool skip_condition = false );
-        static const std::string &get_sym_for_id( const std::string &phrase_id,
+        static const std::string &get_sym_for_id( const std::string &clause_id,
                 const widget_id &wgt, bool skip_condition = false );
-        static nc_color get_color_for_id( const std::string &phrase_id,
+        static nc_color get_color_for_id( const std::string &clause_id,
                                           const widget_id &wgt, bool skip_condition = false );
 };
 
@@ -208,8 +208,8 @@ class widget
         widget_id id;
         bool was_loaded = false;
 
-        const widget_phrase *get_phrase( const std::string &phrase_id = "" ) const;
-        std::vector<const widget_phrase *> get_phrases() const;
+        const widget_clause *get_clause( const std::string &clause_id = "" ) const;
+        std::vector<const widget_clause *> get_clauses() const;
 
     public:
         widget() = default;
@@ -255,10 +255,10 @@ class widget
         cardinal_direction _direction;
         // Flags for special widget behaviors
         std::set<flag_id> _flags;
-        // Phrases used to define text, colors and values
-        std::vector<widget_phrase> _phrases;
-        // Phrase containing default values, in case none of _phrases have true conditions
-        widget_phrase _default_phrase;
+        // clauses used to define text, colors and values
+        std::vector<widget_clause> _clauses;
+        // clause containing default values, in case none of _clauses have true conditions
+        widget_clause _default_clause;
         // Alignment of the widget text (Default = RIGHT)
         widget_alignment _text_align;
         // Alignment of the widget label, if any (Default = LEFT)
@@ -311,20 +311,20 @@ class widget
 
         // Return a formatted numeric string
         std::string number( int value, bool from_condition ) const;
-        // Return the numeric value(s) from all true conditional phrases in this widget
+        // Return the numeric value(s) from all true conditional clauses in this widget
         std::string number_cond( enumeration_conjunction join_type = enumeration_conjunction::none ) const;
-        // Return the text phrase mapped to a given value for "text" style
+        // Return the text clause mapped to a given value for "text" style
         std::string text( int value, bool from_condition, int width = 0 );
-        // Return the text phrase(s) from all true conditional phrases in this widget
+        // Return the text clause(s) from all true conditional clauses in this widget
         std::string text_cond( bool no_join = false, int width = 0 );
         // Return the symbol mapped to a given value for "symbol" style
         std::string sym( int value, bool from_condition );
-        // Return the symbol(s) from all true conditional phrases in this widget
+        // Return the symbol(s) from all true conditional clauses in this widget
         std::string sym_cond( bool no_join = true,
                               enumeration_conjunction join_type = enumeration_conjunction::none ) const;
         // Return the text/symbols as list for this widget
         std::string sym_text( bool from_condition, int width = 0 );
-        // Return the text/symbols from all true conditional phrases in this widget
+        // Return the text/symbols from all true conditional clauses in this widget
         std::string sym_text_cond( bool no_join = true, int width = 0 );
         // Return the graph part of this widget, rendered with "bucket" or "pool" fill
         std::string graph( int value ) const;

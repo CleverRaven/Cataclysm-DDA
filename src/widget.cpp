@@ -263,7 +263,7 @@ std::string enum_to_string<widget_alignment>( widget_alignment align )
 }
 } // namespace io
 
-void widget_phrase::load( const JsonObject &jo )
+void widget_clause::load( const JsonObject &jo )
 {
     optional( jo, false, "id", id );
     optional( jo, false, "text", text );
@@ -280,14 +280,14 @@ void widget_phrase::load( const JsonObject &jo )
     }
 }
 
-bool widget_phrase::meets_condition( const std::string &opt_var ) const
+bool widget_clause::meets_condition( const std::string &opt_var ) const
 {
     dialogue d( get_talker_for( get_avatar() ), nullptr );
     d.reason = opt_var;
     return !has_condition || condition( d );
 }
 
-bool widget_phrase::meets_condition( const std::set<bodypart_id> &bps ) const
+bool widget_clause::meets_condition( const std::set<bodypart_id> &bps ) const
 {
     if( bps.empty() ) {
         return meets_condition();
@@ -300,12 +300,12 @@ bool widget_phrase::meets_condition( const std::set<bodypart_id> &bps ) const
     return false;
 }
 
-const widget_phrase *widget_phrase::get_phrase_for_id( const std::string &phrase_id,
+const widget_clause *widget_clause::get_clause_for_id( const std::string &clause_id,
         const widget_id &wgt, int thresh_val, bool skip_condition )
 {
-    std::map<int, const widget_phrase *> vals;
-    for( const widget_phrase &wp : wgt->_phrases ) {
-        if( phrase_id != wp.id || ( !skip_condition && !wp.meets_condition( wgt->_bps ) ) ) {
+    std::map<int, const widget_clause *> vals;
+    for( const widget_clause &wp : wgt->_clauses ) {
+        if( clause_id != wp.id || ( !skip_condition && !wp.meets_condition( wgt->_bps ) ) ) {
             continue;
         }
         if( thresh_val == INT_MIN || !skip_condition ) {
@@ -329,36 +329,36 @@ const widget_phrase *widget_phrase::get_phrase_for_id( const std::string &phrase
     return key == INT_MIN ? nullptr : vals[key];
 }
 
-int widget_phrase::get_val_for_id( const std::string &phrase_id, const widget_id &wgt,
+int widget_clause::get_val_for_id( const std::string &clause_id, const widget_id &wgt,
                                    bool skip_condition )
 {
-    const widget_phrase *wp = widget_phrase::get_phrase_for_id( phrase_id, wgt, INT_MIN,
+    const widget_clause *wp = widget_clause::get_clause_for_id( clause_id, wgt, INT_MIN,
                               skip_condition );
     return wp == nullptr ? INT_MIN : wp->value;
 }
 
-const translation &widget_phrase::get_text_for_id( const std::string &phrase_id,
+const translation &widget_clause::get_text_for_id( const std::string &clause_id,
         const widget_id &wgt, bool skip_condition )
 {
     static const translation none;
-    const widget_phrase *wp = widget_phrase::get_phrase_for_id( phrase_id, wgt, INT_MIN,
+    const widget_clause *wp = widget_clause::get_clause_for_id( clause_id, wgt, INT_MIN,
                               skip_condition );
     return wp == nullptr ? none : wp->text;
 }
 
-const std::string &widget_phrase::get_sym_for_id( const std::string &phrase_id,
+const std::string &widget_clause::get_sym_for_id( const std::string &clause_id,
         const widget_id &wgt, bool skip_condition )
 {
     static const std::string none;
-    const widget_phrase *wp = widget_phrase::get_phrase_for_id( phrase_id, wgt, INT_MIN,
+    const widget_clause *wp = widget_clause::get_clause_for_id( clause_id, wgt, INT_MIN,
                               skip_condition );
     return wp == nullptr ? none : wp->sym;
 }
 
-nc_color widget_phrase::get_color_for_id( const std::string &phrase_id, const widget_id &wgt,
+nc_color widget_clause::get_color_for_id( const std::string &clause_id, const widget_id &wgt,
         bool skip_condition )
 {
-    const widget_phrase *wp = widget_phrase::get_phrase_for_id( phrase_id, wgt, INT_MIN,
+    const widget_clause *wp = widget_clause::get_clause_for_id( clause_id, wgt, INT_MIN,
                               skip_condition );
     return wp == nullptr ? c_white : wp->color;
 }
@@ -408,17 +408,17 @@ void widget::load( const JsonObject &jo, const std::string & )
         }
     }
 
-    if( jo.has_array( "phrases" ) ) {
-        _phrases.clear();
-        for( JsonObject jobj : jo.get_array( "phrases" ) ) {
-            widget_phrase phs;
+    if( jo.has_array( "clauses" ) ) {
+        _clauses.clear();
+        for( JsonObject jobj : jo.get_array( "clauses" ) ) {
+            widget_clause phs;
             phs.load( jobj );
-            _phrases.emplace_back( phs );
+            _clauses.emplace_back( phs );
         }
     }
 
-    if( jo.has_object( "default_phrase" ) ) {
-        _default_phrase.load( jo.get_object( "default_phrase" ) );
+    if( jo.has_object( "default_clause" ) ) {
+        _default_clause.load( jo.get_object( "default_clause" ) );
     }
 
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
@@ -625,7 +625,7 @@ int widget::get_var_value( const avatar &ava ) const
     int value = 0;
 
     // Each "var" value refers to some attribute, typically of the avatar, that yields a numeric
-    // value, and can be displayed as a numeric field, a graph, or a series of text phrases.
+    // value, and can be displayed as a numeric field, a graph, or a series of text clauses.
     switch( _var ) {
         // Vars with a known max val
         case widget_var::stamina:
@@ -1047,13 +1047,13 @@ std::string widget::value_string( int value, int width_max )
     if( _style == "graph" ) {
         ret += graph( value );
     } else if( _style == "text" ) {
-        ret += text( value, !_phrases.empty(), w );
+        ret += text( value, !_clauses.empty(), w );
     } else if( _style == "symbol" ) {
-        ret += sym( value, !_phrases.empty() );
+        ret += sym( value, !_clauses.empty() );
     } else if( _style == "legend" ) {
-        ret += sym_text( !_phrases.empty(), w );
+        ret += sym_text( !_clauses.empty(), w );
     } else if( _style == "number" ) {
-        ret += number( value, !_phrases.empty() );
+        ret += number( value, !_clauses.empty() );
     } else {
         ret += "???";
     }
@@ -1140,15 +1140,15 @@ std::string widget::sym_text( bool from_condition, int width )
 
 std::string widget::number_cond( enumeration_conjunction join_type ) const
 {
-    std::vector<const widget_phrase *> wplist = get_phrases();
+    std::vector<const widget_clause *> wplist = get_clauses();
     if( wplist.empty() ) {
-        // All phrases returned false conditions, use default
-        std::string txt = string_format( "%d", _default_phrase.value );
-        return _default_phrase.value == INT_MIN ? "" :
-               _default_phrase.color == c_unset ? txt : colorize( txt, _default_phrase.color );
+        // All clauses returned false conditions, use default
+        std::string txt = string_format( "%d", _default_clause.value );
+        return _default_clause.value == INT_MIN ? "" :
+               _default_clause.color == c_unset ? txt : colorize( txt, _default_clause.color );
     }
     // Get values as a comma-separated list
-    return enumerate_as_string( wplist.begin(), wplist.end(), []( const widget_phrase * wp ) {
+    return enumerate_as_string( wplist.begin(), wplist.end(), []( const widget_clause * wp ) {
         std::string txt = string_format( "%d", wp->value );
         return wp->color == c_unset ? txt : colorize( txt, wp->color );
     }, join_type );
@@ -1156,16 +1156,16 @@ std::string widget::number_cond( enumeration_conjunction join_type ) const
 
 std::string widget::text_cond( bool no_join, int width )
 {
-    std::vector<const widget_phrase *> wplist = get_phrases();
+    std::vector<const widget_clause *> wplist = get_clauses();
     if( wplist.empty() ) {
-        // All phrases returned false conditions, use default
-        std::string txt = _default_phrase.text.translated();
-        return txt.empty() ? "" : _default_phrase.color == c_unset ? txt : colorize( txt,
-                _default_phrase.color );
+        // All clauses returned false conditions, use default
+        std::string txt = _default_clause.text.translated();
+        return txt.empty() ? "" : _default_clause.color == c_unset ? txt : colorize( txt,
+                _default_clause.color );
     }
     std::vector<std::string> strings;
     strings.reserve( wplist.size() );
-    for( const widget_phrase *wp : wplist ) {
+    for( const widget_clause *wp : wplist ) {
         strings.emplace_back( wp->color == c_unset ? wp->text.translated() : colorize(
                                   wp->text.translated(), wp->color ) );
     }
@@ -1180,40 +1180,40 @@ std::string widget::text_cond( bool no_join, int width )
 
 std::string widget::sym_cond( bool no_join, enumeration_conjunction join_type ) const
 {
-    std::vector<const widget_phrase *> wplist = get_phrases();
+    std::vector<const widget_clause *> wplist = get_clauses();
     if( wplist.empty() ) {
-        // All phrases returned false conditions, use default
-        std::string txt = _default_phrase.sym;
-        return txt.empty() ? "" : _default_phrase.color == c_unset ? txt : colorize( txt,
-                _default_phrase.color );
+        // All clauses returned false conditions, use default
+        std::string txt = _default_clause.sym;
+        return txt.empty() ? "" : _default_clause.color == c_unset ? txt : colorize( txt,
+                _default_clause.color );
     }
     // No string joining, just show symbols one-after-the-other
     if( no_join ) {
         std::string ret;
-        for( const widget_phrase *wp : wplist ) {
+        for( const widget_clause *wp : wplist ) {
             ret += wp->color == c_unset ? wp->sym : colorize( wp->sym, wp->color );
         }
         return ret;
     }
     // Get values as a comma-separated list
-    return enumerate_as_string( wplist.begin(), wplist.end(), []( const widget_phrase * wp ) {
+    return enumerate_as_string( wplist.begin(), wplist.end(), []( const widget_clause * wp ) {
         return wp->color == c_unset ? wp->sym : colorize( wp->sym, wp->color );
     }, join_type );
 }
 
 std::string widget::sym_text_cond( bool no_join, int width )
 {
-    std::vector<const widget_phrase *> wplist = get_phrases();
+    std::vector<const widget_clause *> wplist = get_clauses();
     if( wplist.empty() ) {
-        // All phrases returned false conditions, use default
-        std::string txt = _default_phrase.sym;
-        txt += ( txt.empty() ? "" : " " ) + _default_phrase.text.translated();
-        return txt.empty() ? "" : _default_phrase.color == c_unset ? txt : colorize( txt,
-                _default_phrase.color );
+        // All clauses returned false conditions, use default
+        std::string txt = _default_clause.sym;
+        txt += ( txt.empty() ? "" : " " ) + _default_clause.text.translated();
+        return txt.empty() ? "" : _default_clause.color == c_unset ? txt : colorize( txt,
+                _default_clause.color );
     }
     std::vector<std::string> strings;
     strings.reserve( wplist.size() );
-    for( const widget_phrase *wp : wplist ) {
+    for( const widget_clause *wp : wplist ) {
         std::string s = wp->color == c_unset ? wp->sym : colorize( wp->sym, wp->color );
         std::string txt = string_format( "%s %s", s, wp->text.translated() );
         strings.emplace_back( txt );
@@ -1227,15 +1227,15 @@ std::string widget::sym_text_cond( bool no_join, int width )
     return ret;
 }
 
-const widget_phrase *widget::get_phrase( const std::string &phrase_id ) const
+const widget_clause *widget::get_clause( const std::string &clause_id ) const
 {
-    // Look for a phrase with satisfied conditions
-    for( const widget_phrase &wp : _phrases ) {
+    // Look for a clause with satisfied conditions
+    for( const widget_clause &wp : _clauses ) {
         // If an id is given, only check conditions for that id
-        if( !phrase_id.empty() && phrase_id != wp.id ) {
+        if( !clause_id.empty() && clause_id != wp.id ) {
             continue;
         }
-        // Return this phrase if it has no condition or the condition is true
+        // Return this clause if it has no condition or the condition is true
         if( !wp.has_condition || wp.meets_condition( only_bp().id().str() ) ) {
             return &wp;
         }
@@ -1243,12 +1243,12 @@ const widget_phrase *widget::get_phrase( const std::string &phrase_id ) const
     return nullptr;
 }
 
-std::vector<const widget_phrase *> widget::get_phrases() const
+std::vector<const widget_clause *> widget::get_clauses() const
 {
-    std::vector<const widget_phrase *> ret;
-    // Look for phrases with satisfied conditions
-    for( const widget_phrase &wp : _phrases ) {
-        // Include this phrase if it has no condition or the condition is true
+    std::vector<const widget_clause *> ret;
+    // Look for clauses with satisfied conditions
+    for( const widget_clause &wp : _clauses ) {
+        // Include this clause if it has no condition or the condition is true
         if( !wp.has_condition || wp.meets_condition( _bps ) ) {
             ret.emplace_back( &wp );
         }

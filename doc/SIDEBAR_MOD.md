@@ -14,9 +14,9 @@
   - [alignment](#text_align--label_align)
   - [colors](#colors)
   - [flags](#flags)
-- [Phrases and conditions](#phrases-and-conditions)
+- [Clauses and conditions](#clauses-and-conditions)
   - [Conditions](#conditions)
-  - [Default phrase](#default-phrase)
+  - [Default clause](#default-clause)
 - [Variable ranges](#variable-ranges)
 - [Variables](#variables)
   - [Numeric variables](#numeric-variables)
@@ -77,7 +77,7 @@ Each widget has a "style" field that may be:
 - `layout`: Layout container for arranging other widgets in rows or columns
 - `sidebar`: Special top-level widget for defining custom sidebars
 
-"style" can also be `symbol` or `legend`, which are specific to [phrases](#phrases-and-conditions).
+"style" can also be `symbol` or `legend`, which are specific to [clauses](#clauses-and-conditions).
 
 Let's start at the top, with the "sidebar" widget, composed of several "layout" widgets.
 
@@ -511,9 +511,9 @@ Here are some flags that can be included:
 | `W_DYNAMIC_HEIGHT` | Allows certain multi-line widgets to dynamically adjust their height
 
 
-# Phrases and conditions
+# Clauses and conditions
 
-Widgets can take advantage of "phrases" - definitions for what text/values to display and
+Widgets can take advantage of "clauses" - definitions for what text/values to display and
 how to display them. These take the form of a nested object containing several optional fields:
 
 ```json
@@ -521,16 +521,10 @@ how to display them. These take the form of a nested object containing several o
   "id": "bp_status_indicator_template",
   "type": "widget",
   "style": "text",
-  "phrases": [
-    { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": { ... } },
-    { "id": "infected", "text": "infected", "sym": "I", "color": "pink", "condition": { ... } },
-    { "id": "broken", "text": "broken", "sym": "%", "color": "magenta", "condition": { ... } },
-    { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray", "condition": { ... } },
-    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white", "condition": { ... } },
-    { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green", "condition": { ... } },
-    { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red", "condition": { ... } },
-    { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red", "condition": { ... } },
-    { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red", "condition": { ... } }
+  "clauses": [
+    { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": "..." },
+    { "id": "infected", "text": "infected", "sym": "I", "color": "pink", "condition": "..." },
+    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white", "condition": "..." }
   ]
 }
 ```
@@ -540,36 +534,36 @@ which provides text and color definitions for different bodypart status conditio
 
 | JSON Field  | Description
 |---          |---
-| `id`        | An optional identifier for this phrase
+| `id`        | An optional identifier for this clause
 | `text`      | Translated text that may be interpreted and displayed in the widget.
 | `sym`       | A shortened symbol representing the text.
-| `color`     | Defines the color for the text derived from this "phrase".
-| `value`     | A numeric value for this "phrase", which may be interpreted differently based on the context of the parent widget.
-| `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this phrase will be used or not. If the condition is true (or when no condition is defined), the phrase can be used to its text/symbol/color in the widget's value.
+| `color`     | Defines the color for the text derived from this "clause".
+| `value`     | A numeric value for this "clause", which may be interpreted differently based on the context of the parent widget.
+| `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this clause will be used or not. If the condition is true (or when no condition is defined), the clause can be used to its text/symbol/color in the widget's value.
 
 
 ## Conditions
 
-Widget phrases and conditions can be used to define new widgets completely from JSON, using
+Widget clauses and conditions can be used to define new widgets completely from JSON, using
 [dialogue conditions](NPCs.md#dialogue-conditions). By omitting the widget's `var` field, the
 widget is interpreted as either a "text", "number", "symbol", or "legend" depending on the given
-`style`. The widget will evaluate each of its phrases to determine which ones to draw values from:
+`style`. The widget will evaluate each of its clauses to determine which ones to draw values from:
 
-| Widget style | Phrase field used    | Details | Example
+| Widget style | Clause field used    | Details | Example
 |---           |---                   |---      |---
-| `"number"`   | `"value"`            | Lists values as comma-separated-values from all phrases that have true conditions. | `Next threshold: 30, 40, 55`
-| `"text"`     | `"text"`             | Lists text as comma-separated-values from all phrases that have true conditions. | `TORSO: bleeding, broken, infected`
-| `"symbol"`   | `"sym"`              | Lists syms sequentially from all phrases that have true conditions. | `TORSO: b%I`
-| `"legend"`   | `"sym"` and `"text"` | Lists syms and text in a paragraph format, with spaces between pairs, from all phrases that have true conditions. | `b bleeding  % broken  I infected`
+| `"number"`   | `"value"`            | Lists values as comma-separated-values from all clauses that have true conditions. | `Next threshold: 30, 40, 55`
+| `"text"`     | `"text"`             | Lists text as comma-separated-values from all clauses that have true conditions. | `TORSO: bleeding, broken, infected`
+| `"symbol"`   | `"sym"`              | Lists syms sequentially from all clauses that have true conditions. | `TORSO: b%I`
+| `"legend"`   | `"sym"` and `"text"` | Lists syms and text in a paragraph format, with spaces between pairs, from all clauses that have true conditions. | `b bleeding  % broken  I infected`
 
 Widgets using the `legend` style can be multiple lines high using a `height` > 1 (and optionally, the `W_DYNAMIC_HEIGHT` flag), so that the generated list can span the given vertical space.
 
-Some conditions can be specific to certain bodyparts. In order to simplify phrases, these conditions can pull from the parent widget's `bodypart` field (or `bodyparts` field if defining multiple). This allows the same phrases to be `copy-from`'d to multiple widgets, and each widget can display the phrases depending on whether its bodypart(s) passes the condition (assuming the condition relies on a bodypart).
+Some conditions can be specific to certain bodyparts. In order to simplify clauses, these conditions can pull from the parent widget's `bodypart` field (or `bodyparts` field if defining multiple). This allows the same clauses to be `copy-from`'d to multiple widgets, and each widget can display the clauses depending on whether its bodypart(s) passes the condition (assuming the condition relies on a bodypart).
 
 
-## Default phrase
+## Default clause
 
-Widgets can define a default phrase that will be used if none of the phrases in the `phrases`
+Widgets can define a default clause that will be used if none of the clauses in the `clauses`
 array pass their conditions:
 
 ```json
@@ -578,7 +572,7 @@ array pass their conditions:
   "type": "widget",
   "style": "text",
   "label": "Observation",
-  "phrases": [
+  "clauses": [
     {
       "text": "Good!",
       "color": "light_green",
@@ -590,7 +584,7 @@ array pass their conditions:
       "condition": { "u_has_trait": "UNOBSERVANT" }
     }
   ],
-  "default_phrase": {
+  "default_clause": {
     "text": "Neutral!",
     "color": "white"
   }
