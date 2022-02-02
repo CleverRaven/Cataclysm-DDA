@@ -520,7 +520,7 @@
     "reversible": true,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "distilling_cookbook", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "tools": [ [ [ "material_sand", 1 ] ] ],
+    "tools": [ [ [ "material_sand", -1 ] ] ],
     "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "components": [
       [ [ "pot", 1 ], [ "pot_copper", 1 ] ],

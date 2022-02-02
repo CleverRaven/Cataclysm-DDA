@@ -27,11 +27,11 @@
     "triggers": [
       [
         {
-          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 20 } ], "op": ">" },
+          "condition": { "compare_int": [ { "u_val": "morale" }, ">", { "const": 20 } ] },
           "msg_on": { "text": "You're so happy, you're glowing!", "rating": "mixed" }
         },
         {
-          "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 110 } ], "op": ">" },
+          "condition": { "compare_int": [ { "u_val": "hunger" }, ">", { "const": 110 } ] },
           "msg_on": { "text": "You're feeling hungry; time to lure some prey!", "rating": "mixed" }
         }
       ]
@@ -49,11 +49,11 @@
     "triggers": [
       [
         {
-          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 20 } ], "op": ">" },
+          "condition": { "compare_int": [ { "u_val": "morale" }, ">", { "const": 20 } ] },
           "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 110 } ], "op": ">" },
+          "condition": { "compare_int": [ { "u_val": "hunger" }, ">", { "const": 110 } ] },
           "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
         }
       ]
@@ -137,18 +137,13 @@
     "triggers": [
       [
         {
-          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": -50 } ], "op": "<" },
+          "condition": { "compare_int": [ { "u_val": "morale" }, "<", { "const": -50 } ] },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ],
       [
         {
-          "condition": {
-            "or": [
-              { "compare_int": [ { "u_val": "hour" }, { "const": 6 } ], "op": "<" },
-              { "compare_int": [ { "u_val": "hour" }, { "const": 21 } ], "op": ">" }
-            ]
-          },
+          "condition": { "or": [ { "compare_int": [ "hour", "<", { "const": 6 } ] }, { "compare_int": [ "hour", ">", { "const": 21 } ] } ] },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ]
@@ -167,12 +162,7 @@
     "triggers": [
       [
         {
-          "condition": {
-            "and": [
-              { "compare_int": [ { "u_val": "hour" }, { "const": 6 } ], "op": ">" },
-              { "compare_int": [ { "u_val": "hour" }, { "const": 21 } ], "op": "<" }
-            ]
-          },
+          "condition": { "and": [ { "compare_int": [ "hour", ">", { "const": 6 } ] }, { "compare_int": [ "hour", "<", { "const": 21 } ] } ] },
           "msg_on": { "text": "As the morning comes, you return back to normal.", "rating": "good" }
         }
       ]
@@ -273,7 +263,7 @@
     "category": [ "INSECT", "TROGLOBITE", "RAT" ],
     "enchantments": [
       {
-        "condition": { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": "<" },
+        "condition": { "compare_int": [ { "u_val": "pos_z" }, "<", { "const": 0 } ] },
         "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ]
       }
     ]
@@ -384,7 +374,7 @@
     "category": [ "BATRACHIAN" ],
     "enchantments": [
       {
-        "condition": { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": "<" },
+        "condition": { "compare_int": [ { "u_val": "pos_z" }, "<", { "const": 0 } ] },
         "values": [ { "value": "SLEEPY", "add": 20 } ]
       }
     ]
