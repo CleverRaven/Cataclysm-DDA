@@ -1307,7 +1307,7 @@
   {
     "id": "xl_qt_helm_close",
     "type": "ARMOR",
-    "name": { "str": "XL tempered steel close helm" },
+    "name": { "str": "XL tempered steel close helm", "str_pl": "XL tempered steel close helms" },
     "copy-from": "qt_helm_close",
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_qt_helm_close_raised", "menu_text": "Raise" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1316,7 +1316,7 @@
   {
     "id": "xl_qt_helm_close_raised",
     "type": "ARMOR",
-    "name": { "str": "XL tempered steel close helm (raised)" },
+    "name": { "str": "XL tempered steel close helm (raised)", "str_pl": "XL tempered steel close helms (raised)" },
     "copy-from": "qt_helm_close_raised",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_qt_helm_close", "menu_text": "Lower" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
