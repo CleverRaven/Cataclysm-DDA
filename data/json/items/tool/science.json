@@ -141,7 +141,7 @@
     "id": "engineering_robotics_kit",
     "type": "TOOL",
     "name": { "str": "robotics kit for young learners", "str_pl": "robotics kits for young learners" },
-    "description": "Build and program robots with this complete robotics engineering system. Using sensors, motors, a core controller, and hundreds of snap-together building pieces, you can follow the instructions to assemble 12 different robots. The versatile parts also allow you to make robots according to your own designs.",
+    "description": "Build and program robots with this complete robotics engineering system.  Using sensors, motors, a core controller, and hundreds of snap-together building pieces, you can follow the instructions to assemble 12 different robots.  The versatile parts also allow you to make robots according to your own designs.",
     "weight": "3200 g",
     "volume": "1500 ml",
     "price": 20000,
@@ -177,7 +177,7 @@
   {
     "id": "engineering_engine_kit",
     "type": "TOOL",
-    "name": { "str": "stirling engine kit", "str_pl": "stirling engine kits" },
+    "name": { "str": "stirling engine kit" },
     "description": "Stirling engine kit demonstrates principles behind the generation of electricity through the use of hot air.",
     "weight": "3200 g",
     "volume": "1500 ml",
