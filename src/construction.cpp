@@ -1297,6 +1297,18 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     return vpart_frame_vertical_2;
 }
 
+static vpart_id vpart_appliance_from_item( const itype_id &item_id )
+{
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.base_item == item_id && vp.has_flag( flag_APPLIANCE ) ) {
+            return vp.get_id();
+        }
+    }
+    debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
+    return vpart_frame_vertical_2;
+}
+
 void construct::done_vehicle( const tripoint &p )
 {
     std::string name = string_input_popup()
@@ -1332,7 +1344,6 @@ void construct::done_appliance( const tripoint &p )
         debugmsg( "error constructing vehicle" );
         return;
     }
-    const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
     const std::string &constrcut_id = get_avatar().activity.get_str_value( 0 );
 
     if( constrcut_id == STATIC( "app_wall_wiring" ) ) {
@@ -1340,6 +1351,7 @@ void construct::done_appliance( const tripoint &p )
         veh->name = _( "wall wiring" );
         veh->add_tag( flag_CANT_DRAG );
     } else {
+        const vpart_id &vpart = vpart_appliance_from_item( get_avatar().lastconsumed );
         veh->install_part( point_zero, vpart );
         veh->name = vpart->name();
     }
