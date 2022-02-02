@@ -114,7 +114,8 @@ enum class mod : int {
     ITEM_COVERAGE,
     ITEM_ATTACK_SPEED,
     ITEM_WET_PROTECTION,
-    NUM_MOD
+    NUM_MOD,
+    RECOIL //affects recoil when shooting
 };
 } // namespace enchant_vals
 
