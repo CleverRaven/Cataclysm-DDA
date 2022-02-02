@@ -1522,6 +1522,14 @@
     }
   },
   {
+    "id": "xl_lc_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel sabaton" },
+    "copy-from": "lc_sabaton",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "mc_sabaton",
     "type": "ARMOR",
     "name": { "str": "medium steel sabaton" },
@@ -1553,6 +1561,14 @@
         }
       ]
     }
+  },
+  {
+    "id": "xl_mc_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel sabaton" },
+    "copy-from": "mc_sabaton",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "hc_sabaton",
@@ -1588,6 +1604,14 @@
     }
   },
   {
+    "id": "xl_hc_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel sabaton" },
+    "copy-from": "hc_sabaton",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "ch_sabaton",
     "type": "ARMOR",
     "name": { "str": "hardened steel sabaton" },
@@ -1621,6 +1645,14 @@
     }
   },
   {
+    "id": "xl_ch_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened steel sabaton" },
+    "copy-from": "ch_sabaton",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "qt_sabaton",
     "type": "ARMOR",
     "name": { "str": "tempered steel sabaton" },
@@ -1652,5 +1684,13 @@
         }
       ]
     }
+  },
+  {
+    "id": "xl_qt_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered steel sabaton" },
+    "copy-from": "qt_sabaton",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   }
 ]
