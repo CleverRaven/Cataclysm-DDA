@@ -5,7 +5,6 @@
     "label": "Pain",
     "var": "pain",
     "style": "number",
-    "var_max": 60,
     "colors": [ "c_white", "c_yellow", "c_light_red", "c_red" ]
   },
   {

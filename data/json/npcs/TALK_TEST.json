@@ -877,111 +877,117 @@
     "id": "TALK_TEST_COMPARE_INT_OP",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
-      {
-        "text": "Two = five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 2 }, { "const": 5 } ], "op": "=" }
-      },
+      { "text": "Two = five.", "topic": "TALK_DONE", "condition": { "compare_int": [ { "const": 2 }, "=", { "const": 5 } ] } },
       {
         "text": "Two == five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 2 }, { "const": 5 } ], "op": "==" }
+        "condition": { "compare_int": [ { "const": 2 }, "==", { "const": 5 } ] }
       },
       {
         "text": "Two != five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 2 }, { "const": 5 } ], "op": "!=" }
+        "condition": { "compare_int": [ { "const": 2 }, "!=", { "const": 5 } ] }
       },
       {
         "text": "Two <= five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 2 }, { "const": 5 } ], "op": "<=" }
+        "condition": { "compare_int": [ { "const": 2 }, "<=", { "const": 5 } ] }
       },
       {
         "text": "Two >= five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 2 }, { "const": 5 } ], "op": ">=" }
+        "condition": { "compare_int": [ { "const": 2 }, ">=", { "const": 5 } ] }
       },
       {
         "text": "Two < five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 2 }, { "const": 5 } ], "op": "<" }
+        "condition": { "compare_int": [ { "const": 2 }, "<", { "const": 5 } ] }
       },
       {
         "text": "Two > five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 2 }, { "const": 5 } ], "op": ">" }
+        "condition": { "compare_int": [ { "const": 2 }, ">", { "const": 5 } ] }
       },
       {
         "text": "Five = five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 5 } ], "op": "=" }
+        "condition": { "compare_int": [ { "const": 5 }, "=", { "const": 5 } ] }
       },
       {
         "text": "Five == five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 5 } ], "op": "==" }
+        "condition": { "compare_int": [ { "const": 5 }, "==", { "const": 5 } ] }
       },
       {
         "text": "Five != five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 5 } ], "op": "!=" }
+        "condition": { "compare_int": [ { "const": 5 }, "!=", { "const": 5 } ] }
       },
       {
         "text": "Five <= five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 5 } ], "op": "<=" }
+        "condition": { "compare_int": [ { "const": 5 }, "<=", { "const": 5 } ] }
       },
       {
         "text": "Five >= five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 5 } ], "op": ">=" }
+        "condition": { "compare_int": [ { "const": 5 }, ">=", { "const": 5 } ] }
       },
       {
         "text": "Five < five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 5 } ], "op": "<" }
+        "condition": { "compare_int": [ { "const": 5 }, "<", { "const": 5 } ] }
       },
       {
         "text": "Five > five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 5 } ], "op": ">" }
+        "condition": { "compare_int": [ { "const": 5 }, ">", { "const": 5 } ] }
       },
       {
         "text": "Five = two.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 2 } ], "op": "=" }
+        "condition": { "compare_int": [ { "const": 5 }, "=", { "const": 2 } ] }
       },
       {
         "text": "Five == two.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 2 } ], "op": "==" }
+        "condition": { "compare_int": [ { "const": 5 }, "==", { "const": 2 } ] }
       },
       {
         "text": "Five != two.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 2 } ], "op": "!=" }
+        "condition": { "compare_int": [ { "const": 5 }, "!=", { "const": 2 } ] }
       },
       {
         "text": "Five <= two.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 2 } ], "op": "<=" }
+        "condition": { "compare_int": [ { "const": 5 }, "<=", { "const": 2 } ] }
       },
       {
         "text": "Five >= two.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 2 } ], "op": ">=" }
+        "condition": { "compare_int": [ { "const": 5 }, ">=", { "const": 2 } ] }
       },
       {
         "text": "Five < two.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 2 } ], "op": "<" }
+        "condition": { "compare_int": [ { "const": 5 }, "<", { "const": 2 } ] }
       },
       {
         "text": "Five > two.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "const": 5 }, { "const": 2 } ], "op": ">" }
+        "condition": { "compare_int": [ { "const": 5 }, ">", { "const": 2 } ] }
       }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_TAGS",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "Avatar tag is set to <u_val:test_var>.", "topic": "TALK_DONE" },
+      { "text": "NPC tag is set to <npc_val:test_var>.", "topic": "TALK_DONE" },
+      { "text": "Global tag is set to <global_val:test_var>.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -1008,220 +1014,220 @@
       {
         "text": "PC strength is five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "strength" }, { "const": 5 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "strength" }, "=", { "const": 5 } ] }
       },
       {
         "text": "PC dexterity is six.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "dexterity" }, { "const": 6 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "dexterity" }, "=", { "const": 6 } ] }
       },
       {
         "text": "PC intelligence is seven.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "intelligence" }, { "const": 7 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "intelligence" }, "=", { "const": 7 } ] }
       },
       {
         "text": "PC perception is eight.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "perception" }, { "const": 8 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "perception" }, "=", { "const": 8 } ] }
       },
       {
         "text": "NPC strength is nine.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "npc_val": "strength" }, { "const": 9 } ], "op": "=" }
+        "condition": { "compare_int": [ { "npc_val": "strength" }, "=", { "const": 9 } ] }
       },
       {
         "text": "NPC dexterity is ten.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "npc_val": "dexterity" }, { "const": 10 } ], "op": "=" }
+        "condition": { "compare_int": [ { "npc_val": "dexterity" }, "=", { "const": 10 } ] }
       },
       {
         "text": "NPC intelligence is eleven.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "npc_val": "intelligence" }, { "const": 11 } ], "op": "=" }
+        "condition": { "compare_int": [ { "npc_val": "intelligence" }, "=", { "const": 11 } ] }
       },
       {
         "text": "NPC perception is twelve.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "npc_val": "perception" }, { "const": 12 } ], "op": "=" }
+        "condition": { "compare_int": [ { "npc_val": "perception" }, "=", { "const": 12 } ] }
       },
       {
         "text": "PC Custom var is one.",
         "topic": "TALK_DONE",
         "condition": {
-          "compare_int": [ { "u_val": "var", "var_name": "test", "type": "test", "context": "var_compare_test" }, { "const": 1 } ],
-          "op": "="
+          "compare_int": [ { "u_val": "var", "var_name": "test", "type": "test", "context": "var_compare_test" }, "=", { "const": 1 } ]
         }
       },
       {
         "text": "NPC Custom var is two.",
         "topic": "TALK_DONE",
         "condition": {
-          "compare_int": [ { "npc_val": "var", "var_name": "test", "type": "test", "context": "var_compare_test" }, { "const": 2 } ],
-          "op": "="
+          "compare_int": [ { "npc_val": "var", "var_name": "test", "type": "test", "context": "var_compare_test" }, "=", { "const": 2 } ]
         }
       },
       {
         "text": "This is a u_var time test response for > 3_days.",
         "topic": "TALK_DONE",
         "condition": {
-          "compare_int": [ { "u_val": "var", "var_name": "test", "type": "test", "context": "var_time_test" }, { "time": "3 days" } ],
-          "op": ">"
+          "compare_int": [ { "u_val": "var", "var_name": "test", "type": "test", "context": "var_time_test" }, ">", { "time": "3 days" } ]
         }
       },
       {
         "text": "time_since_cataclysm > 3_days.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "time_since_cataclysm": "turns" }, { "time": "3 days" } ], "op": ">" }
+        "condition": { "compare_int": [ { "time_since_cataclysm": "turns" }, ">", { "time": "3 days" } ] }
       },
       {
         "text": "time_since_cataclysm in days > 3",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "time_since_cataclysm": "days" }, { "const": 3 } ], "op": ">" }
+        "condition": { "compare_int": [ { "time_since_cataclysm": "days" }, ">", { "const": 3 } ] }
       },
       {
         "text": "This is a time since u_var test response for > 3_days.",
         "topic": "TALK_DONE",
         "condition": {
-          "compare_int": [ { "u_val": "time_since_var", "var_name": "test", "type": "test", "context": "var_time_test" }, { "time": "3 days" } ],
-          "op": ">"
+          "compare_int": [
+            { "u_val": "time_since_var", "var_name": "test", "type": "test", "context": "var_time_test" },
+            ">",
+            { "time": "3 days" }
+          ]
         }
       },
       {
         "text": "Allies equals 1",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "allies" }, { "const": 1 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "allies" }, "=", { "const": 1 } ] }
       },
       {
         "text": "Cash equals 13",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "cash" }, { "const": 13 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "cash" }, "=", { "const": 13 } ] }
       },
       {
         "text": "Owed ammount equals 14",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "owed" }, { "const": 14 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "owed" }, "=", { "const": 14 } ] }
       },
       {
         "text": "Driving skill more than or equal to 5",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "skill_level", "skill": "driving" }, { "const": 5 } ], "op": ">=" }
+        "condition": { "compare_int": [ { "u_val": "skill_level", "skill": "driving" }, ">=", { "const": 5 } ] }
       },
       {
         "text": "A random number between 0 and 10 equals 11.",
         "topic": "TALK_DONE",
         "//": "Should never be true, kept here to show how the syntax is used.",
-        "condition": { "compare_int": [ { "rand": 10 }, { "const": 11 } ], "op": "=" }
+        "condition": { "compare_int": [ { "rand": 10 }, "=", { "const": 11 } ] }
       },
       {
         "text": "Temperature is 21.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "weather": "temperature" }, { "const": 21 } ], "op": "=" }
+        "condition": { "compare_int": [ { "weather": "temperature" }, "=", { "const": 21 } ] }
       },
       {
         "text": "Windpower is 15.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "weather": "windpower" }, { "const": 15 } ], "op": "=" }
+        "condition": { "compare_int": [ { "weather": "windpower" }, "=", { "const": 15 } ] }
       },
       {
         "text": "Humidity is 16.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "weather": "humidity" }, { "const": 16 } ], "op": "=" }
+        "condition": { "compare_int": [ { "weather": "humidity" }, "=", { "const": 16 } ] }
       },
       {
         "text": "Pressure is 17.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "weather": "pressure" }, { "const": 17 } ], "op": "=" }
+        "condition": { "compare_int": [ { "weather": "pressure" }, "=", { "const": 17 } ] }
       },
       {
         "text": "Pos_x is 18.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "pos_x" }, { "const": 18 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "pos_x" }, "=", { "const": 18 } ] }
       },
       {
         "text": "Pos_y is 19.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "pos_y" }, { "const": 19 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "pos_y" }, "=", { "const": 19 } ] }
       },
       {
         "text": "Pos_z is 20. This should be cause for alarm.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "pos_z" }, { "const": 20 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "pos_z" }, "=", { "const": 20 } ] }
       },
       {
         "text": "Pain level is 21.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "pain" }, { "const": 21 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "pain" }, "=", { "const": 21 } ] }
       },
       {
         "text": "Bionic power is 22.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "power" }, { "const": 22 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "power" }, "=", { "const": 22 } ] }
       },
       {
         "text": "Bionic power max is 44.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "power_max" }, { "const": 44 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "power_max" }, "=", { "const": 44 } ] }
       },
       {
         "text": "Bionic power is at 50%.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "power_percentage" }, { "const": 50 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "power_percentage" }, "=", { "const": 50 } ] }
       },
       {
         "text": "Morale is 23.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 23 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "morale" }, "=", { "const": 23 } ] }
       },
       {
         "text": "Focus is 24.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "focus" }, { "const": 24 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "focus" }, "=", { "const": 24 } ] }
       },
       {
         "text": "Mana is 25.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "mana" }, { "const": 25 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "mana" }, "=", { "const": 25 } ] }
       },
       {
         "text": "Mana max is 1000.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "mana_max" }, { "const": 1000 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "mana_max" }, "=", { "const": 1000 } ] }
       },
       {
         "text": "Mana is at 2%.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "mana_percentage" }, { "const": 2 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "mana_percentage" }, "=", { "const": 2 } ] }
       },
       {
         "text": "Hunger is 26.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 26 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "hunger" }, "=", { "const": 26 } ] }
       },
       {
         "text": "Thirst is 27.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "thirst" }, { "const": 27 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "thirst" }, "=", { "const": 27 } ] }
       },
       {
         "text": "Stored kcal is 55'000.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "stored_kcal" }, { "const": 55000 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "stored_kcal" }, "=", { "const": 55000 } ] }
       },
       {
         "text": "Stored kcal is at 100% of healthy.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "stored_kcal_percentage" }, { "const": 100 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "stored_kcal_percentage" }, "=", { "const": 100 } ] }
       },
       {
         "text": "Has 3 glass bottles.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "item_count", "item": "bottle_glass" }, { "const": 3 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "item_count", "item": "bottle_glass" }, "=", { "const": 3 } ] }
       },
       {
         "text": "Has more or equal to 35 experience.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "exp" }, { "const": 35 } ], "op": ">=" }
+        "condition": { "compare_int": [ { "u_val": "exp" }, ">=", { "const": 35 } ] }
       }
     ]
   },

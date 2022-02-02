@@ -262,5 +262,42 @@
     "id": "veh_kiln",
     "symbol": "&",
     "type": "vehicle_part"
+  },
+  {
+    "id": "veh_oil_press_electric",
+    "type": "vehicle_part",
+    "name": { "str": "mounted electric oil press" },
+    "item": "oil_press_electric",
+    "description": "A heavy duty press used to create vegetable oil from nuts or seeds.",
+    "categories": [ "utility" ],
+    "location": "center",
+    "symbol": "Y",
+    "broken_symbol": "x",
+    "color": "green",
+    "broken_color": "green",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 200,
+    "flags": [ "OBSTACLE", "CARGO" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "pseudo_tools": [ { "id": "oil_press_mounted" } ],
+    "size": 20,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 7 ] },
+      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "sheet_metal_small", "count": [ 4, 8 ] },
+      { "item": "scrap", "count": [ 4, 7 ] },
+      { "item": "element", "count": [ 0, 2 ] },
+      { "item": "pipe", "prob": 50 },
+      { "item": "motor_small", "prob": 25 }
+    ]
   }
 ]

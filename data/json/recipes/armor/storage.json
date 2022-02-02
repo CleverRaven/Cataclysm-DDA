@@ -18,6 +18,13 @@
     ]
   },
   {
+    "result": "XS_holster",
+    "type": "recipe",
+    "copy-from": "XL_holster",
+    "time": "4 h",
+    "using": [ [ "strap_small", 1 ], [ "tailoring_leather_small", 3 ], [ "clasps", 1 ] ]
+  },
+  {
     "result": "ammo_satchel",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -88,6 +95,14 @@
     "reversible": true,
     "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "strap_small", 1 ], [ "clasps", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
+  },
+  {
+    "result": "xs_chestrig",
+    "type": "recipe",
+    "copy-from": "chestrig",
+    "time": "2 h",
+    "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "strap_small", 1 ], [ "clasps", 2 ] ],
     "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
   {
@@ -379,6 +394,19 @@
     "components": [ [ [ "rope_natural_short", 1, "LIST" ] ] ]
   },
   {
+    "result": "single_sling",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "45 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "tailoring_nylon", 1 ], [ "clasps", 3 ] ]
+  },
+  {
     "result": "bscabbard",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -444,6 +472,14 @@
     "autolearn": true,
     "using": [ [ "tailoring_nylon", 5 ], [ "plastic_molding", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_plasticworking" } ],
+    "components": [ [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
+  },
+  {
+    "result": "xs_tacvest",
+    "type": "recipe",
+    "copy-from": "tacvest",
+    "time": "10 h",
+    "using": [ [ "tailoring_nylon", 3 ], [ "plastic_molding", 1 ] ],
     "components": [ [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
   },
   {
@@ -1102,6 +1138,14 @@
     "components": [ [ [ "rag", 6 ] ], [ [ "holster", 1 ], [ "sholster", 1 ] ], [ [ "leather_pouch", 3 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
+    "result": "xs_survivor_vest",
+    "type": "recipe",
+    "copy-from": "survivor_vest",
+    "time": "12 h",
+    "using": [ [ "sewing_standard", 75 ], [ "tailoring_leather_small", 4 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "rag", 5 ] ], [ [ "holster", 1 ], [ "sholster", 1 ] ], [ [ "leather_pouch", 2 ] ], [ [ "duct_tape", 38 ] ] ]
+  },
+  {
     "result": "xl_survivor_vest",
     "type": "recipe",
     "copy-from": "survivor_vest",
@@ -1321,6 +1365,14 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_leatherworking_basic" }
     ],
+    "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "rifle_case_xs_soft_leather",
+    "type": "recipe",
+    "copy-from": "rifle_case_soft_leather",
+    "time": "5 h",
+    "using": [ [ "tailoring_leather_small", 3 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
   {

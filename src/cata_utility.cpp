@@ -395,7 +395,7 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
 
                 ret = inflate( &zs, 0 );
 
-                if( outstring.size() < zs.total_out ) {
+                if( outstring.size() < static_cast<size_t>( zs.total_out ) ) {
                     outstring.append( outbuffer,
                                       zs.total_out - outstring.size() );
                 }

@@ -162,7 +162,8 @@
           "x": [ 0, 22 ],
           "y": [ 0, 22 ]
         }
-      ]
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]

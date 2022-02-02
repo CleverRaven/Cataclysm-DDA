@@ -21,5 +21,22 @@
     },
     "display_items": false,
     "display_field": true
+  },
+  {
+    "//": "It gets close to absolute zero here",
+    "id": "afs_heat_drain_field",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "cold air", "sym": "&", "convection_temperature_mod": -350 },
+      { "name": "frozen air", "color": "blue", "convection_temperature_mod": -300 },
+      { "name": "frozen air", "color": "cyan", "convection_temperature_mod": -400 }
+    ],
+    "description_affix": "covered_in",
+    "underwater_age_speedup": "10 seconds",
+    "decay_amount_factor": 2,
+    "half_life": "15 seconds",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": false
   }
 ]

@@ -63,6 +63,7 @@
         "    ................    ",
         "       ..........       "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "long_grass_meadow_palette" ]
     }
   },
@@ -86,6 +87,7 @@
         ".,,,,.",
         " .... "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "long_grass_meadow_palette" ]
     }
   },
@@ -105,6 +107,7 @@
         "..,,,,..",
         " ...... "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "long_grass_meadow_palette" ]
     }
   },
@@ -139,6 +142,7 @@
         "    ................    ",
         "       ..........       "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "copse_trees_palette" ]
     }
   },
@@ -162,6 +166,7 @@
         ".,,,,.",
         " .... "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "copse_trees_palette" ]
     }
   },
@@ -181,6 +186,7 @@
         "..,,,,..",
         " ...... "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "copse_trees_palette" ]
     }
   },
@@ -219,6 +225,7 @@
         "-_________|",
         "--||||||-||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "desolatebarn_palette" ],
       "terrain": { "_": "t_dirt" },
       "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ] },
@@ -244,6 +251,7 @@
         "-__RRR_w",
         "--w||-||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "desolatebarn_palette" ],
       "terrain": { "_": "t_dirt" },
       "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ] },
@@ -260,7 +268,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ " " ],
-      "terrain": { " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { " ": [ [ "f_region_water_plant", 10 ], "f_boulder_small", "f_boulder_medium", "f_boulder_large", "f_rubble_rock" ] }
     }
   },
@@ -271,7 +279,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ " " ],
-      "terrain": { " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { " ": [ "f_boulder_small", "f_boulder_medium", "f_boulder_large", "f_rubble_rock" ] }
     }
   },
@@ -306,15 +314,14 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "nested": {
         "*": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
         "[": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
         "]": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
         "~": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] }
       },
-      "furniture": { "~": "f_clear", "*": "f_clear", "[": "f_clear", "]": "f_clear" },
       "terrain": {
-        " ": [ [ "t_dirt", 3 ], [ "t_grass", 3 ], "t_shrub", [ "t_tree_young", 2 ], [ "t_tree", 2 ] ],
         "*": "t_water_sh",
         "?": [
           [ "t_water_sh", 3 ],
@@ -367,6 +374,7 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "nested": {
         "*": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
         "[": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
@@ -375,7 +383,6 @@
       },
       "furniture": { "~": "f_clear", "*": "f_clear", "[": "f_clear", "]": "f_clear" },
       "terrain": {
-        " ": [ [ "t_dirt", 3 ], [ "t_grass", 3 ], "t_shrub", [ "t_tree_young", 2 ], "t_tree" ],
         "*": "t_water_sh",
         "?": [
           [ "t_water_sh", 3 ],
@@ -401,43 +408,73 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "pond_dirt",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "terrain": { " ": "t_dirt" } }
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ], "terrain": { " ": "t_dirt" } }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "pond_grass",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "terrain": { " ": "t_grass" } }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { " ": "t_grass" }
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "pond_shrub",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "terrain": { " ": "t_shrub" } }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_shrub" }
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "pond_underbrush",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "terrain": { " ": "t_underbrush" } }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_underbrush" }
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "pond_tree",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "terrain": { " ": "t_tree" } }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_tree" }
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "pond_tree_young",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "terrain": { " ": "t_tree_young" } }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_tree_young" }
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "pond_tree_willow",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "terrain": { " ": "t_tree_willow" } }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_tree_willow" }
+    }
   },
   {
     "type": "mapgen",
@@ -446,6 +483,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { " ": "t_swater_sh" },
       "furniture": { " ": [ "f_region_water_plant", [ "f_null", 10 ] ] }
     }
@@ -457,6 +495,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { " ": "t_swater_dp" },
       "furniture": { " ": [ "f_region_water_plant", [ "f_null", 10 ] ] }
     }

@@ -209,6 +209,7 @@
   {
     "type": "palette",
     "id": "house_w_nest_garden_palette",
+    "remove_all": { "Z": {  } },
     "terrain": {
       ".": "t_region_groundcover_urban",
       "A": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],

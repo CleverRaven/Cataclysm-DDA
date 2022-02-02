@@ -1288,6 +1288,28 @@
   },
   {
     "type": "terrain",
+    "id": "t_pit_straw",
+    "name": "pit filled with straw",
+    "symbol": "#",
+    "description": "A shallow pit filled with some straw.  Very crude.  Itchy and uncomfortable but better than the bare ground.",
+    "color": "yellow",
+    "move_cost": 2,
+    "coverage": 35,
+    "comfort": 1,
+    "floor_bedding_warmth": 100,
+    "deconstruct": { "items": [ { "item": "straw_pile", "count": [ 55, 60 ] } ], "ter_set": "t_pit_shallow" },
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "crunch!",
+      "sound_fail": "brush.",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "straw_pile", "count": [ 30, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_improvised_shelter",
     "name": "improvised shelter",
     "description": "Improvised shelter providing little bit of protection, that can be used to take refuge from the elements or to protect a campfire from the rain.",
@@ -1296,9 +1318,19 @@
     "looks_like": "t_leanto",
     "move_cost": 2,
     "coverage": 30,
-    "floor_bedding_warmth": 1500,
+    "floor_bedding_warmth": 1000,
     "comfort": 3,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "REDUCE_SCENT",
+      "INDOORS",
+      "MOUNTABLE",
+      "HIDE_PLACE",
+      "EASY_DECONSTRUCT"
+    ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1306,6 +1338,41 @@
       "sound_fail": "brush.",
       "ter_set": "t_pit_shallow",
       "items": [ { "item": "stick", "count": [ 3, 6 ] }, { "item": "pine_bough", "count": [ 6, 18 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_improvised_shelter_filled",
+    "name": "improvised shelter",
+    "description": "Improvised shelter which has been made a bit more comfortable by filling it with dry plant matter, which should provide some more insulation.  Trying to contain a fire here would be a bad idea.",
+    "symbol": "#",
+    "color": "brown_green",
+    "looks_like": "t_leanto",
+    "floor_bedding_warmth": 1200,
+    "comfort": 4,
+    "move_cost": 2,
+    "coverage": 30,
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "THIN_OBSTACLE",
+      "REDUCE_SCENT",
+      "INDOORS",
+      "MOUNTABLE",
+      "HIDE_PLACE",
+      "EASY_DECONSTRUCT"
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_pit_shallow",
+      "items": [
+        { "item": "stick", "count": [ 3, 6 ] },
+        { "item": "pine_bough", "count": [ 6, 18 ] },
+        { "item": "withered", "count": [ 40, 60 ] }
+      ]
     }
   },
   {
@@ -1356,5 +1423,26 @@
       "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_standing_pressure_tank",
+    "name": "standing propane tank",
+    "description": "A huge metal tank that can be used to safely store large amounts of propane.",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "LIQUIDCONT" ],
+    "examine_action": "gaspump",
+    "deconstruct": { "items": [ { "item": "large_propane_tank", "count": 3 } ] },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 8, 32 ] } ]
+    }
   }
 ]

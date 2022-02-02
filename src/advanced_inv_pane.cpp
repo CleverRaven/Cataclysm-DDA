@@ -394,6 +394,16 @@ void advanced_inventory_pane::scroll_category( int offset )
     }
 }
 
+void advanced_inventory_pane::scroll_to_start()
+{
+    index = 0;
+}
+
+void advanced_inventory_pane::scroll_to_end()
+{
+    index = static_cast<int>( items.size() ) - 1;
+}
+
 advanced_inv_listitem *advanced_inventory_pane::get_cur_item_ptr()
 {
     if( static_cast<size_t>( index ) >= items.size() ) {

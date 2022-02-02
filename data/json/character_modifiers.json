@@ -106,6 +106,13 @@
   },
   {
     "type": "character_mod",
+    "id": "limb_fall_mod",
+    "description": "Fall damage modifier",
+    "mod_type": "x",
+    "value": { "builtin": "limb_fall_mod" }
+  },
+  {
+    "type": "character_mod",
     "id": "limb_str_mod",
     "description": "Strength modifier",
     "mod_type": "x",
