@@ -68,6 +68,7 @@ static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
+static const bionic_id bio_faulty_powercell( "bio_faulty_powercell" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_asthma( "asthma" );
@@ -1283,6 +1284,11 @@ void suffer::from_bad_bionics( Character &you )
         you.get_power_level() >= you.get_max_power_level() * .75 ) {
         you.mod_str_bonus( -3 );
     }
+    if( you.has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
+        you.add_msg_if_player( m_bad, _( "Your power cell releases a burst of energy!" ) );
+        you.mod_rad( 1 );
+        you.mod_power_level( bio_faulty_powercell->power_trigger );
+    }    
 }
 
 void suffer::from_stimulants( Character &you, const int current_stim )
