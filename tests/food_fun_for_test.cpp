@@ -16,6 +16,12 @@
 
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_flu( "flu" );
+
+static const trait_id trait_GOURMAND( "GOURMAND" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 
@@ -46,8 +52,8 @@ TEST_CASE( "fun for food eaten while sick", "[fun_for][food][sick]" )
     int toastem_fun = toastem.get_comestible_fun();
 
     WHEN( "character has a cold" ) {
-        dummy.add_effect( efftype_id( "common_cold" ), 1_days );
-        REQUIRE( dummy.has_effect( efftype_id( "common_cold" ) ) );
+        dummy.add_effect( effect_common_cold, 1_days );
+        REQUIRE( dummy.has_effect( effect_common_cold ) );
 
         THEN( "it is much less fun to eat" ) {
             actual_fun = dummy.fun_for( toastem );
@@ -56,8 +62,8 @@ TEST_CASE( "fun for food eaten while sick", "[fun_for][food][sick]" )
     }
 
     WHEN( "character has the flu" ) {
-        dummy.add_effect( efftype_id( "flu" ), 1_days );
-        REQUIRE( dummy.has_effect( efftype_id( "flu" ) ) );
+        dummy.add_effect( effect_flu, 1_days );
+        REQUIRE( dummy.has_effect( effect_flu ) );
 
         THEN( "it is much less fun to eat" ) {
             actual_fun = dummy.fun_for( toastem );
@@ -80,8 +86,8 @@ TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
         REQUIRE( nuts.rotten() );
 
         WHEN( "character has normal tastes" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "SAPROPHAGE" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_SAPROPHAGE ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_SAPROVORE ) );
 
             THEN( "they don't like rotten food" ) {
                 actual_fun = dummy.fun_for( nuts );
@@ -90,8 +96,8 @@ TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
         }
 
         WHEN( "character is a saprophage" ) {
-            dummy.toggle_trait( trait_id( "SAPROPHAGE" ) );
-            REQUIRE( dummy.has_trait( trait_id( "SAPROPHAGE" ) ) );
+            dummy.toggle_trait( trait_SAPROPHAGE );
+            REQUIRE( dummy.has_trait( trait_SAPROPHAGE ) );
 
             THEN( "they like rotten food" ) {
                 actual_fun = dummy.fun_for( nuts );
@@ -99,8 +105,8 @@ TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
             }
         }
         WHEN( "character is a saprovore" ) {
-            dummy.toggle_trait( trait_id( "SAPROVORE" ) );
-            REQUIRE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
+            dummy.toggle_trait( trait_SAPROVORE );
+            REQUIRE( dummy.has_trait( trait_SAPROVORE ) );
 
             THEN( "they like rotten food" ) {
                 actual_fun = dummy.fun_for( nuts );
@@ -309,7 +315,7 @@ TEST_CASE( "fun for gourmand", "[fun_for][food][gourmand]" )
         REQUIRE( toastem_fun > 0 );
 
         WHEN( "character is not a gourmand" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "GOURMAND" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_GOURMAND ) );
 
             THEN( "it tastes just as good as normal" ) {
                 actual_fun = dummy.fun_for( toastem );
@@ -317,8 +323,8 @@ TEST_CASE( "fun for gourmand", "[fun_for][food][gourmand]" )
             }
         }
         WHEN( "character is a gourmand" ) {
-            dummy.toggle_trait( trait_id( "GOURMAND" ) );
-            REQUIRE( dummy.has_trait( trait_id( "GOURMAND" ) ) );
+            dummy.toggle_trait( trait_GOURMAND );
+            REQUIRE( dummy.has_trait( trait_GOURMAND ) );
 
             THEN( "it tastes better than normal" ) {
                 actual_fun = dummy.fun_for( toastem );
@@ -335,7 +341,7 @@ TEST_CASE( "fun for gourmand", "[fun_for][food][gourmand]" )
         REQUIRE( garlic_fun < -1 );
 
         WHEN( "character is not a gourmand" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "GOURMAND" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_GOURMAND ) );
 
             THEN( "it tastes just as bad as normal" ) {
                 actual_fun = dummy.fun_for( garlic );
@@ -344,8 +350,8 @@ TEST_CASE( "fun for gourmand", "[fun_for][food][gourmand]" )
         }
 
         WHEN( "character is a gourmand" ) {
-            dummy.toggle_trait( trait_id( "GOURMAND" ) );
-            REQUIRE( dummy.has_trait( trait_id( "GOURMAND" ) ) );
+            dummy.toggle_trait( trait_GOURMAND );
+            REQUIRE( dummy.has_trait( trait_GOURMAND ) );
 
             THEN( "it still tastes bad, but not as bad as normal" ) {
                 actual_fun = dummy.fun_for( garlic );
@@ -414,7 +420,7 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
 
         AND_GIVEN( "character has a taste modifier CBM" ) {
             dummy.set_max_power_level( 1000_kJ );
-            give_and_activate_bionic( dummy, bionic_id( "bio_taste_blocker" ) );
+            give_and_activate_bionic( dummy, bio_taste_blocker );
             REQUIRE( dummy.has_active_bionic( bio_taste_blocker ) );
 
             WHEN( "it does not have enough power" ) {

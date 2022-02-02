@@ -26,11 +26,17 @@
       }
     ],
     "armor_data": {
-      "material_thickness": 2,
-      "material": [ "plastic" ],
-      "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "30gal_barrel",
@@ -162,8 +168,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_paper_powder",
@@ -188,8 +193,7 @@
     ],
     "material": [ "paper" ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "white"
   },
   {
     "id": "bag_zipper",
@@ -214,8 +218,7 @@
       }
     ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_zipper_gallon",
@@ -262,8 +265,7 @@
         "moves": 400
       }
     ],
-    "color": "dark_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "dark_gray"
   },
   {
     "id": "bag_iv",
@@ -288,8 +290,7 @@
         "max_contains_weight": "3 kg",
         "moves": 400
       }
-    ],
-    "flags": [ "TRADER_AVOID" ]
+    ]
   },
   {
     "id": "bottle_glass",
@@ -447,7 +448,7 @@
     "id": "bottle_plastic_pill_supplement",
     "type": "GENERIC",
     "copy-from": "bottle_plastic_pill_prescription",
-    "name": { "str": "plastic suppliment bottle" },
+    "name": { "str": "plastic supplement bottle" },
     "looks_like": "vitamins",
     "description": "A small green pill bottle with a screw top.",
     "color": "green"
@@ -691,7 +692,19 @@
         "max_contains_weight": "20 kg"
       }
     ],
-    "armor_data": { "material_thickness": 1, "material": [ "cotton", "plastic" ], "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "coverage": 30,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
     "flags": [ "BELTED" ]
   },
   {
@@ -904,10 +917,17 @@
     ],
     "armor_data": {
       "sided": true,
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ], "material": [ "plastic" ] } ]
+      "armor": [
+        {
+          "encumbrance": 2,
+          "coverage": 5,
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ],
+          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ]
+        }
+      ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "thermos",
@@ -1207,12 +1227,17 @@
     ],
     "armor_data": {
       "sided": true,
-      "material_thickness": 1,
-      "material": [ "iron" ],
-      "armor": [ { "coverage": 2, "covers": [ "leg_l", "leg_r" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "iron", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "coverage": 2,
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+        }
+      ]
     },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "jar_3l_glass_sealed",
@@ -1536,11 +1561,17 @@
       }
     ],
     "armor_data": {
-      "material_thickness": 2,
-      "material": [ "wood" ],
-      "armor": [ { "encumbrance": 5, "coverage": 5, "covers": [ "torso" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 5,
+          "coverage": 5,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
     },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "stomach_sealed",
@@ -1594,11 +1625,16 @@
     ],
     "armor_data": {
       "sided": true,
-      "material_thickness": 2,
-      "material": [ "leather" ],
-      "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+      "armor": [
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "coverage": 5,
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+        }
+      ]
     },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin2",
@@ -1625,8 +1661,17 @@
         "max_contains_weight": "6 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "material": [ "leather" ], "armor": [ { "coverage": 10, "covers": [ "torso" ] } ] },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin3",
@@ -1653,7 +1698,16 @@
         "max_contains_weight": "10 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "material": [ "leather" ], "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "coverage": 40,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1697,8 +1751,7 @@
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
-    "flags": [ "TRADER_AVOID" ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ]
   },
   {
     "id": "wrapper_pr",
@@ -1825,7 +1878,7 @@
     "category": "container",
     "name": { "str": "survival kit box", "str_pl": "survival kit boxes" },
     "looks_like": "box_small",
-    "description": "An aluminum box that used to contain a small survival kit.",
+    "description": "An aluminum box designed to contain a small survival kit.",
     "weight": "800 g",
     "volume": "2300 ml",
     "price": 0,
@@ -1882,7 +1935,7 @@
     "category": "container",
     "name": { "str": "first aid kit box", "str_pl": "first aid kit boxes" },
     "looks_like": "ifak_pouch",
-    "description": "A plastic box that used to contain a first aid kit.",
+    "description": "A plastic box designed to contain a first aid kit.",
     "weight": "50 g",
     "volume": "2900 ml",
     "price": 0,
@@ -1908,14 +1961,14 @@
     "category": "container",
     "name": { "str": "IFAK pouch", "str_pl": "IFAK pouches" },
     "looks_like": "1st_aid_box",
-    "description": "A fabric pouch that used to contain an IFAK.",
+    "description": "A fabric pouch designed to contain a personalized trauma kit.  These supplies are used to address immediate life-threatening conditions.",
     "weight": "5 g",
     "volume": "1250 ml",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -2,
     "material": [ "cotton", "neoprene" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
+    "flags": [ "COLLAPSE_CONTENTS", "PALS_MEDIUM" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1933,7 +1986,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "radio car box", "str_pl": "radio car boxes" },
-    "description": "An RC car, with radio-control and batteries included!  Unpack and enjoy.",
+    "description": "A small box with an image of a toy car printed on the front.  The text written on the side says it comes with remote control and batteries included.",
     "weight": "400 g",
     "volume": "3200 ml",
     "price": 0,
@@ -2021,7 +2074,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2831 ml",
+        "max_contains_volume": "2749 ml",
         "max_contains_weight": "4 kg",
         "airtight": true,
         "moves": 200,
@@ -2085,5 +2138,117 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "small_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "small propane tank" },
+    "//": "1 gallon tank.",
+    "description": "This is a small tank of propane, commonly used for camping stoves and torches.",
+    "weight": "907 g",
+    "volume": "5030 ml",
+    "longest_side": "21 cm",
+    "price": 2000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 5,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 30 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "GAS_TANK" ]
+  },
+  {
+    "id": "medium_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "medium propane tank" },
+    "//": "5 gallon tank.",
+    "description": "This is a medium tank of propane, commonly used for barbeques.",
+    "weight": "4082 g",
+    "volume": "13600 ml",
+    "longest_side": "381 mm",
+    "price": 2000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 5,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 75 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "GAS_TANK" ]
+  },
+  {
+    "id": "large_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "large propane tank" },
+    "//": "20 gallon tank.",
+    "description": "This is a large tank of propane, commonly used for heating.",
+    "weight": "8164 g",
+    "volume": "44 L",
+    "longest_side": "46 cm",
+    "price": 6000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 302 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "GAS_TANK" ]
+  },
+  {
+    "id": "xl_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "extra large propane tank" },
+    "//": "100 gallon tank.",
+    "description": "This is a massive tank of propane, commonly used for a home or vehicle.",
+    "weight": "132 kg",
+    "volume": "44 L",
+    "longest_side": "46 cm",
+    "price": 6000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 1510 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "GAS_TANK" ]
   }
 ]

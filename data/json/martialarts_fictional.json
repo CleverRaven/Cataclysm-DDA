@@ -65,7 +65,7 @@
       "tec_biojutsu_takedown",
       "tec_biojutsu_wide"
     ],
-    "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
+    "weapon_category": [ "BIONIC_WEAPONRY", "CLAWS" ]
   },
   {
     "type": "martial_art",
@@ -295,7 +295,7 @@
     "type": "martial_art",
     "id": "style_venom_snake",
     "name": { "str": "Viper Kung Fu" },
-    "description": "A legacy of the Five Deadly Venoms, use by Qi Dong.  Viper Style (originally called Snake Style) has a unique three-part combo, which initiates on a dodge, then follows up with a stunning Viper Bite and then finishes with the legendary Viper Strike.",
+    "description": "A legacy of the Five Deadly Venoms, use by Qi Dong.  Viper Style (originally called Snake Style) is punishing to stunned opponents.  A stunning a foe with a Viper Bite will allow you to finish them off with the legendary Viper Strike.",
     "initiate": [ "You prepare to strike your foes' weaknesses.", "%s assumes a viper-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 1,
@@ -303,35 +303,44 @@
       {
         "id": "buff_venom_snake_static",
         "name": "Viper's Patience",
-        "description": "Every snake waits for the perfect moment to strike.  Turn your opponents' mistakes into your opportunity to strike!\n\n+1.0 Dodge skill.",
+        "description": "Every snake waits for the perfect moment to strike.  Turn your opponents' mistakes into your opportunity to strike!\n\n+1 Accuracy, +5% Critical Hit Chance.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+        "bonus_dodges": 1,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "crit_chance", "scale": 5.0 } ]
       }
     ],
-    "ondodge_buffs": [
+    "oncrit_buffs": [
       {
-        "id": "buff_venom_snake_ondodge1",
-        "name": "Viper's Ambush",
-        "description": "Your evasiveness has left your opponent wide open to painful bite.\n\nEnables \"Viper Bite\" technique.\nLasts 1 turn.",
-        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
-        "unarmed_allowed": true,
-        "buff_duration": 1
-      },
-      {
-        "id": "buff_venom_snake_ondodge2",
+        "id": "buff_venom_snake_oncrit",
         "name": "Viper's Venom",
-        "description": "Your venom is a harsh reminder to never tease a predator.\n\n+2 bash damage.\nLasts 3 turn.",
+        "description": "Your venom is a harsh reminder to never tease a predator.\n\n+15% damage.\nLasts 4 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
+        "buff_duration": 4,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.15 },
+          { "stat": "damage", "type": "cut", "scale": 1.15 },
+          { "stat": "damage", "type": "stab", "scale": 1.15 }
+        ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_venom_snake_onhit",
+        "name": "Viper's Rattle",
+        "description": "You are terrifying monster on the battlefield!  Opponents will have a harder time fighting back.\n\n+1 Accuracy, +1.0 Dodging skill.\nLasts 3 turns.  Stacks 2 times",
+        "unarmed_allowed": true,
+        "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "buff_duration": 3,
-        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "dodge", "scale": 1.0 } ]
       }
     ],
     "techniques": [
       "tec_venom_snake_rapid",
       "tec_venom_snake_feint",
-      "tec_venom_snake_break",
       "tec_venom_snake_bite",
+      "tec_venom_snake_tail",
       "tec_venom_snake_strike"
     ]
   },
@@ -429,7 +438,7 @@
     "type": "technique",
     "id": "tec_lizard_tail",
     "name": "Lizard Tail",
-    "messages": [ "You leap andkick %s", "<npcname> leaps and kicks %s" ],
+    "messages": [ "You leap and kick %s", "<npcname> leaps and kicks %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
@@ -465,7 +474,7 @@
     "id": "tec_venom_snake_feint",
     "name": "Viper Hiss",
     "messages": [ "You hiss threateningly at %s", "<npcname> hisses threateningly at %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
@@ -491,33 +500,32 @@
     "messages": [ "You lash out at %s with a Viper Bite", "<npcname> lash out at %s with a Viper Bite" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
-    "required_buffs_all": [ "buff_venom_snake_ondodge1" ],
     "crit_tec": true,
     "stun_dur": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_venom_snake_tail",
+    "name": "Viper Tail",
+    "messages": [ "You beat %s down with a powerful Viper Tail", "<npcname> beats %s down with a powerful Viper Tail" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "stunned_target": true,
+    "weighting": 2,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
   },
   {
     "type": "technique",
     "id": "tec_venom_snake_strike",
     "name": "Viper Strike",
-    "messages": [ "You hit %s with a spectacular Viper Strike", "<npcname> hits %s with a spectacular Viper Strike" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "messages": [ "You devastate %s with a spectacular Viper Strike", "<npcname> devastates %s with a spectacular Viper Strike" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "stunned_target": true,
     "weighting": 2,
-    "crit_ok": true,
+    "crit_tec": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_venom_snake_break",
-    "name": "Viper Writhe",
-    "messages": [ "The %s tries to grab you, but you writhe free!", "The %s tries to grab <npcname>, but they writhe free!" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "defensive": true,
-    "grab_break": true
   },
   {
     "type": "technique",

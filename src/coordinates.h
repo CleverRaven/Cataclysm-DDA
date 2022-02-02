@@ -190,6 +190,14 @@ class coord_point
             return coord_point( l.raw() + r );
         }
 
+        friend inline coord_point operator+( const point &l, const coord_point &r ) {
+            return coord_point( l + r.raw() );
+        }
+
+        friend inline coord_point operator+( const tripoint &l, const coord_point &r ) {
+            return coord_point( l + r.raw() );
+        }
+
         friend inline coord_point operator-( const coord_point &l, const point &r ) {
             return coord_point( l.raw() - r );
         }
@@ -435,16 +443,16 @@ template<scale FineScale, origin Origin, scale CoarseScale>
 inline auto project_bounds( const coord_point<point, Origin, CoarseScale> &coarse )
 {
     constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
-    return inclusive_rectangle<coord_point<point, Origin, FineScale>>( project_to<FineScale>( coarse ),
-            project_to<FineScale>( coarse + one ) - one );
+    return half_open_rectangle<coord_point<point, Origin, FineScale>>(
+               project_to<FineScale>( coarse ), project_to<FineScale>( coarse + one ) );
 }
 
 template<scale FineScale, origin Origin, scale CoarseScale>
 inline auto project_bounds( const coord_point<tripoint, Origin, CoarseScale> &coarse )
 {
     constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
-    return inclusive_cuboid<coord_point<tripoint, Origin, FineScale>>( project_to<FineScale>( coarse ),
-            project_to<FineScale>( coarse + one ) - one );
+    return half_open_cuboid<coord_point<tripoint, Origin, FineScale>>(
+               project_to<FineScale>( coarse ), project_to<FineScale>( coarse + one ) );
 }
 
 } // namespace coords

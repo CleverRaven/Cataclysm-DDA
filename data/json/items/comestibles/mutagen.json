@@ -4,7 +4,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "abstract mutagen flavor" },
     "description": "A rare substance of uncertain origins.  Causes you to mutate.",
-    "price": 100000,
+    "price": 250000,
     "price_postapoc": 50,
     "//": "Not commercially traded, in case there was any question.",
     "comestible_type": "DRINK",
@@ -51,7 +51,8 @@
     "healthy": -10,
     "stim": -10,
     "addiction_potential": 12,
-    "use_action": { "type": "mutagen_iv" }
+    "use_action": { "type": "mutagen_iv" },
+    "vitamins": [ [ "mutagen", 500 ] ]
   },
   {
     "id": "iv_mutagen_alpha",
@@ -59,7 +60,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "alpha serum" },
     "description": "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it… if you really want to?",
-    "price": 1000000,
+    "price": 2500000,
     "color": "red",
     "healthy": -4,
     "use_action": { "type": "mutagen_iv", "mutation_category": "ALPHA" }
@@ -71,7 +72,8 @@
     "name": { "str": "beast serum" },
     "description": "A super-concentrated mutagen as red as a matador's cape.  You need a syringe to inject it… if you really want to?",
     "color": "red",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "BEAST" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "BEAST" },
+    "vitamins": [ [ "mutagen_beast", 500 ] ]
   },
   {
     "id": "iv_mutagen_bird",
@@ -80,7 +82,8 @@
     "name": { "str": "bird serum" },
     "description": "A super-concentrated mutagen the color of the pre-Cataclysmic skies.  You need a syringe to inject it… if you really want to?",
     "color": "cyan",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "BIRD" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "BIRD" },
+    "vitamins": [ [ "mutagen_bird", 500 ] ]
   },
   {
     "id": "iv_mutagen_cattle",
@@ -89,7 +92,8 @@
     "name": { "str": "cattle serum" },
     "description": "A super-concentrated mutagen the color of grass.  You need a syringe to inject it… if you really want to?",
     "color": "light_green",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "CATTLE" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "CATTLE" },
+    "vitamins": [ [ "mutagen_cattle", 500 ] ]
   },
   {
     "id": "iv_mutagen_cephalopod",
@@ -98,7 +102,8 @@
     "name": { "str": "cephalopod serum" },
     "description": "A super-concentrated mutagen as black as ink.  You need a syringe to inject it… if you really want to?",
     "color": "dark_gray",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "CEPHALOPOD" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "CEPHALOPOD" },
+    "vitamins": [ [ "mutagen_cephalopod", 500 ] ]
   },
   {
     "id": "iv_mutagen_chimera",
@@ -111,7 +116,8 @@
     "healthy": -15,
     "stim": -10,
     "addiction_potential": 4,
-    "use_action": { "type": "mutagen_iv", "mutation_category": "CHIMERA" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "CHIMERA" },
+    "vitamins": [ [ "mutagen_chimera", 500 ] ]
   },
   {
     "id": "iv_mutagen_elfa",
@@ -121,7 +127,8 @@
     "description": "A super-concentrated mutagen that's a striking sylvan green.  You need a syringe to inject it… if you really want to?",
     "price": 400000,
     "color": "light_green",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "ELFA" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "ELFA" },
+    "vitamins": [ [ "mutagen_elfa", 500 ] ]
   },
   {
     "id": "iv_mutagen_feline",
@@ -130,7 +137,8 @@
     "name": { "str": "feline serum" },
     "description": "A super-concentrated mutagen, yellow and highly reflective.  You need a syringe to inject it… if you really want to?",
     "color": "yellow",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "FELINE" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "FELINE" },
+    "vitamins": [ [ "mutagen_feline", 500 ] ]
   },
   {
     "id": "iv_mutagen_fish",
@@ -139,7 +147,8 @@
     "name": { "str": "fish serum" },
     "description": "A super-concentrated mutagen the color of the ocean, with white foam at the top.  You need a syringe to inject it… if you really want to?",
     "color": "light_blue",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "FISH" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "FISH" },
+    "vitamins": [ [ "mutagen_fish", 500 ] ]
   },
   {
     "id": "iv_mutagen_insect",
@@ -148,7 +157,8 @@
     "name": { "str": "insect serum" },
     "description": "A super-concentrated mutagen that's a beautiful amber color.  You need a syringe to inject it… if you really want to?",
     "color": "yellow",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "INSECT" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "INSECT" },
+    "vitamins": [ [ "mutagen_insect", 500 ] ]
   },
   {
     "id": "iv_mutagen_lizard",
@@ -157,7 +167,8 @@
     "name": { "str": "lizard serum" },
     "description": "A super-concentrated mutagen that shifts between various shades of green.  You need a syringe to inject it… if you really want to?",
     "color": "light_green",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "LIZARD" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "LIZARD" },
+    "vitamins": [ [ "mutagen_lizard", 500 ] ]
   },
   {
     "id": "iv_mutagen_lupine",
@@ -166,7 +177,8 @@
     "name": { "str": "lupine serum" },
     "description": "A super-concentrated mutagen as white as a full moon.  You need a syringe to inject it… if you really want to?",
     "color": "white",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "LUPINE" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "LUPINE" },
+    "vitamins": [ [ "mutagen_lupine", 500 ] ]
   },
   {
     "id": "iv_mutagen_medical",
@@ -186,7 +198,8 @@
     "name": { "str": "plant serum" },
     "description": "A super-concentrated mutagen that looks like pureed spinach.  You need a syringe to inject it… if you really want to?",
     "color": "green",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "PLANT" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "PLANT" },
+    "vitamins": [ [ "mutagen_plant", 500 ] ]
   },
   {
     "id": "iv_mutagen_raptor",
@@ -196,7 +209,8 @@
     "description": "A super-concentrated mutagen that seems to shift slightly whenever you look at it.  You need a syringe to inject it… if you really want to?",
     "price": 400000,
     "color": "green",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "RAPTOR" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "RAPTOR" },
+    "vitamins": [ [ "mutagen_raptor", 2500 ] ]
   },
   {
     "id": "iv_mutagen_rat",
@@ -205,7 +219,8 @@
     "name": { "str": "rat serum" },
     "description": "A super-concentrated mutagen that's a rather unappealing beige.  You need a syringe to inject it… if you really want to?",
     "color": "brown",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "RAT" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "RAT" },
+    "vitamins": [ [ "mutagen_rat", 500 ] ]
   },
   {
     "id": "iv_mutagen_slime",
@@ -214,7 +229,8 @@
     "name": { "str": "slime serum" },
     "description": "A super-concentrated mutagen that looks very much like the black ooze in the zombies' eyes.  You need a syringe to inject it… if you really want to?",
     "color": "dark_gray",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "SLIME" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "SLIME" },
+    "vitamins": [ [ "mutagen_slime", 500 ] ]
   },
   {
     "id": "iv_mutagen_spider",
@@ -223,7 +239,8 @@
     "name": { "str": "spider serum" },
     "description": "A super-concentrated mutagen with pale filaments suspended in it.  You need a syringe to inject it… if you really want to?",
     "color": "light_gray",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "SPIDER" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "SPIDER" },
+    "vitamins": [ [ "mutagen_spider", 500 ] ]
   },
   {
     "id": "iv_mutagen_snail",
@@ -232,7 +249,8 @@
     "name": { "str": "snail serum" },
     "description": "A super-concentrated mutagen with the consistency of snot.  You need a syringe to inject it… if you really want to?",
     "color": "light_gray",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "GASTROPOD" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "GASTROPOD" },
+    "vitamins": [ [ "mutagen_snail", 500 ] ]
   },
   {
     "id": "iv_mutagen_batrachian",
@@ -241,7 +259,8 @@
     "name": { "str": "batrachian serum" },
     "description": "A super-concentrated mutagen that looks like pond water… are the shadows in it moving?  You need a syringe to inject it… if you really want to?",
     "color": "light_gray",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "BATRACHIAN" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "BATRACHIAN" },
+    "vitamins": [ [ "mutagen_batrachian", 500 ] ]
   },
   {
     "id": "iv_mutagen_troglobite",
@@ -250,7 +269,8 @@
     "name": { "str": "troglobite serum" },
     "description": "A super-concentrated mutagen that seems to recoil from the light.  You need a syringe to inject it… if you really want to?",
     "color": "dark_gray",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "TROGLOBITE" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "TROGLOBITE" },
+    "vitamins": [ [ "mutagen_trog", 500 ] ]
   },
   {
     "id": "iv_mutagen_ursine",
@@ -259,7 +279,8 @@
     "name": { "str": "ursine serum" },
     "description": "A super-concentrated mutagen that's the color of honey, and is just as thick.  You need a syringe to inject it… if you really want to?",
     "color": "yellow",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "URSINE" }
+    "use_action": { "type": "mutagen_iv", "mutation_category": "URSINE" },
+    "vitamins": [ [ "mutagen_ursine", 500 ] ]
   },
   {
     "id": "iv_mutagen_mouse",
@@ -276,7 +297,8 @@
     "type": "COMESTIBLE",
     "name": { "str": "mutagen" },
     "addiction_potential": 6,
-    "use_action": { "type": "mutagen", "is_strong": true }
+    "use_action": { "type": "mutagen", "is_strong": true },
+    "vitamins": [ [ "mutagen", 250 ] ]
   },
   {
     "id": "mutagen_jabberblood",
@@ -288,7 +310,8 @@
     "addiction_potential": 0,
     "charges": 5,
     "fun": -10,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST" }
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST" },
+    "vitamins": [ [ "mutagen_beast", 350 ] ]
   },
   {
     "id": "mutagen_alpha",
@@ -305,28 +328,32 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "beast mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST" }
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST" },
+    "vitamins": [ [ "mutagen_beast", 250 ] ]
   },
   {
     "id": "mutagen_bird",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "bird mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "BIRD" }
+    "use_action": { "type": "mutagen", "mutation_category": "BIRD" },
+    "vitamins": [ [ "mutagen_bird", 250 ] ]
   },
   {
     "id": "mutagen_cattle",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "cattle mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "CATTLE" }
+    "use_action": { "type": "mutagen", "mutation_category": "CATTLE" },
+    "vitamins": [ [ "mutagen_cattle", 250 ] ]
   },
   {
     "id": "mutagen_cephalopod",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "cephalopod mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "CEPHALOPOD" }
+    "use_action": { "type": "mutagen", "mutation_category": "CEPHALOPOD" },
+    "vitamins": [ [ "mutagen_cephalopod", 250 ] ]
   },
   {
     "id": "mutagen_chimera",
@@ -335,7 +362,8 @@
     "name": { "str": "chimera mutagen" },
     "description": "An extremely rare mutagen cocktail.",
     "price": 200000,
-    "use_action": { "type": "mutagen", "mutation_category": "CHIMERA" }
+    "use_action": { "type": "mutagen", "mutation_category": "CHIMERA" },
+    "vitamins": [ [ "mutagen_chimera", 250 ] ]
   },
   {
     "id": "mutagen_elfa",
@@ -344,42 +372,48 @@
     "name": { "str": "elf-a mutagen" },
     "description": "An extremely rare mutagen cocktail.",
     "price": 200000,
-    "use_action": { "type": "mutagen", "mutation_category": "ELFA" }
+    "use_action": { "type": "mutagen", "mutation_category": "ELFA" },
+    "vitamins": [ [ "mutagen_elfa", 250 ] ]
   },
   {
     "id": "mutagen_feline",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "feline mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "FELINE" }
+    "use_action": { "type": "mutagen", "mutation_category": "FELINE" },
+    "vitamins": [ [ "mutagen_feline", 250 ] ]
   },
   {
     "id": "mutagen_fish",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "fish mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "FISH" }
+    "use_action": { "type": "mutagen", "mutation_category": "FISH" },
+    "vitamins": [ [ "mutagen_fish", 250 ] ]
   },
   {
     "id": "mutagen_insect",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "insect mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "INSECT" }
+    "use_action": { "type": "mutagen", "mutation_category": "INSECT" },
+    "vitamins": [ [ "mutagen_insect", 250 ] ]
   },
   {
     "id": "mutagen_lizard",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "lizard mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "LIZARD" }
+    "use_action": { "type": "mutagen", "mutation_category": "LIZARD" },
+    "vitamins": [ [ "mutagen_lizard", 250 ] ]
   },
   {
     "id": "mutagen_lupine",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "lupine mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "LUPINE" }
+    "use_action": { "type": "mutagen", "mutation_category": "LUPINE" },
+    "vitamins": [ [ "mutagen_lupine", 250 ] ]
   },
   {
     "id": "mutagen_medical",
@@ -395,7 +429,8 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "plant mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "PLANT" }
+    "use_action": { "type": "mutagen", "mutation_category": "PLANT" },
+    "vitamins": [ [ "mutagen_plant", 250 ] ]
   },
   {
     "id": "mutagen_raptor",
@@ -404,28 +439,32 @@
     "name": { "str": "raptor mutagen" },
     "description": "An extremely rare mutagen cocktail.",
     "price": 200000,
-    "use_action": { "type": "mutagen", "mutation_category": "RAPTOR" }
+    "use_action": { "type": "mutagen", "mutation_category": "RAPTOR" },
+    "vitamins": [ [ "mutagen_raptor", 300 ] ]
   },
   {
     "id": "mutagen_rat",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "rat mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "RAT" }
+    "use_action": { "type": "mutagen", "mutation_category": "RAT" },
+    "vitamins": [ [ "mutagen_rat", 250 ] ]
   },
   {
     "id": "mutagen_slime",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "slime mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "SLIME" }
+    "use_action": { "type": "mutagen", "mutation_category": "SLIME" },
+    "vitamins": [ [ "mutagen_slime", 250 ] ]
   },
   {
     "id": "mutagen_spider",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "spider mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "SPIDER" }
+    "use_action": { "type": "mutagen", "mutation_category": "SPIDER" },
+    "vitamins": [ [ "mutagen_spider", 250 ] ]
   },
   {
     "id": "mutagen_batrachian",
@@ -433,7 +472,8 @@
     "type": "COMESTIBLE",
     "name": { "str": "batrachian mutagen" },
     "description": "A shadowy mutagen that looks like it might be full of tiny swimming tadpoles.",
-    "use_action": { "type": "mutagen", "mutation_category": "BATRACHIAN" }
+    "use_action": { "type": "mutagen", "mutation_category": "BATRACHIAN" },
+    "vitamins": [ [ "mutagen_batrachian", 250 ] ]
   },
   {
     "id": "mutagen_snail",
@@ -441,21 +481,24 @@
     "type": "COMESTIBLE",
     "name": { "str": "snail mutagen" },
     "description": "A mutagen that looks awfully like the slime from an old children's network.",
-    "use_action": { "type": "mutagen", "mutation_category": "GASTROPOD" }
+    "use_action": { "type": "mutagen", "mutation_category": "GASTROPOD" },
+    "vitamins": [ [ "mutagen_snail", 250 ] ]
   },
   {
     "id": "mutagen_troglobite",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "troglobite mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "TROGLOBITE" }
+    "use_action": { "type": "mutagen", "mutation_category": "TROGLOBITE" },
+    "vitamins": [ [ "mutagen_trog", 250 ] ]
   },
   {
     "id": "mutagen_ursine",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "ursine mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "URSINE" }
+    "use_action": { "type": "mutagen", "mutation_category": "URSINE" },
+    "vitamins": [ [ "mutagen_ursine", 250 ] ]
   },
   {
     "id": "mutagen_mouse",
@@ -490,9 +533,32 @@
     "price_postapoc": 500,
     "//": "*May* have been commercially traded, what with stem-cell treatments and all.",
     "color": "pink",
-    "healthy": 5,
+    "healthy": -3,
     "addiction_potential": 8,
-    "use_action": [ "PURIFIER" ]
+    "use_action": [ "PURIFIER" ],
+    "vitamins": [
+      [ "mutagen", -250 ],
+      [ "mutagen_batrachian", -250 ],
+      [ "mutagen_beast", -250 ],
+      [ "mutagen_bird", -250 ],
+      [ "mutagen_cattle", -250 ],
+      [ "mutagen_cephalopod", -250 ],
+      [ "mutagen_chimera", -250 ],
+      [ "mutagen_elfa", -250 ],
+      [ "mutagen_feline", -250 ],
+      [ "mutagen_fish", -250 ],
+      [ "mutagen_insect", -250 ],
+      [ "mutagen_lizard", -250 ],
+      [ "mutagen_lupine", -250 ],
+      [ "mutagen_plant", -250 ],
+      [ "mutagen_raptor", -250 ],
+      [ "mutagen_rat", -250 ],
+      [ "mutagen_slime", -250 ],
+      [ "mutagen_snail", -250 ],
+      [ "mutagen_spider", -250 ],
+      [ "mutagen_trog", -250 ],
+      [ "mutagen_ursine", -250 ]
+    ]
   },
   {
     "id": "iv_purifier",
@@ -505,7 +571,30 @@
     "//": "*May* have been commercially traded, but not in this preparation.",
     "color": "magenta",
     "addiction_potential": 8,
-    "use_action": [ "PURIFY_IV" ]
+    "use_action": [ "PURIFY_IV" ],
+    "vitamins": [
+      [ "mutagen", -500 ],
+      [ "mutagen_batrachian", -500 ],
+      [ "mutagen_beast", -500 ],
+      [ "mutagen_bird", -500 ],
+      [ "mutagen_cattle", -500 ],
+      [ "mutagen_cephalopod", -500 ],
+      [ "mutagen_chimera", -500 ],
+      [ "mutagen_elfa", -500 ],
+      [ "mutagen_feline", -500 ],
+      [ "mutagen_fish", -500 ],
+      [ "mutagen_insect", -500 ],
+      [ "mutagen_lizard", -500 ],
+      [ "mutagen_lupine", -500 ],
+      [ "mutagen_plant", -500 ],
+      [ "mutagen_raptor", -500 ],
+      [ "mutagen_rat", -500 ],
+      [ "mutagen_slime", -500 ],
+      [ "mutagen_snail", -500 ],
+      [ "mutagen_spider", -500 ],
+      [ "mutagen_trog", -500 ],
+      [ "mutagen_ursine", -500 ]
+    ]
   },
   {
     "id": "purifier_smart_shot",

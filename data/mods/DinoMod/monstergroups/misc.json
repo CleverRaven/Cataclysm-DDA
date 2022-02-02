@@ -2,152 +2,32 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SUBWAY",
-    "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
-    "default": "mon_spider_cellar_giant",
-    "monsters": [
-      {
-        "monster": "mon_coelophysis",
-        "weight": 100,
-        "cost_multiplier": 5,
-        "pack_size": [ 4, 8 ],
-        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_coelophysis",
-        "weight": 100,
-        "cost_multiplier": 5,
-        "pack_size": [ 4, 8 ],
-        "conditions": [ "WINTER" ]
-      },
-      {
-        "monster": "mon_dilophosaurus",
-        "weight": 10,
-        "cost_multiplier": 10,
-        "pack_size": [ 1, 2 ],
-        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_dilophosaurus",
-        "weight": 10,
-        "cost_multiplier": 10,
-        "pack_size": [ 1, 2 ],
-        "conditions": [ "WINTER" ]
-      },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 72 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 168 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 672 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 2160 },
-      {
-        "monster": "mon_ceratosaurus",
-        "weight": 10,
-        "cost_multiplier": 30,
-        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      { "monster": "mon_ceratosaurus", "weight": 10, "cost_multiplier": 30, "conditions": [ "WINTER" ] },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 72 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 168 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 672 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 2160 },
-      { "monster": "mon_compsognathus", "weight": 300, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
-      {
-        "monster": "mon_velociraptor",
-        "weight": 150,
-        "cost_multiplier": 10,
-        "pack_size": [ 2, 4 ],
-        "conditions": [ "DAY" ]
-      },
-      {
-        "monster": "mon_deinonychus",
-        "weight": 100,
-        "cost_multiplier": 15,
-        "pack_size": [ 2, 3 ],
-        "conditions": [ "DAY" ]
-      },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_utahraptor", "weight": 100, "cost_multiplier": 30, "conditions": [ "DAY" ] },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 72 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 168 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 672 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 2160 },
-      {
-        "monster": "mon_eoraptor",
-        "weight": 200,
-        "cost_multiplier": 0,
-        "pack_size": [ 4, 12 ],
-        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_eoraptor",
-        "weight": 200,
-        "cost_multiplier": 0,
-        "pack_size": [ 4, 12 ],
-        "conditions": [ "WINTER" ]
-      }
-    ]
+    "monsters": [ { "group": "GROUP_SEWER_DINO", "weight": 200 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SUBWAY_CITY",
-    "//": "Normal subway, extra spawns underneath a city",
-    "default": "mon_chud",
-    "monsters": [
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 72 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 168 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 672 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 2160 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 72 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 168 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 672 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 2160 },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 72 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 168 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 672 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 2160 }
-    ]
+    "monsters": [ { "group": "GROUP_SEWER_ZINO", "weight": 200 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SUBWAY_LAB",
-    "//": "Lower subway with eldritch nasties and lab escapees",
-    "default": "mon_kreck",
-    "//2": "1W 42, 1M 180, 1,5M 270, 2M 360, 3M 540, sum 930",
     "monsters": [
-      { "monster": "mon_compsognathus", "weight": 10, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 72 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 168 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 672 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 2160 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 72 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 168 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 672 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 2160 },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 72 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 168 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 672 },
-      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 2160 }
+      { "group": "GROUP_BIO_DINO_HERB", "weight": 100 },
+      { "group": "GROUP_BIO_DINO_PRED", "weight": 100 },
+      { "group": "GROUP_SEWER_DINO", "weight": 100 },
+      { "group": "GROUP_SEWER_ZINO", "weight": 100 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SAFE",
     "is_safe": true,
-    "//": "Current SPRING first DAY count is 140.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_gallimimus", "weight": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
-      { "monster": "mon_eoraptor", "weight": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
-      { "monster": "mon_scutellosaurus", "weight": 20, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_dimorphodon", "weight": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] }
+      { "monster": "mon_gallimimus", "weight": 50, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_eoraptor", "weight": 20, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_scutellosaurus", "weight": 20, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_dimorphodon", "weight": 50, "pack_size": [ 2, 4 ] }
     ]
   },
   {
@@ -172,8 +52,12 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SEWER",
-    "//": "Current SPRING first DAY count is 550.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
+    "monsters": [ { "group": "GROUP_SEWER_DINO", "weight": 200 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SEWER_DINO",
     "monsters": [
       {
         "monster": "mon_coelophysis",
@@ -218,7 +102,7 @@
       { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 168 },
       { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 672 },
       { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 2160 },
-      { "monster": "mon_compsognathus", "weight": 300, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_compsognathus", "weight": 300, "pack_size": [ 4, 12 ] },
       {
         "monster": "mon_velociraptor",
         "weight": 150,
@@ -245,23 +129,37 @@
       {
         "monster": "mon_eoraptor",
         "weight": 200,
-        "cost_multiplier": 0,
         "pack_size": [ 4, 12 ],
         "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
       },
-      {
-        "monster": "mon_eoraptor",
-        "weight": 200,
-        "cost_multiplier": 0,
-        "pack_size": [ 4, 12 ],
-        "conditions": [ "WINTER" ]
-      }
+      { "monster": "mon_eoraptor", "weight": 200, "pack_size": [ 4, 12 ], "conditions": [ "WINTER" ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SEWER_ZINO",
+    "monsters": [
+      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 72 },
+      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 168 },
+      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 672 },
+      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 2160 },
+      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 72 },
+      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 168 },
+      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 672 },
+      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 2160 },
+      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 72 },
+      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 168 },
+      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 672 },
+      { "monster": "mon_zutahraptor", "weight": 25, "cost_multiplier": 30, "starts": 2160 }
     ]
   },
   {
     "name": "GROUP_VETS",
     "type": "monstergroup",
-    "//": "for veterinarian",
     "monsters": [ { "monster": "mon_scutellosaurus", "weight": 15 } ]
   }
 ]

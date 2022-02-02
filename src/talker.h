@@ -8,6 +8,7 @@
 #include "units_fwd.h"
 #include <list>
 
+class computer;
 class faction;
 class item;
 class item_location;
@@ -58,6 +59,12 @@ class talker
             return nullptr;
         }
         virtual const Creature *get_creature() const {
+            return nullptr;
+        }
+        virtual computer *get_computer() {
+            return nullptr;
+        }
+        virtual const computer *get_computer() const {
             return nullptr;
         }
         // identity and location
@@ -460,6 +467,14 @@ class talker
         virtual void remove_morale( const morale_type & ) {}
         virtual void set_kill_xp( int ) {}
         virtual int get_kill_xp() const {
+            return 0;
+        }
+        virtual void set_age( int ) {}
+        virtual int get_age() const {
+            return 0;
+        }
+        virtual void set_height( int ) {}
+        virtual int get_height() const {
             return 0;
         }
 };

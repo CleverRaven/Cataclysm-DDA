@@ -64,6 +64,15 @@ class character_id;
 
 static const efftype_id effect_riding( "riding" );
 
+static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
+
+static const item_group_id Item_spawn_data_farming_seeds( "farming_seeds" );
+static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
+static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
+static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
+static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
+static const item_group_id Item_spawn_data_npc_weapon_random( "npc_weapon_random" );
+
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 
@@ -77,10 +86,16 @@ static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_unarmed( "unarmed" );
 
+static const string_id<class npc_template> npc_template_bandit( "bandit" );
+
+static const string_id<class npc_template> npc_template_commune_guard( "commune_guard" );
+
+static const string_id<class npc_template> npc_template_thug( "thug" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
+static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
 
 struct comp_rank {
     int industry;
@@ -758,8 +773,9 @@ void talk_function::caravan_depart( npc &p, const std::string &dest, const std::
     std::vector<npc_ptr> npc_list = companion_list( p, id );
     int distance = caravan_dist( dest );
     time_duration time = 20_minutes + distance * 10_minutes;
-    popup( _( "The caravan departs with an estimated total travel time of %d hours…" ),
-           to_hours<int>( time ) );
+    const int hours = to_hours<int>( time );
+    popup( n_gettext( "The caravan departs with an estimated total travel time of %d hour…",
+                      "The caravan departs with an estimated total travel time of %d hours…", hours ), hours );
 
     for( auto &elem : npc_list ) {
         if( elem->companion_mission_time == calendar::before_time_starts ) {
@@ -799,7 +815,7 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const std::
     const int rand_caravan_size = rng( 1, 3 );
     caravan_party.reserve( npc_list.size() + rand_caravan_size );
     for( int i = 0; i < rand_caravan_size; i++ ) {
-        caravan_party.push_back( temp_npc( string_id<npc_template>( "commune_guard" ) ) );
+        caravan_party.push_back( temp_npc( npc_template_commune_guard ) );
     }
     for( auto &elem : npc_list ) {
         if( elem->companion_mission_time == comp->companion_mission_time ) {
@@ -814,8 +830,8 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const std::
     const int rand_bandit_size = rng( 1, 3 );
     bandit_party.reserve( rand_bandit_size * 2 );
     for( int i = 0; i < rand_bandit_size * 2; i++ ) {
-        bandit_party.push_back( temp_npc( string_id<npc_template>( "bandit" ) ) );
-        bandit_party.push_back( temp_npc( string_id<npc_template>( "thug" ) ) );
+        bandit_party.push_back( temp_npc( npc_template_bandit ) );
+        bandit_party.push_back( temp_npc( npc_template_thug ) );
     }
 
     if( one_in( 3 ) ) {
@@ -1104,7 +1120,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     bay.load( project_to<coords::sm>( site ), false );
     for( const tripoint &plot : bay.points_on_zlevel() ) {
         map_stack items = bay.i_at( plot );
-        if( bay.furn( plot ) == furn_str_id( "f_plant_harvest" ) && !items.empty() ) {
+        if( bay.furn( plot ) == furn_f_plant_harvest && !items.empty() ) {
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.is_seed();
@@ -1149,7 +1165,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     }
 
     for( const tripoint &plot : bay.points_on_zlevel() ) {
-        if( bay.furn( plot ) == furn_str_id( "f_plant_harvest" ) ) {
+        if( bay.furn( plot ) == furn_f_plant_harvest ) {
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack items = bay.i_at( plot );
             map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
@@ -1340,7 +1356,7 @@ bool talk_function::scavenging_raid_return( npc &p )
     if( one_in( 2 ) ) {
         item_group_id itemlist( "npc_misc" );
         if( one_in( 8 ) ) {
-            itemlist = item_group_id( "npc_weapon_random" );
+            itemlist = Item_spawn_data_npc_weapon_random;
         }
         item result = item_group::item_from( itemlist );
         if( !result.is_null() ) {
@@ -1494,20 +1510,20 @@ bool talk_function::forage_return( npc &p )
     ///\EFFECT_SURVIVAL_NPC affects forage mission results
     int skill = comp->get_skill_level( skill_survival );
     if( skill > rng_float( -.5, 8 ) ) {
-        item_group_id itemlist = item_group_id( "farming_seeds" );
+        item_group_id itemlist = Item_spawn_data_farming_seeds;
         if( one_in( 2 ) ) {
             switch( season_of_year( calendar::turn ) ) {
                 case SPRING:
-                    itemlist = item_group_id( "forage_spring" );
+                    itemlist = Item_spawn_data_forage_spring;
                     break;
                 case SUMMER:
-                    itemlist = item_group_id( "forage_summer" );
+                    itemlist = Item_spawn_data_forage_summer;
                     break;
                 case AUTUMN:
-                    itemlist = item_group_id( "forage_autumn" );
+                    itemlist = Item_spawn_data_forage_autumn;
                     break;
                 case WINTER:
-                    itemlist = item_group_id( "forage_winter" );
+                    itemlist = Item_spawn_data_forage_winter;
                     break;
                 default:
                     debugmsg( "Invalid season" );
@@ -1913,7 +1929,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
 
     for( const character_id &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
-        if( !guy ) {
+        if( !guy || guy->is_hallucination() ) {
             continue;
         }
         npc_companion_mission c_mission = guy->get_companion_mission();
@@ -1928,7 +1944,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
             std::vector<npc_ptr> camp_npcs = player_camp->get_npcs_assigned();
             if( std::any_of( camp_npcs.begin(), camp_npcs.end(),
             [guy]( const npc_ptr & i ) {
-            return ( ( i == guy ) && ( !guy->has_companion_mission() ) );
+            return ( i == guy ) && ( !guy->has_companion_mission() );
             } ) ) {
                 available.push_back( guy );
             }
@@ -1941,7 +1957,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
                 std::vector<npc_ptr> assigned_npcs = temp_camp->get_npcs_assigned();
                 if( std::any_of( assigned_npcs.begin(), assigned_npcs.end(),
                 [guy]( const npc_ptr & i ) {
-                return ( ( i == guy ) && ( !guy->has_companion_mission() ) );
+                return ( i == guy ) && ( !guy->has_companion_mission() );
                 } ) ) {
                     available.push_back( guy );
                 }
@@ -2054,7 +2070,7 @@ npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
     std::vector<std::string> npcs;
     npcs.reserve( available.size() );
     for( auto &elem : available ) {
-        npcs.push_back( ( elem )->get_name() );
+        npcs.push_back( elem->get_name() );
     }
     const size_t npc_choice = uilist( _( "Who should return?" ), npcs );
     if( npc_choice < available.size() ) {

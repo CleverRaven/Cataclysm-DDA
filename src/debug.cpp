@@ -67,9 +67,6 @@
 #       include <execinfo.h>
 #       include <unistd.h>
 #   endif
-#   if defined(__GNUC__) || defined(__clang__)
-#       include <cxxabi.h>
-#   endif
 #endif
 
 #if defined(TILES)
@@ -948,35 +945,6 @@ static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
-static std::string demangle( const char *symbol )
-{
-#if defined(_MSC_VER)
-    // TODO: implement demangling on MSVC
-#elif defined(__GNUC__) || defined(__clang__)
-    int status = -1;
-    char *demangled = abi::__cxa_demangle( symbol, nullptr, nullptr, &status );
-    if( status == 0 ) {
-        std::string demangled_str( demangled );
-        free( demangled );
-        return demangled_str;
-    }
-#if defined(_WIN32)
-    // https://stackoverflow.com/questions/54333608/boost-stacktrace-not-demangling-names-when-cross-compiled
-    // libbacktrace may strip leading underscore character in the symbol name returned
-    // so if demangling failed, try again with an underscore prepended
-    std::string prepend_underscore( "_" );
-    prepend_underscore = prepend_underscore + symbol;
-    demangled = abi::__cxa_demangle( prepend_underscore.c_str(), nullptr, nullptr, &status );
-    if( status == 0 ) {
-        std::string demangled_str( demangled );
-        free( demangled );
-        return demangled_str;
-    }
-#endif // defined(_WIN32)
-#endif // compiler macros
-    return std::string( symbol );
-}
-
 #if !defined(_WIN32) && !defined(__ANDROID__)
 static void write_demangled_frame( std::ostream &out, const char *frame )
 {
@@ -1092,7 +1060,13 @@ void debug_write_backtrace( std::ostream &out )
             out << "\n    (unable to get module base address),";
         }
         if( bt_state ) {
-            bt_syminfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
+#if defined(__MINGW64__)
+            constexpr uint64_t static_image_base = 0x140000000ULL;
+#elif defined(__MINGW32__)
+            constexpr uint64_t static_image_base = 0x400000ULL;
+#endif
+            uint64_t de_aslr_pc = reinterpret_cast<uintptr_t>( bt[i] ) - mod_base + static_image_base;
+            bt_syminfo( bt_state, de_aslr_pc,
                         // syminfo callback
                         [&out]( const uintptr_t pc, const char *const symname,
             const uintptr_t symval, const uintptr_t ) {
@@ -1107,7 +1081,7 @@ void debug_write_backtrace( std::ostream &out )
                     << ", msg = " << ( msg ? msg : "[no msg]" )
                     << "),";
             } );
-            bt_pcinfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
+            bt_pcinfo( bt_state, de_aslr_pc,
                        // backtrace callback
                        [&out]( const uintptr_t pc, const char *const filename,
             const int lineno, const char *const function ) -> int {

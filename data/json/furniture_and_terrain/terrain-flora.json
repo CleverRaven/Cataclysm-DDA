@@ -309,7 +309,7 @@
     "id": "t_tree_dead",
     "name": "dead tree",
     "looks_like": "t_tree",
-    "description": "An indiscernible tree that has withered away, whether by weather, fire or otherworldy.  You could cut it down with the right tools.",
+    "description": "An indiscernible tree that has withered away, whether by weather, fire or otherworldly.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": "brown",
     "move_cost": 0,
@@ -1980,6 +1980,17 @@
   },
   {
     "type": "terrain",
+    "id": "t_grass_alien",
+    "name": "alien grass",
+    "description": "An area of something that almost looks like grass.  The blades are serrated and move on their own.",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "ROUGH", "PAINFUL" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_golf_hole",
     "name": "golf hole",
     "looks_like": "t_grass_golf",
@@ -2001,7 +2012,7 @@
     "move_cost": 3,
     "coverage": 20,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
-    "examine_action": "harvest_ter_nectar",
+    "examine_action": "harvest_ter",
     "harvest_by_season": [ { "seasons": [ "spring" ], "id": "fern_harv" } ],
     "transforms_into": "t_fern_harvested",
     "bash": {

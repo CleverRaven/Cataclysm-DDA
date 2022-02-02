@@ -58,7 +58,7 @@ static void CheckDecl( LargeStackObjectCheck &Check, const MatchFinder::MatchRes
 
     const Type *T = MatchedDecl->getType().getTypePtr();
 
-    if( T->isReferenceType() ) {
+    if( T->isReferenceType() || T->isUndeducedAutoType() ) {
         return;
     }
 

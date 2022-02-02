@@ -14,6 +14,10 @@
 #include "ret_val.h"
 #include "type_id.h"
 
+static const itype_id itype_aspirin( "aspirin" );
+static const itype_id itype_knife_combat( "knife_combat" );
+static const itype_id itype_metal_tank( "metal_tank" );
+
 static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const int expected_moves )
 {
     guy.remove_weapon();
@@ -95,11 +99,11 @@ TEST_CASE( "Wield time test", "[wield]" )
         clear_character( guy );
         REQUIRE( guy.mutation_value( "obtain_cost_multiplier" ) == 1.0 );
 
-        wield_check_from_inv( guy, itype_id( "aspirin" ), 300 );
+        wield_check_from_inv( guy, itype_aspirin, 300 );
         clear_character( guy );
-        wield_check_from_inv( guy, itype_id( "knife_combat" ), 325 );
+        wield_check_from_inv( guy, itype_knife_combat, 325 );
         clear_character( guy );
-        wield_check_from_ground( guy, itype_id( "metal_tank" ), 300 );
+        wield_check_from_ground( guy, itype_metal_tank, 300 );
         clear_character( guy );
     }
 }

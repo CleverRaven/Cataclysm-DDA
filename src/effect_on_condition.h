@@ -38,9 +38,8 @@ struct effect_on_condition {
         bool has_deactivate_condition = false;
         bool has_condition = false;
         bool has_false_effect = false;
-        //TODO duration or var these
-        time_duration recurrence_min = 1_seconds;
-        time_duration recurrence_max = 1_seconds;
+        duration_or_var recurrence_min;
+        duration_or_var recurrence_max;
         bool activate( dialogue &d ) const;
         bool check_deactivate() const;
         void load( const JsonObject &jo, const std::string &src );

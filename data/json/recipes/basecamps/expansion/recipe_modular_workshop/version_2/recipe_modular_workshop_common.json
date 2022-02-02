@@ -30,7 +30,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "bmw_common_1",
+    "result": "fbmw_2_common_1",
     "description": "Let's install a metal working forge in the smithy.  We'll need a few tools too, so we'll include some storage space.  This will provide us with a first couple of primitive crafting recipes.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -41,7 +41,7 @@
     "blueprint_requires": [ { "id": "fbmw_2_smithy_1" } ],
     "blueprint_provides": [ { "id": "fbmw_2_common_smithy_1" }, { "id": "blacksmith" }, { "id": "fbmw_2_blacksmith_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_smithy_1" } ],
-    "blueprint_resources": [ "rock_forge_pseudo", "fake_fireplace", "makeshift_hammer" ],
+    "blueprint_resources": [ "fake_forge", "fake_fireplace", "makeshift_hammer" ],
     "components": [ [ [ "primitive_hammer", 1 ], [ "makeshift_hammer", 1 ] ] ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",
@@ -59,7 +59,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "bmw_common_smithy_2",
+    "result": "fbmw_2_common_smithy_2",
     "description": "Let's install a couple of charcoal kilns outside of the smithy.  We'll add a crucible as well.  This will allow us to produce a few additional things.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -70,7 +70,7 @@
     "blueprint_requires": [ { "id": "fbmw_2_smithy_2" }, { "id": "fbmw_2_common_smithy_1" } ],
     "blueprint_provides": [ { "id": "fbmw_2_common_smithy_2" }, { "id": "fbmw_2_blacksmith_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_smithy_2" } ],
-    "blueprint_resources": [ "char_kiln", "char_kiln", "crucible" ],
+    "blueprint_resources": [ "fake_char_kiln", "fake_char_kiln", "crucible" ],
     "components": [ [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",
@@ -215,7 +215,7 @@
     "blueprint_requires": [ { "id": "fbmw_2_pottery" } ],
     "blueprint_provides": [ { "id": "fbmw_2_common_pottery" }, { "id": "blacksmith" }, { "id": "fbmw_2_potter_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_pottery" } ],
-    "blueprint_resources": [ "kiln_pseudo" ],
+    "blueprint_resources": [ "fake_clay_kiln" ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",
       "MAP_ROTATE_90_IF_NE",
@@ -244,7 +244,7 @@
     "blueprint_provides": [ { "id": "fbmw_2_common_glassblower" }, { "id": "blacksmith" }, { "id": "fbmw_2_glassblower_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_glassblower" } ],
     "components": [ [ [ "chisel", 1 ] ], [ [ "tongs", 1 ] ], [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ],
-    "blueprint_resources": [ "rock_forge_pseudo", "chisel", "tongs", "crucible" ],
+    "blueprint_resources": [ "fake_forge", "chisel", "tongs", "crucible" ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",
       "MAP_ROTATE_90_IF_NE",

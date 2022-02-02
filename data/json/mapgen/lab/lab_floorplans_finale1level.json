@@ -186,6 +186,10 @@
         { "monster": "mon_hound_tindalos", "x": [ 7, 8 ], "y": [ 17, 18 ], "chance": 90 },
         { "monster": "mon_hound_tindalos", "x": [ 16, 17 ], "y": [ 17, 18 ], "chance": 90 },
         { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 50 }
+      ],
+      "place_loot": [
+        { "item": "utility_exoskeleton_off", "x": 6, "y": 14, "chance": 10 },
+        { "item": "ice_utility_exoskeleton_off", "x": 6, "y": 14, "chance": 10 }
       ]
     }
   },

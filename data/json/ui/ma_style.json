@@ -1,0 +1,9 @@
+[
+  {
+    "id": "style_desc",
+    "type": "widget",
+    "label": "Style",
+    "style": "text",
+    "var": "style_text"
+  }
+]

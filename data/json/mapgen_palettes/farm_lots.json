@@ -60,6 +60,7 @@
   {
     "type": "palette",
     "id": "farm_house",
+    "remove_all": { "P": {  }, "H": {  }, "%": {  } },
     "terrain": {
       " ": "t_floor",
       "#": "t_railing",

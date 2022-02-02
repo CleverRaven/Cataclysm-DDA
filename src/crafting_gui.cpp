@@ -20,16 +20,17 @@
 #include "color.h"
 #include "crafting.h"
 #include "cursesdef.h"
+#include "display.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "panels.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
@@ -48,6 +49,8 @@ static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 
 class npc;
+
+class recipe_result_info_cache;
 
 enum TAB_MODE {
     NORMAL,
@@ -159,6 +162,7 @@ struct availability {
         const inventory &inv = player.crafting_inventory();
         auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
         auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
+        auto no_favorite_filter = r->get_component_filter( recipe_filter_flags::no_favorite );
         const deduped_requirement_data &req = r->deduped_requirements();
         has_all_skills = r->skill_used.is_null() ||
                          player.get_skill_level( r->skill_used ) >= r->get_difficulty( player );
@@ -167,6 +171,8 @@ struct availability {
                     req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
         would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
                            craft_flags::start_only );
+        would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
+                             craft_flags::start_only );
         would_not_benefit = r->is_practice() && cannot_gain_skill_or_prof( player, *r );
         const requirement_data &simple_req = r->simple_requirements();
         apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
@@ -182,6 +188,7 @@ struct availability {
     }
     bool can_craft;
     bool would_use_rotten;
+    bool would_use_favorite;
     bool would_not_benefit;
     bool apparently_craftable;
     bool has_proficiencies;
@@ -194,6 +201,8 @@ struct availability {
             return h_dark_gray;
         } else if( would_use_rotten || would_not_benefit ) {
             return has_all_skills ? h_brown : h_red;
+        } else if( would_use_favorite ) {
+            return has_all_skills ? h_pink : h_red;
         } else {
             return has_all_skills ? h_white : h_yellow;
         }
@@ -204,6 +213,8 @@ struct availability {
             return c_dark_gray;
         } else if( would_use_rotten || would_not_benefit ) {
             return has_all_skills || ignore_missing_skills ? c_brown : c_red;
+        } else if( would_use_favorite ) {
+            return has_all_skills ? c_pink : c_red;
         } else {
             return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
         }
@@ -282,6 +293,9 @@ static std::vector<std::string> recipe_info(
     const bool can_craft_this = avail.can_craft;
     if( can_craft_this && avail.would_use_rotten ) {
         oss << _( "<color_red>Will use rotten ingredients</color>\n" );
+    }
+    if( can_craft_this && avail.would_use_favorite ) {
+        oss << _( "<color_red>Will use favorited ingredients</color>\n" );
     }
     const bool too_complex = recp.deduped_requirements().is_too_complex();
     if( can_craft_this && too_complex ) {
@@ -404,6 +418,8 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     ctxt.register_action( "SCROLL_RECIPE_INFO_DOWN" );
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
     ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "PREV_TAB" );
@@ -424,65 +440,231 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     return ctxt;
 }
 
-const recipe *select_crafting_recipe( int &batch_size_out )
+class recipe_result_info_cache
 {
-    struct {
-        const recipe *recp = nullptr;
-        std::string qry_comps;
-        int batch_size;
-        int fold_width;
-        std::vector<std::string> text;
-    } recipe_info_cache;
-    int recipe_info_scroll = 0;
-
-    const auto cached_recipe_info =
-        [&](
-            const recipe & recp,
-            const availability & avail,
-            Character & guy,
-            const std::string qry_comps,
-            const int batch_size,
-            const int fold_width,
-            const nc_color & color
-    ) -> const std::vector<std::string> & { // *NOPAD*
-        if( recipe_info_cache.recp != &recp
-            || recipe_info_cache.qry_comps != qry_comps
-            || recipe_info_cache.batch_size != batch_size
-            || recipe_info_cache.fold_width != fold_width )
-        {
-            recipe_info_cache.recp = &recp;
-            recipe_info_cache.qry_comps = qry_comps;
-            recipe_info_cache.batch_size = batch_size;
-            recipe_info_cache.fold_width = fold_width;
-            recipe_info_cache.text = recipe_info(
-                recp, avail, guy, qry_comps, batch_size, fold_width, color );
-        }
-        return recipe_info_cache.text;
-    };
-
-    struct {
+        std::vector<iteminfo> info;
         const recipe *last_recipe = nullptr;
-        item dummy;
-    } item_info_cache;
+        int last_width = 0;
+        int cached_batch_size = 1;
+
+        void get_byproducts_data( const recipe *rec, std::vector<iteminfo> &summary_info,
+                                  std::vector<iteminfo> &details_info );
+        void get_item_details( item &dummy_item, const int quantity_per_batch,
+                               std::vector<iteminfo> &details_info, const std::string &classification, const bool uses_charges );
+        void get_item_header( item &dummy_item, const int quantity_per_batch, std::vector<iteminfo> &info,
+                              const std::string &classification, const bool uses_charges );
+        void insert_iteminfo_separator_line( std::vector<iteminfo> &info_vec );
+        void insert_iteminfo_blank_line( std::vector<iteminfo> &info_vec );
+    public:
+        item_info_data get_result_data( const recipe *rec, const int batch_size, int &scroll_pos );
+};
+
+void recipe_result_info_cache::get_byproducts_data( const recipe *rec,
+        std::vector<iteminfo> &summary_info, std::vector<iteminfo> &details_info )
+{
+    for( const std::pair<const itype_id, int> &bp : rec->byproducts ) {
+        //Add dividers between item details
+        insert_iteminfo_blank_line( details_info );
+        insert_iteminfo_separator_line( details_info );
+        item dummy_item = item( bp.first );
+        bool uses_charges = dummy_item.count_by_charges();
+        get_item_header( dummy_item, bp.second, summary_info, "With byproduct", uses_charges );
+        get_item_details( dummy_item, bp.second, details_info, "Byproduct", uses_charges );
+    }
+}
+
+void recipe_result_info_cache::get_item_details( item &dummy_item,
+        const int quantity_per_batch,
+        std::vector<iteminfo> &details_info, const std::string &classification, const bool uses_charges )
+{
+    std::vector<iteminfo> temp_info;
+    int total_quantity = quantity_per_batch * cached_batch_size;
+    get_item_header( dummy_item, quantity_per_batch, details_info, classification, uses_charges );
+    if( uses_charges ) {
+        dummy_item.charges *= total_quantity;
+        dummy_item.info( true, temp_info, 1 );
+        //Reset charges so that multiple calls to this function don't produce unexpected results
+        dummy_item.charges /= total_quantity;
+    } else {
+        dummy_item.info( true, temp_info, total_quantity );
+    }
+    details_info.insert( std::end( details_info ), std::begin( temp_info ), std::end( temp_info ) );
+}
+
+void recipe_result_info_cache::get_item_header( item &dummy_item, const int quantity_per_batch,
+        std::vector<iteminfo> &info, const std::string &classification, const bool uses_charges )
+{
+    int total_quantity = quantity_per_batch * cached_batch_size;
+    //Handle multiple charges and multiple discrete items separately
+    if( uses_charges ) {
+        dummy_item.charges *= total_quantity;
+        info.emplace_back( "DESCRIPTION",
+                           _( "<bold>" + classification + ": </bold>" + dummy_item.display_name() ) );
+        //Reset charges so that multiple calls to this function don't produce unexpected results
+        dummy_item.charges /= total_quantity;
+    } else {
+        //Add summary line.  Don't need to indicate count if there's only 1
+        info.emplace_back( "DESCRIPTION",
+                           _( "<bold>" + classification + ": </bold>" + dummy_item.display_name( total_quantity ) +
+                              ( total_quantity == 1 ? "" : string_format( " (%d)", total_quantity ) ) ) );
+    }
+}
+
+item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, const int batch_size,
+        int &scroll_pos )
+{
+    /* If the recipe has not changed, return the cached version in info.
+       Unfortunately, the separator lines are baked into info at a specific width, so if the terminal width
+       has changed, the info needs to be regenerated */
+    if( rec == last_recipe && rec != nullptr && TERMX == last_width &&
+        batch_size == cached_batch_size ) {
+        item_info_data data( "", "", info, {}, scroll_pos );
+        return data;
+    }
+
+    cached_batch_size = batch_size;
+    last_recipe = rec;
+    scroll_pos = 0;
+    last_width = TERMX;
+
+    info.clear(); //New recipe, new info
+
+    /*We need to do some calculations to put together the results summary and very similar calculations to
+      put together the details, so, have a separate vector specifically for the details, to be appended later */
+    std::vector<iteminfo> details_info;
+
+    //Make a temporary item for the result.  NOTE: If the result would normally be in a container, this is not.
+    item dummy_result = item( rec->result(), calendar::turn, item::default_charges_tag{} );
+    bool result_uses_charges = dummy_result.count_by_charges();
+    item dummy_container;
+
+    //Set up summary at top so people know they can look further to learn about byproducts and such
+    //First, see if we need it at all:
+    if( rec->container_id() == itype_id::NULL_ID() && !rec->has_byproducts() ) {
+        //We don't need a summary for a single item, just give us the details
+        get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
+
+    } else { //We do need a summary
+        //If the primary result uses charges and is in a container, need to calculate number of charges
+        if( result_uses_charges ) {
+            dummy_result.charges *= rec->makes_amount();
+        }
+        //If it's in a container, focus on the contents
+        if( rec->container_id() != itype_id::NULL_ID() ) {
+            dummy_container = item( rec->container_id(), calendar::turn, item::default_charges_tag{} );
+            //Put together the summary in info:
+            get_item_header( dummy_result, 1, info, "Result", result_uses_charges );
+            get_item_header( dummy_container, 1, info, "In container",
+                             false ); //Seems reasonable to assume a container won't use charges
+            //Put together the details in details_info:
+            get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
+            insert_iteminfo_blank_line( details_info );
+            insert_iteminfo_separator_line( details_info );
+            get_item_details( dummy_container, 1, details_info, "Container", false );
+        } else { //If it's not in a container, just tell us about the item
+            //Add a line to the summary:
+            get_item_header( dummy_result, 1, info, "Result", result_uses_charges );
+            //Get the item details:
+            get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
+        }
+        if( rec->has_byproducts() ) {
+            get_byproducts_data( rec, info, details_info );
+        }
+
+        //Add a separator between the summary and details
+        insert_iteminfo_separator_line( info );
+    }
+    //Merge summary and details
+    info.insert( std::end( info ), std::begin( details_info ), std::end( details_info ) );
+    item_info_data data( "", "", info, {}, scroll_pos );
+    return data;
+}
+
+void recipe_result_info_cache::insert_iteminfo_blank_line( std::vector<iteminfo> &info_vec )
+{
+    info_vec.emplace_back( "DESCRIPTION", "--" );
+}
+
+void recipe_result_info_cache::insert_iteminfo_separator_line( std::vector<iteminfo> &info_vec )
+{
+    /*Calculation is the current method for calculating the width of the iteminfo panel.  TODO: Link it back
+      to the previously calculated value so that this won't break if the calculation changes. */
+    info_vec.emplace_back( "DESCRIPTION", std::string( std::min( TERMX,
+                           FULL_SCREEN_WIDTH * 2 ) - FULL_SCREEN_WIDTH - 1, '-' ) );
+}
+
+static std::pair<std::vector<const recipe *>, bool>
+recipes_from_cat( const recipe_subset &available_recipes, const std::string &cat,
+                  const std::string &subcat )
+{
+    if( subcat == "CSC_*_FAVORITE" ) {
+        return std::make_pair( available_recipes.favorite(), false );
+    } else if( subcat == "CSC_*_RECENT" ) {
+        return std::make_pair( available_recipes.recent(), false );
+    } else if( subcat == "CSC_*_HIDDEN" ) {
+        return std::make_pair( available_recipes.hidden(), true );
+    } else {
+        return std::make_pair( available_recipes.in_category( cat, subcat != "CSC_ALL" ? subcat : "" ),
+                               false );
+    }
+}
+
+struct recipe_info_cache {
+    const recipe *recp = nullptr;
+    std::string qry_comps;
+    int batch_size;
+    int fold_width;
+    std::vector<std::string> text;
+};
+
+static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &info_cache,
+        const recipe &recp, const availability &avail, Character &guy, const std::string qry_comps,
+        const int batch_size, const int fold_width, const nc_color &color )
+{
+    if( info_cache.recp != &recp ||
+        info_cache.qry_comps != qry_comps ||
+        info_cache.batch_size != batch_size ||
+        info_cache.fold_width != fold_width ) {
+        info_cache.recp = &recp;
+        info_cache.qry_comps = qry_comps;
+        info_cache.batch_size = batch_size;
+        info_cache.fold_width = fold_width;
+        info_cache.text = recipe_info( recp, avail, guy, qry_comps, batch_size, fold_width, color );
+    }
+    return info_cache.text;
+}
+
+struct item_info_cache {
+    const recipe *last_recipe = nullptr;
+    item dummy;
+};
+
+static item_info_data item_info_data_from_recipe( item_info_cache &info_cache,
+        int *item_info_scroll, int *item_info_scroll_popup, const recipe *rec, const int count,
+        int &scroll_pos )
+{
+    if( info_cache.last_recipe != rec ) {
+        info_cache.last_recipe = rec;
+        info_cache.dummy = rec->create_result();
+        info_cache.dummy.set_var( "recipe_exemplar", rec->ident().str() );
+        ( *item_info_scroll ) = 0;
+        ( *item_info_scroll_popup ) = 0;
+    }
+    std::vector<iteminfo> info;
+    info_cache.dummy.info( true, info, count );
+    item_info_data data( info_cache.dummy.tname( count ),
+                         info_cache.dummy.type_name( count ),
+                         info, {}, scroll_pos );
+    return data;
+}
+
+const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
+{
+    recipe_info_cache r_info_cache;
+    item_info_cache i_info_cache;
+    int recipe_info_scroll = 0;
     int item_info_scroll = 0;
     int item_info_scroll_popup = 0;
-
-    const auto item_info_data_from_recipe =
-    [&]( const recipe * rec, const int count, int &scroll_pos ) {
-        if( item_info_cache.last_recipe != rec ) {
-            item_info_cache.last_recipe = rec;
-            item_info_cache.dummy = rec->create_result();
-            item_info_cache.dummy.set_var( "recipe_exemplar", rec->ident().str() );
-            item_info_scroll = 0;
-            item_info_scroll_popup = 0;
-        }
-        std::vector<iteminfo> info;
-        item_info_cache.dummy.info( true, info, count );
-        item_info_data data( item_info_cache.dummy.tname( count ),
-                             item_info_cache.dummy.type_name( count ),
-                             info, {}, scroll_pos );
-        return data;
-    };
 
     // always re-translate the category names in case the language has changed
     translate_all();
@@ -609,18 +791,28 @@ const recipe *select_crafting_recipe( int &batch_size_out )
     std::map<std::string, bool> is_cat_unread;
     std::map<std::string, std::map<std::string, bool>> is_subcat_unread;
 
-    const auto recipes_from_cat = [&]( const std::string & cat, const std::string & subcat ) {
-        if( subcat == "CSC_*_FAVORITE" ) {
-            return std::make_pair( available_recipes.favorite(), false );
-        } else if( subcat == "CSC_*_RECENT" ) {
-            return std::make_pair( available_recipes.recent(), false );
-        } else if( subcat == "CSC_*_HIDDEN" ) {
-            return std::make_pair( available_recipes.hidden(), true );
-        } else {
-            return std::make_pair( available_recipes.in_category( cat, subcat != "CSC_ALL" ? subcat : "" ),
-                                   false );
+    if( goto_recipe.is_valid() ) {
+        const std::vector<const recipe *> &gotocat = available_recipes.in_category( goto_recipe->category );
+        if( !gotocat.empty() ) {
+            const auto gotorec = std::find_if( gotocat.begin(),
+            gotocat.end(), [&goto_recipe]( const recipe * r ) {
+                return r && r->ident() == goto_recipe;
+            } );
+            if( gotorec != gotocat.end() &&
+                std::find( craft_cat_list.begin(), craft_cat_list.end(),
+                           goto_recipe->category ) != craft_cat_list.end() ) {
+                while( tab.cur() != goto_recipe->category ) {
+                    tab.next();
+                }
+                subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
+                chosen = *gotorec;
+                show_hidden = true;
+                keepline = true;
+                current = gotocat;
+                line = gotorec - gotocat.begin();
+            }
         }
-    };
+    }
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         if( highlight_unread_recipes && recalc_unread ) {
@@ -629,7 +821,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                     is_cat_unread[cat] = false;
                     for( const std::string &subcat : craft_subcat_list[cat] ) {
                         is_subcat_unread[cat][subcat] = false;
-                        const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( cat, subcat );
+                        const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( available_recipes,
+                                cat, subcat );
                         const std::vector<const recipe *> &recipes = result.first;
                         const bool include_hidden = result.second;
                         for( const recipe *const rcp : recipes ) {
@@ -663,7 +856,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             recalc_unread = false;
         }
 
-        const TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
+        const TAB_MODE m = batch ? BATCH : filterstring.empty() ? NORMAL : FILTERED;
         draw_recipe_tabs( w_head, tab.cur(), m, is_filtered_unread, is_cat_unread );
         draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes, m,
                              is_subcat_unread[tab.cur()] );
@@ -753,8 +946,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 qry_comps = qry.substr( 2 );
             }
 
-            const std::vector<std::string> &info = cached_recipe_info(
-                    recp, avail, player_character, qry_comps, batch_size, fold_width, color );
+            const std::vector<std::string> &info = cached_recipe_info( r_info_cache,
+                                                   recp, avail, player_character, qry_comps, batch_size, fold_width, color );
 
             const int total_lines = info.size();
             if( recipe_info_scroll < 0 ) {
@@ -777,24 +970,32 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             }
         }
 
-        draw_scrollbar( w_data, line, dataLines, recmax, point_zero );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 0 )
+        .content_size( recmax )
+        .viewport_pos( istart )
+        .viewport_size( dataLines ).apply( w_data );
+
         wnoutrefresh( w_data );
 
         if( isWide && !current.empty() ) {
             const recipe *cur_recipe = current[line];
+            werase( w_iteminfo );
             if( cur_recipe->is_practice() ) {
                 const std::string desc = practice_recipe_description( *cur_recipe, player_character );
-                werase( w_iteminfo );
                 fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
             } else {
-                item_info_data data = item_info_data_from_recipe( cur_recipe, batch_size, item_info_scroll );
+                item_info_data data = item_info_data_from_recipe( i_info_cache, &item_info_scroll,
+                                      &item_info_scroll_popup, cur_recipe, batch_size, item_info_scroll );
                 data.without_getch = true;
                 data.without_border = true;
                 data.scrollbar_left = false;
                 data.use_full_win = true;
+                data.padding = 0;
                 draw_item_info( w_iteminfo, data );
             }
         }
@@ -929,8 +1130,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                     } while( qry_end != std::string::npos );
                     picking.insert( picking.end(), filtered_recipes.begin(), filtered_recipes.end() );
                 } else {
-                    const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( tab.cur(),
-                            subtab.cur() );
+                    const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( available_recipes,
+                            tab.cur(), subtab.cur() );
                     show_hidden = result.second;
                     if( show_hidden ) {
                         current = result.first;
@@ -1083,15 +1284,21 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             } else {
                 line += -scroll_rate;
             }
+        } else if( action == "HOME" ) {
+            line = 0;
+            user_moved_line = highlight_unread_recipes;
+        } else if( action == "END" ) {
+            line = -1;
+            user_moved_line = highlight_unread_recipes;
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line].can_craft ) {
                 popup( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );
             } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
-                       ( batch ) ? line + 1 : 1 ) ) {
+                       batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
             } else {
                 chosen = current[line];
-                batch_size_out = ( batch ) ? line + 1 : 1;
+                batch_size_out = batch ? line + 1 : 1;
                 done = true;
                 uistate.read_recipes.insert( chosen->ident() );
             }
@@ -1104,7 +1311,8 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             recalc_unread = highlight_unread_recipes;
             ui.invalidate_ui();
 
-            item_info_data data = item_info_data_from_recipe( current[line], 1, item_info_scroll_popup );
+            item_info_data data = item_info_data_from_recipe( i_info_cache, &item_info_scroll,
+                                  &item_info_scroll_popup, current[line], 1, item_info_scroll_popup );
             data.handle_scrolling = true;
             draw_item_info( []() -> catacurses::window {
                 const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
@@ -1382,7 +1590,16 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();
     if( rel_menu.ret != UILIST_CANCEL ) {
-        return rel_menu.entries[rel_menu.ret].txt.substr( strlen( "─ " ) );
+
+        // Grab the recipe name without our bullet point.
+        std::string recipe = rel_menu.entries[rel_menu.ret].txt.substr( strlen( "─ " ) );
+
+        // If the string is decorated as a favourite, return it without the star
+        if( recipe.rfind( "* ", 0 ) == 0 ) {
+            return recipe.substr( strlen( "* " ) );
+        }
+
+        return recipe;
     }
 
     return "";
@@ -1477,8 +1694,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     if( player_character.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
     } else if( player_character.crafting_speed_multiplier( rec ) <= 0.0f ) {
-        // Technically not always only too sad, but must be too sad
-        right_print( w, 0, 1, i_red, _( "too sad to craft" ) );
+        right_print( w, 0, 1, i_red, _( "unable to craft" ) );
     } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
         right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
                      static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );

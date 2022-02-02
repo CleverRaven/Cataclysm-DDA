@@ -57,11 +57,6 @@
 static const std::string comesttype_DRINK( "DRINK" );
 static const std::string comesttype_FOOD( "FOOD" );
 
-static const skill_id skill_cooking( "cooking" );
-static const skill_id skill_survival( "survival" );
-
-static const mtype_id mon_player_blob( "mon_player_blob" );
-
 static const bionic_id bio_digestion( "bio_digestion" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
@@ -78,7 +73,21 @@ static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_visuals( "visuals" );
+
+static const flag_id json_flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
+static const flag_id json_flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
+static const flag_id json_flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
+static const flag_id json_flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
+static const flag_id json_flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
+static const flag_id json_flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
+
+static const item_category_id item_category_chems( "chems" );
+
+static const itype_id itype_apparatus( "apparatus" );
+static const itype_id itype_dab_pen_on( "dab_pen_on" );
+static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 static const json_character_flag json_flag_PARAIMMUNE( "PARAIMMUNE" );
@@ -88,13 +97,14 @@ static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
 
-static const item_category_id item_category_chems( "chems" );
+static const material_id material_all( "all" );
 
-static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_dab_pen_on( "dab_pen_on" );
-static const itype_id itype_syringe( "syringe" );
+static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const mutation_category_id mutation_category_URSINE( "URSINE" );
+
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
@@ -110,9 +120,10 @@ static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_HERBIVORE( "HERBIVORE" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
+static const trait_id trait_MEATARIAN( "MEATARIAN" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_MEATARIAN( "MEATARIAN" );
+static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_PROJUNK( "PROJUNK" );
 static const trait_id trait_PROJUNK2( "PROJUNK2" );
@@ -134,17 +145,16 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_NUMB( "NUMB" );
 
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
 static const std::array<flag_id, 4> carnivore_blacklist {{
-        flag_id( "ALLERGEN_VEGGY" ), flag_id( "ALLERGEN_FRUIT" ),
-        flag_id( "ALLERGEN_WHEAT" ), flag_id( "ALLERGEN_NUT" )
+        json_flag_ALLERGEN_VEGGY, json_flag_ALLERGEN_FRUIT,
+        json_flag_ALLERGEN_WHEAT, json_flag_ALLERGEN_NUT
     }};
 
 static const std::array<flag_id, 2> herbivore_blacklist {{
-        flag_id( "ALLERGEN_MEAT" ), flag_id( "ALLERGEN_EGG" )
+        json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG
     }};
 
 // TODO: Move pizza scraping here.
@@ -208,7 +218,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         // TODO: put this loop into a function and utilize it again for bionics
         for( const auto &mat : mut.vitamin_absorb_multi ) {
             // this is where we are able to check if the food actually is changed by the trait
-            if( mat.first == material_id( "all" ) || it.made_of( mat.first ) ) {
+            if( mat.first == material_all || it.made_of( mat.first ) ) {
                 const std::map<vitamin_id, double> &mat_vit_map = mat.second;
                 for( auto &vit : res ) {
                     auto vit_factor = mat_vit_map.find( vit.first );
@@ -521,7 +531,7 @@ std::map<vitamin_id, int> Character::effect_vitamin_mod( const std::map<vitamin_
     return ret;
 }
 
-int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
+int Character::vitamin_mod( const vitamin_id &vit, int qty )
 {
     if( !vit.is_valid() ) {
         debugmsg( "Vitamin with id %s does not exist, and cannot be modified", vit.str() );
@@ -534,8 +544,7 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     const vitamin &v = *it->first;
 
     if( qty > 0 ) {
-        // Accumulations can never occur from food sources
-        it->second = std::min( it->second + qty, capped ? 0 : v.max() );
+        it->second = std::min( it->second + qty, v.max() );
         update_vitamins( vit );
 
     } else if( qty < 0 ) {
@@ -546,12 +555,12 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     return it->second;
 }
 
-void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool capped )
+void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins )
 {
     const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
     if( !npc_no_food ) {
         for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
-            vitamin_mod( vit.first, vit.second, capped );
+            vitamin_mod( vit.first, vit.second );
         }
     }
 }
@@ -572,7 +581,7 @@ bool Character::vitamin_set( const vitamin_id &vit, int qty )
     if( v == vitamin_levels.end() ) {
         return false;
     }
-    vitamin_mod( vit, qty - v->second, false );
+    vitamin_mod( vit, qty - v->second );
 
     return true;
 }
@@ -814,7 +823,9 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
         !has_flag( json_flag_PARAIMMUNE ) ) {
-        add_consequence( _( "Eating this raw meat probably isn't very healthy." ), PARASITES );
+        add_consequence( string_format( _( "Consuming this %s probably isn't very healthy." ),
+                                        food.tname() ),
+                         PARASITES );
     }
 
     const bool edible = comest->comesttype == comesttype_FOOD || food.has_flag( flag_USE_EAT_VERB );
@@ -971,7 +982,8 @@ static bool eat( item &food, Character &you, bool force )
                                    food.tname() );
     } else if( drinkable ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
+            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+            you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You drink your %s (rotten)." ), food.tname() );
@@ -981,7 +993,8 @@ static bool eat( item &food, Character &you, bool force )
         }
     } else if( chew ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
+            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+            you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You eat your %s (rotten)." ), food.tname() );
@@ -1499,6 +1512,7 @@ bool Character::consume_effects( item &food )
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
+    get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
     return true;
 }
 
@@ -1663,6 +1677,9 @@ time_duration Character::get_consume_time( const item &it )
                                             1 ) ); //Consume 15 mL (1 tablespoon) per second
         consume_time_modifier = mutation_value( "consume_time_modifier" );
     }
+
+    // Minimum consumption time, without mutations, is always 1 second.
+    time = std::max( 1_seconds, time );
 
     return time * consume_time_modifier;
 }

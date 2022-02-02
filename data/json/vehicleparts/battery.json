@@ -20,7 +20,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
     },
     "flags": [ "FOLDABLE" ],
     "damage_reduction": { "bash": 10 }

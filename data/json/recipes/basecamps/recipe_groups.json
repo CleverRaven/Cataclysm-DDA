@@ -4,7 +4,16 @@
     "id": "all_faction_base_types",
     "building_type": "NONE",
     "recipes": [
-      { "id": "faction_base_modular_hub_field_0", "description": "Modular Field Camp version 1", "om_terrains": [ "field" ] },
+      {
+        "id": "faction_base_modular_hub_field_0",
+        "description": "Modular Field Camp version 1 (original version)",
+        "om_terrains": [ "field" ]
+      },
+      {
+        "id": "faction_base_modular_hub_field_version_2_0",
+        "description": "Modular Field Camp version 2 (no trenches, more beds, courtyards, expansions not dependent on beds)",
+        "om_terrains": [ "field" ]
+      },
       { "id": "faction_base_firestation_0", "description": "Firestation Base", "om_terrains": [ "fire_station" ] },
       {
         "id": "faction_base_shelter_0",

@@ -615,7 +615,8 @@ void replace_substring( std::string &input, const std::string &substring,
 
 std::string string_replace( std::string text, const std::string &before, const std::string &after );
 std::string replace_colors( std::string text );
-std::string &capitalize_letter( std::string &str, size_t n = 0 );
+std::string uppercase_first_letter( const std::string &str );
+std::string lowercase_first_letter( const std::string &str );
 size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
@@ -707,9 +708,9 @@ std::string enumerate_as_string( const _Container &values,
             case enumeration_conjunction::none:
                 return _( ", " );
             case enumeration_conjunction::and_:
-                return ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
+                return values.size() > 2 ? _( ", and " ) : _( " and " );
             case enumeration_conjunction::or_:
-                return ( values.size() > 2 ? _( ", or " ) : _( " or " ) );
+                return values.size() > 2 ? _( ", or " ) : _( " or " );
             case enumeration_conjunction::arrow:
                 return _( " > " );
         }

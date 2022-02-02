@@ -13,7 +13,7 @@
 #include "vehicle.h"
 
 class time_duration;
-static const trait_id trait_SEESLEEP( "SEESLEEP" );
+static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 talker_character::talker_character( Character *new_me )
 {
@@ -443,7 +443,7 @@ void talker_character::set_mana_cur( int value )
 bool talker_character_const::can_see() const
 {
     return !me_chr_const->is_blind() && ( !me_chr_const->in_sleep_state() ||
-                                          me_chr_const->has_trait( trait_SEESLEEP ) );
+                                          me_chr_const->has_flag( json_flag_SEESLEEP ) );
 }
 
 void talker_character::set_fatigue( int amount )
@@ -542,6 +542,28 @@ int talker_character_const::get_kill_xp() const
     return me_chr_const->kill_xp;
 }
 
+void talker_character::set_age( int amount )
+{
+    int years_since_cataclysm = to_turns<int>( calendar::turn - calendar::turn_zero ) /
+                                to_turns<int>( calendar::year_length() );
+    me_chr->set_base_age( amount + years_since_cataclysm );
+}
+
+int talker_character_const::get_age() const
+{
+    return me_chr_const->age();
+}
+
+void talker_character::set_height( int amount )
+{
+    me_chr->set_base_height( amount );
+}
+
+int talker_character_const::get_height() const
+{
+    return me_chr_const->height();
+}
+
 void talker_character::add_bionic( const bionic_id &new_bionic )
 {
     me_chr->add_bionic( new_bionic );
@@ -549,7 +571,9 @@ void talker_character::add_bionic( const bionic_id &new_bionic )
 
 void talker_character::remove_bionic( const bionic_id &old_bionic )
 {
-    me_chr->remove_bionic( old_bionic );
+    if( cata::optional<bionic *> bio = me_chr->find_bionic_by_type( old_bionic ) ) {
+        me_chr->remove_bionic( **bio );
+    }
 }
 
 std::vector<skill_id> talker_character::skills_teacheable() const

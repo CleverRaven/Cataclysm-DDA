@@ -39,6 +39,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const item_group_id Item_spawn_data_forest( "forest" );
+
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
@@ -388,7 +390,7 @@ item_group_id basecamp::get_gatherlist() const
             return gatherlist;
         }
     }
-    return item_group_id( "forest" );
+    return Item_spawn_data_forest;
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )
@@ -603,7 +605,7 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
 void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
-    const tripoint &dump_spot = get_dumping_spot();
+    const tripoint_abs_ms &dump_spot = get_dumping_spot();
     const tripoint &origin = target_map.getlocal( dump_spot );
     auto &mgr = zone_manager::get_manager();
     map &here = get_map();
@@ -611,7 +613,8 @@ void basecamp::form_crafting_inventory( map &target_map )
         mgr.cache_vzones();
     }
     if( mgr.has_near( zone_type_CAMP_STORAGE, dump_spot, 60 ) ) {
-        std::unordered_set<tripoint> src_set = mgr.get_near( zone_type_CAMP_STORAGE, dump_spot, 60 );
+        std::unordered_set<tripoint_abs_ms> src_set =
+            mgr.get_near( zone_type_CAMP_STORAGE, dump_spot, 60 );
         _inv.form_from_zone( target_map, src_set, nullptr, false );
     }
     /*

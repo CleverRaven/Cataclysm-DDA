@@ -41,28 +41,46 @@ class item_contents
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
 
-        units::length max_containable_length() const;
-        units::volume max_containable_volume() const;
+        units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
+        units::length min_containable_length() const;
+        units::volume max_containable_volume( bool unrestricted_pockets_only = false ) const;
 
         std::set<flag_id> magazine_flag_restrictions() const;
+        /**
+         * returns whether any of the pockets contained is compatible with the specified item.
+         * Does not check if the item actually fits volume/weight wise
+         * Ignores mod, migration, corpse pockets
+         * @param it the item being put in
+         */
+        ret_val<bool> is_compatible( const item &it ) const;
 
         /**
          * returns whether an item can be physically stored within these item contents.
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
          * physical pockets.
          * @param it the item being put in
-         * @param ignore_fullness checks if the container could hold one of these items when empty
          */
-        ret_val<bool> can_contain( const item &it, const bool ignore_fullness = false ) const;
+        ret_val<bool> can_contain( const item &it ) const;
         ret_val<bool> can_contain_rigid( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
-        // does not ignore mods
-        bool empty_real() const;
+
+        /**
+         * returns whether any of the pockets can be reloaded with the specified item.
+         * @param ammo item to be loaded in
+         * @param now whether the currently contained ammo/magazine should be taken into account
+         */
+        bool can_reload_with( const item &ammo, const bool now ) const;
+
+        // Returns true if contents are empty (ignoring item mods, since they aren't contents)
         bool empty() const;
+        // Returns true if contents are empty of everything including mods
+        bool empty_with_no_mods() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
         bool empty_container() const;
         // checks if CONTAINER pockets are all full
         bool full( bool allow_bucket ) const;
+        // Checks if MAGAZINE pockets are all full
+        bool is_magazine_full() const;
         // are any CONTAINER pockets bigger on the inside than the container's volume?
         bool bigger_on_the_inside( const units::volume &container_volume ) const;
         // number of pockets
@@ -77,7 +95,8 @@ class item_contents
 
     public:
         /** returns a list of pointers to all top-level items */
-        std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
+        /** if unloading is true it ignores items in pockets that are flagged to not unload */
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
 
@@ -120,26 +139,50 @@ class item_contents
         units::length item_length_modifier() const;
 
         // gets the total weight capacity of all pockets
-        units::mass total_container_weight_capacity() const;
+        units::mass total_container_weight_capacity( bool unrestricted_pockets_only = false ) const;
 
         /**
           * gets the total volume available to be used.
           * does not guarantee that an item of that size can be inserted.
           */
-        units::volume total_container_capacity() const;
+        units::volume total_container_capacity( bool unrestricted_pockets_only = false ) const;
 
         // Gets the total volume of every is_standard_type container
-        units::volume total_standard_capacity() const;
+        units::volume total_standard_capacity( bool unrestricted_pockets_only = false ) const;
 
-        units::volume remaining_container_capacity() const;
-        units::volume total_contained_volume() const;
+        units::volume remaining_container_capacity( bool unrestricted_pockets_only = false ) const;
+        units::volume total_contained_volume( bool unrestricted_pockets_only = false ) const;
+        units::mass remaining_container_capacity_weight( bool unrestricted_pockets_only = false ) const;
+        units::mass total_contained_weight( bool unrestricted_pockets_only = false ) const;
         units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
         const;
 
-        // gets all pockets contained in this item
+        // gets all CONTAINER pockets contained in this item
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+
+        // called when adding an item as pockets
+        // to a molle item
+        void add_pocket( const item &pocket );
+
+        // called when removing a molle pocket
+        // needs the index of the pocket in both
+        // related vectors
+        // returns the item that was attached
+        item remove_pocket( int index );
+
+        std::vector<const item *> get_added_pockets() const;
+
+        bool has_additional_pockets() const;
+
+        int get_additional_pocket_encumbrance( float mod ) const;
+        int get_additional_space_used() const;
+        units::mass get_additional_weight() const;
+        units::volume get_additional_volume() const;
+
+        // Gets all CONTAINER/MAGAZINE/MAGAZINE WELL pockets in this item
+        std::vector<const item_pocket *> get_all_reloadable_pockets() const;
 
         // gets the number of charges of liquid that can fit into the rest of the space
         int remaining_capacity_for_liquid( const item &liquid ) const;
@@ -239,6 +282,7 @@ class item_contents
 
         // whether the contents has a pocket with the associated type
         bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_unrestricted_pockets() const;
         bool has_any_with( const std::function<bool( const item & )> &filter,
                            item_pocket::pocket_type pk_type ) const;
 
@@ -254,6 +298,9 @@ class item_contents
         bool same_contents( const item_contents &rhs ) const;
         // can this item be used as a funnel?
         bool is_funnel_container( units::volume &bigger_than ) const;
+        // the container has restrictions
+        bool is_restricted_container() const;
+        bool is_single_restricted_container() const;
         /**
          * @relates visitable
          * NOTE: upon expansion, this may need to be filtered by type enum depending on accessibility
@@ -282,6 +329,14 @@ class item_contents
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
 
         std::list<item_pocket> contents;
+
+        // pockets that have been custom added
+        std::vector<item> additional_pockets;
+        // TODO make this work with non torso items
+        units::volume additional_pockets_volume = 0_ml; // NOLINT(cata-serialize)
+
+        // an abstraction for how many 'spaces' of this item have been used attaching additional pockets
+        int additional_pockets_space_used = 0; // NOLINT(cata-serialize)
 
         struct item_contents_helper;
 

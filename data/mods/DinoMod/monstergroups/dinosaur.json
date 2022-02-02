@@ -4,11 +4,10 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR",
     "monsters": [
-      { "monster": "mon_null", "weight": 614 },
       { "monster": "mon_coelophysis", "weight": 4, "cost_multiplier": 5, "pack_size": [ 4, 8 ] },
-      { "monster": "mon_dilophosaurus", "weight": 1, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_ceratosaurus", "weight": 1, "cost_multiplier": 30 },
-      { "monster": "mon_spinosaurus", "weight": 1, "cost_multiplier": 40 },
+      { "monster": "mon_dilophosaurus", "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ceratosaurus", "cost_multiplier": 30 },
+      { "monster": "mon_spinosaurus", "cost_multiplier": 40 },
       { "monster": "mon_allosaurus", "weight": 8, "cost_multiplier": 30 },
       { "monster": "mon_acrocanthosaurus", "weight": 8, "cost_multiplier": 40 },
       { "monster": "mon_siats", "weight": 8, "cost_multiplier": 40 },
@@ -53,7 +52,6 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_HARMLESS",
     "monsters": [
-      { "monster": "mon_null", "weight": 665 },
       { "monster": "mon_compsognathus", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
@@ -81,7 +79,6 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_HARMLESS_HATCHLING",
     "monsters": [
-      { "monster": "mon_null", "weight": 695 },
       { "monster": "mon_compsognathus_hatchling", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_nothronychus_hatchling", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
@@ -114,11 +111,10 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_DANGEROUS_HATCHLING",
     "monsters": [
-      { "monster": "mon_null", "weight": 909 },
       { "monster": "mon_coelophysis_hatchling", "weight": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dilophosaurus_hatchling", "weight": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_ceratosaurus_hatchling", "weight": 1, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_spinosaurus_hatchling", "weight": 1, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ceratosaurus_hatchling", "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_spinosaurus_hatchling", "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_allosaurus_hatchling", "weight": 8, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_acrocanthosaurus_hatchling", "weight": 8, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_siats_hatchling", "weight": 8, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
@@ -134,7 +130,6 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_HARMLESS_JUVENILE",
     "monsters": [
-      { "monster": "mon_null", "weight": 745 },
       { "monster": "mon_gallimimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_stegosaurus_juvenile", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dyoplosaurus_juvenile", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
@@ -153,10 +148,9 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_DANGEROUS_JUVENILE",
     "monsters": [
-      { "monster": "mon_null", "weight": 960 },
       { "monster": "mon_dilophosaurus_juvenile", "weight": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_ceratosaurus_juvenile", "weight": 1, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_spinosaurus_juvenile", "weight": 1, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ceratosaurus_juvenile", "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_spinosaurus_juvenile", "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_allosaurus_juvenile", "weight": 8, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_deinonychus_juvenile", "weight": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
       { "monster": "mon_utahraptor_juvenile", "weight": 5, "cost_multiplier": 30 }
@@ -166,7 +160,6 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_MEGA_HERBIVORE",
     "monsters": [
-      { "monster": "mon_null", "weight": 870 },
       { "monster": "mon_apatosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_brontosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_diplodocus", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
@@ -214,9 +207,458 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_SWIM",
     "monsters": [
-      { "monster": "mon_null", "weight": 992 },
       { "monster": "mon_mosasaurus", "weight": 4, "cost_multiplier": 60 },
       { "monster": "mon_spinosaurus", "weight": 4, "cost_multiplier": 40 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_PREDATOR_WILDERNESS",
+    "monsters": [
+      {
+        "monster": "mon_coelophysis",
+        "cost_multiplier": 5,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_ceratosaurus", "cost_multiplier": 30, "starts": "3 days" },
+      { "monster": "mon_zeratosaurus", "cost_multiplier": 35, "starts": "7 days" },
+      { "monster": "mon_allosaurus", "weight": 2, "cost_multiplier": 30, "starts": "3 days" },
+      { "monster": "mon_zallosaurus", "cost_multiplier": 35, "starts": "7 days" },
+      { "monster": "mon_zallosaurus", "cost_multiplier": 35, "starts": "28 days" },
+      { "monster": "mon_acrocanthosaurus", "weight": 2, "cost_multiplier": 40, "starts": "3 days" },
+      { "monster": "mon_zacrocanthosaurus", "cost_multiplier": 45, "starts": "7 days" },
+      { "monster": "mon_zacrocanthosaurus", "cost_multiplier": 45, "starts": "28 days" },
+      { "monster": "mon_siats", "weight": 2, "cost_multiplier": 40, "starts": "3 days" },
+      { "monster": "mon_ziats", "cost_multiplier": 45, "starts": "7 days" },
+      { "monster": "mon_ziats", "cost_multiplier": 45, "starts": "28 days" },
+      { "monster": "mon_tyrannosaurus", "weight": 2, "cost_multiplier": 40, "starts": "3 days" },
+      { "monster": "mon_zyrannosaurus", "cost_multiplier": 80, "starts": "7 days" },
+      { "monster": "mon_zyrannosaurus", "cost_multiplier": 80, "starts": "28 days" },
+      { "monster": "mon_gorgosaurus", "cost_multiplier": 35, "starts": "3 days" },
+      { "monster": "mon_zorgosaurus", "cost_multiplier": 35, "starts": "7 days" },
+      { "monster": "mon_albertosaurus", "cost_multiplier": 35, "starts": "3 days" },
+      { "monster": "mon_zalbertosaurus", "cost_multiplier": 35, "starts": "7 days" },
+      {
+        "monster": "mon_nothronychus",
+        "weight": 3,
+        "cost_multiplier": 30,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_zothronychus", "cost_multiplier": 30, "starts": "3 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zothronychus", "cost_multiplier": 30, "starts": "7 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zothronychus", "cost_multiplier": 30, "starts": "28 days", "pack_size": [ 1, 2 ] },
+      {
+        "monster": "mon_deinonychus",
+        "weight": 3,
+        "cost_multiplier": 15,
+        "pack_size": [ 2, 3 ],
+        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_zeinonychus", "cost_multiplier": 30, "starts": "3 days", "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zeinonychus", "cost_multiplier": 30, "starts": "7 days", "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zeinonychus", "cost_multiplier": 30, "starts": "28 days", "pack_size": [ 2, 3 ] },
+      {
+        "monster": "mon_utahraptor",
+        "weight": 3,
+        "cost_multiplier": 30,
+        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_zutahraptor", "cost_multiplier": 30, "starts": "3 days" },
+      { "monster": "mon_zutahraptor", "cost_multiplier": 30, "starts": "7 days" },
+      { "monster": "mon_zutahraptor", "cost_multiplier": 30, "starts": "28 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS",
+    "monsters": [
+      {
+        "monster": "mon_amargasaurus",
+        "weight": 10,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_zamargasaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "3 days"
+      },
+      {
+        "monster": "mon_zamargasaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "7 days"
+      },
+      {
+        "monster": "mon_zamargasaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_zamargasaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "90 days"
+      },
+      {
+        "monster": "mon_apatosaurus",
+        "weight": 10,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_zapatosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "3 days"
+      },
+      {
+        "monster": "mon_zapatosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "7 days"
+      },
+      {
+        "monster": "mon_zapatosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_zapatosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "90 days"
+      },
+      {
+        "monster": "mon_brontosaurus",
+        "weight": 10,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_zrontosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "3 days"
+      },
+      {
+        "monster": "mon_zrontosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "7 days"
+      },
+      {
+        "monster": "mon_zrontosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_zrontosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "90 days"
+      },
+      {
+        "monster": "mon_diplodocus",
+        "weight": 10,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_ziplodocus", "weight": 2, "cost_multiplier": 25, "pack_size": [ 4, 12 ], "starts": "3 days" },
+      { "monster": "mon_ziplodocus", "weight": 2, "cost_multiplier": 25, "pack_size": [ 4, 12 ], "starts": "7 days" },
+      { "monster": "mon_ziplodocus", "weight": 2, "cost_multiplier": 25, "pack_size": [ 4, 12 ], "starts": "28 days" },
+      { "monster": "mon_ziplodocus", "weight": 2, "cost_multiplier": 25, "pack_size": [ 4, 12 ], "starts": "90 days" },
+      {
+        "monster": "mon_camarasaurus",
+        "weight": 10,
+        "cost_multiplier": 25,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_zamarasaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "3 days"
+      },
+      {
+        "monster": "mon_zamarasaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "7 days"
+      },
+      {
+        "monster": "mon_zamarasaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_zamarasaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "90 days"
+      },
+      {
+        "monster": "mon_brachiosaurus",
+        "weight": 10,
+        "cost_multiplier": 25,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_zrachiosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "3 days"
+      },
+      {
+        "monster": "mon_zrachiosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "7 days"
+      },
+      {
+        "monster": "mon_zrachiosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_zrachiosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "90 days"
+      },
+      {
+        "monster": "mon_alamosaurus",
+        "weight": 10,
+        "cost_multiplier": 25,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_zalamosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "3 days"
+      },
+      {
+        "monster": "mon_zalamosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "7 days"
+      },
+      {
+        "monster": "mon_zalamosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_zalamosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "90 days"
+      }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS",
+    "monsters": [
+      {
+        "monster": "mon_camptosaurus",
+        "weight": 20,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_zamptosaurus",
+        "weight": 5,
+        "cost_multiplier": 10,
+        "pack_size": [ 4, 12 ],
+        "starts": "3 days"
+      },
+      {
+        "monster": "mon_zamptosaurus",
+        "weight": 5,
+        "cost_multiplier": 10,
+        "pack_size": [ 4, 12 ],
+        "starts": "7 days"
+      },
+      {
+        "monster": "mon_zamptosaurus",
+        "weight": 5,
+        "cost_multiplier": 10,
+        "pack_size": [ 4, 12 ],
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_zamptosaurus",
+        "weight": 5,
+        "cost_multiplier": 10,
+        "pack_size": [ 4, 12 ],
+        "starts": "90 days"
+      },
+      {
+        "monster": "mon_maiasaura",
+        "weight": 20,
+        "cost_multiplier": 10,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_zaiasaura", "weight": 5, "cost_multiplier": 20, "pack_size": [ 4, 12 ], "starts": "3 days" },
+      { "monster": "mon_zaiasaura", "weight": 5, "cost_multiplier": 20, "pack_size": [ 4, 12 ], "starts": "7 days" },
+      { "monster": "mon_zaiasaura", "weight": 5, "cost_multiplier": 20, "pack_size": [ 4, 12 ], "starts": "28 days" },
+      { "monster": "mon_zaiasaura", "weight": 5, "cost_multiplier": 20, "pack_size": [ 4, 12 ], "starts": "90 days" },
+      {
+        "monster": "mon_parasaurolophus",
+        "weight": 20,
+        "cost_multiplier": 10,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_zarasaurolophus",
+        "weight": 5,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "starts": "3 days"
+      },
+      {
+        "monster": "mon_zarasaurolophus",
+        "weight": 5,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "starts": "7 days"
+      },
+      {
+        "monster": "mon_zarasaurolophus",
+        "weight": 5,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_zarasaurolophus",
+        "weight": 5,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "starts": "90 days"
+      },
+      {
+        "monster": "mon_corythosaurus",
+        "weight": 20,
+        "cost_multiplier": 10,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_zorythosaurus",
+        "weight": 5,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "starts": "3 days"
+      },
+      {
+        "monster": "mon_zorythosaurus",
+        "weight": 5,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "starts": "7 days"
+      },
+      {
+        "monster": "mon_zorythosaurus",
+        "weight": 5,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_zorythosaurus",
+        "weight": 5,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "starts": "90 days"
+      },
+      {
+        "monster": "mon_edmontosaurus",
+        "weight": 20,
+        "cost_multiplier": 10,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_zedmontosaurus",
+        "weight": 5,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "starts": "3 days"
+      },
+      {
+        "monster": "mon_zedmontosaurus",
+        "weight": 5,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "starts": "7 days"
+      },
+      {
+        "monster": "mon_zedmontosaurus",
+        "weight": 5,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_zedmontosaurus",
+        "weight": 5,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 12 ],
+        "starts": "90 days"
+      },
+      { "monster": "mon_pteranodon", "weight": 25, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_quetzalcoatlus", "weight": 4, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mosasaurus", "weight": 4, "cost_multiplier": 60 },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "3 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "7 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "28 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "90 days" }
     ]
   }
 ]

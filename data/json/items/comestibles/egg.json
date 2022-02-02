@@ -229,9 +229,11 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_roach_plague",
-    "name": { "str": "roach egg" },
+    "name": { "str": "plague vector egg" },
     "copy-from": "egg_roach",
     "healthy": -10,
+    "description": "A fist-sized egg from a plague vector.  Incredibly gross.",
+    "vitamins": [ [ "mutant_toxin", 50 ] ],
     "rot_spawn": "GROUP_EGG_ROACH_PLAGUE"
   },
   {
@@ -620,5 +622,15 @@
     "material": [ "egg" ],
     "fun": 2,
     "flags": [ "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "copy-from": "egg_chicken",
+    "weight": "20 g",
+    "volume": "650 ml",
+    "description": "A large clump of the eggs of a frog.  The eggs themselves are gelatinous and transparent.",
+    "rot_spawn": "GROUP_EGG_FROG"
   }
 ]

@@ -119,5 +119,19 @@
     "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE" ],
     "shape": "blast",
     "effect": "attack"
+  },
+  {
+    "type": "SPELL",
+    "id": "AO_CLOSE_TEAR",
+    "name": { "str": "Artifact Close Tear" },
+    "description": "Closes a tear in reality and transfers strange energy to the artifact user",
+    "message": "",
+    "min_aoe": 40,
+    "max_aoe": 40,
+    "valid_targets": [ "field" ],
+    "flags": [ "IGNORE_WALLS", "NO_PROJECTILE" ],
+    "shape": "blast",
+    "effect": "remove_field",
+    "effect_str": "fd_fatigue"
   }
 ]

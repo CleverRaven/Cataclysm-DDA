@@ -29,10 +29,10 @@
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const skill_id skill_melee( "melee" );
-
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_spore( "mon_spore" );
+
+static const skill_id skill_melee( "melee" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 

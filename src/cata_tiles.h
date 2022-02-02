@@ -107,6 +107,15 @@ class texture
         }
 };
 
+class layer_variant
+{
+    public:
+        std::string item;
+        std::map<std::string, int> sprite;
+        int layer;
+        int total_weight;
+};
+
 class tileset
 {
     private:
@@ -136,6 +145,7 @@ class tileset
         // either variant can be either a `nullptr` or a pointer/reference to the real value (stored inside `tile_ids`)
         std::unordered_map<std::string, season_tile_value> tile_ids_by_season[season_type::NUM_SEASONS];
 
+
         static const texture *get_if_available( const size_t index,
                                                 const decltype( shadow_tile_values ) &tiles ) {
             return index < tiles.size() ? & tiles[index] : nullptr;
@@ -144,6 +154,11 @@ class tileset
         friend class tileset_cache;
 
     public:
+
+        std::unordered_map<std::string, std::vector<layer_variant>> layer_data;
+
+        void clear();
+
         int get_tile_width() const {
             return tile_width;
         }
@@ -179,6 +194,7 @@ class tileset
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
         const tile_type *find_tile_type( const std::string &id ) const;
+
         /**
          * Looks up tile by id + season suffix AND just raw id
          * Example: if id == "t_tree_apple" and season == SPRING
@@ -283,6 +299,12 @@ class tileset_cache::loader
          */
         void load_internal( const JsonObject &config, const std::string &tileset_root,
                             const std::string &img_path, bool pump_events );
+
+        /**
+         * Helper function to load layering data.
+         * @throw std::exception On any error.
+         */
+        void load_layers( const JsonObject &config );
 
     public:
         loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {

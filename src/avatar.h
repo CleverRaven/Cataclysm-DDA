@@ -25,6 +25,7 @@
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
+class diary;
 class faction;
 class item;
 class item_location;
@@ -142,12 +143,6 @@ class avatar : public Character
 
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Uses morale and other factors to return the player's focus target goto value */
-        int calc_focus_equilibrium( bool ignore_pain = false ) const;
-        /** Calculates actual focus gain/loss value from focus equilibrium*/
-        int calc_focus_change() const;
-        /** Uses calc_focus_change to update the player's current focus */
-        void update_mental_focus();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
@@ -179,9 +174,12 @@ class avatar : public Character
          */
         void on_mission_finished( mission &cur_mission );
 
+        //return avatar diary
+        diary *get_avatar_diary();
+
         // Dialogue and bartering--see npctalk.cpp
-        void talk_to( std::unique_ptr<talker> talk_with, bool text_only = false,
-                      bool radio_contact = false );
+        void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false,
+                      bool is_computer = false );
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
@@ -200,12 +198,20 @@ class avatar : public Character
                              int base_cost = INVENTORY_HANDLING_PENALTY );
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
+        void set_location( const tripoint_abs_ms &loc );
         /** Handles reading effects and returns true if activity started */
         bool read( item_location &book, item_location ereader = {} );
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;
         void clear_identified();
+
+        void add_snippet( snippet_id snippet );
+        bool has_seen_snippet( const snippet_id &snippet ) const;
+        const std::set<snippet_id> &get_snippets();
+
+        // the encumbrance on your limbs reducing your dodging ability
+        int limb_dodge_encumbrance() const;
 
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
@@ -278,9 +284,14 @@ class avatar : public Character
             return mon_visible;
         }
 
+        const monster_visible_info &get_mon_visible() const {
+            return mon_visible;
+        }
+
         struct daily_calories {
             int spent = 0;
             int gained = 0;
+            int ingested = 0;
             int total() const {
                 return gained - spent;
             }
@@ -291,6 +302,7 @@ class avatar : public Character
 
                 json.member( "spent", spent );
                 json.member( "gained", gained );
+                json.member( "ingested", ingested );
                 save_activity( json );
 
                 json.end_object();
@@ -298,6 +310,7 @@ class avatar : public Character
             void deserialize( const JsonObject &data ) {
                 data.read( "spent", spent );
                 data.read( "gained", gained );
+                data.read( "ingested", ingested );
                 if( data.has_member( "activity" ) ) {
                     read_activity( data );
                 }
@@ -319,6 +332,9 @@ class avatar : public Character
         // called once a day; adds a new daily_calories to the
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
+        int get_daily_spent_kcal( bool yesterday ) const;
+        int get_daily_ingested_kcal( bool yesterday ) const;
+        void add_ingested_kcal( int kcal );
         void update_cardio_acc() override;
         void add_spent_calories( int cal ) override;
         void add_gained_calories( int cal ) override;
@@ -330,13 +346,16 @@ class avatar : public Character
 
         int movecounter = 0;
 
+        // ammount of turns since last check for pocket noise
+        time_point last_pocket_noise = time_point( 0 );
+
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 
+        const mood_face_id &character_mood_face( bool clear_cache = false ) const;
+
     private:
-        // the encumbrance on your limbs reducing your dodging ability
-        int limb_dodge_encumbrance() const;
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;
@@ -363,6 +382,10 @@ class avatar : public Character
          */
         mission *active_mission;
         /**
+        * diary to track player progression and to write the players stroy
+        */
+        std::unique_ptr <diary> a_diary;
+        /**
          * The amount of calories spent and gained per day for the last 30 days.
          * the back is popped off and a new one added to the front at midnight each day
          */
@@ -370,6 +393,9 @@ class avatar : public Character
 
         // Items the player has identified.
         std::unordered_set<itype_id> items_identified;
+
+        // Snippets the player has seen
+        std::set<snippet_id> snippets_read;
 
         object_type grab_type;
 

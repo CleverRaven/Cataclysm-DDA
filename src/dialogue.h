@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "dialogue_win.h"
+#include "global_vars.h"
 #include "npc.h"
 #include "talker.h"
 #include "translations.h"
@@ -138,6 +139,8 @@ struct talk_effect_fun_t {
         void set_npc_aim_rule( const std::string &setting );
         void set_npc_cbm_reserve_rule( const std::string &setting );
         void set_npc_cbm_recharge_rule( const std::string &setting );
+        void set_location_variable( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_transform_radius( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
         void set_npc_goal( const JsonObject &jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc = false );
@@ -150,11 +153,13 @@ struct talk_effect_fun_t {
         void set_npc_first_topic( const std::string &chat_topic );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_add_faction_trust( const JsonObject &jo, const std::string &member );
+        void set_lose_faction_trust( const JsonObject &jo, const std::string &member );
         void set_arithmetic( const JsonObject &jo, const std::string &member );
-        std::function<void( const dialogue &, int )> get_set_int( const JsonObject &jo );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_teleport( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_open_dialogue();
         void set_take_control();
         void set_take_control_menu();
@@ -261,7 +266,7 @@ struct dialogue {
         /** Missions that have been assigned by this npc to the player they currently speak to. */
         std::vector<mission *> missions_assigned;
 
-        talk_topic opt( dialogue_window &d_win, const std::string &npc_name, const talk_topic &topic );
+        talk_topic opt( dialogue_window &d_win, const talk_topic &topic );
         dialogue() = default;
         dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in );
         talker *actor( const bool is_beta ) const;
@@ -358,6 +363,8 @@ struct dialogue {
          */
         talk_response &add_response( const std::string &text, const std::string &r,
                                      const itype_id &item_type, bool first = false );
+
+        int get_best_quit_response() const;
 };
 
 /**
@@ -384,6 +391,88 @@ struct dynamic_line_t {
             }
             return function( d );
         }
+};
+
+struct var_info {
+    var_info( var_type in_type, std::string in_name, std::string in_default_val ): type( in_type ),
+        name( in_name ), default_val( in_default_val ) {}
+    var_type type;
+    std::string name;
+    std::string default_val;
+};
+
+static std::string read_var_value( var_type type, std::string name, talker *talk )
+{
+    global_variables &globvars = get_globals();
+    switch( type ) {
+        case var_type::global:
+            return globvars.get_global_value( name );
+            break;
+        case var_type::u:
+        case var_type::npc:
+            return talk->get_value( name );
+            break;
+        case var_type::faction:
+            debugmsg( "Not implemented yet." );
+            break;
+        case var_type::party:
+            debugmsg( "Not implemented yet." );
+            break;
+        default:
+            debugmsg( "Invalid type." );
+            break;
+    }
+    return "";
+}
+
+struct int_or_var {
+    cata::optional<int> int_val;
+    cata::optional<std::string> var_val;
+    cata::optional<int> default_val;
+    var_type type = var_type::u;
+    bool is_npc() const {
+        return type == var_type::npc;
+    }
+    int evaluate( talker *talk ) const {
+        if( int_val.has_value() ) {
+            return int_val.value();
+        } else if( var_val.has_value() ) {
+            std::string val = read_var_value( type, var_val.value(), talk );
+            if( !val.empty() ) {
+                return std::stoi( val );
+            }
+            return default_val.value();
+        } else {
+            debugmsg( "No valid value." );
+            return 0;
+        }
+    }
+};
+
+struct duration_or_var {
+    cata::optional<time_duration> dur_val;
+    cata::optional<std::string> var_val;
+    cata::optional<time_duration> default_val;
+    var_type type = var_type::u;
+    bool is_npc() const {
+        return type == var_type::npc;
+    }
+    time_duration evaluate( talker *talk ) const {
+        if( dur_val.has_value() ) {
+            return dur_val.value();
+        } else if( var_val.has_value() ) {
+            std::string val = read_var_value( type, var_val.value(), talk );
+            if( !val.empty() ) {
+                time_duration ret_val;
+                ret_val = time_duration::from_turns( std::stoi( val ) );
+                return ret_val;
+            }
+            return default_val.value();
+        } else {
+            debugmsg( "No valid value." );
+            return 0_seconds;
+        }
+    }
 };
 
 /**

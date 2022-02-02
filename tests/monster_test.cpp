@@ -31,6 +31,8 @@ class item;
 
 using move_statistics = statistics<int>;
 
+static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
+
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint &start, const tripoint &end )
 {
@@ -350,7 +352,7 @@ TEST_CASE( "monster_extend_flags", "[monster]" )
 
     // This test verifies that "extend" works on monster flags by checking both
     // those take effect
-    const mtype &m = *mtype_id( "mon_dog_zombie_brute" );
+    const mtype &m = *mon_dog_zombie_brute;
     CHECK( m.has_flag( MF_SEES ) );
     CHECK( m.has_flag( MF_PUSH_VEH ) );
 }

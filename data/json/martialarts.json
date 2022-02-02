@@ -177,31 +177,7 @@
       }
     ],
     "techniques": [ "tec_barbaran_impale", "tec_barbaran_disarm" ],
-    "weapons": [
-      "2h_flail_steel",
-      "2h_flail_wood",
-      "battleaxe",
-      "battleaxe_inferior",
-      "battleaxe_fake",
-      "hammer_sledge",
-      "hammer_sledge_heavy",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "mace",
-      "mace_inferior",
-      "mace_fake",
-      "morningstar",
-      "morningstar_inferior",
-      "morningstar_fake",
-      "sword_nail",
-      "sword_crude",
-      "sword_wood",
-      "warhammer",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake"
-    ]
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "FLAILS", "MACES", "GREAT_SWORDS", "GREAT_HAMMERS", "GREAT_AXES" ]
   },
   {
     "type": "martial_art",
@@ -215,7 +191,7 @@
       {
         "id": "buff_boxing_static",
         "name": "Boxing Stance",
-        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+2 Bash damage, Blocked damge reduced by 50% of Strength.",
+        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+1 Accuracy, Blocked damage reduced by 50% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
       }
@@ -236,11 +212,15 @@
       {
         "id": "buff_boxing_ondodge",
         "name": "Counter Chance",
-        "description": "You've seen your chance.  Now strike back!\n\n+25% Bash damage.\nLasts for 1 turn.",
+        "description": "You've seen your chance.  Now strike back!\n\n+25% damage.\nLasts for 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.25 },
+          { "stat": "damage", "type": "cut", "scale": 1.25 },
+          { "stat": "damage", "type": "stab", "scale": 1.25 }
+        ]
       }
     ],
     "techniques": [ "tec_boxing_rapid", "tec_boxing_cross", "tec_boxing_upper", "tec_boxing_counter" ]
@@ -253,6 +233,7 @@
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
     "autolearn": [ [ "melee", 1 ] ],
     "arm_block": 1,
+    "nonstandard_block": 5,
     "static_buffs": [
       {
         "id": "buff_brawling_block",
@@ -297,12 +278,16 @@
       {
         "id": "buff_capoeira_onmiss",
         "name": "Capoeira Tempo",
-        "description": "Hit or miss, its just part of the dance!  And the best part is about to start!\n\n+15% Bash damage.\nLasts 2 turns.  Stacks 3 times.",
+        "description": "Hit or miss, its just part of the dance!  And the best part is about to start!\n\n+15% damage.\nLasts 2 turns.  Stacks 3 times.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 1,
         "max_stacks": 3,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.05 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.05 },
+          { "stat": "damage", "type": "cut", "scale": 1.05 },
+          { "stat": "damage", "type": "stab", "scale": 1.05 }
+        ]
       }
     ],
     "onmove_buffs": [
@@ -376,7 +361,7 @@
     "type": "martial_art",
     "id": "style_dragon",
     "name": { "str": "Dragon Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damaage instead of Dexterity and Strength.  Dodging and blocking increases your damage.  Pausing increases your defenses.  You can perform a powerful strike against a downed opponent.",
+    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damage instead of Dexterity and Strength.  Dodging and blocking increases your damage.  Pausing increases your defenses.  You can perform a powerful strike against a downed opponent.",
     "initiate": [ "You relax and patiently await conflict like the great dragon.", "%s assumes a dragon-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 2,
@@ -398,22 +383,30 @@
       {
         "id": "buff_dragon_onblock",
         "name": "Dragon's Vortex",
-        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+10% bash damage.\nLasts 3 turns.",
+        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+10% damage.\nLasts 3 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "buff_duration": 3,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
       }
     ],
     "ondodge_buffs": [
       {
         "id": "buff_dragon_ondodge",
         "name": "Dragon Wing",
-        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+10% bash damage.\nLasts 3 turns.",
+        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+10% damage.\nLasts 3 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 3,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
       }
     ],
     "onpause_buffs": [
@@ -529,40 +522,7 @@
       }
     ],
     "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound1", "tec_fencing_compound2" ],
-    "weapons": [
-      "baton-extended",
-      "bio_blade_weapon",
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "cane",
-      "cavalry_sabre",
-      "cavalry_sabre_fake",
-      "cudgel",
-      "hollow_cane",
-      "fencing_foil",
-      "fencing_sabre",
-      "fencing_epee",
-      "fencing_foil_sharpened",
-      "fencing_sabre_sharpened",
-      "fencing_epee_sharpened",
-      "shock_foil",
-      "shock_sabre",
-      "shock_epee",
-      "pointy_stick",
-      "pipe",
-      "PR24-extended",
-      "rapier",
-      "rapier_fake",
-      "shillelagh",
-      "shillelagh_fake",
-      "shillelagh_weighted",
-      "sword_cane",
-      "umbrella",
-      "estoc",
-      "estoc_inferior",
-      "estoc_fake"
-    ]
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "type": "martial_art",
@@ -632,30 +592,7 @@
       "tec_medievalpole_execute",
       "tec_medievalpole_break"
     ],
-    "weapons": [
-      "ax",
-      "battleaxe",
-      "battleaxe_fake",
-      "battleaxe_inferior",
-      "copper_ax",
-      "fire_ax",
-      "glaive",
-      "halberd",
-      "halberd_fake",
-      "hammer_sledge",
-      "hammer_sledge_short",
-      "hockey_stick",
-      "hoe",
-      "ji",
-      "lobotomizer",
-      "lucern_hammer",
-      "lucern_hammerfake",
-      "makeshift_halberd",
-      "makeshift_glaive",
-      "pickaxe",
-      "poleaxe",
-      "primitive_axe"
-    ]
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "type": "martial_art",
@@ -679,11 +616,15 @@
       {
         "id": "buff_judo_ondodge",
         "name": "Perfect Position",
-        "description": "You've moved into a perfect position to counter attack!.\n\n+30% Bash damage.",
+        "description": "You've moved into a perfect position to counter attack!.\n\n+30% damage.",
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.3 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.3 },
+          { "stat": "damage", "type": "cut", "scale": 1.3 },
+          { "stat": "damage", "type": "stab", "scale": 1.3 }
+        ]
       }
     ],
     "techniques": [ "tec_judo_backthrow", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
@@ -711,7 +652,7 @@
       {
         "id": "buff_karate_onhit",
         "name": "Karate Kata",
-        "description": "Landing a hit allows you to perfectly position yourself for maximum defense against multiple opponents.\n\n+1 Block attempts, +1 Dodges attempts, blocked damge reduced by 50% of Strength, -10% move cost.\nLasts 2 turns.",
+        "description": "Landing a hit allows you to perfectly position yourself for maximum defense against multiple opponents.\n\n+1 Block attempts, +1 Dodges attempts, blocked damage reduced by 50% of Strength, -10% move cost.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
@@ -758,7 +699,7 @@
       }
     ],
     "techniques": [ "tec_krav_maga_rapid", "tec_krav_maga_crit", "tec_krav_maga_takedown", "tec_krav_maga_disarm", "tec_krav_maga_break" ],
-    "weapon_category": [ "AUTOMATIC_RIFLES", "AUTOMATIC_PISTOLS", "KNIVES", "BATONS" ]
+    "weapon_category": [ "AUTOMATIC_RIFLES", "AUTOMATIC_PISTOLS", "KNIVES", "BATONS", "SHIVS" ]
   },
   {
     "type": "martial_art",
@@ -857,32 +798,7 @@
       }
     ],
     "techniques": [ "tec_swordsmanship_feint", "tec_swordsmanship_lethal", "tec_swordsmanship_ringen" ],
-    "weapons": [
-      "arming_sword",
-      "arming_sword_inferior",
-      "arming_sword_fake",
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "estoc",
-      "estoc_inferior",
-      "estoc_fake",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "sword_crude",
-      "sword_nail",
-      "sword_wood",
-      "sword_metal",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake",
-      "cutlass",
-      "cutlass_fake",
-      "cutlass_inferior",
-      "cavalry_sabre",
-      "cavalry_sabre_fake"
-    ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "CONSTRUCTED_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -906,7 +822,7 @@
       {
         "id": "buff_muay_thai_ongethit",
         "name": "Determination",
-        "description": "Taking a hit will not slow you down.  You will outlast your opponent and win this fight.\n\n+Bash damage increased by 25% of Strength, blocked damage decreased by 50% of Strength.\nLasts 5 turns.",
+        "description": "Taking a hit will not slow you down.  You will outlast your opponent and win this fight.\n\nBash damage increased by 25% of Strength, blocked damage decreased by 50% of Strength.\nLasts 5 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
         "buff_duration": 5,
@@ -999,11 +915,12 @@
       {
         "id": "buff_niten_static",
         "name": "Niten Ichi-Ryu Stance",
-        "description": "Cautious watchful eyes\nmeasure and display your skill.\nPractice makes perfect.\n\nBash and Cut armor penetration increased by 50% of Perception, blocked damage reduced by 100% of Perception.",
+        "description": "Cautious watchful eyes\nmeasure and display your skill.\nPractice makes perfect.\n\nArmor penetration increased by 50% of Perception, blocked damage reduced by 100% of Perception.",
         "melee_allowed": true,
         "flat_bonuses": [
-          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
           { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 },
           { "stat": "block", "scaling-stat": "per", "scale": 1.0 }
         ]
       }
@@ -1029,7 +946,11 @@
         "max_stacks": 5,
         "persists": true,
         "flat_bonuses": [ { "stat": "dodge", "scale": -1.0 } ],
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0.95 }, { "stat": "damage", "type": "cut", "scale": 0.95 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 0.95 },
+          { "stat": "damage", "type": "cut", "scale": 0.95 },
+          { "stat": "damage", "type": "stab", "scale": 0.95 }
+        ]
       }
     ],
     "ondodge_buffs": [
@@ -1053,25 +974,7 @@
       }
     ],
     "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapons": [
-      "bio_blade_weapon",
-      "bokken",
-      "bokken_inferior",
-      "bokken_fake",
-      "katana",
-      "katana_inferior",
-      "katana_fake",
-      "nodachi",
-      "nodachi_inferior",
-      "nodachi_fake",
-      "sword_nail",
-      "sword_crude",
-      "sword_metal",
-      "sword_wood",
-      "wakizashi",
-      "wakizashi_inferior",
-      "wakizashi_fake"
-    ]
+    "weapon_category": [ "JAPANESE_SWORDS", "BIONIC_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -1086,23 +989,31 @@
       {
         "id": "buff_pankration_ondodge",
         "name": "Counter Chance",
-        "description": "The enemy has presented an opening in their defense.\n+10% bash damage.  Enables \"Close Combat\" buff.\nLasts 1 turn.",
+        "description": "The enemy has presented an opening in their defense.\n+10% damage.  Enables \"Close Combat\" buff.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
       }
     ],
     "onhit_buffs": [
       {
         "id": "buff_pankration_oncrit",
         "name": "Close Combat",
-        "description": "You got your opponent right where you want them!\n\n+20% bash damage.\nLasts 1 turn.",
+        "description": "You got your opponent right where you want them!\n\n+20% damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
         "unarmed_allowed": true,
         "required_buffs_all": [ "buff_pankration_ondodge" ],
         "buff_duration": 1,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
+        ]
       }
     ],
     "techniques": [
@@ -1264,35 +1175,7 @@
       }
     ],
     "techniques": [ "tec_sojutsu_feint", "tec_sojutsu_shove", "tec_sojutsu_trip" ],
-    "weapons": [
-      "glaive",
-      "halberd",
-      "halberd_fake",
-      "ji",
-      "naginata",
-      "naginata_inferior",
-      "naginata_fake",
-      "long_pole",
-      "makeshift_halberd",
-      "makeshift_glaive",
-      "pike",
-      "pike_inferior",
-      "pike_fake",
-      "pitchfork",
-      "qiang",
-      "spear_copper",
-      "spear_dory",
-      "spear_forked",
-      "spear_homemade_halfpike",
-      "spear_pipe",
-      "spear_knife",
-      "spear_knife_superior",
-      "spear_spike",
-      "spear_rebar",
-      "spear_steel",
-      "spear_survivor",
-      "spear_wood"
-    ]
+    "weapon_category": [ "POLEARMS" ]
   },
   {
     "type": "martial_art",
@@ -1315,9 +1198,13 @@
       {
         "id": "buff_taekwondo_static2",
         "name": "Unhindered",
-        "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% bash damage when not using a weapon.",
+        "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% damage when not using a weapon.",
         "unarmed_allowed": true,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.33 },
+          { "stat": "damage", "type": "cut", "scale": 1.33 },
+          { "stat": "damage", "type": "stab", "scale": 1.33 }
+        ]
       }
     ],
     "techniques": [
@@ -1351,12 +1238,14 @@
       {
         "id": "buff_tai_chi_onblock",
         "name": "Repulse the Monkey",
-        "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20% of Perception, gain bash Armor Penetration equal to 50% of Perception.\nLasts 2 turns.",
+        "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20% of Perception.  Gains Armor Penetration equal to 50% of Perception.\nLasts 2 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "buff_duration": 2,
         "flat_bonuses": [
           { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 },
           { "stat": "hit", "scaling-stat": "per", "scale": 0.2 }
         ]
       }
@@ -1465,55 +1354,49 @@
     "type": "martial_art",
     "id": "style_zui_quan",
     "name": { "str": "Zui Quan" },
-    "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy.  You gain a passive dodge bonus and accuracy bonus based on your intelligence.  Moving gives you additional dodge attempts and each time you dodge, you inflict more damage with your counterattack for until the end of your next turn.",
+    "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy.  You gain a passive dodging bonus based on intelligence and dodge attempts.  Dodging increases your damage and accuracy based on intelligence for a short time.  Moving gives you an additional dodging bonus.",
     "initiate": [ "You begin to sway to and fro with a confident swagger.", "%s stumbles as if pretending to be drunk." ],
     "learn_difficulty": 8,
     "static_buffs": [
       {
         "id": "buff_zuiquan_static",
         "name": "Zui Quan Stance",
-        "description": "Others might think you stumble about at random but you know better.  Each movement is calculated to make evading harm easier.\n\nDodging Skill increased by 15% of Intelligence.",
+        "description": "Others might think you stumble about at random but you know better.  Each movement is calculated to make evading harm with ease.\n\n+2 Dodge attempts, Dodging Skill increased by 20% of Intelligence.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "int", "scale": 0.15 } ]
-      },
-      {
-        "id": "buff_zuiquan_static2",
-        "name": "Advanced Zui Quan",
-        "description": "You have a greater understanding of Zui Quan.  Your skills at dodging and landing attacks are much better as a result.\n\n+1 Dodge attempts, Accuracy increased by 15% of Intelligence.",
-        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
-        "unarmed_allowed": true,
-        "bonus_dodges": 1,
-        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "int", "scale": 0.15 } ]
+        "bonus_dodges": 2,
+        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "int", "scale": 0.2 } ]
       }
     ],
     "onmove_buffs": [
       {
         "id": "buff_zuiquan_onmove",
         "name": "Drunken Stumble",
-        "description": "With a few quick steps, you can completely change your orientation and dodge additional attacks.\n\n+2 Dodge attempts.\nLasts 3 turns.",
+        "description": "With a few quick steps, you can completely change your orientation and dodge attacks easier.\n\n+1.0 Dodging Skill.\nLasts 1 turn, stacks 2 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
-        "buff_duration": 3,
-        "bonus_dodges": 2
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
       }
     ],
     "ondodge_buffs": [
       {
         "id": "buff_zuiquan_ondodge",
         "name": "Drunken Dodging",
-        "description": "Each time you dodge, your positional advantage increases against your opponents.  This makes your attacks hit harder with each successful dodge.\n\nGain Armor Penetration equal to 25% of Intelligence.\nLasts 1 turn.  Stacks 4 times.",
+        "description": "Each time you dodge, your positional advantage increases against your opponents.  This makes your attacks hit harder with each successful dodge.\n\n+10% damage, Accuracy increase by 20% of Intelligence.\nLasts 1 turn, stacks 3 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
-        "max_stacks": 4,
-        "flat_bonuses": [
-          { "stat": "arpen", "type": "bash", "scaling-stat": "int", "scale": 0.25 },
-          { "stat": "arpen", "type": "cut", "scaling-stat": "int", "scale": 0.25 },
-          { "stat": "arpen", "type": "stab", "scaling-stat": "int", "scale": 0.25 }
+        "max_stacks": 3,
+        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "int", "scale": 0.2 } ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
         ]
       }
     ],
-    "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_break", "tec_zuiquan_counter" ]
+    "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_break", "tec_zuiquan_fist", "tec_zuiquan_spin" ]
   },
   {
     "type": "martial_art",

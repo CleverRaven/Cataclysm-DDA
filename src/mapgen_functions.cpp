@@ -31,26 +31,29 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
+#include "submap.h"
 #include "trap.h"
 #include "vehicle_group.h"
 #include "weighted_list.h"
 
-static const itype_id itype_hat_hard( "hat_hard" );
-static const itype_id itype_jackhammer( "jackhammer" );
-static const itype_id itype_mask_dust( "mask_dust" );
+static const item_group_id Item_spawn_data_field( "field" );
+static const item_group_id Item_spawn_data_forest_trail( "forest_trail" );
+static const item_group_id Item_spawn_data_hive( "hive" );
+static const item_group_id Item_spawn_data_hive_center( "hive_center" );
+static const item_group_id Item_spawn_data_road( "road" );
+static const item_group_id Item_spawn_data_sewer( "sewer" );
+static const item_group_id Item_spawn_data_wreckage( "wreckage" );
+
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
-static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+static const npc_template_id npc_template_apis( "apis" );
 
-static const oter_str_id oter_cavern( "cavern" );
 static const oter_str_id oter_crater( "crater" );
 static const oter_str_id oter_crater_core( "crater_core" );
-static const oter_str_id oter_hellmouth( "hellmouth" );
-static const oter_str_id oter_hiway_ew( "hiway_ew" );
-static const oter_str_id oter_hive( "hive" );
 static const oter_str_id oter_forest_thick( "forest_thick" );
 static const oter_str_id oter_forest_trail_end_east( "forest_trail_end_east" );
 static const oter_str_id oter_forest_trail_end_west( "forest_trail_end_west" );
@@ -61,10 +64,13 @@ static const oter_str_id oter_forest_trail_new( "forest_trail_new" );
 static const oter_str_id oter_forest_trail_nsw( "forest_trail_nsw" );
 static const oter_str_id oter_forest_trail_sw( "forest_trail_sw" );
 static const oter_str_id oter_forest_trail_wn( "forest_trail_wn" );
+static const oter_str_id oter_hellmouth( "hellmouth" );
+static const oter_str_id oter_hive( "hive" );
+static const oter_str_id oter_hiway_ew( "hiway_ew" );
 static const oter_str_id oter_rift( "rift" );
+static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
 static const oter_str_id oter_river_c_not_se( "river_c_not_se" );
 static const oter_str_id oter_river_c_not_sw( "river_c_not_sw" );
-static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
 static const oter_str_id oter_river_center( "river_center" );
 static const oter_str_id oter_river_east( "river_east" );
 static const oter_str_id oter_river_nw( "river_nw" );
@@ -83,10 +89,13 @@ static const oter_str_id oter_sewer_sw( "sewer_sw" );
 static const oter_str_id oter_sewer_wn( "sewer_wn" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
-static const oter_str_id oter_subway_ns( "subway_ns" );
-static const oter_str_id oter_subway_ew( "subway_ew" );
 
 static const oter_type_str_id oter_type_railroad( "railroad" );
+
+static const ter_str_id ter_t_soil( "t_soil" );
+
+static const vspawn_id VehicleSpawn_default_highway( "default_highway" );
+static const vspawn_id VehicleSpawn_default_subway_deadend( "default_subway_deadend" );
 
 class npc_template;
 
@@ -153,7 +162,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
             { "river_curved",     &mapgen_river_curved },
-            { "cavern", &mapgen_cavern },
             { "open_air", &mapgen_open_air },
             { "rift", &mapgen_rift },
             { "hellmouth", &mapgen_hellmouth },
@@ -237,7 +245,7 @@ void mapgen_crater( mapgendata &dat )
             }
         }
     }
-    m->place_items( item_group_id( "wreckage" ), 83, point_zero,
+    m->place_items( Item_spawn_data_wreckage, 83, point_zero,
                     point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
 }
 
@@ -259,11 +267,10 @@ void mapgen_field( mapgendata &dat )
 {
     map *const m = &dat.m;
     // random area of increased vegetation. Or lava / toxic sludge / etc
-    const bool boosted_vegetation = ( dat.region.field_coverage.boost_chance > rng( 0, 1000000 ) );
-    const int &mpercent_bush = ( boosted_vegetation ?
-                                 dat.region.field_coverage.boosted_mpercent_coverage :
-                                 dat.region.field_coverage.mpercent_coverage
-                               );
+    const bool boosted_vegetation = dat.region.field_coverage.boost_chance > rng( 0, 1000000 );
+    const int &mpercent_bush = boosted_vegetation ?
+                               dat.region.field_coverage.boosted_mpercent_coverage :
+                               dat.region.field_coverage.mpercent_coverage;
 
     // one dominant plant type ( for boosted_vegetation == true )
     ter_furn_id altbush = dat.region.field_coverage.pick( true );
@@ -286,7 +293,7 @@ void mapgen_field( mapgendata &dat )
     }
 
     // FIXME: take 'rock' out and add as regional biome setting
-    m->place_items( item_group_id( "field" ), 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m->place_items( Item_spawn_data_field, 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     true, dat.when() );
 }
 
@@ -313,7 +320,7 @@ void mapgen_hive( mapgendata &dat )
     const bool is_center = dat.t_nesw[0] == oter_hive && dat.t_nesw[1] == oter_hive &&
                            dat.t_nesw[2] == oter_hive && dat.t_nesw[3] == oter_hive;
     for( int j = 5; j < SEEY * 2 - 5; j += 6 ) {
-        for( int i = ( j == 5 || j == 17 ? 3 : 6 ); i < SEEX * 2 - 5; i += 6 ) {
+        for( int i = j == 5 || j == 17 ? 3 : 6; i < SEEX * 2 - 5; i += 6 ) {
             if( !one_in( 8 ) ) {
                 // Caps are always there
                 m->ter_set( point( i, j - 5 ), t_wax );
@@ -437,10 +444,10 @@ void mapgen_hive( mapgendata &dat )
                 }
 
                 if( is_center ) {
-                    m->place_items( item_group_id( "hive_center" ), 90, point( i - 2, j - 2 ),
+                    m->place_items( Item_spawn_data_hive_center, 90, point( i - 2, j - 2 ),
                                     point( i + 2, j + 2 ), false, dat.when() );
                 } else {
-                    m->place_items( item_group_id( "hive" ), 80, point( i - 2, j - 2 ),
+                    m->place_items( Item_spawn_data_hive, 80, point( i - 2, j - 2 ),
                                     point( i + 2, j + 2 ), false, dat.when() );
                 }
             }
@@ -448,7 +455,7 @@ void mapgen_hive( mapgendata &dat )
     }
 
     if( is_center ) {
-        m->place_npc( point( SEEX, SEEY ), string_id<npc_template>( "apis" ) );
+        m->place_npc( point( SEEX, SEEY ), npc_template_apis );
     }
 }
 
@@ -529,7 +536,7 @@ void mapgen_road( mapgendata &dat )
     bool roads_nesw[4] = {};
     int num_dirs = terrain_type_to_nesw_array( dat.terrain_type(), roads_nesw );
     // if this is a dead end, extend past the middle of the tile
-    int dead_end_extension = ( num_dirs == 1 ? 8 : 0 );
+    int dead_end_extension = num_dirs == 1 ? 8 : 0;
 
     // which way should our roads curve, based on neighbor roads?
     int curvedir_nesw[4] = {};
@@ -747,7 +754,7 @@ void mapgen_road( mapgendata &dat )
                     for( int x = 1; x < 4; x++ ) {
                         for( int y = 0; y < x; y++ ) {
                             int ty = y;
-                            int tx = ( curvedir_nesw[dir] == -1 ? x : SEEX * 2 - 1 - x );
+                            int tx = curvedir_nesw[dir] == -1 ? x : SEEX * 2 - 1 - x;
                             coord_rotate_cw( tx, ty, dir );
                             m->ter_set( point( tx, ty ), t_pavement );
                         }
@@ -964,7 +971,7 @@ void mapgen_road( mapgendata &dat )
     }
 
     // add some items
-    bool plaza = ( plaza_dir > -1 );
+    bool plaza = plaza_dir > -1;
     m->place_items( item_group_id( plaza ? "trash" : "road" ), 5, point_zero,
                     point( SEEX * 2 - 1, SEEX * 2 - 1 ), plaza, dat.when() );
 
@@ -1335,7 +1342,7 @@ void mapgen_subway( mapgendata &dat )
                                                 f_null,
                                                 f_null,
                                                 f_null ) );
-            VehicleSpawn::apply( vspawn_id( "default_subway_deadend" ), *m, "subway" );
+            VehicleSpawn::apply( VehicleSpawn_default_subway_deadend, *m, "subway" );
             break;
     }
 
@@ -1345,18 +1352,17 @@ void mapgen_subway( mapgendata &dat )
 
 void mapgen_sewer_straight( mapgendata &dat )
 {
-    static const ter_str_id t_soil( "t_soil" );
     map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( i < SEEX - 2 || i > SEEX + 1 ) {
-                m->ter_set( point( i, j ), t_soil );
+                m->ter_set( point( i, j ), ter_t_soil );
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
         }
     }
-    m->place_items( item_group_id( "sewer" ), 10, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m->place_items( Item_spawn_data_sewer, 10, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     true, dat.when() );
     if( dat.terrain_type() == oter_sewer_ew ) {
         m->rotate( 1 );
@@ -1365,18 +1371,17 @@ void mapgen_sewer_straight( mapgendata &dat )
 
 void mapgen_sewer_curved( mapgendata &dat )
 {
-    static const ter_str_id t_soil( "t_soil" );
     map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( ( i > SEEX + 1 && j < SEEY - 2 ) || i < SEEX - 2 || j > SEEY + 1 ) {
-                m->ter_set( point( i, j ), t_soil );
+                m->ter_set( point( i, j ), ter_t_soil );
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
         }
     }
-    m->place_items( item_group_id( "sewer" ), 18, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m->place_items( Item_spawn_data_sewer, 18, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     true, dat.when() );
     if( dat.terrain_type() == oter_sewer_es ) {
         m->rotate( 1 );
@@ -1391,18 +1396,17 @@ void mapgen_sewer_curved( mapgendata &dat )
 
 void mapgen_sewer_tee( mapgendata &dat )
 {
-    static const ter_str_id t_soil( "t_soil" );
     map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( i < SEEX - 2 || ( i > SEEX + 1 && ( j < SEEY - 2 || j > SEEY + 1 ) ) ) {
-                m->ter_set( point( i, j ), t_soil );
+                m->ter_set( point( i, j ), ter_t_soil );
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
         }
     }
-    m->place_items( item_group_id( "sewer" ), 23, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m->place_items( Item_spawn_data_sewer, 23, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     true, dat.when() );
     if( dat.terrain_type() == oter_sewer_esw ) {
         m->rotate( 1 );
@@ -1417,13 +1421,12 @@ void mapgen_sewer_tee( mapgendata &dat )
 
 void mapgen_sewer_four_way( mapgendata &dat )
 {
-    static const ter_str_id t_soil( "t_soil" );
     map *const m = &dat.m;
     int rn = rng( 0, 3 );
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( ( i < SEEX - 2 || i > SEEX + 1 ) && ( j < SEEY - 2 || j > SEEY + 1 ) ) {
-                m->ter_set( point( i, j ), t_soil );
+                m->ter_set( point( i, j ), ter_t_soil );
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
@@ -1438,7 +1441,7 @@ void mapgen_sewer_four_way( mapgendata &dat )
             }
         }
     }
-    m->place_items( item_group_id( "sewer" ), 28, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m->place_items( Item_spawn_data_sewer, 28, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     true, dat.when() );
 }
 
@@ -1462,12 +1465,12 @@ void mapgen_highway( mapgendata &dat )
     }
 
     // spawn regular road out of fuel vehicles
-    VehicleSpawn::apply( vspawn_id( "default_highway" ), *m, "highway" );
+    VehicleSpawn::apply( VehicleSpawn_default_highway, *m, "highway" );
 
     if( dat.terrain_type() == oter_hiway_ew ) {
         m->rotate( 1 );
     }
-    m->place_items( item_group_id( "road" ), 8, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
+    m->place_items( Item_spawn_data_road, 8, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
                     false, dat.when() );
 }
 
@@ -1919,104 +1922,12 @@ void mapgen_river_curved( mapgendata &dat )
     }
 }
 
-void mapgen_cavern( mapgendata &dat )
-{
-    map *const m = &dat.m;
-
-    // FIXME: don't look at me like that, this was messed up before I touched it :P - AD
-    for( int i = 0; i < 4; i++ ) {
-        dat.set_dir( i,
-                     ( dat.t_nesw[i] == oter_cavern || dat.t_nesw[i] == oter_subway_ns ||
-                       dat.t_nesw[i] == oter_subway_ew ? 0 : 3 )
-                   );
-    }
-    dat.e_fac = SEEX * 2 - 1 - dat.e_fac;
-    dat.s_fac = SEEY * 2 - 1 - dat.s_fac;
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( j < dat.n_fac || j > dat.s_fac || i < dat.w_fac || i > dat.e_fac ) &&
-                ( !one_in( 3 ) || j == 0 || j == SEEY * 2 - 1 || i == 0 || i == SEEX * 2 - 1 ) ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-
-    // Number of pillars
-    int rn = rng( 0, 2 ) * rng( 0, 3 ) + rng( 0, 1 );
-    for( int n = 0; n < rn; n++ ) {
-        point p( rng( 5, SEEX * 2 - 6 ), rng( 5, SEEY * 2 - 6 ) );
-        for( int i = p.x - 1; i <= p.x + 1; i++ ) {
-            for( int j = p.y - 1; j <= p.y + 1; j++ ) {
-                m->ter_set( point( i, j ), t_rock );
-            }
-        }
-    }
-
-    if( connects_to( dat.north(), 2 ) ) {
-        for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
-            for( int j = 0; j <= SEEY; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( connects_to( dat.east(), 3 ) ) {
-        for( int i = SEEX; i <= SEEX * 2 - 1; i++ ) {
-            for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( connects_to( dat.south(), 0 ) ) {
-        for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
-            for( int j = SEEY; j <= SEEY * 2 - 1; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( connects_to( dat.west(), 1 ) ) {
-        for( int i = 0; i <= SEEX; i++ ) {
-            for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    m->place_items( item_group_id( "cavern" ), 60, point_zero,
-                    point( SEEX * 2 - 1, SEEY * 2 - 1 ), false, dat.when() );
-    if( one_in( 6 ) ) { // Miner remains
-        point p2;
-        do {
-            p2.x = rng( 0, SEEX * 2 - 1 );
-            p2.y = rng( 0, SEEY * 2 - 1 );
-        } while( m->impassable( p2 ) );
-        if( !one_in( 3 ) ) {
-            m->spawn_item( p2, itype_jackhammer );
-        }
-        if( one_in( 3 ) ) {
-            m->spawn_item( p2, itype_mask_dust );
-        }
-        if( one_in( 2 ) ) {
-            m->spawn_item( p2, itype_hat_hard );
-        }
-        while( !one_in( 3 ) ) {
-            for( int i = 0; i < 3; ++i ) {
-                m->put_items_from_loc( item_group_id( "cannedfood" ),
-                                       tripoint( p2, m->get_abs_sub().z ), dat.when() );
-            }
-        }
-    }
-
-}
-
 void mapgen_rock_partial( mapgendata &dat )
 {
     map *const m = &dat.m;
     fill_background( m, t_rock );
     for( int i = 0; i < 4; i++ ) {
-        if( dat.t_nesw[i] == oter_cavern || dat.t_nesw[i] == oter_slimepit ||
-            dat.t_nesw[i] == oter_slimepit_down ) {
+        if( dat.t_nesw[i] == oter_slimepit || dat.t_nesw[i] == oter_slimepit_down ) {
             dat.dir( i ) = 6;
         } else {
             dat.dir( i ) = 0;
@@ -2203,225 +2114,425 @@ void mapgen_hellmouth( mapgendata &dat )
 void mapgen_forest( mapgendata &dat )
 {
     map *const m = &dat.m;
-    // Adjacency factor is basically used to weight the frequency of a feature
-    // being placed by the relative sparseness of the current terrain to its
+
+    // perimeter_size is a useful shorthand that should not be changed:
+    static constexpr int perimeter_size = SEEX * 4 + SEEY * 4;
+    // The following constexpr terms would do well to be json-ized.
+    // The average mid-way point between the forest and its adjacent biomes:
+    static constexpr int average_depth = 5 * SEEX / 12;
+    // The average number of complete oscillations which should occur in the biome border per map-tile:
+    static constexpr int average_extra_critical_points = 1;
+    // The intensity of the oscillations along forest borders:
+    static constexpr int biome_transition_abruptness = 1;
+    // The standard deviation of the lengthwise distribution of the oscillations:
+    static constexpr int border_deviation = 3;
+    // Higher values = more pronounced curves, obscures seams:
+    static constexpr float border_curviness = 2;
+    // The standard deviation of the depthwise distribution of the oscillations' peaks:
+    static constexpr float depth_deviation = 1;
+    // Scalar for the amount of space to add between the groundcover and feature margins:
+    static constexpr int groundcover_margin = average_depth / 2;
+    // Scaling factor to apply to the weighting of the self-terrain over adjacent ones:
+    static constexpr float self_scalar = 3.;
+
+    // Adjacency factor is used to weight the frequency of a feature
+    // being placed by the relative density of the current terrain to its
     // neighbors. For example, a forest_thick surrounded by forest_thick on
     // all sides can be much more dense than a forest_water surrounded by
-    // fields on all sides. It's a little magic-number-y but somewhat replicates
-    // the behavior of the previous forest mapgen when fading forest terrains
-    // into each other and non-forest terrains.
+    // fields on all sides. The properties of this density and blending would
+    // do well to be encoded in JSON for the regional and biome settings, but
+    // for now use the general hardcoded pattern from previous generations of the
+    // algorithm.
 
+    // "Sparsity Factor" is a misnomer carried over from JSON; the value reflects
+    // the density of the terrain, not the sparsity.
+
+    /**
+    * Determines the density of natural features in \p ot.
+    *
+    * If there is no defind biome for \p ot, returns a sparsity factor
+    * of 0. It's possible to specify biomes in the forest regional settings
+    * that are not rendered by this forest map gen method, in order to control
+    * how terrains are blended together (e.g. specify roads with an equal
+    * biome to forests so that forests don't fade out as they transition to roads).
+    *
+    * @param ot The type of terrain to determine the sparseness of.
+    * @return A discrete scale of the density of natural features occuring in \p ot.
+    */
     const auto get_sparseness_adjacency_factor = [&dat]( const oter_id & ot ) {
         const auto biome = dat.region.forest_composition.biomes.find( ot );
         if( biome == dat.region.forest_composition.biomes.end() ) {
-            // If there is no defined biome for this oter, use 0. It's possible
-            // to specify biomes in the forest regional settings that are not
-            // rendered by this forest map gen method, in order to control
-            // how terrains are blended together (e.g. specify roads with an equal
-            // sparseness adjacency factor to forests so that forests don't fade out
-            // as they transition to roads.
             return 0;
         }
         return biome->second.sparseness_adjacency_factor;
     };
 
-    const auto fill_adjacency_factor = [&dat, &get_sparseness_adjacency_factor]( int self_factor ) {
-        dat.fill( self_factor );
-        for( int i = 0; i < 4; i++ ) {
-            dat.dir( i ) += get_sparseness_adjacency_factor( dat.t_nesw[i] );
-        }
-    };
-
     const ter_furn_id no_ter_furn = ter_furn_id();
 
-    const auto get_feature_for_neighbor = [&dat,
-                                           &no_ter_furn]( const std::map<oter_id, ter_furn_id> &biome_features,
-    const om_direction::type dir ) {
-        const oter_id dir_ot = dat.neighbor_at( dir );
-        const auto feature = biome_features.find( dir_ot );
-        if( feature == biome_features.end() ) {
-            // If we have no biome for this neighbor, then we just return any empty feature.
-            // As with the sparseness adjacency factor, it's possible to define non-forest
-            // biomes in the regional settings so that they provide neighbor features
-            // here for blending purposes (e.g. define dirt terrain for roads so that the
-            // ground fades from forest ground cover to dirt as blends with roads.
-            return no_ter_furn;
-        }
-        return feature->second;
-    };
-
-    // The max sparseness is calculated across all the possible biomes, not just the adjacent ones.
-    const auto get_max_sparseness_adjacency_factor = [&dat]() {
-        if( dat.region.forest_composition.biomes.empty() ) {
-            return 0;
-        }
+    // Calculate the maximum possible sparseness factor (density) for the region.
+    int max_factor = 0;
+    if( !dat.region.forest_composition.biomes.empty() ) {
         std::vector<int> factors;
         for( const auto &b : dat.region.forest_composition.biomes ) {
             factors.push_back( b.second.sparseness_adjacency_factor );
         }
-        return *max_element( std::begin( factors ), std::end( factors ) );
-    };
+        max_factor = *max_element( std::begin( factors ), std::end( factors ) );
+    }
 
-    // Get the sparseness factor for this terrain, and fill it.
+    // Get the sparseness factor (density) for this and adjacent terrain.
     const int factor = get_sparseness_adjacency_factor( dat.terrain_type() );
-    fill_adjacency_factor( factor );
+    for( int i = 0; i < 4; i++ ) {
+        dat.dir( i ) = get_sparseness_adjacency_factor( dat.t_nesw[i] );
+    }
 
-    const int max_factor = get_max_sparseness_adjacency_factor();
+    // The index of the following structures are defined in dat.dir():
+    //
+    // (0,0)     NORTH
+    //      ---------------
+    //      | 7  | 0 | 4  |
+    //      |----|---|----|
+    // WEST | 3  |   | 1  |  EAST
+    //      |----|---|----|
+    //      | 6  | 2 | 5  |
+    //      ---------------
+    //           SOUTH      (SEEX * 2, SEEY * 2)
 
-    // Our margins for blending divide the overmap terrain into nine sections.
-    static constexpr point margin( SEEX * 2 / 3, SEEY * 2 / 3 );
-
-    const auto get_blended_feature = [&no_ter_furn, &max_factor, &factor,
-                  &get_feature_for_neighbor, &dat]( const point & p ) {
-        // Pick one random feature from each biome according to the biome defs and save it into a lookup.
-        // We'll blend these features together below based on the current and adjacent terrains.
-        std::map<oter_id, ter_furn_id> biome_features;
-        for( const auto &b : dat.region.forest_composition.biomes ) {
-            biome_features[b.first] = b.second.pick();
-        }
-
-        // Get a feature for ourself and each of the adjacent overmap terrains.
-        const ter_furn_id east_feature = get_feature_for_neighbor( biome_features,
-                                         om_direction::type::east );
-        const ter_furn_id west_feature = get_feature_for_neighbor( biome_features,
-                                         om_direction::type::west );
-        const ter_furn_id north_feature = get_feature_for_neighbor( biome_features,
-                                          om_direction::type::north );
-        const ter_furn_id south_feature = get_feature_for_neighbor( biome_features,
-                                          om_direction::type::south );
-        const ter_furn_id self_feature = biome_features[dat.terrain_type()];
-
-        // We'll use our margins and the four adjacent overmap terrains to pick a blended
-        // feature based on the features we picked above and a linear weight as we
-        // transition through the margins.
-        //
-        // (0,0)     NORTH
-        //      ---------------
-        //      | NW | W | NE |
-        //      |----|---|----|
-        // WEST | W  |   | E  |  EAST
-        //      |----|---|----|
-        //      | SW | S | SE |
-        //      ---------------
-        //           SOUTH      (SEEX * 2, SEEY * 2)
-
-        const int west_weight = std::max( margin.x - p.x, 0 );
-        const int east_weight = std::max( p.x - ( SEEX * 2 - margin.x ) + 1, 0 );
-        const int north_weight = std::max( margin.y - p.y, 0 );
-        const int south_weight = std::max( p.y - ( SEEY * 2 - margin.y ) + 1, 0 );
-
-        // We'll build a weighted list of features to pull from at the end.
-        weighted_int_list<const ter_furn_id> feature_pool;
-
-        // W sections
-        if( p.x < margin.x ) {
-            // NW corner - blend N, W, and self
-            if( p.y < margin.y ) {
-                feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.n_fac + dat.w_fac + factor * 2 ) );
-                feature_pool.add( self_feature, 1 );
-                feature_pool.add( west_feature, west_weight );
-                feature_pool.add( north_feature, north_weight );
-            }
-            // SW corner - blend S, W, and self
-            else if( p.y > SEEY * 2 - margin.y ) {
-                feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.s_fac + dat.w_fac + factor * 2 ) );
-                feature_pool.add( self_feature, factor );
-                feature_pool.add( west_feature, west_weight );
-                feature_pool.add( south_feature, south_weight );
-            }
-            // W edge - blend W and self
-            else {
-                feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.w_fac + factor * 2 ) );
-                feature_pool.add( self_feature, factor );
-                feature_pool.add( west_feature, west_weight );
-            }
-        }
-        // E sections
-        else if( p.x > SEEX * 2 - margin.x ) {
-            // NE corner - blend N, E, and self
-            if( p.y < margin.y ) {
-                feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.n_fac + dat.e_fac + factor * 2 ) );
-                feature_pool.add( self_feature, factor );
-                feature_pool.add( east_feature, east_weight );
-                feature_pool.add( north_feature, north_weight );
-            }
-            // SE corner - blend S, E, and self
-            else if( p.y > SEEY * 2 - margin.y ) {
-                feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.s_fac + dat.e_fac + factor * 2 ) );
-                feature_pool.add( self_feature, factor );
-                feature_pool.add( east_feature, east_weight );
-                feature_pool.add( south_feature, south_weight );
-            }
-            // E edge - blend E and self
-            else {
-                feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.e_fac + factor * 2 ) );
-                feature_pool.add( self_feature, factor );
-                feature_pool.add( east_feature, east_weight );
-            }
-        }
-        // Central sections
-        else {
-            // N edge - blend N and self
-            if( p.y < margin.y ) {
-                feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.n_fac + factor * 2 ) );
-                feature_pool.add( self_feature, factor );
-                feature_pool.add( north_feature, north_weight );
-            }
-            // S edge - blend S, and self
-            else if( p.y > SEEY * 2 - margin.y ) {
-                feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.s_fac + factor * 2 ) );
-                feature_pool.add( self_feature, factor );
-                feature_pool.add( south_feature, south_weight );
-            }
-            // center - no blending
-            else {
-                feature_pool.add( no_ter_furn, max_factor - factor * 2 );
-                feature_pool.add( self_feature, factor );
-            }
-        }
-
-        // Pick a single feature from the pool we built above and return it.
-        const ter_furn_id *feature = feature_pool.pick();
-        if( feature == nullptr ) {
-            return no_ter_furn;
+    // In order to feather (blend) this overmap tile with adjacent ones, the general composition thereof must be known.
+    // This can be calculated once from dat.t_nesw, and stored here:
+    const forest_biome *adjacent_biomes[8];
+    for( int d = 0; d < 7; d++ ) {
+        auto lookup = dat.region.forest_composition.biomes.find( dat.t_nesw[d] );
+        if( lookup != dat.region.forest_composition.biomes.end() ) {
+            adjacent_biomes[d] = &( lookup->second );
         } else {
-            return *feature;
+            adjacent_biomes[d] = nullptr;
         }
-    };
+    }
 
-    // Get the current biome def for this terrain.
+    // Keep track of the "true perimeter" of the biome. It has a curve to make it seem natural.
+    // The depth of the perimeter at each border of the forest being generated:
+    int border_depth[8];
+
+    for( int bd_x = 0; bd_x < 2; bd_x++ )
+        for( int bd_y = 0; bd_y < 2; bd_y++ ) {
+            // Use the corners of the overmap tiles as hash seeds.
+            point global_corner = m->getabs( point( bd_x * SEEX * 2, bd_y * SEEY * 2 ) );
+            uint32_t net_hash = std::hash<uint32_t> {}( global_corner.x ) ^ ( std::hash<int> {}( global_corner.y )
+                                << 1 );
+            uint32_t h_hash = net_hash;
+            uint32_t v_hash = std::hash<uint32_t> {}( net_hash );
+            float h_unit_hash = static_cast<float>( h_hash ) / static_cast<float>( UINT32_MAX );
+            float v_unit_hash = static_cast<float>( v_hash ) / static_cast<float>( UINT32_MAX );
+            // Apply the box-muller transform to produce a gaussian distribution with the desired mean and deviation.
+            float mag = depth_deviation * std::sqrt( -2. * log( h_unit_hash ) );
+            int h_norm_transform = static_cast<int>( clamp( std::round( mag * std::cos(
+                                       2 * M_PI * v_unit_hash ) + average_depth ), static_cast<double>( INT32_MIN ),
+                                   static_cast<double>( INT32_MAX ) ) );
+            int v_norm_transform = static_cast<int>( clamp( std::round( mag * std::sin(
+                                       2 * M_PI * v_unit_hash ) + average_depth ), static_cast<double>( INT32_MIN ),
+                                   static_cast<double>( INT32_MAX ) ) );
+
+            int corner_index = bd_x ? 1 + bd_y : 3 * bd_y; // Counterclockwise labeling.
+            border_depth[corner_index] = std::abs( h_norm_transform );
+            border_depth[corner_index + 4] = std::abs( v_norm_transform );
+        }
+
+    // Indicies of border_depth accessible by dat.dir() nomenclature, [h_idx 0..4 : v_idx 0..4]:
+    constexpr int edge_corner_mappings[8] = {0, 5, 3, 4, 1, 6, 2, 7};
+
+    // Now, generate a curve along the border of the biome, which will be used to calculate each cardinally
+    // adjacent biome's relative impact.
+    // Format: [ SEEX * 2 (North) : SEEY * 2 (East) : SEEX * 2 (South) : SEEX * 2 (West) ] (order from dat.dir())
+    int perimeter_depth[perimeter_size];
+    for( int edge = 0; edge < 4; edge++ ) {
+        int perimeter_depth_offset = ( SEEX * 2 ) * ( ( edge + 1 ) / 2 ) + ( SEEY * 2 ) * ( edge / 2 );
+        int edge_length = edge % 2 == 0 ? SEEX * 2 : SEEY * 2;
+        int interediary_crit_point_count = std::round( rng_normal( 0, average_extra_critical_points * 2 ) );
+        int *critical_point_displacements = new int[interediary_crit_point_count + 2];
+        int *critical_point_depths = new int[interediary_crit_point_count + 2];
+        critical_point_displacements[0] = 0;
+        critical_point_displacements[interediary_crit_point_count + 1] =
+            edge_length; // first coordinate of next overmap location
+        critical_point_depths[0] = border_depth[edge_corner_mappings[edge]];
+        critical_point_depths[interediary_crit_point_count + 1] = border_depth[edge_corner_mappings[edge +
+                4]];
+        // Generate critical points in-order displacement-wise.
+        for( int ci = 1; ci < interediary_crit_point_count + 1; ci++ ) {
+            critical_point_displacements[ci] = clamp<int>( std::abs( static_cast<int>( std::round( normal_roll(
+                                                   static_cast<double>(
+                                                           edge_length * ( ci - 1 ) ) / ( interediary_crit_point_count + 2 ), border_deviation ) ) ) ), 1,
+                                               edge_length - 2 );
+            critical_point_depths[ci] = static_cast<int>( std::round( abs( normal_roll( average_depth,
+                                        depth_deviation ) ) ) );
+            // Ensure order by swapping:
+            if( critical_point_displacements[ci] < critical_point_displacements[ci - 1] ) {
+                int buffer = critical_point_displacements[ci];
+                critical_point_displacements[ci] = critical_point_displacements[ci - 1];
+                critical_point_displacements[ci - 1] = buffer;
+            }
+        }
+
+        // By only considering the left and right two points, transitioning the curve across map borders becomes unnoticable.
+        int ubidx = 1; // Upper bound index
+        for( int step = 0; step < edge_length; step++ ) {
+            while( step > critical_point_displacements[ubidx] ) {
+                if( ++ubidx > interediary_crit_point_count + 1 ) {
+                    // Should never happen, but good future proofing.
+                    ubidx = interediary_crit_point_count + 1;
+                    break;
+                }
+            }
+            float w_left = std::pow( std::abs( critical_point_displacements[ubidx - 1] - step ) + 1,
+                                     -border_curviness );
+            float w_right = std::pow( std::abs( critical_point_displacements[ubidx] - step ) + 1,
+                                      -border_curviness );
+            perimeter_depth[perimeter_depth_offset + step] = std::round( ( w_left * critical_point_depths[ubidx
+                    - 1]
+                    + w_right * critical_point_depths[ubidx] ) / ( w_left + w_right ) );
+
+            if( perimeter_depth[perimeter_depth_offset + step] < 1 ) {
+                perimeter_depth[perimeter_depth_offset + step] =
+                    1;    // Clamp depth to within the overmap tile. Makes math pretty.
+            }
+        }
+        delete[] critical_point_displacements;
+        delete[] critical_point_depths;
+    }
+
+    // Get the current biome definition for this terrain.
     const auto current_biome_def_it = dat.region.forest_composition.biomes.find( dat.terrain_type() );
 
-    // If there is no biome def for this terrain, fill in with the region's default ground cover
-    // and bail--nothing more to be done.
+    // If there is no biome definition for this terrain, fill in with the region's default ground cover
+    // and bail--nothing more to be done. Should not continue with terrain feathering if there is
+    // nothing to feather into. Generally, this should never happen.
     if( current_biome_def_it == dat.region.forest_composition.biomes.end() ) {
         dat.fill_groundcover();
         return;
     }
+    forest_biome self_biome = current_biome_def_it->second;
 
-    const forest_biome current_biome_def = current_biome_def_it->second;
+    /**
+    * Modifies border weights to conform to biome conditions along corners.
+    *
+    * Ensures that adjacent forest_mapgen() dependent terrains do not generate outcroppings into
+    * continuous biomes that they are mutually adjacent to, focusing on details provided for a
+    * corner of the map.
+    *
+    * @param ccw The forest biome counter-clockwise of the evaluated corner.
+    * @param corner The forest biome in the evaluated corner (i.e. NW, NE, SW, or SE).
+    * @param cw The forest biome clockwise of the evaluated corner.
+    * @param ccw_weight The relative impact of the counterclockwise biome on generation.
+    * @param cw_weight The relative impact of the clockwise biome on generation.
+    * @param self_weight The relative impact of the original biome on generation.
+    */
+    const auto unify_continuous_border = [&self_biome]( const forest_biome * ccw,
+                                         const forest_biome * corner, const forest_biome * cw, float * ccw_weight, float * cw_weight,
+    float * self_weight ) {
+        if( ccw != cw ) {
+            if( ccw == corner && cw == &self_biome ) {
+                *cw_weight = *cw_weight / ( *self_weight + *cw_weight );
+                *self_weight = *self_weight - *cw_weight;
+            } else if( cw == corner && ccw == &self_biome ) {
+                *ccw_weight = *ccw_weight / ( *self_weight + *ccw_weight );
+                *self_weight = *self_weight - *cw_weight;
+            }
+        }
+    };
 
-    // If this biome does not define its own groundcover, then fill with the region's ground
-    // cover. Otherwise, fill with the biome defs groundcover.
-    if( current_biome_def.groundcover.empty() ) {
-        dat.fill_groundcover();
-    } else {
-        m->draw_fill_background( current_biome_def.groundcover );
-    }
+    /**
+    * Prevents the generation of outcroppings from biomes across contiguous adjacencies.
+    *
+    * Ensures that adjacent forest_mapgen() dependent terrains do not generate outcroppings into
+    * continuous biomes that they are mutually adjacent to, checking weights in each corner.
+    *
+    * @param cardinal_four_weights The relative impacts of the cardinally adjacent biomes on generation.
+    * @param p the point in the terrain being weighted from the cardinally adjacent biomes.
+    */
+    const auto unify_all_borders = [&unify_continuous_border,
+    &adjacent_biomes]( float * cardinal_four_weights, float * self_weight, const point & p ) {
+        // Refer to dat.dir() convention.
+        if( p.x < SEEX ) {
+            if( p.y < SEEY ) {
+                unify_continuous_border( adjacent_biomes[3], adjacent_biomes[7], adjacent_biomes[0],
+                                         &cardinal_four_weights[3], &cardinal_four_weights[0], self_weight );
+            } else {
+                unify_continuous_border( adjacent_biomes[0], adjacent_biomes[4], adjacent_biomes[1],
+                                         &cardinal_four_weights[0], &cardinal_four_weights[1], self_weight );
+            }
+        } else {
+            if( p.y < SEEY ) {
+                unify_continuous_border( adjacent_biomes[1], adjacent_biomes[5], adjacent_biomes[2],
+                                         &cardinal_four_weights[1], &cardinal_four_weights[2], self_weight );
+            } else {
+                unify_continuous_border( adjacent_biomes[2], adjacent_biomes[6], adjacent_biomes[3],
+                                         &cardinal_four_weights[2], &cardinal_four_weights[3], self_weight );
+            }
+        }
+    };
 
-    // There is a chance of placing terrain dependent furniture, e.g. f_cattails on t_water_sh.
+    /**
+    * Calculates a weighted proximity of a point to the perimeter in each cardinal direction.
+    *
+    * Format is that defined in dir(), i.e. clockwise starting from north.
+    *
+    * @param p The point to evaluate the weights of adjacent directions on.
+    * @param scaling_factor The scaling factor to apply to the weights.
+    * @param weights A 4 element array of floats to store the output in, dat.dir() order.
+    * @param root_depth_offset an offset to apply to the already-generated perimeter_depth
+    * @return The sum of all of the weights written to \p weights.
+    */
+    const auto nesw_weights = [&perimeter_depth, &adjacent_biomes]( const point & p,
+    float scaling_factor, float * weights, float root_depth_offset = 0. ) {
+        float net_weight = 0.;
+        float perimeter_depths[4];
+        int point_depths[4];
+        point_depths[0] = p.y;
+        point_depths[1] = SEEX * 2 - p.x - 1;
+        point_depths[2] = SEEY * 2 - p.y - 1;
+        point_depths[3] = p.x;
+        perimeter_depths[0] = std::max<int>( perimeter_depth[p.x] + root_depth_offset, 1 );
+        perimeter_depths[1] = std::max<int>( perimeter_depth[SEEX * 2 + p.y] + root_depth_offset, 1 );
+        perimeter_depths[2] = std::max<int>( perimeter_depth[SEEX * 2 + SEEY * 2 + p.x] + root_depth_offset,
+                                             1 );
+        perimeter_depths[3] = std::max<int>( perimeter_depth[SEEX * 4 + SEEY * 2 + p.y] + root_depth_offset,
+                                             1 );
+        for( int wi = 0; wi < 4; wi++ )
+            if( adjacent_biomes[wi] == nullptr ) {
+                // Biome-less terrain does not feather on its side, but biome-owning terrain is presumed to.
+                // In order to account for this, the border of the map generation function must be determined
+                // to correspond either to the half-way point between biomes or the end-point of the transition.
+                weights[wi] = std::pow( static_cast<float>( perimeter_depths[wi] ) / ( point_depths[wi] + 1 ),
+                                        biome_transition_abruptness ) * scaling_factor;
+                net_weight += weights[wi];
+            } else {
+                weights[wi] = std::pow( static_cast<float>( perimeter_depths[wi] ) / ( point_depths[wi] + 1 ),
+                                        biome_transition_abruptness ) * scaling_factor / std::pow( static_cast<float>
+                                                ( perimeter_depths[wi] ),
+                                                biome_transition_abruptness );
+                net_weight += weights[wi];
+            }
+        return net_weight;
+    };
+
+    /**
+    * Determines the groundcover that should be placed at a furniture-less point in a forest.
+    *
+    * Similar to the get_feathered_feature lambda with a different weighting algorithm,
+    * which favors the biome of this terrain over that of ajacent ones by fixed margin.
+    * Only selects groundcover, rather than biome-appropriate furniture.
+    *
+    * @return The groundcover to be placed at the specified point in the forest.
+    */
+    const auto get_feathered_groundcover = [&max_factor, &factor, &self_biome,
+                 &adjacent_biomes, &nesw_weights, &unify_all_borders, &dat]( const point & p ) {
+        float adj_weights[4];
+        float net_weight = nesw_weights( p, factor, adj_weights, -groundcover_margin );
+        float self_weight = self_scalar;
+        unify_all_borders( adj_weights, &self_weight, p );
+        static constexpr int no_dir = -1;
+        static constexpr int empty = -2;
+        weighted_float_list<const int> direction_pool;
+        direction_pool.add( 0, adj_weights[0] );
+        direction_pool.add( 1, adj_weights[1] );
+        direction_pool.add( 2, adj_weights[2] );
+        direction_pool.add( 3, adj_weights[3] );
+        direction_pool.add( no_dir, self_weight );
+        direction_pool.add( empty, ( net_weight + self_weight ) * max_factor -
+                            ( adj_weights[0] * dat.n_fac + adj_weights[1] * dat.e_fac + adj_weights[2] * dat.s_fac +
+                              adj_weights[3] * dat.w_fac + self_weight * factor ) );
+
+        const int feather_selection = *direction_pool.pick();
+        switch( feather_selection ) {
+            case no_dir:
+                return *self_biome.groundcover.pick();
+            case empty:
+                return *dat.region.default_groundcover.pick();
+            default:
+                if( adjacent_biomes[feather_selection] != nullptr ) {
+                    return *adjacent_biomes[feather_selection]->groundcover.pick();
+                } else {
+                    return *dat.region.default_groundcover.pick();
+                }
+        }
+    };
+
+    /**
+    * Determines the feature that should be placed at a point in the forest.
+    *
+    * Determines the position of \p p relative to the calculated perimeter,
+    * and from this picks an item from a weighted feature pool in the involved
+    * biomes.
+    * In the case of corners,
+    *
+    * @param p the point to check to place a feature at.
+    */
+    const auto get_feathered_feature = [&no_ter_furn, &max_factor, &factor, &self_biome,
+                                                      &adjacent_biomes, &nesw_weights, &get_feathered_groundcover, &unify_all_borders,
+                  &dat]( const point & p ) {
+        float adj_weights[4];
+        float net_weight = nesw_weights( p, factor, adj_weights );
+        float self_weight = self_scalar;
+        unify_all_borders( adj_weights, &self_weight, p );
+
+        // Pool together all of the biomes which the target point might constitute.
+        weighted_float_list<const int>
+        direction_pool; // Style guidelines say use int, but it is necessary for this weighting algorithm.
+        // Two special cases: default and sparsity:
+        static constexpr int no_dir = -1;
+        static constexpr int empty = -2;
+        direction_pool.add( 0, adj_weights[0] );
+        direction_pool.add( 1, adj_weights[1] );
+        direction_pool.add( 2, adj_weights[2] );
+        direction_pool.add( 3, adj_weights[3] );
+        direction_pool.add( no_dir, self_weight );
+        direction_pool.add( empty, ( net_weight + self_weight )* max_factor -
+                            ( adj_weights[0] * dat.n_fac + adj_weights[1] * dat.e_fac + adj_weights[2] * dat.s_fac +
+                              adj_weights[3] * dat.w_fac + self_weight * factor ) );
+
+        // Pick from the direction pool, and calculate + return the appropriate terrain:
+        ter_furn_id feature;
+        const int feather_selection = *direction_pool.pick();
+        switch( feather_selection ) {
+            case no_dir:
+                feature = self_biome.pick();
+                break;
+            case empty:
+                feature = no_ter_furn;
+                break;
+            default:
+                if( adjacent_biomes[feather_selection] != nullptr ) {
+                    feature = adjacent_biomes[feather_selection]->pick();
+
+                } else {
+                    feature = no_ter_furn;
+                }
+                break;
+        }
+        if( feature.ter == no_ter_furn.ter ) {
+            feature.ter = get_feathered_groundcover( p );
+        }
+        return feature;
+    };
+
+    /**
+    * Attempt, randomly, to place a terrain dependent furniture.
+    *
+    * For example, f_cattails on t_water_sh.
+    * @param tid: The terrain to place a dependent feature on.
+    * @param p: The point to place the dependent feature, if one is selected.
+    */
     const auto set_terrain_dependent_furniture =
-    [&current_biome_def, &m]( const ter_id & tid, const point & p ) {
-        const auto terrain_dependent_furniture_it = current_biome_def.terrain_dependent_furniture.find(
+    [&self_biome, &m]( const ter_id & tid, const point & p ) {
+        const auto terrain_dependent_furniture_it = self_biome.terrain_dependent_furniture.find(
                     tid );
-        if( terrain_dependent_furniture_it == current_biome_def.terrain_dependent_furniture.end() ) {
-            // No terrain dependent furnitures for this terrain, so bail.
+        if( terrain_dependent_furniture_it == self_biome.terrain_dependent_furniture.end() ) {
+            // No terrain dependent furnitures for this terrain.
             return;
         }
 
         const forest_biome_terrain_dependent_furniture tdf = terrain_dependent_furniture_it->second;
         if( tdf.furniture.get_weight() <= 0 ) {
-            // We've got furnitures, but their weight is 0 or less, so bail.
+            // We've got furnitures, but their weight is 0 or less.
             return;
         }
 
@@ -2432,19 +2543,20 @@ void mapgen_forest( mapgendata &dat )
         }
     };
 
-    // Loop through each location in this overmap terrain and attempt to place a feature and
-    // terrain dependent furniture.
+    // For each location within this overmap terrain,
+    // Lay groundcover, place a feature, and place terrain dependent furniture.
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
-            const ter_furn_id feature = get_blended_feature( point( x, y ) );
-            ter_or_furn_set( m, point( x, y ), feature );
+            const ter_furn_id feature = get_feathered_feature( point( x, y ) );
+            m->ter_set( point( x, y ), feature.ter );
+            m->furn_set( point( x, y ), feature.furn );
             set_terrain_dependent_furniture( feature.ter, point( x, y ) );
         }
     }
 
     // Place items on this terrain as defined in the biome.
-    for( int i = 0; i < current_biome_def.item_spawn_iterations; i++ ) {
-        m->place_items( current_biome_def.item_group, current_biome_def.item_group_chance,
+    for( int i = 0; i < self_biome.item_spawn_iterations; i++ ) {
+        m->place_items( self_biome.item_group, self_biome.item_group_chance,
                         point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     }
 }
@@ -2482,7 +2594,7 @@ void mapgen_forest_trail_straight( mapgendata &dat )
         m->rotate( 1 );
     }
 
-    m->place_items( item_group_id( "forest_trail" ), 75, center + point( -2, -2 ),
+    m->place_items( Item_spawn_data_forest_trail, 75, center + point( -2, -2 ),
                     center + point( 2, 2 ), true, dat.when() );
 }
 
@@ -2526,7 +2638,7 @@ void mapgen_forest_trail_curved( mapgendata &dat )
         m->rotate( 3 );
     }
 
-    m->place_items( item_group_id( "forest_trail" ), 75, center + point( -2, -2 ),
+    m->place_items( Item_spawn_data_forest_trail, 75, center + point( -2, -2 ),
                     center + point( 2, 2 ), true, dat.when() );
 }
 
@@ -2569,7 +2681,7 @@ void mapgen_forest_trail_tee( mapgendata &dat )
         m->rotate( 3 );
     }
 
-    m->place_items( item_group_id( "forest_trail" ), 75, center + point( -2, -2 ),
+    m->place_items( Item_spawn_data_forest_trail, 75, center + point( -2, -2 ),
                     center + point( 2, 2 ), true, dat.when() );
 }
 
@@ -2602,7 +2714,7 @@ void mapgen_forest_trail_four_way( mapgendata &dat )
         }
     }
 
-    m->place_items( item_group_id( "forest_trail" ), 75, center + point( -2, -2 ),
+    m->place_items( Item_spawn_data_forest_trail, 75, center + point( -2, -2 ),
                     center + point( 2, 2 ), true, dat.when() );
 }
 
@@ -3023,10 +3135,12 @@ void mapgen_lake_shore( mapgendata &dat )
 void mapgen_ravine_edge( mapgendata &dat )
 {
     map *const m = &dat.m;
+    // A solid chunk of z layer appropiate wall or floor is first generated to carve the cliffside off from
     if( dat.zlevel() == 0 ) {
         dat.fill_groundcover();
     } else {
-        m->draw_fill_background( t_rock );
+        run_mapgen_func( dat.region.default_oter[ OVERMAP_DEPTH + dat.zlevel() ].id()->get_mapgen_id(),
+                         dat );
     }
 
     const auto is_ravine = [&]( const oter_id & id ) {
@@ -3052,7 +3166,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     const bool w_ravine_edge = is_ravine_edge( dat.west() );
 
     const auto any_orthogonal_ravine = [&]() {
-        return ( n_ravine || s_ravine || w_ravine || e_ravine );
+        return n_ravine || s_ravine || w_ravine || e_ravine;
     };
 
     const bool straight = ( ( n_ravine_edge && s_ravine_edge ) || ( e_ravine_edge &&
@@ -3113,10 +3227,13 @@ void mapgen_ravine_edge( mapgendata &dat )
     }
 }
 
-void mremove_trap( map *m, const point &p )
+void mremove_trap( map *m, const point &p, trap_id type )
 {
     tripoint actual_location( p, m->get_abs_sub().z );
-    m->remove_trap( actual_location );
+    const trap_id trap_at_loc = m->maptile_at( actual_location ).get_trap().id();
+    if( type == tr_null || trap_at_loc == type ) {
+        m->remove_trap( actual_location );
+    }
 }
 
 void mtrap_set( map *m, const point &p, trap_id type )

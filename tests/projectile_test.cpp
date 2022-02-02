@@ -21,6 +21,9 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+static const itype_id itype_308( "308" );
+static const itype_id itype_m1a( "m1a" );
+
 static tripoint projectile_end_point( const std::vector<tripoint> &range, const item &gun,
                                       int speed, int proj_range )
 {
@@ -65,9 +68,9 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     here.ter_set( range[1], ter_id( "t_chainfence" ) );
 
     // Create a gun to fire a projectile from
-    item gun( itype_id( "m1a" ) );
+    item gun( itype_m1a );
     item mag( gun.magazine_default() );
-    mag.ammo_set( itype_id( "308" ), 5 );
+    mag.ammo_set( itype_308, 5 );
     gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
 
     // Check that a bullet with the correct amount of speed can through obstacles

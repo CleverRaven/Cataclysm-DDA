@@ -12,10 +12,13 @@
 #include "LargeStackObjectCheck.h"
 #include "NoLongCheck.h"
 #include "NoStaticGettextCheck.h"
+#include "OtMatchCheck.h"
 #include "PointInitializationCheck.h"
+#include "RedundantParenthesesCheck.h"
 #include "SerializeCheck.h"
 #include "SimplifyPointConstructorsCheck.h"
 #include "StaticDeclarationsCheck.h"
+#include "StaticInitializationOrderCheck.h"
 #include "StaticIntIdConstantsCheck.h"
 #include "StaticStringIdConstantsCheck.h"
 #include "TestFilenameCheck.h"
@@ -30,6 +33,7 @@
 #include "UseNamedPointConstantsCheck.h"
 #include "UsePointApisCheck.h"
 #include "UsePointArithmeticCheck.h"
+#include "UTF8ToLowerUpperCheck.h"
 #include "XYCheck.h"
 
 namespace clang
@@ -63,10 +67,14 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<LargeStackObjectCheck>( "cata-large-stack-object" );
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<NoStaticGettextCheck>( "cata-no-static-gettext" );
+            CheckFactories.registerCheck<OtMatchCheck>( "cata-ot-match" );
             CheckFactories.registerCheck<PointInitializationCheck>( "cata-point-initialization" );
+            CheckFactories.registerCheck<RedundantParenthesesCheck>( "cata-redundant-parentheses" );
             CheckFactories.registerCheck<SerializeCheck>( "cata-serialize" );
             CheckFactories.registerCheck<SimplifyPointConstructorsCheck>(
                 "cata-simplify-point-constructors" );
+            CheckFactories.registerCheck<StaticInitializationOrderCheck>(
+                "cata-static-initialization-order" );
             CheckFactories.registerCheck<StaticDeclarationsCheck>( "cata-static-declarations" );
             CheckFactories.registerCheck<StaticIntIdConstantsCheck>(
                 "cata-static-int_id-constants" );
@@ -88,6 +96,7 @@ class CataModule : public ClangTidyModule
                 "cata-use-named-point-constants" );
             CheckFactories.registerCheck<UsePointApisCheck>( "cata-use-point-apis" );
             CheckFactories.registerCheck<UsePointArithmeticCheck>( "cata-use-point-arithmetic" );
+            CheckFactories.registerCheck<UTF8ToLowerUpperCheck>( "cata-utf8-no-to-lower-to-upper" );
             CheckFactories.registerCheck<XYCheck>( "cata-xy" );
         }
 };

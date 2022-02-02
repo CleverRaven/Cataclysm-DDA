@@ -61,57 +61,86 @@
 #include "vpart_range.h"
 #include "weighted_list.h"
 
-static const trap_str_id tr_caltrops( "tr_caltrops" );
-static const trap_str_id tr_nailboard( "tr_nailboard" );
+static const flag_id json_flag_FILTHY( "FILTHY" );
+
+static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
+
+static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
+static const item_group_id Item_spawn_data_army_bed( "army_bed" );
+static const item_group_id Item_spawn_data_everyday_corpse( "everyday_corpse" );
+static const item_group_id Item_spawn_data_grenades( "grenades" );
+static const item_group_id Item_spawn_data_guns_rifle_milspec( "guns_rifle_milspec" );
+static const item_group_id Item_spawn_data_map_extra_casings( "map_extra_casings" );
+static const item_group_id Item_spawn_data_map_extra_police( "map_extra_police" );
+static const item_group_id Item_spawn_data_mil_armor( "mil_armor" );
+static const item_group_id Item_spawn_data_mil_bulk( "mil_bulk" );
+static const item_group_id Item_spawn_data_mil_food( "mil_food" );
+static const item_group_id
+Item_spawn_data_military_standard_assault_rifles( "military_standard_assault_rifles" );
+static const item_group_id Item_spawn_data_military_standard_lmgs( "military_standard_lmgs" );
+static const item_group_id
+Item_spawn_data_military_standard_shotguns( "military_standard_shotguns" );
+static const item_group_id
+Item_spawn_data_military_standard_sniper_rifles( "military_standard_sniper_rifles" );
+static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
+static const item_group_id
+Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
+static const item_group_id Item_spawn_data_rare( "rare" );
+static const item_group_id Item_spawn_data_remains_human_generic( "remains_human_generic" );
+static const item_group_id Item_spawn_data_trash_cart( "trash_cart" );
 
 static const itype_id itype_223_casing( "223_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );
 static const itype_id itype_9mm_casing( "9mm_casing" );
 static const itype_id itype_acoustic_guitar( "acoustic_guitar" );
-static const itype_id itype_hazmat_suit( "hazmat_suit" );
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_bag_canvas( "bag_canvas" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
-static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_chunk_sulfur( "chunk_sulfur" );
-static const itype_id itype_crowbar( "crowbar" );
-static const itype_id itype_fedora( "fedora" );
-static const itype_id itype_glasses_eye( "glasses_eye" );
 static const itype_id itype_hatchet( "hatchet" );
-static const itype_id itype_holybook_bible1( "holybook_bible1" );
-static const itype_id itype_indoor_volleyball( "indoor_volleyball" );
-static const itype_id itype_jacket_leather( "jacket_leather" );
-static const itype_id itype_katana( "katana" );
 static const itype_id itype_landmine( "landmine" );
-static const itype_id itype_machete( "machete" );
 static const itype_id itype_material_sand( "material_sand" );
 static const itype_id itype_material_soil( "material_soil" );
 static const itype_id itype_rag( "rag" );
-static const itype_id itype_remington_870_breacher( "remington_870_breacher" );
 static const itype_id itype_shot_hull( "shot_hull" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_stick_long( "stick_long" );
-static const itype_id itype_sunglasses( "sunglasses" );
-static const itype_id itype_sw_619( "sw_619" );
-static const itype_id itype_touring_suit( "touring_suit" );
-static const itype_id itype_tux( "tux" );
-static const itype_id itype_umbrella( "umbrella" );
-static const itype_id itype_usp_45( "usp_45" );
+static const itype_id itype_tire_iron( "tire_iron" );
 static const itype_id itype_vodka( "vodka" );
 static const itype_id itype_wheel( "wheel" );
 static const itype_id itype_withered( "withered" );
-static const itype_id itype_wrench( "wrench" );
 
-static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
-static const ter_str_id ter_t_stump( "t_stump" );
-static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
-static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
-static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
-static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
-static const ter_str_id ter_t_trunk( "t_trunk" );
+static const map_extra_id map_extra_mx_bandits_block( "mx_bandits_block" );
+static const map_extra_id map_extra_mx_burned_ground( "mx_burned_ground" );
+static const map_extra_id map_extra_mx_casings( "mx_casings" );
+static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
+static const map_extra_id map_extra_mx_clay_deposit( "mx_clay_deposit" );
+static const map_extra_id map_extra_mx_clearcut( "mx_clearcut" );
+static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
+static const map_extra_id map_extra_mx_crater( "mx_crater" );
+static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
+static const map_extra_id map_extra_mx_grove( "mx_grove" );
+static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
+static const map_extra_id map_extra_mx_house_spider( "mx_house_spider" );
+static const map_extra_id map_extra_mx_house_wasp( "mx_house_wasp" );
+static const map_extra_id map_extra_mx_jabberwock( "mx_jabberwock" );
+static const map_extra_id map_extra_mx_looters( "mx_looters" );
+static const map_extra_id map_extra_mx_mayhem( "mx_mayhem" );
+static const map_extra_id map_extra_mx_military( "mx_military" );
+static const map_extra_id map_extra_mx_minefield( "mx_minefield" );
+static const map_extra_id map_extra_mx_null( "mx_null" );
+static const map_extra_id map_extra_mx_point_burned_ground( "mx_point_burned_ground" );
+static const map_extra_id map_extra_mx_point_dead_vegetation( "mx_point_dead_vegetation" );
+static const map_extra_id map_extra_mx_pond( "mx_pond" );
+static const map_extra_id map_extra_mx_portal_in( "mx_portal_in" );
+static const map_extra_id map_extra_mx_reed( "mx_reed" );
+static const map_extra_id map_extra_mx_roadblock( "mx_roadblock" );
+static const map_extra_id map_extra_mx_roadworks( "mx_roadworks" );
+static const map_extra_id map_extra_mx_shia( "mx_shia" );
+static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
+static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
@@ -119,28 +148,60 @@ static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
 static const mongroup_id GROUP_MI_GO_CAMP_OM( "GROUP_MI-GO_CAMP_OM" );
 static const mongroup_id GROUP_NETHER_CAPTURED( "GROUP_NETHER_CAPTURED" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
-static const mongroup_id GROUP_PETS( "GROUP_PETS" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
 static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 
-static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_dermatik( "mon_dermatik" );
+static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
-static const mtype_id mon_spider_web( "mon_spider_web" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
-static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
+static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
 static const mtype_id mon_wolf( "mon_wolf" );
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+
+static const oter_type_str_id oter_type_bridge( "bridge" );
+static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
+static const oter_type_str_id oter_type_road( "road" );
+
+static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
+
+static const string_id<class npc_template> npc_template_bandit( "bandit" );
+
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
+static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
+static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
+static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
+static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
+
+static const trap_str_id tr_caltrops( "tr_caltrops" );
+static const trap_str_id tr_engine( "tr_engine" );
+static const trap_str_id tr_nailboard( "tr_nailboard" );
+
+static const vgroup_id VehicleGroup_crashed_helicopters( "crashed_helicopters" );
+static const vgroup_id VehicleGroup_military_vehicles( "military_vehicles" );
+
+static const vproto_id vehicle_prototype_4x4_car( "4x4_car" );
+static const vproto_id vehicle_prototype_car( "car" );
+static const vproto_id vehicle_prototype_car_fbi( "car_fbi" );
+static const vproto_id vehicle_prototype_excavator( "excavator" );
+static const vproto_id vehicle_prototype_humvee( "humvee" );
+static const vproto_id vehicle_prototype_limousine( "limousine" );
+static const vproto_id vehicle_prototype_military_cargo_truck( "military_cargo_truck" );
+static const vproto_id vehicle_prototype_policecar( "policecar" );
+static const vproto_id vehicle_prototype_road_roller( "road_roller" );
 
 class npc_template;
 
@@ -191,6 +252,11 @@ namespace MapExtras
 const generic_factory<map_extra> &mapExtraFactory()
 {
     return extras;
+}
+
+void clear()
+{
+    extras.reset();
 }
 
 static bool mx_null( map &, const tripoint & )
@@ -323,7 +389,7 @@ static bool mx_house_spider( map &m, const tripoint &loc )
             }
         }
     }
-    m.place_items( item_group_id( "rare" ), 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m.place_items( Item_spawn_data_rare, 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                    false, calendar::start_of_cataclysm );
 
     return true;
@@ -360,8 +426,8 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                         }
                     }
 
-                } else if( one_in( 4 + ( std::abs( x - c.x ) + ( std::abs( y -
-                                         c.y ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
+                } else if( one_in( 4 + ( std::abs( x - c.x ) + std::abs( y -
+                                         c.y ) ) ) ) { // 1 in 10 chance of being wreckage anyway
                     m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                     if( !one_in( 3 ) ) {
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
@@ -375,7 +441,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
 
     units::angle dir1 = random_direction();
 
-    auto crashed_hull = vgroup_id( "crashed_helicopters" )->pick();
+    auto crashed_hull = VehicleGroup_crashed_helicopters->pick();
 
     // Create the vehicle so we can rotate it and calculate its bounding box, but don't place it on the map.
     auto veh = std::make_unique<vehicle>( crashed_hull, rng( 1, 33 ), 1 );
@@ -520,15 +586,15 @@ static bool mx_military( map &m, const tripoint & )
                 // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
                 if( !one_in( 10 ) ) {
                     item_group_id group;
-                    // 75% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
+                    // 80% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
                     if( one_in( 20 ) ) {
-                        group = item_group_id( "military_standard_sniper_rifles" );
-                    } else if( one_in( 20 ) ) {
-                        group = item_group_id( "military_standard_shotguns" );
-                    } else if( one_in( 10 ) ) {
-                        group = item_group_id( "military_standard_lmgs" );
+                        group = Item_spawn_data_military_standard_sniper_rifles;
+                    } else if( one_in( 19 ) ) {
+                        group = Item_spawn_data_military_standard_shotguns;
+                    } else if( one_in( 9 ) ) {
+                        group = Item_spawn_data_military_standard_lmgs;
                     } else {
-                        group = item_group_id( "military_standard_assault_rifles" );
+                        group = Item_spawn_data_military_standard_assault_rifles;
                     }
                     m.place_items( group, 100, *p, *p, true, calendar::start_of_cataclysm );
                 }
@@ -548,7 +614,7 @@ static bool mx_military( map &m, const tripoint & )
     }
     m.place_spawns( GROUP_MAYBE_MIL, 2, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     0.1f ); //0.1 = 1-5
-    m.place_items( item_group_id( "rare" ), 25, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m.place_items( Item_spawn_data_rare, 25, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                    true, calendar::start_of_cataclysm );
 
     return true;
@@ -563,10 +629,10 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
     const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
-    const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
-    const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
-    const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
-    const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
+    const bool road_at_north = north->get_type_id() == oter_type_road;
+    const bool road_at_south = south->get_type_id() == oter_type_road;
+    const bool road_at_west = west->get_type_id() == oter_type_road;
+    const bool road_at_east = east->get_type_id() == oter_type_road;
 
     const auto spawn_turret = [&]( const point & p ) {
         if( one_in( 3 ) ) {
@@ -618,7 +684,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
         if( one_in( 2 ) ) {
             // The truck's wrecked...with fuel.  Explosive barrel?
-            m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 12, SEEY * 2 - 12 ),
+            m.add_vehicle( vehicle_prototype_military_cargo_truck, point( 12, SEEY * 2 - 12 ),
                            0_degrees, 70, -1 );
             if( road_at_north ) {
                 spawn_turret( point( 12, 6 ) );
@@ -633,7 +699,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
                 spawn_turret( point( 6, 12 ) );
             }
         } else {  // Vehicle & turrets
-            m.add_vehicle( vgroup_id( "military_vehicles" ),
+            m.add_vehicle( VehicleGroup_military_vehicles,
                            tripoint( 12, SEEY * 2 - 10, abs_sub.z ), 0_degrees, 70, -1 );
             if( road_at_north ) {
                 spawn_turret( point( 12, 6 ) );
@@ -665,13 +731,13 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
                     item_group_id group;
                     // 75% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
                     if( one_in( 20 ) ) {
-                        group = item_group_id( "military_standard_sniper_rifles" );
+                        group = Item_spawn_data_military_standard_sniper_rifles;
                     } else if( one_in( 20 ) ) {
-                        group = item_group_id( "military_standard_shotguns" );
+                        group = Item_spawn_data_military_standard_shotguns;
                     } else if( one_in( 10 ) ) {
-                        group = item_group_id( "military_standard_lmgs" );
+                        group = Item_spawn_data_military_standard_lmgs;
                     } else {
-                        group = item_group_id( "military_standard_assault_rifles" );
+                        group = Item_spawn_data_military_standard_assault_rifles;
                     }
                     m.place_items( group, 100, *p, *p, true, calendar::start_of_cataclysm );
                 }
@@ -705,8 +771,8 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             m.add_spawn( mon_turret_riot, 1, { 1, 12, abs_sub.z } );
         }
 
-        m.add_vehicle( vproto_id( "policecar" ), point( 8, 6 ), 20_degrees );
-        m.add_vehicle( vproto_id( "policecar" ), point( 16, SEEY * 2 - 6 ), 145_degrees );
+        m.add_vehicle( vehicle_prototype_policecar, point( 8, 6 ), 20_degrees );
+        m.add_vehicle( vehicle_prototype_policecar, point( 16, SEEY * 2 - 6 ), 145_degrees );
 
         line_furn( &m, f_sandbag_wall, point( 6, 10 ), point( 9, 10 ) );
         m.add_spawn( mon_turret_searchlight, 1, { 7, 11, abs_sub.z } );
@@ -718,7 +784,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
             return m.passable( n );
             } ) ) {
-                m.place_items( item_group_id( "map_extra_police" ), 100, *p, *p, true,
+                m.place_items( Item_spawn_data_map_extra_police, 100, *p, *p, true,
                                calendar::start_of_cataclysm );
 
                 int splatter_range = rng( 1, 3 );
@@ -745,10 +811,10 @@ static bool mx_bandits_block( map &m, const tripoint &abs_sub )
     const bool forest_at_west = is_ot_match( "forest", west, ot_match_type::prefix );
     const bool forest_at_east = is_ot_match( "forest", east, ot_match_type::prefix );
 
-    const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
-    const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
-    const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
-    const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
+    const bool road_at_north = north->get_type_id() == oter_type_road;
+    const bool road_at_south = south->get_type_id() == oter_type_road;
+    const bool road_at_west = west->get_type_id() == oter_type_road;
+    const bool road_at_east = east->get_type_id() == oter_type_road;
 
     if( forest_at_north && forest_at_south &&
         road_at_west && road_at_east ) {
@@ -760,9 +826,9 @@ static bool mx_bandits_block( map &m, const tripoint &abs_sub )
             m.ter_set( point( 1, 2 ), t_stump );
             m.ter_set( point( 1, 20 ), t_stump );
             m.ter_set( point_south_east, t_improvised_shelter );
-            m.place_npc( point( 2, 19 ), string_id<npc_template>( "bandit" ) );
+            m.place_npc( point( 2, 19 ), npc_template_bandit );
             if( one_in( 2 ) ) {
-                m.place_npc( point_south_east, string_id<npc_template>( "bandit" ) );
+                m.place_npc( point_south_east, npc_template_bandit );
             }
         } else {
             trap_str_id trap_type = one_in( 2 ) ? tr_nailboard : tr_caltrops;
@@ -776,11 +842,11 @@ static bool mx_bandits_block( map &m, const tripoint &abs_sub )
 
             rough_circle( &m, t_underbrush, point( 8, 2 ), 2 );
             m.ter_set( point( 8, 2 ), t_dirt );
-            m.place_npc( point( 8, 2 ), string_id<npc_template>( "bandit" ) );
+            m.place_npc( point( 8, 2 ), npc_template_bandit );
 
             rough_circle( &m, t_underbrush, point( 16, 22 ), 2 );
             m.ter_set( point( 16, 22 ), t_dirt );
-            m.place_npc( point( 16, 22 ), string_id<npc_template>( "bandit" ) );
+            m.place_npc( point( 16, 22 ), npc_template_bandit );
         }
 
         return true;
@@ -795,9 +861,9 @@ static bool mx_bandits_block( map &m, const tripoint &abs_sub )
             line( &m, t_trunk, point( 17, 2 ), point( 21, 2 ) );
             m.ter_set( point( 22, 2 ), t_stump );
             m.ter_set( point_south, t_improvised_shelter );
-            m.place_npc( point( 20, 3 ), string_id<npc_template>( "bandit" ) );
+            m.place_npc( point( 20, 3 ), npc_template_bandit );
             if( one_in( 2 ) ) {
-                m.place_npc( point_south, string_id<npc_template>( "bandit" ) );
+                m.place_npc( point_south, npc_template_bandit );
             }
         } else {
             trap_str_id trap_type = one_in( 2 ) ? tr_nailboard : tr_caltrops;
@@ -811,11 +877,11 @@ static bool mx_bandits_block( map &m, const tripoint &abs_sub )
 
             rough_circle( &m, t_underbrush, point( 1, 8 ), 2 );
             m.ter_set( point( 1, 8 ), t_dirt );
-            m.place_npc( point( 1, 8 ), string_id<npc_template>( "bandit" ) );
+            m.place_npc( point( 1, 8 ), npc_template_bandit );
 
             rough_circle( &m, t_underbrush, point( 22, 15 ), 2 );
             m.ter_set( point( 22, 15 ), t_dirt );
-            m.place_npc( point( 22, 15 ), string_id<npc_template>( "bandit" ) );
+            m.place_npc( point( 22, 15 ), npc_template_bandit );
         }
 
         return true;
@@ -843,24 +909,24 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
             item_group_id item_group;
             switch( rng( 1, 10 ) ) {
                 case 1:
-                    item_group = item_group_id( "mil_bulk" );
+                    item_group = Item_spawn_data_mil_bulk;
                     break;
                 case 2:
                 case 3:
                 case 4:
-                    item_group = item_group_id( "mil_food" );
+                    item_group = Item_spawn_data_mil_food;
                     break;
                 case 5:
                 case 6:
                 case 7:
-                    item_group = item_group_id( "grenades" );
+                    item_group = Item_spawn_data_grenades;
                     break;
                 case 8:
                 case 9:
-                    item_group = item_group_id( "mil_armor" );
+                    item_group = Item_spawn_data_mil_armor;
                     break;
                 case 10:
-                    item_group = item_group_id( "guns_rifle_milspec" );
+                    item_group = Item_spawn_data_guns_rifle_milspec;
                     break;
             }
             int items_created = 0;
@@ -875,60 +941,6 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
         } else {
             m.furn_set( p->xy(), f_crate_o );
         }
-    }
-
-    return true;
-}
-
-static bool mx_portal( map &m, const tripoint &abs_sub )
-{
-    // All points except the borders are valid--we need the 1 square buffer so that we can do a 1 unit radius
-    // around our chosen portal point without clipping against the edge of the map.
-    const tripoint_range<tripoint> points =
-        m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
-
-    // Get a random point in our collection that does not have a trap and does not have the NO_FLOOR flag.
-    const cata::optional<tripoint> portal_pos = random_point( points, [&]( const tripoint & p ) {
-        return !m.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) && m.tr_at( p ).is_null();
-    } );
-
-    // If we can't get a point to spawn the portal (e.g. we're triggered in entirely open air) we're done here.
-    if( !portal_pos ) {
-        return false;
-    }
-
-    // For our portal point and every adjacent location, make rubble if it doesn't have the NO_FLOOR flag.
-    for( const tripoint &p : m.points_in_radius( *portal_pos, 1 ) ) {
-        if( !m.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-            m.make_rubble( p, f_rubble_rock, true );
-        }
-    }
-
-    m.trap_set( *portal_pos, tr_portal );
-
-    // We'll make between 0 and 4 attempts to spawn monsters here.
-    int num_monsters = rng( 0, 4 );
-    creature_tracker &creatures = get_creature_tracker();
-    for( int i = 0; i < num_monsters; i++ ) {
-        // Get a random location from our points that is not the portal location, does not have the
-        // NO_FLOOR flag, and isn't currently occupied by a creature.
-        const cata::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
-            /// TODO: wrong: this checks for creatures on the main game map. Not within the map m.
-            return !m.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) && *portal_pos != p &&
-                   !creatures.creature_at( p );
-        } );
-
-        // If we couldn't get a random location, we can't place a monster and we know that there are no
-        // more possible valid locations, so just bail.
-        if( !mon_pos ) {
-            break;
-        }
-
-        // Make rubble here--it's not necessarily a location that is directly adjacent to the portal.
-        m.make_rubble( *mon_pos, f_rubble_rock, true );
-
-        // Spawn a single monster from our group here.
-        m.place_spawns( GROUP_NETHER_PORTAL, 1, mon_pos->xy(), mon_pos->xy(), 1, true );
     }
 
     return true;
@@ -951,16 +963,17 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
     const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
-    const bool bridgehead_at_center = is_ot_match( "bridgehead_ground", center, ot_match_type::type );
-    const bool bridge_at_north = is_ot_match( "bridge", north, ot_match_type::type );
-    const bool bridge_at_south = is_ot_match( "bridge", south, ot_match_type::type );
-    const bool bridge_at_west = is_ot_match( "bridge", west, ot_match_type::type );
-    const bool bridge_at_east = is_ot_match( "bridge", east, ot_match_type::type );
+    const bool bridgehead_at_center = center->get_type_id() ==
+                                      oter_type_bridgehead_ground;
+    const bool bridge_at_north = north->get_type_id() == oter_type_bridge;
+    const bool bridge_at_south = south->get_type_id() == oter_type_bridge;
+    const bool bridge_at_west = west->get_type_id() == oter_type_bridge;
+    const bool bridge_at_east = east->get_type_id() == oter_type_bridge;
 
-    const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
-    const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
-    const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
-    const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
+    const bool road_at_north = north->get_type_id() == oter_type_road;
+    const bool road_at_south = south->get_type_id() == oter_type_road;
+    const bool road_at_west = west->get_type_id() == oter_type_road;
+    const bool road_at_east = east->get_type_id() == oter_type_road;
 
     const int num_mines = rng( 6, 20 );
     const std::string text = _( "DANGER!  MINEFIELD!" );
@@ -989,7 +1002,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //50% chance to spawn a humvee in the left block
         if( one_in( 2 ) ) {
-            m.add_vehicle( vproto_id( "humvee" ), point( 5, 3 ), 270_degrees, 70, -1 );
+            m.add_vehicle( vehicle_prototype_humvee, point( 5, 3 ), 270_degrees, 70, -1 );
         }
 
         //Sandbag block at the right edge
@@ -1008,7 +1021,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         if( one_in( 2 ) ) {
             m.add_splatter_trail( fd_blood, { 17, 6, abs_sub.z }, { 19, 3, abs_sub.z } );
             item body = item::make_corpse();
-            m.put_items_from_loc( item_group_id( "mon_zombie_soldier_death_drops" ),
+            m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 17, 5, abs_sub.z } );
             m.add_item_or_charges( { 17, 5, abs_sub.z }, body );
         }
@@ -1065,9 +1078,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Set two warning signs on the last horizontal line of the submap
         const int x = rng( 3, SEEX );
         const int x1 = rng( SEEX + 1, SEEX * 2 - 4 );
-        m.furn_set( point( x, SEEY * 2 - 1 ), furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( x, SEEY * 2 - 1 ), furn_f_sign_warning );
         m.set_signage( tripoint( x, SEEY * 2 - 1, abs_sub.z ), text );
-        m.furn_set( point( x1, SEEY * 2 - 1 ), furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( x1, SEEY * 2 - 1 ), furn_f_sign_warning );
         m.set_signage( tripoint( x1, SEEY * 2 - 1, abs_sub.z ), text );
 
         did_something = true;
@@ -1103,7 +1116,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
                 }
             }
             item body = item::make_corpse();
-            m.put_items_from_loc( item_group_id( "mon_zombie_soldier_death_drops" ),
+            m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 11, 21, abs_sub.z } );
             m.add_item_or_charges( { 11, 21, abs_sub.z }, body );
         }
@@ -1132,8 +1145,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //50% chance to spawn two humvees blocking the road
         if( one_in( 2 ) ) {
-            m.add_vehicle( vproto_id( "humvee" ), point( 7, 19 ), 0_degrees, 70, -1 );
-            m.add_vehicle( vproto_id( "humvee" ), point( 15, 20 ), 180_degrees, 70, -1 );
+            m.add_vehicle( vehicle_prototype_humvee, point( 7, 19 ), 0_degrees, 70, -1 );
+            m.add_vehicle( vehicle_prototype_humvee, point( 15, 20 ), 180_degrees, 70, -1 );
         }
 
         //Spawn 6-20 mines in the upper submap.
@@ -1168,9 +1181,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Set two warning signs on the first horizontal line of the submap
         const int x = rng( 3, SEEX );
         const int x1 = rng( SEEX + 1, SEEX * 2 - 4 );
-        m.furn_set( point( x, 0 ), furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( x, 0 ), furn_f_sign_warning );
         m.set_signage( tripoint( x, 0, abs_sub.z ), text );
-        m.furn_set( point( x1, 0 ), furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( x1, 0 ), furn_f_sign_warning );
         m.set_signage( tripoint( x1, 0, abs_sub.z ), text );
 
         did_something = true;
@@ -1190,13 +1203,13 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //Place makeshift beds in the first tent and place loot
         m.furn_set( { 1, 4, abs_sub.z }, f_makeshift_bed );
-        m.put_items_from_loc( item_group_id( "army_bed" ), { 1, 4, abs_sub.z } );
+        m.put_items_from_loc( Item_spawn_data_army_bed, { 1, 4, abs_sub.z } );
         m.furn_set( { 1, 6, abs_sub.z }, f_makeshift_bed );
         m.furn_set( { 1, 8, abs_sub.z }, f_makeshift_bed );
         m.furn_set( { 1, 10, abs_sub.z }, f_makeshift_bed );
-        m.put_items_from_loc( item_group_id( "army_bed" ), { 1, 10, abs_sub.z } );
+        m.put_items_from_loc( Item_spawn_data_army_bed, { 1, 10, abs_sub.z } );
         m.furn_set( { 1, 12, abs_sub.z }, f_makeshift_bed );
-        m.put_items_from_loc( item_group_id( "army_bed" ), { 1, 12, abs_sub.z } );
+        m.put_items_from_loc( Item_spawn_data_army_bed, { 1, 12, abs_sub.z } );
 
         //33% chance for a crazy maniac ramming the tent with some unfortunate inside
         if( one_in( 3 ) ) {
@@ -1208,7 +1221,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.add_field( { 1, 6, abs_sub.z }, fd_gibs_flesh, 1 );
 
             //Add the culprit
-            m.add_vehicle( vproto_id( "car_fbi" ), point( 7, 7 ), 0_degrees, 70, 1 );
+            m.add_vehicle( vehicle_prototype_car_fbi, point( 7, 7 ), 0_degrees, 70, 1 );
 
             //Remove tent parts after drive-through
             square_furn( &m, f_null, point( 0, 6 ), point( 8, 9 ) );
@@ -1224,8 +1237,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
                 m.spawn_item( { i, abs_sub.z }, itype_material_sand, rng( 3, 8 ) );
             }
         } else {
-            m.put_items_from_loc( item_group_id( "army_bed" ), { 1, 6, abs_sub.z } );
-            m.put_items_from_loc( item_group_id( "army_bed" ), { 1, 8, abs_sub.z } );
+            m.put_items_from_loc( Item_spawn_data_army_bed, { 1, 6, abs_sub.z } );
+            m.put_items_from_loc( Item_spawn_data_army_bed, { 1, 8, abs_sub.z } );
 
             //5.56x45mm casings left from a soldier
             for( const auto &loc : m.points_in_radius( { 9, 8, abs_sub.z }, 2, 0 ) ) {
@@ -1315,9 +1328,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Set two warning signs on the last vertical line of the submap
         const int y = rng( 3, SEEY );
         const int y1 = rng( SEEY + 1, SEEY * 2 - 4 );
-        m.furn_set( point( SEEX * 2 - 1, y ), furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( SEEX * 2 - 1, y ), furn_f_sign_warning );
         m.set_signage( tripoint( SEEX * 2 - 1, y, abs_sub.z ), text );
-        m.furn_set( point( SEEX * 2 - 1, y1 ), furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( SEEX * 2 - 1, y1 ), furn_f_sign_warning );
         m.set_signage( tripoint( SEEX * 2 - 1, y1, abs_sub.z ), text );
 
         did_something = true;
@@ -1326,7 +1339,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     if( bridge_at_east && road_at_west ) {
         m.load( project_to<coords::sm>( abs_omt + point_west ), false );
         //Spawn military cargo truck blocking the entry
-        m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 15, 11 ), 270_degrees, 70, 1 );
+        m.add_vehicle( vehicle_prototype_military_cargo_truck, point( 15, 11 ), 270_degrees, 70, 1 );
 
         //Spawn sandbag barricades around the truck
         line_furn( &m, f_sandbag_half, point( 14, 3 ), point( 14, 8 ) );
@@ -1336,7 +1349,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         if( one_in( 2 ) ) {
             m.add_splatter_trail( fd_blood, { 14, 5, abs_sub.z }, { 17, 5, abs_sub.z } );
             item body = item::make_corpse();
-            m.put_items_from_loc( item_group_id( "mon_zombie_soldier_death_drops" ),
+            m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 15, 5, abs_sub.z } );
             m.add_item_or_charges( { 15, 5, abs_sub.z }, body );
         }
@@ -1381,7 +1394,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
             //Spawn chopped soldier corpse
             item body = item::make_corpse();
-            m.put_items_from_loc( item_group_id( "mon_zombie_soldier_death_drops" ),
+            m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 23, 12, abs_sub.z } );
             m.add_item_or_charges( { 23, 12, abs_sub.z }, body );
             m.add_field( { 23, 12, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -1397,7 +1410,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
                 }
             }
             //Spawn trash in a crate and its surroundings
-            m.place_items( item_group_id( "trash_cart" ), 80, { 19, 11, abs_sub.z },
+            m.place_items( Item_spawn_data_trash_cart, 80, { 19, 11, abs_sub.z },
             { 21, 13, abs_sub.z }, false, calendar::start_of_cataclysm );
         } else {
             m.spawn_item( { 20, 11, abs_sub.z }, itype_hatchet );
@@ -1405,7 +1418,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.spawn_item( { 20, 14, abs_sub.z }, itype_acoustic_guitar );
 
             //Spawn trash in a crate
-            m.place_items( item_group_id( "trash_cart" ), 80, { 20, 12, abs_sub.z },
+            m.place_items( Item_spawn_data_trash_cart, 80, { 20, 12, abs_sub.z },
             { 20, 12, abs_sub.z }, false, calendar::start_of_cataclysm );
         }
 
@@ -1416,10 +1429,10 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //Place beds in a tent
         m.furn_set( { 21, 5, abs_sub.z }, f_makeshift_bed );
-        m.put_items_from_loc( item_group_id( "army_bed" ), { 21, 5, abs_sub.z },
+        m.put_items_from_loc( Item_spawn_data_army_bed, { 21, 5, abs_sub.z },
                               calendar::turn_zero );
         m.furn_set( { 22, 6, abs_sub.z }, f_makeshift_bed );
-        m.put_items_from_loc( item_group_id( "army_bed" ), { 22, 6, abs_sub.z },
+        m.put_items_from_loc( Item_spawn_data_army_bed, { 22, 6, abs_sub.z },
                               calendar::turn_zero );
 
         //Spawn 6-20 mines in the leftmost submap.
@@ -1454,9 +1467,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Set two warning signs on the first vertical line of the submap
         const int y = rng( 3, SEEY );
         const int y1 = rng( SEEY + 1, SEEY * 2 - 4 );
-        m.furn_set( point( 0, y ), furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( 0, y ), furn_f_sign_warning );
         m.set_signage( tripoint( 0, y, abs_sub.z ), text );
-        m.furn_set( point( 0, y1 ), furn_str_id( "f_sign_warning" ) );
+        m.furn_set( point( 0, y1 ), furn_f_sign_warning );
         m.set_signage( tripoint( 0, y1, abs_sub.z ), text );
 
         did_something = true;
@@ -1513,7 +1526,15 @@ static void place_fumarole( map &m, const point &p1, const point &p2, std::set<p
 
 static bool mx_portal_in( map &m, const tripoint &abs_sub )
 {
-    const tripoint portal_location = { rng( 5, SEEX * 2 - 6 ), rng( 5, SEEX * 2 - 6 ), abs_sub.z };
+    static constexpr int omt_size = SEEX * 2;
+    // minimum 9 tiles from the edge because ARTPROP_FRACTAL calls
+    // create_anomaly at an offset of 4, and create_anomaly generates a
+    // furniture circle around that of radius 5.
+    static constexpr int min_coord = 9;
+    static constexpr int max_coord = omt_size - 1 - min_coord;
+    static_assert( min_coord < max_coord, "no space for randomness" );
+    const tripoint portal_location{
+        rng( min_coord, max_coord ), rng( min_coord, max_coord ), abs_sub.z };
     const point p( portal_location.xy() );
 
     switch( rng( 1, 7 ) ) {
@@ -1632,7 +1653,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
             m.create_anomaly( portal_location, prop );
             m.spawn_artifact( p + tripoint( rng( -1, 1 ), rng( -1, 1 ), abs_sub.z ),
-                              relic_procgen_id( "alien_reality" ) );
+                              relic_procgen_data_alien_reality );
             break;
         }
     }
@@ -1652,33 +1673,6 @@ static bool mx_shia( map &m, const tripoint &loc )
     }
 
     return false;
-}
-
-static bool mx_spider( map &m, const tripoint &abs_sub )
-{
-    // This was extracted from the hardcoded forest mapgen and slightly altered so
-    // that it used flags rather than specific terrain types in determining where to
-    // place webs.
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            const tripoint location( i, j, abs_sub.z );
-
-            bool should_web_flat = m.has_flag_ter( ter_furn_flag::TFLAG_FLAT, location ) && !one_in( 3 );
-            bool should_web_shrub = m.has_flag_ter( ter_furn_flag::TFLAG_SHRUB, location ) && !one_in( 4 );
-            bool should_web_tree = m.has_flag_ter( ter_furn_flag::TFLAG_TREE, location ) && !one_in( 4 );
-
-            if( should_web_flat || should_web_shrub || should_web_tree ) {
-                m.add_field( location, fd_web, rng( 1, 3 ), 0_turns );
-            }
-        }
-    }
-
-    m.ter_set( point( 12, 12 ), t_dirt );
-    m.furn_set( point( 12, 12 ), f_egg_sackws );
-    m.remove_field( { 12, 12, m.get_abs_sub().z }, fd_web );
-    m.add_spawn( mon_spider_web, rng( 1, 2 ), { SEEX, SEEY, abs_sub.z } );
-
-    return true;
 }
 
 static bool mx_jabberwock( map &m, const tripoint &loc )
@@ -2016,9 +2010,11 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         while( m.is_bashable( loc ) ) {
             m.destroy( loc, true );
         }
-        m.furn_set( loc, f_ash );
-        if( !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
+        if( !m.is_open_air( loc ) ) {
+            m.furn_set( loc, f_ash );
+            if( !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+                m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
+            }
         }
     }
 
@@ -2150,10 +2146,10 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
     const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
-    const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
-    const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
-    const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
-    const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
+    const bool road_at_north = north->get_type_id() == oter_type_road;
+    const bool road_at_south = south->get_type_id() == oter_type_road;
+    const bool road_at_west = west->get_type_id() == oter_type_road;
+    const bool road_at_east = east->get_type_id() == oter_type_road;
 
     // defect types
     weighted_int_list<ter_id> road_defects;
@@ -2420,10 +2416,10 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     // vehicle placer
     switch( rng( 1, 6 ) ) {
         case 1:
-            m.add_vehicle( vproto_id( "road_roller" ), veh, random_direction() );
+            m.add_vehicle( vehicle_prototype_road_roller, veh, random_direction() );
             break;
         case 2:
-            m.add_vehicle( vproto_id( "excavator" ), veh, random_direction() );
+            m.add_vehicle( vehicle_prototype_excavator, veh, random_direction() );
             break;
         case 3:
         case 4:
@@ -2435,7 +2431,7 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     // equipment placer
     if( one_in( 3 ) ) {
         m.furn_set( equipment, f_crate_c );
-        m.place_items( item_group_id( "mine_equipment" ), 100, tripoint( equipment, 0 ),
+        m.place_items( Item_spawn_data_mine_equipment, 100, tripoint( equipment, 0 ),
                        tripoint( equipment, 0 ), true, calendar::start_of_cataclysm, 100 );
     }
 
@@ -2447,8 +2443,8 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
     switch( rng( 1, 3 ) ) {
         //Car accident resulted in a shootout with two victims
         case 1: {
-            m.add_vehicle( vproto_id( "car" ), point( 18, 9 ), 270_degrees );
-            m.add_vehicle( vproto_id( "4x4_car" ), point( 20, 5 ), 0_degrees );
+            m.add_vehicle( vehicle_prototype_car, point( 18, 9 ), 270_degrees );
+            m.add_vehicle( vehicle_prototype_4x4_car, point( 20, 5 ), 0_degrees );
 
             m.spawn_item( { 16, 10, abs_sub.z }, itype_shot_hull );
             m.add_corpse( { 16, 9, abs_sub.z } );
@@ -2466,7 +2462,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
         }
         //Some cocky moron with friends got dragged out of limo and shot down by a military
         case 2: {
-            m.add_vehicle( vproto_id( "limousine" ), point( 18, 9 ), 270_degrees );
+            m.add_vehicle( vehicle_prototype_limousine, point( 18, 9 ), 270_degrees );
 
             m.add_corpse( { 16, 9, abs_sub.z } );
             m.add_corpse( { 16, 11, abs_sub.z } );
@@ -2483,15 +2479,15 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
         }
         //Some unfortunate stopped at the roadside to change tire, but was ambushed and killed
         case 3: {
-            m.add_vehicle( vproto_id( "car" ), point( 18, 12 ), 270_degrees );
+            m.add_vehicle( vehicle_prototype_car, point( 18, 12 ), 270_degrees );
 
             m.add_field( { 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
             m.spawn_item( { 16, 16, abs_sub.z }, itype_wheel, 1, 0, calendar::start_of_cataclysm, 4 );
-            m.spawn_item( { 16, 16, abs_sub.z }, itype_wrench );
+            m.spawn_item( { 16, 16, abs_sub.z }, itype_tire_iron );
 
             if( one_in( 2 ) ) { //Unknown people killed and robbed the poor guy
-                m.put_items_from_loc( item_group_id( "everyday_corpse" ), { 16, 15, abs_sub.z } );
+                m.put_items_from_loc( Item_spawn_data_everyday_corpse, { 16, 15, abs_sub.z } );
                 m.spawn_item( { 21, 15, abs_sub.z }, itype_shot_hull );
             } else { //Wolves charged to the poor guy...
                 m.add_corpse( { 16, 15, abs_sub.z } );
@@ -2531,7 +2527,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
 
 static bool mx_casings( map &m, const tripoint &abs_sub )
 {
-    const auto items = item_group::items_from( item_group_id( "ammo_casings" ), calendar::turn );
+    const auto items = item_group::items_from( Item_spawn_data_ammo_casings, calendar::turn );
 
     switch( rng( 1, 4 ) ) {
         //Pile of random casings in random place
@@ -2546,7 +2542,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             //Spawn random trash in random place
             for( int i = 0; i < rng( 1, 3 ); i++ ) {
                 const auto trash =
-                    item_group::items_from( item_group_id( "map_extra_casings" ), calendar::turn );
+                    item_group::items_from( Item_spawn_data_map_extra_casings, calendar::turn );
                 const tripoint trash_loc = random_entry( m.points_in_radius( { SEEX, SEEY, abs_sub.z }, 10 ) );
                 m.spawn_items( trash_loc, trash );
             }
@@ -2555,7 +2551,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
                 m.add_field( location, fd_blood, rng( 1, 3 ) );
                 if( one_in( 2 ) ) {
                     const tripoint bloody_rag_loc = random_entry( m.points_in_radius( location, 3 ) );
-                    m.spawn_item( bloody_rag_loc, itype_rag, 1, 0, calendar::start_of_cataclysm, 0, { flag_id( "FILTHY" ) } );
+                    m.spawn_item( bloody_rag_loc, itype_rag, 1, 0, calendar::start_of_cataclysm, 0, { json_flag_FILTHY } );
                 }
                 if( one_in( 2 ) ) {
                     m.add_splatter_trail( fd_blood, location,
@@ -2579,7 +2575,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             //Spawn random trash in random place
             for( int i = 0; i < rng( 1, 3 ); i++ ) {
                 const auto trash =
-                    item_group::items_from( item_group_id( "map_extra_casings" ), calendar::turn );
+                    item_group::items_from( Item_spawn_data_map_extra_casings, calendar::turn );
                 const tripoint trash_loc = random_entry( m.points_in_radius( location, 10 ) );
                 m.spawn_items( trash_loc, trash );
             }
@@ -2589,7 +2585,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
                 m.add_field( random_place, fd_blood, rng( 1, 3 ) );
                 if( one_in( 2 ) ) {
                     const tripoint bloody_rag_loc = random_entry( m.points_in_radius( random_place, 3 ) );
-                    m.spawn_item( bloody_rag_loc, itype_rag, 1, 0, calendar::start_of_cataclysm, 0, { flag_id( "FILTHY" ) } );
+                    m.spawn_item( bloody_rag_loc, itype_rag, 1, 0, calendar::start_of_cataclysm, 0, { json_flag_FILTHY } );
                 }
             }
             break;
@@ -2611,7 +2607,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             //Spawn random trash in random place
             for( int i = 0; i < rng( 1, 3 ); i++ ) {
                 const auto trash =
-                    item_group::items_from( item_group_id( "map_extra_casings" ), calendar::turn );
+                    item_group::items_from( Item_spawn_data_map_extra_casings, calendar::turn );
                 const tripoint trash_loc =
                     random_entry( m.points_in_radius( { SEEX, SEEY, abs_sub.z }, 10 ) );
                 m.spawn_items( trash_loc, trash );
@@ -2621,7 +2617,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
                 m.add_field( from, fd_blood, rng( 1, 3 ) );
                 if( one_in( 2 ) ) {
                     const tripoint bloody_rag_loc = random_entry( m.points_in_radius( to, 3 ) );
-                    m.spawn_item( bloody_rag_loc, itype_rag, 1, 0, calendar::start_of_cataclysm, 0, { flag_id( "FILTHY" ) } );
+                    m.spawn_item( bloody_rag_loc, itype_rag, 1, 0, calendar::start_of_cataclysm, 0, { json_flag_FILTHY } );
                 }
             }
             break;
@@ -2631,9 +2627,9 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             const tripoint first_loc = { rng( 1, SEEX - 2 ), rng( 1, SEEY - 2 ), abs_sub.z };
             const tripoint second_loc = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
             const auto first_items =
-                item_group::items_from( item_group_id( "ammo_casings" ), calendar::turn );
+                item_group::items_from( Item_spawn_data_ammo_casings, calendar::turn );
             const auto second_items =
-                item_group::items_from( item_group_id( "ammo_casings" ), calendar::turn );
+                item_group::items_from( Item_spawn_data_ammo_casings, calendar::turn );
 
             for( const auto &loc : m.points_in_radius( first_loc, rng( 1, 2 ) ) ) {
                 if( one_in( 2 ) ) {
@@ -2648,7 +2644,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             //Spawn random trash in random place
             for( int i = 0; i < rng( 1, 3 ); i++ ) {
                 const auto trash =
-                    item_group::items_from( item_group_id( "map_extra_casings" ), calendar::turn );
+                    item_group::items_from( Item_spawn_data_map_extra_casings, calendar::turn );
                 const tripoint trash_loc = random_entry( m.points_in_radius( { SEEX, SEEY, abs_sub.z }, 10 ) );
                 m.spawn_items( trash_loc, trash );
             }
@@ -2657,7 +2653,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
                 m.add_field( first_loc, fd_blood, rng( 1, 3 ) );
                 if( one_in( 2 ) ) {
                     const tripoint bloody_rag_loc = random_entry( m.points_in_radius( first_loc, 3 ) );
-                    m.spawn_item( bloody_rag_loc, itype_rag, 1, 0, calendar::start_of_cataclysm, 0, { flag_id( "FILTHY" ) } );
+                    m.spawn_item( bloody_rag_loc, itype_rag, 1, 0, calendar::start_of_cataclysm, 0, { json_flag_FILTHY } );
                 }
                 if( one_in( 2 ) ) {
                     m.add_splatter_trail( fd_blood, first_loc,
@@ -2669,7 +2665,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
                 m.add_field( second_loc, fd_blood, rng( 1, 3 ) );
                 if( one_in( 2 ) ) {
                     const tripoint bloody_rag_loc = random_entry( m.points_in_radius( second_loc, 3 ) );
-                    m.spawn_item( bloody_rag_loc, itype_rag, 1, 0, calendar::start_of_cataclysm, 0, { flag_id( "FILTHY" ) } );
+                    m.spawn_item( bloody_rag_loc, itype_rag, 1, 0, calendar::start_of_cataclysm, 0, { json_flag_FILTHY } );
                 }
                 if( one_in( 2 ) ) {
                     m.add_splatter_trail( fd_blood, second_loc,
@@ -2716,7 +2712,7 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
         const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
         if( m.passable( corpse_location ) ) {
             m.add_field( corpse_location, fd_blood, rng( 1, 3 ) );
-            m.put_items_from_loc( item_group_id( "everyday_corpse" ), corpse_location );
+            m.put_items_from_loc( Item_spawn_data_everyday_corpse, corpse_location );
             //50% chance to spawn blood in every tile around every corpse in 1-tile radius
             for( const auto &loc : m.points_in_radius( corpse_location, 1 ) ) {
                 if( one_in( 2 ) ) {
@@ -2729,7 +2725,7 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
     if( one_in( 10 ) && num_corpses <= 4 ) {
         const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
         const std::vector<item> gibs =
-            item_group::items_from( item_group_id( "remains_human_generic" ),
+            item_group::items_from( Item_spawn_data_remains_human_generic,
                                     calendar::start_of_cataclysm );
         m.spawn_items( corpse_location, gibs );
         m.add_field( corpse_location, fd_gibs_flesh, rng( 1, 3 ) );
@@ -2738,114 +2734,6 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
             if( one_in( 2 ) ) {
                 m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
                 m.place_spawns( GROUP_STRAY_DOGS, 1, loc.xy(), loc.xy(), 1, true );
-            }
-        }
-    }
-
-    return true;
-}
-
-static bool mx_grave( map &m, const tripoint &abs_sub )
-{
-    //95% chance to spawn a grave with common people/pets
-    if( !one_in( 20 ) ) {
-        const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
-        m.ter_set( corpse_location, t_grave_new );
-        m.furn_set( corpse_location + point_north, f_sign );
-        const std::string text = SNIPPET.random_from_category( "grave_label" ).value_or(
-                                     translation() ).translated();
-        m.set_signage( corpse_location + point_north, text );
-        //Human corpses
-        if( one_in( 2 ) ) {
-            m.put_items_from_loc( item_group_id( "everyday_corpse" ), corpse_location );
-        } else {
-            //Pets' corpses
-            const std::vector<mtype_id> pets = MonsterGroupManager::GetMonstersFromGroup( GROUP_PETS, true );
-            const mtype_id &pet = random_entry_ref( pets );
-            item body = item::make_corpse( pet, calendar::start_of_cataclysm );
-            m.add_item_or_charges( corpse_location, body );
-        }
-        //5% chance to spawn easter egg grave(s)
-    } else {
-        switch( rng( 1, 7 ) ) {
-            //Pair of TWD protagonists
-            case 1: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ),
-                              itype_sw_619 ); //TODO: Replace this with Colt Python if we ever have it in game
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ), pgettext( "R as a letter", "R." ) );
-
-                m.ter_set( point( SEEX + 1, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX + 1, SEEY ), itype_katana );
-                m.furn_set( point( SEEX + 1, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX + 1, SEEY - 1, abs_sub.z ), pgettext( "M as a letter", "M." ) );
-                break;
-            }
-            //HL2 protagonist
-            case 2: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ), itype_glasses_eye );
-                m.spawn_item( point( SEEX, SEEY ), itype_hazmat_suit );
-                m.spawn_item( point( SEEX, SEEY ), itype_crowbar );
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ),
-                               _( "- Man of few words, aren't you?\n- …" ) );
-                break;
-            }
-            //Famous archeologist
-            case 3: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ), itype_fedora );
-                m.spawn_item( point( SEEX, SEEY ), itype_jacket_leather );
-                m.spawn_item( point( SEEX, SEEY ), itype_bullwhip );
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ),
-                               _( "Fortune and glory, kid.  Fortune and glory." ) );
-                break;
-            }
-            //Outcast's friend
-            case 4: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ), itype_indoor_volleyball );
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ), _( "Wilson" ) );
-                break;
-            }
-            //One religious blind man
-            case 5: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ), itype_machete );
-                //TODO: Replace this with HK45 if we ever have it in game
-                m.spawn_item( point( SEEX, SEEY ), itype_usp_45 );
-                m.spawn_item( point( SEEX, SEEY ), itype_remington_870_breacher );
-                m.spawn_item( point( SEEX, SEEY ), itype_holybook_bible1 );
-                m.spawn_item( point( SEEX, SEEY ), itype_sunglasses );
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ), _( "I walk by faith, not by sight." ) );
-                break;
-            }
-            //Post-apocalyptic Buddy
-            case 6: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ), itype_glasses_eye );
-                m.spawn_item( point( SEEX, SEEY ), itype_katana );
-                m.spawn_item( point( SEEX, SEEY ), itype_acoustic_guitar );
-                m.spawn_item( point( SEEX, SEEY ), itype_umbrella );
-                m.spawn_item( point( SEEX, SEEY ), itype_tux );
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ),
-                               _( "Float away, little butterfly.  Just flutter away.  I got a gig in Vegas.  And the wastelands ain't no place for kids." ) );
-                break;
-            }
-            //The Bride
-            case 7: {
-                m.ter_set( point( SEEX, SEEY ), t_grave_new );
-                m.spawn_item( point( SEEX, SEEY ), itype_touring_suit );
-                m.spawn_item( point( SEEX, SEEY ), itype_katana );
-                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
-                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ), _( "Wiggle your big toe." ) );
-                break;
             }
         }
     }
@@ -2893,7 +2781,7 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
         for( const tripoint &p : points_in_radius( trap_center, 1 ) ) {
             compmap.trap_set( p, tr_blade );
         }
-        compmap.trap_set( trap_center, trap_str_id( "tr_engine" ) );
+        compmap.trap_set( trap_center, tr_engine );
         //... and a loudspeaker to attract zombies
         compmap.add_spawn( mon_turret_speaker, 1, trap_center );
     }
@@ -2904,64 +2792,61 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 }
 
 FunctionMap builtin_functions = {
-    { "mx_null", mx_null },
-    { "mx_crater", mx_crater },
-    { "mx_roadworks", mx_roadworks },
-    { "mx_mayhem", mx_mayhem },
-    { "mx_roadblock", mx_roadblock },
-    { "mx_bandits_block", mx_bandits_block },
-    { "mx_minefield", mx_minefield },
-    { "mx_supplydrop", mx_supplydrop },
-    { "mx_military", mx_military },
-    { "mx_helicopter", mx_helicopter },
-    { "mx_portal", mx_portal },
-    { "mx_portal_in", mx_portal_in },
-    { "mx_house_spider", mx_house_spider },
-    { "mx_house_wasp", mx_house_wasp },
-    { "mx_spider", mx_spider },
-    { "mx_shia", mx_shia },
-    { "mx_jabberwock", mx_jabberwock },
-    { "mx_grove", mx_grove },
-    { "mx_shrubbery", mx_shrubbery },
-    { "mx_clearcut", mx_clearcut },
-    { "mx_pond", mx_pond },
-    { "mx_clay_deposit", mx_clay_deposit },
-    { "mx_dead_vegetation", mx_dead_vegetation },
-    { "mx_point_dead_vegetation", mx_point_dead_vegetation },
-    { "mx_burned_ground", mx_burned_ground },
-    { "mx_point_burned_ground", mx_point_burned_ground },
-    { "mx_casings", mx_casings },
-    { "mx_looters", mx_looters },
-    { "mx_corpses", mx_corpses },
-    { "mx_grave", mx_grave },
-    { "mx_city_trap", mx_city_trap },
-    { "mx_reed", mx_reed }
+    { map_extra_mx_null, mx_null },
+    { map_extra_mx_crater, mx_crater },
+    { map_extra_mx_roadworks, mx_roadworks },
+    { map_extra_mx_mayhem, mx_mayhem },
+    { map_extra_mx_roadblock, mx_roadblock },
+    { map_extra_mx_bandits_block, mx_bandits_block },
+    { map_extra_mx_minefield, mx_minefield },
+    { map_extra_mx_supplydrop, mx_supplydrop },
+    { map_extra_mx_military, mx_military },
+    { map_extra_mx_helicopter, mx_helicopter },
+    { map_extra_mx_portal_in, mx_portal_in },
+    { map_extra_mx_house_spider, mx_house_spider },
+    { map_extra_mx_house_wasp, mx_house_wasp },
+    { map_extra_mx_shia, mx_shia },
+    { map_extra_mx_jabberwock, mx_jabberwock },
+    { map_extra_mx_grove, mx_grove },
+    { map_extra_mx_shrubbery, mx_shrubbery },
+    { map_extra_mx_clearcut, mx_clearcut },
+    { map_extra_mx_pond, mx_pond },
+    { map_extra_mx_clay_deposit, mx_clay_deposit },
+    { map_extra_mx_dead_vegetation, mx_dead_vegetation },
+    { map_extra_mx_point_dead_vegetation, mx_point_dead_vegetation },
+    { map_extra_mx_burned_ground, mx_burned_ground },
+    { map_extra_mx_point_burned_ground, mx_point_burned_ground },
+    { map_extra_mx_casings, mx_casings },
+    { map_extra_mx_looters, mx_looters },
+    { map_extra_mx_corpses, mx_corpses },
+    { map_extra_mx_city_trap, mx_city_trap },
+    { map_extra_mx_reed, mx_reed }
 };
 
-map_extra_pointer get_function( const std::string &name )
+map_extra_pointer get_function( const map_extra_id &name )
 {
     const auto iter = builtin_functions.find( name );
     if( iter == builtin_functions.end() ) {
-        debugmsg( "no built-in map extra function with id %s", name );
+        debugmsg( "no built-in map extra function with id %s", name.str() );
         return nullptr;
     }
     return iter->second;
 }
 
-std::vector<std::string> all_function_names;
-std::vector<std::string> get_all_function_names()
+std::vector<map_extra_id> all_function_names;
+std::vector<map_extra_id> get_all_function_names()
 {
     return all_function_names;
 }
 
-void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_sm &abs_sub )
+void apply_function( const map_extra_id &id, map &m, const tripoint_abs_sm &abs_sub )
 {
     bool applied_successfully = false;
 
     const map_extra &extra = id.obj();
     switch( extra.generator_method ) {
         case map_extra_method::map_extra_function: {
-            const map_extra_pointer mx_func = get_function( extra.generator_id );
+            const map_extra_pointer mx_func = get_function( map_extra_id( extra.generator_id ) );
             if( mx_func != nullptr ) {
                 applied_successfully = mx_func( m, abs_sub.raw() );
             }
@@ -2999,7 +2884,7 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_
     if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ) {
 
         // Only place note if the user has not disabled it via the auto note manager
-        if( !auto_note_settings.has_auto_note_enabled( id ) ) {
+        if( !auto_note_settings.has_auto_note_enabled( id, true ) ) {
             return;
         }
 
@@ -3015,11 +2900,6 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_
                            extra.description() );
         overmap_buffer.add_note( project_to<coords::omt>( abs_sub ), mx_note );
     }
-}
-
-void apply_function( const std::string &id, map &m, const tripoint_abs_sm &abs_sub )
-{
-    apply_function( string_id<map_extra>( id ), m, abs_sub );
 }
 
 FunctionMap all_functions()
@@ -3055,30 +2935,33 @@ void debug_spawn_test()
             break;
         }
 
-        std::map<std::string, int> results;
+        std::map<map_extra_id, int> results;
+        map_extra_id mx_null = map_extra_id::NULL_ID();
+
         for( size_t a = 0; a < 32400; a++ ) {
             map_extras ex = region_settings_map["default"].region_extras[mx_names[index]];
             if( ex.chance > 0 && one_in( ex.chance ) ) {
-                std::string *extra = ex.values.pick();
+                map_extra_id *extra = ex.values.pick();
                 if( extra == nullptr ) {
-                    results[_( "none" )]++;
+                    results[mx_null]++;
                 } else {
-                    results[*( ex.values.pick() )]++;
+                    results[*ex.values.pick()]++;
                 }
             } else {
-                results[_( "none" )]++;
+                results[mx_null]++;
             }
         }
 
-        std::multimap<int, std::string> sorted_results;
-        for( std::pair<const std::string, int> &e : results ) {
-            sorted_results.insert( std::pair<int, std::string>( e.second, e.first ) );
+        std::multimap<int, map_extra_id> sorted_results;
+        for( std::pair<const map_extra_id, int> &e : results ) {
+            sorted_results.emplace( e.second, e.first );
         }
         uilist results_menu;
         results_menu.text = _( "Result of 32400 selections:" );
-        for( std::pair<const int, std::string> &r : sorted_results ) {
-            results_menu.entries.emplace_back( static_cast<int>( results_menu.entries.size() ), true, -2,
-                                               string_format( "%d x %s", r.first, r.second ) );
+        for( std::pair<const int, map_extra_id> &r : sorted_results ) {
+            results_menu.entries.emplace_back(
+                static_cast<int>( results_menu.entries.size() ), true, -2,
+                string_format( "%d x %s", r.first, r.second.str() ) );
         }
         results_menu.query();
     }
@@ -3086,10 +2969,22 @@ void debug_spawn_test()
 
 } // namespace MapExtras
 
+bool map_extra::is_valid_for( const mapgendata &md ) const
+{
+    int z = md.zlevel();
+    if( min_max_zlevel_ ) {
+        if( z < min_max_zlevel_->first || z > min_max_zlevel_->second ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 void map_extra::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", _name );
-    mandatory( jo, was_loaded, "description", _description );
+    mandatory( jo, was_loaded, "name", name_ );
+    mandatory( jo, was_loaded, "description", description_ );
     if( jo.has_object( "generator" ) ) {
         JsonObject jg = jo.get_object( "generator" );
         generator_method = jg.get_enum_value<map_extra_method>( "generator_method",
@@ -3099,22 +2994,23 @@ void map_extra::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
     color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : c_white;
     optional( jo, was_loaded, "autonote", autonote, false );
+    optional( jo, was_loaded, "min_max_zlevel", min_max_zlevel_ );
 }
 
 void map_extra::check() const
 {
     switch( generator_method ) {
         case map_extra_method::map_extra_function: {
-            const map_extra_pointer mx_func = MapExtras::get_function( generator_id );
+            const map_extra_pointer mx_func = MapExtras::get_function( map_extra_id( generator_id ) );
             if( mx_func == nullptr ) {
                 debugmsg( "invalid map extra function (%s) defined for map extra (%s)", generator_id, id.str() );
                 break;
             }
-            MapExtras::all_function_names.push_back( id.str() );
+            MapExtras::all_function_names.push_back( id );
             break;
         }
         case map_extra_method::mapgen: {
-            MapExtras::all_function_names.push_back( id.str() );
+            MapExtras::all_function_names.push_back( id );
             break;
         }
         case map_extra_method::update_mapgen: {
@@ -3125,7 +3021,7 @@ void map_extra::check() const
                           id.str() );
                 break;
             }
-            MapExtras::all_function_names.push_back( id.str() );
+            MapExtras::all_function_names.push_back( id );
             break;
         }
         case map_extra_method::null:

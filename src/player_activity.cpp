@@ -10,6 +10,8 @@
 #include "calendar.h"
 #include "character.h"
 #include "construction.h"
+#include "field.h"
+#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -23,17 +25,43 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
+static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
+static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
+static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
+static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
+static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
+static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
+static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
+static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
+static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
+static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
+static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
+static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
+static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
+static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
+static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
+static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
 static const efftype_id effect_nausea( "nausea" );
 
@@ -121,23 +149,25 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
 
 cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
-    if( type == activity_id( "ACT_NULL" ) || get_verb().empty() ) {
+    if( type == ACT_NULL || get_verb().empty() ) {
         return cata::optional<std::string>();
     }
 
-    if( type == activity_id( "ACT_ADV_INVENTORY" ) ||
-        type == activity_id( "ACT_AIM" ) ||
-        type == activity_id( "ACT_ARMOR_LAYERS" ) ||
-        type == activity_id( "ACT_ATM" ) ||
-        type == activity_id( "ACT_CONSUME_DRINK_MENU" ) ||
-        type == activity_id( "ACT_CONSUME_FOOD_MENU" ) ||
-        type == activity_id( "ACT_CONSUME_MEDS_MENU" ) ||
-        type == activity_id( "ACT_EAT_MENU" ) ) {
+    if( type == ACT_ADV_INVENTORY ||
+        type == ACT_AIM ||
+        type == ACT_ARMOR_LAYERS ||
+        type == ACT_ATM ||
+        type == ACT_CONSUME_DRINK_MENU ||
+        type == ACT_CONSUME_FOOD_MENU ||
+        type == ACT_CONSUME_MEDS_MENU ||
+        type == ACT_EAT_MENU ||
+        type == ACT_PICKUP_MENU ||
+        type == ACT_VIEW_RECIPE ) {
         return cata::nullopt;
     }
 
     std::string extra_info;
-    if( type == activity_id( "ACT_READ" ) ) {
+    if( type == ACT_READ ) {
         if( const item *book = targets.front().get_item() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
@@ -154,21 +184,21 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             }
         }
     } else if( moves_total > 0 ) {
-        if( type == activity_id( "ACT_HACKSAW" ) ||
-            type == activity_id( "ACT_JACKHAMMER" ) ||
-            type == activity_id( "ACT_PICKAXE" ) ||
-            type == activity_id( "ACT_VEHICLE" ) ||
-            type == activity_id( "ACT_FILL_PIT" ) ||
-            type == activity_id( "ACT_CHOP_TREE" ) ||
-            type == activity_id( "ACT_CHOP_LOGS" ) ||
-            type == activity_id( "ACT_CHOP_PLANKS" )
+        if( type == ACT_HACKSAW ||
+            type == ACT_JACKHAMMER ||
+            type == ACT_PICKAXE ||
+            type == ACT_VEHICLE ||
+            type == ACT_FILL_PIT ||
+            type == ACT_CHOP_TREE ||
+            type == ACT_CHOP_LOGS ||
+            type == ACT_CHOP_PLANKS
           ) {
             const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
             extra_info = string_format( "%d%%", percentage );
         }
 
-        if( type == activity_id( "ACT_BUILD" ) ) {
+        if( type == ACT_BUILD ) {
             partial_con *pc = get_map().partial_con_at( get_map().getlocal( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
@@ -204,7 +234,7 @@ void player_activity::do_turn( Character &you )
 {
     // Specifically call the do turn function for the cancellation activity early
     // This is because the game can get stuck trying to fuel a fire when it's not...
-    if( type == activity_id( "ACT_MIGRATION_CANCEL" ) ) {
+    if( type == ACT_MIGRATION_CANCEL ) {
         actor->do_turn( *this, you );
         return;
     }
@@ -283,10 +313,10 @@ void player_activity::do_turn( Character &you )
     // this is to ensure that resting will occur when traveling overburdened
     const int adjusted_stamina = travel_activity ? you.get_stamina() - 1 : you.get_stamina();
     activity_id act_id = actor ? actor->get_type() : type;
-    bool excluded = act_id == activity_id( "ACT_WORKOUT_HARD" ) ||
-                    act_id == activity_id( "ACT_WORKOUT_ACTIVE" ) ||
-                    act_id == activity_id( "ACT_WORKOUT_MODERATE" ) ||
-                    act_id == activity_id( "ACT_WORKOUT_LIGHT" );
+    bool excluded = act_id == ACT_WORKOUT_HARD ||
+                    act_id == ACT_WORKOUT_ACTIVE ||
+                    act_id == ACT_WORKOUT_MODERATE ||
+                    act_id == ACT_WORKOUT_LIGHT;
     if( !excluded && adjusted_stamina < previous_stamina &&
         you.get_stamina() < you.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
@@ -294,7 +324,7 @@ void player_activity::do_turn( Character &you )
         }
 
         auto_resume = true;
-        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 5_minutes ) );
+        player_activity new_act( ACT_WAIT_STAMINA, to_moves<int>( 5_minutes ) );
         new_act.values.push_back( you.get_stamina_max() );
         if( you.is_avatar() && !ignoreQuery ) {
             uilist tired_query;
@@ -390,11 +420,11 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         return actor->can_resume_with( *other.actor, who );
     }
 
-    if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
+    if( id() == ACT_CLEAR_RUBBLE ) {
         if( other.coords.empty() || other.coords[0] != coords[0] ) {
             return false;
         }
-    } else if( id() == activity_id( "ACT_VEHICLE" ) ) {
+    } else if( id() == ACT_VEHICLE ) {
         if( values != other.values || str_values != other.str_values ) {
             return false;
         }
@@ -435,4 +465,29 @@ void player_activity::inherit_distractions( const player_activity &other )
     for( const distraction_type &type : other.ignored_distractions ) {
         ignore_distraction( type );
     }
+}
+
+
+std::map<distraction_type, std::string> player_activity::get_distractions()
+{
+    std::map < distraction_type, std::string > res;
+    if( id() != ACT_AIM && moves_left > 0 ) {
+        if( !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
+            Creature *hostile_critter = g->is_hostile_very_close( true );
+            if( hostile_critter != nullptr ) {
+                res.emplace( distraction_type::hostile_spotted_near,
+                             string_format( _( "The %s is dangerously close!" ),
+                                            g->is_hostile_very_close( true )->get_name() ) );
+            }
+        }
+        if( !is_distraction_ignored( distraction_type::dangerous_field ) ) {
+            field_entry *field = g->is_in_dangerous_field();
+            if( field != nullptr ) {
+                res.emplace( distraction_type::dangerous_field, string_format( _( "You stand in %s!" ),
+                             g->is_in_dangerous_field()->name() ) );
+            }
+        }
+    }
+
+    return res;
 }

@@ -660,7 +660,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 1, 6 ] }, { "item": "sharp_rock", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "rock", "count": [ 16, 32 ] }, { "item": "sharp_rock", "count": [ 0, 6 ] } ]
     }
   },
   {
@@ -680,7 +680,7 @@
       "str_max": 80,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 5, 11 ] }, { "item": "sharp_rock", "count": [ 1, 4 ] } ]
+      "items": [ { "item": "rock", "count": [ 35, 50 ] }, { "item": "sharp_rock", "count": [ 3, 7 ] } ]
     }
   },
   {
@@ -700,8 +700,8 @@
       "sound": "smash!",
       "sound_fail": "thump.",
       "items": [
-        { "item": "rock", "count": [ 10, 22 ] },
-        { "item": "sharp_rock", "count": [ 3, 7 ] },
+        { "item": "rock", "count": [ 65, 85 ] },
+        { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
         { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
         { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },

@@ -6,10 +6,12 @@
 #include <string>
 #include <vector>
 
+#include "type_id.h"
+
 class JsonObject;
 class recipe;
 
-const recipe *select_crafting_recipe( int &batch_size_out );
+const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe );
 
 void load_recipe_category( const JsonObject &jsobj );
 void reset_recipe_categories();

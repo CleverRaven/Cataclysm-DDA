@@ -1,0 +1,24 @@
+[
+  {
+    "id": "mon_bushelephant_fungal",
+    "type": "MONSTER",
+    "copy-from": "mon_bushelephant",
+    "name": { "str": "fungal elephant" },
+    "description": "A horrifying image with tendrils seeping out of many oozing wounds, this elephant's form appears more eldritch than animal.",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "speed": 120,
+    "material": [ "veggy" ],
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "armor_bash": 3,
+    "armor_cut": 1,
+    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "SMASH", 15 ], [ "FUNGUS_BRISTLE", 20 ], [ "FUNGUS_BIG_BLOSSOM", 30 ] ],
+    "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
+    "delete": { "flags": [ "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GROUP_MORALE", "GOODHEARING", "SWARMS" ] }
+  }
+]

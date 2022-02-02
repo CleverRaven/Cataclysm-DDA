@@ -71,7 +71,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "holster": true,
+        "rigid": true,
         "ammo_restriction": { "500": 5 },
         "allowed_speedloaders": [ "500_speedloader5" ]
       }

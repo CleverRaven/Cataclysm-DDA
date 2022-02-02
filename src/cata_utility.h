@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <ctime>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -13,10 +14,12 @@
 #include <utility>
 #include <vector>
 
+#include "enums.h"
 #include "json.h"
 
 class JsonIn;
 class JsonOut;
+class JsonValue;
 class translation;
 
 /**
@@ -314,8 +317,6 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
 ///@}
 
-class JsonDeserializer;
-
 /**
  * Try to open and read from given file using the given callback.
  *
@@ -325,9 +326,8 @@ class JsonDeserializer;
  * If the stream is in a fail state (other than EOF) after the callback returns, it is handled as
  * error as well.
  *
- * The callback can either be a generic `std::istream`, a @ref JsonIn stream (which has been
- * initialized from the `std::istream`) or a @ref JsonDeserializer object (in case of the later,
- * it's `JsonDeserializer::deserialize` method will be invoked).
+ * The callback can either be a generic `std::istream` or a @ref JsonIn stream (which has been
+ * initialized from the `std::istream`) or a @ref JsonValue object.
  *
  * The functions with the "_optional" prefix do not show a debug message when the file does not
  * exist. They simply ignore the call and return `false` immediately (without calling the callback).
@@ -338,13 +338,15 @@ class JsonDeserializer;
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
 bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
-bool read_from_file( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_json( const std::string &path,
+                          const std::function<void( const JsonValue & )> &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
 bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( JsonIn & )> &reader );
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( const JsonValue & )> &reader );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
@@ -635,5 +637,19 @@ std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, std::unordered_se
     rhv.clear();
     return lhv;
 }
+
+/**
+ * Get the current holiday based on the given time, or based on current time if time = 0
+ * @param time The timestampt to assess
+ * @param force_refresh Force recalculation of current holiday, otherwise use cached value
+*/
+holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false );
+
+/**
+ * Returns a random (weighted) bucket index from a list of weights
+ * @param weights vector with a list of int weights
+ * @return random bucket index
+ */
+int bucket_index_from_weight_list( const std::vector<int> &weights );
 
 #endif // CATA_SRC_CATA_UTILITY_H

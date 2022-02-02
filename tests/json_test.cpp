@@ -28,6 +28,24 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const field_type_str_id field_test_field( "test_field" );
+
+static const flag_id json_flag_DIRTY( "DIRTY" );
+
+static const itype_id itype_test_rag( "test_rag" );
+
+static const mtype_id foo( "foo" );
+static const mtype_id mon_test( "mon_test" );
+
+static const requirement_id requirement_data_test_components( "test_components" );
+
+static const skill_id skill_not_spellcraft( "not_spellcraft" );
+
+static const spell_id spell_test_fake_spell( "test_fake_spell" );
+static const spell_id spell_test_spell_json( "test_spell_json" );
+
+static const trait_id trait_test_trait( "test_trait" );
+
 template<typename T>
 void test_serialization( const T &val, const std::string &s )
 {
@@ -62,16 +80,16 @@ TEST_CASE( "avoid_serializing_default_values", "[json]" )
 
 TEST_CASE( "spell_type handles all members", "[json]" )
 {
-    const spell_type &test_spell = spell_id( "test_spell_json" ).obj();
+    const spell_type &test_spell = spell_test_spell_json.obj();
 
     SECTION( "spell_type loads proper values" ) {
         fake_spell fake_additional_effect;
-        fake_additional_effect.id = spell_id( "test_fake_spell" );
+        fake_additional_effect.id = spell_test_fake_spell;
         const std::vector<fake_spell> test_fake_spell_vec{ fake_additional_effect };
         const std::map<std::string, int> test_learn_spell{ { fake_additional_effect.id.c_str(), 1 } };
-        const std::set<mtype_id> test_fake_mon{ mtype_id( "mon_test" ) };
+        const std::set<mtype_id> test_fake_mon{ mon_test };
 
-        CHECK( test_spell.id == spell_id( "test_spell_json" ) );
+        CHECK( test_spell.id == spell_test_spell_json );
         CHECK( test_spell.name == to_translation( "test spell" ) );
         CHECK( test_spell.description ==
                to_translation( "a spell to make sure the json deserialization and serialization is working properly" ) );
@@ -79,8 +97,8 @@ TEST_CASE( "spell_type handles all members", "[json]" )
         CHECK( test_spell.spell_area == spell_shape::blast );
         CHECK( test_spell.valid_targets.test( spell_target::none ) );
         CHECK( test_spell.effect_str == "string" );
-        CHECK( test_spell.skill == skill_id( "not_spellcraft" ) );
-        CHECK( test_spell.spell_components == requirement_id( "test_components" ) );
+        CHECK( test_spell.skill == skill_not_spellcraft );
+        CHECK( test_spell.spell_components == requirement_data_test_components );
         CHECK( test_spell.message == to_translation( "test message" ) );
         CHECK( test_spell.sound_description == to_translation( "test_description" ) );
         CHECK( test_spell.sound_type == sounds::sound_t::weather );
@@ -89,10 +107,10 @@ TEST_CASE( "spell_type handles all members", "[json]" )
         CHECK( test_spell.sound_variant == "not_default" );
         CHECK( test_spell.targeted_monster_ids == test_fake_mon );
         CHECK( test_spell.additional_spells == test_fake_spell_vec );
-        CHECK( test_spell.affected_bps.test( bodypart_str_id( "head" ) ) );
+        CHECK( test_spell.affected_bps.test( body_part_head ) );
         CHECK( test_spell.spell_tags.test( spell_flag::CONCENTRATE ) );
         CHECK( test_spell.field );
-        CHECK( test_spell.field->id() == field_type_str_id( "test_field" ) );
+        CHECK( test_spell.field->id() == field_test_field );
         CHECK( test_spell.field_chance == 2 );
         CHECK( test_spell.max_field_intensity == 2 );
         CHECK( test_spell.min_field_intensity == 2 );
@@ -119,7 +137,7 @@ TEST_CASE( "spell_type handles all members", "[json]" )
         CHECK( test_spell.base_energy_cost == 1 );
         CHECK( test_spell.final_energy_cost == 2 );
         CHECK( test_spell.energy_increment == 1.0f );
-        CHECK( test_spell.spell_class == trait_id( "test_trait" ) );
+        CHECK( test_spell.spell_class == trait_test_trait );
         CHECK( test_spell.energy_source == magic_energy_type::mana );
         CHECK( test_spell.dmg_type == damage_type::PURE );
         CHECK( test_spell.difficulty == 1 );
@@ -208,7 +226,7 @@ TEST_CASE( "serialize_map", "[json]" )
 {
     std::map<std::string, std::string> s_map = { { "foo", "foo_val" }, { "bar", "bar_val" } };
     test_serialization( s_map, R"({"bar":"bar_val","foo":"foo_val"})" );
-    std::map<mtype_id, std::string> string_id_map = { { mtype_id( "foo" ), "foo_val" } };
+    std::map<mtype_id, std::string> string_id_map = { { foo, "foo_val" } };
     test_serialization( string_id_map, R"({"foo":"foo_val"})" );
 }
 
@@ -232,7 +250,7 @@ TEST_CASE( "serialize_set", "[json]" )
 {
     std::set<std::string> s_set = { "foo", "bar" };
     test_serialization( s_set, R"(["bar","foo"])" );
-    std::set<mtype_id> string_id_set = { mtype_id( "foo" ) };
+    std::set<mtype_id> string_id_set = { foo };
     test_serialization( string_id_set, R"(["foo"])" );
 }
 
@@ -839,7 +857,7 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
         cata::colony<item> col;
         for( int i = 0; i < 10; ++i ) {
             // currently tools cannot be stackable
-            col.insert( item( itype_id( "test_rag" ) ) );
+            col.insert( item( itype_test_rag ) );
         }
         REQUIRE( col.size() == 10 );
         REQUIRE( col.begin()->same_for_rle( *std::next( col.begin() ) ) );
@@ -873,9 +891,9 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
 
     SECTION( "different items are saved individually" ) {
         cata::colony<item> col;
-        col.insert( item( itype_id( "test_rag" ) ) );
-        col.insert( item( itype_id( "test_rag" ) ) );
-        ( *col.rbegin() ).set_flag( flag_id( "DIRTY" ) );
+        col.insert( item( itype_test_rag ) );
+        col.insert( item( itype_test_rag ) );
+        ( *col.rbegin() ).set_flag( json_flag_DIRTY );
 
         REQUIRE( col.size() == 2 );
         REQUIRE( !col.begin()->same_for_rle( *col.rbegin() ) );
@@ -921,7 +939,7 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
         }
         {
             INFO( "item type was read correctly" );
-            CHECK( read_val.begin()->typeId() == itype_id( "test_rag" ) );
+            CHECK( read_val.begin()->typeId() == itype_test_rag );
         }
     }
 }

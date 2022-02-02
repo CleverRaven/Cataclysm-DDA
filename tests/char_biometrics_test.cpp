@@ -8,15 +8,26 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "creature.h"
+#include "display.h"
 #include "game_constants.h"
 #include "monster.h"
 #include "options.h"
 #include "output.h"
-#include "panels.h"
 #include "player_helpers.h"
 #include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
+
+static const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_dog_gpyrenees( "mon_dog_gpyrenees" );
+static const mtype_id mon_dog_gshepherd( "mon_dog_gshepherd" );
+static const mtype_id mon_horse( "mon_horse" );
+static const mtype_id mon_pig( "mon_pig" );
+
+static const trait_id trait_HUGE( "HUGE" );
+static const trait_id trait_LARGE( "LARGE" );
+static const trait_id trait_SMALL( "SMALL" );
+static const trait_id trait_SMALL2( "SMALL2" );
 
 // Return the `kcal_ratio` needed to reach the given `bmi`
 //   BMI = 13 + (12 * kcal_ratio)
@@ -294,10 +305,10 @@ TEST_CASE( "default character (175 cm) bodyweights at various BMIs", "[biometric
         REQUIRE( dummy.base_height() == 175 );
 
         WHEN( "character is normal-sized (medium)" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL2" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_SMALL2 ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_SMALL ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_LARGE ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_HUGE ) );
             REQUIRE( dummy.get_size() == creature_size::medium );
 
             THEN( "bodyweight varies from ~49-107kg" ) {
@@ -343,11 +354,11 @@ TEST_CASE( "character's weight should increase with their body size and BMI",
 
 TEST_CASE( "riding various creatures at various sizes", "[avatar][bodyweight]" )
 {
-    monster cow( mtype_id( "mon_cow" ) );
-    monster horse( mtype_id( "mon_horse" ) );
-    monster pig( mtype_id( "mon_pig" ) );
-    monster large_dog( mtype_id( "mon_dog_gpyrenees" ) );
-    monster average_dog( mtype_id( "mon_dog_gshepherd" ) );
+    monster cow( mon_cow );
+    monster horse( mon_horse );
+    monster pig( mon_pig );
+    monster large_dog( mon_dog_gpyrenees );
+    monster average_dog( mon_dog_gshepherd );
 
     using DummyMap = std::map<creature_size, avatar_ptr>;
     DummyMap dummies_default_height = create_dummies_of_all_sizes( Character::default_height() );

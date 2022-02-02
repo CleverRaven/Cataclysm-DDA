@@ -13,7 +13,7 @@
     "autolearn": true,
     "charges": 1,
     "reversible": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cannonball_4lb", 1 ] ], [ [ "rag", 1 ] ], [ [ "chem_black_powder", 3000 ] ], [ [ "fuse", 1 ] ] ],
     "//": "Powder load for round shot was roughly 1/4 to 1/3 the weight of the cannonball"
   }

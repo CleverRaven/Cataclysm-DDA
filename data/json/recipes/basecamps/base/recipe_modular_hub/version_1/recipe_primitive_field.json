@@ -189,7 +189,7 @@
     "time": "12 h",
     "construction_blueprint": "faction_base_field_camp_8",
     "blueprint_name": "basic central kitchen",
-    "blueprint_resources": [ "fake_stove" ],
+    "blueprint_resources": [ "fake_woodstove" ],
     "blueprint_provides": [ { "id": "trapping" }, { "id": "hunting" }, { "id": "walls" }, { "id": "recruiting" } ],
     "blueprint_requires": [ { "id": "faction_base_camp_6" } ],
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -591,7 +591,7 @@
     "qualities": [
       [ { "id": "DIG", "level": 2 } ],
       [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "CUT", "level": 1 } ],
+      [ { "id": "CUT", "level": 2 } ],
       [ { "id": "SAW_W", "level": 1 } ]
     ],
     "components": [
@@ -650,7 +650,7 @@
     "qualities": [
       [ { "id": "DIG", "level": 2 } ],
       [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "CUT", "level": 1 } ],
+      [ { "id": "CUT", "level": 2 } ],
       [ { "id": "WRENCH", "level": 1 } ],
       [ { "id": "SAW_W", "level": 1 } ]
     ],
@@ -699,7 +699,7 @@
     "construction_blueprint": "faction_base_field_camp_kitchen_7",
     "blueprint_name": "Kitchen wood stoves",
     "blueprint_provides": [ { "id": "kitchen_recipes_3" } ],
-    "blueprint_resources": [ "fake_stove", "fake_stove" ],
+    "blueprint_resources": [ "fake_woodstove", "fake_woodstove" ],
     "blueprint_requires": [ { "id": "faction_base_kitchen_6" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "2x4", 20 ] ], [ [ "metal_tank", 2 ] ], [ [ "nail", 18 ] ] ],

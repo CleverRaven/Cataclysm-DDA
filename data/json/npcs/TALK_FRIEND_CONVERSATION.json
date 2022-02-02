@@ -43,6 +43,11 @@
             "no": "<neutralchitchat_later>"
           },
           {
+            "u_has_item": "drink_hard_seltzer",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
             "u_has_item": "pale_ale",
             "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>",
             "no": "<neutralchitchat_later>"
@@ -79,6 +84,11 @@
           { "u_has_item": "beer", "yes": "<chitchat_prefix_booze>  <neutralchitchat>", "no": "<neutralchitchat>" },
           {
             "u_has_item": "european_pilsner",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat>",
+            "no": "<neutralchitchat>"
+          },
+          {
+            "u_has_item": "drink_hard_seltzer",
             "yes": "<chitchat_prefix_booze>  <neutralchitchat>",
             "no": "<neutralchitchat>"
           },

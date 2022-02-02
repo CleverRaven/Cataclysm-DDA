@@ -275,7 +275,7 @@
       "calories": 80,
       "fun": 4,
       "flags": [ "FREEZERBURN" ],
-      "vitamins": [ [ "iron", 4 ], [ "VitB", 21 ], [ "VitA", 9 ], [ "calcium", 3 ] ]
+      "vitamins": [ [ "iron", 4 ], [ "vitB", 21 ], [ "vitA", 9 ], [ "calcium", 3 ] ]
     }
   },
   {
@@ -288,7 +288,7 @@
       "calories": 80,
       "fun": 4,
       "flags": [ "FREEZERBURN" ],
-      "vitamins": [ [ "iron", 4 ], [ "VitB", 21 ], [ "VitA", 9 ], [ "calcium", 3 ] ]
+      "vitamins": [ [ "iron", 4 ], [ "vitB", 21 ], [ "vitA", 9 ], [ "calcium", 3 ] ]
     }
   },
   {
@@ -297,7 +297,7 @@
     "name": { "str_sp": "PBJ Toast" },
     "copy-from": "toast_wheat_free",
     "description": "A slice of toast with peanut butter and jelly on top of it with added butter for flavor.",
-    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "VitB", 3 ], [ "VitA", 7 ], [ "VitC", 2 ] ] }
+    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitB", 3 ], [ "vitA", 7 ], [ "vitC", 2 ] ] }
   },
   {
     "type": "COMESTIBLE",
@@ -305,7 +305,7 @@
     "name": { "str_sp": "wheat-free PBJ Toast" },
     "copy-from": "toast_wheat_free",
     "description": "A slice of wheat-free toast with peanut butter and jelly on top of it with added butter for flavor.",
-    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "VitB", 3 ], [ "VitA", 7 ], [ "VitC", 2 ] ] }
+    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitB", 3 ], [ "vitA", 7 ], [ "vitC", 2 ] ] }
   },
   {
     "type": "COMESTIBLE",

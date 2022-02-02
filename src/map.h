@@ -590,6 +590,8 @@ class map
         }
         bool is_wall_adjacent( const tripoint &center ) const;
 
+        bool is_open_air( const tripoint & ) const;
+
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
         */
@@ -808,9 +810,15 @@ class map
         * furn_reset should be true if new_furniture is being set to f_null
         * when the player is grab-moving furniture
         */
-        void furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
-        void furn_set( const point &p, const furn_id &new_furniture ) {
-            furn_set( tripoint( p, abs_sub.z ), new_furniture );
+        bool furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
+        bool furn_set( const point &p, const furn_id &new_furniture ) {
+            return furn_set( tripoint( p, abs_sub.z ), new_furniture );
+        }
+        void furn_clear( const tripoint &p ) {
+            furn_set( p, f_clear );
+        };
+        void furn_clear( const point &p ) {
+            furn_clear( tripoint( p, abs_sub.z ) );
         }
         std::string furnname( const tripoint &p );
         std::string furnname( const point &p ) {
@@ -1087,6 +1095,7 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
+        void transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p );
         bool close_door( const tripoint &p, bool inside, bool check_only );
         bool open_door( const tripoint &p, bool inside, bool check_only = false );
         // Destruction
@@ -1459,6 +1468,10 @@ class map
          */
         field_entry *get_field( const tripoint &p, const field_type_id &type ) const;
         bool dangerous_field_at( const tripoint &p );
+
+        // Check if player can move on top of it during mopping zone activity
+        bool mopsafe_field_at( const tripoint &p );
+
         /**
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
@@ -1469,6 +1482,15 @@ class map
          * Remove field entry at xy, ignored if the field entry is not present.
          */
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
+        /**
+         * Remove all field entries at location.
+         */
+        void clear_fields( const tripoint &p );
+
+        /**
+         * Get applicable fd_electricity field type for a given point
+         */
+        const field_type_str_id &get_applicable_electricity_field( const tripoint &p );
 
     private:
         // Is called when field intensity is changed.

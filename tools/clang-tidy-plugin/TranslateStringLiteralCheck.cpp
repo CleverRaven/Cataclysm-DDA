@@ -192,6 +192,7 @@ void TranslateStringLiteralCheck::registerMatchers( MatchFinder *Finder )
                         callee(
                             functionDecl(
                                 hasAnyName(
+                                    "add_msg",
                                     "add_msg_if_player",
                                     "add_msg_if_player_sees",
                                     "add_msg_player_or_npc"
