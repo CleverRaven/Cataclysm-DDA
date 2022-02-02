@@ -877,7 +877,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_RIFLE_REQUEST",
     "//": "buying an HWP",
     "type": "talk_topic",
-    "dynamic_line": "Very well the Hybrid Weapons Platform will be printed with a 5.56 NATO, 7.62 NATO, 9mm, and shot-shell barrel with additonal adaptors, two magazines for each caliber and a convenient tool bag.  Materials will require you to provide 8 coins up front and it will take 7 days to manufacture.",
+    "dynamic_line": "Very well the Hybrid Weapons Platform will be printed with a 5.56 NATO, 7.62 NATO, 9mm, and shot-shell barrel with additional adaptors, two magazines for each caliber and a convenient tool bag.  Materials will require you to provide 8 coins up front and it will take 7 days to manufacture.",
     "responses": [
       {
         "text": "[8 HGC] A week is fine.",
