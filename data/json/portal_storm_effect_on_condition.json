@@ -449,7 +449,7 @@
         "u_set_spawn_monster": "mon_shifting_mass",
         "real_count": { "global_val": "ps_shifting_mass_count", "default": 1 },
         "hallucination_count": { "global_val": "ps_shifting_mass_count", "default": 1 },
-        "outdoor_only":true,
+        "outdoor_only": true,
         "lifespan_min": "5 seconds",
         "lifespan_max": "2 minutes"
       }
@@ -468,7 +468,7 @@
         "u_set_spawn_monster": "mon_impossible_shape",
         "real_count": 1,
         "hallucination_count": 1,
-        "outdoor_only":true,
+        "outdoor_only": true,
         "lifespan_min": "1 minutes",
         "lifespan_max": "3 minutes"
       }
@@ -483,7 +483,7 @@
         "u_set_spawn_monster": "mon_giant_appendage",
         "real_count": 1,
         "hallucination_count": 3,
-        "outdoor_only":true,
+        "outdoor_only": true,
         "min_radius": 3,
         "lifespan_min": "5 seconds",
         "lifespan_max": "45 seconds"
@@ -499,7 +499,7 @@
         "u_set_spawn_monster": "mon_memory",
         "real_count": 10,
         "hallucination_count": 10,
-        "outdoor_only":true,
+        "outdoor_only": true,
         "lifespan_min": "5 seconds",
         "lifespan_max": "2 minutes"
       }
@@ -513,7 +513,7 @@
       {
         "u_set_spawn_monster": "mon_absence",
         "real_count": 1,
-        "outdoor_only":true,
+        "outdoor_only": true,
         "min_radius": 3,
         "lifespan_min": "45 seconds",
         "lifespan_max": "5 minutes"
