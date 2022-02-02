@@ -2427,7 +2427,7 @@ point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distanc
         }
     }
     return found;
-};
+}
 
 static int salt_water_pipe_segment_of( const recipe &making );
 
