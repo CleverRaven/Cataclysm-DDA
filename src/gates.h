@@ -5,6 +5,8 @@
 #include <iosfwd>
 #include <string>
 
+#include "type_id.h"
+
 class Character;
 class Creature;
 class JsonObject;
@@ -42,7 +44,7 @@ void close_door( map &m, Creature &who, const tripoint &closep );
  * @param open whether to open the door (close if false).
  * @return movement cost of interacting with doors.
  */
-unsigned get_action_move_cost( const Character &who, std::string door, const bool open);
+unsigned get_action_move_cost( const Character &who, int_id<ter_t> door, const bool open );
 
 } // namespace doors
 

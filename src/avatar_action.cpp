@@ -451,7 +451,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( m.passable_ter_furn( dest_loc ) && you.is_walking()
         && !veh_closed_door && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         // apply movement point cost to player
-        you.mod_moves( -doors::get_action_move_cost( you, door_name, true));
+        you.mod_moves( -doors::get_action_move_cost( you, t_null, true ) );
         you.add_msg_if_player( _( "You open the %s." ), door_name );
         // if auto-move is on, continue moving next turn
         if( you.is_auto_moving() ) {
@@ -468,7 +468,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( veh_closed_door ) {
         if( !veh1->handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
             return true;
-        } 
+        }
         door_name = veh1->part( dpart ).name();
         if( outside_vehicle ) {
             veh1->open_all_at( dpart );
@@ -477,9 +477,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
         //~ %1$s - vehicle name, %2$s - part name
         you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
-        
+
         // apply movement point cost to player
-        you.mod_moves( -doors::get_action_move_cost( you, door_name, true));
+        you.mod_moves( -doors::get_action_move_cost( you, t_null, true ) );
         // if auto-move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
@@ -488,16 +488,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
-        // instance of the door or window that just opened
+        // door or window that just opened
         ter_t door = m.ter( dest_loc ).obj();
-        // get action move cost before 
-        int open_move_cost = doors::get_action_move_cost( you, door.close.str(), true);
         if( you.is_running() ) {
             // dash through doors with blinding speed
             if( !door.has_flag( ter_furn_flag::TFLAG_WINDOW ) ) {
                 g->walk_move( dest_loc, via_ramp );
             }
         }
+        int open_move_cost = doors::get_action_move_cost( you, door.close, true );
         // apply movement point cost to player
         you.mod_moves( -open_move_cost );
         if( veh1 != nullptr ) {
@@ -520,7 +519,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         // Only lose movement if we're blind
         if( waste_moves ) {
             // apply movement point cost to player
-            you.mod_moves( -doors::get_action_move_cost( you, "", true));
+            you.mod_moves( -doors::get_action_move_cost( you, t_null, true ) );
         }
     } else if( m.ter( dest_loc ) == t_door_locked || m.ter( dest_loc ) == t_door_locked_peep ||
                m.ter( dest_loc ) == t_door_locked_alarm || m.ter( dest_loc ) == t_door_locked_interior ) {
