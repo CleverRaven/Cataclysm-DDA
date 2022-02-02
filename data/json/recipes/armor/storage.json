@@ -1488,7 +1488,7 @@
     "time": "2 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 3 ], [ "holster", 1 ],
+    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 3 ], [ "holster", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   }
 ]
