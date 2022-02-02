@@ -2652,7 +2652,7 @@ void basecamp::start_salt_water_pipe( const point &dir, const std::string &bldg_
             auto e = expansions.find( dir );
             basecamp::update_provides( bldg_exp, e->second );
 
-            popup( _( "This functionality cannot be constructed as no validpath to a swamp has "
+            popup( _( "This functionality cannot be constructed as no valid path to a swamp has "
                       "been found with a maximum length (20 tiles) at a maximum range of 10 tiles.  "
                       "Supported terrain is forest, field, and road.  This recipe will now be "
                       "removed from the set of available recipes and won't show up again." ) );
