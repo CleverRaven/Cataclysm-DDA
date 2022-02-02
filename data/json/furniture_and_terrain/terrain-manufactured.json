@@ -698,7 +698,7 @@
     "id": "t_salt_water_pump",
     "name": "salt water pump",
     "looks_like": "t_water_pump",
-    "description": "A water pump connected to a pipe supplying it with salt water. Not useful to drink, but it has other usages.",
+    "description": "A water pump connected to a pipe supplying it with salt water.  Not useful to drink, but it has other usages.",
     "symbol": "&",
     "color": "light_gray",
     "move_cost": 6,
