@@ -2006,6 +2006,78 @@
     "color": "red"
   },
   {
+    "id": "stirling_kit_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "stem kit box", "str_pl": "stem kit boxes" },
+    "description": "A small box with an image of a children building things.",
+    "weight": "400 g",
+    "volume": "3200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2900 ml",
+        "max_contains_weight": "4 kg",
+        "rigid": true,
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "white_cyan"
+  },
+  {
+    "id": "maker_kit_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "maker kit box", "str_pl": "maker kit boxes" },
+    "description": "A small box with an image of a children building things.  'Makerspace Learner Kit'",
+    "weight": "400 g",
+    "volume": "3200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2900 ml",
+        "max_contains_weight": "4 kg",
+        "rigid": true,
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "white_cyan"
+  },
+  {
+    "id": "robot_kit_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "robot kit box", "str_pl": "robot kit boxes" },
+    "description": "A small box with an image of a children building robots.",
+    "weight": "400 g",
+    "volume": "3200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2900 ml",
+        "max_contains_weight": "4 kg",
+        "rigid": true,
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "white_cyan"
+  },
+  {
     "id": "mre_bag_small",
     "type": "GENERIC",
     "category": "container",
