@@ -469,5 +469,13 @@ class talker
         virtual int get_kill_xp() const {
             return 0;
         }
+        virtual void set_age( int ) {}
+        virtual int get_age() const {
+            return 0;
+        }
+        virtual void set_height( int ) {}
+        virtual int get_height() const {
+            return 0;
+        }
 };
 #endif // CATA_SRC_TALKER_H

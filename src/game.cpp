@@ -3855,6 +3855,18 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
     return nullptr;
 }
 
+field_entry *game::is_in_dangerous_field()
+{
+    map &here = get_map();
+    for( std::pair<const field_type_id, field_entry> &field : here.field_at( u.pos() ) ) {
+        if( u.is_dangerous_field( field.second ) ) {
+            return &field.second;
+        }
+    }
+
+    return nullptr;
+}
+
 std::unordered_set<tripoint> game::get_fishable_locations( int distance, const tripoint &fish_pos )
 {
     // We're going to get the contiguous fishable terrain starting at

@@ -5107,6 +5107,8 @@
         [ "tequila", 1 ],
         [ "triple_sec", 1 ],
         [ "vodka", 1 ],
+        [ "sake_filtered", 1 ],
+        [ "sake_unfiltered", 1 ],
         [ "whiskey", 1 ]
       ]
     ]
