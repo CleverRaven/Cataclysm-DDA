@@ -54,7 +54,7 @@
     "handling_modifier": 4,
     "loudness_modifier": 14,
     "overwrite_min_cycle_recoil": 1350,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit. This version has a long barrel with '5.56 NATO ASSAULT' stamped into the metal and an integrated muzzle break."
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with '5.56 NATO ASSAULT' stamped into the metal and an integrated muzzle break."
   },
   {
     "id": "robofac_gun_smg",
@@ -82,7 +82,7 @@
     "handling_modifier": 2,
     "loudness_modifier": -50,
     "overwrite_min_cycle_recoil": 450,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit. This version has a short barrel with '9mm Parabellum PDW' stamped into the metal and an integrated silencer."
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with '9mm Parabellum PDW' stamped into the metal and an integrated silencer."
   },
   {
     "id": "robofac_gun_dmr",
@@ -111,7 +111,7 @@
     "handling_modifier": 2,
     "loudness_modifier": -10,
     "overwrite_min_cycle_recoil": 2700,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit. This version has a long barrel with '7.62 NATO DMR' stamped into the metal and an integrated flash hider."
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with '7.62 NATO DMR' stamped into the metal and an integrated flash hider."
   },
   {
     "id": "robofac_gun_shotgun",
@@ -139,7 +139,7 @@
     "shot_spread_multiplier_modifier": -0.3,
     "flags": [ "CHOKE" ],
     "overwrite_min_cycle_recoil": 1250,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit. This version has a long barrel with '00 CQC' stamped into the metal and an integrated choke."
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with '00 CQC' stamped into the metal and an integrated choke."
   },
   {
     "id": "robofac_laser_sight",
