@@ -2202,7 +2202,7 @@ The `id` must be exact as it is hardcoded to look for that.
 "triggers": [ // List of sublist of triggers, all sublists must be True for the mutation to activate
   [ // Sublist of trigger: at least one trigger must be true for the sublist to be true
       {
-        "condition": { "compare_int": [ { "u_val": "morale" }, { "const": -50 } ], "op": "<" }, //dialog condition(see NPCs.md)
+        "condition": { "compare_int": [ { "u_val": "morale" }, "<", { "const": -50 } ] }, //dialog condition(see NPCs.md)
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
       }
   ],
@@ -2210,8 +2210,8 @@ The `id` must be exact as it is hardcoded to look for that.
     {
       "condition": { //dialog condition(see NPCs.md)
         "or": [
-          { "compare_int": [ { "u_val": "hour" }, { "const": 2 } ], "op": "<" },
-          { "compare_int": [ { "u_val": "hour" }, { "const": 20 } ], "op": ">" }
+          { "compare_int": [ { "hour", "<", { "const": 2 } ] },
+          { "compare_int": [ { "hour", ">", { "const": 20 } ] }
         ]
       },
       "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates

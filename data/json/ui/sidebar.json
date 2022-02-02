@@ -3,7 +3,7 @@
     "id": "custom_sidebar",
     "type": "widget",
     "style": "sidebar",
-    "label": "custom",
+    "label": { "str": "custom", "ctxt": "UI sidebar" },
     "width": 36,
     "widgets": [
       "hitpoints_all_narrow_graphs_layout",

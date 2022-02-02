@@ -477,7 +477,7 @@
       "offer": "With the well's completion we are rapidly closing the sustainability gap.  In order to expand from here we will need massive quantities of lumber to construct fortifications and new buildings.  We have already begun work on a manually operated sawmill but we will need two motors to control the actual blades.  We were hoping you might be able to secure the motors for us.",
       "accepted": "Power for the motors will be provided by a salvaged truck battery, you need not bring additional mechanical components.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
-      "advice": "Mining would always be an option if you had the resources.",
+      "advice": "A car dealership or a golf course might have some electric vehicles to get one from.  Otherwise there's probably something broken down along the road.",
       "inquire": "Do you have the motors?",
       "success": "I appreciate the work you do.",
       "success_lie": "What good does this do us?",

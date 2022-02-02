@@ -172,25 +172,30 @@
     ]
   },
   {
-    "id": "hard_liquor",
+    "id": "hard_liquor_unmixed",
     "type": "requirement",
-    "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality.",
+    "//": "Technical artifact to support mixed alcohol recipe. See comment on `hard_liquor` below for semantics.",
     "components": [
       [
-        [ "moonshine", 1 ],
-        [ "vodka", 1 ],
-        [ "whiskey", 1 ],
-        [ "single_malt_whiskey", 1 ],
-        [ "cheap_whiskey", 1 ],
-        [ "canadian_whiskey", 1 ],
-        [ "single_pot_whiskey", 1 ],
         [ "brandy", 1 ],
-        [ "rum", 1 ],
+        [ "canadian_whiskey", 1 ],
+        [ "cheap_whiskey", 1 ],
         [ "gin", 1 ],
+        [ "moonshine", 1 ],
+        [ "rum", 1 ],
+        [ "single_malt_whiskey", 1 ],
+        [ "single_pot_whiskey", 1 ],
         [ "tequila", 1 ],
-        [ "mixed_alcohol_strong", 1 ]
+        [ "vodka", 1 ],
+        [ "whiskey", 1 ]
       ]
     ]
+  },
+  {
+    "id": "hard_liquor",
+    "type": "requirement",
+    "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality. 7 portions per 250ml",
+    "components": [ [ [ "hard_liquor_unmixed", 1, "LIST" ], [ "mixed_alcohol_strong", 1 ] ] ]
   },
   {
     "id": "cheap_wine",
@@ -198,12 +203,12 @@
     "//": "Cheap and improvised wines.",
     "components": [
       [
-        [ "fruit_wine", 1 ],
         [ "bum_wine", 1 ],
-        [ "dandelion_wine", 1 ],
         [ "burdock_wine", 1 ],
+        [ "dandelion_wine", 1 ],
+        [ "fruit_wine", 1 ],
         [ "pine_wine", 1 ],
-        [ "bum_wine", 1 ]
+        [ "wine_barley", 1 ]
       ]
     ]
   },
@@ -213,15 +218,15 @@
     "//": "More expensive wines.",
     "components": [
       [
-        [ "wine_riesling", 1 ],
-        [ "wine_chardonnay", 1 ],
-        [ "wine_cabernet", 1 ],
-        [ "wine_noir", 1 ],
-        [ "wine_vermouth", 1 ],
-        [ "wine_marsala", 1 ],
-        [ "sherry", 1 ],
         [ "bristol_sherry", 1 ],
-        [ "madeira", 1 ]
+        [ "madeira", 1 ],
+        [ "sherry", 1 ],
+        [ "wine_cabernet", 1 ],
+        [ "wine_chardonnay", 1 ],
+        [ "wine_marsala", 1 ],
+        [ "wine_noir", 1 ],
+        [ "wine_riesling", 1 ],
+        [ "wine_vermouth", 1 ]
       ]
     ]
   },
@@ -961,26 +966,33 @@
     "components": [ [ [ "wash_vodka", 1 ], [ "wash_whiskey", 1 ], [ "wash_rum", 1 ], [ "wash_moonshine", 1 ] ] ]
   },
   {
-    "id": "weak_liquor",
+    "id": "weak_liquor_unmixed",
     "type": "requirement",
-    "//": "Weak liquor - necessarily comestible and low proof, not necessarily high quality",
+    "//": "Technical artifact to support mixed alcohol recipe. See `weak_liquor` comment below for semantics.",
     "components": [
       [
+        [ "cheap_wine", 5, "LIST" ],
+        [ "worthy_wine", 5, "LIST" ],
         [ "beer", 1 ],
         [ "belgian_ale", 1 ],
-        [ "drink_beeknees", 1 ],
+        [ "bristol_sherry", 1 ],
         [ "drink_hard_seltzer", 1 ],
         [ "european_pilsner", 1 ],
         [ "hb_beer", 1 ],
         [ "hb_seltzer", 1 ],
-        [ "india_pale_ale", 1 ],
-        [ "wine_barley", 1 ],
-        [ "pale_ale", 1 ],
-        [ "stout", 1 ],
         [ "imperial_stout", 1 ],
-        [ "mixed_alcohol_weak", 1 ]
+        [ "india_pale_ale", 1 ],
+        [ "mead", 1 ],
+        [ "pale_ale", 1 ],
+        [ "stout", 1 ]
       ]
     ]
+  },
+  {
+    "id": "weak_liquor",
+    "type": "requirement",
+    "//": "Weak liquor - necessarily comestible and low proof, not necessarily high quality. 250ml",
+    "components": [ [ [ "weak_liquor_unmixed", 1, "LIST" ], [ "mixed_alcohol_weak", 1 ] ] ]
   },
   {
     "id": "soda_pop",

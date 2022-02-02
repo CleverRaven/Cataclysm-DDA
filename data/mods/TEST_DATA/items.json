@@ -1,5 +1,54 @@
 [
   {
+    "type": "GENERIC",
+    "id": "fridge_test",
+    "looks_like": "minifridge",
+    "symbol": "F",
+    "color": "light_blue",
+    "name": { "str": "fridge" },
+    "description": "A fridge for keeping food cool.  Provides some insulation from outside weather.",
+    "longest_side": "1700 mm",
+    "insulation": 10,
+    "volume": "800 L",
+    "weight": "70 kg",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "500 L",
+        "max_contains_weight": "400 kg"
+      }
+    ]
+  },
+  {
+    "id": "metal_tank_test",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "keg",
+    "name": { "str": "metal tank (60L)", "str_pl": "metal tanks (60L)" },
+    "description": "A large metal tank for holding liquids.  Useful for crafting.",
+    "weight": "5668 g",
+    "volume": "60050 ml",
+    "price": 10000,
+    "price_postapoc": 250,
+    "to_hit": -4,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": "}",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "60 L",
+        "max_contains_weight": "120 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
     "type": "AMMO",
     "id": "test_rock",
     "symbol": "*",
