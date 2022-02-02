@@ -792,7 +792,7 @@ bool game::start_game()
         omtstart = start_loc.find_player_initial_location();
         if( omtstart == overmap::invalid_tripoint ) {
             if( query_yn(
-                    _( "Try again?  Warning: current world will be reset.\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
+                    _( "Try again?  Warning: all savegames in current world will be deleted!\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
                 world_generator->delete_world( world_generator->active_world->world_name, false );
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
