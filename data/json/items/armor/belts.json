@@ -331,7 +331,7 @@
     "description": "A pair of leather suspenders with a holster placed near the stomach. It was designed with subtlety in mind so it can hold no more than a small revolver.",
     "copy_from": "suspenders_leather",
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY", "NO_QUICKDRAW", ], 
+    "flags": [ "WAIST", "WATER_FRIENDLY", "NO_QUICKDRAW" ], 
     "pocket_data": [
       {
         "holster": true,
