@@ -10503,13 +10503,8 @@ double Character::recoil_vehicle() const
 
 double Character::recoil_total() const
 {
-    double recoil_final = recoil + recoil_vehicle();
-    float recoil_mod = enchantment_cache->modify_value( enchant_vals::mod::RECOIL,
-                            1.0f );
-    if( recoil_mod != 1.0f ) {
-        recoil_final *= recoil_mod;
-    
-    return recoil_final;
+    return enchantment_cache->modify_value( enchant_vals::mod::RECOIL,
+                                            ( recoil + recoil_vehicle() ) );
 }
 
 bool Character::is_hallucination() const
