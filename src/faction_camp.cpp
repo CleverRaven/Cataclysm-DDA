@@ -493,17 +493,20 @@ static int camp_morale( int change = 0 );
 static bool survive_random_encounter( npc &comp, std::string &situation, int favor, int threat );
 
 //  Hard coded blueprint names used to route the code to the salt water pipe code.
-const std::string faction_expansion_salt_water_pipe_swamp_base =
+static const std::string faction_expansion_salt_water_pipe_swamp_base =
     "faction_expansion_salt_water_pipe_swamp_";
-const std::string faction_expansion_salt_water_pipe_swamp_N =
+static const std::string faction_expansion_salt_water_pipe_swamp_N =
     faction_expansion_salt_water_pipe_swamp_base + "N";
-const std::string faction_expansion_salt_water_pipe_swamp_NE =
+static const std::string faction_expansion_salt_water_pipe_swamp_NE =
     faction_expansion_salt_water_pipe_swamp_base + "NE";
-const std::string faction_expansion_salt_water_pipe_base = "faction_expansion_salt_water_pipe_";
-const std::string faction_expansion_salt_water_pipe_N = faction_expansion_salt_water_pipe_base +
-        "N";
-const std::string faction_expansion_salt_water_pipe_NE = faction_expansion_salt_water_pipe_base +
-        "NE";
+static const std::string faction_expansion_salt_water_pipe_base =
+    "faction_expansion_salt_water_pipe_";
+static const std::string faction_expansion_salt_water_pipe_N =
+    faction_expansion_salt_water_pipe_base +
+    "N";
+static const std::string faction_expansion_salt_water_pipe_NE =
+    faction_expansion_salt_water_pipe_base +
+    "NE";
 
 static bool update_time_left( std::string &entry, const comp_list &npc_list )
 {
@@ -2355,26 +2358,27 @@ void basecamp::start_fortifications( std::string &bldg_exp )
     }
 }
 
-const int max_salt_water_pipe_distance = 10;
-const int max_salt_water_pipe_length =
+static const int max_salt_water_pipe_distance = 10;
+static const int max_salt_water_pipe_length =
     20;  //  It has to be able to wind around terrain it can't pass through, like the rest of the camp.
 
 //  Hard coded strings used to construct expansion "provides" needed by recipes to coordinate salt water pipe construction
-const std::string salt_water_pipe_string_base = "salt_water_pipe_";
-const std::string salt_water_pipe_string_suffix = "_scheduled";
-const double diagonal_salt_pipe_cost = sqrt( 2.0 );
-const double salt_pipe_legal = 0.0;
-const double salt_pipe_illegal = -0.1;
-const double salt_pipe_swamp = -0.2;
+static const std::string salt_water_pipe_string_base = "salt_water_pipe_";
+static const std::string salt_water_pipe_string_suffix = "_scheduled";
+static const double diagonal_salt_pipe_cost = sqrt( 2.0 );
+static const double salt_pipe_legal = 0.0;
+static const double salt_pipe_illegal = -0.1;
+static const double salt_pipe_swamp = -0.2;
 
 //  The logic discourages diagonal connections when there are horizontal ones of the same number of tiles, as the original approach
 //  resulted in rather odd paths. At the time of this writing there is no corresponding construction cost difference, though, as that
 //  doesn't match with the fixed recipe approach taken.
-point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distance + 1][2 *
-                                 max_salt_water_pipe_distance + 1], int x, int y );
+static point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distance + 1][2 *
+                                        max_salt_water_pipe_distance + 1],
+                                        point pt );  //  Uglified to point parameter by demand from clang-tidy
 
 point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distance + 1][2 *
-                                 max_salt_water_pipe_distance + 1], int x, int y )
+                                 max_salt_water_pipe_distance + 1], point pt )
 {
     point found = { -999, -999 };
     double lowest_found = -10000.0;
@@ -2382,41 +2386,42 @@ point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distanc
 
     for( int i = -1; i <= 1; i++ ) {
         for( int k = -1; k <= 1; k++ ) {
-            if( x + i > -max_salt_water_pipe_distance &&
-                x + i < max_salt_water_pipe_distance &&
-                y + k > -max_salt_water_pipe_distance &&
-                y + k < max_salt_water_pipe_distance ) {
+            if( pt.x + i > -max_salt_water_pipe_distance &&
+                pt.x + i < max_salt_water_pipe_distance &&
+                pt.y + k > -max_salt_water_pipe_distance &&
+                pt.y + k < max_salt_water_pipe_distance ) {
                 if( i != 0 && k != 0 ) {
                     cost = diagonal_salt_pipe_cost;
                 } else {
                     cost = 1.0;
                 }
 
-                if( path_map[max_salt_water_pipe_distance + x + i][max_salt_water_pipe_distance + y + k] ==
-                    salt_pipe_legal ) {
-                    path_map[max_salt_water_pipe_distance + x + i][max_salt_water_pipe_distance + y + k] =
-                        path_map[max_salt_water_pipe_distance + x][max_salt_water_pipe_distance + y] + cost;
-                } else if( path_map[max_salt_water_pipe_distance + x + i][max_salt_water_pipe_distance + y + k] <=
-                           salt_pipe_swamp ) {
-                    if( path_map[max_salt_water_pipe_distance + x + i][max_salt_water_pipe_distance + y + k] ==
-                        salt_pipe_swamp ||
-                        path_map[max_salt_water_pipe_distance + x + i][max_salt_water_pipe_distance + y + k] < -
-                        ( path_map[max_salt_water_pipe_distance + x][max_salt_water_pipe_distance + y] + cost ) ) {
-                        path_map[max_salt_water_pipe_distance + x + i][max_salt_water_pipe_distance + y + k] = -
-                                ( path_map[max_salt_water_pipe_distance + x][max_salt_water_pipe_distance + y] + cost );
+                if( path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] ==
+                    salt_pipe_legal ||
+                    ( path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] >
+                      0.0 &&
+                      path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] >
+                      path_map[max_salt_water_pipe_distance + pt.x][max_salt_water_pipe_distance + pt.y] + cost ) ) {
+                    path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] =
+                        path_map[max_salt_water_pipe_distance + pt.x][max_salt_water_pipe_distance + pt.y] + cost;
 
-                        if( path_map[max_salt_water_pipe_distance + x + i][max_salt_water_pipe_distance + y + k] >
+                } else if( path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y +
+                           k] <=
+                           salt_pipe_swamp ) {
+                    if( path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] ==
+                        salt_pipe_swamp ||
+                        path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] < -
+                        ( path_map[max_salt_water_pipe_distance + pt.x][max_salt_water_pipe_distance + pt.y] + cost ) ) {
+                        path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] = -
+                                ( path_map[max_salt_water_pipe_distance + pt.x][max_salt_water_pipe_distance + pt.y] + cost );
+
+                        if( path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] >
                             lowest_found ) {
-                            lowest_found = path_map[max_salt_water_pipe_distance + x + i][max_salt_water_pipe_distance + y + k];
-                            found = { x + i, y + k };
+                            lowest_found = path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y
+                                           + k];
+                            found = { pt.x + i, pt.y + k };
                         }
                     }
-                } else if( path_map[max_salt_water_pipe_distance + x + i][max_salt_water_pipe_distance + y + k] >
-                           0.0 &&
-                           path_map[max_salt_water_pipe_distance + x + i][max_salt_water_pipe_distance + y + k] >
-                           path_map[max_salt_water_pipe_distance + x][max_salt_water_pipe_distance + y] + cost ) {
-                    path_map[max_salt_water_pipe_distance + x + i][max_salt_water_pipe_distance + y + k] =
-                        path_map[max_salt_water_pipe_distance + x][max_salt_water_pipe_distance + y] + cost;
                 }
             }
         }
@@ -2424,14 +2429,14 @@ point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distanc
     return found;
 };
 
-int salt_water_pipe_segment_of( const recipe &making );
+static int salt_water_pipe_segment_of( const recipe &making );
 
 int salt_water_pipe_segment_of( const recipe &making )
 
 {
     int segment_number = -1;
     const auto requires = making.blueprint_requires();
-    for( auto element : requires ) {
+    for( auto const &element : requires ) {
         if( element.first.substr( 0, salt_water_pipe_string_base.length() ) == salt_water_pipe_string_base
             &&
             element.first.substr( element.first.length() - salt_water_pipe_string_suffix.length(),
@@ -2440,14 +2445,21 @@ int salt_water_pipe_segment_of( const recipe &making )
                 segment_number = stoi( element.first.substr( salt_water_pipe_string_base.length(),
                                        element.first.length() - salt_water_pipe_string_suffix.length() - 1 ) );
             } catch( ... ) {
-                debugmsg( "Recipe 'blueprint_requires' that matches the hard coded '" + salt_water_pipe_string_base
-                          + "#" + salt_water_pipe_string_suffix + "' pattern without having a number in the # position" );
+                std::string msg = "Recipe 'blueprint_requires' that matches the hard coded '";
+                msg += salt_water_pipe_string_base;
+                msg += "#";
+                msg += salt_water_pipe_string_suffix;
+                msg += "' pattern without having a number in the # position";
+                debugmsg( msg );
                 return -1;
             }
             if( segment_number < 1 || segment_number >= max_salt_water_pipe_length ) {
-                debugmsg( "Recipe 'blueprint_requires' that matches the hard coded '" + salt_water_pipe_string_base
-                          + "#" + salt_water_pipe_string_suffix +
-                          "' pattern with a number outside the ones supported and generated by the code" );
+                std::string msg = "Recipe 'blueprint_requires' that matches the hard coded '";
+                msg += salt_water_pipe_string_base;
+                msg += "#";
+                msg += salt_water_pipe_string_suffix;
+                msg += "' pattern with a number outside the ones supported and generated by the code";
+                debugmsg( msg );
                 return -1;
             }
         }
@@ -2466,25 +2478,25 @@ int salt_water_pipe_segment_of( const recipe &making )
 //  The operation (ab)uses the conditional rotation/mirror flags of a recipe that uses a blueprint that isn't
 //  actually going to be used as a blueprint for something constructed in the expansion itself to determine
 //  the direction of the tile to connect to.
-point connection_direction_of( const point &dir, const recipe &making );
+static point connection_direction_of( const point &dir, const recipe &making );
 
 point connection_direction_of( const point &dir, const recipe &making )
 {
-    point connection_dir = { 0, -1 };  // North
+    point connection_dir = point_north;
     const std::string suffix = base_camps::all_directions.at( dir ).id.substr( 1,
                                base_camps::all_directions.at( dir ).id.length() - 2 );
     int count = 0;
 
     if( making.has_flag( "MAP_ROTATE_90_IF_" + suffix ) ) {
-        connection_dir = { 1, 0 };
+        connection_dir = point_east;
         count++;
     }
     if( making.has_flag( "MAP_ROTATE_180_IF_" + suffix ) ) {
-        connection_dir = { 0, 1 };
+        connection_dir = point_south;
         count++;
     }
     if( making.has_flag( "MAP_ROTATE_270_IF_" + suffix ) ) {
-        connection_dir = { -1, 0 };
+        connection_dir = point_west;
         count++;
     }
     if( count > 1 ) {
@@ -2590,14 +2602,14 @@ void basecamp::start_salt_water_pipe( const point &dir, const std::string &bldg_
                 const oter_id &omt_ref = overmap_buffer.ter( tile );
                 bool match = false;
                 for( const std::string &pos_om : allowed_locations ) {
-                    if( is_ot_match( pos_om, omt_ref, ot_match_type::type ) ) {
+                    if( ( omt_ref )->get_type_id() == oter_type_str_id( pos_om ) ) {
                         match = true;
                         break;
                     }
                 }
                 if( match ) {
                     path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_legal;
-                } else if( is_ot_match( allowed_start_location, omt_ref, ot_match_type::type ) ) {
+                } else if( ( omt_ref )->get_type_id() == oter_type_str_id( allowed_start_location ) ) {
                     path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_swamp;
                 } else {
                     path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_illegal;
@@ -2627,7 +2639,7 @@ void basecamp::start_salt_water_pipe( const point &dir, const std::string &bldg_
 
         if( path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] ==
             salt_pipe_swamp ) { //  The connection_dir tile is a swamp tile
-            destination == point( 0, 0 );
+            destination = point_zero;
             path_found = true;
         } else {
             path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] =
@@ -2639,7 +2651,7 @@ void basecamp::start_salt_water_pipe( const point &dir, const std::string &bldg_
                     for( int k = -dist; k <= dist; k++ ) {
                         if( path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] >
                             0.0 ) { // Tile has been assigned a distance and isn't a swamp
-                            point temp = check_salt_pipe_neighbors( path_map, i, k );
+                            point temp = check_salt_pipe_neighbors( path_map, { i, k } );
                             if( temp != point( -999, -999 ) ) {
                                 if( path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance + temp.y] >
                                     destination_cost ) {
@@ -2672,7 +2684,7 @@ void basecamp::start_salt_water_pipe( const point &dir, const std::string &bldg_
             = -path_map[max_salt_water_pipe_distance + destination.x][max_salt_water_pipe_distance +
                     destination.y];
 
-        while( destination != point( 0, 0 ) ) {
+        while( destination != point_zero ) {
             pipe->segments.push_back( { tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x + destination.x, omt_pos.y() + dir.y + connection_dir.y + destination.y, omt_pos.z() ), false, false } );
             path_found = false;  //  Reuse of existing variable after its original usability has been passed.
             for( int i = -1; i <= 1; i++ ) {
@@ -2691,10 +2703,10 @@ void basecamp::start_salt_water_pipe( const point &dir, const std::string &bldg_
                                         candidate.y] >
                                     path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
                                             destination.y + k] ) {
-                                    candidate = point( destination.x + i, destination.y + k );
+                                    candidate = destination + point( i, k );
                                 }
                             } else {
-                                candidate = point( destination.x + i, destination.y + k );
+                                candidate = destination +  point( i, k );
                                 path_found = true;
                             }
                         }
@@ -2718,8 +2730,9 @@ void basecamp::start_salt_water_pipe( const point &dir, const std::string &bldg_
             //  Shouldn't need to check that the tokens don't exist previously, so could just set them to 1.
             auto e = expansions.find( dir );
             for( size_t i = 1; i < pipe->segments.size(); i++ ) {
-                const std::string token = salt_water_pipe_string_base + std::to_string(
-                                              i ) + salt_water_pipe_string_suffix;
+                std::string token = salt_water_pipe_string_base;
+                token += std::to_string( i );
+                token += salt_water_pipe_string_suffix;
                 if( e->second.provides.find( token ) == e->second.provides.end() ) {
                     e->second.provides[token] = 0;
                 }
@@ -2727,7 +2740,7 @@ void basecamp::start_salt_water_pipe( const point &dir, const std::string &bldg_
             }
         }
     } else if( pipe_is_new ) {
-        delete( pipe );
+        delete pipe;
     }
 }
 
@@ -3307,7 +3320,7 @@ void basecamp::fortifications_return()
     }
 }
 
-void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
+static void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
         bool &mirror_vertical, bool &mirror_horizontal, int &rotation );
 
 void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
@@ -3319,11 +3332,9 @@ void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
     rotation = 0;
 
     switch( base_camps::all_directions.at( dir ).tab_order ) {
-        case base_camps::tab_mode::TAB_MAIN:
-            break;  //  Should not happen. We would have had to define the same point twice.
-
-        case base_camps::tab_mode::TAB_N:
-            break;  //  This is the reference direction for orthogonal orientations.
+        case base_camps::tab_mode::TAB_MAIN: //  Should not happen. We would have had to define the same point twice.
+        case base_camps::tab_mode::TAB_N:    //  This is the reference direction for orthogonal orientations.
+            break;
 
         case base_camps::tab_mode::TAB_NE:
             orthogonal = false;
@@ -3473,7 +3484,7 @@ bool basecamp::salt_water_pipe_return( const point &dir, const std::string &miss
     }
 
     point connection_dir = pipe->connection_direction;
-    const size_t segment_number = salt_water_pipe_segment_of( making );
+    const int segment_number = salt_water_pipe_segment_of( making );
 
     if( segment_number == -1 ) {
         return false;
@@ -3485,7 +3496,7 @@ bool basecamp::salt_water_pipe_return( const point &dir, const std::string &miss
 
     point next_construction_direction;
 
-    if( segment_number == pipe->segments.size() - 1 ) {
+    if( segment_number == ( int )pipe->segments.size() - 1 ) {
         next_construction_direction = { -connection_dir.x, -connection_dir.y };
     } else {
         next_construction_direction = { pipe->segments[segment_number + 1].point.x() - pipe->segments[segment_number].point.x(),
