@@ -45,6 +45,8 @@ extern int fontwidth;
 // may be displayed. Actually, this is supposed to be called from init.cpp,
 // and only from there.
 void load_tileset();
+void start_background_load_tileset();
+void sync_background_load_tileset();
 void rescale_tileset( int size );
 bool save_screenshot( const std::string &file_path );
 void toggle_fullscreen_window();

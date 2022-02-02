@@ -14,6 +14,7 @@
 #include <cstring>
 #include <exception>
 #include <fstream>
+#include <future>
 #include <iterator>
 #include <limits>
 #include <map>
@@ -21,6 +22,7 @@
 #include <set>
 #include <stack>
 #include <stdexcept>
+#include <thread>
 #include <type_traits>
 #include <vector>
 #if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -3641,19 +3643,63 @@ void catacurses::init_interface()
 // This is supposed to be called from init.cpp, and only from there.
 void load_tileset()
 {
+    start_background_load_tileset();
+    sync_background_load_tileset();
+}
+
+static std::unique_ptr<std::future<cata::optional<std::exception_ptr>>>
+tileset_loaded_or_exception_ptr;
+void start_background_load_tileset()
+{
     if( !tilecontext || !use_tiles ) {
         return;
     }
-    tilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                               /*precheck=*/false, /*force=*/false,
-                               /*pump_events=*/true );
-    tilecontext->do_tile_loading_report();
 
-    if( overmap_tilecontext ) {
-        overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
-                                           /*precheck=*/false, /*force=*/false,
-                                           /*pump_events=*/true );
-        overmap_tilecontext->do_tile_loading_report();
+    // Extremely paranoid, but in case there's a background load happening already.
+    if( tileset_loaded_or_exception_ptr ) {
+        debugmsg( "Tileset still performing a background load" );
+        tileset_loaded_or_exception_ptr->wait();
+        // Ignore the results.
+        tileset_loaded_or_exception_ptr.reset();
+    }
+
+    std::promise<cata::optional<std::exception_ptr>> loading_promise;
+    tileset_loaded_or_exception_ptr = std::make_unique<std::future<cata::optional<std::exception_ptr>>>
+                                      ( loading_promise.get_future() );
+
+    std::string option_tiles = get_option<std::string>( "TILES" );
+    std::string option_om_tiles = get_option<std::string>( "OVERMAP_TILES" );
+
+    std::thread( [ =, promise = std::move( loading_promise )]() mutable {
+        try
+        {
+            tilecontext->load_tileset( option_tiles,
+                                       /*precheck=*/false, /*force=*/false,
+                                       /*pump_events=*/true );
+            tilecontext->do_tile_loading_report();
+
+            if( overmap_tilecontext ) {
+                overmap_tilecontext->load_tileset( option_om_tiles,
+                                                   /*precheck=*/false, /*force=*/false,
+                                                   /*pump_events=*/true );
+                overmap_tilecontext->do_tile_loading_report();
+            }
+            promise.set_value( cata::nullopt );
+        } catch( std::exception &e )
+        {
+            promise.set_value( std::current_exception() );
+        }
+    } ).detach();
+}
+
+void sync_background_load_tileset()
+{
+    if( tileset_loaded_or_exception_ptr ) {
+        cata::optional<std::exception_ptr> load_exception = tileset_loaded_or_exception_ptr->get();
+        tileset_loaded_or_exception_ptr.reset();
+        if( load_exception.has_value() ) {
+            std::rethrow_exception( std::move( load_exception.value() ) );
+        }
     }
 }
 

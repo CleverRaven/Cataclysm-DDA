@@ -650,6 +650,9 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
+#if defined(TILES)
+            { _( "Background load tileset" ), &start_background_load_tileset },
+#endif
             { _( "Flags" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Sub body parts" ), &sub_body_part_type::finalize_all },
@@ -707,7 +710,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Achievements" ), &achievement::finalize },
             { _( "Widgets" ), &widget::finalize },
 #if defined(TILES)
-            { _( "Tileset" ), &load_tileset },
+            { _( "Finish background load tileset" ), &sync_background_load_tileset },
 #endif
         }
     };
