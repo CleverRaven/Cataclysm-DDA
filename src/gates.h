@@ -40,11 +40,11 @@ void close_door( map &m, Creature &who, const tripoint &closep );
  * Get movement cost of opening or closing doors for given character.
  *
  * @param who the character interacting the door.
- * @param door_name the terrain id name of the door.
+ * @param what the door terrain type.
  * @param open whether to open the door (close if false).
  * @return movement cost of interacting with doors.
  */
-unsigned get_action_move_cost( const Character &who, int_id<ter_t> door, const bool open );
+unsigned get_action_move_cost( const Character &who, int_id<ter_t> what, const bool open );
 
 } // namespace doors
 

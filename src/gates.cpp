@@ -353,15 +353,15 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
     }
 }
 
-unsigned doors::get_action_move_cost( const Character &who, int_id<ter_t> door, const bool open )
+unsigned doors::get_action_move_cost( const Character &who, int_id<ter_t> what, const bool open )
 {
     // movement point cost of opening doors
     int base_move_cost = 100;
     int move_cost = base_move_cost;
 
-    if( door != t_null ) {
-        ter_t door_obj = door.obj();
-        move_cost = base_move_cost = open ? door_obj.open_cost : door_obj.close_cost;
+    if( what != t_null ) {
+        ter_t door = what.obj();
+        move_cost = base_move_cost = open ? door.open_cost : door.close_cost;
     }
     // apply movement point modifiers
     if( who.is_crouching() ) {
