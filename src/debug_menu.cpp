@@ -1077,7 +1077,7 @@ static void teleport_long()
     if( where == overmap::invalid_tripoint ) {
         return;
     }
-    g->place_player_overmap( where, false );
+    g->place_player_overmap( where );
     add_msg( _( "You teleport to submap %s." ), where.to_string() );
 }
 
@@ -1123,7 +1123,7 @@ static void teleport_overmap( bool specific_coordinates = false )
         const tripoint offset = tripoint( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
         where = player_character.global_omt_location() + offset;
     }
-    g->place_player_overmap( where, false );
+    g->place_player_overmap( where );
 
     const tripoint_abs_om new_pos =
         project_to<coords::om>( player_character.global_omt_location() );
