@@ -112,6 +112,7 @@ static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
 static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_DERMATIK_INC( "DERMATIK_INC" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
@@ -1197,7 +1198,7 @@ void Character::hardcoded_effects( effect &it )
                                    _( "Insects begin to emerge from <npcname>'s skin!" ) );
             for( ; num_insects > 0; num_insects-- ) {
                 if( monster *const grub = g->place_critter_around( mon_dermatik_larva, pos(), 1 ) ) {
-                    if( one_in( 3 ) ) {
+                    if( has_trait( trait_DERMATIK_INC ) || one_in( 3 ) ) {
                         grub->friendly = -1;
                     }
                 }
