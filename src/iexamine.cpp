@@ -234,6 +234,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
@@ -1327,6 +1328,10 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
                !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
         you.moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
+    } else if( you.has_trait( trait_INSECT_ARMS_OK ) &&
+               !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
+        add_msg( _( "You quickly scale the fence." ) );
+        you.moves -= 90;
     } else if( you.has_proficiency( proficiency_prof_parkour ) ) {
         add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
         you.moves -= 100;
