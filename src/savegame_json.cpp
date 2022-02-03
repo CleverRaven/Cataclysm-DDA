@@ -4196,7 +4196,27 @@ void basecamp::serialize( JsonOut &json ) const
             json.end_object();
         }
         json.end_array();
+        json.member("salt_water_pipes");
+        json.start_array();
+        for (const auto& pipe : salt_water_pipes) {
+            json.start_object();
+            json.member("expansion", pipe->expansion);
+            json.member("connection_direction", pipe->connection_direction);
+            json.member("segments");
+            json.start_array();
+            for (const auto& segment : pipe->segments) {
+                json.start_object();
+                json.member("point", segment.point);
+                json.member("started", segment.started);
+                json.member("finished", segment.finished);
+                json.end_object();
+            }
+            json.end_array();
+            json.end_object();
+        }
+        json.end_array();
         json.end_object();
+
     } else {
         return;
     }
@@ -4255,6 +4275,22 @@ void basecamp::deserialize( const JsonObject &data )
         tripoint_abs_omt restore_pos;
         edata.read( "pos", restore_pos );
         fortifications.push_back( restore_pos );
+    }
+
+    for (JsonObject edata : data.get_array("salt_water_pipes")) {
+        edata.allow_omitted_members();
+        expansion_salt_water_pipe* pipe = new expansion_salt_water_pipe;
+        edata.read("expansion", pipe->expansion);
+        edata.read("connection_direction", pipe->connection_direction);
+        for (JsonObject seg : edata.get_array("segments")) {
+            seg.allow_omitted_members();
+            expansion_salt_water_pipe_segment segment;
+            seg.read("point", segment.point);
+            seg.read("started", segment.started);
+            seg.read("finished", segment.finished);
+            pipe->segments.push_back(segment);
+        }
+        salt_water_pipes.push_back(pipe);
     }
 }
 
