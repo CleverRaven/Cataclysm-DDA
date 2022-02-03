@@ -293,9 +293,48 @@ static unsigned get_door_interact_cost( const Character &who, int_id<ter_t> what
     }
     return move_cost;
 }
+
+/**
+ * Check if the given character can open or close door at location.
+ * This function performs only a handful of checks needed internally by this class
+ * It will also print an in-game message if the opening or closing doors is not possible.
+ *
+ * @param who character interacting with door.
+ * @param what name of the door (used in messages).
+ * @param open check if door can be opened (closed if false).
+ * @return true if the character can activate the door, false otherwise.
+ */
+static bool can_activate_door( const Character &who, std::string what, bool open )
+{
+    // prefix to use in player message
+    std::string msg_prefix = open ? "open" : "close";
+
+    // can't open doors when lying on the ground
+    if( who.is_prone() ) {
+        std::string msg = "You can't %s the %s while lying on the ground.";
+        who.add_msg_if_player( m_info, _( msg ), msg_prefix, what );
+        return false;
+    }
+    // check if both hands are holding items
+    // one wielding an item while the other is wearing one
+    bool wearing_hand_l = who.wearing_something_on( body_part_hand_l );
+    bool wearing_hand_r = who.wearing_something_on( body_part_hand_r );
+    if( !who.get_wielded_item().is_null() && ( wearing_hand_l || wearing_hand_r ) ) {
+        std::string msg = "You can't %s the %s when your hands are not free.";
+        who.add_msg_if_player( m_info, _( msg ), msg_prefix, what );
+        return false;
+    }
+    // character has both arms broken
+    if( who.is_limb_broken( body_part_arm_l ) && who.is_limb_broken( body_part_arm_r ) ) {
+        std::string msg = "Can't %s the %s with broken arms.";
+        who.add_msg_if_player( m_info, _( msg ), msg_prefix, what );
+        return false;
+    }
+    return true;
+}
+
 bool doors::open_door( map &m, Character &who, tripoint where )
 {
-    // GRAB: pre-action checking.
     int dpart = -1;
     const optional_vpart_position vp0 = m.veh_at( who.pos() );
     vehicle *const veh0 = veh_pointer_or_null( vp0 );
@@ -322,10 +361,11 @@ bool doors::open_door( map &m, Character &who, tripoint where )
             return false;
         }
     }
-    //Wooden Fence Gate (or equivalently walkable doors):
-    // open it if we are walking
-    // vault over it if we are running
     std::string door_name = m.obstacle_name( where );
+    if( !can_activate_door( who, door_name, true ) ) {
+        return false;
+    }
+    //Wooden Fence Gate (or equivalently walkable doors):
     if( m.passable_ter_furn( where ) && who.is_walking()
         && !veh_closed_door && m.open_door( where, !m.is_outside( who.pos() ) ) ) {
         // apply movement point cost to player
@@ -417,7 +457,11 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
         }
         return;
     }
-
+    Character *ch = who.as_character();
+    const std::string door_name = m.obstacle_name( closep );
+    if( ch && !can_activate_door( *ch, door_name, false ) ) {
+        return;
+    }
     if( optional_vpart_position vp = m.veh_at( closep ) ) {
         // There is a vehicle part here; see if it has anything that can be closed
         vehicle *const veh = &vp->vehicle();
@@ -430,7 +474,6 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
             if( !veh->handle_potential_theft( get_avatar() ) ) {
                 return;
             }
-            Character *ch = who.as_character();
             if( ch && veh->can_close( closable, *ch ) ) {
                 veh->close( closable );
                 //~ %1$s - vehicle name, %2$s - part name
@@ -488,7 +531,6 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
                 }
             }
         } else {
-            const std::string door_name = m.obstacle_name( closep );
             m.close_door( closep, inside, false );
             who.add_msg_if_player( _( "You close the %s." ), door_name );
             didit = true;
