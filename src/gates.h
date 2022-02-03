@@ -31,20 +31,21 @@ namespace doors
 {
 
 /**
- * Handles deducting moves, printing messages (only non-NPCs cause messages), actually closing it,
- * checking if it can be closed, etc.
-*/
-void close_door( map &m, Creature &who, const tripoint &closep );
+ * Handles opening regular, fence and vehicle doors.
+ * This function will also handle diving from moving vehicles.
+ *
+ * @param m map the door is in.
+ * @param who character opening the door.
+ * @param where location of door on the map.
+ * @return true if door was opened, false otherwise.
+ */
+bool open_door( map &m, Character &who, tripoint where );
 
 /**
- * Get movement cost of opening or closing doors for given character.
- *
- * @param who the character interacting the door.
- * @param what the door terrain type.
- * @param open whether to open the door (close if false).
- * @return movement cost of interacting with doors.
+ * Handles deducting moves, printing messages (only non-NPCs cause messages), actually closing it,
+ * checking if it can be closed, etc.
  */
-unsigned get_action_move_cost( const Character &who, int_id<ter_t> what, const bool open );
+void close_door( map &m, Creature &who, const tripoint &closep );
 
 } // namespace doors
 

@@ -32,6 +32,8 @@
 #include "viewer.h"
 #include "vpart_position.h"
 
+static const efftype_id effect_stunned( "stunned" );
+
 static const furn_str_id furn_f_crate_o( "f_crate_o" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
 
@@ -252,6 +254,152 @@ void gates::open_gate( const tripoint &pos, Character &p )
 
 // Doors namespace
 
+/**
+ * Get movement cost of opening or closing doors for given character.
+ *
+ * @param who the character interacting the door.
+ * @param what the door terrain type.
+ * @param open whether to open the door (close if false).
+ * @return movement cost of interacting with doors.
+ */
+static unsigned get_door_interact_cost( const Character &who, int_id<ter_t> what, const bool open )
+{
+    // movement point cost of opening doors
+    int move_cost = 100;
+
+    if( what != t_null ) {
+        ter_t door = what.obj();
+        move_cost = open ? door.open_cost : door.close_cost;
+    }
+    if( move_cost > 100 ) {
+        const int strength = who.get_str();
+        int cost_extra = move_cost - 100;
+        if( strength > 8 ) {
+            // weak characters open heavy doors slower
+            // maximum move cost reduction of 100% with 12 strength
+            cost_extra *= 1 - ( std::min( strength, 12 ) - 8 ) * 0.25;
+        } else {
+            // strong characters open heavy doors faster
+            // maximum move cost increase of 300% at 0 strength
+            cost_extra *= 1 + ( 8 - std::max( strength, 0 ) ) * 0.25;
+        }
+        move_cost = 100 + cost_extra;
+    }
+    // apply movement point modifiers
+    if( who.is_crouching() ) {
+        move_cost *= 3;
+    } else if( who.is_running() ) {
+        move_cost /= 2;
+    }
+    return move_cost;
+}
+bool doors::open_door( map &m, Character &who, tripoint where )
+{
+    // GRAB: pre-action checking.
+    int dpart = -1;
+    const optional_vpart_position vp0 = m.veh_at( who.pos() );
+    vehicle *const veh0 = veh_pointer_or_null( vp0 );
+    const optional_vpart_position vp1 = m.veh_at( where );
+    vehicle *const veh1 = veh_pointer_or_null( vp1 );
+
+    bool veh_closed_door = false;
+    bool outside_vehicle = veh0 == nullptr || veh0 != veh1;
+    if( veh1 != nullptr ) {
+        dpart = veh1->next_part_to_open( vp1->part_index(), outside_vehicle );
+        veh_closed_door = dpart >= 0 && !veh1->part( dpart ).open;
+    }
+    if( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) {
+        if( veh1 == nullptr ) {
+            if( query_yn( _( "Dive from moving vehicle?" ) ) ) {
+                g->moving_vehicle_dismount( where );
+            }
+            return false;
+        } else if( veh1 != veh0 ) {
+            add_msg( m_info, _( "There is another vehicle in the way." ) );
+            return false;
+        } else if( !vp1.part_with_feature( "BOARDABLE", true ) ) {
+            add_msg( m_info, _( "That part of the vehicle is currently unsafe." ) );
+            return false;
+        }
+    }
+    //Wooden Fence Gate (or equivalently walkable doors):
+    // open it if we are walking
+    // vault over it if we are running
+    std::string door_name = m.obstacle_name( where );
+    if( m.passable_ter_furn( where ) && who.is_walking()
+        && !veh_closed_door && m.open_door( where, !m.is_outside( who.pos() ) ) ) {
+        // apply movement point cost to player
+        who.mod_moves( -get_door_interact_cost( who, t_null, true ) );
+        who.add_msg_if_player( _( "You open the %s." ), door_name );
+        // if auto-move is on, continue moving next turn
+        if( who.is_auto_moving() ) {
+            who.defer_move( where );
+        }
+        return true;
+    }
+    if( veh_closed_door ) {
+        if( !veh1->handle_potential_theft( dynamic_cast< Character & >( who ) ) ) {
+            return true;
+        }
+        door_name = veh1->part( dpart ).name();
+        if( outside_vehicle ) {
+            veh1->open_all_at( dpart );
+        } else {
+            veh1->open( dpart );
+        }
+        //~ %1$s - vehicle name, %2$s - part name
+        who.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
+
+        // apply movement point cost to player
+        who.mod_moves( -get_door_interact_cost( who, t_null, true ) );
+        // if auto-move is on, continue moving next turn
+        if( who.is_auto_moving() ) {
+            who.defer_move( where );
+        }
+        return true;
+    }
+    if( m.furn( where ) != f_safe_c && m.open_door( where, !m.is_outside( who.pos() ) ) ) {
+        // door or window that just opened
+        ter_t door = m.ter( where ).obj();
+        if( who.is_running() ) {
+            // dash through doors with blinding speed
+            if( !door.has_flag( ter_furn_flag::TFLAG_WINDOW ) ) {
+                g->walk_move( where, false );
+            }
+        }
+        // apply movement point cost to player
+        who.mod_moves( -get_door_interact_cost( who, door.close, true ) );
+        if( veh1 != nullptr ) {
+            //~ %1$s - vehicle name, %2$s - part name
+            who.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
+        } else {
+            who.add_msg_if_player( _( "You open the %s." ), door_name );
+        }
+        // if auto-move is on, continue moving next turn
+        if( who.is_auto_moving() ) {
+            who.defer_move( where );
+        }
+        return true;
+    }
+    // Invalid move
+    const bool waste_moves = who.is_blind() || who.has_effect( effect_stunned );
+    if( waste_moves || where.z != who.posz() ) {
+        add_msg( _( "You bump into the %s!" ), m.obstacle_name( where ) );
+        // Only lose movement if we're blind
+        if( waste_moves ) {
+            // apply movement point cost to player
+            who.mod_moves( -get_door_interact_cost( who, t_null, true ) );
+        }
+    } else if( m.ter( where ) == t_door_locked || m.ter( where ) == t_door_locked_peep ||
+               m.ter( where ) == t_door_locked_alarm || m.ter( where ) == t_door_locked_interior ) {
+        // Don't drain move points for learning something you could learn just by looking
+        add_msg( _( "That door is locked!" ) );
+    } else if( m.ter( where ) == t_door_bar_locked ) {
+        add_msg( _( "You rattle the bars but the door is locked!" ) );
+    }
+    return false;
+}
+
 void doors::close_door( map &m, Creature &who, const tripoint &closep )
 {
     bool didit = false;
@@ -349,38 +497,6 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
 
     if( didit ) {
         ter_str_id door = m.ter( closep ).obj().open;
-        who.mod_moves( -doors::get_action_move_cost( *who.as_character(), door, false ) );
+        who.mod_moves( -get_door_interact_cost( *who.as_character(), door, false ) );
     }
-}
-
-unsigned doors::get_action_move_cost( const Character &who, int_id<ter_t> what, const bool open )
-{
-    // movement point cost of opening doors
-    int move_cost = 100;
-
-    if( what != t_null ) {
-        ter_t door = what.obj();
-        move_cost = open ? door.open_cost : door.close_cost;
-    }
-    if( move_cost > 100 ) {
-        const int strength = who.get_str();
-        int cost_extra = move_cost - 100;
-        if( strength > 8 ) {
-            // weak characters open heavy doors slower
-            // maximum move cost reduction of 100% with 12 strength
-            cost_extra *= 1 - ( std::min( strength, 12 ) - 8 ) * 0.25;
-        } else {
-            // strong characters open heavy doors faster
-            // maximum move cost increase of 300% at 0 strength
-            cost_extra *= 1 + ( 8 - std::max( strength, 0 ) ) * 0.25;
-        }
-        move_cost = 100 + cost_extra;
-    }
-    // apply movement point modifiers
-    if( who.is_crouching() ) {
-        move_cost *= 3;
-    } else if( who.is_running() ) {
-        move_cost /= 2;
-    }
-    return move_cost;
 }

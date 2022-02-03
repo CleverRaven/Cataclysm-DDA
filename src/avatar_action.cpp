@@ -376,35 +376,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         np.make_angry();
         return false;
     }
+    vehicle *const veh0 = veh_pointer_or_null( m.veh_at( you.pos() ) );
+    vehicle *const veh1 = veh_pointer_or_null( m.veh_at( dest_loc ) );
 
-    // GRAB: pre-action checking.
-    int dpart = -1;
-    const optional_vpart_position vp0 = m.veh_at( you.pos() );
-    vehicle *const veh0 = veh_pointer_or_null( vp0 );
-    const optional_vpart_position vp1 = m.veh_at( dest_loc );
-    vehicle *const veh1 = veh_pointer_or_null( vp1 );
-
-    bool veh_closed_door = false;
-    bool outside_vehicle = veh0 == nullptr || veh0 != veh1;
-    if( veh1 != nullptr ) {
-        dpart = veh1->next_part_to_open( vp1->part_index(), outside_vehicle );
-        veh_closed_door = dpart >= 0 && !veh1->part( dpart ).open;
-    }
-
-    if( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) {
-        if( veh1 == nullptr ) {
-            if( query_yn( _( "Dive from moving vehicle?" ) ) ) {
-                g->moving_vehicle_dismount( dest_loc );
-            }
-            return false;
-        } else if( veh1 != veh0 ) {
-            add_msg( m_info, _( "There is another vehicle in the way." ) );
-            return false;
-        } else if( !vp1.part_with_feature( "BOARDABLE", true ) ) {
-            add_msg( m_info, _( "That part of the vehicle is currently unsafe." ) );
-            return false;
-        }
-    }
     bool toSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc );
     bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos() );
@@ -443,92 +417,13 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         g->on_move_effects();
         return true;
     }
-
-    //Wooden Fence Gate (or equivalently walkable doors):
-    // open it if we are walking
-    // vault over it if we are running
-    std::string door_name = m.obstacle_name( dest_loc );
-    if( m.passable_ter_furn( dest_loc ) && you.is_walking()
-        && !veh_closed_door && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
-        // apply movement point cost to player
-        you.mod_moves( -doors::get_action_move_cost( you, t_null, true ) );
-        you.add_msg_if_player( _( "You open the %s." ), door_name );
-        // if auto-move is on, continue moving next turn
-        if( you.is_auto_moving() ) {
-            you.defer_move( dest_loc );
-        }
-        return true;
-    }
     if( g->walk_move( dest_loc, via_ramp ) ) {
         return true;
     }
     if( g->phasing_move( dest_loc ) ) {
         return true;
     }
-    if( veh_closed_door ) {
-        if( !veh1->handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
-            return true;
-        }
-        door_name = veh1->part( dpart ).name();
-        if( outside_vehicle ) {
-            veh1->open_all_at( dpart );
-        } else {
-            veh1->open( dpart );
-        }
-        //~ %1$s - vehicle name, %2$s - part name
-        you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
-
-        // apply movement point cost to player
-        you.mod_moves( -doors::get_action_move_cost( you, t_null, true ) );
-        // if auto-move is on, continue moving next turn
-        if( you.is_auto_moving() ) {
-            you.defer_move( dest_loc );
-        }
-        return true;
-    }
-
-    if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
-        // door or window that just opened
-        ter_t door = m.ter( dest_loc ).obj();
-        if( you.is_running() ) {
-            // dash through doors with blinding speed
-            if( !door.has_flag( ter_furn_flag::TFLAG_WINDOW ) ) {
-                g->walk_move( dest_loc, via_ramp );
-            }
-        }
-        int open_move_cost = doors::get_action_move_cost( you, door.close, true );
-        // apply movement point cost to player
-        you.mod_moves( -open_move_cost );
-        if( veh1 != nullptr ) {
-            //~ %1$s - vehicle name, %2$s - part name
-            you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
-        } else {
-            you.add_msg_if_player( _( "You open the %s." ), door_name );
-        }
-        // if auto-move is on, continue moving next turn
-        if( you.is_auto_moving() ) {
-            you.defer_move( dest_loc );
-        }
-        return true;
-    }
-
-    // Invalid move
-    const bool waste_moves = you.is_blind() || you.has_effect( effect_stunned );
-    if( waste_moves || dest_loc.z != you.posz() ) {
-        add_msg( _( "You bump into the %s!" ), m.obstacle_name( dest_loc ) );
-        // Only lose movement if we're blind
-        if( waste_moves ) {
-            // apply movement point cost to player
-            you.mod_moves( -doors::get_action_move_cost( you, t_null, true ) );
-        }
-    } else if( m.ter( dest_loc ) == t_door_locked || m.ter( dest_loc ) == t_door_locked_peep ||
-               m.ter( dest_loc ) == t_door_locked_alarm || m.ter( dest_loc ) == t_door_locked_interior ) {
-        // Don't drain move points for learning something you could learn just by looking
-        add_msg( _( "That door is locked!" ) );
-    } else if( m.ter( dest_loc ) == t_door_bar_locked ) {
-        add_msg( _( "You rattle the bars but the door is locked!" ) );
-    }
-    return false;
+    return doors::open_door( m, you, dest_loc );
 }
 
 bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
