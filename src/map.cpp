@@ -4018,6 +4018,15 @@ static void play_door_sound( int volume, const tripoint &where, const std::strin
         // when running we want to open gates fast but it's loud
         volume *= 2;
     }
+    const int dexterity = player.get_dex();
+    if( dexterity > 8 ) {
+        // maximum noise reduction of 80% with 12 dexterity
+        volume *= 1 - ( std::min( dexterity, 12 ) - 8 ) * 0.20;
+    } else {
+        // maximum noise increase of 100% at 0 dexterity
+        volume *= 1 + ( 8 - std::max( dexterity, 0 ) ) * 0.125;
+    }
+    volume = std::max( 1, std::min( volume, 15 ) ) + 1;
     sounds::sound( where, volume, sounds::sound_t::movement, desc, true, id, from );
 }
 
