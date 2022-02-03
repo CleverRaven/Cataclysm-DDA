@@ -281,7 +281,7 @@ struct mutation_branch {
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         /** effect_on_conditions triggered when this mutation activates */
-        std::vector<effect_on_condition_id> effect_on_conditions;
+        std::vector<effect_on_condition_id> eocs;
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
     private:

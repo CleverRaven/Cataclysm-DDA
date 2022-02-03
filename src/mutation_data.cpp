@@ -480,9 +480,9 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "types", types, string_reader{} );
 
     int eoc_num = 0;
-    for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
+    for( JsonValue jv : jo.get_array( "eocs" ) ) {
         std::string eoc_name = "INLINE_EOC_" + raw_name + "_" + std::to_string( eoc_num++ );
-        effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
     }
 
     int enchant_num = 0;

@@ -95,11 +95,11 @@ struct bionic_data {
     // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
     social_modifiers social_mods;
     /** effect_on_conditions triggered when this bionic is activated */
-    std::vector<effect_on_condition_id> activated_effect_on_conditions;
+    std::vector<effect_on_condition_id> activated_eocs;
     /** effect_on_conditions triggered while this bionic is active */
-    std::vector<effect_on_condition_id> processed_effect_on_conditions;
+    std::vector<effect_on_condition_id> processed_eocs;
     /** effect_on_conditions triggered when this bionic is deactived */
-    std::vector<effect_on_condition_id> deactivated_effect_on_conditions;
+    std::vector<effect_on_condition_id> deactivated_eocs;
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
 

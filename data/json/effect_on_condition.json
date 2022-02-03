@@ -45,10 +45,7 @@
       { "u_message": "Your flesh roils as the larvae begin to form.", "type": "good" },
       { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 40 } ] }
     ],
-    "false_effect": [
-      { "u_lose_effect": "formication" },
-      { "u_message": "You placate the growing larvae with an infusion of nutrients." }
-    ]
+    "false_effect": [ { "u_lose_effect": "formication" }, { "u_message": "You placate the growing larvae with an infusion of nutrients." } ]
   },
   {
     "type": "effect_on_condition",

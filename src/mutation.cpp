@@ -660,8 +660,8 @@ void Character::activate_mutation( const trait_id &mut )
         recalculate_enchantment_cache();
     }
 
-    if( !mut->effect_on_conditions.empty() ) {
-        for( const effect_on_condition_id &eoc : mut->effect_on_conditions ) {
+    if( !mut->eocs.empty() ) {
+        for( const effect_on_condition_id &eoc : mut->eocs ) {
             dialogue d( get_talker_for( *this ), nullptr );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );

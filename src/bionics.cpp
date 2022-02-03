@@ -380,21 +380,21 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "auto_deactivates", autodeactivated_bionics );
 
     int eoc_num = 0;
-    for( JsonValue jv : jsobj.get_array( "activated_effect_on_conditions" ) ) {
+    for( JsonValue jv : jsobj.get_array( "activated_eocs" ) ) {
         std::string eoc_name = "INLINE_EOC_" + name + "_" + std::to_string( eoc_num++ );
-        activated_effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
     }
 
     eoc_num = 0;
-    for( JsonValue jv : jsobj.get_array( "processed_effect_on_conditions" ) ) {
+    for( JsonValue jv : jsobj.get_array( "processed_eocs" ) ) {
         std::string eoc_name = "INLINE_EOC_" + name + "_" + std::to_string( eoc_num++ );
-        processed_effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
+        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
     }
 
     eoc_num = 0;
-    for( JsonValue jv : jsobj.get_array( "deactivated_effect_on_conditions" ) ) {
+    for( JsonValue jv : jsobj.get_array( "deactivated_eocs" ) ) {
         std::string eoc_name = "INLINE_EOC_" + name + "_" + std::to_string( eoc_num++ );
-        deactivated_effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
     }
 
     int enchant_num = 0;
@@ -737,8 +737,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     };
 
-    if( !bio.id->activated_effect_on_conditions.empty() ) {
-        for( const effect_on_condition_id &eoc : bio.id->activated_effect_on_conditions ) {
+    if( !bio.id->activated_eocs.empty() ) {
+        for( const effect_on_condition_id &eoc : bio.id->activated_eocs ) {
             dialogue d( get_talker_for( *this ), nullptr );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
@@ -1250,8 +1250,8 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
     const item &w_weapon = get_wielded_item();
     // Deactivation effects go here
 
-    if( !bio.id->deactivated_effect_on_conditions.empty() ) {
-        for( const effect_on_condition_id &eoc : bio.id->deactivated_effect_on_conditions ) {
+    if( !bio.id->deactivated_eocs.empty() ) {
+        for( const effect_on_condition_id &eoc : bio.id->deactivated_eocs ) {
             dialogue d( get_talker_for( *this ), nullptr );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
@@ -1810,8 +1810,8 @@ void Character::process_bionic( bionic &bio )
         }
     }
 
-    if( !bio.id->processed_effect_on_conditions.empty() ) {
-        for( const effect_on_condition_id &eoc : bio.id->processed_effect_on_conditions ) {
+    if( !bio.id->processed_eocs.empty() ) {
+        for( const effect_on_condition_id &eoc : bio.id->processed_eocs ) {
             dialogue d( get_talker_for( *this ), nullptr );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
