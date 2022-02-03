@@ -46,7 +46,7 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
-static const json_character_flag json_flag_HEAT_IMMUNE("HEAT_IMMUNE");
+static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
