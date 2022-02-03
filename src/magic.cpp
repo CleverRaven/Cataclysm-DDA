@@ -54,8 +54,8 @@
 #include "units.h"
 
 static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
-static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
+static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const skill_id skill_spellcraft( "spellcraft" );
 
