@@ -379,6 +379,24 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "dupes_allowed", dupes_allowed, false );
     optional( jsobj, was_loaded, "auto_deactivates", autodeactivated_bionics );
 
+    int eoc_num = 0;
+    for( JsonValue jv : jsobj.get_array( "activated_effect_on_conditions" ) ) {
+        std::string eoc_name = "INLINE_EOC_" + name + "_" + std::to_string( eoc_num++ );
+        activated_effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
+    }
+
+    eoc_num = 0;
+    for( JsonValue jv : jsobj.get_array( "processed_effect_on_conditions" ) ) {
+        std::string eoc_name = "INLINE_EOC_" + name + "_" + std::to_string( eoc_num++ );
+        processed_effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
+    }
+
+    eoc_num = 0;
+    for( JsonValue jv : jsobj.get_array( "deactivated_effect_on_conditions" ) ) {
+        std::string eoc_name = "INLINE_EOC_" + name + "_" + std::to_string( eoc_num++ );
+        deactivated_effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
+    }
+
     int enchant_num = 0;
     for( JsonValue jv : jsobj.get_array( "enchantments" ) ) {
         std::string enchant_name = "INLINE_ENCH_" + name + "_" + std::to_string( enchant_num++ );
@@ -718,6 +736,17 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             mod_power_level( bio.info().power_activate );
         }
     };
+
+    if( !bio.id->activated_effect_on_conditions.empty() ) {
+        for( const effect_on_condition_id &eoc : bio.id->activated_effect_on_conditions ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a bionic activation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
+            }
+        }
+    }
 
     item tmp_item;
     avatar &player_character = get_avatar();
@@ -1220,6 +1249,18 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
     }
     const item &w_weapon = get_wielded_item();
     // Deactivation effects go here
+
+    if( !bio.id->deactivated_effect_on_conditions.empty() ) {
+        for( const effect_on_condition_id &eoc : bio.id->deactivated_effect_on_conditions ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a bionic deactivation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
+            }
+        }
+    }
+
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
         if( bio.get_uid() == get_weapon_bionic_uid() ) {
             bio.set_weapon( get_wielded_item() );
@@ -1765,6 +1806,17 @@ void Character::process_bionic( bionic &bio )
                 if( cost > 0_mJ ) {
                     mod_power_level( -cost );
                 }
+            }
+        }
+    }
+
+    if( !bio.id->processed_effect_on_conditions.empty() ) {
+        for( const effect_on_condition_id &eoc : bio.id->processed_effect_on_conditions ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a bionic process.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
             }
         }
     }

@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "item.h"
@@ -93,7 +94,12 @@ struct bionic_data {
 
     // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
     social_modifiers social_mods;
-
+    /** effect_on_conditions triggered when this bionic is activated */
+    std::vector<effect_on_condition_id> activated_effect_on_conditions;
+    /** effect_on_conditions triggered while this bionic is active */
+    std::vector<effect_on_condition_id> processed_effect_on_conditions;
+    /** effect_on_conditions triggered when this bionic is deactived */
+    std::vector<effect_on_condition_id> deactivated_effect_on_conditions;
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
 

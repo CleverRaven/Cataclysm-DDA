@@ -12,6 +12,7 @@
 #include "color.h"
 #include "condition.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
@@ -477,6 +478,12 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "active_flags", active_flags, flag_reader{} );
     optional( jo, was_loaded, "inactive_flags", inactive_flags, flag_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
+
+    int eoc_num = 0;
+    for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
+        std::string eoc_name = "INLINE_EOC_" + raw_name + "_" + std::to_string( eoc_num++ );
+        effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
+    }
 
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {

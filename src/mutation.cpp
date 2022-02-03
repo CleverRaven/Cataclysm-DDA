@@ -15,6 +15,7 @@
 #include "condition.h"
 #include "creature.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -657,6 +658,18 @@ void Character::activate_mutation( const trait_id &mut )
 
     if( !mut->enchantments.empty() ) {
         recalculate_enchantment_cache();
+    }
+
+    if( !mut->effect_on_conditions.empty() ) {
+        for( const effect_on_condition_id &eoc : mut->effect_on_conditions ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a mutation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
+            }
+        }
+        tdata.powered = false;
     }
 
     if( mdata.transform ) {

@@ -38,6 +38,20 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_dermatik_incubation",
+    "condition": { "not": { "u_has_effect": "dermatik", "bodypart": "torso" } },
+    "effect": [
+      { "u_add_effect": "dermatik", "intensity": 0, "duration": "PERMANENT", "target_part": "torso" },
+      { "u_message": "Your flesh roils as the larvae begin to form.", "type": "good" },
+      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 40 } ] }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "formication" },
+      { "u_message": "You placate the growing larvae with an infusion of nutrients." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "thunder",
     "recurrence_min": 1,
     "recurrence_max": 1,

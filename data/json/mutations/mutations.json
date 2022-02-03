@@ -4629,6 +4629,20 @@
   },
   {
     "type": "mutation",
+    "id": "DERMATIK_INC",
+    "name": { "str": "Dermatik Incubation" },
+    "points": 5,
+    "description": "You are the hive, they are your swarm.  Activate to begin parthenogenetic incubation, or to remove itching while already incubating.",
+    "threshreq": [ "THRESH_INSECT" ],
+    "category": [ "INSECT" ],
+    "active": true,
+    "cost": 20,
+    "hunger": true,
+    "thirst": true,
+    "effect_on_conditions": [ "EOC_dermatik_incubation" ]
+  },
+  {
+    "type": "mutation",
     "id": "WHISKERS",
     "name": { "str": "Whiskers" },
     "points": 1,
