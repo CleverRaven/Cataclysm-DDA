@@ -996,6 +996,7 @@
     "symbol": "/",
     "color": "brown",
     "name": { "str": "bō" },
+    "looks_like": "q_staff",
     "description": "A wooden staff weapon used in Okinawan martial arts.  Finely sanded and treated with oil for integrity.",
     "price": 4000,
     "material": [ "wood" ],
