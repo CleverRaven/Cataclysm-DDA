@@ -359,5 +359,17 @@
     "eoc_type": "AVATAR_DEATH",
     "condition": { "and": [ { "npc_allies": 1 }, { "u_query": "You have died. Continue as one of your followers?", "default": false } ] },
     "effect": [ "take_control_menu" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isolated_artisans_gunsmith_refresh",
+    "condition": { "and": [ { "u_at_om_location": "isolated_house_farm_gunsmith" }, { "u_at_om_location": "subway_ew" } ] },
+    "effect": [ { "u_message": "<AMBIENT_SUBWAY>", "snippet": true, "sound": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isolated_artisans_blacksmith_refresh",
+    "condition": { "and": [ { "u_at_om_location": "isolated_house_farm_blacksmith" }, { "u_at_om_location": "subway_ew" } ] },
+    "effect": [ { "u_message": "<AMBIENT_SUBWAY>", "snippet": true, "sound": true } ]
   }
 ]
