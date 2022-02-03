@@ -949,7 +949,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -990,7 +990,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1031,7 +1031,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1072,7 +1072,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1113,7 +1113,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1154,7 +1154,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1195,7 +1195,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1236,7 +1236,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1277,7 +1277,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1318,7 +1318,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {

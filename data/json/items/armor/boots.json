@@ -1505,7 +1505,7 @@
     "warmth": 0,
     "sided": true,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1546,7 +1546,7 @@
     "warmth": 0,
     "sided": true,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1587,7 +1587,7 @@
     "warmth": 0,
     "sided": true,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1628,7 +1628,7 @@
     "warmth": 0,
     "sided": true,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1669,7 +1669,7 @@
     "warmth": 0,
     "sided": true,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {

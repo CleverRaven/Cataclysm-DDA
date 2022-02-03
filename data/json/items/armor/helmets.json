@@ -933,7 +933,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
     "id": "lc_helm_close_raised",
@@ -958,7 +958,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
     "id": "xl_lc_helm_close",
@@ -1019,7 +1019,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
     "id": "mc_helm_close_raised",
@@ -1044,7 +1044,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
     "id": "xl_mc_helm_close",
@@ -1105,7 +1105,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
     "id": "hc_helm_close_raised",
@@ -1130,7 +1130,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
     "id": "xl_hc_helm_close",
@@ -1191,7 +1191,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
     "id": "ch_helm_close_raised",
@@ -1216,7 +1216,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
     "id": "xl_ch_helm_close",
@@ -1277,7 +1277,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
     "id": "qt_helm_close_raised",
@@ -1302,7 +1302,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
     "id": "xl_qt_helm_close",
