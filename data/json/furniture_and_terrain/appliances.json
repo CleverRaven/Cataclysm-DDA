@@ -107,6 +107,29 @@
     "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ]
   },
   {
+    "id": "ap_standing_floodlight",
+    "type": "vehicle_part",
+    "name": { "str": "standing floodlight" },
+    "item": "standing_floodlight",
+    "location": "structure",
+    "symbol": "*",
+    "broken_symbol": "-",
+    "categories": [ "lighting" ],
+    "color": "white",
+    "broken_color": "blue",
+    "durability": 20,
+    "description": "A very bright, circular light that illuminates the area outside the vehicle when turned on.",
+    "epower": -200,
+    "bonus": 8000,
+    "damage_modifier": 10,
+    "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ]
+  },
+  {
     "id": "ap_wall_wiring",
     "type": "vehicle_part",
     "name": { "str": "wall wirings" },

@@ -3096,6 +3096,17 @@
   },
   {
     "type": "construction",
+    "id": "app_standing_floodlight",
+    "group": "place_standing_floodlight",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "components": [ [ [ "standing_floodlight", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_wall_wiring",
     "group": "reveal_wall_wiring",
     "category": "APPLIANCE",
