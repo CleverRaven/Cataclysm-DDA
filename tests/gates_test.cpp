@@ -15,7 +15,7 @@ TEST_CASE( "doors should be able to open and close", "[gates]" )
     map &here = get_map();
     clear_map();
 
-    tripoint pos = get_avatar().pos() + point_east;
+    const tripoint pos = get_avatar().pos() + point_east;
 
     WHEN( "the door is unlocked" ) {
         // create closed door on tile next to player
@@ -47,7 +47,7 @@ TEST_CASE( "windows should be able to open and close", "[gates]" )
     map &here = get_map();
     clear_map();
 
-    tripoint pos = get_avatar().pos() + point_east;
+    const tripoint pos = get_avatar().pos() + point_east;
 
     // create closed window on tile next to player
     REQUIRE( here.ter_set( pos, t_window_no_curtains ) );
@@ -77,7 +77,7 @@ TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
     clear_avatar();
     sounds::reset_sounds();
 
-    tripoint pos = get_avatar().pos() + point_east;
+    const tripoint pos = get_avatar().pos() + point_east;
 
     WHEN( "the door is opened" ) {
         REQUIRE( here.ter_set( pos, t_door_c ) );
@@ -145,7 +145,7 @@ TEST_CASE( "character should lose moves when opening or closing doors or windows
     clear_avatar();
     clear_map();
 
-    tripoint pos = get_avatar().pos() + point_east;
+    const tripoint pos = get_avatar().pos() + point_east;
 
     // spend all moves so we know how many move points were spent
     they.moves = 0;
@@ -237,7 +237,7 @@ TEST_CASE( "opening and closing doors should cost movement points", "[gates]" )
     clear_map();
     clear_avatar();
 
-    tripoint pos = they.pos() + tripoint_east;
+    const tripoint pos = they.pos() + tripoint_east;
 
     // spend all moves so we know how many move points were spent
     they.moves = 0;
@@ -387,7 +387,7 @@ TEST_CASE( "doors should be dashed through when running", "[gates]" )
     clear_map();
     clear_avatar();
 
-    tripoint pos = they.pos() + point_east;
+    const tripoint pos = they.pos() + point_east;
 
     GIVEN( "that door is closed" ) {
         REQUIRE( here.ter_set( pos, t_door_c ) );
