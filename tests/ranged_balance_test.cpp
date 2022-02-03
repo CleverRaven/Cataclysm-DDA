@@ -443,22 +443,24 @@ static void shoot_monster( std::string gun_type, const std::vector<std::string> 
                            std::string ammo_type, int range,
                            int expected_damage, std::string monster_type )
 {
+    clear_map();
     statistics<int> damage;
+    constexpr tripoint shooter_pos{ 60, 60, 0 };
+    const tripoint monster_pos = shooter_pos + ( point_east * range );
+    std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter", shooter_pos,
+                                            std::vector<std::string>(), 5, 10, 10, 10, 10 );
     do {
-        const tripoint shooter_pos( 60, 60, 0 );
-        const tripoint monster_pos = shooter_pos + ( point_east * range );
-        standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
-        shooter.set_body();
-        arm_shooter( shooter, gun_type, mods, ammo_type );
-        shooter.recoil = 0;
+        shooter->set_body();
+        arm_shooter( *shooter, gun_type, mods, ammo_type );
+        shooter->recoil = 0;
         monster &mon = spawn_test_monster( monster_type, monster_pos );
-        int prev_HP = mon.get_hp();
-        shooter.fire_gun( monster_pos, 1, shooter.get_wielded_item() );
+        const int prev_HP = mon.get_hp();
+        shooter->fire_gun( monster_pos, 1, shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
-        clear_map();
         if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
             break;
         }
+        mon.die( nullptr );
     } while( damage.n() < 200 ); // In fact, stable results can only be obtained when n reaches 10000
     const double avg = damage.avg();
     CAPTURE( gun_type );
@@ -467,10 +469,9 @@ static void shoot_monster( std::string gun_type, const std::vector<std::string> 
     CAPTURE( range );
     CAPTURE( monster_type );
     CAPTURE( avg );
-    CHECK( avg + 30 >= expected_damage );
-    CHECK( avg - 30  < expected_damage );
-
+    CHECK( avg == Approx( expected_damage ).margin( 10 ) );
 }
+
 TEST_CASE( "shot_features", "[gun]" "[slow]" )
 {
     clear_map();
