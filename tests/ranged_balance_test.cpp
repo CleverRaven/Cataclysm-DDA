@@ -503,7 +503,7 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Can't hurt at close range.
     shoot_monster( "shotgun_s", {}, "shot_bird", 5, 1, "mon_skeleton_hulk" );
     // Barely injure at point blank.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 25, "mon_skeleton_hulk" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 18, "mon_skeleton_hulk" );
     // TODO: can't harm heavily armored enemies even at point blank.
 
     // BUCKSHOT
@@ -557,7 +557,7 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 48, "mon_zombie_tough" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 79, "mon_zombie_tough" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 108, "mon_zombie_tough" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 116, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 95, "mon_zombie_tough" );
     // Armored target (armor_bullet: 5)
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 35, "mon_zombie_brute" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 58, "mon_zombie_brute" );
