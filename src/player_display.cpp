@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "character_modifier.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -1148,6 +1149,8 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     } else if( action == "SCROLL_INFOBOX_DOWN" ) {
         ++info_line;
         ui_info.invalidate_ui();
+    } else if( action == "MEDICAL_MENU" ) {
+        you.as_avatar()->disp_medical();
     }
     return done;
 }
@@ -1325,6 +1328,7 @@ void Character::disp_info( bool customize_character )
     ctxt.register_action( "SCROLL_INFOBOX_UP", to_translation( "Scroll information box up" ) );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN", to_translation( "Scroll information box down" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "MEDICAL_MENU" );
 
     std::map<std::string, int> speed_effects;
     for( auto &elem : *effects ) {

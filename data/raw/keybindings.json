@@ -1277,6 +1277,12 @@
   },
   {
     "type": "keybinding",
+    "id": "MEDICAL_MENU",
+    "name": "Open Medical Menu",
+    "bindings": [ { "input_method": "keyboard_char", "key": "@" }, { "input_method": "keyboard_code", "key": "2", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SAVE_TEMPLATE",
     "category": "DEFENSE_SETUP",
     "name": "Save template",
