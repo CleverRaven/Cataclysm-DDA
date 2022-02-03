@@ -2376,7 +2376,8 @@ class Character : public Creature, public visitable
         bool is_hauling() const;
 
         // Has a weapon, inventory item or worn item with flag
-        bool has_item_with_flag( const flag_id &flag, bool need_charges = false ) const;
+        bool has_item_with_flag( const flag_id &flag, bool need_charges = false,
+                                 bool check_broken = false ) const;
         /**
          * All items that have the given flag (@ref item::has_flag).
          */

@@ -1185,7 +1185,7 @@ bool Character::has_alarm_clock() const
 bool Character::has_watch() const
 {
     map &here = get_map();
-    return ( has_item_with_flag( flag_WATCH, true ) ||
+    return ( has_item_with_flag( flag_WATCH, true, true ) ||
              ( here.veh_at( pos() ) &&
                !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
              has_flag( json_flag_WATCH ) );
@@ -8369,9 +8369,13 @@ bool Character::in_sleep_state() const
     return Creature::in_sleep_state() || activity.id() == ACT_TRY_SLEEP;
 }
 
-bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
+bool Character::has_item_with_flag( const flag_id &flag, bool need_charges,
+                                    bool check_broken ) const
 {
-    return has_item_with( [&flag, &need_charges, this]( const item & it ) {
+    return has_item_with( [&flag, &need_charges, &check_broken, this]( const item & it ) {
+        if( check_broken && it.is_broken() ) {
+            return false;
+        }
         if( it.is_tool() && need_charges ) {
             return it.has_flag( flag ) && ( it.type->tool->max_charges == 0 ||
                                             it.ammo_remaining( this ) > 0 );
