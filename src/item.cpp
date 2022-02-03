@@ -12521,7 +12521,7 @@ bool item::is_soft() const
         return false;
     }
 
-    const std::map<material_id, int> mats = made_of();
+    const std::map<material_id, int> &mats = made_of();
     return std::all_of( mats.begin(), mats.end(), []( const std::pair<material_id, int> &mid ) {
         return mid.first->soft();
     } );
