@@ -164,7 +164,7 @@ struct conditional_t {
         void set_can_see( bool is_npc = false );
         void set_compare_int( const JsonObject &jo, const std::string &member );
         static std::function<int( const T & )> get_get_int( const JsonObject &jo );
-
+        static std::function<int( const T & )> get_get_int( std::string value, const JsonObject &jo );
         bool operator()( const T &d ) const {
             if( !condition ) {
                 return false;

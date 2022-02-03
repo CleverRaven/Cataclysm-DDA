@@ -542,6 +542,28 @@ int talker_character_const::get_kill_xp() const
     return me_chr_const->kill_xp;
 }
 
+void talker_character::set_age( int amount )
+{
+    int years_since_cataclysm = to_turns<int>( calendar::turn - calendar::turn_zero ) /
+                                to_turns<int>( calendar::year_length() );
+    me_chr->set_base_age( amount + years_since_cataclysm );
+}
+
+int talker_character_const::get_age() const
+{
+    return me_chr_const->age();
+}
+
+void talker_character::set_height( int amount )
+{
+    me_chr->set_base_height( amount );
+}
+
+int talker_character_const::get_height() const
+{
+    return me_chr_const->height();
+}
+
 void talker_character::add_bionic( const bionic_id &new_bionic )
 {
     me_chr->add_bionic( new_bionic );
