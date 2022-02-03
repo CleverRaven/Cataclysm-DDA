@@ -127,12 +127,7 @@
     "looks_like": "crowbar",
     "description": "A 5 foot long construction prybar.  Essentially a long solid steel rod with a hardened chisel tip.",
     "weight": "8 kg",
-    "to_hit": {
-    "grip": "solid",      // one of "bad", "none", "solid", or "weapon"
-    "length": "long",      // one of "hand", "short", or "long"
-    "surface": "any",      // one of "point", "line", "any", or "every"
-    "balance": "uneven"   // one of "clumsy", "uneven", "neutral", or "good"
-},
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "price_postapoc": 4000,
     "color": "red",
     "symbol": "/",
@@ -147,3 +142,4 @@
     "use_action": [ "HAMMER", "CROWBAR" ]
   }
 ]
+
