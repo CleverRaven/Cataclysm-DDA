@@ -130,16 +130,9 @@
     },
     "speaker_effect": [
       {
-        "sentinel": "interaction_timer_short",
-        "condition": { "not": { "u_has_effect": "u_exodii_interaction_timer_short" } },
         "//": "Just coming and saying hi to Rubik regularly will give you a small boost to trust.",
+        "condition": { "not": { "u_has_effect": "u_exodii_interaction_timer_short" } },
         "effect": [ { "u_add_effect": "u_exodii_interaction_timer_short", "duration": "30 hours" }, { "u_add_faction_trust": 1 } ]
-      },
-      {
-        "sentinel": "interaction_timer_long",
-        "condition": { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
-        "//": "Gives you a less frequent boost to trust for regular interactions with the exodii.",
-        "effect": [ { "u_add_effect": "u_exodii_interaction_timer_long", "duration": "7 days" }, { "u_add_faction_trust": 1 } ]
       },
       {
         "sentinel": "first_meeting_effects",
@@ -217,6 +210,11 @@
           ]
         },
         "effect": [ { "mapgen_update": "tier4_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" } ]
+      },
+      {
+        "//": "Governs the special CBM stock availability and restock, also adds a little extra faction rep.",
+        "condition": { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
+        "effect": [ { "u_add_effect": "u_exodii_interaction_timer_long", "duration": "7 days" }, { "u_add_faction_trust": 1 } ]
       }
     ],
     "responses": [
