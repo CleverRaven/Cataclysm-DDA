@@ -91,7 +91,7 @@
   {
     "type": "GENERIC",
     "id": "grid_battery_small",
-    "name": { "str": "Small power grid battery" },
+    "name": { "str": "Small power grid battery", "str_pl": "Small power grid batteries" },
     "description": "A small battery to provide charge to a power grid.",
     "weight": "1 kg",
     "to_hit": -1,
