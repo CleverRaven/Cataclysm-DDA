@@ -46,7 +46,7 @@
       "and": [
         { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] },
         { "one_in_chance": 50 },
-        { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": ">=" }
+        { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] } },
@@ -65,7 +65,7 @@
       "and": [
         { "is_weather": "lightning" },
         { "one_in_chance": 600 },
-        { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": ">=" }
+        { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "lightning" } },
@@ -84,11 +84,7 @@
     "global": true,
     "run_for_npcs": true,
     "condition": {
-      "and": [
-        { "is_weather": "acid_drizzle" },
-        "u_is_outside",
-        { "compare_int": [ { "u_val": "pain" }, { "const": 30 } ], "op": "<" }
-      ]
+      "and": [ { "is_weather": "acid_drizzle" }, "u_is_outside", { "compare_int": [ { "u_val": "pain" }, "<", { "const": 30 } ] } ]
     },
     "deactivate_condition": { "not": { "is_weather": "acid_drizzle" } },
     "effect": [
@@ -107,7 +103,7 @@
       "and": [
         { "is_weather": "acid_rain" },
         "u_is_outside",
-        { "compare_int": [ { "u_val": "pain" }, { "const": 100 } ], "op": "<" },
+        { "compare_int": [ { "u_val": "pain" }, "<", { "const": 100 } ] },
         {
           "not": { "or": [ { "u_has_wielded_with_flag": "RAIN_PROTECT" }, { "u_has_worn_with_flag": "RAINPROOF" } ] }
         }
@@ -143,9 +139,7 @@
     "id": "bio_drain",
     "recurrence_min": "30 minutes",
     "recurrence_max": "1 hours 30 minutes",
-    "condition": {
-      "and": [ { "u_has_bionics": "bio_drain" }, { "compare_int": [ { "u_val": "power" }, { "power": "25 kJ" } ], "op": ">=" } ]
-    },
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "compare_int": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
     "effect": [
       { "u_message": "Your batteries discharge slightly.", "type": "bad" },
@@ -263,7 +257,7 @@
     "recurrence_min": "1 hours",
     "recurrence_max": "3 hours",
     "condition": {
-      "and": [ { "u_has_bionics": "bio_shakes" }, { "compare_int": [ { "u_val": "power" }, { "power": "25 kJ" } ], "op": ">=" } ]
+      "and": [ { "u_has_bionics": "bio_shakes" }, { "compare_int": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ]
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_shakes" } },
     "effect": [
@@ -282,7 +276,7 @@
       "and": [
         { "u_has_bionics": "bio_glowy" },
         { "not": { "u_has_effect": "glowy_led" } },
-        { "compare_int": [ { "u_val": "power" }, { "power": "1 kJ" } ], "op": ">=" }
+        { "compare_int": [ { "u_val": "power" }, ">=", { "power": "1 kJ" } ] }
       ]
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_glowy" } },

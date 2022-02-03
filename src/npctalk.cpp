@@ -3114,6 +3114,14 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
                     you->vitamin_set( vitamin_id( vitamin_name ), handle_min_max( d, input, min, max ) );
                 }
             };
+        } else if( checked_value == "age" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_age( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "height" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_height( handle_min_max( d, input, min, max ) );
+            };
         }
     }
     jo.throw_error( "error setting integer destination in " + jo.str() );

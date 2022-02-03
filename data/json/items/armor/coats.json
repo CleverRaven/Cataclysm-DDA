@@ -2288,7 +2288,7 @@
     ],
     "warmth": 30,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "POCKETS", "SUPER_FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "SUPER_FANCY", "OUTER" ]
   },
   {
     "id": "waistcoat",

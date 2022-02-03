@@ -164,6 +164,8 @@ void armor_layers_do_turn( player_activity *act, Character *you );
 void atm_do_turn( player_activity *act, Character *you );
 void build_do_turn( player_activity *act, Character *you );
 void butcher_do_turn( player_activity *act, Character *you );
+void chop_logs_do_turn( player_activity *act, Character *you );
+void chop_planks_do_turn( player_activity *act, Character *you );
 void chop_tree_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
 void churn_do_turn( player_activity *act, Character *you );
