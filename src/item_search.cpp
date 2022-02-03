@@ -80,7 +80,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // by name
         default:
             return [filter]( const item & a ) {
-                return lcmatch( a.tname(), filter );
+                return lcmatch( remove_color_tags( a.tname() ), filter );
             };
     }
 }

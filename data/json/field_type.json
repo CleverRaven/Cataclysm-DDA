@@ -1591,5 +1591,17 @@
     "display_items": false,
     "display_field": false,
     "looks_like": "fd_electricity"
+  },
+  {
+    "id": "fd_direction",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "Detected something", "sym": "." } ],
+    "priority": 10,
+    "half_life": "1 seconds",
+    "accelerated_decay": true,
+    "display_field": true,
+    "display_items": true,
+    "phase": "gas",
+    "looks_like": "footstep"
   }
 ]

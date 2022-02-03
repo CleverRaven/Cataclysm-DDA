@@ -112,6 +112,36 @@ static const itype_id itype_vodka( "vodka" );
 static const itype_id itype_wheel( "wheel" );
 static const itype_id itype_withered( "withered" );
 
+static const map_extra_id map_extra_mx_bandits_block( "mx_bandits_block" );
+static const map_extra_id map_extra_mx_burned_ground( "mx_burned_ground" );
+static const map_extra_id map_extra_mx_casings( "mx_casings" );
+static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
+static const map_extra_id map_extra_mx_clay_deposit( "mx_clay_deposit" );
+static const map_extra_id map_extra_mx_clearcut( "mx_clearcut" );
+static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
+static const map_extra_id map_extra_mx_crater( "mx_crater" );
+static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
+static const map_extra_id map_extra_mx_grove( "mx_grove" );
+static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
+static const map_extra_id map_extra_mx_house_spider( "mx_house_spider" );
+static const map_extra_id map_extra_mx_house_wasp( "mx_house_wasp" );
+static const map_extra_id map_extra_mx_jabberwock( "mx_jabberwock" );
+static const map_extra_id map_extra_mx_looters( "mx_looters" );
+static const map_extra_id map_extra_mx_mayhem( "mx_mayhem" );
+static const map_extra_id map_extra_mx_military( "mx_military" );
+static const map_extra_id map_extra_mx_minefield( "mx_minefield" );
+static const map_extra_id map_extra_mx_null( "mx_null" );
+static const map_extra_id map_extra_mx_point_burned_ground( "mx_point_burned_ground" );
+static const map_extra_id map_extra_mx_point_dead_vegetation( "mx_point_dead_vegetation" );
+static const map_extra_id map_extra_mx_pond( "mx_pond" );
+static const map_extra_id map_extra_mx_portal_in( "mx_portal_in" );
+static const map_extra_id map_extra_mx_reed( "mx_reed" );
+static const map_extra_id map_extra_mx_roadblock( "mx_roadblock" );
+static const map_extra_id map_extra_mx_roadworks( "mx_roadworks" );
+static const map_extra_id map_extra_mx_shia( "mx_shia" );
+static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
+static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
+
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
@@ -127,7 +157,6 @@ static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
-static const mtype_id mon_spider_web( "mon_spider_web" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
@@ -917,60 +946,6 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
     return true;
 }
 
-static bool mx_portal( map &m, const tripoint &abs_sub )
-{
-    // All points except the borders are valid--we need the 1 square buffer so that we can do a 1 unit radius
-    // around our chosen portal point without clipping against the edge of the map.
-    const tripoint_range<tripoint> points =
-        m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
-
-    // Get a random point in our collection that does not have a trap and does not have the NO_FLOOR flag.
-    const cata::optional<tripoint> portal_pos = random_point( points, [&]( const tripoint & p ) {
-        return !m.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) && m.tr_at( p ).is_null();
-    } );
-
-    // If we can't get a point to spawn the portal (e.g. we're triggered in entirely open air) we're done here.
-    if( !portal_pos ) {
-        return false;
-    }
-
-    // For our portal point and every adjacent location, make rubble if it doesn't have the NO_FLOOR flag.
-    for( const tripoint &p : m.points_in_radius( *portal_pos, 1 ) ) {
-        if( !m.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-            m.make_rubble( p, f_rubble_rock, true );
-        }
-    }
-
-    m.trap_set( *portal_pos, tr_portal );
-
-    // We'll make between 0 and 4 attempts to spawn monsters here.
-    int num_monsters = rng( 0, 4 );
-    creature_tracker &creatures = get_creature_tracker();
-    for( int i = 0; i < num_monsters; i++ ) {
-        // Get a random location from our points that is not the portal location, does not have the
-        // NO_FLOOR flag, and isn't currently occupied by a creature.
-        const cata::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
-            /// TODO: wrong: this checks for creatures on the main game map. Not within the map m.
-            return !m.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) && *portal_pos != p &&
-                   !creatures.creature_at( p );
-        } );
-
-        // If we couldn't get a random location, we can't place a monster and we know that there are no
-        // more possible valid locations, so just bail.
-        if( !mon_pos ) {
-            break;
-        }
-
-        // Make rubble here--it's not necessarily a location that is directly adjacent to the portal.
-        m.make_rubble( *mon_pos, f_rubble_rock, true );
-
-        // Spawn a single monster from our group here.
-        m.place_spawns( GROUP_NETHER_PORTAL, 1, mon_pos->xy(), mon_pos->xy(), 1, true );
-    }
-
-    return true;
-}
-
 static void place_trap_if_clear( map &m, const point &target, trap_id trap_type )
 {
     tripoint tri_target( target, m.get_abs_sub().z );
@@ -1551,7 +1526,15 @@ static void place_fumarole( map &m, const point &p1, const point &p2, std::set<p
 
 static bool mx_portal_in( map &m, const tripoint &abs_sub )
 {
-    const tripoint portal_location = { rng( 5, SEEX * 2 - 6 ), rng( 5, SEEX * 2 - 6 ), abs_sub.z };
+    static constexpr int omt_size = SEEX * 2;
+    // minimum 9 tiles from the edge because ARTPROP_FRACTAL calls
+    // create_anomaly at an offset of 4, and create_anomaly generates a
+    // furniture circle around that of radius 5.
+    static constexpr int min_coord = 9;
+    static constexpr int max_coord = omt_size - 1 - min_coord;
+    static_assert( min_coord < max_coord, "no space for randomness" );
+    const tripoint portal_location{
+        rng( min_coord, max_coord ), rng( min_coord, max_coord ), abs_sub.z };
     const point p( portal_location.xy() );
 
     switch( rng( 1, 7 ) ) {
@@ -1690,33 +1673,6 @@ static bool mx_shia( map &m, const tripoint &loc )
     }
 
     return false;
-}
-
-static bool mx_spider( map &m, const tripoint &abs_sub )
-{
-    // This was extracted from the hardcoded forest mapgen and slightly altered so
-    // that it used flags rather than specific terrain types in determining where to
-    // place webs.
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            const tripoint location( i, j, abs_sub.z );
-
-            bool should_web_flat = m.has_flag_ter( ter_furn_flag::TFLAG_FLAT, location ) && !one_in( 3 );
-            bool should_web_shrub = m.has_flag_ter( ter_furn_flag::TFLAG_SHRUB, location ) && !one_in( 4 );
-            bool should_web_tree = m.has_flag_ter( ter_furn_flag::TFLAG_TREE, location ) && !one_in( 4 );
-
-            if( should_web_flat || should_web_shrub || should_web_tree ) {
-                m.add_field( location, fd_web, rng( 1, 3 ), 0_turns );
-            }
-        }
-    }
-
-    m.ter_set( point( 12, 12 ), t_dirt );
-    m.furn_set( point( 12, 12 ), f_egg_sackws );
-    m.remove_field( { 12, 12, m.get_abs_sub().z }, fd_web );
-    m.add_spawn( mon_spider_web, rng( 1, 2 ), { SEEX, SEEY, abs_sub.z } );
-
-    return true;
 }
 
 static bool mx_jabberwock( map &m, const tripoint &loc )
@@ -2054,9 +2010,11 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         while( m.is_bashable( loc ) ) {
             m.destroy( loc, true );
         }
-        m.furn_set( loc, f_ash );
-        if( !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
+        if( !m.is_open_air( loc ) ) {
+            m.furn_set( loc, f_ash );
+            if( !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+                m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
+            }
         }
     }
 
@@ -2834,63 +2792,61 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 }
 
 FunctionMap builtin_functions = {
-    { "mx_null", mx_null },
-    { "mx_crater", mx_crater },
-    { "mx_roadworks", mx_roadworks },
-    { "mx_mayhem", mx_mayhem },
-    { "mx_roadblock", mx_roadblock },
-    { "mx_bandits_block", mx_bandits_block },
-    { "mx_minefield", mx_minefield },
-    { "mx_supplydrop", mx_supplydrop },
-    { "mx_military", mx_military },
-    { "mx_helicopter", mx_helicopter },
-    { "mx_portal", mx_portal },
-    { "mx_portal_in", mx_portal_in },
-    { "mx_house_spider", mx_house_spider },
-    { "mx_house_wasp", mx_house_wasp },
-    { "mx_spider", mx_spider },
-    { "mx_shia", mx_shia },
-    { "mx_jabberwock", mx_jabberwock },
-    { "mx_grove", mx_grove },
-    { "mx_shrubbery", mx_shrubbery },
-    { "mx_clearcut", mx_clearcut },
-    { "mx_pond", mx_pond },
-    { "mx_clay_deposit", mx_clay_deposit },
-    { "mx_dead_vegetation", mx_dead_vegetation },
-    { "mx_point_dead_vegetation", mx_point_dead_vegetation },
-    { "mx_burned_ground", mx_burned_ground },
-    { "mx_point_burned_ground", mx_point_burned_ground },
-    { "mx_casings", mx_casings },
-    { "mx_looters", mx_looters },
-    { "mx_corpses", mx_corpses },
-    { "mx_city_trap", mx_city_trap },
-    { "mx_reed", mx_reed }
+    { map_extra_mx_null, mx_null },
+    { map_extra_mx_crater, mx_crater },
+    { map_extra_mx_roadworks, mx_roadworks },
+    { map_extra_mx_mayhem, mx_mayhem },
+    { map_extra_mx_roadblock, mx_roadblock },
+    { map_extra_mx_bandits_block, mx_bandits_block },
+    { map_extra_mx_minefield, mx_minefield },
+    { map_extra_mx_supplydrop, mx_supplydrop },
+    { map_extra_mx_military, mx_military },
+    { map_extra_mx_helicopter, mx_helicopter },
+    { map_extra_mx_portal_in, mx_portal_in },
+    { map_extra_mx_house_spider, mx_house_spider },
+    { map_extra_mx_house_wasp, mx_house_wasp },
+    { map_extra_mx_shia, mx_shia },
+    { map_extra_mx_jabberwock, mx_jabberwock },
+    { map_extra_mx_grove, mx_grove },
+    { map_extra_mx_shrubbery, mx_shrubbery },
+    { map_extra_mx_clearcut, mx_clearcut },
+    { map_extra_mx_pond, mx_pond },
+    { map_extra_mx_clay_deposit, mx_clay_deposit },
+    { map_extra_mx_dead_vegetation, mx_dead_vegetation },
+    { map_extra_mx_point_dead_vegetation, mx_point_dead_vegetation },
+    { map_extra_mx_burned_ground, mx_burned_ground },
+    { map_extra_mx_point_burned_ground, mx_point_burned_ground },
+    { map_extra_mx_casings, mx_casings },
+    { map_extra_mx_looters, mx_looters },
+    { map_extra_mx_corpses, mx_corpses },
+    { map_extra_mx_city_trap, mx_city_trap },
+    { map_extra_mx_reed, mx_reed }
 };
 
-map_extra_pointer get_function( const std::string &name )
+map_extra_pointer get_function( const map_extra_id &name )
 {
     const auto iter = builtin_functions.find( name );
     if( iter == builtin_functions.end() ) {
-        debugmsg( "no built-in map extra function with id %s", name );
+        debugmsg( "no built-in map extra function with id %s", name.str() );
         return nullptr;
     }
     return iter->second;
 }
 
-std::vector<std::string> all_function_names;
-std::vector<std::string> get_all_function_names()
+std::vector<map_extra_id> all_function_names;
+std::vector<map_extra_id> get_all_function_names()
 {
     return all_function_names;
 }
 
-void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_sm &abs_sub )
+void apply_function( const map_extra_id &id, map &m, const tripoint_abs_sm &abs_sub )
 {
     bool applied_successfully = false;
 
     const map_extra &extra = id.obj();
     switch( extra.generator_method ) {
         case map_extra_method::map_extra_function: {
-            const map_extra_pointer mx_func = get_function( extra.generator_id );
+            const map_extra_pointer mx_func = get_function( map_extra_id( extra.generator_id ) );
             if( mx_func != nullptr ) {
                 applied_successfully = mx_func( m, abs_sub.raw() );
             }
@@ -2928,7 +2884,7 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_
     if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ) {
 
         // Only place note if the user has not disabled it via the auto note manager
-        if( !auto_note_settings.has_auto_note_enabled( id ) ) {
+        if( !auto_note_settings.has_auto_note_enabled( id, true ) ) {
             return;
         }
 
@@ -2944,11 +2900,6 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_
                            extra.description() );
         overmap_buffer.add_note( project_to<coords::omt>( abs_sub ), mx_note );
     }
-}
-
-void apply_function( const std::string &id, map &m, const tripoint_abs_sm &abs_sub )
-{
-    apply_function( string_id<map_extra>( id ), m, abs_sub );
 }
 
 FunctionMap all_functions()
@@ -2984,30 +2935,33 @@ void debug_spawn_test()
             break;
         }
 
-        std::map<std::string, int> results;
+        std::map<map_extra_id, int> results;
+        map_extra_id mx_null = map_extra_id::NULL_ID();
+
         for( size_t a = 0; a < 32400; a++ ) {
             map_extras ex = region_settings_map["default"].region_extras[mx_names[index]];
             if( ex.chance > 0 && one_in( ex.chance ) ) {
-                std::string *extra = ex.values.pick();
+                map_extra_id *extra = ex.values.pick();
                 if( extra == nullptr ) {
-                    results[_( "none" )]++;
+                    results[mx_null]++;
                 } else {
                     results[*ex.values.pick()]++;
                 }
             } else {
-                results[_( "none" )]++;
+                results[mx_null]++;
             }
         }
 
-        std::multimap<int, std::string> sorted_results;
-        for( std::pair<const std::string, int> &e : results ) {
-            sorted_results.insert( std::pair<int, std::string>( e.second, e.first ) );
+        std::multimap<int, map_extra_id> sorted_results;
+        for( std::pair<const map_extra_id, int> &e : results ) {
+            sorted_results.emplace( e.second, e.first );
         }
         uilist results_menu;
         results_menu.text = _( "Result of 32400 selections:" );
-        for( std::pair<const int, std::string> &r : sorted_results ) {
-            results_menu.entries.emplace_back( static_cast<int>( results_menu.entries.size() ), true, -2,
-                                               string_format( "%d x %s", r.first, r.second ) );
+        for( std::pair<const int, map_extra_id> &r : sorted_results ) {
+            results_menu.entries.emplace_back(
+                static_cast<int>( results_menu.entries.size() ), true, -2,
+                string_format( "%d x %s", r.first, r.second.str() ) );
         }
         results_menu.query();
     }
@@ -3015,10 +2969,22 @@ void debug_spawn_test()
 
 } // namespace MapExtras
 
+bool map_extra::is_valid_for( const mapgendata &md ) const
+{
+    int z = md.zlevel();
+    if( min_max_zlevel_ ) {
+        if( z < min_max_zlevel_->first || z > min_max_zlevel_->second ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 void map_extra::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", _name );
-    mandatory( jo, was_loaded, "description", _description );
+    mandatory( jo, was_loaded, "name", name_ );
+    mandatory( jo, was_loaded, "description", description_ );
     if( jo.has_object( "generator" ) ) {
         JsonObject jg = jo.get_object( "generator" );
         generator_method = jg.get_enum_value<map_extra_method>( "generator_method",
@@ -3028,22 +2994,23 @@ void map_extra::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
     color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : c_white;
     optional( jo, was_loaded, "autonote", autonote, false );
+    optional( jo, was_loaded, "min_max_zlevel", min_max_zlevel_ );
 }
 
 void map_extra::check() const
 {
     switch( generator_method ) {
         case map_extra_method::map_extra_function: {
-            const map_extra_pointer mx_func = MapExtras::get_function( generator_id );
+            const map_extra_pointer mx_func = MapExtras::get_function( map_extra_id( generator_id ) );
             if( mx_func == nullptr ) {
                 debugmsg( "invalid map extra function (%s) defined for map extra (%s)", generator_id, id.str() );
                 break;
             }
-            MapExtras::all_function_names.push_back( id.str() );
+            MapExtras::all_function_names.push_back( id );
             break;
         }
         case map_extra_method::mapgen: {
-            MapExtras::all_function_names.push_back( id.str() );
+            MapExtras::all_function_names.push_back( id );
             break;
         }
         case map_extra_method::update_mapgen: {
@@ -3054,7 +3021,7 @@ void map_extra::check() const
                           id.str() );
                 break;
             }
-            MapExtras::all_function_names.push_back( id.str() );
+            MapExtras::all_function_names.push_back( id );
             break;
         }
         case map_extra_method::null:

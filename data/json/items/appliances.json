@@ -16,10 +16,25 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "700 L",
+        "max_contains_volume": "500 L",
         "max_contains_weight": "400 kg"
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "oven",
+    "looks_like": "f_oven",
+    "symbol": "#",
+    "description": "A disconnected electric convection-based oven, commonly used for heating and cooking food.",
+    "color": "dark_gray_white",
+    "name": { "str": "disconnected oven" },
+    "material": [ "budget_steel" ],
+    "longest_side": "69 cm",
+    "insulation": 3,
+    "volume": "290 L",
+    "weight": "77 kg",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ]
   },
   {
     "type": "TOOL",
@@ -55,6 +70,19 @@
     "price": 9000,
     "price_postapoc": 5000,
     "symbol": "L",
+    "color": "white"
+  },
+  {
+    "type": "GENERIC",
+    "id": "wall_wiring",
+    "name": { "str": "wall wiring" },
+    "description": "Electric wires used to run power through walls.",
+    "weight": "1 g",
+    "material": [ "plastic", "copper" ],
+    "volume": "1 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "symbol": "~",
     "color": "white"
   }
 ]

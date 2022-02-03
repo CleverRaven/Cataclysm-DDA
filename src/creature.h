@@ -512,6 +512,10 @@ class Creature : public viewer
 
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
+
+        // returns true if the creature has an electric field
+        virtual bool is_electrical() const = 0;
+
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
 
@@ -737,6 +741,11 @@ class Creature : public viewer
             body_part_type::type part_type,
             get_body_part_flags flags = get_body_part_flags::none ) const;
         bodypart_id get_root_body_part() const;
+        /* Returns all body parts with the given flag */
+        std::vector<bodypart_id> get_all_body_parts_with_flag( const json_character_flag &flag ) const;
+        /* Returns the bodyparts to drench : upper/mid/lower correspond to the appropriate limb flag */
+        body_part_set get_drenching_body_parts( bool upper = true, bool mid = true,
+                                                bool lower = true ) const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
@@ -1237,6 +1246,7 @@ class Creature : public viewer
 
         // Select a bodypart depending on the attack's hitsize/limb restrictions
         bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
+        bodypart_id select_blocking_part( bool arm, bool leg, bool nonstandard ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );

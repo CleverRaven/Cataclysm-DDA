@@ -16,7 +16,6 @@
   * [Advanced info for Developers](#advanced-info-for-developers)
   * [Troubleshooting](#mac-os-x-troubleshooting)
 * [Windows](#windows)
-  * [Building with Visual Studio](#building-with-visual-studio)
   * [Building with MSYS2](#building-with-msys2)
   * [Building with CYGWIN](#building-with-cygwin)
   * [Building with Clang and MinGW64](#building-with-clang-and-mingw64)

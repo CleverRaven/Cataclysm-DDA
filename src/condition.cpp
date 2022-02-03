@@ -54,6 +54,13 @@ static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHO
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value )
 {
+    int_or_var empty;
+    return get_talk_varname( jo, member, check_value, empty );
+}
+
+std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+                              bool check_value, int_or_var &default_val )
+{
     if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
                           jo.has_array( "possible_values" ) ) ) {
         jo.throw_error( "invalid " + member + " condition in " + jo.str() );
@@ -61,6 +68,14 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member,
     const std::string &var_basename = jo.get_string( member );
     const std::string &type_var = jo.get_string( "type", "" );
     const std::string &var_context = jo.get_string( "context", "" );
+    default_val = get_int_or_var( jo, "default", false );
+    if( jo.has_member( "default_time" ) ) {
+        int_or_var value;
+        time_duration max_time;
+        mandatory( jo, false, "default_time", max_time );
+        value.int_val = to_turns<int>( max_time );
+        default_val = value;
+    }
     return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
             + var_context ) + "_" + var_basename;
 }
@@ -970,16 +985,18 @@ template<class T>
 void conditional_t<T>::set_compare_int( const JsonObject &jo, const std::string &member )
 {
     JsonArray objects = jo.get_array( member );
-    if( objects.size() != 2 ) {
-        jo.throw_error( "incorrect number of values.  Expected two in " + jo.str() );
+    if( objects.size() != 3 ) {
+        jo.throw_error( "incorrect number of values.  Expected three in " + jo.str() );
         condition = []( const T & ) {
             return false;
         };
         return;
     }
-    std::function<int( const T & )> get_first_int  = get_get_int( objects.get_object( 0 ) );
-    std::function<int( const T & )> get_second_int = get_get_int( objects.get_object( 1 ) );
-    const std::string &op = jo.get_string( "op" );
+    std::function<int( const T & )> get_first_int = objects.has_object( 0 ) ? get_get_int(
+                objects.get_object( 0 ) ) : get_get_int( objects.get_string( 0 ), jo );
+    std::function<int( const T & )> get_second_int = objects.has_object( 2 ) ? get_get_int(
+                objects.get_object( 2 ) ) : get_get_int( objects.get_string( 2 ), jo );
+    const std::string &op = objects.get_string( 1 );
 
     if( op == "==" || op == "=" ) {
         condition = [get_first_int, get_second_int]( const T & d ) {
@@ -1063,19 +1080,19 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         std::string weather_aspect = jo.get_string( "weather" );
         if( weather_aspect == "temperature" ) {
             return []( const T & ) {
-                return get_weather().weather_precise->temperature;
+                return static_cast<int>( get_weather().weather_precise->temperature );
             };
         } else if( weather_aspect == "windpower" ) {
             return []( const T & ) {
-                return get_weather().weather_precise->windpower;
+                return static_cast<int>( get_weather().weather_precise->windpower );
             };
         } else if( weather_aspect == "humidity" ) {
             return []( const T & ) {
-                return get_weather().weather_precise->humidity;
+                return static_cast<int>( get_weather().weather_precise->humidity );
             };
         } else if( weather_aspect == "pressure" ) {
             return []( const T & ) {
-                return get_weather().weather_precise->pressure;
+                return static_cast<int>( get_weather().weather_precise->pressure );
             };
         }
     } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
@@ -1117,20 +1134,16 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return d.actor( is_npc )->get_per_max();
             };
         } else if( checked_value == "var" ) {
-            const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name, is_global]( const T & d ) {
-                int stored_value = 0;
-                std::string var;
-                if( is_global ) {
-                    global_variables &globvars = get_globals();
-                    var = globvars.get_global_value( var_name );
-                } else {
-                    var = d.actor( is_npc )->get_value( var_name );
-                }
+            int_or_var default_val;
+            const std::string var_name = get_talk_varname( jo, "var_name", false, default_val );
+            return [is_npc, var_name, is_global, default_val]( const T & d ) {
+                std::string var = read_var_value( is_npc ? var_type::npc : ( is_global ? var_type::global :
+                                                  var_type::u ), var_name, d.actor( is_npc ) );
                 if( !var.empty() ) {
-                    stored_value = std::stoi( var );
+                    return std::stoi( var );
+                } else {
+                    return default_val.evaluate( d.actor( default_val.is_npc() ) );
                 }
-                return stored_value;
             };
         } else if( checked_value == "time_since_var" ) {
             const std::string var_name = get_talk_varname( jo, "var_name", false );
@@ -1147,7 +1160,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 jo.throw_error( "allies count not supported for NPCs.  In " + jo.str() );
             } else {
                 return []( const T & ) {
-                    return g->allies().size();
+                    return static_cast<int>( g->allies().size() );
                 };
             }
         } else if( checked_value == "cash" ) {
@@ -1198,12 +1211,12 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "power" ) {
             return [is_npc]( const T & d ) {
                 // Energy in milijoule
-                return d.actor( is_npc )->power_cur().value();
+                return static_cast<int>( d.actor( is_npc )->power_cur().value() );
             };
         } else if( checked_value == "power_max" ) {
             return [is_npc]( const T & d ) {
                 // Energy in milijoule
-                return d.actor( is_npc )->power_max().value();
+                return static_cast<int>( d.actor( is_npc )->power_max().value() );
             };
         } else if( checked_value == "power_percentage" ) {
             return [is_npc]( const T & d ) {
@@ -1303,15 +1316,33 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_friendly();
             };
-        } else if( checked_value == "moon" ) {
-            return []( const T & ) {
-                return static_cast<int>( get_moon_phase( calendar::turn ) );
+        } else if( checked_value == "vitamin" ) {
+            std::string vitamin_name = jo.get_string( "name" );
+            return [is_npc, vitamin_name]( const T & d ) {
+                Character *you = d.actor( is_npc )->get_character();
+                if( you ) {
+                    return you->vitamin_get( vitamin_id( vitamin_name ) );
+                } else {
+                    return 0;
+                }
             };
-        } else if( checked_value == "hour" ) {
-            return []( const T & ) {
-                return to_hours<int>( time_past_midnight( calendar::turn ) );
+        } else if( checked_value == "age" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_age();
+            };
+        } else if( checked_value == "height" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_height();
             };
         }
+    } else if( jo.has_member( "moon" ) ) {
+        return []( const T & ) {
+            return static_cast<int>( get_moon_phase( calendar::turn ) );
+        };
+    } else if( jo.has_member( "hour" ) ) {
+        return []( const T & ) {
+            return to_hours<int>( time_past_midnight( calendar::turn ) );
+        };
     } else if( jo.has_array( "distance" ) ) {
         JsonArray objects = jo.get_array( "distance" );
         if( objects.size() != 2 ) {
@@ -1326,6 +1357,25 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         };
     }
     jo.throw_error( "unrecognized integer source in " + jo.str() );
+    return []( const T & ) {
+        return 0;
+    };
+}
+
+template<class T>
+std::function<int( const T & )> conditional_t<T>::get_get_int( std::string value,
+        const JsonObject &jo )
+{
+    if( value == "moon" ) {
+        return []( const T & ) {
+            return static_cast<int>( get_moon_phase( calendar::turn ) );
+        };
+    } else if( value == "hour" ) {
+        return []( const T & ) {
+            return to_hours<int>( time_past_midnight( calendar::turn ) );
+        };
+    }
+    jo.throw_error( "unrecognized integer source in " + value );
     return []( const T & ) {
         return 0;
     };
@@ -1364,7 +1414,8 @@ void conditional_t<T>::set_has_reason()
 }
 
 template<class T>
-void conditional_t<T>::set_has_skill( const JsonObject &jo, const std::string &member, bool is_npc )
+void conditional_t<T>::set_has_skill( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
 {
     JsonObject has_skill = jo.get_object( member );
     if( !has_skill.has_string( "skill" ) || !has_skill.has_int( "level" ) ) {

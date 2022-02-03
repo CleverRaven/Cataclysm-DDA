@@ -494,23 +494,6 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
     return nullptr;
 }
 
-bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
-{
-    // TODO: add some check for power armor
-
-    // reduce the damage
-    armor.mitigate_damage( du );
-
-    // check if the armor was damaged
-    item::armor_status damaged = armor.damage_armor_durability( du, bp );
-
-    // describe what happened if the armor took damage
-    if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
-        describe_damage( du, armor );
-    }
-    return damaged == item::armor_status::DESTROYED;
-}
-
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp,
                               const sub_bodypart_id &sbp, int roll )
 {
@@ -526,7 +509,19 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     }
 
     // if we hit the specific location then we should continue with absorption as normal
-    return armor_absorb( du, armor, bp );
+    // create a roll for random chance of materials protecting the armor
+    int material_roll = rng( 0, 99 );
+    // reduce the damage
+    armor.mitigate_damage( du, sbp, material_roll );
+
+    // check if the armor was damaged
+    item::armor_status damaged = armor.damage_armor_durability( du, bp );
+
+    // describe what happened if the armor took damage
+    if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
+        describe_damage( du, armor );
+    }
+    return damaged == item::armor_status::DESTROYED;
 }
 
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll )
@@ -537,7 +532,19 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
         return false;
     }
 
-    return armor_absorb( du, armor, bp );
+    // create a roll for random chance of materials protecting the armor
+    int material_roll = rng( 0, 99 );
+    // reduce the damage
+    armor.mitigate_damage( du, bp, material_roll );
+
+    // check if the armor was damaged
+    item::armor_status damaged = armor.damage_armor_durability( du, bp );
+
+    // describe what happened if the armor took damage
+    if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
+        describe_damage( du, armor );
+    }
+    return damaged == item::armor_status::DESTROYED;
 }
 
 bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_bodypart_id &bp,

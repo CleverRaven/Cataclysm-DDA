@@ -25,6 +25,7 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "display.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
@@ -40,7 +41,6 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "recipe.h"
@@ -67,10 +67,9 @@ static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
+
 static const itype_id itype_fitness_band( "fitness_band" );
-static const itype_id itype_smart_phone( "smart_phone" );
-static const itype_id itype_smart_phone_flashlight( "smart_phone_flashlight" );
-static const itype_id itype_smart_phone_music( "smart_phone_music" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
@@ -473,7 +472,9 @@ item_location game_menus::inv::container_for( Character &you, const item &liquid
 class pickup_inventory_preset : public inventory_selector_preset
 {
     public:
-        explicit pickup_inventory_preset( const Character &you ) : you( you ) {}
+        explicit pickup_inventory_preset( const Character &you,
+                                          bool skip_wield_check = false ) : you( you ),
+            skip_wield_check( skip_wield_check ) {}
 
         std::string get_denial( const item_location &loc ) const override {
             if( !you.has_item( *loc ) ) {
@@ -483,8 +484,9 @@ class pickup_inventory_preset : public inventory_selector_preset
                     } else {
                         return _( "Can't pick up spilt liquids." );
                     }
-                } else if( !you.can_pickVolume( *loc ) && you.has_wield_conflicts( *loc ) ) {
-                    return _( "Too big to pick up!" );
+                } else if( !you.can_pickVolume_partial( *loc ) &&
+                           ( skip_wield_check || you.has_wield_conflicts( *loc ) ) ) {
+                    return _( "Does not fit in any pocket!" );
                 } else if( !you.can_pickWeight_partial( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                     return _( "Too heavy to pick up!" );
                 }
@@ -499,6 +501,7 @@ class pickup_inventory_preset : public inventory_selector_preset
 
     private:
         const Character &you;
+        bool skip_wield_check;
 };
 
 class disassemble_inventory_preset : public pickup_inventory_preset
@@ -729,9 +732,12 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( you.has_trait( trait_SAPROPHAGE ) || you.has_trait( trait_SAPROVORE ) ) {
                     return 1;
                 } else {
-                    return 4;
+                    return 5;
                 }
             } else if( time == 0_turns ) {
+                return 4;
+            } else if( loc.has_parent() &&
+                       loc.parent_item()->contained_where( *loc )->spoil_multiplier() == 0.0f ) {
                 return 3;
             } else {
                 return 2;
@@ -1003,8 +1009,7 @@ static std::string get_consume_needs_hint( Character &you )
     int kcal_spent_today = you.as_avatar()->get_daily_spent_kcal( false );
     int kcal_spent_yesterday = you.as_avatar()->get_daily_spent_kcal( true );
     bool has_fitness_band =  you.is_wearing( itype_fitness_band );
-    bool has_tracker = has_fitness_band || you.has_amount( itype_smart_phone, 1 ) ||
-                       you.has_amount( itype_smart_phone_flashlight, 1 ) || you.has_amount( itype_smart_phone_music, 1 );
+    bool has_tracker = has_fitness_band || you.has_item_with_flag( json_flag_CALORIES_INTAKE );
 
     std::string kcal_estimated_intake;
     if( kcal_ingested_today == 0 ) {
@@ -1975,11 +1980,12 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     return inv_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( avatar &you, const cata::optional<tripoint> &target )
+drop_locations game_menus::inv::pickup( avatar &you,
+                                        const cata::optional<tripoint> &target, std::vector<drop_location> selection )
 {
-    const pickup_inventory_preset preset( you );
+    const pickup_inventory_preset preset( you, /*skip_wield_check=*/true );
 
-    pickup_selector pick_s( you, preset );
+    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), target );
 
     // Add items from the selected tile, or from current and all surrounding tiles
     if( target ) {
@@ -1989,11 +1995,14 @@ drop_locations game_menus::inv::pickup( avatar &you, const cata::optional<tripoi
         pick_s.add_nearby_items();
     }
     pick_s.set_title( _( "Pickup" ) );
-    pick_s.set_hint( _( "To pick x items, type a number before selecting." ) );
 
     if( pick_s.empty() ) {
         popup( std::string( _( "There is nothing to pick up." ) ), PF_GET_KEY );
         return drop_locations();
+    }
+
+    if( !selection.empty() ) {
+        pick_s.apply_selection( selection );
     }
 
     return pick_s.execute();

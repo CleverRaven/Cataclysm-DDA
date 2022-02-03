@@ -792,7 +792,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "tailor",
-    "skills_required": [ "tailor", 3 ],
     "difficulty": 3,
     "time": "90 m",
     "autolearn": true,

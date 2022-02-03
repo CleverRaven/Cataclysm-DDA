@@ -17,10 +17,7 @@
       "set_queue_effect_on_condition": [
         {
           "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_ACCEPTANCE",
-          "condition": {
-            "compare_int": [ { "global_val": "var", "var_name": "ps_str", "type": "weather", "context": "ps" }, { "const": 8 } ],
-            "op": ">"
-          },
+          "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] },
           "effect": {
             "set_weighted_list_eocs": [
               [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", 10 ],

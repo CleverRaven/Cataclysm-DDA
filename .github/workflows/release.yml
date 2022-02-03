@@ -153,6 +153,8 @@ jobs:
             content: application/aap
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    env:
+        ZSTD_CLEVEL: 17
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies (windows msvc) (1/3)
@@ -160,12 +162,10 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Install dependencies (windows msvc) (2/3)
         if: runner.os == 'Windows'
-        uses: lukka/run-vcpkg@main
+        uses: lukka/run-vcpkg@v10
         id: runvcpkg
         with:
-          additionalCachedPaths: '${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed'
-          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}
-          setupOnly: true
+          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}-2
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
           # We have to use at least this version of vcpkg to include fixes for yasm-tool's
           # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
@@ -185,10 +185,13 @@ jobs:
       - name: Install MXE
         if: matrix.mxe != 'none'
         run: |
-          curl -L -o mxe-${{ matrix.mxe }}.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-9.3/mxe-${{ matrix.mxe }}.tar.xz
-          curl -L -o mxe-${{ matrix.mxe }}.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-9.3/mxe-${{ matrix.mxe }}.tar.xz.sha256
+          curl -L -o mxe-${{ matrix.mxe }}.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-${{ matrix.mxe }}.tar.xz
+          curl -L -o mxe-${{ matrix.mxe }}.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-${{ matrix.mxe }}.tar.xz.sha256
           shasum -a 256 -c ./mxe-${{ matrix.mxe }}.tar.xz.sha256
           sudo tar xJf mxe-${{ matrix.mxe }}.tar.xz -C /opt
+          curl -L -o libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz
+          shasum -a 256 -c ./build-scripts/libbacktrace-${{ matrix.mxe }}-w64-mingw32-sha256
+          sudo tar -xzf libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz --exclude=LICENSE -C /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc11
       - name: Install dependencies (Linux)
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' 
         run: |
@@ -222,7 +225,7 @@ jobs:
       - name: Build CDDA (windows mxe)
         if: matrix.mxe != 'none'
         env:
-          PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc9-
+          PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc11-
         run: |
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 PCH=0 bindist
           mv cataclysmdda-0.F.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip

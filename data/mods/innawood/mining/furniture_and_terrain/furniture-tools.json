@@ -1,0 +1,25 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_bloomery",
+    "name": "bloomery",
+    "looks_like": "f_forge_rock",
+    "description": "A type of metallurgical furnace for smelting iron from its oxides.",
+    "symbol": "U",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "bloomery",
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "deconstruct": { "items": [ { "item": "rock", "count": 30 } ] },
+    "examine_action": "reload_furniture",
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "rock", "count": [ 10, 20 ] } ]
+    }
+  }
+]

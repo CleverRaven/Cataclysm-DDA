@@ -501,5 +501,30 @@
     "ammo": 10,
     "id": "feral_autogun",
     "items": [ [ "scar_l", 200 ], [ "m4_carbine", 200 ], [ "ruger_mini", 200 ], [ "ar_pistol", 200 ], [ "ar15", 200 ] ]
+  },
+  {
+    "id": "mon_feral_soldier_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 0,
+    "entries": [
+      {
+        "distribution": [
+          { "group": "clothing_soldier_set", "prob": 65, "damage": [ 1, 4 ] },
+          { "group": "clothing_soldier_winter_set", "prob": 35, "damage": [ 1, 4 ] }
+        ]
+      },
+      { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
+      { "group": "military_patrol_food" },
+      { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
+      { "group": "wallets", "prob": 10 },
+      { "group": "pocket_cigar", "prob": 15 },
+      { "group": "misc_smoking_legal", "prob": 30 },
+      { "item": "e_tool", "prob": 15, "damage": [ 1, 4 ] },
+      { "item": "mask_gas", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
+      { "item": "two_way_radio", "prob": 15, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
+      { "item": "knife_combat", "prob": 100, "damage": [ 3, 4 ] }
+    ]
   }
 ]

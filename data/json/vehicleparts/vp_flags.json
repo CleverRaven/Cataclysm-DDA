@@ -341,6 +341,10 @@
     "type": "json_flag"
   },
   {
+    "id": "GASTANK",
+    "type": "json_flag"
+  },
+  {
     "id": "FOLDABLE",
     "type": "json_flag"
   },

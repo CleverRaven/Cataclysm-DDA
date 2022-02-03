@@ -1,0 +1,10 @@
+[
+  {
+    "id": "hunger_desc",
+    "type": "widget",
+    "label": "Hunger",
+    "style": "text",
+    "var": "hunger_text",
+    "//": "Uses display::hunger_text_color"
+  }
+]

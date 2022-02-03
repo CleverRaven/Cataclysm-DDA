@@ -96,6 +96,7 @@ cata::optional<int> combatsaw_off( Character *, item *, bool, const tripoint & )
 cata::optional<int> combatsaw_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> contacts( Character *, item *, bool, const tripoint & );
 cata::optional<int> crowbar( Character *, item *, bool, const tripoint & );
+cata::optional<int> crowbar_weak( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig_channel( Character *, item *, bool, const tripoint & );
 cata::optional<int> directional_antenna( Character *, item *, bool, const tripoint & );
@@ -108,6 +109,8 @@ cata::optional<int> ehandcuffs( Character *, item *, bool, const tripoint & );
 cata::optional<int> einktabletpc( Character *, item *, bool, const tripoint & );
 cata::optional<int> elec_chainsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> elec_chainsaw_on( Character *, item *, bool, const tripoint & );
+cata::optional<int> emf_passive_off( Character *, item *, bool, const tripoint & );
+cata::optional<int> emf_passive_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> extinguisher( Character *, item *, bool, const tripoint & );
 cata::optional<int> fill_pit( Character *, item *, bool, const tripoint & );
 cata::optional<int> firecracker( Character *, item *, bool, const tripoint & );
@@ -143,6 +146,7 @@ cata::optional<int> electricstorage( Character *, item *, bool, const tripoint &
 cata::optional<int> ebooksave( Character *, item *, bool, const tripoint & );
 cata::optional<int> ebookread( Character *, item *, bool, const tripoint & );
 cata::optional<int> makemound( Character *, item *, bool, const tripoint & );
+cata::optional<int> manage_exosuit( Character *, item *, bool, const tripoint & );
 cata::optional<int> melatonin_tablet( Character *, item *, bool, const tripoint & );
 cata::optional<int> mind_splicer( Character *, item *, bool, const tripoint & );
 cata::optional<int> mininuke( Character *, item *, bool, const tripoint & );

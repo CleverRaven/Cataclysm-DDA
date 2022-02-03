@@ -24,6 +24,7 @@
       "b": "f_bench",
       "t": "f_table",
       "z": "f_55gal_firebarrel",
+      ".": "f_clear",
       "L": "f_locker",
       "x": "f_kiln_empty",
       "k": "f_clay_kiln",
@@ -34,7 +35,10 @@
       "r": "f_rack_wood",
       "M": "f_armchair",
       "B": "f_bookcase",
-      "Q": "f_bellows"
+      "Q": "f_bellows",
+      "d": "f_clear",
+      "o": "f_clear",
+      "w": "f_clear"
     }
   },
   {

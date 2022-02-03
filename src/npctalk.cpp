@@ -46,6 +46,7 @@
 #include "line.h"
 #include "magic.h"
 #include "map.h"
+#include "mapbuffer.h"
 #include "mapgen_functions.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -773,7 +774,7 @@ void game::chat()
             break;
         case NPC_CHAT_MOUNT:
             for( npc *them : followers ) {
-                if( them->has_effect( effect_riding ) ) {
+                if( them->has_effect( effect_riding ) || them->is_hallucination() ) {
                     continue;
                 }
                 talk_function::find_mount( *them );
@@ -835,13 +836,13 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                         int heard_volume, const tripoint &spos )
 {
     const map &here = get_map();
-    const tripoint s_abs_pos = here.getabs( spos );
-    const tripoint my_abs_pos = here.getabs( pos() );
+    const tripoint_abs_ms s_abs_pos = here.getglobal( spos );
+    const tripoint_abs_ms my_abs_pos = get_location();
 
     add_msg_debug( debugmode::DF_NPC,
                    "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
                    disp_name(), description, static_cast<int>( spriority ), heard_volume,
-                   s_abs_pos.x, s_abs_pos.y, my_abs_pos.x, my_abs_pos.y );
+                   s_abs_pos.x(), s_abs_pos.y(), my_abs_pos.x(), my_abs_pos.y() );
 
     Character &player_character = get_player_character();
     bool player_ally = player_character.pos() == spos && is_player_ally();
@@ -913,14 +914,16 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                 }
             }
             if( should_check ) {
-                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", get_name(), s_abs_pos.x,
-                               s_abs_pos.y );
+                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", get_name(),
+                               s_abs_pos.x(), s_abs_pos.y() );
                 dangerous_sound temp_sound;
-                temp_sound.abs_pos = s_abs_pos;
+                // TODO: fix point types
+                temp_sound.abs_pos = s_abs_pos.raw();
                 temp_sound.volume = heard_volume;
                 temp_sound.type = spriority;
                 if( !ai_cache.sound_alerts.empty() ) {
-                    if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos ) {
+                    // TODO: fix point types
+                    if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos.raw() ) {
                         ai_cache.sound_alerts.push_back( temp_sound );
                     }
                 } else {
@@ -1587,6 +1590,25 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             item tmp( item_type );
             tmp.charges = u.charges_of( item_type );
             phrase.replace( fa, l, format_money( tmp.price( true ) ) );
+        } else if( tag.find( "<u_val:" ) != std::string::npos ) {
+            //adding a user variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            phrase.replace( fa, l, u.get_value( var ) );
+        } else if( tag.find( "<npc_val:" ) != std::string::npos ) {
+            //adding a npc variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            phrase.replace( fa, l, me.get_value( var ) );
+        } else if( tag.find( "<global_val:" ) != std::string::npos ) {
+            //adding a global variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            global_variables &globvars = get_globals();
+            phrase.replace( fa, l, globvars.get_global_value( var ) );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
@@ -1737,7 +1759,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     // Parse any tags in challenge
     parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(),
                 topic.item_type );
-    capitalize_letter( challenge );
+    challenge = uppercase_first_letter( challenge );
 
     d_win.clear_history_highlights();
     if( challenge[0] == '&' ) {
@@ -1977,7 +1999,7 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
             permanent = true;
-            dov_duration = get_duration_or_var( jo, "", false, 0_turns );
+            dov_duration = get_duration_or_var( jo, "", false, 1_turns );
         } else {
             dov_duration = get_duration_or_var( jo, "duration", false, 1000_turns );
         }
@@ -2358,6 +2380,10 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
 {
     ter_furn_transform_id transform = ter_furn_transform_id( jo.get_string( "ter_furn_transform" ) );
     int_or_var iov = get_int_or_var( jo, member );
+    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
+            0_seconds );
+    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
+            0_seconds );
     cata::optional<std::string> target_var;
     var_type type = var_type::u;
     if( jo.has_member( "target_var" ) ) {
@@ -2365,11 +2391,23 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
         type = var.type;
         target_var = var.name;
     }
-    function = [iov, transform, target_var, type, is_npc]( const dialogue & d ) {
+    function = [iov, transform, target_var, type, is_npc, dov_time_in_future_min,
+         dov_time_in_future_max]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, type,
                               d.actor( type == var_type::npc ) );
-        get_map().transform_radius( transform, iov.evaluate( d.actor( iov.is_npc() ) ), target_pos );
+
+        int radius = iov.evaluate( d.actor( iov.is_npc() ) );
+        time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
+        if( min > 0_seconds ) {
+            get_timed_events().add( timed_event_type::TRANSFORM_RADIUS,
+                                    calendar::turn + rng( min, dov_time_in_future_max.evaluate( d.actor(
+                                                dov_time_in_future_max.is_npc() ) ) ),
+                                    -1, tripoint_abs_sm( target_pos ), radius, transform.str() );
+        } else {
+            get_map().transform_radius( transform, radius, target_pos );
+            get_map().invalidate_map_cache( target_pos.z );
+        }
     };
 }
 
@@ -2377,7 +2415,10 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
     std::vector<update_mapgen_id> update_ids;
-
+    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
+            0_seconds );
+    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
+            0_seconds );
     if( jo.has_string( member ) ) {
         update_ids.emplace_back( update_mapgen_id( jo.get_string( member ) ) );
     } else if( jo.has_array( member ) ) {
@@ -2392,7 +2433,9 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         type = var.type;
         target_var = var.name;
     }
-    function = [target_params, update_ids, target_var, type]( const dialogue & d ) {
+    bool revert = jo.get_bool( "revert", false );
+    function = [target_params, update_ids, target_var, type, dov_time_in_future_min,
+                   dov_time_in_future_max, revert]( const dialogue & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
             const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( type == var_type::npc ), target_var,
@@ -2405,8 +2448,33 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             }
             omt_pos = mission_util::get_om_terrain_pos( update_params );
         }
-        for( const update_mapgen_id &mapgen_update_id : update_ids ) {
-            run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
+        time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
+        if( min > 0_seconds ) {
+            time_point tif = calendar::turn + rng( min,
+                                                   dov_time_in_future_max.evaluate( d.actor( dov_time_in_future_max.is_npc() ) ) );
+            if( !revert ) {
+                for( const update_mapgen_id &mapgen_update_id : update_ids ) {
+                    get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),
+                                            0, mapgen_update_id.str() );
+                }
+            } else {
+                // maptile is 4 submaps so queue up 4 submap reverts
+                for( int x = 0; x < 2; x++ ) {
+                    for( int y = 0; y < 2; y++ ) {
+                        tripoint_abs_sm revert_sm = project_to<coords::sm>( omt_pos );
+                        revert_sm += tripoint( x, y, 0 );
+                        const submap *sm = MAPBUFFER.lookup_submap( tripoint( revert_sm.x(), revert_sm.y(),
+                                           revert_sm.z() ) );
+                        get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1, revert_sm, 0, "",
+                                                sm->get_revert_submap() );
+                    }
+                }
+            }
+        } else {
+            for( const update_mapgen_id &mapgen_update_id : update_ids ) {
+                run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
+            }
+            get_map().invalidate_map_cache( omt_pos.z() );
         }
     };
 }
@@ -2544,7 +2612,8 @@ void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
     };
 }
 
-void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
 {
     std::string message = jo.get_string( member );
     const bool snippet = jo.get_bool( "snippet", false );
@@ -2552,6 +2621,8 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
+    const bool popup_w_interrupt_query_msg = jo.get_bool( "popup_w_interrupt_query", false );
+    std::string interrupt_type = jo.get_string( "interrupt_type", "default" );
     game_message_type type = m_neutral;
     std::string type_string = jo.get_string( "type", "neutral" );
     if( type_string == "good" ) {
@@ -2579,6 +2650,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     }
 
     function = [message, outdoor_only, sound, snippet, same_snippet, type, popup_msg,
+                         popup_w_interrupt_query_msg, interrupt_type,
              is_npc]( const dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( !target || target->is_npc() ) {
@@ -2623,6 +2695,21 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
                 return pop.get_window();
             };
             scrollable_text( new_win, "", replace_colors( translated_message ) );
+            g->cancel_activity_or_ignore_query( distraction_type::eoc, "" );
+        }
+        if( popup_w_interrupt_query_msg ) {
+            if( interrupt_type == "portal_storm_popup" ) {
+                g->portal_storm_query( distraction_type::portal_storm_popup,
+                                       translated_message );
+            } else if( interrupt_type == "default" ) {
+                debugmsg( "Interrupt query called in json without proper interrupt type." );
+            }
+            // Would probably need an else-if for every possible distraction type, like this:
+            //else if (interrupt_type == "hostile_spotted_near"){
+            //    g->cancel_activity_or_ignore_query(distraction_type::hostile_spotted_near, "sample message");
+            //}
+            // I leave this to contributors who might actually wish to implement such interrupts,
+            // so as to not overcomplicate the code.
         } else {
             target->add_msg_if_player( type, translated_message );
         }
@@ -2762,12 +2849,312 @@ void talk_effect_fun_t::set_next_weather()
     };
 }
 
+static int handle_min_max( const dialogue &d, int input, cata::optional<int_or_var> min,
+                           cata::optional<int_or_var> max )
+{
+    if( min.has_value() ) {
+        int min_val = min.value().evaluate( d.actor( min.value().is_npc() ) );
+        input = std::max( min_val, input );
+    }
+    if( max.has_value() ) {
+        int max_val = max.value().evaluate( d.actor( max.value().is_npc() ) );
+        input = std::min( max_val, input );
+    }
+    return input;
+}
+
+static std::function<void( const dialogue &, int )> get_set_int( const JsonObject &jo,
+        cata::optional<int_or_var> min, cata::optional<int_or_var> max )
+{
+    if( jo.has_member( "const" ) ) {
+        jo.throw_error( "attempted to alter a constant value in " + jo.str() );
+    } else if( jo.has_member( "time" ) ) {
+        jo.throw_error( "can not alter a time constant.  Did you mean time_since_cataclysm or time_since_var?  In "
+                        + jo.str() );
+    } else if( jo.has_member( "time_since_cataclysm" ) ) {
+        time_duration given_unit = 1_turns;
+        if( jo.has_string( "time_since_cataclysm" ) ) {
+            std::string given_unit_str = jo.get_string( "time_since_cataclysm" );
+            bool found = false;
+            for( const auto &pair : time_duration::units ) {
+                const std::string &unit = pair.first;
+                if( unit == given_unit_str ) {
+                    given_unit = pair.second;
+                    found = true;
+                    break;
+                }
+            }
+            if( !found ) {
+                jo.throw_error( "unrecognized time unit in " + jo.str() );
+            }
+        }
+        return [given_unit, min, max]( const dialogue & d, int input ) {
+            calendar::turn = time_point( handle_min_max( d, input, min, max ) * to_turns<int>( given_unit ) );
+        };
+    } else if( jo.has_member( "rand" ) ) {
+        jo.throw_error( "can not alter the random number generator, silly!  In " + jo.str() );
+    } else if( jo.has_member( "weather" ) ) {
+        std::string weather_aspect = jo.get_string( "weather" );
+        if( weather_aspect == "temperature" ) {
+            return [min, max]( const dialogue & d, int input ) {
+                get_weather().weather_precise->temperature = handle_min_max( d, input, min, max );;
+                get_weather().clear_temp_cache();
+            };
+        } else if( weather_aspect == "windpower" ) {
+            return [min, max]( const dialogue & d, int input ) {
+                get_weather().weather_precise->windpower = handle_min_max( d, input, min, max );;
+                get_weather().clear_temp_cache();
+            };
+        } else if( weather_aspect == "humidity" ) {
+            return [min, max]( const dialogue & d, int input ) {
+                get_weather().weather_precise->humidity = handle_min_max( d, input, min, max );;
+                get_weather().clear_temp_cache();
+            };
+        } else if( weather_aspect == "pressure" ) {
+            return [min, max]( const dialogue & d, int input ) {
+                get_weather().weather_precise->pressure = handle_min_max( d, input, min, max );;
+                get_weather().clear_temp_cache();
+            };
+        }
+    } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
+               jo.has_member( "global_val" ) || jo.has_member( "faction_val" ) || jo.has_member( "party_val" ) ) {
+        var_type type = var_type::u;
+        std::string checked_value;
+        if( jo.has_member( "u_val" ) ) {
+            type = var_type::u;
+            checked_value = jo.get_string( "u_val" );
+        } else if( jo.has_member( "npc_val" ) ) {
+            type = var_type::npc;
+            checked_value = jo.get_string( "npc_val" );
+        } else if( jo.has_member( "global_val" ) ) {
+            type = var_type::global;
+            checked_value = jo.get_string( "global_val" );
+        } else if( jo.has_member( "faction_val" ) ) {
+            type = var_type::faction;
+            checked_value = jo.get_string( "faction_val" );
+        } else if( jo.has_member( "party_val" ) ) {
+            type = var_type::party;
+            checked_value = jo.get_string( "party_val" );
+        } else {
+            jo.throw_error( "Invalid variable type." );
+        }
+
+        const bool is_npc = type == var_type::npc;
+        if( checked_value == "strength_base" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_str_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "dexterity_base" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_dex_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "intelligence_base" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_int_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "perception_base" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_per_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "var" ) {
+            const std::string var_name = get_talk_varname( jo, "var_name", false );
+            return [is_npc, var_name, type, min, max]( const dialogue & d, int input ) {
+                write_var_value( type, var_name, d.actor( is_npc ), std::to_string( handle_min_max( d, input, min,
+                                 max ) ) );
+            };
+        } else if( checked_value == "time_since_var" ) {
+            // This is a strange thing to want to adjust. But we allow it nevertheless.
+            const std::string var_name = get_talk_varname( jo, "var_name", false );
+            return [is_npc, var_name, min, max]( const dialogue & d, int input ) {
+                int storing_value = to_turn<int>( calendar::turn ) - handle_min_max( d, input, min, max );
+                d.actor( is_npc )->set_value( var_name, std::to_string( storing_value ) );
+            };
+        } else if( checked_value == "allies" ) {
+            // It would be possible to make this work by removing allies and spawning new ones as needed.
+            // But why would you ever want to do it this way?
+            jo.throw_error( "altering allies this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "cash" ) {
+            // TODO: See if this can be handeled in a clever way.
+            jo.throw_error( "altering cash this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "owed" ) {
+            if( is_npc ) {
+                jo.throw_error( "owed amount not supported for NPCs.  In " + jo.str() );
+            } else {
+                return [min, max]( const dialogue & d, int input ) {
+                    d.actor( true )->add_debt( handle_min_max( d, input, min, max ) - d.actor( true )->debt() );
+                };
+            }
+        } else if( checked_value == "sold" ) {
+            if( is_npc ) {
+                jo.throw_error( "sold amount not supported for NPCs.  In " + jo.str() );
+            } else {
+                return [min, max]( const dialogue & d, int input ) {
+                    d.actor( true )->add_sold( handle_min_max( d, input, min, max ) - d.actor( true )->sold() );
+                };
+            }
+        } else if( checked_value == "skill_level" ) {
+            const skill_id skill( jo.get_string( "skill" ) );
+            return [is_npc, skill, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_skill_level( skill, handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "pos_x" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_pos( tripoint( handle_min_max( d, input, min, max ),
+                                                      d.actor( is_npc )->posy(),
+                                                      d.actor( is_npc )->posz() ) );
+            };
+        } else if( checked_value == "pos_y" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), handle_min_max( d, input, min,
+                                                      max ),
+                                                      d.actor( is_npc )->posz() ) );
+            };
+        } else if( checked_value == "pos_z" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), d.actor( is_npc )->posy(),
+                                                      handle_min_max( d, input, min, max ) ) );
+            };
+        } else if( checked_value == "pain" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->mod_pain( handle_min_max( d, input, min, max ) - d.actor( is_npc )->pain_cur() );
+            };
+        } else if( checked_value == "power" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                // Energy in milijoule
+                d.actor( is_npc )->set_power_cur( 1_mJ * handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "power_max" ) {
+            jo.throw_error( "altering max power this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "power_percentage" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                // Energy in milijoule
+                d.actor( is_npc )->set_power_cur( ( d.actor( is_npc )->power_max() * handle_min_max( d, input, min,
+                                                    max ) ) / 100 );
+            };
+        } else if( checked_value == "focus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->mod_focus( handle_min_max( d, input, min,
+                                              max ) - d.actor( is_npc )->focus_cur() );
+            };
+        } else if( checked_value == "mana" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_mana_cur( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "mana_max" ) {
+            jo.throw_error( "altering max mana this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "mana_percentage" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * handle_min_max( d, input, min,
+                                                   max ) ) / 100 );
+            };
+        } else if( checked_value == "hunger" ) {
+            jo.throw_error( "altering hunger this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "thirst" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_thirst( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "stored_kcal" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_stored_kcal( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "stored_kcal_percentage" ) {
+            // 100% is 55'000 kcal, which is considered healthy.
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_stored_kcal( handle_min_max( d, input, min, max ) * 5500 );
+            };
+        } else if( checked_value == "item_count" ) {
+            jo.throw_error( "altering items this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "exp" ) {
+            jo.throw_error( "altering max exp this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "stim" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_stim( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "pkill" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_pkill( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "rad" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_rad( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "fatigue" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_fatigue( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "stamina" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_stamina( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "sleep_deprivation" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_sleep_deprivation( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "anger" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_anger( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "morale" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_morale( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "friendly" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_friendly( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "exp" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_kill_xp( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "vitamin" ) {
+            std::string vitamin_name = jo.get_string( "name" );
+            return [is_npc, min, max, vitamin_name]( const dialogue & d, int input ) {
+                Character *you = d.actor( is_npc )->get_character();
+                if( you ) {
+                    you->vitamin_set( vitamin_id( vitamin_name ), handle_min_max( d, input, min, max ) );
+                }
+            };
+        } else if( checked_value == "age" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_age( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "height" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_height( handle_min_max( d, input, min, max ) );
+            };
+        }
+    }
+    jo.throw_error( "error setting integer destination in " + jo.str() );
+    return []( const dialogue &, int ) {};
+}
+
 void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member )
 {
     JsonArray objects = jo.get_array( member );
+    cata::optional<int_or_var> min;
+    cata::optional<int_or_var> max;
+    if( jo.has_member( "min" ) ) {
+        min = get_int_or_var( jo, "min" );
+    } else if( jo.has_member( "min_time" ) ) {
+        int_or_var value;
+        time_duration min_time;
+        mandatory( jo, false, "min_time", min_time );
+        value.int_val = to_turns<int>( min_time );
+        min = value;
+    }
+    if( jo.has_member( "max" ) ) {
+        max = get_int_or_var( jo, "max" );
+    } else if( jo.has_member( "max_time" ) ) {
+        int_or_var value;
+        time_duration max_time;
+        mandatory( jo, false, "max_time", max_time );
+        value.int_val = to_turns<int>( max_time );
+        max = value;
+    }
     std::string op = "none";
     std::string result = "none";
-    std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
+    std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ), min,
+            max );
     // Normal full version
     if( objects.size() == 5 ) {
         op = objects.get_string( 3 );
@@ -2914,248 +3301,6 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
         };
         return;
     }
-}
-
-std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( const JsonObject &jo )
-{
-    if( jo.has_member( "const" ) ) {
-        jo.throw_error( "attempted to alter a constant value in " + jo.str() );
-    } else if( jo.has_member( "time" ) ) {
-        jo.throw_error( "can not alter a time constant.  Did you mean time_since_cataclysm or time_since_var?  In "
-                        + jo.str() );
-    } else if( jo.has_member( "time_since_cataclysm" ) ) {
-        time_duration given_unit = 1_turns;
-        if( jo.has_string( "time_since_cataclysm" ) ) {
-            std::string given_unit_str = jo.get_string( "time_since_cataclysm" );
-            bool found = false;
-            for( const auto &pair : time_duration::units ) {
-                const std::string &unit = pair.first;
-                if( unit == given_unit_str ) {
-                    given_unit = pair.second;
-                    found = true;
-                    break;
-                }
-            }
-            if( !found ) {
-                jo.throw_error( "unrecognized time unit in " + jo.str() );
-            }
-        }
-        return [given_unit]( const dialogue &, int input ) {
-            calendar::turn = time_point( input * to_turns<int>( given_unit ) );
-        };
-    } else if( jo.has_member( "rand" ) ) {
-        jo.throw_error( "can not alter the random number generator, silly!  In " + jo.str() );
-    } else if( jo.has_member( "weather" ) ) {
-        std::string weather_aspect = jo.get_string( "weather" );
-        if( weather_aspect == "temperature" ) {
-            return []( const dialogue &, int input ) {
-                get_weather().weather_precise->temperature = input;
-                get_weather().clear_temp_cache();
-            };
-        } else if( weather_aspect == "windpower" ) {
-            return []( const dialogue &, int input ) {
-                get_weather().weather_precise->windpower = input;
-                get_weather().clear_temp_cache();
-            };
-        } else if( weather_aspect == "humidity" ) {
-            return []( const dialogue &, int input ) {
-                get_weather().weather_precise->humidity = input;
-                get_weather().clear_temp_cache();
-            };
-        } else if( weather_aspect == "pressure" ) {
-            return []( const dialogue &, int input ) {
-                get_weather().weather_precise->pressure = input;
-                get_weather().clear_temp_cache();
-            };
-        }
-    } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
-               jo.has_member( "global_val" ) || jo.has_member( "faction_val" ) || jo.has_member( "party_val" ) ) {
-        var_type type = var_type::u;
-        std::string checked_value;
-        if( jo.has_member( "u_val" ) ) {
-            type = var_type::u;
-            checked_value = jo.get_string( "u_val" );
-        } else if( jo.has_member( "npc_val" ) ) {
-            type = var_type::npc;
-            checked_value = jo.get_string( "npc_val" );
-        } else if( jo.has_member( "global_val" ) ) {
-            type = var_type::global;
-            checked_value = jo.get_string( "global_val" );
-        } else if( jo.has_member( "faction_val" ) ) {
-            type = var_type::faction;
-            checked_value = jo.get_string( "faction_val" );
-        } else if( jo.has_member( "party_val" ) ) {
-            type = var_type::party;
-            checked_value = jo.get_string( "party_val" );
-        } else {
-            jo.throw_error( "Invalid variable type." );
-        }
-
-        const bool is_npc = type == var_type::npc;
-        if( checked_value == "strength_base" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_str_max( input );
-            };
-        } else if( checked_value == "dexterity_base" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_dex_max( input );
-            };
-        } else if( checked_value == "intelligence_base" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_int_max( input );
-            };
-        } else if( checked_value == "perception_base" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_per_max( input );
-            };
-        } else if( checked_value == "var" ) {
-            const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name, type]( const dialogue & d, int input ) {
-                write_var_value( type, var_name, d.actor( is_npc ), std::to_string( input ) );
-            };
-        } else if( checked_value == "time_since_var" ) {
-            // This is a strange thing to want to adjust. But we allow it nevertheless.
-            const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name]( const dialogue & d, int input ) {
-                int storing_value = to_turn<int>( calendar::turn ) - input;
-                d.actor( is_npc )->set_value( var_name, std::to_string( storing_value ) );
-            };
-        } else if( checked_value == "allies" ) {
-            // It would be possible to make this work by removing allies and spawning new ones as needed.
-            // But why would you ever want to do it this way?
-            jo.throw_error( "altering allies this way is currently not supported.  In " + jo.str() );
-        } else if( checked_value == "cash" ) {
-            // TODO: See if this can be handeled in a clever way.
-            jo.throw_error( "altering cash this way is currently not supported.  In " + jo.str() );
-        } else if( checked_value == "owed" ) {
-            if( is_npc ) {
-                jo.throw_error( "owed amount not supported for NPCs.  In " + jo.str() );
-            } else {
-                return []( const dialogue & d, int input ) {
-                    d.actor( true )->add_debt( input - d.actor( true )->debt() );
-                };
-            }
-        } else if( checked_value == "sold" ) {
-            if( is_npc ) {
-                jo.throw_error( "sold amount not supported for NPCs.  In " + jo.str() );
-            } else {
-                return []( const dialogue & d, int input ) {
-                    d.actor( true )->add_sold( input - d.actor( true )->sold() );
-                };
-            }
-        } else if( checked_value == "skill_level" ) {
-            const skill_id skill( jo.get_string( "skill" ) );
-            return [is_npc, skill]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_skill_level( skill, input );
-            };
-        } else if( checked_value == "pos_x" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_pos( tripoint( input, d.actor( is_npc )->posy(),
-                                                      d.actor( is_npc )->posz() ) );
-            };
-        } else if( checked_value == "pos_y" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), input,
-                                                      d.actor( is_npc )->posz() ) );
-            };
-        } else if( checked_value == "pos_z" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), d.actor( is_npc )->posy(),
-                                                      input ) );
-            };
-        } else if( checked_value == "pain" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->mod_pain( input - d.actor( is_npc )->pain_cur() );
-            };
-        } else if( checked_value == "power" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                // Energy in milijoule
-                d.actor( is_npc )->set_power_cur( 1_mJ * input );
-            };
-        } else if( checked_value == "power_max" ) {
-            jo.throw_error( "altering max power this way is currently not supported.  In " + jo.str() );
-        } else if( checked_value == "power_percentage" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                // Energy in milijoule
-                d.actor( is_npc )->set_power_cur( ( d.actor( is_npc )->power_max() * input ) / 100 );
-            };
-        } else if( checked_value == "focus" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->mod_focus( input - d.actor( is_npc )->focus_cur() );
-            };
-        } else if( checked_value == "mana" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_mana_cur( input );
-            };
-        } else if( checked_value == "mana_max" ) {
-            jo.throw_error( "altering max mana this way is currently not supported.  In " + jo.str() );
-        } else if( checked_value == "mana_percentage" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
-            };
-        } else if( checked_value == "hunger" ) {
-            jo.throw_error( "altering hunger this way is currently not supported.  In " + jo.str() );
-        } else if( checked_value == "thirst" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_thirst( input );
-            };
-        } else if( checked_value == "stored_kcal" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_stored_kcal( input );
-            };
-        } else if( checked_value == "stored_kcal_percentage" ) {
-            // 100% is 55'000 kcal, which is considered healthy.
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_stored_kcal( input * 5500 );
-            };
-        } else if( checked_value == "item_count" ) {
-            jo.throw_error( "altering items this way is currently not supported.  In " + jo.str() );
-        } else if( checked_value == "exp" ) {
-            jo.throw_error( "altering max exp this way is currently not supported.  In " + jo.str() );
-        } else if( checked_value == "stim" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_stim( input );
-            };
-        } else if( checked_value == "pkill" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_pkill( input );
-            };
-        } else if( checked_value == "rad" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_rad( input );
-            };
-        } else if( checked_value == "fatigue" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_fatigue( input );
-            };
-        } else if( checked_value == "stamina" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_stamina( input );
-            };
-        } else if( checked_value == "sleep_deprivation" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_sleep_deprivation( input );
-            };
-        } else if( checked_value == "anger" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_anger( input );
-            };
-        } else if( checked_value == "morale" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_morale( input );
-            };
-        } else if( checked_value == "friendly" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_friendly( input );
-            };
-        } else if( checked_value == "exp" ) {
-            return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_kill_xp( input );
-            };
-        }
-    }
-    jo.throw_error( "error setting integer destination in " + jo.str() );
-    return []( const dialogue &, int ) {};
 }
 
 void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
@@ -3405,7 +3550,8 @@ void talk_effect_fun_t::set_add_faction_trust( const JsonObject &jo, const std::
     };
 }
 
-void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo,
+        const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member );
     function = [iov]( const dialogue & d ) {
@@ -3413,7 +3559,8 @@ void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
+        const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member, true );
     duration_or_var dov_length_min = get_duration_or_var( jo, "length_min", false, 0_seconds );
@@ -3512,7 +3659,8 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &member,
+                                   bool is_npc )
 {
     field_type_str_id new_field = field_type_str_id( jo.get_string( member ) );
     int_or_var iov_intensity = get_int_or_var( jo, "intensity", false, 1 );
@@ -3546,7 +3694,8 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
     };
 }
 
-void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
 {
     var_info var = read_var_info( jo.get_object( member ), false );
     var_type type = var.type;

@@ -6,6 +6,7 @@
 #include <set>
 #include <string>
 
+#include "ammo.h"
 #include "cata_assert.h"
 #include "character.h"
 #include "color.h"
@@ -243,7 +244,11 @@ itype_id vehicle_part::ammo_current() const
 int vehicle_part::ammo_capacity( const ammotype &ammo ) const
 {
     if( is_tank() ) {
-        return item::find_type( ammo_current() )->charges_per_volume( base.get_total_capacity() );
+        const itype *ammo_type = item::find_type( ammo->default_ammotype() );
+        const int max_charges_volume = ammo_type->charges_per_volume( base.get_total_capacity() );
+        const int max_charges_weight = ammo_type->weight == 0_gram ? INT_MAX :
+                                       static_cast<int>( base.get_total_weight_capacity() / ammo_type->weight );
+        return std::min( max_charges_volume, max_charges_weight );
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
@@ -277,8 +282,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
         const itype *ammo_itype = item::find_type( ammo );
         if( ammo_itype && ammo_itype->phase >= phase_id::LIQUID ) {
             base.clear_items();
-            const auto stack = units::legacy_volume_factor / std::max( ammo_itype->stack_size, 1 );
-            const int limit = units::from_milliliter( ammo_capacity( ammo_itype->ammo->type ) ) / stack;
+            const int limit = ammo_capacity( ammo_itype->ammo->type );
             // assuming "ammo" isn't really going into a magazine as this is a vehicle part
             const int amount = qty > 0 ? std::min( qty, limit ) : limit;
             base.put_in( item( ammo, calendar::turn, amount ), item_pocket::pocket_type::CONTAINER );

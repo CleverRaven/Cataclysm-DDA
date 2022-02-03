@@ -699,6 +699,7 @@
         "         o    o         ",
         "         o    o         "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "sewers" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }

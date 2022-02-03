@@ -77,6 +77,13 @@
           "str": "GENERAL PROMOTED ONBOARD OLD IRONSIDES.  The USS Constitution was the site of a promotion ceremony held by the Massachusetts National Guard at the Charlestown Navy Yard.  Col. Ariel Dabrowski was promoted to the rank of brigadier general in the Massachusetts National Guard in front of a crowd massed on the deck of the historic ship.  General Carlsberg officiated the promotion ceremony, and Maj. Gen. Michael Baker administered the oath of office.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
+      },
+      {
+        "id": "many_years_old_news_19",
+        "text": {
+          "str": "THE FACE BEHIND THE 'UNCANNY' MASK.  Everyone knows about James Hawthorne, projected to become America's newest and fastest rising billionaire by next month as stock value in his tech startup, Uncanny, grows at unprecedented speeds.  We decided to explore the names behind the rise you might not have heard.  Dr. Marc Silverstein, an MIT-trained researcher formerly involved with Leapfrog Industries, has been along for the ride the whole time, and has come out nearly as wealthy as Hawthorne himself.  Though impressively reclusive, we managed to snag some pretty interesting information about Dr. S.  Could he be the real mind behind the rise?  How much does James depend on his right-hand scientist?  Details on page 12.",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       }
     ]
   },
@@ -110,11 +117,17 @@
       },
       {
         "id": "years_old_news_9",
-        "text": "EDITORIAL: EYEBOTS REPRESENT A CONCERNING TREND.  There it is, as it always is: the endless buzz of eyebots cruising the streets, hunting for wrongdoing.  I've written many an article on these things, and read many more.  I've spoken to experts.  When we get to the bottom of it, there's a key disturbing truth to these ubiquitous robots… No one knows how they work.  The artificial intelligence used in the little drones is more than just facial recognition, it's also threat processing and decision making, and at its very heart is a new-wave deep learning AI that is, essentially, a wild card.  Without knowing how these things learn and make decisions, I don't think we can trust them in public, let alone handling our safety.  That's not even considering the dangers of letting them have access to our faces and criminal records."
+        "text": "EDITORIAL: EYEBOTS REPRESENT A CONCERNING TREND.  There it is, as it always is: the endless buzz of eyebots cruising the streets, hunting for wrongdoing.  I've written many an article on these things, and read many more.  I've spoken to experts.  When we get to the bottom of it, there's a key disturbing truth to these ubiquitous robots… no one knows how they work.  The artificial intelligence used in the little drones is more than just facial recognition, it's also threat processing and decision making, and at its very heart is a new-wave deep learning AI that is, essentially, a wild card.  Without knowing how these things learn and make decisions, I don't think we can trust them in public, let alone handling our safety.  That's not even considering the dangers of letting them have access to our faces and criminal records."
       },
       {
         "id": "years_old_news_10",
         "text": "TECHWORLD NEWS: Toy company at the origin of the successful talking doll rebrands and becomes Uncanny.  A spokesperson from the newly formed Uncanny told the press, \"We think we can do more than just entertain.  We have new plans, big plans, plans that will shape the very fabric of reality!\"  Unconfirmed rumors suggest that Uncanny has already received large orders from the government."
+      },
+      {
+        "id": "years_old_news_11",
+        "text": {
+          "str": "THE 'UNCANNY' SUCCESS STORY.  Everyone's talking about the meteoric rise of tech startup \"Uncanny\" over the last few months.  From zero to household name, the company leapt to the public eye with its, well, uncanny line of talking toys.  Before we even knew what to expect, they were Wall Street's new darling, with the fastest rise in manufacturing capacity of any company in the last thirty years.  We spoke to James Hawthorne, America's newest billionaire and the man behind the name on everyone's lips.  Interview on page 3."
+        }
       }
     ]
   },
@@ -193,6 +206,14 @@
       {
         "id": "one_year_old_news_19",
         "text": "BIGGER BEES.  State biologists are unable to explain the emergence of bees that are two and three times normal size.  Authorities say that bees larger than golf balls are being reported across the state.  As of this time, there have been no reports of increased aggression or other behavioral changes in the oversized insects.  \"I'm glad to see the resurgence in the bee population,\" said Dr. Melissus \"Mel\" Versed, an entomologist at Tufts University.  He added, \"while Anthophila this large are unprecedented in New England, there is nothing particularly harmful about the phenomena.  Think of the honey yields!\""
+      },
+      {
+        "id": "one_year_old_news_20",
+        "text": "JAMES HAWTHORNE TWITTER FEUD.  Everyone's talking about the latest trending news on Twitter.  \"Uncanny\" tech magnate and upcoming challenger to the title of \"richest man in America\", James Hawthorne, had a protracted Twitter battle with Minnesota Democratic senatorial candidate Lester Namboney, starting over taxation laws, and running all the way down to grade school insults.  Go to page 5 for the choicest tweets."
+      },
+      {
+        "id": "one_year_old_news_21",
+        "text": "UNCANNY: SHADOWS IN PARADISE.  Uncanny, a tech development firm that has gone from nothing to a household name throughout the United States in the last two years, has been a hot topic since they entered the limelight.  We all know about James Hawthorne and his charismatic combination of sarcastic quipping and insightful observations.  Everyone has seen his tweets, and his TED Talk went viral last year.  Behind the smokescreen, though, hides labor practices that have left employees scarred and, in some cases, permanently unable to work.  Did you know that Uncanny's Portland manufacturing site tried unsuccessfully to unionize last month?  I bet you didn't.  Did you know that four union organizers disappeared prior to the vote?  I bet you didn't.  Are you wondering why none of this was reported?  So am I."
       }
     ]
   },
@@ -275,6 +296,10 @@
       {
         "id": "months_old_news_19",
         "text": "MORE ORDAINED MINISTERS NEEDED.  Wedlock is down, but last minute nuptials, elopements, vow-renewals and 'micromonies' have been on the rise, supposedly in response to many of the recent events and uneasing developments as more people are feeling less secure about dating in these troubled times, therefore rushing to the alter in preparation for the worst, or to cross items off the bucket list before it's too late.  As a result, the nation is experiencing a shortage of marriage officiants.  Luckily, now more than ever, since the beginning of the 21st century it's become increasingly easier to become qualified to help couples of all kinds celebrate their commitment to each other.  However, not enough people are rising to the occasion."
+      },
+      {
+        "id": "months_old_news_20",
+        "text": "BUNKERS OF THE RICH AND FAMOUS.  Forget the backwater \"Last Man on Earth\" shelter you helped your buddy pour the foundations for.  We got a look inside the private bunker of James Hawthorne himself!  Ever wonder what it would feel like to weather a disaster in style?  Wonder no more."
       }
     ]
   },
@@ -353,6 +378,10 @@
       {
         "id": "weeks_old_news_18",
         "text": "COPS IN CRISIS.  Law enforcement officials report increasing numbers of officers are calling in sick, have resigned, or are just not showing up to duty.  A lack of sufficient personnel exacerbates the dangers police on-duty face.  In some cases officers are refusing to respond to dispatches in areas with high levels of violence.  A spokesperson for the Worcester County Sheriff's Office confirmed \"It is no longer feasible for us to jeopardize officer lives in some circumstances.  Instead we can continue to rely upon our state-of-the-art AI-powered robotic units.\""
+      },
+      {
+        "id": "weeks_old_news_19",
+        "text": "UNCANNY VALLEY.  Faced with accusations of malfeasance in his AI designs, James Hawthorne appears to have *disappeared*.  Hawthorne could not be reached for comment by any major news centers, as questions and even lawsuits about dangerous flaws in his widespread law enforcement AI packages rise."
       }
     ]
   },

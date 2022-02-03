@@ -121,6 +121,52 @@
   },
   {
     "type": "furniture",
+    "id": "f_forge_artisan_0",
+    "name": "Cody's forge",
+    "looks_like": "f_fireplace",
+    "description": "Metalworking station typically used in combination with an anvil.  You can see pipes running into the walls.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_forge",
+    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
+    "examine_action": "reload_furniture",
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "char_forge", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_forge_artisan_1",
+    "name": "Cody's forge",
+    "looks_like": "f_fireplace",
+    "description": "Metalworking station typically used in combination with an anvil.  You can see pipes running into the walls.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_forge",
+    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
+    "examine_action": "reload_furniture",
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "char_forge", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_anvil",
     "name": "anvil",
     "looks_like": "f_boulder",
@@ -325,6 +371,32 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_spinwheel",
+    "name": "spinning wheel",
+    "looks_like": "f_table",
+    "description": "Large wooden device with a mechanical wheel used to combine fibers together into a stronger material.",
+    "symbol": "=",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": 11,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "crafting_pseudo_item": "spinwheelitem",
+    "deconstruct": { "items": [ { "item": "string_36", "count": 15 }, { "item": "2x4", "count": 20 }, { "item": "nail", "charges": 25 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "string_36", "count": [ 12, 15 ] },
+        { "item": "2x4", "count": [ 10, 20 ] },
+        { "item": "nail", "charges": [ 15, 25 ] }
+      ]
     }
   },
   {
@@ -576,7 +648,7 @@
     "type": "furniture",
     "id": "f_firefly_terrarium",
     "name": "firefly terrarium",
-    "description": "While many survivors would have focused on trying to bring back electric lights, whomever lives here has apparently decided to make use of the changes wrought by the cataclysm to provide light.  This vivarium contains soil, strange plants you don't recognize immediately, and most strikingly, a giant mutant firefly.",
+    "description": "While many survivors would have focused on trying to bring back electric lights, whomever lives here has apparently decided to make use of the changes wrought by the Cataclysm to provide light.  This vivarium contains soil, strange plants you don't recognize immediately, and most strikingly, a giant mutant firefly.",
     "symbol": "#",
     "color": "light_green",
     "move_cost_mod": 3,
@@ -602,9 +674,9 @@
   {
     "type": "furniture",
     "id": "f_tablesaw",
-    "name": "tablesaw",
+    "name": "table saw",
     "looks_like": "f_machinery_light",
-    "description": "A rotating saw blade set into a large flat table, for making straight measured cuts, if supplied with power from UPS.  One of the key tools in a carpenter's arsenal.",
+    "description": "A rotating sawblade set into a large flat table, for making straight measured cuts, if supplied with power from UPS.  One of the key tools in a carpenter's arsenal.",
     "symbol": "7",
     "color": "yellow_red",
     "move_cost_mod": 8,
@@ -643,7 +715,7 @@
     "id": "f_mitresaw",
     "name": "mitre saw",
     "looks_like": "f_machinery_light",
-    "description": "A circular saw blade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry, if supplied with power from UPS.",
+    "description": "A circular sawblade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry, if supplied with power from UPS.",
     "symbol": "7",
     "color": "yellow_cyan",
     "move_cost_mod": -1,
@@ -680,7 +752,7 @@
   {
     "type": "furniture",
     "id": "f_bandsaw",
-    "name": "bandsaw",
+    "name": "band saw",
     "looks_like": "f_machinery_light",
     "description": "A ribbonlike sawblade runs in a single direction in this tool, allowing precise cuts at almost any angle, if supplied with power from UPS.",
     "symbol": "7",
@@ -1359,11 +1431,11 @@
     "id": "f_rope_up",
     "name": "rope leading up",
     "looks_like": "t_rope_up",
-    "description": "A rope.  You could climb it up.",
+    "description": "A rope.  You could use it to climb up.",
     "symbol": "<",
     "color": "white",
     "move_cost_mod": 1,
-    "required_str": 10,
+    "required_str": -1,
     "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "grapnel",
@@ -1373,6 +1445,27 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "grip_hook", "count": [ 4, 4 ] }, { "item": "rope_30", "count": [ 1, 1 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_web_up",
+    "name": "web leading up",
+    "looks_like": "fd_web",
+    "description": "A long, thick strand of slightly sticky web.  You could use it to climb up.",
+    "symbol": "<",
+    "color": "white",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "ALLOW_ON_OPEN_AIR" ],
+    "examine_action": "deployed_furniture",
+    "deployed_item": "rope_30",
+    "bash": {
+      "str_min": 1,
+      "str_max": 10,
+      "sound": "rrrrip!",
+      "sound_fail": "twang.",
+      "items": [ { "item": "rope_30", "count": [ 1, 1 ] } ]
     }
   }
 ]

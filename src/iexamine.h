@@ -165,7 +165,7 @@ itype_id choose_fertilizer( Character &you, const std::string &pname, bool ask_p
 ret_val<bool> can_fertilize( Character &you, const tripoint &tile, const itype_id &fertilizer );
 
 // Skill training common functions
-void practice_survival_while_foraging( Character *you );
+void practice_survival_while_foraging( Character &who );
 
 } // namespace iexamine
 

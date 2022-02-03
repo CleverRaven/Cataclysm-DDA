@@ -57,7 +57,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmw_2_smithy_3_rock",
-    "description": "Let's build a the last rock section of the smithy.",
+    "description": "Let's build the last rock section of the smithy.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

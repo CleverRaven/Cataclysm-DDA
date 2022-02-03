@@ -2634,6 +2634,7 @@
       [ "armguard_larmor", 40 ],
       [ "vambrace_larmor", 20 ],
       [ "gambeson", 50 ],
+      [ "gambeson_pants", 40 ],
       [ "legguard_metal", 10 ],
       [ "helmet_corinthian", 45 ],
       [ "armor_cuirass", 25 ],
@@ -3544,7 +3545,7 @@
   {
     "id": "accessory_cat",
     "type": "item_group",
-    "//": "accessories that some say were the cause of the cataclysm.",
+    "//": "accessories that some say were the cause of the Cataclysm.",
     "subtype": "distribution",
     "items": [
       { "item": "faux_fur_cat_ears", "prob": 80 },

@@ -66,7 +66,6 @@
 #endif
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
-static const activity_id ACT_WEAR( "ACT_WEAR" );
 
 namespace io
 {
@@ -1156,6 +1155,8 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "RIGHT" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "TOGGLE_TAB" );
     ctxt.register_action( "TOGGLE_VEH" );
     ctxt.register_action( "FILTER" );
@@ -1277,53 +1278,43 @@ void advanced_inventory::start_activity(
     const bool by_charges = sitem->items.front()->count_by_charges();
 
     Character &player_character = get_player_character();
-    if( destarea == AIM_WORN ) {
-        player_character.assign_activity( ACT_WEAR );
 
-        if( by_charges ) {
-            player_character.activity.targets.emplace_back( sitem->items.front() );
-            player_character.activity.values.push_back( amount_to_move );
-        } else {
-            for( std::vector<item_location>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
-                 it != sitem->items.end(); ++it ) {
-                player_character.activity.targets.emplace_back( *it );
-                player_character.activity.values.push_back( 0 );
-                --amount_to_move;
-            }
-        }
+    // Find target items and quantities thereof for the new activity
+    std::vector<item_location> target_items;
+    std::vector<int> quantities;
+    if( by_charges ) {
+        target_items.emplace_back( sitem->items.front() );
+        quantities.push_back( amount_to_move );
     } else {
-        // Find target items and quantities thereof for the new activity
-        std::vector<item_location> target_items;
-        std::vector<int> quantities;
-        if( by_charges ) {
-            target_items.emplace_back( sitem->items.front() );
-            quantities.push_back( amount_to_move );
-        } else {
-            for( std::vector<item_location>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
-                 it != sitem->items.end(); ++it ) {
-                target_items.emplace_back( *it );
-                quantities.push_back( 0 );
-                --amount_to_move;
-            }
+        for( std::vector<item_location>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
+             it != sitem->items.end(); ++it ) {
+            target_items.emplace_back( *it );
+            quantities.push_back( 0 );
+            --amount_to_move;
         }
+    }
 
-        if( destarea == AIM_INVENTORY ) {
-            player_character.assign_activity( player_activity( pickup_activity_actor(
-                                                  target_items,
-                                                  quantities,
-                                                  from_vehicle ? cata::nullopt : cata::optional<tripoint>( player_character.pos() )
-                                              ) ) );
-        } else {
-            // Stash the destination
-            const tripoint relative_destination = squares[destarea].off;
+    if( destarea == AIM_WORN ) {
+        player_character.assign_activity( player_activity( wear_activity_actor(
+                                              target_items,
+                                              quantities
+                                          ) ) );
+    } else if( destarea == AIM_INVENTORY ) {
+        player_character.assign_activity( player_activity( pickup_activity_actor(
+                                              target_items,
+                                              quantities,
+                                              from_vehicle ? cata::nullopt : cata::optional<tripoint>( player_character.pos() )
+                                          ) ) );
+    } else {
+        // Stash the destination
+        const tripoint relative_destination = squares[destarea].off;
 
-            player_character.assign_activity( player_activity( move_items_activity_actor(
-                                                  target_items,
-                                                  quantities,
-                                                  to_vehicle,
-                                                  relative_destination
-                                              ) ) );
-        }
+        player_character.assign_activity( player_activity( move_items_activity_actor(
+                                              target_items,
+                                              quantities,
+                                              to_vehicle,
+                                              relative_destination
+                                          ) ) );
     }
 }
 
@@ -1376,11 +1367,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();
 
-        player_character.assign_activity( ACT_WEAR );
-
-        player_character.activity.targets.emplace_back( sitem->items.front() );
-        player_character.activity.values.push_back( amount_to_move );
-
+        player_character.assign_activity( player_activity( wear_activity_actor( { sitem->items.front() }, { amount_to_move } ) ) );
         // exit so that the activity can be carried out
         exit = true;
 
@@ -1699,6 +1686,10 @@ void advanced_inventory::display()
             spane.scroll_page( linesPerPage, +1 );
         } else if( action == "PAGE_UP" ) {
             spane.scroll_page( linesPerPage, -1 );
+        } else if( action == "HOME" ) {
+            spane.scroll_to_start();
+        } else if( action == "END" ) {
+            spane.scroll_to_end();
         } else if( action == "DOWN" ) {
             if( inCategoryMode ) {
                 spane.scroll_category( +1 );

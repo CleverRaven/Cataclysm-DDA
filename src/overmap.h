@@ -68,7 +68,7 @@ struct om_note {
 };
 
 struct om_map_extra {
-    string_id<map_extra> id;
+    map_extra_id id;
     point_om_omt p;
 };
 
@@ -257,8 +257,8 @@ class overmap
         void mark_note_dangerous( const tripoint_om_omt &p, int radius, bool is_dangerous );
 
         bool has_extra( const tripoint_om_omt &p ) const;
-        const string_id<map_extra> &extra( const tripoint_om_omt &p ) const;
-        void add_extra( const tripoint_om_omt &p, const string_id<map_extra> &id );
+        const map_extra_id &extra( const tripoint_om_omt &p ) const;
+        void add_extra( const tripoint_om_omt &p, const map_extra_id &id );
         void delete_extra( const tripoint_om_omt &p );
 
         /**

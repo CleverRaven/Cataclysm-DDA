@@ -13,6 +13,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "solid_glacier",
+    "name": "glacier",
+    "sym": "#",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "forest",
     "copy-from": "generic_forest",
     "name": "hydrothermal flats",

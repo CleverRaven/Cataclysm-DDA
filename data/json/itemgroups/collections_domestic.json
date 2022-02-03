@@ -126,6 +126,7 @@
       { "item": "multi_cooker", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "char_smoker", "prob": 5, "charges-min": 0 },
       [ "can_sealer", 2 ],
+      [ "oil_press_manual", 2 ],
       [ "atomic_coffeepot", 1 ]
     ]
   },

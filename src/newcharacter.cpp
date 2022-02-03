@@ -89,7 +89,7 @@ static const trait_id trait_XXXL( "XXXL" );
 static bool isWide = false;
 
 // Colors used in this file: (Most else defaults to c_light_gray)
-#define COL_SELECT          h_light_gray   // Selected value
+#define COL_SELECT          h_white   // Selected value
 #define COL_STAT_BONUS      c_light_green // Bonus
 #define COL_STAT_NEUTRAL    c_white   // Neutral Property
 #define COL_STAT_PENALTY    c_light_red   // Penalty
@@ -104,7 +104,7 @@ static bool isWide = false;
 #define COL_TR_BAD_OFF_PAS  c_dark_gray  // A toggled-off bad trait
 #define COL_TR_BAD_ON_PAS   c_red     // A toggled-on bad trait
 #define COL_TR_NEUT         c_brown     // Neutral trait descriptive text
-#define COL_TR_NEUT_OFF_ACT c_dark_gray  // A toggled-off neutral trait
+#define COL_TR_NEUT_OFF_ACT c_light_gray  // A toggled-off neutral trait
 #define COL_TR_NEUT_ON_ACT  c_yellow   // A toggled-on neutral trait
 #define COL_TR_NEUT_OFF_PAS c_dark_gray  // A toggled-off neutral trait
 #define COL_TR_NEUT_ON_PAS  c_brown     // A toggled-on neutral trait
@@ -358,7 +358,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     while( true ) {
         menu.query( true );
         const matype_id &selected = styles[menu.ret];
-        if( query_yn( _( "Use this style?" ) ) ) {
+        if( query_yn( string_format( _( "Use the %s style?" ), selected.obj().name ) ) ) {
             return selected;
         }
     }
@@ -380,6 +380,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     init_age = rng( 16, 55 );
     randomize_height();
     randomize_blood();
+    randomize_heartrate();
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
@@ -756,6 +757,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // setup staring bank money
     cash = rng( -200000, 200000 );
+    randomize_heartrate();
 
     if( has_trait( trait_XS ) ) {
         set_stored_kcal( 10000 );
@@ -966,9 +968,11 @@ tab_direction set_points( avatar &u, pool_type &pool )
 
         const int opts_length = static_cast<int>( opts.size() );
         for( int i = 0; i < opts_length; i++ ) {
-            nc_color color = ( pool == std::get<0>( opts[i] ) ? COL_SKILL_USED : c_light_gray );
-            if( highlighted == i ) {
-                color = hilite( color );
+            nc_color color;
+            if( pool == std::get<0>( opts[i] ) ) {
+                color = highlighted == i ? hilite( c_light_green ) : c_green;
+            } else {
+                color = highlighted == i ? COL_SELECT : c_light_gray;
             }
             mvwprintz( w, point( 2, 5 + i ), color, std::get<1>( opts[i] ) );
         }
@@ -1351,11 +1355,14 @@ tab_direction set_traits( avatar &u, pool_type pool )
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "QUIT" );
 
@@ -1420,7 +1427,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
                     break;
             }
             nc_color hi_on = hilite( col_on_act );
-            nc_color hi_off = hilite( col_off_act );
+            nc_color hi_off = hilite( c_white );
 
             int &start = iStartPos[iCurrentPage];
             int current = iCurrentLine[iCurrentPage];
@@ -1478,8 +1485,13 @@ tab_direction set_traits( avatar &u, pool_type pool )
                            page_width - 2 ) );
             }
 
-            draw_scrollbar( w, iCurrentLine[iCurrentPage], iContentHeight, traits_size[iCurrentPage],
-                            point( page_width * iCurrentPage, 5 ) );
+            scrollbar()
+            .offset_x( page_width * iCurrentPage )
+            .offset_y( 5 )
+            .content_size( traits_size[iCurrentPage] )
+            .viewport_pos( start )
+            .viewport_size( iContentHeight )
+            .apply( w );
         }
 
         wnoutrefresh( w );
@@ -1576,6 +1588,10 @@ tab_direction set_traits( avatar &u, pool_type pool )
             } else {
                 iCurrentLine[iCurWorkingPage] += -10;
             }
+        } else if( action == "HOME" ) {
+            iCurrentLine[iCurWorkingPage] = 0;
+        } else if( action == "END" ) {
+            iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
         } else if( action == "CONFIRM" ) {
             int inc_type = 0;
             const trait_id cur_trait = *sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
@@ -1669,6 +1685,11 @@ tab_direction set_traits( avatar &u, pool_type pool )
             .description( _( "Search by trait name." ) )
             .edit( filterstring );
             recalc_traits = true;
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
+                filterstring = "";
+                recalc_traits = true;
+            }
         }
     } while( true );
 }
@@ -1726,6 +1747,8 @@ tab_direction set_profession( avatar &u, pool_type pool )
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
@@ -1733,6 +1756,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "RANDOMIZE" );
 
@@ -1808,7 +1832,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 col = ( cur_id_is_valid && sorted_profs[i] == sorted_profs[cur_id] ? COL_SELECT : c_light_gray );
             } else {
                 col = ( cur_id_is_valid &&
-                        sorted_profs[i] == sorted_profs[cur_id] ? hilite( COL_SKILL_USED ) : COL_SKILL_USED );
+                        sorted_profs[i] == sorted_profs[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             }
             mvwprintz( w, point( 2, 5 + i - iStartPos ), col,
                        sorted_profs[i]->gender_appropriate_name( u.male ) );
@@ -1970,7 +1994,13 @@ tab_direction set_profession( avatar &u, pool_type pool )
                             sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
         }
 
-        draw_scrollbar( w, cur_id, iContentHeight, profs_length, point( 0, 5 ) );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( profs_length )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w );
 
         wnoutrefresh( w );
         wnoutrefresh( w_description );
@@ -2051,6 +2081,10 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 cur_id += -scroll_rate;
             }
             desc_offset = 0;
+        } else if( action == "HOME" ) {
+            cur_id = 0;
+        } else if( action == "END" ) {
+            cur_id = recmax - 1;
         } else if( action == "LEFT" ) {
             if( desc_offset > 0 ) {
                 desc_offset--;
@@ -2103,6 +2137,11 @@ tab_direction set_profession( avatar &u, pool_type pool )
             .description( _( "Search by profession name." ) )
             .edit( filterstring );
             recalc_profs = true;
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
+                filterstring = "";
+                recalc_profs = true;
+            }
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
@@ -2145,6 +2184,8 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
@@ -2152,6 +2193,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "RANDOMIZE" );
 
@@ -2225,7 +2267,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             nc_color col;
             if( u.hobbies.count( &sorted_profs[i].obj() ) != 0 ) {
                 col = ( cur_id_is_valid &&
-                        sorted_profs[i] == sorted_profs[cur_id] ? hilite( COL_SKILL_USED ) : COL_SKILL_USED );
+                        sorted_profs[i] == sorted_profs[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             } else {
                 col = ( cur_id_is_valid && sorted_profs[i] == sorted_profs[cur_id] ? COL_SELECT : c_light_gray );
             }
@@ -2334,7 +2376,13 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                             sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
         }
 
-        draw_scrollbar( w, cur_id, iContentHeight, profs_length, point( 0, 5 ) );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( profs_length )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w );
 
         wnoutrefresh( w );
         wnoutrefresh( w_description );
@@ -2405,6 +2453,10 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                 cur_id += -scroll_rate;
             }
             desc_offset = 0;
+        } else if( action == "HOME" ) {
+            cur_id = 0;
+        } else if( action == "END" ) {
+            cur_id = recmax - 1;
         } else if( action == "LEFT" ) {
             if( desc_offset > 0 ) {
                 desc_offset--;
@@ -2485,6 +2537,11 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             .description( _( "Search by background name." ) )
             .edit( filterstring );
             recalc_profs = true;
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
+                filterstring = "";
+                recalc_profs = true;
+            }
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
@@ -2599,6 +2656,8 @@ tab_direction set_skills( avatar &u, pool_type pool )
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "SCROLL_SKILL_INFO_DOWN" );
     ctxt.register_action( "SCROLL_SKILL_INFO_UP" );
     ctxt.register_action( "PREV_TAB" );
@@ -2717,9 +2776,6 @@ tab_direction set_skills( avatar &u, pool_type pool )
         fold_and_print_from( w_description, point_zero, getmaxx( w_description ),
                              selected, COL_SKILL_USED, rec_disp );
 
-        draw_scrollbar( w, selected, iContentHeight, iLines,
-                        point( getmaxx( w ) - 1, 5 ), BORDER_COLOR, true );
-
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
             const int y = 5 + i - cur_offset;
@@ -2759,7 +2815,13 @@ tab_direction set_skills( avatar &u, pool_type pool )
 
         }
 
-        draw_scrollbar( w, cur_pos, iContentHeight, num_skills, point( 0, 5 ) );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( num_skills )
+        .viewport_pos( cur_offset )
+        .viewport_size( iContentHeight )
+        .apply( w );
 
         wnoutrefresh( w );
         wnoutrefresh( w_description );
@@ -2778,6 +2840,15 @@ tab_direction set_skills( avatar &u, pool_type pool )
             get_next( false, true );
         } else if( action == "PAGE_UP" ) {
             get_next( true, true );
+        } else if( action == "HOME" ) {
+            // Start at the bottom and go down so `get_next()` handles invariants for us
+            cur_pos = skill_list.size() - 1;
+            get_next( false, false );
+        } else if( action == "END" ) {
+            // Start at the top and go up so `get_next()` handles invariants for us
+            cur_pos = 0;
+            get_next( true, false );
+            currentSkill = skill_list[cur_pos].second;
         } else if( action == "LEFT" ) {
             const skill_id &skill_id = currentSkill->ident();
             const int level = u.get_skill_level( skill_id );
@@ -2892,12 +2963,15 @@ tab_direction set_scenario( avatar &u, pool_type pool )
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "RANDOMIZE" );
 
@@ -3004,7 +3078,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                 }
             } else {
                 col = ( cur_id_is_valid &&
-                        sorted_scens[i] == sorted_scens[cur_id] ? hilite( COL_SKILL_USED ) : COL_SKILL_USED );
+                        sorted_scens[i] == sorted_scens[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             }
             mvwprintz( w, point( 2, 5 + i - iStartPos ), col,
                        sorted_scens[i]->gender_appropriate_name( u.male ) );
@@ -3107,6 +3181,14 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         }
 
         draw_scrollbar( w, cur_id, iContentHeight, scens_length, point( 0, 5 ) );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 5 )
+        .content_size( scens_length )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w );
+
         wnoutrefresh( w );
         wnoutrefresh( w_description );
         wnoutrefresh( w_sorting );
@@ -3191,6 +3273,10 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             } else {
                 cur_id += -scroll_rate;
             }
+        } else if( action == "HOME" ) {
+            cur_id = 0;
+        } else if( action == "END" ) {
+            cur_id = scens_length - 1;
         } else if( action == "CONFIRM" ) {
             if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
                 continue;
@@ -3210,6 +3296,11 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             .description( _( "Search by scenario name." ) )
             .edit( filterstring );
             recalc_scens = true;
+        } else if( action == "RESET_FILTER" ) {
+            if( !filterstring.empty() ) {
+                filterstring = "";
+                recalc_scens = true;
+            }
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
@@ -3957,6 +4048,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             you.set_base_age( rng( 16, 55 ) );
             you.randomize_height();
             you.randomize_blood();
+            you.randomize_heartrate();
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
         } else if( action == "CHOOSE_LOCATION" ) {
@@ -4071,7 +4163,8 @@ std::vector<trait_id> Character::get_base_traits() const
     return std::vector<trait_id>( my_traits.begin(), my_traits.end() );
 }
 
-std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
+std::vector<trait_id> Character::get_mutations( bool include_hidden,
+        bool ignore_enchantments ) const
 {
     std::vector<trait_id> result;
     result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
@@ -4080,17 +4173,19 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
             result.push_back( t.first );
         }
     }
-    for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
-        if( include_hidden || ench_trait->player_display ) {
-            bool found = false;
-            for( const trait_id &exist : result ) {
-                if( exist == ench_trait ) {
-                    found = true;
-                    break;
+    if( !ignore_enchantments ) {
+        for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
+            if( include_hidden || ench_trait->player_display ) {
+                bool found = false;
+                for( const trait_id &exist : result ) {
+                    if( exist == ench_trait ) {
+                        found = true;
+                        break;
+                    }
                 }
-            }
-            if( !found ) {
-                result.push_back( ench_trait );
+                if( !found ) {
+                    result.push_back( ench_trait );
+                }
             }
         }
     }

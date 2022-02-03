@@ -133,7 +133,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "ceramic_bowl",
     "name": { "str": "ceramic bowl" },
     "symbol": ")",
@@ -153,7 +153,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "ceramic_cup",
     "name": { "str": "ceramic cup" },
     "symbol": "u",
@@ -172,7 +172,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "ceramic_mug",
     "name": { "str": "coffee mug" },
     "symbol": "u",
@@ -254,7 +254,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "tin_cup",
     "name": { "str": "tin cup" },
     "symbol": "u",
@@ -275,7 +275,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "bowl_pewter",
     "name": { "str": "pewter bowl" },
     "description": "A small pewter serving bowl without a lid.  Holds 250 ml of liquid.",
@@ -305,7 +305,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "glass",
     "name": { "str": "drinking glass", "str_pl": "drinking glasses" },
     "symbol": "U",
@@ -325,7 +325,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "wine_glass",
     "volume": "262 ml",
     "name": { "str": "wine glass", "str_pl": "wine glasses" },
@@ -346,7 +346,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "glass_bowl",
     "name": { "str": "glass bowl" },
     "symbol": "u",
@@ -376,7 +376,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "id": "tumbler_plastic",
     "name": { "str": "plastic tumbler" },
     "symbol": "U",
@@ -416,7 +416,7 @@
   {
     "id": "plastic_bowl_kids",
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "name": { "str": "kiddie bowl" },
     "symbol": "u",
     "proportional": { "weight": 0.6, "volume": 0.5 },
@@ -450,7 +450,7 @@
   {
     "id": "sippy_cup",
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "name": { "str": "sippy cup" },
     "symbol": "u",
     "proportional": { "weight": 0.4, "volume": 0.5 },
