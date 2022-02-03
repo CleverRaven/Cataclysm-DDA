@@ -83,7 +83,7 @@
     "stylish_bonus": 2,
     "squeamish_penalty": 8,
     "base_hp": 60,
-    "drench_capacity": 1,
+    "drench_capacity": 100,
     "flags": [ "IGNORE_TEMP", "LIMB_UPPER" ],
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
