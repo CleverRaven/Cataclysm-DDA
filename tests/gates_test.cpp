@@ -425,3 +425,111 @@ TEST_CASE( "doors should be dashed through when running", "[gates]" )
         }
     }
 }
+
+TEST_CASE( "doors cannot be opened or closed under certain conditions", "[gates]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+
+    clear_map();
+    clear_avatar();
+
+    const tripoint pos = they.pos() + point_east;
+
+    GIVEN( "that door is closed" ) {
+        REQUIRE( here.ter_set( pos, t_door_c ) );
+        REQUIRE( here.ter( pos ).obj().id == t_door_c->id );
+
+        WHEN( "avatar tries to open the door while prone" ) {
+            they.toggle_prone_mode();
+            REQUIRE( they.is_prone() );
+
+            // move towards the door to open them
+            REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
+
+            THEN( "the door should not open" ) {
+                CHECK( here.ter( pos ).obj().id == t_door_c->id );
+            }
+        }
+        WHEN( "avatar tries to open the door when hands are full" ) {
+            item item_rock = item( "rock" );
+            item item_briefcase = item( "briefcase" );
+
+            // fill hands with items
+            they.wield( item_rock );
+            they.wear_item( item_briefcase );
+            REQUIRE( they.get_wielded_item().typeId() == item_rock.typeId() );
+            REQUIRE( they.is_wearing( item_briefcase.typeId() ) );
+
+            // move towards the door to open them
+            REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
+
+            THEN( "the door should not open" ) {
+                CHECK( here.ter( pos ).obj().id == t_door_c->id );
+            }
+        }
+        WHEN( "avatar tries to open the door when arms are broken" ) {
+            // break both arms with pure damage
+            damage_type dtype = damage_type::PURE;
+            damage_instance damage_l = damage_instance( dtype, they.get_part_hp_cur( body_part_arm_l ) );
+            they.deal_damage( nullptr, body_part_arm_l, damage_l );
+            damage_instance damage_r = damage_instance( dtype, they.get_part_hp_cur( body_part_arm_r ) );
+            they.deal_damage( nullptr, body_part_arm_r, damage_r );
+
+            // move towards the door to open them
+            REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
+
+            THEN( "the door should not open" ) {
+                CHECK( here.ter( pos ).obj().id == t_door_c->id );
+            }
+        }
+    }
+    GIVEN( "that door is open" ) {
+        REQUIRE( here.ter_set( pos, t_door_o ) );
+        REQUIRE( here.ter( pos ).obj().id == t_door_o->id );
+
+        WHEN( "avatar tries to close the door while prone" ) {
+            they.toggle_prone_mode();
+            REQUIRE( they.is_prone() );
+
+            // try to close the door
+            doors::close_door( here, they, pos );
+
+            THEN( "the door should not close" ) {
+                CHECK( here.ter( pos ).obj().id == t_door_o->id );
+            }
+        }
+        WHEN( "avatar tries to close the door when hands are full" ) {
+            item item_rock = item( "rock" );
+            item item_briefcase = item( "briefcase" );
+
+            // fill hands with items
+            they.wield( item_rock );
+            they.wear_item( item_briefcase );
+            REQUIRE( they.get_wielded_item().typeId() == item_rock.typeId() );
+            REQUIRE( they.is_wearing( item_briefcase.typeId() ) );
+
+            // try to close the door
+            doors::close_door( here, they, pos );
+
+            THEN( "the door should not close" ) {
+                CHECK( here.ter( pos ).obj().id == t_door_o->id );
+            }
+        }
+        WHEN( "avatar tries to close the door when arms are broken" ) {
+            // break both arms with pure damage
+            damage_type dtype = damage_type::PURE;
+            damage_instance damage_l = damage_instance( dtype, they.get_part_hp_cur( body_part_arm_l ) );
+            they.deal_damage( nullptr, body_part_arm_l, damage_l );
+            damage_instance damage_r = damage_instance( dtype, they.get_part_hp_cur( body_part_arm_r ) );
+            they.deal_damage( nullptr, body_part_arm_r, damage_r );
+
+            // try to close the door
+            doors::close_door( here, they, pos );
+
+            THEN( "the door should not close" ) {
+                CHECK( here.ter( pos ).obj().id == t_door_o->id );
+            }
+        }
+    }
+}
