@@ -114,6 +114,7 @@
     "location": "structure",
     "description": "A very bright, circular light that illuminates the area around it when switched on.",
     "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "folded_volume": "0 L",
     "copy-from": "floodlight"
   },
   {
