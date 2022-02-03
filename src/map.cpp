@@ -4085,7 +4085,7 @@ void map::transform_radius( const ter_furn_transform_id transform, float radi, c
     bool shifted = false;
     if( !get_map().inbounds( get_map().getlocal( p ) ) ) {
         const tripoint_abs_ms abs_ms( p );
-        g->place_player_overmap( project_to<coords::omt>( abs_ms ) );
+        g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
         shifted = true;
     }
     for( const tripoint &t : points_on_zlevel() ) {
@@ -4096,8 +4096,7 @@ void map::transform_radius( const ter_furn_transform_id transform, float radi, c
         }
     }
     if( shifted ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ) );
-        get_avatar().set_location( avatar_pos );
+        g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
     }
 }
 
