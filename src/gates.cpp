@@ -356,24 +356,31 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
 unsigned doors::get_action_move_cost( const Character &who, int_id<ter_t> what, const bool open )
 {
     // movement point cost of opening doors
-    int base_move_cost = 100;
-    int move_cost = base_move_cost;
+    int move_cost = 100;
 
     if( what != t_null ) {
         ter_t door = what.obj();
-        move_cost = base_move_cost = open ? door.open_cost : door.close_cost;
+        move_cost = open ? door.open_cost : door.close_cost;
+    }
+    if( move_cost > 100 ) {
+        const int strength = who.get_str();
+        int cost_extra = move_cost - 100;
+        if( strength > 8 ) {
+            // weak characters open heavy doors slower
+            // maximum move cost reduction of 100% with 12 strength
+            cost_extra *= 1 - ( std::min( strength, 12 ) - 8 ) * 0.25;
+        } else {
+            // strong characters open heavy doors faster
+            // maximum move cost increase of 300% at 0 strength
+            cost_extra *= 1 + ( 8 - std::max( strength, 0 ) ) * 0.25;
+        }
+        move_cost = 100 + cost_extra;
     }
     // apply movement point modifiers
     if( who.is_crouching() ) {
         move_cost *= 3;
     } else if( who.is_running() ) {
         move_cost /= 2;
-    }
-    // weak characters open heavy doors slower
-    if( base_move_cost > 100 ) {
-        float base_cost_factor = ( std::min( base_move_cost, 200 ) - 100 ) * 0.01;
-        float strength_factor = 8.0 / std::min( ( double ) who.get_str(), 8.0 ) - 1;
-        move_cost *= 1 + strength_factor * base_cost_factor ;
     }
     return move_cost;
 }

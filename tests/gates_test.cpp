@@ -344,12 +344,13 @@ TEST_CASE( "opening and closing doors should cost movement points", "[gates]" )
 
             // movement cost of opening doors
             int open_cost = here.ter( pos ).obj().open_cost;
+            REQUIRE( open_cost > 100 );
 
             // move towards the door to open them
             REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
             THEN( "avatar should lose movement points" ) {
-                CHECK( they.moves == -( open_cost * 1.17 ) );
+                CHECK( they.moves == -( 100 + ( open_cost - 100 ) * 2.0 ) );
             }
         }
     }
@@ -366,12 +367,13 @@ TEST_CASE( "opening and closing doors should cost movement points", "[gates]" )
 
             // movement cost of opening doors
             int close_cost = here.ter( pos ).obj().close_cost;
+            REQUIRE( close_cost > 100 );
 
             doors::close_door( here, they, pos );
             REQUIRE( here.ter( pos ).obj().id == t_door_metal_c->id );
 
             THEN( "avatar should lose movement points" ) {
-                CHECK( they.moves == -( close_cost * 1.25 ) );
+                CHECK( they.moves == -( 100 + ( close_cost - 100 ) * 1.5 ) );
             }
         }
     }
