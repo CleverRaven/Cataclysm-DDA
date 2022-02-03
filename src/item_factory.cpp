@@ -1490,7 +1490,6 @@ void Item_factory::init()
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "SEXTANT", &iuse::sextant );
     add_iuse( "WEED_CAKE", &iuse::weed_cake );
-    add_iuse( "WET_O_METER", &iuse::wet_o_meter_tool );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "LUX_METER", &iuse::lux_meter );
