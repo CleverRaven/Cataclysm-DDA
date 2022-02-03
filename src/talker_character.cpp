@@ -156,9 +156,9 @@ void talker_character::unset_mutation( const trait_id &old_trait )
     me_chr->unset_mutation( old_trait );
 }
 
-bool talker_character_const::has_trait_flag( const json_character_flag &trait_flag_to_check ) const
+bool talker_character_const::has_flag( const json_character_flag &trait_flag_to_check ) const
 {
-    return me_chr_const->has_trait_flag( trait_flag_to_check );
+    return me_chr_const->has_flag( trait_flag_to_check );
 }
 
 bool talker_character_const::crossed_threshold() const

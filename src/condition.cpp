@@ -215,8 +215,8 @@ void conditional_t<T>::set_has_trait( const JsonObject &jo, const std::string &m
 }
 
 template<class T>
-void conditional_t<T>::set_has_trait_flag( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void conditional_t<T>::set_has_flag( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
 {
     const json_character_flag &trait_flag_to_check = json_character_flag( jo.get_string( member ) );
     condition = [trait_flag_to_check, is_npc]( const T & d ) {
@@ -224,7 +224,7 @@ void conditional_t<T>::set_has_trait_flag( const JsonObject &jo, const std::stri
         if( trait_flag_to_check == json_flag_MUTATION_THRESHOLD ) {
             return actor->crossed_threshold();
         }
-        return actor->has_trait_flag( trait_flag_to_check );
+        return actor->has_flag( trait_flag_to_check );
     };
 }
 
@@ -1592,10 +1592,10 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_trait( jo, "u_has_trait" );
     } else if( jo.has_member( "npc_has_trait" ) ) {
         set_has_trait( jo, "npc_has_trait", true );
-    } else if( jo.has_member( "u_has_trait_flag" ) ) {
-        set_has_trait_flag( jo, "u_has_trait_flag" );
-    } else if( jo.has_member( "npc_has_trait_flag" ) ) {
-        set_has_trait_flag( jo, "npc_has_trait_flag", true );
+    } else if( jo.has_member( "u_has_flag" ) ) {
+        set_has_flag( jo, "u_has_flag" );
+    } else if( jo.has_member( "npc_has_flag" ) ) {
+        set_has_flag( jo, "npc_has_flag", true );
     } else if( jo.has_member( "npc_has_class" ) ) {
         set_npc_has_class( jo, true );
     } else if( jo.has_member( "u_has_class" ) ) {
