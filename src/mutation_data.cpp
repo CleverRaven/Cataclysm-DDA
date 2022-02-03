@@ -317,27 +317,6 @@ void reflex_activation_data::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void mutation_effect_data::load( const JsonObject &jsobj )
-{
-    mandatory( jsobj, was_loaded, "type", type );
-    optional( jsobj, was_loaded, "duration", duration, 1_turns );
-    optional( jsobj, was_loaded, "bp", bp, body_part_torso );
-    optional( jsobj, was_loaded, "permanent", permanent, false );
-    
-    if( jsobj.has_object( "message" ) ) {
-        JsonObject jo = jsobj.get_object( "message" );
-        optional( jo, was_loaded, "text", message.first );
-        std::string tmp_rating;
-        optional( jo, was_loaded, "rating", tmp_rating, "neutral" );
-        message.second = io::string_to_enum<game_message_type>( tmp_rating );
-    }
-}
-
-void mutation_effect_data::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
-
 void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
@@ -377,8 +356,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "triggers", trigger_list );
-
-    optional( jo, was_loaded, "effects", effect_list );
 
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 

@@ -670,17 +670,6 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     }
 
-    if( !mut->effect_list.empty() ) {
-        for( const mutation_effect_data &eff_data : mut->effect_list ) {
-            std::pair<translation, game_message_type> eff_msg = eff_data.message;
-            add_effect( eff_data.type, time_duration::from_turns( eff_data.duration ), eff_data.bp, eff_data.permanent );
-            if( !eff_msg.first.empty() ) {
-                add_msg_if_player( eff_msg.second, eff_msg.first );
-            }
-        }
-        tdata.powered = false;
-    }
-    
     if( mut == trait_WEB_WEAVER ) {
         get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );

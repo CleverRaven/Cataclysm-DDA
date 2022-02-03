@@ -107,20 +107,6 @@ struct reflex_activation_data {
     void deserialize( const JsonObject &jo );
 };
 
-struct mutation_effect_data {
-
-    efftype_id type;
-    time_duration duration = 1_turns;
-    bodypart_id bp = body_part_torso;
-    bool permanent = false;
-    
-    std::pair<translation, game_message_type> message;
-    
-    bool was_loaded = false;
-    void load( const JsonObject &jsobj );
-    void deserialize( const JsonObject &jo );
-};
-
 struct mutation_branch {
         trait_id id;
         bool was_loaded = false;
@@ -203,8 +189,6 @@ struct mutation_branch {
         cata::value_ptr<mut_transform> transform;
 
         std::vector<std::vector<reflex_activation_data>> trigger_list;
-        
-        std::vector<mutation_effect_data> effect_list;
 
         /**Map of crafting skills modifiers, can be negative*/
         std::map<skill_id, int> craft_skill_bonus;

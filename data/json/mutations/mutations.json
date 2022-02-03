@@ -4629,20 +4629,6 @@
   },
   {
     "type": "mutation",
-    "id": "DERMATIK_INC",
-    "name": { "str": "Dermatik Incubation" },
-    "points": 5,
-    "description": "You are the hive, they are your swarm.  Activate to incubate.",
-    "threshreq": [ "THRESH_INSECT" ],
-    "category": [ "INSECT" ],
-    "active": true,
-    "cost": 40,
-    "hunger": true,
-    "thirst": true,
-    "effects": [ { "type": "dermatik", "duration": 1, "bp": "torso", "permanent": true, "message": { "text": "Your skin roils as the larva begin to grow.", "rating": "good" } } ]
-  },
-  {
-    "type": "mutation",
     "id": "WHISKERS",
     "name": { "str": "Whiskers" },
     "points": 1,
