@@ -112,7 +112,7 @@
     "name": { "str": "standing floodlight" },
     "item": "standing_floodlight",
     "location": "structure",
-    "description": "A very bright, circular light that illuminates the area outside the around it when turned on.",
+    "description": "A very bright, circular light that illuminates the area around it when switched on.",
     "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "copy-from": "floodlight"
   },
