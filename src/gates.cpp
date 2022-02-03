@@ -361,6 +361,7 @@ bool doors::open_door( map &m, Character &who, tripoint where )
             return false;
         }
     }
+    std::string msg_prefix = who.is_crouching() ? "carefully " : "";
     std::string door_name = m.obstacle_name( where );
     if( !can_activate_door( who, door_name, true ) ) {
         return false;
@@ -370,7 +371,7 @@ bool doors::open_door( map &m, Character &who, tripoint where )
         && !veh_closed_door && m.open_door( where, !m.is_outside( who.pos() ) ) ) {
         // apply movement point cost to player
         who.mod_moves( -get_door_interact_cost( who, t_null, true ) );
-        who.add_msg_if_player( _( "You open the %s." ), door_name );
+        who.add_msg_if_player( _( "You %sopen the %s." ), msg_prefix, door_name );
         // if auto-move is on, continue moving next turn
         if( who.is_auto_moving() ) {
             who.defer_move( where );
@@ -388,7 +389,7 @@ bool doors::open_door( map &m, Character &who, tripoint where )
             veh1->open( dpart );
         }
         //~ %1$s - vehicle name, %2$s - part name
-        who.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
+        who.add_msg_if_player( _( "You %sopen the %1$s's %2$s." ), msg_prefix, veh1->name, door_name );
 
         // apply movement point cost to player
         who.mod_moves( -get_door_interact_cost( who, t_null, true ) );
@@ -411,9 +412,9 @@ bool doors::open_door( map &m, Character &who, tripoint where )
         who.mod_moves( -get_door_interact_cost( who, door.close, true ) );
         if( veh1 != nullptr ) {
             //~ %1$s - vehicle name, %2$s - part name
-            who.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
+            who.add_msg_if_player( _( "You %sopen the %1$s's %2$s." ), msg_prefix, veh1->name, door_name );
         } else {
-            who.add_msg_if_player( _( "You open the %s." ), door_name );
+            who.add_msg_if_player( _( "You %sopen the %s." ), msg_prefix, door_name );
         }
         // if auto-move is on, continue moving next turn
         if( who.is_auto_moving() ) {
