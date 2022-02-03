@@ -1878,11 +1878,11 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "90 h",
-	"//": "Kevlar takes 90minutes per unit to make into sheet, total time is 96 h, round down for body holes.",
+    "//": "Kevlar takes 90minutes per unit to make into sheet, total time is 96 h, round down for body holes.",
     "reversible": true,
     "decomp_learn": 6,
     "autolearn": true,
-    "qualities": "id": "SEW", "level": 2 },
+    "qualities": [ { "id": "SEW", "level": 2 } ],
     "using": [ [ "armor_kevlar_layered", 64 ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 1.25 } ]
   },

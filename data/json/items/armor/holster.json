@@ -237,7 +237,7 @@
     "type": "ARMOR",
     "name": { "str": "western holster" },
     "description": "A western style holster as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
-	"weight": "260 g",
+    "weight": "260 g",
     "volume": "550 ml",
     "price_postapoc": 500,
     "material": [ "leather" ],
