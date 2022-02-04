@@ -1184,7 +1184,12 @@ class vehicle
          * Note that empty tanks don't count at all. The value is the amount as it would be
          * reported by @ref fuel_left, it is always greater than 0. The key is the fuel item type.
          */
-        std::list<item *> fuels_left();
+        std::map<itype_id, int> fuels_left() const;
+
+        /**
+         * All the individual fuel items that are in all the tanks in the vehicle.
+        */
+        std::list<item *> fuel_items_left();
 
         // Checks how much certain fuel left in tanks.
         int fuel_left( const itype_id &ftype, bool recurse = false,

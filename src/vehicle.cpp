@@ -6753,7 +6753,18 @@ void vehicle::leak_fuel( vehicle_part &pt )
     pt.ammo_unset();
 }
 
-std::list<item *> vehicle::fuels_left()
+std::map<itype_id, int> vehicle::fuels_left() const
+{
+    std::map<itype_id, int> result;
+    for( const vehicle_part &p : parts ) {
+        if( p.is_fuel_store() && !p.ammo_current().is_null() ) {
+            result[ p.ammo_current() ] += p.ammo_remaining();
+        }
+    }
+    return result;
+}
+
+std::list<item *> vehicle::fuel_items_left()
 {
     std::list<item *> result;
     for( vehicle_part &p : parts ) {

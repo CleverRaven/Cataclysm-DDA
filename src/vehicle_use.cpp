@@ -2085,7 +2085,7 @@ void vpart_position::form_inventory( inventory &inv )
 
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
     if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet, 0 ) ) {
-        for( const item *it : vehicle().fuels_left() ) {
+        for( const item *it : vehicle().fuel_items_left() ) {
             if( it->made_of( phase_id::LIQUID ) ) {
                 item fuel( *it );
                 inv.add_item( fuel );
