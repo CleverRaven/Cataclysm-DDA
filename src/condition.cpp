@@ -1582,6 +1582,10 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_npc_anger();
             };
+        } else if( checked_value == "weariness_level" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_weariness_level();
+            };
         }
     } else if( jo.has_member( "moon" ) ) {
         return []( const T & ) {

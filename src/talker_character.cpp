@@ -383,6 +383,11 @@ int talker_character_const::get_fatigue() const
     return me_chr_const->get_fatigue();
 }
 
+int talker_character_const::get_weariness_level() const
+{
+    return me_chr_const->weariness_level();
+}
+
 int talker_character_const::get_hunger() const
 {
     return me_chr_const->get_hunger();

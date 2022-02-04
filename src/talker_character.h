@@ -97,6 +97,7 @@ class talker_character_const: public talker
         bool is_mounted() const override;
         int get_activity_level() const override;
         int get_fatigue() const override;
+        int get_weariness_level() const override;
         int get_hunger() const override;
         int get_thirst() const override;
         int get_stored_kcal() const override;

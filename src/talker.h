@@ -379,6 +379,9 @@ class talker
         virtual int get_fatigue() const {
             return 0;
         }
+        virtual int get_weariness_level() const {
+            return 0;
+        }
         virtual int get_hunger() const {
             return 0;
         }
