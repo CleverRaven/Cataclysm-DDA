@@ -339,7 +339,6 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0.5,
         "max_contains_volume": "900 ml",
         "max_contains_weight": "3 kg",
         "max_item_length": "25 cm",
