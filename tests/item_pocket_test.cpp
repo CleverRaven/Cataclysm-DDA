@@ -19,6 +19,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "optional.h"
+#include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
@@ -26,6 +27,10 @@
 
 static const ammotype ammo_test_9mm( "test_9mm" );
 static const item_pocket::pocket_type pocket_container = item_pocket::pocket_type::CONTAINER;
+
+static const itype_id itype_test_backpack( "test_backpack" );
+static const itype_id itype_test_container_1L( "test_watertight_open_sealed_container_1L" );
+static const itype_id itype_test_socks( "test_socks" );
 
 // Pocket Tests
 // ------------
@@ -1521,16 +1526,6 @@ TEST_CASE( "pocket favorites allow or restrict containers", "[pocket][favorite][
 }
 
 /**
-  * Remove all equipment of the Character instance.
-  * @param dummy Character instance to remove equipment from.
-  */
-static void reset_dummy_equipment( Character &dummy )
-{
-    dummy.worn.clear();
-    dummy.remove_weapon();
-}
-
-/**
   * Add the given item to the best pocket of the dummy character.
   * @param dummy The character to add the item to.
   * @param it The item to add to the characters' pockets.
@@ -1540,35 +1535,6 @@ static void reset_dummy_equipment( Character &dummy )
 static item *add_item_to_best_pocket( Character &dummy, const item &it )
 {
     item_pocket *pocket = dummy.best_pocket( it ).second;
-    REQUIRE( pocket );
-
-    item *ret = nullptr;
-    pocket->add( it, &ret );
-    REQUIRE( pocket->has_item( *ret ) );
-
-    return ret;
-}
-
-/**
-  * Remove all equipment of the Character instance.
-  * @param dummy Character instance to remove equipment from.
-  */
-static void reset_dummy_equipment( Character &dummy )
-{
-    dummy.worn.clear();
-    dummy.remove_weapon();
-}
-
-/**
-  * Add the given item to the best pocket of the dummy character.
-  * @param dummy The character to add the item to.
-  * @param it The item to add to the characters' pockets.
-  *
-  * @returns A pointer to the newly added item, if successfull.
-  */
-static item *add_item_to_best_pocket( Character &dummy, const item &it )
-{
-    auto pocket = dummy.best_pocket( it ).second;
     REQUIRE( pocket );
 
     item *ret = nullptr;
@@ -1593,11 +1559,11 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
     Character &dummy = get_player_character();
 
     // reset dummy equipment before each test.
-    reset_dummy_equipment( dummy );
+    clear_avatar();
 
     WHEN( "the player is wielding a container" ) {
-        item socks( "test_socks" );
-        item container( "test_watertight_open_sealed_container_1L" );
+        item socks( itype_test_socks );
+        item container( itype_test_container_1L );
 
         // wield the container item.
         dummy.set_wielded_item( container );
@@ -1607,15 +1573,15 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
             CHECK( dummy.can_stash_partial( socks ) );
 
             // and check to see if the item is actually stored in the wielded container.
-            auto pocket = dummy.best_pocket( socks );
+            std::pair<item_location, item_pocket *> pocket = dummy.best_pocket( socks );
             REQUIRE( pocket.second );
             CHECK( *pocket.second == *get_only_pocket( container ) );
         }
     }
 
     WHEN( "the player is wearing a container" ) {
-        item socks( "test_socks" );
-        item backpack( "test_backpack" );
+        item socks( itype_test_socks );
+        item backpack( itype_test_backpack );
 
         // wear the backpack item.
         REQUIRE( dummy.wear_item( backpack, false, false ) );
@@ -1625,16 +1591,16 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
             CHECK( dummy.can_stash_partial( socks ) );
 
             // and check to see if the item is actually stored in the wielded container.
-            auto pocket = dummy.best_pocket( socks );
+            std::pair<item_location, item_pocket *> pocket = dummy.best_pocket( socks );
             REQUIRE( pocket.second );
             CHECK( *pocket.second == *get_only_pocket( backpack ) );
         }
     }
 
     WHEN( "wielding- and wearing a container" ) {
-        item socks( "test_socks" );
-        item container_wear( "test_watertight_open_sealed_container_1L" );
-        item container_wield( "test_watertight_open_sealed_container_1L" );
+        item socks( itype_test_socks );
+        item container_wear( itype_test_container_1L );
+        item container_wield( itype_test_container_1L );
 
         // wield- and wear the respective container items.
         REQUIRE( dummy.wield( container_wield ) );
@@ -1646,16 +1612,16 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
 
             // and try to find a fitting pocket.
             // then check to see if it is, indeed, the wielded container.
-            auto pocket = dummy.best_pocket( socks );
+            std::pair<item_location, item_pocket *> pocket = dummy.best_pocket( socks );
             REQUIRE( pocket.second );
             CHECK( *pocket.second == *get_only_pocket( container_wield ) );
         }
     }
 
     WHEN( "wearing a container with a nested rigid container" ) {
-        item socks( "test_socks" );
-        item backpack( "test_backpack" );
-        item container( "test_watertight_open_sealed_container_1L" );
+        item socks( itype_test_socks );
+        item backpack( itype_test_backpack );
+        item container( itype_test_container_1L );
 
         // wear the backpack item.
         REQUIRE( dummy.wear_item( backpack ) );
@@ -1669,16 +1635,16 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
 
             // and try to find a fitting pocket.
             // then check to see if it is, indeed, the nested container.
-            auto best_pocket = dummy.best_pocket( socks );
+            std::pair<item_location, item_pocket *> best_pocket = dummy.best_pocket( socks );
             REQUIRE( best_pocket.second );
             CHECK( *best_pocket.second == *get_only_pocket( container ) );
         }
     }
 
     WHEN( "wearing a container with a nested non-rigid container" ) {
-        item socks( "test_socks" );
-        item backpack( "test_backpack" );
-        item backpack_nested( "test_backpack" );
+        item socks( itype_test_socks );
+        item backpack( itype_test_backpack );
+        item backpack_nested( itype_test_backpack );
 
         // wear the backpack item.
         REQUIRE( dummy.wear_item( backpack ) );
@@ -1692,16 +1658,16 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
 
             // and try to find a fitting pocket.
             // then check to see if it is, indeed, the worn container.
-            auto best_pocket = dummy.best_pocket( socks );
+            std::pair<item_location, item_pocket *> best_pocket = dummy.best_pocket( socks );
             REQUIRE( best_pocket.second );
             CHECK( *best_pocket.second == *get_only_pocket( backpack ) );
         }
     }
 
     WHEN( "wearing a container with a nested rigid container which should be avoided" ) {
-        item socks( "test_socks" );
-        item backpack( "test_backpack" );
-        item container( "test_watertight_open_sealed_container_1L" );
+        item socks( itype_test_socks );
+        item backpack( itype_test_backpack );
+        item container( itype_test_container_1L );
 
         // wear the backpack item.
         REQUIRE( dummy.wear_item( backpack ) );
@@ -1716,7 +1682,7 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
             // and try to find a fitting pocket.
             // then check to see if it is, indeed, the worn backpack
             // when the nested (preferable) container should be avoided.
-            auto best_pocket = dummy.best_pocket( socks, nested_container );
+            std::pair<item_location, item_pocket *> best_pocket = dummy.best_pocket( socks, nested_container );
             REQUIRE( best_pocket.second );
             CHECK( *best_pocket.second == *get_only_pocket( backpack ) );
         }

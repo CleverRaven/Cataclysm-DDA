@@ -1811,11 +1811,11 @@ item_pocket *item_pocket::best_pocket_in_contents(
         if( &contained_item == &it || &contained_item == avoid ) {
             continue;
         }
-        const auto nested_pocket = contained_item.best_pocket( it, parent, avoid,
-                                   allow_sealed, ignore_settings, /*nested=*/true );
-        if( nested_pocket.second != nullptr &&
-            ( ret == nullptr || ret->better_pocket( *nested_pocket.second, it, /*nested=*/true ) ) ) {
-            ret = nested_pocket.second;
+        item_pocket *nested_pocket = contained_item.best_pocket( it, parent, avoid,
+                                     allow_sealed, ignore_settings, /*nested=*/true ).second;
+        if( nested_pocket != nullptr &&
+            ( ret == nullptr || ret->better_pocket( *nested_pocket, it, /*nested=*/true ) ) ) {
+            ret = nested_pocket;
         }
     }
     return ret;
