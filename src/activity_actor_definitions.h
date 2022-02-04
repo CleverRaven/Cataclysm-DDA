@@ -117,7 +117,7 @@ class autodrive_activity_actor : public activity_actor
             return activity_id( "ACT_AUTODRIVE" );
         }
 
-        void start( player_activity &act, Character & ) override;
+        void start( player_activity &, Character & ) override;
         void do_turn( player_activity &, Character & ) override;
         void canceled( player_activity &, Character & ) override;
         void finish( player_activity &act, Character & ) override;
@@ -1652,6 +1652,83 @@ class pickup_menu_activity_actor : public activity_actor
     private:
         cata::optional<tripoint> where;
         std::vector<drop_location> selection;
+};
+
+class chop_logs_activity_actor : public activity_actor
+{
+    public:
+        chop_logs_activity_actor() = default;
+        chop_logs_activity_actor( int moves, const item_location &tool ) : moves( moves ), tool( tool ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_CHOP_LOGS" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<chop_logs_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int moves;
+        item_location tool;
+};
+
+class chop_planks_activity_actor : public activity_actor
+{
+    public:
+        chop_planks_activity_actor() = default;
+        explicit chop_planks_activity_actor( int moves ) : moves( moves ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_CHOP_PLANKS" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<chop_planks_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int moves;
+};
+
+class chop_tree_activity_actor : public activity_actor
+{
+    public:
+        chop_tree_activity_actor() = default;
+        chop_tree_activity_actor( int moves, const item_location &tool ) : moves( moves ), tool( tool ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_CHOP_TREE" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<chop_tree_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int moves;
+        item_location tool;
 };
 
 class disable_activity_actor : public activity_actor

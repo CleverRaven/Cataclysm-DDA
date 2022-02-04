@@ -247,7 +247,7 @@ class zone_data
         tripoint end;
         //centered on the player
         bool is_personal;
-        // for personal zones a cached value for the global shift to where the zone was
+        // for personal zones a cached value for the global shift to where the player was at activity start
         tripoint_abs_ms cached_shift;
         shared_ptr_fast<zone_options> options;
 
@@ -290,7 +290,8 @@ class zone_data
         bool set_name();
         // returns true if type is changed
         bool set_type();
-        void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true );
+        void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true,
+                           bool update_avatar = true );
         void set_enabled( bool enabled_arg );
         void set_is_vehicle( bool is_vehicle_arg );
 
@@ -330,21 +331,18 @@ class zone_data
         }
         tripoint_abs_ms get_start_point() const {
             if( is_personal ) {
-                avatar &player_character = get_avatar();
-                return start + player_character.get_location();
+                return start + cached_shift;
             }
             return tripoint_abs_ms{ start };
         }
         tripoint_abs_ms get_end_point() const {
             if( is_personal ) {
-                avatar &player_character = get_avatar();
-                return end + player_character.get_location();
+                return end + cached_shift;
             }
             return tripoint_abs_ms{ end };
         }
-        void update_cached_shift() {
-            avatar &player_character = get_avatar();
-            cached_shift = player_character.get_location();
+        void update_cached_shift( tripoint_abs_ms player_loc ) {
+            cached_shift = player_loc;
         }
         tripoint_abs_ms get_center_point() const;
         bool has_options() const {
@@ -360,19 +358,11 @@ class zone_data
         // if cached is set to true, use the cached location instead of the current player location
         // for personal zones. This is used when checking for a zone DURING an activity which can otherise
         // cause issues of zones moving around
-        bool has_inside( const tripoint_abs_ms &p, bool cached = false ) const {
+        bool has_inside( const tripoint_abs_ms &p ) const {
             // if it is personal then the zone is local
             if( is_personal ) {
-                tripoint_abs_ms shift;
-                avatar &player_character = get_avatar();
-                // if we want the cached location vs the current uncached version centered on the player
-                if( cached ) {
-                    shift = cached_shift;
-                } else {
-                    shift = player_character.get_location();
-                }
                 return inclusive_cuboid<tripoint_abs_ms>(
-                           start + shift, end + shift ).contains( p );
+                           start + cached_shift, end + cached_shift ).contains( p );
             }
             return inclusive_cuboid<tripoint>( start, end ).contains( p.raw() );
         }
@@ -429,8 +419,7 @@ class zone_manager
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
                   const shared_ptr_fast<zone_options> &options = nullptr, const bool personal = false );
-        const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
-                                      bool cached = false ) const;
+        const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone );
 
@@ -445,7 +434,8 @@ class zone_manager
         std::string get_name_from_type( const zone_type_id &type ) const;
         bool has_type( const zone_type_id &type ) const;
         bool has_defined( const zone_type_id &type, const faction_id &fac = your_fac ) const;
-        void cache_data();
+        void cache_data( bool update_avatar = true );
+        void cache_avatar_location();
         void cache_vzones();
         bool has( const zone_type_id &type, const tripoint_abs_ms &where,
                   const faction_id &fac = your_fac ) const;

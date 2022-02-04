@@ -442,12 +442,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "propane" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "small_propane_tank", "medium_propane_tank", "large_propane_tank" ]
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "large_propane_tank" } ],
     "sub": "forge",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   }

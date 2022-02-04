@@ -1116,6 +1116,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_anvil",
+    "name": "Place Anvil"
+  },
+  {
+    "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
   },

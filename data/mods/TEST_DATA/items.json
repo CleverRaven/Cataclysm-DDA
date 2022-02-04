@@ -1,5 +1,54 @@
 [
   {
+    "type": "GENERIC",
+    "id": "fridge_test",
+    "looks_like": "minifridge",
+    "symbol": "F",
+    "color": "light_blue",
+    "name": { "str": "fridge" },
+    "description": "A fridge for keeping food cool.  Provides some insulation from outside weather.",
+    "longest_side": "1700 mm",
+    "insulation": 10,
+    "volume": "800 L",
+    "weight": "70 kg",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "500 L",
+        "max_contains_weight": "400 kg"
+      }
+    ]
+  },
+  {
+    "id": "metal_tank_test",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "keg",
+    "name": { "str": "metal tank (60L)", "str_pl": "metal tanks (60L)" },
+    "description": "A large metal tank for holding liquids.  Useful for crafting.",
+    "weight": "5668 g",
+    "volume": "60050 ml",
+    "price": 10000,
+    "price_postapoc": 250,
+    "to_hit": -4,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": "}",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "60 L",
+        "max_contains_weight": "120 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
     "type": "AMMO",
     "id": "test_rock",
     "symbol": "*",
@@ -2706,5 +2755,108 @@
       "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
       "moves": 500
     }
+  },
+  {
+    "id": "test_armor_chitin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "chitinous armor" },
+    "description": "Leg and body armor made from the exoskeletons of insects.",
+    "weight": "2632 g",
+    "volume": "17500 ml",
+    "price": 120000,
+    "price_postapoc": 3000,
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "chitin" ],
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "green",
+    "warmth": 10,
+    "longest_side": "60 cm",
+    "material_thickness": 4,
+    "environmental_protection": 6,
+    "environmental_protection_with_filter": 10,
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "test_armor_chitin_copy",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor" },
+    "copy-from": "test_armor_chitin",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "test_armor_chitin_copy_w_armor",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor" },
+    "copy-from": "test_armor_chitin",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "test_armor_chitin_copy_prop",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor" },
+    "copy-from": "test_armor_chitin",
+    "proportional": {
+      "weight": 1.125,
+      "volume": 1.13,
+      "price": 1.25,
+      "material_thickness": 1.2,
+      "environmental_protection": 1.2,
+      "environmental_protection_with_filter": 1.2
+    },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "test_armor_chitin_copy_w_armor_prop",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor" },
+    "copy-from": "test_armor_chitin",
+    "proportional": {
+      "weight": 1.125,
+      "volume": 1.13,
+      "price": 1.25,
+      "material_thickness": 1.2,
+      "environmental_protection": 1.2,
+      "environmental_protection_with_filter": 1.2
+    },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "test_armor_chitin_copy_rel",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor" },
+    "copy-from": "test_armor_chitin",
+    "relative": {
+      "weight": 200,
+      "volume": 1000,
+      "price": 100,
+      "material_thickness": 2,
+      "environmental_protection": 2,
+      "environmental_protection_with_filter": 2
+    },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "test_armor_chitin_copy_w_armor_rel",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor" },
+    "copy-from": "test_armor_chitin",
+    "relative": {
+      "weight": 200,
+      "volume": 1000,
+      "price": 100,
+      "material_thickness": 2,
+      "environmental_protection": 2,
+      "environmental_protection_with_filter": 2
+    },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   }
 ]

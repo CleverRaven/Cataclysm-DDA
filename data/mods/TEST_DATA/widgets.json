@@ -2,17 +2,75 @@
   {
     "id": "test_bp_status_indicator_template",
     "type": "widget",
-    "style": "phrase",
-    "phrases": [
-      { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow" },
-      { "id": "infected", "text": "infected", "sym": "I", "color": "pink" },
-      { "id": "broken", "text": "broken", "sym": "%", "color": "magenta" },
-      { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray" },
-      { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white" },
-      { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green" },
-      { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red" },
-      { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red" },
-      { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red" }
+    "style": "clause",
+    "clauses": [
+      { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": { "u_has_effect": "bite" } },
+      {
+        "id": "infected",
+        "text": "infected",
+        "sym": "I",
+        "color": "pink",
+        "condition": { "u_has_effect": "infected" }
+      },
+      {
+        "id": "broken",
+        "text": "broken",
+        "sym": "%",
+        "color": "magenta",
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+      },
+      {
+        "id": "splinted",
+        "text": "splinted",
+        "sym": "=",
+        "color": "light_gray",
+        "condition": { "u_has_worn_with_flag": "SPLINT" }
+      },
+      {
+        "id": "bandaged",
+        "text": "bandaged",
+        "sym": "+",
+        "color": "white",
+        "condition": { "u_has_effect": "bandaged" }
+      },
+      {
+        "id": "disinfected",
+        "text": "disinfected",
+        "sym": "$",
+        "color": "light_green",
+        "condition": { "u_has_effect": "disinfected" }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "b",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "b",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "b",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      }
     ]
   },
   {
@@ -31,8 +89,7 @@
     "label": "POOL",
     "width": 4,
     "symbols": "0123",
-    "fill": "pool",
-    "var_max": 240
+    "fill": "pool"
   },
   {
     "id": "test_number_widget",
@@ -45,9 +102,6 @@
     "type": "widget",
     "label": "COLORNUM",
     "style": "number",
-    "//": "var_min to var_max maps exactly 1:1 with color index",
-    "var_min": 0,
-    "var_max": 2,
     "colors": [ "c_red", "c_yellow", "c_green" ]
   },
   {
@@ -57,8 +111,6 @@
     "style": "graph",
     "width": 5,
     "symbols": "-=#",
-    "var_min": 0,
-    "var_max": 10,
     "colors": [ "c_red", "c_yellow", "c_light_green", "c_green" ]
   },
   {
@@ -69,8 +121,6 @@
     "width": 10,
     "symbols": "-=#",
     "fill": "pool",
-    "var_min": 0,
-    "var_max": 10000,
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
   },
   {
@@ -130,6 +180,7 @@
     "type": "widget",
     "style": "text",
     "var": "compass_legend_text",
+    "width": 0,
     "text_align": "left",
     "flags": [ "W_DYNAMIC_HEIGHT" ]
   },
@@ -139,6 +190,7 @@
     "style": "text",
     "var": "compass_legend_text",
     "height": 3,
+    "width": 0,
     "text_align": "left",
     "flags": [ "W_DYNAMIC_HEIGHT" ]
   },
@@ -148,6 +200,7 @@
     "style": "text",
     "var": "compass_legend_text",
     "height": 5,
+    "width": 0,
     "text_align": "left",
     "flags": [ "W_DYNAMIC_HEIGHT" ]
   },
@@ -173,8 +226,7 @@
     "style": "graph",
     "fill": "pool",
     "width": 10,
-    "symbols": "-=#",
-    "var_max": 10000
+    "symbols": "-=#"
   },
   {
     "id": "test_sound_num",
@@ -219,31 +271,80 @@
     "style": "text"
   },
   {
+    "id": "test_stat_num",
+    "//": "Plain text stat widget, for use in column-layout tests where color tags would interfere",
+    "type": "widget",
+    "style": "number"
+  },
+  {
     "id": "test_str_num",
     "type": "widget",
     "label": "STR",
     "var": "stat_str",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_dex_num",
     "type": "widget",
     "label": "DEX",
     "var": "stat_dex",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_int_num",
     "type": "widget",
     "label": "INT",
     "var": "stat_int",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_per_num",
     "type": "widget",
     "label": "PER",
     "var": "stat_per",
+    "copy-from": "test_stat_num"
+  },
+  {
+    "id": "test_stat_color_num",
+    "//": "Stat widget with color, to indicate below/at/above normal level",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_cyan", "c_light_green", "c_green" ],
+    "type": "widget",
+    "style": "number"
+  },
+  {
+    "id": "test_str_color_num",
+    "type": "widget",
+    "label": "STR",
+    "var": "stat_str",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_dex_color_num",
+    "type": "widget",
+    "label": "DEX",
+    "var": "stat_dex",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_int_color_num",
+    "type": "widget",
+    "label": "INT",
+    "var": "stat_int",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_per_color_num",
+    "type": "widget",
+    "label": "PER",
+    "var": "stat_per",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_health_color_num",
+    "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ],
+    "type": "widget",
+    "label": "Health",
+    "var": "health",
     "style": "number"
   },
   {
@@ -307,25 +408,24 @@
     "id": "test_status_torso_text",
     "type": "widget",
     "label": "TORSO STATUS",
-    "var": "bp_status_text",
     "bodypart": "torso",
     "style": "text",
+    "default_clause": { "text": "--" },
     "copy-from": "test_bp_status_indicator_template"
   },
   {
     "id": "test_status_left_arm_text",
     "type": "widget",
     "label": "LEFT ARM STATUS",
-    "var": "bp_status_text",
     "bodypart": "arm_l",
     "style": "text",
+    "default_clause": { "text": "--" },
     "copy-from": "test_bp_status_indicator_template"
   },
   {
     "id": "test_status_sym_torso_text",
     "type": "widget",
-    "style": "text",
-    "var": "bp_status_sym_text",
+    "style": "symbol",
     "label": "TORSO",
     "bodypart": "torso",
     "copy-from": "test_bp_status_indicator_template"
@@ -333,8 +433,7 @@
   {
     "id": "test_status_sym_left_arm_text",
     "type": "widget",
-    "style": "text",
-    "var": "bp_status_sym_text",
+    "style": "symbol",
     "label": "L ARM",
     "bodypart": "arm_l",
     "copy-from": "test_bp_status_indicator_template"
@@ -343,8 +442,8 @@
     "id": "test_status_legend_text",
     "type": "widget",
     "label": "Status Legend",
-    "style": "text",
-    "var": "bp_status_legend_text",
+    "style": "legend",
+    "bodyparts": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "copy-from": "test_bp_status_indicator_template",
     "width": 0,
     "height": 3,
@@ -366,6 +465,65 @@
     "style": "text",
     "width": 3,
     "height": 3
+  },
+  {
+    "id": "test_clause_number",
+    "type": "widget",
+    "style": "number",
+    "label": "Num Values",
+    "default_clause": { "value": 1, "color": "dark_gray" },
+    "clauses": [
+      { "value": -20, "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "value": -10, "color": "i_yellow", "condition": "u_is_deaf" },
+      { "value": 0, "color": "yellow", "condition": "is_day" },
+      { "value": 10, "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "value": 20, "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ]
+  },
+  {
+    "id": "test_clause_text",
+    "type": "widget",
+    "style": "text",
+    "label": "Text Values",
+    "default_clause": { "text": "None", "color": "dark_gray" },
+    "clauses": [
+      { "text": "blind", "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "text": "deaf", "color": "i_yellow", "condition": "u_is_deaf" },
+      { "text": "daylight", "color": "yellow", "condition": "is_day" },
+      { "text": "good hearing", "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "text": "good vision", "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ]
+  },
+  {
+    "id": "test_clause_sym",
+    "type": "widget",
+    "style": "symbol",
+    "label": "Symbol Values",
+    "default_clause": { "sym": ".", "color": "dark_gray" },
+    "clauses": [
+      { "sym": "<", "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "sym": "-", "color": "i_yellow", "condition": "u_is_deaf" },
+      { "sym": "=", "color": "yellow", "condition": "is_day" },
+      { "sym": "+", "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "sym": ">", "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ]
+  },
+  {
+    "id": "test_clause_legend",
+    "type": "widget",
+    "style": "legend",
+    "label": "Legend Values",
+    "height": 5,
+    "width": 0,
+    "default_clause": { "text": "None", "sym": ".", "color": "dark_gray" },
+    "clauses": [
+      { "text": "blind", "sym": "<", "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "text": "deaf", "sym": "-", "color": "i_yellow", "condition": "u_is_deaf" },
+      { "text": "daylight", "sym": "=", "color": "yellow", "condition": "is_day" },
+      { "text": "good hearing", "sym": "+", "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "text": "good vision", "sym": ">", "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ],
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_stat_panel",
@@ -398,7 +556,7 @@
   {
     "id": "test_text_widget",
     "type": "widget",
-    "label": "PHRASE",
+    "label": "CLAUSE",
     "style": "text",
     "strings": [ "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" ]
   },

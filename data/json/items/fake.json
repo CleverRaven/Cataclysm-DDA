@@ -203,19 +203,19 @@
     "id": "fake_tablesaw",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "tablesaw" }
+    "name": { "str": "table saw" }
   },
   {
     "id": "fake_mitresaw",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "mitresaw" }
+    "name": { "str": "mitre saw" }
   },
   {
     "id": "fake_bandsaw",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "bandsaw" }
+    "name": { "str": "band saw" }
   },
   {
     "id": "fake_router",

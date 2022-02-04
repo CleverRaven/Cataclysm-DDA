@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "portal_storm_palette",
-    "terrain": { "0": "t_floor_warped", "1": "t_wall_warped", "a": "t_grass_alien", "G": "t_grass", "@": "t_null" }
+    "terrain": { "0": "t_floor_warped", "1": "t_wall_warped", "a": "t_grass_alien", "G": "t_grass" }
   },
   {
     "type": "mapgen",
@@ -43,7 +43,8 @@
         "aaaaaaaaaaaaaaaaaaaaaaaa",
         "aaaaaaaaaaaaaaaaaaaaaaaa"
       ],
-      "palettes": [ "portal_storm_palette" ]
+      "palettes": [ "portal_storm_palette" ],
+      "set": [ { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 } ]
     }
   },
   {

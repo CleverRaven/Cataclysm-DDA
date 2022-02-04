@@ -9,13 +9,15 @@
     - [Graph widget](#graph-widget)
 - [Other fields](#other-fields)
   - [fill](#fill)
-  - [var_max](#var_max)
   - [direction](#direction)
   - [height](#height)
   - [alignment](#text_align--label_align)
   - [colors](#colors)
-  - [phrases](#phrases)
   - [flags](#flags)
+- [Clauses and conditions](#clauses-and-conditions)
+  - [Conditions](#conditions)
+  - [Default clause](#default-clause)
+- [Variable ranges](#variable-ranges)
 - [Variables](#variables)
   - [Numeric variables](#numeric-variables)
   - [Text variables](#text-variables)
@@ -74,6 +76,8 @@ Each widget has a "style" field that may be:
 - `text`: Show text from a `*_text` variable
 - `layout`: Layout container for arranging other widgets in rows or columns
 - `sidebar`: Special top-level widget for defining custom sidebars
+
+"style" can also be `symbol` or `legend`, which are specific to [clauses](#clauses-and-conditions).
 
 Let's start at the top, with the "sidebar" widget, composed of several "layout" widgets.
 
@@ -171,8 +175,6 @@ Variable widgets define a "var" field, with the name of a predefined widget vari
 widget what information it should show. Most of the time, these are attributes of the player
 character, but they can also be attributes of the world, environment, or vehicle where they are.
 
-See the [Variables](#variables) section for a list of them.
-
 For example, a widget to show the current STR stat would define this "var":
 
 ```json
@@ -189,6 +191,17 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
   "bodypart": "arm_r"
 }
 ```
+
+Some widgets can take advantage of multiple "bodyparts" like so:
+
+```json
+{
+  "bodyparts": [ "head", "torso", "arm_l", "arm_r" ]
+}
+```
+
+See [Variables](#variables) for a list of available "var" values.
+
 
 #### Number widget
 
@@ -290,8 +303,10 @@ with "=" and "#":
 ### 222
 ```
 
-See the [fill](#fill), [var_max](#var_max), and [colors](#colors) fields for more ways to customize
-the graph.
+See the [fill](#fill) and [colors](#colors) fields for more ways to customize the graph, and see
+[Variable ranges](#variable-ranges) for details on how the minimum and maximum extents of the graph
+are determined.
+
 
 
 # Other fields
@@ -362,20 +377,6 @@ Result:
 The total number of possible graphs is the same in each case, so both have the same resolution.
 
 
-## `var_max`
-
-Using "graph" style widgets, usually you should provide a "var_max" value (integer) with the maximum
-typical value of "var" that will ever be rendered.
-
-Some "var" fields such as "stamina", or "hp_bp" (hit points for body part) have a known maximum, but
-others like character stats, move speed, or encumbrance have no predefined cap - for these you can
-provide an explicit "var_max" that indicates where the top / full point of the graph is.
-
-This helps the graph widget know whether it needs to show values up to 10000 (like stamina) or only
-up to 100 or 200 (like focus). If a var usually varies within a range `[low, high]`, select a
-"var_max" greater than `high` to be sure the normal variance is captured in the graph's range.
-
-
 ## `direction`
 
 Widgets using `compass_text` expect the additional fields `direction` and `width` to
@@ -398,11 +399,6 @@ function to reserve that many lines for the compass legend:
   "height": 3
 }
 ```
-
-Plain numeric values can be displayed as-is, up to any maximum. For "graph" widgets, it is useful to
-define a "var_max" as a cutoff point; see the "Graph widget" section for more.
-
-You may also define "var_min" if it's relevant. By default this is 0.
 
 
 ## `height`
@@ -445,13 +441,14 @@ Comfort: Cozy
    Pain: No Pain
 ```
 
-By default, labels are assumed to be left-aligned while text/values are assumed to be right-aligned.
+Values may be "left", "right", or "center". The default is "left" alignment for both labels and text.
 
 
 ## `colors`
 
 Widgets with "number" or "graph" style may define "colors", which will be used as a spectrum across
-the widget's values ("var_min" to "var_max"), applying the appropriate color at each level.
+the widget's values (`var_min` to `var_max`), applying the appropriate color to each value based on
+the [Variable range](#variable-ranges) of the specified "var".
 
 For example, a lower movement number (move cost) is better, while higher numbers are worse. Around
 500 is quite bad, while less than 100 is ideal. This range might be colored with green, white, and
@@ -464,7 +461,6 @@ red, given in a "colors" list:
   "label": "Move",
   "var": "move",
   "style": "number",
-  "var_max": 500,
   "colors": [ "c_green", "c_white", "c_red" ]
 }
 ```
@@ -479,7 +475,6 @@ yellow, light red, and red. Such coloration could be represented with "colors" l
   "type": "widget",
   "label": "Stam",
   "var": "stamina",
-  "var_max": 10000,
   "style": "graph",
   "width": 5,
   "symbols": ".\\|",
@@ -487,41 +482,10 @@ yellow, light red, and red. Such coloration could be represented with "colors" l
 }
 ```
 
+The number of colors you use is arbitrary; the [range of possible values](#variable-range) will be
+mapped as closely as possible to the spectrum of colors, with one exception - variables with a
+"normal" value or range always use white (`c_white`) when the value is within normal.
 
-## `phrases`
-
-Some widgets can take advantage of "phrases" - definitions for what text/values to display and
-how to display them. These take the form of a nested object containing several optional fields:
-
-```json
-{
-  "id": "bp_status_indicator_template",
-  "type": "widget",
-  "style": "phrase",
-  "phrases": [
-    { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow" },
-    { "id": "infected", "text": "infected", "sym": "I", "color": "pink" },
-    { "id": "broken", "text": "broken", "sym": "%", "color": "magenta" },
-    { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray" },
-    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white" },
-    { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green" },
-    { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red" },
-    { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red" },
-    { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red" }
-  ]
-}
-```
-
-| JSON Field | Description
-|---         |---
-| `id`       | Which "phrase" this definition should apply to.
-| `text`     | Translated text that may be interpreted and displayed in the widget.
-| `sym`      | A shortened symbol representing the text.
-| `color`    | Defines the color for the text derived from this "phrase".
-| `value`    | A numeric value for this "phrase", which may be interpreted differently based on the context of the parent widget.
-
-In the above example, the widget is simply used as a template for other widgets to `copy-from`,
-which provides text and color definitions for different bodypart status conditions.
 
 ## `flags`
 
@@ -545,6 +509,135 @@ Here are some flags that can be included:
 | `W_LABEL_NONE`     | Prevents the widget's label from being displayed in the sidebar
 | `W_DISABLED`       | Makes this widget disabled by default (only applies to top-level widgets/layouts)
 | `W_DYNAMIC_HEIGHT` | Allows certain multi-line widgets to dynamically adjust their height
+
+
+# Clauses and conditions
+
+Widgets can take advantage of "clauses" - definitions for what text/values to display and
+how to display them. These take the form of a nested object containing several optional fields:
+
+```json
+{
+  "id": "bp_status_indicator_template",
+  "type": "widget",
+  "style": "text",
+  "clauses": [
+    { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": "..." },
+    { "id": "infected", "text": "infected", "sym": "I", "color": "pink", "condition": "..." },
+    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white", "condition": "..." }
+  ]
+}
+```
+
+In the above example, the widget is simply used as a template for other widgets to `copy-from`,
+which provides text and color definitions for different bodypart status conditions.
+
+| JSON Field  | Description
+|---          |---
+| `id`        | An optional identifier for this clause
+| `text`      | Translated text that may be interpreted and displayed in the widget.
+| `sym`       | A shortened symbol representing the text.
+| `color`     | Defines the color for the text derived from this "clause".
+| `value`     | A numeric value for this "clause", which may be interpreted differently based on the context of the parent widget.
+| `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this clause will be used or not. If the condition is true (or when no condition is defined), the clause can be used to its text/symbol/color in the widget's value.
+
+
+## Conditions
+
+Widget clauses and conditions can be used to define new widgets completely from JSON, using
+[dialogue conditions](NPCs.md#dialogue-conditions). By omitting the widget's `var` field, the
+widget is interpreted as either a "text", "number", "symbol", or "legend" depending on the given
+`style`. The widget will evaluate each of its clauses to determine which ones to draw values from:
+
+| Widget style | Clause field used    | Details | Example
+|---           |---                   |---      |---
+| `"number"`   | `"value"`            | Lists values as comma-separated-values from all clauses that have true conditions. | `Next threshold: 30, 40, 55`
+| `"text"`     | `"text"`             | Lists text as comma-separated-values from all clauses that have true conditions. | `TORSO: bleeding, broken, infected`
+| `"symbol"`   | `"sym"`              | Lists syms sequentially from all clauses that have true conditions. | `TORSO: b%I`
+| `"legend"`   | `"sym"` and `"text"` | Lists syms and text in a paragraph format, with spaces between pairs, from all clauses that have true conditions. | `b bleeding  % broken  I infected`
+
+Widgets using the `legend` style can be multiple lines high using a `height` > 1 (and optionally, the `W_DYNAMIC_HEIGHT` flag), so that the generated list can span the given vertical space.
+
+Some conditions can be specific to certain bodyparts. In order to simplify clauses, these conditions can pull from the parent widget's `bodypart` field (or `bodyparts` field if defining multiple). This allows the same clauses to be `copy-from`'d to multiple widgets, and each widget can display the clauses depending on whether its bodypart(s) passes the condition (assuming the condition relies on a bodypart).
+
+
+## Default clause
+
+Widgets can define a default clause that will be used if none of the clauses in the `clauses`
+array pass their conditions:
+
+```json
+{
+  "id": "observ_widget",
+  "type": "widget",
+  "style": "text",
+  "label": "Observation",
+  "clauses": [
+    {
+      "text": "Good!",
+      "color": "light_green",
+      "condition": { "u_has_trait": "EAGLEEYED" }
+    },
+    {
+      "text": "Bad!",
+      "color": "light_red",
+      "condition": { "u_has_trait": "UNOBSERVANT" }
+    }
+  ],
+  "default_clause": {
+    "text": "Neutral!",
+    "color": "white"
+  }
+}
+```
+
+In the example above, the widget would print out the following text:
+
+| Player has trait | Widget text
+|---               |---
+| Scout            | `Observation: Good!`
+| Topographagnosia | `Observation: Bad!`
+| -                | `Observation: Neutral!`
+
+
+# Variable ranges
+
+Widgets using a numeric "var" (those without a `_text` suffix) have a predetermined absolute range
+(minimum and maximum), as well as a predermined normal value or range.  These limits are not
+customizable in widget JSON, but knowing about them will make it easier to understand how "graph"
+widgets are drawn, and how the "colors" list is mapped to the variable's numeric range.
+
+Within the code, these three `widget` class attributes store the variable range info:
+
+- `var_norm`: Range (minimum, maximum) of normal or baseline `var` values
+- `var_min`: Value of `var` mapped to the zero-point of graphs, and the lowest-index color
+- `var_max`: Value of `var` mapped to the full-point of graphs, and the highest-index color
+
+All these values are integer numbers only, not floating-point numbers. They may be negative.
+
+The `var_norm` range defines what value(s) of `var` are considered normal, average, or baseline.
+For a character starting with 9 STR, their `var_norm` for the `stat_str` variable will be set to
+`(9, 9)`. When the character's STR is in the normal range, it will be displayed in white.
+
+Usually, `var_min` is simply 0, but some variables such as hidden health have a negative minimum
+value (-200 in this case). When using "colors", the `var_min` value is mapped to the first color.
+This is not necessarily the absolute minimum value that the variable can have; it is only the
+minimum value displayable on a graph, and below which the color stays fixed at the first color.
+
+All widgets have some positive `var_max` value, again depending on what `var` is being displayed.
+This helps graph widgets know whether they must show values up to 7000 or more (like stamina) or
+only up to 100 or 200 (like focus). It also determines the value mapped to the last color in
+"colors", if given. Again, this is not an absolute maximum; "number" widgets will continue to
+display numbers far in excess of the `var_max`, but "graph" widgets will stop increasing at this
+value, and the color will stay at the last color.
+
+These ranges may change dynamically during gameplay. For instance, as cardio fitness increases from
+day to day, the `var_max` of corresponding cardio widgets must reflect this. Other variables with a
+potentially dynamic `var_max` include "stamina", "mana", and "bp_hp".
+
+Likewise, when a character's STR stat increases from a mutation, the `var_norm` of corresponding
+widgets must adjust.  Variables using "var_norm" include the stat attributes "stat_str", "stat_dex",
+"stat_int", and "stat_per".
 
 
 # Variables
@@ -588,7 +681,7 @@ These variables have separate values for each part of the body, and include:
 
 In the `widget.cpp` code, `get_var_value` returns the numeric value of the widget's "var" variable,
 which in turn is used for rendering numeric widgets as well as graphs of that value. Graphs are
-rendered with reference to the maximum value for the variable, or "var_max" if none is known.
+rendered with reference to the maximum value for the variable; see [Variable ranges](#variable-ranges).
 
 
 ## Text variables

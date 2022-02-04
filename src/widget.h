@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "avatar.h"
-//#include "cata_variant.h"
 #include "enum_traits.h"
 #include "generic_factory.h"
 #include "panels.h"
@@ -47,9 +46,6 @@ enum class widget_var : int {
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
     bp_armor_outer_text, // Outermost armor on body part, with color/damage bars
-    bp_status_text, // Status of bodypart (bleeding, bitten, and/or infected)
-    bp_status_sym_text, // Status of bodypart (same as above, but shortened to 1 char per status)
-    bp_status_legend_text, // Legend describing the status indicators from bp_status_sym_text
     compass_text,   // Compass / visible threats by cardinal direction
     compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
@@ -148,26 +144,58 @@ struct enum_traits<widget_alignment> {
 class JsonObject;
 template<typename T>
 class generic_factory;
+class widget;
 
 // Forward declaration, due to codependency on panels.h
 class window_panel;
 
-struct widget_phrase {
+struct widget_clause {
     private:
+        friend class widget;
         std::string id;
         std::string sym;
         translation text;
-        nc_color color;
-        int value;
+        nc_color color = c_unset;
+        int value = INT_MIN;
+
+        // Condition for using this clause
+        bool has_condition = false;
+        std::function<bool( const dialogue & )> condition;
+        bool meets_condition( const std::string &opt_var = "" ) const;
+        bool meets_condition( const std::set<bodypart_id> &bps ) const;
+
+        static const widget_clause *get_clause_for_id( const std::string &clause_id, const widget_id &wgt,
+                int thresh_val = INT_MIN, bool skip_condition = false );
 
     public:
         void load( const JsonObject &jo );
 
-        static int get_val_for_id( const std::string &phrase_id, const widget_id &wgt );
-        static const translation &get_text_for_id( const std::string &phrase_id, const widget_id &wgt );
-        static const std::string &get_sym_for_id( const std::string &phrase_id, const widget_id &wgt );
-        static nc_color get_color_for_id( const std::string &phrase_id,
-                                          const widget_id &wgt, int val = INT_MIN );
+        /**
+         * Static accessors:
+         *
+         * Returns the requested variable for the specified requirement, or a default value if
+         * the requirements aren't met. Here are the default values for each field:
+         *      id => ""
+         *     sym => ""
+         *    text => translation()
+         *   color => c_white
+         *   value => INT_MIN
+         *
+         * If multiple entries meet the requirement, you can specify a threshold value to get the
+         * entry with the highest value below that threshold.
+         *
+         * If a clause also has a "condition" field, that condition must also return true in order
+         * for that clause to be usable.
+         */
+
+        static int get_val_for_id( const std::string &clause_id,
+                                   const widget_id &wgt, bool skip_condition = false );
+        static const translation &get_text_for_id( const std::string &clause_id,
+                const widget_id &wgt, bool skip_condition = false );
+        static const std::string &get_sym_for_id( const std::string &clause_id,
+                const widget_id &wgt, bool skip_condition = false );
+        static nc_color get_color_for_id( const std::string &clause_id,
+                                          const widget_id &wgt, bool skip_condition = false );
 };
 
 // A widget is a UI element displaying information from the underlying value of a widget_var.
@@ -179,6 +207,9 @@ class widget
 
         widget_id id;
         bool was_loaded = false;
+
+        const widget_clause *get_clause( const std::string &clause_id = "" ) const;
+        std::vector<const widget_clause *> get_clauses() const;
 
     public:
         widget() = default;
@@ -193,13 +224,15 @@ class widget
         // Width of the longest label within this layout's widgets (for "rows")
         int _label_width = 0;
         // Binding variable enum like stamina, bp_hp or stat_dex
-        widget_var _var;
-        // Minimum var value, optional
-        int _var_min = 0;
-        // Maximum var value, required for graph widgets
-        int _var_max = 10;
+        widget_var _var = widget_var::last;
+        // Minimum meaningful var value, set by set_default_var_range
+        int _var_min = INT_MIN;
+        // Maximum meaningful var value, set by set_default_var_range
+        int _var_max = INT_MAX;
+        // Normal var range (low, high), set by set_default_var_range
+        std::pair<int, int> _var_norm = std::make_pair( INT_MIN, INT_MAX );
         // Body part variable is linked to
-        bodypart_id _bp_id;
+        std::set<bodypart_id> _bps;
         // Width in characters of widget, not including label
         int _width = 0;
         // Height in characters of widget, only matters for style == widget
@@ -222,8 +255,10 @@ class widget
         cardinal_direction _direction;
         // Flags for special widget behaviors
         std::set<flag_id> _flags;
-        // Phrases used to define text, colors and values
-        std::vector<widget_phrase> _phrases;
+        // clauses used to define text, colors and values
+        std::vector<widget_clause> _clauses;
+        // clause containing default values, in case none of _clauses have true conditions
+        widget_clause _default_clause;
         // Alignment of the widget text (Default = RIGHT)
         widget_alignment _text_align;
         // Alignment of the widget label, if any (Default = LEFT)
@@ -258,25 +293,41 @@ class widget
 
         // Evaluate and return the bound "var" associated value for an avatar
         int get_var_value( const avatar &ava ) const;
-        // Return the maximum "var" value from "var_max", or max for avatar (HP, mana, etc.)
-        int get_var_max( const avatar &ava ) const;
         // True if this widget has the given flag. Used to specify certain behaviors.
         bool has_flag( const flag_id &flag ) const;
         bool has_flag( const std::string &flag ) const;
+        // Assuming there's only one bodypart in _bps, return it (or bp_null if none exist)
+        const bodypart_id &only_bp() const;
+
+        // Set _var_min, _var_norm, and _var_max to values from the avatar
+        void set_default_var_range( const avatar &ava );
 
         // Return a color-enhanced value_string
-        std::string color_value_string( int value, int value_max = 0 );
+        std::string color_value_string( int value, int width_max = 0 );
         // Return a string for how a given value will render in the UI
-        std::string value_string( int value, int value_max = 0 );
+        std::string value_string( int value, int width_max = 0 );
         // Return a suitable color for a given value
-        nc_color value_color( int value, int value_max = 0 );
+        nc_color value_color( int value );
 
         // Return a formatted numeric string
-        std::string number( int value, int value_max = 0 );
-        // Return the text phrase mapped to a given value for "text" style
-        std::string text( int value, int value_max = 0 );
+        std::string number( int value, bool from_condition ) const;
+        // Return the numeric value(s) from all true conditional clauses in this widget
+        std::string number_cond( enumeration_conjunction join_type = enumeration_conjunction::none ) const;
+        // Return the text clause mapped to a given value for "text" style
+        std::string text( int value, bool from_condition, int width = 0 );
+        // Return the text clause(s) from all true conditional clauses in this widget
+        std::string text_cond( bool no_join = false, int width = 0 );
+        // Return the symbol mapped to a given value for "symbol" style
+        std::string sym( int value, bool from_condition );
+        // Return the symbol(s) from all true conditional clauses in this widget
+        std::string sym_cond( bool no_join = true,
+                              enumeration_conjunction join_type = enumeration_conjunction::none ) const;
+        // Return the text/symbols as list for this widget
+        std::string sym_text( bool from_condition, int width = 0 );
+        // Return the text/symbols from all true conditional clauses in this widget
+        std::string sym_text_cond( bool no_join = true, int width = 0 );
         // Return the graph part of this widget, rendered with "bucket" or "pool" fill
-        std::string graph( int value, int value_max = 0 );
+        std::string graph( int value ) const;
         // Takes a string generated by widget::layout and draws the text to the window w.
         // If the string contains newline characters, the text is broken up into lines.
         // Returns the new row index after drawing.
@@ -284,6 +335,13 @@ class widget
         static int custom_draw_multiline( const std::string &widget_string, const catacurses::window &w,
                                           const int margin, const int width, int row_num );
 };
+
+/************************************ Widget-adjacent functions ************************************/
+
+// Split legend keys into X lines, where X = height.
+// Lines use the provided width. This effectively limits the text to a 'width'x'height' box.
+std::string format_widget_multiline( const std::vector<std::string> &keys, int max_height,
+                                     int width, int &height, bool join = false );
 
 #endif // CATA_SRC_WIDGET_H
 

@@ -149,7 +149,7 @@
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
         "condition": {
-          "and": [ { "compare_int": [ { "u_val": "sold" }, { "const": 20 } ], "op": ">=" }, { "not": { "u_has_faction_trust": 20 } } ]
+          "and": [ { "compare_int": [ { "u_val": "sold" }, ">=", { "const": 20 } ] }, { "not": { "u_has_faction_trust": 20 } } ]
         },
         "effect": [ { "arithmetic": [ { "u_val": "sold" }, "-=", { "const": 20 } ] }, { "u_add_faction_trust": 1 } ]
       },
@@ -306,7 +306,7 @@
     "//~": "For a card an' a wink, eh? --> That was a good exchange",
     "speaker_effect": {
       "condition": {
-        "and": [ { "compare_int": [ { "u_val": "sold" }, { "const": 20 } ], "op": ">=" }, { "not": { "u_has_faction_trust": 21 } } ]
+        "and": [ { "compare_int": [ { "u_val": "sold" }, ">=", { "const": 20 } ] }, { "not": { "u_has_faction_trust": 21 } } ]
       },
       "effect": [ { "arithmetic": [ { "u_val": "sold" }, "-=", { "const": 20 } ] }, { "u_add_faction_trust": 1 } ]
     },
@@ -636,7 +636,7 @@
     "id": "TALK_EXODII_MERCHANT_Robot",
     "type": "talk_topic",
     "dynamic_line": "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit.",
-    "//~": "Robot?  What does that word mean?  Hang on. … Ah, an automate?  No, I'm as flesh and blood as you are, encased in a shell of metal and wire.  Not as much flesh as there used to be.  The wire is mixed and woven into the flesh, all as one, you see.",
+    "//~": "Robot?  What does that word mean?  Hang on. …Ah, an automate?  No, I'm as flesh and blood as you are, encased in a shell of metal and wire.  Not as much flesh as there used to be.  The wire is mixed and woven into the flesh, all as one, you see.",
     "speaker_effect": { "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "rubik_is_cyborg", "value": "yes" } },
     "responses": [
       {
