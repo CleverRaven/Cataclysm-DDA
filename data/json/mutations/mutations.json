@@ -125,7 +125,8 @@
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM2" ],
     "category": [ "INSECT" ],
-    "spells_learned": [ [ "spell_spit_flare", 1 ] ]
+    "active": true,
+    "activated_eocs": [ "EOC_BIOLUM3_activated" ]
   },
   {
     "type": "mutation",
@@ -4626,21 +4627,6 @@
     "hunger": true,
     "thirst": true,
     "spawn_item": { "type": "rope_30", "message": "You spin a rope from your silk." }
-  },
-  {
-    "type": "mutation",
-    "id": "DERMATIK_INC",
-    "name": { "str": "Dermatik Incubation" },
-    "points": 5,
-    "description": "You are the hive, they are your swarm.  Activate to begin parthenogenetic incubation, or to remove itching while already incubating.",
-    "prereqs": [ "PHEROMONE_INSECT" ],
-    "threshreq": [ "THRESH_INSECT" ],
-    "category": [ "INSECT" ],
-    "active": true,
-    "cost": 20,
-    "hunger": true,
-    "thirst": true,
-    "eocs": [ "EOC_dermatik_incubation" ]
   },
   {
     "type": "mutation",

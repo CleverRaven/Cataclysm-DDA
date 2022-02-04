@@ -38,14 +38,21 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_dermatik_incubation",
-    "condition": { "not": { "u_has_effect": "dermatik", "bodypart": "torso" } },
+    "id": "EOC_BIOLUM3_activated",
+    "condition": { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 3000 } ] },
     "effect": [
-      { "u_add_effect": "dermatik", "intensity": 0, "duration": "PERMANENT", "target_part": "torso" },
-      { "u_message": "Your flesh roils as the larvae begin to form.", "type": "good" },
-      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 40 } ] }
+      {
+        "u_cast_spell": {
+          "id": "spell_spit_flare",
+          "message": "You fire a glob of bioluminescent goo!",
+          "npc_message": "Somebody else fired a glob of bioluminescent goo!  Gross!",
+          "min_level": 1
+        },
+        "targeted": true
+      },
+      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 700 } ] }
     ],
-    "false_effect": [ { "u_lose_effect": "formication" }, { "u_message": "You placate the growing larvae with an infusion of nutrients." } ]
+    "false_effect": [ { "u_message": "You don't have enough stamina to activate your Bioluminescent Flare.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",

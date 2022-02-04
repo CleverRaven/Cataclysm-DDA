@@ -280,8 +280,14 @@ struct mutation_branch {
         cata::optional<float> casting_time_multiplier = cata::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
+        // hide activation menu when activating - preferred for spell targeting activations
+        cata::optional<bool> hide_on_activated = cata::nullopt;
+        // hide activation menu when deactivating - preferred for spell targeting deactivations
+        cata::optional<bool> hide_on_deactivated = cata::nullopt;
         /** effect_on_conditions triggered when this mutation activates */
-        std::vector<effect_on_condition_id> eocs;
+        std::vector<effect_on_condition_id> activated_eocs;
+        /** effect_on_conditions triggered when this mutation deactivates */
+        std::vector<effect_on_condition_id> deactivated_eocs;
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
     private:

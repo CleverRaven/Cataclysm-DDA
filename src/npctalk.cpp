@@ -2819,16 +2819,23 @@ void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, const std::string
 }
 
 void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string &member,
-                                        bool is_npc )
+                                        bool is_npc, bool targeted )
 {
     fake_spell fake;
     mandatory( jo, false, member, fake );
-    function = [is_npc, fake]( const dialogue & d ) {
+    function = [is_npc, fake, targeted]( const dialogue & d ) {
         Creature *caster = d.actor( is_npc )->get_creature();
         if( !caster ) {
             debugmsg( "No valid caster for spell." );
         } else {
-            fake.get_spell( 0 ).cast_all_effects( *caster, caster->pos() );
+            spell sp = fake.get_spell( 0 );
+            if( targeted ) {
+                if( cata::optional<tripoint> target = sp.select_target( caster ) ) {
+                    sp.cast_all_effects( *caster, *target );
+                }
+            } else {
+                sp.cast_all_effects( *caster, caster->pos() );
+            }
         }
     };
 }
@@ -4034,9 +4041,17 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_string( "npc_lose_bionic" ) ) {
         subeffect_fun.set_lose_bionic( jo, "npc_lose_bionic", true );
     } else if( jo.has_member( "u_cast_spell" ) ) {
-        subeffect_fun.set_cast_spell( jo, "u_cast_spell", false );
+        bool targeted = false;
+        if( jo.has_bool( "targeted" ) ) {
+            targeted = jo.get_bool( "targeted" );
+        }
+        subeffect_fun.set_cast_spell( jo, "u_cast_spell", false, targeted );
     } else if( jo.has_member( "npc_cast_spell" ) ) {
-        subeffect_fun.set_cast_spell( jo, "npc_cast_spell", true );
+        bool targeted = false;
+        if( jo.has_bool( "targeted" ) ) {
+            targeted = jo.get_bool( "targeted" );
+        }
+        subeffect_fun.set_cast_spell( jo, "npc_cast_spell", true, targeted );
     } else if( jo.has_array( "arithmetic" ) ) {
         subeffect_fun.set_arithmetic( jo, "arithmetic" );
     } else if( jo.has_string( "u_set_spawn_monster" ) ) {

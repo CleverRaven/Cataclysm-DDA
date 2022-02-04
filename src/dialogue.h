@@ -112,7 +112,8 @@ struct talk_effect_fun_t {
                                             bool is_npc = false );
         void set_weighted_list_eocs( const JsonObject &jo, const std::string &member );
         void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_cast_spell( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_cast_spell( const JsonObject &jo, const std::string &member, bool is_npc,
+                             bool targeted = false );
         void set_lightning();
         void set_next_weather();
         void set_sound_effect( const JsonObject &jo, const std::string &member );
