@@ -74,6 +74,84 @@
     ]
   },
   {
+    "id": "test_rad_badge_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "rad_0",
+        "text": " green ",
+        "color": "white_green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 0 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_30",
+        "text": " blue ",
+        "color": "h_white",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 30 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 0 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_60",
+        "text": " yellow ",
+        "color": "i_yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 60 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 30 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_120",
+        "text": " orange ",
+        "color": "red_yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 120 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 60 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_240",
+        "text": " red ",
+        "color": "red_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 240 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 120 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_500",
+        "text": " black ",
+        "color": "pink",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 500 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 240 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
     "id": "test_bucket_graph",
     "type": "widget",
     "style": "graph",
@@ -148,8 +226,9 @@
     "id": "test_rad_badge_text",
     "type": "widget",
     "label": "RADIATION",
-    "var": "rad_badge_text",
-    "style": "text"
+    "style": "text",
+    "default_clause": { "text": "Unknown", "color": "light_gray" },
+    "copy-from": "test_rad_badge_template"
   },
   {
     "id": "test_compass_N_nodir_nowidth",

@@ -951,20 +951,20 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     ava.worn.emplace_back( rad_badge );
 
     // Color indicator is shown when character has radiation badge
-    rad_badge.irradiation = 0;
+    ava.set_rad( 0 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_white_green> green </color>" );
     // Any positive value turns it blue
-    rad_badge.irradiation = 1;
+    ava.set_rad( 1 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
-    rad_badge.irradiation = 29;
+    ava.set_rad( 29 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
-    rad_badge.irradiation = 31;
+    ava.set_rad( 31 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_i_yellow> yellow </color>" );
-    rad_badge.irradiation = 61;
+    ava.set_rad( 61 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_yellow> orange </color>" );
-    rad_badge.irradiation = 121;
+    ava.set_rad( 121 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
-    rad_badge.irradiation = 241;
+    ava.set_rad( 241 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
 }
 
