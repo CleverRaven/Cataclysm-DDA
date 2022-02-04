@@ -277,6 +277,7 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_ACID_IMMUNE( "ACID_IMMUNE" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_ALWAYS_HEAL( "ALWAYS_HEAL" );
 static const json_character_flag json_flag_BASH_IMMUNE( "BASH_IMMUNE" );
 static const json_character_flag json_flag_BIO_IMMUNE( "BIO_IMMUNE" );
 static const json_character_flag json_flag_BLIND( "BLIND" );
@@ -291,6 +292,7 @@ static const json_character_flag json_flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_HEATPROOF( "HEATPROOF" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
@@ -1711,10 +1713,10 @@ bool Character::uncanny_dodge()
 
     const bool can_dodge_bio = get_power_level() >= trigger_cost &&
                                has_active_bionic( bio_uncanny_dodge );
-    const bool can_dodge_mut = get_stamina() >= 300 && has_trait_flag( json_flag_UNCANNY_DODGE );
+    const bool can_dodge_mut = get_stamina() >= 300 && count_trait_flag( json_flag_UNCANNY_DODGE );
     const bool can_dodge_both = get_power_level() >= ( trigger_cost / 2 ) &&
                                 has_active_bionic( bio_uncanny_dodge ) &&
-                                get_stamina() >= 150 && has_trait_flag( json_flag_UNCANNY_DODGE );
+                                get_stamina() >= 150 && count_trait_flag( json_flag_UNCANNY_DODGE );
 
     if( !( can_dodge_bio || can_dodge_mut || can_dodge_both ) ) {
         return false;
@@ -2287,11 +2289,11 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( IR_VISION );
     }
 
-    if( has_trait_flag( json_flag_SUPER_CLAIRVOYANCE ) ) {
+    if( has_flag( json_flag_SUPER_CLAIRVOYANCE ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE_SUPER );
-    } else if( has_trait_flag( json_flag_CLAIRVOYANCE_PLUS ) ) {
+    } else if( has_flag( json_flag_CLAIRVOYANCE_PLUS ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE_PLUS );
-    } else if( has_trait_flag( json_flag_CLAIRVOYANCE ) ) {
+    } else if( has_flag( json_flag_CLAIRVOYANCE ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE );
     }
 }
@@ -2422,14 +2424,14 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
     if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
         amount /= 3.0f;
     }
-    if( has_trait_flag( json_flag_PRED2 ) && skill.is_combat_skill() ) {
+    if( has_flag( json_flag_PRED2 ) && skill.is_combat_skill() ) {
         catchup_modifier *= 2.0f;
     }
-    if( has_trait_flag( json_flag_PRED3 ) && skill.is_combat_skill() ) {
+    if( has_flag( json_flag_PRED3 ) && skill.is_combat_skill() ) {
         catchup_modifier *= 2.0f;
     }
 
-    if( has_trait_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) {
+    if( has_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) {
         catchup_modifier *= 3.0f;
     }
 
@@ -2471,7 +2473,7 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
 
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( !( has_trait_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) ) {
+        if( !( has_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) ) {
             // Base reduction on the larger of 1% of total, or practice amount.
             // The latter kicks in when long actions like crafting
             // apply many turns of gains at once.
@@ -3296,9 +3298,9 @@ void Character::do_skill_rust()
         SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
-            ( ( has_trait_flag( json_flag_PRED2 ) && calendar::once_every( 8_hours ) ) ||
-              ( has_trait_flag( json_flag_PRED3 ) && calendar::once_every( 4_hours ) ) ||
-              ( has_trait_flag( json_flag_PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
+            ( ( has_flag( json_flag_PRED2 ) && calendar::once_every( 8_hours ) ) ||
+              ( has_flag( json_flag_PRED3 ) && calendar::once_every( 4_hours ) ) ||
+              ( has_flag( json_flag_PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
             if( one_in( 13 ) ) {
                 // They've already passed the roll to avoid rust at
@@ -3852,7 +3854,7 @@ int Character::get_enchantment_speed_bonus() const
 
 int Character::get_speed() const
 {
-    if( has_trait_flag( json_flag_STEADY ) ) {
+    if( has_flag( json_flag_STEADY ) ) {
         return get_speed_base() + std::max( 0, get_speed_bonus() ) + std::max( 0,
                 get_speedydex_bonus( get_dex() ) );
     }
@@ -7526,10 +7528,21 @@ void Character::heal_bp( bodypart_id bp, int dam )
 
 void Character::heal( const bodypart_id &healed, int dam )
 {
-    if( !is_limb_broken( healed ) ) {
-        int effective_heal = std::min( dam + healed->heal_bonus,
+    if( !is_limb_broken( healed ) && ( dam != 0 || healed->has_flag( json_flag_ALWAYS_HEAL ) ) ) {
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Base healing of %s = %d", body_part_name( healed ),
+                       dam );
+        if( healed->has_flag( json_flag_HEAL_OVERRIDE ) ) {
+            dam = healed->heal_bonus;
+            add_msg_debug( debugmode::DF_CHAR_HEALTH, "Heal override, new healing %d", dam );
+        } else {
+            dam += healed->heal_bonus;
+            add_msg_debug( debugmode::DF_CHAR_HEALTH, "Healing after bodypart heal bonus %d", dam );
+        }
+        int effective_heal = std::min( dam,
                                        get_part_hp_max( healed ) - get_part_hp_cur( healed ) ) ;
         mod_part_hp_cur( healed, effective_heal );
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Final healing of %s = %d", body_part_name( healed ),
+                       dam );
         get_event_bus().send<event_type::character_heals_damage>( getID(), effective_heal );
     }
 }
@@ -10143,41 +10156,43 @@ int Character::book_fun_for( const item &book, const Character &p ) const
     return fun_bonus;
 }
 
-bool Character::has_bionic_with_flag( const json_character_flag &flag ) const
+int Character::count_bionic_with_flag( const json_character_flag &flag ) const
 {
+    int ret = 0;
     for( const bionic &bio : *my_bionics ) {
         if( bio.info().has_flag( flag ) ) {
-            return true;
+            ret++;
         }
         if( bio.info().activated ) {
             if( ( bio.info().has_active_flag( flag ) && has_active_bionic( bio.id ) ) ||
                 ( bio.info().has_inactive_flag( flag ) && !has_active_bionic( bio.id ) ) ) {
-                return true;
+                ret++;
             }
         }
     }
 
-    return false;
+    return ret;
 }
 
-bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
+int Character::count_bodypart_with_flag( const json_character_flag &flag ) const
 {
+    int ret = 0;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         if( bp->has_flag( flag ) ) {
-            return true;
+            ret++;
         }
         if( get_part( bp )->has_conditional_flag( flag ) ) {
-            return true;
+            ret++;
         }
     }
-    return false;
+    return ret;
 }
 
-bool Character::has_flag( const json_character_flag &flag ) const
+int Character::has_flag( const json_character_flag &flag ) const
 {
     // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
-    return has_trait_flag( flag ) || has_bionic_with_flag( flag ) || has_effect_with_flag( flag ) ||
-           has_bodypart_with_flag( flag );
+    return count_trait_flag( flag ) + count_bionic_with_flag( flag ) + has_effect_with_flag(
+               flag ) + count_bodypart_with_flag( flag );
 }
 
 bool Character::is_driving() const

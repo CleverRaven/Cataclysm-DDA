@@ -552,9 +552,6 @@ void item_contents::force_insert_item( const item &it, item_pocket::pocket_type 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
         item_location &parent, const item *avoid, const bool allow_sealed, const bool ignore_settings )
 {
-    if( !can_contain( it ).success() ) {
-        return { item_location(), nullptr };
-    }
     std::pair<item_location, item_pocket *> ret;
     ret.second = nullptr;
     for( item_pocket &pocket : contents ) {
@@ -1191,8 +1188,7 @@ std::list<item *> item_contents::all_items_top( const std::function<bool( item_p
     for( item_pocket &pocket : contents ) {
         if( filter( pocket ) ) {
             std::list<item *> contained_items = pocket.all_items_top();
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
+            all_items_internal.splice( all_items_internal.end(), std::move( contained_items ) );
         }
     }
     return all_items_internal;
@@ -1219,8 +1215,7 @@ std::list<const item *> item_contents::all_items_top( const
     for( const item_pocket &pocket : contents ) {
         if( filter( pocket ) ) {
             std::list<const item *> contained_items = pocket.all_items_top();
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
+            all_items_internal.splice( all_items_internal.end(), std::move( contained_items ) );
         }
     }
     return all_items_internal;
