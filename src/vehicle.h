@@ -1204,7 +1204,7 @@ class vehicle
         // Returns total vehicle fuel capacity for the given fuel type
         int fuel_capacity( const itype_id &ftype ) const;
 
-        // Returns the total specific energy of this fuel type. Frozen is ignored.
+        // Returns the total specific energy (J/g) of this fuel type. Frozen is ignored.
         float fuel_specific_energy( const itype_id &ftype ) const;
 
         // drains a fuel type (e.g. for the kitchen unit)
