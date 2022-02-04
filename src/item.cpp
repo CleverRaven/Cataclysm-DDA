@@ -3844,7 +3844,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     if( typeId() == itype_rad_badge && parts->test( iteminfo_parts::DESCRIPTION_IRRADIATION ) ) {
         info.emplace_back( "DESCRIPTION",
                            string_format( _( "* The film strip on the badge is %s." ),
-                                          display::rad_badge_color_name( irradiation ) ) );
+                                          rad_badge_color( irradiation ).first ) );
     }
 }
 
