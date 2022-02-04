@@ -301,7 +301,7 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
                 } else {
                     newit.invlet = it_ref->invlet;
                 }
-                elem.push_back( newit );
+                elem.emplace_back( std::move( newit ) );
                 return elem.back();
             } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
                 // If keep_invlet is true, we'll be forcing other items out of their current invlet.
@@ -316,9 +316,7 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
     }
     update_cache_with_item( newit );
 
-    std::list<item> newstack;
-    newstack.push_back( newit );
-    items.push_back( newstack );
+    items.emplace_back( std::list<item> { std::move( newit ) } );
     return items.back().back();
 }
 
