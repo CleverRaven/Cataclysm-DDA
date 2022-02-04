@@ -379,22 +379,16 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "dupes_allowed", dupes_allowed, false );
     optional( jsobj, was_loaded, "auto_deactivates", autodeactivated_bionics );
 
-    int eoc_num = 0;
     for( JsonValue jv : jsobj.get_array( "activated_eocs" ) ) {
-        std::string eoc_name = "INLINE_EOC_" + name + "_" + std::to_string( eoc_num++ );
-        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
 
-    eoc_num = 0;
     for( JsonValue jv : jsobj.get_array( "processed_eocs" ) ) {
-        std::string eoc_name = "INLINE_EOC_" + name + "_" + std::to_string( eoc_num++ );
-        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
+        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
 
-    eoc_num = 0;
     for( JsonValue jv : jsobj.get_array( "deactivated_eocs" ) ) {
-        std::string eoc_name = "INLINE_EOC_" + name + "_" + std::to_string( eoc_num++ );
-        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, eoc_name ) );
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
 
     int enchant_num = 0;

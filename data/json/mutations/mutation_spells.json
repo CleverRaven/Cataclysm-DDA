@@ -43,7 +43,7 @@
     "id": "spell_spit_flare",
     "type": "SPELL",
     "name": "Bioluminescent Flare",
-    "description": "Projects a spray of bioluminescent goo that illuminates the area around it.",
+    "description": "Launches a glob of bioluminescent goo that illuminates the area around it.",
     "valid_targets": [ "ally", "hostile", "ground" ],
     "effect": "attack",
     "shape": "blast",

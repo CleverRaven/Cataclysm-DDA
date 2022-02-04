@@ -41,15 +41,8 @@
     "id": "EOC_BIOLUM3_activated",
     "condition": { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 3000 } ] },
     "effect": [
-      {
-        "u_cast_spell": {
-          "id": "spell_spit_flare",
-          "message": "You fire a glob of bioluminescent goo!",
-          "npc_message": "Somebody else fired a glob of bioluminescent goo!  Gross!",
-          "min_level": 1
-        },
-        "targeted": true
-      },
+      { "u_cast_spell": { "id": "spell_spit_flare" }, "targeted": true },
+      { "u_message": "You launch a glob of bioluminescent material.", "type": "good" },
       { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 700 } ] }
     ],
     "false_effect": [ { "u_message": "You don't have enough stamina to activate your Bioluminescent Flare.", "type": "bad" } ]
