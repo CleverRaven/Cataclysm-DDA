@@ -130,18 +130,6 @@
   },
   {
     "type": "mutation",
-    "id": "INFERNAL_ROAR",
-    "name": { "str": "Draconic Organs" },
-    "points": 10,
-    "mixed_effect": true,
-    "active": true,
-    "description": "You have a massively retooled digestive tract, designed to spit flaming devastation rather than efficiently process food.",
-    "vitamins_absorb_multi": [ [ "all", [ [ "vitA", 0.25 ], [ "vitB", 0.25 ], [ "vitC", 0,25 ], [ "calcium", 0.25 ], [ "iron", 0.25 ] ] ] ],
-    "metabolism_modifier": 3,
-    "activated_eocs": [ "EOC_INFERNAL_ROAR_activated" ]
-  },
-  {
-    "type": "mutation",
     "id": "JEKYLL",
     "name": { "str": "Normal Human" },
     "points": 0,
