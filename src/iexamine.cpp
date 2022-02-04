@@ -5569,111 +5569,44 @@ static void smoker_finalize( Character &, const tripoint &examp, const time_poin
 static void smoker_load_food( Character &you, const tripoint &examp,
                               const units::volume &remaining_capacity )
 {
-    std::vector<item_comp> comps;
-
     map &here = get_map();
     if( here.furn( examp ) == furn_f_smoking_rack_active ||
         here.furn( examp ) == furn_f_metal_smoking_rack_active ) {
         you.add_msg_if_player( _( "You can't place more food while it's smoking." ) );
         return;
     }
-    // filter SMOKABLE food
-    inventory inv = you.crafting_inventory();
-    inv.remove_items_with( []( const item & it ) {
-        return it.rotten();
-    } );
-    std::vector<const item *> filtered = you.crafting_inventory().items_with( []( const item & it ) {
-        return it.has_flag( flag_SMOKABLE );
-    } );
 
-    uilist smenu;
-    smenu.text = _( "Load smoking rack with what kind of food?" );
-    // count and ask for item to be placed ...
-    std::list<std::string> names;
-    std::vector<const item *> entries;
-    for( const item *smokable_item : filtered ) {
-        int count;
-        if( smokable_item->count_by_charges() ) {
-            count = inv.charges_of( smokable_item->typeId() );
+    furn_id rack = here.furn( examp );
+    units::volume total_capacity = rack == furn_f_metal_smoking_rack ?
+                                   sm_rack::MAX_FOOD_VOLUME_PORTABLE :
+                                   sm_rack::MAX_FOOD_VOLUME;
+    units::volume used_capacity = total_capacity - remaining_capacity;
+
+    drop_locations locs = game_menus::inv::smoke_food( you, total_capacity, used_capacity );
+
+    units::volume vol = remaining_capacity;
+    for( const drop_location &dloc : locs ) {
+        item_location original = dloc.first;
+        item copy( *original );
+        copy.charges = clamp( copy.charges_per_volume( vol ), 1, dloc.second );
+
+        if( vol < copy.volume() ) {
+            add_msg( m_info, _( "The %s doesn't fit in the rack." ), copy.tname( copy.charges ) );
+            continue;
+        }
+
+        here.add_item( examp, copy );
+        you.mod_moves( -you.item_handling_cost( copy ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the rack." ), copy.charges,
+                 copy.tname( copy.charges ) );
+
+        vol -= copy.volume();
+        if( original->charges == copy.charges ) {
+            original.remove_item();
         } else {
-            count = inv.amount_of( smokable_item->typeId() );
-        }
-        if( count != 0 ) {
-            auto on_list = std::find( names.begin(), names.end(), item::nname( smokable_item->typeId(), 1 ) );
-            if( on_list == names.end() ) {
-                smenu.addentry( item::nname( smokable_item->typeId(), 1 ) );
-                entries.push_back( smokable_item );
-            }
-            names.push_back( item::nname( smokable_item->typeId(), 1 ) );
-            comps.emplace_back( smokable_item->typeId(), count );
+            original->charges -= copy.charges;
         }
     }
-
-    if( comps.empty() ) {
-        you.add_msg_if_player( _( "You don't have any food that can be smoked." ) );
-        return;
-    }
-
-    smenu.query();
-
-    if( smenu.ret < 0 || static_cast<size_t>( smenu.ret ) >= entries.size() ) {
-        add_msg( m_info, _( "Never mind." ) );
-        return;
-    }
-    int count = 0;
-    const item *what = entries[smenu.ret];
-    for( const auto &c : comps ) {
-        if( c.type == what->typeId() ) {
-            count = c.count;
-        }
-    }
-
-    const int max_count_for_capacity = remaining_capacity / what->base_volume();
-    const int max_count = std::min( count, max_count_for_capacity );
-
-    // ... then ask how many to put it
-    const std::string popupmsg = string_format( _( "Insert how many %s into the rack?" ),
-                                 item::nname( what->typeId(), count ) );
-    int amount = string_input_popup()
-                 .title( popupmsg )
-                 .width( 20 )
-                 .text( std::to_string( max_count ) )
-                 .only_digits( true )
-                 .query_int();
-
-    if( amount == 0 ) {
-        add_msg( m_info, _( "Never mind." ) );
-        return;
-    } else if( amount > count ) {
-        add_msg( m_info, _( "You don't have that many." ) );
-        return;
-    } else if( amount > max_count_for_capacity ) {
-        add_msg( m_info, _( "You can't place that many." ) );
-        return;
-    }
-
-    // reload comps with chosen items and quantity
-    comps.clear();
-    comps.emplace_back( what->typeId(), amount );
-
-    Character &player_character = get_player_character();
-    // select from where to get the items from and place them
-    inv.form_from_map( player_character.pos(), PICKUP_RANGE, &player_character );
-    inv.remove_items_with( []( const item & it ) {
-        return it.rotten();
-    } );
-
-    comp_selection<item_comp> selected = you.select_item_component( comps, 1, inv, true,
-                                         is_non_rotten_crafting_component );
-    std::list<item> moved = you.consume_items( selected, 1, is_non_rotten_crafting_component );
-
-    for( const item &m : moved ) {
-        here.add_item( examp, m );
-        you.mod_moves( -you.item_handling_cost( m ) );
-        add_msg( m_info, _( "You carefully place %1$d %2$s in the rack." ), m.charges,
-                 m.tname( m.charges ) );
-    }
-    you.invalidate_crafting_inventory();
 }
 
 static void mill_load_food( Character &you, const tripoint &examp,
