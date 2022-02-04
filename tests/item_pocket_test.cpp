@@ -27,9 +27,9 @@
 
 static const ammotype ammo_test_9mm( "test_9mm" );
 static const itype_id itype_test_backpack( "test_backpack" );
+static const itype_id itype_test_socks( "test_socks" );
 static const itype_id
 itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
-static const itype_id itype_test_socks( "test_socks" );
 static const item_pocket::pocket_type pocket_container = item_pocket::pocket_type::CONTAINER;
 
 // Pocket Tests
