@@ -153,12 +153,16 @@ std::set<itype_id> turret_data::ammo_options() const
         }
 
     } else {
+        std::map<itype_id, int> ammo_remaining;
         for( const auto &e : veh->fuels_left() ) {
             const itype *fuel = item::find_type( e->typeId() );
-            if( fuel->ammo && part->base.ammo_types().count( fuel->ammo->type ) &&
-                e->ammo_remaining() >= part->base.ammo_required() ) {
-
-                opts.insert( fuel->get_id() );
+            if( fuel->ammo && part->base.ammo_types().count( fuel->ammo->type ) ) {
+                ammo_remaining[ e->typeId() ] += e->ammo_remaining();
+            }
+        }
+        for( const auto &ammo : ammo_remaining ) {
+            if( ammo.second >= part->base.ammo_required() ) {
+                opts.insert( ammo.first );
             }
         }
     }

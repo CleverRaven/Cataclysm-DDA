@@ -6757,7 +6757,7 @@ std::list<item *> vehicle::fuels_left()
 {
     std::list<item *> result;
     for( vehicle_part &p : parts ) {
-        if( p.is_fuel_store() && !p.ammo_current().is_null() ) {
+        if( p.is_fuel_store() && !p.ammo_current().is_null() && !p.base.is_container_empty() ) {
             result.push_back( &p.base.only_item() );
         }
     }
