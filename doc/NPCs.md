@@ -988,6 +988,7 @@ Example | Description
 `"u_val": "age"` | Current age in years.
 `"u_val": "bmi_permil"` | Current BMI per mille (Body Mass Index x 1000)
 `"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
+`"u_val": "weariness_level"` | Current weariness level from 0-5
 `"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.
 `"hour"` | Hours since midnight.
 `"moon"` | Phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
