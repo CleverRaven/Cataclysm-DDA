@@ -3333,15 +3333,13 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
 
 float vehicle::fuel_specific_energy( const itype_id &ftype ) const
 {
-    float total_energy = 0.0f;
-    float total_mass = 0.0f;
+    float total_energy = 0.0f; // J/g
+    float total_mass = 0.0f;  // g
     for( const vehicle_part &vp : parts ) {
         if( vp.is_tank() && vp.ammo_current() == ftype &&
-            vp.base.legacy_front().made_of( phase_id::LIQUID ) ) {
-            float energy = vp.base.legacy_front().specific_energy;
-            float mass = to_gram( vp.base.legacy_front().weight() );
-            total_energy += energy * mass;
-            total_mass += mass;
+            vp.base.only_item().made_of( phase_id::LIQUID ) ) {
+            total_energy += vp.base.only_item().get_item_thermal_energy();
+            total_mass += to_gram( vp.base.only_item().weight() );
         }
     }
     return total_energy / total_mass;
