@@ -19,5 +19,33 @@
         "targeted": true
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INFERNAL_ROAR_activated",
+    "condition": {
+      "and": [
+        { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 6000 } ] },
+        { "compare_int": [ { "u_val": "stored_kcal" }, ">=", { "const": 44000 } ] }
+      ]
+    },
+    "effect": [
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "5 seconds" },
+      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 3000 } ] },
+      { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 4000 } ] },
+      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 65 } ] },
+      { "u_set_queue_eoc": [ "EOC_INFERNAL_ROAR_cast" ], "time_in_future_min": 4, "time_in_future_max": 4 }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough in you to activate your Infernal Roar.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INFERNAL_ROAR_cast",
+    "effect": [
+      {
+        "u_cast_spell": { "id": "spell_infernal_roar", "message": "You roar a destructive wave of flaming bile and burning fumes!" },
+        "targeted": true
+      }
+    ]
   }
 ]
