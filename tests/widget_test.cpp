@@ -1,5 +1,7 @@
 #include "catch/catch.hpp"
 
+#include "activity_actor_definitions.h"
+#include "activity_scheduling_helper.h"
 #include "game.h"
 #include "game_constants.h"
 #include "player_helpers.h"
@@ -32,6 +34,15 @@ namespace cata_curses_test
 #else
 #include "cursesport.h"
 #endif
+
+static const int move_25h = to_seconds<int>( 25_hours ) * 100;
+
+static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
+
+static const dig_activity_actor dig_actor( move_25h, tripoint_zero, "t_pit", tripoint_zero, 0, "" );
+
+static const activity_schedule task_dig( dig_actor, 5_minutes );
+static const activity_schedule task_plant( ACT_PLANT_SEED, 5_minutes );
 
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
@@ -130,6 +141,7 @@ static const widget_id widget_test_str_color_num( "test_str_color_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
 static const widget_id widget_test_thirst_clause( "test_thirst_clause" );
 static const widget_id widget_test_torso_armor_outer_text( "test_torso_armor_outer_text" );
+static const widget_id widget_test_weariness_clauses( "test_weariness_clauses" );
 static const widget_id widget_test_weariness_num( "test_weariness_num" );
 static const widget_id widget_test_weather_text( "test_weather_text" );
 static const widget_id widget_test_weather_text_height5( "test_weather_text_height5" );
@@ -741,13 +753,6 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( head_graph_w.layout( ava ) == "HEAD: ,,,,," );
     }
 
-    SECTION( "weariness" ) {
-        widget weariness_w = widget_test_weariness_num.obj();
-
-        CHECK( weariness_w.layout( ava ) == "WEARINESS: 0" );
-        // TODO: Check weariness set to other levels
-    }
-
     SECTION( "wetness" ) {
         widget head_wetness_w = widget_test_bp_wetness_head_num.obj();
         widget torso_wetness_w = widget_test_bp_wetness_torso_num.obj();
@@ -793,6 +798,60 @@ TEST_CASE( "widgets showing activity level", "[widget][activity]" )
     tracker.new_turn();
     tracker.log_activity( EXTRA_EXERCISE );
     CHECK( activity_w.layout( ava ) == "Activity: <color_c_red>Extreme</color>" );
+}
+
+TEST_CASE( "widgets showing weariness", "[widget][weariness]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    widget weary_num_w = widget_test_weariness_num.obj();
+    widget weary_clause_w = widget_test_weariness_clauses.obj();
+
+    SECTION( "weariness_level 0" ) {
+        clear_avatar();
+        ava.activity_history.set_intake( ( ava.base_bmr() * 1000 * 19 ) / 24 );
+        REQUIRE( ava.weariness_level() == 0 );
+
+        CHECK( weary_num_w.layout( ava ) == "WEARINESS: 0" );
+        CHECK( weary_clause_w.layout( ava ) == "Weariness: <color_c_green>Fresh</color>" );
+    }
+
+    SECTION( "weariness_level 1" ) {
+        clear_avatar();
+        ava.activity_history.set_intake( ( ava.base_bmr() * 1000 * 19 ) / 24 );
+        tasklist moderate_8h;
+        moderate_8h.enschedule( task_plant, 8_hours );
+        do_activity( moderate_8h );
+        REQUIRE( ava.weariness_level() == 1 );
+
+        CHECK( weary_num_w.layout( ava ) == "WEARINESS: 1" );
+        CHECK( weary_clause_w.layout( ava ) == "Weariness: <color_c_yellow>Light</color>" );
+    }
+
+    SECTION( "weariness_level 3" ) {
+        clear_avatar();
+        ava.activity_history.set_intake( ( ava.base_bmr() * 1000 * 19 ) / 24 );
+        tasklist soldier_8h;
+        soldier_8h.enschedule( task_dig, 8_hours );
+        do_activity( soldier_8h, false );
+        REQUIRE( ava.weariness_level() == 3 );
+
+        CHECK( weary_num_w.layout( ava ) == "WEARINESS: 3" );
+        CHECK( weary_clause_w.layout( ava ) == "Weariness: <color_c_light_red>Weary</color>" );
+    }
+
+    SECTION( "weariness_level 6" ) {
+        clear_avatar();
+        ava.activity_history.set_intake( ( ava.base_bmr() * 1000 * 19 ) / 24 );
+        tasklist soldier_12h;
+        soldier_12h.enschedule( task_dig, 12_hours );
+        do_activity( soldier_12h, false );
+        REQUIRE( ava.weariness_level() == 6 );
+
+        CHECK( weary_num_w.layout( ava ) == "WEARINESS: 6" );
+        CHECK( weary_clause_w.layout( ava ) == "Weariness: <color_c_red>Extreme</color>" );
+    }
 }
 
 TEST_CASE( "widgets showing move counter and mode", "[widget][move_mode]" )

@@ -997,6 +997,50 @@
     "copy-from": "test_fatigue_clause_template"
   },
   {
+    "id": "test_weariness_clauses",
+    "type": "widget",
+    "label": "Weariness",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "fresh",
+        "text": "Fresh",
+        "color": "green",
+        "condition": { "compare_int": [ { "u_val": "weariness_level" }, "==", { "const": 0 } ] }
+      },
+      {
+        "id": "light",
+        "text": "Light",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "weariness_level" }, "==", { "const": 1 } ] }
+      },
+      {
+        "id": "moderate",
+        "text": "Moderate",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "weariness_level" }, "==", { "const": 2 } ] }
+      },
+      {
+        "id": "weary",
+        "text": "Weary",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "weariness_level" }, "==", { "const": 3 } ] }
+      },
+      {
+        "id": "very",
+        "text": "Very",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "weariness_level" }, "==", { "const": 4 } ] }
+      },
+      {
+        "id": "extreme",
+        "text": "Extreme",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "weariness_level" }, ">=", { "const": 5 } ] }
+      }
+    ]
+  },
+  {
     "id": "test_hp_head_graph",
     "type": "widget",
     "label": "HEAD",
