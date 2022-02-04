@@ -114,6 +114,9 @@ class talker
         virtual int trial_chance_mod( const std::string & ) const {
             return 0;
         }
+        virtual int get_cur_hp( const bodypart_id & ) const {
+            return 0;
+        }
 
         // stats, skills, traits, bionics, and magic
         virtual int str_cur() const {
@@ -410,10 +413,13 @@ class talker
         virtual int pain_cur() const {
             return 0;
         }
-        virtual bool worn_with_flag( const flag_id & ) const {
+        virtual bool worn_with_flag( const flag_id &, const bodypart_id & ) const {
             return false;
         }
         virtual bool wielded_with_flag( const flag_id & ) const {
+            return false;
+        }
+        virtual bool has_item_with_flag( const flag_id & ) const {
             return false;
         }
         virtual units::energy power_cur() const {
