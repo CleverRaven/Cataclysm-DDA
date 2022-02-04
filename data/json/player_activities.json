@@ -1104,7 +1104,7 @@
     "id": "ACT_GENERIC_EOC",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
-    "verb": "affecting",
+    "verb": "preparing",
     "based_on": "time",
     "interruptable": false,
     "suspendable": false,

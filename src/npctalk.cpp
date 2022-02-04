@@ -2832,9 +2832,11 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string 
             if( targeted ) {
                 if( cata::optional<tripoint> target = sp.select_target( caster ) ) {
                     sp.cast_all_effects( *caster, *target );
+                    caster->add_msg_if_player( fake.trigger_message );
                 }
             } else {
                 sp.cast_all_effects( *caster, caster->pos() );
+                caster->add_msg_if_player( fake.trigger_message );
             }
         }
     };

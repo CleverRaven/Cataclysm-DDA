@@ -38,18 +38,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_BIOLUM3_activated",
-    "condition": { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 3000 } ] },
-    "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 second" },
-      { "u_cast_spell": { "id": "spell_spit_flare" }, "targeted": true },
-      { "u_message": "You launch a glob of bioluminescent material.", "type": "good" },
-      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 700 } ] }
-    ],
-    "false_effect": [ { "u_message": "You don't have enough stamina to activate your Bioluminescent Flare.", "type": "bad" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "thunder",
     "recurrence_min": 1,
     "recurrence_max": 1,
