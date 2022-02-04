@@ -787,10 +787,21 @@ bool game::start_game()
 
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
-    const tripoint_abs_omt omtstart = start_loc.find_player_initial_location();
-    if( omtstart == overmap::invalid_tripoint ) {
-        return false;
-    }
+    tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+    do {
+        omtstart = start_loc.find_player_initial_location();
+        if( omtstart == overmap::invalid_tripoint ) {
+            if( query_yn(
+                    _( "Try again?  Warning: all savegames in current world will be deleted!\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
+                world_generator->delete_world( world_generator->active_world->world_name, false );
+                MAPBUFFER.clear();
+                overmap_buffer.clear();
+            } else {
+                return false;
+            }
+        }
+    } while( omtstart == overmap::invalid_tripoint );
+
     start_loc.prepare_map( omtstart );
 
     if( scen->has_map_extra() ) {
@@ -10028,7 +10039,7 @@ point game::place_player( const tripoint &dest_loc )
     return submap_shift;
 }
 
-void game::place_player_overmap( const tripoint_abs_omt &om_dest )
+void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player )
 {
     // if player is teleporting around, they don't bring their horse with them
     if( u.is_mounted() ) {
@@ -10060,7 +10071,9 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest )
     update_overmap_seen();
     // update weather now as it could be different on the new location
     weather.nextweather = calendar::turn;
-    place_player( player_pos );
+    if( move_player ) {
+        place_player( player_pos );
+    }
 }
 
 bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )

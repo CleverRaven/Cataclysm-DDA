@@ -36,7 +36,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_null", "X": "t_dirt" },
+      "terrain": { "X": "t_dirt" },
       "furniture": { "X": "f_egg_sackws" },
       "monster": { "X": { "monster": "mon_spider_web" } },
       "nested": { " ": { "chunks": [ [ "spider_webs", 10 ], [ "null", 1 ] ] } },

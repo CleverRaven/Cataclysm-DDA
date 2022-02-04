@@ -463,7 +463,9 @@
       { "u_message": "All the empty space around you is suddenly even emptier than should be possible." }
     ],
     "false_effect": [
-      { "set_queue_effect_on_condition": [ "EOC_impossible_shape_attack", "EOC_shifting_mass_attack" ] },
+      {
+        "set_weighted_list_eocs": [ [ "EOC_shifting_mass_attack", 2 ], [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ], [ "EOC_PORTAL_INCORPOREAL", 1 ] ]
+      },
       { "u_message": "For an instant you feel the absence's hunger upon you." }
     ]
   },

@@ -562,6 +562,9 @@
       [ "pistol_flintlock", 1 ],
       [ "survnote", 5 ],
       { "group": "toy_radio_car", "prob": 1 },
+      { "group": "toy_makerspace_kit", "prob": 1 },
+      { "group": "toy_robot_kit", "prob": 1 },
+      { "group": "toy_engine_kit", "prob": 1 },
       [ "radiocontrol", 3 ],
       [ "peephole", 1 ],
       [ "magnifying_glass", 2 ],
@@ -1653,6 +1656,9 @@
       { "item": "smart_phone", "prob": 85, "charges": 120 },
       { "item": "mp3", "prob": 65, "charges": 100 },
       { "group": "toy_radio_car", "prob": 35 },
+      { "group": "toy_makerspace_kit", "prob": 25 },
+      { "group": "toy_robot_kit", "prob": 25 },
+      { "group": "toy_engine_kit", "prob": 25 },
       { "item": "vibrator", "prob": 1, "charges": 100 }
     ]
   },
