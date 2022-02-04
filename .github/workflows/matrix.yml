@@ -61,16 +61,19 @@ jobs:
     continue-on-error: true
     runs-on: ubuntu-latest
     outputs:
+      fail_fast: ${{ steps.matrix_vars.outputs.fail_fast }}
       skip_tests: ${{ steps.matrix_vars.outputs.skip_tests }}
       max_parallel: ${{ steps.matrix_vars.outputs.max_parallel }}
     steps:
       - id: matrix_vars
         run: |
+          echo "::set-output name=fail_fast::$([ "$GITHUB_REF_NAME" = "master" ] && echo false || echo true)"
           echo "::set-output name=skip_tests::$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)"
           echo "::set-output name=max_parallel::$([ "$GITHUB_REF_NAME" = "master" ] && echo 20 || echo 1)"
   varied_builds:
     needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
     strategy:
+      fail-fast: ${{ fromJSON(needs.matrix-variables.outputs.fail_fast) }}
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
