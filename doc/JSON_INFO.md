@@ -2222,7 +2222,8 @@ The `id` must be exact as it is hardcoded to look for that.
     }
   ]
 ],
-"eocs": [ "ench_id_1" ],           // List of effect_on_conditions that attempt to activate when this mutation is successfully activated.
+"activated_eocs": [ "eoc_id_1" ],  // List of effect_on_conditions that attempt to activate when this mutation is successfully activated.
+"deactivated_eocs": [ "eoc_id_1" ],  // List of effect_on_conditions that attempt to activate when this mutation is successfully deactivated.
 "enchantments": [ "ench_id_1" ],   // List of enchantments granted by this mutation, can be either string ids of the enchantment or an inline definition of the enchantment
 "temperature_speed_modifier": 0.5, // If nonzero, become slower when cold, and faster when hot
                                    // 1.0 gives +/-1% speed for each degree above or below 65F
