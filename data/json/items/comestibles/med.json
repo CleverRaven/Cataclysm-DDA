@@ -2056,7 +2056,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": {
       "type": "heal",
-      "disinfectant_power": 1,
+      "disinfectant_power": 2,
       "bite": 0.75,
       "move_cost": 3000,
       "effects": [ { "id": "pkill1", "duration": 720 } ]
