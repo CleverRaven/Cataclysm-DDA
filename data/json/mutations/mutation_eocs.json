@@ -14,7 +14,10 @@
     "type": "effect_on_condition",
     "id": "EOC_BIOLUM3_cast",
     "effect": [
-      { "u_cast_spell": { "id": "spell_spit_flare", "message": "You launch a glob of bioluminescent material!" }, "targeted": true }
+      {
+        "u_cast_spell": { "id": "spell_spit_flare", "message": "You launch a glob of bioluminescent material!" },
+        "targeted": true
+      }
     ]
   }
 ]
