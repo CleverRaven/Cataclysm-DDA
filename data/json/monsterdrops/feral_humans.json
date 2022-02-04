@@ -20,6 +20,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "feral_humans_death_drops_tool",
+    "entries": [ { "item": "hammer", "prob": 100, "damage": [ 1, 3 ] }, { "group": "mon_zombie_technician_death_drops", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "feral_sapien_death_drops_spear",
     "entries": [
       { "group": "survivor_stabbing", "prob": 100, "damage": [ 0, 3 ] },
