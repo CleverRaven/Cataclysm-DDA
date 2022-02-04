@@ -54,7 +54,7 @@ else
     parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
     if [ -n "$MODS" ]
     then
-        parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' 'Mods-('{}')=> ' $(printf %q "${MODS}") --user-dir=modded_{#} {}" ::: "[slow] ~starting_items","~[slow] ~[.],starting_items"
+        parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' 'Mods-('{}')=> ' $(printf %q "${MODS}") --user-dir=modded_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
     fi
 
     if [ -n "$TEST_STAGE" ]
