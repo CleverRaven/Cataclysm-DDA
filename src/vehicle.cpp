@@ -3333,7 +3333,7 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
 
 float vehicle::fuel_specific_energy( const itype_id &ftype ) const
 {
-    float total_energy = 0.0f; // J/g
+    float total_energy = 0.0f; // J
     float total_mass = 0.0f;  // g
     for( const vehicle_part &vp : parts ) {
         if( vp.is_tank() && vp.ammo_current() == ftype &&
