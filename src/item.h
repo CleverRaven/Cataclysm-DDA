@@ -990,6 +990,11 @@ class item : public visitable
         /** Sets the item to new temperature and energy based new specific energy (J/g) and resets last_temp_check*/
         void set_item_specific_energy( float specific_energy );
 
+        /**
+         * Get the thermal energy of the item in Joules.
+         */
+        float get_item_thermal_energy() const;
+
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
 
@@ -2657,11 +2662,6 @@ class item : public visitable
          * @param time_delta time duration from previous temperature calculation
          */
         void calc_temp( int temp, float insulation, const time_duration &time_delta );
-
-        /**
-         * Get the thermal energy of the item in Joules.
-         */
-        float get_item_thermal_energy() const;
 
         /** Calculates item specific energy (J/g) from temperature (K)*/
         float get_specific_energy_from_temperature( float new_temperature );
