@@ -2633,10 +2633,13 @@ void inventory_selector::highlight()
 
 inventory_multiselector::inventory_multiselector( Character &p,
         const inventory_selector_preset &preset,
-        const std::string &selection_column_title, const bool allow_select_contained ) :
+        const std::string &selection_column_title,
+        const GetStats &get_stats,
+        const bool allow_select_contained ) :
     inventory_selector( p, preset ),
     allow_select_contained( allow_select_contained ),
-    selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
+    selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) ),
+    get_stats( get_stats )
 {
     ctxt.register_action( "TOGGLE_ENTRY", to_translation( "Mark/unmark selected item" ) );
     ctxt.register_action( "MARK_WITH_COUNT",
@@ -2787,6 +2790,38 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
     on_toggle();
 }
 
+drop_locations inventory_multiselector::execute()
+{
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+
+    while( true ) {
+        ui_manager::redraw();
+
+        const inventory_input input = get_input();
+
+        if( input.action == "CONFIRM" ) {
+            if( to_use.empty() ) {
+                popup_getkey( _( "No items were selected.  Use %s to select them." ),
+                              ctxt.get_desc( "TOGGLE_ENTRY" ) );
+                continue;
+            }
+            break;
+        }
+
+        if( input.action == "QUIT" ) {
+            return drop_locations();
+        }
+
+        on_input( input );
+    }
+    drop_locations dropped_pos_and_qty;
+    for( const std::pair<item_location, int> &drop_pair : to_use ) {
+        dropped_pos_and_qty.push_back( drop_pair );
+    }
+
+    return dropped_pos_and_qty;
+}
+
 inventory_compare_selector::inventory_compare_selector( Character &p ) :
     inventory_multiselector( p, default_preset, _( "ITEMS TO COMPARE" ) ) {}
 
@@ -2824,7 +2859,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             // TODO: implement favoriting in multi selection menus while maintaining selection
         } else {
-            on_input( input );
+            inventory_selector::on_input( input );
         }
 
         if( compared.size() == 2 ) {
@@ -2855,79 +2890,7 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
     on_change( *entry );
 }
 
-inventory_iuse_selector::inventory_iuse_selector(
-    Character &p,
-    const std::string &selector_title,
-    const inventory_selector_preset &preset,
-    const GetStats &get_st
-) :
-    inventory_multiselector( p, preset, selector_title, /*allow_select_contained=*/true ),
-    get_stats( get_st )
-{}
-
-drop_locations inventory_iuse_selector::execute()
-{
-    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
-
-    auto is_entry = []( const inventory_entry & elem ) {
-        return elem.is_selectable();
-    };
-    for( inventory_column *col : get_all_columns() ) {
-        if( col->allows_selecting() ) {
-            for( inventory_entry *ie : col->get_entries( is_entry ) ) {
-                for( item_location const &x : ie->locations ) {
-                    usable_locs.push_back( x );
-                }
-            }
-        }
-    }
-    int count = 0;
-    while( true ) {
-        ui_manager::redraw();
-
-        const bool noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
-        const inventory_input input = get_input();
-
-        if( input.entry != nullptr ) { // Single Item from mouse
-            highlight( input.entry->any_item() );
-            toggle_entries( count );
-        } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
-            toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
-        } else if( input.action == "MARK_WITH_COUNT" ) {  // Set count and mark selected with specific key
-            int query_result = query_count();
-            if( query_result < 0 ) {
-                continue; // Skip selecting any if invalid result or user canceled prompt
-            }
-            toggle_entries( query_result, toggle_mode::SELECTED );
-        } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
-            count = std::min( count, INT_MAX / 10 - 10 );
-            count *= 10;
-            count += input.ch - '0';
-        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
-            toggle_entries( count, toggle_mode::SELECTED );
-        } else if( input.action == "CONFIRM" ) {
-            if( to_use.empty() ) {
-                popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "TOGGLE_ENTRY" ) );
-                continue;
-            }
-            break;
-        } else if( input.action == "QUIT" ) {
-            return drop_locations();
-        } else {
-            on_input( input );
-        }
-    }
-    drop_locations dropped_pos_and_qty;
-
-    for( const std::pair<const item_location, int> use_pair : to_use ) {
-        dropped_pos_and_qty.push_back( use_pair );
-    }
-
-    return dropped_pos_and_qty;
-}
-
-inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
+inventory_selector::stats inventory_multiselector::get_raw_stats() const
 {
     if( get_stats ) {
         return get_stats( to_use );
@@ -2985,7 +2948,7 @@ void inventory_multiselector::deselect_contained_items()
     }
 }
 
-void inventory_drop_selector::on_input( const inventory_input &input )
+void inventory_multiselector::on_input( const inventory_input &input )
 {
     bool const noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
 
@@ -3007,7 +2970,7 @@ void inventory_drop_selector::on_input( const inventory_input &input )
     } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
         toggle_entries( count, toggle_mode::SELECTED );
     } else {
-        inventory_multiselector::on_input( input );
+        inventory_selector::on_input( input );
     }
 }
 
@@ -3104,31 +3067,12 @@ drop_locations pickup_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
-    int count = 0;
     while( true ) {
         ui_manager::redraw();
 
-        const bool noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
         const inventory_input input = get_input();
 
-        if( input.entry != nullptr ) { // Single Item from mouse
-            highlight( input.entry->any_item() );
-            toggle_entries( count );
-        } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
-            toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
-        } else if( input.action == "MARK_WITH_COUNT" ) { // Set count and mark selected with specific key
-            int query_result = query_count();
-            if( query_result < 0 ) {
-                continue; // Skip selecting any if invalid result or user canceled prompt
-            }
-            toggle_entries( query_result );
-        } else if( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) {
-            count = std::min( count, INT_MAX / 10 - 10 );
-            count *= 10;
-            count += input.ch - '0';
-        } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
-            toggle_entries( count );
-        } else if( input.action == "CONFIRM" ) {
+        if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
                               ctxt.get_desc( "TOGGLE_ENTRY" ) );
@@ -3145,10 +3089,6 @@ drop_locations pickup_selector::execute()
             }
         } else if( input.action == "QUIT" ) {
             return drop_locations();
-        } else if( input.action == "INVENTORY_FILTER" ) {
-            query_set_filter();
-        } else if( input.action == "TOGGLE_FAVORITE" ) {
-            // TODO: implement favoriting in multi selection menus while maintaining selection
         } else {
             on_input( input );
         }
