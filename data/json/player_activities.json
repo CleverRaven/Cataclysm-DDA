@@ -1109,7 +1109,7 @@
     "interruptable": false,
     "suspendable": false,
     "interruptable_with_kb": false
-  }
+  },
   {
     "id": "ACT_CBM_SURGERY",
     "type": "activity_type",
