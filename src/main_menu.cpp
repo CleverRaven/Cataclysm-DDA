@@ -971,7 +971,7 @@ bool main_menu::load_character_tab( bool transfer )
 
                 for( const auto &savename : savegames ) {
                     const bool selected = sel3 + line == menu_offset.y - 2;
-                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset.y ),
+                    mvwprintz( w_open, point( (16 + wn.length()) + menu_offset.x + extra_w / 2, line-- + offset.y ),
                                selected ? h_white : c_white,
                                "%s", savename.decoded_name() );
                 }
