@@ -377,7 +377,12 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
 
     optional( jsobj, was_loaded, "dupes_allowed", dupes_allowed, false );
+
     optional( jsobj, was_loaded, "auto_deactivates", autodeactivated_bionics );
+
+    optional( jsobj, was_loaded, "activated_close_ui", activated_close_ui, false );
+
+    optional( jsobj, was_loaded, "deactivated_close_ui", deactivated_close_ui, false );
 
     for( JsonValue jv : jsobj.get_array( "activated_eocs" ) ) {
         activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );

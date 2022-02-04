@@ -94,6 +94,10 @@ struct bionic_data {
 
     // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
     social_modifiers social_mods;
+    /** whether to immediately close ui when activating - used for targeted bionics */
+    bool activated_close_ui;
+    /** whether to immediately close ui when deactivating - used for targeted bionics */
+    bool deactivated_close_ui;
     /** effect_on_conditions triggered when this bionic is activated */
     std::vector<effect_on_condition_id> activated_eocs;
     /** effect_on_conditions triggered while this bionic is active */
