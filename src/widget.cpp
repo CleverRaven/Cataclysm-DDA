@@ -160,8 +160,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "safe_mode_text";
         case widget_var::style_text:
             return "style_text";
-        case widget_var::thirst_text:
-            return "thirst_text";
         case widget_var::time_text:
             return "time_text";
         case widget_var::veh_azimuth_text:
@@ -853,7 +851,6 @@ bool widget::uses_text_function()
         case widget_var::power_text:
         case widget_var::safe_mode_text:
         case widget_var::style_text:
-        case widget_var::thirst_text:
         case widget_var::time_text:
         case widget_var::veh_azimuth_text:
         case widget_var::veh_cruise_text:
@@ -962,9 +959,6 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::style_text:
             desc.first = ava.martial_arts_data->selected_style_name( ava );
-            break;
-        case widget_var::thirst_text:
-            desc = display::thirst_text_color( ava );
             break;
         case widget_var::time_text:
             desc.first = display::time_string( ava );

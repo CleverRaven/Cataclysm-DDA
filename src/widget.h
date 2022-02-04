@@ -66,7 +66,6 @@ enum class widget_var : int {
     power_text,     // Remaining power from bionics, color string
     safe_mode_text, // Safe mode text, color string
     style_text,     // Active martial arts style name
-    thirst_text,    // Thirst description text, color string
     time_text,      // Current time - exact if character has a watch, approximate otherwise
     veh_azimuth_text, // Azimuth or heading in degrees, string
     veh_cruise_text, // Current/target cruising speed in vehicle, color string
