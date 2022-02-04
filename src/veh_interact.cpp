@@ -679,7 +679,7 @@ task_reason veh_interact::cant_do( char mode )
             valid_target = false;
             has_tools = true;
             for( auto &e : veh->fuels_left() ) {
-                if( e->typeId() != itype_battery && !e->made_of_from_type( phase_id::SOLID ) ) {
+                if( e->typeId() != itype_battery && !e->made_of( phase_id::SOLID ) ) {
                     valid_target = true;
                     break;
                 }
@@ -3103,7 +3103,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
     std::vector<itype_id> fuels;
     for( auto &e : veh->fuels_left() ) {
 
-        if( e->typeId() != itype_battery || e->made_of_from_type( phase_id::SOLID ) ) {
+        if( e->typeId() != itype_battery || e->made_of( phase_id::SOLID ) ) {
             // This skips battery and plutonium cells
             continue;
         }
