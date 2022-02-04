@@ -29,7 +29,8 @@ static const ammotype ammo_test_9mm( "test_9mm" );
 static const item_pocket::pocket_type pocket_container = item_pocket::pocket_type::CONTAINER;
 
 static const itype_id itype_test_backpack( "test_backpack" );
-static const itype_id itype_test_container_1L( "test_watertight_open_sealed_container_1L" );
+static const itype_id
+itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
 static const itype_id itype_test_socks( "test_socks" );
 
 // Pocket Tests
@@ -1563,7 +1564,7 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
 
     WHEN( "the player is wielding a container" ) {
         item socks( itype_test_socks );
-        item container( itype_test_container_1L );
+        item container( itype_test_watertight_open_sealed_container_1L );
 
         // wield the container item.
         dummy.set_wielded_item( container );
@@ -1599,8 +1600,8 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
 
     WHEN( "wielding- and wearing a container" ) {
         item socks( itype_test_socks );
-        item container_wear( itype_test_container_1L );
-        item container_wield( itype_test_container_1L );
+        item container_wear( itype_test_watertight_open_sealed_container_1L );
+        item container_wield( itype_test_watertight_open_sealed_container_1L );
 
         // wield- and wear the respective container items.
         REQUIRE( dummy.wield( container_wield ) );
@@ -1621,7 +1622,7 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
     WHEN( "wearing a container with a nested rigid container" ) {
         item socks( itype_test_socks );
         item backpack( itype_test_backpack );
-        item container( itype_test_container_1L );
+        item container( itype_test_watertight_open_sealed_container_1L );
 
         // wear the backpack item.
         REQUIRE( dummy.wear_item( backpack ) );
@@ -1667,7 +1668,7 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
     WHEN( "wearing a container with a nested rigid container which should be avoided" ) {
         item socks( itype_test_socks );
         item backpack( itype_test_backpack );
-        item container( itype_test_container_1L );
+        item container( itype_test_watertight_open_sealed_container_1L );
 
         // wear the backpack item.
         REQUIRE( dummy.wear_item( backpack ) );
