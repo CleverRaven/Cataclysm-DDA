@@ -3373,8 +3373,10 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
     vehicle_part_range vpr = get_all_parts();
     return std::accumulate( vpr.begin(), vpr.end(), 0, [&ftype]( const int &lhs,
     const vpart_reference & rhs ) {
-        return lhs + ( rhs.part().ammo_current() == ftype ? rhs.part().ammo_capacity( item::find_type(
-                           ftype )->ammo->type ) : 0 );
+        cata::value_ptr<islot_ammo> a_val = item::find_type( ftype )->ammo;
+        return lhs + ( rhs.part().ammo_current() == ftype ?
+                       rhs.part().ammo_capacity( !!a_val ? a_val->type : ammotype::NULL_ID() ) :
+                       0 );
     } );
 }
 

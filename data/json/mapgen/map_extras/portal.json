@@ -47,7 +47,6 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_null" },
       "place_nested": [ { "chunks": [ "portal_location" ], "x": [ 2, 20 ], "y": [ 2, 20 ] } ],
       "monsters": { " ": { "monster": "GROUP_NETHER_PORTAL", "chance": 1, "density": 0.0001 } }
     }

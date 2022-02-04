@@ -137,5 +137,18 @@
       { "id": "jar_glass_sealed", "description": " Craft: Jar, Glass" },
       { "id": "tempered_glass_sheet", "description": " Craft: Tempered Sheet, Glass" }
     ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "fbmw_2_recipes_salt_water",
+    "building_type": "SMITH",
+    "recipes": [
+      { "id": "cured_hide", "description": " Hideworking: Cured Hide" },
+      { "id": "cured_pelt", "description": " Hideworking: Cured Pelt" },
+      { "id": "tanning_hide", "description": " Hideworking: Tanning Hide" },
+      { "id": "tanning_pelt", "description": " Hideworking: Tanning Pelt" },
+      { "id": "tanned_hide", "description": " Hideworking: Tanned Hide" },
+      { "id": "leather", "description": " Hideworking: Leather" }
+    ]
   }
 ]

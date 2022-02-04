@@ -1266,6 +1266,9 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             set_components( food_contained.components, used, batch_size, newit_counter );
             newit_counter++;
         } else if( food_contained.is_food() && !food_contained.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+            // use a copy of the used list so that the byproducts don't build up over iterations (#38071)
+            std::list<item> usedbp;
+
             // if a component item has "cooks_like" it will be replaced by that item as a component
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
@@ -1278,10 +1281,22 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 if( should_heat || remove_raw ) {
                     comp.set_flag_recursive( flag_COOKED );
                 }
+
+                // when batch crafting, set_components depends on components being merged, so merge any unmerged ones here
+                if( comp.count_by_charges() ) {
+                    auto it = std::find_if( usedbp.begin(), usedbp.end(), [&comp]( const item & usedit ) {
+                        return usedit.type == comp.type;
+                    } );
+
+                    if( it != usedbp.end() ) {
+                        it->charges += comp.charges;
+                        continue;
+                    }
+                }
+
+                usedbp.emplace_back( comp );
             }
 
-            // use a copy of the used list so that the byproducts don't build up over iterations (#38071)
-            std::list<item> usedbp = used;
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
             if( making.has_byproducts() ) {
                 for( item &byproduct : making.create_byproducts( batch_size ) ) {

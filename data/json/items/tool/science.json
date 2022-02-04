@@ -101,6 +101,110 @@
     ]
   },
   {
+    "id": "engineering_makerspace_kit",
+    "type": "TOOL",
+    "name": { "str": "makerspace kit for STEM", "str_pl": "makerspace kits for STEM" },
+    "description": "With hundreds of pieces and dozens of blueprints for small engineering projects designed for beginner learners.  Explore mechanics and hydraulics!",
+    "weight": "3200 g",
+    "volume": "1500 ml",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "^",
+    "color": "dark_gray",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "toy_makerspace_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "maker_kit_box",
+    "items": [
+      { "item": "engineering_makerspace_kit" },
+      { "item": "bubblewrap", "count": 2 },
+      { "item": "manual_makerspace" },
+      { "item": "screwdriver" }
+    ]
+  },
+  {
+    "id": "engineering_robotics_kit",
+    "type": "TOOL",
+    "name": { "str": "robotics kit for young learners", "str_pl": "robotics kits for young learners" },
+    "description": "Build and program robots with this complete robotics engineering system.  Using sensors, motors, a core controller, and hundreds of snap-together building pieces, you can follow the instructions to assemble 12 different robots.  The versatile parts also allow you to make robots according to your own designs.",
+    "weight": "3200 g",
+    "volume": "1500 ml",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "plastic" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "toy_robot_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "robot_kit_box",
+    "items": [
+      { "item": "engineering_robotics_kit" },
+      { "item": "bubblewrap", "count": 2 },
+      { "item": "manual_robotics_kit" },
+      { "item": "screwdriver" }
+    ]
+  },
+  {
+    "id": "engineering_engine_kit",
+    "type": "TOOL",
+    "name": { "str": "stirling engine kit" },
+    "description": "Stirling engine kit demonstrates principles behind the generation of electricity through the use of hot air.",
+    "weight": "3200 g",
+    "volume": "1500 ml",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "steel", "glass" ],
+    "symbol": "^",
+    "color": "light_green",
+    "ammo": [ "conc_alcohol" ],
+    "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "conc_alcohol": 750 } } ]
+  },
+  {
+    "id": "toy_engine_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "stirling_kit_box",
+    "items": [
+      { "item": "engineering_engine_kit" },
+      { "item": "bubblewrap", "count": 2 },
+      { "item": "manual_engine_kit" },
+      { "item": "screwdriver" }
+    ]
+  },
+  {
     "id": "vac_oven_small",
     "type": "TOOL",
     "name": { "str": "small vacuum oven" },
