@@ -1711,10 +1711,10 @@ bool Character::uncanny_dodge()
 
     const bool can_dodge_bio = get_power_level() >= trigger_cost &&
                                has_active_bionic( bio_uncanny_dodge );
-    const bool can_dodge_mut = get_stamina() >= 300 && has_trait_flag( json_flag_UNCANNY_DODGE );
+    const bool can_dodge_mut = get_stamina() >= 300 && count_trait_flag( json_flag_UNCANNY_DODGE );
     const bool can_dodge_both = get_power_level() >= ( trigger_cost / 2 ) &&
                                 has_active_bionic( bio_uncanny_dodge ) &&
-                                get_stamina() >= 150 && has_trait_flag( json_flag_UNCANNY_DODGE );
+                                get_stamina() >= 150 && count_trait_flag( json_flag_UNCANNY_DODGE );
 
     if( !( can_dodge_bio || can_dodge_mut || can_dodge_both ) ) {
         return false;
@@ -2287,11 +2287,11 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( IR_VISION );
     }
 
-    if( has_trait_flag( json_flag_SUPER_CLAIRVOYANCE ) ) {
+    if( has_flag( json_flag_SUPER_CLAIRVOYANCE ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE_SUPER );
-    } else if( has_trait_flag( json_flag_CLAIRVOYANCE_PLUS ) ) {
+    } else if( has_flag( json_flag_CLAIRVOYANCE_PLUS ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE_PLUS );
-    } else if( has_trait_flag( json_flag_CLAIRVOYANCE ) ) {
+    } else if( has_flag( json_flag_CLAIRVOYANCE ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE );
     }
 }
@@ -2422,14 +2422,14 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
     if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
         amount /= 3.0f;
     }
-    if( has_trait_flag( json_flag_PRED2 ) && skill.is_combat_skill() ) {
+    if( has_flag( json_flag_PRED2 ) && skill.is_combat_skill() ) {
         catchup_modifier *= 2.0f;
     }
-    if( has_trait_flag( json_flag_PRED3 ) && skill.is_combat_skill() ) {
+    if( has_flag( json_flag_PRED3 ) && skill.is_combat_skill() ) {
         catchup_modifier *= 2.0f;
     }
 
-    if( has_trait_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) {
+    if( has_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) {
         catchup_modifier *= 3.0f;
     }
 
@@ -2471,7 +2471,7 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
 
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( !( has_trait_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) ) {
+        if( !( has_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) ) {
             // Base reduction on the larger of 1% of total, or practice amount.
             // The latter kicks in when long actions like crafting
             // apply many turns of gains at once.
@@ -3296,9 +3296,9 @@ void Character::do_skill_rust()
         SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
-            ( ( has_trait_flag( json_flag_PRED2 ) && calendar::once_every( 8_hours ) ) ||
-              ( has_trait_flag( json_flag_PRED3 ) && calendar::once_every( 4_hours ) ) ||
-              ( has_trait_flag( json_flag_PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
+            ( ( has_flag( json_flag_PRED2 ) && calendar::once_every( 8_hours ) ) ||
+              ( has_flag( json_flag_PRED3 ) && calendar::once_every( 4_hours ) ) ||
+              ( has_flag( json_flag_PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
             if( one_in( 13 ) ) {
                 // They've already passed the roll to avoid rust at
@@ -3852,7 +3852,7 @@ int Character::get_enchantment_speed_bonus() const
 
 int Character::get_speed() const
 {
-    if( has_trait_flag( json_flag_STEADY ) ) {
+    if( has_flag( json_flag_STEADY ) ) {
         return get_speed_base() + std::max( 0, get_speed_bonus() ) + std::max( 0,
                 get_speedydex_bonus( get_dex() ) );
     }
@@ -10143,41 +10143,43 @@ int Character::book_fun_for( const item &book, const Character &p ) const
     return fun_bonus;
 }
 
-bool Character::has_bionic_with_flag( const json_character_flag &flag ) const
+int Character::count_bionic_with_flag( const json_character_flag &flag ) const
 {
+    int ret = 0;
     for( const bionic &bio : *my_bionics ) {
         if( bio.info().has_flag( flag ) ) {
-            return true;
+            ret++;
         }
         if( bio.info().activated ) {
             if( ( bio.info().has_active_flag( flag ) && has_active_bionic( bio.id ) ) ||
                 ( bio.info().has_inactive_flag( flag ) && !has_active_bionic( bio.id ) ) ) {
-                return true;
+                ret++;
             }
         }
     }
 
-    return false;
+    return ret;
 }
 
-bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
+int Character::count_bodypart_with_flag( const json_character_flag &flag ) const
 {
+    int ret = 0;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         if( bp->has_flag( flag ) ) {
-            return true;
+            ret++;
         }
         if( get_part( bp )->has_conditional_flag( flag ) ) {
-            return true;
+            ret++;
         }
     }
-    return false;
+    return ret;
 }
 
-bool Character::has_flag( const json_character_flag &flag ) const
+int Character::has_flag( const json_character_flag &flag ) const
 {
     // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
-    return has_trait_flag( flag ) || has_bionic_with_flag( flag ) || has_effect_with_flag( flag ) ||
-           has_bodypart_with_flag( flag );
+    return count_trait_flag( flag ) + count_bionic_with_flag( flag ) + has_effect_with_flag(
+               flag ) + count_bodypart_with_flag( flag );
 }
 
 bool Character::is_driving() const

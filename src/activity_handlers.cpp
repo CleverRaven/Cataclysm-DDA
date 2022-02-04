@@ -573,9 +573,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
                           !corpse.in_species( species_ZOMBIE ) );
-    if( is_human && !( you.has_trait_flag( json_flag_CANNIBAL ) ||
-                       you.has_trait_flag( json_flag_PSYCHOPATH ) ||
-                       you.has_trait_flag( json_flag_SAPIOVORE ) ) ) {
+    if( is_human && !( you.has_flag( json_flag_CANNIBAL ) ||
+                       you.has_flag( json_flag_PSYCHOPATH ) ||
+                       you.has_flag( json_flag_SAPIOVORE ) ) ) {
 
         if( you.is_avatar() ) {
             if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
