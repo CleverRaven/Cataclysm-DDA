@@ -541,7 +541,7 @@
         { "item": "powder_eggs", "x": [ 39, 40 ], "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "milk_UHT", "x": 37, "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "water_clean", "x": 38, "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "crackers", "x": 36, "y": 48, "chance": 75, "repeat": [ 50, 150 ] }
+        { "item": "crackers", "x": 36, "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "utility_exoskeleton_off", "x": 6, "y": 14, "chance": 10 },
         { "item": "ice_utility_exoskeleton_off", "x": 6, "y": 14, "chance": 5 }
       ],
