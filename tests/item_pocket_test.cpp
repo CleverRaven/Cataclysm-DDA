@@ -1549,6 +1549,35 @@ static item *add_item_to_best_pocket( Character &dummy, const item &it )
     return ret;
 }
 
+/**
+  * Remove all equipment of the Character instance.
+  * @param dummy Character instance to remove equipment from.
+  */
+static void reset_dummy_equipment( Character &dummy )
+{
+    dummy.worn.clear();
+    dummy.remove_weapon();
+}
+
+/**
+  * Add the given item to the best pocket of the dummy character.
+  * @param dummy The character to add the item to.
+  * @param it The item to add to the characters' pockets.
+  *
+  * @returns A pointer to the newly added item, if successfull.
+  */
+static item *add_item_to_best_pocket( Character &dummy, const item &it )
+{
+    auto pocket = dummy.best_pocket( it ).second;
+    REQUIRE( pocket );
+
+    item *ret = nullptr;
+    pocket->add( it, &ret );
+    REQUIRE( pocket->has_item( *ret ) );
+
+    return ret;
+}
+
 // Character::best_pocket
 // - See if wielded item can hold it - start with this as default
 // - For each worn item, see if best_pocket is better; if so, use it
