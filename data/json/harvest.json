@@ -111,7 +111,10 @@
   {
     "id": "shrub_grape_harv",
     "type": "harvest",
-    "entries": [ { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+    "entries": [
+      { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
+      { "drop": "grape_leaves", "base_num": [ 1, 4 ] }
+    ]
   },
   {
     "id": "shrub_raspberry_harv",
@@ -171,12 +174,16 @@
   {
     "id": "birch_harv",
     "type": "harvest",
-    "entries": [ { "drop": "birchbark", "base_num": [ 2, 8 ] } ]
+    "entries": [ { "drop": "birchbark", "base_num": [ 2, 8 ] }, { "drop": "innerbark_raw", "base_num": [ 1, 4 ] } ]
   },
   {
     "id": "pine_harv",
     "type": "harvest",
-    "entries": [ { "drop": "pine_bough", "base_num": [ 2, 8 ] }, { "drop": "pinecone", "base_num": [ 1, 4 ] } ]
+    "entries": [
+      { "drop": "pine_bough", "base_num": [ 2, 8 ] },
+      { "drop": "pinecone", "base_num": [ 1, 4 ] },
+      { "drop": "innerbark_raw_pine", "base_num": [ 1, 4 ] }
+    ]
   },
   {
     "id": "elderberry_harv",

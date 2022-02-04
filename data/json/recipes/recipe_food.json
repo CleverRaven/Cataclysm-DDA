@@ -807,6 +807,7 @@
         [ "lettuce", 1 ],
         [ "irradiated_lettuce", 1 ],
         [ "cabbage", 1 ],
+        [ "grape_leaves", 1 ],
         [ "irradiated_cabbage", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "burdock_cooked", 1 ],
@@ -848,6 +849,7 @@
       [
         [ "lettuce", 2 ],
         [ "irradiated_lettuce", 2 ],
+        [ "grape_leaves", 2 ],
         [ "cabbage", 2 ],
         [ "irradiated_cabbage", 2 ],
         [ "dandelion_cooked", 2 ],
@@ -951,6 +953,7 @@
       [
         [ "lettuce", 1 ],
         [ "irradiated_lettuce", 1 ],
+        [ "grape_leaves", 1 ],
         [ "cabbage", 1 ],
         [ "irradiated_cabbage", 1 ],
         [ "dandelion_cooked", 1 ],
@@ -979,6 +982,7 @@
       [
         [ "lettuce", 2 ],
         [ "irradiated_lettuce", 2 ],
+        [ "grape_leaves", 2 ],
         [ "cabbage", 2 ],
         [ "irradiated_cabbage", 2 ],
         [ "dandelion_cooked", 2 ],
@@ -4989,6 +4993,7 @@
     "components": [
       [
         [ "buckwheat", 1 ],
+        [ "innerbark_dry", 1 ],
         [ "acorns_cooked", 10 ],
         [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ],
@@ -5362,6 +5367,7 @@
         [ "veggy_salted", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
+        [ "grape_leaves", 1 ],
         [ "cabbage", 1 ],
         [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
@@ -5434,6 +5440,7 @@
         [ "veggy_salted", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
+        [ "grape_leaves", 1 ],
         [ "cabbage", 1 ],
         [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
@@ -6482,6 +6489,7 @@
         [ "fiddlehead_boiled", 2 ],
         [ "fiddlehead_sauteed", 2 ],
         [ "sauerkraut", 2 ],
+        [ "grape_leaves", 2 ],
         [ "irradiated_cabbage", 2 ],
         [ "cabbage", 2 ]
       ],
@@ -6699,6 +6707,7 @@
         [ "veggy_salted", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
+        [ "grape_leaves", 1 ],
         [ "cabbage", 1 ],
         [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
@@ -6760,6 +6769,7 @@
         [ "veggy_salted", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
+        [ "grape_leaves", 1 ],
         [ "cabbage", 1 ],
         [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
@@ -7554,6 +7564,7 @@
     "components": [
       [
         [ "buckwheat", 1 ],
+        [ "innerbark_dry", 1 ],
         [ "acorns_cooked", 10 ],
         [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ],
@@ -7861,7 +7872,9 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "buckwheat", 1 ], [ "acorns_cooked", 10 ], [ "dry_rice", 5 ], [ "chestnut_roasted", 12 ] ] ]
+    "components": [
+      [ [ "buckwheat", 1 ], [ "acorns_cooked", 10 ], [ "innerbark_dry", 1 ], [ "dry_rice", 5 ], [ "chestnut_roasted", 12 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -8206,6 +8219,7 @@
         [ "burdock_cooked", 2 ],
         [ "veggy_wild_cooked", 2 ],
         [ "irradiated_cabbage", 2 ],
+        [ "grape_leaves", 2 ],
         [ "cabbage", 2 ]
       ],
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ], [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
