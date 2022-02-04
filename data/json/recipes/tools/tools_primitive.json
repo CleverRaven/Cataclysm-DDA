@@ -173,7 +173,7 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
