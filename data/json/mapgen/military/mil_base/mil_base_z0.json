@@ -542,6 +542,8 @@
         { "item": "milk_UHT", "x": 37, "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "water_clean", "x": 38, "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "crackers", "x": 36, "y": 48, "chance": 75, "repeat": [ 50, 150 ] }
+        { "item": "utility_exoskeleton_off", "x": 6, "y": 14, "chance": 10 },
+        { "item": "ice_utility_exoskeleton_off", "x": 6, "y": 14, "chance": 5 }
       ],
       "place_monsters": [
         { "monster": "GROUP_MIL_BASE", "x": [ 4, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ], "density": 0.1 },
@@ -557,9 +559,7 @@
         { "vehicle": "military_vehicles", "x": 79, "y": 42, "chance": 25, "status": 1, "rotation": 90 },
         { "vehicle": "military_vehicles", "x": 86, "y": 13, "chance": 25, "status": 1, "rotation": 270 },
         { "vehicle": "military_vehicles", "x": 79, "y": 54, "chance": 25, "status": 1, "rotation": 270 },
-        { "vehicle": "forklift", "x": 62, "y": 62, "chance": 80, "status": 0, "rotation": 90 },
-        { "item": "utility_exoskeleton_off", "x": 6, "y": 14, "chance": 100 },
-        { "item": "ice_utility_exoskeleton_off", "x": 6, "y": 14, "chance": 5 }
+        { "vehicle": "forklift", "x": 62, "y": 62, "chance": 80, "status": 0, "rotation": 90 }
       ]
     }
   },

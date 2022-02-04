@@ -166,8 +166,6 @@
       "place_vehicles": [
         { "vehicle": "golf_cart_4seat", "x": 2, "y": 6, "chance": 100, "rotation": 180 },
         { "vehicle": "forklift", "x": 8, "y": 3, "chance": 100, "rotation": 90 },
-        { "item": "utility_exoskeleton_off", "x": 6, "y": 14, "chance": 10 },
-        { "item": "ice_utility_exoskeleton_off", "x": 6, "y": 14, "chance": 5 },
         { "vehicle": "truck_trailer", "x": 5, "y": 14, "chance": 30, "rotation": 180 },
         { "vehicle": "portable_generator", "x": 5, "y": [ 2, 8 ], "chance": 30, "rotation": 90 },
         { "vehicle": "handjack", "x": 1, "y": [ 2, 8 ], "chance": 30, "rotation": 90 },
@@ -176,6 +174,10 @@
         { "vehicle": "handjack", "x": [ 40, 44 ], "y": [ 8, 10 ], "chance": 10, "rotation": 0 },
         { "vehicle": "handjack", "x": [ 40, 44 ], "y": [ 14, 16 ], "chance": 10, "rotation": 0 },
         { "vehicle": "handjack", "x": [ 40, 44 ], "y": [ 20, 22 ], "chance": 10, "rotation": 0 }
+      ],
+      "place_loot": [
+        { "item": "utility_exoskeleton_off", "x": 6, "y": 14, "chance": 20 },
+        { "item": "ice_utility_exoskeleton_off", "x": 6, "y": 14, "chance": 10 }
       ]
     }
   },
