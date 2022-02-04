@@ -1539,7 +1539,7 @@ static void reset_dummy_equipment( Character &dummy )
   */
 static item *add_item_to_best_pocket( Character &dummy, const item &it )
 {
-    auto pocket = dummy.best_pocket( it ).second;
+    item_pocket *pocket = dummy.best_pocket( it ).second;
     REQUIRE( pocket );
 
     item *ret = nullptr;
