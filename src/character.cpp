@@ -2945,16 +2945,7 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid 
         copy.charges = 1;
     }
 
-    const item weapon = get_wielded_item();
-    if( ( avoid == nullptr || &weapon != avoid ) && weapon.can_contain( copy ).success() ) {
-        return true;
-    }
-    for( const item &w : worn ) {
-        if( ( avoid == nullptr || &w != avoid ) && w.can_contain( copy ).success() ) {
-            return true;
-        }
-    }
-    return false;
+    return can_pickVolume( copy, avoid );
 }
 
 bool Character::can_pickWeight( const item &it, bool safe ) const
