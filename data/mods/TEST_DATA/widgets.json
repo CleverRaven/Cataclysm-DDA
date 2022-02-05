@@ -273,6 +273,24 @@
     ]
   },
   {
+    "id": "test_move_mode_template",
+    "type": "widget",
+    "style": "clause",
+    "default_clause": { "text": "bugging out", "sym": "-", "color": "dark_gray" },
+    "clauses": [
+      { "id": "run", "text": "running", "sym": "R", "color": "red", "condition": { "u_has_move_mode": "run" } },
+      { "id": "walk", "text": "walking", "sym": "W", "color": "white", "condition": { "u_has_move_mode": "walk" } },
+      {
+        "id": "crouch",
+        "text": "crouching",
+        "sym": "C",
+        "color": "light_blue",
+        "condition": { "u_has_move_mode": "crouch" }
+      },
+      { "id": "prone", "text": "prone", "sym": "P", "color": "green", "condition": { "u_has_move_mode": "prone" } }
+    ]
+  },
+  {
     "id": "test_bucket_graph",
     "type": "widget",
     "style": "graph",
@@ -453,15 +471,15 @@
     "id": "test_move_mode_text",
     "type": "widget",
     "label": "MODE",
-    "var": "move_mode_text",
-    "style": "text"
+    "style": "text",
+    "copy-from": "test_move_mode_template"
   },
   {
     "id": "test_move_mode_letter",
     "type": "widget",
     "label": "MODE",
-    "var": "move_mode_letter",
-    "style": "text"
+    "style": "symbol",
+    "copy-from": "test_move_mode_template"
   },
   {
     "id": "test_move_count_mode_text",
