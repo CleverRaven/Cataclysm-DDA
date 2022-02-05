@@ -132,8 +132,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "fatigue_text";
         case widget_var::health_text:
             return "health_text";
-        case widget_var::hunger_text:
-            return "hunger_text";
         case widget_var::lighting_text:
             return "lighting_text";
         case widget_var::mood_text:
@@ -837,7 +835,6 @@ bool widget::uses_text_function()
         case widget_var::env_temp_text:
         case widget_var::fatigue_text:
         case widget_var::health_text:
-        case widget_var::hunger_text:
         case widget_var::lighting_text:
         case widget_var::mood_text:
         case widget_var::moon_phase_text:
@@ -916,9 +913,6 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::health_text:
             desc = display::health_text_color( ava );
-            break;
-        case widget_var::hunger_text:
-            desc = display::hunger_text_color( ava );
             break;
         case widget_var::lighting_text:
             desc = get_light_level( ava.fine_detail_vision_mod() );

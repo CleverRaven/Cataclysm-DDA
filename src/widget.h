@@ -52,7 +52,6 @@ enum class widget_var : int {
     env_temp_text,  // Environment temperature, if character has thermometer
     fatigue_text,   // Fagitue description text, color string
     health_text,    // Hidden health message, color string
-    hunger_text,    // Hunger description text, color string
     lighting_text,  // Current light level, color string
     mood_text,      // Mood as a text emote, color string
     moon_phase_text,// Current phase of the moon
