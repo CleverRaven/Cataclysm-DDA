@@ -2034,6 +2034,7 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "target_items", target_items );
     jsout.member( "quantities", quantities );
     jsout.member( "starting_pos", starting_pos );
+    jsout.member( "stash_successful", stash_successful );
 
     jsout.end_object();
 }
@@ -2047,6 +2048,7 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &j
     data.read( "target_items", actor.target_items );
     data.read( "quantities", actor.quantities );
     data.read( "starting_pos", actor.starting_pos );
+    data.read( "stash_successful", actor.stash_successful );
 
     return actor.clone();
 }

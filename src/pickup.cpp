@@ -209,8 +209,8 @@ bool Pickup::query_thief()
 }
 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
-bool pick_one_up( item_location &loc, int quantity, bool &got_water, PickupMap &mapPickup,
-                  bool autopickup, bool &stash_successful )
+static bool pick_one_up( item_location &loc, int quantity, bool &got_water, PickupMap &mapPickup,
+                         bool autopickup, bool &stash_successful )
 {
     Character &player_character = get_player_character();
     int moves_taken = loc.obtain_cost( player_character, quantity );
