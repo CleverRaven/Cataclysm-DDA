@@ -1106,6 +1106,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_heater_large",
+    "name": "Place Large Heater"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_heater_small",
+    "name": "Place Small Heater"
+  },
+  {
+    "type": "construction_group",
     "id": "place_standing_lamp",
     "name": "Place Standing Lamp"
   },
