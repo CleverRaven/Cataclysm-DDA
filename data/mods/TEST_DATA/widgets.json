@@ -152,6 +152,127 @@
     ]
   },
   {
+    "id": "test_thirst_clause_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "parched",
+        "text": "Parched",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
+      },
+      {
+        "id": "dehydrated",
+        "text": "Dehydrated",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
+          ]
+        }
+      },
+      {
+        "id": "very_thirsty",
+        "text": "Very thirsty",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
+          ]
+        }
+      },
+      {
+        "id": "thirsty",
+        "text": "Thirsty",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
+          ]
+        }
+      },
+      {
+        "id": "neutral",
+        "text": "",
+        "color": "white",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
+          ]
+        }
+      },
+      {
+        "id": "slaked",
+        "text": "Slaked",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
+          ]
+        }
+      },
+      {
+        "id": "hydrated",
+        "text": "Hydrated",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
+          ]
+        }
+      },
+      {
+        "id": "turgid",
+        "text": "Turgid",
+        "color": "green",
+        "condition": { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_hunger_clause_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      { "id": "engorged", "text": "Engorged", "color": "red", "condition": { "u_has_effect": "hunger_engorged" } },
+      { "id": "full", "text": "Full", "color": "yellow", "condition": { "u_has_effect": "hunger_full" } },
+      {
+        "id": "satisfied",
+        "text": "Satisfied",
+        "color": "green",
+        "condition": { "u_has_effect": "hunger_satisfied" }
+      },
+      { "id": "blank", "text": "", "color": "white", "condition": { "u_has_effect": "hunger_blank" } },
+      { "id": "hungry", "text": "Hungry", "color": "yellow", "condition": { "u_has_effect": "hunger_hungry" } },
+      {
+        "id": "very_hungry",
+        "text": "Very hungry",
+        "color": "yellow",
+        "condition": { "u_has_effect": "hunger_very_hungry" }
+      },
+      {
+        "id": "near_starving",
+        "text": "Near starving",
+        "color": "red",
+        "condition": { "u_has_effect": "hunger_near_starving" }
+      },
+      { "id": "starving", "text": "Starving!", "color": "red", "condition": { "u_has_effect": "hunger_starving" } },
+      {
+        "id": "famished",
+        "text": "Famished",
+        "color": "light_red",
+        "condition": { "u_has_effect": "hunger_famished" }
+      }
+    ]
+  },
+  {
     "id": "test_bucket_graph",
     "type": "widget",
     "style": "graph",
@@ -544,6 +665,20 @@
     "style": "text",
     "width": 3,
     "height": 3
+  },
+  {
+    "id": "test_thirst_clause",
+    "type": "widget",
+    "label": "THIRST",
+    "style": "text",
+    "copy-from": "test_thirst_clause_template"
+  },
+  {
+    "id": "test_hunger_clause",
+    "type": "widget",
+    "label": "HUNGER",
+    "style": "text",
+    "copy-from": "test_hunger_clause_template"
   },
   {
     "id": "test_clause_number",
