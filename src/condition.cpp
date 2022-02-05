@@ -1346,6 +1346,10 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->focus_cur();
             };
+        } else if( checked_value == "activity_level" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_activity_level();
+            };
         } else if( checked_value == "fatigue" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_fatigue();
