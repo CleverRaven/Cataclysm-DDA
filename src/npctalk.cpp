@@ -3574,6 +3574,36 @@ void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
     };
 }
 
+void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, const std::string &member )
+{
+    JsonObject jobj = jo.get_object( member );
+    int allowance = 0;
+    std::vector<trial_mod> debt_modifiers;
+    if( jobj.has_int( "allowance" ) ) {
+        allowance = jobj.get_int( "allowance" );
+    } else if( jobj.has_array( "allowance" ) ) {
+        for( JsonArray jmod : jobj.get_array( "allowance" ) ) {
+            trial_mod this_modifier;
+            this_modifier.first = jmod.next_string();
+            this_modifier.second = jmod.next_int();
+            debt_modifiers.push_back( this_modifier );
+        }
+    }
+    function = [debt_modifiers, allowance]( const dialogue & d ) {
+        int debt = allowance;
+        for( const trial_mod &this_mod : debt_modifiers ) {
+            if( this_mod.first == "TOTAL" ) {
+                debt *= this_mod.second;
+            } else {
+                debt += parse_mod( d, this_mod.first, this_mod.second );
+            }
+        }
+        if( npc *p = d.actor( true )->get_npc() ) {
+            talk_function::give_equipment_allowance( *p, debt );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
@@ -4053,6 +4083,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_teleport( jo, "npc_teleport", true );
     } else if( jo.has_int( "custom_light_level" ) || jo.has_object( "custom_light_level" ) ) {
         subeffect_fun.set_custom_light_level( jo, "custom_light_level" );
+    } else if( jo.has_object( "give_equipment" ) ) {
+        subeffect_fun.set_give_equipment( jo, "give_equipment" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

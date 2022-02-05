@@ -20,9 +20,9 @@ static const flag_id json_flag_FILTHY( "FILTHY" );
 static const mtype_id mon_manhack( "mon_manhack" );
 
 static const int num_iters = 10000;
-static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
-static constexpr tripoint mon_pos( HALF_MAPSIZE_X - 1, HALF_MAPSIZE_Y, 0 );
-static constexpr tripoint badguy_pos( HALF_MAPSIZE_X - 3, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint dude_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint mon_pos( HALF_MAPSIZE_X + 3, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint badguy_pos( HALF_MAPSIZE_X + 1, HALF_MAPSIZE_Y, 0 );
 
 static void check_near( std::string subject, float actual, const float expected,
                         const float tolerance )
@@ -44,6 +44,7 @@ static float get_avg_melee_dmg( std::string clothing_id, bool infect_risk = fals
     int num_hits = 0;
     for( int i = 0; i < num_iters; i++ ) {
         clear_character( dude, true );
+        dude.setpos( dude_pos );
         dude.wear_item( cloth, false );
         dude.add_effect( effect_sleep, 1_hours );
         if( zed.melee_attack( dude ) ) {
@@ -84,6 +85,7 @@ static float get_avg_bullet_dmg( std::string clothing_id )
     int num_hits = 0;
     for( int i = 0; i < num_iters; i++ ) {
         clear_character( dude, true );
+        dude.setpos( dude_pos );
         dude.wear_item( cloth, false );
         dude.add_effect( effect_sleep, 1_hours );
         dealt_projectile_attack atk = projectile_attack( proj, badguy_pos, dude_pos, dispersion_sources(),

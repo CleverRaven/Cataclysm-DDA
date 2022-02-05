@@ -40,12 +40,17 @@ static const efftype_id effect_infected( "infected" );
 
 static const flag_id json_flag_SPLINT( "SPLINT" );
 
+static const itype_id itype_blindfold( "blindfold" );
+static const itype_id itype_ear_plugs( "ear_plugs" );
 static const itype_id itype_rad_badge( "rad_badge" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
+
+static const trait_id trait_GOODHEARING( "GOODHEARING" );
+static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 
 static const weather_type_id weather_acid_rain( "acid_rain" );
 static const weather_type_id weather_cloudy( "cloudy" );
@@ -61,6 +66,10 @@ static const widget_id widget_test_4_column_layout( "test_4_column_layout" );
 static const widget_id widget_test_bp_wetness_head_num( "test_bp_wetness_head_num" );
 static const widget_id widget_test_bp_wetness_torso_num( "test_bp_wetness_torso_num" );
 static const widget_id widget_test_bucket_graph( "test_bucket_graph" );
+static const widget_id widget_test_clause_legend( "test_clause_legend" );
+static const widget_id widget_test_clause_number( "test_clause_number" );
+static const widget_id widget_test_clause_sym( "test_clause_sym" );
+static const widget_id widget_test_clause_text( "test_clause_text" );
 static const widget_id widget_test_color_graph_10k_widget( "test_color_graph_10k_widget" );
 static const widget_id widget_test_color_graph_widget( "test_color_graph_widget" );
 static const widget_id widget_test_color_number_widget( "test_color_number_widget" );
@@ -215,17 +224,17 @@ TEST_CASE( "text widgets", "[widget][text]" )
         words._var_max = 10;
         REQUIRE( words._style == "text" );
 
-        CHECK( words.text( 0 ) == "Zero" );
-        CHECK( words.text( 1 ) == "One" );
-        CHECK( words.text( 2 ) == "Two" );
-        CHECK( words.text( 3 ) == "Three" );
-        CHECK( words.text( 4 ) == "Four" );
-        CHECK( words.text( 5 ) == "Five" );
-        CHECK( words.text( 6 ) == "Six" );
-        CHECK( words.text( 7 ) == "Seven" );
-        CHECK( words.text( 8 ) == "Eight" );
-        CHECK( words.text( 9 ) == "Nine" );
-        CHECK( words.text( 10 ) == "Ten" );
+        CHECK( words.text( 0, 0, false ) == "Zero" );
+        CHECK( words.text( 1, 0, false ) == "One" );
+        CHECK( words.text( 2, 0, false ) == "Two" );
+        CHECK( words.text( 3, 0, false ) == "Three" );
+        CHECK( words.text( 4, 0, false ) == "Four" );
+        CHECK( words.text( 5, 0, false ) == "Five" );
+        CHECK( words.text( 6, 0, false ) == "Six" );
+        CHECK( words.text( 7, 0, false ) == "Seven" );
+        CHECK( words.text( 8, 0, false ) == "Eight" );
+        CHECK( words.text( 9, 0, false ) == "Nine" );
+        CHECK( words.text( 10, 0, false ) == "Ten" );
     }
 }
 
@@ -942,20 +951,20 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     ava.worn.emplace_back( rad_badge );
 
     // Color indicator is shown when character has radiation badge
-    rad_badge.irradiation = 0;
+    ava.set_rad( 0 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_white_green> green </color>" );
     // Any positive value turns it blue
-    rad_badge.irradiation = 1;
+    ava.set_rad( 1 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
-    rad_badge.irradiation = 29;
+    ava.set_rad( 29 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
-    rad_badge.irradiation = 31;
+    ava.set_rad( 31 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_i_yellow> yellow </color>" );
-    rad_badge.irradiation = 61;
+    ava.set_rad( 61 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_yellow> orange </color>" );
-    rad_badge.irradiation = 121;
+    ava.set_rad( 121 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
-    rad_badge.irradiation = 241;
+    ava.set_rad( 241 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
 }
 
@@ -1744,6 +1753,13 @@ TEST_CASE( "Widget alignment", "[widget]" )
     SECTION( "Multiline text" ) {
         widget bp_legend = widget_test_status_legend_text.obj();
 
+        const std::string line1 =
+            "<color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_magenta>%</color> broken";
+        const std::string line2 =
+            "<color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged  ";
+        const std::string line3 =
+            "<color_c_light_green>$</color> disinfected  <color_c_light_red>b</color> bleeding";
+
         ava.add_effect( effect_infected, 1_minutes, torso );
         ava.add_effect( effect_bleed, 1_minutes, torso );
         ava.get_effect( effect_bleed, torso ).set_intensity( 5 );
@@ -1755,72 +1771,150 @@ TEST_CASE( "Widget alignment", "[widget]" )
         bp_legend._text_align = widget_alignment::RIGHT;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "    <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "    <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "                       <color_c_light_green>$</color> disinfected" );
+               "      " + line1 + "\n" +
+               "            " + line2 + "\n" +
+               "           " + line3 );
 
         bp_legend._label_align = widget_alignment::RIGHT;
         bp_legend._text_align = widget_alignment::RIGHT;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "    <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "    <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "                       <color_c_light_green>$</color> disinfected" );
+               "      " + line1 + "\n" +
+               "            " + line2 + "\n" +
+               "           " + line3 );
 
         bp_legend._label_align = widget_alignment::CENTER;
         bp_legend._text_align = widget_alignment::RIGHT;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "    <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "    <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "                       <color_c_light_green>$</color> disinfected" );
+               "      " + line1 + "\n" +
+               "            " + line2 + "\n" +
+               "           " + line3 );
 
         bp_legend._label_align = widget_alignment::LEFT;
         bp_legend._text_align = widget_alignment::LEFT;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "<color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "<color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "<color_c_light_green>$</color> disinfected                       " );
+               line1 + "\n" +
+               line2 + "\n" +
+               line3 + "           " );
 
         bp_legend._label_align = widget_alignment::RIGHT;
         bp_legend._text_align = widget_alignment::LEFT;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "<color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "<color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "<color_c_light_green>$</color> disinfected                       " );
+               line1 + "\n" +
+               line2 + "\n" +
+               line3 + "           " );
 
         bp_legend._label_align = widget_alignment::CENTER;
         bp_legend._text_align = widget_alignment::LEFT;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "<color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "<color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "<color_c_light_green>$</color> disinfected                       " );
+               line1 + "\n" +
+               line2 + "\n" +
+               line3 + "           " );
 
         bp_legend._label_align = widget_alignment::LEFT;
         bp_legend._text_align = widget_alignment::CENTER;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "  <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "  <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "            <color_c_light_green>$</color> disinfected           " );
+               "   " + line1 + "\n" +
+               "      " + line2 + "\n" +
+               "      " + line3 + "     " );
 
         bp_legend._label_align = widget_alignment::RIGHT;
         bp_legend._text_align = widget_alignment::CENTER;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "  <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "  <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "            <color_c_light_green>$</color> disinfected           " );
+               "   " + line1 + "\n" +
+               "      " + line2 + "\n" +
+               "      " + line3 + "     " );
 
         bp_legend._label_align = widget_alignment::CENTER;
         bp_legend._text_align = widget_alignment::CENTER;
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
-               "  <color_c_yellow>B</color> bitten  <color_c_pink>I</color> infected  <color_c_light_red>b</color> bleeding\n"
-               "  <color_c_magenta>%</color> broken  <color_c_light_gray>=</color> splinted  <color_c_white>+</color> bandaged\n"
-               "            <color_c_light_green>$</color> disinfected           " );
+               "   " + line1 + "\n" +
+               "      " + line2 + "\n" +
+               "      " + line3 + "     " );
+    }
+}
+
+TEST_CASE( "Clause conditions - pure JSON widgets", "[widget][clause][condition]" )
+{
+    const int sidebar_width = 20;
+
+    const time_point midnight = calendar::turn_zero + 0_hours;
+    const time_point midday = calendar::turn_zero + 12_hours;
+
+    const item blindfold( itype_blindfold );
+    const item earplugs( itype_ear_plugs );
+
+    widget w_num = widget_test_clause_number.obj();
+    widget w_txt = widget_test_clause_text.obj();
+    widget w_sym = widget_test_clause_sym.obj();
+    widget w_lgd = widget_test_clause_legend.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+    set_time( midnight );
+
+    REQUIRE( !ava.has_trait( trait_GOODHEARING ) );
+    REQUIRE( !ava.has_trait( trait_NIGHTVISION ) );
+    REQUIRE( !is_day( calendar::turn ) );
+    REQUIRE( !ava.is_deaf() );
+    REQUIRE( !ava.is_blind() );
+
+    SECTION( "Default values" ) {
+        CHECK( w_num.layout( ava ) == "Num Values: <color_c_dark_gray>1</color>" );
+        CHECK( w_txt.layout( ava ) == "Text Values: <color_c_dark_gray>None</color>" );
+        CHECK( w_sym.layout( ava ) == "Symbol Values: <color_c_dark_gray>.</color>" );
+        CHECK( w_lgd.layout( ava, sidebar_width ) == "<color_c_dark_gray>. None</color>              " );
+    }
+
+    SECTION( "GOODHEARING" ) {
+        ava.toggle_trait( trait_GOODHEARING );
+        CHECK( w_num.layout( ava ) == "Num Values: <color_c_white_green>10</color>" );
+        CHECK( w_txt.layout( ava ) == "Text Values: <color_c_white_green>good hearing</color>" );
+        CHECK( w_sym.layout( ava ) == "Symbol Values: <color_c_white_green>+</color>" );
+        CHECK( w_lgd.layout( ava, sidebar_width ) == "<color_c_white_green>+</color> good hearing\n" );
+    }
+
+    SECTION( "Daylight" ) {
+        set_time( midday );
+        CHECK( w_num.layout( ava ) == "Num Values: <color_c_yellow>0</color>" );
+        CHECK( w_txt.layout( ava ) == "Text Values: <color_c_yellow>daylight</color>" );
+        CHECK( w_sym.layout( ava ) == "Symbol Values: <color_c_yellow>=</color>" );
+        CHECK( w_lgd.layout( ava, sidebar_width ) == "<color_c_yellow>=</color> daylight\n" );
+    }
+
+    SECTION( "Daylight / Blind" ) {
+        set_time( midday );
+        ava.wear_item( blindfold, false );
+        CHECK( w_num.layout( ava ) ==
+               "Num Values: <color_c_red_red>-20</color>, <color_c_yellow>0</color>" );
+        CHECK( w_txt.layout( ava ) ==
+               "Text Values: <color_c_red_red>blind</color>, <color_c_yellow>daylight</color>" );
+        CHECK( w_sym.layout( ava ) ==
+               "Symbol Values: <color_c_red_red><</color><color_c_yellow>=</color>" );
+        CHECK( w_lgd.layout( ava, sidebar_width ) ==
+               "<color_c_red_red><</color> blind  <color_c_yellow>=</color> daylight\n" );
+    }
+
+    SECTION( "Daylight / Blind / Deaf / GOODHEARING / NIGHTVISION" ) {
+        set_time( midday );
+        ava.wear_item( blindfold, false );
+        ava.wear_item( earplugs, false );
+        ava.toggle_trait( trait_GOODHEARING );
+        ava.toggle_trait( trait_NIGHTVISION );
+        CHECK( w_num.layout( ava ) ==
+               "Num Values: <color_c_red_red>-20</color>, <color_i_yellow>-10</color>, <color_c_yellow>0</color>, <color_c_white_green>10</color>, <color_c_light_green>20</color>" );
+        CHECK( w_txt.layout( ava ) ==
+               "Text Values: <color_c_red_red>blind</color>, <color_i_yellow>deaf</color>, <color_c_yellow>daylight</color>, <color_c_white_green>good hearing</color>, <color_c_light_green>good vision</color>" );
+        CHECK( w_sym.layout( ava ) ==
+               "Symbol Values: <color_c_red_red><</color><color_i_yellow>-</color><color_c_yellow>=</color><color_c_white_green>+</color><color_c_light_green>></color>" );
+        CHECK( w_lgd.layout( ava, sidebar_width ) ==
+               "<color_c_red_red><</color> blind  <color_i_yellow>-</color> deaf\n<color_c_yellow>=</color> daylight\n<color_c_white_green>+</color> good hearing\n<color_c_light_green>></color> good vision\n" );
     }
 }

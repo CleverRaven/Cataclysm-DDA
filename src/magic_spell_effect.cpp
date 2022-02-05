@@ -1400,7 +1400,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
 
         Character &guy = *guilt_target;
         if( guy.has_trait( trait_PSYCHOPATH ) || guy.has_trait( trait_KILLER ) ||
-            guy.has_trait_flag( json_flag_PRED3 ) || guy.has_trait_flag( json_flag_PRED4 ) ) {
+            guy.has_flag( json_flag_PRED3 ) || guy.has_flag( json_flag_PRED4 ) ) {
             // specially immune.
             return;
         }
@@ -1413,8 +1413,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
                                     "about their deaths anymore." ), z.name( max_kills ) );
             }
             return;
-        } else if( guy.has_trait_flag( json_flag_PRED1 ) ||
-                   guy.has_trait_flag( json_flag_PRED2 ) ) {
+        } else if( guy.has_flag( json_flag_PRED1 ) ||
+                   guy.has_flag( json_flag_PRED2 ) ) {
             msg = _( "Culling the weak is distasteful, but necessary." );
             msgtype = m_neutral;
         } else {
@@ -1452,11 +1452,11 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
             moraleMalus *= 5;
         }
         // cullers feel less bad about killing
-        else if( guy.has_trait_flag( json_flag_PRED1 ) ) {
+        else if( guy.has_flag( json_flag_PRED1 ) ) {
             moraleMalus /= 4;
         }
         // hunters feel less bad about killing
-        else if( guy.has_trait_flag( json_flag_PRED2 ) ) {
+        else if( guy.has_flag( json_flag_PRED2 ) ) {
             moraleMalus /= 5;
         }
         guy.add_morale( MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay );
