@@ -579,6 +579,11 @@ int talker_character_const::get_height() const
     return me_chr_const->height();
 }
 
+const move_mode_id &talker_character_const::get_move_mode() const
+{
+    return me_chr_const->move_mode;
+}
+
 void talker_character::add_bionic( const bionic_id &new_bionic )
 {
     me_chr->add_bionic( new_bionic );
