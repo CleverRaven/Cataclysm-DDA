@@ -3644,9 +3644,11 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         type = var.type;
         target_var = var.name;
     }
+    std::string spawn_message = jo.get_string( "spawn_message", "" );
+    std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
     function = [is_npc, new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
                         iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan_min,
-            dov_lifespan_max, target_var, type]( const dialogue & d ) {
+            dov_lifespan_max, target_var, type, spawn_message, spawn_message_plural]( const dialogue & d ) {
         monster target_monster;
 
         if( group_id.is_valid() ) {
@@ -3675,6 +3677,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         cata::optional<time_duration> lifespan;
         tripoint target_pos = get_map().getlocal( get_tripoint_from_var( d.actor( is_npc ),
                               target_var, type, d.actor( type == var_type::npc ) ) );
+        int visible_spawns = 0;
         for( int i = 0; i < hallucination_count; i++ ) {
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
@@ -3683,7 +3686,12 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
                 if( min > 0_seconds ) {
                     lifespan = rng( min, dov_lifespan_max.evaluate( d.actor( dov_lifespan_max.is_npc() ) ) );
                 }
-                g->spawn_hallucination( spawn_point, target_monster.type->id, lifespan );
+                if( g->spawn_hallucination( spawn_point, target_monster.type->id, lifespan ) ) {
+                    Creature *critter = get_creature_tracker().creature_at( spawn_point );
+                    if( get_avatar().sees( *critter ) ) {
+                        visible_spawns++;
+                    }
+                }
             }
         }
         for( int i = 0; i < real_count; i++ ) {
@@ -3691,12 +3699,22 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
             if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only ) ) {
                 monster *spawned = g->place_critter_at( target_monster.type->id, spawn_point );
+                if( spawned ) {
+                    if( get_avatar().sees( *spawned ) ) {
+                        visible_spawns++;
+                    }
+                }
                 time_duration min = dov_lifespan_min.evaluate( d.actor( dov_lifespan_min.is_npc() ) );
                 if( min > 0_seconds ) {
                     lifespan = rng( min, dov_lifespan_max.evaluate( d.actor( dov_lifespan_max.is_npc() ) ) );
                     spawned->set_summon_time( lifespan.value() );
                 }
             }
+        }
+        if( visible_spawns > 1 && !spawn_message_plural.empty() ) {
+            get_avatar().add_msg_if_player( m_bad, spawn_message_plural );
+        } else if( visible_spawns > 0 && !spawn_message.empty() ) {
+            get_avatar().add_msg_if_player( m_bad, spawn_message_plural );
         }
     };
 }
