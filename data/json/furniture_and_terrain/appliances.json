@@ -68,6 +68,15 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_kiln",
+    "location": "structure",
+    "description": "A electric kiln for baking brick or clay.  You could use this to harden bricks or clay.  If you attempt to craft an item that needs a kiln, you will be given the option of selecting it as a tool.",
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
+    "item": "kiln",
+    "copy-from": "veh_kiln"
+  },
+  {
+    "type": "vehicle_part",
     "id": "power_cord",
     "name": { "str": "power cord" },
     "symbol": "{",

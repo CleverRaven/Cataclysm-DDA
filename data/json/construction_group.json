@@ -1106,6 +1106,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_kiln",
+    "name": "Place Kiln"
+  },
+  {
+    "type": "construction_group",
     "id": "place_standing_lamp",
     "name": "Place Standing Lamp"
   },
