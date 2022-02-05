@@ -837,7 +837,6 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `veh_azimuth_text`      | Heading of vehicle in degrees
 | `veh_cruise_text`       | Target and actual cruising velocity, positive or negative
 | `veh_fuel_text`         | Percentage of fuel remaining for current vehicle engine
-| `weariness_text`        | Weariness level - "Fresh", "Light", "Moderate", "Weary" etc.
 | `weary_malus_text`      | Percentage penalty affecting speed due to weariness
 | `weather_text`          | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
 | `wielding_text`         | Name of current weapon or wielded item
