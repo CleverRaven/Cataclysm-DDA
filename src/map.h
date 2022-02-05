@@ -2060,7 +2060,7 @@ class map
 
     public:
         const level_cache &get_cache_ref( int zlev ) const {
-            return *caches[zlev + OVERMAP_DEPTH];
+            return get_cache(zlev);
         }
 
         const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;
