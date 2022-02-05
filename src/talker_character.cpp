@@ -361,6 +361,11 @@ bool talker_character_const::is_mounted() const
     return me_chr_const->is_mounted();
 }
 
+int talker_character_const::get_activity_level() const
+{
+    return me_chr_const->activity_level_index();
+}
+
 int talker_character_const::get_fatigue() const
 {
     return me_chr_const->get_fatigue();
