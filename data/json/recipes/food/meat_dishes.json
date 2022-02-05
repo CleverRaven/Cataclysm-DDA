@@ -9,7 +9,7 @@
     "difficulty": 3,
     "time": "4 h",
     "batch_time_factors": [ 80, 4 ],
-    "book_learn": [ [ "family_cookbook", 3 ], [ "scots_cookbook", 2 ] ],
+    "book_learn": [ [ "family_cookbook", 3 ], [ "scots_cookbook", 2 ], [ "survival_book", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_frying" },

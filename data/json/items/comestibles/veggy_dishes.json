@@ -61,7 +61,7 @@
     "symbol": "%",
     "quench": -1,
     "healthy": 1,
-    "calories": 36,
+    "calories": 151,
     "description": "Exposed cloves of garlic that have been coated in oil and then roasted.  Much better than eating them raw.",
     "price": 300,
     "price_postapoc": 50,
@@ -132,7 +132,8 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitC", 1 ], [ "vitA", 3 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "vitA", 3 ] ],
+    "fun": -1
   },
   {
     "type": "COMESTIBLE",
