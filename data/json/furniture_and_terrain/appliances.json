@@ -71,7 +71,7 @@
     "id": "ap_forge",
     "name": { "str": "electric forge" },
     "location": "structure",
-    "description": "An electric forge for metalworking.  With a hammer and other tools, you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
+    "description": "An electric forge for metalworking.  When plugged in and powered you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "copy-from": "veh_forge"
