@@ -175,6 +175,10 @@ map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
         grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE ), nullptr );
     }
 
+    for( auto &ptr : caches ) {
+        ptr = std::make_unique<level_cache>();
+    }
+
     for( auto &ptr : pathfinding_caches ) {
         ptr = std::make_unique<pathfinding_cache>();
     }
