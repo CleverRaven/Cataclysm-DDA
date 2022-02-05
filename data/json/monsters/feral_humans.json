@@ -660,7 +660,7 @@
     "id": "mon_feral_soldier",
     "type": "MONSTER",
     "name": { "str": "feral soldier" },
-    "description": "Wearing a military uniform with a kevlar vest, this person seems to be a highly trained military professional, now turned feral.  Tense, dirty hands grip a combat knife as their bloodshot eyes scan for threats.",
+    "description": "Wearing a military uniform with an armored vest, this person seems to be a highly trained military professional, now turned feral.  Tense, dirty hands grip a combat knife as their bloodshot eyes scan for threats.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
