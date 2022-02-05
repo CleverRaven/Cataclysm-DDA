@@ -11,7 +11,7 @@
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str" }, "=", { "const": 15 } ] },
-      { "set_queue_effect_on_condition": [ "EOC_CAUSE_PORTAL_STORM" ] },
+      { "run_eocs": [ "EOC_CAUSE_PORTAL_STORM" ] },
       { "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str" }, "=", { "const": 1 } ] }
     ]
   },
@@ -30,7 +30,7 @@
     "recurrence_min": { "global_val": "ps_min_woc", "default": "5 days" },
     "recurrence_max": { "global_val": "ps_max_woc", "default": "9 days" },
     "global": true,
-    "effect": [ { "set_queue_effect_on_condition": [ "EOC_CAUSE_EARLY_PORTAL_STORM" ] } ]
+    "effect": [ { "run_eocs": [ "EOC_CAUSE_EARLY_PORTAL_STORM" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -42,7 +42,7 @@
     "deactivate_condition": { "not": { "is_weather": "early_portal_storm" } },
     "effect": [
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_OUTDOORS_1",
             "condition": {
@@ -55,7 +55,7 @@
             },
             "effect": [
               {
-                "set_queue_effect_on_condition": [
+                "run_eocs": [
                   {
                     "id": "EOC_PORTAL_STORM_WARN_DAY_NIGHT_1",
                     "condition": "is_day",
@@ -91,7 +91,7 @@
             },
             "effect": [
               {
-                "set_queue_effect_on_condition": [
+                "run_eocs": [
                   {
                     "id": "EOC_PORTAL_STORM_WARN_DAY_NIGHT_2",
                     "condition": "is_day",
@@ -127,7 +127,7 @@
             },
             "effect": [
               {
-                "set_queue_effect_on_condition": [
+                "run_eocs": [
                   {
                     "id": "EOC_PORTAL_STORM_WARN_DAY_NIGHT_3",
                     "condition": "is_day",
@@ -173,7 +173,7 @@
       { "arithmetic": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] },
       "next_weather",
       {
-        "set_queue_effect_on_condition": [ "EOC_CAUSE_PORTAL_STORM" ],
+        "queue_eocs": [ "EOC_CAUSE_PORTAL_STORM" ],
         "time_in_future_min": "30 minutes",
         "time_in_future_max": "90 minutes"
       },
@@ -211,7 +211,7 @@
         ]
       },
       {
-        "set_queue_effect_on_condition": [ "EOC_CANCEL_PORTAL_STORM" ],
+        "queue_eocs": [ "EOC_CANCEL_PORTAL_STORM" ],
         "time_in_future_min": { "global_val": "ps_min_length", "default": "2 hours" },
         "time_in_future_max": { "global_val": "ps_max_length", "default": "4 hours" }
       },
@@ -236,13 +236,13 @@
       { "arithmetic": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 0 } ] },
       "next_weather",
       { "u_message": "The damage to reality fades.  Hopefully the scarring is minimal.", "type": "good" },
-      { "set_queue_effect_on_condition": [ "EOC_WORSEN_PORTAL_STORM" ] }
+      { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_WORSEN_PORTAL_STORM",
-    "effect": { "set_weighted_list_eocs": [ [ "EOC_PORTAL_STRENGTHEN", 1 ], [ "EOC_PORTAL_LENGTHEN", 1 ] ] }
+    "effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STRENGTHEN", 1 ], [ "EOC_PORTAL_LENGTHEN", 1 ] ] }
   },
   {
     "type": "effect_on_condition",
@@ -278,12 +278,12 @@
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
-      "set_queue_effect_on_condition": [
+      "run_eocs": [
         {
           "id": "EOC_INDOOR_OUTDOOR_EFFECTS_1",
           "condition": "u_is_outside",
           "effect": {
-            "set_weighted_list_eocs": [
+            "weighted_list_eocs": [
               [ "EOC_PORTAL_SHIFTING_MASS", 5 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
               [ "EOC_PORTAL_ABSENCE", 1 ],
@@ -294,7 +294,7 @@
               [ "EOC_PORTAL_MESSAGE", 5 ]
             ]
           },
-          "false_effect": { "set_weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_1", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", 1 ] ] }
+          "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_1", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", 1 ] ] }
         }
       ]
     }
@@ -315,12 +315,12 @@
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
-      "set_queue_effect_on_condition": [
+      "run_eocs": [
         {
           "id": "EOC_INDOOR_OUTDOOR_EFFECTS_2",
           "condition": "u_is_outside",
           "effect": {
-            "set_weighted_list_eocs": [
+            "weighted_list_eocs": [
               [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 3 ],
               [ "EOC_PORTAL_ABSENCE", 1 ],
@@ -334,7 +334,7 @@
               [ "EOC_PORTAL_MESSAGE", 7 ]
             ]
           },
-          "false_effect": { "set_weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_2", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_2", 1 ] ] }
+          "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_2", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_2", 1 ] ] }
         }
       ]
     }
@@ -354,12 +354,12 @@
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
-      "set_queue_effect_on_condition": [
+      "run_eocs": [
         {
           "id": "EOC_INDOOR_OUTDOOR_EFFECTS_3",
           "condition": "u_is_outside",
           "effect": {
-            "set_weighted_list_eocs": [
+            "weighted_list_eocs": [
               [ "EOC_PORTAL_GIANT_APPENDAGE", 3 ],
               [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
@@ -372,7 +372,7 @@
             ]
           },
           "false_effect": {
-            "set_weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_3", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", 1 ], [ "EOC_PORTAL_STORM_POPUP", 1 ] ]
+            "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_VOICES_3", 1 ], [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", 1 ], [ "EOC_PORTAL_STORM_POPUP", 1 ] ]
           }
         }
       ]
@@ -385,7 +385,7 @@
     "condition": { "and": [ "u_is_outside", "u_can_see", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
     "effect": [
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "EOC_PORTAL_STORM_MESSAGE_1",
             "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 2 } ] },
@@ -418,7 +418,7 @@
     "effect": [
       { "u_message": "Several large portals open and before they close monsters pour through.", "type": "bad" },
       {
-        "u_set_spawn_monster": "GROUP_NETHER_PORTAL",
+        "u_spawn_monster": "GROUP_NETHER_PORTAL",
         "group": true,
         "real_count": 1,
         "hallucination_count": 1,
@@ -446,7 +446,7 @@
         "min": 1
       },
       {
-        "u_set_spawn_monster": "mon_shifting_mass",
+        "u_spawn_monster": "mon_shifting_mass",
         "real_count": { "global_val": "ps_shifting_mass_count", "default": 1 },
         "hallucination_count": { "global_val": "ps_shifting_mass_count", "default": 1 },
         "outdoor_only": true,
@@ -465,7 +465,7 @@
       },
       { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] },
       {
-        "u_set_spawn_monster": "mon_impossible_shape",
+        "u_spawn_monster": "mon_impossible_shape",
         "real_count": 1,
         "hallucination_count": 1,
         "outdoor_only": true,
@@ -480,7 +480,7 @@
     "effect": [
       { "u_message": "Bizarre limbs seemingly tear their way into reality from elsewhere.", "type": "bad" },
       {
-        "u_set_spawn_monster": "mon_giant_appendage",
+        "u_spawn_monster": "mon_giant_appendage",
         "real_count": 1,
         "hallucination_count": 3,
         "outdoor_only": true,
@@ -496,7 +496,7 @@
     "effect": [
       { "u_message": "Ghosts of the dead surround you.", "type": "bad" },
       {
-        "u_set_spawn_monster": "mon_memory",
+        "u_spawn_monster": "mon_memory",
         "real_count": 10,
         "hallucination_count": 10,
         "outdoor_only": true,
@@ -511,7 +511,7 @@
     "effect": [
       { "u_message": "The very notion of empty space is made a cruel joke. Nearby nothing becomes even less.", "type": "bad" },
       {
-        "u_set_spawn_monster": "mon_absence",
+        "u_spawn_monster": "mon_absence",
         "real_count": 1,
         "outdoor_only": true,
         "min_radius": 3,
@@ -548,7 +548,7 @@
     "condition": { "not": "u_driving" },
     "effect": [
       { "u_location_variable": { "u_val": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
-      { "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK" ] },
+      { "run_eocs": [ "EOC_PORTAL_TELEPORT_STUCK" ] },
       { "u_message": "This moment feels thick as if its not quite over.", "type": "bad" }
     ]
   },
@@ -556,7 +556,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK_LOOP",
     "condition": { "and": [ { "x_in_y_chance": { "x": 3, "y": 4 } }, { "not": "u_driving" } ] },
-    "effect": [ { "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK" ] } ],
+    "effect": [ { "run_eocs": [ "EOC_PORTAL_TELEPORT_STUCK" ] } ],
     "false_effect": { "u_make_sound": "a loud tearing sound.", "target_var": { "u_val": "stuck_teleport" }, "volume": 80, "type": "alert" }
   },
   {
@@ -565,7 +565,7 @@
     "effect": [
       { "u_teleport": { "u_val": "stuck_teleport" }, "success_message": "You feel as if you just rewound a few seconds." },
       {
-        "set_queue_effect_on_condition": [ "EOC_PORTAL_TELEPORT_STUCK_LOOP" ],
+        "run_eocs": [ "EOC_PORTAL_TELEPORT_STUCK_LOOP" ],
         "time_in_future_min": "3 seconds",
         "time_in_future_max": "5 seconds"
       }
@@ -586,7 +586,7 @@
         ]
       },
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "portal_storm_dark_light",
             "condition": "is_day",

@@ -21,7 +21,7 @@
     "id": "GREEN_MAINTENANCE_ALARM",
     "effect": [
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "bot_green_maintenance_badge_check",
             "condition": { "not": { "u_has_item": "id_science_maintenance_green" } },
@@ -92,7 +92,7 @@
     "id": "YELLOW_MAINTENANCE_ALARM",
     "effect": [
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "bot_yellow_maintenance_badge_check",
             "condition": { "not": { "u_has_item": "id_science_maintenance_yellow" } },
@@ -156,7 +156,7 @@
     "id": "BLUE_MAINTENANCE_ALARM",
     "effect": [
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "bot_blue_maintenance_badge_check",
             "condition": { "not": { "u_has_item": "id_science_maintenance_blue" } },
@@ -220,7 +220,7 @@
     "id": "BLUE_MAINTENANCE_ALARM2",
     "effect": [
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "bot_blue_maintenance_badge_check2",
             "condition": { "not": { "u_has_item": "id_science_maintenance_blue" } },
@@ -310,7 +310,7 @@
     "id": "GREEN_RESEARCHER_ALARM",
     "effect": [
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "bot_green_researcher_badge_check",
             "condition": { "not": { "u_has_item": "id_science_mutagen_green" } },
@@ -389,7 +389,7 @@
     "id": "BLACK_SECURITY_ALARM",
     "effect": [
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "bot_black_security_badge_check",
             "condition": { "not": { "u_has_item": "id_science_security_black" } },
