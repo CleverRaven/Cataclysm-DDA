@@ -255,17 +255,25 @@
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
+    "id": "armor_junk_lightplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lightplate",
+    "name": { "str": "junk plate armor" },
+    "description": "A suit of Gothic plate armor.  The metal shows signs of rust and corrosion and the leather straps are tattered.",
+    "material": [ "budget_steel", "leather" ]
+  },
+  {
     "id": "xl_armor_lightplate",
     "type": "ARMOR",
     "name": { "str": "XL plate armor" },
-    "copy-from": "armor_lightplate",
+    "copy-from": "armor_junk_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "OUTER", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "xs_armor_lightplate",
     "type": "ARMOR",
-    "copy-from": "armor_lightplate",
+    "copy-from": "armor_junk_lightplate",
     "looks_like": "armor_lightplate",
     "name": { "str": "XS plate armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -289,7 +297,7 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 2,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -547,7 +555,7 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -805,7 +813,7 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 6,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
     "armor_data": {
       "armor": [
         {
@@ -1142,17 +1150,25 @@
     "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
+    "id": "armor_junk_plate",
+    "type": "ARMOR",
+    "copy-from": "armor_plate",
+    "name": { "str": "junk ornamental plate armor" },
+    "description": "An extremely heavy suit of ornamental armor.  The metal shows signs of rust and corrosion and the leather straps are tattered.",
+    "material": [ "budget_steel", "leather" ]
+  },
+  {
     "id": "xl_armor_plate",
     "type": "ARMOR",
     "name": { "str": "XL ornamental plate armor" },
-    "copy-from": "armor_plate",
+    "copy-from": "armor_junk_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "OUTER", "OVERSIZE" ]
   },
   {
     "id": "xs_armor_plate",
     "type": "ARMOR",
-    "copy-from": "armor_plate",
+    "copy-from": "armor_junk_plate",
     "looks_like": "armor_plate",
     "name": { "str": "XS ornamental plate armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
