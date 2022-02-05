@@ -86,8 +86,6 @@ struct fire_data;
 enum class damage_type : int;
 enum clothing_mod_type : int;
 
-std::string rad_badge_color( int rad );
-
 struct light_emission {
     unsigned short luminance;
     short width;

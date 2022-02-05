@@ -64,7 +64,6 @@ enum class widget_var : int {
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
-    rad_badge_text, // Color indicator for radiation badge
     safe_mode_text, // Safe mode text, color string
     style_text,     // Active martial arts style name
     thirst_text,    // Thirst description text, color string

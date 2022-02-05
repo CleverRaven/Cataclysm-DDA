@@ -1658,8 +1658,8 @@ bool Character::irradiate( float rads, bool bypass )
             }
 
             // If the color hasn't changed, don't print anything.
-            const std::string &col_before = display::rad_badge_color_name( before );
-            const std::string &col_after = display::rad_badge_color_name( it->irradiation );
+            const std::string &col_before = rad_badge_color( before ).first;
+            const std::string &col_after = rad_badge_color( it->irradiation ).first;
             if( col_before == col_after ) {
                 continue;
             }

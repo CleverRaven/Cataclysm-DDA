@@ -156,8 +156,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "place_text";
         case widget_var::power_text:
             return "power_text";
-        case widget_var::rad_badge_text:
-            return "rad_badge_text";
         case widget_var::safe_mode_text:
             return "safe_mode_text";
         case widget_var::style_text:
@@ -853,7 +851,6 @@ bool widget::uses_text_function()
         case widget_var::overmap_text:
         case widget_var::place_text:
         case widget_var::power_text:
-        case widget_var::rad_badge_text:
         case widget_var::safe_mode_text:
         case widget_var::style_text:
         case widget_var::thirst_text:
@@ -959,9 +956,6 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::power_text:
             desc = display::power_text_color( ava );
-            break;
-        case widget_var::rad_badge_text:
-            desc = display::rad_badge_text_color( ava );
             break;
         case widget_var::safe_mode_text:
             desc = display::safe_mode_text_color( false );

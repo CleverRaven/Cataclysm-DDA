@@ -693,9 +693,6 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `activity_text`         | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
 | `body_temp_text`        | Felt body temperature "Comfortable", "Chilly", "Warm" etc.
 | `bp_outer_armor_text`   | Item name and damage bars of armor/clothing worn on the given "bodypart"
-| `bp_status_text`        | Status of given "bodypart" - "bitten", "bleeding", "infected", etc.
-| `bp_status_sym_text`    | Same as above, but in a more compact format using 1 character per status.
-| `bp_status_legend_text` | (_multiline_) Displays the meaning of the symbols from `bp_status_sym_text`
 | `compass_legend_text`   | (_multiline_) A list of creatures visible by the player, corresponding to compass symbols
 | `compass_text`          | A compass direction (ex: NE), displaying visible creatures in that direction
 | `date_text`             | Current day within season, like "Summer, day 15"
@@ -713,7 +710,6 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `pain_text`             | "Mild pain", "Distracting pain", "Intense pain", etc.
 | `place_text`            | Location place name
 | `power_text`            | Bionic power available
-| `rad_badge_text`        | Radiation badge color indicator, if radiation badge is available
 | `safe_mode_text`        | Status of safe mode - "On" or "Off", with color for approaching turn limit
 | `style_text`            | Name of current martial arts style
 | `thirst_text`           | Thirst level - "Slaked", "Thirsty", "Dehydrated", etc.
