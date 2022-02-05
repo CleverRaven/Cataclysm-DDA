@@ -174,16 +174,12 @@
   {
     "id": "birch_harv",
     "type": "harvest",
-    "entries": [ { "drop": "birchbark", "base_num": [ 2, 8 ] }, { "drop": "innerbark_raw", "base_num": [ 1, 4 ] } ]
+    "entries": [ { "drop": "birchbark", "base_num": [ 2, 8 ] } ]
   },
   {
     "id": "pine_harv",
     "type": "harvest",
-    "entries": [
-      { "drop": "pine_bough", "base_num": [ 2, 8 ] },
-      { "drop": "pinecone", "base_num": [ 1, 4 ] },
-      { "drop": "innerbark_raw_pine", "base_num": [ 1, 4 ] }
-    ]
+    "entries": [ { "drop": "pine_bough", "base_num": [ 2, 8 ] }, { "drop": "pinecone", "base_num": [ 1, 4 ] } ]
   },
   {
     "id": "elderberry_harv",
