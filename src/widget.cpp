@@ -60,8 +60,6 @@ std::string enum_to_string<widget_var>( widget_var data )
     switch( data ) {
         case widget_var::focus:
             return "focus";
-        case widget_var::hunger:
-            return "hunger";
         case widget_var::move:
             return "move";
         case widget_var::move_cost:
@@ -76,8 +74,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "speed";
         case widget_var::stamina:
             return "stamina";
-        case widget_var::thirst:
-            return "thirst";
         case widget_var::fatigue:
             return "fatigue";
         case widget_var::health:
@@ -502,8 +498,6 @@ void widget::set_default_var_range( const avatar &ava )
             // Small range of normal health that won't be color-coded
             _var_norm = std::make_pair( -10, 10 );
             break;
-        case widget_var::hunger:
-            break; // TODO
         case widget_var::mana:
             _var_min = 0;
             _var_max = ava.magic->max_mana( ava );
@@ -554,8 +548,6 @@ void widget::set_default_var_range( const avatar &ava )
             _var_max = ava.get_stamina_max();
             // No normal defined, unless we want max stamina to be colored white? (maybe)
             break;
-        case widget_var::thirst:
-            break; // TODO
         case widget_var::weariness_level:
             _var_min = 0;
             _var_max = 10;
@@ -699,10 +691,6 @@ int widget::get_var_value( const avatar &ava ) const
         // TODO
         case widget_var::mood:
         // see morale_emotion
-        case widget_var::hunger:
-        // see display::hunger_text_color()
-        case widget_var::thirst:
-        // see display::thirst_text_color()
         default:
             value = 0;
     }

@@ -699,7 +699,6 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `env_temp_text`         | Environment temperature, if thermometer is available
 | `fatigue_text`          | Fatigue level - "Tired", "Dead Tired", "Exhausted"
 | `health_text`           | Hidden health - "OK", "Good", "Very good", "Bad", "Very bad", etc.
-| `hunger_text`           | Hunger level - "Engorged", "Full", "Hungry", "Famished", etc.
 | `lighting_text`         | Lighting conditions at avatar position - "bright", "cloudy", "dark" etc.
 | `mood_text`             | Avatar mood represented as an emoticon face
 | `moon_phase_text`       | Phase of the moon - "New moon", "Waxing gibbous", "Full moon" etc.
@@ -712,7 +711,6 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `power_text`            | Bionic power available
 | `safe_mode_text`        | Status of safe mode - "On" or "Off", with color for approaching turn limit
 | `style_text`            | Name of current martial arts style
-| `thirst_text`           | Thirst level - "Slaked", "Thirsty", "Dehydrated", etc.
 | `time_text`             | Current time - exact if clock is available, approximate otherwise
 | `veh_azimuth_text`      | Heading of vehicle in degrees
 | `veh_cruise_text`       | Target and actual cruising velocity, positive or negative

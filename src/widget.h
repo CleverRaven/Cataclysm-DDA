@@ -37,8 +37,6 @@ enum class widget_var : int {
     bp_encumb,      // Current encumbrance of given "bodypart", integer
     bp_warmth,      // Current warmth of given "bodypart", integer
     bp_wetness,     // Current wetness of given "bodypart", integer
-    hunger,         // TODO
-    thirst,         // TODO
     mood,           // TODO
     cardio_fit,     // Cardio fitness, integer near BMR
     cardio_acc,     // Cardio accumulator, integer
