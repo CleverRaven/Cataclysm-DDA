@@ -1289,9 +1289,9 @@ void suffer::from_stimulants( Character &you, const int current_stim )
 {
     // Stim +250 kills
     if( current_stim > 210 ) {
-        if( one_turn_in( 2_minutes ) && !you.has_effect( effect_downed ) ) {
+        if( one_turn_in( 2_minutes ) && !you.is_on_ground() ) {
             you.add_msg_if_player( m_bad, _( "Your muscles spasm!" ) );
-            if( !you.has_effect( effect_downed ) ) {
+            if( !you.is_on_ground() ) {
                 you.add_msg_if_player( m_bad, _( "You fall to the ground!" ) );
                 you.add_effect( effect_downed, rng( 6_turns, 20_turns ) );
             }
@@ -1321,7 +1321,9 @@ void suffer::from_stimulants( Character &you, const int current_stim )
         if( one_turn_in( 3_minutes ) && !you.in_sleep_state() ) {
             you.add_msg_if_player( m_bad, _( "You black out!" ) );
             const time_duration dur = rng( 30_minutes, 60_minutes );
-            you.add_effect( effect_downed, dur );
+            if( !you.is_on_ground() ) {
+                you.add_effect( effect_downed, dur );
+            }
             you.add_effect( effect_blind, dur );
             you.fall_asleep( dur );
         }
