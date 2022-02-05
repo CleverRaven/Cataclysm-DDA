@@ -54,8 +54,6 @@ enum class widget_var : int {
     mood_text,      // Mood as a text emote, color string
     moon_phase_text,// Current phase of the moon
     move_count_mode_text, // Movement counter and mode letter like "50(R)", color string
-    move_mode_letter, // Movement mode, color letter (W/R/C/P)
-    move_mode_text, // Movement mode, color text (walking/running/crouching/prone)
     overmap_loc_text,// Local overmap position, pseudo latitude/longitude with Z-level
     overmap_text,   // Local overmap and mission marker, multi-line color string
     pain_text,      // Pain description text, color string
