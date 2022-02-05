@@ -2003,12 +2003,16 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     const bool autopickup = who.activity.auto_resume;
 
     // False indicates that the player canceled pickup when met with some prompt
-    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup );
+    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup, stash_successful );
 
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
     if( !keep_going || target_items.empty() ) {
         cancel_pickup( who );
+
+        if( !stash_successful && !autopickup ) {
+            add_msg( m_bad, _( "Some items were not picked up" ) );
+        }
 
         if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
             who.set_value( "THIEF_MODE", "THIEF_ASK" );
