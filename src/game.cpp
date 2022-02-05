@@ -10469,7 +10469,7 @@ void game::water_affect_items( Character &ch ) const
     std::vector<item_location> wet;
 
     for( item_location &loc : ch.all_items_loc() ) {
-        const int break_chance = 15 + loc->ammo_remaining() * ( 85 / std::min( 1, loc->ammo_required() ) );
+        const int break_chance = 15 + loc->ammo_remaining() * ( 85 / std::max( 1, loc->ammo_required() ) );
 
         // check flag first because its cheaper
         if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
