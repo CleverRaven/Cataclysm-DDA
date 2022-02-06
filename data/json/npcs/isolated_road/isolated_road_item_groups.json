@@ -258,6 +258,12 @@
           "x": 7,
           "y": 10
         }
+      ],
+      "faction_owner": [
+        { "id": "isolated_artisans", "x": [ 5, 7 ], "y": 10 },
+        { "id": "isolated_artisans", "x": 9, "y": [ 11, 12 ] },
+        { "id": "isolated_artisans", "x": 3, "y": 10 },
+        { "id": "isolated_artisans", "x": 3, "y": 12 }
       ]
     }
   },
@@ -348,7 +354,8 @@
           "x": 12,
           "y": 11
         }
-      ]
+      ],
+      "faction_owner": [ { "id": "isolated_artisans", "x": 12, "y": [ 8, 11 ] } ]
     }
   },
   {
