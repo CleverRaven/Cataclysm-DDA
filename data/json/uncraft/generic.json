@@ -7,6 +7,13 @@
     "components": [ [ [ "steel_lump", 1 ] ] ]
   },
   {
+    "result": "young_koji_done",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "components": [ [ [ "koji", 5 ] ] ]
+  },
+  {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "result": "handflare",

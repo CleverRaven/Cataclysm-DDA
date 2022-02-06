@@ -119,23 +119,24 @@ bool Character::has_trait( const trait_id &b ) const
     return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
 }
 
-bool Character::has_trait_flag( const json_character_flag &b ) const
+int Character::count_trait_flag( const json_character_flag &b ) const
 {
+    int ret = 0;
     // UGLY, SLOW, should be cached as my_mutation_flags or something
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &mut_data = mut.obj();
         if( mut_data.flags.count( b ) > 0 ) {
-            return true;
+            ret++;
         } else if( mut_data.activated ) {
             Character &player = get_player_character();
             if( ( mut_data.active_flags.count( b ) > 0 && player.has_active_mutation( mut ) ) ||
                 ( mut_data.inactive_flags.count( b ) > 0 && !player.has_active_mutation( mut ) ) ) {
-                return true;
+                ret++;
             }
         }
     }
 
-    return false;
+    return ret;
 }
 
 bool Character::has_base_trait( const trait_id &b ) const
@@ -285,7 +286,7 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
     }
 }
 
-bool reflex_activation_data::is_trigger_true( const Character &guy ) const
+bool reflex_activation_data::is_trigger_true( Character &guy ) const
 {
     dialogue d( get_talker_for( guy ), nullptr );
     return trigger( d );
@@ -350,13 +351,13 @@ const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) c
 
 void Character::recalculate_size()
 {
-    if( has_trait_flag( json_flag_TINY ) ) {
+    if( has_flag( json_flag_TINY ) ) {
         size_class = creature_size::tiny;
-    } else if( has_trait_flag( json_flag_SMALL ) ) {
+    } else if( has_flag( json_flag_SMALL ) ) {
         size_class = creature_size::small;
-    } else if( has_trait_flag( json_flag_LARGE ) ) {
+    } else if( has_flag( json_flag_LARGE ) ) {
         size_class = creature_size::large;
-    } else if( has_trait_flag( json_flag_HUGE ) ) {
+    } else if( has_flag( json_flag_HUGE ) ) {
         size_class = creature_size::huge;
     } else {
         size_class = creature_size::medium;
@@ -410,6 +411,15 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         }
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
+        }
+
+        // if an item gives an enchantment it shouldn't break or be shoved off
+        for( const enchantment &ench : armor.get_enchantments() ) {
+            for( const trait_id &inner_mut : ench.get_mutations() ) {
+                if( mut == inner_mut ) {
+                    return false;
+                }
+            }
         }
         if( !worn_destroyed_override && branch.destroys_gear ) {
             add_msg_player_or_npc( m_bad,

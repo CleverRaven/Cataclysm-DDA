@@ -42,6 +42,7 @@ class talker_character_const: public talker
         int posz() const override;
         tripoint pos() const override;
         tripoint_abs_omt global_omt_location() const override;
+        int get_cur_hp( const bodypart_id &bp ) const override;
 
         // stats, skills, traits, bionics, and magic
         int str_cur() const override;
@@ -58,7 +59,7 @@ class talker_character_const: public talker
         int mana_cur() const override;
         int mana_max() const override;
         bool has_trait( const trait_id &trait_to_check ) const override;
-        bool has_trait_flag( const json_character_flag &trait_flag_to_check ) const override;
+        bool has_flag( const json_character_flag &trait_flag_to_check ) const override;
         bool crossed_threshold() const override;
         int num_bionics() const override;
         bool has_max_power() const override;
@@ -101,8 +102,9 @@ class talker_character_const: public talker
         bool is_in_control_of( const vehicle &veh ) const override;
 
 
-        bool worn_with_flag( const flag_id &flag ) const override;
+        bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
+        bool has_item_with_flag( const flag_id &flag ) const override;
 
         bool can_see() const override;
         int morale_cur() const override;
@@ -113,6 +115,9 @@ class talker_character_const: public talker
         int get_stamina() const override;
         int get_sleep_deprivation() const override;
         int get_kill_xp() const override;
+        int get_age() const override;
+        int get_height() const override;
+        int get_bmi_permil() const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;
@@ -187,6 +192,8 @@ class talker_character: public talker_character_const
         void set_stamina( int ) override;
         void set_sleep_deprivation( int ) override;
         void set_kill_xp( int ) override;
+        void set_age( int ) override;
+        void set_height( int ) override;
         void add_bionic( const bionic_id &new_bionic ) override;
         void remove_bionic( const bionic_id &old_bionic ) override;
         std::vector<skill_id> skills_teacheable() const override;
