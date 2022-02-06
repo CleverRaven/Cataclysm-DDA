@@ -37,7 +37,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "furniture",
+    "type": "COMESTIBLE",
     "id": "olieribos",
     "name": { "str": "olieribos sheaf", "str_pl": "olieribos sheaves" },
     "description": "Dark colored leaves and bitter roots, firmly tied together in a small sheaf.",
