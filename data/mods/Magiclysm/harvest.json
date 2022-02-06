@@ -360,5 +360,70 @@
       { "drop": "feather", "type": "skin", "mass_ratio": 0.005 },
       { "drop": "adrenal_gland_large", "type": "bionic", "max": 2 }
     ]
+  },
+  {
+    "id": "moonflower_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "moonflowers", "base_num": [ 1, 2 ] } ]
+  },
+  {
+    "id": "kampuch_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "kämpuch", "base_num": [ 1, 4 ] } ]
+  },
+  {
+    "id": "olieribos_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "olieribos", "base_num": [ 1, 4 ] } ]
+  },
+  {
+    "id": "glowning_mushroom_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "glowing_mushroom", "base_num": [ 1, 2 ] } ]
+  },
+  {
+    "id": "horn_moss_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "horn_moss_capsule", "base_num": [ 1, 2 ] } ]
+  },
+  {
+    "id": "golden_reed_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "golden_reed_stalk", "base_num": [ 1, 4 ] } ]
+  },
+  {
+    "id": "barnacle_weed_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "wood_barnacle", "base_num": [ 1, 4 ] } ]
+  },
+  {
+    "id": "dragonail_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "dragonnails", "base_num": [ 1, 4 ] } ]
+  },
+  {
+    "id": "moly_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "moly_tuber", "base_num": [ 1, 2 ] } ]
+  },
+  {
+    "id": "flowering_fern_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "fern_flower", "base_num": [ 1, 1 ] } ]
+  },
+  {
+    "id": "funnelcap_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "funnelcap_chunk", "base_num": [ 10, 25 ] } ]
+  },
+  {
+    "id": "whiskflower_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "whiskflower", "base_num": [ 1, 2 ] } ]
+  },
+  {
+    "id": "sojourners_palm_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "sojourners_flower", "base_num": [ 1, 5 ] } ]
   }
 ]

@@ -5,14 +5,14 @@
     "name": "Moonflower Bush",
     "description": "A silver colored vine, whose luminescent flowers will only bloom during night.\n\nAmazingly rare, it grows only in places were heroic deeds took place, or so it's believed.",
     "symbol": "y",
-    "color": "ligt_cyan",
+    "color": "light_cyan",
     "looks_like": "f_dandelion",
     "move_cost_mod": 0,
     "required_str": -1,
     "light_emitted": 10,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "moonflowers", "base_num": [ 1, 2 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "moonflower_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -27,7 +27,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "kämpuch", "base_num": [ 1, 4 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "kampuch_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -42,7 +42,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "olieribos", "base_num": [ 1, 4 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "olieribos_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -58,7 +58,7 @@
     "light_emitted": 10,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "glowing_mushroom", "base_num": [ 1, 2 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "glowning_mushroom_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -71,7 +71,7 @@
     "color": "light_red",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "harvest_by_season": [ { "seasons": [ "spring" ], "entries": [ { "drop": "horn_moss_capsule", "base_num": [ 1, 2 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "horn_moss_harv" } ]
   },
   {
     "type": "furniture",
@@ -85,7 +85,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "golden_reed_stalk", "base_num": [ 1, 4 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "golden_reed_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -100,7 +100,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "wood_barnacle", "base_num": [ 1, 4 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "barnacle_weed_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -115,7 +115,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "dragonnails", "base_num": [ 1, 4 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "dragonail_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -130,7 +130,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "moly_tuber", "base_num": [ 1, 2 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "moly_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -145,7 +145,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "fern_flower", "base_num":  1 } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "flowering_fern_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -160,7 +160,7 @@
     "required_str": -1,
     "flags": [ "FLAMMABLE_ASH", "ORGANIC", "REDUCE_SCENT" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "funnelcap_chunk", "base_num": [ 10, 25 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "funnelcap_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -175,7 +175,7 @@
     "required_str": -1,
     "flags": [ "FLAMMABLE_ASH", "ORGANIC", "REDUCE_SCENT" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "sojourners_flower", "base_num": [ 1, 5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "sojourners_palm_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -190,7 +190,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "whiskflower", "base_num": [ 1, 2 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "whiskflower_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   }
 ]

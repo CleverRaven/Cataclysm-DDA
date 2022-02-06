@@ -13,7 +13,7 @@
     "material": "veggy",
     "volume": "50 ml",
     "fun": 8,
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ],
+    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -24,8 +24,7 @@
     "comestible_type": "FOOD",
     "description": "A handful of moonflowers glitter like tiny stars and faintly smell of morning dew.  Properly harvested, they will never wilt or wither.",
     "volume": "250 ml",
-    "use_action": "ROYAL_JELLY",
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ],
+    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -43,7 +42,7 @@
     "name": { "str": "olieribos sheaf", "str_pl": "olieribos sheaves" },
     "description": "Dark colored leaves and bitter roots, firmly tied together in a small sheaf.",
     "color": "light_grey",
-    "looks_like": "wheat",
+    "looks_like": "wheat"
   },
   {
     "type": "COMESTIBLE",
@@ -52,7 +51,7 @@
     "description": "Slim stripes cut from a bioluminescent mushroom, still surrounded by a fain glowing aura.",
     "symbol": "o",
     "color": "light_cyan",
-    "looks_like": "mushroom",
+    "looks_like": "mushroom"
   },
   {
     "type": "COMESTIBLE",
@@ -61,7 +60,7 @@
     "description": "Pure white moss capsules, shaped like a goat's horn.  The fine spores contained within are a powerfull magical reagent, and can be consumed to recover small amounts of mana.",
     "symbol": "o",
     "color": "white",
-    "looks_like": "mushroom",
+    "looks_like": "mushroom"
   },
   {
     "type": "COMESTIBLE",
