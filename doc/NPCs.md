@@ -965,6 +965,7 @@ Example | Description
 `"u_val": "friendly"` | Current friendly level, only works for monsters.
 `"u_val": "vitamin"` | Current vitamin level. `name` must also be specified which is the vitamins id.
 `"u_val": "age"` | Current age in years.
+`"u_val": "bmi_permil"` | Current BMI per mille (Body Mass Index x 1000)
 `"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
 `"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.
 `"hour"` | Hours since midnight.

@@ -718,7 +718,6 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `weariness_text`        | Weariness level - "Fresh", "Light", "Moderate", "Weary" etc.
 | `weary_malus_text`      | Percentage penalty affecting speed due to weariness
 | `weather_text`          | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
-| `weight_text`           | Body weight - "Emaciated", "Normal", "Overweight", etc.
 | `wielding_text`         | Name of current weapon or wielded item
 | `wind_text`             | Wind direction and intensity
 

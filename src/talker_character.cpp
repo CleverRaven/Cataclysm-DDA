@@ -564,6 +564,11 @@ int talker_character_const::get_age() const
     return me_chr_const->age();
 }
 
+int talker_character_const::get_bmi_permil() const
+{
+    return std::round( me_chr_const->get_bmi() * 1000.0f );
+}
+
 void talker_character::set_height( int amount )
 {
     me_chr->set_base_height( amount );

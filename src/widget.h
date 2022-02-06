@@ -70,7 +70,6 @@ enum class widget_var : int {
     weariness_text, // Weariness description text, color string
     weary_malus_text, // Weariness malus or penalty
     weather_text,   // Weather/sky conditions (if visible), color string
-    weight_text,    // Weight description text, color string
     wielding_text,  // Currently wielded weapon or item name
     wind_text,      // Wind level and direction, color string
     last // END OF ENUMS

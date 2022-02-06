@@ -740,6 +740,121 @@
     "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
+    "id": "test_weight_clauses_normal",
+    "type": "widget",
+    "label": "Weight",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "skeletal",
+        "text": "Skeletal",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
+      },
+      {
+        "id": "emaciated",
+        "text": "Emaciated",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "underweight",
+        "text": "Underweight",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
+          ]
+        }
+      },
+      {
+        "id": "normal",
+        "text": "Normal",
+        "color": "light_gray",
+        "//": "Actually 18.5 - 25",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "overweight",
+        "text": "Overweight",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "obese",
+        "text": "Obese",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "very_obese",
+        "text": "Very Obese",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "morbidly_obese",
+        "text": "Morbidly Obese",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_weight_clauses_fun",
+    "type": "widget",
+    "label": "Thiccness",
+    "style": "text",
+    "clauses": [
+      {
+        "text": "Skin and Bones",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18000 } ] }
+      },
+      {
+        "text": "Boring",
+        "color": "white",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+          ]
+        }
+      },
+      {
+        "text": "C H O N K",
+        "color": "pink",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] }
+      }
+    ]
+  },
+  {
     "id": "test_stat_panel",
     "type": "widget",
     "style": "layout",
