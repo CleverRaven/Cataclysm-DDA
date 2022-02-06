@@ -78,7 +78,13 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "veggy", 3 ], [ "biollante_bud", 1 ], [ "datura_seed", 16 ], [ "innerbark_raw", 1 ], [ "innerbark_raw_pine", 1 ] ],
+      [
+        [ "veggy", 3 ],
+        [ "biollante_bud", 1 ],
+        [ "datura_seed", 16 ],
+        [ "innerbark_raw", 1 ],
+        [ "innerbark_raw_pine", 1 ]
+      ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
