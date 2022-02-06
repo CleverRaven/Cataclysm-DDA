@@ -876,7 +876,7 @@ Condition | Type | Description
 `"u_train_skills" or "npc_train_skills"` | simple string | `true` if u or the NPC has one or more skills with more levels than the player.
 `"u_train_styles" or "npc_train_styles"` | simple string | `true` if u or the NPC knows one or more martial arts styles that the player does not know.
 `"u_has_class" or "npc_has_class"` | array | `true` if u or the NPC is a member of an NPC class.
-`"u_near_om_location" or "npc_near_om_location"`, (*optional* `range : int`) | string | same as at_om_location except it checks in a square stretching from the character range OMT's. NOTE: can only check OMT's in the reality bubble.
+`"u_near_om_location" or "npc_near_om_location"`, (*optional* `range : int or variable_object`) | string | same as at_om_location except it checks in a square stretching from the character range OMT's. NOTE: can only check OMT's in the reality bubble.
 `"u_aim_rule" or "npc_aim_rule"` | string | `true` if u or the NPC follower AI rule for aiming matches the string.
 `"u_engagement_rule" or "npc_engagement_rule"` | string | `true` if u or the NPC follower AI rule for engagement matches the string.
 `"u_cbm_reserve_rule" or "npc_cbm_reserve_rule"` | string | `true` if u or the NPC follower AI rule for cbm, reserve matches the string.
