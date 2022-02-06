@@ -179,6 +179,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "fur_patch",
+    "symbol": ",",
+    "color": "brown",
+    "name": { "str": "fur patch", "str_pl": "fur patches" },
+    "description": "A small, 6 inch square patch of fur pelt, could be used to make patchwork sheets or repair fur clothing.",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "fur" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "13 g",
+    "volume": "58 ml",
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
     "id": "nomex",
     "category": "spare_parts",
     "symbol": ",",

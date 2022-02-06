@@ -172,7 +172,7 @@
     "id": "fabric_fur",
     "type": "requirement",
     "//": "Materials used for crafting fur clothing",
-    "components": [ [ [ "fur", 1 ] ] ]
+    "components": [ [ [ "fur", 1 ], [ "sheet_fur_patchwork" ] ]
   },
   {
     "id": "fabric_fur_pelt",
