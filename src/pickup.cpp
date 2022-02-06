@@ -60,11 +60,21 @@ using PickupMap = std::map<std::string, ItemCount>;
 
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
-// Pickup helper functions
-static bool pick_one_up( item_location &loc, int quantity, bool &got_water,
-                         PickupMap &mapPickup, bool autopickup );
-
-static void show_pickup_message( const PickupMap &mapPickup );
+//helper function for Pickup::autopickup
+static void show_pickup_message( const PickupMap &mapPickup )
+{
+    for( const auto &entry : mapPickup ) {
+        if( entry.second.first.invlet != 0 ) {
+            add_msg( _( "You pick up: %d %s [%c]" ), entry.second.second,
+                     entry.second.first.display_name( entry.second.second ), entry.second.first.invlet );
+        } else if( entry.second.first.count_by_charges() ) {
+            add_msg( _( "You pick up: %s" ), entry.second.first.display_name( entry.second.second ) );
+        } else {
+            add_msg( _( "You pick up: %d %s" ), entry.second.second,
+                     entry.second.first.display_name( entry.second.second ) );
+        }
+    }
+}
 
 struct pickup_count {
     bool pick = false;
@@ -199,8 +209,8 @@ bool Pickup::query_thief()
 }
 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
-bool pick_one_up( item_location &loc, int quantity, bool &got_water, PickupMap &mapPickup,
-                  bool autopickup )
+static bool pick_one_up( item_location &loc, int quantity, bool &got_water, PickupMap &mapPickup,
+                         bool autopickup, bool &stash_successful )
 {
     Character &player_character = get_player_character();
     int moves_taken = loc.obtain_cost( player_character, quantity );
@@ -248,6 +258,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, PickupMap &
     } else if( !player_character.can_pickWeight_partial( newit, false ) ||
                !player_character.can_stash_partial( newit ) ) {
         option = CANCEL;
+        stash_successful = false;
     } else if( newit.is_bucket_nonempty() ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
@@ -347,7 +358,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, PickupMap &
 }
 
 bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
-                        bool autopickup )
+                        bool autopickup, bool &stash_successful )
 {
     bool got_water = false;
     Character &player_character = get_player_character();
@@ -371,7 +382,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
             continue;
         }
 
-        problem = !pick_one_up( target, quantity, got_water, mapPickup, autopickup );
+        problem = !pick_one_up( target, quantity, got_water, mapPickup, autopickup, stash_successful );
     }
 
     if( !mapPickup.empty() ) {
@@ -493,22 +504,6 @@ void Pickup::autopickup( const tripoint &p )
                                       player_character.pos() ) ) );
     // Auto pickup will need to auto resume since there can be several of them on the stack.
     player_character.activity.auto_resume = true;
-}
-
-//helper function for Pickup::autopickup
-void show_pickup_message( const PickupMap &mapPickup )
-{
-    for( const auto &entry : mapPickup ) {
-        if( entry.second.first.invlet != 0 ) {
-            add_msg( _( "You pick up: %d %s [%c]" ), entry.second.second,
-                     entry.second.first.display_name( entry.second.second ), entry.second.first.invlet );
-        } else if( entry.second.first.count_by_charges() ) {
-            add_msg( _( "You pick up: %s" ), entry.second.first.display_name( entry.second.second ) );
-        } else {
-            add_msg( _( "You pick up: %d %s" ), entry.second.second,
-                     entry.second.first.display_name( entry.second.second ) );
-        }
-    }
 }
 
 int Pickup::cost_to_move_item( const Character &who, const item &it )
