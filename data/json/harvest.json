@@ -15,9 +15,24 @@
     "entries": [ { "drop": "raw_dandelion", "base_num": [ 1, 4 ] } ]
   },
   {
-    "id": "burdoc_harv",
+    "id": "burdock_harv",
     "type": "harvest",
     "entries": [ { "drop": "raw_burdock", "base_num": [ 1, 4 ] } ]
+  },
+  {
+    "id": "salsify_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "salsify_raw" } ]
+  },
+  {
+    "id": "wild_carrot_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "carrot_wild" } ]
+  },
+  {
+    "id": "salsify_seed_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "seed_salsify_raw", "base_num": [ 1, 4 ] } ]
   },
   {
     "id": "chamomille_harv",

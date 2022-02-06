@@ -153,13 +153,16 @@
           "f_bluebell": 2,
           "f_flower_spurge": 1,
           "f_dahlia": 1,
+          "f_salsify": 1,
           "f_chicory": 1,
           "f_sunflower": 1
         },
         "f_region_weed": {
           "f_chamomile": 4,
+          "f_carrot_wild": 3,
+          "f_salsify": 3,
           "f_datura": 3,
-          "f_japanese_knotweed": 2,
+          "f_japanese_knotweed": 3,
           "f_bluebell": 2,
           "f_burdock": 1,
           "f_dahlia": 1,
@@ -171,6 +174,8 @@
           "f_dandelion": 6,
           "f_flower_spurge": 4,
           "f_chamomile": 4,
+          "f_carrot_wild": 3,
+          "f_salsify": 3,
           "f_datura": 3,
           "f_japanese_knotweed": 2,
           "f_dahlia": 2,
@@ -187,12 +192,14 @@
           "f_bluebell": 6,
           "f_lily": 5,
           "f_chamomile": 5,
-          "f_japanese_knotweed": 4,
+          "f_japanese_knotweed": 3,
+          "f_carrot_wild": 3,
+          "f_salsify": 3,
           "f_dahlia": 2,
           "f_mutpoppy": 1,
           "f_wintergreen": 1
         },
-        "f_region_forest_dense": { "f_burdock": 20, "f_bluebell": 6, "f_lily": 5, "f_wintergreen": 2 },
+        "f_region_forest_dense": { "f_burdock": 20, "f_bluebell": 6, "f_lily": 5, "f_salsify": 3, "f_wintergreen": 2 },
         "f_region_forest_water": { "f_burdock": 4, "f_japanese_knotweed": 2, "f_lily": 1 },
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }

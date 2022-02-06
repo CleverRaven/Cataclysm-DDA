@@ -39,7 +39,41 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "burdoc_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "burdock_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_carrot_wild",
+    "name": "wild carrot",
+    "description": "A common white wildflower which could be harvested for its root.",
+    "symbol": "f",
+    "color": "red",
+    "looks_like": "f_lily",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn", "winter" ], "id": "wild_carrot_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_salsify",
+    "name": "salsify",
+    "description": "Tragopogon porrifolius, a ragged-looking purple flower with a nutritious root.",
+    "symbol": "f",
+    "color": "light_red",
+    "looks_like": "f_dahlia",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "//": "Root can always be harvested, but there is no flower to harvest seeds from in winter.",
+    "harvest_by_season": [
+      { "seasons": [ "summer", "autumn" ], "id": "salsify_seed_harv" },
+      { "seasons": [ "autumn", "winter" ], "id": "salsify_harv" }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
