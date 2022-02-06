@@ -117,6 +117,7 @@ class talker_character_const: public talker
         int get_kill_xp() const override;
         int get_age() const override;
         int get_height() const override;
+        int get_bmi_permil() const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;
