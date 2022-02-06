@@ -124,7 +124,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ]
   },
@@ -190,6 +190,27 @@
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ]
   },
   {
+    "id": "sickle_stone",
+    "type": "TOOL",
+    "name": { "str": "stone sickle" },
+    "description": "A primitive tool to cut grass with.  The sharp, crescent-shaped stone at the end of the handle is barely good enough for the job.",
+    "weight": "470 g",
+    "volume": "800 ml",
+    "longest_side": "35 cm",
+    "price": 1000,
+    "price_postapoc": 100,
+    "to_hit": -2,
+    "bashing": 3,
+    "cutting": 10,
+    "material": [ "stone", "wood" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 2 ] ],
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
+    "weapon_category": [ "BLADED_FARMING" ]
+  },
+  {
     "id": "sickle",
     "type": "TOOL",
     "name": { "str": "sickle" },
@@ -205,7 +226,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 7 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ],
     "weapon_category": [ "BLADED_FARMING" ]

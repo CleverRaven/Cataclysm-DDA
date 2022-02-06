@@ -1510,7 +1510,7 @@ Gun fault flags:
 
 ## Character
 
-- ```HEATPROOF``` Immune to very hot temperatures.
+- ```HEAT_IMMUNE``` Immune to very hot temperatures.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.

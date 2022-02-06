@@ -501,6 +501,7 @@ class Character : public Creature, public visitable
         /** Getter for need values exclusive to characters */
         int get_stored_kcal() const;
         int get_healthy_kcal() const;
+        // Returns stored kcals as a proportion of "healthy" kcals (1.0 == healthy)
         float get_kcal_percent() const;
         int kcal_speed_penalty() const;
         int get_hunger() const;
@@ -1234,11 +1235,6 @@ class Character : public Creature, public visitable
         int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
-        /**
-          * What is the best pocket to put @it into?
-          * the pockets in @avoid do not count
-          */
-        std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid );
     protected:
 
         void on_move( const tripoint_abs_ms &old_pos ) override;
@@ -1950,6 +1946,16 @@ class Character : public Creature, public visitable
         bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
+
+        /**
+          * What is the best pocket to put @it into?
+          * @param it the item to try and find a pocket for.
+          * @param avoid pockets in this item are not taken into account.
+          *
+          * @returns nullptr in the value of the returned pair if no valid pocket was found.
+          */
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid = nullptr );
+
         /**
          * Checks if character stats and skills meet minimum requirements for the item.
          * Prints an appropriate message if requirements not met.

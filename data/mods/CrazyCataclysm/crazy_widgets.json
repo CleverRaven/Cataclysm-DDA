@@ -1,13 +1,15 @@
 [
   {
+    "//": "Extend the vanilla weight_desc widget to change the text descriptions",
     "id": "weight_desc",
+    "copy-from": "weight_desc",
     "type": "widget",
     "label": "Weight",
     "style": "text",
     "clauses": [
       {
         "id": "skeletal",
-        "text": "Skeletal",
+        "text": "Spooky Scary Skeleton",
         "color": "red",
         "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
       },
@@ -24,7 +26,7 @@
       },
       {
         "id": "underweight",
-        "text": "Underweight",
+        "text": "Bean Pole",
         "color": "yellow",
         "condition": {
           "and": [
@@ -47,7 +49,7 @@
       },
       {
         "id": "overweight",
-        "text": "Overweight",
+        "text": "Big",
         "color": "yellow",
         "condition": {
           "and": [
@@ -58,7 +60,7 @@
       },
       {
         "id": "obese",
-        "text": "Obese",
+        "text": "Healthy",
         "color": "light_red",
         "condition": {
           "and": [
@@ -69,7 +71,7 @@
       },
       {
         "id": "very_obese",
-        "text": "Very Obese",
+        "text": "Husky",
         "color": "red",
         "condition": {
           "and": [
@@ -80,9 +82,31 @@
       },
       {
         "id": "morbidly_obese",
-        "text": "Morbidly Obese",
+        "text": "Fluffy",
         "color": "red",
-        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 45000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "morbidly_obese_plus_5",
+        "text": "DAYUM",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 45000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 50000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "morbidly_obese_plus_10",
+        "text": "AW HELL NAH",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 50000 } ] }
       }
     ]
   }

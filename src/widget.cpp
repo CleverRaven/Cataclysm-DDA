@@ -60,8 +60,6 @@ std::string enum_to_string<widget_var>( widget_var data )
     switch( data ) {
         case widget_var::focus:
             return "focus";
-        case widget_var::hunger:
-            return "hunger";
         case widget_var::move:
             return "move";
         case widget_var::move_cost:
@@ -76,8 +74,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "speed";
         case widget_var::stamina:
             return "stamina";
-        case widget_var::thirst:
-            return "thirst";
         case widget_var::fatigue:
             return "fatigue";
         case widget_var::health:
@@ -132,8 +128,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "fatigue_text";
         case widget_var::health_text:
             return "health_text";
-        case widget_var::hunger_text:
-            return "hunger_text";
         case widget_var::lighting_text:
             return "lighting_text";
         case widget_var::mood_text:
@@ -156,14 +150,10 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "place_text";
         case widget_var::power_text:
             return "power_text";
-        case widget_var::rad_badge_text:
-            return "rad_badge_text";
         case widget_var::safe_mode_text:
             return "safe_mode_text";
         case widget_var::style_text:
             return "style_text";
-        case widget_var::thirst_text:
-            return "thirst_text";
         case widget_var::time_text:
             return "time_text";
         case widget_var::veh_azimuth_text:
@@ -178,8 +168,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "weary_malus_text";
         case widget_var::weather_text:
             return "weather_text";
-        case widget_var::weight_text:
-            return "weight_text";
         case widget_var::wielding_text:
             return "wielding_text";
         case widget_var::wind_text:
@@ -392,7 +380,7 @@ void widget::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_array( "bodyparts" ) ) {
         _bps.clear();
-        for( const JsonValue &val : jo.get_array( "bodyparts" ) ) {
+        for( const JsonValue val : jo.get_array( "bodyparts" ) ) {
             if( !val.test_string() ) {
                 jo.throw_error( "Invalid string value in bodyparts array", "bodyparts" );
                 continue;
@@ -508,8 +496,6 @@ void widget::set_default_var_range( const avatar &ava )
             // Small range of normal health that won't be color-coded
             _var_norm = std::make_pair( -10, 10 );
             break;
-        case widget_var::hunger:
-            break; // TODO
         case widget_var::mana:
             _var_min = 0;
             _var_max = ava.magic->max_mana( ava );
@@ -560,8 +546,6 @@ void widget::set_default_var_range( const avatar &ava )
             _var_max = ava.get_stamina_max();
             // No normal defined, unless we want max stamina to be colored white? (maybe)
             break;
-        case widget_var::thirst:
-            break; // TODO
         case widget_var::weariness_level:
             _var_min = 0;
             _var_max = 10;
@@ -705,10 +689,6 @@ int widget::get_var_value( const avatar &ava ) const
         // TODO
         case widget_var::mood:
         // see morale_emotion
-        case widget_var::hunger:
-        // see display::hunger_text_color()
-        case widget_var::thirst:
-        // see display::thirst_text_color()
         default:
             value = 0;
     }
@@ -841,7 +821,6 @@ bool widget::uses_text_function()
         case widget_var::env_temp_text:
         case widget_var::fatigue_text:
         case widget_var::health_text:
-        case widget_var::hunger_text:
         case widget_var::lighting_text:
         case widget_var::mood_text:
         case widget_var::moon_phase_text:
@@ -853,10 +832,8 @@ bool widget::uses_text_function()
         case widget_var::overmap_text:
         case widget_var::place_text:
         case widget_var::power_text:
-        case widget_var::rad_badge_text:
         case widget_var::safe_mode_text:
         case widget_var::style_text:
-        case widget_var::thirst_text:
         case widget_var::time_text:
         case widget_var::veh_azimuth_text:
         case widget_var::veh_cruise_text:
@@ -864,7 +841,6 @@ bool widget::uses_text_function()
         case widget_var::weariness_text:
         case widget_var::weary_malus_text:
         case widget_var::weather_text:
-        case widget_var::weight_text:
         case widget_var::wielding_text:
         case widget_var::wind_text:
             return true;
@@ -923,9 +899,6 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::health_text:
             desc = display::health_text_color( ava );
             break;
-        case widget_var::hunger_text:
-            desc = display::hunger_text_color( ava );
-            break;
         case widget_var::lighting_text:
             desc = get_light_level( ava.fine_detail_vision_mod() );
             break;
@@ -960,17 +933,11 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::power_text:
             desc = display::power_text_color( ava );
             break;
-        case widget_var::rad_badge_text:
-            desc = display::rad_badge_text_color( ava );
-            break;
         case widget_var::safe_mode_text:
             desc = display::safe_mode_text_color( false );
             break;
         case widget_var::style_text:
             desc.first = ava.martial_arts_data->selected_style_name( ava );
-            break;
-        case widget_var::thirst_text:
-            desc = display::thirst_text_color( ava );
             break;
         case widget_var::time_text:
             desc.first = display::time_string( ava );
@@ -992,9 +959,6 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::weather_text:
             desc = display::weather_text_color( ava );
-            break;
-        case widget_var::weight_text:
-            desc = display::weight_text_color( ava );
             break;
         case widget_var::wielding_text:
             desc.first = ava.weapname();

@@ -1111,6 +1111,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_standing_floodlight",
+    "name": "Place Standing Floodlight"
+  },
+  {
+    "type": "construction_group",
     "id": "reveal_wall_wiring",
     "name": "Reveal Wall Wirings"
   },

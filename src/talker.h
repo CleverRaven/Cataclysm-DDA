@@ -483,5 +483,8 @@ class talker
         virtual int get_height() const {
             return 0;
         }
+        virtual int get_bmi_permil() const {
+            return 0;
+        }
 };
 #endif // CATA_SRC_TALKER_H

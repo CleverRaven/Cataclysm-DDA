@@ -1274,7 +1274,7 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
 
     if( it.length() < data->min_item_length ) {
         return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_TOO_BIG, _( "item is too short" ) );
+                   contain_code::ERR_TOO_SMALL, _( "item is too short" ) );
     }
 
     if( it.volume() < data->min_item_volume ) {
@@ -1349,7 +1349,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         }
     } else if( size() == 1 && contents.front().made_of( phase_id::GAS ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_LIQUID, _( "can't put non gas into pocket with gas" ) );
+                   contain_code::ERR_GAS, _( "can't put non gas into pocket with gas" ) );
     }
 
 
@@ -1797,6 +1797,26 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
     if( ret.success() ) {
         contents.push_front( it );
         restack();
+    }
+    return ret;
+}
+
+item_pocket *item_pocket::best_pocket_in_contents(
+    item_location &parent, const item &it, const item *avoid,
+    const bool allow_sealed, const bool ignore_settings )
+{
+    item_pocket *ret = nullptr;
+
+    for( item &contained_item : contents ) {
+        if( &contained_item == &it || &contained_item == avoid ) {
+            continue;
+        }
+        item_pocket *nested_pocket = contained_item.best_pocket( it, parent, avoid,
+                                     allow_sealed, ignore_settings, /*nested=*/true ).second;
+        if( nested_pocket != nullptr &&
+            ( ret == nullptr || ret->better_pocket( *nested_pocket, it, /*nested=*/true ) ) ) {
+            ret = nested_pocket;
+        }
     }
     return ret;
 }
