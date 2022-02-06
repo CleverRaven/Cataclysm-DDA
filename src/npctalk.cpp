@@ -3688,7 +3688,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
                 }
                 if( g->spawn_hallucination( spawn_point, target_monster.type->id, lifespan ) ) {
                     Creature *critter = get_creature_tracker().creature_at( spawn_point );
-                    if( get_avatar().sees( *critter ) ) {
+                    if( critter && get_avatar().sees( *critter ) ) {
                         visible_spawns++;
                     }
                 }
