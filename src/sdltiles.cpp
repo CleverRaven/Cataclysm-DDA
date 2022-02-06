@@ -851,7 +851,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     avatar &you = get_avatar();
     const tripoint_abs_omt avatar_pos = you.global_omt_location();
     const tripoint_abs_omt corner_NW = center_abs_omt - point( wnd_dim.window_size_cell.x / 2,
-                                                               wnd_dim.window_size_cell.y / 2 );
+                                       wnd_dim.window_size_cell.y / 2 );
     const tripoint_abs_omt corner_SE = corner_NW + point( max_col - 1, max_row - 1 );
     const inclusive_cuboid<tripoint> overmap_area( corner_NW.raw(), corner_SE.raw() );
     // Debug vision allows seeing everything
