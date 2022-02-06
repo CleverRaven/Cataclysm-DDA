@@ -136,10 +136,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "moon_phase_text";
         case widget_var::move_count_mode_text:
             return "move_count_mode_text";
-        case widget_var::move_mode_letter:
-            return "move_mode_letter";
-        case widget_var::move_mode_text:
-            return "move_mode_text";
         case widget_var::pain_text:
             return "pain_text";
         case widget_var::overmap_loc_text:
@@ -825,8 +821,6 @@ bool widget::uses_text_function()
         case widget_var::mood_text:
         case widget_var::moon_phase_text:
         case widget_var::move_count_mode_text:
-        case widget_var::move_mode_letter:
-        case widget_var::move_mode_text:
         case widget_var::pain_text:
         case widget_var::overmap_loc_text:
         case widget_var::overmap_text:
@@ -910,12 +904,6 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::move_count_mode_text:
             desc = display::move_count_and_mode_text_color( ava );
-            break;
-        case widget_var::move_mode_letter:
-            desc = display::move_mode_letter_color( ava );
-            break;
-        case widget_var::move_mode_text:
-            desc = display::move_mode_text_color( ava );
             break;
         case widget_var::pain_text:
             desc = display::pain_text_color( ava );

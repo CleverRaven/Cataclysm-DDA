@@ -967,14 +967,6 @@ std::pair<std::string, nc_color> display::move_mode_letter_color( const Characte
     return std::make_pair( mm_text, mm_color );
 }
 
-// Full name of move mode (walking, running, crouching, prone)
-std::pair<std::string, nc_color> display::move_mode_text_color( const Character &u )
-{
-    const std::string mm_text = u.current_movement_mode()->type_name();
-    const nc_color mm_color = u.current_movement_mode()->panel_color();
-    return std::make_pair( mm_text, mm_color );
-}
-
 // Movement counter and mode letter, like "50(R)" or "100(W)"
 std::pair<std::string, nc_color> display::move_count_and_mode_text_color( const avatar &u )
 {

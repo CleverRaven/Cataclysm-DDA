@@ -486,5 +486,8 @@ class talker
         virtual int get_bmi_permil() const {
             return 0;
         }
+        virtual const move_mode_id &get_move_mode() const {
+            return move_mode_id::NULL_ID();
+        }
 };
 #endif // CATA_SRC_TALKER_H

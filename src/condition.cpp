@@ -1613,6 +1613,16 @@ void conditional_t<T>::set_is_in_field( const JsonObject &jo, const std::string 
 }
 
 template<class T>
+void conditional_t<T>::set_has_move_mode( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    move_mode_id mode( jo.get_string( member ) );
+    condition = [mode, is_npc]( const T & d ) {
+        return d.actor( is_npc )->get_move_mode() == mode;
+    };
+}
+
+template<class T>
 conditional_t<T>::conditional_t( const JsonObject &jo )
 {
     // improve the clarity of NPC setter functions
@@ -1844,6 +1854,10 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_is_in_field( jo, "u_is_in_field" );
     } else if( jo.has_string( "npc_is_in_field" ) ) {
         set_is_in_field( jo, "npc_is_in_field", is_npc );
+    } else if( jo.has_string( "u_has_move_mode" ) ) {
+        set_has_move_mode( jo, "u_has_move_mode" );
+    } else if( jo.has_string( "npc_has_move_mode" ) ) {
+        set_has_move_mode( jo, "npc_has_move_mode", is_npc );
     } else if( jo.has_string( "is_weather" ) ) {
         set_is_weather( jo );
     } else if( jo.has_int( "u_has_faction_trust" ) || jo.has_object( "u_has_faction_trust" ) ) {
