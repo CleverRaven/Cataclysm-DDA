@@ -37,8 +37,6 @@ enum class widget_var : int {
     bp_encumb,      // Current encumbrance of given "bodypart", integer
     bp_warmth,      // Current warmth of given "bodypart", integer
     bp_wetness,     // Current wetness of given "bodypart", integer
-    hunger,         // TODO
-    thirst,         // TODO
     mood,           // TODO
     cardio_fit,     // Cardio fitness, integer near BMR
     cardio_acc,     // Cardio accumulator, integer
@@ -52,7 +50,6 @@ enum class widget_var : int {
     env_temp_text,  // Environment temperature, if character has thermometer
     fatigue_text,   // Fagitue description text, color string
     health_text,    // Hidden health message, color string
-    hunger_text,    // Hunger description text, color string
     lighting_text,  // Current light level, color string
     mood_text,      // Mood as a text emote, color string
     moon_phase_text,// Current phase of the moon
@@ -66,7 +63,6 @@ enum class widget_var : int {
     power_text,     // Remaining power from bionics, color string
     safe_mode_text, // Safe mode text, color string
     style_text,     // Active martial arts style name
-    thirst_text,    // Thirst description text, color string
     time_text,      // Current time - exact if character has a watch, approximate otherwise
     veh_azimuth_text, // Azimuth or heading in degrees, string
     veh_cruise_text, // Current/target cruising speed in vehicle, color string

@@ -36,6 +36,15 @@ static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_hunger_blank( "hunger_blank" );
+static const efftype_id effect_hunger_engorged( "hunger_engorged" );
+static const efftype_id effect_hunger_famished( "hunger_famished" );
+static const efftype_id effect_hunger_full( "hunger_full" );
+static const efftype_id effect_hunger_hungry( "hunger_hungry" );
+static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
+static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
+static const efftype_id effect_hunger_starving( "hunger_starving" );
+static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_infected( "infected" );
 
 static const flag_id json_flag_SPLINT( "SPLINT" );
@@ -84,6 +93,7 @@ static const widget_id widget_test_focus_num( "test_focus_num" );
 static const widget_id widget_test_health_color_num( "test_health_color_num" );
 static const widget_id widget_test_hp_head_graph( "test_hp_head_graph" );
 static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
+static const widget_id widget_test_hunger_clause( "test_hunger_clause" );
 static const widget_id widget_test_int_color_num( "test_int_color_num" );
 static const widget_id widget_test_mana_num( "test_mana_num" );
 static const widget_id widget_test_morale_num( "test_morale_num" );
@@ -107,6 +117,7 @@ static const widget_id widget_test_status_sym_torso_text( "test_status_sym_torso
 static const widget_id widget_test_status_torso_text( "test_status_torso_text" );
 static const widget_id widget_test_str_color_num( "test_str_color_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
+static const widget_id widget_test_thirst_clause( "test_thirst_clause" );
 static const widget_id widget_test_torso_armor_outer_text( "test_torso_armor_outer_text" );
 static const widget_id widget_test_weariness_num( "test_weariness_num" );
 static const widget_id widget_test_weather_text( "test_weather_text" );
@@ -629,6 +640,68 @@ TEST_CASE( "widgets showing move counter and mode", "[widget][move_mode]" )
         CHECK( mode_letter_w.layout( ava ) == "MODE: <color_c_green>P</color>" );
         CHECK( mode_text_w.layout( ava ) == "MODE: <color_c_green>prone</color>" );
     }
+}
+
+TEST_CASE( "thirst and hunger widgets", "[widget]" )
+{
+    widget wt = widget_test_thirst_clause.obj();
+    widget wh = widget_test_hunger_clause.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    ava.clear_effects();
+    ava.add_effect( effect_hunger_famished, 1_minutes );
+    ava.set_thirst( -61 );
+    CHECK( wt.layout( ava ) == "THIRST: <color_c_green>Turgid</color>" );
+    CHECK( wh.layout( ava ) == "HUNGER: <color_c_light_red>Famished</color>" );
+
+    ava.clear_effects();
+    ava.add_effect( effect_hunger_starving, 1_minutes );
+    ava.set_thirst( -21 );
+    CHECK( wt.layout( ava ) == "THIRST: <color_c_green>Hydrated</color>" );
+    CHECK( wh.layout( ava ) == "HUNGER: <color_c_red>Starving!</color>" );
+
+    ava.clear_effects();
+    ava.add_effect( effect_hunger_near_starving, 1_minutes );
+    ava.set_thirst( -1 );
+    CHECK( wt.layout( ava ) == "THIRST: <color_c_green>Slaked</color>" );
+    CHECK( wh.layout( ava ) == "HUNGER: <color_c_red>Near starving</color>" );
+
+    ava.clear_effects();
+    ava.add_effect( effect_hunger_very_hungry, 1_minutes );
+    ava.set_thirst( 0 );
+    CHECK( wt.layout( ava ) == "THIRST: <color_c_white></color>" );
+    CHECK( wh.layout( ava ) == "HUNGER: <color_c_yellow>Very hungry</color>" );
+
+    ava.clear_effects();
+    ava.add_effect( effect_hunger_hungry, 1_minutes );
+    ava.set_thirst( 41 );
+    CHECK( wt.layout( ava ) == "THIRST: <color_c_yellow>Thirsty</color>" );
+    CHECK( wh.layout( ava ) == "HUNGER: <color_c_yellow>Hungry</color>" );
+
+    ava.clear_effects();
+    ava.add_effect( effect_hunger_blank, 1_minutes );
+    ava.set_thirst( 81 );
+    CHECK( wt.layout( ava ) == "THIRST: <color_c_yellow>Very thirsty</color>" );
+    CHECK( wh.layout( ava ) == "HUNGER: <color_c_white></color>" );
+
+    ava.clear_effects();
+    ava.add_effect( effect_hunger_satisfied, 1_minutes );
+    ava.set_thirst( 241 );
+    CHECK( wt.layout( ava ) == "THIRST: <color_c_light_red>Dehydrated</color>" );
+    CHECK( wh.layout( ava ) == "HUNGER: <color_c_green>Satisfied</color>" );
+
+    ava.clear_effects();
+    ava.add_effect( effect_hunger_full, 1_minutes );
+    ava.set_thirst( 521 );
+    CHECK( wt.layout( ava ) == "THIRST: <color_c_light_red>Parched</color>" );
+    CHECK( wh.layout( ava ) == "HUNGER: <color_c_yellow>Full</color>" );
+
+    ava.clear_effects();
+    ava.add_effect( effect_hunger_engorged, 1_minutes );
+    CHECK( wt.layout( ava ) == "THIRST: <color_c_light_red>Parched</color>" );
+    CHECK( wh.layout( ava ) == "HUNGER: <color_c_red>Engorged</color>" );
 }
 
 TEST_CASE( "widgets showing movement cost", "[widget][move_cost]" )
