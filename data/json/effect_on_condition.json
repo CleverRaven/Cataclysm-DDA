@@ -357,13 +357,43 @@
   {
     "type": "effect_on_condition",
     "id": "isolated_artisans_gunsmith_refresh",
-    "condition": { "and": [ { "u_at_om_location": "isolated_house_farm_gunsmith" }, { "u_at_om_location": "subway_ew" } ] },
-    "effect": [ { "u_message": "<AMBIENT_SUBWAY>", "snippet": true, "sound": true } ]
+    "eoc_type": "OM_MOVE",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "isolated_house_farm_gunsmith", "range": 2 },
+        { "not": { "u_has_var": "jay_dead", "type": "world", "context": "artisans", "value": "true" } },
+        {
+          "not": { "u_compare_time_since_var": "gunsmith_shop_update", "type": "timer", "context": "artisans", "op": "<", "time": "7 d" }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "jay_shop_update", "om_terrain": "isolated_house_farm_gunsmith" },
+      { "u_add_var": "gunsmith_shop_update", "type": "timer", "context": "artisans", "time": true }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "isolated_artisans_blacksmith_refresh",
-    "condition": { "and": [ { "u_at_om_location": "isolated_house_farm_blacksmith" }, { "u_at_om_location": "subway_ew" } ] },
-    "effect": [ { "u_message": "<AMBIENT_SUBWAY>", "snippet": true, "sound": true } ]
+    "eoc_type": "OM_MOVE",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "isolated_house_farm_blacksmith", "range": 2 },
+        { "not": { "u_has_var": "cody_dead", "type": "world", "context": "artisans", "value": "true" } },
+        {
+          "not": {
+            "u_compare_time_since_var": "blacksmith_shop_update",
+            "type": "timer",
+            "context": "artisans",
+            "op": "<",
+            "time": "7 d"
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "cody_shop_update", "om_terrain": "isolated_house_farm_blacksmith" },
+      { "u_add_var": "blacksmith_shop_update", "type": "timer", "context": "artisans", "time": true }
+    ]
   }
 ]
