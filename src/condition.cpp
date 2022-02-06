@@ -483,6 +483,41 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
 }
 
 template<class T>
+void conditional_t<T>::set_near_om_location( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    const std::string &location = jo.get_string( member );
+    const int range = jo.get_int( "range", 1 );
+    condition = [location, range, is_npc]( const T & d ) {
+        const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
+        for( const tripoint_abs_omt &curr_pos : points_in_radius( omt_pos, range ) ) {
+            const oter_id &omt_ter = overmap_buffer.ter( curr_pos );
+            const std::string &omt_str = omt_ter.id().c_str();
+
+            if( location == "FACTION_CAMP_ANY" ) {
+                cata::optional<basecamp *> bcp = overmap_buffer.find_camp( curr_pos.xy() );
+                if( bcp ) {
+                    return true;
+                }
+                // legacy check
+                if( omt_str.find( "faction_base_camp" ) != std::string::npos ) {
+                    return true;
+                }
+            } else if( location == "FACTION_CAMP_START" &&
+                       !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty() ) {
+                return true;
+            } else {
+                if( oter_no_dir( omt_ter ) == location ) {
+                    return true;
+                }
+            }
+        }
+        // should never get here this is for safety
+        return false;
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_has_var( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member, false );
@@ -1719,6 +1754,10 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_at_om_location( jo, "u_at_om_location" );
     } else if( jo.has_string( "npc_at_om_location" ) ) {
         set_at_om_location( jo, "npc_at_om_location", is_npc );
+    } else if( jo.has_string( "u_near_om_location" ) ) {
+        set_near_om_location( jo, "u_near_om_location" );
+    } else if( jo.has_string( "npc_near_om_location" ) ) {
+        set_near_om_location( jo, "npc_near_om_location", is_npc );
     } else if( jo.has_string( "u_has_var" ) ) {
         set_has_var( jo, "u_has_var" );
     } else if( jo.has_string( "npc_has_var" ) ) {
