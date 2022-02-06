@@ -421,6 +421,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             item smart_phone( itype_test_smart_phone );
 
+            smart_phone.ammo_set( smart_phone.ammo_default(), 300 );
             REQUIRE( guy.wield( smart_phone ) );
 
             THEN( "should be broken by water" ) {
@@ -436,6 +437,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
             item smart_phone( itype_test_smart_phone );
             item backpack( itype_test_backpack );
 
+            smart_phone.ammo_set( smart_phone.ammo_default(), 300 );
             backpack.put_in( smart_phone, item_pocket::pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( backpack ) );
@@ -471,6 +473,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
             item backpack( itype_test_backpack );
             item duffelbag( itype_test_duffelbag );
 
+            smart_phone.ammo_set( smart_phone.ammo_default(), 300 );
             backpack.put_in( smart_phone, item_pocket::pocket_type::CONTAINER );
             duffelbag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
 
