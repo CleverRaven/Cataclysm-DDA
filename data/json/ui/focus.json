@@ -10,14 +10,14 @@
   {
     "id": "focus_change_num",
     "type": "widget",
-    "label": "Focus Change",
+    "label": "Change",
     "var": "focus_change",
     "style": "number"
   },
   {
     "id": "focus_change_arrow",
     "type": "widget",
-    "style": "sym",
+    "style": "symbol",
     "flags": [ "W_LABEL_NONE" ],
     "clauses": [
       {
@@ -38,7 +38,7 @@
     "id": "focus_and_change_layout",
     "type": "widget",
     "label": "Focus/Change",
-    "arrange": "rows",
+    "arrange": "columns",
     "style": "layout",
     "widgets": [ "focus_num", "focus_change_num", "focus_change_arrow" ]
   }
