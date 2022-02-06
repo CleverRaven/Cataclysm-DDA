@@ -110,6 +110,7 @@ class talker_character_const: public talker
         bool can_see() const override;
         int morale_cur() const override;
         int focus_cur() const override;
+        int focus_change() const override;
         int get_rad() const override;
         int get_stim() const override;
         int get_pkill() const override;

@@ -1444,6 +1444,10 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->focus_cur();
             };
+        } else if( checked_value == "focus_change" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->focus_change();
+            };
         } else if( checked_value == "mana" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->mana_cur();

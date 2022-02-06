@@ -979,6 +979,7 @@ Example | Description
 `"u_val": "rad"` | Current radiation level.
 `"u_val": "focus"` | Current focus level.
 `"u_val": "activity_level"` | Current activity level index, from 0-5
+`"u_val": "focus_change"` | Difference between focus equilibrium and current focus, capped by fatigue level
 `"u_val": "fatigue"` | Current fatigue level.
 `"u_val": "stamina"` | Current stamina level.
 `"u_val": "sleep_deprivation"` | Current sleep deprivation level.

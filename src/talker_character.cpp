@@ -504,6 +504,11 @@ int talker_character_const::focus_cur() const
     return me_chr_const->get_focus();
 }
 
+int talker_character_const::focus_change() const
+{
+    return me_chr_const->calc_focus_change();
+}
+
 void talker_character::mod_focus( int amount )
 {
     me_chr->mod_focus( amount );

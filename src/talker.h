@@ -448,6 +448,9 @@ class talker
         virtual int focus_cur() const {
             return 0;
         }
+        virtual int focus_change() const {
+            return 0;
+        }
         virtual void mod_focus( int ) {}
         virtual int get_pkill() const {
             return 0;
