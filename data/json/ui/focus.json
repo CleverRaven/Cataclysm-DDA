@@ -15,11 +15,31 @@
     "style": "number"
   },
   {
+    "id": "focus_change_arrow",
+    "type": "widget",
+    "style": "sym",
+    "flags": [ "W_LABEL_NONE" ],
+    "clauses": [
+      {
+        "id": "focus_up",
+        "sym": "↥",
+        "color": "light_green",
+        "condition": { "compare_int": [ { "u_val": "focus_change" }, ">", { "const": 0 } ] }
+      },
+      {
+        "id": "focus_down",
+        "sym": "↧",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "focus_change" }, "<", { "const": 0 } ] }
+      }
+    ]
+  },
+  {
     "id": "focus_and_change_layout",
     "type": "widget",
     "label": "Focus/Change",
     "arrange": "rows",
     "style": "layout",
-    "widgets": [ "focus_num", "focus_change_num" ]
+    "widgets": [ "focus_num", "focus_change_num", "focus_change_arrow" ]
   }
 ]
