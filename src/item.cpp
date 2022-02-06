@@ -10996,7 +10996,7 @@ void item::set_item_specific_energy( const float new_specific_energy )
     }
 
     temperature = std::lround( 100000 * new_item_temperature );
-    specific_energy = std::lround( 100000 * new_specific_energy );
+    specific_energy = new_specific_energy;
     set_temp_flags( new_item_temperature, freeze_percentage );
     reset_temp_check();
 }
@@ -11032,7 +11032,7 @@ void item::set_item_temperature( float new_temperature )
     float freeze_percentage = 0.0f;
 
     temperature = std::lround( 100000 * new_temperature );
-    specific_energy = std::lround( 100000 * new_specific_energy );
+    specific_energy = new_specific_energy ;
 
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
@@ -11648,7 +11648,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         return;
     }
 
-    // specific_energy = item thermal energy (10e-5 J/g). Stored in the item
+    // specific_energy = item thermal energy (J/g). Stored in the item
     // temperature = item temperature (10e-5 K). Stored in the item
     const float conductivity_term = 0.0076 * std::pow( to_milliliter( volume() ),
                                     2.0 / 3.0 ) / insulation;
@@ -11670,7 +11670,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // Calculations are done assuming that the item stays in its phase.
     // This assumption can cause over heating when transitioning from melting to liquid.
     // In other transitions the item may cool/heat too little but that won't be a problem.
-    if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
+    if( specific_energy < completely_frozen_specific_energy ) {
         // Was solid.
         new_item_temperature = ( - temperature_difference
                                  * std::exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass * specific_heat_solid ) )
@@ -11696,7 +11696,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                 return;
             }
         }
-    } else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
+    } else if( specific_energy > completely_liquid_specific_energy ) {
         // Was liquid.
         new_item_temperature = ( - temperature_difference
                                  * std::exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass *
@@ -11726,7 +11726,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         }
     } else {
         // Was melting or freezing
-        new_specific_energy = 0.00001 * specific_energy + conductivity_term *
+        new_specific_energy = specific_energy + conductivity_term *
                               temperature_difference * to_turns<int>( time_delta ) / mass;
         new_item_temperature = freezing_temperature;
         if( new_specific_energy > completely_liquid_specific_energy ) {
@@ -11735,7 +11735,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             // and apply rest of the time as liquid
             extra_time = to_turns<int>( time_delta ) - ( mass / ( conductivity_term * temperature_difference ) )
                          *
-                         ( completely_liquid_specific_energy - 0.00001 * specific_energy );
+                         ( completely_liquid_specific_energy - specific_energy );
             new_item_temperature = ( ( freezing_temperature - env_temperature )
                                      * std::exp( - extra_time * conductivity_term / ( mass *
                                                  specific_heat_liquid ) )
@@ -11748,7 +11748,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             // and apply rest of the time as solid
             extra_time = to_turns<int>( time_delta ) - ( mass / ( conductivity_term * temperature_difference ) )
                          *
-                         ( completely_frozen_specific_energy - 0.00001 * specific_energy );
+                         ( completely_frozen_specific_energy - specific_energy );
             new_item_temperature = ( ( freezing_temperature - env_temperature )
                                      * std::exp( -  extra_time * conductivity_term / ( mass *
                                                  specific_heat_solid ) )
@@ -11769,7 +11769,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     }
 
     temperature = std::lround( 100000 * new_item_temperature );
-    specific_energy = std::lround( 100000 * new_specific_energy );
+    specific_energy = new_specific_energy;
     set_temp_flags( new_item_temperature, freeze_percentage );
 }
 
@@ -11815,7 +11815,7 @@ void item::set_temp_flags( float new_temperature, float freeze_percentage )
 float item::get_item_thermal_energy() const
 {
     const float mass = to_gram( weight() ); // g
-    return 0.00001 * specific_energy * mass;
+    return specific_energy * mass;
 }
 
 void item::heat_up()
@@ -11827,7 +11827,7 @@ void item::heat_up()
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
     temperature = 333.15 * 100000;
-    specific_energy = std::lround( 100000 * get_specific_energy_from_temperature( 333.15 ) );
+    specific_energy = get_specific_energy_from_temperature( 333.15 );
 
     reset_temp_check();
 }
@@ -11841,7 +11841,7 @@ void item::cold_up()
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
     temperature = 276.15 * 100000;
-    specific_energy = std::lround( 100000 * get_specific_energy_from_temperature( 276.15 ) );
+    specific_energy = get_specific_energy_from_temperature( 276.15 );
 
     reset_temp_check();
 }
