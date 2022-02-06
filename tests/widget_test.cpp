@@ -36,10 +36,9 @@ namespace cata_curses_test
 #endif
 
 static const int move_25h = to_seconds<int>( 25_hours ) * 100;
+static const dig_activity_actor dig_actor( move_25h, tripoint_zero, "t_pit", tripoint_zero, 0, "" );
 
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
-
-static const dig_activity_actor dig_actor( move_25h, tripoint_zero, "t_pit", tripoint_zero, 0, "" );
 
 static const activity_schedule task_dig( dig_actor, 5_minutes );
 static const activity_schedule task_plant( ACT_PLANT_SEED, 5_minutes );
