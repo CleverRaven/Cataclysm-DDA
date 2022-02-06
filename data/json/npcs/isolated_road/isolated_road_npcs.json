@@ -15,7 +15,7 @@
       {
         "id": "EOC_DEATH_NPC_CODY",
         "eoc_type": "NPC_DEATH",
-        "effect": [ { "u_add_var": "cody_dead", "type": "world", "context": "artisans", "value": "true" } ]
+        "effect": [ { "u_add_var": "cody_dead", "type": "world", "context": "artisans", "value": 1 } ]
       }
     ]
   },
@@ -62,7 +62,7 @@
       {
         "id": "EOC_DEATH_NPC_CODY",
         "eoc_type": "NPC_DEATH",
-        "effect": [ { "u_add_var": "jay_dead", "type": "world", "context": "artisans", "value": "true" } ]
+        "effect": [ { "u_add_var": "jay_dead", "type": "world", "context": "artisans", "value": 1 } ]
       }
     ]
   },

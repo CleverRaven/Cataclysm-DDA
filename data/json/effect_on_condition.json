@@ -361,7 +361,7 @@
     "condition": {
       "and": [
         { "u_near_om_location": "isolated_house_farm_gunsmith", "range": 2 },
-        { "not": { "u_has_var": "jay_dead", "type": "world", "context": "artisans", "value": "true" } },
+        { "compare_int": [ { "global_val": "var", "var_name": "jay_dead" }, "!=", { "const": 1 } ] },
         {
           "not": { "u_compare_time_since_var": "gunsmith_shop_update", "type": "timer", "context": "artisans", "op": "<", "time": "7 d" }
         }
@@ -379,7 +379,7 @@
     "condition": {
       "and": [
         { "u_near_om_location": "isolated_house_farm_blacksmith", "range": 2 },
-        { "not": { "u_has_var": "cody_dead", "type": "world", "context": "artisans", "value": "true" } },
+        { "compare_int": [ { "global_val": "var", "var_name": "cody_dead" }, "!=", { "const": 1 } ] },
         {
           "not": {
             "u_compare_time_since_var": "blacksmith_shop_update",

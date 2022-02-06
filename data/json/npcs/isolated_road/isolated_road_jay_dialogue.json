@@ -3,9 +3,6 @@
     "id": "TALK_GUNSMITH_SERVICES",
     "type": "talk_topic",
     "dynamic_line": [ "Welcome to the first American bank of munitions.  We convert your goods and services to the new gold standard." ],
-    "speaker_effect": [
-      { "effect": { "mapgen_update": "jay_shop_update", "om_terrain": "isolated_house_farm_gunsmith" }}
-     ],
     "responses": [
       { "text": "About that contract…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       { "text": "What's your deal?", "topic": "TALK_GUNSMITH_ABOUT" },
