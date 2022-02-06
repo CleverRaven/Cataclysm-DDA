@@ -2008,6 +2008,55 @@ drop_locations game_menus::inv::pickup( avatar &you,
     return pick_s.execute();
 }
 
+class smokable_selector_preset : public inventory_selector_preset
+{
+    public:
+        bool is_shown( const item_location &location ) const override {
+            return !location->rotten() && location->has_flag( flag_SMOKABLE );
+        }
+};
+
+drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_capacity,
+        units::volume used_capacity )
+{
+    const smokable_selector_preset preset;
+
+    auto make_raw_stats = [ &total_capacity, &used_capacity ]
+    ( const std::vector<std::pair<item_location, int>> &locs ) {
+        units::volume added_volume = 0_ml;
+        for( std::pair<item_location, int> loc : locs ) {
+            added_volume += loc.first->volume() * loc.second / loc.first->charges;
+        }
+        std::string volume_caption = string_format( _( "Volume (%s):" ), volume_units_abbr() );
+        return inventory_selector::stats{
+            {
+                display_stat( volume_caption,
+                              units::to_milliliter( used_capacity + added_volume ),
+                              units::to_milliliter( total_capacity ), []( int v )
+                {
+                    return format_volume( units::from_milliliter( v ) );
+                } )
+            }
+        };
+    };
+
+    inventory_multiselector smoke_s( you, preset, _( "FOOD TO SMOKE" ), make_raw_stats );
+
+    smoke_s.add_nearby_items( PICKUP_RANGE );
+    smoke_s.add_character_items( you );
+
+    smoke_s.set_title( _( "Insert food into smoking rack" ) );
+    smoke_s.set_hint( _( "To select x items, type a number before selecting." ) );
+    smoke_s.set_invlet_type( inventory_selector::selector_invlet_type::SELECTOR_INVLET_ALPHA );
+
+    if( smoke_s.empty() ) {
+        popup( std::string( _( "You don't have any food that can be smoked." ) ), PF_GET_KEY );
+        return drop_locations();
+    }
+
+    return smoke_s.execute();
+}
+
 bool game_menus::inv::compare_items( const item &first, const item &second,
                                      const std::string &confirm_message )
 {

@@ -501,6 +501,7 @@ class Character : public Creature, public visitable
         /** Getter for need values exclusive to characters */
         int get_stored_kcal() const;
         int get_healthy_kcal() const;
+        // Returns stored kcals as a proportion of "healthy" kcals (1.0 == healthy)
         float get_kcal_percent() const;
         int kcal_speed_penalty() const;
         int get_hunger() const;

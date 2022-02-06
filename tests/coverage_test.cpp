@@ -1,3 +1,4 @@
+#include <memory>
 #include <string>
 
 #include "ballistics.h"
@@ -71,8 +72,10 @@ static float get_avg_melee_dmg( std::string clothing_id, bool infect_risk = fals
 static float get_avg_bullet_dmg( std::string clothing_id )
 {
     clear_map();
-    standard_npc badguy( "TestBaddie", badguy_pos, {}, 0, 8, 8, 8, 8 );
-    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+    std::unique_ptr<standard_npc> badguy = std::make_unique<standard_npc>( "TestBaddie", badguy_pos,
+                                           std::vector<std::string>(), 0, 8, 8, 8, 8 );
+    std::unique_ptr<standard_npc> dude = std::make_unique<standard_npc>( "TestCharacter", dude_pos,
+                                         std::vector<std::string>(), 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
     projectile proj;
     proj.speed = 1000;
@@ -84,25 +87,25 @@ static float get_avg_bullet_dmg( std::string clothing_id )
     int dam_acc = 0;
     int num_hits = 0;
     for( int i = 0; i < num_iters; i++ ) {
-        clear_character( dude, true );
-        dude.setpos( dude_pos );
-        dude.wear_item( cloth, false );
-        dude.add_effect( effect_sleep, 1_hours );
+        clear_character( *dude, true );
+        dude->setpos( dude_pos );
+        dude->wear_item( cloth, false );
+        dude->add_effect( effect_sleep, 1_hours );
         dealt_projectile_attack atk = projectile_attack( proj, badguy_pos, dude_pos, dispersion_sources(),
-                                      &badguy );
-        dude.deal_projectile_attack( &badguy, atk, false );
+                                      &*badguy );
+        dude->deal_projectile_attack( &*badguy, atk, false );
         if( atk.missed_by < 1.0 ) {
             num_hits++;
         }
         cloth.set_damage( cloth.min_damage() );
-        dam_acc += dude.get_hp_max() - dude.get_hp();
-        if( dude.is_dead() ) {
+        dam_acc += dude->get_hp_max() - dude->get_hp();
+        if( dude->is_dead() ) {
             break;
         }
     }
-    CAPTURE( dude.is_dead() );
+    CAPTURE( dude->is_dead() );
     INFO( string_format( "%s landed %d hits on character, causing %d damage total.",
-                         badguy.disp_name( false, true ), num_hits, dam_acc ) );
+                         badguy->disp_name( false, true ), num_hits, dam_acc ) );
     num_hits = num_hits ? num_hits : 1;
     return static_cast<float>( dam_acc ) / num_hits;
 }

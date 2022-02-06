@@ -36,7 +36,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_is_wearing", "npc_is_wearing", "u_has_item", "npc_has_item",
         "u_has_items", "npc_has_items", "u_has_item_category", "npc_has_item_category",
         "u_has_bionics", "npc_has_bionics", "u_has_effect", "npc_has_effect", "u_need", "npc_need",
-        "u_at_om_location", "npc_at_om_location", "npc_role_nearby", "npc_allies", "npc_service",
+        "u_at_om_location", "u_near_om_location", "npc_at_om_location", "npc_near_om_location", "npc_role_nearby", "npc_allies", "npc_service",
         "u_has_cash", "u_are_owed", "u_query", "npc_query", "u_has_item_with_flag", "npc_has_item_with_flag",
         "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override", "u_has_hp", "npc_has_hp",
         "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
@@ -117,6 +117,7 @@ struct conditional_t {
         void set_has_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_need( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_at_om_location( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_near_om_location( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_role_nearby( const JsonObject &jo );
         void set_npc_allies( const JsonObject &jo );
         void set_u_has_cash( const JsonObject &jo );

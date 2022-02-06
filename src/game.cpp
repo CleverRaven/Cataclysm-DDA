@@ -12031,6 +12031,8 @@ void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
     if( old_abs_omt != new_abs_omt ) {
         const oter_id &cur_ter = overmap_buffer.ter( new_abs_omt );
         get_event_bus().send<event_type::avatar_enters_omt>( new_abs_omt.raw(), cur_ter );
+        // if the player has moved omt then might trigger an EOC for that OMT
+        effect_on_conditions::om_move();
     }
 }
 } // namespace cata_event_dispatch

@@ -21,7 +21,7 @@ jobs:
         run: sudo apt install gettext
       - name: "Install Transifex CLI"
         run: |
-          curl -s https://github.com/transifex/cli/releases/download/v1.0.0/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
+          curl -sL https://github.com/transifex/cli/releases/download/v1.0.0/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
       - name: "Checkout"
         uses: actions/checkout@v2
       - name: "Generate translation template"
