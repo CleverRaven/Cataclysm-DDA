@@ -152,10 +152,7 @@
     "id": "leather",
     "symbol": ",",
     "color": "brown",
-    "name": {
-      "str": "leather patch",
-      "str_pl": "leather patches"
-    },
+    "name": { "str": "leather patch", "str_pl": "leather patches" },
     "description": "A roughly 6 inch square patch of leather, could be used to repair clothing and make smaller leather crafts.",
     "price": 2000,
     "price_postapoc": 10,
@@ -170,10 +167,7 @@
     "id": "felt_patch",
     "symbol": ",",
     "color": "white",
-    "name": {
-      "str": "felt patch",
-      "str_pl": "felt patches"
-    },
+    "name": { "str": "felt patch", "str_pl": "felt patches" },
     "description": "A small, 6 inch square patch of felt, could be disassembled for wool fiber.",
     "price": 2000,
     "price_postapoc": 10,
@@ -189,10 +183,7 @@
     "category": "spare_parts",
     "symbol": ",",
     "color": "light_gray",
-    "name": {
-      "str": "Nomex patch",
-      "str_pl": "Nomex patches"
-    },
+    "name": { "str": "Nomex patch", "str_pl": "Nomex patches" },
     "description": "A 6 inch square patch of Nomex fire-resistant fabric.",
     "price": 4000,
     "price_postapoc": 20,
