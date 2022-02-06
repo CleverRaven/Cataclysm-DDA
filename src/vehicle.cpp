@@ -3325,23 +3325,21 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
 {
     return std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
     const vehicle_part & rhs ) {
-        return lhs + ( ( rhs.is_available() &&
-                         rhs.ammo_current() == ftype ) ? rhs.ammo_capacity( item::find_type(
-                                     ftype )->ammo->type ) : 0 );
+        cata::value_ptr<islot_ammo> a_val = item::find_type( ftype )->ammo;
+        return lhs + ( ( rhs.is_available() && rhs.ammo_current() == ftype ) ?
+                       rhs.ammo_capacity( !!a_val ? a_val->type : ammotype::NULL_ID() ) : 0 );
     } );
 }
 
 float vehicle::fuel_specific_energy( const itype_id &ftype ) const
 {
-    float total_energy = 0.0f;
-    float total_mass = 0.0f;
+    float total_energy = 0.0f; // J
+    float total_mass = 0.0f;  // g
     for( const vehicle_part &vp : parts ) {
         if( vp.is_tank() && vp.ammo_current() == ftype &&
-            vp.base.legacy_front().made_of( phase_id::LIQUID ) ) {
-            float energy = vp.base.legacy_front().specific_energy;
-            float mass = to_gram( vp.base.legacy_front().weight() );
-            total_energy += energy * mass;
-            total_mass += mass;
+            vp.base.only_item().made_of( phase_id::LIQUID ) ) {
+            total_energy += vp.base.only_item().get_item_thermal_energy();
+            total_mass += to_gram( vp.base.only_item().weight() );
         }
     }
     return total_energy / total_mass;
@@ -6761,6 +6759,17 @@ std::map<itype_id, int> vehicle::fuels_left() const
     for( const vehicle_part &p : parts ) {
         if( p.is_fuel_store() && !p.ammo_current().is_null() ) {
             result[ p.ammo_current() ] += p.ammo_remaining();
+        }
+    }
+    return result;
+}
+
+std::list<item *> vehicle::fuel_items_left()
+{
+    std::list<item *> result;
+    for( vehicle_part &p : parts ) {
+        if( p.is_fuel_store() && !p.ammo_current().is_null() && !p.base.is_container_empty() ) {
+            result.push_back( &p.base.only_item() );
         }
     }
     return result;
