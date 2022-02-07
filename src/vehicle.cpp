@@ -2850,7 +2850,7 @@ vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_enabled_parts(
 std::vector<int> vehicle::all_parts_at_location( const std::string &location ) const
 {
     std::vector<int> parts_found;
-    auto all_parts = get_all_parts();
+    vehicle_part_range all_parts = get_all_parts();
     for( const vpart_reference &vpr : all_parts ) {
         if( vpr.info().location == location && !parts[vpr.part_index()].removed ) {
             parts_found.push_back( vpr.part_index() );
@@ -3387,7 +3387,7 @@ float vehicle::fuel_specific_energy( const itype_id &ftype ) const
     for( const vpart_reference &vpr : get_all_parts() ) {
         if( vpr.part().is_tank() && vpr.part().ammo_current() == ftype &&
             vpr.part().base.only_item().made_of( phase_id::LIQUID ) ) {
-            total_energy += vpr.part().base.only_item().get_item_termal_energy();
+            total_energy += vpr.part().base.only_item().get_item_thermal_energy();
             total_mass += to_gram( vpr.part().base.only_item().weight() );
         }
     }

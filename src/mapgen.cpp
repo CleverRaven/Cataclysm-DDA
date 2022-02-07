@@ -6766,7 +6766,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     if( needs_smashing ) {
         veh_to_add->smash( *this );
     }
-    veh->refresh();
+    veh_to_add->refresh();
 
     return veh_to_add;
 }
