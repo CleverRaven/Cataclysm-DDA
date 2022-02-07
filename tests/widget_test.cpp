@@ -40,9 +40,6 @@ static const dig_activity_actor dig_actor( move_25h, tripoint_zero, "t_pit", tri
 
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
-static const activity_schedule task_dig( dig_actor, 5_minutes );
-static const activity_schedule task_plant( ACT_PLANT_SEED, 5_minutes );
-
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -57,6 +54,9 @@ static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
 static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_infected( "infected" );
+
+static const activity_schedule task_dig( dig_actor, 5_minutes );
+static const activity_schedule task_plant( ACT_PLANT_SEED, 5_minutes );
 
 static const flag_id json_flag_SPLINT( "SPLINT" );
 const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
