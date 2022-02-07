@@ -215,5 +215,175 @@
     "weight": "3 g",
     "volume": "1 ml",
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "jay_shop_update",
+    "//": "Put a bit of extra stuff in the shop every week if you're checking back. Replacing what was there.",
+    "object": {
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 30 ], [ "jay_shop_update_repack_clear", 30 ], [ "jay_shop_update_repack_add", 30 ] ],
+          "x": 3,
+          "y": 12
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "jay_shop_update_repack_clear", 30 ], [ "jay_shop_update_repack_add", 30 ] ],
+          "x": 9,
+          "y": 12
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "jay_shop_update_repack_clear", 30 ], [ "jay_shop_update_repack_add", 30 ] ],
+          "x": 9,
+          "y": 11
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "jay_shop_update_clear", 30 ], [ "jay_shop_update_add", 30 ] ],
+          "x": 3,
+          "y": 10
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "jay_shop_update_clear", 30 ], [ "jay_shop_update_add", 30 ] ],
+          "x": 5,
+          "y": 10
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "jay_shop_update_clear", 30 ], [ "jay_shop_update_add", 30 ] ],
+          "x": 6,
+          "y": 10
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "jay_shop_update_clear", 30 ], [ "jay_shop_update_add", 30 ] ],
+          "x": 7,
+          "y": 10
+        }
+      ],
+      "faction_owner": [
+        { "id": "isolated_artisans", "x": [ 5, 7 ], "y": 10 },
+        { "id": "isolated_artisans", "x": 9, "y": [ 11, 12 ] },
+        { "id": "isolated_artisans", "x": 3, "y": 10 },
+        { "id": "isolated_artisans", "x": 3, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "jay_shop_update_repack_clear",
+    "//": "restock a shelf clearing it",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_floor" },
+      "mapping": {
+        "X": {
+          "terrain": "t_floor",
+          "furniture": "f_utility_shelf",
+          "items": [ { "item": "gunsmith_repack_ammo", "chance": 100, "repeat": [ 3, 6 ] } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "jay_shop_update_repack_add",
+    "//": "restock a shelf adding to it",
+    "object": {
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_null" },
+      "mapping": { "X": { "terrain": "t_null", "items": [ { "item": "gunsmith_repack_ammo", "chance": 100, "repeat": [ 1, 3 ] } ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "jay_shop_update_clear",
+    "//": "restock a shelf clearing it",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_floor" },
+      "mapping": {
+        "X": {
+          "terrain": "t_floor",
+          "furniture": "f_utility_shelf",
+          "items": [ { "item": "gunsmith_basic_ammo", "chance": 100, "repeat": [ 1, 4 ] } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "jay_shop_update_add",
+    "//": "restock a shelf adding to it",
+    "object": {
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_null" },
+      "mapping": { "X": { "terrain": "t_null", "items": [ { "item": "gunsmith_basic_ammo", "chance": 100, "repeat": [ 0, 2 ] } ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "cody_shop_update",
+    "//": "Put a bit of extra stuff in the shop every week if you're checking back. Replacing what was there.",
+    "object": {
+      "place_nested": [
+        { "chunks": [ [ "null", 30 ], [ "cody_shop_update_clear", 30 ], [ "cody_shop_update_add", 30 ] ], "x": 12, "y": 8 },
+        {
+          "chunks": [ [ "null", 30 ], [ "cody_shop_update_clear", 30 ], [ "cody_shop_update_add", 30 ] ],
+          "x": 12,
+          "y": 9
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "cody_shop_update_clear", 30 ], [ "cody_shop_update_add", 30 ] ],
+          "x": 12,
+          "y": 10
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "cody_shop_update_clear", 30 ], [ "cody_shop_update_add", 30 ] ],
+          "x": 12,
+          "y": 11
+        }
+      ],
+      "faction_owner": [ { "id": "isolated_artisans", "x": 12, "y": [ 8, 11 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cody_shop_update_clear",
+    "//": "restock a shelf clearing it",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_floor" },
+      "mapping": {
+        "X": { "terrain": "t_floor", "furniture": "f_utility_shelf", "items": [ { "item": "CODY_MILLER_trade", "chance": 100 } ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cody_shop_update_add",
+    "//": "restock a shelf adding to it",
+    "object": {
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_null" },
+      "mapping": { "X": { "terrain": "t_null", "items": [ { "item": "CODY_MILLER_trade", "chance": 100 } ] } }
+    }
   }
 ]

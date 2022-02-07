@@ -93,6 +93,9 @@ drop_locations multidrop( avatar &you );
 drop_locations pickup( avatar &you, const cata::optional<tripoint> &target = cata::nullopt,
                        std::vector<drop_location> selection = {} );
 
+drop_locations smoke_food( Character &you, units::volume total_capacity,
+                           units::volume used_capacity );
+
 /**
 * Consume an item via a custom menu.
 * If item_location is provided then consume only from the contents of that container.

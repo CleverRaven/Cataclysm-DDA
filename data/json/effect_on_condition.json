@@ -353,5 +353,47 @@
     "eoc_type": "AVATAR_DEATH",
     "condition": { "and": [ { "npc_allies": 1 }, { "u_query": "You have died. Continue as one of your followers?", "default": false } ] },
     "effect": [ "take_control_menu" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isolated_artisans_gunsmith_refresh",
+    "eoc_type": "OM_MOVE",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "isolated_house_farm_gunsmith", "range": 2 },
+        { "compare_int": [ { "global_val": "var", "var_name": "jay_dead" }, "!=", { "const": 1 } ] },
+        {
+          "not": { "u_compare_time_since_var": "gunsmith_shop_update", "type": "timer", "context": "artisans", "op": "<", "time": "7 d" }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "jay_shop_update", "om_terrain": "isolated_house_farm_gunsmith" },
+      { "u_add_var": "gunsmith_shop_update", "type": "timer", "context": "artisans", "time": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isolated_artisans_blacksmith_refresh",
+    "eoc_type": "OM_MOVE",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "isolated_house_farm_blacksmith", "range": 2 },
+        { "compare_int": [ { "global_val": "var", "var_name": "cody_dead" }, "!=", { "const": 1 } ] },
+        {
+          "not": {
+            "u_compare_time_since_var": "blacksmith_shop_update",
+            "type": "timer",
+            "context": "artisans",
+            "op": "<",
+            "time": "7 d"
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "cody_shop_update", "om_terrain": "isolated_house_farm_blacksmith" },
+      { "u_add_var": "blacksmith_shop_update", "type": "timer", "context": "artisans", "time": true }
+    ]
   }
 ]

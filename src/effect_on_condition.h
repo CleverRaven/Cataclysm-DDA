@@ -19,6 +19,7 @@ enum eoc_type {
     SCENARIO_SPECIFIC,
     AVATAR_DEATH,
     NPC_DEATH,
+    OM_MOVE,
     NUM_EOC_TYPES
 };
 struct effect_on_condition {
@@ -80,6 +81,8 @@ void write_eocs_to_file( Character &you );
 void write_global_eocs_to_file();
 /** Run all avatar death eocs */
 void avatar_death();
+/** Run all OM_MOVE eocs */
+void om_move();
 } // namespace effect_on_conditions
 
 template<>
