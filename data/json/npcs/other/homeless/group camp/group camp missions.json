@@ -216,8 +216,8 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need some help.",
-	  "offer": "That ant meat you got us turned out quite useful, but we have some difficulty perserving it. If you could get us some stone, about 40 rocks, we could start smoking it. Heck, you might want to but some.",
-	  "advice": "One of those old mines could get you down to stone. Barring that, mabey some boulders could do.",
+	  "offer": "That ant meat you got us turned out quite useful, but we have some difficulty preserving it. If you could get us some stone, about 40 rocks, we could start smoking it. Heck, you might want to but some.",
+	  "advice": "One of those old mines could get you down to stone. Barring that, maybe some boulders could do.",
       "accepted": "Thank you. We'll be sure to compensate your efforts.",
       "rejected": "Alright, I can understand that. I guess I'll have to get it myself.",
       "inquire": "Do you have the rocks?",
