@@ -32,6 +32,7 @@
         "  ....................  ",
         "  ....................  "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { ".": "t_pavement" },
       "nested": { "1": { "chunks": [ [ "road_crater", 50 ], [ "null", 50 ] ] } }
     }
@@ -69,6 +70,7 @@
         "   ..................   ",
         "   ..................   "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { ".": "t_pavement" },
       "nested": { "1": { "chunks": [ [ "road_crater", 50 ], [ "null", 50 ] ] } }
     }
@@ -106,6 +108,7 @@
         "  ..................... ",
         "  ....................  "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { ".": "t_pavement" },
       "nested": { "1": { "chunks": [ [ "road_crater", 50 ], [ "null", 50 ] ] } }
     }
@@ -143,6 +146,7 @@
         "  ....................  ",
         "  ....................  "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { ".": "t_pavement" },
       "nested": {
         "1": { "chunks": [ [ "road_crater", 50 ], [ "null", 50 ] ] },
@@ -183,6 +187,7 @@
         "  ....................  ",
         "  ....................  "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { ".": "t_pavement" },
       "nested": {
         "1": { "chunks": [ [ "road_crater", 50 ], [ "null", 50 ] ] },
@@ -212,6 +217,7 @@
         " ... ",
         "  .. "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { ".": "t_region_groundcover_urban" }
     }
   },
@@ -228,6 +234,7 @@
         " ... ",
         "  .  "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { ".": "t_region_groundcover_urban" }
     }
   },
@@ -244,6 +251,7 @@
         " ... ",
         "  .  "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { ".": "t_region_groundcover_urban" }
     }
   },
@@ -260,6 +268,7 @@
         " . . ",
         " .   "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { ".": "t_region_groundcover_urban" }
     }
   },
@@ -276,6 +285,7 @@
         " ... ",
         "  ..."
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { ".": "t_region_groundcover_urban" }
     }
   },
@@ -299,6 +309,7 @@
         "..     ..   ",
         ".       .   "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { ".": "t_region_groundcover_urban" }
     }
   }

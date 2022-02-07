@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "anatomy.h"
 #include "bodypart.h"
 #include "bionics.h"
 #include "cached_options.h"
@@ -68,6 +69,8 @@
 #include "weakpoint.h"
 #include "weighted_list.h"
 
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_razors( "bio_razors" );
@@ -108,6 +111,7 @@ static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
+static const json_character_flag json_flag_NULL( "NULL" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 static const limb_score_id limb_score_block( "block" );
@@ -1134,12 +1138,15 @@ float Character::get_dodge() const
     // Reaction score of limbs influences dodge chances
     ret *= get_limb_score( limb_score_reaction );
 
+    // Modify by how much bigger/smaller we got from our limbs
+    ret /= anatomy( get_all_body_parts() ).get_size_ratio( anatomy_human_anatomy );
+
     return std::max( 0.0f, ret );
 }
 
 float Character::dodge_roll() const
 {
-    if( has_trait_flag( json_flag_HARDTOHIT ) ) {
+    if( has_flag( json_flag_HARDTOHIT ) ) {
         // two chances at rng!
         return std::max( get_dodge(), get_dodge() ) * 5;
     }
@@ -1792,7 +1799,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
             for( const tech_effect_data &eff : technique.tech_effects ) {
                 // Add the tech's effects if it rolls the chance and either did damage or ignores it
                 if( x_in_y( eff.chance, 100 ) && ( di.total_damage() != 0 || !eff.on_damage ) ) {
-                    t.add_effect( eff.id, time_duration::from_turns( eff.duration ), eff.permanent );
+                    if( eff.req_flag == json_flag_NULL || has_flag( eff.req_flag ) ) {
+                        t.add_effect( eff.id, time_duration::from_turns( eff.duration ), eff.permanent );
+                        add_msg_if_player( m_good, _( eff.message ), t.disp_name() );
+                    }
                 }
             }
         }

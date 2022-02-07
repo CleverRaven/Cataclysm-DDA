@@ -9,9 +9,10 @@ on:
     - master
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
+# Allow running master builds to complete to help with ccache refreshes.
 concurrency:
   group: general-build-${{ github.event.pull_request.number || github.ref_name }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 # Overall strategy for what sorts of builds to include:
 # We want a build for the newest and oldest supported version of each compiler.
@@ -56,12 +57,43 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
+  matrix-variables:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    outputs:
+      fail_fast: ${{ steps.matrix_vars.outputs.fail_fast }}
+      skip_tests: ${{ steps.matrix_vars.outputs.skip_tests }}
+      max_parallel: ${{ steps.matrix_vars.outputs.max_parallel }}
+    steps:
+      - id: matrix_vars
+        run: |
+          echo "::set-output name=fail_fast::$([ "$GITHUB_REF_NAME" = "master" ] && echo false || echo true)"
+          echo "::set-output name=skip_tests::$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)"
+          echo "::set-output name=max_parallel::$([ "$GITHUB_REF_NAME" = "master" ] && echo 20 || echo 1)"
   varied_builds:
-    needs: [ skip-duplicates-code, skip-duplicates-data ]
+    needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
     strategy:
-      max-parallel: 1
+      fail-fast: ${{ fromJSON(needs.matrix-variables.outputs.fail_fast) }}
+      max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
+          - compiler: clang++-6.0
+            os: ubuntu-18.04
+            tiles: 0
+            sound: 0
+            release: 1
+            cmake: 0
+            localize: 1
+            test-stage: 1
+            native: linux64           
+            archive-success: basic-build
+            dont_skip_data_only_changes: 1
+            title: Basic Build and Test (Clang 6, Ubuntu, Curses)
+            # ~190MB in a clean build
+            # ~30MB compressed
+            # .16 : 1 -> max ~485MB
+            ccache_limit: 3G
+
           - compiler: g++-9
             os: ubuntu-latest
             release: 1
@@ -69,16 +101,14 @@ jobs:
             tiles: 0
             sound: 0
             localize: 1
-            test-stage: 1
             gold: 1
             lto: 1
             native: linux64
-            archive-success: basic-build
-            dont_skip_data_only_changes: 1
-            title: Basic Build and Test (GCC 9, Curses, LTO)
+            title: GCC 9, Curses, LTO
             # ~850MB in a clean build
             # ~370MB compressed
-            ccache_limit: 1.5G
+            # .44 : 1 -> max ~1.8G
+            ccache_limit: 4G
 
           - compiler: clang++-12
             os: ubuntu-latest
@@ -94,7 +124,8 @@ jobs:
             title: Clang 12, Ubuntu, Tiles, ASan
             # ~390MB in a clean build
             # ~50MB compressed
-            ccache_limit: 1G
+            # .13 : 1 -> max ~540MB
+            ccache_limit: 4G
 
           - compiler: g++-11
             os: ubuntu-latest
@@ -108,7 +139,8 @@ jobs:
             title: GCC 11, Ubuntu, Curses, ASan
             # ~480MB in a clean build
             # ~50MB compressed
-            ccache_limit: 1G
+            # .10 : 1 -> max ~530MB
+            ccache_limit: 5G
 
           - compiler: clang++
             os: macos-10.15
@@ -120,10 +152,10 @@ jobs:
             sound: 1
             localize: 1
             title: Clang 12, macOS 10.15, Tiles, Sound, UBSan
-            # ccache on mac has zstd built in
-            # ~120MB ccache-compressed in a clean build
-            # ~115 compressed
-            ccache_limit: 300M
+            # ~880MB ccache-compressed in a clean build
+            # ~100 compressed
+            # .11 : 1 -> max ~450MB
+            ccache_limit: 4G
 
           - compiler: g++
             os: ubuntu-latest
@@ -133,27 +165,14 @@ jobs:
             tiles: 1
             sound: 1
             localize: 1
-            test-stage: 1
             title: GCC 11, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
             ldflags: -static-libgcc -static-libstdc++
             mxe_target: x86_64-w64-mingw32.static.gcc11
             wine: wine
             # ~285MB in a clean build
             # ~36MB compressed
-            ccache_limit: 1G
-
-          - compiler: clang++-6.0
-            os: ubuntu-18.04
-            tiles: 0
-            sound: 0
-            release: 1
-            cmake: 0
-            localize: 1
-            native: linux64
-            title: Clang 6, Ubuntu, Curses, Release
-            # ~190MB in a clean build
-            # ~30MB compressed
-            ccache_limit: 1G
+            # .12 : 1 -> max ~390MB
+            ccache_limit: 3G
 
           - compiler: g++-7
             os: ubuntu-18.04
@@ -166,7 +185,8 @@ jobs:
             title: GCC 7, Ubuntu, Tiles, Sound, CMake
             # ~180MB in a clean build
             # ~25MB compressed
-            ccache_limit: 1G
+            # .14 : 1 -> max ~430MB
+            ccache_limit: 3G
 
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
@@ -192,7 +212,11 @@ jobs:
         RELEASE: ${{ matrix.release }}
         ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
         CCACHE_LIMIT: ${{ matrix.ccache_limit }}
-        SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (GCC 9, Curses, LTO)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
+        CCACHE_FILECLONE: true
+        CCACHE_HARDLINK: true
+        CCACHE_NOCOMPRESS: true
+        SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 6, Ubuntu, Curses)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
+        SKIP_TESTS: ${{ needs.matrix-variables.outputs.skip_tests }}
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
@@ -203,8 +227,11 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
-            libsdl2-mixer-dev libpulse-dev ccache gettext parallel
+          sudo apt-get install libncursesw5-dev ccache gettext parallel
+    - name: install SDL2 dependencies (ubuntu)
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
+      run: |
+          sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev
     - name: install old GCC (Ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-7' || matrix.compiler == 'g++-8') }}
       run: |
@@ -230,7 +257,7 @@ jobs:
       id: get-vars
       if: ${{ env.SKIP == 'false' }}
       run: |
-        echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+        echo "::set-output name=datetime::$(/bin/date -u "+%Y%m%d%H%M")"
         echo "::set-output name=ccache-path::$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')"
       shell: bash
     - name: ccache cache files
@@ -239,13 +266,28 @@ jobs:
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
-        key: ccache-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.date }}
+        key: ccache-${{ github.ref_name }}-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.datetime }}
         restore-keys: |
-          ccache-${{ runner.os }}-${{ matrix.compiler }}--
+          ccache-master-${{ runner.os }}-${{ matrix.compiler }}--
     - uses: ammaraskar/gcc-problem-matcher@master
-    - name: build and test
+    - name: build
       if: ${{ env.SKIP == 'false' }}
-      run: bash ./build-scripts/build.sh
+      run: bash ./build-scripts/gha_compile_only.sh
+    - name: post-build ccache manipulation
+      if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
+      run: |
+        ccache --show-stats
+        ccache -M ${{ env.CCACHE_LIMIT }}
+        ccache -c
+        ccache --show-stats
+    - name: clear ccache on PRs
+      if: ${{ github.ref_name != 'master' && env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
+      run: |
+        ccache -C
+    # TODO: post ccache here, however actions/cache@v2 does not support manual upload step
+    - name: run tests
+      if: ${{ env.SKIP == 'false' && env.SKIP_TESTS == 'false' }}
+      run: bash ./build-scripts/gha_test_only.sh
     - run: |
         echo ${{ github.event.number }} > pull_request_id
         echo "true" > ${{ env.ARCHIVE_SUCCESS }}
@@ -271,9 +313,3 @@ jobs:
         name: cata_test
         path: tests/cata_test*
         if-no-files-found: ignore
-    - name: cleanup ccache before upload
-      if: ${{ !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
-      run: |
-        ccache --show-stats
-        ccache -M ${{ env.CCACHE_LIMIT }}
-        ccache -c

@@ -317,6 +317,20 @@ class item_pocket
         void add( const item &it, item **ret = nullptr );
         bool can_unload_liquid() const;
 
+        /**
+        * @brief Check contents of pocket to see if it contains a valid item/pocket to store the given item.
+        * @param ret Used to cache and return a pocket if a valid one was found.
+        * @param pocket The @a item_pocket pocket to recursively look through.
+        * @param parent The parent item location, most likely provided by initial call to @a best_pocket.
+        * @param it The item to try and store.
+        * @param avoid Item to avoid trying to search for/inside of.
+        *
+        * @returns A non-nullptr if a suitable pocket is found.
+        */
+        item_pocket *best_pocket_in_contents(
+            item_location &parent, const item &it, const item *avoid,
+            const bool allow_sealed, const bool ignore_settings );
+
         // only available to help with migration from previous usage of std::list<item>
         std::list<item> &edit_contents();
 
@@ -344,7 +358,7 @@ class item_pocket
         bool same_contents( const item_pocket &rhs ) const;
         /** stacks like items inside the pocket */
         void restack();
-        /** same as above, except returns the stack where input item was placed */
+        /** same as restack(), except returns the stack where input item was placed */
         item *restack( /*const*/ item *it );
         bool has_item_stacks_with( const item &it ) const;
 

@@ -241,20 +241,40 @@ void item_pocket::restack()
     if( contents.size() <= 1 ) {
         return;
     }
-    for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
-        if( !outer_iter->count_by_charges() ) {
-            continue;
-        }
-        for( auto inner_iter = contents.begin(); inner_iter != contents.end(); ) {
-            if( outer_iter == inner_iter || !inner_iter->count_by_charges() ) {
-                ++inner_iter;
+    if( is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+        // Restack magazine contents in a way that preserves order of items
+        for( auto iter = contents.begin(); iter != contents.end(); ) {
+            if( !iter->count_by_charges() ) {
                 continue;
             }
-            if( outer_iter->combine( *inner_iter ) ) {
-                inner_iter = contents.erase( inner_iter );
-                outer_iter = contents.begin();
+
+            auto next = std::next( iter, 1 );
+            if( next == contents.end() ) {
+                break;
+            }
+
+            if( iter->combine( *next ) ) {
+                iter = contents.erase( next );
             } else {
-                ++inner_iter;
+                ++iter;
+            }
+        }
+    } else {
+        for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
+            if( !outer_iter->count_by_charges() ) {
+                continue;
+            }
+            for( auto inner_iter = contents.begin(); inner_iter != contents.end(); ) {
+                if( outer_iter == inner_iter || !inner_iter->count_by_charges() ) {
+                    ++inner_iter;
+                    continue;
+                }
+                if( outer_iter->combine( *inner_iter ) ) {
+                    inner_iter = contents.erase( inner_iter );
+                    outer_iter = contents.begin();
+                } else {
+                    ++inner_iter;
+                }
             }
         }
     }
@@ -322,16 +342,6 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
         return !rhs.data->get_flag_restrictions().empty();
     }
 
-    if( data->extra_encumbrance != rhs.data->extra_encumbrance ) {
-        // pockets without extra encumbrance should be prioritized
-        return !rhs.data->extra_encumbrance;
-    }
-
-    if( data->ripoff > rhs.data->ripoff ) {
-        // pockets without ripoff chance should be prioritized
-        return true;
-    }
-
     if( it.is_comestible() && it.get_comestible()->spoils != 0_seconds ) {
         // a lower spoil multiplier is better
         return rhs.spoil_multiplier() < spoil_multiplier();
@@ -346,6 +356,16 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
     //Skip irrelevant properties of nested containers
     if( nested ) {
         return false;
+    }
+
+    if( rhs.data->extra_encumbrance < data->extra_encumbrance ) {
+        // pockets with less extra encumbrance should be prioritized
+        return true;
+    }
+
+    if( data->ripoff > rhs.data->ripoff ) {
+        // pockets without ripoff chance should be prioritized
+        return true;
     }
 
     if( data->rigid != rhs.data->rigid ) {
@@ -556,6 +576,9 @@ units::mass item_pocket::item_weight_modifier() const
 
 units::length item_pocket::item_length_modifier() const
 {
+    if( is_type( item_pocket::pocket_type::EBOOK ) ) {
+        return 0_mm;
+    }
     units::length total_length = 0_mm;
     for( const item &it : contents ) {
         total_length = std::max( static_cast<units::length>( it.length() * std::cbrt(
@@ -1251,7 +1274,7 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
 
     if( it.length() < data->min_item_length ) {
         return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_TOO_BIG, _( "item is too short" ) );
+                   contain_code::ERR_TOO_SMALL, _( "item is too short" ) );
     }
 
     if( it.volume() < data->min_item_volume ) {
@@ -1326,7 +1349,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         }
     } else if( size() == 1 && contents.front().made_of( phase_id::GAS ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_LIQUID, _( "can't put non gas into pocket with gas" ) );
+                   contain_code::ERR_GAS, _( "can't put non gas into pocket with gas" ) );
     }
 
 
@@ -1416,8 +1439,9 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
 
         if( is_type( item_pocket::pocket_type::MAGAZINE ) ) {
             // Reloading is refused if
-            // Pocket contains ammo that can't combine (empty casings ignored)
-            // Pocket is full of ammo
+            // Pocket is full of ammo (casings are ignored)
+            // Ammos are of different ammo type
+            // If either of ammo is liquid while the other is not or they are different types
 
             if( full( false ) ) {
                 return false;
@@ -1427,11 +1451,15 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
                 if( loaded->has_flag( flag_CASING ) ) {
                     continue;
                 }
-                // This is a *very* cut down version of item::stacks_with()
-                bool cant_combine = loaded->type != ammo.type || loaded->active != ammo.active ||
-                                    loaded->made_of( phase_id::LIQUID ) != ammo.made_of( phase_id::LIQUID );
-                if( cant_combine ) {
+                if( loaded->ammo_type() != ammo.ammo_type() ) {
                     return false;
+                }
+                if( loaded->made_of( phase_id::LIQUID ) || ammo.made_of( phase_id::LIQUID ) ) {
+                    bool cant_combine = !loaded->made_of( phase_id::LIQUID ) || !ammo.made_of( phase_id::LIQUID ) ||
+                                        loaded->type != ammo.type;
+                    if( cant_combine ) {
+                        return false;
+                    }
                 }
             }
 
@@ -1765,10 +1793,31 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
 {
     const ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
+
     if( ret.success() ) {
-        contents.push_back( it );
+        contents.push_front( it );
+        restack();
     }
-    restack();
+    return ret;
+}
+
+item_pocket *item_pocket::best_pocket_in_contents(
+    item_location &parent, const item &it, const item *avoid,
+    const bool allow_sealed, const bool ignore_settings )
+{
+    item_pocket *ret = nullptr;
+
+    for( item &contained_item : contents ) {
+        if( &contained_item == &it || &contained_item == avoid ) {
+            continue;
+        }
+        item_pocket *nested_pocket = contained_item.best_pocket( it, parent, avoid,
+                                     allow_sealed, ignore_settings, /*nested=*/true ).second;
+        if( nested_pocket != nullptr &&
+            ( ret == nullptr || ret->better_pocket( *nested_pocket, it, /*nested=*/true ) ) ) {
+            ret = nested_pocket;
+        }
+    }
     return ret;
 }
 
@@ -1949,22 +1998,30 @@ bool item_pocket::favorite_settings::is_null() const
 
 void item_pocket::favorite_settings::whitelist_item( const itype_id &id )
 {
-    item_blacklist.clear();
+    // whitelisting twice removes the item from the list
     if( item_whitelist.count( id ) ) {
         item_whitelist.erase( id );
-    } else {
-        item_whitelist.insert( id );
+        return;
     }
+    // remove the item from the blacklist if listed
+    if( item_blacklist.count( id ) ) {
+        item_blacklist.erase( id );
+    }
+    item_whitelist.insert( id );
 }
 
 void item_pocket::favorite_settings::blacklist_item( const itype_id &id )
 {
-    item_whitelist.clear();
+    // blacklisting twice removes the item from the list
     if( item_blacklist.count( id ) ) {
         item_blacklist.erase( id );
-    } else {
-        item_blacklist.insert( id );
+        return;
     }
+    // remove the item from the whitelist if listed
+    if( item_whitelist.count( id ) ) {
+        item_whitelist.erase( id );
+    }
+    item_blacklist.insert( id );
 }
 
 void item_pocket::favorite_settings::clear_item( const itype_id &id )
@@ -1997,22 +2054,30 @@ item_pocket::favorite_settings::get_category_blacklist() const
 
 void item_pocket::favorite_settings::whitelist_category( const item_category_id &id )
 {
-    category_blacklist.clear();
+    // whitelisting twice removes the category from the list
     if( category_whitelist.count( id ) ) {
         category_whitelist.erase( id );
-    } else {
-        category_whitelist.insert( id );
+        return;
     }
+    // remove the category from the blacklist if listed
+    if( category_blacklist.count( id ) ) {
+        category_blacklist.erase( id );
+    }
+    category_whitelist.insert( id );
 }
 
 void item_pocket::favorite_settings::blacklist_category( const item_category_id &id )
 {
-    category_whitelist.clear();
+    // blacklisting twice removes the category from the list
     if( category_blacklist.count( id ) ) {
         category_blacklist.erase( id );
-    } else {
-        category_blacklist.insert( id );
+        return;
     }
+    // remove the category from the whitelist if listed
+    if( category_whitelist.count( id ) ) {
+        category_whitelist.erase( id );
+    }
+    category_blacklist.insert( id );
 }
 
 void item_pocket::favorite_settings::clear_category( const item_category_id &id )
@@ -2021,6 +2086,24 @@ void item_pocket::favorite_settings::clear_category( const item_category_id &id 
     category_whitelist.erase( id );
 }
 
+/**
+ * Check to see if the given item is accepted by this pocket based on player configured rules.
+ *
+ * The rules are defined in two list:
+ *
+ * - whitelist - when one or more items are on the list then only those items are accepted.
+ * - blacklist - those items listed here are never accepted.
+ *
+ * When a whitelist is empty and the item is not blacklisted then it will be accepted.
+ * Container items will be accepted only when all items inside are accepted.
+ *
+ * Note that the rules take into account both item id and category which have
+ * to be accepted by the rules outlined above for an item to be accepted.
+ *
+ * @param it item to check.
+ * @return true if the item is accepted by this pocket, false otherwise.
+ * @see item_pocket::favorite_settings::accepts_container(const item&)
+ */
 bool item_pocket::favorite_settings::accepts_item( const item &it ) const
 {
     // if this pocket is disabled it accepts nothing
@@ -2030,7 +2113,7 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
     const itype_id &id = it.typeId();
     const item_category_id &cat = it.get_category_of_contents().id;
 
-    // If the item is explicitly listed in either of the lists, then it's clear what to do with it
+    // if the item is explicitly listed in either of the lists, then it's clear what to do with it
     if( item_blacklist.count( id ) ) {
         return false;
     }
@@ -2046,16 +2129,24 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
         return true;
     }
 
-    // Finally, if no match was found, see if there were any filters at all,
+    // when the item is container then we are actually checking if pocket accepts
+    // container content and not the container itself unless container is blacklisted
+    if( it.is_container() && !it.empty_container() ) {
+        const std::list<const item *> items = it.all_items_top();
+        return std::all_of( items.begin(), items.end(), [this]( const item * it ) {
+            return accepts_item( *it );
+        } );
+    }
+    // finally, if no match was found, see if there were any filters at all,
     // and either allow or deny everything that's fallen through to here.
     if( !category_whitelist.empty() ) {
         return false;  // we've whitelisted only some categories, and this item is not out of those.
     }
     if( !item_whitelist.empty() && category_blacklist.empty() ) {
-        // Whitelisting only certain items, and not as a means to tweak blacklist.
+        // whitelisting only certain items, and not as a means to tweak blacklist.
         return false;
     }
-    // No whitelist - everything goes.
+    // no whitelist - everything goes.
     return true;
 }
 

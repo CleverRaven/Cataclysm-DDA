@@ -127,14 +127,6 @@
     "widgets": [ "hp_left_leg_graph", "hp_torso_graph", "hp_right_leg_graph" ]
   },
   {
-    "id": "hitpoints_all_graphs_layout",
-    "type": "widget",
-    "style": "layout",
-    "label": "Hit Points",
-    "arrange": "rows",
-    "widgets": [ "hitpoints_top_layout", "hitpoints_bottom_layout" ]
-  },
-  {
     "id": "hitpoints_head_torso_layout",
     "type": "widget",
     "style": "layout",

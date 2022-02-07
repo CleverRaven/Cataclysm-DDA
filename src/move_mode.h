@@ -72,8 +72,6 @@ class move_mode
 
         // name: walk, run, crouch, prone
         std::string name() const;
-        // type name: walking, running, crouching, prone
-        std::string type_name() const;
         std::string change_message( bool success, steed_type steed ) const;
 
         move_mode_id cycle() const;

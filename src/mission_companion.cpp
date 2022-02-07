@@ -1929,7 +1929,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
 
     for( const character_id &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
-        if( !guy ) {
+        if( !guy || guy->is_hallucination() ) {
             continue;
         }
         npc_companion_mission c_mission = guy->get_companion_mission();

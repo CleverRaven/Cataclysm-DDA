@@ -14,6 +14,7 @@
 
 #include "cata_variant.h"
 #include "coordinates.h"
+#include "jmapgen_flags.h"
 #include "json.h"
 #include "memory_fast.h"
 #include "point.h"
@@ -94,6 +95,7 @@ struct jmapgen_int {
 /** Mapgen pieces will be applied in order of phases.  The phases are as
  * follows: */
 enum class mapgen_phase {
+    removal,
     terrain,
     furniture,
     default_,
@@ -119,17 +121,21 @@ enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_FURN,
     JMAPGEN_SETMAP_TRAP,
     JMAPGEN_SETMAP_RADIATION,
+    JMAPGEN_SETMAP_TRAP_REMOVE,
     JMAPGEN_SETMAP_BASH,
+    JMAPGEN_SETMAP_VARIABLE,
     JMAPGEN_SETMAP_OPTYPE_LINE = 100,
     JMAPGEN_SETMAP_LINE_TER,
     JMAPGEN_SETMAP_LINE_FURN,
     JMAPGEN_SETMAP_LINE_TRAP,
     JMAPGEN_SETMAP_LINE_RADIATION,
+    JMAPGEN_SETMAP_LINE_TRAP_REMOVE,
     JMAPGEN_SETMAP_OPTYPE_SQUARE = 200,
     JMAPGEN_SETMAP_SQUARE_TER,
     JMAPGEN_SETMAP_SQUARE_FURN,
     JMAPGEN_SETMAP_SQUARE_TRAP,
-    JMAPGEN_SETMAP_SQUARE_RADIATION
+    JMAPGEN_SETMAP_SQUARE_RADIATION,
+    JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE
 };
 
 struct jmapgen_setmap {
@@ -144,16 +150,16 @@ struct jmapgen_setmap {
     int rotation;
     int fuel;
     int status;
-
+    std::string string_val;
     jmapgen_setmap(
         jmapgen_int ix, jmapgen_int iy, jmapgen_int ix2, jmapgen_int iy2,
         jmapgen_setmap_op iop, jmapgen_int ival,
         int ione_in = 1, jmapgen_int irepeat = jmapgen_int( 1, 1 ), int irotation = 0, int ifuel = -1,
-        int istatus = -1
+        int istatus = -1, std::string istring_val = ""
     ) :
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
-        fuel( ifuel ), status( istatus ) {}
+        fuel( ifuel ), status( istatus ), string_val( istring_val ) {}
 
     mapgen_phase phase() const;
 
@@ -204,7 +210,8 @@ class jmapgen_piece
             return mapgen_phase::default_;
         }
         /** Sanity-check this piece */
-        virtual void check( const std::string &/*context*/, const mapgen_parameters & ) const { }
+        virtual void check( const std::string &/*context*/, const mapgen_parameters &,
+                            const jmapgen_int &/*x*/, const jmapgen_int &/*y*/ ) const { }
 
         virtual void merge_parameters_into( mapgen_parameters &,
                                             const std::string &/*outer_context*/ ) const {}
@@ -383,6 +390,8 @@ struct jmapgen_objects {
 
         void merge_parameters_into( mapgen_parameters &, const std::string &outer_context ) const;
 
+        void add_placement_coords_to( std::unordered_set<point> & ) const;
+
         void apply( const mapgendata &dat, mapgen_phase, const std::string &context ) const;
         void apply( const mapgendata &dat, mapgen_phase, const point &offset,
                     const std::string &context ) const;
@@ -413,6 +422,8 @@ class mapgen_function_json_base
         size_t calc_index( const point &p ) const;
         bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
 
+        void add_placement_coords_to( std::unordered_set<point> & ) const;
+
     private:
         json_source_location jsrcloc;
     protected:
@@ -432,6 +443,7 @@ class mapgen_function_json_base
         mapgen_arguments get_args( const mapgendata &md, mapgen_parameter_scope ) const;
 
         std::string context_;
+        enum_bitset<jmapgen_flags> flags_;
         bool is_ready;
 
         point mapgensize;
@@ -517,6 +529,9 @@ class nested_mapgen
         void add( const std::shared_ptr<mapgen_function_json_nested> &p, int weight ) {
             funcs_.add( p, weight );
         }
+        // Returns a set containing every relative coordinate of a point that
+        // might have something placed by this mapgen
+        std::unordered_set<point> all_placement_coords() const;
     private:
         weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> funcs_;
 };

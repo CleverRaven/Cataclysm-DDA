@@ -121,6 +121,34 @@
     "type": "mapgen",
     "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
+    "nested_mapgen_id": "lab_mutagen_8x8_west",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " ]     X",
+        " )     X",
+        " ]     X",
+        "|]     -",
+        " ]     -",
+        " )     X",
+        " ]     X",
+        " ]     X"
+      ],
+      "palettes": [ "lab_mutagen_palette" ],
+      "place_signs": [ { "snippet": "lab_safety_alpha_snippet", "x": 1, "y": 2 }, { "snippet": "lab_safety_alpha_snippet", "x": 1, "y": 4 } ],
+      "place_nested": [
+        { "chunks": [ [ "lab_mutagen_5x5_open", 100 ], [ "null", 0 ] ], "x": 2, "y": 1 },
+        { "chunks": [ [ "lab_alpha_rat_1x1", 100 ], [ "null", 0 ] ], "x": 0, "y": 1 },
+        { "chunks": [ [ "lab_alpha_rat_1x1", 100 ], [ "null", 0 ] ], "x": 0, "y": 2 },
+        { "chunks": [ [ "lab_alpha_rat_1x1", 100 ], [ "null", 0 ] ], "x": 0, "y": 4 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_east",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -532,6 +560,30 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "place_monster": [ { "monster": "mon_lab_rat", "x": 0, "y": 0, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for mutagen research areas.  Rats for cages.",
+    "nested_mapgen_id": "lab_alpha_rat_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "place_liquids": [ { "liquid": "iv_mutagen_alpha", "x": 0, "y": 0, "chance": 50 }, { "liquid": "blood", "x": 0, "y": 0, "chance": 50 } ],
+      "place_monster": [ { "monster": "mon_zap_rat", "x": 0, "y": 0, "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for mutagen research areas.  Rats for cages.",
+    "nested_mapgen_id": "lab_alpha_rat_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "place_liquids": [ { "liquid": "iv_mutagen_alpha", "x": 0, "y": 0, "chance": 50 }, { "liquid": "blood", "x": 0, "y": 0, "chance": 50 } ],
+      "place_monster": [ { "monster": "mon_tunnel_rat", "x": 0, "y": 0, "chance": 50 } ]
     }
   },
   {
@@ -1138,7 +1190,6 @@
         " % ",
         "   "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "%": "f_standing_tank" },
       "liquids": { "%": { "liquid": "water_clean", "amount": [ 2, 100 ] } }
     }
@@ -1155,7 +1206,6 @@
         " % ",
         "   "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "%": "f_standing_tank" },
       "liquids": { "%": { "liquid": "bleach", "amount": [ 2, 100 ] } }
     }
@@ -1172,7 +1222,6 @@
         " % ",
         "   "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "%": "f_standing_tank" },
       "liquids": { "%": { "liquid": "ammonia", "amount": [ 2, 100 ] } }
     }
@@ -1190,7 +1239,6 @@
         " % ",
         "   "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "%": "f_standing_tank" },
       "liquids": { "%": { "liquid": "mutagen", "amount": [ 2, 20 ] } }
     }
@@ -1208,7 +1256,6 @@
         " % ",
         "   "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "%": "f_standing_tank" },
       "liquids": { "%": { "liquid": "purifier", "amount": [ 2, 20 ] } }
     }
