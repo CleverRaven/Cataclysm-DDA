@@ -31,6 +31,7 @@
         "     o   o              "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -66,6 +67,7 @@
         "          ~  #o  o      "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -101,6 +103,7 @@
         "     o   o    ooooo     "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -136,6 +139,7 @@
         "         o   ..I        "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_loot": [ { "item": "stepladder", "y": [ 15, 16 ], "x": [ 13, 14 ], "chance": 50 } ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
@@ -172,6 +176,7 @@
         "                        "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_loot": [ { "item": "stepladder", "x": [ 9, 10 ], "y": [ 7, 8 ], "chance": 50 } ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
@@ -208,6 +213,7 @@
         "              oooooo    "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_loot": [ { "item": "stepladder", "x": [ 15, 16 ], "y": [ 9, 10 ], "chance": 50 } ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
@@ -244,6 +250,7 @@
         "         o              "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_loot": [ { "item": "stepladder", "x": [ 7, 8 ], "y": [ 13, 14 ], "chance": 50 } ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
@@ -280,6 +287,7 @@
         "                        "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -315,6 +323,7 @@
         "              o         "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -350,6 +359,7 @@
         "              o         "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -385,6 +395,7 @@
         "         o    o         "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -420,6 +431,7 @@
         "         o    o         "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -455,6 +467,7 @@
         "         o   #o         "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -490,6 +503,7 @@
         "         o              "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -525,6 +539,7 @@
         "       o o#   o         "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -560,6 +575,7 @@
         "              o         "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -595,6 +611,7 @@
         "         o              "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -630,6 +647,7 @@
         "         o   --po       "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -665,6 +683,7 @@
         "              o-ooo     "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
@@ -736,6 +755,7 @@
         "         o              "
       ],
       "palettes": [ "sewers" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   }
