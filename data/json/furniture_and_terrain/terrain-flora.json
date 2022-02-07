@@ -12,7 +12,7 @@
     "transforms_into": "t_tree_walnut_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "walnut_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "walnut_harv" }, { "seasons": [ "spring" ], "id": "young_leaves_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -188,7 +188,7 @@
     "transforms_into": "t_tree_beech_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "beech_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "young_leaves_harv" }, { "seasons": [ "autumn" ], "id": "beech_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -319,7 +319,7 @@
     "coverage": 80,
     "examine_action": "harvest_ter_nectar",
     "transforms_into": "t_tree_basswood_harvested",
-    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "basswood_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "young_leaves_harv" } ],
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 80,

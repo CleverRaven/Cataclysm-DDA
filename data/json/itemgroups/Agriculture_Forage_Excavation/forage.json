@@ -4,7 +4,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },
+      { "item": "veggy_wild", "prob": 50, "count-min": 1, "count-max": 2 },
+      { "item": "young_leaves", "prob": 50, "count-min": 1, "count-max": 4 },
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "snail_garden", "prob": 5, "count-min": 1, "count-max": 3 },
@@ -18,8 +19,7 @@
       { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "carrot_wild", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "bee_balm", "prob": 5, "count-min": 4, "count-max": 8 },
-      { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 2 },
-      { "item": "salsify_raw", "prob": 5, "count-min": 1, "count-max": 3 }
+      { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 2 }
     ]
   },
   {

@@ -282,9 +282,9 @@
     "entries": [ { "drop": "alder_bark", "base_num": [ 2, 5 ], "scale_num": [ 0, 1 ] } ]
   },
   {
-    "id": "basswood_harv",
+    "id": "young_leaves_harv",
     "type": "harvest",
-    "entries": [ { "drop": "leaves_basswood", "base_num": [ 2, 5 ], "scale_num": [ 0, 1 ] } ]
+    "entries": [ { "drop": "young_leaves", "base_num": [ 2, 5 ], "scale_num": [ 0, 1 ] } ]
   },
   {
     "id": "japanese_knotweed_harv",
