@@ -20,6 +20,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "feral_humans_death_drops_tool",
+    "entries": [ { "item": "hammer", "prob": 100, "damage": [ 1, 3 ] }, { "group": "mon_zombie_technician_death_drops", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "feral_sapien_death_drops_spear",
     "entries": [
       { "group": "survivor_stabbing", "prob": 100, "damage": [ 0, 3 ] },
@@ -350,13 +356,13 @@
       },
       {
         "distribution": [
-          { "item": "armor_plate", "prob": 50, "damage": [ 2, 4 ] },
+          { "item": "armor_junk_plate", "prob": 50, "damage": [ 2, 4 ] },
           { "item": "armor_lorica", "prob": 40, "damage": [ 2, 4 ] },
           { "item": "armor_samurai", "prob": 30, "damage": [ 2, 4 ] },
           { "item": "armor_cuirass", "prob": 30, "damage": [ 2, 4 ] },
           {
             "distribution": [
-              { "item": "armor_lightplate", "prob": 40, "damage": [ 2, 4 ] },
+              { "item": "armor_junk_lightplate", "prob": 40, "damage": [ 2, 4 ] },
               {
                 "collection": [
                   { "item": "cuirass_lightplate", "prob": 80, "damage": [ 2, 4 ] },

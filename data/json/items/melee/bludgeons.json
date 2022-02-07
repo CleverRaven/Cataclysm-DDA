@@ -339,6 +339,25 @@
     "price_postapoc": 100
   },
   {
+    "type": "GENERIC",
+    "id": "makeshift_cane",
+    "name": { "str": "makeshift walking cane" },
+    "description": "An improvised cane.  It also works as a basic bashing weapon in a pinch.",
+    "weight": "453 g",
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ "wood" ],
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "NONCONDUCTIVE", "CRUTCHES" ],
+    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
+    "volume": "1 L",
+    "longest_side": "80 cm",
+    "bashing": 7,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
+    "price": 1600,
+    "price_postapoc": 10
+  },
+  {
     "id": "crutches",
     "type": "GENERIC",
     "symbol": "/",
@@ -355,6 +374,25 @@
     "bashing": 24,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
     "price_postapoc": 1250,
+    "category": "weapons"
+  },
+  {
+    "id": "makeshift_crutches",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": { "str": "makeshift crutches", "str_pl": "pairs of makeshift crutches" },
+    "description": "A pair of wooden makeshift crutches.",
+    "price": 250,
+    "material": [ "wood" ],
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "flags": [ "NONCONDUCTIVE", "CRUTCHES" ],
+    "weight": "2200 g",
+    "volume": "1500 ml",
+    "longest_side": "150 cm",
+    "bashing": 10,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" },
+    "price_postapoc": 125,
     "category": "weapons"
   },
   {

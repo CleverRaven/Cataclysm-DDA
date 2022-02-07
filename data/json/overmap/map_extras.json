@@ -395,8 +395,8 @@
     "name": { "str": "Casings" },
     "description": "Several spent casings are here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_casings" },
-    "sym": "C",
-    "color": "yellow",
+    "sym": "c",
+    "color": "dark_gray",
     "autonote": true
   },
   {
