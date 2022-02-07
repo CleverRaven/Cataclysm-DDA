@@ -23,7 +23,6 @@
         [ "tallow_tainted", 2 ],
         [ "meat_tainted", 3 ],
         [ "dry_meat_tainted", 3 ],
-        [ "slime_scrap", 5 ],
         [ "fetus", 1 ],
         [ "arm", 2 ],
         [ "leg", 2 ]

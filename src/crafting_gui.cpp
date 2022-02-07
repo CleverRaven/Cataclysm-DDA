@@ -20,6 +20,7 @@
 #include "color.h"
 #include "crafting.h"
 #include "cursesdef.h"
+#include "display.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
@@ -30,7 +31,6 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "panels.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
@@ -418,6 +418,8 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     ctxt.register_action( "SCROLL_RECIPE_INFO_DOWN" );
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
     ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "PREV_TAB" );
@@ -968,7 +970,13 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             }
         }
 
-        draw_scrollbar( w_data, line, dataLines, recmax, point_zero );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( 0 )
+        .content_size( recmax )
+        .viewport_pos( istart )
+        .viewport_size( dataLines ).apply( w_data );
+
         wnoutrefresh( w_data );
 
         if( isWide && !current.empty() ) {
@@ -1276,6 +1284,12 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             } else {
                 line += -scroll_rate;
             }
+        } else if( action == "HOME" ) {
+            line = 0;
+            user_moved_line = highlight_unread_recipes;
+        } else if( action == "END" ) {
+            line = -1;
+            user_moved_line = highlight_unread_recipes;
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line].can_craft ) {
                 popup( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );
@@ -1576,7 +1590,16 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();
     if( rel_menu.ret != UILIST_CANCEL ) {
-        return rel_menu.entries[rel_menu.ret].txt.substr( strlen( "─ " ) );
+
+        // Grab the recipe name without our bullet point.
+        std::string recipe = rel_menu.entries[rel_menu.ret].txt.substr( strlen( "─ " ) );
+
+        // If the string is decorated as a favourite, return it without the star
+        if( recipe.rfind( "* ", 0 ) == 0 ) {
+            return recipe.substr( strlen( "* " ) );
+        }
+
+        return recipe;
     }
 
     return "";
@@ -1671,8 +1694,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     if( player_character.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
     } else if( player_character.crafting_speed_multiplier( rec ) <= 0.0f ) {
-        // Technically not always only too sad, but must be too sad
-        right_print( w, 0, 1, i_red, _( "too sad to craft" ) );
+        right_print( w, 0, 1, i_red, _( "unable to craft" ) );
     } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
         right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
                      static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );

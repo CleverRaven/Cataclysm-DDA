@@ -164,6 +164,16 @@
     "fungalize_into": "mon_feral_human_axe_fungal_infected"
   },
   {
+    "id": "mon_feral_human_tool",
+    "type": "MONSTER",
+    "name": "feral mechanic",
+    "description": "This wild human-like creature was probably a mechanic before the cataclysm.  You can see it by his worker uniform, or by his blood-covered hammer in hand, or by his all-hating view.",
+    "copy-from": "mon_feral_human_pipe",
+    "melee_dice": 2,
+    "melee_dice_sides": 8,
+    "death_drops": "feral_humans_death_drops_tool"
+  },
+  {
     "id": "mon_feral_human_pipe_fungal_infected",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
@@ -645,5 +655,36 @@
     ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "STALK" ],
     "fear_triggers": [ "HURT" ]
+  },
+  {
+    "id": "mon_feral_soldier",
+    "type": "MONSTER",
+    "name": { "str": "feral soldier" },
+    "description": "Wearing a military uniform with a kevlar vest, this person seems to be a highly trained military professional, now turned feral.  Tense, dirty hands grip a combat knife as their bloodshot eyes scan for threats.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 100,
+    "speed": 85,
+    "material": [ "flesh" ],
+    "symbol": "@",
+    "color": "i_magenta",
+    "aggression": 40,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_cut": 18,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "dodge": 4,
+    "harvest": "human",
+    "vision_night": 5,
+    "path_settings": { "max_dist": 40, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "death_drops": "mon_feral_soldier_death_drops",
+    "zombify_into": "mon_zombie_soldier",
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
   }
 ]

@@ -46,6 +46,14 @@
     "entries": [ { "item": "esapi_plate", "prob": 50 }, { "item": "esapi_plate", "prob": 50 } ]
   },
   {
+    "id": "military_ballistic_vest_light_pristine",
+    "type": "item_group",
+    "//": "light ballistic vest plus plates",
+    "container-item": "ballistic_vest_light",
+    "subtype": "collection",
+    "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" } ]
+  },
+  {
     "id": "military_ballistic_vest_heavy",
     "type": "item_group",
     "//": "heavy ballistic vest plus plates",
@@ -186,7 +194,12 @@
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [ { "item": "holo_sight", "prob": 50 }, { "item": "acog_scope", "prob": 30 }, { "item": "red_dot_sight", "prob": 20 } ]
+        "distribution": [
+          { "item": "holo_sight", "prob": 50 },
+          { "item": "acog_scope", "prob": 30 },
+          { "item": "hybrid_sight_4x", "prob": 30 },
+          { "item": "red_dot_sight", "prob": 20 }
+        ]
       },
       { "distribution": [ { "item": "grip", "prob": 70 }, { "item": "m203", "prob": 30 } ] },
       { "item": "offset_sights", "prob": 30 },

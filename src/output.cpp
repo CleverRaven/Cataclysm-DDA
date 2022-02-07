@@ -1327,15 +1327,15 @@ void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sTe
     mvwputch( w, point( iOffsetX, 1 ),      c_light_gray, LINE_XOXO ); // |
     mvwputch( w, point( iOffsetXRight, 1 ), c_light_gray, LINE_XOXO ); // |
 
-    mvwprintz( w, point( iOffsetX + 1, 1 ), bSelected ? h_light_gray : c_light_gray, sText );
+    mvwprintz( w, point( iOffsetX + 1, 1 ), bSelected ? h_white : c_light_gray, sText );
 
     for( int i = iOffsetX + 1; i < iOffsetXRight; i++ ) {
         mvwputch( w, point( i, 0 ), c_light_gray, LINE_OXOX );  // -
     }
 
     if( bSelected ) {
-        mvwputch( w, point( iOffsetX - 1, 1 ),      h_light_gray, '<' );
-        mvwputch( w, point( iOffsetXRight + 1, 1 ), h_light_gray, '>' );
+        mvwputch( w, point( iOffsetX - 1, 1 ),      h_white, '<' );
+        mvwputch( w, point( iOffsetXRight + 1, 1 ), h_white, '>' );
 
         for( int i = iOffsetX + 1; i < iOffsetXRight; i++ ) {
             mvwputch( w, point( i, 2 ), c_black, ' ' );
@@ -1357,15 +1357,15 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
     if( !bDisabled ) {
-        mvwprintz( w, point( iOffsetX + 1, 0 ), bSelected ? h_light_gray : c_light_gray, sText );
+        mvwprintz( w, point( iOffsetX + 1, 0 ), bSelected ? h_white : c_light_gray, sText );
     } else {
         mvwprintz( w, point( iOffsetX + 1, 0 ), bSelected ? h_dark_gray : c_dark_gray, sText );
     }
 
     if( bSelected ) {
         if( !bDisabled ) {
-            mvwputch( w, point( iOffsetX - bDecorate, 0 ),      h_light_gray, '<' );
-            mvwputch( w, point( iOffsetXRight + bDecorate, 0 ), h_light_gray, '>' );
+            mvwputch( w, point( iOffsetX - bDecorate, 0 ),      h_white, '<' );
+            mvwputch( w, point( iOffsetXRight + bDecorate, 0 ), h_white, '>' );
         } else {
             mvwputch( w, point( iOffsetX - bDecorate, 0 ),      h_dark_gray, '<' );
             mvwputch( w, point( iOffsetXRight + bDecorate, 0 ), h_dark_gray, '>' );
@@ -1860,16 +1860,18 @@ void replace_substring( std::string &input, const std::string &substring,
     }
 }
 
-//wrap if for i18n
-std::string &capitalize_letter( std::string &str, size_t n )
+std::string uppercase_first_letter( const std::string &str )
 {
-    char c = str[n];
-    if( !str.empty() && c >= 'a' && c <= 'z' ) {
-        c += 'A' - 'a';
-        str[n] = c;
-    }
+    std::wstring wstr = utf8_to_wstr( str );
+    wstr[0] = towupper( wstr[0] );
+    return wstr_to_utf8( wstr );
+}
 
-    return str;
+std::string lowercase_first_letter( const std::string &str )
+{
+    std::wstring wstr = utf8_to_wstr( str );
+    wstr[0] = towlower( wstr[0] );
+    return wstr_to_utf8( wstr );
 }
 
 //remove prefix of a string, between c1 and c2, i.e., "<prefix>remove it"
@@ -1992,6 +1994,31 @@ std::pair<std::string, nc_color> get_light_level( const float light )
     const int light_level = clamp( static_cast< int >( std::ceil( light ) ), 0, maximum_light_level );
     const size_t array_index = static_cast< size_t >( light_level );
     return pair_t{ _( strings[array_index].first ), strings[array_index].second };
+}
+
+std::pair<std::string, nc_color> rad_badge_color( const int rad )
+{
+    using pair_t = std::pair<const int, std::pair<std::string, nc_color>>;
+
+    static const std::array<pair_t, 6> values = {{
+            pair_t { 0,   { translate_marker( "green" ),  c_white_green } },
+            pair_t { 30,  { translate_marker( "blue" ),   h_white       } },
+            pair_t { 60,  { translate_marker( "yellow" ), i_yellow      } },
+            pair_t { 120, { translate_marker( "orange" ), c_red_yellow  } },
+            pair_t { 240, { translate_marker( "red" ),    c_red_red     } },
+            pair_t { 500, { translate_marker( "black" ),  c_pink        } }
+        }
+    };
+
+    unsigned i = 0;
+    for( ; i < values.size(); i++ ) {
+        if( rad <= values[i].first ) {
+            break;
+        }
+    }
+    i = i == values.size() ? i - 1 : i;
+
+    return std::pair<std::string, nc_color>( _( values[i].second.first ), values[i].second.second );
 }
 
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )
@@ -2471,7 +2498,7 @@ int ci_find_substr( const std::string &str1, const std::string &str2, const std:
 }
 
 /**
-* Convert, round up and format a volume.
+* Convert and format volume.
 */
 std::string format_volume( const units::volume &volume )
 {
@@ -2479,7 +2506,7 @@ std::string format_volume( const units::volume &volume )
 }
 
 /**
-* Convert, clamp, round up and format a volume,
+* Convert, clamp and format volume,
 * taking into account the specified width (0 for unlimited space),
 * optionally returning a flag that indicate if the value was truncated to fit the width,
 * optionally returning the formatted value as double.
@@ -2494,8 +2521,6 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
     if( width != 0 ) {
         value = clamp_to_width( value, std::abs( width ), scale, out_truncated );
     }
-    // round up
-    value = round_up( value, scale );
     if( out_value != nullptr ) {
         *out_value = value;
     }

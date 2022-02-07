@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "anatomy.h"
 #include "bodypart.h"
 #include "bionics.h"
 #include "cached_options.h"
@@ -68,6 +69,8 @@
 #include "weakpoint.h"
 #include "weighted_list.h"
 
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_razors( "bio_razors" );
@@ -108,6 +111,7 @@ static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
+static const json_character_flag json_flag_NULL( "NULL" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 static const limb_score_id limb_score_block( "block" );
@@ -1172,12 +1176,15 @@ float Character::get_dodge() const
     // Reaction score of limbs influences dodge chances
     ret *= get_limb_score( limb_score_reaction );
 
+    // Modify by how much bigger/smaller we got from our limbs
+    ret /= anatomy( get_all_body_parts() ).get_size_ratio( anatomy_human_anatomy );
+
     return std::max( 0.0f, ret );
 }
 
 float Character::dodge_roll() const
 {
-    if( has_trait_flag( json_flag_HARDTOHIT ) ) {
+    if( has_flag( json_flag_HARDTOHIT ) ) {
         // two chances at rng!
         return std::max( get_dodge(), get_dodge() ) * 5;
     }
@@ -1591,7 +1598,7 @@ void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*av
         }
 
         // No negative damage!
-        if( other_dam >= 0 ) {
+        if( other_dam > 0 ) {
             float other_mul = 1.0f * mabuff_damage_mult( type_name );
             float armor_mult = 1.0f;
 
@@ -1877,44 +1884,63 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 {
     add_msg_debug( debugmode::DF_MELEE, "dmg before tec:" );
     print_damage_info( di );
+    int rep = rng( technique.repeat_min, technique.repeat_max );
+    add_msg_debug( debugmode::DF_MELEE, "Tech repeats %d times", rep );
 
     // Keep the technique definitons shorter
     if( technique.attack_override ) {
         move_cost = 0;
+        di.clear();
     }
 
-    for( damage_unit &du : di.damage_units ) {
+    std::map<std::string, damage_type> dt_map = get_dt_map();
+    for( const std::pair<const std::string, damage_type> &dt : dt_map ) {
+        damage_type type = dt.second;
 
-        if( technique.attack_override ) {
-            du.amount = 0;
+        float dam = technique.damage_bonus( *this, type );
+        float arpen = technique.armor_penetration( *this, type );
+        float mult = technique.damage_multiplier( *this, type );
+
+        if( mult != 1 ) {
+            di.mult_type_damage( technique.damage_multiplier( *this, type ), type );
         }
-        du.damage_multiplier *= technique.damage_multiplier( *this, du.type );
-        du.amount += technique.damage_bonus( *this, du.type );
-        du.res_pen += technique.armor_penetration( *this, du.type );
+        if( dam != 0 || arpen != 0 ) {
+            di.add_damage( type, dam, arpen, 1.0f, rep );
+        }
     }
-
-    add_msg_debug( debugmode::DF_MELEE, "dmg after tec:" );
+    add_msg_debug( debugmode::DF_MELEE, "dmg after attack" );
     print_damage_info( di );
 
     move_cost *= technique.move_cost_multiplier( *this );
-    move_cost += technique.move_cost_penalty( *this );
+    // Flat movecosts scale with repeating techs
+    move_cost += technique.move_cost_penalty( *this ) * rep;
 
-    if( !technique.tech_effects.empty() ) {
-        for( const tech_effect_data &eff : technique.tech_effects ) {
-            // Add the tech's effects if it rolls the chance and either did damage or ignores it
-            if( x_in_y( eff.chance, 100 ) && ( di.total_damage() != 0  || !eff.on_damage ) ) {
-                t.add_effect( eff.id, time_duration::from_turns( eff.duration ), eff.permanent );
+    // Add effects for each repeat of the tech
+    for( int i = 0; i < rep; i++ ) {
+        if( !technique.tech_effects.empty() ) {
+            for( const tech_effect_data &eff : technique.tech_effects ) {
+                // Add the tech's effects if it rolls the chance and either did damage or ignores it
+                if( x_in_y( eff.chance, 100 ) && ( di.total_damage() != 0 || !eff.on_damage ) ) {
+                    if( eff.req_flag == json_flag_NULL || has_flag( eff.req_flag ) ) {
+                        t.add_effect( eff.id, time_duration::from_turns( eff.duration ), eff.permanent );
+                        add_msg_if_player( m_good, _( eff.message ), t.disp_name() );
+                    }
+                }
             }
         }
-    }
 
-    if( technique.down_dur > 0 ) {
-        if( t.get_throw_resist() == 0 ) {
-            t.add_effect( effect_downed, rng( 1_turns, time_duration::from_turns( technique.down_dur ) ) );
-            auto &bash = get_damage_unit( di.damage_units, damage_type::BASH );
-            if( bash.amount > 0 ) {
-                bash.amount += 3;
+        if( technique.down_dur > 0 ) {
+            if( t.get_throw_resist() == 0 ) {
+                t.add_effect( effect_downed, rng( 1_turns, time_duration::from_turns( technique.down_dur ) ) );
+                auto &bash = get_damage_unit( di.damage_units, damage_type::BASH );
+                if( bash.amount > 0 ) {
+                    bash.amount += 3;
+                }
             }
+        }
+
+        if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
+            t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
         }
     }
 
@@ -1943,11 +1969,6 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
             t.setpos( dest );
         }
     }
-
-    if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
-        t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
-    }
-
     map &here = get_map();
     if( technique.knockback_dist ) {
         const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
@@ -2950,7 +2971,7 @@ void avatar::steal( npc &target )
     int their_roll = dice( 5, target.get_per() );
 
     const item *it = loc.get_item();
-    if( my_roll >= their_roll ) {
+    if( my_roll >= their_roll && !target.is_hallucination() ) {
         add_msg( _( "You sneakily steal %1$s from %2$s!" ),
                  it->tname(), target.get_name() );
         i_add( target.i_rem( it ) );

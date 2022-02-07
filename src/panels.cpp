@@ -25,6 +25,7 @@
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "display.h"
 #include "debug.h"
 #include "effect.h"
 #include "enum_traits.h"
@@ -62,28 +63,11 @@
 #include "weather_type.h"
 #include "widget.h"
 
-static const efftype_id effect_bandaged( "bandaged" );
-static const efftype_id effect_bite( "bite" );
-static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_got_checked( "got_checked" );
-static const efftype_id effect_hunger_blank( "hunger_blank" );
-static const efftype_id effect_hunger_engorged( "hunger_engorged" );
-static const efftype_id effect_hunger_famished( "hunger_famished" );
-static const efftype_id effect_hunger_full( "hunger_full" );
-static const efftype_id effect_hunger_hungry( "hunger_hungry" );
-static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
-static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
-static const efftype_id effect_hunger_starving( "hunger_starving" );
-static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
-static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 
-static const flag_id json_flag_RAD_DETECT( "RAD_DETECT" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
-
-static const itype_id fuel_type_muscle( "muscle" );
 
 static const string_id<behavior::node_t> behavior__node_t_npc_needs( "npc_needs" );
 
@@ -113,66 +97,6 @@ static std::string trunc_ellipse( const std::string &input, unsigned int trunc )
     return input;
 }
 
-std::pair<std::string, nc_color> display::str_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_str() == p.get_str_base() ) {
-        clr = c_white;
-    } else if( p.get_str() > p.get_str_base() ) {
-        clr = c_green;
-    } else if( p.get_str() < p.get_str_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Str " ) + ( p.get_str() < 100 ? std::to_string(
-            p.get_str() ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::dex_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_dex() == p.get_dex_base() ) {
-        clr = c_white;
-    } else if( p.get_dex() > p.get_dex_base() ) {
-        clr = c_green;
-    } else if( p.get_dex() < p.get_dex_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Dex " ) + ( p.get_dex() < 100 ? std::to_string(
-            p.get_dex() ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::int_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_int() == p.get_int_base() ) {
-        clr = c_white;
-    } else if( p.get_int() > p.get_int_base() ) {
-        clr = c_green;
-    } else if( p.get_int() < p.get_int_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Int " ) + ( p.get_int() < 100 ? std::to_string(
-            p.get_int() ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::per_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_per() == p.get_per_base() ) {
-        clr = c_white;
-    } else if( p.get_per() > p.get_per_base() ) {
-        clr = c_green;
-    } else if( p.get_per() < p.get_per_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Per " ) + ( p.get_per() < 100 ? std::to_string(
-            p.get_per() ) : "++" ), clr );
-}
-
 static nc_color focus_color( int focus )
 {
     if( focus < 25 ) {
@@ -190,6 +114,18 @@ static nc_color focus_color( int focus )
     }
 }
 
+static int get_wgt_height( const widget_id &wgt )
+{
+    if( wgt->_widgets.empty() || wgt->_arrange == "columns" ) {
+        return wgt->_height > 0 ? wgt->_height : 1;
+    }
+    int h = 0;
+    for( const widget_id &w : wgt->_widgets ) {
+        h += get_wgt_height( w );
+    }
+    return h;
+}
+
 int window_panel::get_height() const
 {
     if( height == -1 ) {
@@ -200,6 +136,9 @@ int window_panel::get_height() const
         } else {
             return 0;
         }
+    }
+    if( wgt.is_valid() && wgt->_arrange != "columns" ) {
+        return get_wgt_height( wgt );
     }
     return height;
 }
@@ -253,6 +192,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                                      const tripoint_abs_omt &global_omt, const point &start_input,
                                      const int width, const int height )
 {
+    // Map is centered on curs - typically player's global_omt_location
     const point_abs_omt curs = global_omt.xy();
     const tripoint_abs_omt targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
@@ -262,108 +202,39 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     map &here = get_map();
     const int sight_points = you.overmap_sight_range( g->light_level( you.posz() ) );
 
+    // i scans across width, with 0 in the middle(ish)
+    //     -(w/2) ... w-(w/2)-1
+    // w:9   -4 ... 4
+    // w:10  -5 ... 4
+    // w:11  -5 ... 5
+    // w:12  -6 ... 5
+    // w:13  -6 ... 6
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
+        // j scans across height, with 0 in the middle(ish)
+        // (same algorithm)
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
+            // omp is the current overmap point, at the current z-level
             const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z );
+            // Terrain color and symbol to use for this point
             nc_color ter_color;
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
             const bool vehicle_here = overmap_buffer.has_vehicle( omp );
             if( overmap_buffer.has_note( omp ) ) {
-
                 const std::string &note_text = overmap_buffer.note( omp );
-
-                ter_color = c_yellow;
-                ter_sym = "N";
-
-                int symbolIndex = note_text.find( ':' );
-                int colorIndex = note_text.find( ';' );
-
-                bool symbolFirst = symbolIndex < colorIndex;
-
-                if( colorIndex > -1 && symbolIndex > -1 ) {
-                    if( symbolFirst ) {
-                        if( colorIndex > 4 ) {
-                            colorIndex = -1;
-                        }
-                        if( symbolIndex > 1 ) {
-                            symbolIndex = -1;
-                            colorIndex = -1;
-                        }
-                    } else {
-                        if( symbolIndex > 4 ) {
-                            symbolIndex = -1;
-                        }
-                        if( colorIndex > 2 ) {
-                            colorIndex = -1;
-                        }
-                    }
-                } else if( colorIndex > 2 ) {
-                    colorIndex = -1;
-                } else if( symbolIndex > 1 ) {
-                    symbolIndex = -1;
-                }
-
-                if( symbolIndex > -1 ) {
-                    int symbolStart = 0;
-                    if( colorIndex > -1 && !symbolFirst ) {
-                        symbolStart = colorIndex + 1;
-                    }
-                    ter_sym = note_text.substr( symbolStart, symbolIndex - symbolStart );
-                }
-
-                if( colorIndex > -1 ) {
-
-                    int colorStart = 0;
-
-                    if( symbolIndex > -1 && symbolFirst ) {
-                        colorStart = symbolIndex + 1;
-                    }
-
-                    std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
-
-                    if( sym.length() == 2 ) {
-                        if( sym == "br" ) {
-                            ter_color = c_brown;
-                        } else if( sym == "lg" ) {
-                            ter_color = c_light_gray;
-                        } else if( sym == "dg" ) {
-                            ter_color = c_dark_gray;
-                        }
-                    } else {
-                        char colorID = sym.c_str()[0];
-                        if( colorID == 'r' ) {
-                            ter_color = c_light_red;
-                        } else if( colorID == 'R' ) {
-                            ter_color = c_red;
-                        } else if( colorID == 'g' ) {
-                            ter_color = c_light_green;
-                        } else if( colorID == 'G' ) {
-                            ter_color = c_green;
-                        } else if( colorID == 'b' ) {
-                            ter_color = c_light_blue;
-                        } else if( colorID == 'B' ) {
-                            ter_color = c_blue;
-                        } else if( colorID == 'W' ) {
-                            ter_color = c_white;
-                        } else if( colorID == 'C' ) {
-                            ter_color = c_cyan;
-                        } else if( colorID == 'c' ) {
-                            ter_color = c_light_cyan;
-                        } else if( colorID == 'P' ) {
-                            ter_color = c_pink;
-                        } else if( colorID == 'm' ) {
-                            ter_color = c_magenta;
-                        }
-                    }
-                }
+                std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
+                ter_sym = sym_color.first;
+                ter_color = sym_color.second;
             } else if( !seen ) {
+                // Always grey # for unseen
                 ter_sym = "#";
                 ter_color = c_dark_gray;
             } else if( vehicle_here ) {
+                // Always cyan c for vehicle
                 ter_color = c_cyan;
                 ter_sym = "c";
             } else {
+                // Otherwise, get symbol and color appropriate for the terrain
                 const oter_id &cur_ter = overmap_buffer.ter( omp );
                 ter_sym = cur_ter->get_symbol();
                 if( overmap_buffer.is_explored( omp ) ) {
@@ -381,6 +252,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                     ter_color = red_background( ter_color );
                 }
             }
+            // TODO: Build colorized string instead of writing directly to window
             if( i == 0 && j == 0 ) {
                 // Highlight player character position in center of minimap
                 mvwputch_hi( w_minimap, mid + point( start_x, start_y ), ter_color, ter_sym );
@@ -401,55 +273,18 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         }
     }
 
-    // Print arrow to mission if we have one!
+    // When the mission marker is not visible within the current overmap extents,
+    // draw an arrow at the edge of the map pointing in the general mission direction.
+    // TODO: Replace `drew_mission` with a function like `is_mission_on_map`
     if( !drew_mission ) {
-        // Use an extreme slope rather than dividing by zero
-        double slope = curs.x() == targ.x() ? 1000 :
-                       static_cast<double>( targ.y() - curs.y() ) / ( targ.x() - curs.x() );
-
-        if( std::fabs( slope ) > 12 ) {
-            // For any near-vertical slope, center the marker
-            if( targ.y() > curs.y() ) {
-                mvwputch( w_minimap, point( mid.x + start_x, height - 1 + start_y ), c_red, '*' );
-            } else {
-                mvwputch( w_minimap, point( mid.x + start_x, 1 + start_y ), c_red, '*' );
-            }
-        } else {
-            point arrow( point_north_west );
-            if( std::fabs( slope ) >= 1. ) {
-                // If target to the north or south, arrow on top or bottom edge of minimap
-                if( targ.y() > curs.y() ) {
-                    arrow.x = static_cast<int>( ( 1. + ( 1. / slope ) ) * mid.x );
-                    arrow.y = height - 1;
-                } else {
-                    arrow.x = static_cast<int>( ( 1. - ( 1. / slope ) ) * mid.x );
-                    arrow.y = 0;
-                }
-                // Clip to left/right edges
-                arrow.x = std::max( arrow.x, 0 );
-                arrow.x = std::min( arrow.x, width - 1 );
-            } else {
-                // If target to the east or west, arrow on left or right edge of minimap
-                if( targ.x() > curs.x() ) {
-                    arrow.x = width - 1;
-                    arrow.y = static_cast<int>( ( 1. + slope ) * mid.y );
-                } else {
-                    arrow.x = 0;
-                    arrow.y = static_cast<int>( ( 1. - slope ) * mid.y );
-                }
-                // Clip to top/bottom edges
-                arrow.y = std::max( arrow.y, 0 );
-                arrow.y = std::min( arrow.y, height - 1 );
-            }
-            char glyph = '*';
-            if( targ.z() > you.posz() ) {
-                glyph = '^';
-            } else if( targ.z() < you.posz() ) {
-                glyph = 'v';
-            }
-
-            mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
+        char glyph = '*';
+        if( targ.z() > you.posz() ) {
+            glyph = '^';
+        } else if( targ.z() < you.posz() ) {
+            glyph = 'v';
         }
+        const point arrow = display::mission_arrow_offset( you, width, height );
+        mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
     }
 }
 
@@ -469,107 +304,6 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
     wprintz( w, c_white, title_suffix );
 }
 
-std::string display::get_temp( const Character &u )
-{
-    std::string temp;
-    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
-        u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
-        temp = print_temperature( get_weather().get_temperature( u.pos() ) );
-    }
-    if( temp.empty() ) {
-        return "-";
-    }
-    return temp;
-}
-
-std::string display::get_moon_graphic()
-{
-    //moon phase display
-    static std::vector<std::string> vMoonPhase = { "(   )", "(  ))", "( | )", "((  )" };
-
-    const int iPhase = static_cast<int>( get_moon_phase( calendar::turn ) );
-    std::string sPhase = vMoonPhase[iPhase % 4];
-
-    if( iPhase > 0 ) {
-        sPhase.insert( 5 - ( ( iPhase > 4 ) ? iPhase % 4 : 0 ), "</color>" );
-        sPhase.insert( 5 - ( ( iPhase < 4 ) ? iPhase + 1 : 5 ),
-                       "<color_" + string_from_color( i_black ) + ">" );
-    }
-    return sPhase;
-}
-
-std::string display::get_moon()
-{
-    const int iPhase = static_cast<int>( get_moon_phase( calendar::turn ) );
-    switch( iPhase ) {
-        case 0:
-            return _( "New moon" );
-        case 1:
-            return _( "Waxing crescent" );
-        case 2:
-            return _( "Half moon" );
-        case 3:
-            return _( "Waxing gibbous" );
-        case 4:
-            return _( "Full moon" );
-        case 5:
-            return _( "Waning gibbous" );
-        case 6:
-            return _( "Half moon" );
-        case 7:
-            return _( "Waning crescent" );
-        case 8:
-            return _( "Dark moon" );
-        default:
-            return "";
-    }
-}
-
-std::string display::time_approx()
-{
-    const int iHour = hour_of_day<int>( calendar::turn );
-    if( iHour >= 23 || iHour <= 1 ) {
-        return _( "Around midnight" );
-    } else if( iHour <= 4 ) {
-        return _( "Dead of night" );
-    } else if( iHour <= 6 ) {
-        return _( "Around dawn" );
-    } else if( iHour <= 8 ) {
-        return _( "Early morning" );
-    } else if( iHour <= 10 ) {
-        return _( "Morning" );
-    } else if( iHour <= 13 ) {
-        return _( "Around noon" );
-    } else if( iHour <= 16 ) {
-        return _( "Afternoon" );
-    } else if( iHour <= 18 ) {
-        return _( "Early evening" );
-    } else if( iHour <= 20 ) {
-        return _( "Around dusk" );
-    }
-    return _( "Night" );
-}
-
-std::string display::date_string()
-{
-    const std::string season = calendar::name_season( season_of_year( calendar::turn ) );
-    const int day_num = day_of_season<int>( calendar::turn ) + 1;
-    return string_format( _( "%s, day %d" ), season, day_num );
-}
-
-std::string display::time_string( const Character &u )
-{
-    // Return exact time if character has a watch, or approximate time if aboveground
-    if( u.has_watch() ) {
-        return to_string_time_of_day( calendar::turn );
-    } else if( get_map().get_abs_sub().z >= 0 ) {
-        return display::time_approx();
-    } else {
-        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
-        return _( "???" );
-    }
-}
-
 static nc_color value_color( int stat )
 {
     nc_color valuecolor = c_light_gray;
@@ -584,267 +318,6 @@ static nc_color value_color( int stat )
         valuecolor = c_magenta;
     }
     return valuecolor;
-}
-
-std::pair<std::string, nc_color> display::morale_face_color( const avatar &u )
-{
-    const mood_face_id &face = u.character_mood_face();
-    if( face.is_null() ) {
-        return std::make_pair( "ERR", c_white );
-    }
-
-    const int morale_int = u.get_morale_level();
-    return morale_emotion( morale_int, face.obj() );
-}
-
-static std::pair<bodypart_id, bodypart_id> temp_delta( const Character &u )
-{
-    bodypart_id current_bp_extreme = u.get_all_body_parts().front();
-    bodypart_id conv_bp_extreme = current_bp_extreme;
-    for( const bodypart_id &bp : u.get_all_body_parts() ) {
-        if( std::abs( u.get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
-            std::abs( u.get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
-            current_bp_extreme = bp;
-        }
-        if( std::abs( u.get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
-            std::abs( u.get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
-            conv_bp_extreme = bp;
-        }
-    }
-    return std::make_pair( current_bp_extreme, conv_bp_extreme );
-}
-
-static int define_temp_level( const int lvl )
-{
-    if( lvl > BODYTEMP_SCORCHING ) {
-        return 7;
-    } else if( lvl > BODYTEMP_VERY_HOT ) {
-        return 6;
-    } else if( lvl > BODYTEMP_HOT ) {
-        return 5;
-    } else if( lvl > BODYTEMP_COLD ) {
-        return 4;
-    } else if( lvl > BODYTEMP_VERY_COLD ) {
-        return 3;
-    } else if( lvl > BODYTEMP_FREEZING ) {
-        return 2;
-    }
-    return 1;
-}
-
-std::string display::temp_delta_string( const Character &u )
-{
-    std::string temp_message;
-    std::pair<bodypart_id, bodypart_id> temp_pair = temp_delta( u );
-    // Assign zones for comparisons
-    const int cur_zone = define_temp_level( u.get_part_temp_cur( temp_pair.first ) );
-    const int conv_zone = define_temp_level( u.get_part_temp_conv( temp_pair.second ) );
-
-    // delta will be positive if temp_cur is rising
-    const int delta = conv_zone - cur_zone;
-    // Decide if temp_cur is rising or falling
-    if( delta > 2 ) {
-        temp_message = _( " (Rising!!)" );
-    } else if( delta == 2 ) {
-        temp_message = _( " (Rising!)" );
-    } else if( delta == 1 ) {
-        temp_message = _( " (Rising)" );
-    } else if( delta == 0 ) {
-        temp_message.clear();
-    } else if( delta == -1 ) {
-        temp_message = _( " (Falling)" );
-    } else if( delta == -2 ) {
-        temp_message = _( " (Falling!)" );
-    } else {
-        temp_message = _( " (Falling!!)" );
-    }
-    return temp_message;
-}
-
-std::pair<std::string, nc_color> display::temp_delta_arrows( const Character &u )
-{
-    std::string temp_message;
-    nc_color temp_color = c_white;
-    std::pair<bodypart_id, bodypart_id> temp_pair = temp_delta( u );
-    // Assign zones for comparisons
-    const int cur_zone = define_temp_level( u.get_part_temp_cur( temp_pair.first ) );
-    const int conv_zone = define_temp_level( u.get_part_temp_conv( temp_pair.second ) );
-
-    // delta will be positive if temp_cur is rising
-    const int delta = conv_zone - cur_zone;
-    // Decide if temp_cur is rising or falling
-    if( delta > 2 ) {
-        temp_message = " ↑↑↑";
-        temp_color = c_red;
-    } else if( delta == 2 ) {
-        temp_message = " ↑↑";
-        temp_color = c_light_red;
-    } else if( delta == 1 ) {
-        temp_message = " ↑";
-        temp_color = c_yellow;
-    } else if( delta == 0 ) {
-        temp_message = "-";
-        temp_color = c_green;
-    } else if( delta == -1 ) {
-        temp_message = " ↓";
-        temp_color = c_light_blue;
-    } else if( delta == -2 ) {
-        temp_message = " ↓↓";
-        temp_color = c_cyan;
-    } else {
-        temp_message = " ↓↓↓";
-        temp_color = c_blue;
-    }
-    return std::make_pair( temp_message, temp_color );
-}
-
-std::pair<std::string, nc_color> display::temp_text_color( const Character &u )
-{
-    /// Find hottest/coldest bodypart
-    // Calculate the most extreme body temperatures
-    const bodypart_id current_bp_extreme = temp_delta( u ).first;
-
-    // printCur the hottest/coldest bodypart
-    std::string temp_string;
-    nc_color temp_color = c_yellow;
-    if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_SCORCHING ) {
-        temp_color = c_red;
-        temp_string = _( "Scorching!" );
-    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_VERY_HOT ) {
-        temp_color = c_light_red;
-        temp_string = _( "Very hot!" );
-    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_HOT ) {
-        temp_color = c_yellow;
-        temp_string = _( "Warm" );
-    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_COLD ) {
-        temp_color = c_green;
-        temp_string = _( "Comfortable" );
-    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_VERY_COLD ) {
-        temp_color = c_light_blue;
-        temp_string = _( "Chilly" );
-    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_FREEZING ) {
-        temp_color = c_cyan;
-        temp_string = _( "Very cold!" );
-    } else if( u.get_part_temp_cur( current_bp_extreme ) <= BODYTEMP_FREEZING ) {
-        temp_color = c_blue;
-        temp_string = _( "Freezing!" );
-    }
-    return std::make_pair( temp_string, temp_color );
-}
-
-static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
-{
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
-        --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, truncate );
-        }
-    }
-    return "-";
-}
-
-std::pair<std::string, nc_color> display::morale_emotion( const int morale_cur,
-        const mood_face &face )
-{
-    std::string current_face;
-    nc_color current_color;
-
-    for( const mood_face_value &face_value : face.values() ) {
-        current_face = remove_color_tags( face_value.face() );
-        current_color = get_color_from_tag( face_value.face() ).color;
-        if( face_value.value() <= morale_cur ) {
-            return std::make_pair( current_face, current_color );
-        }
-    }
-
-    // Return the last value found
-    if( !current_face.empty() ) {
-        return std::make_pair( current_face, current_color );
-    }
-
-    debugmsg( "morale_emotion no matching face found for: %s", face.getId().str() );
-    return std::make_pair( "ERR", c_light_gray );
-}
-
-std::pair<std::string, nc_color> display::power_text_color( const Character &u )
-{
-    nc_color c_pwr = c_red;
-    std::string s_pwr;
-    if( !u.has_max_power() ) {
-        s_pwr = "--";
-        c_pwr = c_light_gray;
-    } else {
-        if( u.get_power_level() >= u.get_max_power_level() / 2 ) {
-            c_pwr = c_light_blue;
-        } else if( u.get_power_level() >= u.get_max_power_level() / 3 ) {
-            c_pwr = c_yellow;
-        } else if( u.get_power_level() >= u.get_max_power_level() / 4 ) {
-            c_pwr = c_red;
-        }
-
-        if( u.get_power_level() < 1_J ) {
-            s_pwr = std::to_string( units::to_millijoule( u.get_power_level() ) ) +
-                    pgettext( "energy unit: millijoule", "mJ" );
-        } else if( u.get_power_level() < 1_kJ ) {
-            s_pwr = std::to_string( units::to_joule( u.get_power_level() ) ) +
-                    pgettext( "energy unit: joule", "J" );
-        } else {
-            s_pwr = std::to_string( units::to_kilojoule( u.get_power_level() ) ) +
-                    pgettext( "energy unit: kilojoule", "kJ" );
-        }
-    }
-    return std::make_pair( s_pwr, c_pwr );
-}
-
-std::pair<std::string, nc_color> display::mana_text_color( const Character &you )
-{
-    nc_color c_mana = c_red;
-    std::string s_mana;
-    if( you.magic->max_mana( you ) <= 0 ) {
-        s_mana = "--";
-        c_mana = c_light_gray;
-    } else {
-        if( you.magic->available_mana() >= you.magic->max_mana( you ) / 2 ) {
-            c_mana = c_light_blue;
-        } else if( you.magic->available_mana() >= you.magic->max_mana( you ) / 3 ) {
-            c_mana = c_yellow;
-        }
-        s_mana = std::to_string( you.magic->available_mana() );
-    }
-    return std::make_pair( s_mana, c_mana );
-}
-
-std::pair<std::string, nc_color> display::safe_mode_text_color( const bool classic_mode )
-{
-    // "classic" mode used by draw_limb2 and draw_health_classic are "SAFE" or (empty)
-    // draw_stat_narrow and draw_stat_wide display "On" or "Off" value
-    std::string s_text;
-    if( classic_mode ) {
-        if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
-            s_text = _( "SAFE" );
-        }
-    } else {
-        s_text = g->safe_mode ? _( "On" ) : _( "Off" );
-    }
-
-    // By default, color is green if safe, red otherwise
-    nc_color s_color = g->safe_mode ? c_green : c_red;
-    // If auto-safe-mode is enabled, go to light red, yellow, and green as the turn limit approaches
-    if( g->safe_mode == SAFE_MODE_OFF && get_option<bool>( "AUTOSAFEMODE" ) ) {
-        time_duration s_return = time_duration::from_turns( get_option<int>( "AUTOSAFEMODETURNS" ) );
-        int iPercent = g->turnssincelastmon * 100 / s_return;
-        if( iPercent >= 100 ) {
-            s_color = c_green;
-        } else if( iPercent >= 75 ) {
-            s_color = c_yellow;
-        } else if( iPercent >= 50 ) {
-            s_color = c_light_red;
-        } else if( iPercent >= 25 ) {
-            s_color = c_red;
-        }
-    }
-
-    return std::make_pair( s_text, s_color );
 }
 
 // ===============================
@@ -954,624 +427,6 @@ static void draw_limb2( const draw_args &args )
     wnoutrefresh( w );
 }
 
-std::pair<std::string, nc_color> display::weariness_text_color( const Character &u )
-{
-    std::pair<translation, nc_color> trans_color = display::weariness_text_color( u.weariness_level() );
-    return std::make_pair( trans_color.first.translated(), trans_color.second );
-}
-
-std::pair<translation, nc_color> display::weariness_text_color( size_t weariness )
-{
-    static const std::array<std::pair<translation, nc_color>, 6> weary_descriptions { {
-            {to_translation( "weariness description", "Fresh" ), c_green},
-            {to_translation( "weariness description", "Light" ), c_yellow },
-            {to_translation( "weariness description", "Moderate" ), c_light_red},
-            {to_translation( "weariness description", "Weary" ), c_light_red },
-            {to_translation( "weariness description", "Very" ), c_red },
-            {to_translation( "weariness description", "Extreme" ), c_red }
-        } };
-    // We can have more than level 5, but we don't really care about it
-    if( weariness >= weary_descriptions.size() ) {
-        weariness = 5;
-    }
-    return weary_descriptions[weariness];
-}
-
-std::pair<std::string, nc_color> display::weary_malus_text_color( const Character &u )
-{
-    const float act_level = u.instantaneous_activity_level();
-    nc_color act_color;
-    if( u.exertion_adjusted_move_multiplier( act_level ) < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
-    return std::make_pair( display::activity_malus_str( u ), act_color );
-}
-
-std::string display::activity_level_str( float level )
-{
-    static const std::array<translation, 6> activity_descriptions { {
-            to_translation( "activity description", "None" ),
-            to_translation( "activity description", "Light" ),
-            to_translation( "activity description", "Moderate" ),
-            to_translation( "activity description", "Brisk" ),
-            to_translation( "activity description", "Active" ),
-            to_translation( "activity description", "Extreme" ),
-        } };
-    // Activity levels are 1, 2, 4, 6, 8, 10
-    // So we can easily cut them in half and round down for an index
-    int idx = std::floor( level / 2 );
-
-    return activity_descriptions[idx].translated();
-}
-
-std::string display::activity_malus_str( const Character &u )
-{
-    const float act_level = u.instantaneous_activity_level();
-    const float exertion_mult = u.exertion_adjusted_move_multiplier( act_level ) ;
-    const int malus_value = ( 1 / exertion_mult ) * 100 - 100;
-    return string_format( "+%3d%%", malus_value );
-}
-
-std::pair<std::string, nc_color> display::activity_text_color( const Character &u )
-{
-    const float act_level = u.instantaneous_activity_level();
-    const std::string act_text = display::activity_level_str( act_level );
-
-    nc_color act_color;
-    if( u.exertion_adjusted_move_multiplier( act_level ) < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
-
-    return std::make_pair( _( act_text ), act_color );
-}
-
-std::pair<std::string, nc_color> display::thirst_text_color( const Character &u )
-{
-    // some delay from water in stomach is desired, but there needs to be some visceral response
-    int thirst = u.get_thirst() - std::max( units::to_milliliter<int>( u.stomach.get_water() ) / 10,
-                                            0 );
-    std::string hydration_string;
-    nc_color hydration_color = c_white;
-    if( thirst > 520 ) {
-        hydration_color = c_light_red;
-        hydration_string = translate_marker( "Parched" );
-    } else if( thirst > 240 ) {
-        hydration_color = c_light_red;
-        hydration_string = translate_marker( "Dehydrated" );
-    } else if( thirst > 80 ) {
-        hydration_color = c_yellow;
-        hydration_string = translate_marker( "Very thirsty" );
-    } else if( thirst > 40 ) {
-        hydration_color = c_yellow;
-        hydration_string = translate_marker( "Thirsty" );
-    } else if( thirst < -60 ) {
-        hydration_color = c_green;
-        hydration_string = translate_marker( "Turgid" );
-    } else if( thirst < -20 ) {
-        hydration_color = c_green;
-        hydration_string = translate_marker( "Hydrated" );
-    } else if( thirst < 0 ) {
-        hydration_color = c_green;
-        hydration_string = translate_marker( "Slaked" );
-    }
-    return std::make_pair( _( hydration_string ), hydration_color );
-}
-
-std::pair<std::string, nc_color> display::hunger_text_color( const Character &u )
-{
-    // NPCs who do not need food have no hunger
-    if( !u.needs_food() ) {
-        return std::make_pair( _( "Without Hunger" ), c_white );
-    }
-    // clang 3.8 has some sort of issue where if the initializer list contains const arguments,
-    // like all of the effect_* string_id variables which are const string_id, then it fails to
-    // initialize the array with tuples successfully complaining that
-    // "chosen constructor is explicit in copy-initialization". Using std::forward_as_tuple
-    // returns a tuple consisting of correctly implcitly copyable types.
-    static const std::array<std::tuple<const efftype_id &, const char *, nc_color>, 9> hunger_states{ {
-            std::forward_as_tuple( effect_hunger_engorged, translate_marker( "Engorged" ), c_red ),
-            std::forward_as_tuple( effect_hunger_full, translate_marker( "Full" ), c_yellow ),
-            std::forward_as_tuple( effect_hunger_satisfied, translate_marker( "Satisfied" ), c_green ),
-            std::forward_as_tuple( effect_hunger_blank, "", c_white ),
-            std::forward_as_tuple( effect_hunger_hungry, translate_marker( "Hungry" ), c_yellow ),
-            std::forward_as_tuple( effect_hunger_very_hungry, translate_marker( "Very hungry" ), c_yellow ),
-            std::forward_as_tuple( effect_hunger_near_starving, translate_marker( "Near starving" ), c_red ),
-            std::forward_as_tuple( effect_hunger_starving, translate_marker( "Starving!" ), c_red ),
-            std::forward_as_tuple( effect_hunger_famished, translate_marker( "Famished" ), c_light_red )
-        }
-    };
-    for( auto &hunger_state : hunger_states ) {
-        if( u.has_effect( std::get<0>( hunger_state ) ) ) {
-            return std::make_pair( _( std::get<1>( hunger_state ) ), std::get<2>( hunger_state ) );
-        }
-    }
-    return std::make_pair( _( "ERROR!" ), c_light_red );
-}
-
-std::pair<std::string, nc_color> display::weight_text_color( const Character &u )
-{
-    const float bmi = u.get_bmi();
-    std::string weight_string;
-    nc_color weight_color = c_light_gray;
-    if( get_option<bool>( "CRAZY" ) ) {
-        if( bmi > character_weight_category::morbidly_obese + 10.0f ) {
-            weight_string = translate_marker( "AW HELL NAH" );
-            weight_color = c_red;
-        } else if( bmi > character_weight_category::morbidly_obese + 5.0f ) {
-            weight_string = translate_marker( "DAYUM" );
-            weight_color = c_red;
-        } else if( bmi > character_weight_category::morbidly_obese ) {
-            weight_string = translate_marker( "Fluffy" );
-            weight_color = c_red;
-        } else if( bmi > character_weight_category::very_obese ) {
-            weight_string = translate_marker( "Husky" );
-            weight_color = c_red;
-        } else if( bmi > character_weight_category::obese ) {
-            weight_string = translate_marker( "Healthy" );
-            weight_color = c_light_red;
-        } else if( bmi > character_weight_category::overweight ) {
-            weight_string = translate_marker( "Big" );
-            weight_color = c_yellow;
-        } else if( bmi > character_weight_category::normal ) {
-            weight_string = translate_marker( "Normal" );
-            weight_color = c_light_gray;
-        } else if( bmi > character_weight_category::underweight ) {
-            weight_string = translate_marker( "Bean Pole" );
-            weight_color = c_yellow;
-        } else if( bmi > character_weight_category::emaciated ) {
-            weight_string = translate_marker( "Emaciated" );
-            weight_color = c_light_red;
-        } else {
-            weight_string = translate_marker( "Spooky Scary Skeleton" );
-            weight_color = c_red;
-        }
-    } else {
-        if( bmi > character_weight_category::morbidly_obese ) {
-            weight_string = translate_marker( "Morbidly Obese" );
-            weight_color = c_red;
-        } else if( bmi > character_weight_category::very_obese ) {
-            weight_string = translate_marker( "Very Obese" );
-            weight_color = c_red;
-        } else if( bmi > character_weight_category::obese ) {
-            weight_string = translate_marker( "Obese" );
-            weight_color = c_light_red;
-        } else if( bmi > character_weight_category::overweight ) {
-            weight_string = translate_marker( "Overweight" );
-            weight_color = c_yellow;
-        } else if( bmi > character_weight_category::normal ) {
-            weight_string = translate_marker( "Normal" );
-            weight_color = c_light_gray;
-        } else if( bmi > character_weight_category::underweight ) {
-            weight_string = translate_marker( "Underweight" );
-            weight_color = c_yellow;
-        } else if( bmi > character_weight_category::emaciated ) {
-            weight_string = translate_marker( "Emaciated" );
-            weight_color = c_light_red;
-        } else {
-            weight_string = translate_marker( "Skeletal" );
-            weight_color = c_red;
-        }
-    }
-    return std::make_pair( _( weight_string ), weight_color );
-}
-
-std::string display::weight_long_description( const Character &u )
-{
-    const float bmi = u.get_bmi();
-    if( bmi > character_weight_category::morbidly_obese ) {
-        return _( "You have far more fat than is healthy or useful.  It is causing you major problems." );
-    } else if( bmi > character_weight_category::very_obese ) {
-        return _( "You have too much fat.  It impacts your day-to-day health and wellness." );
-    } else if( bmi > character_weight_category::obese ) {
-        return _( "You've definitely put on a lot of extra weight.  Although helpful in times of famine, this is too much and is impacting your health." );
-    } else if( bmi > character_weight_category::overweight ) {
-        return _( "You've put on some extra pounds.  Nothing too excessive, but it's starting to impact your health and waistline a bit." );
-    } else if( bmi > character_weight_category::normal ) {
-        return _( "You look to be a pretty healthy weight, with some fat to last you through the winter, but nothing excessive." );
-    } else if( bmi > character_weight_category::underweight ) {
-        return _( "You are thin, thinner than is healthy.  You are less resilient to going without food." );
-    } else if( bmi > character_weight_category::emaciated ) {
-        return _( "You are very unhealthily underweight, nearing starvation." );
-    } else {
-        return _( "You have very little meat left on your bones.  You appear to be starving." );
-    }
-}
-
-std::string display::weight_string( const Character &u )
-{
-    std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
-    return colorize( weight_pair.first, weight_pair.second );
-}
-
-std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u )
-{
-    int fatigue = u.get_fatigue();
-    std::string fatigue_string;
-    nc_color fatigue_color = c_white;
-    if( fatigue > fatigue_levels::EXHAUSTED ) {
-        fatigue_color = c_red;
-        fatigue_string = translate_marker( "Exhausted" );
-    } else if( fatigue > fatigue_levels::DEAD_TIRED ) {
-        fatigue_color = c_light_red;
-        fatigue_string = translate_marker( "Dead Tired" );
-    } else if( fatigue > fatigue_levels::TIRED ) {
-        fatigue_color = c_yellow;
-        fatigue_string = translate_marker( "Tired" );
-    }
-    return std::make_pair( _( fatigue_string ), fatigue_color );
-}
-
-std::pair<std::string, nc_color> display::health_text_color( const Character &u )
-{
-    std::string h_string;
-    nc_color h_color = c_light_gray;
-
-    int current_health = u.get_healthy();
-    if( current_health < -100 ) {
-        h_string = "Horrible";
-        h_color = c_red;
-    } else if( current_health < -50 ) {
-        h_string = "Very bad";
-        h_color = c_light_red;
-    } else if( current_health < -10 ) {
-        h_string = "Bad";
-        h_color = c_yellow;
-    } else if( current_health < 10 ) {
-        h_string = "OK";
-        h_color = c_light_gray;
-    } else if( current_health < 50 ) {
-        h_string = "Good";
-        h_color = c_white;
-    } else if( current_health < 100 ) {
-        h_string = "Very good";
-        h_color = c_green;
-    } else {
-        h_string = "Excellent";
-        h_color = c_light_green;
-    }
-    return std::make_pair( _( h_string ), h_color );
-}
-
-std::pair<std::string, nc_color> display::pain_text_color( const Creature &c )
-{
-    float scale = c.get_perceived_pain() / 10.f;
-    std::string pain_string;
-    nc_color pain_color = c_yellow;
-    if( scale > 7 ) {
-        pain_string = _( "Severe pain" );
-    } else if( scale > 6 ) {
-        pain_string = _( "Intense pain" );
-    } else if( scale > 5 ) {
-        pain_string = _( "Unmanageable pain" );
-    } else if( scale > 4 ) {
-        pain_string = _( "Distressing pain" );
-    } else if( scale > 3 ) {
-        pain_string = _( "Distracting pain" );
-    } else if( scale > 2 ) {
-        pain_string = _( "Moderate pain" );
-    } else if( scale > 1 ) {
-        pain_string = _( "Mild pain" );
-    } else if( scale > 0 ) {
-        pain_string = _( "Minimal pain" );
-    } else {
-        pain_string = _( "No pain" );
-        pain_color = c_white;
-    }
-    return std::make_pair( pain_string, pain_color );
-}
-
-std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
-{
-    // Get base Creature pain text to start with
-    const std::pair<std::string, nc_color> pain = display::pain_text_color(
-                static_cast<const Creature &>( u ) );
-    nc_color pain_color = pain.second;
-    std::string pain_string;
-    // get pain color
-    int perceived_pain = u.get_perceived_pain();
-    if( perceived_pain >= 60 ) {
-        pain_color = c_red;
-    } else if( perceived_pain >= 40 ) {
-        pain_color = c_light_red;
-    }
-    // get pain string
-    if( u.has_effect( effect_got_checked ) && perceived_pain > 0 ) {
-        pain_string = string_format( "%s %d", _( "Pain " ), perceived_pain );
-    } else if( perceived_pain > 0 ) {
-        pain_string = pain.first;
-    }
-    return std::make_pair( pain_string, pain_color );
-}
-
-nc_color display::bodytemp_color( const Character &u, const bodypart_id &bp )
-{
-    nc_color color = c_light_gray; // default
-    const int temp_conv = u.get_part_temp_conv( bp );
-    if( bp == body_part_eyes ) {
-        color = c_light_gray;    // Eyes don't count towards warmth
-    } else if( temp_conv  > BODYTEMP_SCORCHING ) {
-        color = c_red;
-    } else if( temp_conv  > BODYTEMP_VERY_HOT ) {
-        color = c_light_red;
-    } else if( temp_conv  > BODYTEMP_HOT ) {
-        color = c_yellow;
-    } else if( temp_conv  > BODYTEMP_COLD ) {
-        color = c_green;
-    } else if( temp_conv  > BODYTEMP_VERY_COLD ) {
-        color = c_light_blue;
-    } else if( temp_conv  > BODYTEMP_FREEZING ) {
-        color = c_cyan;
-    } else {
-        color = c_blue;
-    }
-    return color;
-}
-
-nc_color display::encumb_color( const int level )
-{
-    if( level < 0 ) {
-        return c_green;
-    }
-    if( level < 10 ) {
-        return c_light_gray;
-    }
-    if( level < 40 ) {
-        return c_yellow;
-    }
-    if( level < 70 ) {
-        return c_light_red;
-    }
-    return c_red;
-}
-
-nc_color display::limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool bite,
-                              bool infect )
-{
-    if( bp == bodypart_str_id::NULL_ID() ) {
-        return c_light_gray;
-    }
-    nc_color i_color = c_light_gray;
-    const int intense = u.get_effect_int( effect_bleed, bp );
-    const bool bleeding = bleed && intense > 0;
-    const bool bitten = bite && u.has_effect( effect_bite, bp.id() );
-    const bool infected = infect && u.has_effect( effect_infected, bp.id() );
-
-    // Handle worst cases first
-    if( bleeding && infected ) {
-        // Red and green make yellow
-        if( intense < 21 ) {
-            i_color = c_yellow;
-        } else {
-            i_color = c_yellow_red;
-        }
-    } else if( bleeding && bitten ) {
-        // Red and blue make magenta
-        if( intense < 21 ) {
-            i_color = c_magenta;
-        } else {
-            i_color = c_magenta_red;
-        }
-    } else if( infected ) {
-        i_color = c_green; // Green is very bad
-    } else if( bitten ) {
-        i_color = c_blue; // Blue is also bad
-    } else if( bleeding ) {
-        // Blood is some shade of red, naturally
-        i_color = colorize_bleeding_intensity( intense );
-    }
-
-    return i_color;
-}
-
-std::string display::rad_badge_color_name( const int rad )
-{
-    using pair_t = std::pair<const int, const translation>;
-
-    static const std::array<pair_t, 6> values = {{
-            pair_t {  0, to_translation( "color", "green" ) },
-            pair_t { 30, to_translation( "color", "blue" )  },
-            pair_t { 60, to_translation( "color", "yellow" )},
-            pair_t {120, to_translation( "color", "orange" )},
-            pair_t {240, to_translation( "color", "red" )   },
-            pair_t {500, to_translation( "color", "black" ) },
-        }
-    };
-
-    for( const auto &i : values ) {
-        if( rad <= i.first ) {
-            return i.second.translated();
-        }
-    }
-
-    return values.back().second.translated();
-}
-
-nc_color display::rad_badge_color( const int rad )
-{
-    using pair_t = std::pair<const int, nc_color>;
-
-    // Map radiation to a displayable color, using background color if needed
-    static const std::array<pair_t, 6> values = {{
-            pair_t {  0, c_white_green },   // white on green (for green)
-            pair_t { 30, h_white },         // white on blue (for blue)
-            pair_t { 60, i_yellow },        // black on yellow (for yellow)
-            pair_t {120, c_red_yellow },    // red on brown (for orange)
-            pair_t {240, c_red_red },       // black on red (for red)
-            pair_t {500, c_pink },          // pink on black (for black)
-        }
-    };
-
-    for( const auto &i : values ) {
-        if( rad <= i.first ) {
-            return i.second;
-        }
-    }
-
-    return values.back().second;
-}
-
-std::pair<std::string, nc_color> display::rad_badge_text_color( const Character &u )
-{
-    // Default - no radiation badge
-    std::string rad_text = "Unknown";
-    nc_color rad_color = c_light_gray;
-    // Get all items that can detect radiation
-    for( const item *it : u.all_items_with_flag( json_flag_RAD_DETECT ) ) {
-        // Radiation badges only work if they're exposed (worn or wielded)
-        if( u.is_worn( *it ) || u.is_wielding( *it ) ) {
-            rad_text = string_format( " %s ", rad_badge_color_name( it->irradiation ) );
-            rad_color = rad_badge_color( it->irradiation );
-            break; // Quit after the first one
-        }
-    }
-    return std::make_pair( rad_text, rad_color );
-}
-
-// Get remotely controlled vehicle, or vehicle character is inside of
-static vehicle *vehicle_driven( const Character &u )
-{
-    vehicle *veh = g->remoteveh();
-    if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
-    }
-    return veh;
-}
-
-std::string display::vehicle_azimuth_text( const Character &u )
-{
-    vehicle *veh = vehicle_driven( u );
-    if( veh ) {
-        return veh->face.to_string_azimuth_from_north();
-    }
-    return "";
-}
-
-std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Character &u )
-{
-    // Defaults in case no vehicle is found
-    std::string vel_text;
-    nc_color vel_color = c_light_gray;
-
-    // Show target velocity and current velocity, with units.
-    // For example:
-    //     25 < 10 mph : accelerating towards 25 mph
-    //     25 < 25 mph : cruising at 25 mph
-    //     10 < 25 mph : decelerating toward 10
-    // Text color indicates how much the engine is straining beyond its safe velocity.
-    vehicle *veh = vehicle_driven( u );
-    if( veh && veh->cruise_on ) {
-        int target = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-        int current = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-        const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
-        vel_text = string_format( "%d < %d %s", target, current, units );
-
-        const float strain = veh->strain();
-        if( strain <= 0 ) {
-            vel_color = c_light_blue;
-        } else if( strain <= 0.2 ) {
-            vel_color = c_yellow;
-        } else if( strain <= 0.4 ) {
-            vel_color = c_light_red;
-        } else {
-            vel_color = c_red;
-        }
-    }
-    return std::make_pair( vel_text, vel_color );
-}
-
-std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const Character &u )
-{
-    // Defaults in case no vehicle is found
-    std::string fuel_text;
-    nc_color fuel_color = c_light_gray;
-
-    vehicle *veh = vehicle_driven( u );
-    if( veh && veh->cruise_on ) {
-        itype_id fuel_type = itype_id::NULL_ID();
-        // FIXME: Move this to a vehicle helper function like get_active_engine
-        for( size_t e = 0; e < veh->engines.size(); e++ ) {
-            if( veh->is_engine_on( e ) &&
-                !( veh->is_perpetual_type( e ) || veh->is_engine_type( e, fuel_type_muscle ) ) ) {
-                // Get the fuel type of the first engine that is turned on
-                fuel_type = veh->engine_fuel_current( e );
-            }
-        }
-        int max_fuel = veh->fuel_capacity( fuel_type );
-        int cur_fuel = veh->fuel_left( fuel_type );
-        if( max_fuel != 0 ) {
-            int percent = cur_fuel * 100 / max_fuel;
-            // Simple percent indicator, yellow under 25%, red under 10%
-            fuel_text = string_format( "%d %%", percent );
-            fuel_color = percent < 10 ? c_red : ( percent < 25 ? c_yellow : c_green );
-        }
-    }
-
-    return std::make_pair( fuel_text, fuel_color );
-}
-
-std::vector<std::pair<std::string, nc_color>> display::bodypart_status_colors( const Character &u,
-        const bodypart_id &bp )
-{
-    // List of status strings and colors
-    std::vector<std::pair<std::string, nc_color>> ret;
-    // Empty if no bodypart given
-    if( bp == bodypart_str_id::NULL_ID() ) {
-        return ret;
-    }
-
-    const int bleed_intensity = u.get_effect_int( effect_bleed, bp );
-    const bool bleeding = bleed_intensity > 0;
-    const bool bitten = u.has_effect( effect_bite, bp.id() );
-    const bool infected = u.has_effect( effect_infected, bp.id() );
-    const bool broken = u.is_limb_broken( bp ) && bp->is_limb;
-    const bool splinted = u.worn_with_flag( json_flag_SPLINT,  bp );
-    const bool bandaged = u.has_effect( effect_bandaged,  bp.id() );
-    const bool disinfected = u.has_effect( effect_disinfected,  bp.id() );
-
-    // Ailments
-    if( broken ) {
-        ret.emplace_back( std::make_pair( "broken", c_magenta ) );
-    }
-    if( bitten ) {
-        ret.emplace_back( std::make_pair( "bitten", c_yellow ) );
-    }
-    if( bleeding ) {
-        ret.emplace_back( std::make_pair( "bleeding",
-                                          colorize_bleeding_intensity( bleed_intensity ) ) );
-    }
-    if( infected ) {
-        ret.emplace_back( std::make_pair( "infected", c_pink ) );
-    }
-    // Treatments
-    if( splinted ) {
-        ret.emplace_back( std::make_pair( "splinted", c_light_gray ) );
-    }
-    if( bandaged ) {
-        ret.emplace_back( std::make_pair( "bandaged", c_white ) );
-    }
-    if( disinfected ) {
-        ret.emplace_back( std::make_pair( "disinfected", c_light_green ) );
-    }
-
-    return ret;
-}
-
-std::string display::colorized_bodypart_status_text( const Character &u, const bodypart_id &bp )
-{
-    // Colorized strings for each status
-    std::vector<std::string> color_strings;
-    // Get all status strings and colorize them
-    for( const std::pair<std::string, nc_color> &sc : display::bodypart_status_colors( u, bp ) ) {
-        color_strings.emplace_back( colorize( sc.first, sc.second ) );
-    }
-    // Join with commas, or return "--" if no statuses
-    return color_strings.empty() ? "--" : join( color_strings, ", " );
-}
-
 static void draw_stats( const draw_args &args )
 {
     const avatar &u = args._ava;
@@ -1615,22 +470,6 @@ static void draw_stats( const draw_args &args )
     mvwprintz( w, point( act_start + alabel_len + 1, 1 ), activity.second, activity.first );
 
     wnoutrefresh( w );
-}
-
-// Single-letter move mode (W, R, C, P)
-std::pair<std::string, nc_color> display::move_mode_letter_color( const Character &u )
-{
-    const std::string mm_text = std::string( 1, u.current_movement_mode()->panel_letter() );
-    const nc_color mm_color = u.current_movement_mode()->panel_color();
-    return std::make_pair( mm_text, mm_color );
-}
-
-// Full name of move mode (walking, running, crouching, prone)
-std::pair<std::string, nc_color> display::move_mode_text_color( const Character &u )
-{
-    const std::string mm_text = u.current_movement_mode()->type_name();
-    const nc_color mm_color = u.current_movement_mode()->panel_color();
-    return std::make_pair( mm_text, mm_color );
 }
 
 static void draw_stealth( const draw_args &args )
@@ -2266,20 +1105,6 @@ static void draw_env_compact( const draw_args &args )
     wnoutrefresh( w );
 }
 
-std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
-{
-    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
-    weather_manager &weather = get_weather();
-    double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
-
-    // Wind descriptor followed by a directional arrow
-    const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(
-                                      weather.winddirection );
-
-    return std::make_pair( wind_text, get_wind_color( windpower ) );
-}
-
 static void render_wind( const draw_args &args, const std::string &formatstr )
 {
     const avatar &u = args._ava;
@@ -2303,132 +1128,6 @@ static void draw_wind( const draw_args &args )
 static void draw_wind_padding( const draw_args &args )
 {
     render_wind( args, " %s: " );
-}
-
-std::pair<std::string, nc_color> display::weather_text_color( const Character &u )
-{
-    if( u.pos().z < 0 ) {
-        return std::make_pair( _( "Underground" ), c_light_gray );
-    } else {
-        weather_manager &weather = get_weather();
-        std::string weather_text = weather.weather_id->name.translated();
-        nc_color weather_color = weather.weather_id->color;
-        return std::make_pair( weather_text, weather_color );
-    }
-}
-
-static std::string get_compass_for_direction( const cardinal_direction dir, int max_width )
-{
-    const int d = static_cast<int>( dir );
-    const monster_visible_info &mon_visible = get_avatar().get_mon_visible();
-    std::vector<std::pair<std::string, nc_color>> syms;
-    for( npc *n : mon_visible.unique_types[d] ) {
-        switch( n->get_attitude() ) {
-            case NPCATT_KILL:
-                syms.emplace_back( "@", c_red );
-                break;
-            case NPCATT_FOLLOW:
-                syms.emplace_back( "@", c_light_green );
-                break;
-            default:
-                syms.emplace_back( "@", c_pink );
-                break;
-        }
-    }
-    for( const std::pair<const mtype *, int> &m : mon_visible.unique_mons[d] ) {
-        syms.emplace_back( m.first->sym, m.first->color );
-    }
-
-    std::string ret;
-    for( int i = 0; i < static_cast<int>( syms.size() ); i++ ) {
-        if( i >= max_width - 1 ) {
-            ret += colorize( "+", c_white );
-            break;
-        }
-        ret += colorize( syms[i].first, syms[i].second );
-    }
-    return ret;
-}
-
-std::string display::colorized_compass_text( const cardinal_direction dir, int width )
-{
-    if( dir == cardinal_direction::num_cardinal_directions ) {
-        return "";
-    }
-    return get_compass_for_direction( dir, width );
-}
-
-std::string display::colorized_compass_legend_text( int width, int height )
-{
-    const monster_visible_info &mon_visible = get_avatar().get_mon_visible();
-    std::vector<std::string> names;
-    for( const std::vector<npc *> &nv : mon_visible.unique_types ) {
-        for( const npc *n : nv ) {
-            std::string name;
-            switch( n->get_attitude() ) {
-                case NPCATT_KILL:
-                    name = colorize( "@", c_red );
-                    break;
-                case NPCATT_FOLLOW:
-                    name = colorize( "@", c_light_green );
-                    break;
-                default:
-                    name = colorize( "@", c_pink );
-                    break;
-            }
-            name = string_format( "%s %s", name, n->name );
-            names.emplace_back( name );
-        }
-    }
-    std::map<const mtype *, int> mlist;
-    for( const auto &mv : mon_visible.unique_mons ) {
-        for( const std::pair<const mtype *, int> &m : mv ) {
-            mlist[m.first] += m.second;
-        }
-    }
-    for( const auto &m : mlist ) {
-        nc_color danger = c_dark_gray;
-        if( m.first->difficulty >= 30 ) {
-            danger = c_red;
-        } else if( m.first->difficulty >= 16 ) {
-            danger = c_light_red;
-        } else if( m.first->difficulty >= 8 ) {
-            danger = c_white;
-        } else if( m.first->agro > 0 ) {
-            danger = c_light_gray;
-        }
-        std::string name = m.second > 1 ? string_format( "%d ", m.second ) : "";
-        name += m.first->nname( m.second );
-        name = string_format( "%s %s", colorize( m.first->sym, m.first->color ), colorize( name, danger ) );
-        names.emplace_back( name );
-    }
-    // Split names into X lines, where X = height.
-    // Lines use the provided width.
-    // This effectively limits the text to a 'width'x'height' box.
-    std::string ret;
-    const int nsize = names.size();
-    for( int row = 0, nidx = 0; row < height && nidx < nsize; row++ ) {
-        int wavail = width;
-        int nwidth = utf8_width( names[nidx], true );
-        bool startofline = true;
-        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
-            startofline = false;
-            wavail -= nwidth;
-            ret += names[nidx];
-            nidx++;
-            if( nidx < nsize ) {
-                nwidth = utf8_width( names[nidx], true );
-                if( wavail > nwidth ) {
-                    ret += "  ";
-                    wavail -= 2;
-                }
-            }
-        }
-        if( row < height - 1 ) {
-            ret += "\n";
-        }
-    }
-    return ret;
 }
 
 static void draw_health_classic( const draw_args &args )
@@ -2470,7 +1169,7 @@ static void draw_health_classic( const draw_args &args )
     std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
     mvwprintz( w, point( 34, 1 ), morale_pair.second, morale_pair.first );
 
-    vehicle *veh = vehicle_driven( u );
+    vehicle *veh = display::vehicle_driven( u );
 
     if( !veh ) {
         // stats
@@ -2544,16 +1243,21 @@ static void draw_armor_padding( const draw_args &args )
     const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
                                + 2;
     const int max_length = getmaxx( w ) - heading_length;
-    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
-                    bodypart_id( "head" ) ) );
-    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
-                    bodypart_id( "torso" ) ) );
-    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
-                    bodypart_id( "arm_r" ) ) );
-    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
-                    bodypart_id( "leg_r" ) ) );
-    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
-                    bodypart_id( "foot_r" ) ) );
+    trim_and_print( w, point( heading_length, 0 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -2573,16 +1277,21 @@ static void draw_armor( const draw_args &args )
     const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
                                + 1;
     const int max_length = getmaxx( w ) - heading_length;
-    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
-                    bodypart_id( "head" ) ) );
-    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
-                    bodypart_id( "torso" ) ) );
-    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
-                    bodypart_id( "arm_r" ) ) );
-    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
-                    bodypart_id( "leg_r" ) ) );
-    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
-                    bodypart_id( "foot_r" ) ) );
+    trim_and_print( w, point( heading_length, 0 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -2618,166 +1327,6 @@ static void draw_mminimap( const draw_args &args )
     wnoutrefresh( w );
 }
 #endif
-
-// Print monster info to the given window
-void display::print_mon_info( const avatar &u, const catacurses::window &w, int hor_padding,
-                              bool compact )
-{
-    const monster_visible_info &mon_visible = u.get_mon_visible();
-    const auto &unique_types = mon_visible.unique_types;
-    const auto &unique_mons = mon_visible.unique_mons;
-    const auto &dangerous = mon_visible.dangerous;
-
-    const int width = getmaxx( w ) - 2 * hor_padding;
-    const int maxheight = getmaxy( w ) - 1;
-
-    const int startrow = 0;
-
-    // Print the direction headings
-    // Reminder:
-    // 7 0 1    unique_types uses these indices;
-    // 6 8 2    0-7 are provide by direction_from()
-    // 5 4 3    8 is used for local monsters (for when we explain them below)
-
-    const std::array<std::string, 8> dir_labels = {{
-            _( "North:" ), _( "NE:" ), _( "East:" ), _( "SE:" ),
-            _( "South:" ), _( "SW:" ), _( "West:" ), _( "NW:" )
-        }
-    };
-    std::array<int, 8> widths;
-    for( int i = 0; i < 8; i++ ) {
-        widths[i] = utf8_width( dir_labels[i] );
-    }
-    std::array<int, 8> xcoords;
-    const std::array<int, 8> ycoords = {{ 0, 0, 1, 2, 2, 2, 1, 0 }};
-    xcoords[0] = xcoords[4] = width / 3;
-    xcoords[1] = xcoords[3] = xcoords[2] = ( width / 3 ) * 2;
-    xcoords[5] = xcoords[6] = xcoords[7] = 0;
-    //for the alignment of the 1,2,3 rows on the right edge (East - NE)
-    xcoords[2] -= widths[2] - widths[1];
-    for( int i = 0; i < 8; i++ ) {
-        nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dark_gray
-                     : ( dangerous[i] ? c_light_red : c_light_gray );
-        mvwprintz( w, point( xcoords[i] + hor_padding, ycoords[i] + startrow ), c, dir_labels[i] );
-    }
-
-    // Print the symbols of all monsters in all directions.
-    for( int i = 0; i < 8; i++ ) {
-        point pr( xcoords[i] + widths[i] + 1, ycoords[i] + startrow );
-
-        // The list of symbols needs a space on each end.
-        int symroom = ( width / 3 ) - widths[i] - 2;
-        const int typeshere_npc = unique_types[i].size();
-        const int typeshere_mon = unique_mons[i].size();
-        const int typeshere = typeshere_mon + typeshere_npc;
-        for( int j = 0; j < typeshere && j < symroom; j++ ) {
-            nc_color c;
-            std::string sym;
-            if( symroom < typeshere && j == symroom - 1 ) {
-                // We've run out of room!
-                c = c_white;
-                sym = "+";
-            } else if( j < typeshere_npc ) {
-                switch( unique_types[i][j]->get_attitude() ) {
-                    case NPCATT_KILL:
-                        c = c_red;
-                        break;
-                    case NPCATT_FOLLOW:
-                        c = c_light_green;
-                        break;
-                    default:
-                        c = c_pink;
-                        break;
-                }
-                sym = "@";
-            } else {
-                const mtype &mt = *unique_mons[i][j - typeshere_npc].first;
-                c = mt.color;
-                sym = mt.sym;
-            }
-            mvwprintz( w, pr, c, sym );
-
-            pr.x++;
-        }
-    }
-
-    // Now we print their full names!
-    struct nearest_loc_and_cnt {
-        int nearest_loc;
-        int cnt;
-    };
-    std::map<const mtype *, nearest_loc_and_cnt> all_mons;
-    for( int loc = 0; loc < 9; loc++ ) {
-        for( const std::pair<const mtype *, int> &mon : unique_mons[loc] ) {
-            const auto mon_it = all_mons.find( mon.first );
-            if( mon_it == all_mons.end() ) {
-                all_mons.emplace( mon.first, nearest_loc_and_cnt{ loc, mon.second } );
-            } else {
-                // 8 being the nearest location (local monsters)
-                mon_it->second.nearest_loc = std::max( mon_it->second.nearest_loc, loc );
-                mon_it->second.cnt += mon.second;
-            }
-        }
-    }
-    std::vector<std::pair<const mtype *, int>> mons_at[9];
-    for( const std::pair<const mtype *const, nearest_loc_and_cnt> &mon : all_mons ) {
-        mons_at[mon.second.nearest_loc].emplace_back( mon.first, mon.second.cnt );
-    }
-
-    // Rows 0-2 are for labels.
-    // Start monster names on row 3
-    point pr( hor_padding, 3 + startrow );
-    // In non-compact mode, leave a blank line
-    if( !compact ) {
-        pr.y++;
-    }
-
-    // Print monster names, starting with those at location 8 (nearby).
-    for( int j = 8; j >= 0 && pr.y < maxheight; j-- ) {
-        // Separate names by some number of spaces (more for local monsters).
-        int namesep = j == 8 ? 2 : 1;
-        for( const std::pair<const mtype *, int> &mon : mons_at[j] ) {
-            const mtype *const type = mon.first;
-            const int count = mon.second;
-            if( pr.y >= maxheight ) {
-                // no space to print to anyway
-                break;
-            }
-
-            const mtype &mt = *type;
-            std::string name = mt.nname( count );
-            // Some languages don't have plural forms, but we want to always
-            // omit 1.
-            if( count != 1 ) {
-                name = string_format( pgettext( "monster count and name", "%1$d %2$s" ),
-                                      count, name );
-            }
-
-            // Move to the next row if necessary. (The +2 is for the "Z ").
-            if( pr.x + 2 + utf8_width( name ) >= width ) {
-                pr.y++;
-                pr.x = hor_padding;
-            }
-
-            if( pr.y < maxheight ) { // Don't print if we've overflowed
-                mvwprintz( w, pr, mt.color, mt.sym );
-                pr.x += 2; // symbol and space
-                nc_color danger = c_dark_gray;
-                if( mt.difficulty >= 30 ) {
-                    danger = c_red;
-                } else if( mt.difficulty >= 16 ) {
-                    danger = c_light_red;
-                } else if( mt.difficulty >= 8 ) {
-                    danger = c_white;
-                } else if( mt.agro > 0 ) {
-                    danger = c_light_gray;
-                }
-                mvwprintz( w, pr, danger, name );
-                pr.x += utf8_width( name ) + namesep;
-            }
-        }
-    }
-}
 
 static void draw_compass( const draw_args &args )
 {
@@ -2838,7 +1387,7 @@ static void draw_veh_compact( const draw_args &args )
 
     werase( w );
 
-    vehicle *veh = vehicle_driven( u );
+    vehicle *veh = display::vehicle_driven( u );
     if( veh ) {
         veh->print_fuel_indicators( w, point_zero );
         mvwprintz( w, point( 6, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
@@ -2855,7 +1404,7 @@ static void draw_veh_padding( const draw_args &args )
 
     werase( w );
 
-    vehicle *veh = vehicle_driven( u );
+    vehicle *veh = display::vehicle_driven( u );
     if( veh ) {
         veh->print_fuel_indicators( w, point_east );
         mvwprintz( w, point( 7, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
@@ -2876,7 +1425,7 @@ static void draw_ai_goal( const draw_args &args )
     behavior::character_oracle_t player_oracle( &u );
     std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
+    mvwprintz( w, point( 0, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
     wnoutrefresh( w );
 }
 
@@ -3385,11 +1934,6 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, width, true, default_render, true ) );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_compass_padding_compact, "Compass",
-                                    to_translation( "Compass" ),
-                                    5, width, false ) );
-    ret.emplace_back( window_panel( draw_overmap, "Overmap", to_translation( "Overmap" ),
-                                    7, width, false ) );
 
     return ret;
 }
@@ -3410,7 +1954,7 @@ static std::map<std::string, panel_layout> initialize_default_panel_layouts()
     // Add panel layout for each "sidebar" widget
     for( const widget &wgt : widget::get_all() ) {
         if( wgt._style == "sidebar" ) {
-            ret.emplace( wgt._label.translated(),
+            ret.emplace( wgt.getId().str(),
                          panel_layout( wgt._label, initialize_default_custom_panels( wgt ) ) );
         }
     }
@@ -3528,9 +2072,23 @@ void panel_manager::deserialize( JsonIn &jsin )
     JsonObject joLayouts( jsin.get_object() );
 
     current_layout_id = joLayouts.get_string( "current_layout_id" );
+    if( layouts.find( current_layout_id ) == layouts.end() ) {
+        // Layout id updated between loads.
+        // Shouldn't happen unless custom sidebar id's were modified or removed.
+        joLayouts.allow_omitted_members();
+        current_layout_id = "labels";
+        return;
+    }
+
     for( JsonObject joLayout : joLayouts.get_array( "layouts" ) ) {
         std::string layout_id = joLayout.get_string( "layout_id" );
-        auto &layout = layouts.find( layout_id )->second.panels();
+        const auto &cur_layout = layouts.find( layout_id );
+        if( cur_layout == layouts.end() ) {
+            joLayout.allow_omitted_members();
+            continue;
+        }
+
+        auto &layout = cur_layout->second.panels();
         auto it = layout.begin();
 
         for( JsonObject joPanel : joLayout.get_array( "panels" ) ) {
@@ -3554,6 +2112,97 @@ void panel_manager::deserialize( JsonIn &jsin )
     jsin.end_array();
 }
 
+static void draw_border_win( catacurses::window &w, const std::vector<int> &column_widths,
+                             int popup_height )
+{
+    werase( w );
+    decorate_panel( _( "SIDEBAR OPTIONS" ), w );
+    // Draw vertical separators
+    mvwvline( w, point( column_widths[0] + 1, 1 ), 0, popup_height - 2 );
+    mvwvline( w, point( column_widths[0] + column_widths[1] + 2, 1 ), 0, popup_height - 2 );
+    wnoutrefresh( w );
+}
+
+static void draw_left_win( catacurses::window &w, const std::map<size_t, size_t> &row_indices,
+                           const std::vector<window_panel> &panels, size_t source_index, size_t current_row,
+                           size_t source_row, bool cur_col, bool swapping, int width, int height, int start )
+{
+    werase( w );
+    for( std::pair<size_t, size_t> row_indx : row_indices ) {
+        if( row_indx.first < static_cast<size_t>( start ) ) {
+            continue;
+        }
+        const size_t row = row_indx.first - start;
+
+        const std::string name = panels[row_indx.second].get_name();
+        if( swapping && source_index == row_indx.second ) {
+            mvwprintz( w, point( 4, current_row - start ), c_yellow, name );
+        } else {
+            int offset = 0;
+            if( !swapping ) {
+                offset = 0;
+            } else if( current_row > source_row && row_indx.first > source_row &&
+                       row_indx.first <= current_row ) {
+                offset = -1;
+            } else if( current_row < source_row && row_indx.first < source_row &&
+                       row_indx.first >= current_row ) {
+                offset = 1;
+            }
+            const nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
+            mvwprintz( w, point( 3, row + offset ), toggle_color, name );
+        }
+    }
+    if( cur_col ) {
+        mvwprintz( w, point( 0, current_row - start ), c_yellow, ">>" );
+    }
+
+    scrollbar()
+    .offset_x( width - 1 )
+    .offset_y( 0 )
+    .content_size( row_indices.size() )
+    .viewport_pos( start )
+    .viewport_size( height )
+    .apply( w );
+
+    wnoutrefresh( w );
+}
+
+static void draw_right_win( catacurses::window &w,
+                            const std::map<std::string, panel_layout> &layouts,
+                            const std::string &current_layout_id,
+                            size_t current_row, bool cur_col )
+{
+    werase( w );
+    size_t i = 0;
+    for( const auto &layout : layouts ) {
+        mvwprintz( w, point( 3, i ), current_layout_id == layout.first ? c_light_blue : c_white,
+                   layout.second.name() );
+        i++;
+    }
+    if( cur_col ) {
+        mvwprintz( w, point( 0, current_row ), c_yellow, ">>" );
+    }
+    wnoutrefresh( w );
+}
+
+static void draw_center_win( catacurses::window &w, int col_width, const input_context &ctxt )
+{
+    werase( w );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
+               col_width - 1 ) + ":" );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_white, _( "Toggle panels on/off" ) );
+    mvwprintz( w, point( 1, 2 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
+               col_width - 1 ) + ":" );
+    mvwprintz( w, point( 1, 3 ), c_white, _( "Change display order" ) );
+    mvwprintz( w, point( 1, 4 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
+               col_width - 1 ) + ":" );
+    mvwprintz( w, point( 1, 5 ), c_white, _( "Exit" ) );
+
+    wnoutrefresh( w );
+}
+
 void panel_manager::show_adm()
 {
     input_context ctxt( "PANEL_MGMT" );
@@ -3573,6 +2222,7 @@ void panel_manager::show_adm()
     bool swapping = false;
     size_t source_row = 0;
     size_t source_index = 0;
+    size_t start = 0;
 
     bool recalc = true;
     bool exit = false;
@@ -3583,71 +2233,34 @@ void panel_manager::show_adm()
     g->show_panel_adm = true;
     g->invalidate_main_ui_adaptor();
 
-    catacurses::window w;
+    catacurses::window w_border;
+    catacurses::window w_left;
+    catacurses::window w_center;
+    catacurses::window w_right;
 
     const int popup_height = 24;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w = catacurses::newwin( popup_height, 83,
-                                point( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 ) );
+        const point uipos( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 );
+        w_border = catacurses::newwin( popup_height, 83, uipos );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        w_left = catacurses::newwin( popup_height - 2, column_widths[0], uipos + point( 1, 1 ) );
+        w_center = catacurses::newwin( popup_height - 2, column_widths[1],
+                                       uipos + point( 2 + column_widths[0], 1 ) );
+        w_right = catacurses::newwin( popup_height - 2, column_widths[2],
+                                      uipos + point( 3 + column_widths[0] + column_widths[1], 1 ) );
 
-        ui.position_from_window( w );
+        ui.position_from_window( w_border );
     } );
     ui.mark_resize();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border_win( w_border, column_widths, popup_height );
+        draw_right_win( w_right, layouts, current_layout_id, current_row, current_col == 2 );
         auto &panels = get_current_layout().panels();
-
-        werase( w );
-        decorate_panel( _( "SIDEBAR OPTIONS" ), w );
-
-        for( std::pair<size_t, size_t> row_indx : row_indices ) {
-            const std::string name = panels[row_indx.second].get_name();
-            if( swapping && source_index == row_indx.second ) {
-                mvwprintz( w, point( 5, current_row + 1 ), c_yellow, name );
-            } else {
-                int offset = 0;
-                if( !swapping ) {
-                    offset = 0;
-                } else if( current_row > source_row && row_indx.first > source_row &&
-                           row_indx.first <= current_row ) {
-                    offset = -1;
-                } else if( current_row < source_row && row_indx.first < source_row &&
-                           row_indx.first >= current_row ) {
-                    offset = 1;
-                }
-                const nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
-                mvwprintz( w, point( 4, row_indx.first + 1 + offset ), toggle_color, name );
-            }
-        }
-        size_t i = 1;
-        for( const auto &layout : layouts ) {
-            mvwprintz( w, point( column_widths[0] + column_widths[1] + 4, i ),
-                       current_layout_id == layout.first ? c_light_blue : c_white, layout.second.name() );
-            i++;
-        }
-        int col_offset = 0;
-        for( i = 0; i < current_col; i++ ) {
-            col_offset += column_widths[i];
-        }
-        mvwprintz( w, point( 1 + col_offset, current_row + 1 ), c_yellow, ">>" );
-        // Draw vertical separators
-        mvwvline( w, point( column_widths[0], 1 ), 0, popup_height - 2 );
-        mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, popup_height - 2 );
-
-        col_offset = column_widths[0] + 2;
-        int col_width = column_widths[1] - 4;
-        mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
-                   col_width ) + ":" );
-        mvwprintz( w, point( col_offset, 2 ), c_white, _( "Toggle panels on/off" ) );
-        mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
-                   col_width ) + ":" );
-        mvwprintz( w, point( col_offset, 4 ), c_white, _( "Change display order" ) );
-        mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
-                   col_width ) + ":" );
-        mvwprintz( w, point( col_offset, 6 ), c_white, _( "Exit" ) );
-
-        wnoutrefresh( w );
+        draw_left_win( w_left, row_indices, panels, source_index, current_row, source_row, current_col == 0,
+                       swapping, column_widths[0], popup_height - 2, start );
+        draw_center_win( w_center, column_widths[1], ctxt );
     } );
 
     while( !exit ) {
@@ -3667,6 +2280,9 @@ void panel_manager::show_adm()
 
         const size_t num_rows = current_col == 0 ? row_indices.size() : layouts.size();
         current_row = clamp<size_t>( current_row, 0, num_rows - 1 );
+        if( current_row < start ) {
+            start = current_row > popup_height - 3 ? current_row - ( popup_height - 3 ) : 0;
+        }
 
         ui_manager::redraw();
 
@@ -3674,14 +2290,24 @@ void panel_manager::show_adm()
         if( action == "UP" ) {
             if( current_row > 0 ) {
                 current_row -= 1;
+                if( current_row < start ) {
+                    start = current_row;
+                }
             } else {
                 current_row = num_rows - 1;
+                if( current_row > popup_height - 3 ) {
+                    start = current_row - ( popup_height - 3 );
+                }
             }
         } else if( action == "DOWN" ) {
             if( current_row + 1 < num_rows ) {
                 current_row += 1;
+                if( current_row > start + popup_height - 3 ) {
+                    start = current_row - ( popup_height - 3 );
+                }
             } else {
                 current_row = 0;
+                start = 0;
             }
         } else if( action == "MOVE_PANEL" && current_col == 0 ) {
             swapping = !swapping;

@@ -71,5 +71,34 @@
     "price_postapoc": 5000,
     "symbol": "L",
     "color": "white"
+  },
+  {
+    "type": "GENERIC",
+    "id": "standing_floodlight",
+    "name": { "str": "standing floodlight" },
+    "description": "A large and heavy light designed to illuminate wide areas once plugged into a power outlet.",
+    "weight": "2750 g",
+    "to_hit": -1,
+    "material": [ "plastic", "steel" ],
+    "volume": "2 L",
+    "longest_side": "170 cm",
+    "bashing": 5,
+    "price": 90000,
+    "price_postapoc": 500,
+    "symbol": "F",
+    "color": "white"
+  },
+  {
+    "type": "GENERIC",
+    "id": "wall_wiring",
+    "name": { "str": "wall wiring" },
+    "description": "Electric wires used to run power through walls.",
+    "weight": "1 g",
+    "material": [ "plastic", "copper" ],
+    "volume": "1 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "symbol": "~",
+    "color": "white"
   }
 ]

@@ -109,6 +109,8 @@ cata::optional<int> ehandcuffs( Character *, item *, bool, const tripoint & );
 cata::optional<int> einktabletpc( Character *, item *, bool, const tripoint & );
 cata::optional<int> elec_chainsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> elec_chainsaw_on( Character *, item *, bool, const tripoint & );
+cata::optional<int> emf_passive_off( Character *, item *, bool, const tripoint & );
+cata::optional<int> emf_passive_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> extinguisher( Character *, item *, bool, const tripoint & );
 cata::optional<int> fill_pit( Character *, item *, bool, const tripoint & );
 cata::optional<int> firecracker( Character *, item *, bool, const tripoint & );

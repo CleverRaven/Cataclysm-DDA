@@ -615,7 +615,8 @@ void replace_substring( std::string &input, const std::string &substring,
 
 std::string string_replace( std::string text, const std::string &before, const std::string &after );
 std::string replace_colors( std::string text );
-std::string &capitalize_letter( std::string &str, size_t n = 0 );
+std::string uppercase_first_letter( const std::string &str );
+std::string lowercase_first_letter( const std::string &str );
 size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
@@ -638,6 +639,8 @@ std::pair<std::string, nc_color> get_hp_bar( int cur_hp, int max_hp, bool is_mon
 std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
 
 std::pair<std::string, nc_color> get_light_level( float light );
+
+std::pair<std::string, nc_color> rad_badge_color( const int rad );
 
 /**
  * @return String containing the bar. Example: "Label [********    ]".

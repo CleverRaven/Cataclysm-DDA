@@ -283,6 +283,8 @@ struct armor_portion_data {
     // What layer does it cover if any
     std::vector<layer_level> layers;
 
+    // these are pre-calc values to save us time later
+
     // the chance that every material applies to an attack
     // this is primarily used as a chached value for UI
     int best_protection_chance = 100; // NOLINT(cata-serialize)
@@ -290,6 +292,9 @@ struct armor_portion_data {
     // the chance that the smallest number of materials possible applies to an attack
     // this is primarily used as a chached value for UI
     int worst_protection_chance = 0; // NOLINT(cata-serialize)
+
+    // this is to test if the armor has unique layering information
+    bool has_unique_layering = false; // NOLINT(cata-serialize)
 
     /**
      * Returns the amount all sublocations this item covers could possibly
@@ -304,77 +309,84 @@ struct armor_portion_data {
 };
 
 struct islot_armor {
-    /**
-    * Whether this item can be worn on either side of the body
-    */
-    bool sided = false;
-    /**
-     * The Non-Functional variant of this item. Currently only applies to ablative plates
-     */
-    itype_id non_functional;
-    /**
-     * How much warmth this item provides.
-     */
-    int warmth = 0;
-    /**
-    * Factor modifying weight capacity
-    */
-    float weight_capacity_modifier = 1.0f;
-    /**
-    * Bonus to weight capacity
-    */
-    units::mass weight_capacity_bonus = 0_gram;
-    /**
-     * Whether this is a power armor item.
-     */
-    bool power_armor = false;
-    /**
-     * Whether this item has ablative pockets
-     */
-    bool ablative = false;
-    /**
-     * Whether this item has pockets that generate additional encumbrance
-     */
-    bool additional_pocket_enc = false;
-    /**
-     * Whether this item has pockets that can be ripped off
-     */
-    bool ripoff_chance = false;
-    /**
-     * Whether this item has pockets that are noisy
-     */
-    bool noisy = false;
-    /**
-     * Whitelisted clothing mods.
-     * Restricted clothing mods must be listed here by id to be compatible.
-     */
-    std::vector<std::string> valid_mods;
+    public:
+        /**
+        * Whether this item can be worn on either side of the body
+        */
+        bool sided = false;
+        /**
+         * The Non-Functional variant of this item. Currently only applies to ablative plates
+         */
+        itype_id non_functional;
+        /**
+         * How much warmth this item provides.
+         */
+        int warmth = 0;
+        /**
+        * Factor modifying weight capacity
+        */
+        float weight_capacity_modifier = 1.0f;
+        /**
+        * Bonus to weight capacity
+        */
+        units::mass weight_capacity_bonus = 0_gram;
+        /**
+         * Whether this is a power armor item.
+         */
+        bool power_armor = false;
+        /**
+         * Whether this item has ablative pockets
+         */
+        bool ablative = false;
+        /**
+         * Whether this item has pockets that generate additional encumbrance
+         */
+        bool additional_pocket_enc = false;
+        /**
+         * Whether this item has pockets that can be ripped off
+         */
+        bool ripoff_chance = false;
+        /**
+         * Whether this item has pockets that are noisy
+         */
+        bool noisy = false;
+        /**
+         * Whitelisted clothing mods.
+         * Restricted clothing mods must be listed here by id to be compatible.
+         */
+        std::vector<std::string> valid_mods;
 
-    /**
-     * If the item in question has any sub coverage when testing for encumberance
-     */
-    bool has_sub_coverage = false;
+        /**
+         * If the item in question has any sub coverage when testing for encumberance
+         */
+        bool has_sub_coverage = false;
 
-    // Layer, encumbrance and coverage information for each body part.
-    // This isn't directly loaded in but is instead generated from the loaded in
-    // sub_data vector
-    std::vector<armor_portion_data> data;
+        // Layer, encumbrance and coverage information for each body part.
+        // This isn't directly loaded in but is instead generated from the loaded in
+        // sub_data vector
+        std::vector<armor_portion_data> data;
 
-    // Layer, encumbrance and coverage information for each sub body part.
-    // This vector can have duplicates for body parts themselves.
-    std::vector<armor_portion_data> sub_data;
+        // Layer, encumbrance and coverage information for each sub body part.
+        // This vector can have duplicates for body parts themselves.
+        std::vector<armor_portion_data> sub_data;
 
-    // all of the layers this item is involved in
-    std::vector<layer_level> all_layers;
+        // all of the layers this item is involved in
+        std::vector<layer_level> all_layers;
 
-    bool was_loaded = false;
+        bool was_loaded = false;
 
-    int avg_env_resist() const;
-    int avg_env_resist_w_filter() const;
-    float avg_thickness() const;
+        int avg_env_resist() const;
+        int avg_env_resist_w_filter() const;
+        float avg_thickness() const;
 
-    void load( const JsonObject &jo );
-    void deserialize( const JsonObject &jo );
+        void load( const JsonObject &jo );
+        void deserialize( const JsonObject &jo );
+
+    private:
+        // Base material thickness, used to derive thickness in sub_data
+        cata::optional<float> _material_thickness = 0.0f;
+        cata::optional<int> _env_resist = 0;
+        cata::optional<int> _env_resist_w_filter = 0;
 };
 
 struct islot_pet_armor {
@@ -779,6 +791,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Not compatable on weapons that have this mod slot */
     std::set<gunmod_location> blacklist_mod;
+
+    // minimum recoil to cycle while this is installed
+    int overwrite_min_cycle_recoil = -1;
 };
 
 struct islot_magazine {
@@ -1041,10 +1056,6 @@ struct itype {
         // A list of conditional names, in order of ascending priority.
         std::vector<conditional_name> conditional_names;
 
-        // Since the material list was converted to a map, keep track of the material insert order
-        // Do not use this for materials. Use the materials map above.
-        std::vector<material_id> mats_ordered;
-
         /** Base damage output when thrown */
         damage_instance thrown_damage;
 
@@ -1095,6 +1106,11 @@ struct itype {
         // Second -> the portion of item covered by the material (portion / total portions)
         // MATERIALS WORK IN PROGRESS.
         std::map<material_id, int> materials;
+
+        // This stores the first inserted material so that it can be used if all materials
+        // are equivalent in proportion as a default
+        // TODO: This is really legacy behavior and should maybe be removed
+        material_id default_mat;
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
@@ -1173,6 +1189,11 @@ struct itype {
         * How long the longest side of this item is. If undefined, calculated from volume instead.
         */
         units::length longest_side = -1_mm;
+
+        /**
+        * length added when integrated as part of another item (defaults to 0)
+        */
+        units::length integral_longest_side = -1_mm;
 
         /** Number of items per above volume for @ref count_by_charges items */
         int stack_size = 0;
@@ -1339,5 +1360,6 @@ struct itype {
 };
 
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
+void load_charge_migration_blacklist( const JsonObject &jo, const std::string &src );
 
 #endif // CATA_SRC_ITYPE_H

@@ -102,6 +102,7 @@
     "weight": "1 g",
     "volume": "92 ml",
     "longest_side": "22 cm",
+    "integral_longest_side": "22 cm",
     "price": 4000,
     "price_postapoc": 500,
     "install_time": "0 s",
@@ -372,6 +373,8 @@
     "type": "GENERIC",
     "name": { "str": "makeshift bayonet" },
     "description": "A makeshift version of a bayonet that consists of a mere spike with some string.",
+    "longest_side": "12 cm",
+    "integral_longest_side": "12 cm",
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],

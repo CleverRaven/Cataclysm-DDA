@@ -114,7 +114,7 @@
       "items": {
         "@": { "item": "bed", "chance": 80 },
         "D": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] },
-        "F": { "item": "fridge", "chance": 60, "repeat": [ 1, 3 ] },
+        "F": { "item": "SUS_fridge_survivor", "chance": 60 },
         "L": { "item": "allclothes", "chance": 90, "repeat": [ 1, 5 ] },
         "c": [ { "item": "kitchen_appliances", "chance": 5 }, { "item": "dishes_utility", "chance": 5 } ],
         "d": [

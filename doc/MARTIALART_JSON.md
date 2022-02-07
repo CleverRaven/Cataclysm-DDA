@@ -49,7 +49,7 @@
 "required_buffs_all": [ "eskrima_hit_buff" ],    // This technique requires all of the named buffs to be active
 "forbidden_buffs_any": [ "eskrima_hit_buff" ],    // This technique is forbidden if any of the named buffs are active
 "forbidden_buffs_all": [ "eskrima_hit_buff" ],    // This technique is forbidden if all of the named buffs are active
-"req_flags": [ "" ]         // List of item flags the used weapon needs to be eligable for the technique
+"req_flags": [ "" ]         // List of item flags the used weapon needs to be eligible for the technique
 "required_char_flags": [ "" ]    // List of "character" (bionic, trait, effect or bodypart) flags the character needs to be able to use this technique
 "forbidden_char_flags": [ "" ]    // List of character flags disabling this technique
 "crit_tec" : true,          // This technique only works on a critical hit
@@ -58,6 +58,8 @@
 "downed_target": true,      // Technique only works on a downed target
 "stunned_target": true,     // Technique only works on a stunned target
 "human_target": true,       // Technique only works on a human-like target
+"repeat_min": 1,            // Technique's damage and any added effects are repeated rng( repeat_min, repeat_max) times. The target's armor and the effect's chances are applied for each repeat.
+"repeat_max": 1,
 "knockback_dist": 1,        // Distance target is knocked back
 "knockback_spread": 1,      // The knockback may not send the target straight back
 "knockback_follow": 1,      // Attacker will follow target if they are knocked back
@@ -90,7 +92,9 @@
         "chance": 100,       // Percent chance to apply the effect on this attack
         "permanent": false,  // If true the effect won't decay (default false)
         "duration": 15,      // Duration of the effect in turns
-        "on_damage": true    // If true the effect will only be applied if the attack succeeded in doing damage (default true)
+        "on_damage": true,   // If true the effect will only be applied if the attack succeeded in doing damage (default true)
+        "req_flag": "ANY",   // A single arbitrary character flag (from traits, bionics, effects, or bodyparts) required to apply this effect
+        "message": "Example" // The message to print if you succesfully apply the effect, %s can be substituted for the target's name
     }
 ]
 ```

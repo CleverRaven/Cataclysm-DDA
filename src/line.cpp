@@ -619,6 +619,29 @@ std::string direction_name_short( const direction dir )
     return direction_name_impl( dir, true );
 }
 
+std::string direction_arrow( const direction dir )
+{
+    std::string arrow;
+    if( dir == direction::NORTH ) {
+        arrow = "\u21D1";
+    } else if( dir == direction::NORTHEAST ) {
+        arrow = "\u21D7";
+    } else if( dir == direction::EAST ) {
+        arrow = "\u21D2";
+    } else if( dir == direction::SOUTHEAST ) {
+        arrow = "\u21D8";
+    } else if( dir == direction::SOUTH ) {
+        arrow = "\u21D3";
+    } else if( dir == direction::SOUTHWEST ) {
+        arrow = "\u21D9";
+    } else if( dir == direction::WEST ) {
+        arrow = "\u21D0";
+    } else if( dir == direction::NORTHWEST ) {
+        arrow = "\u21D6";
+    }
+    return arrow;
+}
+
 std::string direction_suffix( const tripoint &p, const tripoint &q )
 {
     int dist = square_dist( p, q );

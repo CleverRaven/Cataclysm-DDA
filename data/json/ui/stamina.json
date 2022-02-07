@@ -1,29 +1,34 @@
 [
   {
+    "id": "stamina_widget",
+    "type": "widget",
+    "var": "stamina",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
     "id": "stamina_graph_classic",
     "type": "widget",
+    "copy-from": "stamina_widget",
     "label": "Stam",
-    "var": "stamina",
     "style": "graph",
     "width": 5,
-    "symbols": ".\\|",
-    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+    "symbols": ".\\|"
   },
   {
     "id": "stamina_graph",
     "type": "widget",
+    "copy-from": "stamina_widget",
+    "//": "Like the classic 5-bar stamina graph, but twice as wide",
     "label": "Stamina",
-    "var": "stamina",
     "style": "graph",
     "width": 10,
-    "symbols": ".\\|",
-    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+    "symbols": ".\\|"
   },
   {
     "id": "stamina_num",
     "type": "widget",
+    "copy-from": "stamina_widget",
     "label": "Stamina",
-    "var": "stamina",
     "style": "number"
   }
 ]

@@ -52,7 +52,7 @@ List of item flags that, when on an item, mean that the item can be used as card
 #### `consume_card`
 Optional, defaults to true.
 Boolean (true/false).
-Whether or not to consume the item used to activite this cardreader.
+Whether or not to consume the item used to activate this cardreader.
 
 #### `allow_hacking`
 Optional, defaults to true.
@@ -108,7 +108,7 @@ What message to display when querying the player on whether or not to activate t
 #### `success_msg`
 Mandatory.
 String.
-What message to print to the log when this is sucessfully activated.
+What message to print to the log when this is successfully activated.
 
 #### `redundant_msg`
 Mandatory.

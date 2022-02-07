@@ -71,6 +71,11 @@ void talker_character::set_pos( tripoint new_pos )
     me_chr->setpos( new_pos );
 }
 
+int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
+{
+    return me_chr_const->get_hp( bp );
+}
+
 int talker_character_const::str_cur() const
 {
     return me_chr_const->str_cur;
@@ -156,9 +161,9 @@ void talker_character::unset_mutation( const trait_id &old_trait )
     me_chr->unset_mutation( old_trait );
 }
 
-bool talker_character_const::has_trait_flag( const json_character_flag &trait_flag_to_check ) const
+bool talker_character_const::has_flag( const json_character_flag &trait_flag_to_check ) const
 {
-    return me_chr_const->has_trait_flag( trait_flag_to_check );
+    return me_chr_const->has_flag( trait_flag_to_check );
 }
 
 bool talker_character_const::crossed_threshold() const
@@ -405,14 +410,19 @@ void talker_character::mod_pain( int amount )
     me_chr->mod_pain( amount );
 }
 
-bool talker_character_const::worn_with_flag( const flag_id &flag ) const
+bool talker_character_const::worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
 {
-    return me_chr_const->worn_with_flag( flag );
+    return me_chr_const->worn_with_flag( flag, bp );
 }
 
 bool talker_character_const::wielded_with_flag( const flag_id &flag ) const
 {
     return me_chr_const->get_wielded_item().has_flag( flag );
+}
+
+bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
+{
+    return me_chr_const->has_item_with_flag( flag );
 }
 
 units::energy talker_character_const::power_cur() const
@@ -540,6 +550,38 @@ void talker_character::set_kill_xp( int amount )
 int talker_character_const::get_kill_xp() const
 {
     return me_chr_const->kill_xp;
+}
+
+void talker_character::set_age( int amount )
+{
+    int years_since_cataclysm = to_turns<int>( calendar::turn - calendar::turn_zero ) /
+                                to_turns<int>( calendar::year_length() );
+    me_chr->set_base_age( amount + years_since_cataclysm );
+}
+
+int talker_character_const::get_age() const
+{
+    return me_chr_const->age();
+}
+
+int talker_character_const::get_bmi_permil() const
+{
+    return std::round( me_chr_const->get_bmi() * 1000.0f );
+}
+
+void talker_character::set_height( int amount )
+{
+    me_chr->set_base_height( amount );
+}
+
+int talker_character_const::get_height() const
+{
+    return me_chr_const->height();
+}
+
+const move_mode_id &talker_character_const::get_move_mode() const
+{
+    return me_chr_const->move_mode;
 }
 
 void talker_character::add_bionic( const bionic_id &new_bionic )

@@ -175,10 +175,6 @@ map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
         grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE ), nullptr );
     }
 
-    for( auto &ptr : caches ) {
-        ptr = std::make_unique<level_cache>();
-    }
-
     for( auto &ptr : pathfinding_caches ) {
         ptr = std::make_unique<pathfinding_cache>();
     }
@@ -246,10 +242,12 @@ void map::rebuild_vehicle_level_caches()
 
     for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
         // Cache all vehicles
-        level_cache &ch = get_cache( gridz );
+        level_cache *ch = get_cache_lazy( gridz );
 
-        for( const auto &elem : ch.vehicle_list ) {
-            add_vehicle_to_cache( elem );
+        if( ch ) {
+            for( const auto &elem : ch->vehicle_list ) {
+                add_vehicle_to_cache( elem );
+            }
         }
     }
 }
@@ -282,26 +280,32 @@ void map::clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt )
         return;
     }
 
-    level_cache &ch = get_cache( pt.z );
-    if( inbounds( pt ) ) {
-        ch.set_veh_exists_at( pt, false );
+    level_cache *ch = get_cache_lazy( pt.z );
+    if( ch ) {
+        if( inbounds( pt ) ) {
+            ch->set_veh_exists_at( pt, false );
+        }
+        ch->clear_veh_from_veh_cached_parts( pt, veh );
     }
-    ch.clear_veh_from_veh_cached_parts( pt, veh );
 }
 
 void map::clear_vehicle_level_caches( )
 {
     for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-        level_cache &ch = get_cache( gridz );
-        ch.clear_vehicle_cache();
+        level_cache *ch = get_cache_lazy( gridz );
+        if( ch ) {
+            ch->clear_vehicle_cache();
+        }
     }
 }
 
 void map::clear_vehicle_list( const int zlev )
 {
-    auto &ch = get_cache( zlev );
-    ch.vehicle_list.clear();
-    ch.zone_vehicles.clear();
+    auto *ch = get_cache_lazy( zlev );
+    if( ch ) {
+        ch->vehicle_list.clear();
+        ch->zone_vehicles.clear();
+    }
 }
 
 void map::update_vehicle_list( const submap *const to, const int zlev )
@@ -394,7 +398,11 @@ void map::vehmove()
     int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     const tripoint player_pos = get_player_character().pos();
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache &cache = get_cache( zlev );
+        level_cache *cache_lazy = get_cache_lazy( zlev );
+        if( !cache_lazy ) {
+            continue;
+        }
+        level_cache &cache = *cache_lazy;
         for( vehicle *veh : cache.vehicle_list ) {
             if( veh->is_following ) {
                 veh->drive_to_local_target( getabs( player_pos ), true );
@@ -432,8 +440,10 @@ void map::vehmove()
     // The bool tracks whether the vehicles is on the map or not.
     std::map<vehicle *, bool> connected_vehicles;
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache &cache = get_cache( zlev );
-        vehicle::enumerate_vehicles( connected_vehicles, cache.vehicle_list );
+        level_cache *cache = get_cache_lazy( zlev );
+        if( cache ) {
+            vehicle::enumerate_vehicles( connected_vehicles, cache->vehicle_list );
+        }
     }
     for( std::pair<vehicle *const, bool> &veh_pair : connected_vehicles ) {
         veh_pair.first->idle( veh_pair.second );
@@ -732,11 +742,21 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     //  parts are damaged/broken on both sides,
     //  remaining times are normalized
     const veh_collision &c = collisions[0];
-    add_msg( m_bad, _( "The %1$s's %2$s collides with %3$s's %4$s." ),
-             veh.name,  veh.part_info( c.part ).name(),
-             veh2.name, veh2.part_info( c.target_part ).name() );
-
     const bool vertical = veh.sm_pos.z != veh2.sm_pos.z;
+
+    // Check whether avatar sees the collision, and log a message if so
+    const avatar &you = get_avatar();
+    const tripoint part1_pos = veh.global_part_pos3( c.part );
+    const tripoint part2_pos = veh.global_part_pos3( c.target_part );
+    if( you.sees( part1_pos ) || you.sees( part2_pos ) ) {
+        //~ %1$s: first vehicle name (without "the")
+        //~ %2$s: first part name
+        //~ %3$s: second vehicle display name (with "the")
+        //~ %4$s: second part name
+        add_msg( m_bad, _( "The %1$s's %2$s collides with %3$s's %4$s." ),
+                 veh.name,  veh.part_info( c.part ).name(),
+                 veh2.disp_name(), veh2.part_info( c.target_part ).name() );
+    }
 
     // Used to calculate the epicenter of the collision.
     point epicenter1;
@@ -839,6 +859,12 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         if( &veh2 == static_cast<vehicle *>( veh_veh_coll.target ) ) {
             coll_parts_cnt++;
         }
+    }
+
+    // Prevent potential division by zero
+    if( coll_parts_cnt == 0 ) {
+        debugmsg( "Vehicle %s collided with bugs in the code", veh.name );
+        return 0.0f;
     }
 
     const float dmg1_part = dmg_veh1 / coll_parts_cnt;
@@ -3825,8 +3851,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 }
             }
             if( dam <= 0 && get_player_view().sees( p ) ) {
-                // TODO: add exclamation mark once out of string freeze
-                add_msg( _( "The shot is stopped by the %s" ), data.name() );
+                add_msg( _( "The shot is stopped by the %s!" ), data.name() );
             }
             // only very flammable furn/ter can be set alight with incendiary rounds
             if( incendiary && data.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
@@ -3935,7 +3960,7 @@ bool map::hit_with_acid( const tripoint &p )
     } else if( t == t_door_bar_c || t == t_door_bar_o || t == t_door_bar_locked || t == t_bars ||
                t == t_reb_cage ) {
         ter_set( p, t_floor );
-        add_msg( m_warning, _( "The metal bars melt!" ) );
+        add_msg_if_player_sees( p, m_warning, _( "The metal bars melt!" ) );
     } else if( t == t_door_b ) {
         if( one_in( 4 ) ) {
             ter_set( p, t_door_frame );
@@ -4066,11 +4091,11 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 
 void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p )
 {
-    tripoint_abs_omt origin = get_avatar().global_omt_location();
+    tripoint_abs_ms avatar_pos = get_avatar().get_location();
     bool shifted = false;
     if( !get_map().inbounds( get_map().getlocal( p ) ) ) {
         const tripoint_abs_ms abs_ms( p );
-        g->place_player_overmap( project_to<coords::omt>( abs_ms ) );
+        g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
         shifted = true;
     }
     for( const tripoint &t : points_on_zlevel() ) {
@@ -4081,7 +4106,7 @@ void map::transform_radius( const ter_furn_transform_id transform, float radi, c
         }
     }
     if( shifted ) {
-        g->place_player_overmap( origin );
+        g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
     }
 }
 
@@ -4721,6 +4746,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 washing_machine_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
+                //~ %1$d: Number of minutes remaining, %2$s: Name of the vehicle
                 add_msg( _( "It should take %1$d minutes to finish washing items in the %2$s." ),
                          to_minutes<int>( time_left ) + 1, cur_veh.name );
                 break;
@@ -4750,6 +4776,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
                 const int minutes = to_minutes<int>( time_left ) + 1;
+                //~ %1$d: Number of minutes remaining, %2$s: Name of the vehicle
                 add_msg( n_gettext( "It should take %1$d minute to finish sterilizing items in the %2$s.",
                                     "It should take %1$d minutes to finish sterilizing items in the %2$s.", minutes ),
                          minutes, cur_veh.name );
@@ -5589,6 +5616,17 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
 void map::remove_field( const tripoint &p, const field_type_id &field_to_remove )
 {
     set_field_intensity( p, field_to_remove, 0 );
+}
+
+void map::clear_fields( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+
+    point l;
+    submap *const current_submap = unsafe_get_submap_at( p, l );
+    current_submap->clear_fields( l );
 }
 
 void map::on_field_modified( const tripoint &p, const field_type &fd_type )
@@ -6807,7 +6845,11 @@ void map::shift( const point &sp )
     const int zmin = zlevels ? -OVERMAP_DEPTH : abs.z;
     const int zmax = zlevels ? OVERMAP_HEIGHT : abs.z;
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
-        for( vehicle *veh : get_cache( gridz ).vehicle_list ) {
+        level_cache *cache = get_cache_lazy( gridz );
+        if( !cache ) {
+            continue;
+        }
+        for( vehicle *veh : cache->vehicle_list ) {
             veh->zones_dirty = true;
         }
     }
@@ -6821,8 +6863,11 @@ void map::shift( const point &sp )
         // mlangsdorf 2020 - this is kind of insane, building the cache is not free, why are
         // we doing this?
         clear_vehicle_list( gridz );
-        shift_bitset_cache<MAPSIZE_X, SEEX>( get_cache( gridz ).map_memory_seen_cache, sp );
-        shift_bitset_cache<MAPSIZE, 1>( get_cache( gridz ).field_cache, sp );
+        level_cache *cache = get_cache_lazy( gridz );
+        if( cache ) {
+            shift_bitset_cache<MAPSIZE_X, SEEX>( cache->map_memory_seen_cache, sp );
+            shift_bitset_cache<MAPSIZE, 1>( cache->field_cache, sp );
+        }
         if( sp.x >= 0 ) {
             for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
                 if( sp.y >= 0 ) {
@@ -7946,10 +7991,11 @@ int map::determine_wall_corner( const tripoint &p ) const
 
 void map::build_outside_cache( const int zlev )
 {
-    auto &ch = get_cache( zlev );
-    if( !ch.outside_cache_dirty ) {
+    auto *ch_lazy = get_cache_lazy( zlev );
+    if( !ch_lazy || !ch_lazy->outside_cache_dirty ) {
         return;
     }
+    level_cache &ch = *ch_lazy;
 
     // Make a bigger cache to avoid bounds checking
     // We will later copy it to our regular cache
@@ -8102,10 +8148,11 @@ std::bitset<OVERMAP_LAYERS> map::get_inter_level_visibility( const int origin_zl
 
 bool map::build_floor_cache( const int zlev )
 {
-    auto &ch = get_cache( zlev );
-    if( !ch.floor_cache_dirty ) {
+    auto *ch_lazy = get_cache_lazy( zlev );
+    if( !ch_lazy || !ch_lazy->floor_cache_dirty ) {
         return false;
     }
+    level_cache &ch = *ch_lazy;
 
     auto &floor_cache = ch.floor_cache;
     std::uninitialized_fill_n(
@@ -8202,8 +8249,11 @@ static void vehicle_caching_internal_above( level_cache &zch_above, const vpart_
 
 void map::do_vehicle_caching( int z )
 {
-    level_cache &ch = get_cache( z );
-    for( vehicle *v : ch.vehicle_list ) {
+    level_cache *ch = get_cache_lazy( z );
+    if( !ch ) {
+        return;
+    }
+    for( vehicle *v : ch->vehicle_list ) {
         for( const vpart_reference &vp : v->get_all_parts() ) {
             const tripoint part_pos = v->global_part_pos3( vp.part() );
             if( !inbounds( part_pos.xy() ) ) {
@@ -8766,7 +8816,11 @@ std::list<Creature *> map::get_creatures_in_radius( const tripoint &center, size
 level_cache &map::access_cache( int zlev )
 {
     if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {
-        return *caches[zlev + OVERMAP_DEPTH];
+        std::unique_ptr<level_cache> &cache = caches[zlev + OVERMAP_DEPTH];
+        if( !cache ) {
+            cache = std::make_unique<level_cache>();
+        }
+        return *cache;
     }
 
     debugmsg( "access_cache called with invalid z-level: %d", zlev );
@@ -8776,7 +8830,11 @@ level_cache &map::access_cache( int zlev )
 const level_cache &map::access_cache( int zlev ) const
 {
     if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {
-        return *caches[zlev + OVERMAP_DEPTH];
+        std::unique_ptr<level_cache> &cache = caches[zlev + OVERMAP_DEPTH];
+        if( !cache ) {
+            cache = std::make_unique<level_cache>();
+        }
+        return *cache;
     }
 
     debugmsg( "access_cache called with invalid z-level: %d", zlev );

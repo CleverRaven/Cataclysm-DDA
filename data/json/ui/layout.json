@@ -37,7 +37,7 @@
     "style": "layout",
     "label": "Needs",
     "arrange": "rows",
-    "widgets": [ "hunger_desc", "thirst_desc", "fatigue_desc", "pain_desc", "body_temp_desc" ]
+    "widgets": [ "hunger_desc", "thirst_desc", "weight_desc", "fatigue_desc", "pain_desc", "body_temp_desc" ]
   },
   {
     "id": "stamina_speed_layout",
@@ -118,6 +118,32 @@
     "label": "Safe/Sound",
     "arrange": "columns",
     "widgets": [ "safe_mode_desc", "sound_num" ]
+  },
+  {
+    "id": "pain_health_num_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Pain/Health",
+    "arrange": "columns",
+    "widgets": [ "pain_num", "health_num" ]
+  },
+  {
+    "id": "stamina_cardio_num_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stamina/Cardio",
+    "arrange": "columns",
+    "widgets": [ "stamina_num", "cardio_fit_num" ]
+  },
+  {
+    "id": "vital_numbers_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Vital Numbers",
+    "//": "Shows numerical values for attributes normally hidden or obfuscated. Disabled by default.",
+    "arrange": "rows",
+    "widgets": [ "hitpoint_nums_top_layout", "hitpoint_nums_bottom_layout", "pain_health_num_layout", "stamina_cardio_num_layout" ],
+    "flags": [ "W_DISABLED" ]
   },
   {
     "id": "sound_fatigue_focus_layout",

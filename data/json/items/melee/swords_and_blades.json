@@ -314,7 +314,7 @@
     "cutting": 12,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "material": [ "bone" ],
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -354,7 +354,7 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", -27 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", -27 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "BLADED_FARMING" ]
@@ -377,7 +377,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2" ],
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "BLADED_FARMING" ]
   },
@@ -625,7 +625,7 @@
     "price_postapoc": 6000,
     "material": [ "steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS" ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1814 g",
     "volume": "2750 ml",
@@ -796,7 +796,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2", "RAPID" ],
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 10 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "BLADED_FARMING" ]
   },
@@ -900,7 +900,7 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS" ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -986,7 +986,7 @@
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS" ],
+    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
     "category": "weapons"
   },
   {
@@ -1196,6 +1196,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
+    "extend": { "flags": [ "CRUTCHES" ] },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ]
   },

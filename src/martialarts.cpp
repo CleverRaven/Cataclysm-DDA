@@ -170,7 +170,8 @@ tech_effect_data load_tech_effect_data( const JsonObject &e )
 {
     return tech_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
                              e.get_bool( "permanent", false ), e.get_bool( "on_damage", true ),
-                             e.get_int( "chance", 100 ) );
+                             e.get_int( "chance", 100 ), e.get_string( "message", "" ),
+                             json_character_flag( e.get_string( "req_flag", "NULL" ) ) );
 }
 
 class tech_effect_reader : public generic_typed_reader<tech_effect_reader>
@@ -248,6 +249,8 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "weighting", weighting, 1 );
 
+    optional( jo, was_loaded, "repeat_min", repeat_min, 1 );
+    optional( jo, was_loaded, "repeat_max", repeat_max, 1 );
     optional( jo, was_loaded, "down_dur", down_dur, 0 );
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );

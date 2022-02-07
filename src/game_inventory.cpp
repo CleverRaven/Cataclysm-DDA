@@ -25,6 +25,7 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "display.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
@@ -40,7 +41,6 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "recipe.h"
@@ -472,7 +472,9 @@ item_location game_menus::inv::container_for( Character &you, const item &liquid
 class pickup_inventory_preset : public inventory_selector_preset
 {
     public:
-        explicit pickup_inventory_preset( const Character &you ) : you( you ) {}
+        explicit pickup_inventory_preset( const Character &you,
+                                          bool skip_wield_check = false ) : you( you ),
+            skip_wield_check( skip_wield_check ) {}
 
         std::string get_denial( const item_location &loc ) const override {
             if( !you.has_item( *loc ) ) {
@@ -482,8 +484,9 @@ class pickup_inventory_preset : public inventory_selector_preset
                     } else {
                         return _( "Can't pick up spilt liquids." );
                     }
-                } else if( !you.can_pickVolume( *loc ) && you.has_wield_conflicts( *loc ) ) {
-                    return _( "Too big to pick up!" );
+                } else if( !you.can_pickVolume_partial( *loc ) &&
+                           ( skip_wield_check || you.has_wield_conflicts( *loc ) ) ) {
+                    return _( "Does not fit in any pocket!" );
                 } else if( !you.can_pickWeight_partial( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                     return _( "Too heavy to pick up!" );
                 }
@@ -498,6 +501,7 @@ class pickup_inventory_preset : public inventory_selector_preset
 
     private:
         const Character &you;
+        bool skip_wield_check;
 };
 
 class disassemble_inventory_preset : public pickup_inventory_preset
@@ -1976,11 +1980,12 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     return inv_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( avatar &you, const cata::optional<tripoint> &target )
+drop_locations game_menus::inv::pickup( avatar &you,
+                                        const cata::optional<tripoint> &target, std::vector<drop_location> selection )
 {
-    const pickup_inventory_preset preset( you );
+    const pickup_inventory_preset preset( you, /*skip_wield_check=*/true );
 
-    pickup_selector pick_s( you, preset );
+    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), target );
 
     // Add items from the selected tile, or from current and all surrounding tiles
     if( target ) {
@@ -1990,14 +1995,66 @@ drop_locations game_menus::inv::pickup( avatar &you, const cata::optional<tripoi
         pick_s.add_nearby_items();
     }
     pick_s.set_title( _( "Pickup" ) );
-    pick_s.set_hint( _( "To pick x items, type a number before selecting." ) );
 
     if( pick_s.empty() ) {
         popup( std::string( _( "There is nothing to pick up." ) ), PF_GET_KEY );
         return drop_locations();
     }
 
+    if( !selection.empty() ) {
+        pick_s.apply_selection( selection );
+    }
+
     return pick_s.execute();
+}
+
+class smokable_selector_preset : public inventory_selector_preset
+{
+    public:
+        bool is_shown( const item_location &location ) const override {
+            return !location->rotten() && location->has_flag( flag_SMOKABLE );
+        }
+};
+
+drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_capacity,
+        units::volume used_capacity )
+{
+    const smokable_selector_preset preset;
+
+    auto make_raw_stats = [ &total_capacity, &used_capacity ]
+    ( const std::vector<std::pair<item_location, int>> &locs ) {
+        units::volume added_volume = 0_ml;
+        for( std::pair<item_location, int> loc : locs ) {
+            added_volume += loc.first->volume() * loc.second / loc.first->charges;
+        }
+        std::string volume_caption = string_format( _( "Volume (%s):" ), volume_units_abbr() );
+        return inventory_selector::stats{
+            {
+                display_stat( volume_caption,
+                              units::to_milliliter( used_capacity + added_volume ),
+                              units::to_milliliter( total_capacity ), []( int v )
+                {
+                    return format_volume( units::from_milliliter( v ) );
+                } )
+            }
+        };
+    };
+
+    inventory_multiselector smoke_s( you, preset, _( "FOOD TO SMOKE" ), make_raw_stats );
+
+    smoke_s.add_nearby_items( PICKUP_RANGE );
+    smoke_s.add_character_items( you );
+
+    smoke_s.set_title( _( "Insert food into smoking rack" ) );
+    smoke_s.set_hint( _( "To select x items, type a number before selecting." ) );
+    smoke_s.set_invlet_type( inventory_selector::selector_invlet_type::SELECTOR_INVLET_ALPHA );
+
+    if( smoke_s.empty() ) {
+        popup( std::string( _( "You don't have any food that can be smoked." ) ), PF_GET_KEY );
+        return drop_locations();
+    }
+
+    return smoke_s.execute();
 }
 
 bool game_menus::inv::compare_items( const item &first, const item &second,

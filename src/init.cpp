@@ -370,6 +370,7 @@ void DynamicDataLoader::initialize()
     } );
 
     add( "charge_removal_blacklist", load_charge_removal_blacklist );
+    add( "charge_migration_blacklist", load_charge_migration_blacklist );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );

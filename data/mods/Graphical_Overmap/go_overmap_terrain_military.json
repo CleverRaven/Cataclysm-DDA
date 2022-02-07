@@ -247,7 +247,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_mil_helipad",
-    "copy-from": "ws_survivor_camp",
+    "copy-from": "generic_mil_helipad",
     "sym": "\u00FE"
   },
   {

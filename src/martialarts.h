@@ -108,11 +108,13 @@ struct tech_effect_data {
     bool permanent;
     bool on_damage;
     int chance;
+    std::string message;
+    json_character_flag req_flag;
 
     tech_effect_data( const efftype_id &nid, int dur, bool perm, bool ondmg,
-                      int nchance ) :
+                      int nchance, std::string message, json_character_flag req_flag ) :
         id( nid ), duration( dur ), permanent( perm ), on_damage( ondmg ),
-        chance( nchance ) {}
+        chance( nchance ), message( message ), req_flag( req_flag ) {}
 };
 
 class ma_technique
@@ -153,6 +155,9 @@ class ma_technique
         std::vector<std::string> attack_vectors; // by priority
         std::vector<std::string> attack_vectors_random; // randomly
 
+
+        int repeat_min = 1;    // Number of times the technique is repeated on a successful proc
+        int repeat_max = 1;
         int down_dur = 0;
         int stun_dur = 0;
         int knockback_dist = 0;
