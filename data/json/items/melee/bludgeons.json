@@ -446,7 +446,7 @@
     "volume": "30 ml",
     "longest_side": "20 cm",
     "cutting": 6,
-    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "good" },
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
     "weapon_category": [ "SHIVS" ],
     "qualities": [ [ "BUTCHER", -18 ] ]
