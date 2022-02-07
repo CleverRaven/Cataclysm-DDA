@@ -29,7 +29,6 @@ static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_infected( "infected" );
 
-static const flag_id json_flag_RAD_DETECT( "RAD_DETECT" );
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
 static const itype_id fuel_type_muscle( "muscle" );
@@ -877,70 +876,6 @@ nc_color display::limb_color( const Character &u, const bodypart_id &bp, bool bl
     return i_color;
 }
 
-std::string display::rad_badge_color_name( const int rad )
-{
-    using pair_t = std::pair<const int, const translation>;
-
-    static const std::array<pair_t, 6> values = {{
-            pair_t {  0, to_translation( "color", "green" ) },
-            pair_t { 30, to_translation( "color", "blue" )  },
-            pair_t { 60, to_translation( "color", "yellow" )},
-            pair_t {120, to_translation( "color", "orange" )},
-            pair_t {240, to_translation( "color", "red" )   },
-            pair_t {500, to_translation( "color", "black" ) },
-        }
-    };
-
-    for( const auto &i : values ) {
-        if( rad <= i.first ) {
-            return i.second.translated();
-        }
-    }
-
-    return values.back().second.translated();
-}
-
-nc_color display::rad_badge_color( const int rad )
-{
-    using pair_t = std::pair<const int, nc_color>;
-
-    // Map radiation to a displayable color, using background color if needed
-    static const std::array<pair_t, 6> values = {{
-            pair_t {  0, c_white_green },   // white on green (for green)
-            pair_t { 30, h_white },         // white on blue (for blue)
-            pair_t { 60, i_yellow },        // black on yellow (for yellow)
-            pair_t {120, c_red_yellow },    // red on brown (for orange)
-            pair_t {240, c_red_red },       // black on red (for red)
-            pair_t {500, c_pink },          // pink on black (for black)
-        }
-    };
-
-    for( const auto &i : values ) {
-        if( rad <= i.first ) {
-            return i.second;
-        }
-    }
-
-    return values.back().second;
-}
-
-std::pair<std::string, nc_color> display::rad_badge_text_color( const Character &u )
-{
-    // Default - no radiation badge
-    std::string rad_text = _( "Unknown" );
-    nc_color rad_color = c_light_gray;
-    // Get all items that can detect radiation
-    for( const item *it : u.all_items_with_flag( json_flag_RAD_DETECT ) ) {
-        // Radiation badges only work if they're exposed (worn or wielded)
-        if( u.is_worn( *it ) || u.is_wielding( *it ) ) {
-            rad_text = string_format( " %s ", rad_badge_color_name( it->irradiation ) );
-            rad_color = rad_badge_color( it->irradiation );
-            break; // Quit after the first one
-        }
-    }
-    return std::make_pair( rad_text, rad_color );
-}
-
 std::string display::vehicle_azimuth_text( const Character &u )
 {
     vehicle *veh = display::vehicle_driven( u );
@@ -1028,14 +963,6 @@ std::string display::colorized_bodypart_outer_armor( const Character &u, const b
 std::pair<std::string, nc_color> display::move_mode_letter_color( const Character &u )
 {
     const std::string mm_text = std::string( 1, u.current_movement_mode()->panel_letter() );
-    const nc_color mm_color = u.current_movement_mode()->panel_color();
-    return std::make_pair( mm_text, mm_color );
-}
-
-// Full name of move mode (walking, running, crouching, prone)
-std::pair<std::string, nc_color> display::move_mode_text_color( const Character &u )
-{
-    const std::string mm_text = u.current_movement_mode()->type_name();
     const nc_color mm_color = u.current_movement_mode()->panel_color();
     return std::make_pair( mm_text, mm_color );
 }

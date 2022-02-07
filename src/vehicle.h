@@ -1223,6 +1223,11 @@ class vehicle
          */
         std::map<itype_id, int> fuels_left() const;
 
+        /**
+         * All the individual fuel items that are in all the tanks in the vehicle.
+        */
+        std::list<item *> fuel_items_left();
+
         // Checks how much certain fuel left in tanks.
         int fuel_left( const itype_id &ftype, bool recurse = false,
                        const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
@@ -1236,7 +1241,7 @@ class vehicle
         // Returns total vehicle fuel capacity for the given fuel type
         int fuel_capacity( const itype_id &ftype ) const;
 
-        // Returns the total specific energy of this fuel type. Frozen is ignored.
+        // Returns the total specific energy (J/g) of this fuel type. Frozen is ignored.
         float fuel_specific_energy( const itype_id &ftype ) const;
 
         // drains a fuel type (e.g. for the kitchen unit)

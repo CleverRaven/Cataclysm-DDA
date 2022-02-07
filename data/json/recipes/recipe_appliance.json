@@ -47,5 +47,28 @@
       [ [ "pipe_fittings", 1 ] ],
       [ [ "pipe", 2 ] ]
     ]
+  },
+  {
+    "result": "standing_floodlight",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "reversible": true,
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": [ [ "electronics", 1 ] ],
+    "category": "CC_APPLIANCE",
+    "subcategory": "CSC_APPLIANCE_LIGHTING",
+    "skills_required": [ [ "fabrication", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 2 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "floodlight", 1 ] ],
+      [ [ "steel_lump", 1 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "pipe", 2 ] ]
+    ]
   }
 ]

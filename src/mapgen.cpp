@@ -2151,8 +2151,10 @@ class jmapgen_loot : public jmapgen_piece
                     const std::string &/*context*/ ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm,
-                                                spawn_flags::use_spawn_rate );
+                std::vector<item> spawn;
+                spawn.reserve( 20 );
+                isd->create( spawn, calendar::start_of_cataclysm,
+                             spawn_flags::use_spawn_rate );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
                                              dat.m.get_abs_sub().z ), spawn );
             }

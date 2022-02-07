@@ -99,7 +99,6 @@ std::pair<std::string, nc_color> morale_emotion( const int morale_cur, const moo
 
 // Current movement mode and color, as single letter or full word
 std::pair<std::string, nc_color> move_mode_letter_color( const Character &u );
-std::pair<std::string, nc_color> move_mode_text_color( const Character &u );
 // Movement counter and mode letter, like "50(R)" or "100(W)"
 std::pair<std::string, nc_color> move_count_and_mode_text_color( const avatar &u );
 // Item type name (including damage bars) of outermost armor on given body part
@@ -128,13 +127,6 @@ nc_color limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool
 
 // Color for displaying the given encumbrance level
 nc_color encumb_color( const int level );
-
-// Color name for given irradiation level, used for radiation badge description
-std::string rad_badge_color_name( const int rad );
-// Color for displaying the given irradiation level
-nc_color rad_badge_color( const int rad );
-// Highlighted badge color for character's radiation badge, if they have one
-std::pair<std::string, nc_color> rad_badge_text_color( const Character &u );
 
 // Colorized symbol for the overmap tile at the given location
 std::pair<std::string, nc_color> overmap_tile_symbol_color( const avatar &u,

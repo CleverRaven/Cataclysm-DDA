@@ -3382,21 +3382,13 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
 
 float vehicle::fuel_specific_energy( const itype_id &ftype ) const
 {
-    float total_energy = 0.0f;
-    float total_mass = 0.0f;
+    float total_energy = 0.0f; // J
+    float total_mass = 0.0f; // g
     for( const vpart_reference &vpr : get_all_parts() ) {
         if( vpr.part().is_tank() && vpr.part().ammo_current() == ftype &&
-            vpr.part().base.legacy_front().made_of( phase_id::LIQUID ) ) {
-            float energy = vpr.part().base.legacy_front().specific_energy;
-            float mass = to_gram( vpr.part().base.legacy_front().weight() );
-
-            //    for( const vehicle_part &vp : parts ) {
-            //        if( vp.is_tank() && vp.ammo_current() == ftype &&
-            //            vp.base.legacy_front().made_of( phase_id::LIQUID ) ) {
-            //            float energy = vp.base.legacy_front().specific_energy;
-            //            float mass = to_gram( vp.base.legacy_front().weight() );
-            total_energy += energy * mass;
-            total_mass += mass;
+            vpr.part().base.only_item().made_of( phase_id::LIQUID ) ) {
+            total_energy += vpr.part().base.only_item().get_item_termal_energy();
+            total_mass += to_gram( vpr.part().base.only_item().weight() );
         }
     }
     return total_energy / total_mass;
@@ -6969,6 +6961,17 @@ std::map<itype_id, int> vehicle::fuels_left() const
     for( const vehicle_part &p : parts ) {
         if( p.is_fuel_store() && !p.ammo_current().is_null() ) {
             result[ p.ammo_current() ] += p.ammo_remaining();
+        }
+    }
+    return result;
+}
+
+std::list<item *> vehicle::fuel_items_left()
+{
+    std::list<item *> result;
+    for( vehicle_part &p : parts ) {
+        if( p.is_fuel_store() && !p.ammo_current().is_null() && !p.base.is_container_empty() ) {
+            result.push_back( &p.base.only_item() );
         }
     }
     return result;

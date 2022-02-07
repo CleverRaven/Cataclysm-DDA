@@ -578,7 +578,13 @@ class pickup_activity_actor : public activity_actor
         pickup_activity_actor( const std::vector<item_location> &target_items,
                                const std::vector<int> &quantities,
                                const cata::optional<tripoint> &starting_pos ) : target_items( target_items ),
-            quantities( quantities ), starting_pos( starting_pos ) {}
+            quantities( quantities ), starting_pos( starting_pos ), stash_successful( true ) {}
+
+        /**
+          * Used to check at the end of a pickup activity if the character was able
+          * to stash everything. If not, a message is displayed to clarify.
+          */
+        bool stash_successful;
 
         activity_id get_type() const override {
             return activity_id( "ACT_PICKUP" );
