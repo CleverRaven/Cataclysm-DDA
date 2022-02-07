@@ -3114,6 +3114,14 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
                     you->vitamin_set( vitamin_id( vitamin_name ), handle_min_max( d, input, min, max ) );
                 }
             };
+        } else if( checked_value == "age" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_age( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "height" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_height( handle_min_max( d, input, min, max ) );
+            };
         }
     }
     jo.throw_error( "error setting integer destination in " + jo.str() );
@@ -3563,6 +3571,36 @@ void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
                                         dov_length_max.evaluate( d.actor( dov_length_max.is_npc() ) ) ) +
                                 1_seconds/*We add a second here because this will get ticked on the turn its applied before it has an effect*/,
                                 -1, iov.evaluate( d.actor( iov.is_npc() ) ) );
+    };
+}
+
+void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, const std::string &member )
+{
+    JsonObject jobj = jo.get_object( member );
+    int allowance = 0;
+    std::vector<trial_mod> debt_modifiers;
+    if( jobj.has_int( "allowance" ) ) {
+        allowance = jobj.get_int( "allowance" );
+    } else if( jobj.has_array( "allowance" ) ) {
+        for( JsonArray jmod : jobj.get_array( "allowance" ) ) {
+            trial_mod this_modifier;
+            this_modifier.first = jmod.next_string();
+            this_modifier.second = jmod.next_int();
+            debt_modifiers.push_back( this_modifier );
+        }
+    }
+    function = [debt_modifiers, allowance]( const dialogue & d ) {
+        int debt = allowance;
+        for( const trial_mod &this_mod : debt_modifiers ) {
+            if( this_mod.first == "TOTAL" ) {
+                debt *= this_mod.second;
+            } else {
+                debt += parse_mod( d, this_mod.first, this_mod.second );
+            }
+        }
+        if( npc *p = d.actor( true )->get_npc() ) {
+            talk_function::give_equipment_allowance( *p, debt );
+        }
     };
 }
 
@@ -4045,6 +4083,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_teleport( jo, "npc_teleport", true );
     } else if( jo.has_int( "custom_light_level" ) || jo.has_object( "custom_light_level" ) ) {
         subeffect_fun.set_custom_light_level( jo, "custom_light_level" );
+    } else if( jo.has_object( "give_equipment" ) ) {
+        subeffect_fun.set_give_equipment( jo, "give_equipment" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

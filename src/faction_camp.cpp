@@ -492,6 +492,22 @@ static int camp_morale( int change = 0 );
  */
 static bool survive_random_encounter( npc &comp, std::string &situation, int favor, int threat );
 
+//  Hard coded blueprint names used to route the code to the salt water pipe code.
+static const std::string faction_expansion_salt_water_pipe_swamp_base =
+    "faction_expansion_salt_water_pipe_swamp_";
+static const std::string faction_expansion_salt_water_pipe_swamp_N =
+    faction_expansion_salt_water_pipe_swamp_base + "N";
+static const std::string faction_expansion_salt_water_pipe_swamp_NE =
+    faction_expansion_salt_water_pipe_swamp_base + "NE";
+static const std::string faction_expansion_salt_water_pipe_base =
+    "faction_expansion_salt_water_pipe_";
+static const std::string faction_expansion_salt_water_pipe_N =
+    faction_expansion_salt_water_pipe_base +
+    "N";
+static const std::string faction_expansion_salt_water_pipe_NE =
+    faction_expansion_salt_water_pipe_base +
+    "NE";
+
 static bool update_time_left( std::string &entry, const comp_list &npc_list )
 {
     bool avail = false;
@@ -1712,6 +1728,14 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
                               const std::string &key )
 {
     const recipe &making = recipe_id( bldg ).obj();
+    if( making.get_blueprint().str() == faction_expansion_salt_water_pipe_swamp_N ) {
+        start_salt_water_pipe( dir, bldg, key );
+        return;
+    } else if( making.get_blueprint().str() == faction_expansion_salt_water_pipe_N ) {
+        continue_salt_water_pipe( dir, bldg, key );
+        return;
+    }
+
     //Stop upgrade if you don't have materials
     if( making.deduped_requirements().can_make_with_inventory(
             _inv, making.get_component_filter() ) ) {
@@ -2334,6 +2358,427 @@ void basecamp::start_fortifications( std::string &bldg_exp )
     }
 }
 
+static const int max_salt_water_pipe_distance = 10;
+static const int max_salt_water_pipe_length =
+    20;  //  It has to be able to wind around terrain it can't pass through, like the rest of the camp.
+
+//  Hard coded strings used to construct expansion "provides" needed by recipes to coordinate salt water pipe construction
+static const std::string salt_water_pipe_string_base = "salt_water_pipe_";
+static const std::string salt_water_pipe_string_suffix = "_scheduled";
+static const double diagonal_salt_pipe_cost = sqrt( 2.0 );
+static const double salt_pipe_legal = 0.0;
+static const double salt_pipe_illegal = -0.1;
+static const double salt_pipe_swamp = -0.2;
+
+//  The logic discourages diagonal connections when there are horizontal ones of the same number of tiles, as the original approach
+//  resulted in rather odd paths. At the time of this writing there is no corresponding construction cost difference, though, as that
+//  doesn't match with the fixed recipe approach taken.
+static point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distance + 1][2 *
+                                        max_salt_water_pipe_distance + 1],
+                                        point pt );  //  Uglified to point parameter by demand from clang-tidy
+
+point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distance + 1][2 *
+                                 max_salt_water_pipe_distance + 1], point pt )
+{
+    point found = { -999, -999 };
+    double lowest_found = -10000.0;
+    double cost;
+
+    for( int i = -1; i <= 1; i++ ) {
+        for( int k = -1; k <= 1; k++ ) {
+            if( pt.x + i > -max_salt_water_pipe_distance &&
+                pt.x + i < max_salt_water_pipe_distance &&
+                pt.y + k > -max_salt_water_pipe_distance &&
+                pt.y + k < max_salt_water_pipe_distance ) {
+                if( i != 0 && k != 0 ) {
+                    cost = diagonal_salt_pipe_cost;
+                } else {
+                    cost = 1.0;
+                }
+
+                if( path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] ==
+                    salt_pipe_legal ||
+                    ( path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] >
+                      0.0 &&
+                      path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] >
+                      path_map[max_salt_water_pipe_distance + pt.x][max_salt_water_pipe_distance + pt.y] + cost ) ) {
+                    path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] =
+                        path_map[max_salt_water_pipe_distance + pt.x][max_salt_water_pipe_distance + pt.y] + cost;
+
+                } else if( path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y +
+                           k] <=
+                           salt_pipe_swamp ) {
+                    if( path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] ==
+                        salt_pipe_swamp ||
+                        path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] < -
+                        ( path_map[max_salt_water_pipe_distance + pt.x][max_salt_water_pipe_distance + pt.y] + cost ) ) {
+                        path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] = -
+                                ( path_map[max_salt_water_pipe_distance + pt.x][max_salt_water_pipe_distance + pt.y] + cost );
+
+                        if( path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y + k] >
+                            lowest_found ) {
+                            lowest_found = path_map[max_salt_water_pipe_distance + pt.x + i][max_salt_water_pipe_distance + pt.y
+                                           + k];
+                            found = pt + point( i, k );
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return found;
+}
+
+static int salt_water_pipe_segment_of( const recipe &making );
+
+int salt_water_pipe_segment_of( const recipe &making )
+
+{
+    int segment_number = -1;
+    const auto &requires = making.blueprint_requires();
+    for( auto const &element : requires ) {
+        if( element.first.substr( 0, salt_water_pipe_string_base.length() ) == salt_water_pipe_string_base
+            &&
+            element.first.substr( element.first.length() - salt_water_pipe_string_suffix.length(),
+                                  salt_water_pipe_string_suffix.length() ) == salt_water_pipe_string_suffix ) {
+            try {
+                segment_number = stoi( element.first.substr( salt_water_pipe_string_base.length(),
+                                       element.first.length() - salt_water_pipe_string_suffix.length() - 1 ) );
+            } catch( ... ) {
+                std::string msg = "Recipe 'blueprint_requires' that matches the hard coded '";
+                msg += salt_water_pipe_string_base;
+                msg += "#";
+                msg += salt_water_pipe_string_suffix;
+                msg += "' pattern without having a number in the # position";
+                debugmsg( msg );
+                return -1;
+            }
+            if( segment_number < 1 || segment_number >= max_salt_water_pipe_length ) {
+                std::string msg = "Recipe 'blueprint_requires' that matches the hard coded '";
+                msg += salt_water_pipe_string_base;
+                msg += "#";
+                msg += salt_water_pipe_string_suffix;
+                msg += "' pattern with a number outside the ones supported and generated by the code";
+                debugmsg( msg );
+                return -1;
+            }
+        }
+    }
+    if( segment_number == -1 ) {
+        debugmsg( "Failed to find recipe 'blueprint_requires' that matches the hard coded '" +
+                  salt_water_pipe_string_base + "#" + salt_water_pipe_string_suffix + "' pattern" );
+    }
+
+    return segment_number;
+}
+
+//  Defines the direction of a tile adjacent to an expansion to which the expansion should make a connection.
+//  Support operation for the salt water pipe functionality, but might be used if some other functionality
+//  has a use for it.
+//  The operation (ab)uses the conditional rotation/mirror flags of a recipe that uses a blueprint that isn't
+//  actually going to be used as a blueprint for something constructed in the expansion itself to determine
+//  the direction of the tile to connect to.
+static point connection_direction_of( const point &dir, const recipe &making );
+
+point connection_direction_of( const point &dir, const recipe &making )
+{
+    point connection_dir = point_north;
+    const std::string suffix = base_camps::all_directions.at( dir ).id.substr( 1,
+                               base_camps::all_directions.at( dir ).id.length() - 2 );
+    int count = 0;
+
+    if( making.has_flag( "MAP_ROTATE_90_IF_" + suffix ) ) {
+        connection_dir = point_east;
+        count++;
+    }
+    if( making.has_flag( "MAP_ROTATE_180_IF_" + suffix ) ) {
+        connection_dir = point_south;
+        count++;
+    }
+    if( making.has_flag( "MAP_ROTATE_270_IF_" + suffix ) ) {
+        connection_dir = point_west;
+        count++;
+    }
+    if( count > 1 ) {
+        popup( _( "Bug, Incorrect recipe: More than one rotation per orientation isn't valid" ) );
+        return {-999, -999};
+    }
+
+    if( making.has_flag( "MAP_MIRROR_HORIZONTAL_IF_" + suffix ) ) {
+        connection_dir.x = -connection_dir.x;
+    }
+    if( making.has_flag( "MAP_MIRROR_VERTICALL_IF_" + suffix ) ) {
+        connection_dir.y = -connection_dir.y;
+    }
+
+    return connection_dir;
+}
+
+bool basecamp::common_salt_water_pipe_construction( const point &dir, const std::string &bldg_exp,
+        const std::string &key, expansion_salt_water_pipe *pipe, int segment_number )
+{
+    const recipe &making = recipe_id(
+                               bldg_exp ).obj(); //  Actually a template recipe that we'll rotate and mirror as required.
+    time_duration work_days = base_camps::to_workdays( making.batch_duration(
+                                  get_player_character() ) );
+
+    int remaining_segments = pipe->segments.size() - 1;
+
+    if( segment_number == 0 ) {
+        if( !query_yn( _( "Number of additional sessions required: %i" ), remaining_segments ) ) {
+            return false;
+        }
+    }
+
+    basecamp_action_components components( making, 1, *this );
+    if( !components.choose_components() ) {
+        return false;
+    }
+
+    npc_ptr comp;
+
+    if( segment_number == 0 ) {
+        comp = start_mission( key, work_days, true,
+                              _( "Start constructing salt water pipes…" ), false, {},
+                              making.required_skills );
+    } else {
+        comp = start_mission( key, work_days, true,
+                              _( "Continue constructing salt water pipes…" ), false, {},
+                              making.required_skills );
+    }
+
+    if( comp != nullptr ) {
+        components.consume_components();
+        comp->companion_mission_role_id = bldg_exp;
+        update_in_progress( bldg_exp, dir );
+        pipe->segments[segment_number].started = true;
+    }
+
+    return comp != nullptr;
+}
+
+void basecamp::start_salt_water_pipe( const point &dir, const std::string &bldg_exp,
+                                      const std::string &key )
+{
+    const recipe &making = recipe_id( bldg_exp ).obj();
+    point connection_dir = connection_direction_of( dir, making );
+
+    if( connection_dir.x == -999 && connection_dir.y == -999 ) {
+        return;
+    }
+
+    expansion_salt_water_pipe *pipe = nullptr;
+    bool pipe_is_new = true;
+
+    for( expansion_salt_water_pipe *element : salt_water_pipes ) {
+        if( element->expansion == dir ) {
+            if( element->segments[0].finished ) {
+                debugmsg( "Trying to start construction of a salt water pipe that's already been constructed" );
+                return;
+            }
+            //  Assume we've started the construction but it has been cancelled.
+            pipe = element;
+            pipe_is_new = false;
+            break;
+        }
+    }
+
+    if( pipe_is_new ) {
+        pipe = new expansion_salt_water_pipe;
+        pipe->expansion = dir;
+        pipe->connection_direction = connection_dir;
+
+        std::string allowed_start_location =
+            "forest_water";  //  That's what a swamp is called, for some reason.
+        std::vector<std::string> allowed_locations = {
+            "forest", "forest_thick", "forest_trail", "field", "road"
+        };
+        double path_map[2 * max_salt_water_pipe_distance + 1][2 * max_salt_water_pipe_distance + 1];
+
+        for( int i = -max_salt_water_pipe_distance; i <= max_salt_water_pipe_distance; i++ ) {
+            for( int k = -max_salt_water_pipe_distance; k <= max_salt_water_pipe_distance; k++ ) {
+                tripoint_abs_omt tile = tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x + i,
+                                        omt_pos.y() + dir.y + connection_dir.y + k, omt_pos.z() );
+                const oter_id &omt_ref = overmap_buffer.ter( tile );
+                bool match = false;
+                for( const std::string &pos_om : allowed_locations ) {
+                    if( omt_ref->get_type_id() == oter_type_str_id( pos_om ) ) {
+                        match = true;
+                        break;
+                    }
+                }
+                if( match ) {
+                    path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_legal;
+                } else if( omt_ref->get_type_id() == oter_type_str_id( allowed_start_location ) ) {
+                    path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_swamp;
+                } else {
+                    path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_illegal;
+                }
+                //  if this is an expansion tile, forbid it. Only allocated ones have their type changed.
+                if( i >= -dir.x - connection_dir.x - 1 && i <= -dir.x - connection_dir.x + 1 &&
+                    k >= -dir.y - connection_dir.y - 1 && k <= -dir.y - connection_dir.y + 1 ) {
+                    path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_illegal;
+                }
+            }
+        }
+
+        if( path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] == salt_pipe_illegal ) {
+            auto e = expansions.find( dir );
+            basecamp::update_provides( bldg_exp, e->second );
+
+            popup( _( "This functionality cannot be constructed as the tile directly adjacent to "
+                      "this expansion is not of a type a pipe can be constructed through.  Supported "
+                      "terrain is forest, field, road, and swamp.  This recipe will now be "
+                      "removed from the set of available recipes and won't show up again." ) );
+            return;
+        }
+
+        point destination;
+        double destination_cost = -10000.0;
+        bool path_found = false;
+
+        if( path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] ==
+            salt_pipe_swamp ) { //  The connection_dir tile is a swamp tile
+            destination = point_zero;
+            path_found = true;
+        } else {
+            path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] =
+                1.0;  //  Always an orthogonal connection to the connection tile.
+
+            for( int distance = 1; distance <= max_salt_water_pipe_length; distance++ ) {
+                int dist = distance > max_salt_water_pipe_distance ? max_salt_water_pipe_distance : distance;
+                for( int i = -dist; i <= dist; i++ ) { //  No path that can be extended can reach further than dist.
+                    for( int k = -dist; k <= dist; k++ ) {
+                        if( path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] >
+                            0.0 ) { // Tile has been assigned a distance and isn't a swamp
+                            point temp = check_salt_pipe_neighbors( path_map, { i, k } );
+                            if( temp != point( -999, -999 ) ) {
+                                if( path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance + temp.y] >
+                                    destination_cost ) {
+                                    destination_cost = path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance +
+                                                       temp.y];
+                                    destination = temp;
+                                    path_found = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if( !path_found ) {
+            auto e = expansions.find( dir );
+            basecamp::update_provides( bldg_exp, e->second );
+
+            popup( _( "This functionality cannot be constructed as no valid path to a swamp has "
+                      "been found with a maximum length (20 tiles) at a maximum range of 10 tiles.  "
+                      "Supported terrain is forest, field, and road.  This recipe will now be "
+                      "removed from the set of available recipes and won't show up again." ) );
+            return;
+        };
+
+        point candidate;
+        //  Flip the sign of the starting swamp tile to fit the logic expecting positive values rather than check that it isn't the first one every time.
+        path_map[max_salt_water_pipe_distance + destination.x][max_salt_water_pipe_distance + destination.y]
+            = -path_map[max_salt_water_pipe_distance + destination.x][max_salt_water_pipe_distance +
+                    destination.y];
+
+        while( destination != point_zero ) {
+            pipe->segments.push_back( { tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x + destination.x, omt_pos.y() + dir.y + connection_dir.y + destination.y, omt_pos.z() ), false, false } );
+            path_found = false;  //  Reuse of existing variable after its original usability has been passed.
+            for( int i = -1; i <= 1; i++ ) {
+                for( int k = -1; k <= 1; k++ ) {
+                    if( destination.x + i > -max_salt_water_pipe_distance &&
+                        destination.x + i < max_salt_water_pipe_distance &&
+                        destination.y + k > -max_salt_water_pipe_distance &&
+                        destination.y + k < max_salt_water_pipe_distance ) {
+                        if( path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
+                                destination.y + k] > 0.0 &&
+                            path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
+                                    destination.y + k] < path_map[max_salt_water_pipe_distance +
+                                            destination.x][max_salt_water_pipe_distance + destination.y] ) {
+                            if( path_found ) {
+                                if( path_map [max_salt_water_pipe_distance + candidate.x][max_salt_water_pipe_distance +
+                                        candidate.y] >
+                                    path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
+                                            destination.y + k] ) {
+                                    candidate = destination + point( i, k );
+                                }
+                            } else {
+                                candidate = destination +  point( i, k );
+                                path_found = true;
+                            }
+                        }
+                    }
+                }
+            }
+            destination = candidate;
+        }
+
+        pipe->segments.push_back( { tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x, omt_pos.y() + dir.y + connection_dir.y, omt_pos.z() ), false, false } );
+    }
+
+    if( common_salt_water_pipe_construction( dir, bldg_exp, key, pipe, 0 ) ) {
+        if( pipe_is_new ) {
+            pipe->segments[0].started = true;
+            salt_water_pipes.push_back( pipe );
+
+            //  Provide "salt_water_pipe_*_scheduled" for all the segments needed.
+            //  The guts of basecamp::update_provides modified to feed it generated tokens rather than
+            //  those actually in the recipe, as the tokens needed can't be determined by the recipe.
+            //  Shouldn't need to check that the tokens don't exist previously, so could just set them to 1.
+            auto e = expansions.find( dir );
+            for( size_t i = 1; i < pipe->segments.size(); i++ ) {
+                std::string token = salt_water_pipe_string_base;
+                token += std::to_string( i );
+                token += salt_water_pipe_string_suffix;
+                if( e->second.provides.find( token ) == e->second.provides.end() ) {
+                    e->second.provides[token] = 0;
+                }
+                e->second.provides[token]++;
+            }
+        }
+    } else if( pipe_is_new ) {
+        delete pipe;
+    }
+}
+
+void basecamp::continue_salt_water_pipe( const point &dir, const std::string &bldg_exp,
+        const std::string &key )
+{
+    const recipe &making = recipe_id( bldg_exp ).obj();
+
+    expansion_salt_water_pipe *pipe = nullptr;
+
+    bool pipe_is_new = true;
+    for( expansion_salt_water_pipe *element : salt_water_pipes ) {
+        if( element->expansion == dir ) {
+            pipe = element;
+            pipe_is_new = false;
+            break;
+        }
+    }
+
+    if( pipe_is_new ) {
+        debugmsg( "Trying to continue construction of a salt water pipe that isn't in progress" );
+        return;
+    }
+
+    const int segment_number = salt_water_pipe_segment_of( making );
+
+    if( segment_number == -1 ) {
+        return;
+    }
+
+    if( pipe->segments[segment_number].finished ) {
+        debugmsg( "Trying to construct a segment that's already constructed" );
+        return;
+    }
+
+    common_salt_water_pipe_construction( dir, bldg_exp, key, pipe, segment_number );
+}
+
 void basecamp::start_combat_mission( const std::string &miss )
 {
     popup( _( "Select checkpoints until you reach maximum range or select the last point again "
@@ -2722,6 +3167,12 @@ bool basecamp::upgrade_return( const point &dir, const std::string &miss,
         return false;
     }
 
+    if( making.get_blueprint().str() == faction_expansion_salt_water_pipe_swamp_N ) {
+        return salt_water_pipe_swamp_return( dir, miss, bldg, work_days );
+    } else if( making.get_blueprint().str() == faction_expansion_salt_water_pipe_N ) {
+        return salt_water_pipe_return( dir, miss, bldg, work_days );
+    }
+
     if( !run_mapgen_update_func( making.get_blueprint(), upos, nullptr, true, mirror_horizontal,
                                  mirror_vertical, rotation ) ) {
         popup( _( "%s failed to build the %s upgrade, perhaps there is a vehicle in the way." ),
@@ -2867,6 +3318,252 @@ void basecamp::fortifications_return()
         const std::string msg = _( "returns from constructing fortifications…" );
         finish_return( *comp, true, msg, "construction", 2 );
     }
+}
+
+static void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
+        bool &mirror_vertical, bool &mirror_horizontal, int &rotation );
+
+void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
+        bool &mirror_vertical, bool &mirror_horizontal, int &rotation )
+{
+    orthogonal = true;
+    mirror_horizontal = false;
+    mirror_vertical = false;
+    rotation = 0;
+
+    switch( base_camps::all_directions.at( dir ).tab_order ) {
+        case base_camps::tab_mode::TAB_MAIN: //  Should not happen. We would have had to define the same point twice.
+        case base_camps::tab_mode::TAB_N:    //  This is the reference direction for orthogonal orientations.
+            break;
+
+        case base_camps::tab_mode::TAB_NE:
+            orthogonal = false;
+            break;  //  This is the reference direction for diagonal orientations.
+
+        case base_camps::tab_mode::TAB_E:
+            rotation = 1;
+            break;
+
+        case base_camps::tab_mode::TAB_SE:
+            orthogonal = false;
+            rotation = 1;
+            break;
+
+        case base_camps::tab_mode::TAB_S:
+            mirror_vertical = true;
+            break;
+
+        case base_camps::tab_mode::TAB_SW:
+            orthogonal = false;
+            rotation = 2;
+            break;
+
+        case base_camps::tab_mode::TAB_W:
+            rotation = 1;
+            mirror_vertical = true;
+            break;
+
+        case base_camps::tab_mode::TAB_NW:
+            orthogonal = false;
+            rotation = 3;
+            break;
+    }
+}
+
+bool basecamp::salt_water_pipe_swamp_return( const point &dir, const std::string &miss,
+        const std::string &bldg, const time_duration work_days )
+{
+    npc_ptr comp = companion_choose_return( miss, work_days );
+
+    if( comp == nullptr ) {
+        return false;
+    }
+
+    expansion_salt_water_pipe *pipe;
+
+    bool found = false;
+    for( expansion_salt_water_pipe *element : salt_water_pipes ) {
+        if( element->expansion == dir ) {
+            pipe = element;
+            found = true;
+            break;
+        }
+    }
+
+    if( !found ) {
+        popup( _( "Error: Failed to find the pipe task that was to be constructed" ) );
+        return false;
+    }
+
+    point connection_dir = pipe->connection_direction;
+    const int segment_number = 0;
+
+    point next_construction_direction;
+
+    if( segment_number == pipe->segments.size() - 1 ) {
+        next_construction_direction = { -connection_dir.x, -connection_dir.y };
+    } else {
+        next_construction_direction = { pipe->segments[segment_number + 1].point.x() - pipe->segments[segment_number].point.x(),
+                                        pipe->segments[segment_number + 1].point.y() - pipe->segments[segment_number].point.y()
+                                      };
+    }
+
+    bool orthogonal = true;
+    bool mirror_horizontal = false;
+    bool mirror_vertical = false;
+    int rotation = 0;
+
+    salt_water_pipe_orientation_adjustment( next_construction_direction, orthogonal, mirror_vertical,
+                                            mirror_horizontal, rotation );
+
+    if( orthogonal ) {
+        const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_N };
+        run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
+                                mirror_vertical, rotation );
+    } else {
+        const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_NE };
+        run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
+                                mirror_vertical, rotation );
+    }
+
+    pipe->segments[segment_number].finished = true;
+
+    auto e = expansions.find( dir );
+    //  Should be safe as the caller has already checked the result. Repeating rather than adding an additional parameter to the function.
+
+    size_t finished_segments = 0;
+    for( std::vector<expansion_salt_water_pipe_segment>::iterator::value_type element :
+         pipe->segments ) {
+        if( element.finished ) {
+            finished_segments++;
+        }
+    }
+
+    //  This is the last segment, so we can now allow the salt water pump to be constructed.
+    if( finished_segments == pipe->segments.size() ) {
+        const std::string token = salt_water_pipe_string_base + "0" + salt_water_pipe_string_suffix;
+        if( e->second.provides.find( token ) == e->second.provides.end() ) {
+            e->second.provides[token] = 0;
+        }
+        e->second.provides[token]++;
+    }
+
+    update_provides( bldg, e->second );
+    update_resources( bldg );
+
+    finish_return( *comp, true,
+                   _( "returns from construction of the salt water pipe swamp segment…" ), "construction", 2 );
+
+    return true;
+}
+
+bool basecamp::salt_water_pipe_return( const point &dir, const std::string &miss,
+                                       const std::string &bldg, const time_duration work_days )
+{
+    const recipe &making = recipe_id( bldg ).obj();
+    npc_ptr comp = companion_choose_return( miss, work_days );
+
+    if( comp == nullptr ) {
+        return false;
+    }
+
+    expansion_salt_water_pipe *pipe;
+
+    bool found = false;
+    for( expansion_salt_water_pipe *element : salt_water_pipes ) {
+        if( element->expansion == dir ) {
+            pipe = element;
+            found = true;
+            break;
+        }
+    }
+
+    if( !found ) {
+        popup( _( "Error: Failed to find the pipe task that was to be constructed" ) );
+        return false;
+    }
+
+    point connection_dir = pipe->connection_direction;
+    const int segment_number = salt_water_pipe_segment_of( making );
+
+    if( segment_number == -1 ) {
+        return false;
+    }
+
+    const point previous_construction_direction = { pipe->segments[segment_number - 1].point.x() - pipe->segments[segment_number].point.x(),
+                                                    pipe->segments[segment_number - 1].point.y() - pipe->segments[segment_number].point.y()
+                                                  };
+
+    point next_construction_direction;
+
+    if( segment_number == static_cast<int>( pipe->segments.size() - 1 ) ) {
+        next_construction_direction = { -connection_dir.x, -connection_dir.y };
+    } else {
+        next_construction_direction = { pipe->segments[segment_number + 1].point.x() - pipe->segments[segment_number].point.x(),
+                                        pipe->segments[segment_number + 1].point.y() - pipe->segments[segment_number].point.y()
+                                      };
+    }
+
+    bool orthogonal = true;
+    bool mirror_horizontal = false;
+    bool mirror_vertical = false;
+    int rotation = 0;
+
+    salt_water_pipe_orientation_adjustment( previous_construction_direction, orthogonal,
+                                            mirror_vertical, mirror_horizontal, rotation );
+
+    if( orthogonal ) {
+        const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
+        run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
+                                mirror_vertical, rotation );
+    } else {
+        const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
+        run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
+                                mirror_vertical, rotation );
+    }
+
+    salt_water_pipe_orientation_adjustment( next_construction_direction, orthogonal, mirror_vertical,
+                                            mirror_horizontal, rotation );
+
+    if( orthogonal ) {
+        const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
+        run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
+                                mirror_vertical, rotation );
+    } else {
+        const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
+        run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
+                                mirror_vertical, rotation );
+    }
+
+    pipe->segments[segment_number].finished = true;
+
+    auto e = expansions.find( dir );
+    //  Should be safe as the caller has already checked the result. Repeating rather than adding an additional parameter to the function.
+
+    size_t finished_segments = 0;
+    for( std::vector<expansion_salt_water_pipe_segment>::iterator::value_type element :
+         pipe->segments ) {
+        if( element.finished ) {
+            finished_segments++;
+        }
+    }
+
+    //  This is the last segment, so we can now allow the salt water pump to be constructed.
+    if( finished_segments == pipe->segments.size() ) {
+        const std::string token = salt_water_pipe_string_base + "0" + salt_water_pipe_string_suffix;
+        if( e->second.provides.find( token ) == e->second.provides.end() ) {
+            e->second.provides[token] = 0;
+        }
+        e->second.provides[token]++;
+    }
+
+    update_provides( bldg, e->second );
+    update_resources( bldg );
+
+    finish_return( *comp, true, _( "returns from construction of a salt water pipe segment…" ),
+                   "construction", 2 );
+
+    return true;
 }
 
 void basecamp::recruit_return( const std::string &task, int score )

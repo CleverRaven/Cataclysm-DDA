@@ -733,6 +733,8 @@ handloading
 hangry
 haori
 hardbound
+hardpoint
+hardpoints
 harmonically
 harries
 harvestable
@@ -1757,6 +1759,8 @@ underbarrel
 undercovering
 underprepared
 underslung
+undersuit
+undersuits
 underwelming
 undulates
 uneasing

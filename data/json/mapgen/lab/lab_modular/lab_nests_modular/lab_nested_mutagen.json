@@ -1190,7 +1190,6 @@
         " % ",
         "   "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "%": "f_standing_tank" },
       "liquids": { "%": { "liquid": "water_clean", "amount": [ 2, 100 ] } }
     }
@@ -1207,7 +1206,6 @@
         " % ",
         "   "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "%": "f_standing_tank" },
       "liquids": { "%": { "liquid": "bleach", "amount": [ 2, 100 ] } }
     }
@@ -1224,7 +1222,6 @@
         " % ",
         "   "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "%": "f_standing_tank" },
       "liquids": { "%": { "liquid": "ammonia", "amount": [ 2, 100 ] } }
     }
@@ -1242,7 +1239,6 @@
         " % ",
         "   "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "%": "f_standing_tank" },
       "liquids": { "%": { "liquid": "mutagen", "amount": [ 2, 20 ] } }
     }
@@ -1260,7 +1256,6 @@
         " % ",
         "   "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "%": "f_standing_tank" },
       "liquids": { "%": { "liquid": "purifier", "amount": [ 2, 20 ] } }
     }

@@ -2011,11 +2011,12 @@ int npc::max_willing_to_owe() const
 
 void npc::shop_restock()
 {
-    if( ( restock != calendar::turn_zero ) && ( ( calendar::turn - restock ) < 3_days ) ) {
+    // NPCs refresh every week, since the last time you checked in
+    if( ( restock != calendar::turn_zero ) && ( ( calendar::turn - restock ) < 0_days ) ) {
         return;
     }
 
-    restock = calendar::turn + 3_days;
+    restock = calendar::turn + 6_days;
     if( is_player_ally() ) {
         return;
     }

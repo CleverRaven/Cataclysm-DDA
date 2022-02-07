@@ -16,6 +16,7 @@
   * [Advanced info for Developers](#advanced-info-for-developers)
   * [Troubleshooting](#mac-os-x-troubleshooting)
 * [Windows](#windows)
+  * [Building with Visual Studio](#building-with-visual-studio)
   * [Building with MSYS2](#building-with-msys2)
   * [Building with CYGWIN](#building-with-cygwin)
   * [Building with Clang and MinGW64](#building-with-clang-and-mingw64)
@@ -580,9 +581,11 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 # Windows
 
+## Building with Visual Studio
+
 See [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md) for instructions on how to set up and use a build environment using Visual Studio on windows.
 
-This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs. -->
+This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs.
 
 ## Building with MSYS2
 

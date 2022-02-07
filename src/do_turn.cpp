@@ -8,7 +8,6 @@
 #include "creature_tracker.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field.h"
 #include "game.h"
 #include "gamemode.h"
 #include "help.h"
@@ -35,7 +34,6 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
-static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
@@ -729,32 +727,13 @@ bool do_turn()
             // If player is performing a task, a monster is dangerously close,
             // and monster can reach to the player or it has some sort of a ranged attack,
             // warn them regardless of previous safemode warnings
-            if( u.activity && !u.has_activity( ACT_AIM ) &&
-                u.activity.moves_left > 0 &&
-                !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
-                Creature *hostile_critter = g->is_hostile_very_close( true );
-
-                if( hostile_critter != nullptr ) {
-                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
-                                                        string_format( _( "The %s is dangerously close!" ),
-                                                                hostile_critter->get_name() ) );
-                }
-            }
-
-            if( u.activity && !u.has_activity( ACT_AIM ) && u.activity.moves_left > 0 &&
-                !u.activity.is_distraction_ignored( distraction_type::dangerous_field ) ) {
-                for( const std::pair<const field_type_id, field_entry> &field : m.field_at( u.pos() ) ) {
-                    if( u.is_dangerous_field( field.second ) ) {
-                        if( g->cancel_activity_or_ignore_query( distraction_type::dangerous_field,
-                                                                string_format( _( "You stand in %s!" ),
-                                                                        field.second.name() ) ) ||
-                            u.activity.is_distraction_ignored( distraction_type::dangerous_field ) ) {
-                            break;
-                        }
+            if( u.activity ) {
+                for( std::pair<const distraction_type, std::string> &dist : u.activity.get_distractions() ) {
+                    if( g->cancel_activity_or_ignore_query( dist.first, dist.second ) ) {
+                        break;
                     }
                 }
             }
-
         }
     }
 
