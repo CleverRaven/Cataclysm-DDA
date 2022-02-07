@@ -36,6 +36,12 @@ using namespace std::placeholders;
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
+/**
+  * Max utf-8 character worldname length.
+  * 0 index is inclusive.
+  */
+static const int max_worldname_len = 31;
+
 save_t::save_t( const std::string &name ): name( name ) {}
 
 std::string save_t::decoded_name() const
@@ -1358,7 +1364,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
         } else {
             mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, worldname );
             wprintz( w_confirmation, h_light_gray, "_" );
-            for( int underscores = 31 - utf8_width( worldname );
+            for( int underscores = max_worldname_len - utf8_width( worldname );
                  underscores > 0; --underscores ) {
                 wprintz( w_confirmation, c_light_gray, "_" );
             }
@@ -1423,7 +1429,10 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                 }
             } else if( !newtext.empty() && is_char_allowed( newtext.at( 0 ) ) ) {
                 // No empty string, no slash, no backslash, no control sequence
-                wrap.append( newtext );
+                // Also put a hard limit on the max amount of characters
+                if( wrap.length() < max_worldname_len ) {
+                    wrap.append( newtext );
+                }
                 worldname = wrap.str();
             }
         }

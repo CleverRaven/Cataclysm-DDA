@@ -3427,7 +3427,7 @@
     "ugliness": 9,
     "description": "You prefer to sustain your nutritional needs using your roots and direct nutrient extraction/synthesis.  Your human parts still need the raw caloric bulk of 'food' to keep them going, though, and you handle it a lot easier if it's had time to… age a little.",
     "prereqs": [ "ROOTS2" ],
-    "prereqs2": [ "LEAVES" ],
+    "prereqs2": [ "LEAVES", "LEAVES2", "LEAVES3" ],
     "threshreq": [ "THRESH_PLANT" ],
     "cancels": [ "GRAZER" ],
     "leads_to": [ "CHLOROMORPH" ],

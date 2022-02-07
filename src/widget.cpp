@@ -1327,7 +1327,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
     // This only works because labels are not colorized (no color tags).
     if( txt_w + lbl_w > max_width ) {
         std::wstring tmplbl = utf8_to_wstr( lbl );
-        for( int i = lbl_w - 1; txt_w + lbl_w > max_width && i > 0 && tmplbl[i] == ' ' &&
+        for( int i = tmplbl.size() - 1; txt_w + lbl_w > max_width && i > 0 && tmplbl[i] == ' ' &&
              tmplbl[i - 1] != ':'; i-- ) {
             tmplbl.pop_back();
             lbl_w--;
