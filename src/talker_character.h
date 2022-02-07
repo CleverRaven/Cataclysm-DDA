@@ -119,6 +119,7 @@ class talker_character_const: public talker
         int get_height() const override;
         int get_bmi_permil() const override;
         const move_mode_id &get_move_mode() const override;
+        int get_fine_detail_vision_mod() const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;

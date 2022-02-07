@@ -584,6 +584,11 @@ const move_mode_id &talker_character_const::get_move_mode() const
     return me_chr_const->move_mode;
 }
 
+int talker_character_const::get_fine_detail_vision_mod() const
+{
+    return std::ceil( me_chr_const->fine_detail_vision_mod() );
+}
+
 void talker_character::add_bionic( const bionic_id &new_bionic )
 {
     me_chr->add_bionic( new_bionic );
