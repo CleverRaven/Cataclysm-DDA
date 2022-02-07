@@ -22,7 +22,11 @@
       "tunnel_to_tunnel"
     ],
     "overmaps": {
+<<<<<<< Updated upstream
       "surface": { "overmap": "river_cave_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
+=======
+      "surface": { "overmap": "river_cave_entrance_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
+>>>>>>> Stashed changes
       "below_entrance": {
         "overmap": "river_cave_nesw",
         "above": "tunnel_to_surface",
