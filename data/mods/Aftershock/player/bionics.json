@@ -134,7 +134,7 @@
     "id": "bio_forcefield_ballistic_heavy",
     "type": "bionic",
     "name": { "str": "Illegally modified Shield Generator" },
-    "description": "Attention!  This compact bionic module has been altered beyond safe baselines and the warranty has been violated.  Gibson Gear takes no liability for any injuries or death that may occur from these modifications.  Attention!…",
+    "description": "Attention!  This compact bionic module has been altered beyond safe baselines and the warranty has been violated.  Gibson Gear takes no liability for any injuries or death that may occur from these modifications.  Attention!",
     "occupied_bodyparts": [ [ "torso", 14 ] ],
     "upgraded_bionic": "bio_forcefield_ballistic_medium",
     "act_cost": "10 kJ",

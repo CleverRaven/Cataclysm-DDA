@@ -795,6 +795,7 @@ class npc : public Character
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void apply_ownership_to_inv();
+        void learn_ma_styles_from_traits();
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
@@ -891,6 +892,13 @@ class npc : public Character
         // true if the NPC isn't actually real
         bool is_hallucination() const override {
             return hallucination;
+        }
+
+        // true if the NPC produces electrical radiation
+        // TODO: make this way less hard coded
+        bool is_electrical() const override {
+            // only beep on Rubik for now
+            return has_trait( trait_id( "EXODII_BODY_1" ) );
         }
 
         // Ally of or traveling with p

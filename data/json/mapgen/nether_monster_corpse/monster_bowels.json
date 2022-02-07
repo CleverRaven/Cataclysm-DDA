@@ -144,9 +144,9 @@
         { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 17, 19 ], "y": 3 },
         { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 18, 20 ], "y": 4 },
         { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 18, 20 ], "y": 5 },
-        { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 19, 21 ], "y": 6 },
-        { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 20, 22 ], "y": 7 },
-        { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 21, 23 ], "y": 8 }
+        { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 19, 20 ], "y": 6 },
+        { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 19, 20 ], "y": 7 },
+        { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 20, 20 ], "y": 8 }
       ]
     }
   },
@@ -199,9 +199,9 @@
         { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 17, 19 ], "y": 3 },
         { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 18, 20 ], "y": 4 },
         { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 18, 20 ], "y": 5 },
-        { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 19, 21 ], "y": 6 },
-        { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 20, 22 ], "y": 7 },
-        { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 21, 23 ], "y": 8 }
+        { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 19, 20 ], "y": 6 },
+        { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 19, 20 ], "y": 7 },
+        { "chunks": [ "tentacle_bounds_lite_hleft" ], "x": [ 20, 20 ], "y": 8 }
       ]
     }
   },

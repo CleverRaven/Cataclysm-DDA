@@ -46,6 +46,7 @@
 #include "line.h"
 #include "magic.h"
 #include "map.h"
+#include "mapbuffer.h"
 #include "mapgen_functions.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -773,7 +774,7 @@ void game::chat()
             break;
         case NPC_CHAT_MOUNT:
             for( npc *them : followers ) {
-                if( them->has_effect( effect_riding ) ) {
+                if( them->has_effect( effect_riding ) || them->is_hallucination() ) {
                     continue;
                 }
                 talk_function::find_mount( *them );
@@ -1589,6 +1590,25 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             item tmp( item_type );
             tmp.charges = u.charges_of( item_type );
             phrase.replace( fa, l, format_money( tmp.price( true ) ) );
+        } else if( tag.find( "<u_val:" ) != std::string::npos ) {
+            //adding a user variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            phrase.replace( fa, l, u.get_value( var ) );
+        } else if( tag.find( "<npc_val:" ) != std::string::npos ) {
+            //adding a npc variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            phrase.replace( fa, l, me.get_value( var ) );
+        } else if( tag.find( "<global_val:" ) != std::string::npos ) {
+            //adding a global variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            global_variables &globvars = get_globals();
+            phrase.replace( fa, l, globvars.get_global_value( var ) );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
@@ -1979,7 +1999,7 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
             permanent = true;
-            dov_duration = get_duration_or_var( jo, "", false, 0_turns );
+            dov_duration = get_duration_or_var( jo, "", false, 1_turns );
         } else {
             dov_duration = get_duration_or_var( jo, "duration", false, 1000_turns );
         }
@@ -2386,6 +2406,7 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
                                     -1, tripoint_abs_sm( target_pos ), radius, transform.str() );
         } else {
             get_map().transform_radius( transform, radius, target_pos );
+            get_map().invalidate_map_cache( target_pos.z );
         }
     };
 }
@@ -2394,7 +2415,10 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
     std::vector<update_mapgen_id> update_ids;
-
+    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
+            0_seconds );
+    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
+            0_seconds );
     if( jo.has_string( member ) ) {
         update_ids.emplace_back( update_mapgen_id( jo.get_string( member ) ) );
     } else if( jo.has_array( member ) ) {
@@ -2409,7 +2433,9 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         type = var.type;
         target_var = var.name;
     }
-    function = [target_params, update_ids, target_var, type]( const dialogue & d ) {
+    bool revert = jo.get_bool( "revert", false );
+    function = [target_params, update_ids, target_var, type, dov_time_in_future_min,
+                   dov_time_in_future_max, revert]( const dialogue & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
             const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( type == var_type::npc ), target_var,
@@ -2422,8 +2448,33 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             }
             omt_pos = mission_util::get_om_terrain_pos( update_params );
         }
-        for( const update_mapgen_id &mapgen_update_id : update_ids ) {
-            run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
+        time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
+        if( min > 0_seconds ) {
+            time_point tif = calendar::turn + rng( min,
+                                                   dov_time_in_future_max.evaluate( d.actor( dov_time_in_future_max.is_npc() ) ) );
+            if( !revert ) {
+                for( const update_mapgen_id &mapgen_update_id : update_ids ) {
+                    get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),
+                                            0, mapgen_update_id.str() );
+                }
+            } else {
+                // maptile is 4 submaps so queue up 4 submap reverts
+                for( int x = 0; x < 2; x++ ) {
+                    for( int y = 0; y < 2; y++ ) {
+                        tripoint_abs_sm revert_sm = project_to<coords::sm>( omt_pos );
+                        revert_sm += tripoint( x, y, 0 );
+                        const submap *sm = MAPBUFFER.lookup_submap( tripoint( revert_sm.x(), revert_sm.y(),
+                                           revert_sm.z() ) );
+                        get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1, revert_sm, 0, "",
+                                                sm->get_revert_submap() );
+                    }
+                }
+            }
+        } else {
+            for( const update_mapgen_id &mapgen_update_id : update_ids ) {
+                run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
+            }
+            get_map().invalidate_map_cache( omt_pos.z() );
         }
     };
 }
@@ -2561,7 +2612,8 @@ void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
     };
 }
 
-void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
 {
     std::string message = jo.get_string( member );
     const bool snippet = jo.get_bool( "snippet", false );
@@ -2643,6 +2695,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
                 return pop.get_window();
             };
             scrollable_text( new_win, "", replace_colors( translated_message ) );
+            g->cancel_activity_or_ignore_query( distraction_type::eoc, "" );
         }
         if( popup_w_interrupt_query_msg ) {
             if( interrupt_type == "portal_storm_popup" ) {
@@ -3052,6 +3105,22 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
         } else if( checked_value == "exp" ) {
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_kill_xp( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "vitamin" ) {
+            std::string vitamin_name = jo.get_string( "name" );
+            return [is_npc, min, max, vitamin_name]( const dialogue & d, int input ) {
+                Character *you = d.actor( is_npc )->get_character();
+                if( you ) {
+                    you->vitamin_set( vitamin_id( vitamin_name ), handle_min_max( d, input, min, max ) );
+                }
+            };
+        } else if( checked_value == "age" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_age( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "height" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_height( handle_min_max( d, input, min, max ) );
             };
         }
     }
@@ -3481,7 +3550,8 @@ void talk_effect_fun_t::set_add_faction_trust( const JsonObject &jo, const std::
     };
 }
 
-void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo,
+        const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member );
     function = [iov]( const dialogue & d ) {
@@ -3489,7 +3559,8 @@ void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
+        const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member, true );
     duration_or_var dov_length_min = get_duration_or_var( jo, "length_min", false, 0_seconds );
@@ -3500,6 +3571,36 @@ void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo, const std:
                                         dov_length_max.evaluate( d.actor( dov_length_max.is_npc() ) ) ) +
                                 1_seconds/*We add a second here because this will get ticked on the turn its applied before it has an effect*/,
                                 -1, iov.evaluate( d.actor( iov.is_npc() ) ) );
+    };
+}
+
+void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, const std::string &member )
+{
+    JsonObject jobj = jo.get_object( member );
+    int allowance = 0;
+    std::vector<trial_mod> debt_modifiers;
+    if( jobj.has_int( "allowance" ) ) {
+        allowance = jobj.get_int( "allowance" );
+    } else if( jobj.has_array( "allowance" ) ) {
+        for( JsonArray jmod : jobj.get_array( "allowance" ) ) {
+            trial_mod this_modifier;
+            this_modifier.first = jmod.next_string();
+            this_modifier.second = jmod.next_int();
+            debt_modifiers.push_back( this_modifier );
+        }
+    }
+    function = [debt_modifiers, allowance]( const dialogue & d ) {
+        int debt = allowance;
+        for( const trial_mod &this_mod : debt_modifiers ) {
+            if( this_mod.first == "TOTAL" ) {
+                debt *= this_mod.second;
+            } else {
+                debt += parse_mod( d, this_mod.first, this_mod.second );
+            }
+        }
+        if( npc *p = d.actor( true )->get_npc() ) {
+            talk_function::give_equipment_allowance( *p, debt );
+        }
     };
 }
 
@@ -3588,7 +3689,8 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &member,
+                                   bool is_npc )
 {
     field_type_str_id new_field = field_type_str_id( jo.get_string( member ) );
     int_or_var iov_intensity = get_int_or_var( jo, "intensity", false, 1 );
@@ -3622,7 +3724,8 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
     };
 }
 
-void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
 {
     var_info var = read_var_info( jo.get_object( member ), false );
     var_type type = var.type;
@@ -3980,6 +4083,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_teleport( jo, "npc_teleport", true );
     } else if( jo.has_int( "custom_light_level" ) || jo.has_object( "custom_light_level" ) ) {
         subeffect_fun.set_custom_light_level( jo, "custom_light_level" );
+    } else if( jo.has_object( "give_equipment" ) ) {
+        subeffect_fun.set_give_equipment( jo, "give_equipment" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

@@ -369,7 +369,7 @@
     "id": "t_screen_door_o",
     "name": "open screen door",
     "description": "A simple wooden doorway with screen mesh.",
-    "symbol": "+",
+    "symbol": ".",
     "color": "brown",
     "looks_like": "t_chickenwire_gate_o",
     "move_cost": 2,

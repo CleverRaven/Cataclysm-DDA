@@ -39,7 +39,7 @@
     "type": "recipe",
     "activity_level": "fake",
     "result": "copper_circlet",
-    "byproducts": [ [ "tinder", 40 ] ],
+    "byproducts": [ [ "tinder", 1 ] ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",
     "skill_used": "fabrication",

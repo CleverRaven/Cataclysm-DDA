@@ -271,7 +271,7 @@ ifneq ($(findstring BSD,$(OS)),)
 endif
 
 ifeq ($(PCH), 1)
-	CCACHEBIN = CCACHE_SLOPPINESS=pch_defines,time_macros ccache
+	CCACHEBIN = CCACHE_SLOPPINESS=pch_defines,time_macros,include_file_ctime,include_file_mtime ccache
 else
 	CCACHEBIN = ccache
 endif
@@ -436,11 +436,11 @@ WARNINGS += -Wimplicit-fallthrough=0
 endif
 
 ifeq ($(PCH), 1)
-  PCHFLAGS = -Ipch -Winvalid-pch
+  PCHFLAGS = -Winvalid-pch
   PCH_H = pch/main-pch.hpp
 
   ifeq ($(CLANG), 0)
-    PCHFLAGS += -fpch-preprocess -include main-pch.hpp
+    PCHFLAGS += -include pch/main-pch.hpp
     PCH_P = $(PCH_H).gch
   else
     PCH_P = $(PCH_H).pch

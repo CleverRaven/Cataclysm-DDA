@@ -130,7 +130,7 @@ static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
-static const efftype_id effect_paralysepoison( "paralysepoison" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill1( "pkill1" );
 static const efftype_id effect_pkill2( "pkill2" );
@@ -238,7 +238,9 @@ void bionic::initialize_pseudo_items( bool create_weapon )
 
     for( const itype_id &id : bid.passive_pseudo_items ) {
         if( !id.is_empty() && id.is_valid() ) {
-            passive_pseudo_items.emplace_back( item( id ) );
+            item pseudo( id );
+            pseudo.set_flag( flag_PSEUDO );
+            passive_pseudo_items.emplace_back( pseudo );
         }
     }
 
@@ -867,7 +869,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                 effect_pblue, effect_iodine, effect_datura,
                 effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
                 effect_took_flumed, effect_antifungal, effect_venom_weaken,
-                effect_venom_dmg, effect_paralysepoison
+                effect_venom_dmg, effect_paralyzepoison
             }
         };
 
@@ -2311,11 +2313,12 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
                                _( "<npcname>'s parts are jiggled back into their familiar places." ) );
         add_msg( m_good, _( "Successfully removed %s." ), bio.id.obj().name );
+        const bionic_id bio_id = bio.id;
         remove_bionic( bio );
 
         item cbm( "burnt_out_bionic" );
-        if( item::type_is_defined( bio.id->itype() ) ) {
-            cbm = item( bio.id.c_str() );
+        if( item::type_is_defined( bio_id->itype() ) ) {
+            cbm = item( bio_id.c_str() );
         }
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
@@ -2601,10 +2604,10 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
         get_event_bus().send<event_type::installs_cbm>( getID(), bid );
         if( upbio_uid ) {
             if( cata::optional<bionic *> upbio = find_bionic_by_uid( upbio_uid ) ) {
+                const std::string bio_name = ( *upbio )->id->name.translated();
                 remove_bionic( **upbio );
                 //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
-                add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
-                         ( *upbio )->id->name, bid.obj().name );
+                add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ), bio_name, bid.obj().name );
             } else {
                 debugmsg( "Couldn't find bionic with UID %d to upgrade", upbio_uid );
             }
@@ -2958,11 +2961,12 @@ void Character::remove_bionic( const bionic &bio )
         lose_proficiency( lost );
     }
 
+    const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
     update_bionic_power_capacity();
     calc_encumbrance();
     recalc_sight_limits();
-    if( !bio.id->enchantments.empty() ) {
+    if( has_enchantments ) {
         recalculate_enchantment_cache();
     }
     effect_on_conditions::process_reactivate( *this );

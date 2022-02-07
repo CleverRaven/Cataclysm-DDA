@@ -113,6 +113,8 @@ static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_MEND_ALL( "MEND_ALL" );
+static const json_character_flag json_flag_MEND_LIMB( "MEND_LIMB" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -148,7 +150,6 @@ static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
 static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
-static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -806,8 +807,8 @@ void suffer::in_sunlight( Character &you )
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        you.vitamin_mod( vitamin_vitA, 1, true );
-        you.vitamin_mod( vitamin_vitC, 1, true );
+        you.vitamin_mod( vitamin_vitA, 1 );
+        you.vitamin_mod( vitamin_vitC, 1 );
     }
 
     if( !g->is_in_sunlight( position ) ) {
@@ -1288,9 +1289,9 @@ void suffer::from_stimulants( Character &you, const int current_stim )
 {
     // Stim +250 kills
     if( current_stim > 210 ) {
-        if( one_turn_in( 2_minutes ) && !you.has_effect( effect_downed ) ) {
+        if( one_turn_in( 2_minutes ) && !you.is_on_ground() ) {
             you.add_msg_if_player( m_bad, _( "Your muscles spasm!" ) );
-            if( !you.has_effect( effect_downed ) ) {
+            if( !you.is_on_ground() ) {
                 you.add_msg_if_player( m_bad, _( "You fall to the ground!" ) );
                 you.add_effect( effect_downed, rng( 6_turns, 20_turns ) );
             }
@@ -1320,7 +1321,9 @@ void suffer::from_stimulants( Character &you, const int current_stim )
         if( one_turn_in( 3_minutes ) && !you.in_sleep_state() ) {
             you.add_msg_if_player( m_bad, _( "You black out!" ) );
             const time_duration dur = rng( 30_minutes, 60_minutes );
-            you.add_effect( effect_downed, dur );
+            if( !you.is_on_ground() ) {
+                you.add_effect( effect_downed, dur );
+            }
             you.add_effect( effect_blind, dur );
             you.fall_asleep( dur );
         }
@@ -1335,7 +1338,7 @@ void suffer::from_stimulants( Character &you, const int current_stim )
         if( one_turn_in( 15_seconds ) && !you.has_effect( effect_sleep ) ) {
             you.add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
             you.mod_moves( -rng( 10, 30 ) );
-            if( one_in( 3 ) && !you.has_effect( effect_downed ) ) {
+            if( one_in( 3 ) && !you.is_on_ground() ) {
                 you.add_msg_if_player( m_bad, _( "You stumble and fall over!" ) );
                 you.add_effect( effect_downed, rng( 3_turns, 10_turns ) );
             }
@@ -1515,7 +1518,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
             you.moves -= 10;
             you.add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
                                        _( "<npcname> stumbles." ) );
-            if( !you.has_effect( effect_downed ) && one_in( 10 ) ) {
+            if( !you.is_on_ground() && one_in( 10 ) ) {
                 you.add_msg_player_or_npc( m_bad, _( "You fall over!" ), _( "<npcname> falls over!" ) );
                 you.add_effect( effect_downed, rng( 3_turns, 10_turns ) );
             }
@@ -1554,7 +1557,7 @@ void Character::suffer()
     }
 
     for( const trait_id &mut_id : get_mutations() ) {
-        if( calendar::once_every( 1_minutes ) ) {
+        if( calendar::once_every( 1_minutes ) && mut_id->weakness_to_water != 0 ) {
             suffer::water_damage( *this, mut_id );
         }
         if( has_active_mutation( mut_id ) ) {
@@ -1657,8 +1660,8 @@ bool Character::irradiate( float rads, bool bypass )
             }
 
             // If the color hasn't changed, don't print anything.
-            const std::string &col_before = display::rad_badge_color_name( before );
-            const std::string &col_after = display::rad_badge_color_name( it->irradiation );
+            const std::string &col_before = rad_badge_color( before ).first;
+            const std::string &col_after = rad_badge_color( it->irradiation ).first;
             if( col_before == col_after ) {
                 continue;
             }
@@ -1737,7 +1740,7 @@ void Character::mend( int rate_multiplier )
 
     healing_factor *= mutation_value( "mending_modifier" );
 
-    if( has_trait( trait_REGEN_LIZ ) ) {
+    if( has_flag( json_flag_MEND_ALL ) ) {
         needs_splint = false;
     }
 
@@ -1753,9 +1756,15 @@ void Character::mend( int rate_multiplier )
             continue;
         }
 
+        if( bp->has_flag( json_flag_MEND_LIMB ) ) {
+            needs_splint = false;
+        }
+
         if( needs_splint && !worn_with_flag( flag_SPLINT,  bp ) ) {
             continue;
         }
+
+        healing_factor *= bp->mend_rate;
 
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
         auto &eff = get_effect( effect_mending, bp );
@@ -1851,7 +1860,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         }
         // Different sources will only make the bodypart wet to a limit
         int source_wet_max = saturation * bp_wetness_max / 100;
-        int wetness_increment = ignore_waterproof ? 100 : 2;
+        int wetness_increment = ignore_waterproof ? 100 : bp->drench_increment;
         // Respect maximums
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
         const int curr_wetness = get_part_wetness( bp );
@@ -1932,6 +1941,7 @@ void Character::apply_wetness_morale( int temperature )
         // Average of global and part temperature modifiers, each in range [-1.0, 1.0]
         double scaled_temperature = ( global_temperature_mod + part_mod ) / 2;
 
+        bp_morale += bp->wet_morale;
         if( bp_morale < 0 ) {
             // Damp, hot clothing on hot skin feels bad
             scaled_temperature = std::fabs( scaled_temperature );

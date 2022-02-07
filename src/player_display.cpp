@@ -88,7 +88,9 @@ static bool should_combine_bps( const Character &p, const bodypart_id &l, const 
            temperature_print_rescaling( p.get_part_temp_conv( l ) ) == temperature_print_rescaling(
                p.get_part_temp_conv( r ) ) &&
            // selected_clothing covers both or neither parts
-           ( !selected_clothing || ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) );
+           ( !selected_clothing || ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) ) &&
+           // they have the same HP
+           p.get_part_hp_cur( l ) == p.get_part_hp_cur( r );
 
 }
 

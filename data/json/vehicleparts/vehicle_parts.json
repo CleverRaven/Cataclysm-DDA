@@ -1014,6 +1014,37 @@
   },
   {
     "type": "vehicle_part",
+    "id": "workbench_with_recharger",
+    "name": { "str": "workbench with battery recharger" },
+    "copy-from": "workbench",
+    "durability": 295,
+    "bonus": 15,
+    "epower": -50,
+    "item": "workbench_with_recharger",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH", "ENABLED_DRAINS_EPOWER", "RECHARGE" ],
+    "breaks_into": [
+      { "item": "pipe", "count": [ 4, 6 ] },
+      { "item": "sheet_metal", "count": [ 0, 1 ] },
+      { "item": "sheet_metal_small", "count": [ 12, 24 ] },
+      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "scrap", "count": [ 12, 24 ] },
+      { "item": "plastic_chunk", "prob": 50 },
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "e_scrap", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 3 ] }
+    ],
+    "size": 118,
+    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "29L" },
+    "damage_reduction": { "all": 29 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "boat_board",
     "name": { "str": "wooden boat hull" },
     "description": "A wooden board that keeps the water out of your boat.",

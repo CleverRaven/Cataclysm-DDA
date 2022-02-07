@@ -1429,6 +1429,9 @@ void avatar::store( JsonOut &json ) const
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
 
+    // Player only, snippets they have read at least once.
+    json.member( "snippets_read", snippets_read );
+
     json.member( "translocators", translocators );
 
     // mission stuff
@@ -1602,6 +1605,8 @@ void avatar::load( const JsonObject &data )
     data.read( "calorie_diary", calorie_diary );
 
     data.read( "preferred_aiming_mode", preferred_aiming_mode );
+
+    data.read( "snippets_read", snippets_read );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2718,6 +2723,16 @@ void load_charge_removal_blacklist( const JsonObject &jo, const std::string &/*s
     charge_removal_blacklist.insert( new_blacklist.begin(), new_blacklist.end() );
 }
 
+static std::set<itype_id> charge_migration_blacklist;
+
+void load_charge_migration_blacklist( const JsonObject &jo, const std::string &/*src*/ )
+{
+    jo.allow_omitted_members();
+    std::set<itype_id> new_blacklist;
+    jo.read( "list", new_blacklist );
+    charge_migration_blacklist.insert( new_blacklist.begin(), new_blacklist.end() );
+}
+
 template<typename Archive>
 void item::io( Archive &archive )
 {
@@ -2898,7 +2913,11 @@ void item::io( Archive &archive )
     if( charges != 0 && !type->can_have_charges() ) {
         // Types that are known to have charges, but should not have them.
         // We fix it here, but it's expected from bugged saves and does not require a message.
-        if( charge_removal_blacklist.count( type->get_id() ) == 0 ) {
+        if( charge_migration_blacklist.count( type->get_id() ) != 0 ) {
+            for( int i = 0; i < charges - 1; i++ ) {
+                put_in( item( type ), item_pocket::pocket_type::MIGRATION );
+            }
+        } else if( charge_removal_blacklist.count( type->get_id() ) == 0 ) {
             debugmsg( "Item %s was loaded with charges, but can not have any!",
                       type->get_id().str() );
         }
@@ -3014,7 +3033,7 @@ void item::serialize( JsonOut &json ) const
 
     io::JsonObjectOutputArchive archive( json );
     const_cast<item *>( this )->io( archive );
-    if( !contents.empty_real() || contents.has_additional_pockets() ) {
+    if( !contents.empty_with_no_mods() || contents.has_additional_pockets() ) {
         json.member( "contents", contents );
     }
 }
@@ -4177,7 +4196,27 @@ void basecamp::serialize( JsonOut &json ) const
             json.end_object();
         }
         json.end_array();
+        json.member( "salt_water_pipes" );
+        json.start_array();
+        for( const auto &pipe : salt_water_pipes ) {
+            json.start_object();
+            json.member( "expansion", pipe->expansion );
+            json.member( "connection_direction", pipe->connection_direction );
+            json.member( "segments" );
+            json.start_array();
+            for( const auto &segment : pipe->segments ) {
+                json.start_object();
+                json.member( "point", segment.point );
+                json.member( "started", segment.started );
+                json.member( "finished", segment.finished );
+                json.end_object();
+            }
+            json.end_array();
+            json.end_object();
+        }
+        json.end_array();
         json.end_object();
+
     } else {
         return;
     }
@@ -4236,6 +4275,22 @@ void basecamp::deserialize( const JsonObject &data )
         tripoint_abs_omt restore_pos;
         edata.read( "pos", restore_pos );
         fortifications.push_back( restore_pos );
+    }
+
+    for( JsonObject edata : data.get_array( "salt_water_pipes" ) ) {
+        edata.allow_omitted_members();
+        expansion_salt_water_pipe *pipe = new expansion_salt_water_pipe;
+        edata.read( "expansion", pipe->expansion );
+        edata.read( "connection_direction", pipe->connection_direction );
+        for( JsonObject seg : edata.get_array( "segments" ) ) {
+            seg.allow_omitted_members();
+            expansion_salt_water_pipe_segment segment;
+            seg.read( "point", segment.point );
+            seg.read( "started", segment.started );
+            seg.read( "finished", segment.finished );
+            pipe->segments.push_back( segment );
+        }
+        salt_water_pipes.push_back( pipe );
     }
 }
 

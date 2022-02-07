@@ -184,6 +184,18 @@
   },
   {
     "type": "keybinding",
+    "id": "HOME",
+    "name": "Home",
+    "bindings": [ { "input_method": "keyboard_any", "key": "HOME" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "END",
+    "name": "End",
+    "bindings": [ { "input_method": "keyboard_any", "key": "END" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "PAGE_UP",
     "name": "Page up",
     "bindings": [ { "input_method": "keyboard_any", "key": "PPAGE" } ]
@@ -1748,6 +1760,20 @@
   },
   {
     "type": "keybinding",
+    "id": "WIELD",
+    "category": "INVENTORY",
+    "name": "Wield",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "WEAR",
+    "category": "INVENTORY",
+    "name": "Wear",
+    "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "EXAMINE_CONTENTS",
     "category": "INVENTORY",
     "name": "Examine Contents",
@@ -2685,6 +2711,12 @@
     "type": "keybinding",
     "id": "cast_spell",
     "name": "Spellcasting",
+    "category": "DEFAULTMODE"
+  },
+  {
+    "type": "keybinding",
+    "id": "diary",
+    "name": "Open Diary",
     "category": "DEFAULTMODE"
   },
   {

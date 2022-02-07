@@ -640,6 +640,8 @@ std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
 
 std::pair<std::string, nc_color> get_light_level( float light );
 
+std::pair<std::string, nc_color> rad_badge_color( const int rad );
+
 /**
  * @return String containing the bar. Example: "Label [********    ]".
  * @param val Value to display. Can be unclipped.

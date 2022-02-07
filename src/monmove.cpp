@@ -1538,7 +1538,7 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
 
-    npc *const guy = creatures.creature_at<npc>( p );
+    npc *const guy = creatures.creature_at<npc>( p, is_hallucination() );
     if( guy && type->melee_dice > 0 ) {
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
