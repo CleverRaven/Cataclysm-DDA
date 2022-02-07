@@ -9591,7 +9591,7 @@ int Character::sleep_spot( const tripoint &p ) const
     }
 
     if( activechloro ) {
-        sleepy += 30; // It's time for a nice nap.
+        sleepy += 20; // It's time for a nice nap.
     }
 
     if( get_fatigue() < fatigue_levels::TIRED + 1 ) {
