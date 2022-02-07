@@ -106,7 +106,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_BROKER_SMOKERACK",
-    "dynamic_line": "It's wonderful! We've been perserving a lot more of what we manage to scavenge, so we won't have to worry about our food going bad for a while. We'd be willing to sell some of the excess, if you want.",
+    "dynamic_line": "It's wonderful! We've been preserving a lot more of what we manage to scavenge, so we won't have to worry about our food going bad for a while. We'd be willing to sell some of the excess, if you want.",
     "responses": [
       { 
         "text": "I think I'll buy 10 slices.", 
