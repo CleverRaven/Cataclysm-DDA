@@ -10,11 +10,11 @@
     "spawns": { "group": "GROUP_KRAKEN_SURFACE", "population": [ 100, 200 ], "radius": [ 3, 5 ] },
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "water" ] ],
-      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
-      [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
-      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
-      [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
-      [ [ 0, -1, -1 ], [ "subterranean_empty" ] ]
+      [ [ 0, 0, -1 ], [ "subterranean_empty", "water" ] ],
+      [ [ 1, 0, -1 ], [ "subterranean_empty", "water" ] ],
+      [ [ 0, 1, -1 ], [ "subterranean_empty", "water" ] ],
+      [ [ -1, 0, -1 ], [ "subterranean_empty", "water" ] ],
+      [ [ 0, -1, -1 ], [ "subterranean_empty", "water" ] ]
     ],
     "joins": [
       { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },

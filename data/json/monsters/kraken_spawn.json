@@ -33,7 +33,7 @@
     "harvest": "kraken",
     "reproduction": { "baby_monster": "mon_octupus_stalker_spawn", "baby_count": 1, "baby_timer": 700 },
     "baby_flags": [ "SPRING" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "PATH_AVOID_DANGER_1", "NIGHT_INVISIBILITY", "WARM", "ATTACKMON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "PATH_AVOID_DANGER_1", "WATER_CAMOUFLAGE", "WARM" ]
   },
   {
     "id": "mon_octupus_stalker_spawn",
