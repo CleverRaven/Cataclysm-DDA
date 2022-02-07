@@ -1484,7 +1484,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "difficulty": 3
+    "difficulty": 3,
     "time": "2 h 30 m",
     "autolearn": true,
     "reversible": true,
