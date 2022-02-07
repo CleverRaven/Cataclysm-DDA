@@ -369,7 +369,7 @@
   {
     "id": "kampuch_harv",
     "type": "harvest",
-    "entries": [ { "drop": "kämpuch", "base_num": [ 1, 4 ] } ]
+    "entries": [ { "drop": "kampuch", "base_num": [ 1, 4 ] } ]
   },
   {
     "id": "olieribos_harv",
@@ -377,7 +377,7 @@
     "entries": [ { "drop": "olieribos", "base_num": [ 1, 4 ] } ]
   },
   {
-    "id": "glowning_mushroom_harv",
+    "id": "glowing_mushroom_harv",
     "type": "harvest",
     "entries": [ { "drop": "glowing_mushroom", "base_num": [ 1, 2 ] } ]
   },
@@ -392,14 +392,14 @@
     "entries": [ { "drop": "golden_reed_stalk", "base_num": [ 1, 4 ] } ]
   },
   {
-    "id": "barnacle_weed_harv",
+    "id": "wood_barnacle_harv",
     "type": "harvest",
     "entries": [ { "drop": "wood_barnacle", "base_num": [ 1, 4 ] } ]
   },
   {
-    "id": "dragonail_harv",
+    "id": "dragon_nail_harv",
     "type": "harvest",
-    "entries": [ { "drop": "dragonnails", "base_num": [ 1, 4 ] } ]
+    "entries": [ { "drop": "dragon_nail", "base_num": [ 1, 4 ] } ]
   },
   {
     "id": "moly_harv",

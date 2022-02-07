@@ -58,7 +58,7 @@
     "light_emitted": 10,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "glowning_mushroom_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "glowing_mushroom_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -100,7 +100,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "barnacle_weed_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "wood_barnacle_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -115,7 +115,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "dragonail_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "dragon_nail_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {

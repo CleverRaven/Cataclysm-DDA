@@ -3,7 +3,6 @@
     "type": "COMESTIBLE",
     "id": "platonic_flower",
     "name": { "str": "philosopher's flower" },
-    "weight": "60 g",
     "color": "pink",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -12,6 +11,7 @@
     "price": 1000,
     "material": "veggy",
     "volume": "50 ml",
+    "weight": "60 g",
     "fun": 8,
     "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ]
   },
@@ -20,7 +20,9 @@
     "id": "moonflowers",
     "copy-from": "platonic_flower",
     "name": { "str": "moonflowers", "str_pl": "moonflowers" },
+    "weight": "120 g",
     "color": "cyan",
+    "symbol": "o",
     "comestible_type": "FOOD",
     "description": "A handful of moonflowers glitter like tiny stars and faintly smell of morning dew.  Properly harvested, they will never wilt or wither.",
     "volume": "250 ml",
@@ -28,10 +30,11 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "kämpuch",
+    "id": "kampuch",
     "copy-from": "platonic_flower",
     "name": { "str": "kämpuch", "str_pl": "kämpuches" },
     "color": "blue",
+    "symbol": "o",
     "comestible_type": "FOOD",
     "description": "A small rod of curled white petals, delicately shielding toxic pollen that will lead to an agonizing, if mercifully quick death.  Infamously used by romantic assassins, when an artistic death is deemed more important than practicality.",
     "volume": "5 ml"
@@ -41,18 +44,21 @@
     "id": "olieribos",
     "name": { "str": "olieribos sheaf", "str_pl": "olieribos sheaves" },
     "description": "Dark colored leaves and bitter roots, firmly tied together in a small sheaf.",
+    "symbol": "o",
     "color": "light_blue",
-    "volume": "3 ml"
+    "weight": "2 g",
+    "volume": "3 ml",
     "looks_like": "wheat"
   },
   {
     "type": "COMESTIBLE",
-    "id": "glowning_mushroom",
+    "id": "glowing_mushroom",
     "name": { "str": "glowing mushroom caps", "str_pl": "glowing mushroom caps" },
     "description": "Slim stripes cut from a bioluminescent mushroom, still surrounded by a fain glowing aura.",
     "symbol": "o",
     "color": "light_cyan",
-    "volume": "200 ml"
+    "weight": "70 g",
+    "volume": "200 ml",
     "looks_like": "mushroom"
   },
   {
@@ -62,12 +68,13 @@
     "description": "Pure white moss capsules, shaped like a goat's horn.  The fine spores contained within are a powerfull magical reagent, and can be consumed to recover small amounts of mana.",
     "symbol": "o",
     "color": "white",
-    "volume": "50 ml"
+    "weight": "35 g",
+    "volume": "50 ml",
     "looks_like": "mushroom"
   },
   {
     "type": "COMESTIBLE",
-    "id": "golden_reed_stalks",
+    "id": "golden_reed_stalk",
     "copy-from": "platonic_flower",
     "name": { "str": "golden reed stalks", "str_pl": "golden reed stalks" },
     "color": "yellow",
@@ -82,6 +89,7 @@
     "id": "wood_barnacle",
     "copy-from": "platonic_flower",
     "name": { "str": "wood barnacle" },
+    "symbol": "o",
     "color": "brown",
     "calories": 800,
     "comestible_type": "FOOD",
@@ -94,6 +102,7 @@
     "copy-from": "platonic_flower",
     "name": { "str": "dragon nail" },
     "color": "brown",
+    "symbol": "o",
     "calories": 800,
     "comestible_type": "FOOD",
     "looks_like": "egg",
