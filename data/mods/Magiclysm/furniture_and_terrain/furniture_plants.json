@@ -167,7 +167,7 @@
     "type": "furniture",
     "id": "f_sojourners_palm",
     "name": "Sojourner's palm",
-    "description": "A large magical palm tree, normaly you would find it in the tropics, but this plant also has the well documented ability to teleport randomly.",
+    "description": "A large magical palm tree, normally you would find it in the tropics, but this plant also has the well documented ability to teleport randomly.",
     "symbol": "Y",
     "color": "green",
     "looks_like": "t_fungal_tree",
