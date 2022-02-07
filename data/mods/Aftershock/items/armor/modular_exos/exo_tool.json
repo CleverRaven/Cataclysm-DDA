@@ -1,0 +1,37 @@
+[
+  {
+    "id": "exo_repair_kit",
+    "copy-from": "large_repairkit",
+    "type": "TOOL",
+    "name": { "str": "exosuit repair kit" },
+    "description": "This is a collection of tools including a high-powered torch for working the titanium frame.",
+    "longest_side": "25 cm",
+    "price": 1000,
+    "price_postapoc": 100,
+    "bashing": 2,
+    "cutting": 6,
+    "material": [ "steel" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "steel", "hardsteel", "titanium" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
+      }
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "USE_UPS" ]
+  }
+]

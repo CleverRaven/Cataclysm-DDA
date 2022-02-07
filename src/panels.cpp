@@ -1425,7 +1425,7 @@ static void draw_ai_goal( const draw_args &args )
     behavior::character_oracle_t player_oracle( &u );
     std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
+    mvwprintz( w, point( 0, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
     wnoutrefresh( w );
 }
 
@@ -1954,7 +1954,7 @@ static std::map<std::string, panel_layout> initialize_default_panel_layouts()
     // Add panel layout for each "sidebar" widget
     for( const widget &wgt : widget::get_all() ) {
         if( wgt._style == "sidebar" ) {
-            ret.emplace( wgt._label.translated(),
+            ret.emplace( wgt.getId().str(),
                          panel_layout( wgt._label, initialize_default_custom_panels( wgt ) ) );
         }
     }
@@ -2072,9 +2072,23 @@ void panel_manager::deserialize( JsonIn &jsin )
     JsonObject joLayouts( jsin.get_object() );
 
     current_layout_id = joLayouts.get_string( "current_layout_id" );
+    if( layouts.find( current_layout_id ) == layouts.end() ) {
+        // Layout id updated between loads.
+        // Shouldn't happen unless custom sidebar id's were modified or removed.
+        joLayouts.allow_omitted_members();
+        current_layout_id = "labels";
+        return;
+    }
+
     for( JsonObject joLayout : joLayouts.get_array( "layouts" ) ) {
         std::string layout_id = joLayout.get_string( "layout_id" );
-        auto &layout = layouts.find( layout_id )->second.panels();
+        const auto &cur_layout = layouts.find( layout_id );
+        if( cur_layout == layouts.end() ) {
+            joLayout.allow_omitted_members();
+            continue;
+        }
+
+        auto &layout = cur_layout->second.panels();
         auto it = layout.begin();
 
         for( JsonObject joPanel : joLayout.get_array( "panels" ) ) {

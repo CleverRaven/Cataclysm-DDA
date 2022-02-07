@@ -569,7 +569,7 @@ bool zone_data::set_type()
 }
 
 void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
-                              const bool manual )
+                              const bool manual, bool update_avatar )
 {
     if( is_vehicle && manual ) {
         debugmsg( "Tried moving a lootzone bound to a vehicle part" );
@@ -578,7 +578,7 @@ void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
     start = position.first;
     end = position.second;
 
-    zone_manager::get_manager().cache_data();
+    zone_manager::get_manager().cache_data( update_avatar );
 }
 
 void zone_data::set_enabled( const bool enabled_arg )
@@ -618,7 +618,7 @@ bool zone_manager::has_defined( const zone_type_id &type, const faction_id &fac 
     return type_iter != area_cache.end();
 }
 
-void zone_manager::cache_data()
+void zone_manager::cache_data( bool update_avatar )
 {
     area_cache.clear();
     avatar &player_character = get_avatar();
@@ -629,7 +629,8 @@ void zone_manager::cache_data()
         }
 
         // update the current cached locations for each personal zone
-        if( elem.get_is_personal() ) {
+        // if we are flagged to update the locations with this cache
+        if( elem.get_is_personal() && update_avatar ) {
             elem.update_cached_shift( cached_shift );
         }
 

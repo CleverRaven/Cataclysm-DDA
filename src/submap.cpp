@@ -345,3 +345,29 @@ void submap::mirror( bool horizontally )
         computers = mirror_comp;
     }
 }
+
+void submap::revert_submap( submap_revert &sr )
+{
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            point pt( x, y );
+            frn[x][y] = sr.get_furn( pt );
+            ter[x][y] = sr.get_ter( pt );
+            trp[x][y] = sr.get_trap( pt );
+        }
+    }
+}
+
+submap_revert submap::get_revert_submap() const
+{
+    submap_revert ret;
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            point pt( x, y );
+            ret.set_furn( pt, frn[x][y] );
+            ret.set_ter( pt, ter[x][y] );
+            ret.set_trap( pt, trp[x][y] );
+        }
+    }
+    return ret;
+}

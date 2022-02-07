@@ -1333,6 +1333,12 @@
     "type": "json_flag"
   },
   {
+    "id": "MUNDANE",
+    "//": "For items that have relic data but aren't actually magic",
+    "info": "This item is designed to have special effects",
+    "type": "json_flag"
+  },
+  {
     "id": "MYCUS_OK",
     "type": "json_flag"
   },
@@ -1842,9 +1848,155 @@
     "type": "json_flag"
   },
   {
+    "id": "GAS_TANK",
+    "type": "json_flag",
+    "info": "Airtight tanks for propane, natural gas, etc.",
+    "name": "gas tank"
+  },
+  {
     "id": "LASER_SIGHT",
     "type": "json_flag",
     "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
     "name": "laser sight"
+  },
+  {
+    "id": "EXO_SMALL",
+    "type": "json_flag",
+    "info": "This is meant for a small exosuit hardpoint."
+  },
+  {
+    "id": "EXO_LARGE",
+    "type": "json_flag",
+    "info": "This is meant for a large exosuit hardpoint."
+  },
+  {
+    "id": "EXO_PSU",
+    "type": "json_flag",
+    "info": "This is meant for an exosuit PSU hardpoint."
+  },
+  {
+    "id": "EXO_SMALL_GADGET",
+    "type": "json_flag",
+    "info": "This is meant for small exosuit gadgets, 1 L or less."
+  },
+  {
+    "id": "EXO_HELMET_GADGET",
+    "type": "json_flag",
+    "info": "This is meant for helmet-specific gadgets."
+  },
+  {
+    "id": "EXO_MEDIUM_GADGET",
+    "type": "json_flag",
+    "info": "This is meant for medium exosuit gadgets, between 1 L and 5 L."
+  },
+  {
+    "id": "EXO_LARGE_GADGET",
+    "type": "json_flag",
+    "info": "This is meant for large exosuit gadgets, larger than 5 L."
+  },
+  {
+    "id": "EXO_HELMET_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit helmet plating."
+  },
+  {
+    "id": "EXO_TORSO_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit torso plating."
+  },
+  {
+    "id": "EXO_PSU_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit PSU plating."
+  },
+  {
+    "id": "EXO_ARM_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit arm plating."
+  },
+  {
+    "id": "EXO_GLOVE_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit arm plating."
+  },
+  {
+    "id": "EXO_LEG_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit leg plating."
+  },
+  {
+    "id": "EXO_BOOT_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit foot plating."
+  },
+  {
+    "id": "EXO_SMALL",
+    "type": "json_flag",
+    "info": "This is meant for a small exosuit hardpoint."
+  },
+  {
+    "id": "EXO_LARGE",
+    "type": "json_flag",
+    "info": "This is meant for a large exosuit hardpoint."
+  },
+  {
+    "id": "EXO_PSU",
+    "type": "json_flag",
+    "info": "This is meant for an exosuit PSU hardpoint."
+  },
+  {
+    "id": "EXO_SMALL_GADGET",
+    "type": "json_flag",
+    "info": "This is meant for small exosuit gadgets, 1 L or less."
+  },
+  {
+    "id": "EXO_HELMET_GADGET",
+    "type": "json_flag",
+    "info": "This is meant for helmet-specific gadgets."
+  },
+  {
+    "id": "EXO_MEDIUM_GADGET",
+    "type": "json_flag",
+    "info": "This is meant for medium exosuit gadgets, between 1 L and 5 L."
+  },
+  {
+    "id": "EXO_LARGE_GADGET",
+    "type": "json_flag",
+    "info": "This is meant for large exosuit gadgets, larger than 5 L."
+  },
+  {
+    "id": "EXO_HELMET_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit helmet plating."
+  },
+  {
+    "id": "EXO_TORSO_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit torso plating."
+  },
+  {
+    "id": "EXO_PSU_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit PSU plating."
+  },
+  {
+    "id": "EXO_ARM_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit arm plating."
+  },
+  {
+    "id": "EXO_GLOVE_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit arm plating."
+  },
+  {
+    "id": "EXO_LEG_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit leg plating."
+  },
+  {
+    "id": "EXO_BOOT_PLATE",
+    "type": "json_flag",
+    "info": "This is meant for exosuit foot plating."
   }
 ]

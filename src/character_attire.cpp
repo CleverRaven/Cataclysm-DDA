@@ -805,9 +805,11 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
             bool conflicts = false;
 
             // add the sublocations to the overall body part layer and update if we are conflicting
-            if( it.has_sublocations() && item_layer >= highest_layer_so_far[bp] ) {
+            if( !bp->sub_parts.empty() && item_layer >= highest_layer_so_far[bp] ) {
                 conflicts = vals[bp].add_sub_locations( item_layer, it.get_covered_sub_body_parts() );
             } else {
+                // the body part doesn't have sublocations it for sure conflicts
+                // if its on the wrong layer it for sure conflicts
                 conflicts = true;
             }
 
@@ -819,8 +821,8 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
                  penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
                 vals[bp].layer( penalty_layer, layering_encumbrance, conflicts );
             }
-            vals[bp].armor_encumbrance += encumber_val;
         }
+        vals[bp].armor_encumbrance += encumber_val;
     }
 }
 
