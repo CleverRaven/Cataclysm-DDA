@@ -95,7 +95,9 @@ static const widget_id widget_test_hp_head_graph( "test_hp_head_graph" );
 static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
 static const widget_id widget_test_hunger_clause( "test_hunger_clause" );
 static const widget_id widget_test_int_color_num( "test_int_color_num" );
+static const widget_id widget_test_lighting_clause( "test_lighting_clause" );
 static const widget_id widget_test_mana_num( "test_mana_num" );
+static const widget_id widget_test_moon_phase_clause( "test_moon_phase_clause" );
 static const widget_id widget_test_morale_num( "test_morale_num" );
 static const widget_id widget_test_move_cost_num( "test_move_cost_num" );
 static const widget_id widget_test_move_count_mode_text( "test_move_count_mode_text" );
@@ -1112,6 +1114,41 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
     ava.set_rad( 241 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
+}
+
+TEST_CASE( "moon and lighting widgets", "[widget]" )
+{
+    // The CI tests have inconsistent lighting values for the same
+    // time/day/weather/sun azimuth/etc, so just validate extreme lighting
+    // conditions to check that the lighting widget updates properly.
+    widget w_light = widget_test_lighting_clause.obj();
+    widget w_moon = widget_test_moon_phase_clause.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+    clear_map();
+
+    set_time( calendar::turn_zero );
+    CHECK( w_light.layout( ava ) == "LIGHTING: <color_c_black_white>very dark</color>" );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>New moon</color>" );
+    set_time( calendar::turn_zero + 3_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Waxing crescent</color>" );
+    set_time( calendar::turn_zero + 7_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Half moon</color>" );
+    set_time( calendar::turn_zero + 10_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Waxing gibbous</color>" );
+    set_time( calendar::turn_zero + 15_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Full moon</color>" );
+    set_time( calendar::turn_zero + 18_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Waning gibbous</color>" );
+    set_time( calendar::turn_zero + 21_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Half moon</color>" );
+    set_time( calendar::turn_zero + 24_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Waning crescent</color>" );
+    set_time( calendar::turn_zero + 28_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>New moon</color>" );
+    set_time( calendar::turn + 12_hours );
+    CHECK( w_light.layout( ava ) == "LIGHTING: <color_c_yellow>bright</color>" );
 }
 
 TEST_CASE( "compass widget", "[widget][compass]" )
