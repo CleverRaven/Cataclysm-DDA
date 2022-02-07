@@ -31,7 +31,7 @@
     "id": "kämpuch",
     "copy-from": "platonic_flower",
     "name": { "str": "kämpuch", "str_pl": "kämpuches" },
-    "color": "purple",
+    "color": "blue",
     "comestible_type": "FOOD",
     "description": "A small rod of curled white petals, delicately shielding toxic pollen that will lead to an agonizing, if mercifully quick death.  Infamously used by romantic assassins, when an artistic death is deemed more important than practicality.",
     "volume": "5 ml"
@@ -41,7 +41,8 @@
     "id": "olieribos",
     "name": { "str": "olieribos sheaf", "str_pl": "olieribos sheaves" },
     "description": "Dark colored leaves and bitter roots, firmly tied together in a small sheaf.",
-    "color": "light_grey",
+    "color": "light_blue",
+    "volume": "3 ml"
     "looks_like": "wheat"
   },
   {
@@ -51,6 +52,7 @@
     "description": "Slim stripes cut from a bioluminescent mushroom, still surrounded by a fain glowing aura.",
     "symbol": "o",
     "color": "light_cyan",
+    "volume": "200 ml"
     "looks_like": "mushroom"
   },
   {
@@ -60,6 +62,7 @@
     "description": "Pure white moss capsules, shaped like a goat's horn.  The fine spores contained within are a powerfull magical reagent, and can be consumed to recover small amounts of mana.",
     "symbol": "o",
     "color": "white",
+    "volume": "50 ml"
     "looks_like": "mushroom"
   },
   {
@@ -101,7 +104,7 @@
     "id": "moly_tuber",
     "copy-from": "platonic_flower",
     "name": { "str": "moly tuber" },
-    "color": "grey",
+    "color": "blue",
     "symbol": "%",
     "calories": 70,
     "comestible_type": "FOOD",
@@ -112,7 +115,7 @@
     "id": "fern_flower",
     "copy-from": "platonic_flower",
     "name": { "str": "fern flower" },
-    "color": "grey",
+    "color": "blue",
     "symbol": "%",
     "calories": 70,
     "comestible_type": "FOOD",
@@ -123,7 +126,7 @@
     "id": "funnelcap_chunk",
     "copy-from": "platonic_flower",
     "name": { "str": "funnelcap chunk" },
-    "color": "grey",
+    "color": "blue",
     "symbol": "%",
     "calories": 70,
     "comestible_type": "FOOD",
