@@ -125,6 +125,8 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_redcells( "redcells" );
+static const vitamin_id vitamin_calcium( "calcium" );
+static const vitamin_id vitamin_iron( "iron" );
 
 static void eff_fun_onfire( Character &u, effect &it )
 {
@@ -937,7 +939,8 @@ static void eff_fun_sleep( Character &u, effect &it )
         it.mod_intensity( 1 );
     }
 
-    if( u.has_effect( effect_narcosis ) && u.get_fatigue() <= 25 ) {
+    if( ( u.has_effect( effect_narcosis ) || u.has_active_mutation( trait_CHLOROMORPH ) ) &&
+        u.get_fatigue() <= 25 ) {
         u.set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
     }
 
@@ -969,10 +972,13 @@ static void eff_fun_sleep( Character &u, effect &it )
                     // photosynthesis warrants absorbing kcal directly
                     u.mod_stored_nutr( -5 );
                 }
-                if( u.get_thirst() >= -30 ) {
-                    u.mod_thirst( -5 );
-                }
             }
+            if( u.get_thirst() >= -40 ) {
+                u.mod_thirst( -5 );
+            }
+            // Assuming eight hours of sleep, this will take care of Iron and Calcium needs
+            u.vitamin_mod( vitamin_iron, 2 );
+            u.vitamin_mod( vitamin_calcium, 2 );
         }
         if( u.has_trait( trait_M_SKIN3 ) ) {
             // Spores happen!
@@ -1029,7 +1035,8 @@ static void eff_fun_sleep( Character &u, effect &it )
 
     bool woke_up = false;
     int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( u.get_fatigue() * 2 * 5 ) );
-    if( !u.is_blind() && !u.has_effect( effect_narcosis ) ) {
+    if( !u.is_blind() && !u.has_effect( effect_narcosis ) &&
+        !u.has_active_mutation( trait_CHLOROMORPH ) ) {
         // People who can see while sleeping are acclimated to the light.
         if( !u.has_flag( json_flag_SEESLEEP ) ) {
             if( u.has_trait( trait_HEAVYSLEEPER2 ) && !u.has_trait( trait_HIBERNATE ) ) {
