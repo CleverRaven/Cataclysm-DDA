@@ -72,6 +72,18 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_shelter_infest_a",
+    "name": "Infested Shelter - Open Floorplan",
+    "terrain": [ "shelter_3" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_infest_b",
+    "name": "Infested Shelter - Compartmentalized",
+    "terrain": [ "shelter_3_2" ]
+  },    
+  {
+    "type": "start_location",
     "id": "sloc_refugee_center",
     "name": "Refugee Center",
     "terrain": [ "evac_center_7" ]
