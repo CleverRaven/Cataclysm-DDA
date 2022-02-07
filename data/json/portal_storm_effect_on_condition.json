@@ -50,7 +50,7 @@
                 "u_can_see",
                 "u_is_outside",
                 { "not": { "u_has_effect": "sleep" } },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 3 } ], "op": "<" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, "<", { "const": 3 } ] }
               ]
             },
             "effect": [
@@ -73,7 +73,7 @@
                 "u_can_see",
                 { "not": "u_is_outside" },
                 { "not": { "u_has_effect": "sleep" } },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 3 } ], "op": "<" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, "<", { "const": 3 } ] }
               ]
             },
             "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_1", "snippet": true } ]
@@ -85,8 +85,8 @@
                 "u_can_see",
                 "u_is_outside",
                 { "not": { "u_has_effect": "sleep" } },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 6 } ], "op": "<" },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 3 } ], "op": ">=" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, "<", { "const": 6 } ] },
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, ">=", { "const": 3 } ] }
               ]
             },
             "effect": [
@@ -109,8 +109,8 @@
                 "u_can_see",
                 { "not": "u_is_outside" },
                 { "not": { "u_has_effect": "sleep" } },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 6 } ], "op": "<" },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 3 } ], "op": ">=" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, "<", { "const": 6 } ] },
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, ">=", { "const": 3 } ] }
               ]
             },
             "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_2", "snippet": true } ]
@@ -122,7 +122,7 @@
                 "u_can_see",
                 "u_is_outside",
                 { "not": { "u_has_effect": "sleep" } },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 6 } ], "op": ">=" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, ">=", { "const": 6 } ] }
               ]
             },
             "effect": [
@@ -145,7 +145,7 @@
                 "u_can_see",
                 { "not": "u_is_outside" },
                 { "not": { "u_has_effect": "sleep" } },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, { "const": 6 } ], "op": ">=" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, ">=", { "const": 6 } ] }
               ]
             },
             "effect": [ { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_3", "snippet": true } ]
@@ -164,11 +164,8 @@
         "or": [
           { "is_weather": "portal_storm" },
           { "is_weather": "early_portal_storm" },
-          { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" },
-          {
-            "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, { "const": 1 } ],
-            "op": "="
-          }
+          { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] },
+          { "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
         ]
       }
     },
@@ -196,7 +193,7 @@
       "not": {
         "or": [
           { "is_weather": "portal_storm" },
-          { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" }
+          { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] }
         ]
       }
     },
@@ -230,15 +227,13 @@
       "or": [
         { "is_weather": "portal_storm" },
         { "is_weather": "early_portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, { "const": 1 } ], "op": "=" },
-        {
-          "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, { "const": 1 } ],
-          "op": "="
-        }
+        { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
       ]
     },
     "effect": [
       { "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 0 } ] },
       "next_weather",
       { "u_message": "The damage to reality fades.  Hopefully the scarring is minimal.", "type": "good" },
       { "set_queue_effect_on_condition": [ "EOC_WORSEN_PORTAL_STORM" ] }
@@ -278,7 +273,7 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 2 } ], "op": "<=" }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 2 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -314,8 +309,8 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 2 } ], "op": ">" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 4 } ], "op": "<=" }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 2 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 4 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -328,7 +323,7 @@
             "set_weighted_list_eocs": [
               [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 3 ],
-              [ "EOC_PORTAL_ABSENCE", 2 ],
+              [ "EOC_PORTAL_ABSENCE", 1 ],
               [ "EOC_PORTAL_MEMORIES", 1 ],
               [ "EOC_PORTAL_PAIN", 3 ],
               [ "EOC_PORTAL_LIGHT", 2 ],
@@ -354,7 +349,7 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 4 } ], "op": ">" }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -366,10 +361,9 @@
           "effect": {
             "set_weighted_list_eocs": [
               [ "EOC_PORTAL_GIANT_APPENDAGE", 3 ],
-              [ "EOC_PORTAL_INCORPOREAL", 2 ],
               [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
               [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
-              [ "EOC_PORTAL_ABSENCE", 1 ],
+              [ "EOC_PORTAL_ABSENCE", 2 ],
               [ "EOC_PORTAL_MEMORIES", 2 ],
               [ "EOC_PORTAL_LIGHT", 2 ],
               [ "EOC_PORTAL_TELEPORT_STUCK_START", 1 ],
@@ -394,22 +388,22 @@
         "set_queue_effect_on_condition": [
           {
             "id": "EOC_PORTAL_STORM_MESSAGE_1",
-            "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 2 } ], "op": "<=" },
+            "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 2 } ] },
             "effect": [ { "u_message": "PORTAL_STORM_MESSAGES_1", "snippet": true } ]
           },
           {
             "id": "EOC_PORTAL_STORM_MESSAGE_2",
             "condition": {
               "and": [
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 4 } ], "op": "<" },
-                { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 2 } ], "op": ">=" }
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<", { "const": 4 } ] },
+                { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">=", { "const": 2 } ] }
               ]
             },
             "effect": [ { "u_message": "PORTAL_STORM_MESSAGES_2", "snippet": true } ]
           },
           {
             "id": "EOC_PORTAL_STORM_MESSAGE_3",
-            "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, { "const": 4 } ], "op": ">=" },
+            "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">=", { "const": 4 } ] },
             "effect": [ { "u_message": "PORTAL_STORM_MESSAGES_3", "snippet": true } ]
           }
         ]
@@ -436,7 +430,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_SHIFTING_MASS",
-    "condition": "u_is_outside",
     "effect": [
       {
         "u_message": "Small gashes in reality open nearby. On the other side you see an endless dark ocean. Some alien beings spill out before the portals close.",
@@ -456,6 +449,7 @@
         "u_set_spawn_monster": "mon_shifting_mass",
         "real_count": { "global_val": "ps_shifting_mass_count", "default": 1 },
         "hallucination_count": { "global_val": "ps_shifting_mass_count", "default": 1 },
+        "outdoor_only": true,
         "lifespan_min": "5 seconds",
         "lifespan_max": "2 minutes"
       }
@@ -464,7 +458,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_IMPOSSIBLE_SHAPE",
-    "condition": "u_is_outside",
     "effect": [
       {
         "u_message": "You cannot remember how the impossible shapes came to be here. The pain in your head suggests that is a good thing.",
@@ -475,6 +468,7 @@
         "u_set_spawn_monster": "mon_impossible_shape",
         "real_count": 1,
         "hallucination_count": 1,
+        "outdoor_only": true,
         "lifespan_min": "1 minutes",
         "lifespan_max": "3 minutes"
       }
@@ -483,13 +477,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_GIANT_APPENDAGE",
-    "condition": "u_is_outside",
     "effect": [
       { "u_message": "Bizarre limbs seemingly tear their way into reality from elsewhere.", "type": "bad" },
       {
         "u_set_spawn_monster": "mon_giant_appendage",
         "real_count": 1,
         "hallucination_count": 3,
+        "outdoor_only": true,
+        "min_radius": 3,
         "lifespan_min": "5 seconds",
         "lifespan_max": "45 seconds"
       }
@@ -498,13 +493,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_MEMORIES",
-    "condition": "u_is_outside",
     "effect": [
       { "u_message": "Ghosts of the dead surround you.", "type": "bad" },
       {
         "u_set_spawn_monster": "mon_memory",
         "real_count": 10,
         "hallucination_count": 10,
+        "outdoor_only": true,
         "lifespan_min": "5 seconds",
         "lifespan_max": "2 minutes"
       }
@@ -513,12 +508,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_ABSENCE",
-    "condition": "u_is_outside",
     "effect": [
       { "u_message": "The very notion of empty space is made a cruel joke. Nearby nothing becomes even less.", "type": "bad" },
       {
         "u_set_spawn_monster": "mon_absence",
         "real_count": 1,
+        "outdoor_only": true,
+        "min_radius": 3,
         "lifespan_min": "45 seconds",
         "lifespan_max": "5 minutes"
       }
@@ -527,7 +523,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_PAIN",
-    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
     "effect": [
       {
         "u_message": "You awake with a start from what must have been a violent and horrifying daydream. Your body aches as if the wounds were real.",
@@ -540,7 +536,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_SMOKE",
-    "condition": "u_is_outside",
     "effect": [
       { "u_message": "A million tiny pinpricks in space open for an instant and smoke pours everywhere.", "type": "bad" },
       { "u_set_field": "fd_smoke" }
@@ -619,7 +614,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_INCORPOREAL",
-    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
     "effect": [
       {
         "arithmetic": [
@@ -775,7 +770,14 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_MAPGEN",
     "effect": [
-      { "u_location_variable": { "global_val": "portal_dungeon" }, "target_params": { "om_terrain": "field" } },
+      { "u_location_variable": { "global_val": "portal_dungeon" } },
+      {
+        "mapgen_update": "portal_dungeon",
+        "target_var": { "global_val": "portal_dungeon" },
+        "revert": true,
+        "time_in_future_min": "5 minutes",
+        "time_in_future_max": "5 minutes"
+      },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "portal_dungeon" } }
     ]
   },
@@ -783,10 +785,5 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_MAPGEN_TRAP_CHANGE",
     "effect": [ { "mapgen_update": "portal_dungeon_trap_change", "target_var": { "global_val": "portal_dungeon" } } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_MAPGEN_UNDO",
-    "effect": [ { "mapgen_update": "portal_dungeon_undo", "target_var": { "global_val": "portal_dungeon" } } ]
   }
 ]

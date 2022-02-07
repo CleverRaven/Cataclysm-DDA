@@ -46,6 +46,7 @@
 #include "line.h"
 #include "magic.h"
 #include "map.h"
+#include "mapbuffer.h"
 #include "mapgen_functions.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -1998,7 +1999,7 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
             permanent = true;
-            dov_duration = get_duration_or_var( jo, "", false, 0_turns );
+            dov_duration = get_duration_or_var( jo, "", false, 1_turns );
         } else {
             dov_duration = get_duration_or_var( jo, "duration", false, 1000_turns );
         }
@@ -2405,6 +2406,7 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
                                     -1, tripoint_abs_sm( target_pos ), radius, transform.str() );
         } else {
             get_map().transform_radius( transform, radius, target_pos );
+            get_map().invalidate_map_cache( target_pos.z );
         }
     };
 }
@@ -2431,8 +2433,9 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         type = var.type;
         target_var = var.name;
     }
+    bool revert = jo.get_bool( "revert", false );
     function = [target_params, update_ids, target_var, type, dov_time_in_future_min,
-                   dov_time_in_future_max]( const dialogue & d ) {
+                   dov_time_in_future_max, revert]( const dialogue & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
             const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( type == var_type::npc ), target_var,
@@ -2447,18 +2450,32 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         }
         time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
         if( min > 0_seconds ) {
-            for( const update_mapgen_id &mapgen_update_id : update_ids ) {
-                get_timed_events().add( timed_event_type::UPDATE_MAPGEN,
-                                        calendar::turn + rng( min, dov_time_in_future_max.evaluate( d.actor(
-                                                    dov_time_in_future_max.is_npc() ) ) ),
-                                        -1, project_to<coords::sm>( omt_pos ), 0, mapgen_update_id.str() );
+            time_point tif = calendar::turn + rng( min,
+                                                   dov_time_in_future_max.evaluate( d.actor( dov_time_in_future_max.is_npc() ) ) );
+            if( !revert ) {
+                for( const update_mapgen_id &mapgen_update_id : update_ids ) {
+                    get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),
+                                            0, mapgen_update_id.str() );
+                }
+            } else {
+                // maptile is 4 submaps so queue up 4 submap reverts
+                for( int x = 0; x < 2; x++ ) {
+                    for( int y = 0; y < 2; y++ ) {
+                        tripoint_abs_sm revert_sm = project_to<coords::sm>( omt_pos );
+                        revert_sm += tripoint( x, y, 0 );
+                        const submap *sm = MAPBUFFER.lookup_submap( tripoint( revert_sm.x(), revert_sm.y(),
+                                           revert_sm.z() ) );
+                        get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1, revert_sm, 0, "",
+                                                sm->get_revert_submap() );
+                    }
+                }
             }
         } else {
             for( const update_mapgen_id &mapgen_update_id : update_ids ) {
                 run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
             }
+            get_map().invalidate_map_cache( omt_pos.z() );
         }
-
     };
 }
 
@@ -3097,6 +3114,14 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
                     you->vitamin_set( vitamin_id( vitamin_name ), handle_min_max( d, input, min, max ) );
                 }
             };
+        } else if( checked_value == "age" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_age( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "height" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_height( handle_min_max( d, input, min, max ) );
+            };
         }
     }
     jo.throw_error( "error setting integer destination in " + jo.str() );
@@ -3546,6 +3571,36 @@ void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
                                         dov_length_max.evaluate( d.actor( dov_length_max.is_npc() ) ) ) +
                                 1_seconds/*We add a second here because this will get ticked on the turn its applied before it has an effect*/,
                                 -1, iov.evaluate( d.actor( iov.is_npc() ) ) );
+    };
+}
+
+void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, const std::string &member )
+{
+    JsonObject jobj = jo.get_object( member );
+    int allowance = 0;
+    std::vector<trial_mod> debt_modifiers;
+    if( jobj.has_int( "allowance" ) ) {
+        allowance = jobj.get_int( "allowance" );
+    } else if( jobj.has_array( "allowance" ) ) {
+        for( JsonArray jmod : jobj.get_array( "allowance" ) ) {
+            trial_mod this_modifier;
+            this_modifier.first = jmod.next_string();
+            this_modifier.second = jmod.next_int();
+            debt_modifiers.push_back( this_modifier );
+        }
+    }
+    function = [debt_modifiers, allowance]( const dialogue & d ) {
+        int debt = allowance;
+        for( const trial_mod &this_mod : debt_modifiers ) {
+            if( this_mod.first == "TOTAL" ) {
+                debt *= this_mod.second;
+            } else {
+                debt += parse_mod( d, this_mod.first, this_mod.second );
+            }
+        }
+        if( npc *p = d.actor( true )->get_npc() ) {
+            talk_function::give_equipment_allowance( *p, debt );
+        }
     };
 }
 
@@ -4028,6 +4083,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_teleport( jo, "npc_teleport", true );
     } else if( jo.has_int( "custom_light_level" ) || jo.has_object( "custom_light_level" ) ) {
         subeffect_fun.set_custom_light_level( jo, "custom_light_level" );
+    } else if( jo.has_object( "give_equipment" ) ) {
+        subeffect_fun.set_give_equipment( jo, "give_equipment" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

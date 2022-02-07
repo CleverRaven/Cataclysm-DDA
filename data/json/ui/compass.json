@@ -31,7 +31,7 @@
   {
     "id": "compass_W_text",
     "type": "widget",
-    "label": "W",
+    "label": { "str": "W", "ctxt": "compass" },
     "direction": "W",
     "copy-from": "compass_text_template"
   },

@@ -3,7 +3,6 @@
     "type": "palette",
     "id": "long_grass_meadow_palette",
     "terrain": {
-      " ": "t_null",
       ".": [ [ "t_region_groundcover", 10 ], "t_grass_long" ],
       ",": [ [ "t_region_groundcover", 4 ], "t_grass_long" ],
       ";": [ "t_region_groundcover", [ "t_grass_long", 2 ] ],
@@ -20,7 +19,6 @@
     "type": "palette",
     "id": "copse_trees_palette",
     "terrain": {
-      " ": "t_null",
       ".": [ [ "t_region_groundcover", 60 ], "t_region_tree", "t_region_shrub" ],
       ",": [ [ "t_region_groundcover", 30 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 2 ], "t_region_shrub" ],
       ";": [ [ "t_region_groundcover", 10 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 6 ], "t_region_shrub" ],
@@ -591,7 +589,6 @@
           ]
         }
       },
-      "terrain": { " ": "t_null", "*": "t_null", "?": "t_null", "[": "t_null", "]": "t_null", "~": "t_null" },
       "furniture": { "~": "f_clear", "*": "f_clear", "[": "f_clear", "]": "f_clear", "?": "f_clear", " ": "f_clear" },
       "place_monsters": [
         { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
@@ -691,7 +688,6 @@
           ]
         }
       },
-      "terrain": { " ": "t_null", "*": "t_null", "?": "t_null", "[": "t_null", "]": "t_null", "~": "t_null" },
       "furniture": { "~": "f_clear", "*": "f_clear", "[": "f_clear", "]": "f_clear", "?": "f_clear", " ": "f_clear" },
       "place_monsters": [
         { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },

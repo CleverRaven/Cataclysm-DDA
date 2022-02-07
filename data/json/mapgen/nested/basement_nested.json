@@ -8,7 +8,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": "f_cardboard_box" },
       "items": { "x": { "item": "art", "chance": 90, "repeat": [ 0, 3 ] } }
     }
@@ -22,7 +21,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": [ "f_crate_c", "f_cardboard_box" ] },
       "items": { "x": { "item": "mischw", "chance": 90, "repeat": [ 0, 3 ] } }
     }
@@ -36,7 +34,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": "f_cardboard_box" },
       "items": { "x": { "item": "bed", "chance": 90, "repeat": [ 0, 8 ] } }
     }
@@ -50,7 +47,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": "f_cardboard_box" },
       "items": { "x": { "item": "clothing_outdoor_set", "chance": 90, "repeat": [ 0, 3 ] } }
     }
@@ -64,7 +60,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": "f_cardboard_box" },
       "items": {
         "x": [
@@ -83,7 +78,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": "f_cardboard_box" },
       "items": { "x": { "item": "donated_clothes", "chance": 90, "repeat": [ 0, 3 ] } }
     }
@@ -97,7 +91,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": "f_cardboard_box" },
       "items": { "x": { "item": "crate_toys", "chance": 90, "repeat": [ 0, 3 ] } }
     }
@@ -105,7 +98,7 @@
   {
     "type": "palette",
     "id": "basement_utility_nest_palette",
-    "terrain": { " ": "t_null", ".": "t_thconc_floor", "g": "t_thconc_floor", "f": "t_thconc_floor" },
+    "terrain": { ".": "t_thconc_floor", "g": "t_thconc_floor", "f": "t_thconc_floor" },
     "furniture": { "g": "f_water_heater", "f": "f_home_furnace", "a": [ "f_air_conditioner", "f_null", "f_counter" ] },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
   },
@@ -3004,7 +2997,7 @@
         "|      |",
         "||||||||"
       ],
-      "terrain": { "|": "t_wall_y", " ": "t_null", "+": "t_door_c" },
+      "terrain": { "|": "t_wall_y", "+": "t_door_c" },
       "nested": { "1": { "chunks": [ [ "null", 5 ], [ "6x6_sewing_open", 40 ], [ "6x6_electronics_open", 40 ] ] } }
     }
   },
@@ -3024,7 +3017,7 @@
         "|      |",
         "||||+|||"
       ],
-      "terrain": { "|": "t_wall_y", " ": "t_null", "+": "t_door_c" },
+      "terrain": { "|": "t_wall_y", "+": "t_door_c" },
       "nested": { "1": { "chunks": [ [ "null", 5 ], [ "6x6_sewing_open", 40 ], [ "6x6_electronics_open", 40 ] ] } }
     }
   },
@@ -3044,7 +3037,7 @@
         "|      |",
         "||||||||"
       ],
-      "terrain": { "|": "t_wall_y", " ": "t_null", "+": "t_door_c" },
+      "terrain": { "|": "t_wall_y", "+": "t_door_c" },
       "nested": { "1": { "chunks": [ [ "null", 5 ], [ "6x6_sewing_open", 40 ], [ "6x6_electronics_open", 40 ] ] } }
     }
   },
@@ -3064,7 +3057,7 @@
         "|      |",
         "||||||||"
       ],
-      "terrain": { "|": "t_wall_y", " ": "t_null", "+": "t_door_c" },
+      "terrain": { "|": "t_wall_y", "+": "t_door_c" },
       "nested": { "1": { "chunks": [ [ "null", 5 ], [ "6x6_sewing_open", 40 ], [ "6x6_electronics_open", 40 ] ] } }
     }
   },

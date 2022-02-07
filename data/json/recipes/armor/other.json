@@ -337,7 +337,6 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "fabrication", 2 ],
     "time": "5 m",
     "autolearn": true,
     "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ], [ "bottle_plastic_small", 1 ] ] ]
@@ -350,7 +349,6 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "fabrication", 2 ],
     "time": "10 m",
     "autolearn": true,
     "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ], [ "bottle_plastic_small", 1 ] ] ]

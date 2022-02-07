@@ -4316,7 +4316,7 @@ cata::optional<int> mutagen_actor::use( Character &p, item &it, bool, const trip
 
     p.add_msg_if_player( m_category.mutagen_message() );
 
-    if( one_in( 6 ) ) {
+    if( one_in( 6 ) && !p.is_on_ground() ) {
         p.add_msg_player_or_npc( m_bad,
                                  _( "You suddenly feel dizzy, and collapse to the ground." ),
                                  _( "<npcname> suddenly collapses to the ground!" ) );
@@ -4333,7 +4333,9 @@ cata::optional<int> mutagen_actor::use( Character &p, item &it, bool, const trip
     p.mod_stored_nutr( m_category.mutagen_hunger * mut_count );
     p.mod_thirst( m_category.mutagen_thirst * mut_count );
     p.mod_fatigue( m_category.mutagen_fatigue * mut_count );
-    p.vitamins_mod( it.get_comestible()->default_nutrition.vitamins );
+    if( it.is_comestible() && !it.get_comestible()->default_nutrition.vitamins.empty() ) {
+        p.vitamins_mod( it.get_comestible()->default_nutrition.vitamins );
+    }
 
     return it.type->charges_to_use();
 }
@@ -4392,7 +4394,9 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
     p.mod_hunger( m_category.iv_hunger * mut_count );
     p.mod_thirst( m_category.iv_thirst * mut_count );
     p.mod_fatigue( m_category.iv_fatigue * mut_count );
-    p.vitamins_mod( it.get_comestible()->default_nutrition.vitamins );
+    if( it.is_comestible() && !it.get_comestible()->default_nutrition.vitamins.empty() ) {
+        p.vitamins_mod( it.get_comestible()->default_nutrition.vitamins );
+    }
 
     if( m_category.id == mutation_category_CHIMERA ) {
         p.add_morale( MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max );

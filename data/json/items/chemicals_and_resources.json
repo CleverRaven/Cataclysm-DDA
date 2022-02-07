@@ -525,6 +525,22 @@
   },
   {
     "type": "AMMO",
+    "id": "cathod_mix",
+    "category": "chems",
+    "price_postapoc": 100,
+    "name": { "str_sp": "acidic electrolyte paste" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A moisturized mixture of zinc chloride and manganese dioxide, slightly acidic.  It can be used in the production of zinc-carbon batteries.",
+    "material": [ "powder_nonflam" ],
+    "volume": "151 ml",
+    "weight": "500 mg",
+    "bashing": 1,
+    "ammo_type": "components",
+    "count": 1000
+  },
+  {
+    "type": "AMMO",
     "id": "chem_potassium_chloride",
     "category": "chems",
     "price": 600,
