@@ -100,7 +100,7 @@
     "type": "COMESTIBLE",
     "id": "dragon_nail",
     "copy-from": "platonic_flower",
-    "name": { "str": "dragon nail" },
+    "name": { "str": "dragonail" },
     "color": "brown",
     "symbol": "o",
     "calories": 800,
