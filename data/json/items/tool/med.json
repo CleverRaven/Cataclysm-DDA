@@ -167,22 +167,6 @@
     "flags": [ "THERMOMETER" ]
   },
   {
-    "id": "wet_o_meter",
-    "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "wet-o-meter" },
-    "description": "A plastic wet-o-meter that can read the wetness of bodyparts.",
-    "weight": "1 g",
-    "volume": "250 ml",
-    "price": 100,
-    "price_postapoc": 10,
-    "to_hit": -3,
-    "material": [ "plastic" ],
-    "symbol": ";",
-    "color": "blue",
-    "use_action": [ "WET_O_METER" ]
-  },
-  {
     "id": "oxygen_tank",
     "type": "TOOL",
     "name": { "str": "oxygen tank" },

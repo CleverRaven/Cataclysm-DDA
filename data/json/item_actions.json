@@ -991,11 +991,6 @@
   },
   {
     "type": "item_action",
-    "id": "WET_O_METER",
-    "name": { "str": "Check wetness of bodyparts" }
-  },
-  {
-    "type": "item_action",
     "id": "XANAX",
     "name": { "str": "Take" }
   },
