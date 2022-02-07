@@ -2,6 +2,7 @@
 
 #include "character_martial_arts.h"
 #include "color.h"
+#include "condition.h"
 #include "display.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -59,8 +60,6 @@ std::string enum_to_string<widget_var>( widget_var data )
     switch( data ) {
         case widget_var::focus:
             return "focus";
-        case widget_var::hunger:
-            return "hunger";
         case widget_var::move:
             return "move";
         case widget_var::move_cost:
@@ -75,8 +74,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "speed";
         case widget_var::stamina:
             return "stamina";
-        case widget_var::thirst:
-            return "thirst";
         case widget_var::fatigue:
             return "fatigue";
         case widget_var::health:
@@ -123,12 +120,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "body_temp_text";
         case widget_var::bp_armor_outer_text:
             return "bp_armor_outer_text";
-        case widget_var::bp_status_text:
-            return "bp_status_text";
-        case widget_var::bp_status_sym_text:
-            return "bp_status_sym_text";
-        case widget_var::bp_status_legend_text:
-            return "bp_status_legend_text";
         case widget_var::date_text:
             return "date_text";
         case widget_var::env_temp_text:
@@ -137,8 +128,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "fatigue_text";
         case widget_var::health_text:
             return "health_text";
-        case widget_var::hunger_text:
-            return "hunger_text";
         case widget_var::lighting_text:
             return "lighting_text";
         case widget_var::mood_text:
@@ -147,10 +136,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "moon_phase_text";
         case widget_var::move_count_mode_text:
             return "move_count_mode_text";
-        case widget_var::move_mode_letter:
-            return "move_mode_letter";
-        case widget_var::move_mode_text:
-            return "move_mode_text";
         case widget_var::pain_text:
             return "pain_text";
         case widget_var::overmap_loc_text:
@@ -161,14 +146,10 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "place_text";
         case widget_var::power_text:
             return "power_text";
-        case widget_var::rad_badge_text:
-            return "rad_badge_text";
         case widget_var::safe_mode_text:
             return "safe_mode_text";
         case widget_var::style_text:
             return "style_text";
-        case widget_var::thirst_text:
-            return "thirst_text";
         case widget_var::time_text:
             return "time_text";
         case widget_var::veh_azimuth_text:
@@ -183,8 +164,6 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "weary_malus_text";
         case widget_var::weather_text:
             return "weather_text";
-        case widget_var::weight_text:
-            return "weight_text";
         case widget_var::wielding_text:
             return "wielding_text";
         case widget_var::wind_text:
@@ -268,7 +247,7 @@ std::string enum_to_string<widget_alignment>( widget_alignment align )
 }
 } // namespace io
 
-void widget_phrase::load( const JsonObject &jo )
+void widget_clause::load( const JsonObject &jo )
 {
     optional( jo, false, "id", id );
     optional( jo, false, "text", text );
@@ -276,68 +255,96 @@ void widget_phrase::load( const JsonObject &jo )
     optional( jo, false, "value", value, INT_MIN );
 
     std::string clr;
-    optional( jo, false, "color", clr, "white" );
+    optional( jo, false, "color", clr, "" );
     color = color_from_string( clr );
+
+    if( jo.has_member( "condition" ) ) {
+        read_condition<dialogue>( jo, "condition", condition, false );
+        has_condition = true;
+    }
 }
 
-int widget_phrase::get_val_for_id( const std::string &phrase_id, const widget_id &wgt )
+bool widget_clause::meets_condition( const std::string &opt_var ) const
 {
-    auto iter = std::find_if( wgt->_phrases.begin(), wgt->_phrases.end(),
-    [&phrase_id]( const widget_phrase & wp ) {
-        return wp.id == phrase_id;
-    } );
-    return iter == wgt->_phrases.end() ? INT_MIN : iter->value;
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    d.reason = opt_var;
+    return !has_condition || condition( d );
 }
 
-const translation &widget_phrase::get_text_for_id( const std::string &phrase_id,
-        const widget_id &wgt )
+bool widget_clause::meets_condition( const std::set<bodypart_id> &bps ) const
 {
-    static const translation none;
-    auto iter = std::find_if( wgt->_phrases.begin(), wgt->_phrases.end(),
-    [&phrase_id]( const widget_phrase & wp ) {
-        return wp.id == phrase_id;
-    } );
-    return iter == wgt->_phrases.end() ? none : iter->text;
+    if( bps.empty() ) {
+        return meets_condition();
+    }
+    for( const bodypart_id &bid : bps ) {
+        if( meets_condition( bid.id().str() ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
-const std::string &widget_phrase::get_sym_for_id( const std::string &phrase_id,
-        const widget_id &wgt )
+const widget_clause *widget_clause::get_clause_for_id( const std::string &clause_id,
+        const widget_id &wgt, int thresh_val, bool skip_condition )
 {
-    static const std::string none;
-    auto iter = std::find_if( wgt->_phrases.begin(), wgt->_phrases.end(),
-    [&phrase_id]( const widget_phrase & wp ) {
-        return wp.id == phrase_id;
-    } );
-    return iter == wgt->_phrases.end() ? none : iter->sym;
-}
-
-nc_color widget_phrase::get_color_for_id( const std::string &phrase_id, const widget_id &wgt,
-        int val )
-{
-    std::map<int, nc_color> vals;
-    for( const widget_phrase &wp : wgt->_phrases ) {
-        if( phrase_id != wp.id ) {
+    std::map<int, const widget_clause *> vals;
+    for( const widget_clause &wp : wgt->_clauses ) {
+        if( clause_id != wp.id || ( !skip_condition && !wp.meets_condition( wgt->_bps ) ) ) {
             continue;
         }
-        if( val == INT_MIN ) {
-            return wp.color;
+        if( thresh_val == INT_MIN || !skip_condition ) {
+            return &wp;
         }
-        vals.emplace( wp.value, wp.color );
+        vals.emplace( wp.value, &wp );
     }
     if( vals.empty() ) {
-        return c_white;
+        return nullptr;
     }
 
     int key = INT_MIN;
     for( const auto &v : vals ) {
-        if( v.first == val ) {
+        if( v.first == thresh_val ) {
             return v.second;
-        } else if( v.first > val ) {
+        } else if( v.first > thresh_val ) {
             break;
         }
         key = v.first;
     }
-    return key == INT_MIN ? c_white : vals[key];
+    return key == INT_MIN ? nullptr : vals[key];
+}
+
+int widget_clause::get_val_for_id( const std::string &clause_id, const widget_id &wgt,
+                                   bool skip_condition )
+{
+    const widget_clause *wp = widget_clause::get_clause_for_id( clause_id, wgt, INT_MIN,
+                              skip_condition );
+    return wp == nullptr ? INT_MIN : wp->value;
+}
+
+const translation &widget_clause::get_text_for_id( const std::string &clause_id,
+        const widget_id &wgt, bool skip_condition )
+{
+    static const translation none;
+    const widget_clause *wp = widget_clause::get_clause_for_id( clause_id, wgt, INT_MIN,
+                              skip_condition );
+    return wp == nullptr ? none : wp->text;
+}
+
+const std::string &widget_clause::get_sym_for_id( const std::string &clause_id,
+        const widget_id &wgt, bool skip_condition )
+{
+    static const std::string none;
+    const widget_clause *wp = widget_clause::get_clause_for_id( clause_id, wgt, INT_MIN,
+                              skip_condition );
+    return wp == nullptr ? none : wp->sym;
+}
+
+nc_color widget_clause::get_color_for_id( const std::string &clause_id, const widget_id &wgt,
+        bool skip_condition )
+{
+    const widget_clause *wp = widget_clause::get_clause_for_id( clause_id, wgt, INT_MIN,
+                              skip_condition );
+    return wp == nullptr ? c_white : wp->color;
 }
 
 void widget::load( const JsonObject &jo, const std::string & )
@@ -350,10 +357,8 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "label", _label, translation() );
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
-    optional( jo, was_loaded, "var_min", _var_min );
-    optional( jo, was_loaded, "var_max", _var_max );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
-    optional( jo, was_loaded, "text_align", _text_align, widget_alignment::RIGHT );
+    optional( jo, was_loaded, "text_align", _text_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "flags", _flags );
 
@@ -365,7 +370,19 @@ void widget::load( const JsonObject &jo, const std::string & )
     }
 
     if( jo.has_string( "bodypart" ) ) {
-        _bp_id = bodypart_id( jo.get_string( "bodypart" ) );
+        _bps.clear();
+        _bps.emplace( bodypart_id( jo.get_string( "bodypart" ) ) );
+    }
+
+    if( jo.has_array( "bodyparts" ) ) {
+        _bps.clear();
+        for( const JsonValue val : jo.get_array( "bodyparts" ) ) {
+            if( !val.test_string() ) {
+                jo.throw_error( "Invalid string value in bodyparts array", "bodyparts" );
+                continue;
+            }
+            _bps.emplace( bodypart_id( val.get_string() ) );
+        }
     }
 
     if( jo.has_array( "colors" ) ) {
@@ -375,13 +392,17 @@ void widget::load( const JsonObject &jo, const std::string & )
         }
     }
 
-    if( jo.has_array( "phrases" ) ) {
-        _phrases.clear();
-        for( JsonObject jobj : jo.get_array( "phrases" ) ) {
-            widget_phrase phs;
+    if( jo.has_array( "clauses" ) ) {
+        _clauses.clear();
+        for( JsonObject jobj : jo.get_array( "clauses" ) ) {
+            widget_clause phs;
             phs.load( jobj );
-            _phrases.emplace_back( phs );
+            _clauses.emplace_back( phs );
         }
+    }
+
+    if( jo.has_object( "default_clause" ) ) {
+        _default_clause.load( jo.get_object( "default_clause" ) );
     }
 
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
@@ -434,43 +455,148 @@ void widget::finalize()
     }
 }
 
-int widget::get_var_max( const avatar &ava ) const
+const bodypart_id &widget::only_bp() const
 {
-    // Some vars (like HP) have an inherent maximum, used unless the widget overrides it
-    int max_val = 1;
-    // max_val (used only for graphs) is set to a known maximum if the attribute has one; otherwise,
-    // it is up to the graph widget to set "var_max" so the graph widget can determine a scaling.
+    static const bodypart_id bp_null = bodypart_str_id::NULL_ID();
+    // For widgets that rely on just one bodypart, assume there's only one in the set
+    return _bps.empty() ? bp_null : *_bps.begin();
+}
+
+void widget::set_default_var_range( const avatar &ava )
+{
+    _var_min = INT_MIN;
+    _var_max = INT_MAX;
+    _var_norm = std::make_pair( INT_MIN, INT_MAX );
+
     switch( _var ) {
-        case widget_var::stamina:
-            max_val = ava.get_stamina_max();
+        case widget_var::cardio_acc:
+            break; // TODO
+        case widget_var::cardio_fit:
+            _var_min = 0;
+            // Same maximum used by get_cardiofit - 3 x BMR, adjusted for mutations
+            _var_max = 3 * ava.base_bmr() * ava.mutation_value( "cardio_multiplier" );
+            break;
+        case widget_var::fatigue:
+            _var_min = 0;
+            _var_max = 1000;
+            break;
+        case widget_var::focus:
+            _var_min = 0;
+            _var_max = 200;
+            // Small range of normal focus that won't be color-coded
+            _var_norm = std::make_pair( 90, 110 );
+            break;
+        case widget_var::health:
+            _var_min = -200;
+            _var_max = 200;
+            // Small range of normal health that won't be color-coded
+            _var_norm = std::make_pair( -10, 10 );
             break;
         case widget_var::mana:
-            max_val = ava.magic->max_mana( ava );
+            _var_min = 0;
+            _var_max = ava.magic->max_mana( ava );
             break;
+        case widget_var::max_mana:
+            _var_min = 0;
+            // What could "max max mana" mean? Use 2x current max because why not
+            _var_max = 2 * ava.magic->max_mana( ava );
+            break;
+        case widget_var::mood:
+            break; // TODO
         case widget_var::morale_level:
-            // TODO: Determine actual max
-            max_val = 100;
+            _var_min = -100;
+            _var_max = 100;
+            // Small range of morale that isn't worth crying about
+            _var_norm = std::make_pair( -10, 10 );
             break;
+        case widget_var::move:
+            _var_min = 0;
+            _var_max = 1000; // TODO: Determine better max
+            // This is a counter of remaining moves, with no normal value
+            break;
+        case widget_var::move_cost:
+            _var_min = 0;
+            _var_max = 300; // Can go up to 500-600 while prone
+            _var_norm = std::make_pair( 100, 100 );
+            break;
+        case widget_var::pain:
+            _var_min = 0;
+            _var_max = 80;
+            // Zero pain isn't really normal but it's the state we prefer
+            _var_norm = std::make_pair( 0, 0 );
+            break;
+        case widget_var::sound:
+            _var_min = 0;
+            _var_max = 200;
+            // Quiet sounds are normal
+            _var_norm = std::make_pair( 0, 5 );
+            break;
+        case widget_var::speed:
+            _var_min = 0;
+            _var_max = 200;
+            _var_norm.first = ava.get_speed_base();
+            _var_norm.second = ava.get_speed_base();
+            break;
+        case widget_var::stamina:
+            _var_min = 0;
+            _var_max = ava.get_stamina_max();
+            // No normal defined, unless we want max stamina to be colored white? (maybe)
+            break;
+        case widget_var::weariness_level:
+            _var_min = 0;
+            _var_max = 10;
+            break;
+
+        // Base stats
+        // Normal is the base stat value only; min and max are -3 and +3 from base
+        case widget_var::stat_str:
+            _var_norm.first = ava.get_str_base();
+            _var_norm.second = ava.get_str_base();
+            _var_min = _var_norm.first - 3;
+            _var_max = _var_norm.first + 3;
+            break;
+        case widget_var::stat_dex:
+            _var_norm.first = ava.get_dex_base();
+            _var_norm.second = ava.get_dex_base();
+            _var_min = _var_norm.first - 3;
+            _var_max = _var_norm.first + 3;
+            break;
+        case widget_var::stat_int:
+            _var_norm.first = ava.get_int_base();
+            _var_norm.second = ava.get_int_base();
+            _var_min = _var_norm.first - 3;
+            _var_max = _var_norm.first + 3;
+            break;
+        case widget_var::stat_per:
+            _var_norm.first = ava.get_per_base();
+            _var_norm.second = ava.get_per_base();
+            _var_min = _var_norm.first - 3;
+            _var_max = _var_norm.first + 3;
+            break;
+
+        // Bodypart attributes
         case widget_var::bp_hp:
             // HP for body part
-            max_val = ava.get_part_hp_max( _bp_id );
+            _var_min = 0;
+            _var_max = ava.get_part_hp_max( only_bp() );
+            break;
+        case widget_var::bp_encumb:
+            _var_min = 0;
+            _var_max = 100; // ???
             break;
         case widget_var::bp_warmth:
             // From weather.h: Body temperature is measured on a scale of 0u to 10000u,
             // where 10u = 0.02C and 5000u is 37C
-            max_val = 10000;
+            _var_min = 0;
+            _var_max = 10000;
             break;
         case widget_var::bp_wetness:
-            max_val = 100; // ???
+            _var_min = 0;
+            _var_max = 100; // ???
             break;
         default:
             break;
     }
-    // JSON-defined var_max may override it
-    if( _var_max > 0 ) {
-        max_val = _var_max;
-    }
-    return max_val;
 }
 
 int widget::get_var_value( const avatar &ava ) const
@@ -479,7 +605,7 @@ int widget::get_var_value( const avatar &ava ) const
     int value = 0;
 
     // Each "var" value refers to some attribute, typically of the avatar, that yields a numeric
-    // value, and can be displayed as a numeric field, a graph, or a series of text phrases.
+    // value, and can be displayed as a numeric field, a graph, or a series of text clauses.
     switch( _var ) {
         // Vars with a known max val
         case widget_var::stamina:
@@ -496,15 +622,15 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::bp_hp:
             // HP for body part
-            value = ava.get_part_hp_cur( _bp_id );
+            value = ava.get_part_hp_cur( only_bp() );
             break;
         case widget_var::bp_warmth:
             // Body part warmth/temperature
-            value = ava.get_part_temp_cur( _bp_id );
+            value = ava.get_part_temp_cur( only_bp() );
             break;
         case widget_var::bp_wetness:
             // Body part wetness
-            value = ava.get_part_wetness( _bp_id );
+            value = ava.get_part_wetness( only_bp() );
             break;
         case widget_var::focus:
             value = ava.get_focus();
@@ -547,7 +673,7 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::bp_encumb:
             // Encumbrance for body part
-            value = ava.get_part_encumbrance_data( _bp_id ).encumbrance;
+            value = ava.get_part_encumbrance_data( only_bp() ).encumbrance;
             break;
         case widget_var::cardio_fit:
             value = ava.get_cardiofit();
@@ -559,10 +685,6 @@ int widget::get_var_value( const avatar &ava ) const
         // TODO
         case widget_var::mood:
         // see morale_emotion
-        case widget_var::hunger:
-        // see display::hunger_text_color()
-        case widget_var::thirst:
-        // see display::thirst_text_color()
         default:
             value = 0;
     }
@@ -581,6 +703,7 @@ bool widget::has_flag( const std::string &flag ) const
 
 std::string widget::show( const avatar &ava, const unsigned int max_width )
 {
+    set_default_var_range( ava );
     if( uses_text_function() ) {
         // Text functions are a carry-over from before widgets, with existing functions generating
         // descriptive colorized text for avatar attributes.  The "value" for these is immaterial;
@@ -591,8 +714,7 @@ std::string widget::show( const avatar &ava, const unsigned int max_width )
         // For normal widgets, get current numeric value and potential maximum,
         // and return a color string rendering of that value in the appropriate style.
         int value = get_var_value( ava );
-        int value_max = get_var_max( ava );
-        return color_value_string( value, value_max );
+        return color_value_string( value, max_width );
     }
 }
 
@@ -689,31 +811,23 @@ bool widget::uses_text_function()
         case widget_var::activity_text:
         case widget_var::body_temp_text:
         case widget_var::bp_armor_outer_text:
-        case widget_var::bp_status_text:
-        case widget_var::bp_status_sym_text:
-        case widget_var::bp_status_legend_text:
         case widget_var::compass_text:
         case widget_var::compass_legend_text:
         case widget_var::date_text:
         case widget_var::env_temp_text:
         case widget_var::fatigue_text:
         case widget_var::health_text:
-        case widget_var::hunger_text:
         case widget_var::lighting_text:
         case widget_var::mood_text:
         case widget_var::moon_phase_text:
         case widget_var::move_count_mode_text:
-        case widget_var::move_mode_letter:
-        case widget_var::move_mode_text:
         case widget_var::pain_text:
         case widget_var::overmap_loc_text:
         case widget_var::overmap_text:
         case widget_var::place_text:
         case widget_var::power_text:
-        case widget_var::rad_badge_text:
         case widget_var::safe_mode_text:
         case widget_var::style_text:
-        case widget_var::thirst_text:
         case widget_var::time_text:
         case widget_var::veh_azimuth_text:
         case widget_var::veh_cruise_text:
@@ -721,7 +835,6 @@ bool widget::uses_text_function()
         case widget_var::weariness_text:
         case widget_var::weary_malus_text:
         case widget_var::weather_text:
-        case widget_var::weight_text:
         case widget_var::wielding_text:
         case widget_var::wind_text:
             return true;
@@ -740,17 +853,6 @@ static void set_height_for_widget( const widget_id &id, int height )
     if( iter != wlist.end() ) {
         const_cast<widget *>( &*iter )->_height = height;
     }
-}
-
-static std::set<bodypart_id> get_bodyparts_from_status_widgets()
-{
-    std::set<bodypart_id> ret;
-    for( const widget &w : widget::get_all() ) {
-        if( w._var == widget_var::bp_status_sym_text ) {
-            ret.emplace( w._bp_id );
-        }
-    }
-    return ret;
 }
 
 // NOTE: Use max_width to split multi-line widgets across lines
@@ -776,23 +878,8 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::temp_text_color( ava );
             break;
         case widget_var::bp_armor_outer_text:
-            desc.first = display::colorized_bodypart_outer_armor( ava, _bp_id );
+            desc.first = display::colorized_bodypart_outer_armor( ava, only_bp() );
             apply_color = false; // Item name already colorized by tname
-            break;
-        case widget_var::bp_status_text:
-            desc.first = display::colorized_bodypart_status_text( ava, _bp_id, id.str() );
-            apply_color = false; // Has embedded color already
-            break;
-        case widget_var::bp_status_sym_text:
-            desc.first = display::colorized_bodypart_status_sym_text( ava, _bp_id, id.str() );
-            apply_color = false; // Already colorized
-            break;
-        case widget_var::bp_status_legend_text:
-            desc.first = display::colorized_bodypart_status_legend_text( ava,
-                         get_bodyparts_from_status_widgets(), id.str(),
-                         _width == 0 ? max_width : _width, _height_max, _height );
-            update_height = true; // Dynamically adjusted height
-            apply_color = false; // Already colorized
             break;
         case widget_var::date_text:
             desc.first = display::date_string();
@@ -806,9 +893,6 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::health_text:
             desc = display::health_text_color( ava );
             break;
-        case widget_var::hunger_text:
-            desc = display::hunger_text_color( ava );
-            break;
         case widget_var::lighting_text:
             desc = get_light_level( ava.fine_detail_vision_mod() );
             break;
@@ -820,12 +904,6 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::move_count_mode_text:
             desc = display::move_count_and_mode_text_color( ava );
-            break;
-        case widget_var::move_mode_letter:
-            desc = display::move_mode_letter_color( ava );
-            break;
-        case widget_var::move_mode_text:
-            desc = display::move_mode_text_color( ava );
             break;
         case widget_var::pain_text:
             desc = display::pain_text_color( ava );
@@ -843,17 +921,11 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::power_text:
             desc = display::power_text_color( ava );
             break;
-        case widget_var::rad_badge_text:
-            desc = display::rad_badge_text_color( ava );
-            break;
         case widget_var::safe_mode_text:
             desc = display::safe_mode_text_color( false );
             break;
         case widget_var::style_text:
             desc.first = ava.martial_arts_data->selected_style_name( ava );
-            break;
-        case widget_var::thirst_text:
-            desc = display::thirst_text_color( ava );
             break;
         case widget_var::time_text:
             desc.first = display::time_string( ava );
@@ -875,9 +947,6 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::weather_text:
             desc = display::weather_text_color( ava );
-            break;
-        case widget_var::weight_text:
-            desc = display::weight_text_color( ava );
             break;
         case widget_var::wielding_text:
             desc.first = ava.weapname();
@@ -911,13 +980,10 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
     return ret;
 }
 
-std::string widget::color_value_string( int value, int value_max )
+std::string widget::color_value_string( int value, int width_max )
 {
-    if( value_max == 0 ) {
-        value_max = _var_max;
-    }
-    std::string val_string = value_string( value, value_max );
-    const nc_color cur_color = value_color( value, value_max );
+    std::string val_string = value_string( value, width_max );
+    const nc_color cur_color = value_color( value );
     if( cur_color == c_unset ) {
         return val_string;
     } else {
@@ -925,67 +991,233 @@ std::string widget::color_value_string( int value, int value_max )
     }
 }
 
-std::string widget::value_string( int value, int value_max )
+std::string widget::value_string( int value, int width_max )
 {
     std::string ret;
+    // Use the available horizontal space unless widget has an explicit width
+    const int w = _width <= 1 ? width_max : _width;
     if( _style == "graph" ) {
-        ret += graph( value, value_max );
+        ret += graph( value );
     } else if( _style == "text" ) {
-        ret += text( value, value_max );
+        ret += text( value, !_clauses.empty(), w );
+    } else if( _style == "symbol" ) {
+        ret += sym( value, !_clauses.empty() );
+    } else if( _style == "legend" ) {
+        ret += sym_text( !_clauses.empty(), w );
     } else if( _style == "number" ) {
-        ret += number( value, value_max );
+        ret += number( value, !_clauses.empty() );
     } else {
         ret += "???";
     }
     return ret;
 }
 
-nc_color widget::value_color( int value, int value_max )
+nc_color widget::value_color( int value )
 {
+    // Maps the range of values from min to max to the list of "colors", 0-indexed
+    // [ _var_min ... ( _var_norm ) ... _var_max ]
+    // [ 0, 1, 2, ...           ... num_colors-1 ]
+    //
     if( _colors.empty() ) {
         return c_unset;
     }
-    // Scale to value_max
-    if( value_max > 0 ) {
-        if( value <= value_max ) {
-            // Scale value range from [0, 1] to map color range
-            const double scale = static_cast<double>( value ) / value_max;
-            const int color_max = _colors.size() - 1;
-            // Include 0.5f offset to make up for floor piling values up at the bottom
-            const int color_index = std::floor( scale * color_max + 0.5f );
+    // Index of last color
+    const int color_max = _colors.size() - 1;
+    // Whether min, max, and normal are defined
+    const bool min_max_defined = INT_MIN < _var_min && _var_max < INT_MAX;
+    const bool normal_defined = INT_MIN < _var_norm.first && _var_norm.second < INT_MAX;
+
+    // Get range of values from min to max
+    const int var_range = _var_max - _var_min;
+    // Convert value to a positive offset within the range
+    const int value_offset = std::max( value - _var_min, 0 );
+
+    // If (min, max) is a valid nonzero range, fit value to a color using that range
+    if( min_max_defined && var_range > 0 ) {
+        // If value is within defined _var_norm range, the color is c_white
+        if( normal_defined && _var_norm.first <= value && value <= _var_norm.second ) {
+            return c_white;
+
+        } else if( _var_min <= value && value <= _var_max ) {
+            // If value is within the range, map it to an appropriate color
+            // Scale value offset within range from [0, 1] to map color range
+            const double scale = static_cast<double>( value_offset ) / var_range;
+            // The +0.5 offset makes top and bottom color slots more equitable
+            // (without the offset, only the max value gets the top color)
+            const int color_index = std::floor( scale * color_max + 0.5 );
             return _colors[color_index];
         } else {
+            // Default if value outside of range: Last color
             return _colors.back();
         }
     }
-    // Assume colors map to 0, 1, 2 ...
-    if( value < num_colors ) {
+    // No scaling by min-max range; assume colors map to 0, 1, 2 ...
+    // Truncate below 0 and above color_max
+    if( value < 0 ) {
+        return _colors[0];
+    } else if( value <= color_max ) {
         return _colors[value];
+    } else {
+        return _colors.back();
     }
-    // Last color as last resort
-    return _colors.back();
 }
 
-std::string widget::number( int value, int /* value_max */ )
+std::string widget::number( int value, bool from_condition ) const
 {
-    return string_format( "%d", value );
+    return from_condition ? number_cond() : string_format( "%d", value );
 }
 
-std::string widget::text( int value, int /* value_max */ )
+std::string widget::text( int value, bool from_condition, int width )
 {
+    if( from_condition ) {
+        return text_cond( false, width );
+    }
     return _strings.at( value ).translated();
 }
 
-std::string widget::graph( int value, int value_max )
+std::string widget::sym( int value, bool from_condition )
+{
+    return from_condition ? sym_cond() : text( value, from_condition );
+}
+
+std::string widget::sym_text( bool from_condition, int width )
+{
+    if( from_condition ) {
+        return sym_text_cond( true, width );
+    }
+    return enumerate_as_string( _strings.begin(), _strings.end(), []( const translation & t ) {
+        return t.translated();
+    }, enumeration_conjunction::none );
+}
+
+std::string widget::number_cond( enumeration_conjunction join_type ) const
+{
+    std::vector<const widget_clause *> wplist = get_clauses();
+    if( wplist.empty() ) {
+        // All clauses returned false conditions, use default
+        std::string txt = string_format( "%d", _default_clause.value );
+        return _default_clause.value == INT_MIN ? "" :
+               _default_clause.color == c_unset ? txt : colorize( txt, _default_clause.color );
+    }
+    // Get values as a comma-separated list
+    return enumerate_as_string( wplist.begin(), wplist.end(), []( const widget_clause * wp ) {
+        std::string txt = string_format( "%d", wp->value );
+        return wp->color == c_unset ? txt : colorize( txt, wp->color );
+    }, join_type );
+}
+
+std::string widget::text_cond( bool no_join, int width )
+{
+    std::vector<const widget_clause *> wplist = get_clauses();
+    if( wplist.empty() ) {
+        // All clauses returned false conditions, use default
+        std::string txt = _default_clause.text.translated();
+        return txt.empty() ? "" : _default_clause.color == c_unset ? txt : colorize( txt,
+                _default_clause.color );
+    }
+    std::vector<std::string> strings;
+    strings.reserve( wplist.size() );
+    for( const widget_clause *wp : wplist ) {
+        strings.emplace_back( wp->color == c_unset ? wp->text.translated() : colorize(
+                                  wp->text.translated(), wp->color ) );
+    }
+    int h = 0;
+    std::string ret = format_widget_multiline( strings, _height_max, width, h, !no_join );
+    if( has_flag( json_flag_W_DYNAMIC_HEIGHT ) ) {
+        _height = h;
+        set_height_for_widget( id, h );
+    }
+    return ret;
+}
+
+std::string widget::sym_cond( bool no_join, enumeration_conjunction join_type ) const
+{
+    std::vector<const widget_clause *> wplist = get_clauses();
+    if( wplist.empty() ) {
+        // All clauses returned false conditions, use default
+        std::string txt = _default_clause.sym;
+        return txt.empty() ? "" : _default_clause.color == c_unset ? txt : colorize( txt,
+                _default_clause.color );
+    }
+    // No string joining, just show symbols one-after-the-other
+    if( no_join ) {
+        std::string ret;
+        for( const widget_clause *wp : wplist ) {
+            ret += wp->color == c_unset ? wp->sym : colorize( wp->sym, wp->color );
+        }
+        return ret;
+    }
+    // Get values as a comma-separated list
+    return enumerate_as_string( wplist.begin(), wplist.end(), []( const widget_clause * wp ) {
+        return wp->color == c_unset ? wp->sym : colorize( wp->sym, wp->color );
+    }, join_type );
+}
+
+std::string widget::sym_text_cond( bool no_join, int width )
+{
+    std::vector<const widget_clause *> wplist = get_clauses();
+    if( wplist.empty() ) {
+        // All clauses returned false conditions, use default
+        std::string txt = _default_clause.sym;
+        txt += ( txt.empty() ? "" : " " ) + _default_clause.text.translated();
+        return txt.empty() ? "" : _default_clause.color == c_unset ? txt : colorize( txt,
+                _default_clause.color );
+    }
+    std::vector<std::string> strings;
+    strings.reserve( wplist.size() );
+    for( const widget_clause *wp : wplist ) {
+        std::string s = wp->color == c_unset ? wp->sym : colorize( wp->sym, wp->color );
+        std::string txt = string_format( "%s %s", s, wp->text.translated() );
+        strings.emplace_back( txt );
+    }
+    int h = 0;
+    std::string ret = format_widget_multiline( strings, _height_max, width, h, !no_join );
+    if( has_flag( json_flag_W_DYNAMIC_HEIGHT ) ) {
+        _height = h;
+        set_height_for_widget( id, h );
+    }
+    return ret;
+}
+
+const widget_clause *widget::get_clause( const std::string &clause_id ) const
+{
+    // Look for a clause with satisfied conditions
+    for( const widget_clause &wp : _clauses ) {
+        // If an id is given, only check conditions for that id
+        if( !clause_id.empty() && clause_id != wp.id ) {
+            continue;
+        }
+        // Return this clause if it has no condition or the condition is true
+        if( !wp.has_condition || wp.meets_condition( only_bp().id().str() ) ) {
+            return &wp;
+        }
+    }
+    return nullptr;
+}
+
+std::vector<const widget_clause *> widget::get_clauses() const
+{
+    std::vector<const widget_clause *> ret;
+    // Look for clauses with satisfied conditions
+    for( const widget_clause &wp : _clauses ) {
+        // Include this clause if it has no condition or the condition is true
+        if( !wp.has_condition || wp.meets_condition( _bps ) ) {
+            ret.emplace_back( &wp );
+        }
+    }
+    return ret;
+}
+
+std::string widget::graph( int value ) const
 {
     // graph "depth is equal to the number of nonzero symbols
     int depth = utf8_width( _symbols ) - 1;
     // Max integer value this graph can show
     int max_graph_val = _width * depth;
     // Scale value range to current graph resolution (width x depth)
-    if( value_max > 0 && value_max != max_graph_val ) {
+    if( _var_max > 0 && _var_max != max_graph_val ) {
         // Scale max source value to max graph value
-        value = max_graph_val * value / value_max;
+        value = max_graph_val * value / _var_max;
     }
 
     // Negative values are not (yet) supported
@@ -1038,7 +1270,7 @@ std::string widget::graph( int value, int value_max )
 }
 
 // For widget::layout, process each row to append to the layout string
-static std::string append_line( const std::string &line, bool first_row, unsigned int max_width,
+static std::string append_line( const std::string &line, bool first_row, int max_width,
                                 const translation &label, int label_width, widget_alignment text_align,
                                 widget_alignment label_align )
 {
@@ -1091,9 +1323,21 @@ static std::string append_line( const std::string &line, bool first_row, unsigne
         lbl_w += padding;
     }
 
+    // If the text is too long, start eating the free space next to the label.
+    // This only works because labels are not colorized (no color tags).
+    if( txt_w + lbl_w > max_width ) {
+        std::wstring tmplbl = utf8_to_wstr( lbl );
+        for( int i = lbl_w - 1; txt_w + lbl_w > max_width && i > 0 && tmplbl[i] == ' ' &&
+             tmplbl[i - 1] != ':'; i-- ) {
+            tmplbl.pop_back();
+            lbl_w--;
+        }
+        lbl = wstr_to_utf8( tmplbl );
+    }
+
     // Text padding
-    if( static_cast<int>( max_width ) - lbl_w > txt_w ) {
-        const int tpad = ( static_cast<int>( max_width ) - lbl_w ) - txt_w;
+    if( max_width - lbl_w > txt_w ) {
+        const int tpad = ( max_width - lbl_w ) - txt_w;
         // Left side
         int padding = 0;
         if( text_align != widget_alignment::LEFT &&
@@ -1162,6 +1406,10 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
     } else {
         // Get displayed value (colorized)
         std::string shown = show( ava, max_width );
+        // If nothing was printed, the widget never had a chance to adjust the height. Adjust it here.
+        if( shown.empty() && has_flag( json_flag_W_DYNAMIC_HEIGHT ) ) {
+            _height = 0;
+        }
         size_t strpos = 0;
         int row_num = 0;
         // For multi-line widgets, each line is separated by a '\n' character
@@ -1181,6 +1429,42 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                                 row_num == 0 ? label_width : 0, _text_align, _label_align );
         }
     }
-    return ret;
+    return ret.find( '\n' ) != std::string::npos || max_width == 0 ?
+           ret : trim_by_length( ret, max_width );
 }
 
+std::string format_widget_multiline( const std::vector<std::string> &keys, int max_height,
+                                     int width, int &height, bool join )
+{
+    std::string ret;
+    height = 0;
+    // For single-line text, just lay everything on the same line
+    if( width <= 1 && max_height == 1 ) {
+        width = INT_MAX;
+    }
+    const int h_max = max_height == 0 ? INT_MAX : max_height;
+    const int nsize = keys.size();
+    for( int row = 0, nidx = 0; row < h_max && nidx < nsize; row++ ) {
+        int wavail = width;
+        int nwidth = utf8_width( keys[nidx], true );
+        bool startofline = true;
+        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
+            startofline = false;
+            wavail -= nwidth;
+            ret += keys[nidx];
+            nidx++;
+            if( nidx < nsize ) {
+                nwidth = utf8_width( keys[nidx], true );
+                if( wavail > nwidth ) {
+                    ret += join ? ", " : "  ";
+                    wavail -= 2;
+                }
+            }
+        }
+        if( row < h_max - 1 ) {
+            ret += "\n";
+        }
+        height++;
+    }
+    return ret;
+}

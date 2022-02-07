@@ -423,12 +423,14 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     add_legacy_items( legacy_starting_items );
     add_legacy_items( male ? legacy_starting_items_male : legacy_starting_items_female );
 
-    const std::vector<item> group_both = item_group::items_from( _starting_items,
-                                         advanced_spawn_time() );
-    const std::vector<item> group_gender = item_group::items_from( male ? _starting_items_male :
-                                           _starting_items_female, advanced_spawn_time() );
-    result.insert( result.begin(), group_both.begin(), group_both.end() );
-    result.insert( result.begin(), group_gender.begin(), group_gender.end() );
+    std::vector<item> group_both = item_group::items_from( _starting_items,
+                                   advanced_spawn_time() );
+    std::vector<item> group_gender = item_group::items_from( male ? _starting_items_male :
+                                     _starting_items_female, advanced_spawn_time() );
+    result.insert( result.begin(), std::make_move_iterator( group_both.begin() ),
+                   std::make_move_iterator( group_both.end() ) );
+    result.insert( result.begin(), std::make_move_iterator( group_gender.begin() ),
+                   std::make_move_iterator( group_gender.end() ) );
 
     if( !has_flag( "NO_BONUS_ITEMS" ) ) {
         const std::vector<item> &items = item_substitutions.get_bonus_items( traits );
