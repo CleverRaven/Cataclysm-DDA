@@ -3727,7 +3727,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         if( visible_spawns > 1 && !spawn_message_plural.empty() ) {
             get_avatar().add_msg_if_player( m_bad, spawn_message_plural );
         } else if( visible_spawns > 0 && !spawn_message.empty() ) {
-            get_avatar().add_msg_if_player( m_bad, spawn_message_plural );
+            get_avatar().add_msg_if_player( m_bad, spawn_message );
         }
     };
 }
