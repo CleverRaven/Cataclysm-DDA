@@ -575,7 +575,7 @@
             }
           },
           {
-            "id": "portal_storm_dark_light_message",
+            "id": "portal_storm_outside_message",
             "condition": "u_is_outside",
             "effect": {
               "run_eocs": {
