@@ -705,7 +705,7 @@
     "id": "portal_dependent",
     "name": "Challenge - Portal Dependent",
     "points": -8,
-    "description": "You were caught on a huge and unstable portal storm.  You feel…  different.",
+    "description": "You were caught on a huge and unstable portal storm.  You feel… different.",
     "forced_traits": [ "PORTAL_DEPENDENT" ],
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",

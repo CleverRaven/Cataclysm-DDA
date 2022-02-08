@@ -119,9 +119,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
-static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
-static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
@@ -1211,6 +1208,9 @@ cata::optional<int> iuse::purifier( Character *p, item *it, bool, const tripoint
     }
 
     do_purify( *p );
+    if( it->is_comestible() && !it->get_comestible()->default_nutrition.vitamins.empty() ) {
+        p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
+    }
     return it->type->charges_to_use();
 }
 
@@ -1252,6 +1252,10 @@ cata::optional<int> iuse::purify_iv( Character *p, item *it, bool, const tripoin
         p->mod_stored_nutr( 2 * num_cured );
         p->mod_thirst( 2 * num_cured );
         p->mod_fatigue( 2 * num_cured );
+    }
+
+    if( it->is_comestible() && !it->get_comestible()->default_nutrition.vitamins.empty() ) {
+        p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
     }
     return it->type->charges_to_use();
 }
@@ -1305,6 +1309,7 @@ cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const trip
 
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
     return it->type->charges_to_use();
 }
 
@@ -5084,7 +5089,7 @@ void iuse::cut_log_into_planks( Character &p )
     const int moves = to_moves<int>( 20_minutes );
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
-    p.assign_activity( ACT_CHOP_PLANKS, moves, -1 );
+    p.assign_activity( player_activity( chop_planks_activity_actor( moves ) ) );
     p.activity.placement = get_map().getabs( p.pos() );
 }
 
@@ -5176,7 +5181,7 @@ cata::optional<int> iuse::chop_tree( Character *p, item *it, bool t, const tripo
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( ACT_CHOP_TREE, moves, -1, p->get_item_position( it ) );
+    p->assign_activity( player_activity( chop_tree_activity_actor( moves, item_location( *p, it ) ) ) );
     p->activity.placement = here.getabs( pnt );
 
     return it->type->charges_to_use();
@@ -5219,7 +5224,7 @@ cata::optional<int> iuse::chop_logs( Character *p, item *it, bool t, const tripo
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( ACT_CHOP_LOGS, moves, -1, p->get_item_position( it ) );
+    p->assign_activity( player_activity( chop_logs_activity_actor( moves, item_location( *p, it ) ) ) );
     p->activity.placement = here.getabs( pnt );
 
     return it->type->charges_to_use();
@@ -9679,7 +9684,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                 display_stat( _( "Cleanser" ), required.cleanser, available_cleanser, to_string )
             }};
     };
-    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
+    inventory_multiselector inv_s( *p, preset, _( "ITEMS TO CLEAN" ),
+                                   make_raw_stats, /*allow_select_contained=*/true );
     inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
     inv_s.add_character_items( *p );
     inv_s.add_nearby_items( PICKUP_RANGE );

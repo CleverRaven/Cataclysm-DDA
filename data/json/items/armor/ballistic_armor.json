@@ -336,6 +336,15 @@
         "moves": 200,
         "description": "Pocket for back plate",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "25 cm",
+        "moves": 50,
+        "description": "Low profile magazine storage",
+        "flag_restriction": [ "MAG_COMPACT" ]
       }
     ],
     "armor": [

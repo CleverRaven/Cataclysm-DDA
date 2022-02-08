@@ -295,6 +295,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
+      [ [ "rat_sample", 1 ] ],
       [ [ "meat_tainted", 3 ], [ "dry_meat_tainted", 3 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
@@ -313,7 +314,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_rat", 2 ] ] ],
+    "components": [ [ [ "mutagen_rat", 2 ] ], [ [ "rat_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -403,7 +404,12 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 1 ], [ "meat_scrap", 10 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "mouse_sample", 1 ] ],
+      [ [ "meat", 1 ], [ "meat_scrap", 10 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
@@ -419,7 +425,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_mouse", 2 ] ] ],
+    "components": [ [ [ "mutagen_mouse", 2 ] ], [ [ "mouse_sample", 3 ] ] ],
     "flags": [ "SECRET" ]
   },
   {

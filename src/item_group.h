@@ -141,13 +141,16 @@ class Item_spawn_data
         /**
          * Create a list of items. The create list might be empty.
          * No item of it will be the null item.
+         * @param[out] list New items are appended to the list
          * @param[in] birthday All items have that value as birthday.
          * @param[out] rec Recursion list, output goes here.
          * @param[in] spawn_flags Extra information to change how items are spawned.
+         * @return The number of new items appended to the list
          */
-        virtual ItemList create( const time_point &birthday, RecursionList &rec,
-                                 spawn_flags = spawn_flags::none ) const = 0;
-        ItemList create( const time_point &birthday, spawn_flags = spawn_flags::none ) const;
+        virtual std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
+                                    spawn_flags = spawn_flags::none ) const = 0;
+        std::size_t create( ItemList &list, const time_point &birthday,
+                            spawn_flags = spawn_flags::none ) const;
         /**
          * The same as create, but create a single item only.
          * The returned item might be a null item!
@@ -321,7 +324,8 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 
-        ItemList create( const time_point &birthday, RecursionList &rec, spawn_flags ) const override;
+        std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
+                            spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const itype_id &itemid ) override;
@@ -369,7 +373,8 @@ class Item_group : public Item_spawn_data
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
-        ItemList create( const time_point &birthday, RecursionList &rec, spawn_flags ) const override;
+        std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
+                            spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const itype_id &itemid ) override;

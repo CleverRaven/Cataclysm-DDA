@@ -286,6 +286,7 @@
     "category": "container",
     "name": { "str": "plastic bottle" },
     "description": "A squeezable used bottle to hold various bathroom soaps",
+    "looks_like": "bottle_plastic",
     "weight": "130 g",
     "volume": "502 ml",
     "pocket_data": [
