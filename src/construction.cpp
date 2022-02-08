@@ -93,8 +93,8 @@ static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
-static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 static const vpart_id vpart_ap_standing_lamp( "ap_standing_lamp" );
+static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
