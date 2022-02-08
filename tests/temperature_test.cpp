@@ -216,7 +216,7 @@ TEST_CASE( "Rate of temperature change" )
         // 0C
         // same temp
         // frozen
-        CHECK( meat1.temperature == 273.15 );
+        CHECK( meat1.temperature == Approx(273.15 ).margin( 0.01 ) );
         CHECK( meat2.temperature == meat1.temperature );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( meat2.has_own_flag( flag_FROZEN ) );
@@ -232,7 +232,7 @@ TEST_CASE( "Rate of temperature change" )
         // 0C
         // same temp
         // not frozen
-        CHECK( meat1.temperature == 273.15 );
+        CHECK( meat1.temperature == Approx(273.15 ).margin( 0.01 ) );
         CHECK( meat2.temperature == meat1.temperature );
         CHECK( !meat1.has_own_flag( flag_FROZEN ) );
 
