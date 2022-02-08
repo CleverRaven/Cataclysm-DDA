@@ -713,7 +713,7 @@ std::string effect::disp_desc( bool reduced ) const
                          _( "quench" ) );
     val = get_avg_mod( "PERSPIRATION", reduced );
     values.emplace_back( desc_freq( get_percentage( "PERSPIRATION", val, reduced ), val,
-                                 _( "perspiration" ), _( "dryness" ) ) );
+                                    _( "perspiration" ), _( "dryness" ) ) );
     val = get_avg_mod( "HUNGER", reduced );
     values.emplace_back( get_percentage( "HUNGER", val, reduced ), val, _( "hunger" ),
                          _( "sate" ) );

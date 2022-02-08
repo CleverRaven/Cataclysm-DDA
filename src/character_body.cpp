@@ -144,7 +144,7 @@ void Character::update_body_wetness( const w_point &weather )
         mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
 
         // Make evaporation reduce body heat
-        if( !( bp->has_flag( json_flag_IGNORE_TEMP ) ) ) {
+        if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
             const int temp_cur = get_part_temp_cur( bp );
             mod_part_temp_cur( bp, roll_remainder( static_cast<double>( temp_cur ) / clothing_mult / 2000 ) *
                                -1 );
