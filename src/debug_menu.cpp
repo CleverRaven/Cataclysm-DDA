@@ -1850,8 +1850,8 @@ static void character_edit_menu()
         }
         case D_CHECK_TEMP: {
             for( const bodypart_id &bp : you.get_all_body_parts() ) {
-                add_msg( string_format( "%s: temperature: %d, wetness: %d" ), bp->name, you.get_part_wetness( bp ),
-                         you.get_part_temp_conv( bp ) );
+                add_msg( string_format( "%s: temperature: %d, wetness: %d", bp->name,
+                                        you.get_part_temp_conv( bp ), you.get_part_wetness( bp ) ) );
             }
             break;
         }
