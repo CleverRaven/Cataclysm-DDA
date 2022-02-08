@@ -1635,7 +1635,7 @@ static void character_edit_menu()
                     "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
-    nmenu.addentry( D_CHECK_TEMP, true, 'M', "%s", _( "Print te[M]prature" ) );
+    nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temprat[U]re" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print [V]ars to file" ) );
