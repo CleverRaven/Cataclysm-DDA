@@ -13,8 +13,10 @@
   - [height](#height)
   - [alignment](#text_align--label_align)
   - [colors](#colors)
-  - [phrases](#phrases)
   - [flags](#flags)
+- [Clauses and conditions](#clauses-and-conditions)
+  - [Conditions](#conditions)
+  - [Default clause](#default-clause)
 - [Variable ranges](#variable-ranges)
 - [Variables](#variables)
   - [Numeric variables](#numeric-variables)
@@ -74,6 +76,8 @@ Each widget has a "style" field that may be:
 - `text`: Show text from a `*_text` variable
 - `layout`: Layout container for arranging other widgets in rows or columns
 - `sidebar`: Special top-level widget for defining custom sidebars
+
+"style" can also be `symbol` or `legend`, which are specific to [clauses](#clauses-and-conditions).
 
 Let's start at the top, with the "sidebar" widget, composed of several "layout" widgets.
 
@@ -185,6 +189,14 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
 {
   "var": "bp_hp",
   "bodypart": "arm_r"
+}
+```
+
+Some widgets can take advantage of multiple "bodyparts" like so:
+
+```json
+{
+  "bodyparts": [ "head", "torso", "arm_l", "arm_r" ]
 }
 ```
 
@@ -475,41 +487,6 @@ mapped as closely as possible to the spectrum of colors, with one exception - va
 "normal" value or range always use white (`c_white`) when the value is within normal.
 
 
-## `phrases`
-
-Some widgets can take advantage of "phrases" - definitions for what text/values to display and
-how to display them. These take the form of a nested object containing several optional fields:
-
-```json
-{
-  "id": "bp_status_indicator_template",
-  "type": "widget",
-  "style": "phrase",
-  "phrases": [
-    { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow" },
-    { "id": "infected", "text": "infected", "sym": "I", "color": "pink" },
-    { "id": "broken", "text": "broken", "sym": "%", "color": "magenta" },
-    { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray" },
-    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white" },
-    { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green" },
-    { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red" },
-    { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red" },
-    { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red" }
-  ]
-}
-```
-
-| JSON Field | Description
-|---         |---
-| `id`       | Which "phrase" this definition should apply to.
-| `text`     | Translated text that may be interpreted and displayed in the widget.
-| `sym`      | A shortened symbol representing the text.
-| `color`    | Defines the color for the text derived from this "phrase".
-| `value`    | A numeric value for this "phrase", which may be interpreted differently based on the context of the parent widget.
-
-In the above example, the widget is simply used as a template for other widgets to `copy-from`,
-which provides text and color definitions for different bodypart status conditions.
-
 ## `flags`
 
 Widgets can use flags to specify special behaviors:
@@ -532,6 +509,95 @@ Here are some flags that can be included:
 | `W_LABEL_NONE`     | Prevents the widget's label from being displayed in the sidebar
 | `W_DISABLED`       | Makes this widget disabled by default (only applies to top-level widgets/layouts)
 | `W_DYNAMIC_HEIGHT` | Allows certain multi-line widgets to dynamically adjust their height
+
+
+# Clauses and conditions
+
+Widgets can take advantage of "clauses" - definitions for what text/values to display and
+how to display them. These take the form of a nested object containing several optional fields:
+
+```json
+{
+  "id": "bp_status_indicator_template",
+  "type": "widget",
+  "style": "text",
+  "clauses": [
+    { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": "..." },
+    { "id": "infected", "text": "infected", "sym": "I", "color": "pink", "condition": "..." },
+    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white", "condition": "..." }
+  ]
+}
+```
+
+In the above example, the widget is simply used as a template for other widgets to `copy-from`,
+which provides text and color definitions for different bodypart status conditions.
+
+| JSON Field  | Description
+|---          |---
+| `id`        | An optional identifier for this clause
+| `text`      | Translated text that may be interpreted and displayed in the widget.
+| `sym`       | A shortened symbol representing the text.
+| `color`     | Defines the color for the text derived from this "clause".
+| `value`     | A numeric value for this "clause", which may be interpreted differently based on the context of the parent widget.
+| `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this clause will be used or not. If the condition is true (or when no condition is defined), the clause can be used to its text/symbol/color in the widget's value.
+
+
+## Conditions
+
+Widget clauses and conditions can be used to define new widgets completely from JSON, using
+[dialogue conditions](NPCs.md#dialogue-conditions). By omitting the widget's `var` field, the
+widget is interpreted as either a "text", "number", "symbol", or "legend" depending on the given
+`style`. The widget will evaluate each of its clauses to determine which ones to draw values from:
+
+| Widget style | Clause field used    | Details | Example
+|---           |---                   |---      |---
+| `"number"`   | `"value"`            | Lists values as comma-separated-values from all clauses that have true conditions. | `Next threshold: 30, 40, 55`
+| `"text"`     | `"text"`             | Lists text as comma-separated-values from all clauses that have true conditions. | `TORSO: bleeding, broken, infected`
+| `"symbol"`   | `"sym"`              | Lists syms sequentially from all clauses that have true conditions. | `TORSO: b%I`
+| `"legend"`   | `"sym"` and `"text"` | Lists syms and text in a paragraph format, with spaces between pairs, from all clauses that have true conditions. | `b bleeding  % broken  I infected`
+
+Widgets using the `legend` style can be multiple lines high using a `height` > 1 (and optionally, the `W_DYNAMIC_HEIGHT` flag), so that the generated list can span the given vertical space.
+
+Some conditions can be specific to certain bodyparts. In order to simplify clauses, these conditions can pull from the parent widget's `bodypart` field (or `bodyparts` field if defining multiple). This allows the same clauses to be `copy-from`'d to multiple widgets, and each widget can display the clauses depending on whether its bodypart(s) passes the condition (assuming the condition relies on a bodypart).
+
+
+## Default clause
+
+Widgets can define a default clause that will be used if none of the clauses in the `clauses`
+array pass their conditions:
+
+```json
+{
+  "id": "observ_widget",
+  "type": "widget",
+  "style": "text",
+  "label": "Observation",
+  "clauses": [
+    {
+      "text": "Good!",
+      "color": "light_green",
+      "condition": { "u_has_trait": "EAGLEEYED" }
+    },
+    {
+      "text": "Bad!",
+      "color": "light_red",
+      "condition": { "u_has_trait": "UNOBSERVANT" }
+    }
+  ],
+  "default_clause": {
+    "text": "Neutral!",
+    "color": "white"
+  }
+}
+```
+
+In the example above, the widget would print out the following text:
+
+| Player has trait | Widget text
+|---               |---
+| Scout            | `Observation: Good!`
+| Topographagnosia | `Observation: Bad!`
+| -                | `Observation: Neutral!`
 
 
 # Variable ranges
@@ -627,19 +693,13 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `activity_text`         | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
 | `body_temp_text`        | Felt body temperature "Comfortable", "Chilly", "Warm" etc.
 | `bp_outer_armor_text`   | Item name and damage bars of armor/clothing worn on the given "bodypart"
-| `bp_status_text`        | Status of given "bodypart" - "bitten", "bleeding", "infected", etc.
-| `bp_status_sym_text`    | Same as above, but in a more compact format using 1 character per status.
-| `bp_status_legend_text` | (_multiline_) Displays the meaning of the symbols from `bp_status_sym_text`
 | `compass_legend_text`   | (_multiline_) A list of creatures visible by the player, corresponding to compass symbols
 | `compass_text`          | A compass direction (ex: NE), displaying visible creatures in that direction
 | `date_text`             | Current day within season, like "Summer, day 15"
 | `env_temp_text`         | Environment temperature, if thermometer is available
 | `fatigue_text`          | Fatigue level - "Tired", "Dead Tired", "Exhausted"
 | `health_text`           | Hidden health - "OK", "Good", "Very good", "Bad", "Very bad", etc.
-| `hunger_text`           | Hunger level - "Engorged", "Full", "Hungry", "Famished", etc.
-| `lighting_text`         | Lighting conditions at avatar position - "bright", "cloudy", "dark" etc.
 | `mood_text`             | Avatar mood represented as an emoticon face
-| `moon_phase_text`       | Phase of the moon - "New moon", "Waxing gibbous", "Full moon" etc.
 | `move_mode_letter`      | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
 | `move_mode_text`        | Movement mode - "walking", "running", "crouching", "prone"
 | `overmap_loc_text`      | Overmap coordinates, same as shown in the lower corner of overmap screen
@@ -647,10 +707,8 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `pain_text`             | "Mild pain", "Distracting pain", "Intense pain", etc.
 | `place_text`            | Location place name
 | `power_text`            | Bionic power available
-| `rad_badge_text`        | Radiation badge color indicator, if radiation badge is available
 | `safe_mode_text`        | Status of safe mode - "On" or "Off", with color for approaching turn limit
 | `style_text`            | Name of current martial arts style
-| `thirst_text`           | Thirst level - "Slaked", "Thirsty", "Dehydrated", etc.
 | `time_text`             | Current time - exact if clock is available, approximate otherwise
 | `veh_azimuth_text`      | Heading of vehicle in degrees
 | `veh_cruise_text`       | Target and actual cruising velocity, positive or negative
@@ -658,7 +716,6 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `weariness_text`        | Weariness level - "Fresh", "Light", "Moderate", "Weary" etc.
 | `weary_malus_text`      | Percentage penalty affecting speed due to weariness
 | `weather_text`          | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
-| `weight_text`           | Body weight - "Emaciated", "Normal", "Overweight", etc.
 | `wielding_text`         | Name of current weapon or wielded item
 | `wind_text`             | Wind direction and intensity
 

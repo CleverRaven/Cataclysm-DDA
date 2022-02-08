@@ -9,7 +9,7 @@
       {
         "text": "[Cannibal + Psychopath] Wait, I thought you were having food problems.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cannibal",
-        "condition": { "and": [ { "u_has_trait_flag": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] }
+        "condition": { "and": [ { "u_has_flag": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] }
       }
     ]
   },

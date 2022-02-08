@@ -443,22 +443,24 @@ static void shoot_monster( std::string gun_type, const std::vector<std::string> 
                            std::string ammo_type, int range,
                            int expected_damage, std::string monster_type )
 {
+    clear_map();
     statistics<int> damage;
+    constexpr tripoint shooter_pos{ 60, 60, 0 };
+    const tripoint monster_pos = shooter_pos + ( point_east * range );
+    std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter", shooter_pos,
+                                            std::vector<std::string>(), 5, 10, 10, 10, 10 );
     do {
-        const tripoint shooter_pos( 60, 60, 0 );
-        const tripoint monster_pos = shooter_pos + ( point_east * range );
-        standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
-        shooter.set_body();
-        arm_shooter( shooter, gun_type, mods, ammo_type );
-        shooter.recoil = 0;
+        shooter->set_body();
+        arm_shooter( *shooter, gun_type, mods, ammo_type );
+        shooter->recoil = 0;
         monster &mon = spawn_test_monster( monster_type, monster_pos );
-        int prev_HP = mon.get_hp();
-        shooter.fire_gun( monster_pos, 1, shooter.get_wielded_item() );
+        const int prev_HP = mon.get_hp();
+        shooter->fire_gun( monster_pos, 1, shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
-        clear_map();
         if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
             break;
         }
+        mon.die( nullptr );
     } while( damage.n() < 200 ); // In fact, stable results can only be obtained when n reaches 10000
     const double avg = damage.avg();
     CAPTURE( gun_type );
@@ -467,10 +469,9 @@ static void shoot_monster( std::string gun_type, const std::vector<std::string> 
     CAPTURE( range );
     CAPTURE( monster_type );
     CAPTURE( avg );
-    CHECK( avg + 30 >= expected_damage );
-    CHECK( avg - 30  < expected_damage );
-
+    CHECK( avg == Approx( expected_damage ).margin( 10 ) );
 }
+
 TEST_CASE( "shot_features", "[gun]" "[slow]" )
 {
     clear_map();
@@ -502,7 +503,7 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Can't hurt at close range.
     shoot_monster( "shotgun_s", {}, "shot_bird", 5, 1, "mon_skeleton_hulk" );
     // Barely injure at point blank.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 25, "mon_skeleton_hulk" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 18, "mon_skeleton_hulk" );
     // TODO: can't harm heavily armored enemies even at point blank.
 
     // BUCKSHOT
@@ -556,7 +557,7 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 48, "mon_zombie_tough" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 79, "mon_zombie_tough" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 108, "mon_zombie_tough" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 116, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 95, "mon_zombie_tough" );
     // Armored target (armor_bullet: 5)
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 35, "mon_zombie_brute" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 58, "mon_zombie_brute" );

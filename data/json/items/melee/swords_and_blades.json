@@ -354,7 +354,7 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", -27 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", -27 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "BLADED_FARMING" ]
@@ -377,7 +377,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2" ],
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "BLADED_FARMING" ]
   },
@@ -796,7 +796,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2", "RAPID" ],
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 10 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "BLADED_FARMING" ]
   },
