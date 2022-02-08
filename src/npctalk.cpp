@@ -3420,8 +3420,14 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo,
                                       const std::string &member )
 {
     std::vector<effect_on_condition_id> eocs;
-    for( JsonValue jv : jo.get_array( member ) ) {
-        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    if( jo.has_array( member ) ) {
+        for( JsonValue jv : jo.get_array( member ) ) {
+            eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        }
+    } else if( jo.has_member( member ) ) {
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" ) );
+    } else {
+        jo.throw_error( "Invalid input for run_eocs" );
     }
     function = [eocs]( const dialogue & d ) {
         Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
@@ -3480,9 +3486,16 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
 void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string &member )
 {
     std::vector<effect_on_condition_id> eocs;
-    for( JsonValue jv : jo.get_array( member ) ) {
-        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    if( jo.has_array( member ) ) {
+        for( JsonValue jv : jo.get_array( member ) ) {
+            eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        }
+    } else if( jo.has_member( member ) ) {
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" ) );
+    } else {
+        jo.throw_error( "Invalid input for queue_eocs" );
     }
+
     duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
             0_seconds );
     duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
@@ -4061,9 +4074,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_make_sound( jo, "u_make_sound", false );
     } else if( jo.has_member( "npc_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
-    } else if( jo.has_array( "run_eocs" ) ) {
+    } else if( jo.has_array( "run_eocs" ) || jo.has_member( "run_eocs" ) ) {
         subeffect_fun.set_run_eocs( jo, "run_eocs" );
-    } else if( jo.has_array( "queue_eocs" ) ) {
+    } else if( jo.has_array( "queue_eocs" ) || jo.has_member( "queue_eocs" ) ) {
         subeffect_fun.set_queue_eocs( jo, "queue_eocs" );
     } else if( jo.has_array( "u_run_npc_eocs" ) ) {
         subeffect_fun.set_run_npc_eocs( jo, "u_run_npc_eocs", false );
