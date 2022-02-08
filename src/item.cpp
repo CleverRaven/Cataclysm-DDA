@@ -10995,7 +10995,7 @@ void item::set_item_specific_energy( const float new_specific_energy )
                             ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
 
-    temperature = std::lround( 100000 * new_item_temperature );
+    temperature = new_item_temperature;
     specific_energy = new_specific_energy;
     set_temp_flags( new_item_temperature, freeze_percentage );
     reset_temp_check();
@@ -11031,7 +11031,7 @@ void item::set_item_temperature( float new_temperature )
     float new_specific_energy = get_specific_energy_from_temperature( new_temperature );
     float freeze_percentage = 0.0f;
 
-    temperature = std::lround( 100000 * new_temperature );
+    temperature = new_temperature;
     specific_energy = new_specific_energy ;
 
     const float completely_frozen_specific_energy = specific_heat_solid *
@@ -11633,7 +11633,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
 {
     // Limit calculations to max 4000 C (4273.15 K) to avoid specific energy from overflowing
     const float env_temperature = std::min( temp_to_kelvin( temp ), 4273.15 );
-    const float old_temperature = 0.00001 * temperature;
+    const float old_temperature = temperature;
     const float temperature_difference = env_temperature - old_temperature;
 
     // If no or only small temperature difference then no need to do math.
@@ -11649,7 +11649,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     }
 
     // specific_energy = item thermal energy (J/g). Stored in the item
-    // temperature = item temperature (10e-5 K). Stored in the item
+    // temperature = item temperature (K). Stored in the item
     const float conductivity_term = 0.0076 * std::pow( to_milliliter( volume() ),
                                     2.0 / 3.0 ) / insulation;
     const float specific_heat_liquid = get_specific_heat_liquid();
@@ -11768,7 +11768,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
                             ( completely_liquid_specific_energy - completely_frozen_specific_energy );
     }
 
-    temperature = std::lround( 100000 * new_item_temperature );
+    temperature = new_item_temperature;
     specific_energy = new_specific_energy;
     set_temp_flags( new_item_temperature, freeze_percentage );
 }
@@ -11826,7 +11826,7 @@ void item::heat_up()
     current_phase = type->phase;
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
-    temperature = 333.15 * 100000;
+    temperature = 333.15;
     specific_energy = get_specific_energy_from_temperature( 333.15 );
 
     reset_temp_check();
@@ -11840,7 +11840,7 @@ void item::cold_up()
     current_phase = type->phase;
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
-    temperature = 276.15 * 100000;
+    temperature = 276.15;
     specific_energy = get_specific_energy_from_temperature( 276.15 );
 
     reset_temp_check();

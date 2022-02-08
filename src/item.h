@@ -2778,7 +2778,7 @@ class item : public visitable
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
         float specific_energy = -10; // Specific energy J/g. Negative value for unprocessed.
-        int temperature = 0;       // Temperature of the item (in 0.00001 K).
+        float temperature = 0;       // Temperature of the item (Kelvins).
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;

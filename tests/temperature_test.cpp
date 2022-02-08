@@ -28,7 +28,7 @@ TEST_CASE( "Item spawns with right thermal attributes" )
     set_map_temperature( 122 );
     D.process_temperature_rot( 1, tripoint_zero, nullptr );
 
-    CHECK( D.temperature == Approx( 323.15 * 100000 ).margin( 1 ) );
+    CHECK( D.temperature == Approx( 323.15 ).margin( 1 ) );
 }
 
 TEST_CASE( "Rate of temperature change" )
@@ -66,7 +66,7 @@ TEST_CASE( "Rate of temperature change" )
         water2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // 55 C
-        CHECK( water1.temperature == Approx( 328.15 * 100000 ).margin( 1 ) );
+        CHECK( water1.temperature == Approx( 328.15 ).margin( 1 ) );
 
         set_map_temperature( 68 ); // 20C
 
@@ -85,7 +85,7 @@ TEST_CASE( "Rate of temperature change" )
         water2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // about 29.6 C
-        CHECK( water1.temperature == Approx( 30271802 ).margin( 1 ) );
+        CHECK( water1.temperature == Approx( 302.71802 ).margin( 1 ) );
         CHECK( water1.temperature == Approx( water2.temperature ).margin( 1 ) );
     }
 
@@ -106,7 +106,7 @@ TEST_CASE( "Rate of temperature change" )
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // 50 C
-        CHECK( meat1.temperature == Approx( 323.15 * 100000 ).margin( 1 ) );
+        CHECK( meat1.temperature == Approx( 323.15 ).margin( 1 ) );
         CHECK( meat1.has_own_flag( flag_HOT ) );
 
         set_map_temperature( -4 ); // -20 C
@@ -116,7 +116,7 @@ TEST_CASE( "Rate of temperature change" )
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // about 34.6 C
-        CHECK( meat1.temperature == Approx( 30778338 ).margin( 1 ) );
+        CHECK( meat1.temperature == Approx( 307.78338 ).margin( 0.01 ) );
         CHECK( !meat1.has_own_flag( flag_HOT ) );
 
         calendar::turn += 11_minutes;
@@ -133,8 +133,8 @@ TEST_CASE( "Rate of temperature change" )
 
         // 0C
         // not frozen
-        CHECK( meat1.temperature == 27315000 );
-        CHECK( meat2.temperature == 27315000 );
+        CHECK( meat1.temperature == Approx(273.15 ).margin( 0.01 ) );
+        CHECK( meat2.temperature == Approx(273.15 ).margin( 0.01 ) );
         CHECK( !meat1.has_own_flag( flag_FROZEN ) );
         CHECK( !meat2.has_own_flag( flag_FROZEN ) );
 
@@ -148,7 +148,7 @@ TEST_CASE( "Rate of temperature change" )
         // 0C
         // frozen
         // same energy as meat 2
-        CHECK( meat1.temperature == 27315000 );
+        CHECK( meat1.temperature == Approx( 273.15 ).margin( 0.01 ) );;
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( meat2.has_own_flag( flag_FROZEN ) );
         CHECK( meat1.specific_energy == Approx( meat2.specific_energy ).margin( 1 ) );
@@ -168,7 +168,7 @@ TEST_CASE( "Rate of temperature change" )
         // about -5.2 C
         // frozen
         // same temp as meat 2
-        CHECK( meat1.temperature == Approx( 26798050 ).margin( 1 ) );
+        CHECK( meat1.temperature == Approx( 267.98050 ).margin( 1 ) );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( meat1.temperature == Approx( meat2.temperature ).margin( 1 ) );
     }
@@ -193,7 +193,7 @@ TEST_CASE( "Rate of temperature change" )
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // -20 C
-        CHECK( meat1.temperature == Approx( 253.15 * 100000 ).margin( 1 ) );
+        CHECK( meat1.temperature == Approx( 253.15 ).margin( 1 ) );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
 
         set_map_temperature( 68 ); // 20 C
@@ -201,7 +201,7 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         // about -9.3 C
-        CHECK( meat1.temperature == Approx( 26389390 ).margin( 1 ) );
+        CHECK( meat1.temperature == Approx( 263.89390 ).margin( 1 ) );
 
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
@@ -216,7 +216,7 @@ TEST_CASE( "Rate of temperature change" )
         // 0C
         // same temp
         // frozen
-        CHECK( meat1.temperature == 27315000 );
+        CHECK( meat1.temperature == 273.15 );
         CHECK( meat2.temperature == meat1.temperature );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( meat2.has_own_flag( flag_FROZEN ) );
@@ -232,7 +232,7 @@ TEST_CASE( "Rate of temperature change" )
         // 0C
         // same temp
         // not frozen
-        CHECK( meat1.temperature == 27315000 );
+        CHECK( meat1.temperature == 273.15 );
         CHECK( meat2.temperature == meat1.temperature );
         CHECK( !meat1.has_own_flag( flag_FROZEN ) );
 
@@ -249,7 +249,7 @@ TEST_CASE( "Rate of temperature change" )
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // about 2.2 C
-        CHECK( meat1.temperature == Approx( 27532468 ).margin( 1 ) );
+        CHECK( meat1.temperature == Approx( 275.32468 ).margin( 1 ) );
         CHECK( meat1.temperature == Approx( meat2.temperature ).margin( 1 ) );
     }
 }
@@ -268,21 +268,21 @@ TEST_CASE( "Temperature controlled location" )
         water1.process_temperature_rot( 1, tripoint_zero, nullptr,
                                         temperature_flag::HEATER );
 
-        CHECK( water1.temperature == Approx( 100000 * temp_to_kelvin( temperatures::normal ) ).margin(
+        CHECK( water1.temperature == Approx( temp_to_kelvin( temperatures::normal ) ).margin(
                    1 ) );
 
         calendar::turn += 15_minutes;
         water1.process_temperature_rot( 1, tripoint_zero, nullptr,
                                         temperature_flag::HEATER );
 
-        CHECK( water1.temperature == Approx( 100000 * temp_to_kelvin( temperatures::normal ) ).margin(
+        CHECK( water1.temperature == Approx( temp_to_kelvin( temperatures::normal ) ).margin(
                    1 ) );
 
         calendar::turn += 2_hours + 3_minutes;
         water1.process_temperature_rot( 1, tripoint_zero, nullptr,
                                         temperature_flag::HEATER );
 
-        CHECK( water1.temperature == Approx( 100000 * temp_to_kelvin( temperatures::normal ) ).margin(
+        CHECK( water1.temperature == Approx( temp_to_kelvin( temperatures::normal ) ).margin(
                    1 ) );
     }
 }

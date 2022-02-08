@@ -946,7 +946,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                     if( query_yn( _( "Extract water from the %s" ),
                                   colorize( it.tname(), it.color_in_inventory() ) ) ) {
                         item water( itype_water_clean, calendar::turn, avail );
-                        water.set_item_temperature( 0.00001 * it.temperature );
+                        water.set_item_temperature( it.temperature );
                         if( liquid_handler::consume_liquid( water ) ) {
                             add_msg_activate();
                             extracted = true;

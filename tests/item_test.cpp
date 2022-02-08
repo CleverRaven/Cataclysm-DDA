@@ -197,8 +197,8 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
     liquid_filthy.set_flag( json_flag_FILTHY );
 
     // Temperature is in terms of 0.000001 K
-    REQUIRE( std::floor( liquid_hot.temperature / 100000 ) == 333 );
-    REQUIRE( std::floor( liquid_cold.temperature / 100000 ) == 276 );
+    REQUIRE( std::floor( liquid_hot.temperature ) == 333 );
+    REQUIRE( std::floor( liquid_cold.temperature ) == 276 );
     REQUIRE( liquid_hot.has_flag( json_flag_HOT ) );
     REQUIRE( liquid_cold.has_flag( json_flag_COLD ) );
 
