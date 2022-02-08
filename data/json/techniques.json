@@ -273,7 +273,10 @@
     "type": "technique",
     "id": "tec_bojutsu_kneestrike",
     "name": "Knee Strike",
-    "messages": [ "After blocking %s's attack you quickly strike at their knee!", "After blocking %s's attack <npcname> quickly strikes at their knee!" ],
+    "messages": [
+      "After blocking %s's attack you quickly strike at their knee!",
+      "After blocking %s's attack <npcname> quickly strikes at their knee!"
+    ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "block_counter": true,
@@ -285,7 +288,10 @@
     "type": "technique",
     "id": "tec_bojutsu_frontstrike",
     "name": "Overhead Front Strike",
-    "messages": [ "You block %s's attack and counter with a Overhead Front Strike!", "<npcname> blocks %s's attack and counter with a Overhead Front Strike!" ],
+    "messages": [
+      "You block %s's attack and counter with a Overhead Front Strike!",
+      "<npcname> blocks %s's attack and counter with a Overhead Front Strike!"
+    ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "block_counter": true,
