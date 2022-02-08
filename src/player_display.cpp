@@ -210,7 +210,7 @@ static nc_color limb_score_current_color( float cur_score, float bp_score )
 
 static std::string get_score_text( const std::string &sc_name, float cur_score, float bp_score )
 {
-    if( bp_score <= std::numeric_limits<float>::epsilon() ) {
+    if( std::abs( bp_score ) <= std::numeric_limits<float>::epsilon() ) {
         return std::string();
     }
 
