@@ -3104,7 +3104,8 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "pliers", -1 ] ] ],
     "pre_flags": "WIRED_WALL",
-    "post_special": "done_appliance"
+    "pre_special": "check_no_wiring",
+    "post_special": "done_wiring"
   },
   {
     "type": "construction",

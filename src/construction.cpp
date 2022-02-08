@@ -100,6 +100,7 @@ static const vproto_id vehicle_prototype_none( "none" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
+static const std::string flag_WIRING( "WIRING" );
 
 static bool finalized = false;
 
@@ -123,6 +124,7 @@ bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
 bool check_no_trap( const tripoint & );
 bool check_ramp_low( const tripoint & );
 bool check_ramp_high( const tripoint & );
+bool check_no_wiring( const tripoint & );
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint & ) {}
@@ -130,6 +132,7 @@ void done_trunk_plank( const tripoint & );
 void done_grave( const tripoint & );
 void done_vehicle( const tripoint & );
 void done_appliance( const tripoint & );
+void done_wiring( const tripoint & );
 void done_deconstruct( const tripoint & );
 void done_digormine_stair( const tripoint &, bool );
 void done_dig_stair( const tripoint & );
@@ -1223,6 +1226,21 @@ bool construct::check_ramp_low( const tripoint &p )
     return check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p );
 }
 
+bool construct::check_no_wiring( const tripoint &p )
+{
+    const optional_vpart_position vp = get_map().veh_at( p );
+    if( !vp ) {
+        return true;
+    }
+
+    const vehicle &veh_target = vp->vehicle();
+    if( veh_target.has_tag( flag_WIRING ) ) {
+        return false;
+    }
+
+    return true;
+}
+
 void construct::done_trunk_plank( const tripoint &/*p*/ )
 {
     int num_logs = rng( 2, 3 );
@@ -1323,26 +1341,53 @@ void construct::done_vehicle( const tripoint &p )
     here.add_vehicle_to_cache( veh );
 }
 
+void construct::done_wiring( const tripoint &p )
+{
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
+    if( !veh ) {
+        debugmsg( "error constructing vehicle" );
+        return;
+    }
+
+    veh->install_part( point_zero, vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
+    veh->name = _( "wall wiring" );
+    veh->add_tag( flag_CANT_DRAG );
+    veh->add_tag( flag_WIRING );
+
+    // Merge any neighbouring wire vehicles into this one
+    for( const point &offset : four_adjacent_offsets ) {
+        const optional_vpart_position vp = here.veh_at( p + offset );
+        if( !vp ) {
+            continue;
+        }
+
+        vehicle &veh_target = vp->vehicle();
+        if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
+            if( !veh->merge_vehicle_parts( &veh_target ) ) {
+                debugmsg( "failed to merge vehicle parts" );
+            }
+        }
+    }
+
+    // Update the vehicle cache immediately,
+    // or the wiring will be invisible for the first couple of turns.
+    here.add_vehicle_to_cache( veh );
+}
+
 void construct::done_appliance( const tripoint &p )
 {
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
 
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
         return;
     }
     const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
-    const std::string &constrcut_id = get_avatar().activity.get_str_value( 0 );
 
-    if( constrcut_id == STATIC( "app_wall_wiring" ) ) {
-        veh->install_part( point_zero, vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
-        veh->name = _( "wall wiring" );
-        veh->add_tag( flag_CANT_DRAG );
-    } else {
-        veh->install_part( point_zero, vpart );
-        veh->name = vpart->name();
-    }
+    veh->install_part( point_zero, vpart );
+    veh->name = vpart->name();
 
     veh->add_tag( flag_APPLIANCE );
 
@@ -1350,14 +1395,19 @@ void construct::done_appliance( const tripoint &p )
     // or the appliance will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
 
+    // Connect to any neighbouring appliances or wires once
+    std::unordered_set<const vehicle *> connected_vehicles;
     for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
         const optional_vpart_position vp = here.veh_at( trip );
         if( !vp ) {
             continue;
         }
         const vehicle &veh_target = vp->vehicle();
-        if( veh_target.has_tag( flag_APPLIANCE ) ) {
-            veh->connect( p, trip );
+        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+            if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
+                veh->connect( p, trip );
+                connected_vehicles.insert( &veh_target );
+            }
         }
     }
 }
@@ -1707,7 +1757,8 @@ void load_construction( const JsonObject &jo )
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap },
             { "check_ramp_low", construct::check_ramp_low },
-            { "check_ramp_high", construct::check_ramp_high }
+            { "check_ramp_high", construct::check_ramp_high },
+            { "check_no_wiring", construct::check_no_wiring }
         }
     };
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
@@ -1716,6 +1767,7 @@ void load_construction( const JsonObject &jo )
             { "done_grave", construct::done_grave },
             { "done_vehicle", construct::done_vehicle },
             { "done_appliance", construct::done_appliance },
+            { "done_wiring", construct::done_wiring },
             { "done_deconstruct", construct::done_deconstruct },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },

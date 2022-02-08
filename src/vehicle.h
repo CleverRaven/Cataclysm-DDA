@@ -942,6 +942,8 @@ class vehicle
                                          bool do_not_rack = false );
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
+        // merges vehicles together by copying parts, does not account for any vehicle complexities
+        bool merge_vehicle_parts( vehicle *veh );
 
         /**
          * @param handler A class that receives various callbacks, e.g. for placing items.

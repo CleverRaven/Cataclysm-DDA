@@ -1802,6 +1802,24 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     return found_all_parts;
 }
 
+bool vehicle::merge_vehicle_parts( vehicle *veh )
+{
+    for( const vehicle_part &part : veh->parts ) {
+        point part_loc = veh->mount_to_tripoint( part.mount ).xy();
+
+        parts.push_back( part );
+        vehicle_part &copied_part = parts.back();
+        copied_part.mount = part_loc - global_pos3().xy();
+
+        refresh();
+    }
+
+    map &here = get_map();
+    here.destroy_vehicle( veh );
+
+    return true;
+}
+
 /**
  * Mark a part as removed from the vehicle.
  * @return bool true if the vehicle's 0,0 point shifted.
