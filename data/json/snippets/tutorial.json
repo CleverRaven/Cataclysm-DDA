@@ -25,7 +25,7 @@
       },
       {
         "id": "LESSON_CLOSE",
-        "text": "You can close an opened door by pressing <color_yellow>'c'</color> and then a movement key.  Closing doors behind you can often slow down throngs of monsters greatly."
+        "text": "You can close an opened door by pressing <color_yellow>'<keybind_close>'</color> and then a movement key.  Closing doors behind you can often slow down throngs of monsters greatly."
       },
       {
         "id": "LESSON_SMASH",

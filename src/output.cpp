@@ -1846,6 +1846,31 @@ void replace_city_tag( std::string &input, const std::string &name )
     replace_substring( input, "<city>", name, true );
 }
 
+void replace_keybind_tag( std::string &input )
+{
+    std::string keybind_tag_start = "<keybind_";
+    size_t keybind_length = keybind_tag_start.length();
+    std::string keybind_tag_end = ">";
+
+    size_t pos = input.find( keybind_tag_start );
+    while( pos != std::string::npos ) {
+        size_t pos_end = input.find(keybind_tag_end, pos);
+        if (pos_end == std::string::npos) {
+            // TODO: Throw an error here for a mismatched tag?
+            break;
+        }
+        size_t pos_keybind = pos + keybind_length;
+        std::string keybind = input.substr( pos_keybind, pos_end - pos_keybind );
+
+        std::string keybind_desc = ctxt.get_desc( keybind );
+
+        std::string to_replace = keybind_tag_start + keybind + keybind_tag_end;
+        replace_substring( input, to_replace, keybind_desc, true );
+
+        pos = input.find( keybind_tag_start );
+    }
+}
+
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all )
 {
