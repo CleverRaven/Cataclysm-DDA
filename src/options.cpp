@@ -2169,7 +2169,7 @@ void options_manager::add_options_world_default()
 
     add( "ITEM_SPAWNRATE", "world_default", to_translation( "Item spawn scaling factor" ),
          to_translation( "A scaling factor that determines density of item spawns.  A higher number means more items." ),
-         0.01, 10.0, 1.0, 0.01
+         0.00, 10.0, 1.0, 0.00
        );
 
     add( "NPC_SPAWNTIME", "world_default", to_translation( "Random NPC spawn time" ),
