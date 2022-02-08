@@ -291,6 +291,104 @@
     ]
   },
   {
+    "id": "test_lighting_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "bright",
+        "text": "bright",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "<=", { "const": 1 } ] }
+      },
+      {
+        "id": "cloudy",
+        "text": "cloudy",
+        "color": "white",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 2 } ] }
+      },
+      {
+        "id": "shady",
+        "text": "shady",
+        "color": "light_gray",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 3 } ] }
+      },
+      {
+        "id": "dark",
+        "text": "dark",
+        "color": "dark_gray",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 4 } ] }
+      },
+      {
+        "id": "very dark",
+        "text": "very dark",
+        "color": "black_white",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, ">=", { "const": 5 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_moon_phase_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "new_moon",
+        "text": "New moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 0 } ] }
+      },
+      {
+        "id": "waxing_crescent",
+        "text": "Waxing crescent",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 1 } ] }
+      },
+      {
+        "id": "half_moon",
+        "text": "Half moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 2 } ] }
+      },
+      {
+        "id": "waxing_gibbous",
+        "text": "Waxing gibbous",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] }
+      },
+      {
+        "id": "full_moon",
+        "text": "Full moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 4 } ] }
+      },
+      {
+        "id": "waning_gibbous",
+        "text": "Waning gibbous",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 5 } ] }
+      },
+      {
+        "id": "half_moon",
+        "text": "Half moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 6 } ] }
+      },
+      {
+        "id": "waning_crescent",
+        "text": "Waning crescent",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 7 } ] }
+      },
+      {
+        "id": "dark_moon",
+        "text": "Dark moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 8 } ] }
+      }
+    ]
+  },
+  {
     "id": "test_bucket_graph",
     "type": "widget",
     "style": "graph",
@@ -697,6 +795,20 @@
     "label": "HUNGER",
     "style": "text",
     "copy-from": "test_hunger_clause_template"
+  },
+  {
+    "id": "test_lighting_clause",
+    "type": "widget",
+    "label": "LIGHTING",
+    "style": "text",
+    "copy-from": "test_lighting_template"
+  },
+  {
+    "id": "test_moon_phase_clause",
+    "type": "widget",
+    "label": "MOON",
+    "style": "text",
+    "copy-from": "test_moon_phase_template"
   },
   {
     "id": "test_clause_number",

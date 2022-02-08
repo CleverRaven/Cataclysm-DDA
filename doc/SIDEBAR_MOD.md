@@ -699,9 +699,7 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `env_temp_text`         | Environment temperature, if thermometer is available
 | `fatigue_text`          | Fatigue level - "Tired", "Dead Tired", "Exhausted"
 | `health_text`           | Hidden health - "OK", "Good", "Very good", "Bad", "Very bad", etc.
-| `lighting_text`         | Lighting conditions at avatar position - "bright", "cloudy", "dark" etc.
 | `mood_text`             | Avatar mood represented as an emoticon face
-| `moon_phase_text`       | Phase of the moon - "New moon", "Waxing gibbous", "Full moon" etc.
 | `move_mode_letter`      | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
 | `move_mode_text`        | Movement mode - "walking", "running", "crouching", "prone"
 | `overmap_loc_text`      | Overmap coordinates, same as shown in the lower corner of overmap screen
