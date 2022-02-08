@@ -21,13 +21,20 @@
   {
     "type": "effect_on_condition",
     "id": "changing_failed",
-    "condition": { "one_in_chance": 6 },
+    "condition": { "one_in_chance": 4 },
     "effect": [ { "u_message": "You feel a shift in your body, but it quickly reverts.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "changing_successful",
-    "effect": [ { "u_add_trait": "CHANGING" }, { "u_mutate": 0 } ]
+    "effect": [
+      {
+        "u_message": "You begin to feel a sickeningly beautiful ache, the feeling of your cells tearing apart and recombining in strange new patterns.",
+        "type": "mixed"
+      },
+      { "u_add_trait": "CHANGING" },
+      { "u_mutate": 0 }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -46,8 +53,8 @@
     "type": "effect_on_condition",
     "id": "changing_mutate",
     "//": "Time for mutation!",
-    "recurrence_min": "20 m",
-    "recurrence_max": "40 m",
+    "recurrence_min": "2 h",
+    "recurrence_max": "4 h",
     "condition": { "and": [ { "u_has_flag": "CHANGING" } ] },
     "deactivate_condition": { "not": { "u_has_flag": "CHANGING" } },
     "effect": [

@@ -6,6 +6,7 @@
     "points": 0,
     "player_display": false,
     "purifiable": false,
+    "valid": false,
     "description": "You shouldn't see this.  This makes you mutate.",
     "flags": [ "CHANGING" ]
   },

@@ -1312,13 +1312,15 @@ class Character : public Creature, public visitable
         void mutate( const int &highest_category_chance, const bool use_vitamins );
         void mutate( );
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad, const vitamin_id &mut_vit ) const;
+        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad,
+                          const vitamin_id &mut_vit ) const;
         bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const mutation_category_id &mut_cat, const bool use_vitamins );
         void mutate_category( const mutation_category_id &mut_cat );
         /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
-        bool mutate_towards( std::vector<trait_id> muts, const vitamin_id &mut_vit, int num_tries = INT_MAX );
+        bool mutate_towards( std::vector<trait_id> muts, const vitamin_id &mut_vit,
+                             int num_tries = INT_MAX );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
         bool mutate_towards( const trait_id &mut, const vitamin_id &mut_vit );
         bool mutate_towards( const trait_id &mut );

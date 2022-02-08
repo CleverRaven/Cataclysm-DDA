@@ -818,7 +818,8 @@ trait_id Character::trait_by_invlet( const int ch ) const
     return trait_id::NULL_ID();
 }
 
-bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad, const vitamin_id &mut_vit ) const
+bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad,
+                             const vitamin_id &mut_vit ) const
 {
     if( mut_vit != vitamin_id::NULL_ID() && vitamin_get( mut_vit ) < mutation->vitamin_cost ) {
         // We don't have the required mutagen vitamins
@@ -896,18 +897,19 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
             return;
         }
     }
-    
+
     std::vector<trait_id> valid; // Valid mutations
-    
+
     do {
         // See if we should upgrade/extend an existing mutation...
         std::vector<trait_id> upgrades;
 
         // ... or remove one that is not in our highest category
         std::vector<trait_id> downgrades;
-        
-        const vitamin_id mut_vit = use_vitamins ? mutation_category_trait::get_category( cat ).vitamin : vitamin_id::NULL_ID();
-        
+
+        const vitamin_id mut_vit = use_vitamins ? mutation_category_trait::get_category(
+                                       cat ).vitamin : vitamin_id::NULL_ID();
+
         // For each mutation in category...
         for( const trait_id &traits_iter : mutations_category[cat] ) {
             const trait_id &base_mutation = traits_iter;
@@ -916,12 +918,12 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
             bool prof_save = base_mdata.profession;
             // are we unpurifiable? (saved from mutating away)
             bool purify_save = !base_mdata.purifiable;
-            
+
             // ...those we don't have are valid.
             if( base_mdata.valid && is_category_allowed( base_mdata.category ) ) {
                 valid.push_back( base_mdata.id );
             }
-            
+
             // ...for those that we have...
             if( has_trait( base_mutation ) ) {
                 // ...consider the mutations that replace it.
@@ -967,7 +969,7 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
                 }
             }
         }
-        
+
         // Prioritize upgrading existing mutations
         if( one_in( 2 ) ) {
             if( !upgrades.empty() ) {
@@ -989,7 +991,7 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
                 }
             }
         }
-        
+
         // Remove anything we already have, that we have a child of, that
         // goes against our intention of a good/bad mutation, or that we lack resources for
         for( size_t i = 0; i < valid.size(); i++ ) {
@@ -999,7 +1001,7 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
                 i--;
             }
         }
-        
+
         if( valid.empty() ) {
             if( cat_list.get_weight() > 0 ) {
                 // try to pick again
@@ -1011,12 +1013,11 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
             }
         } else {
             if( mutate_towards( random_entry( valid ), mut_vit ) ) {
-                return;
             } else {
                 // if mutation failed (errors, post-threshold pick), try again once.
                 mutate_towards( random_entry( valid ), mut_vit );
-                return;
             }
+            return;
         }
     } while( valid.empty() );
 }
@@ -1046,8 +1047,9 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
     // Pull the category's list for valid mutations
     std::vector<trait_id> valid = mutations_category[cat];
 
-    const vitamin_id mut_vit = use_vitamins ? mutation_category_trait::get_category( cat ).vitamin : vitamin_id::NULL_ID();
-    
+    const vitamin_id mut_vit = use_vitamins ? mutation_category_trait::get_category(
+                                   cat ).vitamin : vitamin_id::NULL_ID();
+
     // Remove anything we already have, that we have a child of, or that
     // goes against our intention of a good/bad mutation
     for( size_t i = 0; i < valid.size(); i++ ) {
@@ -1056,7 +1058,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
             i--;
         }
     }
-    
+
     mutate_towards( valid, mut_vit, 2 );
 }
 
@@ -1081,7 +1083,8 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
     return ret;
 }
 
-bool Character::mutate_towards( std::vector<trait_id> muts, const vitamin_id &mut_vit, int num_tries )
+bool Character::mutate_towards( std::vector<trait_id> muts, const vitamin_id &mut_vit,
+                                int num_tries )
 {
     while( !muts.empty() && num_tries > 0 ) {
         int i = rng( 0, muts.size() - 1 );
@@ -1220,7 +1223,7 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
             return false;
         }
     }
-    
+
     // Check if one of the prerequisites that we have TURNS INTO this one
     trait_id replacing = trait_id::NULL_ID();
     prereq = mdata.prereqs; // Reset it
@@ -1372,7 +1375,7 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
     }
 
     set_mutation( mut );
-    
+
     set_highest_cat_level();
     drench_mut_calc();
     return true;

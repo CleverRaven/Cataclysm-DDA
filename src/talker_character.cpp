@@ -156,7 +156,8 @@ void talker_character::mutate( const int &highest_cat_chance, const bool &use_vi
     me_chr->mutate( highest_cat_chance, use_vitamins );
 }
 
-void talker_character::mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins )
+void talker_character::mutate_category( const mutation_category_id &mut_cat,
+                                        const bool &use_vitamins )
 {
     me_chr->mutate_category( mut_cat, use_vitamins );
 }
