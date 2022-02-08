@@ -899,7 +899,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" "REACH_ATTACK" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "REACH_ATTACK" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ],
     "category": "weapons"
   },
