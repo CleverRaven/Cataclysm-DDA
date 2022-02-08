@@ -207,8 +207,7 @@
 	"count": 40,
     "difficulty": 1,
     "value": 5000,
-	"origins": [ "ORIGIN_OPENER_NPC" ],         
-    "followup": "MISSION_BUILD_CAMP_4",      
+	"origins": [ "ORIGIN_OPENER_NPC" ],      
     "end": {
 	   "update_mapgen": { "om_terrain": "homelesscamp", "place_nested": [ { "chunks": [ "homeless_camp_refurb_5" ], "x": 0, "y": 0 } ] },
            "effect": [ { "npc_add_var": "smoked_meat_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ]
