@@ -170,7 +170,8 @@
       [ "shovel_snow", 10 ],
       [ "shovel_snow_plastic", 15 ],
       [ "hose_garden", 20 ],
-      [ "big_pliers", 10 ]
+      [ "big_pliers", 10 ],
+      [ "heavy_crowbar", 10 ]
     ]
   },
   {
@@ -297,7 +298,8 @@
       [ "hammer_sledge_engineer", 10 ],
       [ "halligan", 10 ],
       [ "pike_pole", 10 ],
-      [ "ny_hook", 10 ]
+      [ "ny_hook", 10 ],
+      [ "heavy_crowbar", 10 ]
     ]
   },
   {
@@ -767,7 +769,8 @@
       { "item": "reciprocating_saw", "prob": 50, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
-      { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] }
+      { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] },
+      { "item": "masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] }
     ]
   },
   {

@@ -290,7 +290,8 @@ class zone_data
         bool set_name();
         // returns true if type is changed
         bool set_type();
-        void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true );
+        void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true,
+                           bool update_avatar = true );
         void set_enabled( bool enabled_arg );
         void set_is_vehicle( bool is_vehicle_arg );
 
@@ -433,7 +434,7 @@ class zone_manager
         std::string get_name_from_type( const zone_type_id &type ) const;
         bool has_type( const zone_type_id &type ) const;
         bool has_defined( const zone_type_id &type, const faction_id &fac = your_fac ) const;
-        void cache_data();
+        void cache_data( bool update_avatar = true );
         void cache_avatar_location();
         void cache_vzones();
         bool has( const zone_type_id &type, const tripoint_abs_ms &where,

@@ -28,6 +28,7 @@ void clear_mission( npc & );
 void mission_reward( npc & );
 void mission_favor( npc & );
 void give_equipment( npc & );
+void give_equipment_allowance( npc &p, int allowance );
 void give_aid( npc & );
 void give_all_aid( npc & );
 void buy_horse( npc & );

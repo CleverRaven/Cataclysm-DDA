@@ -109,9 +109,6 @@ static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
-static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
-static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
-static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -194,15 +191,11 @@ static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
 static const harvest_drop_type_id harvest_drop_offal( "offal" );
 static const harvest_drop_type_id harvest_drop_skin( "skin" );
 
-static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
-static const itype_id itype_log( "log" );
 static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
-static const itype_id itype_splinter( "splinter" );
-static const itype_id itype_stick_long( "stick_long" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
@@ -214,7 +207,6 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
 static const skill_id skill_computer( "computer" );
-static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
@@ -272,10 +264,7 @@ activity_handlers::do_turn_functions = {
     { ACT_QUARTER, butcher_do_turn },
     { ACT_DISMEMBER, butcher_do_turn },
     { ACT_DISSECT, butcher_do_turn },
-    { ACT_CHOP_TREE, chop_tree_do_turn },
-    { ACT_CHOP_LOGS, chop_tree_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
-    { ACT_CHOP_PLANKS, chop_tree_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_JACKHAMMER, jackhammer_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
@@ -332,9 +321,6 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_VIEW_RECIPE, view_recipe_finish },
     { ACT_WASH, washing_finish },
-    { ACT_CHOP_TREE, chop_tree_finish },
-    { ACT_CHOP_LOGS, chop_logs_finish },
-    { ACT_CHOP_PLANKS, chop_planks_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
     { ACT_FILL_PIT, fill_pit_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
@@ -587,9 +573,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
                           !corpse.in_species( species_ZOMBIE ) );
-    if( is_human && !( you.has_trait_flag( json_flag_CANNIBAL ) ||
-                       you.has_trait_flag( json_flag_PSYCHOPATH ) ||
-                       you.has_trait_flag( json_flag_SAPIOVORE ) ) ) {
+    if( is_human && !( you.has_flag( json_flag_CANNIBAL ) ||
+                       you.has_flag( json_flag_PSYCHOPATH ) ||
+                       you.has_flag( json_flag_SAPIOVORE ) ) ) {
 
         if( you.is_avatar() ) {
             if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
@@ -3312,138 +3298,6 @@ void activity_handlers::eat_menu_finish( player_activity *, Character * )
 void activity_handlers::view_recipe_finish( player_activity *act, Character * )
 {
     act->set_to_null();
-}
-
-void activity_handlers::chop_tree_do_turn( player_activity *act, Character * )
-{
-    map &here = get_map();
-    sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( here.getlocal( act->placement ) ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a wood chopping tool at work!
-        sounds::sound( here.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
-    }
-}
-
-void activity_handlers::chop_tree_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    const tripoint &pos = here.getlocal( act->placement );
-
-    tripoint direction;
-    if( !you->is_npc() ) {
-        if( you->backlog.empty() || you->backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) {
-            while( true ) {
-                if( const cata::optional<tripoint> dir = choose_direction(
-                            _( "Select a direction for the tree to fall in." ) ) ) {
-                    direction = *dir;
-                    break;
-                }
-                // try again
-            }
-        }
-    } else {
-        creature_tracker &creatures = get_creature_tracker();
-        for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
-            bool cantuse = false;
-            tripoint direc = elem - pos;
-            tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
-            std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
-            for( const tripoint &elem : rough_tree_line ) {
-                if( creatures.creature_at( elem ) ) {
-                    cantuse = true;
-                    break;
-                }
-            }
-            if( !cantuse ) {
-                direction = direc;
-            }
-        }
-    }
-
-    const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
-    std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
-    for( const tripoint &elem : tree ) {
-        here.batter( elem, 300, 5 );
-        here.ter_set( elem, t_trunk );
-    }
-
-    here.ter_set( pos, t_stump );
-    you->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
-    // sound of falling tree
-    sfx::play_variant_sound( "misc", "timber",
-                             sfx::get_heard_volume( here.getlocal( act->placement ) ) );
-    get_event_bus().send<event_type::cuts_tree>( you->getID() );
-    act->set_to_null();
-    resume_for_multi_activities( *you );
-}
-
-void activity_handlers::chop_logs_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    const tripoint &pos = here.getlocal( act->placement );
-    int log_quan;
-    int stick_quan;
-    int splint_quan;
-    if( here.ter( pos ) == t_trunk ) {
-        log_quan = rng( 2, 3 );
-        stick_quan = rng( 0, 1 );
-        splint_quan = 0;
-    } else if( here.ter( pos ) == t_stump ) {
-        log_quan = rng( 0, 2 );
-        stick_quan = 0;
-        splint_quan = rng( 5, 15 );
-    } else {
-        log_quan = 0;
-        stick_quan = 0;
-        splint_quan = 0;
-    }
-    for( int i = 0; i != log_quan; ++i ) {
-        item obj( itype_log, calendar::turn );
-        obj.set_var( "activity_var", you->name );
-        here.add_item_or_charges( pos, obj );
-    }
-    for( int i = 0; i != stick_quan; ++i ) {
-        item obj( itype_stick_long, calendar::turn );
-        obj.set_var( "activity_var", you->name );
-        here.add_item_or_charges( pos, obj );
-    }
-    for( int i = 0; i != splint_quan; ++i ) {
-        item obj( itype_splinter, calendar::turn );
-        obj.set_var( "activity_var", you->name );
-        here.add_item_or_charges( pos, obj );
-    }
-    here.ter_set( pos, t_dirt );
-    you->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
-
-    act->set_to_null();
-    resume_for_multi_activities( *you );
-}
-
-void activity_handlers::chop_planks_finish( player_activity *act, Character *you )
-{
-    const int max_planks = 10;
-    /** @EFFECT_FABRICATION increases number of planks cut from a log */
-    int planks = normal_roll( 2 + you->get_skill_level( skill_fabrication ), 1 );
-    int wasted_planks = max_planks - planks;
-    int scraps = rng( wasted_planks, wasted_planks * 3 );
-    planks = std::min( planks, max_planks );
-
-    map &here = get_map();
-    if( planks > 0 ) {
-        here.spawn_item( here.getlocal( act->placement ), itype_2x4, planks, 0, calendar::turn );
-        you->add_msg_if_player( m_good, n_gettext( "You produce %d plank.", "You produce %d planks.",
-                                planks ), planks );
-    }
-    if( scraps > 0 ) {
-        here.spawn_item( here.getlocal( act->placement ), itype_splinter, scraps, 0, calendar::turn );
-        you->add_msg_if_player( m_good, n_gettext( "You produce %d splinter.", "You produce %d splinters.",
-                                scraps ), scraps );
-    }
-    if( planks < max_planks / 2 ) {
-        you->add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
-    }
-    act->set_to_null();
-    resume_for_multi_activities( *you );
 }
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, Character * )

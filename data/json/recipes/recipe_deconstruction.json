@@ -2437,9 +2437,9 @@
     "result": "sheet_cotton_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "filament", 2, "LIST" ] ] ]
+    "time": "1 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cotton_patchwork", 1 ] ] ]
   },
   {
     "result": "cotton_patchwork",
@@ -5818,5 +5818,13 @@
     "time": "5 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "thread", 7 ] ], [ [ "rag", 5 ] ] ]
+  },
+  {
+    "result": "heavy_crowbar",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 8 ] ] ]
   }
 ]

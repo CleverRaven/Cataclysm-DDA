@@ -557,11 +557,16 @@ void talk_function::bionic_remove( npc &p )
 
 void talk_function::give_equipment( npc &p )
 {
+    give_equipment_allowance( p, 0 );
+}
+
+void talk_function::give_equipment_allowance( npc &p, int allowance )
+{
     std::vector<item_pricing> giving = npc_trading::init_selling( p );
     int chosen = -1;
     while( chosen == -1 && !giving.empty() ) {
         int index = rng( 0, giving.size() - 1 );
-        if( giving[index].price < p.op_of_u.owed ) {
+        if( giving[index].price < p.op_of_u.owed + allowance ) {
             chosen = index;
         } else {
             giving.erase( giving.begin() + index );
@@ -581,7 +586,10 @@ void talk_function::give_equipment( npc &p )
     Character &player_character = get_player_character();
     it.set_owner( player_character );
     player_character.i_add( it );
-    p.op_of_u.owed -= giving[chosen].price;
+    allowance -= giving[chosen].price;
+    if( allowance < 0 ) {
+        p.op_of_u.owed += allowance;
+    }
     p.add_effect( effect_asked_for_item, 3_hours );
 }
 

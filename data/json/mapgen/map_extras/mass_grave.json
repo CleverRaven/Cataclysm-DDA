@@ -52,7 +52,8 @@
         { "field": "fd_blood", "x": [ 3, 4 ], "y": [ 7, 15 ], "repeat": [ 8, 12 ] },
         { "field": "fd_gibs_flesh", "x": [ 3, 4 ], "y": [ 7, 15 ], "repeat": [ 1, 5 ] },
         { "field": "fd_blood", "x": [ 3, 4 ], "y": [ 7, 15 ], "repeat": [ 4, 8 ] }
-      ]
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]

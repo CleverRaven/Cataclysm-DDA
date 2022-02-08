@@ -747,6 +747,7 @@
       { "item": "bread_flour", "prob": 35 },
       { "item": "cornmeal", "prob": 50 },
       { "item": "yeast", "prob": 40 },
+      { "item": "koji", "prob": 2 },
       { "item": "powder_eggs", "prob": 55 },
       { "item": "milk_UHT", "prob": 15 },
       { "item": "milk_evap", "prob": 25 },
