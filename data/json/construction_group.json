@@ -981,6 +981,11 @@
   },
   {
     "type": "construction_group",
+    "id": "pit_straw",
+    "name": "Fill Shallow Pit with Straw"
+  },
+  {
+    "type": "construction_group",
     "id": "fill_salt_water_with_dirt",
     "name": "Fill Salt Water With Dirt"
   },
@@ -1101,13 +1106,28 @@
   },
   {
     "type": "construction_group",
+    "id": "place_kiln",
+    "name": "Place Kiln"
+  },
+  {
+    "type": "construction_group",
     "id": "place_standing_lamp",
     "name": "Place Standing Lamp"
   },
   {
     "type": "construction_group",
+    "id": "place_standing_floodlight",
+    "name": "Place Standing Floodlight"
+  },
+  {
+    "type": "construction_group",
     "id": "reveal_wall_wiring",
     "name": "Reveal Wall Wirings"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil",
+    "name": "Place Anvil"
   },
   {
     "type": "construction_group",
@@ -1257,12 +1277,12 @@
   {
     "type": "construction_group",
     "id": "remove_empty_window",
-    "name": "Remove an empty window frame"
+    "name": "Remove Empty Window Frame"
   },
   {
     "type": "construction_group",
     "id": "remove_linoleum_tiles",
-    "name": "Remove linoleum tiles"
+    "name": "Remove Linoleum Tiles"
   },
   {
     "type": "construction_group",
@@ -1272,76 +1292,76 @@
   {
     "type": "construction_group",
     "id": "remove_reinforced_concrete_floor",
-    "name": "Remove a reinforced concrete floor"
+    "name": "Remove Reinforced Concrete Floor"
   },
   {
     "type": "construction_group",
     "id": "remove_concrete_floor",
-    "name": "Remove a concrete floor"
+    "name": "Remove Concrete Floor"
   },
   {
     "type": "construction_group",
     "id": "remove_floor",
-    "name": "Remove a wooden floor"
+    "name": "Remove Wooden Floor"
   },
   {
     "type": "construction_group",
     "id": "remove_concrete_wall",
-    "name": "Remove a concrete wall"
+    "name": "Remove Concrete Wall"
   },
   {
     "type": "construction_group",
     "id": "remove_brick_wall",
-    "name": "Remove a brick wall"
+    "name": "Remove Brick Wall"
   },
   {
     "type": "construction_group",
     "id": "remove_wooden_wall",
-    "name": "Remove a wooden wall"
+    "name": "Remove Wooden Wall"
   },
   {
     "type": "construction_group",
     "id": "remove_wall",
-    "name": "Remove a wall"
+    "name": "Remove Wall"
   },
   {
     "type": "construction_group",
     "id": "remove_rock_wall",
-    "name": "Remove a rock wall"
+    "name": "Remove Rock Wall"
   },
   {
     "type": "construction_group",
     "id": "remove_roadway",
-    "name": "Remove a segment of the road/sidewalk"
+    "name": "Remove Segment of Road/Sidewalk"
   },
   {
     "type": "construction_group",
     "id": "remove_metal_door",
-    "name": "Remove metal door"
+    "name": "Remove Metal Door"
   },
   {
     "type": "construction_group",
     "id": "remove_concrete_column",
-    "name": "Remove concrete column"
+    "name": "Remove Concrete Column"
   },
   {
     "type": "construction_group",
     "id": "remove_reinforced_concrete_wall",
-    "name": "Remove reinforced concrete wall"
+    "name": "Remove Reinforced Concrete Wall"
   },
   {
     "type": "construction_group",
     "id": "remove_rebar_cage",
-    "name": "Remove rebar cage"
+    "name": "Remove Rebar Cage"
   },
   {
     "type": "construction_group",
     "id": "remove_glass_wall",
-    "name": "Remove glass wall"
+    "name": "Remove Glass Wall"
   },
   {
     "type": "construction_group",
     "id": "remove_glass_door",
-    "name": "Remove glass door"
+    "name": "Remove Glass Door"
   }
 ]

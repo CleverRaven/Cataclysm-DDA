@@ -265,8 +265,8 @@
             [ "roof_4x4_party", 20 ],
             [ "roof_3x3_wine", 20 ]
           ],
-          "x": [ 24, 40 ],
-          "y": [ 24, 40 ]
+          "x": [ 24, 39 ],
+          "y": [ 24, 38 ]
         }
       ],
       "place_monsters": [ { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 4, 23 ], "y": [ 4, 23 ], "repeat": [ 0, 1 ] } ]

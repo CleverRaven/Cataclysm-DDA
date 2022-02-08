@@ -19,7 +19,7 @@ fi
 
 if [ -n "$TEST_STAGE" ]
 then
-    build-scripts/lint-json.sh
+    build-scripts/validate_json.py
     make style-all-json-parallel RELEASE=1
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*

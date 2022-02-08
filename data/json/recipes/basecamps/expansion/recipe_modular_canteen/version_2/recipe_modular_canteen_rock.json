@@ -165,7 +165,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmk_2_brewery_rock",
-    "description": "Let's build a the rock brewery.",
+    "description": "Let's build a rock brewery.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

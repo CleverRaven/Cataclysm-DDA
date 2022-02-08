@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "portal_storm_palette",
-    "terrain": { "0": "t_floor_warped", "1": "t_wall_warped", "a": "t_grass_alien", "G": "t_grass", "@": "t_null" }
+    "terrain": { "0": "t_floor_warped", "1": "t_wall_warped", "a": "t_grass_alien", "G": "t_grass" }
   },
   {
     "type": "mapgen",
@@ -20,7 +20,7 @@
       "rows": [
         "aaaaaaaaaaaaaaaaaaaaaaaa",
         "aaaaaaaaaaaaaaaaaaaaaaaa",
-        "aaaa1111111111111111aaaa",
+        "aaaa0111111111111111aaaa",
         "aaaa1000000000000001aaaa",
         "aaaa1000000000000001aaaa",
         "aaaa1000000000000001aaaa",
@@ -43,7 +43,20 @@
         "aaaaaaaaaaaaaaaaaaaaaaaa",
         "aaaaaaaaaaaaaaaaaaaaaaaa"
       ],
-      "palettes": [ "portal_storm_palette" ]
+      "palettes": [ "portal_storm_palette" ],
+      "set": [ { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "portal_dungeon_trap_change",
+    "method": "json",
+    "object": {
+      "set": [
+        { "square": "trap_remove", "id": "tr_swirling_vortex", "x": 5, "x2": 18, "y": 3, "y2": 20 },
+        { "point": "trap", "id": "tr_swirling_vortex", "x": [ 5, 18 ], "y": [ 3, 20 ], "repeat": [ 50, 75 ] },
+        { "point": "variable", "id": "nether_dungeon_door", "x": 4, "y": 2 }
+      ]
     }
   },
   {

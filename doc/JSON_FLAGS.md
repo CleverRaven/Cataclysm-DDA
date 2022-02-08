@@ -11,6 +11,7 @@
     - [Covers](#covers)
     - [Flags](#flags)
   - [Bionics](#bionics)
+  - [Bodyparts](#bodyparts)
   - [Books](#books)
     - [Use actions](#use-actions)
   - [Character - (Bionic/Mutation/Effect)](#character)
@@ -339,6 +340,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ## Bodyparts
 
 - ```ALWAYS_BLOCK``` This nonstandard bodypart is always eligible to block in unarmed combat even if your martial arts don't allow such blocks.
+- ```ALWAYS_HEAL``` This bodypart regenerates every regen tick (5 minutes, currently) regardless if the part would have healed normally.
+- ```HEAL_OVERRIDE``` This bodypart will always regenerate its `heal_bonus` HP instead of it modifying the base healing step. Without `ALWAYS_HEAL` this still only happens when the part would have healed non-zero amount of damage.
 - ```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
 - ```LIMB_LOWER``` This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
 - ```LIMB_UPPER``` This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags`
@@ -1090,7 +1093,6 @@ Special attacks have been moved to [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_
 
 #### Flags
 
-- ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice and you get the better result.
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
 
 ### Categories
@@ -1508,13 +1510,15 @@ Gun fault flags:
 
 ## Character
 
-- ```HEATPROOF``` Immune to very hot temperatures.
+- ```HEAT_IMMUNE``` Immune to very hot temperatures.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.
 - ```SUPER_HEARING``` You can hear much better than a normal person.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
+- ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty
+-````CLIMB_NO_LADDER``` Capable of climbing up single-level walls without support.
 - ```DEAF``` Makes you deaf.
 - ```BLIND``` Makes you blind.
 - ```EYE_MEMBRANE``` Lets you see underwater.
@@ -1549,5 +1553,21 @@ Gun fault flags:
 - ```THERMOMETER``` You always know what temperature it is.
 - ```CBQ_LEARN_BONUS``` You learn CBQ from the bionic bio_cqb faster.
 - ```GILLS``` You can breathe underwater.
+- ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice and you get the better result.
+- ````HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
+- ````LARGE``` Changes your size to `creature_size::large`.  Checked third of the size category flags.
+- ```PSYCHOPATH``` Butcher humans without a morale penalty
+- ```PRED1``` Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale panalty from the guilt mondeath effect.
+- ```PRED2``` Learn combat skills wit double catchup modifier.  Resist skill rust on combat skills. Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale panalty from the guilt mondeath effect.
+- ```PRED3``` Learn combat skills wit double catchup modifier.  Resist skill rust on combat skills. Medium morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
+- ```PRED4``` Learn combat skills wit triple catchup modifier.  Learn combat skills without spending focus.  Resist skill rust on combat skills. Large morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
+- ```SAPIOVORE``` Butcher humans without a morale penalty
+- ````SMALL``` Changes your size to `creature_size::small`.  Checked second of the size category flags.
+- ```STEADY``` Your speed can never go below base speed, bonuses from effects etc can still apply.
+- ````STRICT_HUMANITARIAN``` You can eat foodstuffs tagged with `STRICT_HUMANITARIANISM` without morale penalties.
+- ````TINY``` Changes your size to `creature_size::tiny`.  Checked first of the size category flags.
+- ```WEB_RAPPEL``` You can rappel down staircases and sheer drops of any height.
+- ```WALL_CLING``` You can ascend/descend sheer cliffs as long as the tile above borders at least one wall. Chance to slip and fall each step.
+- ````WALL_CLING_FOURTH``` Same as `WALL_CLING`, but you need four instances of the flag for it to function (ex. four bodyparts with the flag).
 - ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
-- ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).
+- ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).  Requires two flag instances.

@@ -277,6 +277,17 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         p.moves -= moves;
     }
 
+    if( possess && need_fire && p.has_trait( trait_PYROMANIA ) ) {
+        if( one_in( 2 ) ) {
+            p.add_msg_if_player( m_mixed,
+                                 _( "You light a fire, but it isn't enough.  You need to light more." ) );
+        } else {
+            p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
+            p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
+            p.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        }
+    }
+
     item obj_copy( it );
     item *obj;
     // defined here to allow making a new item assigned to the pointer
@@ -855,11 +866,8 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
         }
     }
 
-    // for vitamins that accumulate (max > 0) multivitamins risk causing hypervitaminosis
     for( const auto &v : vitamins ) {
-        // players with mutations that remove the requirement for a vitamin cannot suffer accumulation of it
-        p.vitamin_mod( v.first, rng( v.second.first, v.second.second ),
-                       p.vitamin_rate( v.first ) <= 0_turns );
+        p.vitamin_mod( v.first, rng( v.second.first, v.second.second ) );
     }
 
     // Output message.
@@ -2259,7 +2267,8 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
         if( !player_descriptions.empty() && p.is_avatar() ) {
             desc = random_entry( player_descriptions ).translated();
         } else if( !npc_descriptions.empty() && p.is_npc() ) {
-            desc = string_format( _( "%1$s %2$s" ), p.disp_name( false ),
+            //~ %1$s: npc name, %2$s: npc action description
+            desc = string_format( pgettext( "play music", "%1$s %2$s" ), p.disp_name( false ),
                                   random_entry( npc_descriptions ) );
         }
     } else if( morale_effect < 0 && calendar::once_every( 1_minutes ) ) {
@@ -3367,7 +3376,7 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
     // NPCs can use first aid now, but they can't perform long actions
     if( long_action && &patient == &p && !p.is_npc() ) {
         // Assign first aid long action.
-        p.assign_activity( ACT_FIRSTAID, cost, 0, 0, it.tname() );
+        p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname() ) ) );
         p.activity.targets.emplace_back( p, &it );
         p.activity.str_values.emplace_back( hpp.c_str() );
         p.moves = 0;
@@ -4307,7 +4316,7 @@ cata::optional<int> mutagen_actor::use( Character &p, item &it, bool, const trip
 
     p.add_msg_if_player( m_category.mutagen_message() );
 
-    if( one_in( 6 ) ) {
+    if( one_in( 6 ) && !p.is_on_ground() ) {
         p.add_msg_player_or_npc( m_bad,
                                  _( "You suddenly feel dizzy, and collapse to the ground." ),
                                  _( "<npcname> suddenly collapses to the ground!" ) );
@@ -4324,6 +4333,9 @@ cata::optional<int> mutagen_actor::use( Character &p, item &it, bool, const trip
     p.mod_stored_nutr( m_category.mutagen_hunger * mut_count );
     p.mod_thirst( m_category.mutagen_thirst * mut_count );
     p.mod_fatigue( m_category.mutagen_fatigue * mut_count );
+    if( it.is_comestible() && !it.get_comestible()->default_nutrition.vitamins.empty() ) {
+        p.vitamins_mod( it.get_comestible()->default_nutrition.vitamins );
+    }
 
     return it.type->charges_to_use();
 }
@@ -4382,6 +4394,9 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
     p.mod_hunger( m_category.iv_hunger * mut_count );
     p.mod_thirst( m_category.iv_thirst * mut_count );
     p.mod_fatigue( m_category.iv_fatigue * mut_count );
+    if( it.is_comestible() && !it.get_comestible()->default_nutrition.vitamins.empty() ) {
+        p.vitamins_mod( it.get_comestible()->default_nutrition.vitamins );
+    }
 
     if( m_category.id == mutation_category_CHIMERA ) {
         p.add_morale( MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max );

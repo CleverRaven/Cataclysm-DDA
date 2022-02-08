@@ -835,6 +835,11 @@ bool avatar::has_seen_snippet( const snippet_id &snippet ) const
     return snippets_read.count( snippet ) > 0;
 }
 
+const std::set<snippet_id> &avatar::get_snippets()
+{
+    return snippets_read;
+}
+
 void avatar::vomit()
 {
     if( stomach.contains() != 0_ml ) {
@@ -1946,4 +1951,9 @@ void avatar::try_to_sleep( const time_duration &dur )
 bool avatar::query_yn( const std::string &mes ) const
 {
     return ::query_yn( mes );
+}
+
+void avatar::set_location( const tripoint_abs_ms &loc )
+{
+    Creature::set_location( loc );
 }

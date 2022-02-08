@@ -37,7 +37,7 @@
     "style": "layout",
     "label": "Needs",
     "arrange": "rows",
-    "widgets": [ "hunger_desc", "thirst_desc", "fatigue_desc", "pain_desc", "body_temp_desc" ]
+    "widgets": [ "hunger_desc", "thirst_desc", "weight_desc", "fatigue_desc", "pain_desc", "body_temp_desc" ]
   },
   {
     "id": "stamina_speed_layout",

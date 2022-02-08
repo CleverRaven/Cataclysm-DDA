@@ -786,6 +786,10 @@ int uilist::scroll_amount_from_action( const std::string &action )
         return -scroll_rate;
     } else if( action == "SCROLL_UP" ) {
         return -3;
+    } else if( action == "HOME" ) {
+        return -fselected;
+    } else if( action == "END" ) {
+        return entries.size() - fselected;
     } else if( action == "DOWN" ) {
         return 1;
     } else if( action == "PAGE_DOWN" ) {
@@ -955,6 +959,8 @@ void uilist::query( bool loop, int timeout )
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     if( allow_cancel ) {

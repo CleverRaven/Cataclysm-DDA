@@ -194,6 +194,32 @@
     ]
   },
   {
+    "id": "clothing_soldier_broken_armor_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "clothing_military" },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "knee_pads", "prob": 85 },
+      { "item": "helmet_army", "prob": 80 },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "group": "military_ballistic_vest_broken", "prob": 100 },
+      { "group": "loaded_lbv", "prob": 40 },
+      { "item": "molle_pack", "prob": 85 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      {
+        "distribution": [
+          { "group": "clothing_glasses", "prob": 60 },
+          { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
+          { "item": "goggles_ir", "prob": 5, "charges": [ 0, 100 ] }
+        ],
+        "prob": 20
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
     "id": "clothing_soldier_heavy_set",
     "type": "item_group",
     "subtype": "collection",
@@ -2381,9 +2407,9 @@
       [ "armor_scrapsuit", 12 ],
       [ "armor_tiresuit", 12 ],
       [ "armor_chitin", 2 ],
-      [ "armor_lightplate", 1 ],
+      [ "armor_junk_lightplate", 1 ],
       [ "cuirass_lightplate", 2 ],
-      [ "armor_plate", 1 ]
+      [ "armor_junk_plate", 1 ]
     ]
   },
   {
@@ -2613,10 +2639,10 @@
     "type": "item_group",
     "id": "museum_armor",
     "items": [
-      [ "armor_plate", 60 ],
+      [ "armor_junk_plate", 60 ],
       [ "gloves_plate", 60 ],
       [ "boots_plate", 60 ],
-      [ "armor_lightplate", 45 ],
+      [ "armor_junk_lightplate", 45 ],
       [ "cuirass_lightplate", 45 ],
       [ "armguard_lightplate", 30 ],
       [ "legguard_lightplate", 30 ],
@@ -2634,6 +2660,7 @@
       [ "armguard_larmor", 40 ],
       [ "vambrace_larmor", 20 ],
       [ "gambeson", 50 ],
+      [ "gambeson_pants", 40 ],
       [ "legguard_metal", 10 ],
       [ "helmet_corinthian", 45 ],
       [ "armor_cuirass", 25 ],
@@ -2644,8 +2671,8 @@
     "type": "item_group",
     "id": "museum_armor_torso",
     "items": [
-      [ "armor_plate", 60 ],
-      [ "armor_lightplate", 45 ],
+      [ "armor_junk_plate", 60 ],
+      [ "armor_junk_lightplate", 45 ],
       [ "cuirass_lightplate", 45 ],
       [ "armor_lamellar", 20 ],
       [ "armor_lorica", 25 ],

@@ -85,7 +85,7 @@
     "install_time": "15 m",
     "handling_modifier": 15,
     "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
-    "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
+    "flags": [ "IRREMOVABLE" ]
   },
   {
     "id": "waterproof_gunmod",
