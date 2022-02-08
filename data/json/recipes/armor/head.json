@@ -1631,6 +1631,31 @@
     ]
   },
   {
+    "result": "mask_lsurvivorxl",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "tailor", 5 ],
+    "time": "4 h 30 m",
+    "autolearn": true,
+    "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "rag", 6 ] ],
+      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 6 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" },
+      { "proficiency": "prof_polymerworking" }
+    ]
+  },
+  {
     "result": "mask_rioter",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -1702,7 +1727,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
-    "difficulty": 7,
+    "difficulty": 6,
     "skills_required": [ "tailor", 5 ],
     "time": "4 h 30 m",
     "autolearn": true,
