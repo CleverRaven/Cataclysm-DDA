@@ -1,0 +1,43 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_toxic_waste",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          - -           ",
+        "         ---~-          ",
+        "        -~-~---         ",
+        "        -~~~~~--        ",
+        "         -~~---         ",
+        "        -~----          ",
+        "       ----  -          ",
+        "         -              ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "~": [ "t_sewage" ],
+        "-": [ "t_sewage", "t_dirt" ]
+      },
+      "place_loot": [
+        { "group": "toxic_waste", "x": [ 11, 13 ], "y": [ 10, 12 ], "repeat": [ 1, 2 ] }
+      ]
+    }
+  }
+]
