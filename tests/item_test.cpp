@@ -196,7 +196,6 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
     liquid_filthy.cold_up(); // 3 C (276.15 K)
     liquid_filthy.set_flag( json_flag_FILTHY );
 
-    // Temperature is in terms of 0.000001 K
     REQUIRE( std::floor( liquid_hot.temperature ) == 333 );
     REQUIRE( std::floor( liquid_cold.temperature ) == 276 );
     REQUIRE( liquid_hot.has_flag( json_flag_HOT ) );
