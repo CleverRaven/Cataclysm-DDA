@@ -1423,6 +1423,10 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_bmi_permil();
             };
+        } else if( checked_value == "fine_detail_vision_mod" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_fine_detail_vision_mod();
+            };
         }
     } else if( jo.has_member( "moon" ) ) {
         return []( const T & ) {
