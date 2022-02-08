@@ -106,7 +106,7 @@ TEST_CASE( "Rate of temperature change" )
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // 50 C
-        CHECK( meat1.temperature == Approx( 323.15 ).margin( 1 ) );
+        CHECK( meat1.temperature == Approx( 323.15 ).margin( 0.01 ) );
         CHECK( meat1.has_own_flag( flag_HOT ) );
 
         set_map_temperature( -4 ); // -20 C
@@ -151,7 +151,7 @@ TEST_CASE( "Rate of temperature change" )
         CHECK( meat1.temperature == Approx( 273.15 ).margin( 0.01 ) );;
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( meat2.has_own_flag( flag_FROZEN ) );
-        CHECK( meat1.specific_energy == Approx( meat2.specific_energy ).margin( 1 ) );
+        CHECK( meat1.specific_energy == Approx( meat2.specific_energy ).margin( 0.01 ) );
 
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
@@ -168,9 +168,9 @@ TEST_CASE( "Rate of temperature change" )
         // about -5.2 C
         // frozen
         // same temp as meat 2
-        CHECK( meat1.temperature == Approx( 267.98050 ).margin( 1 ) );
+        CHECK( meat1.temperature == Approx( 267.98050 ).margin( 0.01 ) );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
-        CHECK( meat1.temperature == Approx( meat2.temperature ).margin( 1 ) );
+        CHECK( meat1.temperature == Approx( meat2.temperature ).margin( 0.01 ) );
     }
 
     SECTION( "Cold solid to liquid" ) {
@@ -193,7 +193,7 @@ TEST_CASE( "Rate of temperature change" )
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // -20 C
-        CHECK( meat1.temperature == Approx( 253.15 ).margin( 1 ) );
+        CHECK( meat1.temperature == Approx( 253.15 ).margin( 0.01 ) );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
 
         set_map_temperature( 68 ); // 20 C
@@ -201,7 +201,7 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         // about -9.3 C
-        CHECK( meat1.temperature == Approx( 263.89390 ).margin( 1 ) );
+        CHECK( meat1.temperature == Approx( 263.89390 ).margin( 0.01 ) );
 
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
@@ -249,8 +249,8 @@ TEST_CASE( "Rate of temperature change" )
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // about 2.2 C
-        CHECK( meat1.temperature == Approx( 275.32468 ).margin( 1 ) );
-        CHECK( meat1.temperature == Approx( meat2.temperature ).margin( 1 ) );
+        CHECK( meat1.temperature == Approx( 275.32468 ).margin( 0.01 ) );
+        CHECK( meat1.temperature == Approx( meat2.temperature ).margin( 0.01 ) );
     }
 }
 
