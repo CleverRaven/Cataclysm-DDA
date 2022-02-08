@@ -138,6 +138,7 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     } else {
         new_category.raw_junkie_message = to_translation( "Oh, yeah!  That's the stuff!" );
     }
+    new_category.vitamin = vitamin_id( jsobj.get_string( "vitamin", "" ) );
 
     mutation_category_traits[new_category.id] = new_category;
 }
@@ -324,6 +325,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", raw_desc );
     mandatory( jo, was_loaded, "points", points );
 
+    optional( jo, was_loaded, "vitamin_cost", vitamin_cost, 100 );
     optional( jo, was_loaded, "visibility", visibility, 0 );
     optional( jo, was_loaded, "ugliness", ugliness, 0 );
     optional( jo, was_loaded, "starting_trait", startingtrait, false );

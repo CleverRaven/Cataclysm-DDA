@@ -140,6 +140,8 @@ struct mutation_branch {
         bool thirst        = false;
         // How many points it costs in character creation
         int points     = 0;
+        // How many mutagen vitamins are consumed to gain this trait
+        int vitamin_cost = 100;
         int visibility = 0;
         int ugliness   = 0;
         int cost       = 0;
@@ -516,6 +518,8 @@ struct mutation_category_trait {
         // Whether the iv has a chance of knocking you out.
         bool iv_sleep = false;
         int iv_sleep_dur = 0;
+        // Mutation vitamin
+        vitamin_id vitamin;
 
         static const std::map<mutation_category_id, mutation_category_trait> &get_all();
         static const mutation_category_trait &get_category(

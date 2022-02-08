@@ -100,6 +100,8 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_mutate( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_mutate_category( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_lose_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_message( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -110,7 +112,7 @@ struct talk_effect_fun_t {
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_queue_effect_on_condition( const JsonObject &jo, const std::string &member,
                                             bool is_npc = false );
-        void set_weighted_list_eocs( const JsonObject &jo, const std::string &member );
+        void set_weighted_list_eocs( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_cast_spell( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_lightning();
@@ -425,6 +427,30 @@ static std::string read_var_value( var_type type, std::string name, talker *talk
     }
     return "";
 }
+
+struct str_or_var {
+    cata::optional<std::string> str_val;
+    cata::optional<std::string> var_val;
+    cata::optional<std::string> default_val;
+    var_type type = var_type::u;
+    bool is_npc() const {
+        return type == var_type::npc;
+    }
+    std::string evaluate( talker *talk ) const {
+        if( str_val.has_value() ) {
+            return str_val.value();
+        } else if( var_val.has_value() ) {
+            std::string val = read_var_value( type, var_val.value(), talk );
+            if( !val.empty() ) {
+                return std::string( val );
+            }
+            return default_val.value();
+        } else {
+            debugmsg( "No valid value." );
+            return "";
+        }
+    }
+};
 
 struct int_or_var {
     cata::optional<int> int_val;

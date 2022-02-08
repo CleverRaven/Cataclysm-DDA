@@ -156,6 +156,8 @@ class talker_character: public talker_character_const
         void set_per_max( int value ) override;
         void set_power_cur( units::energy value ) override;
         void set_mana_cur( int value ) override;
+        void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
+        void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
         void set_skill_level( const skill_id &skill, int value ) override;

@@ -818,6 +818,15 @@ trait_id Character::trait_by_invlet( const int ch ) const
     return trait_id::NULL_ID();
 }
 
+bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad, const vitamin_id &mut_vit ) const
+{
+    if( mut_vit != vitamin_id::NULL_ID() && vitamin_get( mut_vit ) < mutation->vitamin_cost ) {
+        // We don't have the required mutagen vitamins
+        return false;
+    }
+    return mutation_ok( mutation, force_good, force_bad );
+}
+
 bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
 {
     if( !is_category_allowed( mutation->category ) ) {
@@ -857,7 +866,7 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
     return true;
 }
 
-void Character::mutate()
+void Character::mutate( const int &highest_category_chance, const bool use_vitamins )
 {
     bool force_bad = one_in( 3 );
     bool force_good = false;
@@ -873,153 +882,156 @@ void Character::mutate()
     }
 
     // Determine the highest mutation category
-    mutation_category_id cat = get_highest_category();
+    mutation_category_id cat;
+    weighted_int_list<mutation_category_id> cat_list;
 
-    if( !is_category_allowed( cat ) ) {
-        cat = mutation_category_id();
-    }
-
-    // See if we should upgrade/extend an existing mutation...
-    std::vector<trait_id> upgrades;
-
-    // ... or remove one that is not in our highest category
-    std::vector<trait_id> downgrades;
-
-    // For each mutation...
-    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-        const trait_id &base_mutation = traits_iter.id;
-        const mutation_branch &base_mdata = traits_iter;
-        bool thresh_save = base_mdata.threshold;
-        bool prof_save = base_mdata.profession;
-        // are we unpurifiable? (saved from mutating away)
-        bool purify_save = !base_mdata.purifiable;
-
-        // ...that we have...
-        if( has_trait( base_mutation ) ) {
-            // ...consider the mutations that replace it.
-            for( const trait_id &mutation : base_mdata.replacements ) {
-                bool valid_ok = mutation->valid;
-
-                if( mutation_ok( mutation, force_good, force_bad ) &&
-                    valid_ok ) {
-                    upgrades.push_back( mutation );
-                }
-            }
-
-            // ...consider the mutations that add to it.
-            for( const trait_id &mutation : base_mdata.additions ) {
-                bool valid_ok = mutation->valid;
-
-                if( mutation_ok( mutation, force_good, force_bad ) &&
-                    valid_ok ) {
-                    upgrades.push_back( mutation );
-                }
-            }
-
-            // ...consider whether its in our highest category
-            if( has_trait( base_mutation ) && !has_base_trait( base_mutation ) ) {
-                // Starting traits don't count toward categories
-                std::vector<trait_id> group = mutations_category[cat];
-                bool in_cat = false;
-                for( const trait_id &elem : group ) {
-                    if( elem == base_mutation ) {
-                        in_cat = true;
-                        break;
-                    }
-                }
-
-                // mark for removal
-                // no removing Thresholds/Professions this way!
-                // unpurifiable traits also cannot be purified
-                if( !in_cat && !thresh_save && !prof_save && !purify_save ) {
-                    if( one_in( 4 ) ) {
-                        downgrades.push_back( base_mutation );
-                    }
-                }
-            }
-        }
-    }
-
-    // Preliminary round to either upgrade or remove existing mutations
-    if( one_in( 2 ) ) {
-        if( !upgrades.empty() ) {
-            // (upgrade count) chances to pick an upgrade, 4 chances to pick something else.
-            size_t roll = rng( 0, upgrades.size() + 4 );
-            if( roll < upgrades.size() ) {
-                // We got a valid upgrade index, so use it and return.
-                mutate_towards( upgrades[roll] );
-                return;
-            }
-        }
+    if( highest_category_chance > 0 && one_in( highest_category_chance ) ) {
+        cat = get_highest_category();
     } else {
-        // Remove existing mutations that don't fit into our category
-        if( !downgrades.empty() && !cat.str().empty() ) {
-            size_t roll = rng( 0, downgrades.size() + 4 );
-            if( roll < downgrades.size() ) {
-                remove_mutation( downgrades[roll] );
-                return;
-            }
+        cat_list = get_vitamin_weighted_categories();
+        if( cat_list.get_weight() > 0 ) {
+            cat = *cat_list.pick();
+            cat_list.add_or_replace( cat, 0 );
+        } else {
+            return;
         }
     }
-
+    
     std::vector<trait_id> valid; // Valid mutations
-    bool first_pass = true;
-
+    
     do {
-        // If we tried once with a non-NULL category, and couldn't find anything valid
-        // there, try again with empty category
-        // CHAOTIC_BAD lets the game pull from any category by default
-        if( !first_pass || has_trait( trait_CHAOTIC_BAD ) ) {
-            cat = mutation_category_id();
-        }
+        // See if we should upgrade/extend an existing mutation...
+        std::vector<trait_id> upgrades;
 
-        if( cat.str().empty() ) {
-            // Pull the full list
-            for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-                if( traits_iter.valid && is_category_allowed( traits_iter.category ) ) {
-                    valid.push_back( traits_iter.id );
+        // ... or remove one that is not in our highest category
+        std::vector<trait_id> downgrades;
+        
+        const vitamin_id mut_vit = use_vitamins ? mutation_category_trait::get_category( cat ).vitamin : vitamin_id::NULL_ID();
+        
+        // For each mutation in category...
+        for( const trait_id &traits_iter : mutations_category[cat] ) {
+            const trait_id &base_mutation = traits_iter;
+            const mutation_branch &base_mdata = traits_iter.obj();
+            bool thresh_save = base_mdata.threshold;
+            bool prof_save = base_mdata.profession;
+            // are we unpurifiable? (saved from mutating away)
+            bool purify_save = !base_mdata.purifiable;
+            
+            // ...those we don't have are valid.
+            if( base_mdata.valid && is_category_allowed( base_mdata.category ) ) {
+                valid.push_back( base_mdata.id );
+            }
+            
+            // ...for those that we have...
+            if( has_trait( base_mutation ) ) {
+                // ...consider the mutations that replace it.
+                for( const trait_id &mutation : base_mdata.replacements ) {
+                    bool valid_ok = mutation->valid;
+
+                    if( mutation_ok( mutation, force_good, force_bad, mut_vit ) &&
+                        valid_ok ) {
+                        upgrades.push_back( mutation );
+                    }
+                }
+
+                // ...consider the mutations that add to it.
+                for( const trait_id &mutation : base_mdata.additions ) {
+                    bool valid_ok = mutation->valid;
+
+                    if( mutation_ok( mutation, force_good, force_bad, mut_vit ) &&
+                        valid_ok ) {
+                        upgrades.push_back( mutation );
+                    }
+                }
+
+                // ...consider whether its in our current category
+                if( has_trait( base_mutation ) && !has_base_trait( base_mutation ) ) {
+                    // Starting traits don't count toward categories
+                    std::vector<trait_id> group = mutations_category[cat];
+                    bool in_cat = false;
+                    for( const trait_id &elem : group ) {
+                        if( elem == base_mutation ) {
+                            in_cat = true;
+                            break;
+                        }
+                    }
+
+                    // mark for removal
+                    // no removing Thresholds/Professions this way!
+                    // unpurifiable traits also cannot be purified
+                    if( !in_cat && !thresh_save && !prof_save && !purify_save ) {
+                        if( one_in( 4 ) ) {
+                            downgrades.push_back( base_mutation );
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Prioritize upgrading existing mutations
+        if( one_in( 2 ) ) {
+            if( !upgrades.empty() ) {
+                // (upgrade count) chances to pick an upgrade, 4 chances to pick something else.
+                size_t roll = rng( 0, upgrades.size() + 4 );
+                if( roll < upgrades.size() ) {
+                    // We got a valid upgrade index, so use it and return.
+                    mutate_towards( upgrades[roll], mut_vit );
+                    return;
                 }
             }
         } else {
-            // Pull the category's list
-            valid = mutations_category[cat];
+            // Remove existing mutations that don't fit into our category
+            if( !downgrades.empty() ) {
+                size_t roll = rng( 0, downgrades.size() + 4 );
+                if( roll < downgrades.size() ) {
+                    remove_mutation( downgrades[roll] );
+                    return;
+                }
+            }
         }
-
-        // Remove anything we already have, that we have a child of, or that
-        // goes against our intention of a good/bad mutation
+        
+        // Remove anything we already have, that we have a child of, that
+        // goes against our intention of a good/bad mutation, or that we lack resources for
         for( size_t i = 0; i < valid.size(); i++ ) {
-            if( ( !mutation_ok( valid[i], force_good, force_bad ) ) ||
+            if( ( !mutation_ok( valid[i], force_good, force_bad, mut_vit ) ) ||
                 ( !valid[i]->valid ) ) {
                 valid.erase( valid.begin() + i );
                 i--;
             }
         }
-
+        
         if( valid.empty() ) {
-            // So we won't repeat endlessly
-            first_pass = false;
+            if( cat_list.get_weight() > 0 ) {
+                // try to pick again
+                cat = *cat_list.pick();
+                cat_list.add_or_replace( cat, 0 );
+            } else {
+                // every option we have vitamins for is invalid
+                return;
+            }
+        } else {
+            if( mutate_towards( random_entry( valid ), mut_vit ) ) {
+                return;
+            } else {
+                // if mutation failed (errors, post-threshold pick), try again once.
+                mutate_towards( random_entry( valid ), mut_vit );
+                return;
+            }
         }
-    } while( valid.empty() && !cat.str().empty() );
-
-    if( valid.empty() ) {
-        // Couldn't find anything at all!
-        return;
-    }
-
-    if( mutate_towards( random_entry( valid ) ) ) {
-        return;
-    } else {
-        // if mutation failed (errors, post-threshold pick), try again once.
-        mutate_towards( random_entry( valid ) );
-    }
+    } while( valid.empty() );
 }
 
-void Character::mutate_category( const mutation_category_id &cat )
+void Character::mutate( )
+{
+    mutate( 1, false );
+}
+
+void Character::mutate_category( const mutation_category_id &cat, const bool use_vitamins )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
     // TODO: Turn it into the null id
     if( cat == mutation_category_ANY ) {
-        mutate();
+        mutate( 0, use_vitamins );
         return;
     }
 
@@ -1031,20 +1043,26 @@ void Character::mutate_category( const mutation_category_id &cat )
         force_bad = false;
         force_good = true;
     }
-
     // Pull the category's list for valid mutations
     std::vector<trait_id> valid = mutations_category[cat];
 
+    const vitamin_id mut_vit = use_vitamins ? mutation_category_trait::get_category( cat ).vitamin : vitamin_id::NULL_ID();
+    
     // Remove anything we already have, that we have a child of, or that
     // goes against our intention of a good/bad mutation
     for( size_t i = 0; i < valid.size(); i++ ) {
-        if( !mutation_ok( valid[i], force_good, force_bad ) ) {
+        if( !mutation_ok( valid[i], force_good, force_bad, mut_vit ) ) {
             valid.erase( valid.begin() + i );
             i--;
         }
     }
+    
+    mutate_towards( valid, mut_vit, 2 );
+}
 
-    mutate_towards( valid, 2 );
+void Character::mutate_category( const mutation_category_id &cat )
+{
+    mutate_category( cat, false );
 }
 
 static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
@@ -1063,12 +1081,12 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
     return ret;
 }
 
-bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
+bool Character::mutate_towards( std::vector<trait_id> muts, const vitamin_id &mut_vit, int num_tries )
 {
     while( !muts.empty() && num_tries > 0 ) {
         int i = rng( 0, muts.size() - 1 );
 
-        if( mutate_towards( muts[i] ) ) {
+        if( mutate_towards( muts[i], mut_vit ) ) {
             return true;
         }
 
@@ -1079,14 +1097,13 @@ bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
     return false;
 }
 
-bool Character::mutate_towards( const trait_id &mut )
+bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
 {
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
         return true;
     }
     const mutation_branch &mdata = mut.obj();
-
     bool has_prereqs = false;
     bool prereq1 = false;
     bool prereq2 = false;
@@ -1124,7 +1141,7 @@ bool Character::mutate_towards( const trait_id &mut )
             i--;
             // This checks for cases where one trait knocks out several others
             // Probably a better way, but gets it Fixed Now--KA101
-            return mutate_towards( mut );
+            return mutate_towards( mut, mut_vit );
         }
     }
 
@@ -1153,9 +1170,9 @@ bool Character::mutate_towards( const trait_id &mut )
 
     if( !has_prereqs && ( !prereq.empty() || !prereqs2.empty() ) ) {
         if( !prereq1 && !prereq.empty() ) {
-            return mutate_towards( prereq );
+            return mutate_towards( prereq, mut_vit );
         } else if( !prereq2 && !prereqs2.empty() ) {
-            return mutate_towards( prereqs2 );
+            return mutate_towards( prereqs2, mut_vit );
         }
     }
 
@@ -1196,6 +1213,14 @@ bool Character::mutate_towards( const trait_id &mut )
         return false;
     }
 
+    if( mut_vit != vitamin_id::NULL_ID() ) {
+        if( vitamin_get( mut_vit ) >= mdata.vitamin_cost ) {
+            vitamin_mod( mut_vit, -mdata.vitamin_cost );
+        } else {
+            return false;
+        }
+    }
+    
     // Check if one of the prerequisites that we have TURNS INTO this one
     trait_id replacing = trait_id::NULL_ID();
     prereq = mdata.prereqs; // Reset it
@@ -1347,10 +1372,15 @@ bool Character::mutate_towards( const trait_id &mut )
     }
 
     set_mutation( mut );
-
+    
     set_highest_cat_level();
     drench_mut_calc();
     return true;
+}
+
+bool Character::mutate_towards( const trait_id &mut )
+{
+    return mutate_towards( mut, vitamin_id::NULL_ID() );
 }
 
 bool Character::has_conflicting_trait( const trait_id &flag ) const

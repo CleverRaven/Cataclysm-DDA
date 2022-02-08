@@ -747,153 +747,376 @@
   {
     "type": "effect_type",
     "id": "mutagen",
-    "//name": [ "Mutagen" ],
-    "desc": [ "You consumed mutagen.  It was probably a good idea.", "You can feel your insides shifting.  It feels… nice." ],
-    "max_intensity": 2,
-    "show_intensity": false
+    "name": [ "Mutagen", "High Mutagen", "Mutagen Overdose" ],
+    "desc": [
+      "You consumed mutagen.  It was probably a good idea.",
+      "You can feel your insides shifting.  It feels… nice.",
+      "Your innards churn in an unnatural fashion- if you survive this, you'll be a changed… something."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 125 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_alpha",
+    "name": [ "Alpha Mutagen", "High Alpha Mutagen", "Alpha Mutagen Overdose" ],
+    "desc": [
+      "You consumed alpha mutagen.",
+      "You feel better.  So much better.",
+      "The world needs you, surely this won't kill you.  It better not."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": {
+      "str_mod": [ 0.4 ],
+      "per_mod": [ 0.4 ],
+      "dex_mod": [ 0.4 ],
+      "int_mod": [ 0.4 ],
+      "vomit_chance": [ 1100 ],
+      "vomit_tick": [ 120 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 60 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ 0.8 ],
+      "per_mod": [ 0.8 ],
+      "dex_mod": [ 0.8 ],
+      "int_mod": [ 0.8 ],
+      "vomit_chance": [ -500 ],
+      "hurt_chance": [ 21 ]
+    },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_batrachian",
-    "//name": [ "Frog Mutagen" ],
-    "desc": [ "You consumed frog mutagen.", "Now, to find a quiet pond and settle for the wait…" ],
-    "max_intensity": 2
+    "name": [ "Frog Mutagen", "High Frog Mutagen", "Frog Mutagen Overdose" ],
+    "desc": [
+      "You consumed frog mutagen.",
+      "Now, to find a quiet pond and settle for the wait…",
+      "You feel like you're about to croak… if you don't keel over first."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_beast",
-    "//name": [ "Beast Mutagen" ],
-    "desc": [ "You consumed beast mutagen.", "There must be prey around.  Stay alert." ],
-    "max_intensity": 2
+    "name": [ "Beast Mutagen", "High Beast Mutagen", "Beast Mutagen Overdose" ],
+    "desc": [
+      "You consumed beast mutagen.",
+      "There must be prey around.  Stay alert.",
+      "Primal instincts overwhelm your mind, and your saliva has turned to froth."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_bird",
-    "//name": [ "Bird Mutagen" ],
-    "desc": [ "You consumed bird mutagen.", "You feel the pull of the skies." ],
-    "max_intensity": 2
+    "name": [ "Bird Mutagen", "High Bird Mutagen", "Bird Mutagen Overdose" ],
+    "desc": [
+      "You consumed bird mutagen.",
+      "You feel the pull of the skies.",
+      "Goosebumps stand across your entire body.  You keep feeling that you're falling."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_cattle",
-    "//name": [ "Cattle Mutagen" ],
-    "desc": [ "You consumed cattle mutagen.", "This pasture will grow barren soon.  Keep moving." ],
-    "max_intensity": 2
+    "name": [ "Cattle Mutagen", "High Cattle Mutagen", "Cattle Mutagen Overdose" ],
+    "desc": [
+      "You consumed cattle mutagen.",
+      "This pasture will grow barren soon.  Keep moving.",
+      "Dull fog clouds your mind, and you feel close to vomiting."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_cephalopod",
-    "//name": [ "Cephalopod Mutagen" ],
-    "desc": [ "You consumed cephalopod mutagen.", "Become one with your surroundings." ],
-    "max_intensity": 2
+    "name": [ "Cephalopod Mutagen", "High Cephalopod Mutagen", "Cephalopod Mutagen Overdose" ],
+    "desc": [
+      "You consumed cephalopod mutagen.",
+      "Become one with your surroundings.",
+      "Your skin crawls and your extremities twitch and jerk."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_chimera",
-    "//name": [ "Chimera Mutagen" ],
-    "desc": [ "You consumed chimera mutagen.  Why?", "Your flesh is the clay of the new world.  You'll overcome all challenges." ],
-    "max_intensity": 2
+    "name": [ "Chimera Mutagen", "High Chimera Mutagen", "Chimera Mutagen Overdose" ],
+    "desc": [
+      "You consumed chimera mutagen.  Why?",
+      "Your flesh is the clay of the new world.  You'll overcome all challenges.",
+      "Your body heaving and changing is a rough time, but what doesn't kill you makes you stronger."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_elfa",
-    "//name": [ "Elf-A Mutagen" ],
-    "desc": [ "You consumed elf-a mutagen.", "You must look after this world, if noone else will." ],
-    "max_intensity": 2
+    "name": [ "Elf-A Mutagen", "High Elf-A Mutagen", "Elf-A Mutagen Overdose" ],
+    "desc": [
+      "You consumed elf-a mutagen.",
+      "You must look after this world, if noone else will.",
+      "You see stars.  You see so many stars."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_feline",
-    "//name": [ "Feline Mutagen" ],
-    "desc": [ "You consumed feline mutagen.", "Quiet steps and sharp claws.  They'll never see it coming." ],
-    "max_intensity": 2
+    "name": [ "Feline Mutagen", "High Feline Mutagen", "Feline Mutagen Overdose" ],
+    "desc": [
+      "You consumed feline mutagen.",
+      "Quiet steps and sharp claws.  They'll never see it coming.",
+      "If this overdose kills you, you've got a few more lives… right?"
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_fish",
-    "//name": [ "Fish Mutagen" ],
-    "desc": [ "You consumed fish mutagen.", "The waters call to you.  Leave this exposed wasteland." ],
-    "max_intensity": 2
+    "name": [ "Fish Mutagen", "High Fish Mutagen", "Fish Mutagen Overdose" ],
+    "desc": [
+      "You consumed fish mutagen.",
+      "The waters call to you.  Leave this exposed wasteland.",
+      "You feel clammy yet dry, absolutely parched no matter how much you drink."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_insect",
-    "//name": [ "Insect Mutagen" ],
-    "desc": [ "You consumed insect mutagen.", "You can't wait for your change.  It can't be long now." ],
-    "max_intensity": 2
+    "name": [ "Insect Mutagen", "High Insect Mutagen", "Insect Mutagen Overdose" ],
+    "desc": [
+      "You consumed insect mutagen.",
+      "You can't wait for your change.  It can't be long now.",
+      "You can't stop shivering and twitching.  Life is so short."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_lizard",
-    "//name": [ "Lizard Mutagen" ],
-    "desc": [ "You consumed lizard mutagen.", "Your skin feels dry and too small.  You'll have to molt soon." ],
-    "max_intensity": 2
+    "name": [ "Lizard Mutagen", "High Lizard Mutagen", "Lizard Mutagen Overdose" ],
+    "desc": [
+      "You consumed lizard mutagen.",
+      "Your skin feels dry and too small.  You'll have to molt soon.",
+      "Your limbs slump, almost ready to tear right out of their sockets."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_lupine",
-    "//name": [ "Lupine Mutagen" ],
-    "desc": [ "You consumed lupine mutagen.", "Where's your pack?  How will you survive without them?" ],
-    "max_intensity": 2
+    "name": [ "Lupine Mutagen", "High Lupine Mutagen", "Lupine Mutagen Overdose" ],
+    "desc": [
+      "You consumed lupine mutagen.",
+      "Where's your pack?  How will you survive without them?",
+      "You pant, unable to stop pacing and full of hunger."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_medical",
+    "name": [ "Medical Mutagen", "High Medical Mutagen", "Medical Mutagen Overdose" ],
+    "desc": [
+      "You consumed medical mutagen.",
+      "You consumed medical mutagen.  You should do that again.",
+      "You're tearing yourself apart.  Need to get fixed back up.  Should put some stitches in you."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_mouse",
+    "name": [ "Mouse Mutagen", "High Mouse Mutagen", "Mouse Mutagen Overdose" ],
+    "desc": [
+      "You consumed mouse mutagen.",
+      "Your heart pounds, knowing that predators could approach at any second!",
+      "Your heart hammers away with a rapid, irregular beat."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_plant",
-    "//name": [ "Plant Mutagen" ],
+    "name": [ "Plant Mutagen", "High Plant Mutagen", "Plant Mutagen Overdose" ],
     "desc": [
       "You consumed plant mutagen.",
-      "All this running… why don't you just find a nice, fertile spot and bask in the sun."
+      "All this running… why don't you just find a nice, fertile spot and bask in the sun.",
+      "Your processes are slowing.  You would make great fertilizer."
     ],
-    "max_intensity": 2
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_raptor",
-    "//name": [ "Raptor Mutagen" ],
-    "desc": [ "You consumed raptor mutagen.", "Sharpen your talons and clean your feathers.  Your prey won't give itself easily." ],
-    "max_intensity": 2
+    "name": [ "Raptor Mutagen", "High Raptor Mutagen", "Raptor Mutagen Overdose" ],
+    "desc": [
+      "You consumed raptor mutagen.",
+      "Sharpen your talons and clean your feathers.  Your prey won't give itself easily.",
+      "Delusions fill your head… is it true?  Did you die long ago?"
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_rabbit",
+    "name": [ "Rabbit Mutagen", "High Rabbit Mutagen", "Rabbit Mutagen Overdose" ],
+    "desc": [
+      "You consumed rabbit mutagen.",
+      "So much to do!  Better hop to it!",
+      "Will you have a future?  Will any new generations be born… your pounding head is full of worry."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_rat",
-    "//name": [ "Rat Mutagen" ],
-    "desc": [ "You consumed rat mutagen.", "This place is too open.  Hide!" ],
-    "max_intensity": 2
+    "name": [ "Rat Mutagen", "High Rat Mutagen", "Rat Mutagen Overdose" ],
+    "desc": [
+      "You consumed rat mutagen.",
+      "This place is too open.  Hide!",
+      "Dull aches fill your stomach, and every smell seems offensive."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_slime",
-    "//name": [ "Slime Mutagen" ],
-    "desc": [ "You consumed slime mutagen.", "Plop." ],
-    "max_intensity": 2
+    "name": [ "Slime Mutagen", "High Slime Mutagen", "Slime Mutagen Overdose" ],
+    "desc": [ "You consumed slime mutagen.", "Plop.", "Brain… melting…" ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_snail",
-    "//name": [ "Snail Mutagen" ],
-    "desc": [ "You consumed snail mutagen.", "Slow and steady wins the race." ],
-    "max_intensity": 2
+    "name": [ "Snail Mutagen", "High Snail Mutagen", "Snail Mutagen Overdose" ],
+    "desc": [
+      "You consumed snail mutagen.",
+      "Slow and steady wins the race.",
+      "You itch terribly, and your tongue feels salty and dry."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_spider",
-    "//name": [ "Spider Mutagen" ],
-    "desc": [ "You consumed spider mutagen.", "An anchor line there and there, connect with capture threads…" ],
-    "max_intensity": 2
+    "name": [ "Spider Mutagen", "High Spider Mutagen", "Spider Mutagen Overdose" ],
+    "desc": [
+      "You consumed spider mutagen.",
+      "An anchor line there and there, connect with capture threads…",
+      "Perhaps you should curl up, just curl up and give in."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
-    "id": "mutagen_trog",
-    "//name": [ "Troglobite Mutagen" ],
-    "desc": [ "You consumed troglobite mutagen.", "Down in the dark corners of the new world.  That's where you belong." ],
-    "max_intensity": 2
+    "id": "mutagen_troglobite",
+    "name": [ "Troglobite Mutagen", "High Troglobite Mutagen", "Troglobite Mutagen Overdose" ],
+    "desc": [
+      "You consumed troglobite mutagen.",
+      "Down in the dark corners of the new world.  That's where you belong.",
+      "Deep and dark, your bones ache and twist."
+    ],
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
+    "scaling_mods": { "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_ursine",
-    "//name": [ "Ursine Mutagen" ],
-    "desc": [ "You consumed ursine mutagen.", "Berries, brood, honey, or meat?  What will today bring?" ],
-    "max_intensity": 2
+    "name": [ "Ursine Mutagen", "High Ursine Mutagen", "Ursine Mutagen Overdose" ],
+    "desc": [
+      "You consumed ursine mutagen.",
+      "Berries, brood, honey, or meat?  What will today bring?",
+      "Sleep sounds good.  Sleep forever, maybe."
+    ],
+    "max_intensity": 3,
+    "base_mods": {
+      "str_mod": [ 1 ],
+      "fatigue_min": [ 1 ],
+      "fatigue_chance": [ 1100 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ]
+    },
+    "scaling_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ], "fatigue_chance": [ -500 ], "hurt_chance": [ 21 ] },
+    "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",

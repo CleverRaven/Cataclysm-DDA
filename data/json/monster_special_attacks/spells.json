@@ -464,7 +464,11 @@
     ],
     "false_effect": [
       {
-        "set_weighted_list_eocs": [ [ "EOC_shifting_mass_attack", 2 ], [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ], [ "EOC_PORTAL_INCORPOREAL", 1 ] ]
+        "set_weighted_list_eocs": [
+          [ "EOC_shifting_mass_attack", { "const": 2 } ],
+          [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
+          [ "EOC_PORTAL_INCORPOREAL", { "const": 1 } ]
+        ]
       },
       { "u_message": "For an instant you feel the absence's hunger upon you." }
     ]

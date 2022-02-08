@@ -27,7 +27,8 @@
     "threshold_mut": "THRESH_PLANT",
     "mutagen_message": "You feel much closer to nature.",
     "iv_message": "You inject some nutrients into your phloem.",
-    "memorial_message": "Bloomed forth."
+    "memorial_message": "Bloomed forth.",
+    "vitamin": "mutagen_plant"
   },
   {
     "type": "mutation_category",
@@ -36,7 +37,8 @@
     "threshold_mut": "THRESH_INSECT",
     "mutagen_message": "You hear buzzing, and feel your body harden.",
     "iv_message": "You sting yourself… for the Queen.",
-    "memorial_message": "Metamorphosed."
+    "memorial_message": "Metamorphosed.",
+    "vitamin": "mutagen_insect"
   },
   {
     "type": "mutation_category",
@@ -45,7 +47,8 @@
     "threshold_mut": "THRESH_SPIDER",
     "mutagen_message": "You feel insidious.",
     "iv_message": "Mmm… the *special* venom.",
-    "memorial_message": "Found a place in the web of life."
+    "memorial_message": "Found a place in the web of life.",
+    "vitamin": "mutagen_spider"
   },
   {
     "type": "mutation_category",
@@ -55,7 +58,8 @@
     "mutagen_message": "Your body loses all rigidity for a moment.",
     "iv_message": "This stuff takes you back.  Downright primordial!",
     "memorial_message": "Gave up on rigid human norms.",
-    "junkie_message": "Maybe if you drank enough, you'd become mutagen…"
+    "junkie_message": "Maybe if you drank enough, you'd become mutagen…",
+    "vitamin": "mutagen_slime"
   },
   {
     "type": "mutation_category",
@@ -64,7 +68,8 @@
     "threshold_mut": "THRESH_FISH",
     "mutagen_message": "You are overcome by an overwhelming longing for the ocean.",
     "iv_message": "Your pulse pounds as the waves.",
-    "memorial_message": "Went deep."
+    "memorial_message": "Went deep.",
+    "vitamin": "mutagen_fish"
   },
   {
     "type": "mutation_category",
@@ -73,7 +78,8 @@
     "threshold_mut": "THRESH_GASTROPOD",
     "mutagen_message": "Are you dancing a descending spiral?",
     "iv_message": "Your split lower body starts to come back together.",
-    "memorial_message": "Left a trail."
+    "memorial_message": "Left a trail.",
+    "vitamin": "mutagen_gastropod"
   },
   {
     "type": "mutation_category",
@@ -88,7 +94,8 @@
     "iv_sound_variant": "squeak",
     "//": "Sound of ratlike squeaking",
     "iv_noise": 1,
-    "memorial_message": "Found that survival *is* everything."
+    "memorial_message": "Found that survival *is* everything.",
+    "vitamin": "mutagen_rat"
   },
   {
     "type": "mutation_category",
@@ -97,7 +104,8 @@
     "threshold_mut": "THRESH_BEAST",
     "mutagen_message": "Your heart races and you see blood for a moment.",
     "iv_message": "Your heart races wildly as the injection takes hold.",
-    "memorial_message": "Embraced their bestial nature."
+    "memorial_message": "Embraced their bestial nature.",
+    "vitamin": "mutagen_beast"
   },
   {
     "type": "mutation_category",
@@ -106,7 +114,8 @@
     "threshold_mut": "THRESH_URSINE",
     "mutagen_message": "You feel an urge to… patrol?  The forests?",
     "iv_message": "You feel yourself quite equipped for wilderness survival.",
-    "memorial_message": "Became one with the bears."
+    "memorial_message": "Became one with the bears.",
+    "vitamin": "mutagen_ursine"
   },
   {
     "type": "mutation_category",
@@ -115,7 +124,8 @@
     "threshold_mut": "THRESH_FELINE",
     "mutagen_message": "As you lap up the last of the mutagen, you wonder why…",
     "iv_message": "Your back arches as the mutagen takes hold.",
-    "memorial_message": "Realized the dream."
+    "memorial_message": "Realized the dream.",
+    "vitamin": "mutagen_feline"
   },
   {
     "type": "mutation_category",
@@ -124,7 +134,8 @@
     "threshold_mut": "THRESH_LUPINE",
     "mutagen_message": "You feel an urge to mark your territory.  But then it passes.",
     "iv_message": "As the mutagen hits you, your ears twitch and you stifle a yipe.",
-    "memorial_message": "Wolfed out."
+    "memorial_message": "Wolfed out.",
+    "vitamin": "mutagen_lupine"
   },
   {
     "type": "mutation_category",
@@ -134,7 +145,8 @@
     "threshold_mut": "THRESH_CATTLE",
     "mutagen_message": "Your mind and body slow down.  You feel peaceful.",
     "iv_message": "You wonder if this is what rBGH feels like…",
-    "memorial_message": "Stopped worrying and learned to love the cowbell."
+    "memorial_message": "Stopped worrying and learned to love the cowbell.",
+    "vitamin": "mutagen_cattle"
   },
   {
     "type": "mutation_category",
@@ -144,7 +156,8 @@
     "threshold_mut": "THRESH_CEPHALOPOD",
     "mutagen_message": "Your mind is overcome by images of eldritch horrors… and then they pass.",
     "iv_message": "You watch the mutagen flow through a maze of little twisty passages.  All the same.",
-    "memorial_message": "Began living the dreams."
+    "memorial_message": "Began living the dreams.",
+    "vitamin": "mutagen_cephalopod"
   },
   {
     "type": "mutation_category",
@@ -153,7 +166,8 @@
     "threshold_mut": "THRESH_BIRD",
     "mutagen_message": "Your body lightens and you long for the sky.",
     "iv_message": "Your arms spasm in an oddly wavelike motion.",
-    "memorial_message": "Broke free of humanity."
+    "memorial_message": "Broke free of humanity.",
+    "vitamin": "mutagen_bird"
   },
   {
     "type": "mutation_category",
@@ -162,7 +176,8 @@
     "threshold_mut": "THRESH_LIZARD",
     "mutagen_message": "For a heartbeat, your blood cools down.",
     "iv_message": "Your blood cools down.  The feeling is… different.",
-    "memorial_message": "Shed the ugly human skin."
+    "memorial_message": "Shed the ugly human skin.",
+    "vitamin": "mutagen_lizard"
   },
   {
     "type": "mutation_category",
@@ -171,7 +186,8 @@
     "threshold_mut": "THRESH_BATRACHIAN",
     "mutagen_message": "An involuntary hop and a croak.",
     "iv_message": "Like a tadpole you must transform.",
-    "memorial_message": "Found a bigger pond."
+    "memorial_message": "Found a bigger pond.",
+    "vitamin": "mutagen_batrachian"
   },
   {
     "type": "mutation_category",
@@ -180,7 +196,8 @@
     "threshold_mut": "THRESH_TROGLOBITE",
     "mutagen_message": "You yearn for a cool, dark place to hide.",
     "iv_message": "As you press the plunger, it all goes so bright…",
-    "memorial_message": "Adapted to underground living."
+    "memorial_message": "Adapted to underground living.",
+    "vitamin": "mutagen_troglobite"
   },
   {
     "type": "mutation_category",
@@ -198,7 +215,8 @@
     "iv_thirst": 3,
     "iv_pain": 3,
     "iv_fatigue": 5,
-    "memorial_message": "Started representing."
+    "memorial_message": "Started representing.",
+    "vitamin": "mutagen_alpha"
   },
   {
     "type": "mutation_category",
@@ -217,7 +235,8 @@
     "iv_pain": 3,
     "iv_fatigue": 5,
     "memorial_message": "Resumed clinical trials.",
-    "junkie_message": "Ahh, there it is.  You can feel the mutagen again."
+    "junkie_message": "Ahh, there it is.  You can feel the mutagen again.",
+    "vitamin": "mutagen_medical"
   },
   {
     "type": "mutation_category",
@@ -245,7 +264,8 @@
     "iv_sleep": true,
     "iv_sleep_dur": 800,
     "iv_sleep_message": "With a final *pop*, you go out like a light.",
-    "memorial_message": "United disunity."
+    "memorial_message": "United disunity.",
+    "vitamin": "mutagen_chimera"
   },
   {
     "type": "mutation_category",
@@ -262,7 +282,8 @@
     "//2": "Should be out for two minutes.  Ecstasy Of Green",
     "iv_sleep_dur": 20,
     "iv_sleep_message": "It's painfully beautiful…",
-    "memorial_message": "Accepted a more natural way of life."
+    "memorial_message": "Accepted a more natural way of life.",
+    "vitamin": "mutagen_elfa"
   },
   {
     "type": "mutation_category",
@@ -272,7 +293,8 @@
     "threshold_mut": "THRESH_RAPTOR",
     "mutagen_message": "Mmm… sweet, bloody flavor… tastes like victory.",
     "iv_message": "You distinctly smell the mutagen mixing with your blood… and then it passes.",
-    "memorial_message": "Hatched."
+    "memorial_message": "Hatched.",
+    "vitamin": "mutagen_raptor"
   },
   {
     "type": "mutation_category",
@@ -281,7 +303,8 @@
     "threshold_mut": "THRESH_MOUSE",
     "mutagen_message": "You feel a desire to curl up in a nice, warm pile of… shredded paper.",
     "iv_message": "You feel… small.  But comfortable.",
-    "memorial_message": "Found the cheese."
+    "memorial_message": "Found the cheese.",
+    "vitamin": "mutagen_mouse"
   },
   {
     "type": "mutation_category",
@@ -290,6 +313,7 @@
     "threshold_mut": "THRESH_RABBIT",
     "mutagen_message": "Walking is overrated.  It's time to start hopping.",
     "iv_message": "You are craving beta carotene.",
-    "memorial_message": "Acquired a taste for carrots."
+    "memorial_message": "Acquired a taste for carrots.",
+    "vitamin": "mutagen_rabbit"
   }
 ]
