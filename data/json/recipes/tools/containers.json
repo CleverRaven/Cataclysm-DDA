@@ -792,7 +792,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
-    "difficulty": 0,
+    "difficulty": 1,
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
