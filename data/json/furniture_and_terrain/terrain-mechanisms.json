@@ -859,5 +859,5 @@
     "color": "light_green",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "PLACE_ITEM" ]
-  },
+  }
 ]
