@@ -14,7 +14,7 @@
     "deactivate_condition": { "u_has_flag": "CHANGING" },
     "effect": [
       {
-        "set_weighted_list_eocs": [ [ "changing_failed", { "const": 2500 } ], [ "changing_successful", { "u_val": "vitamin", "name": "mutagen" } ] ]
+        "weighted_list_eocs": [ [ "changing_failed", { "const": 2500 } ], [ "changing_successful", { "u_val": "vitamin", "name": "mutagen" } ] ]
       }
     ]
   },
@@ -59,7 +59,7 @@
     "deactivate_condition": { "not": { "u_has_flag": "CHANGING" } },
     "effect": [
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "changing_mutate2",
             "//": "Mutate!",
@@ -70,7 +70,7 @@
               { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "-=", { "const": 60 } ] },
               { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "-=", { "rand": 80 } ] }
             ],
-            "false_effect": [ { "set_queue_effect_on_condition": [ "changing_reqs_not_met" ] } ]
+            "false_effect": [ { "run_eocs": [ "changing_reqs_not_met" ] } ]
           }
         ]
       }
