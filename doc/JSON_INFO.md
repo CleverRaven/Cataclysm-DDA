@@ -751,6 +751,18 @@ Character modifiers define how effective different behaviours are for actions th
 },
 {
   "type": "character_mod",
+  "id": "slip_prevent_mod",
+  "description": "Slip prevention modifier",
+  "mod_type": "x",
+  "value": {
+    "limb_score": [ [ "grip", 3.0 ], [ "lift", 2.0 ], "footing" ],
+    "override_encumb": true,
+    "limb_score_op": "+",
+    "denominator": 6.0
+  }
+},
+{
+  "type": "character_mod",
   "id": "stamina_move_cost_mod",
   "description": "Stamina move cost modifier",
   "mod_type": "x",
@@ -770,20 +782,24 @@ Character modifiers define how effective different behaviours are for actions th
 
 | Field        | Description
 |------        |------------
-| `limb_score` | Refers to a `limb_score` id. This is the limb score from which this modifier is derived.
+| `limb_score` | Refers to a `limb_score` id, or an array of `limb_score` id's (can be a weighted list). These are the limb scores from which this modifier is derived.
+| `limb_score_op` | (_optional_) Operation (add `+` or multiply `x`) to apply when multiple limb scores are defined. Ex: `x` => `score1 x score2 x score3 ...`. (Defaults to `x`)
 | `limb_type`  | (_optional_) Refers to a `limb_type` as defined in [`body_part`](#body_parts). If present, only limb scores from body parts with that `limb_type` are used.
 | `override_encumb` | (_optional_) Boolean (true/false). If specified, this forces the limb score to be affected/unaffected by limb encumbrance if true/false. (Overrides `affected_by_encumb` in `limb_score`)
 | `override_wounds` | (_optional_) Boolean (true/false). If specified, this forces the limb score to be affected/unaffected by limb health if true/false.(Overrides `affected_by_wounds` in `limb_score`)
 | `min`        | (_optional_) Defines a minimum value for this modifier. Generally only used for "bonus" multipliers that provide a benefit. Should not be used together with `max`.
 | `max`        | (_optional_) Defines a maximum value for this modifier. Generally used for "cost" multipliers that provide a malus. Should not be used together with `min`. This value can be defined as a decimal or as the special value `"max_move_cost"`.
-| `nominator`  | (_optional_) Causes the limb score to divide the specified value, such that `nominator / limb_score`.
+| `nominator`  | (_optional_) Causes the limb score to divide the specified value, such that `nominator / ( limb_score * denominator )`.
+| `denominator` | (_optional_) Divides the limb score (or the nominator, if specified) by the specified value, such that `limb_score / denominator`.
 | `subtract`   | (_optional_) Defines a value to subtract from the resulting modifier, such that `mod - subtract`.
 | `builtin`    | Instead of a limb score, the `value` object can define a built-in function to handle the calculation of the modifier.
 
 The modifier is normally derived from a limb score, which is modified in a sequence of operations. Here are some possible outcomes for different combinations of specified fields in `value`:
 ```C++
-// Only "limb_score" specified:
+// Only one "limb_score" specified:
 mod = limb_score;
+// 3 score id's in "limb_score" array (with "x" operation):
+mod = limb_score1 * limb_score2 * limb_score3;
 // "max" specified:
 mod = min( max, limb_score );
 // "min" specified:
@@ -792,6 +808,8 @@ mod = max( min, limb_score );
 mod = min( max, nominator / limb_score );
 // "max", "nominator", and "subtract" specified:
 mod = min( max, ( nominator / limb_score ) - subtract );
+// "max", "denominator", and "subtract" specified:
+mod = min( max, ( limb_score / denominator ) - subtract );
 ```
 
 
