@@ -1017,10 +1017,9 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
             if( mut_vit != vitamin_id::NULL_ID() and vitamin_get( mut_vit ) >= 2200 ) {
                 test_crossing_threshold( cat );
             }
-            if( mutate_towards( random_entry( valid ), mut_vit ) ) {
-            } else {
-                // if mutation failed (errors, post-threshold pick), try again once.
-                mutate_towards( random_entry( valid ), mut_vit );
+            if( mutate_towards( random_entry( valid ), mut_vit ) ||
+                mutate_towards( random_entry( valid ), mut_vit ) ) {
+                add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
             }
             return;
         }

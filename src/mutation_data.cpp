@@ -97,47 +97,11 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     new_category.threshold_mut = trait_id( jsobj.get_string( "threshold_mut" ) );
 
     jsobj.get_member( "mutagen_message" ).read( new_category.raw_mutagen_message );
-    new_category.mutagen_hunger  = jsobj.get_int( "mutagen_hunger", 10 );
-    new_category.mutagen_thirst  = jsobj.get_int( "mutagen_thirst", 10 );
-    new_category.mutagen_pain    = jsobj.get_int( "mutagen_pain", 2 );
-    new_category.mutagen_fatigue = jsobj.get_int( "mutagen_fatigue", 5 );
-    new_category.mutagen_morale  = jsobj.get_int( "mutagen_morale", 0 );
-    jsobj.get_member( "iv_message" ).read( new_category.raw_iv_message );
-    new_category.iv_min_mutations    = jsobj.get_int( "iv_min_mutations", 1 );
-    new_category.iv_additional_mutations = jsobj.get_int( "iv_additional_mutations", 2 );
-    new_category.iv_additional_mutations_chance = jsobj.get_int( "iv_additional_mutations_chance", 3 );
-    new_category.iv_hunger   = jsobj.get_int( "iv_hunger", 10 );
-    new_category.iv_thirst   = jsobj.get_int( "iv_thirst", 10 );
-    new_category.iv_pain     = jsobj.get_int( "iv_pain", 2 );
-    new_category.iv_fatigue  = jsobj.get_int( "iv_fatigue", 5 );
-    new_category.iv_morale   = jsobj.get_int( "iv_morale", 0 );
-    new_category.iv_morale_max   = jsobj.get_int( "iv_morale_max", 0 );
     new_category.wip = jsobj.get_bool( "wip", false );
-    new_category.iv_sound = jsobj.get_bool( "iv_sound", false );
-    if( jsobj.has_member( "iv_sound_message" ) ) {
-        jsobj.read( "iv_sound_message", new_category.raw_iv_sound_message );
-    } else {
-        new_category.raw_iv_sound_message = to_translation( "You inject yoursel-arRGH!" );
-    }
-    new_category.raw_iv_sound_id = jsobj.get_string( "iv_sound_id", "shout" );
-    new_category.raw_iv_sound_variant = jsobj.get_string( "iv_sound_variant", "default" );
-    new_category.iv_noise = jsobj.get_int( "iv_noise", 0 );
-    new_category.iv_sleep = jsobj.get_bool( "iv_sleep", false );
-    if( jsobj.has_member( "iv_sleep_message" ) ) {
-        jsobj.read( "iv_sleep_message", new_category.raw_iv_sleep_message );
-    } else {
-        new_category.raw_iv_sleep_message = to_translation( "You fall asleep." );
-    }
-    new_category.iv_sleep_dur = jsobj.get_int( "iv_sleep_dur", 0 );
     static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold" ) );
     static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
     optional( jsobj, false, "memorial_message", new_category.raw_memorial_message,
               text_style_check_reader(), "Crossed a threshold" );
-    if( jsobj.has_member( "junkie_message" ) ) {
-        jsobj.read( "junkie_message", new_category.raw_junkie_message );
-    } else {
-        new_category.raw_junkie_message = to_translation( "Oh, yeah!  That's the stuff!" );
-    }
     new_category.vitamin = vitamin_id( jsobj.get_string( "vitamin", "" ) );
 
     mutation_category_traits[new_category.id] = new_category;
@@ -151,36 +115,6 @@ std::string mutation_category_trait::name() const
 std::string mutation_category_trait::mutagen_message() const
 {
     return raw_mutagen_message.translated();
-}
-
-std::string mutation_category_trait::iv_message() const
-{
-    return raw_iv_message.translated();
-}
-
-std::string mutation_category_trait::iv_sound_message() const
-{
-    return raw_iv_sound_message.translated();
-}
-
-std::string mutation_category_trait::iv_sound_id() const
-{
-    return raw_iv_sound_id;
-}
-
-std::string mutation_category_trait::iv_sound_variant() const
-{
-    return raw_iv_sound_variant;
-}
-
-std::string mutation_category_trait::iv_sleep_message() const
-{
-    return raw_iv_sleep_message.translated();
-}
-
-std::string mutation_category_trait::junkie_message() const
-{
-    return raw_junkie_message.translated();
 }
 
 std::string mutation_category_trait::memorial_message_male() const

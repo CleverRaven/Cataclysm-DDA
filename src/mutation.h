@@ -465,59 +465,21 @@ struct mutation_category_trait {
         translation raw_name;
         // Message when you consume mutagen
         translation raw_mutagen_message;
-        // Message when you inject an iv
-        translation raw_iv_message;
-        translation raw_iv_sound_message = no_translation( "NULL" );
-        std::string raw_iv_sound_id = "shout";
-        std::string raw_iv_sound_variant = "default";
-        translation raw_iv_sleep_message = no_translation( "NULL" );
-        translation raw_junkie_message;
         // Memorial message when you cross a threshold
         std::string raw_memorial_message;
 
     public:
         std::string name() const;
         std::string mutagen_message() const;
-        std::string iv_message() const;
-        std::string iv_sound_message() const;
-        std::string iv_sound_id() const;
-        std::string iv_sound_variant() const;
-        std::string iv_sleep_message() const;
-        std::string junkie_message() const;
         std::string memorial_message_male() const;
         std::string memorial_message_female() const;
 
+        // Meta-label indicating that the category isn't finished yet.
+        bool wip = false;
         // Mutation category i.e "BIRD", "CHIMERA"
         mutation_category_id id;
         // The trait that you gain when you break the threshold for this category
         trait_id threshold_mut;
-
-        // These are defaults
-        int mutagen_hunger  = 10;
-        int mutagen_thirst  = 10;
-        int mutagen_pain    = 2;
-        int mutagen_fatigue = 5;
-        int mutagen_morale  = 0;
-        // The minimum mutations an injection provides
-        int iv_min_mutations    = 1;
-        int iv_additional_mutations = 2;
-        // Chance of additional mutations
-        int iv_additional_mutations_chance = 3;
-        int iv_hunger   = 10;
-        int iv_thirst   = 10;
-        int iv_pain     = 2;
-        int iv_fatigue  = 5;
-        int iv_morale   = 0;
-        int iv_morale_max = 0;
-        // Meta-label indicating that the category isn't finished yet.
-        bool wip = false;
-        // Determines if you make a sound when you inject mutagen
-        bool iv_sound = false;
-        // The amount of noise produced by the sound
-        int iv_noise = 0;
-        // Whether the iv has a chance of knocking you out.
-        bool iv_sleep = false;
-        int iv_sleep_dur = 0;
         // Mutation vitamin
         vitamin_id vitamin;
 

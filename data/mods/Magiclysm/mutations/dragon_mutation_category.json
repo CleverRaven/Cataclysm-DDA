@@ -5,8 +5,7 @@
     "name": "Black Dragon",
     "wip": true,
     "threshold_mut": "THRESH_DRAGON_BLACK",
-    "mutagen_message": "For a brief moment, you feel your blood burn like acid.",
-    "iv_message": "Acid boils through your veins.  You feel ancient power swell within you.",
+    "mutagen_message": "Acid boils through your veins.  You feel ancient power swell within you.",
     "memorial_message": "Settled to slumber with their hoard.",
     "vitamin": "mutagen_black_dragon"
   }
