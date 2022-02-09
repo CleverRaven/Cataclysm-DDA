@@ -72,7 +72,7 @@
     "material": [ "iflesh" ],
     "symbol": "m",
     "color": "brown",
-    "aggression": 5,
+    "aggression": -30,
     "morale": 60,
     "melee_skill": 5,
     "melee_dice": 1,
@@ -112,7 +112,7 @@
     "armor_bullet": 6,
     "vision_day": 3,
     "vision_night": 35,
-    "harvest": "animal_large_noskin",
+    "harvest": "reptile_large_leather",
     "path_settings": { "max_dist": 8 },
     "special_attacks": [
       {
@@ -130,7 +130,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ]
   },
   {
     "id": "mon_caiman",
@@ -149,7 +149,7 @@
     "symbol": "c",
     "color": "light_green",
     "aggression": 15,
-    "morale": 50,
+    "morale": 25,
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 5,
@@ -178,7 +178,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ]
   },
   {
     "id": "mon_toad",
@@ -313,7 +313,7 @@
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
-    "aggression": -10,
+    "aggression": -30,
     "morale": 60,
     "melee_skill": 6,
     "melee_dice": 2,
@@ -348,7 +348,7 @@
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
-    "aggression": -10,
+    "aggression": -30,
     "morale": 60,
     "melee_skill": 6,
     "melee_dice": 2,
@@ -420,8 +420,8 @@
     "material": [ "iflesh" ],
     "symbol": "t",
     "color": "light_gray",
-    "aggression": 30,
-    "morale": 60,
+    "aggression": 15,
+    "morale": 30,
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 4,
@@ -447,7 +447,7 @@
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
     "id": "mon_tortoise",
