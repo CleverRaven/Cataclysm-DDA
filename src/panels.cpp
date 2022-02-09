@@ -1903,7 +1903,7 @@ static void draw_custom_hint( const draw_args &args )
     mvwprintz( w, point( 1, 1 ), c_light_gray,
                _( "Edit sidebar.json to adjust." ) );
     mvwprintz( w, point( 1, 2 ), c_light_gray,
-               _( "See SIDEBAR_MOD.md for help." ) );
+               _( "See WIDGETS.md for help." ) );
 
     wnoutrefresh( w );
 }
