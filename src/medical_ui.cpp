@@ -21,18 +21,15 @@
 #include "vitamin.h"
 #include "weather.h"
 
+static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_infected( "infected" );
-
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
-
-static const flag_id json_flag_SPLINT( "SPLINT" );
 
 enum class medical_tab_mode {
     TAB_SUMMARY
@@ -123,17 +120,19 @@ class medical_column
             int selectionrow = 0;
 
             for( selection_line &line : column_lines ) {
-                const int row_start_x = line.highlighted() ?
-                                        COLUMN_START.x + left_padding - 1 :
-                                        COLUMN_START.x + left_padding;
-                const int row_start_y = COLUMN_START.y + linerow;
+                const point row_start(
+                    line.highlighted() ?
+                    COLUMN_START.x + left_padding - 1 :
+                    COLUMN_START.x + left_padding,
+                    COLUMN_START.y + linerow
+                );
 
-                if( row_start_y - LINE_START >= MAX_HEIGHT ) {
+                if( row_start.y - LINE_START >= MAX_HEIGHT ) {
                     break;
                 }
 
                 if( linerow >= LINE_START ) {
-                    fold_and_print( window, point( row_start_x, row_start_y - LINE_START ), max_width(),
+                    fold_and_print( window, point( row_start.x, row_start.y - LINE_START ), max_width(),
                                     c_light_gray, line.print() );
                     linerow += line.get_row_count();
                 } else {
@@ -177,7 +176,7 @@ class medical_column
 
         std::pair<std::string, std::string> detail_str( int y ) {
             std::pair<std::string, std::string> ret;
-            if( y < column_lines.size() ) {
+            if( y < static_cast<int>( column_lines.size() ) ) {
                 int offset = y % column_lines.size();
                 ret = column_lines[offset].get_detail();
             }
@@ -255,7 +254,7 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
     // Pain Indicator
     auto pain_descriptor = display::pain_text_color( *player );
     if( !pain_descriptor.first.empty() ) {
-        const std::string pain_str = string_format( "In %s", pain_descriptor.first );
+        const std::string pain_str = string_format( _( "In %s" ), pain_descriptor.first );
 
         cur_str_pos = right_print( window, 1, right_indent, pain_descriptor.second, pain_str );
 
@@ -346,30 +345,14 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
         const bool bleeding = bleed_intensity > 0;
         const bool bitten = player->has_effect( effect_bite, part.id() );
         const bool infected = player->has_effect( effect_infected, part.id() );
-
-        // Colorized strings for each status
-        std::vector<std::string> color_strings;
-        widget_id wid( "bodypart_status_indicator_template" );
-        for( const auto &sc : display::bodypart_status_colors( *player, part,
-                "bodypart_status_indicator_template" ) ) {
-            std::string txt = io::enum_to_string( sc.first );
-            if( wid.is_valid() ) {
-                translation t = widget_phrase::get_text_for_id( txt, wid );
-                txt = to_upper_case( t.empty() ? txt : t.translated() );
-            }
-            color_strings.emplace_back( string_format( "[ %s ]", colorize( txt, sc.second ) ) );
-        }
-        detail += join( color_strings, " " );
-
-        bool no_feeling = player->has_trait( trait_NOPAIN );
+        const bool no_feeling = player->has_trait( trait_NOPAIN );
         const int maximal_hp = player->get_part_hp_max( part );
         const int current_hp = player->get_part_hp_cur( part );
         const bool limb_is_broken = player->is_limb_broken( part );
         const bool limb_is_mending = player->worn_with_flag( flag_SPLINT, part );
 
         if( limb_is_mending ) {
-            detail += colorize( _( "Splinted" ),
-                                c_blue );
+            detail += string_format( _( "[ %s ]" ), colorize( ( "SPLINTED" ), c_yellow ) );
             if( no_feeling ) {
                 hp_str = colorize( "==%==", c_blue );
             } else {
@@ -380,7 +363,7 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
                 hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
             }
         } else if( limb_is_broken ) {
-            detail += colorize( _( "Broken" ), c_red );
+            detail += string_format( _( "[ %s ]" ), colorize( ( "BROKEN" ), c_red ) );
             hp_str = "==%==";
         } else if( no_feeling ) {
             if( current_hp < maximal_hp * 0.25 ) {
@@ -402,19 +385,20 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
                             display::limb_color( *player,
                                     part, true, true, true ) ) + " " + hp_str;
 
-        /* Descriptions */
-
         // BLEEDING block
         if( bleeding ) {
             const effect bleed_effect = player->get_effect( effect_bleed, part );
+            const nc_color bleeding_color = colorize_bleeding_intensity( bleed_intensity );
+            detail += string_format( _( "[ %s ]" ), colorize( ( "BLEEDING" ), bleeding_color ) );
             description += string_format( "[ %s ] - %s\n",
-                                          colorize( bleed_effect.get_speed_name(), colorize_bleeding_intensity( bleed_intensity ) ),
+                                          colorize( bleed_effect.get_speed_name(),  bleeding_color ),
                                           bleed_effect.disp_short_desc() );
         }
 
         // BITTEN block
         if( bitten ) {
             const effect bite_effect = player->get_effect( effect_bite, part );
+            detail += string_format( _( "[ %s ]" ), colorize( ( "BITTEN" ), c_yellow ) );
             description += string_format( "[ %s ] - %s\n",
                                           colorize( bite_effect.get_speed_name(), c_yellow ),
                                           bite_effect.disp_short_desc() );
@@ -423,6 +407,7 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
         // INFECTED block
         if( infected ) {
             const effect infected_effect = player->get_effect( effect_infected, part );
+            detail += string_format( _( "[ %s ]" ), colorize( ( "INFECTED" ), c_pink ) );
             description += string_format( "[ %s ] - %s\n",
                                           colorize( infected_effect.get_speed_name(), c_pink ),
                                           infected_effect.disp_short_desc() );
@@ -585,7 +570,7 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
     int runcost = player->run_cost( 100 );
     int newmoves = player->get_speed();
 
-    std::string coloured_str = colorize( string_format( _( "%s" ), runcost ),
+    std::string coloured_str = colorize( string_format( _( "%d" ), runcost ),
                                          ( runcost <= 100 ? c_green : c_red ) );
     selection_line runcost_line = selection_line( string_format( _( "Base Move Cost: %s" ),
                                   coloured_str ),
@@ -593,7 +578,7 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
                                             c_light_blue ),
                                   max_width );
 
-    coloured_str = colorize( string_format( _( "%s" ), newmoves ),
+    coloured_str = colorize( string_format( _( "%d" ), newmoves ),
                              ( newmoves >= 100 ? c_green : c_red ) );
     selection_line movecost_line = selection_line( string_format( _( "Current Speed: %s" ),
                                    coloured_str ),
@@ -630,9 +615,8 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
     }
     if( player->kcal_speed_penalty() < 0 ) {
         pen = std::abs( player->kcal_speed_penalty() );
-        //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
         pge_str = pgettext( "speed penalty", player->get_bmi() < character_weight_category::underweight ?
-                            _( "Starving" ) : _( "Underfed" ) );
+                            ( "Starving" ) : ( "Underfed" ) );
         speed_detail_str += colorize( string_format( _( "%s    -%2d%%\n" ), pge_str, pen ), c_red );
     }
     if( player->has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( player->pos() ) ) {
@@ -746,7 +730,7 @@ void avatar::disp_medical()
 
     // Cursor
     int cursor_bounds[3]; // Number of selectable rows in each column
-    point cursor = point_zero; // Selector Position
+    point cursor;
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
