@@ -3161,7 +3161,10 @@ class Character : public Creature, public visitable
         int weary_threshold() const;
         int weariness() const;
         float activity_level() const;
+        /** Returns instantaneous activity level as a float from 0-10 (from game_constants) */
         float instantaneous_activity_level() const;
+        /** Returns instantaneous activity level as an int from 0-5 (half of instantaneous_activity_level) */
+        int activity_level_index() const;
         float exertion_adjusted_move_multiplier( float level = -1.0f ) const;
         float maximum_exertion_level() const;
         std::string activity_level_str( float level ) const;

@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include "game.h"
+#include "game_constants.h"
 #include "player_helpers.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -72,6 +73,7 @@ static const weather_type_id weather_sunny( "sunny" );
 static const widget_id widget_test_2_column_layout( "test_2_column_layout" );
 static const widget_id widget_test_3_column_layout( "test_3_column_layout" );
 static const widget_id widget_test_4_column_layout( "test_4_column_layout" );
+static const widget_id widget_test_activity_clauses( "test_activity_clauses" );
 static const widget_id widget_test_bp_wetness_head_num( "test_bp_wetness_head_num" );
 static const widget_id widget_test_bp_wetness_torso_num( "test_bp_wetness_torso_num" );
 static const widget_id widget_test_bucket_graph( "test_bucket_graph" );
@@ -668,6 +670,41 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 2" );
         CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 2" );
     }
+}
+
+TEST_CASE( "widgets showing activity level", "[widget][activity]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    widget activity_w = widget_test_activity_clauses.obj();
+
+    ava.reset_activity_level();
+    activity_tracker &tracker = ava.activity_history;
+
+    tracker.new_turn();
+    tracker.log_activity( NO_EXERCISE );
+    CHECK( activity_w.layout( ava ) == "Activity: <color_c_light_gray>None</color>" );
+
+    tracker.new_turn();
+    tracker.log_activity( LIGHT_EXERCISE );
+    CHECK( activity_w.layout( ava ) == "Activity: <color_c_yellow>Light</color>" );
+
+    tracker.new_turn();
+    tracker.log_activity( MODERATE_EXERCISE );
+    CHECK( activity_w.layout( ava ) == "Activity: <color_c_yellow>Moderate</color>" );
+
+    tracker.new_turn();
+    tracker.log_activity( BRISK_EXERCISE );
+    CHECK( activity_w.layout( ava ) == "Activity: <color_c_light_red>Brisk</color>" );
+
+    tracker.new_turn();
+    tracker.log_activity( ACTIVE_EXERCISE );
+    CHECK( activity_w.layout( ava ) == "Activity: <color_c_light_red>Active</color>" );
+
+    tracker.new_turn();
+    tracker.log_activity( EXTRA_EXERCISE );
+    CHECK( activity_w.layout( ava ) == "Activity: <color_c_red>Extreme</color>" );
 }
 
 TEST_CASE( "widgets showing move counter and mode", "[widget][move_mode]" )

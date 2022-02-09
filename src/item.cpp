@@ -3006,6 +3006,11 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
                            iteminfo::show_plus, mod.handling );
     }
+    if( mod.loudness != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MODIFIER ) ) {
+        info.emplace_back( "GUNMOD", _( "Loudness modifier: " ), "",
+                           iteminfo::lower_is_better | iteminfo::show_plus,
+                           mod.loudness );
+    }
     if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
         for( const ammotype &at : type->mod->ammo_modifier ) {
             info.emplace_back( "GUNMOD", string_format( _( "Ammo: <stat>%s</stat>" ),
