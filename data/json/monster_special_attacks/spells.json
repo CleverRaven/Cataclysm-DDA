@@ -464,7 +464,7 @@
     ],
     "false_effect": [
       {
-        "set_weighted_list_eocs": [
+        "weighted_list_eocs": [
           [ "EOC_shifting_mass_attack", { "const": 2 } ],
           [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
           [ "EOC_PORTAL_INCORPOREAL", { "const": 1 } ]

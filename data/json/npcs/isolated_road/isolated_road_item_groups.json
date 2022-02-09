@@ -51,7 +51,6 @@
       { "item": "chainmail_hands", "prob": 2 },
       { "item": "legguard_metal", "prob": 2 },
       { "item": "helmet_plate", "prob": 2 },
-      { "item": "armor_junk_plate", "prob": 2 },
       { "item": "helmet_larmor", "prob": 2 },
       { "item": "boots_larmor", "prob": 2 },
       { "item": "armor_larmor", "prob": 2 },

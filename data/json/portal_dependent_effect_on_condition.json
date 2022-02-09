@@ -14,12 +14,12 @@
     },
     "deactivate_condition": { "not": { "or": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "is_weather": "portal_storm" } ] } },
     "effect": {
-      "set_queue_effect_on_condition": [
+      "weighted_list_eocs": [
         {
           "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_ACCEPTANCE",
           "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] },
           "effect": {
-            "set_weighted_list_eocs": [
+            "weighted_list_eocs": [
               [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", { "const": 10 } ],
               [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", { "const": 6 } ],
               [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", { "const": 3 } ],
@@ -27,14 +27,14 @@
             ]
           },
           "false_effect": {
-            "set_weighted_list_eocs": [
+            "weighted_list_eocs": [
               [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", { "const": 10 } ],
               [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", { "const": 5 } ],
               [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", { "const": 2 } ]
             ]
           }
         }
-      ]
+      }
     }
   },
   {
@@ -59,12 +59,12 @@
     "//": "Some small effects as you feel yourself more stable.",
     "condition": { "not": { "u_has_trait": "REALITY_GRASP" } },
     "effect": {
-      "set_queue_effect_on_condition": [
+      "run_eocs": [
         {
           "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_TIMER",
           "condition": { "days_since_cataclysm": 60 },
           "effect": {
-            "set_weighted_list_eocs": [
+            "weighted_list_eocs": [
               [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_1", { "const": 4 } ],
               [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_2", { "const": 3 } ],
               [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_3", { "const": 2 } ],
@@ -72,7 +72,7 @@
             ]
           },
           "false_effect": {
-            "set_weighted_list_eocs": [ [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_1", { "const": 2 } ], [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_2", { "const": 1 } ] ]
+            "weighted_list_eocs": [ [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_1", { "const": 2 } ], [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_2", { "const": 1 } ] ]
           }
         }
       ]
@@ -120,23 +120,21 @@
     "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_4",
     "//": "Your feel greatly more accepted by the world, your body partially stabilizes itself in this reality if you are outside.",
     "effect": {
-      "set_queue_effect_on_condition": [
-        {
-          "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_OUTSIDE",
-          "condition": "u_is_outside",
-          "effect": [
-            {
-              "u_message": "You suddenly feel a warm embrace by your surroundings, it does not lasts long, but you now feel a weak connection with the world around you.",
-              "type": "good"
-            },
-            { "u_add_trait": "REALITY_GRASP" }
-          ],
-          "false_effect": {
-            "u_message": "You suddenly feel a warm embrace by your surroundings, you feel like something is about to change inside you but the embrace seems to lack strenght and stops just before you could grasp it… You now feel a strong need to go out and jump into the portal storm.",
-            "type": "warning"
-          }
+      "run_eocs": {
+        "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_OUTSIDE",
+        "condition": "u_is_outside",
+        "effect": [
+          {
+            "u_message": "You suddenly feel a warm embrace by your surroundings, it does not lasts long, but you now feel a weak connection with the world around you.",
+            "type": "good"
+          },
+          { "u_add_trait": "REALITY_GRASP" }
+        ],
+        "false_effect": {
+          "u_message": "You suddenly feel a warm embrace by your surroundings, you feel like something is about to change inside you but the embrace seems to lack strenght and stops just before you could grasp it… You now feel a strong need to go out and jump into the portal storm.",
+          "type": "warning"
         }
-      ]
+      }
     }
   },
   {
@@ -171,12 +169,12 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PORTAL_DEPENDENT" } }, { "is_weather": "portal_storm" } ] },
     "effect": {
-      "set_queue_effect_on_condition": [
+      "weighted_list_eocs": [
         {
           "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_REJECTION",
           "condition": { "not": { "u_has_trait": "REALITY_GRASP" } },
           "effect": {
-            "set_weighted_list_eocs": [
+            "weighted_list_eocs": [
               [ "EOC_PORTAL_DEPENDENT_MESSAGES_BAD", { "const": 18 } ],
               [ "EOC_PORTAL_DEPENDENT_MORALE_BAD", { "const": 6 } ],
               [ "EOC_PORTAL_DEPENDENT_FOCUS_BAD", { "const": 5 } ],
@@ -192,7 +190,7 @@
             ]
           },
           "false_effect": {
-            "set_weighted_list_eocs": [
+            "weighted_list_eocs": [
               [ "EOC_PORTAL_DEPENDENT_MESSAGES_BAD", { "const": 10 } ],
               [ "EOC_PORTAL_DEPENDENT_MORALE_BAD", { "const": 3 } ],
               [ "EOC_PORTAL_DEPENDENT_FOCUS_BAD", { "const": 2 } ],
@@ -201,7 +199,7 @@
             ]
           }
         }
-      ]
+      }
     }
   },
   {
@@ -240,11 +238,11 @@
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
       {
-        "set_queue_effect_on_condition": [
+        "weighted_list_eocs": [
           {
             "id": "EOC_PORTAL_DEPENDENT_STATS_EFFECTS",
             "effect": {
-              "set_weighted_list_eocs": [
+              "weighted_list_eocs": [
                 [ "EOC_PORTAL_DEPENDENT_STR_BAD", { "const": 1 } ],
                 [ "EOC_PORTAL_DEPENDENT_DEX_BAD", { "const": 1 } ],
                 [ "EOC_PORTAL_DEPENDENT_PER_BAD", { "const": 1 } ],
@@ -252,7 +250,7 @@
               ]
             }
           }
-        ]
+        }
       }
     ]
   },
@@ -265,7 +263,7 @@
       { "u_message": "You suddenly need more strength to interact with your surroundings.", "type": "bad" },
       { "u_add_effect": "pd_str_bad", "duration": "50 minutes" },
       {
-        "set_queue_effect_on_condition": [ { "id": "EOC_PORTAL_DEPENDENT_MESSAGES_STR_BAD" } ],
+        "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_STR_BAD",
         "time_in_future_min": "10 minutes",
         "time_in_future_max": "40 minutes"
       }
@@ -280,7 +278,7 @@
       { "u_message": "You suddenly fail to grab your own hand.", "type": "bad" },
       { "u_add_effect": "pd_dex_bad", "duration": "50 minutes" },
       {
-        "set_queue_effect_on_condition": [ { "id": "EOC_PORTAL_DEPENDENT_MESSAGES_DEX_BAD" } ],
+        "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_DEX_BAD",
         "time_in_future_min": "10 minutes",
         "time_in_future_max": "40 minutes"
       }
@@ -295,7 +293,7 @@
       { "u_message": "You blink one time and now everything seems bigger.", "type": "bad" },
       { "u_add_effect": "pd_per_bad", "duration": "50 minutes" },
       {
-        "set_queue_effect_on_condition": [ { "id": "EOC_PORTAL_DEPENDENT_MESSAGES_PER_BAD" } ],
+        "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_PER_BAD",
         "time_in_future_min": "10 minutes",
         "time_in_future_max": "40 minutes"
       }
@@ -310,7 +308,7 @@
       { "u_message": "You stop yourself to think, but you can't seem to remember about what.", "type": "bad" },
       { "u_add_effect": "pd_int_bad", "duration": "50 minutes" },
       {
-        "set_queue_effect_on_condition": [ { "id": "EOC_PORTAL_DEPENDENT_MESSAGES_INT_BAD" } ],
+        "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_INT_BAD",
         "time_in_future_min": "10 minutes",
         "time_in_future_max": "40 minutes"
       }
@@ -397,12 +395,12 @@
     "id": "EOC_PORTAL_DEPENDENT_MESSAGES_BAD",
     "//": "Messages about strange/bad things that you hear/see/feel/dream related to your condition.",
     "effect": {
-      "set_queue_effect_on_condition": [
+      "run_eocs": [
         {
           "id": "EOC_PORTAL_DEPENDENT_MESSAGES_BAD_AWAKE",
           "condition": { "not": { "u_has_effect": "sleep" } },
           "effect": {
-            "set_weighted_list_eocs": [
+            "weighted_list_eocs": [
               [ "EOC_PORTAL_DEPENDENT_MESSAGES_VARIED_BAD", { "const": 1 } ],
               [ "EOC_PORTAL_DEPENDENT_MESSAGES_STR_BAD", { "const": 1 } ],
               [ "EOC_PORTAL_DEPENDENT_MESSAGES_DEX_BAD", { "const": 1 } ],

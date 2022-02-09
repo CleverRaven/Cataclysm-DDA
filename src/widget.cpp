@@ -128,12 +128,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "fatigue_text";
         case widget_var::health_text:
             return "health_text";
-        case widget_var::lighting_text:
-            return "lighting_text";
         case widget_var::mood_text:
             return "mood_text";
-        case widget_var::moon_phase_text:
-            return "moon_phase_text";
         case widget_var::move_count_mode_text:
             return "move_count_mode_text";
         case widget_var::pain_text:
@@ -817,9 +813,7 @@ bool widget::uses_text_function()
         case widget_var::env_temp_text:
         case widget_var::fatigue_text:
         case widget_var::health_text:
-        case widget_var::lighting_text:
         case widget_var::mood_text:
-        case widget_var::moon_phase_text:
         case widget_var::move_count_mode_text:
         case widget_var::pain_text:
         case widget_var::overmap_loc_text:
@@ -893,14 +887,8 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::health_text:
             desc = display::health_text_color( ava );
             break;
-        case widget_var::lighting_text:
-            desc = get_light_level( ava.fine_detail_vision_mod() );
-            break;
         case widget_var::mood_text:
             desc = display::morale_face_color( ava );
-            break;
-        case widget_var::moon_phase_text:
-            desc.first = display::get_moon();
             break;
         case widget_var::move_count_mode_text:
             desc = display::move_count_and_mode_text_color( ava );
@@ -1327,7 +1315,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
     // This only works because labels are not colorized (no color tags).
     if( txt_w + lbl_w > max_width ) {
         std::wstring tmplbl = utf8_to_wstr( lbl );
-        for( int i = lbl_w - 1; txt_w + lbl_w > max_width && i > 0 && tmplbl[i] == ' ' &&
+        for( int i = tmplbl.size() - 1; txt_w + lbl_w > max_width && i > 0 && tmplbl[i] == ' ' &&
              tmplbl[i - 1] != ':'; i-- ) {
             tmplbl.pop_back();
             lbl_w--;
