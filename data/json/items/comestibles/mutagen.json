@@ -332,7 +332,7 @@
       "type": "consume_drug",
       "activation_message": "You inject the snail mutagenic primer.",
       "tools_needed": { "syringe": -1 },
-      "vitamins": [ [ "mutagen_snail", 450, 550 ] ]
+      "vitamins": [ [ "mutagen_gastropod", 450, 550 ] ]
     }
   },
   {
@@ -630,6 +630,7 @@
       [ "mutagen_elfa", -160, -200 ],
       [ "mutagen_feline", -160, -200 ],
       [ "mutagen_fish", -160, -200 ],
+      [ "mutagen_gastropod", -160, -200 ],
       [ "mutagen_insect", -160, -200 ],
       [ "mutagen_lizard", -160, -200 ],
       [ "mutagen_lupine", -160, -200 ],
@@ -637,7 +638,6 @@
       [ "mutagen_raptor", -160, -200 ],
       [ "mutagen_rat", -160, -200 ],
       [ "mutagen_slime", -160, -200 ],
-      [ "mutagen_snail", -160, -200 ],
       [ "mutagen_spider", -160, -200 ],
       [ "mutagen_troglobite", -160, -200 ],
       [ "mutagen_ursine", -160, -200 ]
@@ -666,6 +666,7 @@
       [ "mutagen_elfa", -500, -550 ],
       [ "mutagen_feline", -500, -550 ],
       [ "mutagen_fish", -500, -550 ],
+      [ "mutagen_gastropod", -500, -550 ],
       [ "mutagen_insect", -500, -550 ],
       [ "mutagen_lizard", -500, -550 ],
       [ "mutagen_lupine", -500, -550 ],
@@ -673,7 +674,6 @@
       [ "mutagen_raptor", -500, -550 ],
       [ "mutagen_rat", -500, -550 ],
       [ "mutagen_slime", -500, -550 ],
-      [ "mutagen_snail", -500, -550 ],
       [ "mutagen_spider", -500, -550 ],
       [ "mutagen_troglobite", -500, -550 ],
       [ "mutagen_ursine", -500, -550 ]

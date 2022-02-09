@@ -1073,6 +1073,22 @@
   },
   {
     "type": "effect_type",
+    "id": "mutagen_gastropod",
+    "name": [ "Snail Mutation", "Snail Transformation", "Snail Metamorphosis" ],
+    "desc": [
+      "You consumed snail mutagen.",
+      "Slow and steady wins the race.",
+      "You itch terribly, and your mouth feels salty and dry."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_GASTROPOD" ],
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 60 ] },
+    "scaling_mods": { "str_mod": [ 1.5 ], "speed_mod": [ -7.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Snail Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
     "id": "mutagen_insect",
     "name": [ "Insect Mutation", "Insect Transformation", "Insect Metamorphosis" ],
     "desc": [
@@ -1355,22 +1371,6 @@
     },
     "rating": "bad",
     "blood_analysis_description": "Slime Mutagen Contamination"
-  },
-  {
-    "type": "effect_type",
-    "id": "mutagen_gastropod",
-    "name": [ "Snail Mutation", "Snail Transformation", "Snail Metamorphosis" ],
-    "desc": [
-      "You consumed snail mutagen.",
-      "Slow and steady wins the race.",
-      "You itch terribly, and your mouth feels salty and dry."
-    ],
-    "max_intensity": 3,
-    "resist_traits": [ "THRESH_GASTROPOD" ],
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 60 ] },
-    "scaling_mods": { "str_mod": [ 1.5 ], "speed_mod": [ -7.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
-    "rating": "bad",
-    "blood_analysis_description": "Snail Mutagen Contamination"
   },
   {
     "type": "effect_type",
