@@ -23,7 +23,6 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
-#include "input.h"
 #include "item.h"
 #include "line.h"
 #include "optional.h"
@@ -610,7 +609,7 @@ std::string rewrite_vsnprintf( const char *msg );
 // string manipulations.
 void replace_name_tags( std::string &input );
 void replace_city_tag( std::string &input, const std::string &name );
-void replace_keybind_tag( std::string &input, const input_context &ctxt);
+void replace_keybind_tag( std::string &input);
 
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all );

@@ -1846,9 +1846,9 @@ void replace_city_tag( std::string &input, const std::string &name )
     replace_substring( input, "<city>", name, true );
 }
 
-void replace_keybind_tag( std::string &input, const input_context &ctxt )
+void replace_keybind_tag( std::string &input)
 {
-    std::string keybind_tag_start = "<keybind_";
+    std::string keybind_tag_start = "<keybind:";
     size_t keybind_length = keybind_tag_start.length();
     std::string keybind_tag_end = ">";
 
@@ -1860,11 +1860,25 @@ void replace_keybind_tag( std::string &input, const input_context &ctxt )
             break;
         }
         size_t pos_keybind = pos + keybind_length;
-        std::string keybind = input.substr( pos_keybind, pos_end - pos_keybind );
+        std::string keybind_full = input.substr( pos_keybind, pos_end - pos_keybind );
+        std::string keybind = keybind_full;
 
-        std::string keybind_desc = ctxt.get_desc( keybind );
+        size_t pos_category_split = keybind_full.find(":");
 
-        std::string to_replace = keybind_tag_start + keybind + keybind_tag_end;
+
+        std::string keybind_desc;
+        if (pos_category_split == std::string::npos) {
+            input_context ctxt( "DEFAULTMODE" );
+            keybind_desc = ctxt.get_desc( keybind );
+        } else {
+            std::string category = keybind_full.substr(0, pos_category_split);
+            keybind = keybind_full.substr(pos_category_split + 1);
+
+            input_context ctxt(category);
+            keybind_desc = ctxt.get_desc( keybind );
+        }
+
+        std::string to_replace = keybind_tag_start + keybind_full + keybind_tag_end;
         replace_substring( input, to_replace, keybind_desc, true );
 
         pos = input.find( keybind_tag_start );

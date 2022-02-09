@@ -392,6 +392,6 @@ void tutorial_game::add_message( tut_lesson lesson )
     tutorials_seen[lesson] = true;
     g->invalidate_main_ui_adaptor();
     std::string translated_lesson = SNIPPET.get_snippet_by_id( snippet_id( io::enum_to_string<tut_lesson>( lesson ) ) ).value_or(translation() ).translated();
-    replace_keybind_tag( translated_lesson, get_default_mode_input_context());
+    replace_keybind_tag( translated_lesson);
     popup( translated_lesson, PF_ON_TOP );
 }
