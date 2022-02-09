@@ -98,7 +98,19 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
     const JsonObject &jobj = jo.get_object( "value" );
     optional( jobj, was_loaded, "builtin", builtin, "" );
     if( builtin.empty() ) {
-        mandatory( jobj, was_loaded, "limb_score", limbscore );
+        limbscores.clear();
+        if( jobj.has_array( "limb_score" ) ) {
+            mandatory( jobj, was_loaded, "limb_score", limbscores );
+        } else {
+            limb_score_id ls;
+            mandatory( jobj, was_loaded, "limb_score", ls );
+            limbscores.emplace_back( ls );
+        }
+
+        std::string lsop;
+        optional( jobj, was_loaded, "limb_score_op", lsop, "*" );
+        limbscore_modop = string_to_modtype( lsop );
+
         optional( jobj, was_loaded, "limb_type", limbtype, body_part_type::type::num_types );
         if( jobj.has_member( "override_encumb" ) ) {
             bool over;
@@ -234,7 +246,27 @@ float character_modifier::modifier( const Character &c, const skill_id &skill ) 
         return call_builtin( builtin, c, skill );
     }
 
-    float score = c.get_limb_score( limbscore, limbtype, override_encumb, override_wounds );
+    float score = 0.0f;
+    bool sc_assigned = false;
+    for( const limb_score_id &sc : limbscores ) {
+        float mod_sc = c.get_limb_score( sc, limbtype, override_encumb, override_wounds );
+        if( !sc_assigned ) {
+            score = mod_sc;
+            continue;
+        }
+        switch( limbscore_modop ) {
+            case ADD:
+                score += mod_sc;
+                break;
+            case NONE:
+                score = mod_sc;
+                break;
+            case MULT:
+            default:
+                score *= mod_sc;
+        }
+    }
+
     // score == 0
     if( score < std::numeric_limits<float>::epsilon() ) {
         return min_val > std::numeric_limits<float>::epsilon() ? min_val :

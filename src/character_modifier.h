@@ -54,13 +54,14 @@ struct character_modifier {
             return !builtin.empty();
         }
         // Which limb score is used to calculate this modifier (if any)
-        const limb_score_id &use_limb_score() const {
-            return limbscore;
+        const std::vector<limb_score_id> &use_limb_scores() const {
+            return limbscores;
         }
 
     private:
         character_modifier_id id = character_modifier_id::NULL_ID();
-        limb_score_id limbscore = limb_score_id::NULL_ID();
+        std::vector<limb_score_id> limbscores;
+        mod_type limbscore_modop = MULT;
         body_part_type::type limbtype = body_part_type::type::num_types;
         translation desc = translation();
         mod_type modtype = mod_type::NONE;

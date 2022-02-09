@@ -245,14 +245,15 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
         s.emplace_back( get_score_text( sc.name().translated(), cur_score, bp_score ) );
     }
     for( const character_modifier &mod : character_modifier::get_all() ) {
-        const limb_score_id &sc = mod.use_limb_score();
-        if( sc.is_null() || !bp->has_limb_score( sc ) ) {
-            continue;
+        for( const limb_score_id &sc : mod.use_limb_scores() ) {
+            if( sc.is_null() || !bp->has_limb_score( sc ) ) {
+                continue;
+            }
+            std::string desc = mod.description().translated();
+            std::string valstr = colorize( string_format( "%.2f", mod.modifier( you ) ),
+                                           limb_score_current_color( part->get_limb_score( sc ), bp->get_limb_score( sc ) ) );
+            s.emplace_back( string_format( "%s: %s%s", desc, mod.mod_type_str(), valstr ) );
         }
-        std::string desc = mod.description().translated();
-        std::string valstr = colorize( string_format( "%.2f", mod.modifier( you ) ),
-                                       limb_score_current_color( part->get_limb_score( sc ), bp->get_limb_score( sc ) ) );
-        s.emplace_back( string_format( "%s: %s%s", desc, mod.mod_type_str(), valstr ) );
     }
     return s;
 }

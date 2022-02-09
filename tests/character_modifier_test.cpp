@@ -71,7 +71,7 @@ TEST_CASE( "Basic character modifier test", "[character][encumbrance]" )
     create_char( dude );
     const bodypart *test_bp = dude.get_part( body_part_test_tail );
     REQUIRE( test_bp != nullptr );
-    REQUIRE( character_modifier_test_char_cost_mod->use_limb_score() == limb_score_test );
+    REQUIRE( character_modifier_test_char_cost_mod->use_limb_scores().front() == limb_score_test );
 
     GIVEN( "limb is not encumbered" ) {
         WHEN( "limb is not wounded" ) {
