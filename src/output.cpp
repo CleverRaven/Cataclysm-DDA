@@ -1856,7 +1856,7 @@ void replace_keybind_tag( std::string &input, const input_context &ctxt )
     while( pos != std::string::npos ) {
         size_t pos_end = input.find(keybind_tag_end, pos);
         if (pos_end == std::string::npos) {
-            // TODO: Throw an error here for a mismatched tag?
+            debugmsg("Mismatched keybind tag in string: '%s'", input);
             break;
         }
         size_t pos_keybind = pos + keybind_length;
