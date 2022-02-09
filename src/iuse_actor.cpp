@@ -4316,7 +4316,7 @@ cata::optional<int> mutagen_actor::use( Character &p, item &it, bool, const trip
 
     p.add_msg_if_player( m_category.mutagen_message() );
 
-    if( one_in( 6 ) ) {
+    if( one_in( 6 ) && !p.is_on_ground() ) {
         p.add_msg_player_or_npc( m_bad,
                                  _( "You suddenly feel dizzy, and collapse to the ground." ),
                                  _( "<npcname> suddenly collapses to the ground!" ) );

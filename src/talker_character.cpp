@@ -564,6 +564,11 @@ int talker_character_const::get_age() const
     return me_chr_const->age();
 }
 
+int talker_character_const::get_bmi_permil() const
+{
+    return std::round( me_chr_const->get_bmi() * 1000.0f );
+}
+
 void talker_character::set_height( int amount )
 {
     me_chr->set_base_height( amount );
@@ -572,6 +577,16 @@ void talker_character::set_height( int amount )
 int talker_character_const::get_height() const
 {
     return me_chr_const->height();
+}
+
+const move_mode_id &talker_character_const::get_move_mode() const
+{
+    return me_chr_const->move_mode;
+}
+
+int talker_character_const::get_fine_detail_vision_mod() const
+{
+    return std::ceil( me_chr_const->fine_detail_vision_mod() );
 }
 
 void talker_character::add_bionic( const bionic_id &new_bionic )

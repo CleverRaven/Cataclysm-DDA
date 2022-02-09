@@ -952,6 +952,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_MORALE );
             REGISTER_ACTION( ACTION_MEDICAL );
             REGISTER_ACTION( ACTION_MESSAGES );
+            REGISTER_ACTION( ACTION_DIARY );
         } else if( category == _( "Misc" ) ) {
             REGISTER_ACTION( ACTION_WAIT );
             REGISTER_ACTION( ACTION_SLEEP );

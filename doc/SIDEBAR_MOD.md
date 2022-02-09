@@ -693,19 +693,13 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `activity_text`         | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
 | `body_temp_text`        | Felt body temperature "Comfortable", "Chilly", "Warm" etc.
 | `bp_outer_armor_text`   | Item name and damage bars of armor/clothing worn on the given "bodypart"
-| `bp_status_text`        | Status of given "bodypart" - "bitten", "bleeding", "infected", etc.
-| `bp_status_sym_text`    | Same as above, but in a more compact format using 1 character per status.
-| `bp_status_legend_text` | (_multiline_) Displays the meaning of the symbols from `bp_status_sym_text`
 | `compass_legend_text`   | (_multiline_) A list of creatures visible by the player, corresponding to compass symbols
 | `compass_text`          | A compass direction (ex: NE), displaying visible creatures in that direction
 | `date_text`             | Current day within season, like "Summer, day 15"
 | `env_temp_text`         | Environment temperature, if thermometer is available
 | `fatigue_text`          | Fatigue level - "Tired", "Dead Tired", "Exhausted"
 | `health_text`           | Hidden health - "OK", "Good", "Very good", "Bad", "Very bad", etc.
-| `hunger_text`           | Hunger level - "Engorged", "Full", "Hungry", "Famished", etc.
-| `lighting_text`         | Lighting conditions at avatar position - "bright", "cloudy", "dark" etc.
 | `mood_text`             | Avatar mood represented as an emoticon face
-| `moon_phase_text`       | Phase of the moon - "New moon", "Waxing gibbous", "Full moon" etc.
 | `move_mode_letter`      | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
 | `move_mode_text`        | Movement mode - "walking", "running", "crouching", "prone"
 | `overmap_loc_text`      | Overmap coordinates, same as shown in the lower corner of overmap screen
@@ -713,10 +707,8 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `pain_text`             | "Mild pain", "Distracting pain", "Intense pain", etc.
 | `place_text`            | Location place name
 | `power_text`            | Bionic power available
-| `rad_badge_text`        | Radiation badge color indicator, if radiation badge is available
 | `safe_mode_text`        | Status of safe mode - "On" or "Off", with color for approaching turn limit
 | `style_text`            | Name of current martial arts style
-| `thirst_text`           | Thirst level - "Slaked", "Thirsty", "Dehydrated", etc.
 | `time_text`             | Current time - exact if clock is available, approximate otherwise
 | `veh_azimuth_text`      | Heading of vehicle in degrees
 | `veh_cruise_text`       | Target and actual cruising velocity, positive or negative
@@ -724,7 +716,6 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `weariness_text`        | Weariness level - "Fresh", "Light", "Moderate", "Weary" etc.
 | `weary_malus_text`      | Percentage penalty affecting speed due to weariness
 | `weather_text`          | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
-| `weight_text`           | Body weight - "Emaciated", "Normal", "Overweight", etc.
 | `wielding_text`         | Name of current weapon or wielded item
 | `wind_text`             | Wind direction and intensity
 
