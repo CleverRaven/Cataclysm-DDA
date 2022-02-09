@@ -422,7 +422,7 @@
     "addiction_potential": 0,
     "charges": 5,
     "fun": -10,
-    "vitamins": [ [ "mutagen_beast", 350 ] ]
+    "vitamins": [ [ "mutagen_beast", 60 ] ]
   },
   {
     "id": "mutagen_alpha",

@@ -1251,7 +1251,7 @@
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false },
+    "vitamins": [ [ "mutagen_beast", 250 ] ],
     "flags": [ "PREDATOR_FUN" ]
   },
   {
@@ -1271,7 +1271,7 @@
     "material": [ "flesh" ],
     "volume": "1 L",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true },
+    "vitamins": [ [ "mutagen_beast", 300 ] ],
     "flags": [ "PREDATOR_FUN" ]
   },
   {
