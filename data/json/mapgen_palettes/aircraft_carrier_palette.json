@@ -299,37 +299,7 @@
     "nested": {
       "δ": { "chunks": [ [ "null", 2 ], [ "crates_supplies_mechanics", 3 ] ] },
       "ε": { "chunks": [ [ "null", 2 ], [ "crates_armament_milspec", 3 ] ] },
-      "ζ": { "chunks": [ [ "null", 2 ], [ "crates_random_supply", 3 ] ] },
-      "ω": {
-        "chunks": [
-          [ "heli_random_metal_1", 1000 ],
-          [ "heli_random_metal_2", 1000 ],
-          [ "heli_random_metal_3", 1000 ],
-          [ "heli_random_metal_4", 1000 ],
-          [ "heli_random_metal_5", 1000 ],
-          [ "heli_random_metal_6", 1000 ],
-          [ "heli_random_metal_7", 1000 ],
-          [ "heli_random_metal_8", 1000 ],
-          [ "heli_random_metal_9", 1000 ],
-          [ "heli_random_metal_10", 1000 ],
-          [ "heli_random_metal_11", 1000 ]
-        ]
-      },
-      "ξ": {
-        "chunks": [
-          [ "heli_random_deck_1", 1000 ],
-          [ "heli_random_deck_2", 1000 ],
-          [ "heli_random_deck_3", 1000 ],
-          [ "heli_random_deck_4", 1000 ],
-          [ "heli_random_deck_5", 1000 ],
-          [ "heli_random_deck_6", 1000 ],
-          [ "heli_random_deck_7", 1000 ],
-          [ "heli_random_deck_8", 1000 ],
-          [ "heli_random_deck_9", 1000 ],
-          [ "heli_random_deck_10", 1000 ],
-          [ "heli_random_deck_11", 1000 ]
-        ]
-      }
+      "ζ": { "chunks": [ [ "null", 2 ], [ "crates_random_supply", 3 ] ] }
     },
     "vehicles": {
       "n": { "vehicle": "hospital_bed", "chance": 100, "status": 1 },
