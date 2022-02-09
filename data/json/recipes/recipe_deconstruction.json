@@ -2437,9 +2437,9 @@
     "result": "sheet_cotton_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "5 s",
+    "time": "10 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cotton_patchwork", 1 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 8 ] ] ]
   },
   {
     "result": "cotton_patchwork",
@@ -2447,7 +2447,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patch", 4 ] ] ],
+    "components": [ [ [ "cotton_scrap", 2 ] ] ],
     "//": "This is intended to be an interim measure until all recipies can be moved away from using or creating rags. Once that's done this can be considered obsolete"
   },
   {

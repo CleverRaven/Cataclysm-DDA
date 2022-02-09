@@ -76,7 +76,7 @@
     "name": { "str_sp": "leather scraps" },
     "description": "Oddly-shaped smallish bits of leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
-    "volume": "9 ml",
+    "volume": "6 ml",
     "material": [ "leather" ]
   },
   {
@@ -125,14 +125,14 @@
     "id": "fur",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "fur pelt" },
-    "description": "A small bolt of fur from an animal, roughly 12 inches by 24 inches.  Can be made into warm clothing.",
+    "name": { "str": "fur patch" },
+    "description": "A small bolt of fur from an animal, roughly 6 inches square.  Can be made into patchwork fur sheets or used to repair fur fabric.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "fur", "leather" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": "53 g",
-    "volume": "232 ml",
+    "weight": "46 g",
+    "volume": "58 ml",
     "category": "spare_parts"
   },
   {
@@ -140,11 +140,10 @@
     "id": "faux_fur",
     "copy-from": "fur",
     "color": "pink",
-    "name": { "str": "faux fur pelt" },
+    "name": { "str": "faux fur patch" },
     "price_postapoc": 10,
-    "description": "A small bolt of garishly colored faux fur, roughly 12 inches by 24 inches.  Can be made into clothing.",
+    "description": "A small bolt of garishly colored faux fur, roughly 6 inches square.  Can be made into patchwork faux fur sheets or used to repair faux fur fabric.",
     "flags": [ "NO_SALVAGE" ],
-    "volume": "116 ml",
     "material": [ "faux_fur" ]
   },
   {
@@ -158,8 +157,8 @@
     "price_postapoc": 10,
     "material": [ "leather", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": "6 g",
-    "volume": "37 ml",
+    "weight": "37 g",
+    "volume": "23 ml",
     "category": "spare_parts"
   },
   {
@@ -175,21 +174,6 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "3 g",
     "volume": "18 ml",
-    "category": "spare_parts"
-  },
-  {
-    "type": "GENERIC",
-    "id": "fur_patch",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "fur patch", "str_pl": "fur patches" },
-    "description": "A small, 6 inch square patch of fur pelt, could be used to make patchwork sheets or repair fur clothing.",
-    "price": 2000,
-    "price_postapoc": 10,
-    "material": [ "fur" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "13 g",
-    "volume": "58 ml",
     "category": "spare_parts"
   },
   {
@@ -233,8 +217,8 @@
     "price": 5000,
     "price_postapoc": 500,
     "material": [ "leather" ],
-    "weight": "23 g",
-    "volume": "147 ml",
+    "weight": "296 g",
+    "volume": "186 ml",
     "category": "spare_parts"
   },
   {
@@ -247,8 +231,8 @@
     "price": 2500,
     "price_postapoc": 250,
     "material": [ "leather" ],
-    "weight": "23 g",
-    "volume": "147 ml",
+    "weight": "296 g",
+    "volume": "186 ml",
     "category": "spare_parts"
   },
   {
@@ -262,8 +246,8 @@
     "price_postapoc": 0,
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": "53 g",
-    "volume": "232 ml",
+    "weight": "372 g",
+    "volume": "465 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -277,8 +261,8 @@
     "price": 5000,
     "price_postapoc": 500,
     "material": [ "fur" ],
-    "weight": "52 g",
-    "volume": "232 ml",
+    "weight": "372 g",
+    "volume": "465 ml",
     "category": "spare_parts"
   },
   {
@@ -291,8 +275,8 @@
     "price": 2500,
     "price_postapoc": 250,
     "material": [ "fur" ],
-    "weight": "52 g",
-    "volume": "232 ml",
+    "weight": "372 g",
+    "volume": "465 ml",
     "category": "spare_parts"
   },
   {
@@ -316,8 +300,6 @@
     "type": "GENERIC",
     "name": { "str_sp": "patchwork cotton sheet" },
     "description": "A selection of various clothing parts, sewn together from cotton patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
-    "weight": "38 g",
-    "volume": "47 ml",
     "//density": ".80 grams per mL, 203 GSM",
     "price": 200,
     "price_postapoc": 50
@@ -328,9 +310,9 @@
     "category": "spare_parts",
     "name": { "str": "faux fur sheet" },
     "description": "A 12 inch by 24 inch sheet of fake synthetic colorful fur, suitable for making clothing.",
-    "weight": "106 g",
-    "volume": "232 ml",
-    "//": "Based on 570gsm faux fur",
+    "weight": "372 g",
+    "volume": "465 ml",
+    "//": "Based on 2000gsm faux fur",
     "price": 5000,
     "price_postapoc": 100,
     "material": [ "faux_fur" ],
@@ -343,9 +325,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "patchwork faux fur sheet" },
     "description": "A sheet of mismatched faux fur patches, sewn together in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
-    "weight": "106 g",
-    "volume": "232 ml",
-    "//": "12 inches by 24 inches with GSM of 570",
+    "//": "12 inches by 24 inches with GSM of 2000",
     "price": 1000,
     "price_postapoc": 50
   },
@@ -370,9 +350,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "patchwork felt sheets" },
     "description": "A patchwork felt sheet, sewn together in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
-    "weight": "28 g",
-    "volume": "140 ml",
-    "//": "Density of 0.44 grams per mL",
+    "//": "150GSM felt",
     "price": 500,
     "price_postapoc": 100
   },
@@ -442,8 +420,6 @@
     "type": "GENERIC",
     "name": { "str_sp": "patchwork Lycra sheet" },
     "description": "A sheet of fabric, sewn together from Lycra patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
-    "weight": "17 g",
-    "volume": "59 ml",
     "//": "180GSM",
     "price": 1000,
     "price_postapoc": 50
@@ -469,8 +445,6 @@
     "type": "GENERIC",
     "name": { "str_sp": "patchwork neoprene sheet" },
     "description": "A sheet of fabric, sewn together from neoprene patches in a patchwork fashion, with waterproofed seams.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
-    "weight": "51 g",
-    "volume": "464 ml",
     "//": "Density of 1.23 grams per mL",
     "price": 1000,
     "price_postapoc": 50
@@ -496,8 +470,6 @@
     "type": "GENERIC",
     "name": { "str_sp": "patchwork Nomex sheet" },
     "description": "A sheet of fabric, sewn together with Nomex thread from Nomex patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
-    "weight": "32 g",
-    "volume": "75 ml",
     "//": "Taken from duponts chemical reference sheets. 170GSM",
     "price": 3000,
     "price_postapoc": 50
@@ -523,8 +495,6 @@
     "type": "GENERIC",
     "name": { "str_sp": "patchwork synthetic fabric clothing parts" },
     "description": "A sheet of fabric, sewn together from synthetic fabric patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
-    "weight": "46 g",
-    "volume": "93 ml",
     "//": ".5mm thick, 250gsm",
     "price": 1000,
     "price_postapoc": 50
@@ -544,6 +514,7 @@
     "flags": [ "NO_SALVAGE" ],
     "volume": "200 ml",
     "weight": "1 g",
+    "//": "30 meters of thread per 1g, roughly 6 inches of thread per unit.",
     "ammo_type": "thread",
     "count": 50,
     "stack_size": 200
@@ -563,6 +534,7 @@
     "flags": [ "NO_SALVAGE" ],
     "volume": "200 ml",
     "weight": "1 g",
+    "//": "30 meters of thread per 1g, roughly 6 inches of thread per unit.",
     "ammo_type": "thread",
     "count": 50,
     "stack_size": 200
