@@ -1101,6 +1101,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_minifridge",
+    "name": "Place Minifridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_minifreezer",
+    "name": "Place Minifreezer"
+  },
+  {
+    "type": "construction_group",
     "id": "place_oven",
     "name": "Place Oven"
   },
