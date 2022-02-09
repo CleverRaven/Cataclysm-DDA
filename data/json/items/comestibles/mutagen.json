@@ -575,7 +575,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "snail mutagen" },
     "description": "A mutagen that looks awfully like the slime from an old children's network.",
-    "vitamins": [ [ "mutagen_snail", 175 ], [ "mutagen", 125 ] ]
+    "vitamins": [ [ "mutagen_gastropod", 175 ], [ "mutagen", 125 ] ]
   },
   {
     "id": "mutagen_troglobite",

@@ -3538,7 +3538,7 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string 
 void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
         const std::string &member, bool is_npc )
 {
-    const std::vector<std::pair<effect_on_condition_id, std::function<int( const dialogue & )>>> &eoc_pairs;
+    std::vector<std::pair<effect_on_condition_id, std::function<int( const dialogue & )>>> eoc_pairs;
     for( JsonArray ja : jo.get_array( member ) ) {
         JsonValue eoc = ja.next_value();
         JsonObject weight = ja.next_object();
@@ -3547,7 +3547,7 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
     }
     function = [eoc_pairs, is_npc]( const dialogue & d ) {
         weighted_int_list<effect_on_condition_id> eocs;
-        for( std::pair<effect_on_condition_id, std::function<int( const dialogue & )>> eoc_pair :
+        for( const std::pair<effect_on_condition_id, std::function<int( const dialogue & )>> eoc_pair :
              eoc_pairs ) {
             eocs.add( eoc_pair.first, eoc_pair.second( d ) );
         }

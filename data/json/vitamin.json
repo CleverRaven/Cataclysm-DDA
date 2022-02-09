@@ -291,11 +291,11 @@
     "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
   },
   {
-    "id": "mutagen_snail",
+    "id": "mutagen_gastropod",
     "type": "vitamin",
     "vit_type": "counter",
     "name": { "str": "Snail Mutagen" },
-    "excess": "mutagen_snail",
+    "excess": "mutagen_gastropod",
     "min": 0,
     "max": 2500,
     "rate": "1 h",
