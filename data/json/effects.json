@@ -747,7 +747,7 @@
   {
     "type": "effect_type",
     "id": "mutagen",
-    "name": [ "Mutagen", "High Mutagen", "Mutagen Overdose" ],
+    "name": [ "Changing", "Warping", "Mutagen Overdose" ],
     "desc": [
       "You consumed mutagen.  It was probably a good idea.",
       "You can feel your insides shifting.  It feels… nice.",
@@ -755,14 +755,15 @@
     ],
     "main_parts_only": true,
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 125 ] },
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 30 ] },
     "scaling_mods": { "hurt_chance": [ 21 ] },
+    "rating": "bad",
     "blood_analysis_description": "Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_alpha",
-    "name": [ "Alpha Mutagen", "High Alpha Mutagen", "Alpha Mutagen Overdose" ],
+    "name": [ "Alpha Mutation", "Alpha Transformation", "Alpha Metamorphosis" ],
     "desc": [
       "You consumed alpha mutagen.",
       "You feel better.  So much better.",
@@ -771,335 +772,635 @@
     "main_parts_only": true,
     "max_intensity": 3,
     "base_mods": {
-      "str_mod": [ 0.4 ],
-      "per_mod": [ 0.4 ],
-      "dex_mod": [ 0.4 ],
-      "int_mod": [ 0.4 ],
-      "vomit_chance": [ 1100 ],
+      "vomit_chance": [ 1150 ],
       "vomit_tick": [ 120 ],
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
-      "hurt_chance": [ -22 ],
-      "hurt_tick": [ 60 ]
+      "hurt_chance": [ 20 ],
+      "hurt_tick": [ 160 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 20 ],
+      "pain_tick": [ 50 ]
     },
     "scaling_mods": {
-      "str_mod": [ 0.8 ],
-      "per_mod": [ 0.8 ],
-      "dex_mod": [ 0.8 ],
-      "int_mod": [ 0.8 ],
       "vomit_chance": [ -500 ],
-      "hurt_chance": [ 21 ]
+      "str_mod": [ 1 ],
+      "per_mod": [ 1 ],
+      "dex_mod": [ 1 ],
+      "int_mod": [ 1 ],
+      "hurt_tick": [ -60 ],
+      "pain_chance": [ -30 ]
     },
-    "blood_analysis_description": "Mutagen Contamination"
+    "rating": "bad",
+    "blood_analysis_description": "Alpha Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_batrachian",
-    "name": [ "Frog Mutagen", "High Frog Mutagen", "Frog Mutagen Overdose" ],
+    "name": [ "Frog Mutation", "Frog Transformation", "Frog Metamorphosis" ],
     "desc": [
       "You consumed frog mutagen.",
       "Now, to find a quiet pond and settle for the wait…",
       "You feel like you're about to croak… if you don't keel over first."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "vomit_chance": [ 900 ],
+      "vomit_tick": [ 90 ],
+      "thirst_min": [ 1 ],
+      "thirst_max": [ 2 ],
+      "thirst_tick": [ 1000 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "vomit_chance": [ -425 ],
+      "thirst_tick": [ -400 ],
+      "speed_mod": [ 3 ],
+      "per_mod": [ 1.5 ],
+      "hurt_chance": [ 21 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Frog Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_beast",
-    "name": [ "Beast Mutagen", "High Beast Mutagen", "Beast Mutagen Overdose" ],
+    "name": [ "Beast Mutation", "Beast Transformation", "Beast Metamorphosis" ],
     "desc": [
       "You consumed beast mutagen.",
       "There must be prey around.  Stay alert.",
       "Primal instincts overwhelm your mind, and your saliva has turned to froth."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hunger_min": [ 1 ],
+      "hunger_max": [ 2 ],
+      "hunger_tick": [ 500 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "hunger_tick": [ -200 ],
+      "str_mod": [ 1 ],
+      "per_mod": [ 1 ],
+      "dex_mod": [ 1 ],
+      "int_mod": [ -2.5 ],
+      "hurt_chance": [ 21 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Beast Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_bird",
-    "name": [ "Bird Mutagen", "High Bird Mutagen", "Bird Mutagen Overdose" ],
+    "name": [ "Bird Mutation", "Bird Transformation", "Bird Metamorphosis" ],
     "desc": [
       "You consumed bird mutagen.",
       "You feel the pull of the skies.",
       "Goosebumps stand across your entire body.  You keep feeling that you're falling."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "str_mod": [ -2 ], "per_mod": [ 1.5 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Bird Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_cattle",
-    "name": [ "Cattle Mutagen", "High Cattle Mutagen", "Cattle Mutagen Overdose" ],
+    "name": [ "Cattle Mutation", "Cattle Transformation", "Cattle Metamorphosis" ],
     "desc": [
       "You consumed cattle mutagen.",
       "This pasture will grow barren soon.  Keep moving.",
       "Dull fog clouds your mind, and you feel close to vomiting."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "vomit_chance": [ 1200 ],
+      "vomit_tick": [ 90 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "vomit_chance": [ -450 ],
+      "str_mod": [ 2.5 ],
+      "dex_mod": [ -1 ],
+      "int_mod": [ -1.5 ],
+      "hurt_chance": [ 21 ],
+      "pain_chance": [ -5 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Cattle Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_cephalopod",
-    "name": [ "Cephalopod Mutagen", "High Cephalopod Mutagen", "Cephalopod Mutagen Overdose" ],
+    "name": [ "Cephalopod Mutation", "Cephalopod Transformation", "Cephalopod Metamorphosis" ],
     "desc": [
       "You consumed cephalopod mutagen.",
       "Become one with your surroundings.",
       "Your skin crawls and your extremities twitch and jerk."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "thirst_min": [ 1 ],
+      "thirst_max": [ 2 ],
+      "thirst_tick": [ 1000 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 40 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "thirst_tick": [ -400 ], "int_mod": [ 2.5 ], "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Cephalopod Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_chimera",
-    "name": [ "Chimera Mutagen", "High Chimera Mutagen", "Chimera Mutagen Overdose" ],
+    "name": [ "Chimera Mutation", "Chimera Transformation", "Chimera Metamorphosis" ],
     "desc": [
       "You consumed chimera mutagen.  Why?",
       "Your flesh is the clay of the new world.  You'll overcome all challenges.",
       "Your body heaving and changing is a rough time, but what doesn't kill you makes you stronger."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hunger_min": [ 1 ],
+      "hunger_max": [ 2 ],
+      "hunger_tick": [ 300 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hunger_tick": [ -120 ], "str_mod": [ 2.5 ], "int_mod": [ -2 ], "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Chimera Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_elfa",
-    "name": [ "Elf-A Mutagen", "High Elf-A Mutagen", "Elf-A Mutagen Overdose" ],
+    "name": [ "Elf-A Mutation", "Elf-A Transformation", "Elf-A Metamorphosis" ],
     "desc": [
       "You consumed elf-a mutagen.",
       "You must look after this world, if noone else will.",
       "You see stars.  You see so many stars."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 20 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 50 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "per_mod": [ 2.5 ], "int_mod": [ 1 ], "hurt_chance": [ 21 ], "pain_chance": [ -15 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Elf-A Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_feline",
-    "name": [ "Feline Mutagen", "High Feline Mutagen", "Feline Mutagen Overdose" ],
+    "name": [ "Feline Mutation", "Feline Transformation", "Feline Metamorphosis" ],
     "desc": [
       "You consumed feline mutagen.",
       "Quiet steps and sharp claws.  They'll never see it coming.",
       "If this overdose kills you, you've got a few more lives… right?"
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -0.5 ],
+      "per_mod": [ 1 ],
+      "dex_mod": [ 1 ],
+      "int_mod": [ -1.5 ],
+      "hurt_chance": [ 21 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Feline Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_fish",
-    "name": [ "Fish Mutagen", "High Fish Mutagen", "Fish Mutagen Overdose" ],
+    "name": [ "Fish Mutation", "Fish Transformation", "Fish Metamorphosis" ],
     "desc": [
       "You consumed fish mutagen.",
       "The waters call to you.  Leave this exposed wasteland.",
       "You feel clammy yet dry, absolutely parched no matter how much you drink."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "thirst_min": [ 1 ],
+      "thirst_max": [ 2 ],
+      "thirst_tick": [ 900 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "thirst_tick": [ -400 ], "per_mod": [ 1 ], "dex_mod": [ 1.5 ], "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Fish Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_insect",
-    "name": [ "Insect Mutagen", "High Insect Mutagen", "Insect Mutagen Overdose" ],
+    "name": [ "Insect Mutation", "Insect Transformation", "Insect Metamorphosis" ],
     "desc": [
       "You consumed insect mutagen.",
       "You can't wait for your change.  It can't be long now.",
       "You can't stop shivering and twitching.  Life is so short."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "vomit_chance": [ 900 ],
+      "vomit_tick": [ 90 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "vomit_chance": [ -420 ],
+      "speed_mod": [ 1.5 ],
+      "per_mod": [ 0.5 ],
+      "dex_mod": [ 1.5 ],
+      "int_mod": [ -1.5 ],
+      "hurt_chance": [ 21 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Insect Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_lizard",
-    "name": [ "Lizard Mutagen", "High Lizard Mutagen", "Lizard Mutagen Overdose" ],
+    "name": [ "Lizard Mutation", "Lizard Transformation", "Lizard Metamorphosis" ],
     "desc": [
       "You consumed lizard mutagen.",
       "Your skin feels dry and too small.  You'll have to molt soon.",
       "Your limbs slump, almost ready to tear right out of their sockets."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 50 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 125 ]
+    },
+    "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -1.5 ], "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Lizard Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_lupine",
-    "name": [ "Lupine Mutagen", "High Lupine Mutagen", "Lupine Mutagen Overdose" ],
+    "name": [ "Lupine Mutation", "Lupine Transformation", "Lupine Metamorphosis" ],
     "desc": [
       "You consumed lupine mutagen.",
       "Where's your pack?  How will you survive without them?",
       "You pant, unable to stop pacing and full of hunger."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hunger_min": [ 10 ],
+      "hunger_max": [ 20 ],
+      "hunger_tick": [ 500 ],
+      "hunger_chance": [ 6 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "hunger_tick": [ -175 ],
+      "str_mod": [ 1.5 ],
+      "per_mod": [ 1.5 ],
+      "int_mod": [ -2 ],
+      "speed_mod": [ 2.5 ],
+      "hurt_chance": [ 21 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Lupine Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_medical",
-    "name": [ "Medical Mutagen", "High Medical Mutagen", "Medical Mutagen Overdose" ],
+    "name": [ "Medical Mutation", "Medical Transformation", "Medical Metamorphosis" ],
     "desc": [
       "You consumed medical mutagen.",
       "You consumed medical mutagen.  You should do that again.",
       "You're tearing yourself apart.  Need to get fixed back up.  Should put some stitches in you."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 40 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "str_mod": [ 2 ], "dex_mod": [ 2 ], "int_mod": [ -2.5 ], "hurt_chance": [ 21 ], "pain_chance": [ -16 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Medical Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_mouse",
-    "name": [ "Mouse Mutagen", "High Mouse Mutagen", "Mouse Mutagen Overdose" ],
+    "name": [ "Mouse Mutation", "Mouse Transformation", "Mouse Metamorphosis" ],
     "desc": [
       "You consumed mouse mutagen.",
       "Your heart pounds, knowing that predators could approach at any second!",
       "Your heart hammers away with a rapid, irregular beat."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "speed_mod": [ 1 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "str_mod": [ -1.5 ], "dex_mod": [ 1 ], "speed_mod": [ 6.5 ], "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Mouse Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_plant",
-    "name": [ "Plant Mutagen", "High Plant Mutagen", "Plant Mutagen Overdose" ],
+    "name": [ "Plant Mutation", "Plant Transformation", "Plant Metamorphosis" ],
     "desc": [
       "You consumed plant mutagen.",
       "All this running… why don't you just find a nice, fertile spot and bask in the sun.",
       "Your processes are slowing.  You would make great fertilizer."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 120 ] },
+    "scaling_mods": { "str_mod": [ 1.5 ], "dex_mod": [ 1.5 ], "int_mod": [ -1 ], "speed_mod": [ -7.5 ], "hurt_chance": [ 21 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Plant Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_raptor",
-    "name": [ "Raptor Mutagen", "High Raptor Mutagen", "Raptor Mutagen Overdose" ],
+    "name": [ "Raptor Mutation", "Raptor Transformation", "Raptor Metamorphosis" ],
     "desc": [
       "You consumed raptor mutagen.",
       "Sharpen your talons and clean your feathers.  Your prey won't give itself easily.",
       "Delusions fill your head… is it true?  Did you die long ago?"
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hunger_min": [ 5 ],
+      "hunger_max": [ 15 ],
+      "hunger_tick": [ 500 ],
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 50 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "hunger_tick": [ -200 ],
+      "per_mod": [ 1 ],
+      "dex_mod": [ 1.5 ],
+      "int_mod": [ -3 ],
+      "speed_mod": [ 7.5 ],
+      "hurt_chance": [ 21 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Raptor Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_rabbit",
-    "name": [ "Rabbit Mutagen", "High Rabbit Mutagen", "Rabbit Mutagen Overdose" ],
+    "name": [ "Rabbit Mutation", "Rabbit Transformation", "Rabbit Metamorphosis" ],
     "desc": [
       "You consumed rabbit mutagen.",
       "So much to do!  Better hop to it!",
       "Will you have a future?  Will any new generations be born… your pounding head is full of worry."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 60 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -1.5 ],
+      "dex_mod": [ 2.5 ],
+      "int_mod": [ -1 ],
+      "speed_mod": [ 3.5 ],
+      "hurt_chance": [ 21 ],
+      "pain_chance": [ -15 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Rabbit Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_rat",
-    "name": [ "Rat Mutagen", "High Rat Mutagen", "Rat Mutagen Overdose" ],
+    "name": [ "Rat Mutation", "Rat Transformation", "Rat Metamorphosis" ],
     "desc": [
       "You consumed rat mutagen.",
       "This place is too open.  Hide!",
       "Dull aches fill your stomach, and every smell seems offensive."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -2 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Rat Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_slime",
-    "name": [ "Slime Mutagen", "High Slime Mutagen", "Slime Mutagen Overdose" ],
+    "name": [ "Slime Mutation", "Slime Transformation", "Slime Metamorphosis" ],
     "desc": [ "You consumed slime mutagen.", "Plop.", "Brain… melting…" ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 20 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 10 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -1.5 ],
+      "dex_mod": [ 1.5 ],
+      "int_mod": [ 2.5 ],
+      "speed_mod": [ -3.5 ],
+      "hurt_chance": [ 21 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Slime Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_snail",
-    "name": [ "Snail Mutagen", "High Snail Mutagen", "Snail Mutagen Overdose" ],
+    "name": [ "Snail Mutation", "Snail Transformation", "Snail Metamorphosis" ],
     "desc": [
       "You consumed snail mutagen.",
       "Slow and steady wins the race.",
-      "You itch terribly, and your tongue feels salty and dry."
+      "You itch terribly, and your mouth feels salty and dry."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 60 ] },
+    "scaling_mods": { "str_mod": [ 1.5 ], "speed_mod": [ -7.5 ], "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Snail Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_spider",
-    "name": [ "Spider Mutagen", "High Spider Mutagen", "Spider Mutagen Overdose" ],
+    "name": [ "Spider Mutation", "Spider Transformation", "Spider Metamorphosis" ],
     "desc": [
       "You consumed spider mutagen.",
       "An anchor line there and there, connect with capture threads…",
       "Perhaps you should curl up, just curl up and give in."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 1 ],
+      "pain_chance": [ 60 ],
+      "pain_tick": [ 100 ]
+    },
+    "scaling_mods": { "dex_mod": [ 1.5 ], "int_mod": [ -1 ], "speed_mod": [ 4 ], "hurt_chance": [ 21 ], "pain_chance": [ -25 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Spider Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_troglobite",
-    "name": [ "Troglobite Mutagen", "High Troglobite Mutagen", "Troglobite Mutagen Overdose" ],
+    "name": [ "Troglobite Mutation", "Troglobite Transformation", "Troglobite Metamorphosis" ],
     "desc": [
       "You consumed troglobite mutagen.",
       "Down in the dark corners of the new world.  That's where you belong.",
       "Deep and dark, your bones ache and twist."
     ],
     "max_intensity": 3,
-    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 75 ] },
-    "scaling_mods": { "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "base_mods": {
+      "hurt_min": [ 2 ],
+      "hurt_max": [ 3 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "str_mod": [ 2 ], "per_mod": [ -2.5 ], "dex_mod": [ 1 ], "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Troglobite Mutagen Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_ursine",
-    "name": [ "Ursine Mutagen", "High Ursine Mutagen", "Ursine Mutagen Overdose" ],
+    "name": [ "Ursine Mutation", "Ursine Transformation", "Ursine Metamorphosis" ],
     "desc": [
       "You consumed ursine mutagen.",
       "Berries, brood, honey, or meat?  What will today bring?",
@@ -1113,10 +1414,22 @@
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
       "hurt_chance": [ -22 ],
-      "hurt_tick": [ 75 ]
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
     },
-    "scaling_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ], "fatigue_chance": [ -500 ], "hurt_chance": [ 21 ] },
-    "blood_analysis_description": "Mutagen Contamination"
+    "scaling_mods": {
+      "str_mod": [ 2.5 ],
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "fatigue_chance": [ -500 ],
+      "hurt_chance": [ 21 ],
+      "pain_chance": [ -30 ]
+    },
+    "rating": "bad",
+    "blood_analysis_description": "Ursine Mutagen Contamination"
   },
   {
     "type": "effect_type",
