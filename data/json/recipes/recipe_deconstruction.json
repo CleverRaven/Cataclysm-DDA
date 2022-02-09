@@ -5831,10 +5831,10 @@
     "result": "sheet_kevlar",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "60 m",
+    "time": "10 m",
     "skill_used": "tailor",
     "difficulty": 3,
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "thread_kevlar", 10 ] ] ]
+    "components": [ [ [ "thread_kevlar", 2 ] ] ]
   }
 ]
