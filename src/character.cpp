@@ -6952,7 +6952,7 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
     weighted_int_list<mutation_category_id> weighted_output;
     const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
         mutation_category_trait::get_all();
-    for( auto elem : mutation_categories ) {
+    for( const auto &elem : mutation_categories ) {
         weighted_output.add( elem.first, vitamin_get( elem.second.vitamin ) );
     }
     return weighted_output;
