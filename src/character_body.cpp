@@ -43,6 +43,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_wet( "wet" );
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
@@ -102,6 +103,7 @@ void Character::update_body_wetness( const w_point &weather )
     for( const bodypart_id &bp : get_all_body_parts() ) {
         const int wetness = get_part_wetness( bp );
         if( wetness == 0 ) {
+            remove_effect( effect_wet, bp );
             continue;
         }
 
@@ -136,10 +138,11 @@ void Character::update_body_wetness( const w_point &weather )
             }
         }
 
-        const time_duration drying = average_drying * trait_mult * weather_mult * temp_mult * clothing_mult;
+        const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
+                                     temp_mult * clothing_mult;
         const double turns_to_dry = to_turns<double>( drying );
 
-        const int drench_cap = get_part_drench_capacity( bp );
+        const int drench_cap = bp->drying_chance;
         const double dry_per_turn = static_cast<double>( drench_cap ) / turns_to_dry;
         mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
 
@@ -156,6 +159,17 @@ void Character::update_body_wetness( const w_point &weather )
         }
         if( get_part_wetness( bp ) > get_part_drench_capacity( bp ) ) {
             set_part_wetness( bp, get_part_drench_capacity( bp ) );
+        }
+
+        // Add effects to track wetness
+        const int updatedWetness = get_part_wetness( bp );
+        const int wetnessCapacity = get_part_drench_capacity( bp );
+        if( updatedWetness < wetnessCapacity * .3 ) {
+            add_effect( effect_wet, 1_turns, bp, true, 1 );
+        } else if( updatedWetness < wetnessCapacity * .6 ) {
+            add_effect( effect_wet, 1_turns, bp, true, 2 );
+        } else if( updatedWetness < wetnessCapacity ) {
+            add_effect( effect_wet, 1_turns, bp, true, 3 );
         }
     }
 }

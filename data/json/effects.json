@@ -1509,9 +1509,17 @@
   },
   {
     "type": "effect_type",
+    "id": "wet",
+    "name": [ "Damp", "Wet", "Soaked" ],
+    "desc": [ "Your %s is covered in moisture.", "Your %s is wet.", "Your %s is soaked!" ],
+    "max_intensity": 3,
+    "part_descs": true
+  },
+  {
+    "type": "effect_type",
     "id": "hot",
     "name": [ "Warm", "Hot", "Scorching" ],
-    "desc": [ "Your %s feels warm and sweaty.", "Your %s is sweating a lot from the heat.", "Your %s is sweating profusely!" ],
+    "desc": [ "Your %s feels warm.", "Your %s is hot.", "Your %s is burning up!" ],
     "max_intensity": 3,
     "part_descs": true,
     "base_mods": {
