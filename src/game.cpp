@@ -9727,8 +9727,11 @@ point game::place_player( const tripoint &dest_loc )
         ( !u.in_vehicle && !m.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour ) ||
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
         if( u.is_mounted() ) {
-            add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
-            u.mounted_creature->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 10 ) );
+            const int sharp_damage = rng( 1, 10 );
+            if( u.mounted_creature->get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage ) {
+                add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
+                u.mounted_creature->apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
+            }
         } else {
             const bodypart_id bp = u.get_random_body_part();
             if( u.deal_damage( nullptr, bp, damage_instance( damage_type::CUT, rng( 1,
