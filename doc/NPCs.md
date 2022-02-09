@@ -958,6 +958,7 @@ Example | Description
 `"u_val": "pkill"` | Current painkiller level.
 `"u_val": "rad"` | Current radiation level.
 `"u_val": "focus"` | Current focus level.
+`"u_val": "activity_level"` | Current activity level index, from 0-5
 `"u_val": "fatigue"` | Current fatigue level.
 `"u_val": "stamina"` | Current stamina level.
 `"u_val": "sleep_deprivation"` | Current sleep deprivation level.
