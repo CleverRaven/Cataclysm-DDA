@@ -780,7 +780,7 @@
       "hurt_tick": [ 160 ],
       "pain_min": [ 1 ],
       "pain_max": [ 2 ],
-      "pain_chance": [ 20 ],
+      "pain_chance": [ 90 ],
       "pain_tick": [ 50 ]
     },
     "scaling_mods": {
