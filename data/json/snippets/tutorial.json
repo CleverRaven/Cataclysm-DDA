@@ -41,7 +41,7 @@
       },
       {
         "id": "LESSON_EXAMINE",
-        "text": "This is a display rack next to you, and there's also a steel spear lying on it.  You can press <keybind:wield> to directly wield an item, without the need of picking it up first.  Pressing <keybind:wield> will open <color_light_cyan>Wield item</color> menu.  Select the item you want to wield and confirm by pressing <color_yellow>Enter</color>.\nAs you have no free space in your inventory, to wield the spear, you have to drop the <color_light_cyan>bat</color> on the ground.\nIf you wish to free your hands (i.e. wield nothing), press <keybind:wield> and select your currently wielded item.  Alternatively, you could drop the wielded item by pressing <keybind:drop> and selecting your currently wielded item.\n\nTo continue the tutorial, please wield the spear and move to the counters west of you."
+        "text": "This is a display rack next to you, and there's also a steel spear lying on it.  You can press <keybind:wield> to directly wield an item, without the need of picking it up first.  Pressing <keybind:wield> will open <color_light_cyan>Wield item</color> menu.  Select the item you want to wield and confirm by pressing <keybind:CONFIRM>.\nAs you have no free space in your inventory, to wield the spear, you have to drop the <color_light_cyan>bat</color> on the ground.\nIf you wish to free your hands (i.e. wield nothing), press <keybind:wield> and select your currently wielded item.  Alternatively, you could drop the wielded item by pressing <keybind:drop> and selecting your currently wielded item.\n\nTo continue the tutorial, please wield the spear and move to the counters west of you."
       },
       {
         "id": "LESSON_INTERACT",
@@ -149,7 +149,7 @@
       },
       {
         "id": "LESSON_RECOIL",
-        "text": "Firing your gun will increase your recoil level.  You can see its level in the <color_light_cyan>Aiming and firing</color> menu (by pressing <color_yellow>'<keybind:fire>'</color>).  Generally speaking, the more damaging the ammo, the worse the recoil.  Recoil severely reduces your chance to hit, but you can eliminate recoil by pausing (<keybind:pause> (period)) for a turn.  High strength reduces recoil, so weak characters might want to stick to .22 or 9x19mm guns."
+        "text": "Firing your gun will increase your recoil level.  You can see its level in the <color_light_cyan>Aiming and firing</color> menu (by pressing <keybind:fire>).  Generally speaking, the more damaging the ammo, the worse the recoil.  Recoil severely reduces your chance to hit, but you can eliminate recoil by pausing (<keybind:pause>) for a turn.  High strength reduces recoil, so weak characters might want to stick to .22 or 9x19mm guns."
       },
       {
         "id": "LESSON_STAIRS",
@@ -181,7 +181,7 @@
       },
       {
         "id": "LESSON_REACH_ATTACK",
-        "text": "There is another <color_light_cyan>dummy</color> standing behind the counters.  Most melee weapons require standing strictly adjacent to your target so you can hit it.  Fortunately, some long weapons such as spears are able to commit reach attack with range 2 or 3, so if you have one, you don't need to climb on the counters to stand closely to the dummy.  <color_light_cyan>Steel spear</color> has range 2, so you can hit the dummy right over the counters.  To use the reach attack, press the <keybind:fire> key.  Once you select your target, press <color_yellow>Enter</color> to confirm.\n\nAfter you've dealt with the dummy, please move to the corridor to the south."
+        "text": "There is another <color_light_cyan>dummy</color> standing behind the counters.  Most melee weapons require standing strictly adjacent to your target so you can hit it.  Fortunately, some long weapons such as spears are able to commit reach attack with range 2 or 3, so if you have one, you don't need to climb on the counters to stand closely to the dummy.  <color_light_cyan>Steel spear</color> has range 2, so you can hit the dummy right over the counters.  To use the reach attack, press the <keybind:fire> key.  Once you select your target, press <keybind:CONFIRM> to confirm.\n\nAfter you've dealt with the dummy, please move to the corridor to the south."
       },
       {
         "id": "LESSON_HOLSTERS_WEAR",
@@ -205,11 +205,11 @@
       },
       {
         "id": "LESSON_CRAFTING_FOOD",
-        "text": "Looks like you're hungry!  The hunger status is indicated on the sidebar.  Let's make a <color_light_cyan>peanut butter sandwich</color> from <color_light_cyan>peanut butter</color> and <color_light_cyan>crackers</color> on the counter next to the wall.\nTo make food you need to use the <color_light_cyan>Crafting menu</color>.  Press <keybind:craft> (ampersand) to open the menu.  Press <keybind:NEXT_TAB> and <keybind:PREV_TAB> to toggle crafting categories and select <color_light_cyan>FOOD</color> category.  From there select peanut butter sandwich and press <keybind:CONFIRM> to start crafting.\nNote that you don't need to stand directly near the counter to be able to craft.  <color_light_cyan>Crafting radius</color> is 6 tiles, so while you're standing no farther than 6 tiles from crafting components and tools, your character is able to get them by himself.\n\nTo continue the tutorial, please craft the peanut butter sandwich and then eat it by pressing <keybind:eat>."
+        "text": "Looks like you're hungry!  The hunger status is indicated on the sidebar.  Let's make a <color_light_cyan>peanut butter sandwich</color> from <color_light_cyan>peanut butter</color> and <color_light_cyan>crackers</color> on the counter next to the wall.\nTo make food you need to use the <color_light_cyan>Crafting menu</color>.  Press <keybind:craft> to open the menu.  Press <keybind:NEXT_TAB> and <keybind:PREV_TAB> to toggle crafting categories and select <color_light_cyan>FOOD</color> category.  From there select peanut butter sandwich and press <keybind:CONFIRM> to start crafting.\nNote that you don't need to stand directly near the counter to be able to craft.  <color_light_cyan>Crafting radius</color> is 6 tiles, so while you're standing no farther than 6 tiles from crafting components and tools, your character is able to get them by himself.\n\nTo continue the tutorial, please craft the peanut butter sandwich and then eat it by pressing <keybind:eat>."
       },
       {
         "id": "LESSON_CONSTRUCTION",
-        "text": "In the next room you can find a <color_light_cyan>paint brush</color> and several cans of <color_light_cyan>paint</color>.  You can use them to paint the wall in the color you like.  To do this, open the <color_light_cyan>Construction menu</color> by pressing <keybind:construct> (asterisk) and toggling the categories with <color_yellow>arrow keys</color>.  Find the <color_light_cyan>Decorative</color> category and select one of the options to paint the wall.\n\nTo continue the tutorial, please paint some walls and move further south."
+        "text": "In the next room you can find a <color_light_cyan>paint brush</color> and several cans of <color_light_cyan>paint</color>.  You can use them to paint the wall in the color you like.  To do this, open the <color_light_cyan>Construction menu</color> by pressing <keybind:construct> and toggling the categories with <color_yellow>arrow keys</color>.  Find the <color_light_cyan>Decorative</color> category and select one of the options to paint the wall.\n\nTo continue the tutorial, please paint some walls and move further south."
       },
       {
         "id": "LESSON_THROWING",
