@@ -322,11 +322,9 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
-    if( critter.is_hallucination() ) {
+    if( critter.is_hallucination() && !is_avatar() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
-        // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
-        // the player will see them always.
-        return is_avatar();
+        return false;
     }
 
     if( !fov_3d && posz() != critter.posz() ) {
