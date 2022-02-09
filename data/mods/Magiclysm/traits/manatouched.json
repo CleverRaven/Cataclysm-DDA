@@ -11,7 +11,8 @@
     "iv_sound_id": "crackle",
     "iv_noise": 1,
     "iv_additional_mutations": 1,
-    "memorial_message": "Ascended to the metaphysical."
+    "memorial_message": "Ascended to the metaphysical.",
+    "vitamin": "mutagen_manatouched"
   },
   {
     "type": "mutation",

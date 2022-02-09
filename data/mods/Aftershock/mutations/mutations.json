@@ -23,7 +23,8 @@
     "//": "Should be out for two minutes.  Nightmare realm becomes home",
     "iv_sleep_dur": 20,
     "iv_sleep_message": "You gaze inside, past your fear, past good and evil, into the future.",
-    "memorial_message": "Prepared the way into the galaxy."
+    "memorial_message": "Prepared the way into the galaxy.",
+    "vitamin": "mutagen_migo"
   },
   {
     "type": "mutation_category",
@@ -32,7 +33,8 @@
     "threshold_mut": "THRESH_MASTODON",
     "mutagen_message": "You feel a desire to trumpet and toot.",
     "iv_message": "You heart races, and you glance around for poachers.",
-    "memorial_message": "Went extinct."
+    "memorial_message": "Went extinct.",
+    "vitamin": "mutagen_mastodon"
   },
   {
     "type": "mutation",

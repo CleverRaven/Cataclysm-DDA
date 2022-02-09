@@ -2268,7 +2268,7 @@
     "weight": "100 g",
     "color": "brown",
     "spoils_in": "2 days",
-    "use_action": { "type": "mutagen", "is_weak": true },
+    "vitamins": [ [ "mutagen", 60 ] ],
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "FOOD",
     "symbol": "%",
