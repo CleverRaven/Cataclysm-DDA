@@ -40,6 +40,8 @@
     "flags": [ "TRADER_AVOID", "FIRESTARTER" ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
+      [ "HAMMER", 3 ],
+      [ "HAMMER_FINE", 1 ],
       [ "SAW_W", 1 ],
       [ "SAW_M", 1 ],
       [ "SAW_M_FINE", 1 ],
