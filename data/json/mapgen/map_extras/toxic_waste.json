@@ -1,5 +1,27 @@
 [
   {
+    "id": "toxic_waste_mx",
+    "type": "item_group",
+    "items": [
+      { "item": "plut_slurry", "container-item": "55gal_drum", "charges-min": 2, "charges-max": 28, "prob": 5 },
+      { "item": "plut_slurry_dense", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 45, "prob": 2 },
+      { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 50 },
+      { "item": "fetid_goop", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 200, "prob": 20 },
+      { "item": "55gal_drum", "prob": 50 },
+      { "item": "canister_goo", "prob": 8 },
+      { "item": "slime_scrap", "prob": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TOXIC_WASTE",
+    "monsters": [
+      { "monster": "mon_sewer_rat", "weight": 600 },
+      { "monster": "mon_blob", "weight": 300 },
+      { "monster": "mon_zombie_hazmat", "weight": 100 }
+    ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_toxic_waste",
@@ -13,13 +35,13 @@
         "                        ",
         "                        ",
         "                        ",
-        "          - -           ",
+        "          -!-           ",
         "         ---~-          ",
         "        -~-~---         ",
         "        -~~~~~--        ",
-        "         -~~---         ",
+        "     !   -~~---         ",
         "        -~----          ",
-        "       ----  -          ",
+        "       ---- !-          ",
         "         -              ",
         "                        ",
         "                        ",
@@ -31,13 +53,9 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "~": [ "t_sewage" ],
-        "-": [ "t_sewage", "t_dirt" ]
-      },
-      "place_loot": [
-        { "group": "toxic_waste", "x": [ 11, 13 ], "y": [ 10, 12 ], "repeat": [ 1, 2 ] }
-      ]
+      "terrain": { "~": [ "t_sewage" ], "-": [ "t_sewage", "t_dirt" ] },
+      "monsters": { "!": { "monster": "GROUP_TOXIC_WASTE", "density": 0.01, "chance": 3 } },
+      "place_loot": [ { "group": "toxic_waste_mx", "x": [ 11, 13 ], "y": [ 10, 12 ], "repeat": [ 1, 2 ] } ]
     }
   }
 ]
