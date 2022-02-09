@@ -2217,6 +2217,7 @@ void mission_data::add( const std::string &id, const std::string &name_display,
     } else {
         miss.name_display = name_display;
     }
+    miss.dir = dir;
     miss.text = text;
     miss.priority = priority;
     miss.possible = possible;
