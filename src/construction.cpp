@@ -1234,11 +1234,7 @@ bool construct::check_no_wiring( const tripoint &p )
     }
 
     const vehicle &veh_target = vp->vehicle();
-    if( veh_target.has_tag( flag_WIRING ) ) {
-        return false;
-    }
-
-    return true;
+    return veh_target.has_tag( flag_WIRING );
 }
 
 void construct::done_trunk_plank( const tripoint &/*p*/ )
