@@ -109,7 +109,7 @@
     "id": "limb_fall_mod",
     "description": "Fall damage modifier",
     "mod_type": "x",
-    "value": { "builtin": "limb_fall_mod" }
+    "value": { "limb_score": [ "move_speed", "footing", "reaction" ], "limb_score_op": "x" }
   },
   {
     "type": "character_mod",
