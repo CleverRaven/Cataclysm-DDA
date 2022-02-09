@@ -3536,7 +3536,7 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string 
 }
 
 void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
-        const std::string &member, bool is_npc )
+        const std::string &member )
 {
     std::vector<std::pair<effect_on_condition_id, std::function<int( const dialogue & )>>> eoc_pairs;
     for( JsonArray ja : jo.get_array( member ) ) {
@@ -3545,15 +3545,24 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
         eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
                                 conditional_t< dialogue >::get_get_int( weight ) );
     }
-    function = [eoc_pairs, is_npc]( const dialogue & d ) {
+    function = [eoc_pairs]( const dialogue & d ) {
         weighted_int_list<effect_on_condition_id> eocs;
-        for( const std::pair<effect_on_condition_id, std::function<int( const dialogue & )>> eoc_pair :
+        for( const std::pair<effect_on_condition_id, std::function<int( const dialogue & )>> &eoc_pair :
              eoc_pairs ) {
             eocs.add( eoc_pair.first, eoc_pair.second( d ) );
         }
         effect_on_condition_id picked_eoc = *eocs.pick();
-        dialogue d2( get_talker_for( d.actor( is_npc )->get_character() ), nullptr );
-        picked_eoc->activate( d2 );
+        Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
+        item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
+        Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
+        item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
+        dialogue newDialog(
+            creature_alpha ? get_talker_for( creature_alpha ) : item_alpha ? get_talker_for(
+                item_alpha ) : nullptr,
+            creature_beta ? get_talker_for( creature_beta ) : item_beta ? get_talker_for(
+                item_beta ) : nullptr
+        );
+        picked_eoc->activate( newDialog );
     };
 }
 
@@ -4111,10 +4120,6 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_run_npc_eocs( jo, "npc_run_npc_eocs", true );
     } else if( jo.has_array( "weighted_list_eocs" ) ) {
         subeffect_fun.set_weighted_list_eocs( jo, "weighted_list_eocs" );
-    } else if( jo.has_array( "u_weighted_list_eocs" ) ) {
-        subeffect_fun.set_weighted_list_eocs( jo, "u_weighted_list_eocs" );
-    } else if( jo.has_array( "npc_weighted_list_eocs" ) ) {
-        subeffect_fun.set_weighted_list_eocs( jo, "npc_weighted_list_eocs", true );
     } else if( jo.has_member( "u_mod_healthy" ) ) {
         subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
     } else if( jo.has_member( "npc_mod_healthy" ) ) {

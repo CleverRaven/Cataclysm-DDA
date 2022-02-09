@@ -5004,6 +5004,7 @@
     "name": { "str": "Metallassomaiphile" },
     "//": "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",
     "points": -1,
+    "mixed_effect": true,
     "description": "Just thinking of mutagen (such a lovely word!  'Mutagen'.  Perfect!) makes you thirsty.  And you so love your new parts.  You simply must have more mutagen!",
     "threshreq": [ "THRESH_MEDICAL", "THRESH_CHIMERA" ],
     "category": [ "MEDICAL", "CHIMERA" ]
