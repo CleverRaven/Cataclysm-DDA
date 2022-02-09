@@ -786,11 +786,12 @@
       "pain_tick": [ 50 ]
     },
     "scaling_mods": {
-      "vomit_chance": [ -240 ],
+      "vomit_chance": [ -450 ],
       "str_mod": [ 1 ],
       "per_mod": [ 1 ],
       "dex_mod": [ 1 ],
       "int_mod": [ 1 ],
+      "hurt_chance": [ -240, -50 ],
       "hurt_tick": [ -60 ],
       "pain_chance": [ -30 ]
     },
