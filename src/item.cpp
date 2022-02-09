@@ -11477,8 +11477,22 @@ int item::processing_speed() const
     if( is_corpse() || is_comestible() ) {
         return to_turns<int>( 10_minutes );
     }
-    // Unless otherwise indicated, update every turn.
-    return 1;
+
+    if( is_container() ) {
+        int pocessing_speed = 10000;
+        for( const item *it : contents.all_items_top() ) {
+            pocessing_speed = std::min( pocessing_speed, it->processing_speed() );
+        }
+        return pocessing_speed;
+    }
+
+    if( active || ethereal || wetness || has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
+        // Unless otherwise indicated, update every turn.
+        return 1;
+    }
+
+    // This item doesn't actually need processing.
+    return 10000;
 }
 
 void item::apply_freezerburn()
