@@ -99,7 +99,6 @@ std::pair<std::string, nc_color> morale_emotion( const int morale_cur, const moo
 
 // Current movement mode and color, as single letter or full word
 std::pair<std::string, nc_color> move_mode_letter_color( const Character &u );
-std::pair<std::string, nc_color> move_mode_text_color( const Character &u );
 // Movement counter and mode letter, like "50(R)" or "100(W)"
 std::pair<std::string, nc_color> move_count_and_mode_text_color( const avatar &u );
 // Item type name (including damage bars) of outermost armor on given body part

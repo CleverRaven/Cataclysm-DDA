@@ -15,6 +15,7 @@ jobs:
     if: >
       ${{ github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.status == 'success' &&
       github.repository == 'CleverRaven/Cataclysm-DDA' }}
     steps:
       - name: "Install gettext tools"
@@ -22,6 +23,10 @@ jobs:
       - name: "Install Transifex CLI"
         run: |
           curl -sL https://github.com/transifex/cli/releases/download/v1.0.0/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
+      - name: "Install Python3"
+        run: |
+          sudo apt install python3-pip
+          sudo pip3 install polib
       - name: "Checkout"
         uses: actions/checkout@v2
       - name: "Generate translation template"
