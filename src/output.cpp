@@ -1846,7 +1846,7 @@ void replace_city_tag( std::string &input, const std::string &name )
     replace_substring( input, "<city>", name, true );
 }
 
-void replace_keybind_tag( std::string &input )
+void replace_keybind_tag( std::string &input, const input_context &ctxt )
 {
     std::string keybind_tag_start = "<keybind_";
     size_t keybind_length = keybind_tag_start.length();
