@@ -1846,7 +1846,7 @@ void replace_city_tag( std::string &input, const std::string &name )
     replace_substring( input, "<city>", name, true );
 }
 
-void replace_keybind_tag( std::string &input)
+void replace_keybind_tag( std::string &input )
 {
     std::string keybind_tag_start = "<keybind:";
     size_t keybind_length = keybind_tag_start.length();
@@ -1854,29 +1854,30 @@ void replace_keybind_tag( std::string &input)
 
     size_t pos = input.find( keybind_tag_start );
     while( pos != std::string::npos ) {
-        size_t pos_end = input.find(keybind_tag_end, pos);
-        if (pos_end == std::string::npos) {
-            debugmsg("Mismatched keybind tag in string: '%s'", input);
+        size_t pos_end = input.find( keybind_tag_end, pos );
+        if( pos_end == std::string::npos ) {
+            debugmsg( "Mismatched keybind tag in string: '%s'", input );
             break;
         }
         size_t pos_keybind = pos + keybind_length;
         std::string keybind_full = input.substr( pos_keybind, pos_end - pos_keybind );
         std::string keybind = keybind_full;
 
-        size_t pos_category_split = keybind_full.find(":");
+        size_t pos_category_split = keybind_full.find( ":" );
 
+
+        std::string category = "DEFAULTMODE";
+        if( pos_category_split != std::string::npos ) {
+            category = keybind_full.substr( 0, pos_category_split );
+            keybind = keybind_full.substr( pos_category_split + 1 );
+        }
+        input_context ctxt( category );
 
         std::string keybind_desc;
-        if (pos_category_split == std::string::npos) {
-            input_context ctxt( "DEFAULTMODE" );
-            keybind_desc = ctxt.get_desc( keybind );
-        } else {
-            std::string category = keybind_full.substr(0, pos_category_split);
-            keybind = keybind_full.substr(pos_category_split + 1);
-
-            input_context ctxt(category);
-            keybind_desc = ctxt.get_desc( keybind );
-        }
+        std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false );
+        keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
+            return colorize( '\'' + k.long_description() + '\'', c_yellow );
+        }, enumeration_conjunction::or_ );
 
         std::string to_replace = keybind_tag_start + keybind_full + keybind_tag_end;
         replace_substring( input, to_replace, keybind_desc, true );
