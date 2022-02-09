@@ -1009,9 +1009,14 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
                 cat_list.add_or_replace( cat, 0 );
             } else {
                 // every option we have vitamins for is invalid
+                add_msg_if_player( m_bad,
+                                   _( "Your body tries to shift, tries to change, but only contorts for a moment.  You crave a more exotic mutagen." ) );
                 return;
             }
         } else {
+            if( mut_vit != vitamin_id::NULL_ID() and vitamin_get( mut_vit ) >= 2200 ) {
+                test_crossing_threshold( cat );
+            }
             if( mutate_towards( random_entry( valid ), mut_vit ) ) {
             } else {
                 // if mutation failed (errors, post-threshold pick), try again once.
@@ -1692,6 +1697,77 @@ void Character::remove_child_flag( const trait_id &flag )
     }
 }
 
+void Character::test_crossing_threshold( const mutation_category_id &mutation_category )
+{
+    // Threshold-check.  You only get to cross once!
+    if( crossed_threshold() ) {
+        return;
+    }
+
+    const mutation_category_trait &m_category = mutation_category_trait::get_category(
+                mutation_category );
+
+    // If there is no threshold for this category, don't check it
+    const trait_id &mutation_thresh = m_category.threshold_mut;
+    if( mutation_thresh.is_empty() ) {
+        return;
+    }
+
+    int total = 0;
+    for( const auto &iter : mutation_category_trait::get_all() ) {
+        total += mutation_category_level[ iter.first ];
+    }
+    // Threshold-breaching
+    const mutation_category_id &primary = get_highest_category();
+    int breach_power = mutation_category_level[primary];
+    // Only if you were pushing for more in your primary category.
+    // You wanted to be more like it and less human.
+    // That said, you're required to have hit third-stage dreams first.
+    if( ( mutation_category == primary ) && ( breach_power > 50 ) ) {
+        // Little help for the categories that have a lot of crossover.
+        // Starting with Ursine as that's... a bear to get.  8-)
+        // Alpha is similarly eclipsed by other mutation categories.
+        // Will add others if there's serious/demonstrable need.
+        int booster = 0;
+        if( mutation_category == mutation_category_URSINE ||
+            mutation_category == mutation_category_ALPHA ) {
+            booster = 50;
+        }
+        int breacher = breach_power + booster;
+        if( x_in_y( breacher, total ) ) {
+            add_msg_if_player( m_good,
+                               _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
+            vitamin_mod( m_category.vitamin, -mutation_thresh.obj().vitamin_cost );
+            set_mutation( mutation_thresh );
+            get_event_bus().send<event_type::crosses_mutation_threshold>( getID(), m_category.id );
+            // Manually removing Carnivore, since it tends to creep in
+            // This is because carnivore is a prerequisite for the
+            // predator-style post-threshold mutations.
+            if( mutation_category == mutation_category_URSINE &&
+                has_trait( trait_CARNIVORE ) ) {
+                unset_mutation( trait_CARNIVORE );
+                add_msg_if_player( _( "Your appetite for blood fades." ) );
+            }
+        }
+    } else if( has_trait( trait_NOPAIN ) ) {
+        //~NOPAIN is a post-Threshold trait, so you shouldn't
+        //~legitimately have it and get here!
+        add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
+    } else if( breach_power > 100 ) {
+        add_msg_if_player( m_bad, _( "You stagger with a piercing headache!" ) );
+        mod_pain_noresist( 8 );
+        add_effect( effect_stunned, rng( 3_turns, 5_turns ) );
+    } else if( breach_power > 80 ) {
+        add_msg_if_player( m_bad,
+                           _( "Your head throbs with memories of your life, before all this…" ) );
+        mod_pain_noresist( 6 );
+        add_effect( effect_stunned, rng( 2_turns, 4_turns ) );
+    } else if( breach_power > 60 ) {
+        add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
+        add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
+    }
+}
+
 static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, bool strong )
 {
     if( guy.has_trait( trait_MUTAGEN_AVOID ) ) {
@@ -1785,74 +1861,6 @@ mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool stro
     }
 
     return mutagen_attempt( true, 0 );
-}
-
-void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category )
-{
-    // Threshold-check.  You only get to cross once!
-    if( guy.crossed_threshold() ) {
-        return;
-    }
-
-    // If there is no threshold for this category, don't check it
-    const trait_id &mutation_thresh = m_category.threshold_mut;
-    if( mutation_thresh.is_empty() ) {
-        return;
-    }
-
-    mutation_category_id mutation_category = m_category.id;
-    int total = 0;
-    for( const auto &iter : mutation_category_trait::get_all() ) {
-        total += guy.mutation_category_level[ iter.first ];
-    }
-    // Threshold-breaching
-    const mutation_category_id &primary = guy.get_highest_category();
-    int breach_power = guy.mutation_category_level[primary];
-    // Only if you were pushing for more in your primary category.
-    // You wanted to be more like it and less human.
-    // That said, you're required to have hit third-stage dreams first.
-    if( ( mutation_category == primary ) && ( breach_power > 50 ) ) {
-        // Little help for the categories that have a lot of crossover.
-        // Starting with Ursine as that's... a bear to get.  8-)
-        // Alpha is similarly eclipsed by other mutation categories.
-        // Will add others if there's serious/demonstrable need.
-        int booster = 0;
-        if( mutation_category == mutation_category_URSINE ||
-            mutation_category == mutation_category_ALPHA ) {
-            booster = 50;
-        }
-        int breacher = breach_power + booster;
-        if( x_in_y( breacher, total ) ) {
-            guy.add_msg_if_player( m_good,
-                                   _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
-            guy.set_mutation( mutation_thresh );
-            get_event_bus().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
-            // Manually removing Carnivore, since it tends to creep in
-            // This is because carnivore is a prerequisite for the
-            // predator-style post-threshold mutations.
-            if( mutation_category == mutation_category_URSINE &&
-                guy.has_trait( trait_CARNIVORE ) ) {
-                guy.unset_mutation( trait_CARNIVORE );
-                guy.add_msg_if_player( _( "Your appetite for blood fades." ) );
-            }
-        }
-    } else if( guy.has_trait( trait_NOPAIN ) ) {
-        //~NOPAIN is a post-Threshold trait, so you shouldn't
-        //~legitimately have it and get here!
-        guy.add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
-    } else if( breach_power > 100 ) {
-        guy.add_msg_if_player( m_bad, _( "You stagger with a piercing headache!" ) );
-        guy.mod_pain_noresist( 8 );
-        guy.add_effect( effect_stunned, rng( 3_turns, 5_turns ) );
-    } else if( breach_power > 80 ) {
-        guy.add_msg_if_player( m_bad,
-                               _( "Your head throbs with memories of your life, before all this…" ) );
-        guy.mod_pain_noresist( 6 );
-        guy.add_effect( effect_stunned, rng( 2_turns, 4_turns ) );
-    } else if( breach_power > 60 ) {
-        guy.add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
-        guy.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
-    }
 }
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )

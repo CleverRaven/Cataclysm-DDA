@@ -39,7 +39,7 @@
   {
     "type": "effect_on_condition",
     "id": "changing_reqs_not_met",
-    "condition": { "one_in_chance": 6 },
+    "condition": { "one_in_chance": 3 },
     "effect": [
       {
         "u_message": "You can palpably feel the churning sensation within fade, your mutation cut short by a lack of nutrients.",
@@ -53,8 +53,8 @@
     "type": "effect_on_condition",
     "id": "changing_mutate",
     "//": "Time for mutation!",
-    "recurrence_min": "2 h",
-    "recurrence_max": "4 h",
+    "recurrence_min": "1 h",
+    "recurrence_max": "6 h",
     "condition": { "and": [ { "u_has_flag": "CHANGING" } ] },
     "deactivate_condition": { "not": { "u_has_flag": "CHANGING" } },
     "effect": [

@@ -1330,6 +1330,8 @@ class Character : public Creature, public visitable
         bool has_child_flag( const trait_id &flag ) const;
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag( const trait_id &flag );
+        /** Try to cross The Threshold */
+        void test_crossing_threshold( const mutation_category_id &mutation_category );
         /** Recalculates mutation_category_level[] values for the player */
         void set_highest_cat_level();
         /** Returns a weighted list of mutation categories based on blood vitamin levels */

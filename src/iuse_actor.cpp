@@ -4368,9 +4368,6 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
         p.add_msg_if_player( m_category.iv_message() );
     }
 
-    // try to cross the threshold to be able to get post-threshold mutations this iv.
-    test_crossing_threshold( p, m_category );
-
     // TODO: Remove the "is_avatar" part, implement NPC screams
     if( p.is_avatar() && !p.has_trait( trait_NOPAIN ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
@@ -4411,9 +4408,6 @@ cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const t
         /** @EFFECT_INT reduces sleep duration when using IV mutagen */
         p.fall_asleep( time_duration::from_turns( m_category.iv_sleep_dur - p.int_cur * 5 ) );
     }
-
-    // try crossing again after getting new in-category mutations.
-    test_crossing_threshold( p, m_category );
 
     return it.type->charges_to_use();
 }
