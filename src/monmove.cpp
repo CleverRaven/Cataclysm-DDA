@@ -197,7 +197,8 @@ bool monster::will_move_to( const tripoint &p ) const
         if( attitude( &get_player_character() ) != MATT_ATTACK ) {
             // Sharp terrain is ignored while attacking
             if( avoid_simple && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
-                !( type->size == creature_size::tiny || flies() ) ) {
+                !( type->size == creature_size::tiny || flies() ||
+                   get_armor_cut( bodypart_id( "torso" ) ) >= 10 ) ) {
                 return false;
             }
         }
