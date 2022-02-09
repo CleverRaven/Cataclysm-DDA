@@ -624,6 +624,8 @@ Effect | Description
 
 Effect | Description
 ---|---
+`u_mutate`, `npc_mutate`: `chance_int`, *optional* `use_vitamins: vitamin_bool` | Your character or the NPC will attempt to mutate, with a one in `chance_int` chance of using the highest category, with 0 never using the highest category, requiring vitamins if `vitamin_bool` is true(defaults true)
+`u_mutate_category`, `npc_mutate_category`: `category_str`, *optional* `use_vitamins: vitamin_bool` | Your character or the NPC will attempt to mutate in the category `category_str`, requiring vitamins if `vitamin_bool` is true(defaults true)
 `u_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`, `duration_variable_object`),(*optional* `target_part: target_part_string`, `intensity: intensity_int`)<br/>`npc_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`, `duration_variable_object`), (*optional* `target_part: target_part_string`, `force: force_bool`, `intensity: intensity_int or intensity_variable_object`) | Your character or the NPC will gain the effect for `duration_string` or the value of the variable described by `duration_object` see `variable_object` above, turns at intensity `intensity_int` (or the value of the variable described by `intensity_variable_object` see `variable_object` above) or 0 if it was not supplied. If `force_bool` is true(defaults false) immunity will be ignored. If `target_part` is supplied that part will get the effect otherwise its a whole body effect. If `target_part` is `RANDOM` a random body part will be used. If `duration_string` is `"PERMANENT"`, the effect will be added permanently.
 `u_add_bionic: bionic_string`<br/>`npc_add_bionic: bionic_string` | Your character or the NPC will gain the bionic.
 `u_lose_bionic: bionic_string`<br/>`npc_lose_bionic: bionic_string` | Your character or the NPC will lose the bionic.
@@ -733,17 +735,18 @@ Effect | Description
 `assign_mission: mission_type_id string` | Will assign mission `mission_type_id` to the player.
 `finish_mission: mission_type_id string`,(*optional* `success: success_bool` ), (*optional `step: step_int`)  | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed.
 `set_queue_effect_on_condition, u_set_queue_eoc or npc_set_queue_eoc : effect_on_condition_array`, (*optional* `time_in_future_min: time_in_future_min_int or string or variable_object`,`time_in_future_max: time_in_future_max_int or string or variable_object`, (*optional* `affect_nearby_npcs: affect_nearby_npcs_bool`),(*optional* `npcs_to_affect: npcs_to_affect_string_array`, (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: npc_range_int`) | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run between `time_in_future_min_int` and `time_in_future_max_int` seconds, or if they are strings the future values of them or if they are variable objects the variable they name. If these are zero (their default value) the eocs will happen instantly. If `affect_nearby_npcs`(defaults to false) is false then for instant activation eocs the current u and npc will be used. For future ones u will be the avatar and npc will be invalid. You cannot queue recurring eocs. If `affect_nearby_npcs` is true instead the eocs will be run on all nearby npcs matching the criteria.  If any names are listed in `npcs_to_affect` then only they will be affected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `set_queue_effect_on_condition` and `u_set_queue_eoc` u is the source for `npc_set_queue_eoc` it is the npc.
-`set_weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an integer weight.
+`set_weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.
 Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.
 ``` json
     "effect": [
       {
         "set_weighted_list_eocs": [
-          [ "EOC_SLEEP", 1 ],
+          [ "EOC_SLEEP", { "const": 1 } ],
           [ {
               "id": "eoc_test2",
               "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]
-            }, 10
+            },
+            { "const": 10 }
           ]
         ]
       }

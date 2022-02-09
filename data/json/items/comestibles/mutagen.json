@@ -410,7 +410,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "mutagen" },
     "addiction_potential": 6,
-    "vitamins": [ [ "mutagen", 250 ] ]
+    "vitamins": [ [ "mutagen", 325 ] ]
   },
   {
     "id": "mutagen_jabberblood",
