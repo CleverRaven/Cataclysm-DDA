@@ -14,25 +14,23 @@
     },
     "deactivate_condition": { "not": { "or": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "is_weather": "portal_storm" } ] } },
     "effect": {
-      "weighted_list_eocs": [
-        {
-          "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_ACCEPTANCE",
-          "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] },
-          "effect": {
-            "weighted_list_eocs": [
-              [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", { "const": 10 } ],
-              [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", { "const": 6 } ],
-              [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", { "const": 3 } ],
-              [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE", { "const": 1 } ]
-            ]
-          },
-          "false_effect": {
-            "weighted_list_eocs": [
-              [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", { "const": 10 } ],
-              [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", { "const": 5 } ],
-              [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", { "const": 2 } ]
-            ]
-          }
+      "run_eocs": {
+        "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_ACCEPTANCE",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] },
+        "effect": {
+          "weighted_list_eocs": [
+            [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", { "const": 10 } ],
+            [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", { "const": 6 } ],
+            [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", { "const": 3 } ],
+            [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE", { "const": 1 } ]
+          ]
+        },
+        "false_effect": {
+          "weighted_list_eocs": [
+            [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", { "const": 10 } ],
+            [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", { "const": 5 } ],
+            [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", { "const": 2 } ]
+          ]
         }
       }
     }
@@ -169,35 +167,33 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PORTAL_DEPENDENT" } }, { "is_weather": "portal_storm" } ] },
     "effect": {
-      "weighted_list_eocs": [
-        {
-          "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_REJECTION",
-          "condition": { "not": { "u_has_trait": "REALITY_GRASP" } },
-          "effect": {
-            "weighted_list_eocs": [
-              [ "EOC_PORTAL_DEPENDENT_MESSAGES_BAD", { "const": 18 } ],
-              [ "EOC_PORTAL_DEPENDENT_MORALE_BAD", { "const": 6 } ],
-              [ "EOC_PORTAL_DEPENDENT_FOCUS_BAD", { "const": 5 } ],
-              [ "EOC_PORTAL_DEPENDENT_SHAKES", { "const": 4 } ],
-              [ "EOC_PORTAL_DEPENDENT_NAUSEA", { "const": 4 } ],
-              [ "EOC_PORTAL_DEPENDENT_STUN", { "const": 3 } ],
-              [ "EOC_PORTAL_DEPENDENT_DOWNED", { "const": 3 } ],
-              [ "EOC_PORTAL_DEPENDENT_STATS_BAD", { "const": 3 } ],
-              [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 3 } ],
-              [ "EOC_PORTAL_DEPENDENT_PAIN", { "const": 2 } ],
-              [ "EOC_PORTAL_DEPENDENT_PAIN_CONSTANT", { "const": 1 } ],
-              [ "EOC_PORTAL_DEPENDENT_DAMAGE_CONSTANT", { "const": 1 } ]
-            ]
-          },
-          "false_effect": {
-            "weighted_list_eocs": [
-              [ "EOC_PORTAL_DEPENDENT_MESSAGES_BAD", { "const": 10 } ],
-              [ "EOC_PORTAL_DEPENDENT_MORALE_BAD", { "const": 3 } ],
-              [ "EOC_PORTAL_DEPENDENT_FOCUS_BAD", { "const": 2 } ],
-              [ "EOC_PORTAL_DEPENDENT_SHAKES", { "const": 1 } ],
-              [ "EOC_PORTAL_DEPENDENT_NAUSEA", { "const": 1 } ]
-            ]
-          }
+      "run_eocs": {
+        "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_REJECTION",
+        "condition": { "not": { "u_has_trait": "REALITY_GRASP" } },
+        "effect": {
+          "weighted_list_eocs": [
+            [ "EOC_PORTAL_DEPENDENT_MESSAGES_BAD", { "const": 18 } ],
+            [ "EOC_PORTAL_DEPENDENT_MORALE_BAD", { "const": 6 } ],
+            [ "EOC_PORTAL_DEPENDENT_FOCUS_BAD", { "const": 5 } ],
+            [ "EOC_PORTAL_DEPENDENT_SHAKES", { "const": 4 } ],
+            [ "EOC_PORTAL_DEPENDENT_NAUSEA", { "const": 4 } ],
+            [ "EOC_PORTAL_DEPENDENT_STUN", { "const": 3 } ],
+            [ "EOC_PORTAL_DEPENDENT_DOWNED", { "const": 3 } ],
+            [ "EOC_PORTAL_DEPENDENT_STATS_BAD", { "const": 3 } ],
+            [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 3 } ],
+            [ "EOC_PORTAL_DEPENDENT_PAIN", { "const": 2 } ],
+            [ "EOC_PORTAL_DEPENDENT_PAIN_CONSTANT", { "const": 1 } ],
+            [ "EOC_PORTAL_DEPENDENT_DAMAGE_CONSTANT", { "const": 1 } ]
+          ]
+        },
+        "false_effect": {
+          "weighted_list_eocs": [
+            [ "EOC_PORTAL_DEPENDENT_MESSAGES_BAD", { "const": 10 } ],
+            [ "EOC_PORTAL_DEPENDENT_MORALE_BAD", { "const": 3 } ],
+            [ "EOC_PORTAL_DEPENDENT_FOCUS_BAD", { "const": 2 } ],
+            [ "EOC_PORTAL_DEPENDENT_SHAKES", { "const": 1 } ],
+            [ "EOC_PORTAL_DEPENDENT_NAUSEA", { "const": 1 } ]
+          ]
         }
       }
     }
@@ -238,17 +234,15 @@
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
       {
-        "weighted_list_eocs": [
-          {
-            "id": "EOC_PORTAL_DEPENDENT_STATS_EFFECTS",
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_DEPENDENT_STR_BAD", { "const": 1 } ],
-                [ "EOC_PORTAL_DEPENDENT_DEX_BAD", { "const": 1 } ],
-                [ "EOC_PORTAL_DEPENDENT_PER_BAD", { "const": 1 } ],
-                [ "EOC_PORTAL_DEPENDENT_INT_BAD", { "const": 1 } ]
-              ]
-            }
+        "run_eocs": {
+          "id": "EOC_PORTAL_DEPENDENT_STATS_EFFECTS",
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_DEPENDENT_STR_BAD", { "const": 1 } ],
+              [ "EOC_PORTAL_DEPENDENT_DEX_BAD", { "const": 1 } ],
+              [ "EOC_PORTAL_DEPENDENT_PER_BAD", { "const": 1 } ],
+              [ "EOC_PORTAL_DEPENDENT_INT_BAD", { "const": 1 } ]
+            ]
           }
         }
       }

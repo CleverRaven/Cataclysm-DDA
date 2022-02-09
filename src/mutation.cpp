@@ -894,6 +894,8 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
             cat = *cat_list.pick();
             cat_list.add_or_replace( cat, 0 );
         } else {
+            add_msg_if_player( m_bad,
+                               _( "Your body tries to shift, tries to change, but only contorts for a moment.  You crave a more exotic mutagen." ) );
             return;
         }
     }
