@@ -213,7 +213,6 @@
     "symbol": "B",
     "location": "structure",
     "color": "yellow",
-<<<<<<< HEAD
     "flags": [ "APPLIANCE" ],
     "description": "A medium battery to store electrical power in a static power grid.",
     "copy-from": "medium_storage_battery"
@@ -225,14 +224,6 @@
     "symbol": "B",
     "location": "structure",
     "color": "light_red",
-=======
-    "broken_symbol": "x",
-    "broken_color": "yellow",
-    "damage_modifier": 10,
-    "durability": 20,
-    "description": "A small battery to store electrical power in a static power grid.",
-    "item": "small_storage_battery",
->>>>>>> 8b98ee07aa (Use existing items for solar panel and small storage battery)
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "description": "A battery to store electrical power in a static power grid.",
     "copy-from": "storage_battery"
