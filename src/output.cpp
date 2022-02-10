@@ -1865,7 +1865,6 @@ void replace_keybind_tag( std::string &input )
 
         size_t pos_category_split = keybind_full.find( ':' );
 
-
         std::string category = "DEFAULTMODE";
         if( pos_category_split != std::string::npos ) {
             category = keybind_full.substr( 0, pos_category_split );
@@ -1875,7 +1874,7 @@ void replace_keybind_tag( std::string &input )
 
         std::string keybind_desc;
         std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
-        if( keys.size() == 0 ) { // Display description for unbound keys
+        if( keys.empty() ) { // Display description for unbound keys
             keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
 
             if( keybind == ctxt.get_action_name( keybind ) ) {
