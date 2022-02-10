@@ -25,6 +25,16 @@ using mat_burn_products = std::vector<std::pair<itype_id, float>>;
 using material_list = std::vector<material_type>;
 using material_id_list = std::vector<material_id>;
 
+// values for how breathable a material is
+enum class breathability_rating : int {
+    IMPERMEABLE = 0,
+    SOMEWHAT = 20,
+    BREATHABLE = 50,
+    MOISTURE_WICKING = 80,
+    SECOND_SKIN = 100,
+    last = 101
+};
+
 struct fuel_explosion_data {
     int explosion_chance_hot = 0;
     int explosion_chance_cold = 0;

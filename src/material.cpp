@@ -33,6 +33,27 @@ const material_type &string_id<material_type>::obj() const
     return material_data.obj( *this );
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<breathability_rating>( breathability_rating data )
+{
+    switch( data ) {
+        case breathability_rating::IMPERMEABLE:
+            return "IMPERMEABLE";
+        case breathability_rating::SOMEWHAT:
+            return "SOMEWHAT";
+        case breathability_rating::BREATHABLE:
+            return "BREATHABLE";
+        case breathability_rating::MOISTURE_WICKING:
+            return "MOISTURE_WICKING";
+        case breathability_rating::SECOND_SKIN:
+            return "SECOND_SKIN";
+    }
+    cata_fatal( "Invalid breathability" );
+}
+} // namespace io
+
 material_type::material_type() :
     id( material_id::NULL_ID() ),
     _bash_dmg_verb( to_translation( "damages" ) ),
@@ -70,7 +91,11 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
     optional( jsobj, was_loaded, "latent_heat", _latent_heat );
     optional( jsobj, was_loaded, "freezing_point", _freeze_point );
-    optional( jsobj, was_loaded, "breathability", _breathability );
+
+    // if the item has breathability read it in
+    breathability_rating breath_rating;
+    optional( jsobj, was_loaded, "breathability", breath_rating, breathability_rating::IMPERMEABLE );
+    _breathability = static_cast<int>( breath_rating );
 
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, itype_id::NULL_ID() );

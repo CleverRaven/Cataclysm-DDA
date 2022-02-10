@@ -711,9 +711,6 @@ std::string effect::disp_desc( bool reduced ) const
     val = get_avg_mod( "THIRST", reduced );
     values.emplace_back( get_percentage( "THIRST", val, reduced ), val, _( "thirst" ),
                          _( "quench" ) );
-    val = get_avg_mod( "PERSPIRATION", reduced );
-    values.emplace_back( desc_freq( get_percentage( "PERSPIRATION", val, reduced ), val,
-                                    _( "perspiration" ), _( "dryness" ) ) );
     val = get_avg_mod( "HUNGER", reduced );
     values.emplace_back( get_percentage( "HUNGER", val, reduced ), val, _( "hunger" ),
                          _( "sate" ) );
