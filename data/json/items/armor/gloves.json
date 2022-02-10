@@ -950,20 +950,18 @@
     "warmth": 15,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1 },
-            { "type": "low_steel", "covered_by_mat": 60, "thickness": 0.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "hand_l", "hand_r" ],
-          "coverage": 100,
-          "encumbrance": 10
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "low_steel", "covered_by_mat": 60, "thickness": 0.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   },
   {
     "id": "xl_lc_demi_gaunt",
@@ -991,20 +989,18 @@
     "warmth": 15,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1 },
-            { "type": "med_steel", "covered_by_mat": 60, "thickness": 0.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "hand_l", "hand_r" ],
-          "coverage": 100,
-          "encumbrance": 10
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "med_steel", "covered_by_mat": 60, "thickness": 0.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   },
   {
     "id": "xl_mc_demi_gaunt",
@@ -1032,20 +1028,18 @@
     "warmth": 15,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1 },
-            { "type": "high_steel", "covered_by_mat": 60, "thickness": 0.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "hand_l", "hand_r" ],
-          "coverage": 100,
-          "encumbrance": 10
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "high_steel", "covered_by_mat": 60, "thickness": 0.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   },
   {
     "id": "xl_hc_demi_gaunt",
@@ -1073,20 +1067,18 @@
     "warmth": 15,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1 },
-            { "type": "case_hardened_steel", "covered_by_mat": 60, "thickness": 0.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "hand_l", "hand_r" ],
-          "coverage": 100,
-          "encumbrance": 10
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "case_hardened_steel", "covered_by_mat": 60, "thickness": 0.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   },
   {
     "id": "xl_ch_demi_gaunt",
@@ -1114,20 +1106,18 @@
     "warmth": 15,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1 },
-            { "type": "tempered_steel", "covered_by_mat": 60, "thickness": 0.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "hand_l", "hand_r" ],
-          "coverage": 100,
-          "encumbrance": 10
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "tempered_steel", "covered_by_mat": 60, "thickness": 0.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   },
   {
     "id": "xl_qt_demi_gaunt",
@@ -1155,20 +1145,18 @@
     "warmth": 15,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
-            { "type": "low_steel", "covered_by_mat": 95, "thickness": 1 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
-          ],
-          "covers": [ "hand_l", "hand_r" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_lc_mitten_gaunt",
@@ -1196,20 +1184,18 @@
     "warmth": 15,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
-            { "type": "med_steel", "covered_by_mat": 95, "thickness": 1 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
-          ],
-          "covers": [ "hand_l", "hand_r" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_mc_mitten_gaunt",
@@ -1237,20 +1223,18 @@
     "warmth": 15,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
-            { "type": "high_steel", "covered_by_mat": 95, "thickness": 1 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
-          ],
-          "covers": [ "hand_l", "hand_r" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_hc_mitten_gaunt",
@@ -1278,20 +1262,18 @@
     "warmth": 15,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
-            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
-          ],
-          "covers": [ "hand_l", "hand_r" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_ch_mitten_gaunt",
@@ -1319,20 +1301,18 @@
     "warmth": 15,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
-            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
-          ],
-          "covers": [ "hand_l", "hand_r" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_qt_mitten_gaunt",
