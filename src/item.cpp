@@ -3417,15 +3417,12 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
                                get_base_env_resist( *this ) );
             printed_any = true;
         }
-        if( get_base_env_resist( *this ) >= 1 ) {
-            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Breathability: " ) ),
-                               breathability( bp ) );
-            printed_any = true;
-        }
         // if we haven't printed any armor data acknowlege that
         if( !printed_any ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Negligible Protection" ) ) );
         }
+        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Breathability: " ) ),
+                           breathability( bp ) );
         if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
             info.emplace_back( "ARMOR", string_format( "<bold>%s%s</bold>:", bp_desc,
                                _( "Protection when active" ) ) );
