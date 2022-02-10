@@ -72,7 +72,7 @@
     "description": "40mm high-explosive fragmentation antipersonnel ammunition for the RPG-7.",
     "material": [ "steel", "powder" ],
     "volume": "750 ml",
-    "longest_side": "60 cm",
+    "longest_side": "595 mm",
     "price_postapoc": 1500,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "1750 g",
