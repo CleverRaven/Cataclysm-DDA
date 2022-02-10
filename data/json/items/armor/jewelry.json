@@ -1106,7 +1106,7 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ],
+    "flags": [ "FANCY", "BELTED" ],
     "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
