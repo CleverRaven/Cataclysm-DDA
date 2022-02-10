@@ -2122,37 +2122,35 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_red",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "plastic", "covered_by_mat": 65, "thickness": 4.0 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.3 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": [ 20, 21 ]
-        },
-        {
-          "material": [
-            { "type": "plastic", "covered_by_mat": 45, "thickness": 4.0 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.3 }
-          ],
-          "covers": [ "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": [ 20, 20 ]
-        },
-        {
-          "material": [
-            { "type": "plastic", "covered_by_mat": 30, "thickness": 4.0 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.3 }
-          ],
-          "covers": [ "leg_l", "leg_r" ],
-          "coverage": 100,
-          "encumbrance": [ 20, 20 ]
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 65, "thickness": 4.0 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.3 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 20, 21 ]
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 45, "thickness": 4.0 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.3 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 20, 20 ]
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 30, "thickness": 4.0 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.3 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 20, 20 ]
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -2169,11 +2167,11 @@
         "moves": 120
       }
     ],
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 4.3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER", "POCKETS" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER", "POCKETS", "STURDY" ]
   },
   {
     "id": "mil_flight_suit",
