@@ -129,7 +129,7 @@ void Character::update_body_wetness( const w_point &weather )
         for( const item &i : worn ) {
             if( i.covers( bp ) ) {
                 const double item_coverage = static_cast<double>( i.get_coverage( bp ) ) / 100;
-                const double item_breathability = static_cast<double>( i.breathability() ) / 100;
+                const double item_breathability = static_cast<double>( i.breathability( bp ) ) / 100;
 
                 // breathability of naked skin + breathability of item
                 const double breathability = ( 1.0 - item_coverage ) + item_coverage * item_breathability;

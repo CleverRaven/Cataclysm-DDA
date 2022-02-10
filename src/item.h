@@ -1208,8 +1208,10 @@ class item : public visitable
         /**
          * Breathability is the ability of a fabric to allow moisture vapor to be transmitted through the material.
          * range 0 - 100 (no breathability - full breathability)
-         * @return average of item's materials
+         * takes as a value the body part to check
+         * @return armor data consolidated breathability
          */
+        int breathability( const bodypart_id &bp ) const;
         int breathability() const;
 
         /**
