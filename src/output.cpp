@@ -1877,6 +1877,10 @@ void replace_keybind_tag( std::string &input )
         std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
         if( keys.size() == 0 ) { // Display description for unbound keys
             keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
+
+            if( keybind == ctxt.get_action_name( keybind ) ) {
+                debugmsg( "Invalid/Missing <keybind>: '%s'", keybind_full );
+            }
         } else {
             keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
                 return colorize( '\'' + k.long_description() + '\'', c_yellow );

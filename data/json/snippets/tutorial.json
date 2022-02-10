@@ -197,7 +197,7 @@
       },
       {
         "id": "LESSON_FINALE",
-        "text": "Congratulations!  You have completed the tutorial.  Here some last-minute advice.\n\nYou can press <keybind:action_menu> to open the <color_light_cyan>Action menu</color>.  It provides a convenient way to access various actions.\n\nNot sure what keys you can press in a given menu?  Press the <keybind:HELP_KEYBINDINGS> to open the <color_light_cyan>Keybindings menu</color>.  It allows you to view the existing keybindings and modify them to your liking.  Sometimes there will be lesser used or convenience actions without a default keybinding, which you can also set.  \n\nYou can continue exploring the tutorial rooms, or you can exit the tutorial by pressing <keybind:save>.  This will save your game and exit to the main menu."
+        "text": "Congratulations!  You have completed the tutorial.  Here is some last-minute advice.\n\nYou can press <keybind:action_menu> to open the <color_light_cyan>Action menu</color>.  It provides a convenient way to access various actions.\n\nNot sure what keys you can press in a given menu?  Press the <keybind:HELP_KEYBINDINGS> to open the <color_light_cyan>Keybindings menu</color>.  It allows you to view the existing keybindings and modify them to your liking.  Sometimes there will be lesser used or convenience actions without a default keybinding, which you can also set.  \n\nYou can continue exploring the tutorial rooms, or you can exit the tutorial by pressing <keybind:save>.  This will save your game and exit to the main menu."
       }
     ]
   }
