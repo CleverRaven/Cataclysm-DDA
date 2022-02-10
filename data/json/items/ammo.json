@@ -178,7 +178,7 @@
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "weight": "1 g",
-	  "//": "50 weight thread - 50m per gram. Each unit is .25m or roughly 10 inches.",
+    "//": "50 weight thread - 50m per gram. Each unit is .25m or roughly 10 inches.",
     "ammo_type": "thread",
     "count": 50,
     "stack_size": 200

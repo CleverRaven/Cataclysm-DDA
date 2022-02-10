@@ -268,7 +268,7 @@
       { "id": "LEATHER_AWL", "level": 1 },
       { "id": "CUT_FINE", "level": 1 }
     ],
-    "components": [ [ [ "tanned_pelt", 1 ], ["sheet_fur_patchwork", 1 ] ], [ [ "filament", 7, "LIST" ] ] ]
+    "components": [ [ [ "tanned_pelt", 1 ], [ "sheet_fur_patchwork", 1 ] ], [ [ "filament", 7, "LIST" ] ] ]
   },
   {
     "id": "tailoring_fur_small",
@@ -336,7 +336,7 @@
     "type": "requirement",
     "//": "30g per unit. Crafting Nomex items, per 32 g of Nomex; 2 g + excessive weight of material is wasted, producing Nomex scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching.",
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_nomex", 1 ] ], [ [ "thread_nomex", 5 ], [ "thread_kevlar", 5] ] ]
+    "components": [ [ [ "sheet_nomex", 1 ] ], [ [ "thread_nomex", 5 ], [ "thread_kevlar", 5 ] ] ]
   },
   {
     "id": "tailoring_nomex_patchwork",
