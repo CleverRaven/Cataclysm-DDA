@@ -624,17 +624,18 @@ Widgets can use flags to specify special behaviors:
   "style": "text",
   "label": "My Widget",
   "var": "my_widget_var",
-  "flags": [ "W_LABEL_NONE", "W_DISABLED" ]
+  "flags": [ "W_LABEL_NONE", "W_DISABLED_BY_DEFAULT" ]
 }
 ```
 
 Here are some flags that can be included:
 
-| Flag id            | Description
-|---                 |---
-| `W_LABEL_NONE`     | Prevents the widget's label from being displayed in the sidebar
-| `W_DISABLED`       | Makes this widget disabled by default (only applies to top-level widgets/layouts)
-| `W_DYNAMIC_HEIGHT` | Allows certain multi-line widgets to dynamically adjust their height
+| Flag id                 | Description
+|---                      |---
+| `W_LABEL_NONE`          | Prevents the widget's label from being displayed in the sidebar
+| `W_DISABLED_BY_DEFAULT` | Makes this widget disabled by default (only applies to top-level widgets/layouts)
+| `W_DISABLED_WHEN_EMPTY` | Automatically hides this widget when the widget's text is empty
+| `W_DYNAMIC_HEIGHT`      | Allows certain multi-line widgets to dynamically adjust their height
 
 
 # Clauses and conditions
