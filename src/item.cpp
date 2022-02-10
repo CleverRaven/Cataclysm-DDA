@@ -2329,7 +2329,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( food_item->has_flag( flag_CANNIBALISM ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
-        if( !player_character.has_trait_flag( json_flag_CANNIBAL ) ) {
+        if( !player_character.has_flag( json_flag_CANNIBAL ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This food contains <bad>human flesh</bad>." ) );
         } else {
@@ -3005,6 +3005,11 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( mod.handling != 0 && parts->test( iteminfo_parts::GUNMOD_HANDLING ) ) {
         info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
                            iteminfo::show_plus, mod.handling );
+    }
+    if( mod.loudness != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MODIFIER ) ) {
+        info.emplace_back( "GUNMOD", _( "Loudness modifier: " ), "",
+                           iteminfo::lower_is_better | iteminfo::show_plus,
+                           mod.loudness );
     }
     if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
         for( const ammotype &at : type->mod->ammo_modifier ) {
@@ -3844,7 +3849,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     if( typeId() == itype_rad_badge && parts->test( iteminfo_parts::DESCRIPTION_IRRADIATION ) ) {
         info.emplace_back( "DESCRIPTION",
                            string_format( _( "* The film strip on the badge is %s." ),
-                                          display::rad_badge_color_name( irradiation ) ) );
+                                          rad_badge_color( irradiation ).first ) );
     }
 }
 
@@ -9324,10 +9329,13 @@ ret_val<bool> item::is_compatible( const item &it ) const
     return contents.is_compatible( it );
 }
 
-ret_val<bool> item::can_contain( const item &it ) const
+ret_val<bool> item::can_contain( const item &it, const bool nested ) const
 {
     if( this == &it ) {
         // does the set of all sets contain itself?
+        return ret_val<bool>::make_failure();
+    }
+    if( nested && !this->is_container() ) {
         return ret_val<bool>::make_failure();
     }
     // disallow putting portable holes into bags of holding
@@ -9336,12 +9344,12 @@ ret_val<bool> item::can_contain( const item &it ) const
         return ret_val<bool>::make_failure();
     }
     for( const item *internal_it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( internal_it->contents.can_contain_rigid( it ).success() ) {
+        if( internal_it->can_contain( it, true ).success() ) {
             return ret_val<bool>::make_success();
         }
     }
 
-    return contents.can_contain( it );
+    return nested ? contents.can_contain_rigid( it ) : contents.can_contain( it );
 }
 
 bool item::can_contain( const itype &tp ) const
@@ -9359,10 +9367,10 @@ bool item::can_contain_partial( const item &it ) const
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
-        const item *avoid, const bool allow_sealed, const bool ignore_settings )
+        const item *avoid, const bool allow_sealed, const bool ignore_settings, const bool nested )
 {
     item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, avoid, allow_sealed, ignore_settings );
+    return contents.best_pocket( it, nested_location, avoid, allow_sealed, ignore_settings, nested );
 }
 
 bool item::spill_contents( Character &c )
@@ -12521,7 +12529,7 @@ bool item::is_soft() const
         return false;
     }
 
-    const std::map<material_id, int> mats = made_of();
+    const std::map<material_id, int> &mats = made_of();
     return std::all_of( mats.begin(), mats.end(), []( const std::pair<material_id, int> &mid ) {
         return mid.first->soft();
     } );

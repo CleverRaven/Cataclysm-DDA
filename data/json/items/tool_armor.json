@@ -1564,6 +1564,33 @@
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
+    "id": "mask_lsurvivorxl",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "XL light survivor mask" },
+    "description": "A custom-built, reinforced gas mask that covers the face and eyes regardless of your state of mutation.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
+    "weight": "766 g",
+    "volume": "1250 ml",
+    "price": 24000,
+    "price_postapoc": 1250,
+    "to_hit": -3,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "ammo": "gasfilter_m",
+    "use_action": [ "GASMASK" ],
+    "material": [ "kevlar_layered", "cotton" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 25 }
+    ],
+    "warmth": 15,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "environmental_protection_with_filter": 15,
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
+  },
+  {
     "id": "mask_survivor",
     "type": "TOOL_ARMOR",
     "category": "armor",
