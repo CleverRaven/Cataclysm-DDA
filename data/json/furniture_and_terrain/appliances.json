@@ -37,6 +37,20 @@
     "damage_reduction": { "all": 32 }
   },
   {
+    "type": "vehicle_part",
+    "id": "ap_minifridge",
+    "location": "structure",
+    "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "copy-from": "minifridge"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_minifreezer",
+    "location": "structure",
+    "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "copy-from": "minifreezer"
+  },
+  {
     "id": "ap_oven",
     "name": { "str": "oven" },
     "categories": [ "utility" ],
@@ -65,6 +79,15 @@
     ],
     "size": 200,
     "type": "vehicle_part"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_kiln",
+    "location": "structure",
+    "description": "An electric kiln for baking brick or clay.  When plugged in and powered you could use this to harden bricks or clay.  If you attempt to craft an item that needs a kiln, you will be given the option of selecting it as a tool.",
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
+    "item": "kiln",
+    "copy-from": "veh_kiln"
   },
   {
     "type": "vehicle_part",
@@ -124,6 +147,17 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ]
+  },
+  {
+    "id": "ap_standing_floodlight",
+    "type": "vehicle_part",
+    "name": { "str": "standing floodlight" },
+    "item": "standing_floodlight",
+    "location": "structure",
+    "description": "A very bright, circular light that illuminates the area around it when switched on.",
+    "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "folded_volume": "0 L",
+    "copy-from": "floodlight"
   },
   {
     "id": "ap_wall_wiring",

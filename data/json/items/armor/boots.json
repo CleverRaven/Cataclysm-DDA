@@ -1487,5 +1487,210 @@
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+  },
+  {
+    "id": "lc_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "mild steel sabaton" },
+    "description": "A leather boot with jointed plates for protection.",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "boots_steel",
+    "color": "light_gray",
+    "warmth": 0,
+    "sided": true,
+    "environmental_protection": 1,
+    "flags": [ "STURDY", "ONLY_ONE" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "low_steel", "covered_by_mat": 90, "thickness": 1.25 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "covers": [ "foot_l", "foot_l" ],
+          "coverage": 100,
+          "encumbrance": 20,
+          "layers": [ "OUTER" ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_lc_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel sabaton" },
+    "copy-from": "lc_sabaton",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "mc_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "medium steel sabaton" },
+    "description": "A leather boot with jointed plates for protection.",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "boots_steel",
+    "color": "light_gray",
+    "warmth": 0,
+    "sided": true,
+    "environmental_protection": 1,
+    "flags": [ "STURDY", "ONLY_ONE" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "med_steel", "covered_by_mat": 90, "thickness": 1.25 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "covers": [ "foot_l", "foot_l" ],
+          "coverage": 100,
+          "encumbrance": 20,
+          "layers": [ "OUTER" ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_mc_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel sabaton" },
+    "copy-from": "mc_sabaton",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "hc_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "high steel sabaton" },
+    "description": "A leather boot with jointed plates for protection.",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "boots_steel",
+    "color": "light_gray",
+    "warmth": 0,
+    "sided": true,
+    "environmental_protection": 1,
+    "flags": [ "STURDY", "ONLY_ONE" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "high_steel", "covered_by_mat": 90, "thickness": 1.25 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "covers": [ "foot_l", "foot_l" ],
+          "coverage": 100,
+          "encumbrance": 20,
+          "layers": [ "OUTER" ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_hc_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel sabaton" },
+    "copy-from": "hc_sabaton",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "ch_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "hardened steel sabaton" },
+    "description": "A leather boot with jointed plates for protection.",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "boots_steel",
+    "color": "light_gray",
+    "warmth": 0,
+    "sided": true,
+    "environmental_protection": 1,
+    "flags": [ "STURDY", "ONLY_ONE" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "case_hardened_steel", "covered_by_mat": 90, "thickness": 1.25 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "covers": [ "foot_l", "foot_l" ],
+          "coverage": 100,
+          "encumbrance": 20,
+          "layers": [ "OUTER" ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_ch_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened steel sabaton" },
+    "copy-from": "ch_sabaton",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "qt_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "tempered steel sabaton" },
+    "description": "A leather boot with jointed plates for protection.",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 40000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "boots_steel",
+    "color": "light_gray",
+    "warmth": 0,
+    "sided": true,
+    "environmental_protection": 1,
+    "flags": [ "STURDY", "ONLY_ONE" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "tempered_steel", "covered_by_mat": 90, "thickness": 1.25 },
+            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "covers": [ "foot_l", "foot_l" ],
+          "coverage": 100,
+          "encumbrance": 20,
+          "layers": [ "OUTER" ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "xl_qt_sabaton",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered steel sabaton" },
+    "copy-from": "qt_sabaton",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   }
 ]

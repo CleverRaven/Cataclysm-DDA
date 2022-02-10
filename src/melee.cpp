@@ -1146,7 +1146,7 @@ float Character::get_dodge() const
 
 float Character::dodge_roll() const
 {
-    if( has_trait_flag( json_flag_HARDTOHIT ) ) {
+    if( has_flag( json_flag_HARDTOHIT ) ) {
         // two chances at rng!
         return std::max( get_dodge(), get_dodge() ) * 5;
     }
