@@ -1151,6 +1151,21 @@
   },
   {
     "type": "construction_group",
+    "id": "place_medium_battery",
+    "name": "Place Medium Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_battery",
+    "name": "Place Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_large_battery",
+    "name": "Place Large Battery"
+  },
+  {
+    "type": "construction_group",
     "id": "place_standing_floodlight",
     "name": "Place Standing Floodlight"
   },

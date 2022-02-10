@@ -207,24 +207,48 @@
       { "item": "solar_cell", "count": [ 1, 4 ] }
     ]
   },
-    {
+  {
     "type": "vehicle_part",
     "id": "ap_battery_small",
     "name": { "str": "small grid battery" },
+    "symbol": "b",
+    "location": "structure",
+    "color": "white",
+    "flags": [ "APPLIANCE" ],
+    "description": "A small battery to store electrical power in a static power grid.",
+    "copy-from": "small_storage_battery"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_battery_medium",
+    "name": { "str": "medium grid battery" },
     "symbol": "B",
-    "categories": [ "energy" ],
     "location": "structure",
     "color": "yellow",
-    "broken_symbol": "x",
-    "broken_color": "yellow",
-    "damage_modifier": 10,
-    "durability": 20,
-    "description": "A small battery to store electrical power in a static power grid.",
-    "item": "small_storage_battery",
+    "flags": [ "APPLIANCE" ],
+    "description": "A medium battery to store electrical power in a static power grid.",
+    "copy-from": "medium_storage_battery"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_battery",
+    "name": { "str": "grid battery" },
+    "symbol": "B",
+    "location": "structure",
+    "color": "light_red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 0, 3 ] }
-    ]
+    "description": "A battery to store electrical power in a static power grid.",
+    "copy-from": "storage_battery"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_battery_large",
+    "name": { "str": "large grid battery" },
+    "symbol": "B",
+    "location": "structure",
+    "color": "red",
+    "flags": [  "OBSTACLE", "APPLIANCE" ],
+    "description": "A large battery to store electrical power in a static power grid.",
+    "copy-from": "large_storage_battery"
   }
 ]

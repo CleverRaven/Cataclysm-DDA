@@ -3167,9 +3167,42 @@
     "id": "app_battery_small",
     "group": "place_small_battery",
     "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "electronics", 1 ] ],
     "time": "6 m",
     "components": [ [ [ "small_storage_battery", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_battery_medium",
+    "group": "place_medium_battery",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "medium_storage_battery", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_large",
+    "group": "place_battery",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "storage_battery", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_battery_large",
+    "group": "place_large_battery",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "large_storage_battery", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
