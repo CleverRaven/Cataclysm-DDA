@@ -226,6 +226,31 @@
   },
   {
     "type": "furniture",
+    "id": "f_cardboard_box_large_reinforced",
+    "name": "reinforced large cardboard box",
+    "symbol": "X",
+    "description": "A large box made of a brown paper-based material that was doubled up for extra strength.  Could contain a number of things, or even be hidden inside.  Considering it only has two small flaps for carrying, it's very hard to see out of, and won't do anything to protect you if you're found.",
+    "color": "brown",
+    "move_cost_mod": 7,
+    "coverage": 90,
+    "comfort": 1,
+    "floor_bedding_warmth": 200,
+    "required_str": 3,
+    "deconstruct": { "items": [ { "item": "box_large_reinforced", "count": 1 } ] },
+    "max_volume": "324 L",
+    "deployed_item": "box_large",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
+    "bash": {
+      "str_min": 3,
+      "str_max": 16,
+      "sound": "crumple!",
+      "sound_fail": "thud.",
+      "items": [ { "item": "cardboard", "charges": [ 100, 200 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_dresser",
     "name": "dresser",
     "symbol": "{",

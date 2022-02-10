@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "anatomy.h"
 #include "bodypart.h"
 #include "bionics.h"
 #include "cached_options.h"
@@ -67,6 +68,8 @@
 #include "vpart_position.h"
 #include "weakpoint.h"
 #include "weighted_list.h"
+
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
@@ -1135,12 +1138,15 @@ float Character::get_dodge() const
     // Reaction score of limbs influences dodge chances
     ret *= get_limb_score( limb_score_reaction );
 
+    // Modify by how much bigger/smaller we got from our limbs
+    ret /= anatomy( get_all_body_parts() ).get_size_ratio( anatomy_human_anatomy );
+
     return std::max( 0.0f, ret );
 }
 
 float Character::dodge_roll() const
 {
-    if( has_trait_flag( json_flag_HARDTOHIT ) ) {
+    if( has_flag( json_flag_HARDTOHIT ) ) {
         // two chances at rng!
         return std::max( get_dodge(), get_dodge() ) * 5;
     }

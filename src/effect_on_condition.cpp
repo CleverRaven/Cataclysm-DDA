@@ -22,6 +22,7 @@ namespace io
         case eoc_type::SCENARIO_SPECIFIC: return "SCENARIO_SPECIFIC";
         case eoc_type::AVATAR_DEATH: return "AVATAR_DEATH";
         case eoc_type::NPC_DEATH: return "NPC_DEATH";
+        case eoc_type::OM_MOVE: return "OM_MOVE";
         case eoc_type::NUM_EOC_TYPES: break;
         }
         cata_fatal( "Invalid eoc_type" );
@@ -380,6 +381,17 @@ void effect_on_conditions::avatar_death()
                     player_character.get_killer() ) );
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
         if( eoc.type == eoc_type::AVATAR_DEATH ) {
+            eoc.activate( d );
+        }
+    }
+}
+
+void effect_on_conditions::om_move()
+{
+    avatar &player_character = get_avatar();
+    dialogue d( get_talker_for( player_character ), nullptr );
+    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+        if( eoc.type == eoc_type::OM_MOVE ) {
             eoc.activate( d );
         }
     }

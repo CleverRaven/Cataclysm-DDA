@@ -921,9 +921,9 @@ void faction_manager::display() const
         for( const auto &elem : player_character.get_snippets() ) {
             cata::optional<translation> name = SNIPPET.get_name_by_id( elem );
             if( !name->empty() ) {
-                lore.push_back( std::pair<snippet_id, std::string>( elem, name->translated() ) );
+                lore.emplace_back( elem, name->translated() );
             } else {
-                lore.push_back( std::pair<snippet_id, std::string>( elem, elem.str() ) );
+                lore.emplace_back( elem, elem.str() );
             }
         }
         auto compare_second =

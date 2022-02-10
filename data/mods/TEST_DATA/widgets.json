@@ -1,18 +1,435 @@
 [
   {
+    "id": "test_activity_clauses",
+    "type": "widget",
+    "label": "Activity",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "none",
+        "text": "None",
+        "color": "light_gray",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 0 } ] }
+      },
+      {
+        "id": "light",
+        "text": "Light",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 1 } ] }
+      },
+      {
+        "id": "moderate",
+        "text": "Moderate",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 2 } ] }
+      },
+      {
+        "id": "brisk",
+        "text": "Brisk",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 3 } ] }
+      },
+      {
+        "id": "active",
+        "text": "Active",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 4 } ] }
+      },
+      {
+        "id": "extreme",
+        "text": "Extreme",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, ">=", { "const": 5 } ] }
+      }
+    ]
+  },
+  {
     "id": "test_bp_status_indicator_template",
     "type": "widget",
-    "style": "phrase",
-    "phrases": [
-      { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow" },
-      { "id": "infected", "text": "infected", "sym": "I", "color": "pink" },
-      { "id": "broken", "text": "broken", "sym": "%", "color": "magenta" },
-      { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray" },
-      { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white" },
-      { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green" },
-      { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red" },
-      { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red" },
-      { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red" }
+    "style": "clause",
+    "clauses": [
+      { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": { "u_has_effect": "bite" } },
+      {
+        "id": "infected",
+        "text": "infected",
+        "sym": "I",
+        "color": "pink",
+        "condition": { "u_has_effect": "infected" }
+      },
+      {
+        "id": "broken",
+        "text": "broken",
+        "sym": "%",
+        "color": "magenta",
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+      },
+      {
+        "id": "splinted",
+        "text": "splinted",
+        "sym": "=",
+        "color": "light_gray",
+        "condition": { "u_has_worn_with_flag": "SPLINT" }
+      },
+      {
+        "id": "bandaged",
+        "text": "bandaged",
+        "sym": "+",
+        "color": "white",
+        "condition": { "u_has_effect": "bandaged" }
+      },
+      {
+        "id": "disinfected",
+        "text": "disinfected",
+        "sym": "$",
+        "color": "light_green",
+        "condition": { "u_has_effect": "disinfected" }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "b",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "b",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "b",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      }
+    ]
+  },
+  {
+    "id": "test_rad_badge_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "rad_0",
+        "text": " green ",
+        "color": "white_green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 0 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_30",
+        "text": " blue ",
+        "color": "h_white",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 30 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 0 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_60",
+        "text": " yellow ",
+        "color": "i_yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 60 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 30 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_120",
+        "text": " orange ",
+        "color": "red_yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 120 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 60 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_240",
+        "text": " red ",
+        "color": "red_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 240 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 120 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      },
+      {
+        "id": "rad_500",
+        "text": " black ",
+        "color": "pink",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 500 } ] },
+            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 240 } ] },
+            { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "test_thirst_clause_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "parched",
+        "text": "Parched",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
+      },
+      {
+        "id": "dehydrated",
+        "text": "Dehydrated",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
+          ]
+        }
+      },
+      {
+        "id": "very_thirsty",
+        "text": "Very thirsty",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
+          ]
+        }
+      },
+      {
+        "id": "thirsty",
+        "text": "Thirsty",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
+          ]
+        }
+      },
+      {
+        "id": "neutral",
+        "text": "",
+        "color": "white",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
+          ]
+        }
+      },
+      {
+        "id": "slaked",
+        "text": "Slaked",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
+          ]
+        }
+      },
+      {
+        "id": "hydrated",
+        "text": "Hydrated",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
+          ]
+        }
+      },
+      {
+        "id": "turgid",
+        "text": "Turgid",
+        "color": "green",
+        "condition": { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_hunger_clause_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      { "id": "engorged", "text": "Engorged", "color": "red", "condition": { "u_has_effect": "hunger_engorged" } },
+      { "id": "full", "text": "Full", "color": "yellow", "condition": { "u_has_effect": "hunger_full" } },
+      {
+        "id": "satisfied",
+        "text": "Satisfied",
+        "color": "green",
+        "condition": { "u_has_effect": "hunger_satisfied" }
+      },
+      { "id": "blank", "text": "", "color": "white", "condition": { "u_has_effect": "hunger_blank" } },
+      { "id": "hungry", "text": "Hungry", "color": "yellow", "condition": { "u_has_effect": "hunger_hungry" } },
+      {
+        "id": "very_hungry",
+        "text": "Very hungry",
+        "color": "yellow",
+        "condition": { "u_has_effect": "hunger_very_hungry" }
+      },
+      {
+        "id": "near_starving",
+        "text": "Near starving",
+        "color": "red",
+        "condition": { "u_has_effect": "hunger_near_starving" }
+      },
+      { "id": "starving", "text": "Starving!", "color": "red", "condition": { "u_has_effect": "hunger_starving" } },
+      {
+        "id": "famished",
+        "text": "Famished",
+        "color": "light_red",
+        "condition": { "u_has_effect": "hunger_famished" }
+      }
+    ]
+  },
+  {
+    "id": "test_move_mode_template",
+    "type": "widget",
+    "style": "clause",
+    "default_clause": { "text": "bugging out", "sym": "-", "color": "dark_gray" },
+    "clauses": [
+      { "id": "run", "text": "running", "sym": "R", "color": "red", "condition": { "u_has_move_mode": "run" } },
+      { "id": "walk", "text": "walking", "sym": "W", "color": "white", "condition": { "u_has_move_mode": "walk" } },
+      {
+        "id": "crouch",
+        "text": "crouching",
+        "sym": "C",
+        "color": "light_blue",
+        "condition": { "u_has_move_mode": "crouch" }
+      },
+      { "id": "prone", "text": "prone", "sym": "P", "color": "green", "condition": { "u_has_move_mode": "prone" } }
+    ]
+  },
+  {
+    "id": "test_lighting_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "bright",
+        "text": "bright",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "<=", { "const": 1 } ] }
+      },
+      {
+        "id": "cloudy",
+        "text": "cloudy",
+        "color": "white",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 2 } ] }
+      },
+      {
+        "id": "shady",
+        "text": "shady",
+        "color": "light_gray",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 3 } ] }
+      },
+      {
+        "id": "dark",
+        "text": "dark",
+        "color": "dark_gray",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 4 } ] }
+      },
+      {
+        "id": "very dark",
+        "text": "very dark",
+        "color": "black_white",
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, ">=", { "const": 5 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_moon_phase_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "new_moon",
+        "text": "New moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 0 } ] }
+      },
+      {
+        "id": "waxing_crescent",
+        "text": "Waxing crescent",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 1 } ] }
+      },
+      {
+        "id": "half_moon",
+        "text": "Half moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 2 } ] }
+      },
+      {
+        "id": "waxing_gibbous",
+        "text": "Waxing gibbous",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] }
+      },
+      {
+        "id": "full_moon",
+        "text": "Full moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 4 } ] }
+      },
+      {
+        "id": "waning_gibbous",
+        "text": "Waning gibbous",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 5 } ] }
+      },
+      {
+        "id": "half_moon",
+        "text": "Half moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 6 } ] }
+      },
+      {
+        "id": "waning_crescent",
+        "text": "Waning crescent",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 7 } ] }
+      },
+      {
+        "id": "dark_moon",
+        "text": "Dark moon",
+        "color": "white",
+        "condition": { "compare_int": [ "moon", "==", { "const": 8 } ] }
+      }
     ]
   },
   {
@@ -31,8 +448,7 @@
     "label": "POOL",
     "width": 4,
     "symbols": "0123",
-    "fill": "pool",
-    "var_max": 240
+    "fill": "pool"
   },
   {
     "id": "test_number_widget",
@@ -45,9 +461,6 @@
     "type": "widget",
     "label": "COLORNUM",
     "style": "number",
-    "//": "var_min to var_max maps exactly 1:1 with color index",
-    "var_min": 0,
-    "var_max": 2,
     "colors": [ "c_red", "c_yellow", "c_green" ]
   },
   {
@@ -57,8 +470,6 @@
     "style": "graph",
     "width": 5,
     "symbols": "-=#",
-    "var_min": 0,
-    "var_max": 10,
     "colors": [ "c_red", "c_yellow", "c_light_green", "c_green" ]
   },
   {
@@ -69,8 +480,6 @@
     "width": 10,
     "symbols": "-=#",
     "fill": "pool",
-    "var_min": 0,
-    "var_max": 10000,
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
   },
   {
@@ -98,8 +507,9 @@
     "id": "test_rad_badge_text",
     "type": "widget",
     "label": "RADIATION",
-    "var": "rad_badge_text",
-    "style": "text"
+    "style": "text",
+    "default_clause": { "text": "Unknown", "color": "light_gray" },
+    "copy-from": "test_rad_badge_template"
   },
   {
     "id": "test_compass_N_nodir_nowidth",
@@ -130,7 +540,9 @@
     "type": "widget",
     "style": "text",
     "var": "compass_legend_text",
-    "flags": [ "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+    "width": 0,
+    "text_align": "left",
+    "flags": [ "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_compass_legend_3",
@@ -138,7 +550,9 @@
     "style": "text",
     "var": "compass_legend_text",
     "height": 3,
-    "flags": [ "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+    "width": 0,
+    "text_align": "left",
+    "flags": [ "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_compass_legend_5",
@@ -146,7 +560,9 @@
     "style": "text",
     "var": "compass_legend_text",
     "height": 5,
-    "flags": [ "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+    "width": 0,
+    "text_align": "left",
+    "flags": [ "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "test_speed_num",
@@ -170,8 +586,7 @@
     "style": "graph",
     "fill": "pool",
     "width": 10,
-    "symbols": "-=#",
-    "var_max": 10000
+    "symbols": "-=#"
   },
   {
     "id": "test_sound_num",
@@ -198,42 +613,98 @@
     "id": "test_move_mode_text",
     "type": "widget",
     "label": "MODE",
-    "var": "move_mode_text",
-    "style": "text"
+    "style": "text",
+    "copy-from": "test_move_mode_template"
   },
   {
     "id": "test_move_mode_letter",
     "type": "widget",
     "label": "MODE",
-    "var": "move_mode_letter",
+    "style": "symbol",
+    "copy-from": "test_move_mode_template"
+  },
+  {
+    "id": "test_move_count_mode_text",
+    "type": "widget",
+    "label": "MOVE/MODE",
+    "var": "move_count_mode_text",
     "style": "text"
+  },
+  {
+    "id": "test_stat_num",
+    "//": "Plain text stat widget, for use in column-layout tests where color tags would interfere",
+    "type": "widget",
+    "style": "number"
   },
   {
     "id": "test_str_num",
     "type": "widget",
     "label": "STR",
     "var": "stat_str",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_dex_num",
     "type": "widget",
     "label": "DEX",
     "var": "stat_dex",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_int_num",
     "type": "widget",
     "label": "INT",
     "var": "stat_int",
-    "style": "number"
+    "copy-from": "test_stat_num"
   },
   {
     "id": "test_per_num",
     "type": "widget",
     "label": "PER",
     "var": "stat_per",
+    "copy-from": "test_stat_num"
+  },
+  {
+    "id": "test_stat_color_num",
+    "//": "Stat widget with color, to indicate below/at/above normal level",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_cyan", "c_light_green", "c_green" ],
+    "type": "widget",
+    "style": "number"
+  },
+  {
+    "id": "test_str_color_num",
+    "type": "widget",
+    "label": "STR",
+    "var": "stat_str",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_dex_color_num",
+    "type": "widget",
+    "label": "DEX",
+    "var": "stat_dex",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_int_color_num",
+    "type": "widget",
+    "label": "INT",
+    "var": "stat_int",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_per_color_num",
+    "type": "widget",
+    "label": "PER",
+    "var": "stat_per",
+    "copy-from": "test_stat_color_num"
+  },
+  {
+    "id": "test_health_color_num",
+    "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ],
+    "type": "widget",
+    "label": "Health",
+    "var": "health",
     "style": "number"
   },
   {
@@ -297,25 +768,24 @@
     "id": "test_status_torso_text",
     "type": "widget",
     "label": "TORSO STATUS",
-    "var": "bp_status_text",
     "bodypart": "torso",
     "style": "text",
+    "default_clause": { "text": "--" },
     "copy-from": "test_bp_status_indicator_template"
   },
   {
     "id": "test_status_left_arm_text",
     "type": "widget",
     "label": "LEFT ARM STATUS",
-    "var": "bp_status_text",
     "bodypart": "arm_l",
     "style": "text",
+    "default_clause": { "text": "--" },
     "copy-from": "test_bp_status_indicator_template"
   },
   {
     "id": "test_status_sym_torso_text",
     "type": "widget",
-    "style": "text",
-    "var": "bp_status_sym_text",
+    "style": "symbol",
     "label": "TORSO",
     "bodypart": "torso",
     "copy-from": "test_bp_status_indicator_template"
@@ -323,8 +793,7 @@
   {
     "id": "test_status_sym_left_arm_text",
     "type": "widget",
-    "style": "text",
-    "var": "bp_status_sym_text",
+    "style": "symbol",
     "label": "L ARM",
     "bodypart": "arm_l",
     "copy-from": "test_bp_status_indicator_template"
@@ -333,12 +802,21 @@
     "id": "test_status_legend_text",
     "type": "widget",
     "label": "Status Legend",
-    "style": "text",
-    "var": "bp_status_legend_text",
+    "style": "legend",
+    "bodyparts": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "copy-from": "test_bp_status_indicator_template",
     "width": 0,
     "height": 3,
-    "flags": [ "W_LABEL_NONE", "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "test_torso_armor_outer_text",
+    "type": "widget",
+    "style": "text",
+    "label": "Torso Armor",
+    "var": "bp_armor_outer_text",
+    "bodypart": "torso"
   },
   {
     "id": "test_overmap_3x3_text",
@@ -347,6 +825,208 @@
     "style": "text",
     "width": 3,
     "height": 3
+  },
+  {
+    "id": "test_thirst_clause",
+    "type": "widget",
+    "label": "THIRST",
+    "style": "text",
+    "copy-from": "test_thirst_clause_template"
+  },
+  {
+    "id": "test_hunger_clause",
+    "type": "widget",
+    "label": "HUNGER",
+    "style": "text",
+    "copy-from": "test_hunger_clause_template"
+  },
+  {
+    "id": "test_lighting_clause",
+    "type": "widget",
+    "label": "LIGHTING",
+    "style": "text",
+    "copy-from": "test_lighting_template"
+  },
+  {
+    "id": "test_moon_phase_clause",
+    "type": "widget",
+    "label": "MOON",
+    "style": "text",
+    "copy-from": "test_moon_phase_template"
+  },
+  {
+    "id": "test_clause_number",
+    "type": "widget",
+    "style": "number",
+    "label": "Num Values",
+    "default_clause": { "value": 1, "color": "dark_gray" },
+    "clauses": [
+      { "value": -20, "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "value": -10, "color": "i_yellow", "condition": "u_is_deaf" },
+      { "value": 0, "color": "yellow", "condition": "is_day" },
+      { "value": 10, "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "value": 20, "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ]
+  },
+  {
+    "id": "test_clause_text",
+    "type": "widget",
+    "style": "text",
+    "label": "Text Values",
+    "default_clause": { "text": "None", "color": "dark_gray" },
+    "clauses": [
+      { "text": "blind", "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "text": "deaf", "color": "i_yellow", "condition": "u_is_deaf" },
+      { "text": "daylight", "color": "yellow", "condition": "is_day" },
+      { "text": "good hearing", "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "text": "good vision", "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ]
+  },
+  {
+    "id": "test_clause_sym",
+    "type": "widget",
+    "style": "symbol",
+    "label": "Symbol Values",
+    "default_clause": { "sym": ".", "color": "dark_gray" },
+    "clauses": [
+      { "sym": "<", "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "sym": "-", "color": "i_yellow", "condition": "u_is_deaf" },
+      { "sym": "=", "color": "yellow", "condition": "is_day" },
+      { "sym": "+", "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "sym": ">", "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ]
+  },
+  {
+    "id": "test_clause_legend",
+    "type": "widget",
+    "style": "legend",
+    "label": "Legend Values",
+    "height": 5,
+    "width": 0,
+    "default_clause": { "text": "None", "sym": ".", "color": "dark_gray" },
+    "clauses": [
+      { "text": "blind", "sym": "<", "color": "red_red", "condition": { "not": "u_can_see" } },
+      { "text": "deaf", "sym": "-", "color": "i_yellow", "condition": "u_is_deaf" },
+      { "text": "daylight", "sym": "=", "color": "yellow", "condition": "is_day" },
+      { "text": "good hearing", "sym": "+", "color": "white_green", "condition": { "u_has_trait": "GOODHEARING" } },
+      { "text": "good vision", "sym": ">", "color": "light_green", "condition": { "u_has_trait": "NIGHTVISION" } }
+    ],
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "test_weight_clauses_normal",
+    "type": "widget",
+    "label": "Weight",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "skeletal",
+        "text": "Skeletal",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
+      },
+      {
+        "id": "emaciated",
+        "text": "Emaciated",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "underweight",
+        "text": "Underweight",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
+          ]
+        }
+      },
+      {
+        "id": "normal",
+        "text": "Normal",
+        "color": "light_gray",
+        "//": "Actually 18.5 - 25",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "overweight",
+        "text": "Overweight",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "obese",
+        "text": "Obese",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "very_obese",
+        "text": "Very Obese",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "morbidly_obese",
+        "text": "Morbidly Obese",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
+      }
+    ]
+  },
+  {
+    "id": "test_weight_clauses_fun",
+    "type": "widget",
+    "label": "Thiccness",
+    "style": "text",
+    "clauses": [
+      {
+        "text": "Skin and Bones",
+        "color": "yellow",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18000 } ] }
+      },
+      {
+        "text": "Boring",
+        "color": "white",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+          ]
+        }
+      },
+      {
+        "text": "C H O N K",
+        "color": "pink",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] }
+      }
+    ]
   },
   {
     "id": "test_stat_panel",
@@ -379,7 +1059,7 @@
   {
     "id": "test_text_widget",
     "type": "widget",
-    "label": "PHRASE",
+    "label": "CLAUSE",
     "style": "text",
     "strings": [ "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" ]
   },

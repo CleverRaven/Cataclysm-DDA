@@ -3,7 +3,7 @@
     "id": "custom_sidebar",
     "type": "widget",
     "style": "sidebar",
-    "label": "custom",
+    "label": { "str": "custom", "ctxt": "UI sidebar" },
     "width": 36,
     "widgets": [
       "hitpoints_all_narrow_graphs_layout",
@@ -23,6 +23,7 @@
       "light_moon_wind_temp_layout",
       "vehicle_azimuth_cruise_fuel_layout",
       "vital_numbers_layout",
+      "bodypart_armor_outer_layout",
       "bodypart_status_layout",
       "bodypart_status_sym_layout"
     ]

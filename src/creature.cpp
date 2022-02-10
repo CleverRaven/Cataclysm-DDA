@@ -322,11 +322,9 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
-    if( critter.is_hallucination() ) {
+    if( critter.is_hallucination() && !is_avatar() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
-        // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
-        // the player will see them always.
-        return is_avatar();
+        return false;
     }
 
     if( !fov_3d && posz() != critter.posz() ) {
@@ -685,7 +683,13 @@ float Creature::get_crit_factor( const bodypart_id &bp ) const
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
-    const float dodge = dodge_roll();
+    add_msg_debug( debugmode::DF_CREATURE, "Base hitroll %d",
+                   hitroll );
+
+    float dodge = dodge_roll();
+    add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
+                   dodge );
+
     int hit_spread = hitroll - dodge - size_melee_penalty();
     if( has_flag( MF_IMMOBILE ) ) {
         // Under normal circumstances, even a clumsy person would
@@ -699,7 +703,8 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     if( dodge > 0.0 && hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
         on_dodge( source, source->get_melee() );
     }
-
+    add_msg_debug( debugmode::DF_CREATURE, "Final hitspread %d",
+                   hit_spread );
     return hit_spread;
 }
 

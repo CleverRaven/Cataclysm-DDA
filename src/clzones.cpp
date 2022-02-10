@@ -569,7 +569,7 @@ bool zone_data::set_type()
 }
 
 void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
-                              const bool manual )
+                              const bool manual, bool update_avatar )
 {
     if( is_vehicle && manual ) {
         debugmsg( "Tried moving a lootzone bound to a vehicle part" );
@@ -578,7 +578,7 @@ void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
     start = position.first;
     end = position.second;
 
-    zone_manager::get_manager().cache_data();
+    zone_manager::get_manager().cache_data( update_avatar );
 }
 
 void zone_data::set_enabled( const bool enabled_arg )
@@ -618,18 +618,20 @@ bool zone_manager::has_defined( const zone_type_id &type, const faction_id &fac 
     return type_iter != area_cache.end();
 }
 
-void zone_manager::cache_data()
+void zone_manager::cache_data( bool update_avatar )
 {
     area_cache.clear();
-
+    avatar &player_character = get_avatar();
+    tripoint_abs_ms cached_shift = player_character.get_location();
     for( zone_data &elem : zones ) {
         if( !elem.get_enabled() ) {
             continue;
         }
 
         // update the current cached locations for each personal zone
-        if( elem.get_is_personal() ) {
-            elem.update_cached_shift();
+        // if we are flagged to update the locations with this cache
+        if( elem.get_is_personal() && update_avatar ) {
+            elem.update_cached_shift( cached_shift );
         }
 
         const std::string &type_hash = elem.get_type_hash();
@@ -639,6 +641,18 @@ void zone_manager::cache_data()
         for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
                  elem.get_start_point(), elem.get_end_point() ) ) {
             cache.insert( p );
+        }
+    }
+}
+
+void zone_manager::cache_avatar_location()
+{
+    avatar &player_character = get_avatar();
+    tripoint_abs_ms cached_shift = player_character.get_location();
+    for( zone_data &elem : zones ) {
+        // update the current cached locations for each personal zone
+        if( elem.get_is_personal() ) {
+            elem.update_cached_shift( cached_shift );
         }
     }
 }
@@ -763,11 +777,11 @@ bool zone_manager::has_loot_dest_near( const tripoint_abs_ms &where ) const
     return false;
 }
 
-const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
-        bool cached ) const
+const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
+        const zone_type_id &type ) const
 {
     for( const zone_data &zone : zones ) {
-        if( zone.has_inside( where, cached ) && zone.get_type() == type ) {
+        if( zone.has_inside( where ) && zone.get_type() == type ) {
             return &zone;
         }
     }
@@ -783,7 +797,7 @@ const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where, const 
 
 bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it ) const
 {
-    const zone_data *zone = get_zone_at( where, zone_type_LOOT_CUSTOM, true );
+    const zone_data *zone = get_zone_at( where, zone_type_LOOT_CUSTOM );
     if( !zone || !it ) {
         return false;
     }

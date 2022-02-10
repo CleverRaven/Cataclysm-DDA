@@ -2,17 +2,75 @@
   {
     "id": "bodypart_status_indicator_template",
     "type": "widget",
-    "style": "phrase",
-    "phrases": [
-      { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow" },
-      { "id": "infected", "text": "infected", "sym": "I", "color": "pink" },
-      { "id": "broken", "text": "broken", "sym": "%", "color": "magenta" },
-      { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray" },
-      { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white" },
-      { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green" },
-      { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red" },
-      { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red" },
-      { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red" }
+    "style": "clause",
+    "clauses": [
+      { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": { "u_has_effect": "bite" } },
+      {
+        "id": "infected",
+        "text": "infected",
+        "sym": "I",
+        "color": "pink",
+        "condition": { "u_has_effect": "infected" }
+      },
+      {
+        "id": "broken",
+        "text": "broken",
+        "sym": "%",
+        "color": "magenta",
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+      },
+      {
+        "id": "splinted",
+        "text": "splinted",
+        "sym": "=",
+        "color": "light_gray",
+        "condition": { "u_has_worn_with_flag": "SPLINT" }
+      },
+      {
+        "id": "bandaged",
+        "text": "bandaged",
+        "sym": "+",
+        "color": "white",
+        "condition": { "u_has_effect": "bandaged" }
+      },
+      {
+        "id": "disinfected",
+        "text": "disinfected",
+        "sym": "$",
+        "color": "light_green",
+        "condition": { "u_has_effect": "disinfected" }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "b",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "b",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding",
+        "text": "bleeding",
+        "sym": "b",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      }
     ]
   },
   {
@@ -20,15 +78,15 @@
     "//": "Base widget for showing body part status; needs bodypart field defined in derived widget.",
     "type": "widget",
     "style": "text",
-    "var": "bp_status_text",
+    "default_clause": { "text": "--" },
     "copy-from": "bodypart_status_indicator_template"
   },
   {
     "id": "bodypart_status_sym_text",
     "//": "Base widget for body part status symbols; needs bodypart field defined in derived widget.",
     "type": "widget",
-    "style": "text",
-    "var": "bp_status_sym_text",
+    "style": "symbol",
+    "text_align": "left",
     "copy-from": "bodypart_status_indicator_template"
   },
   {
@@ -119,12 +177,13 @@
     "id": "bp_status_legend_text",
     "type": "widget",
     "label": "Status Legend",
-    "style": "text",
-    "var": "bp_status_legend_text",
+    "style": "legend",
+    "bodyparts": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "copy-from": "bodypart_status_indicator_template",
     "width": 0,
     "height": 3,
-    "flags": [ "W_LABEL_NONE", "W_PAD_NONE", "W_DYNAMIC_HEIGHT" ]
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
   },
   {
     "id": "bodypart_status_top_layout",

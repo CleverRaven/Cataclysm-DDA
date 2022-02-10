@@ -320,17 +320,6 @@ static nc_color value_color( int stat )
     return valuecolor;
 }
 
-static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
-{
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
-        --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, truncate );
-        }
-    }
-    return "-";
-}
-
 // ===============================
 // panels code
 // ===============================
@@ -1254,16 +1243,21 @@ static void draw_armor_padding( const draw_args &args )
     const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
                                + 2;
     const int max_length = getmaxx( w ) - heading_length;
-    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
-                    bodypart_id( "head" ) ) );
-    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
-                    bodypart_id( "torso" ) ) );
-    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
-                    bodypart_id( "arm_r" ) ) );
-    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
-                    bodypart_id( "leg_r" ) ) );
-    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
-                    bodypart_id( "foot_r" ) ) );
+    trim_and_print( w, point( heading_length, 0 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -1283,16 +1277,21 @@ static void draw_armor( const draw_args &args )
     const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
                                + 1;
     const int max_length = getmaxx( w ) - heading_length;
-    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
-                    bodypart_id( "head" ) ) );
-    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
-                    bodypart_id( "torso" ) ) );
-    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
-                    bodypart_id( "arm_r" ) ) );
-    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
-                    bodypart_id( "leg_r" ) ) );
-    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
-                    bodypart_id( "foot_r" ) ) );
+    trim_and_print( w, point( heading_length, 0 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color,
+                    display::colorized_bodypart_outer_armor( u,
+                            bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -1426,7 +1425,7 @@ static void draw_ai_goal( const draw_args &args )
     behavior::character_oracle_t player_oracle( &u );
     std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
+    mvwprintz( w, point( 0, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
     wnoutrefresh( w );
 }
 
@@ -1904,7 +1903,7 @@ static void draw_custom_hint( const draw_args &args )
     mvwprintz( w, point( 1, 1 ), c_light_gray,
                _( "Edit sidebar.json to adjust." ) );
     mvwprintz( w, point( 1, 2 ), c_light_gray,
-               _( "See SIDEBAR_MOD.md for help." ) );
+               _( "See WIDGETS.md for help." ) );
 
     wnoutrefresh( w );
 }
@@ -1955,7 +1954,7 @@ static std::map<std::string, panel_layout> initialize_default_panel_layouts()
     // Add panel layout for each "sidebar" widget
     for( const widget &wgt : widget::get_all() ) {
         if( wgt._style == "sidebar" ) {
-            ret.emplace( wgt._label.translated(),
+            ret.emplace( wgt.getId().str(),
                          panel_layout( wgt._label, initialize_default_custom_panels( wgt ) ) );
         }
     }
@@ -2073,9 +2072,23 @@ void panel_manager::deserialize( JsonIn &jsin )
     JsonObject joLayouts( jsin.get_object() );
 
     current_layout_id = joLayouts.get_string( "current_layout_id" );
+    if( layouts.find( current_layout_id ) == layouts.end() ) {
+        // Layout id updated between loads.
+        // Shouldn't happen unless custom sidebar id's were modified or removed.
+        joLayouts.allow_omitted_members();
+        current_layout_id = "labels";
+        return;
+    }
+
     for( JsonObject joLayout : joLayouts.get_array( "layouts" ) ) {
         std::string layout_id = joLayout.get_string( "layout_id" );
-        auto &layout = layouts.find( layout_id )->second.panels();
+        const auto &cur_layout = layouts.find( layout_id );
+        if( cur_layout == layouts.end() ) {
+            joLayout.allow_omitted_members();
+            continue;
+        }
+
+        auto &layout = cur_layout->second.panels();
         auto it = layout.begin();
 
         for( JsonObject joPanel : joLayout.get_array( "panels" ) ) {

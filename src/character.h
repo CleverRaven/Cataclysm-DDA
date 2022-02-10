@@ -501,6 +501,7 @@ class Character : public Creature, public visitable
         /** Getter for need values exclusive to characters */
         int get_stored_kcal() const;
         int get_healthy_kcal() const;
+        // Returns stored kcals as a proportion of "healthy" kcals (1.0 == healthy)
         float get_kcal_percent() const;
         int kcal_speed_penalty() const;
         int get_hunger() const;
@@ -1113,15 +1114,15 @@ class Character : public Creature, public visitable
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
-        bool has_trait_flag( const json_character_flag &b ) const;
+        int count_trait_flag( const json_character_flag &b ) const;
         /** Returns true if player has a bionic with a flag */
-        bool has_bionic_with_flag( const json_character_flag &flag ) const;
+        int count_bionic_with_flag( const json_character_flag &flag ) const;
         /** Returns true if the player has any bodypart with a flag */
-        bool has_bodypart_with_flag( const json_character_flag &flag ) const;
+        int count_bodypart_with_flag( const json_character_flag &flag ) const;
         /** This is to prevent clang complaining about overloading a virtual function, the creature version uses monster flags so confusion is unlikely. */
         using Creature::has_flag;
         /** Returns true if player has a trait, bionic or effect with a flag */
-        bool has_flag( const json_character_flag &flag ) const;
+        int has_flag( const json_character_flag &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
 
@@ -1234,11 +1235,6 @@ class Character : public Creature, public visitable
         int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
-        /**
-          * What is the best pocket to put @it into?
-          * the pockets in @avoid do not count
-          */
-        std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid );
     protected:
 
         void on_move( const tripoint_abs_ms &old_pos ) override;
@@ -1950,6 +1946,16 @@ class Character : public Creature, public visitable
         bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
+
+        /**
+          * What is the best pocket to put @it into?
+          * @param it the item to try and find a pocket for.
+          * @param avoid pockets in this item are not taken into account.
+          *
+          * @returns nullptr in the value of the returned pair if no valid pocket was found.
+          */
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid = nullptr );
+
         /**
          * Checks if character stats and skills meet minimum requirements for the item.
          * Prints an appropriate message if requirements not met.
@@ -2246,7 +2252,8 @@ class Character : public Creature, public visitable
         /** Get the idents of all base traits. */
         std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
-        std::vector<trait_id> get_mutations( bool include_hidden = true ) const;
+        std::vector<trait_id> get_mutations( bool include_hidden = true,
+                                             bool ignore_enchantment = false ) const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
@@ -2599,6 +2606,8 @@ class Character : public Creature, public visitable
         void on_item_wear( const item &it );
         /** Called when an item is taken off */
         void on_item_takeoff( const item &it );
+        // things to call when mutations enchantments change
+        void enchantment_wear_change();
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
         /** Called when an item is acquired (picked up, worn, or wielded) */
@@ -2953,7 +2962,7 @@ class Character : public Creature, public visitable
         // crafting.cpp
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
         float lighting_craft_speed_multiplier( const recipe &rec ) const;
-        float crafting_speed_multiplier( const recipe &rec, bool in_progress = false ) const;
+        float crafting_speed_multiplier( const recipe &rec ) const;
         /** For use with in progress crafts */
         float crafting_speed_multiplier( const item &craft, const cata::optional<tripoint> &loc ) const;
         int available_assistant_count( const recipe &rec ) const;
@@ -3152,7 +3161,10 @@ class Character : public Creature, public visitable
         int weary_threshold() const;
         int weariness() const;
         float activity_level() const;
+        /** Returns instantaneous activity level as a float from 0-10 (from game_constants) */
         float instantaneous_activity_level() const;
+        /** Returns instantaneous activity level as an int from 0-5 (half of instantaneous_activity_level) */
+        int activity_level_index() const;
         float exertion_adjusted_move_multiplier( float level = -1.0f ) const;
         float maximum_exertion_level() const;
         std::string activity_level_str( float level ) const;
@@ -3286,6 +3298,11 @@ class Character : public Creature, public visitable
          * Pointers to mutation branches in @ref my_mutations.
          */
         std::vector<const mutation_branch *> cached_mutations;
+
+        // if the player puts on and takes off items these mutations
+        // are added or removed at the beginning of the next
+        std::vector<trait_id> mutations_to_remove;
+        std::vector<trait_id> mutations_to_add;
         /**
          * The amount of weight the Character is carrying.
          * If it is nullopt, needs to be recalculated

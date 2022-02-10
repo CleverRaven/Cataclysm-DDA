@@ -366,6 +366,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "time": "5 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -1000,19 +1001,6 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "magnifying_glass",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "wire", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1731,7 +1719,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water_clean", 2 ], [ "water", 2 ] ],
-      [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ], [ "brain", 3 ] ],
+      [ [ "tanning_agent", 1, "LIST" ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
       [ [ "edible_tallow_lard", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
       [ [ "cured_hide", 6 ] ]
@@ -1775,7 +1763,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water_clean", 2 ], [ "water", 2 ] ],
-      [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ] ],
+      [ [ "tanning_agent", 1, "LIST" ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
       [ [ "edible_tallow_lard", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
       [ [ "cured_pelt", 6 ] ]
@@ -2397,5 +2385,19 @@
       [ [ "pipe", 1 ] ],
       [ [ "foot_crank", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "propane_cooker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "pilot_light", 1 ] ] ]
   }
 ]
