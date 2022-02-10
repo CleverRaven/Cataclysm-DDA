@@ -1061,7 +1061,13 @@ void complete_construction( Character *you )
     if( here.tr_at( terp ) == tr_unfinished_construction ) {
         here.remove_trap( terp );
     }
-    here.partial_con_remove( terp );
+
+    //We need to keep the partial_con when building appliance to get the component items
+    //It will be removed in done_appliance()
+    if( pc->id->category != construction_category_id( "APPLIANCE" ) ) {
+        here.partial_con_remove( terp );
+    }
+
     // Some constructions are allowed to have items left on the tile.
     if( built.post_flags.count( "keep_items" ) == 0 ) {
         // Move any items that have found their way onto the construction site.
@@ -1340,7 +1346,6 @@ void construct::done_appliance( const tripoint &p )
 {
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
-
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
         return;
@@ -1353,9 +1358,22 @@ void construct::done_appliance( const tripoint &p )
         veh->add_tag( flag_CANT_DRAG );
     } else {
         const vpart_id &vpart = vpart_appliance_from_item( get_avatar().lastconsumed );
-        veh->install_part( point_zero, vpart );
+        partial_con *pc = here.partial_con_at( p );
+        if( pc ) {
+            item base;
+            for( item &obj : pc->components ) {
+                if( obj.typeId() == vpart->base_item ) {
+                    base = obj;
+                }
+            }
+            veh->install_part( point_zero, vpart, std::move( base ) );
+        } else {
+            debugmsg( "partial construction not found" );
+            veh->install_part( point_zero, vpart );
+        }
         veh->name = vpart->name();
     }
+    here.partial_con_remove( p );
 
     veh->add_tag( flag_APPLIANCE );
 
