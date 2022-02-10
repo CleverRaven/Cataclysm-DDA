@@ -1877,7 +1877,7 @@ void replace_keybind_tag( std::string &input )
         if( keys.empty() ) { // Display description for unbound keys
             keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
 
-            if( keybind == ctxt.get_action_name( keybind ) ) {
+            if( !ctxt.is_registered_action( keybind ) ) {
                 debugmsg( "Invalid/Missing <keybind>: '%s'", keybind_full );
             }
         } else {

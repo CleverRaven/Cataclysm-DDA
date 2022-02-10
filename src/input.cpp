@@ -1798,6 +1798,12 @@ bool input_context::is_event_type_enabled( const input_event_t type ) const
     return true;
 }
 
+bool input_context::is_registered_action( const std::string &action_name ) const
+{
+    return std::find( registered_actions.begin(), registered_actions.end(),
+                      action_name ) != registered_actions.end();
+}
+
 input_event input_context::first_unassigned_hotkey( const hotkey_queue &queue ) const
 {
     input_event ret = queue.first( *this );

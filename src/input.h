@@ -826,6 +826,7 @@ class input_context
     public:
         const std::string &input_to_action( const input_event &inp ) const;
         bool is_event_type_enabled( input_event_t type ) const;
+        bool is_registered_action( const std::string &action_name ) const;
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
