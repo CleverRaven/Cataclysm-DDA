@@ -54,11 +54,13 @@ static character_modifier::mod_type string_to_modtype( const std::string &s )
 {
     static const std::map<std::string, character_modifier::mod_type> modtype_map = {
         { "+", character_modifier::ADD },
-        { "x", character_modifier::MULT },
+        { "ADD", character_modifier::ADD },
+        { "X", character_modifier::MULT },
         { "*", character_modifier::MULT },
+        { "MULT", character_modifier::MULT },
         { "", character_modifier::NONE }
     };
-    const auto &iter = modtype_map.find( s );
+    const auto &iter = modtype_map.find( to_upper_case( s ) );
     if( iter == modtype_map.end() ) {
         debugmsg( "Invalid mod_type %s", s );
         return character_modifier::NONE;
@@ -97,11 +99,18 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
     if( builtin.empty() ) {
         limbscores.clear();
         if( jobj.has_array( "limb_score" ) ) {
-            mandatory( jobj, was_loaded, "limb_score", limbscores );
+            for( JsonValue jval : jobj.get_array( "limb_score" ) ) {
+                if( jval.test_array() ) {
+                    JsonArray jsc = jval.get_array();
+                    limbscores.emplace( limb_score_id( jsc.get_string( 0 ) ), jsc.get_float( 1 ) );
+                } else {
+                    limbscores.emplace( limb_score_id( jval.get_string() ), 1.0f );
+                }
+            }
         } else {
             limb_score_id ls;
             mandatory( jobj, was_loaded, "limb_score", ls );
-            limbscores.emplace_back( ls );
+            limbscores.emplace( ls, 1.0f );
         }
 
         std::string lsop;
@@ -122,6 +131,11 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
         min_val = load_float_or_maxmovecost( jobj, "min" );
         max_val = load_float_or_maxmovecost( jobj, "max" );
         optional( jobj, was_loaded, "nominator", nominator, 0.0f );
+        optional( jobj, was_loaded, "denominator", denominator, 1.0f );
+        if( std::abs( denominator ) < std::numeric_limits<float>::epsilon() ) {
+            jobj.throw_error( "denominator cannot be set to 0" );
+            denominator = 1.0f;
+        }
         optional( jobj, was_loaded, "subtract", subtractor, 0.0f );
     }
 }
@@ -238,8 +252,9 @@ float character_modifier::modifier( const Character &c, const skill_id &skill ) 
 
     float score = 0.0f;
     bool sc_assigned = false;
-    for( const limb_score_id &sc : limbscores ) {
-        float mod_sc = c.get_limb_score( sc, limbtype, override_encumb, override_wounds );
+    for( const auto &sc : limbscores ) {
+        float mod_sc = c.get_limb_score( sc.first, limbtype, override_encumb, override_wounds );
+        mod_sc *= sc.second;
         if( !sc_assigned ) {
             score = mod_sc;
             sc_assigned = true;
@@ -264,7 +279,9 @@ float character_modifier::modifier( const Character &c, const skill_id &skill ) 
                max_val > std::numeric_limits<float>::epsilon() ? max_val : 0.0f;
     }
     if( nominator > std::numeric_limits<float>::epsilon() ) {
-        score = nominator / score;
+        score = ( nominator / denominator ) / score;
+    } else {
+        score /= denominator;
     }
     if( subtractor > std::numeric_limits<float>::epsilon() ) {
         score -= subtractor;
