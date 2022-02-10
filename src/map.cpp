@@ -6715,7 +6715,11 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
     if( this != &main_map ) {
         // It's unsafe to load a map that overlaps with the primary map;
         // various caches get confused.  So make sure we're not doing that.
-        if( main_map.inbounds( project_to<coords::ms>( w ) ) ) {
+        // FIXME: Currently this happens for scripted update_mapgen, scenario
+        // start update mapgen, and faction camp construction update mapgen.
+        // None of those are easily fixable, so give the warning message only
+        // in test mode for now since it's just causing noise.
+        if( test_mode && main_map.inbounds( project_to<coords::ms>( w ) ) ) {
             debugmsg( "loading non-main map at %s which overlaps with main map (abs_sub = %s) "
                       "is not supported", w.to_string(), main_map.abs_sub.to_string() );
         }
