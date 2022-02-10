@@ -144,9 +144,7 @@
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "pipe", "count": [ 6, 8 ] },
-        { "item": "sheet_metal", "count": 2 },
-        { "item": "sheet_metal_small", "count": [ 2, 4 ] }
+        { "item": "workbench", "count": 1 }
       ]
     },
     "bash": {
