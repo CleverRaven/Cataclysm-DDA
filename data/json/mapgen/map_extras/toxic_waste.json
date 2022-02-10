@@ -3,14 +3,32 @@
     "id": "toxic_waste_mx",
     "type": "item_group",
     "items": [
-      { "item": "plut_slurry", "container-item": "55gal_drum", "charges-min": 2, "charges-max": 28, "prob": 5 },
-      { "item": "plut_slurry_dense", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 45, "prob": 2 },
+      { "item": "plut_slurry", "container-item": "55gal_drum", "charges-min": 2, "charges-max": 28, "prob": 10 },
+      { "item": "plut_slurry_dense", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 45, "prob": 15 },
       { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 50 },
       { "item": "fetid_goop", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 200, "prob": 20 },
+      {
+        "item": "meat_mutant_tainted",
+        "container-item": "55gal_drum",
+        "charges-min": 3,
+        "charges-max": 15,
+        "prob": 2
+      },
+      { "item": "veggy_tainted", "container-item": "55gal_drum", "charges-min": 3, "charges-max": 50, "prob": 3 },
       { "item": "55gal_drum", "prob": 50 },
       { "item": "canister_goo", "prob": 8 },
       { "item": "slime_scrap", "prob": 10 }
     ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "toxic_gas_vent",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_fields": [ { "field": "fd_gas_vent", "x": 0, "y": 0, "intensity": 1, "age": 10 } ],
+      "set": [ { "point": "terrain", "id": "t_pit", "x": 0, "y": 0 } ]
+    }
   },
   {
     "type": "monstergroup",
@@ -35,13 +53,13 @@
         "                        ",
         "                        ",
         "                        ",
-        "          -!-           ",
+        "         ^-!-           ",
         "         ---~-          ",
-        "        -~-~---         ",
+        "        -~-~---^        ",
         "        -~~~~~--        ",
         "     !   -~~---         ",
         "        -~----          ",
-        "       ---- !-          ",
+        "       ----^!-          ",
         "         -              ",
         "                        ",
         "                        ",
@@ -54,6 +72,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "~": [ "t_sewage" ], "-": [ "t_sewage", "t_dirt" ] },
+      "nested": { "^": { "chunks": [ [ "toxic_gas_vent", 70 ], [ "null", 30 ] ] } },
       "monsters": { "!": { "monster": "GROUP_TOXIC_WASTE", "density": 0.01, "chance": 3 } },
       "place_loot": [ { "group": "toxic_waste_mx", "x": [ 11, 13 ], "y": [ 10, 12 ], "repeat": [ 1, 2 ] } ]
     }
