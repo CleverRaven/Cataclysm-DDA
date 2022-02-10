@@ -2008,11 +2008,11 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
     if( !keep_going || target_items.empty() ) {
-        cancel_pickup( who );
-
         if( !stash_successful && !autopickup ) {
             add_msg( m_bad, _( "Some items were not picked up" ) );
         }
+
+        cancel_pickup( who );
 
         if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
             who.set_value( "THIEF_MODE", "THIEF_ASK" );

@@ -111,7 +111,10 @@
   {
     "id": "shrub_grape_harv",
     "type": "harvest",
-    "entries": [ { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+    "entries": [
+      { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
+      { "drop": "grape_leaves", "base_num": [ 1, 4 ] }
+    ]
   },
   {
     "id": "shrub_raspberry_harv",
