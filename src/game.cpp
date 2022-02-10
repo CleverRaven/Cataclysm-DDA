@@ -7436,7 +7436,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         iInfoHeight = std::min( 25, TERMY / 2 );
         iMaxRows = TERMY - iInfoHeight - 2;
 
-        width = clamp( max_name_width, 45, TERMX / 3 );
+        width = clamp( max_name_width, 55, TERMX / 3 );
 
         const int offsetX = TERMX - width;
 
@@ -7898,7 +7898,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list )
 {
     const int iInfoHeight = 15;
-    const int width = 45;
+    const int width = 55;
     int offsetX = 0;
     int iMaxRows = 0;
 
@@ -8049,9 +8049,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     }
 
                     if( m != nullptr ) {
-                        trim_and_print( w_monsters, point( 1, y ), width - 26, name_color, m->name() );
+                        trim_and_print( w_monsters, point( 1, y ), width - 32, name_color, m->name() );
                     } else {
-                        trim_and_print( w_monsters, point( 1, y ), width - 26, name_color, critter->disp_name() );
+                        trim_and_print( w_monsters, point( 1, y ), width - 32, name_color, critter->disp_name() );
                         is_npc = true;
                     }
 
@@ -8078,11 +8078,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         std::tie( sText, color ) =
                             ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
                     }
-                    mvwprintz( w_monsters, point( width - 25, y ), color, sText );
+                    mvwprintz( w_monsters, point( width - 31, y ), color, sText );
                     const int bar_max_width = 5;
                     const int bar_width = utf8_width( sText );
                     for( int i = 0; i < bar_max_width - bar_width; ++i ) {
-                        mvwprintz( w_monsters, point( width - 21 - i, y ), c_white, "." );
+                        mvwprintz( w_monsters, point( width - 27 - i, y ), c_white, "." );
                     }
 
                     if( m != nullptr ) {
@@ -8093,14 +8093,14 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         sText = npc_attitude_name( p->get_attitude() );
                         color = p->symbol_color();
                     }
-                    mvwprintz( w_monsters, point( width - 19, y ), color, sText );
+                    mvwprintz( w_monsters, point( width - 25, y ), color, sText );
 
                     const int mon_dist = rl_dist( u.pos(), critter->pos() );
                     const int numd = mon_dist > 999 ? 4 :
                                      mon_dist > 99 ? 3 :
                                      mon_dist > 9 ? 2 : 1;
 
-                    trim_and_print( w_monsters, point( width - ( 8 + numd ), y ), 6 + numd,
+                    trim_and_print( w_monsters, point( width - ( 5 + numd ), y ), 6 + numd,
                                     selected ? c_light_green : c_light_gray,
                                     "%*d %s",
                                     numd, mon_dist,
@@ -8124,9 +8124,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     wprintz( w_monster_info_border, c_light_gray, " %s", _( "to look around" ) );
 
                     if( cCurMon && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
-                        wprintw( w_monster_info_border, " " );
-                        wprintz( w_monster_info_border, c_light_green, ctxt.press_x( "fire" ) );
-                        wprintz( w_monster_info_border, c_light_gray, " %s", _( "to shoot" ) );
+                        std::string press_to_fire_text = string_format( _( "%s %s" ),
+                                                         ctxt.press_x( "fire" ),
+                                                         string_format( _( "<color_light_gray>to shoot</color>" ) ) );
+                        right_print( w_monster_info_border, 0, 3, c_light_green, press_to_fire_text );
                     }
                     wprintw( w_monster_info_border, " >" );
                 }
