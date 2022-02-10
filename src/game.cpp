@@ -202,6 +202,8 @@ static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
 static const bionic_id bio_remote( "bio_remote" );
 
+static const character_modifier_id character_modifier_slip_prevent_mod( "slip_prevent_mod" );
+
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_asked_to_train( "asked_to_train" );
 static const efftype_id effect_blind( "blind" );
@@ -249,10 +251,6 @@ static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
-
-static const limb_score_id limb_score_footing( "footing" );
-static const limb_score_id limb_score_grip( "grip" );
-static const limb_score_id limb_score_lift( "lift" );
 
 static const material_id material_glass( "glass" );
 
@@ -11971,9 +11969,7 @@ bool game::slip_down( bool check_for_traps )
 
     // Apply limb score penalties - grip, arm strength and footing are all relevant
 
-    slip /= ( u.get_limb_score( limb_score_grip ) * 3 + u.get_limb_score(
-                  limb_score_lift, body_part_type::type::num_types,
-                  1 ) * 2 + u.get_limb_score( limb_score_footing ) ) / 6;
+    slip /= u.get_modifier( character_modifier_slip_prevent_mod );
     add_msg_debug( debugmode::DF_GAME, "Slipping chance after limb scores %d%%", slip );
 
     // Being weighed down makes it easier for you to slip.

@@ -113,6 +113,18 @@
   },
   {
     "type": "character_mod",
+    "id": "slip_prevent_mod",
+    "description": "Slip prevention modifier",
+    "mod_type": "x",
+    "value": {
+      "limb_score": [ [ "grip", 3.0 ], [ "lift", 2.0 ], "footing" ],
+      "override_encumb": true,
+      "limb_score_op": "+",
+      "denominator": 6.0
+    }
+  },
+  {
+    "type": "character_mod",
     "id": "limb_str_mod",
     "description": "Strength modifier",
     "mod_type": "x",
