@@ -526,7 +526,7 @@
     "category": "armor",
     "name": { "str": "pair of gambeson sleeves", "str_pl": "pairs of gambeson sleeves" },
     "description": "A pair sleeves made from heavy quilted fabric.",
-    "weight": "150 g",
+    "weight": "1380 g",
     "volume": "500 ml",
     "price": 1200,
     "price_postapoc": 400,
@@ -535,11 +535,11 @@
     "symbol": "[",
     "looks_like": "arm_warmers",
     "color": "light_gray",
-    "warmth": 30,
+    "warmth": 50,
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 8, "coverage": 100, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_gambeson_sleeve",
@@ -574,11 +574,11 @@
     "symbol": "[",
     "looks_like": "arm_warmers",
     "color": "light_gray",
-    "warmth": 30,
+    "warmth": 50,
     "material_thickness": 3.2,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 16, "coverage": 100, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_k_gambeson_sleeve",
