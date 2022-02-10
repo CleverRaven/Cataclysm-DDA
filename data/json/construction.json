@@ -3186,7 +3186,7 @@
   },
   {
     "type": "construction",
-    "id": "app_large",
+    "id": "app_battery",
     "group": "place_battery",
     "category": "APPLIANCE",
     "required_skills": [ [ "electronics", 1 ] ],

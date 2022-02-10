@@ -66,6 +66,7 @@ static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_category_id construction_category_ALL( "ALL" );
+static const construction_category_id  construction_category_APPLIANCE( "APPLIANCE" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
@@ -1064,7 +1065,7 @@ void complete_construction( Character *you )
 
     //We need to keep the partial_con when building appliance to get the component items
     //It will be removed in done_appliance()
-    if( pc->id->category != construction_category_id( "APPLIANCE" ) ) {
+    if( pc->id->category != construction_category_APPLIANCE ) {
         here.partial_con_remove( terp );
     }
 
@@ -1346,6 +1347,7 @@ void construct::done_appliance( const tripoint &p )
 {
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
+
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
         return;
