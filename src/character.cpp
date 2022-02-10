@@ -4507,6 +4507,13 @@ float Character::instantaneous_activity_level() const
     return activity_history.instantaneous_activity_level();
 }
 
+int Character::activity_level_index() const
+{
+    // Activity levels are 1, 2, 4, 6, 8, 10
+    // So we can easily cut them in half and round down for an index
+    return std::floor( instantaneous_activity_level() / 2 );
+}
+
 float Character::activity_level() const
 {
     float max = maximum_exertion_level();
