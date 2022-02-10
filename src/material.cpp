@@ -92,10 +92,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "latent_heat", _latent_heat );
     optional( jsobj, was_loaded, "freezing_point", _freeze_point );
 
-    // if the item has breathability read it in
-    breathability_rating breath_rating;
-    optional( jsobj, was_loaded, "breathability", breath_rating, breathability_rating::IMPERMEABLE );
-    _breathability = static_cast<int>( breath_rating );
+    optional( jsobj, was_loaded, "breathability", _breathability, breathability_rating::IMPERMEABLE );
 
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, itype_id::NULL_ID() );
@@ -256,7 +253,19 @@ int material_type::density() const
 
 int material_type::breathability() const
 {
-    return _breathability;
+    // this is where the values for each of these exist
+    switch( _breathability ) {
+        case breathability_rating::IMPERMEABLE:
+            return 0;
+        case breathability_rating::SOMEWHAT:
+            return 20;
+        case breathability_rating::BREATHABLE:
+            return 50;
+        case breathability_rating::MOISTURE_WICKING:
+            return 80;
+        case breathability_rating::SECOND_SKIN:
+            return 100;
+    }
 }
 
 cata::optional<int> material_type::wind_resist() const
