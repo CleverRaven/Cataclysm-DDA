@@ -1349,6 +1349,7 @@ void construct::done_wiring( const tripoint &p )
     veh->install_part( point_zero, vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
     veh->name = _( "wall wiring" );
     veh->add_tag( flag_CANT_DRAG );
+    veh->add_tag( flag_APPLIANCE );
     veh->add_tag( flag_WIRING );
 
     // Merge any neighbouring wire vehicles into this one
