@@ -268,7 +268,7 @@
       { "id": "LEATHER_AWL", "level": 1 },
       { "id": "CUT_FINE", "level": 1 }
     ],
-    "components": [ [ [ "tanned_pelt", 1 ], ["sheet_fur_patchwork", 1 ], [ [ "filament", 7, "LIST" ] ] ]
+    "components": [ [ [ "tanned_pelt", 1 ], ["sheet_fur_patchwork", 1 ] ], [ [ "filament", 7, "LIST" ] ] ]
   },
   {
     "id": "tailoring_fur_small",
@@ -348,7 +348,7 @@
   {
     "id": "tailoring_nylon",
     "type": "requirement",
-    "//": "Crafting synthetic fabric items, per 46 g of neoprene; 6 g + excessive weight of material is wasted, producing synthetic fabric scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching.",
+    "//": "40g per unit. Crafting synthetic fabric items, per 46 g of neoprene; 6 g + excessive weight of material is wasted, producing synthetic fabric scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching.",
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "sheet_nylon", 1 ] ], [ [ "filament", 5, "LIST" ] ] ]
   },
