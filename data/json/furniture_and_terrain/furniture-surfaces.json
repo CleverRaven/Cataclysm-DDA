@@ -141,7 +141,7 @@
     "required_str": 10,
     "looks_like": "f_lab_bench",
     "crafting_pseudo_item": "large_surface_pseudo",
-    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 8 ] },
