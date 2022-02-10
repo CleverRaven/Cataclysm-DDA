@@ -16,7 +16,6 @@
       "&": {  }
     },
     "terrain": {
-      " ": "t_null",
       ".": "t_strconc_floor",
       ",": [ "t_strconc_floor", "t_strconc_floor_glimmer" ],
       "!": "t_door_locked_interior",

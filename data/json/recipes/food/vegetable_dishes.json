@@ -25,6 +25,7 @@
         [ "fiddlehead_boiled", 2 ],
         [ "fiddlehead_sauteed", 2 ],
         [ "sauerkraut", 2 ],
+        [ "grape_leaves", 2 ],
         [ "irradiated_cabbage", 2 ],
         [ "cabbage", 2 ]
       ],
@@ -59,5 +60,50 @@
         [ "seasoning_italian", 1 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "grain_boiled",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "9 m",
+    "batch_time_factors": [ 67, 5 ],
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "wheat", 1 ], [ "barley", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "garlic_roasted",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "40 m",
+    "batch_time_factors": [ 67, 5 ],
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "garlic", 1 ], [ "garlic_clove", 6 ] ], [ [ "cooking_oil", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chili_pepper_roasted",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "10 m",
+    "batch_time_factors": [ 67, 5 ],
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "chili_pepper", 1 ] ] ]
   }
 ]

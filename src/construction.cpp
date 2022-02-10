@@ -93,6 +93,7 @@ static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
+static const vpart_id vpart_ap_standing_lamp( "ap_standing_lamp" );
 static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 
 static const vproto_id vehicle_prototype_none( "none" );
@@ -1311,6 +1312,18 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     return vpart_frame_vertical_2;
 }
 
+static vpart_id vpart_appliance_from_item( const itype_id &item_id )
+{
+    for( const std::pair<const vpart_id, vpart_info> &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.base_item == item_id && vp.has_flag( flag_APPLIANCE ) ) {
+            return vp.get_id();
+        }
+    }
+    debugmsg( "item %s used by construction is not base item of any appliance!", item_id.c_str() );
+    return vpart_ap_standing_lamp;
+}
+
 void construct::done_vehicle( const tripoint &p )
 {
     std::string name = string_input_popup()
@@ -1381,7 +1394,8 @@ void construct::done_appliance( const tripoint &p )
         debugmsg( "error constructing vehicle" );
         return;
     }
-    const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
+
+    const vpart_id &vpart = vpart_appliance_from_item( get_avatar().lastconsumed );
 
     veh->install_part( point_zero, vpart );
     veh->name = vpart->name();

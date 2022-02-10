@@ -454,7 +454,7 @@
     "id": "soa_decor",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_decor" }, [ "armor_plate", 100 ], [ "helmet_plate", 100 ] ]
+    "items": [ { "group": "soa_weapons_decor" }, [ "armor_junk_plate", 100 ], [ "helmet_plate", 100 ] ]
   },
   {
     "id": "soa_weapons_decor",
@@ -470,7 +470,7 @@
     "id": "soa_plate",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_plate" }, [ "armor_lightplate", 100 ], [ "helmet_barbute", 100 ] ]
+    "items": [ { "group": "soa_weapons_plate" }, [ "armor_junk_lightplate", 100 ], [ "helmet_barbute", 100 ] ]
   },
   {
     "id": "soa_weapons_plate",
@@ -691,6 +691,9 @@
       [ "frisbee", 40 ],
       [ "disc_golf", 20 ],
       { "group": "toy_radio_car", "prob": 10 },
+      { "group": "toy_makerspace_kit", "prob": 8 },
+      { "group": "toy_robot_kit", "prob": 8 },
+      { "group": "toy_engine_kit", "prob": 8 },
       [ "orangesoda", 30 ],
       [ "magic_8_ball", 10 ],
       [ "hairpin", 30 ],
