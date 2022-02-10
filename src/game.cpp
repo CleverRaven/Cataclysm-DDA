@@ -3414,7 +3414,14 @@ void game::draw_panels( bool force_draw )
                 if( panel.always_draw || draw_this_turn ) {
                     catacurses::window w = catacurses::newwin( h, panel.get_width(),
                                            point( sidebar_right ? TERMX - panel.get_width() : 0, y ) );
-                    panel.draw( { u, w, panel.get_widget() } );
+                    int tmp_h = panel.draw( { u, w, panel.get_widget() } );
+                    h += tmp_h;
+                    // lines skipped for rendering -> reclaim space in the sidebar
+                    if( tmp_h < 0 ) {
+                        y += h;
+                        log_height -= tmp_h;
+                        continue;
+                    }
                 }
                 if( show_panel_adm ) {
                     const std::string panel_name = panel.get_name();
