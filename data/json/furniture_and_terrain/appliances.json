@@ -198,7 +198,7 @@
     "durability": 20,
     "description": "A solar panel mounted on a frame and ready to power other appliances.",
     "epower": 50,
-    "item": "static_solar_panel",
+    "item": "solar_panel",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
@@ -219,8 +219,8 @@
     "broken_color": "yellow",
     "damage_modifier": 10,
     "durability": 20,
-    "description": "A small battery to store electrical power in a storage grid.",
-    "item": "grid_battery_small",
+    "description": "A small battery to store electrical power in a static power grid.",
+    "item": "small_storage_battery",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },

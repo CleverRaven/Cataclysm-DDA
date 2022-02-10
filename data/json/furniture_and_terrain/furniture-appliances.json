@@ -571,7 +571,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
-	"deconstruct": { "items": [ { "item": "static_solar_panel", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "solar_panel", "count": 1 } ] },
     "bash": {
       "str_min": 10,
       "str_max": 20,
