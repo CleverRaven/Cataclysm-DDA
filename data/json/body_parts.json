@@ -623,7 +623,6 @@
     "type": "sub_body_part",
     "max_coverage": 5,
     "parent": "hand_r",
-    "secondary": true,
     "side": 1,
     "opposite": "hand_wrist_l",
     "name_multiple": "wrists",
