@@ -9,7 +9,7 @@
       },
       {
         "id": "LESSON_MOVE",
-        "text": "The character in the center of the screen represents you.  By default, you can move around using the <color_yellow>numpad</color>, <color_yellow>vikeys</color>, or the <color_yellow>arrow keys</color>.\n\nMovement Controls:\nNorth: <keybind:UP>\nSouth: <keybind:DOWN>\nWest: <keybind:LEFT>\nEast: <keybind:RIGHT>\nNorthwest: <keybind:LEFTUP>\nNortheast: <keybind:RIGHTUP>\nSouthwest: <keybind:LEFTDOWN>\nSoutheast: <keybind:RIGHTDOWN>\nWait in place: <keybind:pause>\n\nYou can also use the <color_yellow>left mouse button</color> to select the location you want to move, and then press it again to confirm the movement.\n\nTo continue the tutorial, please move to the door to the east."
+        "text": "The character in the center of the screen represents you.  By default, you can move around using the <color_yellow>numpad</color>, <color_yellow>vikeys</color>, or the <color_yellow>arrow keys</color>.\n\nMovement Controls:\nNorth: <keybind:UP>\nSouth: <keybind:DOWN>\nWest: <keybind:LEFT>\nEast: <keybind:RIGHT>\nNorthwest: <keybind:LEFTUP>\nNortheast: <keybind:RIGHTUP>\nSouthwest: <keybind:LEFTDOWN>\nSoutheast: <keybind:RIGHTDOWN>\nWait in place: <keybind:pause>\n\nYou can also use <keybind:SELECT> to select the location you want to move, and then press it again to confirm the movement.\n\nTo continue the tutorial, please move to the door to the east."
       },
       {
         "id": "LESSON_MOVEMENT_MODES",

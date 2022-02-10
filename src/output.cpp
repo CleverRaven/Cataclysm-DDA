@@ -1863,7 +1863,7 @@ void replace_keybind_tag( std::string &input )
         std::string keybind_full = input.substr( pos_keybind, pos_end - pos_keybind );
         std::string keybind = keybind_full;
 
-        size_t pos_category_split = keybind_full.find( ":" );
+        size_t pos_category_split = keybind_full.find( ':' );
 
 
         std::string category = "DEFAULTMODE";
@@ -1874,12 +1874,16 @@ void replace_keybind_tag( std::string &input )
         input_context ctxt( category );
 
         std::string keybind_desc;
-        std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false );
-        keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
-            return colorize( '\'' + k.long_description() + '\'', c_yellow );
-        }, enumeration_conjunction::or_ );
-
-        std::string to_replace = keybind_tag_start + keybind_full + keybind_tag_end;
+        std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
+        if( keys.size() == 0 ) { // Display description for unbound keys
+            keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
+        } else {
+            keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
+                return colorize( '\'' + k.long_description() + '\'', c_yellow );
+            }, enumeration_conjunction::or_ );
+        }
+        std::string to_replace = string_format( "%s%s%s", keybind_tag_start, keybind_full,
+                                                keybind_tag_end );
         replace_substring( input, to_replace, keybind_desc, true );
 
         pos = input.find( keybind_tag_start );
