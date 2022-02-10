@@ -5044,6 +5044,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
 
     blood.set_item_temperature( blood_temp );
     it->put_in( blood, item_pocket::pocket_type::CONTAINER );
+    p->mod_moves( -to_moves<int>( 5_seconds ) );
     return it->type->charges_to_use();
 }
 
