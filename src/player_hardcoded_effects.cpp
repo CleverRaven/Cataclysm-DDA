@@ -939,8 +939,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         it.mod_intensity( 1 );
     }
 
-    if( ( u.has_effect( effect_narcosis ) || u.has_active_mutation( trait_CHLOROMORPH ) ) &&
-        u.get_fatigue() <= 25 ) {
+    if( ( u.has_effect( effect_narcosis ) ) && u.get_fatigue() <= 25 ) {
         u.set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
     }
 
@@ -967,6 +966,9 @@ static void eff_fun_sleep( Character &u, effect &it )
             // Hunger and thirst fall before your Chloromorphic physiology!
             if( g->natural_light_level( u.posz() ) >= 12 &&
                 get_weather().weather_id->sun_intensity >= sun_intensity_type::light ) {
+                if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
+                    u.set_fatigue( 25 );
+                }
                 if( u.get_hunger() >= -30 ) {
                     u.mod_hunger( -5 );
                     // photosynthesis warrants absorbing kcal directly
