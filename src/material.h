@@ -27,12 +27,17 @@ using material_id_list = std::vector<material_id>;
 
 // values for how breathable a material is
 enum class breathability_rating : int {
-    IMPERMEABLE,
+    IMPERMEABLE = 0,
     SOMEWHAT,
     BREATHABLE,
     MOISTURE_WICKING,
     SECOND_SKIN,
     last
+};
+
+template<>
+struct enum_traits<breathability_rating> {
+    static constexpr breathability_rating last = breathability_rating::last;
 };
 
 struct fuel_explosion_data {

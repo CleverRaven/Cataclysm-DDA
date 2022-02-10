@@ -49,6 +49,8 @@ std::string enum_to_string<breathability_rating>( breathability_rating data )
             return "MOISTURE_WICKING";
         case breathability_rating::SECOND_SKIN:
             return "SECOND_SKIN";
+        case breathability_rating::last:
+            break;
     }
     cata_fatal( "Invalid breathability" );
 }
@@ -266,6 +268,7 @@ int material_type::breathability() const
         case breathability_rating::SECOND_SKIN:
             return 100;
     }
+    return 0;
 }
 
 cata::optional<int> material_type::wind_resist() const
