@@ -214,7 +214,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
 
     if( target_critter && target_critter->as_character() &&
-        target_critter->as_character()->has_trait_flag( json_flag_HARDTOHIT ) ) {
+        target_critter->as_character()->has_flag( json_flag_HARDTOHIT ) ) {
 
         projectile_attack_aim lucky_aim = projectile_attack_roll( dispersion, range, target_size );
         // if the target's lucky they're more likely to be missed

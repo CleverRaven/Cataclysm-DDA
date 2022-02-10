@@ -711,6 +711,7 @@ void guilt( const spell &sp, Creature &caster, const tripoint &target );
 void remove_effect( const spell &sp, Creature &caster, const tripoint &target );
 void emit( const spell &sp, Creature &caster, const tripoint &target );
 void fungalize( const spell &sp, Creature &caster, const tripoint &target );
+void remove_field( const spell &sp, Creature &caster, const tripoint &center );
 void effect_on_condition( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 void slime_split_on_death( const spell &sp, Creature &, const tripoint &target );
@@ -758,6 +759,7 @@ effect_map{
     { "remove_effect", spell_effect::remove_effect },
     { "emit", spell_effect::emit },
     { "fungalize", spell_effect::fungalize },
+    { "remove_field", spell_effect::remove_field },
     { "effect_on_condition", spell_effect::effect_on_condition },
     { "slime_split", spell_effect::slime_split_on_death },
     { "none", spell_effect::none }

@@ -39,14 +39,29 @@ jobs:
           name: spell_check_output
       - name: 'Comment on PR'
         if: steps.set-spell-check-retcode.outputs.spell-check-retcode >= 1
-        uses: actions/github-script@v3
+        uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             var fs = require('fs');
             var issue_number = Number(fs.readFileSync('./pull_request_id'));
             var body = fs.readFileSync('./spell_check_output', 'utf8');
-            await github.issues.createComment({
+            console.log("Fetching comments of pull request %d of repository %s/%s.", issue_number, context.repo.owner, context.repo.repo);
+            const comments = await github.paginate(github.rest.issues.listComments,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue_number
+              }
+            );
+            comments.reverse();
+            const bot_comments = comments.filter(comment => comment.user.type === 'Bot' && comment.user.login === 'github-actions[bot]');
+            if (bot_comments.length > 0 && bot_comments[0].body === body) {
+              console.log("Comment already exists.  Exiting.");
+              return;
+            }
+            console.log("Posting comment.");
+            await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue_number,

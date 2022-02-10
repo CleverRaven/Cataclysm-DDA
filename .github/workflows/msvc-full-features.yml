@@ -34,11 +34,17 @@ on:
     - '!tools/format/**'
     - 'utilities/**'
 
+# We only care about the latest revision of a PR, so cancel previous instances.
+concurrency:
+  group: msvc-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
 env:
   # There's not enough disk space to build both release and debug versions of
   # our dependencies, so we hack the triplet file to build only release versions
   # Have to use github.workspace because runner namespace isn't available yet.
   VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
+  ZSTD_CLEVEL: 17
 
 jobs:
   build_catatclysm:

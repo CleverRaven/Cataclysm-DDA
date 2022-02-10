@@ -73,7 +73,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_COWBOYT_JOKE",
-    "dynamic_line": "Hah, real cute.  Seem the End times didn't take your sense of humour, eh, stranger?",
+    "dynamic_line": "Hah, real cute.  Seem the End times didn't take your sense of humor, eh, stranger?",
     "responses": [ { "text": "I have my moments.  So what are you doing here?", "topic": "TALK_COWBOYT_INTRODUCTION" } ]
   },
   {
@@ -102,7 +102,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Well, now that you mention it…",
-      "offer": "You see, some time ago, I ran into this guy who offered me a substantial payment in exhange for a Remington 870 Express.  I asked if he'd like another weapon, since nowadays, any gun will do, but for some reason, he's dead set on that particular model.  If you could obtain one for me, well, I'd be quite grateful.",
+      "offer": "You see, some time ago, I ran into this guy who offered me a substantial payment in exchange for a Remington 870 Express.  I asked if he'd like another weapon, since nowadays, any gun will do, but for some reason, he's dead set on that particular model.  If you could obtain one for me, well, I'd be quite grateful.",
       "accepted": "Great!  Let me know when you get it, and I'll try to get in touch with him.",
       "rejected": "Suit yourself.  Ain't a rush.",
       "advice": "Well, a gun store is a solid bet, but the model is common enough.  Maybe you can find one in a police station, or a store with hunting gear.",

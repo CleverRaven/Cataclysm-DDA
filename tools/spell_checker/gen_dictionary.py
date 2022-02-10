@@ -11,8 +11,9 @@ def gen_dictionary():
     pofile = polib.pofile(po_path)
     dictionary = set()
     for entry in pofile:
-        words = Tokenizer.findall(sanitize_message(entry.msgid))
-        for word in filter(is_english, Speller.unknown(words)):
+        words = filter(is_english,
+                       Tokenizer.findall(sanitize_message(entry.msgid)))
+        for word in Speller.unknown(words):
             dictionary.add(word)
     dict_path = os.path.join(os.path.dirname(__file__), "dictionary.txt")
     with open(dict_path, "w") as fp:

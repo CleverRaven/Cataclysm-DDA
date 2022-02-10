@@ -250,7 +250,7 @@
     "symbol": "^",
     "visibility": 6,
     "avoidance": 4,
-    "difficulty": 3,
+    "difficulty": 0,
     "action": "tripwire",
     "drops": [ "string_36" ]
   },
@@ -1011,5 +1011,39 @@
     "action": "none",
     "benign": true,
     "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_swirling_vortex",
+    "name": "Swirling vortex",
+    "color": "green",
+    "symbol": "#",
+    "visibility": 5,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "action": "spell",
+    "spell_data": { "id": "swirling_vortex" }
+  },
+  {
+    "type": "SPELL",
+    "id": "swirling_vortex",
+    "name": { "str": "Swirling Vortex" },
+    "description": "Sends the victim to the entrance.",
+    "valid_targets": [ "self", "hostile", "ally" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "shape": "blast",
+    "min_range": 0,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SWIRLING_VORTEX"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SWIRLING_VORTEX",
+    "effect": [ { "u_teleport": { "global_val": "nether_dungeon_door" }, "success_message": "How did you get here?" } ]
   }
 ]

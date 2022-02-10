@@ -309,7 +309,7 @@
     "id": "t_tree_dead",
     "name": "dead tree",
     "looks_like": "t_tree",
-    "description": "An indiscernible tree that has withered away, whether by weather, fire or otherworldy.  You could cut it down with the right tools.",
+    "description": "An indiscernible tree that has withered away, whether by weather, fire or otherworldly.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": "brown",
     "move_cost": 0,
@@ -2012,7 +2012,7 @@
     "move_cost": 3,
     "coverage": 20,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
-    "examine_action": "harvest_ter_nectar",
+    "examine_action": "harvest_ter",
     "harvest_by_season": [ { "seasons": [ "spring" ], "id": "fern_harv" } ],
     "transforms_into": "t_fern_harvested",
     "bash": {

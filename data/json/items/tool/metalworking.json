@@ -65,7 +65,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 500 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 500 } } ],
     "sub": "forge",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -425,5 +425,25 @@
     "symbol": ";",
     "qualities": [ [ "GRIND", 2 ] ],
     "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "gas_forge",
+    "type": "TOOL",
+    "name": { "str": "gas forge" },
+    "//": "Based on the Whisper Daddy 3 Burner Forge, large enough to craft tools and small weapons.",
+    "description": "This is a gas-fueled metalworking forge.  If combined with the right tools, you could use this for metalworking.",
+    "weight": "32205 g",
+    "volume": "8 L",
+    "price": 80000,
+    "price_postapoc": 10000,
+    "to_hit": -5,
+    "bashing": 25,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": [ "propane" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "large_propane_tank" } ],
+    "sub": "forge",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]

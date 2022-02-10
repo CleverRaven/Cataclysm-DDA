@@ -201,7 +201,7 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"context": "f_desk"` the furniture or terrain that this should apply to.
 
-`"variants":` the defenitions for what will have a variant sprite.
+`"variants":` the definitions for what will have a variant sprite.
 
 `"item": "laptop"` the item id.
 

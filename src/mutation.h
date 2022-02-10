@@ -100,7 +100,7 @@ struct reflex_activation_data {
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
 
-    bool is_trigger_true( const Character &guy ) const;
+    bool is_trigger_true( Character &guy ) const;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
@@ -174,7 +174,7 @@ struct mutation_branch {
         cata::optional<float> movecost_flatground_modifier = cata::nullopt;
         cata::optional<float> movecost_obstacle_modifier = cata::nullopt;
         cata::optional<float> attackcost_modifier = cata::nullopt;
-        cata::optional<float> max_stamina_modifier = cata::nullopt;
+        cata::optional<float> cardio_multiplier = cata::nullopt;
         cata::optional<float> weight_capacity_modifier = cata::nullopt;
         cata::optional<float> hearing_modifier = cata::nullopt;
         cata::optional<float> movecost_swim_modifier = cata::nullopt;

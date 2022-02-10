@@ -54,6 +54,9 @@ static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_rope_30( "rope_30" );
 
+static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
+static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
+
 static const material_id material_kevlar( "kevlar" );
 static const material_id material_steel( "steel" );
 static const material_id material_stone( "stone" );
@@ -69,8 +72,6 @@ static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
-static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
-static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
@@ -114,8 +115,8 @@ bool trapfunc::bubble( const tripoint &p, Creature *c, item * )
 bool trapfunc::glass( const tripoint &p, Creature *c, item * )
 {
     if( c != nullptr ) {
-        // tiny animals and hallucinations don't trigger glass trap
-        if( c->get_size() == creature_size::tiny || c->is_hallucination() ) {
+        // tiny animals don't trigger glass trap
+        if( c->get_size() == creature_size::tiny ) {
             return false;
         }
         c->add_msg_player_or_npc( m_warning, _( "You step on some glass!" ),
@@ -268,7 +269,7 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
         return false;
     }
     // tiny animals don't trigger caltrops, they can squeeze between them
-    if( c->get_size() == creature_size::tiny || c->is_hallucination() ) {
+    if( c->get_size() == creature_size::tiny ) {
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "You step on a sharp glass caltrop!" ),
@@ -802,8 +803,8 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-                you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+        if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
+                you->has_flag( json_flag_WINGS_1 ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
@@ -854,8 +855,8 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 20, 50 );
-        if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-                you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+        if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
+                you->has_flag( json_flag_WINGS_1 ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
@@ -938,8 +939,8 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 15, 35 );
-        if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-                you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+        if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
+                you->has_flag( json_flag_WINGS_1 ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
@@ -1224,8 +1225,8 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     } else {
         you->setpos( where );
     }
-    if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-            you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+    if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
+            you->has_flag( json_flag_WINGS_1 ) ) ) {
         you->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                     _( "<npcname> flaps their wings and flutters down gracefully." ) );
     } else if( you->has_active_bionic( bio_shock_absorber ) ) {

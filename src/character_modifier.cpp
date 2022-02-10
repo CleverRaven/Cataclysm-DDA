@@ -8,7 +8,10 @@ character_modifier_limb_footing_movecost_mod( "limb_footing_movecost_mod" );
 static const character_modifier_id
 character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
 
+static const limb_score_id limb_score_footing( "footing" );
 static const limb_score_id limb_score_manip( "manip" );
+static const limb_score_id limb_score_move_speed( "move_speed" );
+static const limb_score_id limb_score_reaction( "reaction" );
 static const limb_score_id limb_score_swim( "swim" );
 
 static const skill_id skill_archery( "archery" );
@@ -156,7 +159,7 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
     }
     float total = 0.0f;
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        if( bp == body_part_type::type::num_types || id.first->limb_type == bp ) {
+        if( bp == body_part_type::type::num_types || id.first->has_type( bp ) ) {
             total += id.second.get_limb_score( score, skill, override_encumb, override_wounds );
         }
     }
@@ -165,20 +168,20 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
 
 // Modifiers
 
-static double aim_speed_skill_modifier( const Character &c, const skill_id &gun_skill )
+static float aim_speed_skill_modifier( const Character &c, const skill_id &gun_skill )
 {
-    double skill_mult = 0.25;
-    double base_modifier = 0;
+    float skill_mult = 0.25f;
+    float base_modifier = 0.0f;
     if( gun_skill == skill_archery ) {
-        skill_mult = 0.5;
-        base_modifier = -1.5;
+        skill_mult = 0.5f;
+        base_modifier = -1.5f;
     }
     return skill_mult * std::min( MAX_SKILL, c.get_skill_level( gun_skill ) ) + base_modifier;
 }
 
-static double aim_speed_dex_modifier( const Character &c, const skill_id & )
+static float aim_speed_dex_modifier( const Character &c, const skill_id & )
 {
-    return ( c.get_dex() - 8 ) * 0.5;
+    return ( c.get_dex() - 8 ) * 0.5f;
 }
 
 static float stamina_move_cost_modifier( const Character &c, const skill_id & )
@@ -195,14 +198,21 @@ static float limb_run_cost_modifier( const Character &c, const skill_id & )
              character_modifier_limb_speed_movecost_mod->modifier( c ) * 2 ) / 3.0f;
 }
 
+static float limb_fall_mod( const Character &c, const skill_id & )
+{
+    return c.get_limb_score( limb_score_move_speed ) * c.get_limb_score( limb_score_footing ) *
+           c.get_limb_score( limb_score_reaction );
+}
+
 static float call_builtin( const std::string &builtin, const Character &c, const skill_id &skill )
 {
-    static const std::map<std::string, std::function<float ( const Character &, const skill_id & )>>
+    static const std::map<std::string, std::function<float( const Character &, const skill_id & )>>
     func_map = {
         { "limb_run_cost_modifier", limb_run_cost_modifier },
         { "stamina_move_cost_modifier", stamina_move_cost_modifier },
         { "aim_speed_dex_modifier", aim_speed_dex_modifier },
-        { "aim_speed_skill_modifier", aim_speed_skill_modifier }
+        { "aim_speed_skill_modifier", aim_speed_skill_modifier },
+        { "limb_fall_mod", limb_fall_mod }
     };
 
     auto iter = func_map.find( builtin );

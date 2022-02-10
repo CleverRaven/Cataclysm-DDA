@@ -10,6 +10,8 @@
 #include "calendar.h"
 #include "character.h"
 #include "construction.h"
+#include "field.h"
+#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -48,6 +50,7 @@ static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
@@ -158,6 +161,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         type == ACT_CONSUME_FOOD_MENU ||
         type == ACT_CONSUME_MEDS_MENU ||
         type == ACT_EAT_MENU ||
+        type == ACT_PICKUP_MENU ||
         type == ACT_VIEW_RECIPE ) {
         return cata::nullopt;
     }
@@ -461,4 +465,29 @@ void player_activity::inherit_distractions( const player_activity &other )
     for( const distraction_type &type : other.ignored_distractions ) {
         ignore_distraction( type );
     }
+}
+
+
+std::map<distraction_type, std::string> player_activity::get_distractions()
+{
+    std::map < distraction_type, std::string > res;
+    if( id() != ACT_AIM && moves_left > 0 ) {
+        if( !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
+            Creature *hostile_critter = g->is_hostile_very_close( true );
+            if( hostile_critter != nullptr ) {
+                res.emplace( distraction_type::hostile_spotted_near,
+                             string_format( _( "The %s is dangerously close!" ),
+                                            g->is_hostile_very_close( true )->get_name() ) );
+            }
+        }
+        if( !is_distraction_ignored( distraction_type::dangerous_field ) ) {
+            field_entry *field = g->is_in_dangerous_field();
+            if( field != nullptr ) {
+                res.emplace( distraction_type::dangerous_field, string_format( _( "You stand in %s!" ),
+                             g->is_in_dangerous_field()->name() ) );
+            }
+        }
+    }
+
+    return res;
 }

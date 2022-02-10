@@ -590,6 +590,8 @@ class map
         }
         bool is_wall_adjacent( const tripoint &center ) const;
 
+        bool is_open_air( const tripoint & ) const;
+
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
         */
@@ -808,9 +810,9 @@ class map
         * furn_reset should be true if new_furniture is being set to f_null
         * when the player is grab-moving furniture
         */
-        void furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
-        void furn_set( const point &p, const furn_id &new_furniture ) {
-            furn_set( tripoint( p, abs_sub.z ), new_furniture );
+        bool furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
+        bool furn_set( const point &p, const furn_id &new_furniture ) {
+            return furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
         void furn_clear( const tripoint &p ) {
             furn_set( p, f_clear );
@@ -1480,6 +1482,10 @@ class map
          * Remove field entry at xy, ignored if the field entry is not present.
          */
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
+        /**
+         * Remove all field entries at location.
+         */
+        void clear_fields( const tripoint &p );
 
         /**
          * Get applicable fd_electricity field type for a given point
@@ -2018,7 +2024,7 @@ class map
         /**
          * Holds caches for visibility, light, transparency and vehicles
          */
-        std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
+        mutable std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
 
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
         /**
@@ -2033,7 +2039,15 @@ class map
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
-            return *caches[zlev + OVERMAP_DEPTH];
+            std::unique_ptr<level_cache> &cache = caches[zlev + OVERMAP_DEPTH];
+            if( !cache ) {
+                cache = std::make_unique<level_cache>();
+            }
+            return *cache;
+        }
+
+        level_cache *get_cache_lazy( int zlev ) const {
+            return caches[zlev + OVERMAP_DEPTH].get();
         }
 
         pathfinding_cache &get_pathfinding_cache( int zlev ) const;
@@ -2046,7 +2060,7 @@ class map
 
     public:
         const level_cache &get_cache_ref( int zlev ) const {
-            return *caches[zlev + OVERMAP_DEPTH];
+            return get_cache( zlev );
         }
 
         const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;

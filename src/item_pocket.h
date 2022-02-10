@@ -158,6 +158,7 @@ class item_pocket
         void set_usability( bool show );
 
         const translation &get_description() const;
+        const translation &get_name() const;
 
         const pocket_data *get_pocket_data() const;
 
@@ -316,6 +317,20 @@ class item_pocket
         void add( const item &it, item **ret = nullptr );
         bool can_unload_liquid() const;
 
+        /**
+        * @brief Check contents of pocket to see if it contains a valid item/pocket to store the given item.
+        * @param ret Used to cache and return a pocket if a valid one was found.
+        * @param pocket The @a item_pocket pocket to recursively look through.
+        * @param parent The parent item location, most likely provided by initial call to @a best_pocket.
+        * @param it The item to try and store.
+        * @param avoid Item to avoid trying to search for/inside of.
+        *
+        * @returns A non-nullptr if a suitable pocket is found.
+        */
+        item_pocket *best_pocket_in_contents(
+            item_location &parent, const item &it, const item *avoid,
+            const bool allow_sealed, const bool ignore_settings );
+
         // only available to help with migration from previous usage of std::list<item>
         std::list<item> &edit_contents();
 
@@ -343,7 +358,7 @@ class item_pocket
         bool same_contents( const item_pocket &rhs ) const;
         /** stacks like items inside the pocket */
         void restack();
-        /** same as above, except returns the stack where input item was placed */
+        /** same as restack(), except returns the stack where input item was placed */
         item *restack( /*const*/ item *it );
         bool has_item_stacks_with( const item &it ) const;
 
@@ -357,6 +372,9 @@ class item_pocket
         bool operator==( const item_pocket &rhs ) const;
 
         favorite_settings settings;
+
+        // should the name of this pocket be used as a description
+        bool name_as_description = false; // NOLINT(cata-serialize)
     private:
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST; // NOLINT(cata-serialize)
@@ -436,6 +454,8 @@ class pocket_data
         bool ablative = false;
         // additional encumbrance when this pocket is in use
         int extra_encumbrance = 0;
+        // how much this pocket contributes to enumbrance compared to an average item
+        float volume_encumber_modifier = 1;
         // chance this pockets contents get ripped off when escaping a grab
         int ripoff = 0;
         // volume this pocket makes when moving
@@ -461,6 +481,13 @@ class pocket_data
 
         // a description of the pocket
         translation description;
+
+        // the name of the item the pocket belongs to
+        // this can be used as a fallback description if needed
+        translation name;
+        // an optional name defined for this pocket
+        // used to very briefly distinguish the purpose of the pocket (ex: Torso compartment)
+        translation pocket_name;
 
         /** Data that is different for sealed pockets than unsealed pockets. This takes priority. */
         cata::value_ptr<sealable_data> sealed_data;

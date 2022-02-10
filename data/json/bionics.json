@@ -38,24 +38,24 @@
     "description": "In a cruel twist of fate, a poorly executed CBM surgery has given you a pair of useless bionics which make squeaking noises when you walk.",
     "occupied_bodyparts": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "enchantments": [ "SQUEAKY_ANKLES" ],
+    "mutation_conflicts": [ "LEG_TENTACLES", "LEG_TENT_BRACE", "GASTROPOD_FOOT", "GASTROPOD_BALANCE", "AMORPHOUS" ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_armor_arms",
     "type": "bionic",
-    "name": { "str": "Intradermal Alloy - Arms" },
+    "name": { "str": "Alloy Plating - Arms" },
     "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
     "cut_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
     "bullet_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
     "encumbrance": [ [ "arm_l", 1 ], [ "arm_r", 1 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "cant_remove_reason": "The Intradermal Alloy is too thoroughly entwined with %1$s to be removed safely.",
+    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "ALBINO",
       "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
@@ -155,25 +155,23 @@
     "bullet_protec": [ [ "eyes", 3 ] ],
     "encumbrance": [ [ "eyes", 1 ] ],
     "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
-    "cant_remove_reason": "The Intradermal Plating is too thoroughly entwined with %1$s to be removed safely.",
     "social_modifiers": { "intimidate": 10 }
   },
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": { "str": "Intradermal Alloy - head" },
+    "name": { "str": "Alloy Plating - Head" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
     "bash_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
     "cut_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
     "bullet_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
     "encumbrance": [ [ "head", 1 ] ],
-    "cant_remove_reason": "The Intradermal Alloy is too thoroughly entwined with %1$s to be removed safely.",
+    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "ALBINO",
       "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
@@ -280,19 +278,18 @@
   {
     "id": "bio_armor_legs",
     "type": "bionic",
-    "name": { "str": "Intradermal Alloy - Legs" },
+    "name": { "str": "Alloy Plating - Legs" },
     "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "encumbrance": [ [ "leg_l", 1 ], [ "leg_r", 1 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
-    "cant_remove_reason": "The Intradermal Alloy is too thoroughly entwined with %1$s to be removed safely.",
+    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "ALBINO",
       "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
@@ -365,7 +362,6 @@
       "RABBIT_FUR",
       "TAIL_RABBIT",
       "RABBIT_FEET",
-      "PAWS_LITTLE",
       "BOVINE_BULK",
       "BOVINE_BULK2",
       "FAT",
@@ -379,20 +375,19 @@
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": { "str": "Intradermal Alloy - torso" },
+    "name": { "str": "Alloy Plating - Torso" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "bash_protec": [ [ "torso", 3 ] ],
     "cut_protec": [ [ "torso", 3 ] ],
     "bullet_protec": [ [ "torso", 3 ] ],
-    "encumbrance": [ [ "torso", 3 ] ],
+    "encumbrance": [ [ "torso", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "cant_remove_reason": "The Intradermal Alloy is too thoroughly entwined with %1$s to be removed safely.",
+    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
     "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "ALBINO",
       "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
@@ -456,7 +451,6 @@
       "PATCHSKIN1",
       "PATCHSKIN2",
       "RABBIT_FUR",
-      "PAWS_LITTLE",
       "BOVINE_BULK",
       "BOVINE_BULK2",
       "FAT",
@@ -611,7 +605,19 @@
     "encumbrance": [ [ "hand_l", 3 ], [ "hand_r", 3 ] ],
     "act_cost": "25 J",
     "fake_weapon": "bio_claws_weapon",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ],
+    "mutation_conflicts": [
+      "BENDY3",
+      "ARM_TENTACLES",
+      "ARM_TENTACLES_4",
+      "ARM_TENTACLES_8",
+      "CLAWS_TENTACLES",
+      "TALONS",
+      "CLAWS",
+      "CLAWS_RETRACT",
+      "CLAWS_RAT",
+      "CLAWS_ST"
+    ]
   },
   {
     "id": "bio_climate",
@@ -695,7 +701,23 @@
     "description": "You have been outfitted with three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illness, and can sometimes eat rotten food.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "vitamin_absorb_mod": 1.5,
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "PARAIMMUNE", "IMMUNE_SPOIL" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "PARAIMMUNE", "IMMUNE_SPOIL" ],
+    "cant_remove_reason": "The CBM has replaced the patient's digestive organs and cannot be removed.",
+    "canceled_mutations": [
+      "WEAKSTOMACH",
+      "STRONGSTOMACH",
+      "CARNIVORE",
+      "HERBIVORE",
+      "ANTIJUNK",
+      "ANTIFRUIT",
+      "RUMINANT",
+      "ANTIWHEAT",
+      "NAUSEA",
+      "VOMITOUS",
+      "EATPOISON",
+      "EATDEAD",
+      "ALCMET"
+    ]
   },
   {
     "id": "bio_dis_acid",
@@ -823,7 +845,8 @@
       "LIZ_EYE",
       "EYEBULGE",
       "SEESLEEP"
-    ]
+    ],
+    "mutation_conflicts": [ "EYESTALKS1", "EYESTALKS2" ]
   },
   {
     "id": "bio_face_mask",
@@ -1138,7 +1161,7 @@
     "name": { "str": "Repair Nanobots" },
     "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage at 1 HP per minute and stopping bleeding at the cost of extra power and stored calories.  No power is consumed if there is nothing to heal.",
     "occupied_bodyparts": [ [ "torso", 12 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "80 J",
     "react_cost": "40 J",
     "time": 1
@@ -1556,7 +1579,20 @@
     "fuel_options": [ "muscle" ],
     "fuel_efficiency": 0.125,
     "passive_fuel_efficiency": 0.00625,
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_TOGGLED" ],
+    "mutation_conflicts": [
+      "AMORPHOUS",
+      "BENDY2",
+      "BENDY3",
+      "ARM_TENTACLES",
+      "ARM_TENTACLES_4",
+      "ARM_TENTACLES_8",
+      "CLAWS_TENTACLES",
+      "GASTROPOD_FOOT",
+      "GASTROPOD_BALANCE",
+      "LEG_TENTACLES",
+      "LEG_TENT_BRACE"
+    ]
   },
   {
     "id": "bio_jointservo",
@@ -1565,7 +1601,7 @@
     "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  Movement takes less effort when this bionic is online.  However, when it's offline it will hamper your movement, as you struggle against its moving parts.",
     "occupied_bodyparts": [ [ "leg_l", 12 ], [ "leg_r", 12 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "mutation_conflicts": [ "LEG_TENTACLES", "LEG_TENT_BRACE", "GASTROPOD_FOOT", "GASTROPOD_BALANCE" ],
+    "mutation_conflicts": [ "LEG_TENTACLES", "LEG_TENT_BRACE", "GASTROPOD_FOOT", "GASTROPOD_BALANCE", "AMORPHOUS" ],
     "enchantments": [
       { "condition": "ACTIVE", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] },
       { "condition": "INACTIVE", "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ] }
@@ -1608,7 +1644,7 @@
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ],
     "social_modifiers": { "persuade": -20, "lie": 10, "intimidate": 20 },
-    "canceled_mutations": [ "GROWL", "SNARL", "HISS" ]
+    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK" ]
   },
   {
     "id": "bio_watch",
@@ -1655,7 +1691,27 @@
     "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "weight_capacity_bonus": "20 kg",
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [
+      "AMORPHOUS",
+      "BENDY2",
+      "BENDY3",
+      "LARGE",
+      "LARGE_OK",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL",
+      "SMALL2",
+      "SMALL_OK",
+      "ARM_TENTACLES",
+      "ARM_TENTACLES_4",
+      "ARM_TENTACLES_8",
+      "CLAWS_TENTACLES",
+      "GASTROPOD_FOOT",
+      "GASTROPOD_BALANCE",
+      "LEG_TENTACLES",
+      "LEG_TENT_BRACE"
+    ]
   },
   {
     "id": "bio_taste_blocker",

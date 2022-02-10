@@ -92,7 +92,7 @@
               { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
               { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
               { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] },
-              { "group": "corpse_male" }
+              { "group": "corpse_male", "damage": 4 }
             ]
           },
           {
@@ -163,7 +163,7 @@
                   }
                 ]
               },
-              { "group": "corpse_female" }
+              { "group": "corpse_female", "damage": 4 }
             ]
           },
           {
@@ -173,7 +173,7 @@
               { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
               { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
               { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] },
-              { "group": "corpse_child" }
+              { "group": "corpse_child", "damage": 4 }
             ]
           }
         ]
@@ -454,7 +454,7 @@
     "id": "soa_decor",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_decor" }, [ "armor_plate", 100 ], [ "helmet_plate", 100 ] ]
+    "items": [ { "group": "soa_weapons_decor" }, [ "armor_junk_plate", 100 ], [ "helmet_plate", 100 ] ]
   },
   {
     "id": "soa_weapons_decor",
@@ -470,7 +470,7 @@
     "id": "soa_plate",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_plate" }, [ "armor_lightplate", 100 ], [ "helmet_barbute", 100 ] ]
+    "items": [ { "group": "soa_weapons_plate" }, [ "armor_junk_lightplate", 100 ], [ "helmet_barbute", 100 ] ]
   },
   {
     "id": "soa_weapons_plate",
@@ -691,6 +691,9 @@
       [ "frisbee", 40 ],
       [ "disc_golf", 20 ],
       { "group": "toy_radio_car", "prob": 10 },
+      { "group": "toy_makerspace_kit", "prob": 8 },
+      { "group": "toy_robot_kit", "prob": 8 },
+      { "group": "toy_engine_kit", "prob": 8 },
       [ "orangesoda", 30 ],
       [ "magic_8_ball", 10 ],
       [ "hairpin", 30 ],

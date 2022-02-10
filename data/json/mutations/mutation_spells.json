@@ -54,6 +54,8 @@
     "base_energy_cost": 350,
     "min_damage": 0,
     "max_damage": 0,
+    "min_range": 6,
+    "max_range": 6,
     "damage_type": "biological",
     "min_aoe": 1,
     "max_aoe": 1,

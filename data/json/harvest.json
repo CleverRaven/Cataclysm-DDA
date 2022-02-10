@@ -111,7 +111,10 @@
   {
     "id": "shrub_grape_harv",
     "type": "harvest",
-    "entries": [ { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+    "entries": [
+      { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
+      { "drop": "grape_leaves", "base_num": [ 1, 4 ] }
+    ]
   },
   {
     "id": "shrub_raspberry_harv",
@@ -420,6 +423,24 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
+    "id": "mutant_rodent",
+    "//": "currently lacks tox",
+    "type": "harvest",
+    "entries": [
+      { "drop": "rodent_sample_small", "type": "mutagen_group" },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.005 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
   },
   {
@@ -1400,7 +1421,7 @@
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.04 },
+      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.04, "flags": [ "FILTHY" ] },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.04 }
     ]
   },

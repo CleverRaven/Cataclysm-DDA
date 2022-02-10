@@ -19,8 +19,8 @@ fi
 
 if [ -n "$TEST_STAGE" ]
 then
-    build-scripts/lint-json.sh
-    make -j "$num_jobs" style-json
+    build-scripts/validate_json.py
+    make style-all-json-parallel RELEASE=1
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
 
@@ -228,9 +228,5 @@ else
             done
     fi
 fi
-ccache --show-stats
-# Shrink the ccache back down to 2GB in preperation for pushing to shared storage.
-ccache -M 2G
-ccache -c
 
 # vim:tw=0
