@@ -235,7 +235,7 @@
     "symbol": "B",
     "location": "structure",
     "color": "red",
-    "flags": [  "OBSTACLE", "APPLIANCE" ],
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
     "description": "A large battery to store electrical power in a static power grid.",
     "copy-from": "large_storage_battery"
   }
