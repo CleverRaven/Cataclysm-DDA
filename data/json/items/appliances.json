@@ -100,51 +100,5 @@
     "price_postapoc": 10,
     "symbol": "~",
     "color": "white"
-  },
-  {
-    "type": "GENERIC",
-    "id": "static_solar_panel",
-    "name": { "str": "static solar panel" },
-    "description": "A set of photovoltaic power generators ready to be installed to a power grid, providing electricity from solar radiation.",
-    "weight": "12 kg",
-    "to_hit": -1,
-    "material": [ "glass", "steel" ],
-    "volume": "10 L",
-    "longest_side": "120 cm",
-    "bashing": 4,
-    "price": 10000,
-    "price_postapoc": 2000,
-    "symbol": "#",
-    "color": "light_blue"
-  },
-  {
-    "type": "GENERIC",
-    "id": "grid_battery_small",
-    "name": { "str": "Small power grid battery", "str_pl": "Small power grid batteries" },
-    "description": "A small battery to provide charge to a power grid.",
-    "weight": "1 kg",
-    "to_hit": -1,
-    "material": [ "steel" ],
-    "volume": "6 L",
-    "longest_side": "40 cm",
-    "bashing": 3,
-    "price": 6000,
-    "price_postapoc": 1500,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2500 } } ],
-    "symbol": "U"
-  },
-  {
-    "type": "GENERIC",
-    "id": "wall_wiring",
-    "name": { "str": "wall wiring" },
-    "description": "Electric wires used to run power through walls.",
-    "weight": "1 g",
-    "material": [ "plastic", "copper" ],
-    "volume": "1 ml",
-    "price": 100,
-    "price_postapoc": 10,
-    "symbol": "~",
-    "color": "white"
   }
 ]
