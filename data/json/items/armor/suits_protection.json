@@ -2111,7 +2111,7 @@
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "track touring suit" },
-    "description": "A leather bodysuit with padding in high-impact areas, meant for motorcyclists out on the track. It's stiff, but strategically-placed vents make it cool to wear even in the summer.",
+    "description": "A leather bodysuit with padding in high-impact areas, meant for motorcyclists out on the track.  It's stiff, but strategically-placed vents make it cool to wear even in the summer.",
     "weight": "2214 g",
     "volume": "6500 ml",
     "price": 58000,
