@@ -113,6 +113,18 @@ struct basecamp_upgrade {
     bool in_progress = false;
 };
 
+struct expansion_salt_water_pipe_segment {
+    tripoint_abs_omt point;
+    bool started;
+    bool finished;
+};
+
+struct expansion_salt_water_pipe {
+    point expansion;
+    point connection_direction;
+    std::vector<expansion_salt_water_pipe_segment> segments;
+};
+
 class basecamp
 {
     public:
@@ -153,6 +165,7 @@ class basecamp
         std::string board_name() const;
         std::vector<point> directions; // NOLINT(cata-serialize)
         std::vector<tripoint_abs_omt> fortifications;
+        std::vector<expansion_salt_water_pipe *> salt_water_pipes;
         std::string name;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
@@ -289,6 +302,13 @@ class basecamp
         void start_relay_hide_site();
         /// Called when a companion is sent to start fortifications
         void start_fortifications( std::string &bldg_exp );
+        /// Called when a companion is sent to start digging down salt water pipes
+        bool common_salt_water_pipe_construction( const point &dir, const std::string &bldg_exp,
+                const std::string &key, expansion_salt_water_pipe *pipe,
+                int segment_number ); //  Code factored out from the two following operation, not intended to be used elsewhere.
+        void start_salt_water_pipe( const point &dir, const std::string &bldg_exp, const std::string &key );
+        void continue_salt_water_pipe( const point &dir, const std::string &bldg_exp,
+                                       const std::string &key );
         void start_combat_mission( const std::string &miss );
         void start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
@@ -329,6 +349,10 @@ class basecamp
         */
         bool farm_return( const std::string &task, const tripoint_abs_omt &omt_tgt, farm_ops op );
         void fortifications_return();
+        bool salt_water_pipe_swamp_return( const point &dir, const std::string &miss,
+                                           const std::string &bldg, const time_duration work_days );
+        bool salt_water_pipe_return( const point &dir, const std::string &miss, const std::string &bldg,
+                                     const time_duration work_days );
 
         void combat_mission_return( const std::string &miss );
         void validate_assignees();
