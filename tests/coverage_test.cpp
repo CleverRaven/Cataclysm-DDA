@@ -158,6 +158,8 @@ TEST_CASE( "Proportional armor material resistances", "[material]" )
 
     SECTION( "Mostly cotton armor vs. melee" ) {
         const float dmg = get_avg_melee_dmg( "test_swat_mostly_cotton" );
+        // more variance on this test since it has a 5% chance of blocking with
+        // high protection steel
         check_near( "Average damage", dmg, 12.2f, 0.4f );
     }
 }
