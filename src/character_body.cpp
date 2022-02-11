@@ -85,7 +85,7 @@ void Character::update_body_wetness( const w_point &weather )
     constexpr time_duration average_drying = 30_minutes;
 
     // Fur/slime retains moisture
-    double trait_mult = 1.0;
+    float trait_mult = 1.0;
     if( has_trait( trait_LIGHTFUR ) || has_trait( trait_FUR ) || has_trait( trait_FELINE_FUR ) ||
         has_trait( trait_LUPINE_FUR ) || has_trait( trait_CHITIN_FUR ) || has_trait( trait_CHITIN_FUR2 ) ||
         has_trait( trait_CHITIN_FUR3 ) ) {
@@ -96,9 +96,9 @@ void Character::update_body_wetness( const w_point &weather )
     }
 
     // Weather slows down drying
-    double weather_mult = 1.0;
+    float weather_mult = 1.0;
     weather_mult += ( ( weather.humidity - 66 ) - ( weather.temperature - 65 ) ) / 100;
-    weather_mult = std::max( 0.1, weather_mult );
+    weather_mult = std::max( 0.1f, weather_mult );
 
     for( const bodypart_id &bp : get_all_body_parts() ) {
         const int wetness = get_part_wetness( bp );
@@ -110,7 +110,7 @@ void Character::update_body_wetness( const w_point &weather )
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
         const int temp_conv = get_part_temp_conv( bp );
-        double temp_mult = 1.0;
+        float temp_mult = 1.0;
         if( temp_conv >= BODYTEMP_SCORCHING ) {
             temp_mult = 0.5;
         } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
@@ -125,32 +125,37 @@ void Character::update_body_wetness( const w_point &weather )
         }
 
         // Make clothing slow down drying
-        double clothing_mult = 1.0;
+        float clothing_mult = 1.0;
         for( const item &i : worn ) {
             if( i.covers( bp ) ) {
-                const double item_coverage = static_cast<double>( i.get_coverage( bp ) ) / 100;
-                const double item_breathability = static_cast<double>( i.breathability( bp ) ) / 100;
+                const float item_coverage = static_cast<float>( i.get_coverage( bp ) ) / 100;
+                const float item_breathability = static_cast<float>( i.breathability( bp ) ) / 100;
 
                 // breathability of naked skin + breathability of item
-                const double breathability = ( 1.0 - item_coverage ) + item_coverage * item_breathability;
+                const float breathability = ( 1.0 - item_coverage ) + item_coverage * item_breathability;
 
-                clothing_mult += 1.0 - breathability;
+                clothing_mult = std::min( clothing_mult, breathability );
             }
         }
 
+        // always some evaporation even if completely locked in
+        clothing_mult = std::max( .01f, clothing_mult );
+
         const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
                                      temp_mult * clothing_mult;
-        const double turns_to_dry = to_turns<double>( drying );
+        const float turns_to_dry = to_turns<float>( drying );
 
         const int drench_cap = bp->drying_chance;
-        const double dry_per_turn = static_cast<double>( drench_cap ) / turns_to_dry;
+        const float dry_per_turn = static_cast<float>( drench_cap ) / turns_to_dry;
         mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
 
-        // Make evaporation reduce body heat
-        if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
-            const int temp_cur = get_part_temp_cur( bp );
-            mod_part_temp_cur( bp, roll_remainder( static_cast<double>( temp_cur ) / clothing_mult / 2000 ) *
-                               -1 );
+        if( dry_per_turn > 0 ) {
+            // Make evaporation reduce body heat
+            if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
+                const int temp_cur = get_part_temp_cur( bp );
+                mod_part_temp_cur( bp, roll_remainder( static_cast<float>( temp_cur ) * clothing_mult / 2000.0f ) *
+                                   -1 );
+            }
         }
 
         // Safety measure to keep wetness within bounds
