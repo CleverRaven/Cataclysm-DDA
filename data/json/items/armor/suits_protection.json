@@ -1316,7 +1316,7 @@
     "looks_like": "armor_blarmor",
     "color": "light_red",
     "warmth": 30,
-    "material_thickness": 6,
+    "material_thickness": 5,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
