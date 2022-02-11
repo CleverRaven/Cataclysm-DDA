@@ -350,6 +350,13 @@
     "min_max_zlevel": [ 0, 0 ]
   },
   {
+    "id": "mx_blackberry_patch",
+    "type": "map_extra",
+    "name": { "str": "Blackberry patch" },
+    "description": "Blackberry bushes have spread here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_blackberry_patch" }
+  },
+  {
     "id": "mx_grass",
     "type": "map_extra",
     "name": { "str": "Tall grass" },
