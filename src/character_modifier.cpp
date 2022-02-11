@@ -126,6 +126,9 @@ static float manipulator_score( const std::map<bodypart_str_id, bodypart> body )
     std::vector<float> score_groups;
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         bodypart_groups[id.first->limb_type].emplace_back( id.second );
+        for( const body_part_type::type &secondary : id.first->secondary_types ) {
+            bodypart_groups[ secondary ].emplace_back( id.second );
+        }
     }
     for( std::pair<const body_part_type::type, std::vector<bodypart>> &part : bodypart_groups ) {
         float total = 0.0f;
