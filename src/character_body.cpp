@@ -97,7 +97,7 @@ void Character::update_body_wetness( const w_point &weather )
 
     // Weather slows down drying
     float weather_mult = 1.0;
-    weather_mult += ( ( weather.humidity - 66 ) - ( weather.temperature - 65 ) ) / 100;
+    weather_mult += ( ( weather.humidity - 66.0f ) - ( weather.temperature - 65.0f ) ) / 100.0f;
     weather_mult = std::max( 0.1f, weather_mult );
 
     for( const bodypart_id &bp : get_all_body_parts() ) {
@@ -138,11 +138,12 @@ void Character::update_body_wetness( const w_point &weather )
             }
         }
 
-        // always some evaporation even if completely locked in
+        // always some evaporation even if completely covered
+        // doesn't handle things that would be "air tight"
         clothing_mult = std::max( .01f, clothing_mult );
 
         const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
-                                     temp_mult * clothing_mult;
+                                     temp_mult / clothing_mult;
         const float turns_to_dry = to_turns<float>( drying );
 
         const int drench_cap = bp->drying_chance;
