@@ -228,7 +228,7 @@
         "text": "An old pair of blue jeans.  You are not sure if they are faded through age or stone washed."
       }
     ],
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jeans_red",
@@ -278,7 +278,7 @@
     "warmth": 10,
     "material_thickness": 0.25,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 12, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "kilt",
