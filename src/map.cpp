@@ -3156,6 +3156,10 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
                 if( !has_flag( ter_furn_flag::TFLAG_WALL, t ) ) {
                     ter_set( tz, t_open_air );
                     furn_set( tz, f_null );
+                    Creature *critter = get_creature_tracker().creature_at( tz );
+                    if( critter != nullptr ) {
+                        creature_on_trap( *critter );
+                    }
                 }
             }
         }
