@@ -125,7 +125,8 @@
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM2" ],
     "category": [ "INSECT" ],
-    "spells_learned": [ [ "spell_spit_flare", 1 ] ]
+    "active": true,
+    "activated_eocs": [ "EOC_BIOLUM3_activated" ]
   },
   {
     "type": "mutation",
