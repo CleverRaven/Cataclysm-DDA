@@ -1101,6 +1101,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_minifridge",
+    "name": "Place Minifridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_minifreezer",
+    "name": "Place Minifreezer"
+  },
+  {
+    "type": "construction_group",
     "id": "place_oven",
     "name": "Place Oven"
   },
@@ -1362,6 +1372,16 @@
   {
     "type": "construction_group",
     "id": "remove_glass_door",
-    "name": "Remove Glass Door"
+    "name": "Remove glass door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_training_dummy_light",
+    "name": "Install Training Dummy"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_training_dummy_heavy",
+    "name": "Install Armored Training Dummy"
   }
 ]

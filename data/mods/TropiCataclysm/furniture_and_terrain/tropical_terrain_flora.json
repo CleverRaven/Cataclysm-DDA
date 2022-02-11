@@ -187,7 +187,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_orange_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "orange_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "orange_harv" } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
