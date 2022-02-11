@@ -101,6 +101,25 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_heater_large",
+    "name": { "str": "large heater" },
+    "location": "structure",
+    "item": "large_space_heater",
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "APPLIANCE" ],
+    "copy-from": "mountable_heater"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_heater_small",
+    "name": { "str": "small heater" },
+    "location": "structure",
+    "item": "small_space_heater",
+    "folded_volume": "0 L",
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "APPLIANCE" ],
+    "copy-from": "mountable_heater_small"
+  },
+  {
+    "type": "vehicle_part",
     "id": "power_cord",
     "name": { "str": "power cord" },
     "symbol": "{",
