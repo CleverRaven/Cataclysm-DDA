@@ -959,15 +959,16 @@ void input_context::register_action( const std::string &action_descriptor,
 
 std::vector<input_event> input_context::keys_bound_to( const std::string &action_descriptor,
         const int maximum_modifier_count,
-        const bool restrict_to_printable ) const
+        const bool restrict_to_printable,
+        const bool restrict_to_keyboard ) const
 {
     std::vector<input_event> result;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
             category );
     for( const auto &events_event : events ) {
         // Ignore non-keyboard input
-        if( ( events_event.type == input_event_t::keyboard_char
-              || events_event.type == input_event_t::keyboard_code )
+        if( ( !restrict_to_keyboard || ( events_event.type == input_event_t::keyboard_char
+                                         || events_event.type == input_event_t::keyboard_code ) )
             && is_event_type_enabled( events_event.type )
             && events_event.sequence.size() == 1
             && ( maximum_modifier_count < 0
@@ -1795,6 +1796,12 @@ bool input_context::is_event_type_enabled( const input_event_t type ) const
             return true;
     }
     return true;
+}
+
+bool input_context::is_registered_action( const std::string &action_name ) const
+{
+    return std::find( registered_actions.begin(), registered_actions.end(),
+                      action_name ) != registered_actions.end();
 }
 
 input_event input_context::first_unassigned_hotkey( const hotkey_queue &queue ) const
