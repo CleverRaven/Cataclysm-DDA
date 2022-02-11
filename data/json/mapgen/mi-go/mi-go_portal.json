@@ -70,7 +70,8 @@
             [ "mi-go_encampment1_room17", 100 ]
           ]
         }
-      }
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]
