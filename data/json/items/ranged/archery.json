@@ -374,7 +374,7 @@
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "makeshift self bow" },
-    "description": "A weak practice bow crudely crafted from a single uncured wood stave.  Not a effective weapon in any manner, but you have to start somewhere.",
+    "description": "A weak practice bow crudely crafted from a single uncured wood stave.  Not an effective weapon in any manner, but you have to start somewhere.",
     "price": 150,
     "//": "30 lb draw weight, 52in, 20in draw, 0.259 slugs of momentum with a 30g arrow.",
     "material": [ "wood" ],
