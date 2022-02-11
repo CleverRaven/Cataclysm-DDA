@@ -920,7 +920,7 @@ cata::optional<int> iuse::vaccine( Character *p, item *it, bool, const tripoint 
     p->mod_healthy_mod( 200, 200 );
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
-    p->i_add( syringe );
+    p->i_add_or_drop( syringe );
     return it->type->charges_to_use();
 }
 
@@ -939,7 +939,7 @@ cata::optional<int> iuse::flu_vaccine( Character *p, item *it, bool, const tripo
     }
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
-    p->i_add( syringe );
+    p->i_add_or_drop( syringe );
     return it->type->charges_to_use();
 }
 
