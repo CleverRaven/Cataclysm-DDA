@@ -939,7 +939,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         it.mod_intensity( 1 );
     }
 
-    if( ( u.has_effect( effect_narcosis ) ) && u.get_fatigue() <= 25 ) {
+    if( u.has_effect( effect_narcosis ) && u.get_fatigue() <= 25 ) {
         u.set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
     }
 
