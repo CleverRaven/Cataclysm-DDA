@@ -1896,26 +1896,19 @@ const hotkey_queue &hotkey_queue::alphabets()
     return *queue;
 }
 
-const hotkey_queue &hotkey_queue::alpha_digits()
+const hotkey_queue &hotkey_queue::create_from_available_hotkeys( input_context &ctxt )
 {
     static std::unique_ptr<hotkey_queue> queue;
     if( !queue ) {
         queue = std::make_unique<hotkey_queue>();
-        for( int ch = '1'; ch <= '9'; ++ch ) {
-            queue->codes_keycode.emplace_back( ch );
-            queue->codes_keychar.emplace_back( ch );
+
+        std::string available_hotkeys = ctxt.get_available_single_char_hotkeys();
+        int input_length = available_hotkeys.length();
+
+        for( int i = 0; i < input_length; i++ ) {
+            queue->codes_keycode.emplace_back( available_hotkeys[i] );
+            queue->codes_keychar.emplace_back( available_hotkeys[i] );
         }
-        queue->codes_keycode.emplace_back( '0' );
-        queue->codes_keychar.emplace_back( '0' );
-        for( int ch = 'a'; ch <= 'z'; ++ch ) {
-            queue->codes_keycode.emplace_back( ch );
-            queue->codes_keychar.emplace_back( ch );
-        }
-        for( int ch = 'A'; ch <= 'Z'; ++ch ) {
-            queue->codes_keychar.emplace_back( ch );
-        }
-        queue->modifiers_keycode.emplace_back();
-        queue->modifiers_keycode.emplace_back( std::set<keymod_t>( { keymod_t::shift } ) );
     }
     return *queue;
 }
