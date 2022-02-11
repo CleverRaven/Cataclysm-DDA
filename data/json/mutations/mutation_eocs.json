@@ -6,7 +6,7 @@
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "3 seconds" },
       { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 700 } ] },
-      { "queue_eocs": [ "EOC_BIOLUM3_cast" ], "time_in_future_min": 2, "time_in_future_max": 2 }
+      { "u_set_queue_eoc": [ "EOC_BIOLUM3_cast" ], "time_in_future_min": 2, "time_in_future_max": 2 }
     ],
     "false_effect": [ { "u_message": "You don't have enough stamina to activate your Bioluminescent Flare.", "type": "bad" } ]
   },
