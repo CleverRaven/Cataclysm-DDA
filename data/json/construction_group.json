@@ -1116,6 +1116,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_electric_forge",
+    "name": "Place Electric Forge"
+  },
+  {
+    "type": "construction_group",
     "id": "place_kiln",
     "name": "Place Kiln"
   },
