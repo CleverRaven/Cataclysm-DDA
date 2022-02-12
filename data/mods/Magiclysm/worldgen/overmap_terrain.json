@@ -519,5 +519,22 @@
     "color": "dark_gray",
     "see_cost": 5,
     "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "magic_field_a1", "magic_field_a2", "magic_field_b1", "magic_field_b2" ],
+    "name": "big magic meadow",
+    "sym": "*",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "small_magic_field" ],
+    "name": "magic meadow",
+    "sym": "*",
+    "color": "blue",
+    "flags": [ "NO_ROTATE" ],
+    "see_cost": 5
   }
 ]
