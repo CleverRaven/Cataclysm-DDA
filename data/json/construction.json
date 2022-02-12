@@ -3142,17 +3142,6 @@
   },
   {
     "type": "construction",
-    "id": "app_solar",
-    "group": "place_solar_panel",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
-    "time": "6 m",
-    "components": [ [ [ "solar_panel", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
-  },
-  {
-    "type": "construction",
     "id": "app_heater_large",
     "group": "place_heater_large",
     "category": "APPLIANCE",
