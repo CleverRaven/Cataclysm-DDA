@@ -1065,7 +1065,7 @@
     "time": "60 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
-    "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ] ] ],
+    "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_concrete"
   },
@@ -1329,7 +1329,7 @@
     "time": "120 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
-    "components": [ [ [ "concrete", 4 ] ], [ [ "water", 4 ] ] ],
+    "components": [ [ [ "concrete", 4 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_terrain": "t_ov_smreb_cage",
     "post_terrain": "t_thconc_floor"
   },
@@ -1356,7 +1356,7 @@
     "time": "180 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "concrete", 6 ] ], [ [ "water", 3 ] ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ],
     "pre_terrain": "t_ov_reb_cage",
     "post_terrain": "t_strconc_floor_halfway"
   },
@@ -1370,7 +1370,7 @@
     "time": "180 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "concrete", 6 ] ], [ [ "water", 3 ] ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ],
     "pre_terrain": "t_strconc_floor_halfway",
     "post_terrain": "t_strconc_floor"
   },
@@ -2114,6 +2114,7 @@
     "time": "60 m",
     "using": [ [ "welding_standard", 5 ] ],
     "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_workbench"
   },
@@ -2125,6 +2126,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "1 m",
     "components": [ [ [ "workbench", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_workbench"
   },
@@ -3015,7 +3017,7 @@
     "time": "150 m",
     "tools": [ [ [ "con_mix", 125 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
-    "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ] ] ],
+    "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ],
     "pre_special": "check_ramp_low",
     "post_terrain": "t_ramp_up_low",
     "post_special": "done_ramp_low"
@@ -3031,7 +3033,7 @@
     "time": "150 m",
     "tools": [ [ [ "con_mix", 125 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
-    "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ] ] ],
+    "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ],
     "pre_special": "check_ramp_high",
     "post_terrain": "t_ramp_up_high",
     "post_special": "done_ramp_high"
@@ -3074,12 +3076,78 @@
   },
   {
     "type": "construction",
+    "id": "app_minifridge",
+    "group": "place_minifridge",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "minifridge", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_minifreezer",
+    "group": "place_minifreezer",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "minifreezer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_oven",
     "group": "place_oven",
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "oven", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_forge",
+    "group": "place_electric_forge",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "forge", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_kiln",
+    "group": "place_kiln",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "kiln", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_heater_large",
+    "group": "place_heater_large",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "large_space_heater", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_heater_small",
+    "group": "place_heater_small",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "small_space_heater", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
@@ -4827,5 +4895,30 @@
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_door_glass_c"
+  },
+  {
+    "type": "construction",
+    "id": "constr_training_dummy_light",
+    "group": "build_training_dummy_light",
+    "category": "CONSTRUCT",
+    "time": "20 m",
+    "//": "to simulate digging a pit (18 m) and burying it back, divided on half",
+    "difficulty": 1,
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "training_dummy_light", 1 ] ] ],
+    "pre_special": "check_down_OK",
+    "post_terrain": "f_training_dummy_light"
+  },
+  {
+    "type": "construction",
+    "id": "constr_training_dummy_heavy",
+    "group": "build_training_dummy_heavy",
+    "category": "CONSTRUCT",
+    "time": "20 m",
+    "difficulty": 1,
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "training_dummy_heavy", 1 ] ] ],
+    "pre_special": "check_down_OK",
+    "post_terrain": "f_training_dummy_heavy"
   }
 ]

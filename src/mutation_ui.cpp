@@ -386,7 +386,8 @@ void avatar::power_mutations()
                         if( mut_data.activated ) {
                             if( my_mutations[mut_id].powered ) {
                                 add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
-
+                                // Reset menu in advance
+                                ui.reset();
                                 deactivate_mutation( mut_id );
                                 // Action done, leave screen
                                 exit = true;
@@ -394,7 +395,8 @@ void avatar::power_mutations()
                                        ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                        ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
                                 add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
-
+                                // Reset menu in advance
+                                ui.reset();
                                 activate_mutation( mut_id );
                                 // Action done, leave screen
                                 exit = true;
@@ -552,7 +554,8 @@ void avatar::power_mutations()
                             if( mut_data.activated ) {
                                 if( my_mutations[mut_id].powered ) {
                                     add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
-
+                                    // Reset menu in advance
+                                    ui.reset();
                                     deactivate_mutation( mut_id );
                                     // Action done, leave screen
                                     exit = true;
@@ -560,7 +563,8 @@ void avatar::power_mutations()
                                            ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                            ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
                                     add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
-
+                                    // Reset menu in advance
+                                    ui.reset();
                                     activate_mutation( mut_id );
                                     // Action done, leave screen
                                     exit = true;

@@ -9,7 +9,8 @@
 #include "output.h"
 #include "overmapbuffer.h"
 
-const static flag_id json_flag_W_DISABLED( "W_DISABLED" );
+const static flag_id json_flag_W_DISABLED_BY_DEFAULT( "W_DISABLED_BY_DEFAULT" );
+const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
 const static flag_id json_flag_W_DYNAMIC_HEIGHT( "W_DYNAMIC_HEIGHT" );
 const static flag_id json_flag_W_LABEL_NONE( "W_LABEL_NONE" );
 
@@ -128,18 +129,10 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "fatigue_text";
         case widget_var::health_text:
             return "health_text";
-        case widget_var::lighting_text:
-            return "lighting_text";
         case widget_var::mood_text:
             return "mood_text";
-        case widget_var::moon_phase_text:
-            return "moon_phase_text";
         case widget_var::move_count_mode_text:
             return "move_count_mode_text";
-        case widget_var::move_mode_letter:
-            return "move_mode_letter";
-        case widget_var::move_mode_text:
-            return "move_mode_text";
         case widget_var::pain_text:
             return "pain_text";
         case widget_var::overmap_loc_text:
@@ -742,7 +735,7 @@ int widget::custom_draw_multiline( const std::string &widget_string, const catac
 
 // Drawing function, provided as a callback to the window_panel constructor.
 // Handles rendering a widget's content into a window panel.
-static void custom_draw_func( const draw_args &args )
+static int custom_draw_func( const draw_args &args )
 {
     const avatar &u = args._ava;
     const catacurses::window &w = args._win;
@@ -753,36 +746,60 @@ static void custom_draw_func( const draw_args &args )
     // Leave 1 character space for margin on left and right
     const int margin = 1;
     const int widt = width - 2 * margin;
+    // Whether to subtract height lines from the drawn panel space
+    const bool disable_empty = wgt->has_flag( json_flag_W_DISABLED_WHEN_EMPTY );
 
     // Quit if there is nothing to draw or no space to draw it
     if( wgt == nullptr || width <= 0 ) {
-        return;
+        return 0;
     }
+
+    int height_diff = 0;
 
     werase( w );
     if( wgt->_style == "sidebar" ) {
     } else if( wgt->_style == "layout" ) {
         if( wgt->_arrange == "rows" ) {
             // Layout widgets in rows
-            // FIXME: Be able to handle rows that are themselves more than one line!
-            // Could this be done in the layout() function somehow (by returning newlines?)
             int row_num = 0;
             for( const widget_id &row_wid : wgt->_widgets ) {
                 widget row_widget = row_wid.obj();
                 const std::string txt = row_widget.layout( u, widt, wgt->_label_width );
-                row_num = widget::custom_draw_multiline( txt, w, margin, widt, row_num );
+                if( row_wid->has_flag( json_flag_W_DISABLED_WHEN_EMPTY ) && txt.empty() ) {
+                    // reclaim the skipped height in the sidebar
+                    height_diff -= row_widget._height;
+                } else {
+                    // draw normally
+                    row_num = widget::custom_draw_multiline( txt, w, margin, widt, row_num );
+                }
             }
         } else {
             // Layout widgets in columns
             // For now, this is the default when calling layout()
             // So, just layout self on a single line
-            widget::custom_draw_multiline( wgt->layout( u, widt ), w, margin, widt, 0 );
+            const std::string txt = wgt->layout( u, widt );
+            if( disable_empty && txt.empty() ) {
+                // reclaim the skipped height in the sidebar
+                height_diff -= wgt->_height;
+            } else {
+                // draw normally
+                widget::custom_draw_multiline( txt, w, margin, widt, 0 );
+            }
         }
     } else {
         // No layout, just a widget
-        widget::custom_draw_multiline( wgt->layout( u, widt ), w, margin, widt, 0 );
+        const std::string txt = wgt->layout( u, widt );
+        if( disable_empty && txt.empty() ) {
+            // reclaim the skipped height in the sidebar
+            height_diff -= wgt->_height;
+        } else {
+            // draw normally
+            widget::custom_draw_multiline( txt, w, margin, widt, 0 );
+        }
     }
     wnoutrefresh( w );
+
+    return height_diff;
 }
 
 window_panel widget::get_window_panel( const int width, const int req_height )
@@ -803,9 +820,10 @@ window_panel widget::get_window_panel( const int width, const int req_height )
     // Minimap and log do not have a predetermined height
     // (or they should allow caller to customize height)
 
-    window_panel win( custom_draw_func, _label.translated(), _label, height, width,
-                      !has_flag( json_flag_W_DISABLED ) );
+    window_panel win( _label.translated(), _label, height, width,
+                      !has_flag( json_flag_W_DISABLED_BY_DEFAULT ) );
     win.set_widget( this->id );
+    win.set_draw_func( custom_draw_func );
     return win;
 }
 
@@ -821,12 +839,8 @@ bool widget::uses_text_function()
         case widget_var::env_temp_text:
         case widget_var::fatigue_text:
         case widget_var::health_text:
-        case widget_var::lighting_text:
         case widget_var::mood_text:
-        case widget_var::moon_phase_text:
         case widget_var::move_count_mode_text:
-        case widget_var::move_mode_letter:
-        case widget_var::move_mode_text:
         case widget_var::pain_text:
         case widget_var::overmap_loc_text:
         case widget_var::overmap_text:
@@ -899,23 +913,11 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::health_text:
             desc = display::health_text_color( ava );
             break;
-        case widget_var::lighting_text:
-            desc = get_light_level( ava.fine_detail_vision_mod() );
-            break;
         case widget_var::mood_text:
             desc = display::morale_face_color( ava );
             break;
-        case widget_var::moon_phase_text:
-            desc.first = display::get_moon();
-            break;
         case widget_var::move_count_mode_text:
             desc = display::move_count_and_mode_text_color( ava );
-            break;
-        case widget_var::move_mode_letter:
-            desc = display::move_mode_letter_color( ava );
-            break;
-        case widget_var::move_mode_text:
-            desc = display::move_mode_text_color( ava );
             break;
         case widget_var::pain_text:
             desc = display::pain_text_color( ava );
@@ -1339,7 +1341,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
     // This only works because labels are not colorized (no color tags).
     if( txt_w + lbl_w > max_width ) {
         std::wstring tmplbl = utf8_to_wstr( lbl );
-        for( int i = lbl_w - 1; txt_w + lbl_w > max_width && i > 0 && tmplbl[i] == ' ' &&
+        for( int i = tmplbl.size() - 1; txt_w + lbl_w > max_width && i > 0 && tmplbl[i] == ' ' &&
              tmplbl[i - 1] != ':'; i-- ) {
             tmplbl.pop_back();
             lbl_w--;
@@ -1409,9 +1411,10 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
                 remainder -= 1;
             }
             // Layout child in this column
-            ret += string_format( "%s", cur_child.layout( ava, cur_width, label_width ) );
+            const std::string txt = cur_child.layout( ava, cur_width, label_width );
+            ret += txt;
             // Add column padding until we reach the last column
-            if( wid != _widgets.back() ) {
+            if( wid != _widgets.back() && !txt.empty() ) {
                 ret += std::string( col_padding, ' ' );
             }
         }
@@ -1421,6 +1424,11 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width, int
         // If nothing was printed, the widget never had a chance to adjust the height. Adjust it here.
         if( shown.empty() && has_flag( json_flag_W_DYNAMIC_HEIGHT ) ) {
             _height = 0;
+        }
+        // Let the calling func know that this widget should be skipped for rendering
+        if( has_flag( json_flag_W_DISABLED_WHEN_EMPTY ) &&
+            string_empty_or_whitespace( remove_color_tags( shown ) ) ) {
+            return "";
         }
         size_t strpos = 0;
         int row_num = 0;

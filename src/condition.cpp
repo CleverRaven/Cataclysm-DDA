@@ -487,10 +487,11 @@ void conditional_t<T>::set_near_om_location( const JsonObject &jo, const std::st
         bool is_npc )
 {
     const std::string &location = jo.get_string( member );
-    const int range = jo.get_int( "range", 1 );
+    const int_or_var range = get_int_or_var( jo, "range", false, 1 );
     condition = [location, range, is_npc]( const T & d ) {
         const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
-        for( const tripoint_abs_omt &curr_pos : points_in_radius( omt_pos, range ) ) {
+        for( const tripoint_abs_omt &curr_pos : points_in_radius( omt_pos,
+                range.evaluate( d.actor( range.is_npc() ) ) ) ) {
             const oter_id &omt_ter = overmap_buffer.ter( curr_pos );
             const std::string &omt_str = omt_ter.id().c_str();
 
@@ -1381,6 +1382,10 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->focus_cur();
             };
+        } else if( checked_value == "activity_level" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_activity_level();
+            };
         } else if( checked_value == "fatigue" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_fatigue();
@@ -1422,6 +1427,10 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "bmi_permil" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_bmi_permil();
+            };
+        } else if( checked_value == "fine_detail_vision_mod" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_fine_detail_vision_mod();
             };
         }
     } else if( jo.has_member( "moon" ) ) {
@@ -1609,6 +1618,16 @@ void conditional_t<T>::set_is_in_field( const JsonObject &jo, const std::string 
             }
         }
         return false;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_move_mode( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    move_mode_id mode( jo.get_string( member ) );
+    condition = [mode, is_npc]( const T & d ) {
+        return d.actor( is_npc )->get_move_mode() == mode;
     };
 }
 
@@ -1844,6 +1863,10 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_is_in_field( jo, "u_is_in_field" );
     } else if( jo.has_string( "npc_is_in_field" ) ) {
         set_is_in_field( jo, "npc_is_in_field", is_npc );
+    } else if( jo.has_string( "u_has_move_mode" ) ) {
+        set_has_move_mode( jo, "u_has_move_mode" );
+    } else if( jo.has_string( "npc_has_move_mode" ) ) {
+        set_has_move_mode( jo, "npc_has_move_mode", is_npc );
     } else if( jo.has_string( "is_weather" ) ) {
         set_is_weather( jo );
     } else if( jo.has_int( "u_has_faction_trust" ) || jo.has_object( "u_has_faction_trust" ) ) {

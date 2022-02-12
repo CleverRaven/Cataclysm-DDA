@@ -3006,6 +3006,11 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
                            iteminfo::show_plus, mod.handling );
     }
+    if( mod.loudness != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MODIFIER ) ) {
+        info.emplace_back( "GUNMOD", _( "Loudness modifier: " ), "",
+                           iteminfo::lower_is_better | iteminfo::show_plus,
+                           mod.loudness );
+    }
     if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
         for( const ammotype &at : type->mod->ammo_modifier ) {
             info.emplace_back( "GUNMOD", string_format( _( "Ammo: <stat>%s</stat>" ),
@@ -11472,8 +11477,20 @@ int item::processing_speed() const
     if( is_corpse() || is_comestible() ) {
         return to_turns<int>( 10_minutes );
     }
-    // Unless otherwise indicated, update every turn.
-    return 1;
+
+    if( active || ethereal || wetness || has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
+        // Unless otherwise indicated, update every turn.
+        return 1;
+    }
+
+    // This item doesn't actually need processing.
+    // Either it contains items that need processing. Use processing speed from those.
+    // Or it is in same container with items that need processing.
+    int pocessing_speed = 10000;
+    for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        pocessing_speed = std::min( pocessing_speed, it->processing_speed() );
+    }
+    return pocessing_speed;
 }
 
 void item::apply_freezerburn()

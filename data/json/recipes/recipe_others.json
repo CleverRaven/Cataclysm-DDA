@@ -366,6 +366,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "time": "5 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -793,7 +794,7 @@
     "flags": [ "BLIND_EASY" ],
     "components": [
       [ [ "xacto", 1 ] ],
-      [ [ "saw", 1 ] ],
+      [ [ "saw", 1 ], [ "bow_saw", 1 ] ],
       [ [ "rag", 1 ], [ "leather", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ] ]
     ]
   },

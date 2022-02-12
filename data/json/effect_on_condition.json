@@ -181,18 +181,8 @@
     "condition": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] },
     "deactivate_condition": { "not": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] } },
     "effect": [
-      {
-        "u_set_spawn_monster": "mon_robofac_camspy",
-        "real_count": 1,
-        "min_radius": 15,
-        "max_radius": 40,
-        "outdoor_only": true
-      },
-      {
-        "set_queue_effect_on_condition": [ "eoc_robofac_surveillance" ],
-        "time_in_future_min": "1 days",
-        "time_in_future_max": "7 days"
-      }
+      { "u_spawn_monster": "mon_robofac_camspy", "real_count": 1, "min_radius": 15, "max_radius": 40, "outdoor_only": true },
+      { "queue_eocs": "eoc_robofac_surveillance", "time_in_future_min": "1 days", "time_in_future_max": "7 days" }
     ]
   },
   {
@@ -317,7 +307,7 @@
     "effect": [
       { "u_make_sound": "Crackle!", "volume": 60, "type": "movement" },
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "bio_noise_hearing",
             "condition": { "not": "u_is_deaf" },
@@ -353,5 +343,47 @@
     "eoc_type": "AVATAR_DEATH",
     "condition": { "and": [ { "npc_allies": 1 }, { "u_query": "You have died. Continue as one of your followers?", "default": false } ] },
     "effect": [ "take_control_menu" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isolated_artisans_gunsmith_refresh",
+    "eoc_type": "OM_MOVE",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "isolated_house_farm_gunsmith", "range": 2 },
+        { "compare_int": [ { "global_val": "var", "var_name": "jay_dead" }, "!=", { "const": 1 } ] },
+        {
+          "not": { "u_compare_time_since_var": "gunsmith_shop_update", "type": "timer", "context": "artisans", "op": "<", "time": "7 d" }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "jay_shop_update", "om_terrain": "isolated_house_farm_gunsmith" },
+      { "u_add_var": "gunsmith_shop_update", "type": "timer", "context": "artisans", "time": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isolated_artisans_blacksmith_refresh",
+    "eoc_type": "OM_MOVE",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "isolated_house_farm_blacksmith", "range": 2 },
+        { "compare_int": [ { "global_val": "var", "var_name": "cody_dead" }, "!=", { "const": 1 } ] },
+        {
+          "not": {
+            "u_compare_time_since_var": "blacksmith_shop_update",
+            "type": "timer",
+            "context": "artisans",
+            "op": "<",
+            "time": "7 d"
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "cody_shop_update", "om_terrain": "isolated_house_farm_blacksmith" },
+      { "u_add_var": "blacksmith_shop_update", "type": "timer", "context": "artisans", "time": true }
+    ]
   }
 ]

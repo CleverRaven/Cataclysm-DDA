@@ -251,7 +251,7 @@
       }
     ],
     "death_drops": "default_zombie_items",
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -296,7 +296,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "boomer_claymore_initial", "min_level": 0 },
-        "monster_message": "A %s explode"
+        "monster_message": "A bombardier boomer explodes!"
       }
     ],
     "death_drops": "default_zombie_items",
