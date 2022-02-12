@@ -109,7 +109,19 @@
     "id": "limb_fall_mod",
     "description": "Fall damage modifier <color_dark_gray>(Movement, Footing, Reaction)</color>",
     "mod_type": "x",
-    "value": { "builtin": "limb_fall_mod" }
+    "value": { "limb_score": [ "move_speed", "footing", "reaction" ], "limb_score_op": "x" }
+  },
+  {
+    "type": "character_mod",
+    "id": "slip_prevent_mod",
+    "description": "Slip prevention modifier",
+    "mod_type": "x",
+    "value": {
+      "limb_score": [ [ "grip", 3.0 ], [ "lift", 2.0 ], "footing" ],
+      "override_encumb": true,
+      "limb_score_op": "+",
+      "denominator": 6.0
+    }
   },
   {
     "type": "character_mod",
