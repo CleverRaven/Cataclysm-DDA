@@ -140,22 +140,20 @@ void Character::update_body_wetness( const w_point &weather )
 
         // always some evaporation even if completely covered
         // doesn't handle things that would be "air tight"
-        clothing_mult = std::max( .01f, clothing_mult );
+        clothing_mult = std::max( clothing_mult, .1f );
 
         const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
                                      temp_mult / clothing_mult;
         const float turns_to_dry = to_turns<float>( drying );
 
-        const int drench_cap = bp->drying_chance;
+        const int drench_cap = get_part_drench_capacity( bp );
         const float dry_per_turn = static_cast<float>( drench_cap ) / turns_to_dry;
         mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
 
         if( dry_per_turn > 0 ) {
             // Make evaporation reduce body heat
             if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
-                const int temp_cur = get_part_temp_cur( bp );
-                mod_part_temp_cur( bp, roll_remainder( static_cast<float>( temp_cur ) * clothing_mult / 2000.0f ) *
-                                   -1 );
+                mod_part_temp_cur( bp, roll_remainder( dry_per_turn ) * -1 );
             }
         }
 
@@ -622,18 +620,27 @@ void Character::update_bodytemp()
             add_effect( effect_cold, 1_turns, bp, true, 1 );
         } else if( temp_after > BODYTEMP_SCORCHING && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 3 );
-            if( bp->main_part == bp.id() ) {
+            // if a main part and past the additional threshold for heat tolerance
+            if( bp->main_part == bp.id() && temp_after > BODYTEMP_SCORCHING + BODYTEMP_THRESHOLD ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 3 );
+            } else {
+                add_effect( effect_hot_speed, 1_turns, bp, true, 2 );
             }
         } else if( temp_after > BODYTEMP_VERY_HOT && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 2 );
-            if( bp->main_part == bp.id() ) {
+            // if a main part and past the additional threshold for heat tolerance
+            if( bp->main_part == bp.id() && temp_after > BODYTEMP_VERY_HOT + BODYTEMP_THRESHOLD ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 2 );
+            } else {
+                add_effect( effect_hot_speed, 1_turns, bp, true, 1 );
             }
         } else if( temp_after > BODYTEMP_HOT && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 1 );
-            if( bp->main_part == bp.id() ) {
+            // if a main part and past the additional threshold for heat tolerance
+            if( bp->main_part == bp.id() && temp_after > BODYTEMP_HOT + BODYTEMP_THRESHOLD ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 1 );
+            } else {
+                remove_effect( effect_hot_speed, bp );
             }
         } else {
             remove_effect( effect_cold, bp );

@@ -1523,10 +1523,11 @@
     "max_intensity": 3,
     "part_descs": true,
     "base_mods": {
+      "//": "thirst is ml / 5 someone doing exercise in the sun burns between 500mL to 1000mL extra an hour as sweat so 1.5 thirst a minute split between 7 body parts",
       "thirst_min": [ 1 ],
-      "thirst_tick": [ 200 ],
+      "thirst_tick": [ 60 ],
       "thirst_chance": [ 6 ],
-      "perspiration_min": [ 10 ],
+      "perspiration_min": [ 2 ],
       "perspiration_tick": [ 60 ],
       "perspiration_chance": [ 1 ],
       "pain_min": [ 1 ],
@@ -1537,8 +1538,7 @@
       "stamina_chance": [ 2 ]
     },
     "scaling_mods": {
-      "thirst_tick": [ -50 ],
-      "thirst_chance": [ -1 ],
+      "thirst_min": [ 1 ],
       "perspiration_min": [ 5 ],
       "perspiration_tick": [ -15 ],
       "pain_max_val": [ 10 ],
