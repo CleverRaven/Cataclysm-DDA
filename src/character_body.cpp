@@ -150,11 +150,9 @@ void Character::update_body_wetness( const w_point &weather )
         const float dry_per_turn = static_cast<float>( drench_cap ) / turns_to_dry;
         mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
 
-        if( dry_per_turn > 0 ) {
-            // Make evaporation reduce body heat
-            if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
-                mod_part_temp_cur( bp, roll_remainder( dry_per_turn ) * -1 );
-            }
+        // Make evaporation reduce body heat
+        if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
+            mod_part_temp_cur( bp, roll_remainder( dry_per_turn ) * -1 );
         }
 
         // Safety measure to keep wetness within bounds
