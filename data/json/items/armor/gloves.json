@@ -966,7 +966,7 @@
   {
     "id": "xl_lc_demi_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL low steel demi-gauntlet" },
+    "name": { "str_sp": "XL mild steel demi-gauntlet" },
     "copy-from": "lc_demi_gaunt",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1161,7 +1161,7 @@
   {
     "id": "xl_lc_mitten_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL low steel mitten gauntlet" },
+    "name": { "str_sp": "XL mild steel mitten gauntlet" },
     "copy-from": "lc_mitten_gaunt",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
