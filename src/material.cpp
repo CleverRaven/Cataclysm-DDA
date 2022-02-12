@@ -260,7 +260,7 @@ int material_type::breathability() const
         case breathability_rating::IMPERMEABLE:
             return 0;
         case breathability_rating::SOMEWHAT:
-            return 20;
+            return 30;
         case breathability_rating::BREATHABLE:
             return 50;
         case breathability_rating::MOISTURE_WICKING:
