@@ -223,10 +223,10 @@
     "type": "overmap_special",
     "id": "magic_field",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "magic_field_a1_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "magic_field_a2_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "magic_field_b1_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "magic_field_b2_north" }
+      { "point": [ 0, 0, 0 ], "overmap": "magic_field_a1" },
+      { "point": [ 1, 0, 0 ], "overmap": "magic_field_a2" },
+      { "point": [ 0, 1, 0 ], "overmap": "magic_field_b1" },
+      { "point": [ 1, 1, 0 ], "overmap": "magic_field_b2" }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],

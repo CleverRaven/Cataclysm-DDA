@@ -526,6 +526,7 @@
     "name": "big magic meadow",
     "sym": "*",
     "color": "blue",
+    "flags": [ "NO_ROTATE" ],
     "see_cost": 5
   },
   {
