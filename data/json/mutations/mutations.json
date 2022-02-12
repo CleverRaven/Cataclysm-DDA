@@ -907,6 +907,7 @@
     "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "player_display": false,
     "initial_ma_styles": [
+      "style_bojutsu",
       "style_barbaran",
       "style_eskrima",
       "style_fencing",

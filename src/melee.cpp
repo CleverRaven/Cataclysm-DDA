@@ -1171,6 +1171,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 
     const bool unarmed = weap.is_unarmed_weapon();
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
+    int melee_bonus = get_skill_level( skill_melee );
     if( has_active_bionic( bio_cqb ) ) {
         skill = BIO_CQB_LEVEL;
     }
@@ -1251,6 +1252,11 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     /** @EFFECT_BASHING caps bash damage with bashing weapons */
     float bash_cap = 2 * stat + 2 * skill;
     float bash_mul = 1.0f;
+
+    if( is_melee_bash_damage_cap_bonus() ) {
+        bash_cap += melee_bonus;
+    }
+
 
     if( has_trait( trait_KI_STRIKE ) && unarmed ) {
         /** @EFFECT_UNARMED increases bashing damage with unarmed weapons when paired with the Ki Strike trait */
