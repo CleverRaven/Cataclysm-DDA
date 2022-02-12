@@ -680,23 +680,75 @@
   },
   {
     "id": "motorbike_pants",
-    "repairs_like": "survivor_suit",
+    "repairs_like": "jeans",
     "type": "ARMOR",
-    "name": { "str": "motorcycle pants", "str_pl": "pairs of motorcycle pants" },
-    "description": "A pair of pants designed for dirt bikers and motorcyclists.",
+    "name": { "str": "motorcycle jeans", "str_pl": "pairs of motorcycle jeans" },
+    "description": "A pair of thick jeans interwoven with kevlar for added durability and sporting integrated kneepads and flank protection, typically worn by motorcyclists to protect from road rash.",
     "weight": "1340 g",
-    "volume": "750 ml",
+    "volume": "2500 ml",
     "price": 10000,
     "price_postapoc": 750,
-    "material": [ "kevlar", "cotton" ],
+    "material": [ "kevlar", "cotton", "plastic" ],
     "symbol": "[",
-    "looks_like": "pants_leather",
+    "looks_like": "jeans",
     "color": "dark_gray",
-    "warmth": 35,
-    "material_thickness": 1.5,
+    "warmth": 15,
+    "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "encumbrance": [ 10, 14 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_lower_l", "leg_hip_r", "leg_upper_r", "leg_lower_r" ]
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 4 }
+        ],
+        "encumbrance": [ 0, 0 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ]
   },
   {
     "id": "trousers_eod",
