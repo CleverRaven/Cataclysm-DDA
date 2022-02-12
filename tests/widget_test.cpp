@@ -570,8 +570,8 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 0" );
         CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 0" );
         ava.drench( 100, { body_part_head, body_part_torso }, false );
-        CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 2" );
-        CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 2" );
+        CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 200" );
+        CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 200" );
     }
 }
 

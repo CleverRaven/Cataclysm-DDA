@@ -150,9 +150,13 @@ void Character::update_body_wetness( const w_point &weather )
         const float dry_per_turn = static_cast<float>( drench_cap ) / turns_to_dry;
         mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
 
+
         // Make evaporation reduce body heat
+        // if under 50 in the menu or 7500 temp_conv you should be able to regulate temperature by sweating
+        // with current calcs a character moving towards 7500 heat will at most move 5 temperature points
+        // down to not having a slowdown
         if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
-            mod_part_temp_cur( bp, roll_remainder( dry_per_turn ) * -1 );
+            mod_part_temp_cur( bp, roll_remainder( 4 * clothing_mult ) * -1 );
         }
 
         // Safety measure to keep wetness within bounds
@@ -591,6 +595,7 @@ void Character::update_bodytemp()
             set_part_temp_cur( bp, static_cast<int>( temp_difference * std::exp( -0.002 ) + cur_temp_conv +
                                rounding_error ) );
         }
+
         // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
         if( clothing_warmth_adjusted_bonus != 0 &&
