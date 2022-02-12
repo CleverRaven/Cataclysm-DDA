@@ -12,7 +12,13 @@
     "components": [
       [ [ "rag", 3 ], [ "medical_gauze", 1 ] ],
       [ [ "duct_tape", 20 ], [ "medical_tape", 5 ] ],
-      [ [ "disinfectant", 5 ], [ "thyme_oil", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ]
+      [
+        [ "disinfectant", 5 ],
+        [ "thyme_oil", 1 ],
+        [ "chem_ethanol", 250 ],
+        [ "denat_alcohol", 250 ],
+        [ "methed_alcohol", 250 ]
+      ]
     ]
   },
   {
@@ -118,7 +124,11 @@
     "book_learn": [ [ "textbook_firstaid", 2 ], [ "manual_first_aid", 2 ], [ "emergency_book", 2 ], [ "pocket_firstaid", 2 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "oxy_powder", 10 ] ], [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ] ]
+    "components": [
+      [ [ "water_clean", 1 ] ],
+      [ [ "oxy_powder", 10 ] ],
+      [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "methed_alcohol", 250 ] ]
+    ]
   },
   {
     "result": "disinfectant_makeshift",
@@ -130,7 +140,7 @@
     "autolearn": true,
     "book_learn": [ [ "isherwood_herbal_remedies", 1 ] ],
     "time": "30 s",
-    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ] ]
+    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "methed_alcohol", 250 ] ] ]
   },
   {
     "result": "mugwort_oil",
@@ -346,6 +356,23 @@
   {
     "type": "recipe",
     "activity_level": "fake",
+    "result": "arm_xs_splint",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": "2 m",
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 2 ], [ "medical_gauze", 1 ] ],
+      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 25 ], [ "medical_tape", 10 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
     "result": "leg_splint",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -375,6 +402,53 @@
       [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
       [ [ "stick", 4 ], [ "broom", 4 ], [ "2x4", 4 ], [ "pool_cue", 4 ], [ "mop", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "leg_xs_splint",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": "2 m",
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 5 ], [ "medical_gauze", 2 ] ],
+      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "makeshift_cane",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_carpentry_basic" } ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "makeshift_crutches",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "fabrication",
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_carpentry_basic" } ],
+    "components": [
+      [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
+      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ] ]
     ]
   }
 ]

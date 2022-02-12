@@ -124,7 +124,7 @@
     "type": "map_extra",
     "name": { "str": "Portal" },
     "description": "Portal is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_portal" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal" },
     "sym": "P",
     "color": "magenta",
     "autonote": true
@@ -194,7 +194,7 @@
     "type": "map_extra",
     "name": { "str": "Spiders" },
     "description": "This area is covered with webs.  Probably spiders are nearby",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_spider" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_spider" },
     "sym": "S",
     "color": "yellow",
     "autonote": true
@@ -374,6 +374,7 @@
     "name": { "str": "Burned Ground (Point)" },
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_burned_ground" },
+    "min_max_zlevel": [ 0, 0 ],
     "sym": ".",
     "color": "light_gray",
     "autonote": true
@@ -394,8 +395,8 @@
     "name": { "str": "Casings" },
     "description": "Several spent casings are here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_casings" },
-    "sym": "C",
-    "color": "yellow",
+    "sym": "c",
+    "color": "dark_gray",
     "autonote": true
   },
   {
@@ -454,7 +455,7 @@
     "type": "map_extra",
     "name": { "str": "Grave" },
     "description": "A grave.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_grave" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_grave" }
   },
   {
     "id": "mx_city_trap",

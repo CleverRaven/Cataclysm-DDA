@@ -73,7 +73,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
-    "qualities": [ [ "GRIND", 2 ] ],
+    "charged_qualities": [ [ "GRIND", 2 ], [ "SAW_M", 2 ] ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": 800000,
@@ -86,6 +86,36 @@
         "default_magazine": "medium_battery_cell"
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "grinder_cutoff_disc",
+    "symbol": "o",
+    "color": "dark_gray",
+    "name": { "str": "cutoff disc" },
+    "description": "This is a manufactured disc for an angle grinder, with a thin abrasive edge designed for cutting metal.",
+    "category": "spare_parts",
+    "price": 20,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "weight": "349 g",
+    "volume": "250 ml",
+    "to_hit": -4
+  },
+  {
+    "type": "GENERIC",
+    "id": "grinder_metal_grinding_disc",
+    "symbol": "o",
+    "color": "dark_gray",
+    "name": { "str": "metal grinding disc" },
+    "description": "This is a manufactured disc for an angle grinder, with a thick abrasive surface designed for grinding and shaping metal.",
+    "category": "spare_parts",
+    "price": 20,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "weight": "349 g",
+    "volume": "250 ml",
+    "to_hit": -4
   },
   {
     "id": "brick_kiln",
@@ -273,7 +303,9 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
-    "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
+    "charges_per_use": 5,
+    "qualities": [ [ "SCREW", 1 ] ],
+    "charged_qualities": [ [ "DRILL", 3 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -303,7 +335,9 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
-    "qualities": [ [ "WRENCH", 2 ], [ "WHEEL_FAST", 1 ] ],
+    "charges_per_use": 10,
+    "qualities": [ [ "WRENCH", 1 ] ],
+    "charged_qualities": [ [ "WRENCH", 2 ], [ "WHEEL_FAST", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -370,6 +404,26 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "tin_snips",
+    "type": "TOOL",
+    "name": { "str_sp": "tin snips" },
+    "description": "This is a pair of tin snips, resembling a sturdy pair of scissors with beefy blades designed to cut through thin sheets of soft metal.  These cannot cut through thick metals like a hacksaw can, but are better suited to precision work and leave a cleaner edge.",
+    "//": "Loosely based on Stanley FATMAX straight cut 9-7/8-inch aviation snip",
+    "weight": "400 g",
+    "volume": "200 ml",
+    "longest_side": "20 cm",
+    "price": 2500,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "SAW_M", 1 ], [ "SAW_M_FINE", 2 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -548,7 +602,6 @@
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
       [ "PRY", 1 ],
-      [ "PRYING_NAIL", 1 ],
       [ "SAW_M_FINE", 1 ],
       [ "SAW_M", 2 ],
       [ "SAW_W", 1 ],
@@ -557,9 +610,23 @@
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ],
-      [ "CHISEL_WOOD", 3 ]
+      [ "CHISEL_WOOD", 3 ],
+      [ "PRYING_NAIL", 1 ]
     ],
-    "use_action": [ "GUN_REPAIR", [ "CROWBAR", 0 ], [ "HAMMER", 0 ] ],
+    "use_action": [
+      "GUN_REPAIR",
+      [ "CROWBAR", 0 ],
+      [ "HACKSAW", 0 ],
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      },
+      { "flame": false, "type": "cauterize" }
+    ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
@@ -641,7 +708,7 @@
     "ammo": [ "tape" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "tape": 200 } } ],
     "charges_per_use": 5,
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", 7 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", 7 ], [ "FABRIC_CUT", 1 ] ],
     "use_action": [
       {
         "type": "repair_item",
@@ -707,7 +774,7 @@
     "ammo": [ "weldgas" ],
     "charges_per_use": 4,
     "use_action": [ "OXYTORCH" ],
-    "qualities": [ [ "WELD", 2 ] ],
+    "charged_qualities": [ [ "WELD", 2 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "tinyweldtank" ] } ]
   },
@@ -835,7 +902,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "GRIND", 2 ] ],
+    "charges_per_use": 1,
+    "charged_qualities": [ [ "GRIND", 2 ] ],
     "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
     "pocket_data": [
@@ -864,6 +932,61 @@
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ] ],
     "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "reciprocating_saw",
+    "type": "TOOL",
+    "name": { "str": "reciprocating saw" },
+    "description": "This battery-powered tool, commonly known by the generic trademark Sawzall, uses an electric motor to push a straight sawblade back and forth to rapidly cut wood or metal.  It is useful for heavy demolition and construction work, but is poorly suited to precision tasks.",
+    "weight": "2 kg",
+    "volume": "3 L",
+    "price": 5000,
+    "price_postapoc": 250,
+    "to_hit": -3,
+    "bashing": 2,
+    "cutting": 2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "/",
+    "color": "yellow",
+    "charged_qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 2 ] ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "power_draw": 800000,
+    "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "200 ml",
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "robofac_gun_kit",
+    "type": "TOOL",
+    "name": { "str": "Hub 01 Hybrid maintenance kit" },
+    "description": "This is a heavy duty bag marked with the Hub 01 logo.  It contains space for barrels, adaptors and proprietary tools.  Embossed on the inside is a sketch of the Hybrid Weapons Platform.",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "longest_side": "60 cm",
+    "price": 1500,
+    "price_postapoc": 10,
+    "to_hit": -1,
+    "bashing": 6,
+    "material": [ "nylon", "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "WRENCH_FINE", 1 ], [ "WRENCH", 2 ], [ "SCREW_FINE", 1 ], [ "SCREW", 1 ] ],
+    "pocket_data": [
+      {
+        "rigid": false,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3000 g",
+        "max_item_length": "60 cm",
+        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun" ]
+      }
+    ]
   },
   {
     "id": "screwdriver",
@@ -978,14 +1101,27 @@
       [ "CHISEL_WOOD", 3 ],
       [ "PRYING_NAIL", 1 ]
     ],
-    "use_action": [ "GUN_REPAIR", [ "CROWBAR", 0 ], [ "HAMMER", 0 ], [ "HACKSAW", 0 ] ],
+    "use_action": [
+      "GUN_REPAIR",
+      [ "CROWBAR", 0 ],
+      [ "HACKSAW", 0 ],
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      },
+      { "flame": false, "type": "cauterize" }
+    ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
       }
     ]
   },
@@ -1091,7 +1227,7 @@
     "weight": "226 g",
     "bashing": 3,
     "cutting": 1,
-    "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USES_BIONIC_POWER" ],
+    "flags": [ "NO_UNWIELD", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
     "//": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
     "charges_per_use": 1,
     "use_action": [
@@ -1152,12 +1288,28 @@
     "color": "red",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "qualities": [ [ "WELD", 2 ] ],
+    "charged_qualities": [ [ "WELD", 2 ] ],
     "use_action": [
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy" ],
+        "materials": [
+          "iron",
+          "steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "low_steel",
+          "med_steel",
+          "high_steel",
+          "case_hardened_steel",
+          "tempered_steel",
+          "platinum",
+          "superalloy"
+        ],
         "skill": "fabrication",
         "tool_quality": 10,
         "cost_scaling": 0.1,
@@ -1190,12 +1342,28 @@
     "color": "light_red",
     "ammo": [ "battery" ],
     "charges_per_use": 10,
-    "qualities": [ [ "WELD", 1 ] ],
+    "charged_qualities": [ [ "WELD", 1 ] ],
     "use_action": [
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy" ],
+        "materials": [
+          "iron",
+          "steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "low_steel",
+          "med_steel",
+          "high_steel",
+          "case_hardened_steel",
+          "tempered_steel"
+        ],
         "skill": "fabrication",
         "tool_quality": 5,
         "cost_scaling": 0.1,
@@ -1376,5 +1544,23 @@
         "default_magazine": "medium_battery_cell"
       }
     ]
+  },
+  {
+    "id": "propane_torch",
+    "type": "TOOL",
+    "name": { "str": "propane torch", "str_pl": "propane torches" },
+    "description": "A compact tool kit intended for cutting metal, this portable propane torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It requires connecting to pressurized propane cylinders before use.  While not appropriate for welding, you can activate it in order to destroy metal barriers.",
+    "weight": "1600 g",
+    "volume": "1 L",
+    "price": 20000,
+    "price_postapoc": 750,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "propane" ],
+    "charges_per_use": 8,
+    "use_action": [ "OXYTORCH" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "FIRESTARTER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "small_propane_tank", "medium_propane_tank" ] } ]
   }
 ]

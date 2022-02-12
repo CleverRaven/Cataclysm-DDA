@@ -95,6 +95,8 @@ static const vpart_id vpart_horn_bicycle( "horn_bicycle" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
+static const std::string flag_APPLIANCE( "APPLIANCE" );
+
 enum change_types : int {
     OPENCURTAINS = 0,
     OPENBOTH,
@@ -552,7 +554,7 @@ std::string vehicle::tracking_toggle_string()
 void vehicle::autopilot_patrol_check()
 {
     zone_manager &mgr = zone_manager::get_manager();
-    if( mgr.has_near( zone_type_VEHICLE_PATROL, global_square_location().raw(), 60 ) ) {
+    if( mgr.has_near( zone_type_VEHICLE_PATROL, global_square_location(), 60 ) ) {
         enable_patrol();
     } else {
         g->zones_manager();
@@ -829,7 +831,7 @@ void vehicle::use_controls( const tripoint &pos )
     }
 }
 
-void vehicle::plug_in( const tripoint &pos )
+item vehicle::init_cord( const tripoint &pos )
 {
     item powercord( "power_cord" );
     powercord.set_var( "source_x", pos.x );
@@ -838,11 +840,57 @@ void vehicle::plug_in( const tripoint &pos )
     powercord.set_var( "state", "pay_out_cable" );
     powercord.active = true;
 
+    return powercord;
+}
+
+void vehicle::plug_in( const tripoint &pos )
+{
+    item powercord = init_cord( pos );
+
     if( powercord.get_use( "CABLE_ATTACH" ) ) {
         powercord.get_use( "CABLE_ATTACH" )->call( get_player_character(), powercord, powercord.active,
                 pos );
     }
 
+}
+
+void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
+{
+
+    item cord = init_cord( source_pos );
+    map &here = get_map();
+
+    const optional_vpart_position target_vp = here.veh_at( target_pos );
+    const optional_vpart_position source_vp = here.veh_at( source_pos );
+
+    if( !target_vp ) {
+        return;
+    }
+    vehicle *const target_veh = &target_vp->vehicle();
+    vehicle *const source_veh = &source_vp->vehicle();
+    if( source_veh == target_veh ) {
+        return ;
+    }
+
+    tripoint target_global = here.getabs( target_pos );
+    // TODO: make sure there is always a matching vpart id here. Maybe transform this into
+    // a iuse_actor class, or add a check in item_factory.
+    const vpart_id vpid( cord.typeId().str() );
+
+    point vcoords = source_vp->mount();
+    vehicle_part source_part( vpid, "", vcoords, item( cord ) );
+    source_part.target.first = target_global;
+    source_part.target.second = target_veh->global_square_location().raw();
+    source_veh->install_part( vcoords, source_part );
+
+    vcoords = target_vp->mount();
+    vehicle_part target_part( vpid, "", vcoords, item( cord ) );
+    tripoint source_global( cord.get_var( "source_x", 0 ),
+                            cord.get_var( "source_y", 0 ),
+                            cord.get_var( "source_z", 0 ) );
+    target_part.target.first = source_global;
+    target_part.target.second = source_veh->global_square_location().raw();
+    target_veh->install_part( vcoords, target_part );
 }
 
 bool vehicle::fold_up()
@@ -2026,15 +2074,20 @@ void vpart_position::form_inventory( inventory &inv )
 
     if( vp_cargo ) {
         const vehicle_stack items = vehicle().get_items( vp_cargo->part_index() );
-        inv += std::list<item>( items.begin(), items.end() );
+        for( auto &it : items ) {
+            if( it.empty_container() && it.is_watertight_container() ) {
+                const int count = it.count_by_charges() ? it.charges : 1;
+                inv.update_liq_container_count( it.typeId(), count );
+            }
+            inv.add_item( it );
+        }
     }
 
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
     if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet, 0 ) ) {
-        for( const std::pair<const itype_id, int> &it : vehicle().fuels_left() ) {
-            item fuel( it.first, calendar::turn_zero );
-            if( fuel.made_of( phase_id::LIQUID ) ) {
-                fuel.charges = it.second;
+        for( const item *it : vehicle().fuel_items_left() ) {
+            if( it->made_of( phase_id::LIQUID ) ) {
+                item fuel( *it );
                 inv.add_item( fuel );
             }
         }
@@ -2046,7 +2099,7 @@ void vpart_position::form_inventory( inventory &inv )
 }
 
 // Handles interactions with a vehicle in the examine menu.
-void vehicle::interact_with( const vpart_position &vp )
+void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
 {
     map &here = get_map();
     avatar &player_character = get_avatar();
@@ -2069,8 +2122,11 @@ void vehicle::interact_with( const vpart_position &vp )
     const cata::optional<vpart_reference> vp_cargo = vp.part_with_feature( "CARGO", false );
     const bool has_planter = vp.avail_part_with_feature( "PLANTER" ) ||
                              vp.avail_part_with_feature( "ADVANCED_PLANTER" );
+    // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
+    const bool vp_has_items = vp_cargo && !get_items( vp_cargo->part_index() ).empty();
+    const bool map_has_items = here.has_items( vp.pos() );
 
-    bool is_appliance = has_tag( "APPLIANCE" );
+    bool is_appliance = has_tag( flag_APPLIANCE );
 
     enum {
         EXAMINE,
@@ -2100,8 +2156,9 @@ void vehicle::interact_with( const vpart_position &vp )
     uilist selectmenu;
 
 
+    selectmenu.addentry( EXAMINE, true, 'e',
+                         is_appliance ? _( "Examine appliance" ) : _( "Examine vehicle" ) );
     if( !is_appliance ) {
-        selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
         selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
     } else {
         selectmenu.addentry( PLUG, true, 'g', _( "Plug in appliance" ) );
@@ -2145,7 +2202,7 @@ void vehicle::interact_with( const vpart_position &vp )
                              ? _( "Deactivate the dishwasher" )
                              : _( "Activate the dishwasher (1.5 hours)" ) );
     }
-    if( here.has_items( vp.pos() ) ) {
+    if( with_pickup && ( vp_has_items || map_has_items ) ) {
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
     if( ( is_foldable() || tags.count( "convertible" ) > 0 ) && g->remoteveh() != this ) {
@@ -2341,7 +2398,11 @@ void vehicle::interact_with( const vpart_position &vp )
             return;
         }
         case EXAMINE: {
-            g->exam_vehicle( *this );
+            if( is_appliance ) {
+                g->exam_appliance( *this );
+            } else {
+                g->exam_vehicle( *this );
+            }
             return;
         }
         case TRACK: {

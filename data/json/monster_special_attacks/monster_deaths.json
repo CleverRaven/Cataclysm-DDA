@@ -42,15 +42,15 @@
     "extra_effects": [ { "id": "necro_boomer_revive", "hit_self": true }, { "id": "necro_boomer_upgrade", "hit_self": true } ]
   },
   {
-    "id": "zombie_child_guilt",
+    "id": "death_guilt",
     "type": "SPELL",
-    "name": { "str": "Zombie Child Guilt" },
-    "description": "Causes guilt to the target as if the caster was killed by it.",
+    "name": { "str": "Death Guilt" },
+    "description": "Feeling guilty over killing a monster",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],
     "shape": "blast",
     "effect": "guilt",
-    "effect_str": "ZOMBIE",
+    "effect_str": "NULL",
     "min_damage": 100,
     "max_damage": 100,
     "min_duration": 180000,
@@ -108,14 +108,11 @@
     "name": { "str": "Death Blobsplit Large" },
     "description": "A large blob splits in half",
     "valid_targets": [ "ground", "self" ],
-    "min_damage": 2,
-    "max_damage": 2,
     "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
     "shape": "blast",
-    "effect": "summon",
-    "effect_str": "mon_blob",
-    "min_aoe": 2,
-    "max_aoe": 2
+    "effect": "slime_split",
+    "min_aoe": 1,
+    "max_aoe": 1
   },
   {
     "id": "death_blobsplit",
@@ -123,14 +120,11 @@
     "name": { "str": "Death Blobsplit" },
     "description": "A blob splits in half",
     "valid_targets": [ "ground", "self" ],
-    "min_damage": 2,
-    "max_damage": 2,
     "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
     "shape": "blast",
-    "effect": "summon",
-    "effect_str": "mon_blob_small",
-    "min_aoe": 2,
-    "max_aoe": 2
+    "effect": "slime_split",
+    "min_aoe": 1,
+    "max_aoe": 1
   },
   {
     "id": "death_blobsplit_brain",
@@ -138,14 +132,11 @@
     "name": { "str": "Death Blobsplit Brain" },
     "description": "A blob brain splits in half",
     "valid_targets": [ "ground", "self" ],
-    "min_damage": 3,
-    "max_damage": 3,
     "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS" ],
     "shape": "blast",
-    "effect": "summon",
-    "effect_str": "mon_blob_large",
-    "min_aoe": 2,
-    "max_aoe": 2
+    "effect": "slime_split",
+    "min_aoe": 1,
+    "max_aoe": 1
   },
   {
     "id": "death_blob_brain",
@@ -207,6 +198,17 @@
     "shape": "blast",
     "effect": "emit",
     "effect_str": "emit_tear_gas_blast",
+    "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
+  },
+  {
+    "id": "death_relax_gas",
+    "type": "SPELL",
+    "name": { "str": "Relaxation Gas Explosion" },
+    "description": "Causes a small explosion of relaxation gas.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "emit",
+    "effect_str": "emit_relax_gas_blast",
     "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
   },
   {
@@ -579,5 +581,41 @@
     "min_range": 48,
     "max_range": 48,
     "shape": "blast"
+  },
+  {
+    "id": "death_slimespring",
+    "type": "SPELL",
+    "name": { "str": "Death Slimespring" },
+    "description": "Slimespring dies",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "shape": "blast",
+    "effect": "guilt",
+    "effect_str": "MUTANT",
+    "min_damage": 100,
+    "max_damage": 100,
+    "min_duration": 180000,
+    "max_duration": 180000,
+    "min_range": 5,
+    "max_range": 5,
+    "extra_effects": [ { "id": "death_acid", "hit_self": true } ]
+  },
+  {
+    "id": "death_zombie_kinderling",
+    "type": "SPELL",
+    "name": { "str": "Death Zombie Kinderling" },
+    "description": "Zombie kinderling dies",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "shape": "blast",
+    "effect": "guilt",
+    "effect_str": "ZOMBIE",
+    "min_damage": 100,
+    "max_damage": 100,
+    "min_duration": 180000,
+    "max_duration": 180000,
+    "min_range": 5,
+    "max_range": 5,
+    "extra_effects": [ { "id": "death_smokeburst", "hit_self": true } ]
   }
 ]

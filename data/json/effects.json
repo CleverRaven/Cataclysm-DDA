@@ -167,7 +167,7 @@
     "id": "npc_player_still_looking",
     "name": [ "Waiting for you to find something" ],
     "desc": [
-      "AI tag to prevent NPCs from following the player while the player is finding an additonal copy of an item.  This is a bug if you have it."
+      "AI tag to prevent NPCs from following the player while the player is finding an additional copy of an item.  This is a bug if you have it."
     ]
   },
   {
@@ -306,6 +306,7 @@
     "desc": [ "You've been knocked off-balance by an attack'." ],
     "apply_message": "You're staggered off-balance.",
     "base_mods": { "speed_mod": [ -20 ] },
+    "removes_effects": [ "grabbing" ],
     "rating": "bad",
     "show_in_info": true
   },
@@ -742,6 +743,157 @@
     "dur_add_perc": 60,
     "rating": "good",
     "blood_analysis_description": "Melatonin"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen",
+    "//name": [ "Mutagen" ],
+    "desc": [ "You consumed mutagen.  It was probably a good idea.", "You can feel your insides shifting.  It feels… nice." ],
+    "max_intensity": 2,
+    "show_intensity": false
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_batrachian",
+    "//name": [ "Frog Mutagen" ],
+    "desc": [ "You consumed frog mutagen.", "Now, to find a quiet pond and settle for the wait…" ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_beast",
+    "//name": [ "Beast Mutagen" ],
+    "desc": [ "You consumed beast mutagen.", "There must be prey around.  Stay alert." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_bird",
+    "//name": [ "Bird Mutagen" ],
+    "desc": [ "You consumed bird mutagen.", "You feel the pull of the skies." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_cattle",
+    "//name": [ "Cattle Mutagen" ],
+    "desc": [ "You consumed cattle mutagen.", "This pasture will grow barren soon.  Keep moving." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_cephalopod",
+    "//name": [ "Cephalopod Mutagen" ],
+    "desc": [ "You consumed cephalopod mutagen.", "Become one with your surroundings." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_chimera",
+    "//name": [ "Chimera Mutagen" ],
+    "desc": [ "You consumed chimera mutagen.  Why?", "Your flesh is the clay of the new world.  You'll overcome all challenges." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_elfa",
+    "//name": [ "Elf-A Mutagen" ],
+    "desc": [ "You consumed elf-a mutagen.", "You must look after this world, if noone else will." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_feline",
+    "//name": [ "Feline Mutagen" ],
+    "desc": [ "You consumed feline mutagen.", "Quiet steps and sharp claws.  They'll never see it coming." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_fish",
+    "//name": [ "Fish Mutagen" ],
+    "desc": [ "You consumed fish mutagen.", "The waters call to you.  Leave this exposed wasteland." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_insect",
+    "//name": [ "Insect Mutagen" ],
+    "desc": [ "You consumed insect mutagen.", "You can't wait for your change.  It can't be long now." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_lizard",
+    "//name": [ "Lizard Mutagen" ],
+    "desc": [ "You consumed lizard mutagen.", "Your skin feels dry and too small.  You'll have to molt soon." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_lupine",
+    "//name": [ "Lupine Mutagen" ],
+    "desc": [ "You consumed lupine mutagen.", "Where's your pack?  How will you survive without them?" ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_plant",
+    "//name": [ "Plant Mutagen" ],
+    "desc": [
+      "You consumed plant mutagen.",
+      "All this running… why don't you just find a nice, fertile spot and bask in the sun."
+    ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_raptor",
+    "//name": [ "Raptor Mutagen" ],
+    "desc": [ "You consumed raptor mutagen.", "Sharpen your talons and clean your feathers.  Your prey won't give itself easily." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_rat",
+    "//name": [ "Rat Mutagen" ],
+    "desc": [ "You consumed rat mutagen.", "This place is too open.  Hide!" ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_slime",
+    "//name": [ "Slime Mutagen" ],
+    "desc": [ "You consumed slime mutagen.", "Plop." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_snail",
+    "//name": [ "Snail Mutagen" ],
+    "desc": [ "You consumed snail mutagen.", "Slow and steady wins the race." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_spider",
+    "//name": [ "Spider Mutagen" ],
+    "desc": [ "You consumed spider mutagen.", "An anchor line there and there, connect with capture threads…" ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_trog",
+    "//name": [ "Troglobite Mutagen" ],
+    "desc": [ "You consumed troglobite mutagen.", "Down in the dark corners of the new world.  That's where you belong." ],
+    "max_intensity": 2
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_ursine",
+    "//name": [ "Ursine Mutagen" ],
+    "desc": [ "You consumed ursine mutagen.", "Berries, brood, honey, or meat?  What will today bring?" ],
+    "max_intensity": 2
   },
   {
     "type": "effect_type",
@@ -1549,6 +1701,7 @@
       "foodpoison",
       "paralyzepoison",
       "tetanus",
+      "rat_bite_fever",
       "infected",
       "asthma",
       "common_cold",
@@ -1874,10 +2027,32 @@
   {
     "type": "effect_type",
     "id": "tetanus",
+    "name": [ "Muscle cramps" ],
+    "apply_message": "Your muscles start convulsing!",
+    "desc": [ "You muscles are binding up, you should probably find a sedative." ],
     "rating": "bad",
     "resist_effects": [ "valium" ],
     "base_mods": { "dex_mod": [ -4, 0 ] },
     "blood_analysis_description": "Clostridium Tetani Infection"
+  },
+  {
+    "type": "effect_type",
+    "id": "rat_bite_fever",
+    "name": [ "puckered scratches" ],
+    "apply_message": "Your skin starts burning around some of your scratches.  Some aspirin might relieve the effects.",
+    "remove_message": "The fever breaks.",
+    "rating": "bad",
+    "resist_effects": [ "aspirin" ],
+    "base_mods": {
+      "stamina_min": [ -50 ],
+      "stamina_max": [ -100 ],
+      "stamina_chance": [ 300 ],
+      "int_mod": [ -1, 0 ],
+      "fatigue_min": [ 5 ],
+      "fatigue_max": [ 10 ],
+      "fatigue_chance": [ 500 ]
+    },
+    "blood_analysis_description": "Streptobacillus moniliformis Infection"
   },
   {
     "type": "effect_type",
@@ -2682,5 +2857,20 @@
   {
     "type": "effect_type",
     "id": "hunger_blank"
+  },
+  {
+    "//": "Limits the number of police bots summoned to 3 every 6 hours",
+    "type": "effect_type",
+    "id": "eyebot_assisted",
+    "int_add_val": 1,
+    "max_intensity": 3,
+    "max_duration": "6 hours"
+  },
+  {
+    "//": "The eyebot can no longer summon police bots",
+    "type": "effect_type",
+    "id": "eyebot_depleted",
+    "int_add_val": 1,
+    "max_intensity": 10
   }
 ]

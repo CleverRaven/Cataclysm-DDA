@@ -72,7 +72,7 @@
     "material": [ "iflesh" ],
     "symbol": "m",
     "color": "brown",
-    "aggression": 5,
+    "aggression": -30,
     "morale": 60,
     "melee_skill": 5,
     "melee_dice": 1,
@@ -112,7 +112,7 @@
     "armor_bullet": 6,
     "vision_day": 3,
     "vision_night": 35,
-    "harvest": "animal_large_noskin",
+    "harvest": "reptile_large_leather",
     "path_settings": { "max_dist": 8 },
     "special_attacks": [
       {
@@ -127,10 +127,10 @@
         "infection_chance": 50
       }
     ],
-    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ]
   },
   {
     "id": "mon_caiman",
@@ -149,7 +149,7 @@
     "symbol": "c",
     "color": "light_green",
     "aggression": 15,
-    "morale": 50,
+    "morale": 25,
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 5,
@@ -175,10 +175,10 @@
         "infection_chance": 50
       }
     ],
-    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ]
   },
   {
     "id": "mon_toad",
@@ -252,6 +252,7 @@
     "symbol": "A",
     "color": "light_gray",
     "aggression": 5,
+    "morale": 30,
     "melee_skill": 5,
     "melee_dice": 1,
     "melee_dice_sides": 6,
@@ -260,7 +261,7 @@
     "vision_day": 10,
     "vision_night": 5,
     "harvest": "animal_noskin",
-    "anger_triggers": [ "PLAYER_CLOSE" ],
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "HURT" ],
     "flags": [ "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
@@ -313,7 +314,7 @@
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
-    "aggression": -10,
+    "aggression": -30,
     "morale": 60,
     "melee_skill": 6,
     "melee_dice": 2,
@@ -348,7 +349,7 @@
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
-    "aggression": -10,
+    "aggression": -30,
     "morale": 60,
     "melee_skill": 6,
     "melee_dice": 2,
@@ -420,8 +421,8 @@
     "material": [ "iflesh" ],
     "symbol": "t",
     "color": "light_gray",
-    "aggression": 30,
-    "morale": 60,
+    "aggression": 15,
+    "morale": 30,
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 4,
@@ -437,17 +438,16 @@
         "cooldown": 20,
         "accuracy": 6,
         "damage_max_instance": [
-          { "damage_type": "stab", "amount": 4.5, "armor_multiplier": 0.5 },
-          { "damage_type": "bash", "amount": 7.5, "armor_multiplier": 0.5 }
+          { "damage_type": "stab", "amount": 3, "armor_multiplier": 0.5 },
+          { "damage_type": "bash", "amount": 5, "armor_multiplier": 0.5 }
         ],
         "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
         "infection_chance": 50
       }
     ],
-    "anger_triggers": [ "PLAYER_CLOSE" ],
-    "fear_triggers": [ "FIRE", "HURT" ],
+    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
     "id": "mon_tortoise",

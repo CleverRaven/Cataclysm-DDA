@@ -426,7 +426,14 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 10 }, "allowed_speedloaders": [ "clip9mm_10rd" ] } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "9mm": 10 },
+        "allowed_speedloaders": [ "clip9mm_10rd" ]
+      }
+    ]
   },
   {
     "id": "mauser_m714",
@@ -987,7 +994,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": "SIG P226 MK25" },
-    "description": "The P226 MK25 is a full-size semi-automatic DA/SA, short-recoil operated pistol with corrosion resitant internal coating, and an engraved anchor on the side of the slide.",
+    "description": "The P226 MK25 is a full-size semi-automatic DA/SA, short-recoil operated pistol with corrosion resistant internal coating, and an engraved anchor on the side of the slide.",
     "weight": "804 g",
     "volume": "570 ml",
     "longest_side": "237 mm",

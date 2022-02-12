@@ -126,6 +126,7 @@
       { "item": "multi_cooker", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "char_smoker", "prob": 5, "charges-min": 0 },
       [ "can_sealer", 2 ],
+      [ "oil_press_manual", 2 ],
       [ "atomic_coffeepot", 1 ]
     ]
   },
@@ -169,7 +170,11 @@
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 30 },
       {
         "collection": [ { "item": "denat_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],
-        "prob": 10
+        "prob": 6
+      },
+      {
+        "collection": [ { "item": "methed_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],
+        "prob": 4
       },
       { "collection": [ { "item": "oil_lamp", "prob": 100 }, { "item": "lamp_oil", "prob": 70 } ], "prob": 10 }
     ]
@@ -217,7 +222,8 @@
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
       { "item": "chem_muriatic_acid", "prob": 15 },
-      { "item": "denat_alcohol", "prob": 10 },
+      { "item": "denat_alcohol", "prob": 6 },
+      { "item": "methed_alcohol", "prob": 4 },
       { "item": "textbook_extraction", "prob": 5 },
       { "item": "butane_can", "prob": 10 },
       { "item": "gasket_plastic", "prob": 10 },
@@ -445,6 +451,9 @@
       { "item": "phonebook", "prob": 5 },
       { "item": "survnote", "prob": 1 },
       { "group": "toy_radio_car", "prob": 2 },
+      { "group": "toy_makerspace_kit", "prob": 1 },
+      { "group": "toy_robot_kit", "prob": 1 },
+      { "group": "toy_engine_kit", "prob": 1 },
       { "item": "radiocontrol", "prob": 5, "charges": [ 0, 50 ] },
       { "item": "magnifying_glass", "prob": 2 },
       { "item": "straw_hat", "prob": 5 },
@@ -577,6 +586,7 @@
       { "item": "gelatin_dessert_powder", "prob": 20 },
       { "item": "sauce_pesto", "prob": 15 },
       { "item": "bread", "prob": 14 },
+      { "item": "bread_garlic", "prob": 7 },
       { "item": "cornbread", "prob": 7 },
       { "item": "flatbread", "prob": 7 },
       { "item": "crackers", "prob": 20 },

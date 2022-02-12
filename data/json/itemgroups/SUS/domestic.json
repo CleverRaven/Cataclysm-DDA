@@ -306,6 +306,8 @@
       { "item": "stapler", "prob": 25 },
       { "item": "soldering_iron", "prob": 25, "charges": [ 5, 45 ] },
       { "item": "xacto", "prob": 25 },
+      { "item": "kevlar_shears", "prob": 10 },
+      { "item": "tin_snips", "prob": 10 },
       { "item": "wristwatch", "prob": 25 },
       { "item": "light_disposable_cell", "count": 4, "prob": 25, "charges": 300 },
       { "item": "old_key", "prob": 20, "count": [ 1, 6 ] },
@@ -467,6 +469,7 @@
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 5 },
       { "item": "can_sealer", "prob": 2 },
+      { "item": "oil_press_manual", "prob": 2 },
       { "group": "dishes_utility", "prob": 50, "count": [ 1, 3 ] }
     ]
   },

@@ -480,7 +480,7 @@ bool options_manager::cOpt::checkPrerequisite() const
 bool options_manager::cOpt::is_hidden() const
 {
     switch( hide ) {
-        case COPT_NO_HIDE:
+        case COPT_NO_HIDE: // NOLINT(bugprone-branch-clone)
             return false;
 
         case COPT_SDL_HIDE:
@@ -1219,7 +1219,7 @@ void options_manager::add_options_general()
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
     add( "AUTO_MOPPING", "general", to_translation( "Auto mopping" ),
-         to_translation( "If true, enables automatic use of wielded mops to clean surronding terrain." ),
+         to_translation( "If true, enables automatic use of wielded mops to clean surrounding terrain." ),
          false
        );
 
@@ -1440,12 +1440,20 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "SHOW_GUN_VARIANTS", "interface", to_translation( "Show gun brand names" ),
-         to_translation( "Show brand names for guns, intead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+         to_translation( "Show brand names for guns, instead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
          false );
     add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
          to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
          true
        );
+    add( "DETAILED_CONTAINERS", "interface", to_translation( "Detailed Containers" ),
+         to_translation( "All: every container has detailed remaining volume info - Worn: only worn containers have detailed remaining volume info - None: no additional info is provided" ),
+    {
+        { "ALL", to_translation( "All" ) },
+        { "WORN", to_translation( "Worn" ) },
+        { "NONE", to_translation( "None" ) }
+    },
+    "WORN" );
 
     add_empty_line();
 
@@ -1649,12 +1657,6 @@ void options_manager::add_options_interface()
          to_translation( "Switch between look around panel being left or right." ),
     { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) } },
     "right"
-       );
-
-    add( "PICKUP_POSITION", "interface", to_translation( "Pickup position" ),
-         to_translation( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
-    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) }, { "overlapping", to_translation( "Overlapping" ) } },
-    "left"
        );
 
     add( "ACCURACY_DISPLAY", "interface", to_translation( "Aim window display style" ),
@@ -2208,12 +2210,12 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_DAY", "world_default", to_translation( "Initial day" ),
-         to_translation( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+         to_translation( "How many days into the year the Cataclysm ended.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
          -1, 999, 60
        );
 
     add( "SPAWN_DELAY", "world_default", to_translation( "Spawn delay" ),
-         to_translation( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
+         to_translation( "How many days after the end of the Cataclysm the player spawns.  Day 0 is immediately after the end of the Cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
          0, 9999, 0
        );
 
@@ -2230,6 +2232,14 @@ void options_manager::add_options_world_default()
     add( "ETERNAL_SEASON", "world_default", to_translation( "Eternal season" ),
          to_translation( "Keep the initial season for ever." ),
          false
+       );
+
+    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day / night cycle" ),
+    to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
+        { "normal", to_translation( "Normal" ) },
+        { "day", to_translation( "Eternal Day" ) },
+        { "night", to_translation( "Eternal Night" ) },
+    }, "normal"
        );
 
     add_empty_line();
@@ -2834,8 +2844,14 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                        value );
         }
 
-        draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
-                        page_items.size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( iTooltipHeight + 2 + iWorldOffset )
+        .content_size( page_items.size() )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w_options_border );
+
         wnoutrefresh( w_options_border );
 
         //Draw Tabs
@@ -3107,6 +3123,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     }
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
 #if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {

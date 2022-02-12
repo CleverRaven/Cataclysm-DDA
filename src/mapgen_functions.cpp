@@ -31,6 +31,7 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
+#include "submap.h"
 #include "trap.h"
 #include "vehicle_group.h"
 #include "weighted_list.h"
@@ -237,10 +238,8 @@ void mapgen_crater( mapgendata &dat )
                 rng( 0, dat.n_fac ) <= j && rng( 0, dat.s_fac ) <= SEEX * 2 - 1 - j ) {
                 m->ter_set( point( i, j ), t_dirt );
                 m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true );
-                m->set_radiation( point( i, j ), rng( 0, 4 ) * rng( 0, 2 ) );
             } else {
                 m->ter_set( point( i, j ), dat.groundcover() );
-                m->set_radiation( point( i, j ), rng( 0, 2 ) * rng( 0, 2 ) * rng( 0, 2 ) );
             }
         }
     }
@@ -3134,10 +3133,12 @@ void mapgen_lake_shore( mapgendata &dat )
 void mapgen_ravine_edge( mapgendata &dat )
 {
     map *const m = &dat.m;
+    // A solid chunk of z layer appropiate wall or floor is first generated to carve the cliffside off from
     if( dat.zlevel() == 0 ) {
         dat.fill_groundcover();
     } else {
-        m->draw_fill_background( t_rock );
+        run_mapgen_func( dat.region.default_oter[ OVERMAP_DEPTH + dat.zlevel() ].id()->get_mapgen_id(),
+                         dat );
     }
 
     const auto is_ravine = [&]( const oter_id & id ) {
@@ -3224,10 +3225,13 @@ void mapgen_ravine_edge( mapgendata &dat )
     }
 }
 
-void mremove_trap( map *m, const point &p )
+void mremove_trap( map *m, const point &p, trap_id type )
 {
     tripoint actual_location( p, m->get_abs_sub().z );
-    m->remove_trap( actual_location );
+    const trap_id trap_at_loc = m->maptile_at( actual_location ).get_trap().id();
+    if( type == tr_null || trap_at_loc == type ) {
+        m->remove_trap( actual_location );
+    }
 }
 
 void mtrap_set( map *m, const point &p, trap_id type )

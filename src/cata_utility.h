@@ -19,6 +19,7 @@
 
 class JsonIn;
 class JsonOut;
+class JsonValue;
 class translation;
 
 /**
@@ -316,8 +317,6 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
 ///@}
 
-class JsonDeserializer;
-
 /**
  * Try to open and read from given file using the given callback.
  *
@@ -327,9 +326,8 @@ class JsonDeserializer;
  * If the stream is in a fail state (other than EOF) after the callback returns, it is handled as
  * error as well.
  *
- * The callback can either be a generic `std::istream`, a @ref JsonIn stream (which has been
- * initialized from the `std::istream`) or a @ref JsonDeserializer object (in case of the later,
- * it's `JsonDeserializer::deserialize` method will be invoked).
+ * The callback can either be a generic `std::istream` or a @ref JsonIn stream (which has been
+ * initialized from the `std::istream`) or a @ref JsonValue object.
  *
  * The functions with the "_optional" prefix do not show a debug message when the file does not
  * exist. They simply ignore the call and return `false` immediately (without calling the callback).
@@ -340,13 +338,15 @@ class JsonDeserializer;
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
 bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
-bool read_from_file( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_json( const std::string &path,
+                          const std::function<void( const JsonValue & )> &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
 bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( JsonIn & )> &reader );
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( const JsonValue & )> &reader );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
@@ -444,6 +444,8 @@ inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
 {
     return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;
 }
+
+bool string_empty_or_whitespace( const std::string &s );
 
 /** Used as a default filter in various functions */
 template<typename T>

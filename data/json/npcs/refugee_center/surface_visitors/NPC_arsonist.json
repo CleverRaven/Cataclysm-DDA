@@ -24,6 +24,7 @@
     "id": "NC_ARSONIST",
     "name": { "str": "Arsonist" },
     "job_description": "I'm just watching the world burn.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
       { "group": "NPC_starting_traits" },
@@ -124,8 +125,8 @@
   {
     "id": "MISSION_ARSONIST_1_AMMONIUM_NITRATE",
     "type": "mission_definition",
-    "name": { "str": "Supply the arsonist." },
-    "description": "Bring the arsonist 42 kg of commercial fertilizer",
+    "name": { "str": "Supply the arsonist" },
+    "description": "Bring the arsonist two bags of commercial fertilizer",
     "difficulty": 1,
     "value": 500,
     "origins": [ "ORIGIN_SECONDARY" ],

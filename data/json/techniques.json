@@ -262,6 +262,78 @@
   },
   {
     "type": "technique",
+    "id": "tec_bojutsu_thrust",
+    "name": "Front Thrust",
+    "messages": [ "You thrust at the %s", "<npcname> thrusts at %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "melee_allowed": true,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_bojutsu_kneestrike",
+    "name": "Knee Strike",
+    "messages": [
+      "After blocking %s's attack you quickly strike at their knee!",
+      "After blocking %s's attack <npcname> quickly strikes at their knee!"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_bojutsu_frontstrike",
+    "name": "Overhead Front Strike",
+    "messages": [
+      "You block %s's attack and counter with a Overhead Front Strike!",
+      "<npcname> blocks %s's attack and counter with a Overhead Front Strike!"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_bojutsu_rollingstrike",
+    "name": "Rolling Strike",
+    "messages": [ "Using your rolling staff you quickly strike %s", "Using rolling staff <npcname> quickly strikes %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "required_buffs_all": [ "buff_bojutsu_onmove" ],
+    "weighting": 2,
+    "crit_ok": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_bojutsu_feint",
+    "name": "Feint",
+    "messages": [ "You fake a strike at %s", "<npcname> fakes a strike at %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_bojutsu_disarm",
+    "name": "Hooking Disarm",
+    "messages": [ "You're able to disarm %s by hooking their weapon", "<npcname> hooks %s's weapon and casts it away" ],
+    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "disarms": true
+  },
+  {
+    "type": "technique",
     "id": "tec_barbaran_impale",
     "name": "Impaling Estocada",
     "messages": [ "You thrust your weapon through %s", "<npcname> thrusts their weapon through %s" ],
@@ -818,7 +890,7 @@
     "id": "tec_judo_disarm",
     "name": "Disarming Throw",
     "messages": [ "You disarm and throw %s", "<npcname> disarms and throws %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "unarmed_weapons_allowed": false,
@@ -849,7 +921,7 @@
       "The %s tries to grab you, but you break their feeble grapple!",
       "The %s tries to grab <npcname>, but they break its feeble grapple!"
     ],
-    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,

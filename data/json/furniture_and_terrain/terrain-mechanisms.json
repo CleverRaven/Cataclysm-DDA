@@ -368,6 +368,33 @@
   },
   {
     "type": "terrain",
+    "id": "t_card_artisans",
+    "name": "card reader",
+    "description": "This is a smartcard reader.  Text written on a post note above reads 'CO-OP MEMBERS ONLY'.",
+    "//": "for the isolated artisans faction",
+    "symbol": "6",
+    "color": "pink",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "COOP_CARD" ],
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query_msg": "Swipe your ID card?",
+      "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
+      "redundant_msg": "The nearby doors are already opened."
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_card_reader_broken",
+      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_card_science_maintenance_green",
     "name": "Maintenance: green zone card reader",
     "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a wrench on a green background.  You could swipe a maintenance employee badge near it to unlock the gates.",

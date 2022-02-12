@@ -354,7 +354,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "material_soil", 2 ] ],
-      [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "feces_cow", 1 ], [ "feces_roach", 1 ], [ "feces_manure", 1 ] ]
+      [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "feces_cow", 1 ], [ "feces_roach", 4 ], [ "feces_manure", 2 ] ]
     ]
   },
   {

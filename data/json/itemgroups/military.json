@@ -30,6 +30,18 @@
     ]
   },
   {
+    "id": "military_ballistic_vest_broken",
+    "type": "item_group",
+    "container-item": "ballistic_vest_esapi",
+    "subtype": "collection",
+    "entries": [
+      { "item": "destroyed_large_ceramic_plate", "prob": 50 },
+      { "item": "destroyed_large_ceramic_plate", "prob": 50 },
+      { "item": "destroyed_medium_ceramic_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 }
+    ]
+  },
+  {
     "id": "military_ballistic_vest_pristine",
     "type": "item_group",
     "//": "ESAPI vest plus plates",
@@ -44,6 +56,14 @@
     "container-item": "ballistic_vest_light",
     "subtype": "collection",
     "entries": [ { "item": "esapi_plate", "prob": 50 }, { "item": "esapi_plate", "prob": 50 } ]
+  },
+  {
+    "id": "military_ballistic_vest_light_pristine",
+    "type": "item_group",
+    "//": "light ballistic vest plus plates",
+    "container-item": "ballistic_vest_light",
+    "subtype": "collection",
+    "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" } ]
   },
   {
     "id": "military_ballistic_vest_heavy",
@@ -186,7 +206,12 @@
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [ { "item": "holo_sight", "prob": 50 }, { "item": "acog_scope", "prob": 30 }, { "item": "red_dot_sight", "prob": 20 } ]
+        "distribution": [
+          { "item": "holo_sight", "prob": 50 },
+          { "item": "acog_scope", "prob": 30 },
+          { "item": "hybrid_sight_4x", "prob": 30 },
+          { "item": "red_dot_sight", "prob": 20 }
+        ]
       },
       { "distribution": [ { "item": "grip", "prob": 70 }, { "item": "m203", "prob": 30 } ] },
       { "item": "offset_sights", "prob": 30 },
@@ -343,7 +368,6 @@
       { "item": "8mm_inc", "prob": 2 },
       { "item": "tac_helmet", "prob": 10 },
       { "item": "tac_fullhelmet", "prob": 5 },
-      { "item": "helmet_lobster", "prob": 5 },
       { "item": "flight_helmet", "prob": 5 },
       { "item": "mil_flight_suit", "prob": 5 },
       { "item": "gum", "prob": 90 },
@@ -659,7 +683,6 @@
       { "item": "recipe_raptor", "prob": 2 },
       { "item": "tac_helmet", "prob": 5 },
       { "item": "tac_fullhelmet", "prob": 2 },
-      { "item": "helmet_lobster", "prob": 2 },
       { "item": "cowboy_hat", "prob": 4 },
       { "item": "mask_bal", "prob": 1 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },

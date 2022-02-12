@@ -15,7 +15,7 @@
 static const mtype_id debug_mon( "debug_mon" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_soldier_no_weakpoints( "mon_zombie_soldier_no_weakpoints" );
-static const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
+static const mtype_id mon_zombie_survivor_no_weakpoints( "mon_zombie_survivor_no_weakpoints" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
@@ -179,7 +179,7 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
 
     monster soldier( mon_zombie_soldier_no_weakpoints );
     monster smoker( mon_zombie_smoker );
-    monster survivor( mon_zombie_survivor );
+    monster survivor( mon_zombie_survivor_no_weakpoints );
 
     item clumsy_sword( "test_clumsy_sword" );
     item normal_sword( "test_normal_sword" );
@@ -211,7 +211,7 @@ TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
 
     monster soldier( mon_zombie_soldier_no_weakpoints );
     monster smoker( mon_zombie_smoker );
-    monster survivor( mon_zombie_survivor );
+    monster survivor( mon_zombie_survivor_no_weakpoints );
 
     item clumsy_sword( "test_clumsy_sword" );
     item normal_sword( "test_normal_sword" );
@@ -270,12 +270,12 @@ static void make_experienced_tester( avatar &test_guy )
 static void check_staves( const std::function<Approx( const std::string & )> &calc_expected_dps )
 {
     SECTION( "staves" ) { // typical value around 18
-        CHECK( calc_expected_dps( "i_staff" ) == 22.75 );
+        CHECK( calc_expected_dps( "i_staff" ) == 20.62 );
         CHECK( calc_expected_dps( "staff_sling" ) == 15 );
-        CHECK( calc_expected_dps( "q_staff" ) == 20.75 );
+        CHECK( calc_expected_dps( "q_staff" ) == 18.75 );
         CHECK( calc_expected_dps( "l-stick_on" ) == 17.5 );
         CHECK( calc_expected_dps( "l-stick" ) == 17.5 );
-        CHECK( calc_expected_dps( "shock_staff" ) == 21.75 );
+        CHECK( calc_expected_dps( "shock_staff" ) == 19.61 );
         CHECK( calc_expected_dps( "hockey_stick" ) == 13.75 );
         CHECK( calc_expected_dps( "pool_cue" ) == 10.0 );
         CHECK( calc_expected_dps( "broom" ) == 3.25 );

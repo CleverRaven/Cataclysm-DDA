@@ -22,6 +22,7 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
 #include "output.h"
 #include "pimpl.h"
@@ -40,7 +41,8 @@ namespace
 std::string clothing_layer( const item &worn_item );
 std::vector<std::string> clothing_properties(
     const item &worn_item, int width, const Character &, const bodypart_id &bp );
-std::vector<std::string> clothing_protection( const item &worn_item, int width );
+std::vector<std::string> clothing_protection( const item &worn_item, int width,
+        const bodypart_id &bp );
 std::vector<std::string> clothing_flags_description( const item &worn_item );
 
 struct item_penalties {
@@ -71,8 +73,6 @@ struct item_penalties {
 item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                                    const Character &c, const bodypart_id &_bp )
 {
-    std::vector<layer_level> layer = worn_item_it->get_layer();
-
     std::vector<bodypart_id> body_parts_with_stacking_penalty;
     std::vector<bodypart_id> body_parts_with_out_of_order_penalty;
     std::vector<std::set<std::string>> lists_of_bad_items_within;
@@ -84,37 +84,47 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         if( !worn_item_it->covers( bp ) ) {
             continue;
         }
+        std::set<std::string> bad_items_within;
         // if no subparts do the old way
         if( bp->sub_parts.empty() ) {
+            std::vector<layer_level> layer = worn_item_it->get_layer( bp );
             const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
             [layer, bp]( const item & i ) {
-                return i.has_layer( layer ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
+                return i.has_layer( layer, bp ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
             } );
             if( num_items > 1 ) {
                 body_parts_with_stacking_penalty.push_back( bp );
+            }
+            for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
+                if( it->get_layer( bp ) > layer && it->covers( bp ) ) {
+                    bad_items_within.insert( it->type_name() );
+                }
             }
         } else {
             for( const auto &sbp : bp->sub_parts ) {
                 if( !worn_item_it->covers( sbp ) ) {
                     continue;
                 }
+                std::vector<layer_level> layer = worn_item_it->get_layer( sbp );
                 const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
                 [layer, bp, sbp]( const item & i ) {
-                    return i.has_layer( layer ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
+                    return i.has_layer( layer, sbp ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
                            i.covers( sbp );
                 } );
                 if( num_items > 1 ) {
                     body_parts_with_stacking_penalty.push_back( bp );
                 }
+                for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
+                    if( it->get_layer( sbp ) > layer && it->covers( sbp ) ) {
+                        bad_items_within.insert( it->type_name() );
+                    }
+                }
             }
+
         }
 
-        std::set<std::string> bad_items_within;
-        for( auto it = c.worn.begin(); it != worn_item_it; ++it ) {
-            if( it->get_layer() > layer && it->covers( bp ) ) {
-                bad_items_within.insert( it->type_name() );
-            }
-        }
+
+
         if( !bad_items_within.empty() ) {
             body_parts_with_out_of_order_penalty.push_back( bp );
             lists_of_bad_items_within.push_back( bad_items_within );
@@ -184,7 +194,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
         print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
     }
 
-    std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 3 );
+    std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 3, bp );
     if( i + prot.size() < win_height ) {
         for( std::string &iter : prot ) {
             print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
@@ -218,28 +228,28 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
             {
                 switch( layer ) {
                     case layer_level::PERSONAL:
-                        outstring.append( _( "in your <color_light_blue>personal aura</color> " ) );
+                        outstring.append( _( "in your <color_light_blue>personal aura</color>" ) );
                         break;
-                    case layer_level::UNDERWEAR:
-                        outstring.append( _( "<color_light_blue>close to your skin</color> " ) );
+                    case layer_level::SKINTIGHT:
+                        outstring.append( _( "<color_light_blue>close to your skin</color>" ) );
                         break;
-                    case layer_level::REGULAR:
-                        outstring.append( _( "of <color_light_blue>normal</color> clothing " ) );
+                    case layer_level::NORMAL:
+                        outstring.append( _( "of <color_light_blue>normal</color> clothing" ) );
                         break;
                     case layer_level::WAIST:
-                        outstring.append( _( "on your <color_light_blue>waist</color> " ) );
+                        outstring.append( _( "on your <color_light_blue>waist</color>" ) );
                         break;
                     case layer_level::OUTER:
-                        outstring.append( _( "of <color_light_blue>outer</color> clothing " ) );
+                        outstring.append( _( "of <color_light_blue>outer</color> clothing" ) );
                         break;
                     case layer_level::BELTED:
-                        outstring.append( _( "<color_light_blue>strapped</color> to you " ) );
+                        outstring.append( _( "<color_light_blue>strapped</color> to you" ) );
                         break;
                     case layer_level::AURA:
-                        outstring.append( _( "an <color_light_blue>aura</color> around you " ) );
+                        outstring.append( _( "an <color_light_blue>aura</color> around you" ) );
                         break;
                     default:
-                        return _( "Unexpected layer" );
+                        break;
                 }
             }
             return outstring ;
@@ -349,23 +359,78 @@ std::vector<std::string> clothing_properties(
     return props;
 }
 
-std::vector<std::string> clothing_protection( const item &worn_item, const int width )
+std::vector<std::string> clothing_protection( const item &worn_item, const int width,
+        const bodypart_id &bp )
 {
     std::vector<std::string> prot;
     prot.reserve( 6 );
 
+    // prebuild and calc some values
+    // the rolls are basically a perfect hit for protection and a
+    // worst possible and a median hit
+    resistances worst_res = resistances( worn_item, false, 99, bp );
+    resistances best_res = resistances( worn_item, false, 0, bp );
+    resistances median_res = resistances( worn_item, false, 50, bp );
+
+    int percent_best = 100;
+    int percent_worst = 0;
+    const armor_portion_data *portion = worn_item.portion_for_bodypart( bp );
+    // if there isn't a portion this is probably pet armor
+    if( portion ) {
+        percent_best = portion->best_protection_chance;
+        percent_worst = portion->worst_protection_chance;
+    }
+
+    bool display_median = percent_best < 50 && percent_worst < 50;
+
+
     const std::string space = "  ";
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
-    prot.push_back( name_and_value( space + _( "Bash:" ),
-                                    string_format( "%.2f", worn_item.bash_resist() ), width ) );
-    prot.push_back( name_and_value( space + _( "Cut:" ),
-                                    string_format( "%.2f", worn_item.cut_resist() ), width ) );
-    prot.push_back( name_and_value( space + _( "Ballistic:" ),
-                                    string_format( "%.2f", worn_item.bullet_resist() ), width ) );
+    // bash ballistic and cut can have more involved info based on armor complexity
+    if( display_median ) {
+        prot.push_back( name_and_value( space + _( "Bash:" ),
+                                        string_format( _( "Worst: %.2f, Median: %.2f, Best: %.2f" ),
+                                                worst_res.type_resist( damage_type::BASH ), median_res.type_resist( damage_type::BASH ),
+                                                best_res.type_resist( damage_type::BASH ) ),
+                                        width ) );
+        prot.push_back( name_and_value( space + _( "Cut:" ),
+                                        string_format( _( "Worst: %.2f, Median: %.2f, Best: %.2f" ),
+                                                worst_res.type_resist( damage_type::CUT ), median_res.type_resist( damage_type::CUT ),
+                                                best_res.type_resist( damage_type::CUT ) ),
+                                        width ) );
+        prot.push_back( name_and_value( space + _( "Ballistic:" ),
+                                        string_format( _( "Worst: %.2f, Median: %.2f, Best: %.2f" ),
+                                                worst_res.type_resist( damage_type::BULLET ), median_res.type_resist( damage_type::BULLET ),
+                                                best_res.type_resist( damage_type::BULLET ) ),
+                                        width ) );
+    } else if( percent_worst > 0 ) {
+        prot.push_back( name_and_value( space + _( "Bash:" ),
+                                        string_format( _( "Worst: %.2f, Best: %.2f" ),
+                                                worst_res.type_resist( damage_type::BASH ),
+                                                best_res.type_resist( damage_type::BASH ) ),
+                                        width ) );
+        prot.push_back( name_and_value( space + _( "Cut:" ),
+                                        string_format( _( "Worst: %.2f, Best: %.2f" ),
+                                                worst_res.type_resist( damage_type::CUT ),
+                                                best_res.type_resist( damage_type::CUT ) ),
+                                        width ) );
+        prot.push_back( name_and_value( space + _( "Ballistic:" ),
+                                        string_format( _( "Worst: %.2f, Best: %.2f" ),
+                                                worst_res.type_resist( damage_type::BULLET ),
+                                                best_res.type_resist( damage_type::BULLET ) ),
+                                        width ) );
+    } else {
+        prot.push_back( name_and_value( space + _( "Bash:" ),
+                                        string_format( "%.2f", best_res.type_resist( damage_type::BASH ) ), width ) );
+        prot.push_back( name_and_value( space + _( "Cut:" ),
+                                        string_format( "%.2f", best_res.type_resist( damage_type::CUT ) ), width ) );
+        prot.push_back( name_and_value( space + _( "Ballistic:" ),
+                                        string_format( "%.2f", best_res.type_resist( damage_type::BULLET ) ), width ) );
+    }
     prot.push_back( name_and_value( space + _( "Acid:" ),
-                                    string_format( "%.2f", worn_item.acid_resist() ), width ) );
+                                    string_format( "%.2f", best_res.type_resist( damage_type::ACID ) ), width ) );
     prot.push_back( name_and_value( space + _( "Fire:" ),
-                                    string_format( "%.2f", worn_item.fire_resist() ), width ) );
+                                    string_format( "%.2f", best_res.type_resist( damage_type::HEAT ) ), width ) );
     prot.push_back( name_and_value( space + _( "Environmental:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
     return prot;
@@ -407,6 +472,9 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
     }
     if( worn_item.has_flag( flag_SWIM_GOGGLES ) ) {
         description_stack.emplace_back( _( "It helps you to see clearly underwater." ) );
+    }
+    if( worn_item.has_flag( flag_SUN_GLASSES ) ) {
+        description_stack.emplace_back( _( "It keeps the sun out of your eyes." ) );
     }
     if( worn_item.has_flag( flag_SEMITANGIBLE ) ) {
         description_stack.emplace_back( _( "It can occupy the same space as other things." ) );
@@ -661,12 +729,23 @@ void Character::sort_armor()
             }
 
             std::string worn_armor_name = tmp_worn[itemindex]->tname();
+            // Get storage capacity in user's preferred units
+            units::volume worn_armor_capacity = tmp_worn[itemindex]->get_total_capacity();
+            double worn_armor_storage = convert_volume( units::to_milliliter( worn_armor_capacity ) );
+
             item_penalties const penalties =
                 get_item_penalties( tmp_worn[itemindex], *this, bp );
 
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
+            // Show armor name and storage capacity (if any)
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
+            if( worn_armor_storage > 0 ) {
+                // two digits, accurate to 1% of preferred storage unit
+                right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
+                             string_format( "%.2f", worn_armor_storage ) );
+            }
+
             if( tmp_worn[itemindex]->has_flag( json_flag_HIDDEN ) ) {
                 //~ Hint: Letter to show which piece of armor is Hidden in the layering menu
                 wprintz( w_sort_left, c_cyan, _( " H" ) );

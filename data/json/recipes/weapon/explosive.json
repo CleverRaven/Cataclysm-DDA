@@ -31,7 +31,7 @@
       [ [ "paper", 5 ], [ "rolling_paper", 32 ] ],
       [ [ "chem_sulphuric_acid", 2 ] ],
       [ [ "chem_nitric_acid", 1 ] ],
-      [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
+      [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "methed_alcohol", 250 ] ],
       [ [ "chem_glycerol", 2 ] ]
     ]
   },

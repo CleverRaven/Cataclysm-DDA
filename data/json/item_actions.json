@@ -36,6 +36,11 @@
   },
   {
     "type": "item_action",
+    "id": "CROWBAR_WEAK",
+    "name": { "str": "Pry crate or nails" }
+  },
+  {
+    "type": "item_action",
     "id": "CROWBAR",
     "name": { "str": "Pry crate, window, door or nails" }
   },
@@ -192,12 +197,12 @@
   {
     "type": "item_action",
     "id": "CHANGE_EYES",
-    "name": { "str": "Change the eye colour" }
+    "name": { "str": "Change the eye color" }
   },
   {
     "type": "item_action",
     "id": "CHANGE_SKIN",
-    "name": { "str": "Change skin colour" }
+    "name": { "str": "Change skin color" }
   },
   {
     "type": "item_action",
@@ -468,6 +473,16 @@
     "type": "item_action",
     "id": "ELEC_CHAINSAW_OFF",
     "name": { "str": "Turn on" }
+  },
+  {
+    "type": "item_action",
+    "id": "EMF_PASSIVE_OFF",
+    "name": { "str": "Turn on" }
+  },
+  {
+    "type": "item_action",
+    "id": "EMF_PASSIVE_ON",
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
@@ -828,6 +843,11 @@
     "type": "item_action",
     "id": "REMOTEVEH",
     "name": { "str": "Control a vehicle" }
+  },
+  {
+    "type": "item_action",
+    "id": "MANAGE_EXOSUIT",
+    "name": { "str": "Manage exoskeleton modules" }
   },
   {
     "type": "item_action",

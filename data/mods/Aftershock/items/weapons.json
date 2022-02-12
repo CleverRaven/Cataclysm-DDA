@@ -185,7 +185,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 150,
-    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ],
+    "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {

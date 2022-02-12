@@ -20,6 +20,7 @@
 #include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
+#include "cata_views.h"
 #include "catacharset.h"
 #include "character_id.h"
 #include "coordinates.h"
@@ -313,6 +314,7 @@ generic_factory<overmap_land_use_code> land_use_codes( "overmap land use codes" 
 generic_factory<oter_type_t> terrain_types( "overmap terrain type" );
 generic_factory<oter_t> terrains( "overmap terrain" );
 generic_factory<overmap_special> specials( "overmap special" );
+generic_factory<overmap_special_migration> migrations( "overmap special migration" );
 
 } // namespace
 
@@ -546,7 +548,18 @@ void overmap_specials::check_consistency()
                   actual_count, max_count );
     }
 
+    overmap_special_migration::check();
     specials.check();
+
+    for( const overmap_special &os : specials.get_all() ) {
+        overmap_special_id new_id = overmap_special_migration::migrate( os.id );
+        if( new_id.is_null() ) {
+            debugmsg( "Overmap special id %s has been removed or migrated to a different type." );
+        } else if( new_id != os.id ) {
+            debugmsg( "Overmap special id %s has been migrated.  Use %s instead.", os.id.c_str(),
+                      new_id.c_str() );
+        }
+    }
 }
 
 void overmap_specials::reset()
@@ -1015,7 +1028,7 @@ void overmap_terrains::finalize()
 
     if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
         debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
-                  "cataclysm pending.  And not the fun kind." );
+                  "Cataclysm pending.  And not the fun kind." );
     }
 
     for( auto &elem : region_settings_map ) {
@@ -1717,25 +1730,24 @@ struct mutable_overmap_placement_rule_remainder {
         }
         return result;
     }
-    std::vector<mutable_overmap_piece_candidate> pieces( const tripoint_om_omt &origin,
-            om_direction::type rot ) const {
-        std::vector<mutable_overmap_piece_candidate> result;
-        for( const mutable_overmap_placement_rule_piece &piece : parent->pieces ) {
+    auto pieces( const tripoint_om_omt &origin, om_direction::type rot ) const {
+        using orig_t = mutable_overmap_placement_rule_piece;
+        using dest_t = mutable_overmap_piece_candidate;
+        return cata::views::transform < decltype( parent->pieces ), dest_t > ( parent->pieces,
+        [origin, rot]( const orig_t &piece ) -> dest_t {
             tripoint_rel_omt rotated_offset = rotate( piece.pos, rot );
-            result.push_back( { piece.overmap, origin + rotated_offset, add( rot, piece.rot ) } );
-        }
-        return result;
+            return { piece.overmap, origin + rotated_offset, add( rot, piece.rot ) };
+        } );
     }
-    auto outward_joins( const tripoint_om_omt &origin, om_direction::type rot ) const
-    -> std::vector<std::pair<om_pos_dir, const mutable_overmap_terrain_join *>> {
-        std::vector<std::pair<om_pos_dir, const mutable_overmap_terrain_join *>> result;
-        for( const std::pair<rel_pos_dir, const mutable_overmap_terrain_join *> &p :
-             parent->outward_joins ) {
+    auto outward_joins( const tripoint_om_omt &origin, om_direction::type rot ) const {
+        using orig_t = std::pair<rel_pos_dir, const mutable_overmap_terrain_join *>;
+        using dest_t = std::pair<om_pos_dir, const mutable_overmap_terrain_join *>;
+        return cata::views::transform < decltype( parent->outward_joins ), dest_t > ( parent->outward_joins,
+        [origin, rot]( const orig_t &p ) -> dest_t {
             tripoint_rel_omt rotated_offset = rotate( p.first.p, rot );
             om_pos_dir p_d{ origin + rotated_offset, p.first.dir + rot };
-            result.emplace_back( p_d, p.second );
-        }
-        return result;
+            return { p_d, p.second };
+        } );
     }
 };
 
@@ -1767,6 +1779,10 @@ class joins_tracker
                 result.push_back( &*it );
             }
             return result;
+        }
+
+        std::size_t count_unresolved_at( const tripoint_om_omt &pos ) const {
+            return unresolved.count_at( pos );
         }
 
         bool any_postponed() const {
@@ -1987,6 +2003,16 @@ class joins_tracker
                 return result;
             }
 
+            std::size_t count_at( const tripoint_om_omt &pos ) const {
+                std::size_t result = 0;
+                for( cube_direction dir : all_enum_values<cube_direction>() ) {
+                    if( position_index.find( { pos, dir } ) != position_index.end() ) {
+                        ++result;
+                    }
+                }
+                return result;
+            }
+
             iterator add( const om_pos_dir &p, const mutable_overmap_join *j ) {
                 return add( { p, j } );
             }
@@ -2095,10 +2121,9 @@ struct mutable_overmap_phase_remainder {
         const tripoint_om_omt &origin, om_direction::type dir,
         const joins_tracker &unresolved
     ) const {
-        std::vector<mutable_overmap_piece_candidate> pieces = rule.pieces( origin, dir );
         int context_mandatory_joins_shortfall = 0;
 
-        for( const mutable_overmap_piece_candidate &piece : pieces ) {
+        for( const mutable_overmap_piece_candidate piece : rule.pieces( origin, dir ) ) {
             if( !overmap::inbounds( piece.pos ) ) {
                 return cata::nullopt;
             }
@@ -2108,17 +2133,15 @@ struct mutable_overmap_phase_remainder {
             if( unresolved.any_postponed_at( piece.pos ) ) {
                 return cata::nullopt;
             }
-            context_mandatory_joins_shortfall -= unresolved.all_unresolved_at( piece.pos ).size();
+            context_mandatory_joins_shortfall -= unresolved.count_unresolved_at( piece.pos );
         }
 
         int num_my_non_available_matched = 0;
 
-        std::vector<std::pair<om_pos_dir, const mutable_overmap_terrain_join *>> remaining_joins =
-                    rule.outward_joins( origin, dir );
         std::vector<om_pos_dir> suppressed_joins;
 
-        for( const std::pair<om_pos_dir, const mutable_overmap_terrain_join *> &p :
-             remaining_joins ) {
+        for( const std::pair<om_pos_dir, const mutable_overmap_terrain_join *> p :
+             rule.outward_joins( origin, dir ) ) {
             const om_pos_dir &pos_d = p.first;
             const mutable_overmap_terrain_join &ter_join = *p.second;
             const mutable_overmap_join &join = *ter_join.join;
@@ -2305,6 +2328,7 @@ template struct pos_dir<tripoint_rel_omt>;
 struct mutable_overmap_special_data : overmap_special_data {
     overmap_special_id parent_id;
     std::vector<overmap_special_locations> check_for_locations;
+    std::vector<overmap_special_locations> check_for_locations_area;
     std::vector<mutable_overmap_join> joins_vec;
     std::unordered_map<std::string, mutable_overmap_join *> joins;
     std::unordered_map<std::string, mutable_overmap_terrain> overmaps;
@@ -2455,8 +2479,7 @@ struct mutable_overmap_special_data : overmap_special_data {
             if( rule ) {
                 const tripoint_om_omt &origin = satisfy_result.origin;
                 om_direction::type rot = satisfy_result.dir;
-                std::vector<mutable_overmap_piece_candidate> pieces = rule->pieces( origin, rot );
-                for( const mutable_overmap_piece_candidate &piece : pieces ) {
+                for( const mutable_overmap_piece_candidate piece : rule->pieces( origin, rot ) ) {
                     const mutable_overmap_terrain &ter = *piece.overmap;
                     const oter_id tid = ter.terrain->get_rotated( piece.rot );
                     om.ter_set( piece.pos, tid );
@@ -2627,7 +2650,41 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
         case overmap_special_subtype::mutable_: {
             shared_ptr_fast<mutable_overmap_special_data> mutable_data =
                 make_shared_fast<mutable_overmap_special_data>( id );
-            optional( jo, was_loaded, "check_for_locations", mutable_data->check_for_locations );
+            std::vector<overmap_special_locations> check_for_locations_merged_data;
+            optional( jo, was_loaded, "check_for_locations", check_for_locations_merged_data );
+            if( jo.has_array( "check_for_locations_area" ) ) {
+                JsonArray jar = jo.get_array( "check_for_locations_area" );
+                while( jar.has_more() ) {
+                    JsonObject joc = jar.next_object();
+
+                    cata::flat_set<string_id<overmap_location>> type;
+                    tripoint from;
+                    tripoint to;
+                    mandatory( joc, was_loaded, "type", type );
+                    mandatory( joc, was_loaded, "from", from );
+                    mandatory( joc, was_loaded, "to", to );
+                    if( from.x > to.x ) {
+                        std::swap( from.x, to.x );
+                    }
+                    if( from.y > to.y ) {
+                        std::swap( from.y, to.y );
+                    }
+                    if( from.z > to.z ) {
+                        std::swap( from.z, to.z );
+                    }
+                    for( int x = from.x; x <= to.x; x++ ) {
+                        for( int y = from.y; y <= to.y; y++ ) {
+                            for( int z = from.z; z <= to.z; z++ ) {
+                                overmap_special_locations loc;
+                                loc.p = tripoint( x, y, z );
+                                loc.locations = type;
+                                check_for_locations_merged_data.push_back( loc );
+                            }
+                        }
+                    }
+                }
+            }
+            mutable_data->check_for_locations = check_for_locations_merged_data;
             mandatory( jo, was_loaded, "joins", mutable_data->joins_vec );
             mandatory( jo, was_loaded, "overmaps", mutable_data->overmaps );
             mandatory( jo, was_loaded, "root", mutable_data->root );
@@ -3024,9 +3081,9 @@ bool overmap::has_extra( const tripoint_om_omt &p ) const
     return false;
 }
 
-const string_id<map_extra> &overmap::extra( const tripoint_om_omt &p ) const
+const map_extra_id &overmap::extra( const tripoint_om_omt &p ) const
 {
-    static const string_id<map_extra> fallback{};
+    static const map_extra_id fallback{};
 
     if( p.z() < -OVERMAP_DEPTH || p.z() > OVERMAP_HEIGHT ) {
         return fallback;
@@ -3041,7 +3098,7 @@ const string_id<map_extra> &overmap::extra( const tripoint_om_omt &p ) const
     return ( it != std::end( extras ) ) ? it->id : fallback;
 }
 
-void overmap::add_extra( const tripoint_om_omt &p, const string_id<map_extra> &id )
+void overmap::add_extra( const tripoint_om_omt &p, const map_extra_id &id )
 {
     if( p.z() < -OVERMAP_DEPTH || p.z() > OVERMAP_HEIGHT ) {
         debugmsg( "Attempting to add not to overmap for blank layer %d", p.z() );
@@ -3065,7 +3122,7 @@ void overmap::add_extra( const tripoint_om_omt &p, const string_id<map_extra> &i
 
 void overmap::delete_extra( const tripoint_om_omt &p )
 {
-    add_extra( p, string_id<map_extra>::NULL_ID() );
+    add_extra( p, map_extra_id::NULL_ID() );
 }
 
 std::vector<point_abs_omt> overmap::find_extras( const int z, const std::string &text )
@@ -6065,8 +6122,9 @@ void overmap::place_mongroups()
                     }
                 }
                 if( swamp_count >= 25 ) {
+                    float norm_factor = std::abs( GROUP_SWAMP->freq_total / 1000.0f );
                     spawn_mon_group( mongroup( GROUP_SWAMP, tripoint( x * 2, y * 2, 0 ), 3,
-                                               rng( swamp_count * 8, swamp_count * 25 ) ) );
+                                               std::round( norm_factor * rng( swamp_count * 8, swamp_count * 25 ) ) ) );
                 }
             }
         }
@@ -6084,8 +6142,9 @@ void overmap::place_mongroups()
                 }
             }
             if( river_count >= 25 ) {
+                float norm_factor = std::abs( GROUP_RIVER->freq_total / 1000.0f );
                 spawn_mon_group( mongroup( GROUP_RIVER, tripoint( x * 2, y * 2, 0 ), 3,
-                                           rng( river_count * 8, river_count * 25 ) ) );
+                                           std::round( norm_factor * rng( river_count * 8, river_count * 25 ) ) ) );
             }
         }
     }
@@ -6093,9 +6152,10 @@ void overmap::place_mongroups()
     // Place the "put me anywhere" groups
     int numgroups = rng( 0, 3 );
     for( int i = 0; i < numgroups; i++ ) {
+        float norm_factor = std::abs( GROUP_WORM->freq_total / 1000.0f );
         spawn_mon_group( mongroup( GROUP_WORM, tripoint( rng( 0, OMAPX * 2 - 1 ), rng( 0,
                                    OMAPY * 2 - 1 ), 0 ),
-                                   rng( 20, 40 ), rng( 30, 50 ) ) );
+                                   rng( 20, 40 ), std::round( norm_factor * rng( 30, 50 ) ) ) );
     }
 }
 
@@ -6382,4 +6442,48 @@ std::string oter_get_rotation_string( const oter_id &oter )
         }
     }
     return "";
+}
+
+void overmap_special_migration::load_migrations( const JsonObject &jo, const std::string &src )
+{
+    migrations.load( jo, src );
+}
+
+void overmap_special_migration::reset()
+{
+    migrations.reset();
+}
+
+void overmap_special_migration::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "id", id );
+    optional( jo, was_loaded, "new_id", new_id, overmap_special_id() );
+}
+
+void overmap_special_migration::check()
+{
+    for( const overmap_special_migration &mig : migrations.get_all() ) {
+        if( !mig.new_id.is_null() && !mig.new_id.is_valid() ) {
+            debugmsg( "Invalid new_id \"%s\" for overmap special migration \"%s\"", mig.new_id.c_str(),
+                      mig.id.c_str() );
+        }
+    }
+}
+
+bool overmap_special_migration::migrated( const overmap_special_id &os_id )
+{
+    std::vector<overmap_special_migration> migs = migrations.get_all();
+    return std::find_if( migs.begin(), migs.end(), [&os_id]( overmap_special_migration & m ) {
+        return os_id == overmap_special_id( m.id.str() );
+    } ) != migs.end();
+}
+
+overmap_special_id overmap_special_migration::migrate( const overmap_special_id &old_id )
+{
+    for( const overmap_special_migration &mig : migrations.get_all() ) {
+        if( overmap_special_id( mig.id.str() ) == old_id ) {
+            return mig.new_id;
+        }
+    }
+    return old_id;
 }

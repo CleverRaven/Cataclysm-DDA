@@ -129,7 +129,7 @@
     "name": { "str": "radioisotope thermoelectric generator" },
     "symbol": "=",
     "color": "green",
-    "description": "Did your neighbors brag about their cool beta-decay powered nightlights?  Do them one better!  The CuppaTech 4 radioisotope thermoelectric generator is a three kilogram chunk of metal - mostly lead - with a slug of curium-244 encased within.  It is capable of generating somewhere between 100-150 Watts of thermal energy, although its electrical generation capacity is minimal at only 2 Watts.  Careful!  Curium is great at making heat, and also releases deadly gamma radiation.  Keep away from cellular life forms.",
+    "description": "Did your neighbors brag about their cool beta-decay powered nightlights?  Do them one better!  The CuppaTech 4 radioisotope thermoelectric generator is a three kilogram chunk of metal - mostly lead - with a slug of cerium-244 encased within.  It is capable of generating somewhere between 100-150 Watts of thermal energy, although its electrical generation capacity is minimal at only 2 Watts.  Careful!  Curium is great at making heat, and also releases deadly gamma radiation.  Keep away from cellular life forms.",
     "material": [ "steel", "lead" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
     "volume": "500 ml",
@@ -881,6 +881,21 @@
     "ammo_type": "charcoal",
     "count": 50,
     "stack_size": 10
+  },
+  {
+    "type": "AMMO",
+    "id": "carbon_electrode",
+    "category": "spare_parts",
+    "name": { "str": "Carbon electrode rod" },
+    "description": "This carbon electrode is basically made from wood and sugar, and it actually works.",
+    "price_postapoc": 50,
+    "material": [ "charcoal" ],
+    "ammo_type": "charcoal",
+    "symbol": "=",
+    "color": "dark_gray",
+    "phase": "solid",
+    "volume": "30 ml",
+    "weight": "50 g"
   },
   {
     "type": "AMMO",

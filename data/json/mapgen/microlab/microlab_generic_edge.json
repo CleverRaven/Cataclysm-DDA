@@ -26,7 +26,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "microlab_generic_edge" ] ],
+    "om_terrain": [ "microlab_generic_edge", "microlab_ratkin_edge" ],
     "object": {
       "fill_ter": "t_strconc_floor",
       "place_nested": [

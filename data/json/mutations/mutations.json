@@ -27,11 +27,11 @@
     "triggers": [
       [
         {
-          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 20 } ], "op": ">" },
+          "condition": { "compare_int": [ { "u_val": "morale" }, ">", { "const": 20 } ] },
           "msg_on": { "text": "You're so happy, you're glowing!", "rating": "mixed" }
         },
         {
-          "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 110 } ], "op": ">" },
+          "condition": { "compare_int": [ { "u_val": "hunger" }, ">", { "const": 110 } ] },
           "msg_on": { "text": "You're feeling hungry; time to lure some prey!", "rating": "mixed" }
         }
       ]
@@ -49,11 +49,11 @@
     "triggers": [
       [
         {
-          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": 20 } ], "op": ">" },
+          "condition": { "compare_int": [ { "u_val": "morale" }, ">", { "const": 20 } ] },
           "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_int": [ { "u_val": "hunger" }, { "const": 110 } ], "op": ">" },
+          "condition": { "compare_int": [ { "u_val": "hunger" }, ">", { "const": 110 } ] },
           "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
         }
       ]
@@ -125,7 +125,8 @@
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM2" ],
     "category": [ "INSECT" ],
-    "spells_learned": [ [ "spell_spit_flare", 1 ] ]
+    "active": true,
+    "activated_eocs": [ "EOC_BIOLUM3_activated" ]
   },
   {
     "type": "mutation",
@@ -137,18 +138,13 @@
     "triggers": [
       [
         {
-          "condition": { "compare_int": [ { "u_val": "morale" }, { "const": -50 } ], "op": "<" },
+          "condition": { "compare_int": [ { "u_val": "morale" }, "<", { "const": -50 } ] },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ],
       [
         {
-          "condition": {
-            "or": [
-              { "compare_int": [ { "u_val": "hour" }, { "const": 6 } ], "op": "<" },
-              { "compare_int": [ { "u_val": "hour" }, { "const": 21 } ], "op": ">" }
-            ]
-          },
+          "condition": { "or": [ { "compare_int": [ "hour", "<", { "const": 6 } ] }, { "compare_int": [ "hour", ">", { "const": 21 } ] } ] },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ]
@@ -167,12 +163,7 @@
     "triggers": [
       [
         {
-          "condition": {
-            "and": [
-              { "compare_int": [ { "u_val": "hour" }, { "const": 6 } ], "op": ">" },
-              { "compare_int": [ { "u_val": "hour" }, { "const": 21 } ], "op": "<" }
-            ]
-          },
+          "condition": { "and": [ { "compare_int": [ "hour", ">", { "const": 6 } ] }, { "compare_int": [ "hour", "<", { "const": 21 } ] } ] },
           "msg_on": { "text": "As the morning comes, you return back to normal.", "rating": "good" }
         }
       ]
@@ -232,26 +223,26 @@
     "id": "GOODCARDIO",
     "name": { "str": "Indefatigable" },
     "points": 2,
-    "description": "Whether due to exercise and good diet, or due to a natural propensity to physical endurance, you tire due to physical exertion much less readily than others.  Your maximum stamina is higher than usual.",
+    "description": "Whether due to exercise and good diet, or due to a natural propensity to physical endurance, you tire due to physical exertion much less readily than others.  Your cardio fitness and maximum stamina are higher than usual.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "BADCARDIO" ],
     "changes_to": [ "GOODCARDIO2" ],
     "category": [ "FISH", "LUPINE", "MOUSE", "INSECT" ],
-    "max_stamina_modifier": 1.25
+    "cardio_multiplier": 1.3
   },
   {
     "type": "mutation",
     "id": "GOODCARDIO2",
     "name": { "str": "Hyperactive" },
     "points": 4,
-    "description": "Your body's efficiency is like that of a tiny furnace, greatly increasing your maximum stamina",
+    "description": "Your body's efficiency is like that of a tiny furnace, greatly increasing your cardio and stamina.",
     "valid": false,
     "prereqs": [ "GOODCARDIO" ],
     "cancels": [ "BADCARDIO" ],
     "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT" ],
     "category": [ "MOUSE", "RABBIT" ],
-    "max_stamina_modifier": 1.4
+    "cardio_multiplier": 1.6
   },
   {
     "type": "mutation",
@@ -273,7 +264,7 @@
     "category": [ "INSECT", "TROGLOBITE", "RAT" ],
     "enchantments": [
       {
-        "condition": { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": "<" },
+        "condition": { "compare_int": [ { "u_val": "pos_z" }, "<", { "const": 0 } ] },
         "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ]
       }
     ]
@@ -384,7 +375,7 @@
     "category": [ "BATRACHIAN" ],
     "enchantments": [
       {
-        "condition": { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": "<" },
+        "condition": { "compare_int": [ { "u_val": "pos_z" }, "<", { "const": 0 } ] },
         "values": [ { "value": "SLEEPY", "add": 20 } ]
       }
     ]
@@ -524,16 +515,9 @@
     "name": { "str": "Thick-Skinned" },
     "points": 1,
     "description": "Your skin is tough.  Cutting and bashing damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
-    "starting_trait": true,
     "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR", "GASTROPOD" ],
     "cancels": [ "THINSKIN" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 1,
-        "bash": 1
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 1, "bash": 1 } ]
   },
   {
     "type": "mutation",
@@ -609,7 +593,7 @@
     "name": { "str": "Good Memory" },
     "points": 3,
     "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
-    "skill_rust_multiplier": 1.33,
+    "skill_rust_multiplier": 0.66,
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FORGETFUL" ],
@@ -649,7 +633,7 @@
     "id": "GOURMAND",
     "name": { "str": "Gourmand" },
     "points": 2,
-    "consume_time_modifier": 1.25,
+    "consume_time_modifier": 0.75,
     "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
     "category": [ "MOUSE", "LUPINE" ],
     "starting_trait": true,
@@ -755,17 +739,6 @@
     "starting_trait": true,
     "category": [ "ALPHA", "ELFA" ],
     "fatigue_modifier": -0.15
-  },
-  {
-    "type": "mutation",
-    "id": "SELFAWARE",
-    "name": { "str": "Self-Aware" },
-    "points": 1,
-    "description": "You get to see your exact amount of HP remaining and health, instead of having only a vague idea of whether you're in good condition or not.",
-    "starting_trait": true,
-    "valid": false,
-    "active": true,
-    "category": [ "MEDICAL" ]
   },
   {
     "type": "mutation",
@@ -934,6 +907,7 @@
     "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "player_display": false,
     "initial_ma_styles": [
+      "style_bojutsu",
       "style_barbaran",
       "style_eskrima",
       "style_fencing",
@@ -1035,11 +1009,11 @@
     "id": "BADCARDIO",
     "name": { "str": "Languorous" },
     "points": -2,
-    "description": "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your maximum stamina is lower than usual.",
+    "description": "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your total cardio fitness and stamina are lower than normal.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "GOODCARDIO" ],
-    "max_stamina_modifier": 0.75
+    "cardio_multiplier": 0.7
   },
   {
     "type": "mutation",
@@ -1239,15 +1213,8 @@
     "name": { "str": "Thin-Skinned" },
     "points": -1,
     "description": "Your skin is fragile.  Cutting and bashing damage is slightly increased for you.",
-    "starting_trait": true,
     "cancels": [ "THICKSKIN" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": -1,
-        "bash": -1
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": -1, "bash": -1 } ]
   },
   {
     "type": "mutation",
@@ -1350,7 +1317,7 @@
     "points": -3,
     "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
     "social_modifiers": { "lie": -5 },
-    "skill_rust_multiplier": 0.66,
+    "skill_rust_multiplier": 1.33,
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ],
     "cancels": [ "GOODMEMORY" ],
@@ -1872,7 +1839,8 @@
     "prereqs": [ "FASTHEALER" ],
     "threshreq": [ "THRESH_LIZARD" ],
     "category": [ "LIZARD" ],
-    "mending_modifier": 20.0
+    "mending_modifier": 20.0,
+    "flags": [ "MEND_ALL" ]
   },
   {
     "type": "mutation",
@@ -2035,13 +2003,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 40 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-        "cut": 1,
-        "bash": 2
-      }
-    ]
+    "armor": [ { "part_types": [ "ALL" ], "cut": 1, "bash": 2 } ]
   },
   {
     "type": "mutation",
@@ -2053,7 +2015,7 @@
     "description": "We have spliced the dense, amphibole fibers from Mycus core towers with the resilient, adaptive flesh of local physiology.  This reduces our speed by a moderate amount, but provides powerful armor across our body, nullifies wet effects, and provides complete protection from fire.",
     "valid": false,
     "purifiable": false,
-    "flags": [ "HEATPROOF" ],
+    "flags": [ "HEAT_IMMUNE" ],
     "category": [ "MYCUS" ],
     "prereqs": [ "M_SKIN" ],
     "prereqs2": [ "M_DEFENDER" ],
@@ -2071,13 +2033,7 @@
       { "part": "hand_r", "ignored": 6 },
       { "part": "torso", "ignored": 60 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-        "cut": 2,
-        "bash": 3
-      }
-    ],
+    "armor": [ { "part_types": [ "ALL" ], "cut": 2, "bash": 3 } ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ]
   },
   {
@@ -2090,7 +2046,7 @@
     "description": "Local physiology has been fully incorporated with that of Mycus silicate fibers.  In addition to benefits conferred by previous developments, we may join with Mycus fibers beneath us - sleeping on top of fungal areas places us into a dormant state, which spreads spores around us as we sleep and revitalizes our body much more quickly than regular sleep.",
     "valid": false,
     "purifiable": false,
-    "flags": [ "HEATPROOF" ],
+    "flags": [ "HEAT_IMMUNE" ],
     "category": [ "MYCUS" ],
     "prereqs": [ "M_SKIN2" ],
     "threshreq": [ "THRESH_MYCUS" ],
@@ -2106,14 +2062,8 @@
       { "part": "hand_r", "ignored": 6 },
       { "part": "torso", "ignored": 60 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-        "cut": 3,
-        "bash": 5
-      }
-    ],
-    "enchantments": [ "ENCH_TRAIT_MSKIN" ]
+    "armor": [ { "part_types": [ "ALL" ], "cut": 3, "bash": 5 } ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -2140,12 +2090,7 @@
       { "part": "hand_r", "ignored": 2 },
       { "part": "torso", "ignored": 20 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 2
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 2 } ]
   },
   {
     "type": "mutation",
@@ -2172,12 +2117,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 4
-      }
-    ],
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 4 } ],
     "passive_mods": { "dex_mod": -2 }
   },
   {
@@ -2204,12 +2144,7 @@
       { "part": "hand_r", "good": 5 },
       { "part": "torso", "good": 40 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 1
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 1 } ]
   },
   {
     "type": "mutation",
@@ -2238,12 +2173,7 @@
     "leads_to": [ "DOWN" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "category": [ "BIRD" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 1
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
   },
   {
     "type": "mutation",
@@ -2289,12 +2219,7 @@
     "changes_to": [ "URSINE_FUR" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "BEAST", "CATTLE", "RAT" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 1
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
   },
   {
     "type": "mutation",
@@ -2310,12 +2235,7 @@
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "URSINE" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 1
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
   },
   {
     "type": "mutation",
@@ -2330,12 +2250,7 @@
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "LUPINE" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 1
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
   },
   {
     "type": "mutation",
@@ -2363,7 +2278,7 @@
     "types": [ "SKIN" ],
     "prereqs": [ "FELINE_FUR" ],
     "category": [ "FELINE" ],
-    "armor": [ { "parts": [ "head", "mouth" ], "bash": 1 } ]
+    "armor": [ { "part_types": [ "head", "mouth" ], "bash": 1 } ]
   },
   {
     "type": "mutation",
@@ -2388,12 +2303,7 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 1
-      }
-    ],
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 1 } ],
     "category": [ "CHIMERA" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
@@ -2422,12 +2332,7 @@
       { "part": "hand_r", "ignored": 2 },
       { "part": "torso", "ignored": 20 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 2
-      }
-    ],
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 2 } ],
     "category": [ "CHIMERA" ],
     "types": [ "SKIN" ],
     "prereqs": [ "PATCHSKIN1" ]
@@ -2456,13 +2361,7 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 2,
-        "cut": 2
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2, "cut": 2 } ]
   },
   {
     "type": "mutation",
@@ -2490,13 +2389,7 @@
       { "part": "hand_r", "ignored": 2 },
       { "part": "torso", "ignored": 18 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 4,
-        "cut": 4
-      }
-    ],
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 4, "cut": 4 } ],
     "passive_mods": { "dex_mod": -1 }
   },
   {
@@ -2538,12 +2431,7 @@
     ],
     "restricts_gear": [ "head" ],
     "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 8,
-        "cut": 8,
-        "bullet": 1
-      }
+      { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 8, "cut": 8, "bullet": 1 }
     ],
     "passive_mods": { "dex_mod": -1 }
   },
@@ -2561,13 +2449,7 @@
     "prereqs": [ "CHITIN", "LIGHTFUR" ],
     "category": [ "SPIDER" ],
     "changes_to": [ "CHITIN_FUR2" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 2,
-        "cut": 2
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2, "cut": 2 } ]
   },
   {
     "type": "mutation",
@@ -2583,13 +2465,7 @@
     "prereqs": [ "CHITIN_FUR" ],
     "category": [ "SPIDER" ],
     "changes_to": [ "CHITIN_FUR3", "CHITIN3" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 4,
-        "cut": 4
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 4, "cut": 4 } ]
   },
   {
     "type": "mutation",
@@ -2619,12 +2495,7 @@
     "category": [ "SPIDER" ],
     "restricts_gear": [ "head" ],
     "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 8,
-        "cut": 8,
-        "bullet": 1
-      }
+      { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 8, "cut": 8, "bullet": 1 }
     ],
     "passive_mods": { "dex_mod": -1 }
   },
@@ -2682,7 +2553,7 @@
     "visibility": 3,
     "ugliness": 2,
     "description": "Your skin is light green and has a slightly woody quality to it.  This provides a weak armor, and helps you retain moisture, resulting in less thirst.  Greatly decreases wet penalties.",
-    "types": [ "SKIN", "skin_tone" ],
+    "types": [ "SKIN" ],
     "changes_to": [ "BARK" ],
     "leads_to": [ "THORNS", "LEAVES" ],
     "category": [ "PLANT", "ELFA" ],
@@ -2698,12 +2569,7 @@
       { "part": "hand_r", "neutral": 1 },
       { "part": "torso", "neutral": 10 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 1
-      }
-    ],
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 1 } ],
     "thirst_modifier": -0.2
   },
   {
@@ -2714,7 +2580,7 @@
     "visibility": 10,
     "ugliness": 3,
     "description": "Your skin is coated in a light bark, like that of a tree.  This provides resistance to cutting damage and minor protection from fire.  Greatly reduces wet effects.",
-    "types": [ "SKIN", "skin_tone" ],
+    "types": [ "SKIN" ],
     "prereqs": [ "PLANTSKIN" ],
     "category": [ "PLANT" ],
     "wet_protection": [
@@ -2729,12 +2595,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 2
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 2 } ]
   },
   {
     "type": "mutation",
@@ -3568,7 +3429,7 @@
     "ugliness": 9,
     "description": "You prefer to sustain your nutritional needs using your roots and direct nutrient extraction/synthesis.  Your human parts still need the raw caloric bulk of 'food' to keep them going, though, and you handle it a lot easier if it's had time to… age a little.",
     "prereqs": [ "ROOTS2" ],
-    "prereqs2": [ "LEAVES" ],
+    "prereqs2": [ "LEAVES", "LEAVES2", "LEAVES3" ],
     "threshreq": [ "THRESH_PLANT" ],
     "cancels": [ "GRAZER" ],
     "leads_to": [ "CHLOROMORPH" ],
@@ -3720,7 +3581,6 @@
     "types": [ "METABOLISM" ],
     "threshreq": [ "THRESH_CHIMERA" ],
     "category": [ "CHIMERA" ],
-    "valid": false,
     "active": true,
     "transform": {
       "target": "EATHEALTH_active",
@@ -3735,6 +3595,7 @@
     "name": { "str": "Hyper-Metabolism: burning" },
     "description": "You're burning calories like crazy to heal your wounds.",
     "copy-from": "EATHEALTH",
+    "valid": false,
     "cost": 1,
     "time": 1,
     "hunger": true,
@@ -4344,7 +4205,8 @@
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "threshreq": [ "THRESH_BIRD" ],
-    "category": [ "BIRD" ]
+    "category": [ "BIRD" ],
+    "flags": [ "WINGS_2" ]
   },
   {
     "type": "mutation",
@@ -4468,7 +4330,7 @@
     "points": 1,
     "visibility": 2,
     "ugliness": 2,
-    "description": "You once had a significant other call you slimy, now you exemplify that.  It covers evrerything you come into contact with but now you can move through slime you didn't create with ease.",
+    "description": "You once had a significant other call you slimy, now you exemplify that.  It covers everything you come into contact with but now you can move through slime you didn't create with ease.",
     "prereqs": [ "GASTROPOD_FOOT" ],
     "cancels": [ "WEB_SPINNER" ],
     "leads_to": [ "MUCUS_SECRETION2" ],
@@ -4624,10 +4486,14 @@
     "id": "WEB_RAPPEL",
     "name": { "str": "Web Diver" },
     "points": 2,
-    "description": "Your webbing is easily strong enough to support your weight.  You'll use it to descend any sheer drops you may encounter.",
+    "description": "Your webbing is strong enough to support your weight.  Activate to rappel down any drop you encounter, at the cost of nutrition.",
     "prereqs": [ "WEB_WEAVER" ],
     "threshreq": [ "THRESH_SPIDER" ],
-    "category": [ "SPIDER" ]
+    "category": [ "SPIDER" ],
+    "active": true,
+    "cost": 15,
+    "hunger": true,
+    "active_flags": [ "WEB_RAPPEL" ]
   },
   {
     "type": "mutation",
@@ -4681,12 +4547,7 @@
     "leads_to": [ "HIBERNATE" ],
     "category": [ "URSINE" ],
     "movecost_swim_modifier": 0.95,
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 1
-      }
-    ],
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ],
     "movecost_modifier": 1.05
   },
   {
@@ -5292,7 +5153,8 @@
     "restricts_gear": [ "torso" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
     "dodge_modifier": -4,
-    "movecost_modifier": 0.9
+    "movecost_modifier": 0.9,
+    "flags": [ "WINGS_1" ]
   },
   {
     "type": "mutation",
@@ -6065,12 +5927,7 @@
       { "part": "hand_r", "neutral": 3, "good": 4 },
       { "part": "torso", "neutral": 15, "good": 27 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-        "acid": 2
-      }
-    ]
+    "armor": [ { "part_types": [ "ALL" ], "acid": 2 } ]
   },
   {
     "type": "mutation",
@@ -6309,7 +6166,7 @@
     "points": 10,
     "visibility": 7,
     "ugliness": 1,
-    "description": "Every inch of your skin is packed with chlorophyll and you have strong roots.  Sleeping on diggable soil will satisfy any hunger or thirst you might have.",
+    "description": "Every inch of your skin is packed with chlorophyll and you have strong roots.  Sleeping on diggable soil will satisfy any hunger or thirst you might have.  Activate this mutation to force yourself to sleep until nightfall.",
     "valid": false,
     "purifiable": false,
     "types": [ "LEGS" ],
@@ -6319,7 +6176,9 @@
     "cancels": [ "SMELLY", "SMELLY2" ],
     "category": [ "PLANT" ],
     "scent_type": "sc_flower",
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
+    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "active": true,
+    "cost": 0
   },
   {
     "type": "mutation",
@@ -6729,7 +6588,7 @@
     "visibility": 8,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed, and reduces wet penalties.",
+    "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed and reduces wet penalties, but you can't use footwear any more.",
     "types": [ "LEGS" ],
     "leads_to": [ "LEG_TENT_BRACE" ],
     "movecost_swim_modifier": 0.85,
@@ -7478,12 +7337,12 @@
   },
   {
     "type": "mutation",
-    "id": "DEBUG_STAMINA",
-    "name": { "str": "Debug Stamina" },
+    "id": "DEBUG_CARDIO",
+    "name": { "str": "Debug Cardio" },
     "points": 99,
     "valid": false,
-    "max_stamina_modifier": 999999,
-    "description": "You can't run from the bugs, but you have enough stamina to at least try to.",
+    "cardio_multiplier": 999999,
+    "description": "You can run, but you'll never run out of breath.",
     "debug": true
   },
   {
@@ -7710,12 +7569,7 @@
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "RABBIT" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "bash": 1
-      }
-    ]
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
   },
   {
     "type": "mutation",

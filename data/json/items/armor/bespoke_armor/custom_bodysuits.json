@@ -94,28 +94,154 @@
     "id": "armor_scavenger",
     "type": "ARMOR",
     "name": { "str": "scavenger gear" },
-    "description": "A sturdy scavenger's outfit made from refitted pre-Cataclysm protective gear.  It has a lot of storage space.",
+    "description": "A sturdy scavenger's outfit made from refitted pre-Cataclysm protective gear reinforced with soft armor panels.  It has a lot of storage space.",
     "weight": "7915 g",
     "volume": "7500 ml",
     "price": 180000,
     "price_postapoc": 2000,
     "to_hit": -3,
-    "material": [ "kevlar_layered", "cotton" ],
+    "material": [ "kevlar_layered", "nylon", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_nomad_jumpsuit",
     "color": "green",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 15, 26 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 15, 19 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] }
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "volume_encumber_modifier": 0.2,
+        "encumbrance": 15,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 3.0 }
+        ],
+        "encumbrance": 15,
+        "volume_encumber_modifier": 0,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "arm_l", "arm_r" ]
+      },
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 3.0 }
+        ],
+        "volume_encumber_modifier": 0.1,
+        "encumbrance": 10,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "leg_l", "leg_r" ]
+      }
     ],
     "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Deep leg holster",
+        "holster": true,
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "45 cm",
+        "moves": 70
+      },
+      {
+        "magazine_well": "350 ml",
+        "description": "Small sheath",
+        "holster": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
+        "moves": 20,
+        "flag_restriction": [ "SHEATH_KNIFE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Magazine pocket",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Magazine pocket",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Magazine pocket",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Magazine pocket",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
       { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "16 kg", "moves": 150 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 100 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 100 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 }
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for front plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for back plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for right side plate",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for left side plate",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      }
     ],
     "warmth": 40,
     "material_thickness": 5,
@@ -172,6 +298,15 @@
     "copy-from": "lsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_lsurvivor_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "lsurvivor_jumpsuit",
+    "looks_like": "lsurvivor_jumpsuit",
+    "name": { "str": "XS light survivor suit" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "survivor_jumpsuit",
@@ -262,6 +397,16 @@
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
+    "id": "xssurvivor_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "survivor_jumpsuit",
+    "looks_like": "survivor_jumpsuit",
+    "name": { "str": "XS survivor suit" },
+    "description": "A tiny hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "wsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
@@ -315,6 +460,15 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
+    "id": "xs_wsurvivor_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "wsurvivor_jumpsuit",
+    "looks_like": "wsurvivor_jumpsuit",
+    "name": { "str": "XS winter survivor suit" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
     "name": { "str": "winter survivor suit" },
@@ -337,6 +491,16 @@
     "warmth": 65,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_wsurvivor_jumpsuit_nofur",
+    "type": "ARMOR",
+    "copy-from": "wsurvivor_jumpsuit_nofur",
+    "looks_like": "wsurvivor_jumpsuit_nofur",
+    "name": { "str": "XS winter survivor suit" },
+    "description": "A warm, heavy and undersized hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "UNDERSIZE" ]
   },
   {
     "id": "h20survivor_jumpsuit",

@@ -54,11 +54,13 @@ static character_modifier::mod_type string_to_modtype( const std::string &s )
 {
     static const std::map<std::string, character_modifier::mod_type> modtype_map = {
         { "+", character_modifier::ADD },
-        { "x", character_modifier::MULT },
+        { "ADD", character_modifier::ADD },
+        { "X", character_modifier::MULT },
         { "*", character_modifier::MULT },
+        { "MULT", character_modifier::MULT },
         { "", character_modifier::NONE }
     };
-    const auto &iter = modtype_map.find( s );
+    const auto &iter = modtype_map.find( to_upper_case( s ) );
     if( iter == modtype_map.end() ) {
         debugmsg( "Invalid mod_type %s", s );
         return character_modifier::NONE;
@@ -95,7 +97,26 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
     const JsonObject &jobj = jo.get_object( "value" );
     optional( jobj, was_loaded, "builtin", builtin, "" );
     if( builtin.empty() ) {
-        mandatory( jobj, was_loaded, "limb_score", limbscore );
+        limbscores.clear();
+        if( jobj.has_array( "limb_score" ) ) {
+            for( JsonValue jval : jobj.get_array( "limb_score" ) ) {
+                if( jval.test_array() ) {
+                    JsonArray jsc = jval.get_array();
+                    limbscores.emplace( limb_score_id( jsc.get_string( 0 ) ), jsc.get_float( 1 ) );
+                } else {
+                    limbscores.emplace( limb_score_id( jval.get_string() ), 1.0f );
+                }
+            }
+        } else {
+            limb_score_id ls;
+            mandatory( jobj, was_loaded, "limb_score", ls );
+            limbscores.emplace( ls, 1.0f );
+        }
+
+        std::string lsop;
+        optional( jobj, was_loaded, "limb_score_op", lsop, "*" );
+        limbscore_modop = string_to_modtype( lsop );
+
         optional( jobj, was_loaded, "limb_type", limbtype, body_part_type::type::num_types );
         if( jobj.has_member( "override_encumb" ) ) {
             bool over;
@@ -110,6 +131,11 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
         min_val = load_float_or_maxmovecost( jobj, "min" );
         max_val = load_float_or_maxmovecost( jobj, "max" );
         optional( jobj, was_loaded, "nominator", nominator, 0.0f );
+        optional( jobj, was_loaded, "denominator", denominator, 1.0f );
+        if( std::abs( denominator ) < std::numeric_limits<float>::epsilon() ) {
+            jobj.throw_error( "denominator cannot be set to 0" );
+            denominator = 1.0f;
+        }
         optional( jobj, was_loaded, "subtract", subtractor, 0.0f );
     }
 }
@@ -123,6 +149,9 @@ static float manipulator_score( const std::map<bodypart_str_id, bodypart> body )
     std::vector<float> score_groups;
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         bodypart_groups[id.first->limb_type].emplace_back( id.second );
+        for( const body_part_type::type &secondary : id.first->secondary_types ) {
+            bodypart_groups[ secondary ].emplace_back( id.second );
+        }
     }
     for( std::pair<const body_part_type::type, std::vector<bodypart>> &part : bodypart_groups ) {
         float total = 0.0f;
@@ -156,7 +185,7 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
     }
     float total = 0.0f;
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        if( bp == body_part_type::type::num_types || id.first->limb_type == bp ) {
+        if( bp == body_part_type::type::num_types || id.first->has_type( bp ) ) {
             total += id.second.get_limb_score( score, skill, override_encumb, override_wounds );
         }
     }
@@ -165,20 +194,20 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
 
 // Modifiers
 
-static double aim_speed_skill_modifier( const Character &c, const skill_id &gun_skill )
+static float aim_speed_skill_modifier( const Character &c, const skill_id &gun_skill )
 {
-    double skill_mult = 0.25;
-    double base_modifier = 0;
+    float skill_mult = 0.25f;
+    float base_modifier = 0.0f;
     if( gun_skill == skill_archery ) {
-        skill_mult = 0.5;
-        base_modifier = -1.5;
+        skill_mult = 0.5f;
+        base_modifier = -1.5f;
     }
     return skill_mult * std::min( MAX_SKILL, c.get_skill_level( gun_skill ) ) + base_modifier;
 }
 
-static double aim_speed_dex_modifier( const Character &c, const skill_id & )
+static float aim_speed_dex_modifier( const Character &c, const skill_id & )
 {
-    return ( c.get_dex() - 8 ) * 0.5;
+    return ( c.get_dex() - 8 ) * 0.5f;
 }
 
 static float stamina_move_cost_modifier( const Character &c, const skill_id & )
@@ -197,7 +226,7 @@ static float limb_run_cost_modifier( const Character &c, const skill_id & )
 
 static float call_builtin( const std::string &builtin, const Character &c, const skill_id &skill )
 {
-    static const std::map<std::string, std::function<float ( const Character &, const skill_id & )>>
+    static const std::map<std::string, std::function<float( const Character &, const skill_id & )>>
     func_map = {
         { "limb_run_cost_modifier", limb_run_cost_modifier },
         { "stamina_move_cost_modifier", stamina_move_cost_modifier },
@@ -224,14 +253,38 @@ float character_modifier::modifier( const Character &c, const skill_id &skill ) 
         return call_builtin( builtin, c, skill );
     }
 
-    float score = c.get_limb_score( limbscore, limbtype, override_encumb, override_wounds );
+    float score = 0.0f;
+    bool sc_assigned = false;
+    for( const auto &sc : limbscores ) {
+        float mod_sc = c.get_limb_score( sc.first, limbtype, override_encumb, override_wounds );
+        mod_sc *= sc.second;
+        if( !sc_assigned ) {
+            score = mod_sc;
+            sc_assigned = true;
+            continue;
+        }
+        switch( limbscore_modop ) {
+            case ADD:
+                score += mod_sc;
+                break;
+            case NONE:
+                score = mod_sc;
+                break;
+            case MULT:
+            default:
+                score *= mod_sc;
+        }
+    }
+
     // score == 0
     if( score < std::numeric_limits<float>::epsilon() ) {
         return min_val > std::numeric_limits<float>::epsilon() ? min_val :
                max_val > std::numeric_limits<float>::epsilon() ? max_val : 0.0f;
     }
     if( nominator > std::numeric_limits<float>::epsilon() ) {
-        score = nominator / score;
+        score = ( nominator / denominator ) / score;
+    } else {
+        score /= denominator;
     }
     if( subtractor > std::numeric_limits<float>::epsilon() ) {
         score -= subtractor;

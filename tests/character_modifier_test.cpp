@@ -1,5 +1,6 @@
 #include "bodypart.h"
 #include "cata_catch.h"
+#include "character.h"
 #include "character_modifier.h"
 #include "damage.h"
 #include "magic_enchantment.h"
@@ -7,10 +8,21 @@
 #include "player_helpers.h"
 
 static const bodypart_str_id body_part_test_tail( "test_tail" );
+
+static const character_modifier_id
+character_modifier_test_add_limbscores_mod( "test_add_limbscores_mod" );
 static const character_modifier_id character_modifier_test_char_cost_mod( "test_char_cost_mod" );
+static const character_modifier_id
+character_modifier_test_mult_limbscores_mod( "test_mult_limbscores_mod" );
+static const character_modifier_id
+character_modifier_test_slip_prevent_mod( "test_slip_prevent_mod" );
+
 static const enchantment_id enchantment_ENCH_TEST_TAIL( "ENCH_TEST_TAIL" );
+
 static const itype_id itype_test_tail_encumber( "test_tail_encumber" );
+
 static const limb_score_id limb_score_test( "test" );
+
 static const trait_id trait_TEST_ARMOR_MUTATION( "TEST_ARMOR_MUTATION" );
 
 static void create_char( Character &dude )
@@ -70,7 +82,8 @@ TEST_CASE( "Basic character modifier test", "[character][encumbrance]" )
     create_char( dude );
     const bodypart *test_bp = dude.get_part( body_part_test_tail );
     REQUIRE( test_bp != nullptr );
-    REQUIRE( character_modifier_test_char_cost_mod->use_limb_score() == limb_score_test );
+    REQUIRE( character_modifier_test_char_cost_mod->use_limb_scores().find( limb_score_test ) !=
+             character_modifier_test_char_cost_mod->use_limb_scores().end() );
 
     GIVEN( "limb is not encumbered" ) {
         WHEN( "limb is not wounded" ) {
@@ -280,5 +293,101 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
                 }
             }
         }
+    }
+}
+
+TEST_CASE( "Multi-limbscore modifiers", "[character]" )
+{
+    standard_npc dude( "Test NPC" );
+    create_char( dude );
+
+    WHEN( "Character is uninjured / unencumbered" ) {
+        CHECK( dude.get_modifier( character_modifier_test_add_limbscores_mod ) == Approx( 2.0 ).epsilon(
+                   0.001 ) );
+        CHECK( dude.get_modifier( character_modifier_test_mult_limbscores_mod ) == Approx( 1.0 ).epsilon(
+                   0.001 ) );
+    }
+
+    WHEN( "Character has high eye encumbrance" ) {
+        item eyecover( "test_goggles_welding" );
+        dude.wear_item( eyecover );
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::sensor ).front() ) ==
+                 60 );
+        CHECK( dude.get_modifier( character_modifier_test_add_limbscores_mod ) == Approx( 2.0 ).epsilon(
+                   0.001 ) );
+        CHECK( dude.get_modifier( character_modifier_test_mult_limbscores_mod ) == Approx( 0.1 ).epsilon(
+                   0.001 ) );
+    }
+
+    WHEN( "Character has broken arms" ) {
+        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+            dude.set_part_hp_cur( bid, 0 );
+        }
+        REQUIRE( dude.get_working_arm_count() == 0 );
+        CHECK( dude.get_modifier( character_modifier_test_add_limbscores_mod ) == Approx( 1.4 ).epsilon(
+                   0.001 ) );
+        CHECK( dude.get_modifier( character_modifier_test_mult_limbscores_mod ) == Approx( 0.1 ).epsilon(
+                   0.001 ) );
+    }
+
+    WHEN( "Character has high eye encumbrance and broken arms" ) {
+        item eyecover( "test_goggles_welding" );
+        dude.wear_item( eyecover );
+        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+            dude.set_part_hp_cur( bid, 0 );
+        }
+        REQUIRE( dude.get_working_arm_count() == 0 );
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::sensor ).front() ) ==
+                 60 );
+        CHECK( dude.get_modifier( character_modifier_test_add_limbscores_mod ) == Approx( 0.4 ).epsilon(
+                   0.001 ) );
+        CHECK( dude.get_modifier( character_modifier_test_mult_limbscores_mod ) == Approx( 0.1 ).epsilon(
+                   0.001 ) );
+    }
+}
+
+TEST_CASE( "Slip prevention modifier / weighted-list multi-score modifiers", "[character]" )
+{
+    standard_npc dude( "Test NPC" );
+    create_char( dude );
+
+    WHEN( "Character is uninjured / unencumbered" ) {
+        CHECK( dude.get_modifier( character_modifier_test_slip_prevent_mod ) == Approx( 1.0 ).epsilon(
+                   0.001 ) );
+    }
+
+    WHEN( "Character has broken arms" ) {
+        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+            dude.set_part_hp_cur( bid, 0 );
+        }
+        REQUIRE( dude.get_working_arm_count() == 0 );
+        CHECK( dude.get_modifier( character_modifier_test_slip_prevent_mod ) == Approx( 2.0 / 3.0 ).epsilon(
+                   0.001 ) );
+    }
+
+    WHEN( "Character is heavily encumbered" ) {
+        item hazmat_suit( "test_hazmat_suit" );
+        dude.wear_item( hazmat_suit );
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::foot ).front() ) ==
+                 37 );
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::hand ).front() ) ==
+                 37 );
+        CHECK( dude.get_modifier( character_modifier_test_slip_prevent_mod ) == Approx( 0.623 ).epsilon(
+                   0.001 ) );
+    }
+
+    WHEN( "Character has broken arms and is heavily encumbered" ) {
+        item hazmat_suit( "test_hazmat_suit" );
+        dude.wear_item( hazmat_suit );
+        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+            dude.set_part_hp_cur( bid, 0 );
+        }
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::foot ).front() ) ==
+                 37 );
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::hand ).front() ) ==
+                 37 );
+        REQUIRE( dude.get_working_arm_count() == 0 );
+        CHECK( dude.get_modifier( character_modifier_test_slip_prevent_mod ) == Approx( 0.41 ).epsilon(
+                   0.001 ) );
     }
 }

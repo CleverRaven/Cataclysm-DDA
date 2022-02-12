@@ -81,7 +81,7 @@ static const bionic_id bio_railgun( "bio_railgun" );
 static const character_modifier_id
 character_modifier_melee_thrown_move_balance_mod( "melee_thrown_move_balance_mod" );
 static const character_modifier_id
-character_modifier_melee_thrown_move_manip_mod( "melee_thrown_move_manip_mod" );
+character_modifier_melee_thrown_move_lift_mod( "melee_thrown_move_lift_mod" );
 static const character_modifier_id
 character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
 static const character_modifier_id character_modifier_thrown_dex_mod( "thrown_dex_mod" );
@@ -658,7 +658,7 @@ bool Character::handle_gun_damage( item &it )
         it.inc_damage();
     }
     if( !it.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
-        if( it.ammo_data() != nullptr && ( ( it.ammo_data()->ammo->recoil < firing.min_cycle_recoil ) ||
+        if( it.ammo_data() != nullptr && ( ( it.ammo_data()->ammo->recoil < it.min_cycle_recoil() ) ||
                                            ( it.has_fault_flag( "BAD_CYCLING" ) && one_in( 16 ) ) ) &&
             it.faults_potential().count( fault_gun_chamber_spent ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
@@ -951,7 +951,7 @@ int throw_cost( const Character &c, const item &to_throw )
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;
-    move_cost *= c.get_modifier( character_modifier_melee_thrown_move_manip_mod );
+    move_cost *= c.get_modifier( character_modifier_melee_thrown_move_lift_mod );
     move_cost *= c.get_modifier( character_modifier_melee_thrown_move_balance_mod );
     // Stamina penalty only affects base/2 and encumbrance parts of the cost
     move_cost *= stamina_penalty;
@@ -990,9 +990,9 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     // TODO: Except javelin type items
     throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1_liter ) );
     // 1 penalty for gram above str*100 grams (at 0 skill)
-    ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
+    ///\ARM_STR decreases throwing dispersion when throwing heavy objects
     const int weight_in_gram = units::to_gram( weight );
-    throw_difficulty += std::max( 0, weight_in_gram - get_str() * 100 );
+    throw_difficulty += std::max( 0, weight_in_gram - get_arm_str() * 100 );
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
@@ -1052,8 +1052,8 @@ int Character::thrown_item_adjusted_damage( const item &thrown ) const
     // The damage dealt due to item's weight, player's strength, and skill level
     // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
     // Railgun doubles the effective strength
-    ///\EFFECT_STR increases throwing damage
-    double stats_mod = do_railgun ? get_str() : ( get_str() / 2.0 );
+    ///\ARM_STR increases throwing damage
+    double stats_mod = do_railgun ? get_str() : ( get_arm_str() / 2.0 );
     stats_mod = throw_assist ? *throw_assist / 2.0 : stats_mod;
     // modify strength impact based on skill level, clamped to [0.15 - 1]
     // mod = mod * [ ( ( skill / max_skill ) * 0.85 ) + 0.15 ]
@@ -1082,7 +1082,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
     const units::volume volume = thrown.volume() * glass_fraction;
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     if( !thrown.active && glass_portion &&
-        rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100 ) {
+        rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_arm_str() * 100 ) {
         proj.impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
     }
     // Some minor (skill/2) armor piercing for skillful throws
@@ -1138,9 +1138,9 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const int glass_portion = thrown.made_of( material_glass );
     const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
     const units::volume glass_vol = volume * glass_fraction;
-    /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
+    /** @ARM_STR increases chance of shattering thrown glass items (NEGATIVE) */
     const bool shatter = !thrown.active && glass_portion &&
-                         rng( 0, units::to_milliliter( 2_liter - glass_vol ) ) < get_str() * 100;
+                         rng( 0, units::to_milliliter( 2_liter - glass_vol ) ) < get_arm_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
@@ -1620,7 +1620,7 @@ static double calculate_aim_cap( const Character &you, const tripoint &target )
     if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
         const int range = rl_dist( you.pos(), target );
         // Get angle of triangle that spans the target square.
-        const double angle = atan2( 1, range );
+        const double angle = 2 * atan2( 0.5, range );
         // Convert from radians to arcmin.
         min_recoil = 60 * 180 * angle / M_PI;
     }
@@ -1713,7 +1713,7 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
     // at 10%, 5% and 0% of the difference between MAX_RECOIL and sight dispersion.
     std::vector<int> thresholds = {
         static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 10.0 ) + sight_dispersion ),
-        static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 20.0 ) + sight_dispersion ),
+        static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 40.0 ) + sight_dispersion ),
         static_cast<int>( sight_dispersion )
     };
     // Remove duplicate thresholds.
@@ -1994,7 +1994,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
     // So use a constant instead.
     if( obj.gun_skill() == skill_archery ) {
         dispersion.add_range( dispersion_from_skill( avgSkill,
-                              600 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
+                              450 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
     } else {
         dispersion.add_range( dispersion_from_skill( avgSkill,
                               300 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
@@ -2993,7 +2993,8 @@ bool target_ui::action_switch_mode()
 
             text += ( active_gun_mode ? _( " (active)" ) : "" );
 
-            menu.entries.emplace_back( firing_modes_range.first + std::distance( gun_modes.begin(), it ),
+            menu.entries.emplace_back( firing_modes_range.first + static_cast<int>( std::distance(
+                                           gun_modes.begin(), it ) ),
                                        true, MENU_AUTOASSIGN, text );
             if( active_gun_mode ) {
                 menu.entries.back().text_color = c_light_green;
@@ -3109,8 +3110,8 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     // Also fire if we're at our best aim level already.
     // If no critter is at dst then sight dispersion does not apply,
     // so it would lock into an infinite loop.
-    bool done_aiming = you->recoil <= aim_threshold || you->recoil - sight_dispersion == min_recoil ||
-                       ( !get_creature_tracker().creature_at( dst ) && you->recoil == min_recoil );
+    bool done_aiming = you->recoil <= aim_threshold || you->recoil - sight_dispersion <= min_recoil ||
+                       ( !get_creature_tracker().creature_at( dst ) && you->recoil <= min_recoil );
     return done_aiming;
 }
 

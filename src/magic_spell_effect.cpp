@@ -65,6 +65,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const efftype_id effect_teleglow( "teleglow" );
+
 static const flag_id json_flag_FIT( "FIT" );
 
 static const json_character_flag json_flag_PRED1( "PRED1" );
@@ -72,9 +74,14 @@ static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_large( "mon_blob_large" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
 static const mtype_id mon_generator( "mon_generator" );
 
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
+static const species_id species_SLIME( "SLIME" );
 
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
@@ -645,10 +652,10 @@ int area_expander::run( const tripoint &center )
     while( !frontier.empty() ) {
         int best_index = frontier.top();
         frontier.pop();
-        node &best = area[best_index];
 
         for( size_t i = 0; i < 8; i++ ) {
-            tripoint pt = best.position + point( x_offset[ i ], y_offset[ i ] );
+            node &best = area[best_index];
+            const tripoint &pt = best.position + point( x_offset[ i ], y_offset[ i ] );
 
             if( here.impassable( pt ) ) {
                 continue;
@@ -756,6 +763,114 @@ static void spell_move( const spell &sp, const Creature &caster,
     // Moving fields.
     if( sp.is_valid_target( spell_target::field ) ) {
         move_field( get_map(), from, to );
+    }
+}
+
+static std::pair<field, tripoint> spell_remove_field( const spell &sp,
+        const field_type_id &target_field_type_id,
+        const tripoint &center )
+{
+    ::map &here = get_map();
+    area_expander expander;
+
+    expander.max_range = sp.aoe();
+    expander.run( center );
+    expander.sort_ascending();
+
+    field field_removed = field();
+    tripoint field_position = tripoint();
+
+    bool did_field_removal = false;
+
+    for( const auto &node : expander.area ) {
+        if( node.from == node.position ) {
+            continue;
+        }
+
+        field &target_field = here.field_at( node.position );
+        for( const std::pair<const field_type_id, field_entry> &fd : target_field ) {
+            if( fd.first.is_valid() && !fd.first.id().is_null() &&
+                fd.second.get_field_type() == target_field_type_id ) {
+                field_removed = target_field;
+                field_position = node.position;
+                here.remove_field( node.position, target_field_type_id );
+                did_field_removal = true;
+            }
+        }
+
+        if( did_field_removal ) {
+            // only remove one field in case of multiple
+            break;
+        }
+    }
+
+    return std::pair<field, tripoint> {field_removed, field_position};
+}
+
+static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint> &fd_fatigue_field,
+        Creature &caster )
+{
+    for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>( fd_fatigue_field ) ) {
+        const int &intensity = fd.second.get_field_intensity();
+        const translation &intensity_name = fd.second.get_intensity_level().name;
+        const tripoint &field_position = std::get<1>( fd_fatigue_field );
+        const bool sees_field = caster.sees( field_position );
+
+        switch( intensity ) {
+            case 1:
+
+                if( sees_field ) {
+                    caster.add_msg_if_player( m_neutral, _( "The %s fades.  You feel strange." ), intensity_name );
+                } else {
+                    caster.add_msg_if_player( m_neutral, _( "You suddenly feel strange." ) );
+                }
+
+                caster.add_effect( effect_teleglow, 1_hours );
+                break;
+            case 2:
+                if( sees_field ) {
+                    caster.add_msg_if_player( m_neutral, _( "The %s dissipates.  You feel strange." ), intensity_name );
+                } else {
+                    caster.add_msg_if_player( m_neutral, _( "You suddenly feel strange." ) );
+                }
+
+                caster.add_effect( effect_teleglow, 5_hours );
+                break;
+            case 3:
+                std::string message_prefix = "A nearby";
+
+                if( caster.sees( field_position ) ) {
+                    message_prefix = "The";
+                }
+
+                caster.add_msg_if_player( m_bad,
+                                          _( "%s %s pulls you in as it closes and ejects you violently!" ),
+                                          message_prefix, intensity_name );
+                caster.as_character()->hurtall( 10, nullptr );
+                caster.add_effect( effect_teleglow, 630_minutes );
+                teleport::teleport( caster );
+                break;
+        }
+        break;
+    }
+}
+
+void spell_effect::remove_field( const spell &sp, Creature &caster, const tripoint &center )
+{
+    const field_type_id &target_field_type_id = field_type_id( sp.effect_data() );
+    std::pair<field, tripoint> field_removed = spell_remove_field( sp, target_field_type_id, center );
+
+    for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>( field_removed ) ) {
+        if( fd.first.is_valid() && !fd.first.id().is_null() ) {
+            sp.make_sound( caster.pos() );
+
+            if( fd.first.id() == fd_fatigue ) {
+                handle_remove_fd_fatigue_field( field_removed, caster );
+            } else {
+                caster.add_msg_if_player( m_neutral, _( "The %s dissipates." ),
+                                          fd.second.get_intensity_level().name );
+            }
+        }
     }
 }
 
@@ -1272,6 +1387,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         const int kill_count = g->get_kill_tracker().kill_count( z.type->id );
         // this is when the player stops caring altogether.
         const int max_kills = sp.damage();
+        // this determines how strong the morale penalty will be
+        const int guilt_mult = sp.get_level();
 
         // different message as we kill more of the same monster
         std::string msg = _( "You feel guilty for killing %s." ); // default guilt message
@@ -1283,7 +1400,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
 
         Character &guy = *guilt_target;
         if( guy.has_trait( trait_PSYCHOPATH ) || guy.has_trait( trait_KILLER ) ||
-            guy.has_trait_flag( json_flag_PRED3 ) || guy.has_trait_flag( json_flag_PRED4 ) ) {
+            guy.has_flag( json_flag_PRED3 ) || guy.has_flag( json_flag_PRED4 ) ) {
             // specially immune.
             return;
         }
@@ -1296,8 +1413,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
                                     "about their deaths anymore." ), z.name( max_kills ) );
             }
             return;
-        } else if( guy.has_trait_flag( json_flag_PRED1 ) ||
-                   guy.has_trait_flag( json_flag_PRED2 ) ) {
+        } else if( guy.has_flag( json_flag_PRED1 ) ||
+                   guy.has_flag( json_flag_PRED2 ) ) {
             msg = _( "Culling the weak is distasteful, but necessary." );
             msgtype = m_neutral;
         } else {
@@ -1311,21 +1428,36 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
 
         add_msg( msgtype, msg, z.name() );
 
-        int moraleMalus = -50 * ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        const int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        const time_duration duration = sp.duration_turns() *
-                                       ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        const time_duration decayDelay = 3_minutes *
-                                         ( 1.0 - ( static_cast<float>( kill_count ) / max_kills ) );
-        if( z.type->in_species( species_id( sp.effect_data() ) ) ) {
-            moraleMalus /= 10;
-            if( guy.has_trait( trait_PACIFIST ) ) {
-                moraleMalus *= 5;
-            } else if( guy.has_trait_flag( json_flag_PRED1 ) ) {
-                moraleMalus /= 4;
-            } else if( guy.has_trait_flag( json_flag_PRED2 ) ) {
-                moraleMalus /= 5;
+        float killRatio = static_cast<float>( kill_count ) / max_kills;
+        int moraleMalus = -5 * guilt_mult * ( 1.0 - killRatio );
+        const int maxMalus = -250 * ( 1.0 - killRatio );
+        const time_duration duration = sp.duration_turns() * ( 1.0 - killRatio );
+        const time_duration decayDelay = 3_minutes * ( 1.0 - killRatio );
+
+        bool shared_species = false;
+        if( caster.is_dead_state() && caster.get_killer() != nullptr ) {
+            for( const species_id &specie : caster.as_monster()->type->species ) {
+                if( guy.in_species( specie ) ) {
+                    shared_species = true;
+                }
             }
+        } else if( z.type->in_species( species_id( sp.effect_data() ) ) ) {
+            shared_species = true;
+        }
+        // killing your own kind hurts your soul more
+        if( shared_species ) {
+            moraleMalus *= 2;
+        }
+        if( guy.has_trait( trait_PACIFIST ) ) {
+            moraleMalus *= 5;
+        }
+        // cullers feel less bad about killing
+        else if( guy.has_flag( json_flag_PRED1 ) ) {
+            moraleMalus /= 4;
+        }
+        // hunters feel less bad about killing
+        else if( guy.has_flag( json_flag_PRED2 ) ) {
+            moraleMalus /= 5;
         }
         guy.add_morale( MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay );
     }
@@ -1541,6 +1673,80 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
             eoc->activate( d );
         } else {
             debugmsg( "Must use an activation eoc for a spell.  If you don't want the effect_on_condition to happen on its own (without the spell being cast), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this spell with its condition and effects, then have a recurring one queue it." );
+        }
+    }
+}
+
+void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, const tripoint &target )
+{
+    sp.make_sound( target );
+    int mass = caster.get_speed_base();
+    monster *caster_monster = dynamic_cast<monster *>( &caster );
+    if( caster_monster && caster_monster->type->id == mon_blob_brain ) {
+        mass += mass;
+    }
+    const int radius = sp.aoe();
+    std::vector<tripoint> pts = closest_points_first( caster.pos(), radius );
+    std::vector<monster *> summoned_slimes;
+    const bool permanent = sp.has_flag( spell_flag::PERMANENT );
+    // Make sure the creature has enough mass to create new slimes
+    if( mass >= mon_blob_small->speed / 2 ) {
+        for( const tripoint &dest : pts ) {
+            // Fall back to small slimes if no bigger smile is chosen
+            mtype_id slime_id = mon_blob_small;
+            if( mass > mon_blob_large->speed + 20 && one_in( 3 ) ) {
+                // 33% chance of spawning a big slime if enough mass
+                slime_id = mon_blob_large;
+            } else if( mass > mon_blob->speed + 20 && one_in( 2 ) ) {
+                // 50% chance of spawning a slime if enough mass
+                slime_id = mon_blob;
+            }
+
+            shared_ptr_fast<monster> mon = make_shared_fast<monster>( slime_id );
+            mon->ammo = mon->type->starting_ammo;
+            if( mon->will_move_to( dest ) ) {
+                if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
+                    sp.make_sound( dest );
+                    if( !permanent ) {
+                        blob->set_summon_time( sp.duration_turns() );
+                    }
+                    if( caster_monster ) {
+                        blob->make_ally( *caster_monster );
+                    }
+                    const int used_mass = std::min( mass, slime_id->speed - 15 );
+                    mass -= used_mass;
+                    blob->set_speed_base( used_mass );
+                    blob->no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
+                    summoned_slimes.push_back( mon.get() );
+                    if( mass < mon_blob_small->speed / 2 ) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // Divide remaining mass between summoned slimes
+    if( mass > 0 && !summoned_slimes.empty() ) {
+        const int mass_per_mob = mass / summoned_slimes.size();
+        for( monster *slime : summoned_slimes ) {
+            slime->set_speed_base( slime->get_speed_base() + mass_per_mob );
+            mass -= mass_per_mob;
+        }
+    }
+
+    // Last resort: Find a slime nearby that will absorb part of this mass
+    if( mass > 3 ) {
+        for( const tripoint &dest : pts ) {
+            if( monster *mon = get_creature_tracker().creature_at<monster>( dest ) ) {
+                if( mon->type->in_species( species_SLIME ) ) {
+                    // The mass discarded here should prevent issues when surrounded
+                    // by big blobs that keep trading mass and spawning medium slimes
+                    // over and over.
+                    mon->set_speed_base( mon->get_speed_base() + mass - 3 );
+                    return;
+                }
+            }
         }
     }
 }

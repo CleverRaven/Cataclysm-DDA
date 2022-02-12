@@ -207,7 +207,7 @@
     "color": "white",
     "name": { "str_sp": "rubber cement" },
     "looks_like": "superglue",
-    "description": "A tin of adhesive typically used to glue rubber.  It forms a less rigid bond than typical superglue making it ideal for projects requiring flexbility.  Typically smelly and toxic.",
+    "description": "A tin of adhesive typically used to glue rubber.  It forms a less rigid bond than typical superglue making it ideal for projects requiring flexibility.  Typically smelly and toxic.",
     "price": 1800,
     "price_postapoc": 80,
     "material": [ "plastic" ],
@@ -556,6 +556,20 @@
     ],
     "to_hit": -3,
     "flags": [ "MC_USED" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "usb_drive_nano",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "secured USB drive" },
+    "description": "A USB thumb drive.  Useful for holding software.  This one seems like it could get ran over by a truck and be fine.",
+    "price": 10000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "55 g",
+    "volume": "5 ml",
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
@@ -1709,6 +1723,18 @@
   },
   {
     "type": "GENERIC",
+    "id": "template_armor",
+    "copy-from": "standard_template_construct",
+    "color": "yellow",
+    "name": { "str": "nanofabricator template (UHMWPE)", "str_pl": "nanofabricator templates (UHMWPE)" },
+    "description": "A state-of-the-art optical storage system, containing the instruction set required for the fabrication of advanced armor materials.  This seems to just be routines to work with the materials not actual armor schematics.",
+    "price": 100000000,
+    "price_postapoc": 3000,
+    "//": "given to HUB 01 for even better armor",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "antenna",
     "symbol": ",",
     "color": "light_gray",
@@ -1986,11 +2012,115 @@
     "symbol": ",",
     "color": "brown",
     "name": { "str": "pinecone" },
-    "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
-    "weight": "90 g",
+    "description": "A spiny pod from a pine tree.",
+    "material": [ "wood" ],
+    "//": "Commercial pinecones average 300g. We're assuming wild ones weigh less than this.",
+    "weight": "200 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "brew_sake_koji",
+    "looks_like": "rice_cooked",
+    "name": { "str_sp": "unfinished koji rice" },
+    "description": "Some cooked rice mixed with yeast and koji mold fragments, set aside to let koji mold grow on it so that it can make a passable sake base.",
+    "weight": "200 g",
+    "color": "white",
+    "container": "bottle_glass",
+    "flags": [ "TRADER_AVOID" ],
+    "symbol": "%",
+    "price": 0,
+    "volume": "250 ml",
+    "category": "food",
+    "use_action": {
+      "target": "sake_koji_rice",
+      "msg": "The koji mold seems to have overtaken all the rice; this batch is usable now.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 345600,
+      "not_ready_msg": "The koji mold is still growing."
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "sake_koji_rice",
+    "looks_like": "rice_cooked",
+    "name": { "str_sp": "koji rice" },
+    "weight": "200 g",
+    "color": "white",
+    "container": "bag_plastic",
+    "symbol": "%",
+    "description": "Some rice covered in koji mold, mixed in with yeast.  Useful for making sake, but not really tasty on its own.  Smells vaguely of chestnuts.",
+    "price": 0,
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "young_koji",
+    "looks_like": "rice_cooked",
+    "name": { "str_sp": "growing wild koji mold" },
+    "description": "Some cooked rice sprinkled with ash and wrapped into a corn husk.  If left alone for a while, it will most likely grow koji mold.",
+    "weight": "200 g",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "symbol": ",",
+    "price": 0,
+    "volume": "250 ml",
+    "use_action": {
+      "target": "young_koji_done",
+      "msg": "The patches of koji mold have grown on the rice; you can now extract it.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 345600,
+      "not_ready_msg": "The koji mold hasn't grown yet."
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "young_koji_done",
+    "looks_like": "rice_cooked",
+    "name": { "str_sp": "grown wild koji mold" },
+    "description": "Some cooked rice sprinkled with ash and wrapped into a corn husk.  It has grown patches of koji mold inside; disassemble this item to extract it.",
+    "weight": "200 g",
+    "color": "white",
+    "symbol": ",",
+    "price_postapoc": 50,
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "soy_wheat_dough",
+    "looks_like": "flour",
+    "name": { "str_sp": "soy and wheat dough" },
+    "description": "Some dough made from cooked and mashed soybeans and wheat flour, wrapped in wet paper.  If left to dry for some time, it'll grow koji mold, as necessary for making soy sauce.",
+    "weight": "550 g",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "symbol": "%",
+    "price": 0,
+    "volume": "500 ml",
+    "use_action": {
+      "target": "soy_wheat_dough_done",
+      "msg": "The koji mold seems to have overtaken all the dough; this batch is usable now.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 345600,
+      "not_ready_msg": "The koji mold hasn't grown yet."
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "soy_wheat_dough_done",
+    "looks_like": "flour",
+    "name": { "str_sp": "soy and wheat dough with koji" },
+    "weight": "550 g",
+    "color": "white",
+    "symbol": "%",
+    "description": "A block of dried dough made from cooked and mashed soybeans and wheat flour, covered with koji mold.  Usable for making soy sauce.",
+    "price": 0,
+    "volume": "500 ml"
   },
   {
     "type": "GENERIC",
@@ -2515,7 +2645,7 @@
         }
       ]
     },
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
   },
   {
     "type": "GENERIC",
@@ -2562,7 +2692,7 @@
         }
       ]
     },
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
   },
   {
     "type": "GENERIC",
@@ -2609,7 +2739,7 @@
         }
       ]
     },
-    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE" ]
+    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
   },
   {
     "type": "GENERIC",
@@ -3088,6 +3218,15 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_turret_artisans",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken custom plated turret" },
+    "weight": "75 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_secubot",
     "symbol": ",",
     "color": "green",
@@ -3413,7 +3552,7 @@
     "price": 15000,
     "price_postapoc": 250,
     "material": [ "plastic", "leather" ],
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "COLLAPSE_CONTENTS" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "COLLAPSE_CONTENTS", "POWERARMOR_COMPATIBLE" ],
     "weight": "708 g",
     "volume": "500 ml",
     "bashing": 1,
@@ -3453,7 +3592,7 @@
     "price": 10,
     "price_postapoc": 1,
     "material": [ "plastic" ],
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "POWERARMOR_COMPATIBLE" ],
     "weight": "250 g",
     "volume": "250 ml",
     "longest_side": "5 cm",
@@ -3638,7 +3777,7 @@
     "color": "brown",
     "name": { "str": "training dummy" },
     "category": "other",
-    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and it has some duct tape to mark the striking points.",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and it has some duct tape to mark the striking points.  You need to embed it into the ground for training.",
     "price": 15000,
     "price_postapoc": 600,
     "material": [ "wood" ],
@@ -3654,7 +3793,7 @@
     "color": "light_gray",
     "name": { "str": "armored training dummy" },
     "category": "other",
-    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is covered in scrap armor and looks on guard.",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is covered in scrap armor and looks on guard.  You need to embed it into the ground for training.",
     "price": 15000,
     "price_postapoc": 1000,
     "material": [ "steel", "wood" ],

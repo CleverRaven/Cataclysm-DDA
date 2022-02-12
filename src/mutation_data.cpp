@@ -12,6 +12,7 @@
 #include "color.h"
 #include "condition.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
@@ -405,7 +406,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, cata::nullopt );
     optional( jo, was_loaded, "movecost_swim_modifier", movecost_swim_modifier, cata::nullopt );
     optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, cata::nullopt );
-    optional( jo, was_loaded, "max_stamina_modifier", max_stamina_modifier, cata::nullopt );
+    optional( jo, was_loaded, "cardio_multiplier", cardio_multiplier, cata::nullopt );
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, cata::nullopt );
     optional( jo, was_loaded, "hearing_modifier", hearing_modifier, cata::nullopt );
     optional( jo, was_loaded, "noise_modifier", noise_modifier, cata::nullopt );
@@ -477,6 +478,14 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "active_flags", active_flags, flag_reader{} );
     optional( jo, was_loaded, "inactive_flags", inactive_flags, flag_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
+
+    for( JsonValue jv : jo.get_array( "activated_eocs" ) ) {
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+
+    for( JsonValue jv : jo.get_array( "deactivated_eocs" ) ) {
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
 
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
@@ -554,7 +563,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         for( const std::string &type_string : ao.get_tags( "part_types" ) ) {
             for( const body_part_type &bp : body_part_type::get_all() ) {
                 if( type_string == "ALL" ||
-                    bp.limb_type == io::string_to_enum<body_part_type::type>( type_string ) ) {
+                    bp.limb_type == io::string_to_enum<body_part_type::type>( type_string ) ||
+                    bp.secondary_types.count( io::string_to_enum<body_part_type::type>( type_string ) ) > 0 ) {
                     armor[bp.id] += res;
                 }
             }

@@ -68,6 +68,7 @@
 #include "sdl_geometry.h"
 #include "sdl_wrappers.h"
 #include "sdl_font.h"
+#include "sdl_gamepad.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
 #include "ui_manager.h"
@@ -132,25 +133,15 @@ static int WindowHeight;       //Height of the actual window, not the curses win
 // input from various input sources. Each input source sets the type and
 // the actual input value (key pressed, mouse button clicked, ...)
 // This value is finally returned by input_manager::get_input_event.
-static input_event last_input;
+input_event last_input;
 
-static constexpr int ERR = -1;
 static int inputdelay;         //How long getch will wait for a character to be typed
-static Uint32 delaydpad =
-    std::numeric_limits<Uint32>::max();     // Used for entering diagonal directions with d-pad.
-static Uint32 dpad_delay =
-    100;   // Delay in milliseconds between registering a d-pad event and processing it.
-static bool dpad_continuous = false;  // Whether we're currently moving continuously with the dpad.
-static int lastdpad = ERR;      // Keeps track of the last dpad press.
-static int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
 static bool fullscreen;
 static int scaling_factor;
-
-static SDL_Joystick *joystick; // Only one joystick for now.
 
 using cata_cursesport::curseline;
 using cata_cursesport::cursecell;
@@ -204,9 +195,6 @@ static void InitSDL()
     ret = IMG_Init( IMG_INIT_PNG );
     printErrorIf( ( ret & IMG_INIT_PNG ) != IMG_INIT_PNG,
                   "IMG_Init failed to initialize PNG support, tiles won't work" );
-
-    ret = SDL_InitSubSystem( SDL_INIT_JOYSTICK );
-    printErrorIf( ret != 0, "Initializing joystick subsystem failed" );
 
     //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
     //SDL2 instead uses the OS's Input Delay.
@@ -410,22 +398,8 @@ static void WinCreate()
         SDL_ShowCursor( SDL_ENABLE );
     }
 
-    // Initialize joysticks.
-    int numjoy = SDL_NumJoysticks();
-
-    if( get_option<bool>( "ENABLE_JOYSTICK" ) && numjoy >= 1 ) {
-        if( numjoy > 1 ) {
-            dbg( D_WARNING ) <<
-                             "You have more than one gamepads/joysticks plugged in, only the first will be used.";
-        }
-        joystick = SDL_JoystickOpen( 0 );
-        printErrorIf( joystick == nullptr, "SDL_JoystickOpen failed" );
-        if( joystick ) {
-            printErrorIf( SDL_JoystickEventState( SDL_ENABLE ) < 0,
-                          "SDL_JoystickEventState(SDL_ENABLE) failed" );
-        }
-    } else {
-        joystick = nullptr;
+    if( get_option<bool>( "ENABLE_JOYSTICK" ) ) {
+        gamepad::init();
     }
 
     // Set up audio mixer.
@@ -449,12 +423,7 @@ static void WinDestroy()
 
     shutdown_sound();
     tilecontext.reset();
-
-    if( joystick ) {
-        SDL_JoystickClose( joystick );
-
-        joystick = nullptr;
-    }
+    gamepad::quit();
     geometry.reset();
     format.reset();
     display_buffer.reset();
@@ -704,27 +673,39 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
     }
     const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
 
-    std::string mission_arrow_variant = "mission_cursor";
+    std::string mission_arrow_variant;
     if( overmap_area.contains( mission_target.raw() ) ) {
+        mission_arrow_variant = "mission_cursor";
         return std::make_pair( mission_target, mission_arrow_variant );
     }
 
-    const std::vector<tripoint> mission_trajectory = line_to( center.raw(),
-            tripoint( mission_target.raw().xy(), center.raw().z ) );
-
-    cata::optional<tripoint> prev;
-    int z = 0;
-    for( const tripoint &traj_pt : mission_trajectory ) {
-        if( !overmap_area.contains( traj_pt ) ) {
-            z = prev->z - traj_pt.z;
-            break;
+    inclusive_rectangle<point> area_flat( overmap_area.p_min.xy(), overmap_area.p_max.xy() );
+    if( area_flat.contains( mission_target.raw().xy() ) ) {
+        int area_z = center.z();
+        if( mission_target.z() > area_z ) {
+            mission_arrow_variant = "mission_arrow_up";
+        } else {
+            mission_arrow_variant = "mission_arrow_down";
         }
-        prev = traj_pt;
+        return std::make_pair( tripoint_abs_omt( mission_target.xy(), area_z ), mission_arrow_variant );
     }
 
-    if( !prev ) {
-        debugmsg( "ERROR: trajectory for mission in overmap failed" );
+    const std::vector<tripoint> traj = line_to( center.raw(),
+                                       tripoint( mission_target.raw().xy(), center.raw().z ) );
+
+    if( traj.empty() ) {
+        debugmsg( "Failed to gen overmap mission trajectory %s %s",
+                  center.to_string(), mission_target.to_string() );
         return cata::nullopt;
+    }
+
+
+    tripoint arr_pos = traj[0];
+    for( auto it = traj.rbegin(); it != traj.rend(); it++ ) {
+        if( overmap_area.contains( *it ) ) {
+            arr_pos = *it;
+            break;
+        }
     }
 
     const int north_border_y = ( overmap_area.p_max.y - overmap_area.p_min.y ) / 3;
@@ -747,24 +728,18 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
     const inclusive_cuboid<tripoint> east_sector( east_pmin, overmap_area.p_max );
 
     mission_arrow_variant = "mission_arrow_";
-    if( z == 0 ) {
-        if( north_sector.contains( *prev ) ) {
-            mission_arrow_variant += 'n';
-        } else if( south_sector.contains( *prev ) ) {
-            mission_arrow_variant += 's';
-        }
-        if( west_sector.contains( *prev ) ) {
-            mission_arrow_variant += 'w';
-        } else if( east_sector.contains( *prev ) ) {
-            mission_arrow_variant += 'e';
-        }
-    } else if( z > 0 ) {
-        mission_arrow_variant += "down";
-    } else {
-        mission_arrow_variant += "up";
+    if( north_sector.contains( arr_pos ) ) {
+        mission_arrow_variant += 'n';
+    } else if( south_sector.contains( arr_pos ) ) {
+        mission_arrow_variant += 's';
+    }
+    if( west_sector.contains( arr_pos ) ) {
+        mission_arrow_variant += 'w';
+    } else if( east_sector.contains( arr_pos ) ) {
+        mission_arrow_variant += 'e';
     }
 
-    return std::make_pair( tripoint_abs_omt( *prev ), mission_arrow_variant );
+    return std::make_pair( tripoint_abs_omt( arr_pos ), mission_arrow_variant );
 }
 
 std::string cata_tiles::get_omt_id_rotation_and_subtile(
@@ -861,23 +836,22 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
-    point s;
-    get_window_tile_counts( width, height, s.x, s.y );
-
-
     op = point( dest.x * fontwidth, dest.y * fontheight );
     // Rounding up to include incomplete tiles at the bottom/right edges
     screentile_width = divide_round_up( width, tile_width );
     screentile_height = divide_round_up( height, tile_height );
 
+    window_dimensions wnd_dim = get_window_dimensions( g->w_overmap );
+
     const int min_col = 0;
-    const int max_col = s.x;
+    const int max_col = screentile_width;
     const int min_row = 0;
-    const int max_row = s.y;
+    const int max_row = screentile_height;
     int height_3d = 0;
     avatar &you = get_avatar();
     const tripoint_abs_omt avatar_pos = you.global_omt_location();
-    const tripoint_abs_omt corner_NW = center_abs_omt - point( max_col / 2, max_row / 2 );
+    const tripoint_abs_omt corner_NW = center_abs_omt - point( wnd_dim.window_size_cell.x / 2,
+                                       wnd_dim.window_size_cell.y / 2 );
     const tripoint_abs_omt corner_SE = corner_NW + point( max_col - 1, max_row - 1 );
     const inclusive_cuboid<tripoint> overmap_area( corner_NW.raw(), corner_SE.raw() );
     // Debug vision allows seeing everything
@@ -905,7 +879,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             std::string id;
             int rotation = 0;
             int subtile = -1;
-            string_id<map_extra> mx;
+            map_extra_id mx;
 
             if( viewing_weather ) {
                 const tripoint_abs_omt omp_sky( omp.xy(), OVERMAP_HEIGHT );
@@ -1590,78 +1564,6 @@ static int end_alt_code()
 {
     alt_down = false;
     return alt_buffer;
-}
-
-static int HandleDPad()
-{
-    // Check if we have a gamepad d-pad event.
-    if( SDL_JoystickGetHat( joystick, 0 ) != SDL_HAT_CENTERED ) {
-        // When someone tries to press a diagonal, they likely will
-        // press a single direction first. Wait a few milliseconds to
-        // give them time to press both of the buttons for the diagonal.
-        int button = SDL_JoystickGetHat( joystick, 0 );
-        int lc = ERR;
-        if( button == SDL_HAT_LEFT ) {
-            lc = JOY_LEFT;
-        } else if( button == SDL_HAT_DOWN ) {
-            lc = JOY_DOWN;
-        } else if( button == SDL_HAT_RIGHT ) {
-            lc = JOY_RIGHT;
-        } else if( button == SDL_HAT_UP ) {
-            lc = JOY_UP;
-        } else if( button == SDL_HAT_LEFTUP ) {
-            lc = JOY_LEFTUP;
-        } else if( button == SDL_HAT_LEFTDOWN ) {
-            lc = JOY_LEFTDOWN;
-        } else if( button == SDL_HAT_RIGHTUP ) {
-            lc = JOY_RIGHTUP;
-        } else if( button == SDL_HAT_RIGHTDOWN ) {
-            lc = JOY_RIGHTDOWN;
-        }
-
-        if( delaydpad == std::numeric_limits<Uint32>::max() ) {
-            delaydpad = SDL_GetTicks() + dpad_delay;
-            queued_dpad = lc;
-        }
-
-        // Okay it seems we're ready to process.
-        if( SDL_GetTicks() > delaydpad ) {
-
-            if( lc != ERR ) {
-                if( dpad_continuous && ( lc & lastdpad ) == 0 ) {
-                    // Continuous movement should only work in the same or similar directions.
-                    dpad_continuous = false;
-                    lastdpad = lc;
-                    return 0;
-                }
-
-                last_input = input_event( lc, input_event_t::gamepad );
-                lastdpad = lc;
-                queued_dpad = ERR;
-
-                if( !dpad_continuous ) {
-                    delaydpad = SDL_GetTicks() + 200;
-                    dpad_continuous = true;
-                } else {
-                    delaydpad = SDL_GetTicks() + 60;
-                }
-                return 1;
-            }
-        }
-    } else {
-        dpad_continuous = false;
-        delaydpad = std::numeric_limits<Uint32>::max();
-
-        // If we didn't hold it down for a while, just
-        // fire the last registered press.
-        if( queued_dpad != ERR ) {
-            last_input = input_event( queued_dpad, input_event_t::gamepad );
-            queued_dpad = ERR;
-            return 1;
-        }
-    }
-
-    return 0;
 }
 
 static SDL_Keycode sdl_keycode_opposite_arrow( SDL_Keycode key )
@@ -2785,9 +2687,6 @@ static void CheckMessages()
     bool quit = false;
     bool text_refresh = false;
     bool is_repeat = false;
-    if( HandleDPad() ) {
-        return;
-    }
 
 #if defined(__ANDROID__)
     if( visible_display_frame_dirty ) {
@@ -3308,12 +3207,15 @@ static void CheckMessages()
                 text_refresh = true;
             }
             break;
-            case SDL_JOYBUTTONDOWN:
-                last_input = input_event( ev.jbutton.button, input_event_t::keyboard_char );
+            case SDL_CONTROLLERBUTTONDOWN:
+            case SDL_CONTROLLERBUTTONUP:
+                gamepad::handle_button_event( ev );
                 break;
-            case SDL_JOYAXISMOTION:
-                // on gamepads, the axes are the analog sticks
-                // TODO: somehow get the "digipad" values from the axes
+            case SDL_CONTROLLERAXISMOTION:
+                gamepad::handle_axis_event( ev );
+                break;
+            case SDL_GAMEPAD_SCHEDULER:
+                gamepad::handle_scheduler_event( ev );
                 break;
             case SDL_MOUSEMOTION:
                 if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
@@ -3776,10 +3678,10 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
     return result;
 }
 
-void input_manager::set_timeout( const int t )
+void input_manager::set_timeout( const int delay )
 {
-    input_timeout = t;
-    inputdelay = t;
+    input_timeout = delay;
+    inputdelay = delay;
 }
 
 void input_manager::pump_events()
@@ -3874,7 +3776,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 
 bool gamepad_available()
 {
-    return joystick != nullptr;
+    return gamepad::get_controller() != nullptr;
 }
 
 void rescale_tileset( int size )
@@ -3979,12 +3881,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         p = view_offset + selected;
     } else {
         const point selected( screen_pos.x / fw, screen_pos.y / fh );
-        if( capture_win == g->w_overmap ) {
-            p = view_offset + selected - point( std::ceil( dim.window_size_cell.x / 2.0 ),
-                                                std::ceil( dim.window_size_cell.y / 2.0 ) );
-        } else {
-            p = view_offset + selected - dim.window_size_cell / 2;
-        }
+        p = view_offset + selected - dim.window_size_cell / 2;
     }
 
     return tripoint( p, get_map().get_abs_sub().z );

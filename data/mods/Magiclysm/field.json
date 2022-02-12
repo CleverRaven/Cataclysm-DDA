@@ -74,5 +74,26 @@
     "intensity_levels": [ { "name": "darkness", "light_override": 0.0 } ],
     "half_life": "10 seconds",
     "percent_spread": 50
+  },
+  {
+    "id": "fd_alkahest",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "alkahest splatter",
+        "sym": "5",
+        "color": "light_green",
+        "dangerous": false,
+        "effects": [ { "effect_id": "alkahest", "intensity": 1, "immune_in_vehicle": true, "is_environmental": false } ]
+      }
+    ],
+    "description_affix": "covered_in",
+    "immunity_data": { "traits": [ "SHAPESHIFTER" ] },
+    "underwater_age_speedup": "8 h",
+    "priority": 2,
+    "half_life": "8 h",
+    "phase": "liquid",
+    "display_field": true,
+    "looks_like": "fd_sludge"
   }
 ]
