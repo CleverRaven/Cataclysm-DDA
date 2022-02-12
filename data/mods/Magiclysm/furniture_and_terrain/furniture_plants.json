@@ -63,7 +63,7 @@
   },
   {
     "type": "terrain",
-    "id": "f_horn_moss",
+    "id": "t_horn_moss",
     "name": "horn moss",
     "looks_like": "t_grass",
     "description": "A cluster of red moss, so called for the white capsules that it will grow during spring.",
