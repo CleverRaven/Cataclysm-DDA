@@ -189,7 +189,7 @@
       },
       {
         "id": "LESSON_CONSTRUCTION",
-        "text": "In the next room, you can find a <color_light_cyan>paint brush</color> and several cans of <color_light_cyan>paint</color>.  You can use them to paint the wall in your preferred color.  To do this, open the <color_light_cyan>Construction menu</color> by pressing <keybind:construct> and toggling the categories with <keybind:LEFT> and <keybind:RIGHT>.  Find the <color_light_cyan>Decorative</color> category and select one of the options to paint the wall.\n\nTo continue the tutorial, please paint some walls and move further south."
+        "text": "In the next room, you can find a <color_light_cyan>paint brush</color> and several cans of <color_light_cyan>paint</color>.  You can use them to paint the wall in your preferred color.  To do this, open the <color_light_cyan>Construction</color> menu by pressing <keybind:construct> and toggling the categories with <keybind:LEFT> and <keybind:RIGHT>.  Find the <color_light_cyan>Decorative</color> category and select one of the options to paint the wall.\n\nTo continue the tutorial, please paint some walls and move further south."
       },
       {
         "id": "LESSON_THROWING",
