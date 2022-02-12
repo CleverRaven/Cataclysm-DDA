@@ -267,6 +267,8 @@ int material_type::breathability() const
             return 80;
         case breathability_rating::SECOND_SKIN:
             return 100;
+        case breathability_rating::last:
+            break;
     }
     return 0;
 }
