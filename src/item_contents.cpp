@@ -154,10 +154,7 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         cata::flat_set<itype_id> nearby_itypes;
         selector_menu.title = _( "Select an item from nearby" );
         for( const std::list<item> *it_list : get_player_character().crafting_inventory().const_slice() ) {
-            item it = it_list->front();
-            if( !it.is_null() && selected_pocket->is_compatible( it ).success() ) {
-                nearby_itypes.insert( it.typeId() );
-            }
+            nearby_itypes.insert( it_list->front().typeId() );
         }
 
         std::vector<std::pair<itype_id, std::string>> listed_names;
@@ -168,7 +165,7 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
             listed_names.emplace_back( id, id->nname( 1 ) );
         }
         for( const itype_id &id : nearby_itypes ) {
-            if( !listed_itypes.count( id ) ) {
+            if( !listed_itypes.count( id ) && selected_pocket->is_compatible( item( id ) ).success() ) {
                 nearby_names.emplace_back( id, id->nname( 1 ) );
             }
         }
