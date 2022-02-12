@@ -3580,7 +3580,6 @@
     "types": [ "METABOLISM" ],
     "threshreq": [ "THRESH_CHIMERA" ],
     "category": [ "CHIMERA" ],
-    "valid": false,
     "active": true,
     "transform": {
       "target": "EATHEALTH_active",
@@ -3595,6 +3594,7 @@
     "name": { "str": "Hyper-Metabolism: burning" },
     "description": "You're burning calories like crazy to heal your wounds.",
     "copy-from": "EATHEALTH",
+    "valid": false,
     "cost": 1,
     "time": 1,
     "hunger": true,
