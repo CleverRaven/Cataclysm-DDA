@@ -35,8 +35,7 @@ namespace cata_curses_test
 #include "cursesport.h"
 #endif
 
-static const int move_25h = to_seconds<int>( 25_hours ) * 100;
-static const dig_activity_actor dig_actor( move_25h, tripoint_zero, "t_pit", tripoint_zero, 0, "" );
+// ------------ String IDs ------------
 
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
@@ -54,9 +53,6 @@ static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
 static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_infected( "infected" );
-
-static const activity_schedule task_dig( dig_actor, 5_minutes );
-static const activity_schedule task_plant( ACT_PLANT_SEED, 5_minutes );
 
 static const flag_id json_flag_SPLINT( "SPLINT" );
 const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
@@ -146,6 +142,14 @@ static const widget_id widget_test_weather_text( "test_weather_text" );
 static const widget_id widget_test_weather_text_height5( "test_weather_text_height5" );
 static const widget_id widget_test_weight_clauses_fun( "test_weight_clauses_fun" );
 static const widget_id widget_test_weight_clauses_normal( "test_weight_clauses_normal" );
+
+// ------------ Not String IDs ------------
+static const int move_25h = to_seconds<int>( 25_hours ) * 100;
+static const dig_activity_actor dig_actor( move_25h, tripoint_zero, "t_pit", tripoint_zero, 0, "" );
+
+static const activity_schedule task_dig( dig_actor, 5_minutes );
+static const activity_schedule task_plant( ACT_PLANT_SEED, 5_minutes );
+
 
 // dseguin 2022 - Ugly hack to scrape content from the window object.
 // Scrapes the window w at origin, reading the number of cols and rows.
