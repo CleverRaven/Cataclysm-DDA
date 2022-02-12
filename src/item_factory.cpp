@@ -724,19 +724,29 @@ void Item_factory::finalize_post( itype &obj )
                                 for( part_material &old_mat : it.materials ) {
                                     if( old_mat.id == new_mat.id ) {
                                         mat_found = true;
-                                        // values should be averaged however I can't envision this ever being used
+                                        // values should be averaged
                                         float max_coverage_new = sub_armor.max_coverage( bp );
                                         float max_coverage_mats = it.max_coverage( bp );
 
+                                        // portion should be handled as the portion scaled by relative coverage
+                                        old_mat.cover = old_mat.cover + new_mat.cover * max_coverage_new;
+
                                         // with the max values we can get the weight that each should have
-                                        old_mat.cover = ( max_coverage_new * new_mat.cover + max_coverage_mats * old_mat.cover ) /
-                                                        ( max_coverage_mats + max_coverage_new );
                                         old_mat.thickness = ( max_coverage_new * new_mat.thickness + max_coverage_mats *
                                                               old_mat.thickness ) / ( max_coverage_mats + max_coverage_new );
                                     }
                                 }
                                 // if we didn't find an entry for this material
+                                // create new entry with a scaled material coverage
                                 if( !mat_found ) {
+                                    float max_coverage_new = sub_armor.max_coverage( bp );
+
+                                    part_material modified_mat = new_mat;
+                                    // if for example your elbow was covered in plastic but none of the rest of the arm
+                                    // this should be represented correctly in the UI with the covers for plastic being 5%
+                                    // of the arm. Similarily 50% covered in plastic covering only 30% of the arm should lead to
+                                    // 15% covered for the arm overall
+                                    modified_mat.cover = new_mat.cover * max_coverage_new;
                                     it.materials.push_back( new_mat );
                                 }
                             }
@@ -751,7 +761,6 @@ void Item_factory::finalize_post( itype &obj )
                     }
 
                     // if not found create a new bp entry
-
                     if( !found ) {
                         // copy values to data but only have one limb
                         armor_portion_data new_limb = sub_armor;
