@@ -1363,7 +1363,7 @@
     "type": "GENERIC",
     "name": { "str": "zweihänder" },
     "description": "This is a dull, cheaply-made replica of a huge two-handed sword from Germany.  It still packs a wallop.",
-    "proportional": { "bashing": 1.30, "cutting": 0.169 },
+    "proportional": { "bashing": 1.3, "cutting": 0.169 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
