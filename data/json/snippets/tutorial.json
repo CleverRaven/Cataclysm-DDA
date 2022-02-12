@@ -145,7 +145,7 @@
       },
       {
         "id": "LESSON_PICKUP_WATER",
-        "text": "From a water source like this, you can fill any containers you might have.  Examine the dispenser by pressing <keybind:examine>.  Next, press <color_yellow>'c'</color>) to fill a container, then select the <color_light_cyan>plastic bottle</color> to put the water into.\n\nThe Examine command (<keybind:examine> can be used for interacting with many types of terrain and furniture.\n\nTo continue the tutorial, please fill the plastic bottle with water, drink a little of it (by pressing <keybind:eat> and selecting <color_light_cyan>clean water</color>), and then move to the corridor to the north."
+        "text": "From a water source like this, you can fill any containers you might have.  Examine the dispenser by pressing <keybind:examine>.  Next, press <keybind:close>) to fill a container, then select the <color_light_cyan>plastic bottle</color> to put the water into.\n\nThe Examine command (<keybind:examine> can be used for interacting with many types of terrain and furniture.\n\nTo continue the tutorial, please fill the plastic bottle with water, drink a little of it (by pressing <keybind:eat> and selecting <color_light_cyan>clean water</color>), and then move to the corridor to the north."
       },
       {
         "id": "LESSON_MONSTER_SIGHTED",
