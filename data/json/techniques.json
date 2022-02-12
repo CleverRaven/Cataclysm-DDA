@@ -306,7 +306,7 @@
     "messages": [ "Using your rolling staff you quickly strike %s", "Using rolling staff <npcname> quickly strikes %s" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "req_buffs": [ "buff_bojutsu_onmove" ],
+    "required_buffs_all": [ "buff_bojutsu_onmove" ],
     "weighting": 2,
     "crit_ok": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ]
