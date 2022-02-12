@@ -283,7 +283,7 @@
     "id": "armor_lc_lightplate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel 2 mm plate armor" },
+    "name": { "str": "mild steel light plate armor" },
     "description": "A light suit of plate armor with a 2 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "15 kg",
     "volume": "17500 ml",
@@ -336,7 +336,7 @@
   {
     "id": "xl_armor_lc_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 2 mm plate armor" },
+    "name": { "str": "XL mild steel light plate armor" },
     "copy-from": "armor_lc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -345,7 +345,7 @@
     "id": "armor_mc_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "name": { "str": "medium steel 2 mm plate armor" },
+    "name": { "str": "medium steel light plate armor" },
     "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
     "armor_data": {
       "armor": [
@@ -385,7 +385,7 @@
   {
     "id": "xl_armor_mc_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 2 mm plate armor" },
+    "name": { "str": "XL mild steel light plate armor" },
     "copy-from": "armor_mc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -394,7 +394,7 @@
     "id": "armor_hc_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "name": { "str": "high steel 2 mm plate armor" },
+    "name": { "str": "high steel light plate armor" },
     "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
     "armor_data": {
       "armor": [
@@ -434,7 +434,7 @@
   {
     "id": "xl_armor_hc_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel 2 mm plate armor" },
+    "name": { "str": "XL high steel light plate armor" },
     "copy-from": "armor_hc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -443,7 +443,7 @@
     "id": "armor_ch_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "name": { "str": "case hardened 2 mm plate armor" },
+    "name": { "str": "case hardened light plate armor" },
     "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
     "armor_data": {
       "armor": [
@@ -483,7 +483,7 @@
   {
     "id": "xl_armor_ch_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened 2 mm plate armor" },
+    "name": { "str": "XL case hardened light plate armor" },
     "copy-from": "armor_ch_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -492,7 +492,7 @@
     "id": "armor_qt_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "name": { "str": "tempered 2 mm plate armor" },
+    "name": { "str": "tempered light plate armor" },
     "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor_data": {
       "armor": [
@@ -532,7 +532,7 @@
   {
     "id": "xl_armor_qt_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered 2 mm plate armor" },
+    "name": { "str": "XL tempered light plate armor" },
     "copy-from": "armor_qt_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -541,7 +541,7 @@
     "id": "armor_lc_plate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel 4 mm plate armor" },
+    "name": { "str": "mild steel plate armor" },
     "description": "A suit of plate armor with a 4 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "20 kg",
     "volume": "17500 ml",
@@ -594,7 +594,7 @@
   {
     "id": "xl_armor_lc_plate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 4 mm plate armor" },
+    "name": { "str": "XL mild steel plate armor" },
     "copy-from": "armor_lc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -603,7 +603,7 @@
     "id": "armor_mc_plate",
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
-    "name": { "str": "medium steel 4 mm plate armor" },
+    "name": { "str": "medium steel plate armor" },
     "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
     "armor_data": {
       "armor": [
@@ -643,7 +643,7 @@
   {
     "id": "xl_armor_mc_plate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 4 mm plate armor" },
+    "name": { "str": "XL mild steel plate armor" },
     "copy-from": "armor_mc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -652,7 +652,7 @@
     "id": "armor_hc_plate",
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
-    "name": { "str": "high steel 4 mm plate armor" },
+    "name": { "str": "high steel plate armor" },
     "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
     "armor_data": {
       "armor": [
@@ -692,7 +692,7 @@
   {
     "id": "xl_armor_hc_plate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel 4 mm plate armor" },
+    "name": { "str": "XL high steel plate armor" },
     "copy-from": "armor_hc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -701,7 +701,7 @@
     "id": "armor_ch_plate",
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
-    "name": { "str": "case hardened 4 mm plate armor" },
+    "name": { "str": "case hardened plate armor" },
     "description": "A suit of plate armor with a 4 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
     "armor_data": {
       "armor": [
@@ -741,7 +741,7 @@
   {
     "id": "xl_armor_ch_plate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened 4 mm plate armor" },
+    "name": { "str": "XL case hardened plate armor" },
     "copy-from": "armor_ch_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -750,7 +750,7 @@
     "id": "armor_qt_plate",
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
-    "name": { "str": "tempered 4 mm plate armor" },
+    "name": { "str": "tempered plate armor" },
     "description": "A suit of plate armor with a 4 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor_data": {
       "armor": [
@@ -790,7 +790,7 @@
   {
     "id": "xl_armor_qt_plate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered 4 mm plate armor" },
+    "name": { "str": "XL tempered plate armor" },
     "copy-from": "armor_qt_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -799,7 +799,7 @@
     "id": "armor_lc_heavyplate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel 6 mm plate armor" },
+    "name": { "str": "mild steel heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "25 kg",
     "volume": "17500 ml",
@@ -852,7 +852,7 @@
   {
     "id": "xl_armor_lc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 6 mm plate armor" },
+    "name": { "str": "XL mild steel heavy plate armor" },
     "copy-from": "armor_lc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -861,7 +861,7 @@
     "id": "armor_mc_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "name": { "str": "medium steel 6 mm plate armor" },
+    "name": { "str": "medium steel heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
     "armor_data": {
       "armor": [
@@ -901,7 +901,7 @@
   {
     "id": "xl_armor_mc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 6 mm plate armor" },
+    "name": { "str": "XL mild steel heavy plate armor" },
     "copy-from": "armor_mc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -910,7 +910,7 @@
     "id": "armor_hc_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "name": { "str": "high steel 6 mm plate armor" },
+    "name": { "str": "high steel heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
     "armor_data": {
       "armor": [
@@ -950,7 +950,7 @@
   {
     "id": "xl_armor_hc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel 6 mm plate armor" },
+    "name": { "str": "XL high steel heavy plate armor" },
     "copy-from": "armor_hc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -959,7 +959,7 @@
     "id": "armor_ch_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "name": { "str": "case hardened 6 mm plate armor" },
+    "name": { "str": "case hardened heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
     "armor_data": {
       "armor": [
@@ -999,7 +999,7 @@
   {
     "id": "xl_armor_ch_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened 6 mm plate armor" },
+    "name": { "str": "XL case hardened heavy plate armor" },
     "copy-from": "armor_ch_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1008,7 +1008,7 @@
     "id": "armor_qt_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "name": { "str": "tempered 6 mm plate armor" },
+    "name": { "str": "tempered heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor_data": {
       "armor": [
@@ -1048,7 +1048,7 @@
   {
     "id": "xl_armor_qt_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered 6 mm plate armor" },
+    "name": { "str": "XL tempered heavy plate armor" },
     "copy-from": "armor_qt_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
