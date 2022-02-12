@@ -5826,7 +5826,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     if( m.has_flag( ter_furn_flag::TFLAG_TREE, lp ) ) {
         const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
-                                          _( "Can be %s with the right tools." ), colorize( _( "cut down" ), c_green ) );
+                                          _( "Can be <color_green>cut down</color> with the right tools." ) );
         line += lines - 1;
     }
 
