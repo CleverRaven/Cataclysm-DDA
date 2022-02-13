@@ -13,7 +13,6 @@
 
 static const morale_type morale_perm_debug( "morale_perm_debug" );
 
-static const mutation_category_id mutation_category_ANY( "ANY" );
 static const mutation_category_id mutation_category_FELINE( "FELINE" );
 static const mutation_category_id mutation_category_LUPINE( "LUPINE" );
 static const mutation_category_id mutation_category_MOUSE( "MOUSE" );

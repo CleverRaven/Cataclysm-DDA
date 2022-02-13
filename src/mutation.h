@@ -515,35 +515,6 @@ bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
 
-enum class mutagen_technique : int {
-    consumed_mutagen,
-    injected_mutagen,
-    consumed_purifier,
-    injected_purifier,
-    injected_smart_purifier,
-    num_mutagen_techniques // last
-};
-
-template<>
-struct enum_traits<mutagen_technique> {
-    static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
-};
-
-enum class mutagen_rejection : int {
-    accepted,
-    rejected,
-    destroyed
-};
-
-struct mutagen_attempt {
-    mutagen_attempt( bool a, int c ) : allowed( a ), charges_used( c ) {}
-    bool allowed;
-    int charges_used;
-};
-
-mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
-                                       mutagen_technique technique );
-
 void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
 
 #endif // CATA_SRC_MUTATION_H

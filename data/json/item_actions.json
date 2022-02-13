@@ -781,16 +781,6 @@
   },
   {
     "type": "item_action",
-    "id": "PURIFIER",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "PURIFY_IV",
-    "name": { "str": "Inject" }
-  },
-  {
-    "type": "item_action",
     "id": "PURIFY_SMART",
     "name": { "str": "Inject" }
   },

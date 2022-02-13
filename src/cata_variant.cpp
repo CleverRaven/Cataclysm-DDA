@@ -58,7 +58,6 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         case cata_variant_type::mongroup_id: return "mongroup_id";
         case cata_variant_type::mtype_id: return "mtype_id";
         case cata_variant_type::move_mode_id: return "character_movemode";
-        case cata_variant_type::mutagen_technique: return "mutagen_technique";
         case cata_variant_type::mutation_category_id: return "mutation_category_id";
         case cata_variant_type::nested_mapgen_id: return "nested_mapgen_id";
         case cata_variant_type::npc_template_id: return "npc_template_id";

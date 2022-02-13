@@ -93,28 +93,6 @@ static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
-namespace io
-{
-
-template<>
-std::string enum_to_string<mutagen_technique>( mutagen_technique data )
-{
-    switch( data ) {
-        // *INDENT-OFF*
-        case mutagen_technique::consumed_mutagen: return "consumed_mutagen";
-        case mutagen_technique::injected_mutagen: return "injected_mutagen";
-        case mutagen_technique::consumed_purifier: return "consumed_purifier";
-        case mutagen_technique::injected_purifier: return "injected_purifier";
-        case mutagen_technique::injected_smart_purifier: return "injected_smart_purifier";
-        // *INDENT-ON*
-        case mutagen_technique::num_mutagen_techniques:
-            break;
-    }
-    cata_fatal( "Invalid mutagen_technique" );
-}
-
-} // namespace io
-
 bool Character::has_trait( const trait_id &b ) const
 {
     return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
@@ -1798,101 +1776,6 @@ void Character::test_crossing_threshold( const mutation_category_id &mutation_ca
         add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
         add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
     }
-}
-
-static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, bool strong )
-{
-    if( guy.has_trait( trait_MUTAGEN_AVOID ) ) {
-        guy.add_msg_if_player( m_warning,
-                               //~ "Uh-uh" is a sound used for "nope", "no", etc.
-                               _( "After what happened that last time?  uh-uh.  You're not drinking that chemical stuff." ) );
-        return mutagen_rejection::rejected;
-    }
-
-    static const std::vector<std::string> safe = {{
-            "MYCUS", "MARLOSS", "MARLOSS_SEED", "MARLOSS_GEL"
-        }
-    };
-    if( std::any_of( safe.begin(), safe.end(), [it]( const std::string & flag ) {
-    return it.type->can_use( flag );
-    } ) ) {
-        return mutagen_rejection::accepted;
-    }
-
-    if( guy.has_trait( trait_THRESH_MYCUS ) ) {
-        guy.add_msg_if_player( m_info, _( "This is a contaminant.  We reject it from the Mycus." ) );
-        if( guy.has_trait( trait_M_SPORES ) || guy.has_trait( trait_M_FERTILE ) ||
-            guy.has_trait( trait_M_BLOSSOMS ) || guy.has_trait( trait_M_BLOOM ) ) {
-            guy.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
-            get_map().ter_set( guy.pos(), t_fungus );
-            if( guy.is_avatar() ) {
-                get_memorial().add(
-                    pgettext( "memorial_male", "Destroyed a harmful invader." ),
-                    pgettext( "memorial_female", "Destroyed a harmful invader." ) );
-            }
-            return mutagen_rejection::destroyed;
-        } else {
-            guy.add_msg_if_player( m_bad,
-                                   _( "We must eliminate this contaminant at the earliest opportunity." ) );
-            return mutagen_rejection::rejected;
-        }
-    }
-
-    if( guy.has_trait( trait_THRESH_MARLOSS ) ) {
-        guy.add_msg_player_or_npc( m_warning,
-                                   _( "The %s sears your insides white-hot, and you collapse to the ground!" ),
-                                   _( "<npcname> writhes in agony and collapses to the ground!" ),
-                                   it.tname() );
-        guy.vomit();
-        guy.mod_pain( 35 + ( strong ? 20 : 0 ) );
-        // Lose a significant amount of HP, probably about 25-33%
-        guy.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
-        // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        guy.fall_asleep( 5_hours - 1_minutes * ( guy.int_cur + ( strong ? 100 : 0 ) ) );
-        guy.set_mutation( trait_MUTAGEN_AVOID );
-        // Injected mutagen purges marloss, ingested doesn't
-        if( strong ) {
-            guy.unset_mutation( trait_THRESH_MARLOSS );
-            guy.add_msg_if_player( m_warning,
-                                   _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
-            guy.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
-            if( guy.is_avatar() ) {
-                get_memorial().add(
-                    pgettext( "memorial_male",
-                              "Burned out a particularly nasty fungal infestation." ),
-                    pgettext( "memorial_female",
-                              "Burned out a particularly nasty fungal infestation." ) );
-            }
-        } else {
-            guy.add_msg_if_player( m_warning,
-                                   _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
-                                   it.tname() );
-            if( guy.is_avatar() ) {
-                get_memorial().add(
-                    pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
-                    pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
-            }
-        }
-
-        return mutagen_rejection::destroyed;
-    }
-
-    return mutagen_rejection::accepted;
-}
-
-mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
-                                       const mutagen_technique technique )
-{
-    get_event_bus().send<event_type::administers_mutagen>( guy.getID(), technique );
-    mutagen_rejection status = try_reject_mutagen( guy, it, strong );
-    if( status == mutagen_rejection::rejected ) {
-        return mutagen_attempt( false, 0 );
-    }
-    if( status == mutagen_rejection::destroyed ) {
-        return mutagen_attempt( false, it.type->charges_to_use() );
-    }
-
-    return mutagen_attempt( true, 0 );
 }
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )
