@@ -223,7 +223,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
          mutation_category_trait::get_all() ) {
         const mutation_category_trait &cur_cat = cat.second;
         const mutation_category_id &cat_id = cur_cat.id;
-        if( cat_id == mutation_category_ANY ) {
+        if( cur_cat.threshold_mut.is_empty() ) {
             continue;
         }
         // Unfinished mutation category.

@@ -1083,9 +1083,25 @@
     "max_intensity": 3,
     "resist_traits": [ "THRESH_GASTROPOD" ],
     "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 60 ] },
-    "scaling_mods": { "str_mod": [ 1.5 ], "speed_mod": [ -7.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "scaling_mods": { "str_mod": [ 1.5 ], "speed_mod": [ -7.5 ], "hurt_chance": [ 21, 0 ] },
     "rating": "bad",
     "blood_analysis_description": "Snail Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_human",
+    "name": [ "Human Purification", "Human Reversion", "Human Regression" ],
+    "desc": [
+      "You consumed purifier.",
+      "You consumed a large amount of purifier.  Why does it feel so strange?",
+      "You consumed a huge amount of purifier, and you can tell that something isn't right."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [  ],
+    "base_mods": { "str_mod": [ 0, -2 ], "per_mod": [ 0, -2 ], "dex_mod": [ 0, -2 ], "int_mod": [ 0, -2 ] },
+    "scaling_mods": { "str_mod": [ 0, -2.5 ], "per_mod": [ 0, -2.5 ], "dex_mod": [ 0, -2.5 ], "int_mod": [ 0, -2.5 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Human Mutagen Contamination"
   },
   {
     "type": "effect_type",

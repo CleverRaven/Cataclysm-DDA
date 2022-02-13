@@ -1019,8 +1019,7 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
             if( mut_vit != vitamin_id::NULL_ID() and vitamin_get( mut_vit ) >= 2200 ) {
                 test_crossing_threshold( cat );
             }
-            if( mutate_towards( random_entry( valid ), mut_vit ) ||
-                mutate_towards( random_entry( valid ), mut_vit ) ) {
+            if( mutate_towards( valid, mut_vit, 2 ) ) {
                 add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
             }
             return;
@@ -1130,6 +1129,8 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
         }
     }
 
+    std::vector<trait_id> cancel_recheck = cancel;
+
     for( size_t i = 0; i < cancel.size(); i++ ) {
         if( !has_trait( cancel[i] ) ) {
             cancel.erase( cancel.begin() + i );
@@ -1148,9 +1149,14 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
             remove_mutation( removed );
             cancel.erase( cancel.begin() + i );
             i--;
-            // This checks for cases where one trait knocks out several others
-            // Probably a better way, but gets it Fixed Now--KA101
-            return mutate_towards( mut, mut_vit );
+            //We intentionally don't cancel entire trees, we prune the current top
+        }
+    }
+
+    //If we still have anything to cancel, we aren't done pruning, but should stop for now
+    for( const trait_id &trait : cancel_recheck ) {
+        if( has_trait( trait ) ) {
+            return true;
         }
     }
 

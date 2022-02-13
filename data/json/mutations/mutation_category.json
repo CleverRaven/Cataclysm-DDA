@@ -8,6 +8,14 @@
   },
   {
     "type": "mutation_category",
+    "id": "HUMAN",
+    "name": "Human",
+    "threshold_mut": "",
+    "mutagen_message": "You feel the aberrance fade.",
+    "vitamin": "mutagen_human"
+  },
+  {
+    "type": "mutation_category",
     "id": "PLANT",
     "name": "Plant",
     "threshold_mut": "THRESH_PLANT",
