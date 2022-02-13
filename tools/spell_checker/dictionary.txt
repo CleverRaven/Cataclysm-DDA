@@ -1,4 +1,5 @@
 abcdefghijklmnopqrstuvwxyz
+aberrance
 aboveground
 abso
 acausal
@@ -291,6 +292,7 @@ chasin
 chausses
 cheapshot
 cheescutter
+chelator
 chestpiece
 chestrig
 chestwrap
