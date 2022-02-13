@@ -2858,8 +2858,8 @@ void talk_effect_fun_t::set_next_weather()
     };
 }
 
-static int handle_min_max( const dialogue &d, int input, cata::optional<int_or_var> min,
-                           cata::optional<int_or_var> max )
+static int handle_min_max( const dialogue &d, int input, cata::optional<int_or_var_part> min,
+                           cata::optional<int_or_var_part> max )
 {
     if( min.has_value() ) {
         int min_val = min.value().evaluate( d.actor( min.value().is_npc() ) );
@@ -2873,7 +2873,7 @@ static int handle_min_max( const dialogue &d, int input, cata::optional<int_or_v
 }
 
 static std::function<void( const dialogue &, int )> get_set_int( const JsonObject &jo,
-        cata::optional<int_or_var> min, cata::optional<int_or_var> max )
+        cata::optional<int_or_var_part> min, cata::optional<int_or_var_part> max )
 {
     if( jo.has_member( "const" ) ) {
         jo.throw_error( "attempted to alter a constant value in " + jo.str() );
@@ -3140,21 +3140,21 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
 void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member )
 {
     JsonArray objects = jo.get_array( member );
-    cata::optional<int_or_var> min;
-    cata::optional<int_or_var> max;
+    cata::optional<int_or_var_part> min;
+    cata::optional<int_or_var_part> max;
     if( jo.has_member( "min" ) ) {
-        min = get_int_or_var( jo, "min" );
+        min = get_int_or_var_part( jo, "min" );
     } else if( jo.has_member( "min_time" ) ) {
-        int_or_var value;
+        int_or_var_part value;
         time_duration min_time;
         mandatory( jo, false, "min_time", min_time );
         value.int_val = to_turns<int>( min_time );
         min = value;
     }
     if( jo.has_member( "max" ) ) {
-        max = get_int_or_var( jo, "max" );
+        max = get_int_or_var_part( jo, "max" );
     } else if( jo.has_member( "max_time" ) ) {
-        int_or_var value;
+        int_or_var_part value;
         time_duration max_time;
         mandatory( jo, false, "max_time", max_time );
         value.int_val = to_turns<int>( max_time );

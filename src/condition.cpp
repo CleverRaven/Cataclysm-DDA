@@ -73,17 +73,17 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member,
         int_or_var value;
         time_duration max_time;
         mandatory( jo, false, "default_time", max_time );
-        value.int_val = to_turns<int>( max_time );
+        value.min.int_val = to_turns<int>( max_time );
         default_val = value;
     }
     return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
             + var_context ) + "_" + var_basename;
 }
 
-int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required,
-                           int default_val )
+int_or_var_part get_int_or_var_part( const JsonObject &jo, std::string member, bool required,
+                                     int default_val )
 {
-    int_or_var ret_val;
+    int_or_var_part ret_val;
     if( jo.has_int( member ) ) {
         mandatory( jo, false, member, ret_val.int_val );
     } else if( jo.has_object( member ) ) {
@@ -99,10 +99,30 @@ int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool requir
     return ret_val;
 }
 
-duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
-                                     time_duration default_val )
+int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required,
+                           int default_val )
 {
-    duration_or_var ret_val;
+    int_or_var ret_val;
+    if( jo.has_array( member ) ) {
+        JsonArray ja = jo.get_array( member );
+        ret_val.min = get_int_or_var_part( ja.get_object( 0 ), member );
+        ret_val.max = get_int_or_var_part( ja.get_object( 1 ), member );
+        ret_val.pair = true;
+        if( ( ret_val.min.type == var_type::u && ret_val.max.type == var_type::npc ) ||
+            ( ret_val.min.type == var_type::npc && ret_val.max.type == var_type::u ) ) {
+            jo.throw_error( "int_or_var min and max cannot be of types u and npc at once." );
+        }
+    } else {
+        ret_val.min = get_int_or_var_part( jo, member, required, default_val );
+    }
+    return ret_val;
+}
+
+duration_or_var_part get_duration_or_var_part( const JsonObject &jo, std::string member,
+        bool required,
+        time_duration default_val )
+{
+    duration_or_var_part ret_val;
     if( jo.has_int( member ) || jo.has_string( member ) ) {
         mandatory( jo, false, member, ret_val.dur_val );
     } else if( jo.has_object( member ) ) {
@@ -114,6 +134,25 @@ duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, b
         jo.throw_error( "No valid value for ", member );
     } else {
         ret_val.dur_val = default_val;
+    }
+    return ret_val;
+}
+
+duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
+                                     time_duration default_val )
+{
+    duration_or_var ret_val;
+    if( jo.has_array( member ) ) {
+        JsonArray ja = jo.get_array( member );
+        ret_val.min = get_duration_or_var_part( ja.get_object( 0 ), member );
+        ret_val.max = get_duration_or_var_part( ja.get_object( 1 ), member );
+        ret_val.pair = true;
+        if( ( ret_val.min.type == var_type::u && ret_val.max.type == var_type::npc ) ||
+            ( ret_val.min.type == var_type::npc && ret_val.max.type == var_type::u ) ) {
+            jo.throw_error( "int_or_var min and max cannot be of types u and npc at once." );
+        }
+    } else {
+        ret_val.min = get_duration_or_var_part( jo, member, required, default_val );
     }
     return ret_val;
 }
@@ -438,14 +477,14 @@ void conditional_t<T>::set_need( const JsonObject &jo, const std::string &member
     const std::string &need = jo.get_string( member );
     int_or_var iov;
     if( jo.has_int( "amount" ) ) {
-        iov.int_val = jo.get_int( "amount" );
+        iov.min.int_val = jo.get_int( "amount" );
     } else if( jo.has_object( "amount" ) ) {
         iov = get_int_or_var( jo, "amount" );
     } else if( jo.has_string( "level" ) ) {
         const std::string &level = jo.get_string( "level" );
         auto flevel = fatigue_level_strs.find( level );
         if( flevel != fatigue_level_strs.end() ) {
-            iov.int_val = static_cast<int>( flevel->second );
+            iov.min.int_val = static_cast<int>( flevel->second );
         }
     }
     condition = [need, iov, is_npc]( const T & d ) {
