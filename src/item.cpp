@@ -11487,11 +11487,11 @@ int item::processing_speed() const
     // This item doesn't actually need processing.
     // Either it contains items that need processing. Use processing speed from those.
     // Or it is in same container with items that need processing.
-    int pocessing_speed = 10000;
+    int processing_speed = 10000;
     for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        pocessing_speed = std::min( pocessing_speed, it->processing_speed() );
+        processing_speed = std::min( processing_speed, it->processing_speed() );
     }
-    return pocessing_speed;
+    return processing_speed;
 }
 
 void item::apply_freezerburn()
