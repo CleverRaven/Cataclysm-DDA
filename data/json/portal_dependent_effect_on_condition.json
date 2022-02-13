@@ -252,11 +252,7 @@
     "effect": [
       { "u_message": "You suddenly need more strength to interact with your surroundings.", "type": "bad" },
       { "u_add_effect": "pd_str_bad", "duration": "50 minutes" },
-      {
-        "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_STR_BAD",
-        "time_in_future_min": "10 minutes",
-        "time_in_future_max": "40 minutes"
-      }
+      { "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_STR_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
     ]
   },
   {
@@ -267,11 +263,7 @@
     "effect": [
       { "u_message": "You suddenly fail to grab your own hand.", "type": "bad" },
       { "u_add_effect": "pd_dex_bad", "duration": "50 minutes" },
-      {
-        "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_DEX_BAD",
-        "time_in_future_min": "10 minutes",
-        "time_in_future_max": "40 minutes"
-      }
+      { "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_DEX_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
     ]
   },
   {
@@ -282,11 +274,7 @@
     "effect": [
       { "u_message": "You blink one time and now everything seems bigger.", "type": "bad" },
       { "u_add_effect": "pd_per_bad", "duration": "50 minutes" },
-      {
-        "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_PER_BAD",
-        "time_in_future_min": "10 minutes",
-        "time_in_future_max": "40 minutes"
-      }
+      { "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_PER_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
     ]
   },
   {
@@ -297,11 +285,7 @@
     "effect": [
       { "u_message": "You stop yourself to think, but you can't seem to remember about what.", "type": "bad" },
       { "u_add_effect": "pd_int_bad", "duration": "50 minutes" },
-      {
-        "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_INT_BAD",
-        "time_in_future_min": "10 minutes",
-        "time_in_future_max": "40 minutes"
-      }
+      { "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_INT_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
     ]
   },
   {

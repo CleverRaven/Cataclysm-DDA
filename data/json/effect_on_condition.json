@@ -182,7 +182,7 @@
     "deactivate_condition": { "not": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] } },
     "effect": [
       { "u_spawn_monster": "mon_robofac_camspy", "real_count": 1, "min_radius": 15, "max_radius": 40, "outdoor_only": true },
-      { "queue_eocs": "eoc_robofac_surveillance", "time_in_future_min": "1 days", "time_in_future_max": "7 days" }
+      { "queue_eocs": "eoc_robofac_surveillance", "time_in_future": [ "1 days", "7 days" ] }
     ]
   },
   {

@@ -118,20 +118,22 @@ int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool requir
     return ret_val;
 }
 
-duration_or_var_part get_duration_or_var_part( const JsonObject &jo, std::string member,
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv, std::string member,
         bool required,
         time_duration default_val )
 {
     duration_or_var_part ret_val;
-    if( jo.has_int( member ) || jo.has_string( member ) ) {
-        mandatory( jo, false, member, ret_val.dur_val );
-    } else if( jo.has_object( member ) ) {
-        var_info var = read_var_info( jo.get_object( member ), true );
+    if( jv.test_string() ) {
+        ret_val.dur_val = read_from_json_string<time_duration>( jv, time_duration::units );
+    } else if( jv.test_int() ) {
+        ret_val.dur_val = time_duration::from_turns( jv.get_int() );
+    } else if( jv.test_object() ) {
+        var_info var = read_var_info( jv.get_object(), true );
         ret_val.type = var.type;
         ret_val.var_val = var.name;
         ret_val.default_val = time_duration::from_turns( stoi( var.default_val ) );
     } else if( required ) {
-        jo.throw_error( "No valid value for ", member );
+        jv.throw_error( "No valid value for " + member );
     } else {
         ret_val.dur_val = default_val;
     }
@@ -144,15 +146,21 @@ duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, b
     duration_or_var ret_val;
     if( jo.has_array( member ) ) {
         JsonArray ja = jo.get_array( member );
-        ret_val.min = get_duration_or_var_part( ja.get_object( 0 ), member );
-        ret_val.max = get_duration_or_var_part( ja.get_object( 1 ), member );
+        ret_val.min = get_duration_or_var_part( ja.next(), member );
+        ret_val.max = get_duration_or_var_part( ja.next(), member );
         ret_val.pair = true;
         if( ( ret_val.min.type == var_type::u && ret_val.max.type == var_type::npc ) ||
             ( ret_val.min.type == var_type::npc && ret_val.max.type == var_type::u ) ) {
             jo.throw_error( "int_or_var min and max cannot be of types u and npc at once." );
         }
+    } else if( required ) {
+        ret_val.min = get_duration_or_var_part( jo.get_member( member ), member, required, default_val );
     } else {
-        ret_val.min = get_duration_or_var_part( jo, member, required, default_val );
+        if( jo.has_member( member ) ) {
+            ret_val.min = get_duration_or_var_part( jo.get_member( member ), member, required, default_val );
+        } else {
+            ret_val.min.dur_val = default_val;
+        }
     }
     return ret_val;
 }

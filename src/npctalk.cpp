@@ -2380,10 +2380,9 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
 {
     ter_furn_transform_id transform = ter_furn_transform_id( jo.get_string( "ter_furn_transform" ) );
     int_or_var iov = get_int_or_var( jo, member );
-    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
-            0_seconds );
-    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
-            0_seconds );
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
+                                         0_seconds );
+
     cata::optional<std::string> target_var;
     var_type type = var_type::u;
     if( jo.has_member( "target_var" ) ) {
@@ -2391,18 +2390,16 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
         type = var.type;
         target_var = var.name;
     }
-    function = [iov, transform, target_var, type, is_npc, dov_time_in_future_min,
-         dov_time_in_future_max]( const dialogue & d ) {
+    function = [iov, transform, target_var, type, is_npc, dov_time_in_future]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, type,
                               d.actor( type == var_type::npc ) );
 
         int radius = iov.evaluate( d.actor( iov.is_npc() ) );
-        time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
-        if( min > 0_seconds ) {
+        time_duration future = dov_time_in_future.evaluate( d.actor( dov_time_in_future.is_npc() ) );
+        if( future > 0_seconds ) {
             get_timed_events().add( timed_event_type::TRANSFORM_RADIUS,
-                                    calendar::turn + rng( min, dov_time_in_future_max.evaluate( d.actor(
-                                                dov_time_in_future_max.is_npc() ) ) ),
+                                    calendar::turn + future,
                                     -1, tripoint_abs_sm( target_pos ), radius, transform.str() );
         } else {
             get_map().transform_radius( transform, radius, target_pos );
@@ -2415,10 +2412,8 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
     std::vector<update_mapgen_id> update_ids;
-    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
-            0_seconds );
-    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
-            0_seconds );
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
+                                         0_seconds );
     if( jo.has_string( member ) ) {
         update_ids.emplace_back( update_mapgen_id( jo.get_string( member ) ) );
     } else if( jo.has_array( member ) ) {
@@ -2434,8 +2429,8 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         target_var = var.name;
     }
     bool revert = jo.get_bool( "revert", false );
-    function = [target_params, update_ids, target_var, type, dov_time_in_future_min,
-                   dov_time_in_future_max, revert]( const dialogue & d ) {
+    function = [target_params, update_ids, target_var, type, dov_time_in_future,
+                   revert]( const dialogue & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
             const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( type == var_type::npc ), target_var,
@@ -2448,10 +2443,9 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             }
             omt_pos = mission_util::get_om_terrain_pos( update_params );
         }
-        time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
-        if( min > 0_seconds ) {
-            time_point tif = calendar::turn + rng( min,
-                                                   dov_time_in_future_max.evaluate( d.actor( dov_time_in_future_max.is_npc() ) ) );
+        time_duration future = dov_time_in_future.evaluate( d.actor( dov_time_in_future.is_npc() ) );
+        if( future > 0_seconds ) {
+            time_point tif = calendar::turn + future;
             if( !revert ) {
                 for( const update_mapgen_id &mapgen_update_id : update_ids ) {
                     get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),
@@ -3505,14 +3499,11 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string 
         jo.throw_error( "Invalid input for queue_eocs" );
     }
 
-    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
-            0_seconds );
-    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
-            0_seconds );
-    function = [dov_time_in_future_min, dov_time_in_future_max, eocs]( const dialogue & d ) {
-        time_duration time_in_future = rng( dov_time_in_future_min.evaluate( d.actor(
-                                                dov_time_in_future_min.is_npc() ) ),
-                                            dov_time_in_future_max.evaluate( d.actor( dov_time_in_future_max.is_npc() ) ) );
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
+                                         0_seconds );
+    function = [dov_time_in_future, eocs]( const dialogue & d ) {
+        time_duration time_in_future = dov_time_in_future.evaluate( d.actor(
+                                           dov_time_in_future.is_npc() ) );
         for( const effect_on_condition_id &eoc : eocs ) {
             if( eoc->type == eoc_type::ACTIVATION ) {
                 effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );

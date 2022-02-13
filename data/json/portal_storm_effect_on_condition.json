@@ -158,11 +158,7 @@
     "effect": [
       { "arithmetic": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] },
       "next_weather",
-      {
-        "queue_eocs": "EOC_CAUSE_PORTAL_STORM",
-        "time_in_future_min": "2 minutes",
-        "time_in_future_max": "20 minutes"
-      },
+      { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "2 minutes", "20 minutes" ] },
       {
         "u_message": "Reality is beginning to break.  It is subtle but something deep inside you feels the wrongness.",
         "type": "bad",
@@ -198,8 +194,7 @@
       },
       {
         "queue_eocs": "EOC_CANCEL_PORTAL_STORM",
-        "time_in_future_min": { "global_val": "ps_min_length", "default": "2 hours" },
-        "time_in_future_max": { "global_val": "ps_max_length", "default": "4 hours" }
+        "time_in_future": [ { "global_val": "ps_min_length", "default": "2 hours" }, { "global_val": "ps_max_length", "default": "4 hours" } ]
       },
       { "u_message": "Reality is breaking.", "type": "bad" }
     ]
@@ -537,11 +532,7 @@
     "condition": { "not": "u_driving" },
     "effect": [
       { "u_teleport": { "u_val": "stuck_teleport" }, "success_message": "You feel as if you just rewound a few seconds." },
-      {
-        "queue_eocs": "EOC_PORTAL_TELEPORT_STUCK_LOOP",
-        "time_in_future_min": "3 seconds",
-        "time_in_future_max": "5 seconds"
-      }
+      { "queue_eocs": "EOC_PORTAL_TELEPORT_STUCK_LOOP", "time_in_future": [ "3 seconds", "5 seconds" ] }
     ]
   },
   {
@@ -647,8 +638,7 @@
         "u_transform_radius": { "global_val": "ps_transform_radius", "default": 5 },
         "ter_furn_transform": "portal_alien_grass_transform",
         "target_var": { "global_val": "grass_transform" },
-        "time_in_future_min": "30 seconds",
-        "time_in_future_max": "5 minutes"
+        "time_in_future": [ "30 seconds", "5 minutes" ]
       }
     ]
   },
@@ -754,8 +744,7 @@
         "mapgen_update": "portal_dungeon",
         "target_var": { "global_val": "portal_dungeon" },
         "revert": true,
-        "time_in_future_min": "5 minutes",
-        "time_in_future_max": "5 minutes"
+        "time_in_future": [ "5 minutes", "5 minutes" ]
       },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "portal_dungeon" } }
     ]
