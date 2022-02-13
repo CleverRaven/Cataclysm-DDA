@@ -3509,10 +3509,14 @@ cata::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoi
     }
 
     map &here = get_map();
-    bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
-    bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const int max_mining_ability = 70;
     if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
+        if( here.bash_resistance( pnt ) > max_mining_ability ) {
+            p->add_msg_if_player( m_info, _( "The material is so hard that you hardly can make even a dent." ) );
+        }
         return cata::nullopt;
     }
     if( here.veh_at( pnt ) ) {
@@ -3620,10 +3624,14 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
     }
 
     map &here = get_map();
-    bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
-    bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const int max_mining_ability = 70;
     if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
+        if( here.bash_resistance( pnt ) > max_mining_ability ) {
+            p->add_msg_if_player( m_info, _( "The material is so hard that you hardly can make even a dent." ) );
+        }
         return cata::nullopt;
     }
     if( here.veh_at( pnt ) ) {
