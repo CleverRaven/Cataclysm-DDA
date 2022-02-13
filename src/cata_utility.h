@@ -445,6 +445,8 @@ inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
     return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;
 }
 
+bool string_empty_or_whitespace( const std::string &s );
+
 /** Used as a default filter in various functions */
 template<typename T>
 bool return_true( const T & )

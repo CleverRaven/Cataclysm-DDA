@@ -855,6 +855,17 @@
     "copy-from": "test_moon_phase_template"
   },
   {
+    "id": "test_disabled_when_empty",
+    "type": "widget",
+    "label": "NOT EMPTY",
+    "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      { "text": "Text exists", "color": "yellow", "condition": "u_can_see" },
+      { "text": "", "color": "red", "condition": { "not": "u_can_see" } }
+    ]
+  },
+  {
     "id": "test_clause_number",
     "type": "widget",
     "style": "number",

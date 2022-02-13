@@ -642,6 +642,59 @@ std::string spell::damage_string() const
     }
 }
 
+cata::optional<tripoint> spell::select_target( Creature *source )
+{
+    tripoint target = source->pos();
+    bool target_is_valid = false;
+    if( range() > 0 && !is_valid_target( spell_target::none ) &&
+        !has_flag( spell_flag::RANDOM_TARGET ) ) {
+        if( source->is_avatar() ) {
+            do {
+                avatar &source_avatar = *source->as_avatar();
+                std::vector<tripoint> trajectory = target_handler::mode_spell( source_avatar, *this,
+                                                   true,
+                                                   true );
+                if( !trajectory.empty() ) {
+                    target = trajectory.back();
+                    target_is_valid = is_valid_target( source_avatar, target );
+                    if( !( is_valid_target( spell_target::ground ) || source_avatar.sees( target ) ) ) {
+                        target_is_valid = false;
+                    }
+                } else {
+                    target_is_valid = false;
+                }
+                if( !target_is_valid ) {
+                    if( query_yn( _( "Stop targeting?  Time spent will be lost." ) ) ) {
+                        return cata::nullopt;
+                    }
+                }
+            } while( !target_is_valid );
+        } else if( source->is_npc() ) {
+            npc &source_npc = *source->as_npc();
+            npc_attack_spell npc_spell( id() );
+            // recalculate effectiveness because it's been a few turns since the npc started casting.
+            const npc_attack_rating effectiveness = npc_spell.evaluate( source_npc,
+                                                    source_npc.last_target.lock().get() );
+            if( effectiveness < 0 ) {
+                add_msg_debug( debugmode::debug_filter::DF_NPC, "%s cancels casting %s, target lost",
+                               source_npc.disp_name(), name() );
+                return cata::nullopt;
+            } else {
+                target = effectiveness.target();
+            }
+        } // TODO: move monster spell attack targeting here
+    } else if( has_flag( spell_flag::RANDOM_TARGET ) ) {
+        const cata::optional<tripoint> target_ = random_valid_target( *source, source->pos() );
+        if( !target_ ) {
+            source->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
+                                       _( "You can't find a suitable target." ) );
+            return cata::nullopt;
+        }
+        target = *target_;
+    }
+    return target;
+}
+
 int spell::min_leveled_aoe() const
 {
     return type->min_aoe + std::round( get_level() * type->aoe_increment );

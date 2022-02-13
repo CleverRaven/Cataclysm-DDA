@@ -2858,5 +2858,26 @@
     },
     "extend": { "flags": [ "OVERSIZE" ] },
     "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "test_goggles_welding",
+    "type": "ARMOR",
+    "name": { "str": "pair of welding goggles", "str_pl": "pairs of welding goggles" },
+    "description": "A dark pair of goggles.  They make seeing very difficult, but protect you from bright flashes.",
+    "weight": "153 g",
+    "volume": "250 ml",
+    "price": 1400,
+    "price_postapoc": 500,
+    "to_hit": -3,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 6,
+    "qualities": [ [ "GLARE", 1 ] ],
+    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
+    "armor": [ { "encumbrance": 60, "coverage": 100, "covers": [ "eyes" ] } ]
   }
 ]

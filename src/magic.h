@@ -459,6 +459,8 @@ class spell
         damage_instance get_damage_instance() const;
         // calculate damage per second against a target
         float dps( const Character &caster, const Creature &target ) const;
+        // select a target for the spell
+        cata::optional<tripoint> select_target( Creature *source );
         // how big is the spell's radius
         int aoe() const;
         std::set<tripoint> effect_area( const spell_effect::override_parameters &params,
