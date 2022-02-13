@@ -3588,12 +3588,10 @@ void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
         const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member, true );
-    duration_or_var dov_length_min = get_duration_or_var( jo, "length_min", false, 0_seconds );
-    duration_or_var dov_length_max = get_duration_or_var( jo, "length_max", false, 0_seconds );
-    function = [dov_length_min, dov_length_max, iov]( const dialogue & d ) {
+    duration_or_var dov_length = get_duration_or_var( jo, "length", false, 0_seconds );
+    function = [dov_length, iov]( const dialogue & d ) {
         get_timed_events().add( timed_event_type::CUSTOM_LIGHT_LEVEL,
-                                calendar::turn + rng( dov_length_min.evaluate( d.actor( dov_length_min.is_npc() ) ),
-                                        dov_length_max.evaluate( d.actor( dov_length_max.is_npc() ) ) ) +
+                                calendar::turn + dov_length.evaluate( d.actor( dov_length.is_npc() ) ) +
                                 1_seconds/*We add a second here because this will get ticked on the turn its applied before it has an effect*/,
                                 -1, iov.evaluate( d.actor( iov.is_npc() ) ) );
     };
@@ -3648,8 +3646,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
 
-    duration_or_var dov_lifespan_min = get_duration_or_var( jo, "lifespan_min", false, 0_seconds );
-    duration_or_var dov_lifespan_max = get_duration_or_var( jo, "lifespan_max", false, 0_seconds );
+    duration_or_var dov_lifespan = get_duration_or_var( jo, "lifespan", false, 0_seconds );
     cata::optional<std::string> target_var;
     var_type type = var_type::u;
     if( jo.has_member( "target_var" ) ) {
@@ -3660,8 +3657,8 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
     std::string spawn_message = jo.get_string( "spawn_message", "" );
     std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
     function = [is_npc, new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
-                        iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan_min,
-            dov_lifespan_max, target_var, type, spawn_message, spawn_message_plural]( const dialogue & d ) {
+                        iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan, target_var, type,
+            spawn_message, spawn_message_plural]( const dialogue & d ) {
         monster target_monster;
 
         if( group_id.is_valid() ) {
@@ -3695,10 +3692,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only ) ) {
-                time_duration min = dov_lifespan_min.evaluate( d.actor( dov_lifespan_min.is_npc() ) );
-                if( min > 0_seconds ) {
-                    lifespan = rng( min, dov_lifespan_max.evaluate( d.actor( dov_lifespan_max.is_npc() ) ) );
-                }
+                lifespan = dov_lifespan.evaluate( d.actor( dov_lifespan.is_npc() ) );
                 if( g->spawn_hallucination( spawn_point, target_monster.type->id, lifespan ) ) {
                     Creature *critter = get_creature_tracker().creature_at( spawn_point );
                     if( critter && get_avatar().sees( *critter ) ) {
@@ -3717,9 +3711,8 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
                         visible_spawns++;
                     }
                 }
-                time_duration min = dov_lifespan_min.evaluate( d.actor( dov_lifespan_min.is_npc() ) );
-                if( min > 0_seconds ) {
-                    lifespan = rng( min, dov_lifespan_max.evaluate( d.actor( dov_lifespan_max.is_npc() ) ) );
+                lifespan = dov_lifespan.evaluate( d.actor( dov_lifespan.is_npc() ) );
+                if( lifespan.value() > 0_seconds ) {
                     spawned->set_summon_time( lifespan.value() );
                 }
             }

@@ -3,8 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DEPENDENT_EFFECTS_ACCEPTANCE",
     "//": "Mainly good effects, since your unstable grasp on reality will strengthen with the distorted reality of the portal storms.",
-    "recurrence_min": "15 minutes",
-    "recurrence_max": "50 minutes",
+    "recurrence": [ "15 minutes", "50 minutes" ],
     "condition": {
       "and": [
         { "u_has_trait": "PORTAL_DEPENDENT" },
@@ -152,8 +151,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DEPENDENT_EFFECTS_REJECTION",
     "//": "This should be mainly bad effects, since your unstable grasp on reality will further weaken when the reality stabilizes in lack of portal storms.",
-    "recurrence_min": "15 minutes",
-    "recurrence_max": "100 minutes",
+    "recurrence": [ "15 minutes", "100 minutes" ],
     "condition": {
       "and": [
         { "u_has_trait": "PORTAL_DEPENDENT" },

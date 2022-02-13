@@ -27,16 +27,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
-    "recurrence_min": { "global_val": "ps_min_woc", "default": "5 days" },
-    "recurrence_max": { "global_val": "ps_max_woc", "default": "9 days" },
+    "recurrence": [ { "global_val": "ps_min_woc", "default": "5 days" }, { "global_val": "ps_max_woc", "default": "9 days" } ],
     "global": true,
     "effect": { "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM" }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EARLY_MESSAGES",
-    "recurrence_min": "1 minutes",
-    "recurrence_max": "30 minutes",
+    "recurrence": [ "1 minutes", "30 minutes" ],
     "global": true,
     "condition": { "is_weather": "early_portal_storm" },
     "deactivate_condition": { "not": { "is_weather": "early_portal_storm" } },
@@ -248,8 +246,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EFFECTS_1",
     "//": "Weakest effects.",
-    "recurrence_min": "30 seconds",
-    "recurrence_max": "75 seconds",
+    "recurrence": [ "30 seconds", "75 seconds" ],
     "global": true,
     "condition": {
       "and": [
@@ -275,8 +272,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EFFECTS_2",
     "//": "Stronger effects.",
-    "recurrence_min": "10 seconds",
-    "recurrence_max": "70 seconds",
+    "recurrence": [ "10 seconds", "70 seconds" ],
     "global": true,
     "condition": {
       "and": [
@@ -306,8 +302,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EFFECTS_3",
     "//": "The most painful stuff.",
-    "recurrence_min": "5 seconds",
-    "recurrence_max": "60 seconds",
+    "recurrence": [ "5 seconds", "60 seconds" ],
     "global": true,
     "condition": {
       "and": [
@@ -393,8 +388,7 @@
       "outdoor_only": true,
       "min_radius": 3,
       "max_radius": 20,
-      "lifespan_min": "10 seconds",
-      "lifespan_max": "1 minutes",
+      "lifespan": [ "10 seconds", "1 minutes" ],
       "spawn_message": "Several large portals open and before they close a monster leaves.",
       "spawn_message_plural": "Several large portals open and before they close monsters pour through."
     }
@@ -420,8 +414,7 @@
         "outdoor_only": true,
         "min_radius": 3,
         "max_radius": 20,
-        "lifespan_min": "5 seconds",
-        "lifespan_max": "2 minutes",
+        "lifespan": [ "5 seconds", "2 minutes" ],
         "spawn_message": "Small gashes in reality open nearby. On the other side you see an endless dark ocean. An alien beings spills out before the portals close.",
         "spawn_message_plural": "Small gashes in reality open nearby. On the other side you see an endless dark ocean. Some alien beings spill out before the portals close."
       }
@@ -437,8 +430,7 @@
       "outdoor_only": true,
       "min_radius": 3,
       "max_radius": 20,
-      "lifespan_min": "1 minutes",
-      "lifespan_max": "3 minutes",
+      "lifespan": [ "1 minutes", "3 minutes" ],
       "spawn_message": "You cannot remember how the impossible shape came to be here. The pain in your head suggests that is a good thing.",
       "spawn_message_plural": "You cannot remember how the impossible shapes came to be here. The pain in your head suggests that is a good thing."
     }
@@ -453,8 +445,7 @@
       "outdoor_only": true,
       "min_radius": 3,
       "max_radius": 20,
-      "lifespan_min": "5 seconds",
-      "lifespan_max": "45 seconds",
+      "lifespan": [ "5 seconds", "45 seconds" ],
       "spawn_message": "A bizarre limb seemingly tears its way into reality from elsewhere.",
       "spawn_message_plural": "Bizarre limbs seemingly tear their way into reality from elsewhere."
     }
@@ -467,8 +458,7 @@
       "real_count": 10,
       "hallucination_count": 10,
       "outdoor_only": true,
-      "lifespan_min": "5 seconds",
-      "lifespan_max": "2 minutes",
+      "lifespan": [ "5 seconds", "2 minutes" ],
       "spawn_message": "A Ghost of the dead appears near you.",
       "spawn_message_plural": "Ghosts of the dead surround you."
     }
@@ -482,8 +472,7 @@
       "outdoor_only": true,
       "min_radius": 3,
       "max_radius": 20,
-      "lifespan_min": "45 seconds",
-      "lifespan_max": "5 minutes",
+      "lifespan": [ "45 seconds", "5 minutes" ],
       "spawn_message": "The very notion of empty space is made a cruel joke. Nearby nothing becomes even less."
     }
   },
@@ -554,16 +543,8 @@
           {
             "id": "portal_storm_dark_light",
             "condition": "is_day",
-            "effect": {
-              "custom_light_level": 0,
-              "length_min": "1 seconds",
-              "length_max": { "global_val": "ps_light_str", "default": "1 minutes" }
-            },
-            "false_effect": {
-              "custom_light_level": 125,
-              "length_min": "1 seconds",
-              "length_max": { "global_val": "ps_light_str", "default": "1 minutes" }
-            }
+            "effect": { "custom_light_level": 0, "length": [ "1 seconds", { "global_val": "ps_light_str", "default": "1 minutes" } ] },
+            "false_effect": { "custom_light_level": 125, "length": [ "1 seconds", { "global_val": "ps_light_str", "default": "1 minutes" } ] }
           },
           {
             "id": "portal_storm_outside_message",
