@@ -513,7 +513,7 @@
     "id": "oil_lamp_clay",
     "type": "TOOL",
     "name": { "str": "clay oil lamp (off)", "str_pl": "clay oil lamps (off)" },
-    "description": "This is a specialized small clay container with a wick, an ancient form of oil lamp.  It does not provide much light, but it lasts a long time.  Use it to light it.",
+    "description": "This is a specialized small clay container with a wick, an ancient form of oil lamp.  Unlike newer designs, it isn't windproof, so the flame is likely to be extinguished if exposed to wind; better use it indoors.  It does not provide much light, but it lasts a long time.  Use it to light it.",
     "weight": "620 g",
     "volume": "300 ml",
     "price": 800,
@@ -543,7 +543,7 @@
     "sub": "oil_lamp_on",
     "type": "TOOL",
     "name": { "str": "clay oil lamp (lit)", "str_pl": "clay oil lamps (lit)" },
-    "description": "This is a specialized small clay container with a wick, an ancient form of oil lamp.  It does not provide much light, but lasts a long time.  It is lit, consuming oil and providing light.  Use it to extinguish the flame.",
+    "description": "This is a specialized small clay container with a wick, an ancient form of oil lamp.  Unlike newer designs, it isn't windproof, so the flame is likely to be extinguished if exposed to wind; better use it indoors.  It does not provide much light, but lasts a long time.  It is lit, consuming oil and providing light.  Use it to extinguish the flame.",
     "turns_per_charge": 240,
     "revert_to": "oil_lamp_clay",
     "use_action": {
@@ -553,7 +553,7 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH" ]
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "WIND_EXTINGUISH" ]
   },
   {
     "id": "oxylamp",
