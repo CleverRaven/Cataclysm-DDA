@@ -8245,11 +8245,15 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
 
     // Don't damage armor as much when bypassed by armor piercing
     // Most armor piercing damage comes from bypassing armor, not forcing through
-    const float raw_dmg = du.amount;
-    if( raw_dmg > armors_own_resist ) {
-        // If damage is above armor value, the chance to avoid armor damage is
-        // 50% + 50% * 1/dmg
-        if( one_in( raw_dmg ) || one_in( 2 ) ) {
+    const float post_mitigated_dmg = du.amount;
+    // more gradual damage chance calc
+    const float damaged_chance = 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1;
+    if( post_mitigated_dmg > armors_own_resist ) {
+        // handle overflow, if you take a lot of damage your armor should be damaged
+        if( damaged_chance >= 1 ) {
+            return armor_status::DAMAGED;
+        }
+        if( one_in( 1 / ( 1 - damaged_chance ) ) ) {
             return armor_status::UNDAMAGED;
         }
     } else {
