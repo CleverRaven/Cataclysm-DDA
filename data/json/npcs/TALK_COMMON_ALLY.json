@@ -630,7 +630,8 @@
         "topic": "TALK_NONE",
         "condition": { "not": { "npc_aim_rule": "AIM_STRICTLY_PRECISE" } },
         "effect": { "set_npc_aim_rule": "AIM_STRICTLY_PRECISE" }
-      }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
     ]
   },
   {
