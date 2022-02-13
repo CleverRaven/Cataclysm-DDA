@@ -10,7 +10,9 @@
     "copy-from": "eyes",
     "opposite_part": "eyes_bulging",
     "hit_size": 0.9,
-    "hit_difficulty": 1.25
+    "hit_difficulty": 1.25,
+    "drench_capacity": 3,
+    "ugliness": 2
   },
   {
     "type": "body_part",
@@ -22,7 +24,8 @@
     "heading_multiple": "Ceph Eyes",
     "copy-from": "eyes_bulging",
     "opposite_part": "eyes_ceph",
-    "flags": [ "IGNORE_TEMP", "LIMB_UPPER", "EYE_MEMBRANE" ]
+    "wet_morale": 5,
+    "flags": [ "IGNORE_TEMP", "HIGH_GLARE", "LIMB_UPPER", "EYE_MEMBRANE" ]
   },
   {
     "type": "body_part",
@@ -30,8 +33,7 @@
     "//": "Great night vision, TODO: Read in darkness?",
     "copy-from": "eyes_ceph",
     "opposite_part": "eyes_ceph_good",
-    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 4.5 ], [ "reaction", 0.7 ] ],
-    "flags": [ "IGNORE_TEMP", "HIGH_GLARE", "EYE_MEMBRANE", "LIMB_UPPER" ]
+    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 4.5 ], [ "reaction", 0.7 ] ]
   },
   {
     "type": "body_part",
@@ -48,6 +50,10 @@
     "connected_to": "eyes_compound",
     "opposite_part": "eyes_compound",
     "hit_size": 7,
+    "ugliness": 8,
+    "drench_capacity": 5,
+    "drying_chance": 60,
+    "drying_increment": 3,
     "limb_scores": [ [ "vision", 0.65 ], [ "night_vis", 1.0 ], [ "reaction", 0.8 ] ],
     "flags": [ "IGNORE_TEMP", "SEESLEEP", "LIMB_UPPER" ]
   },
@@ -73,6 +79,7 @@
     "heading_multiple": "Elfa Eyes",
     "encumbrance_text": "Your vision is impaired!",
     "opposite_part": "eyes_elfa",
+    "ugliness": -5,
     "limb_scores": [ [ "vision", 1.1 ], [ "night_vis", 2.5 ], [ "reaction", 0.7 ] ]
   },
   {
@@ -94,6 +101,7 @@
     "copy-from": "eyes",
     "opposite_part": "eyes_feline",
     "hit_size": 0.7,
+    "ugliness": 1,
     "limb_scores": [ [ "vision", 0.8 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
     "flags": [ "IGNORE_TEMP", "HIGH_GLARE", "LIMB_UPPER" ]
   },
@@ -112,6 +120,7 @@
     "//": "Good nightvision, shortsighted in the light",
     "copy-from": "eyes",
     "opposite_part": "eyes_ursine",
+    "ugliness": 1,
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 3.0 ], [ "reaction", 0.7 ] ],
     "flags": [ "IGNORE_TEMP", "MYOPIC_IN_LIGHT", "LIMB_UPPER" ]
   },
@@ -120,6 +129,7 @@
     "id": "eyes_bird",
     "copy-from": "eyes",
     "opposite_part": "eyes_bird",
+    "ugliness": 2,
     "limb_scores": [ [ "vision", 2.5 ], [ "night_vis", 1.5 ], [ "reaction", 0.7 ] ]
   },
   {
@@ -132,6 +142,7 @@
     "heading_multiple": "Fish Eyes",
     "opposite_part": "eyes_fish",
     "env_protection": 8,
+    "ugliness": 3,
     "flags": [ "EYE_MEMBRANE", "IGNORE_TEMP", "SEESLEEP", "LIMB_UPPER" ]
   },
   {
@@ -145,6 +156,8 @@
     "opposite_part": "eyes_snail",
     "hit_size": 1.5,
     "hit_difficulty": 1.5,
+    "ugliness": 3,
+    "ugliness_mandatory": 2,
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.8 ] ]
   },
   {
@@ -162,7 +175,8 @@
     "name": "reptile eyes",
     "accusative": { "ctxt": "bodypart_accusative", "str": "reptile eyes" },
     "heading": "Rptl Eyes",
-    "heading_multiple": "Rptl Eyes"
+    "heading_multiple": "Rptl Eyes",
+    "ugliness": 1
   },
   {
     "type": "body_part",
