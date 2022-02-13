@@ -1258,7 +1258,9 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         CHECK( item_info_str( longshirt, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:\n"
-               "  Negligible Protection\n" );
+               "  Negligible Protection\n"
+               "  Breathability: <color_c_yellow>50</color>\n"
+             );
     }
 
     SECTION( "moderate protection from physical and environmental damage" ) {
@@ -1278,7 +1280,9 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Ballistic: <color_c_yellow>4.00</color>\n"
                "  Acid: <color_c_yellow>9.00</color>\n"
                "  Fire: <color_c_yellow>1.00</color>\n"
-               "  Environmental: <color_c_yellow>20</color>\n" );
+               "  Environmental: <color_c_yellow>20</color>\n"
+               "  Breathability: <color_c_yellow>0</color>\n"
+             );
     }
 
     SECTION( "complex protection from physical and environmental damage" ) {
@@ -1296,7 +1300,9 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "<color_c_white>Torso Protection</color>: <color_c_red>4%</color>, <color_c_yellow>Median</color>, <color_c_green>4%</color>\n"
                "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>11.00</color>, <color_c_green>21.00</color>\n"
                "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>11.00</color>, <color_c_green>27.00</color>\n"
-               "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>7.00</color>, <color_c_green>16.00</color>\n" );
+               "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>7.00</color>, <color_c_green>16.00</color>\n"
+               "  Breathability: <color_c_yellow>2</color>\n"
+             );
     }
 
     SECTION( "pet armor with good physical and environmental protection" ) {
@@ -1315,7 +1321,9 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Ballistic: <color_c_yellow>10.00</color>\n"
                "  Acid: <color_c_yellow>5.00</color>\n"
                "  Fire: <color_c_yellow>3.00</color>\n"
-               "  Environmental: <color_c_yellow>10</color>\n" );
+               "  Environmental: <color_c_yellow>10</color>\n"
+               "  Breathability: <color_c_yellow>30</color>\n"
+             );
     }
 }
 
@@ -2926,7 +2934,8 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
         "  Ballistic: <color_c_yellow>4.00</color>\n"
         "  Acid: <color_c_yellow>3.60</color>\n"
         "  Fire: <color_c_yellow>1.20</color>\n"
-        "  Environmental: <color_c_yellow>6</color>\n";
+        "  Environmental: <color_c_yellow>6</color>\n"
+        "  Breathability: <color_c_yellow>0</color>\n";
 
     CHECK( a_str == info_str );
     CHECK( a_copy_str == info_str );
@@ -2940,7 +2949,8 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
         "  Ballistic: <color_c_yellow>4.80</color>\n"
         "  Acid: <color_c_yellow>4.20</color>\n"
         "  Fire: <color_c_yellow>1.40</color>\n"
-        "  Environmental: <color_c_yellow>7</color>\n";
+        "  Environmental: <color_c_yellow>7</color>\n"
+        "  Breathability: <color_c_yellow>0</color>\n";
 
     CHECK( a_copy_prop_str == info_prop_str );
     CHECK( a_copy_w_armor_prop_str == info_prop_str );
@@ -2953,7 +2963,8 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
         "  Ballistic: <color_c_yellow>6.00</color>\n"
         "  Acid: <color_c_yellow>4.80</color>\n"
         "  Fire: <color_c_yellow>1.60</color>\n"
-        "  Environmental: <color_c_yellow>8</color>\n";
+        "  Environmental: <color_c_yellow>8</color>\n"
+        "  Breathability: <color_c_yellow>0</color>\n";
 
     CHECK( a_copy_rel_str == info_rel_str );
     CHECK( a_copy_w_armor_rel_str == info_rel_str );
