@@ -164,13 +164,21 @@ void profession::load( const JsonObject &jo, const std::string & )
         jo.throw_error( "missing mandatory member \"name\"" );
     }
 
-    if( !was_loaded || jo.has_member( "description" ) ) {
+    //If the "description" is an object then we have to deal with gender-specific descriptions,
+    if( jo.has_object( "description" ) ) {
+        JsonObject desc_obj = jo.get_object( "description" );
+        _description_male = to_translation( "prof_desc_male",  desc_obj.get_string( "male" ) );
+        _description_female = to_translation( "prof_desc_female", desc_obj.get_string( "female" ) );
+    } else if( jo.has_member( "description" ) ) {
         std::string desc;
         mandatory( jo, false, "description", desc, text_style_check_reader() );
         // These also may differ depending on the language settings!
         _description_male = to_translation( "prof_desc_male", desc );
         _description_female = to_translation( "prof_desc_female", desc );
+    } else if( !was_loaded ) {
+        jo.throw_error( "missing mandatory member \"description\"" );
     }
+
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
     }
