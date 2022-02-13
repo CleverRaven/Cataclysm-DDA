@@ -167,8 +167,12 @@ void profession::load( const JsonObject &jo, const std::string & )
     //If the "description" is an object then we have to deal with gender-specific descriptions,
     if( jo.has_object( "description" ) ) {
         JsonObject desc_obj = jo.get_object( "description" );
-        _description_male = to_translation( "prof_desc_male",  desc_obj.get_string( "male" ) );
-        _description_female = to_translation( "prof_desc_female", desc_obj.get_string( "female" ) );
+        std::string desc_male;
+        std::string desc_female;
+        mandatory( desc_obj, false, "male", desc_male, text_style_check_reader() );
+        mandatory( desc_obj, false, "female", desc_female, text_style_check_reader() );
+        _description_male = to_translation( "prof_desc_male",  desc_male );
+        _description_female = to_translation( "prof_desc_female", desc_female );
     } else if( jo.has_member( "description" ) ) {
         std::string desc;
         mandatory( jo, false, "description", desc, text_style_check_reader() );
