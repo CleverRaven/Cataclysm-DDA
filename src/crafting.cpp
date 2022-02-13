@@ -181,6 +181,7 @@ float Character::morale_crafting_speed_multiplier( const recipe &rec ) const
     // Halve speed at -50 effective morale, quarter at -150
     float morale_effect = 1.0f + ( morale_mult * morale ) / -50.0f;
 
+    add_msg_debug( debugmode::DF_CHARACTER, "Morale multiplier %.1f", 1.0f / morale_effect );
     return 1.0f / morale_effect;
 }
 
@@ -255,6 +256,8 @@ float Character::crafting_speed_multiplier( const recipe &rec ) const
     const float result = morale_crafting_speed_multiplier( rec ) *
                          lighting_craft_speed_multiplier( rec ) *
                          get_limb_score( limb_score_manip );
+    add_msg_debug( debugmode::DF_CHARACTER, "Limb score multiplier %.1f, crafting speed multiplier %1f",
+                   get_limb_score( limb_score_manip ), result );
 
     return std::max( result, 0.0f );
 }

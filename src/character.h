@@ -2175,6 +2175,8 @@ class Character : public Creature, public visitable
         bool is_rad_immune() const;
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
+        /** Returns true if the player's melee skill increases the bash damage weapon cap */
+        bool is_melee_bash_damage_cap_bonus() const;
 
         /**
          * Check if a given body part is immune to a given damage type
