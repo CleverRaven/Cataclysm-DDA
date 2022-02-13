@@ -3920,7 +3920,7 @@ static int map_font_height()
 
 static int overmap_font_width()
 {
-    if( use_tiles && tilecontext && use_tiles_overmap ) {
+    if( use_tiles && overmap_tilecontext && use_tiles_overmap ) {
         return overmap_tilecontext->get_tile_width();
     }
     return ( overmap_font ? overmap_font.get() : font.get() )->width;
@@ -3928,7 +3928,7 @@ static int overmap_font_width()
 
 static int overmap_font_height()
 {
-    if( use_tiles && tilecontext && use_tiles_overmap ) {
+    if( use_tiles && overmap_tilecontext && use_tiles_overmap ) {
         return overmap_tilecontext->get_tile_height();
     }
     return ( overmap_font ? overmap_font.get() : font.get() )->height;
