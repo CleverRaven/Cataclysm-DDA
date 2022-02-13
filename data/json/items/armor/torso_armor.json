@@ -696,7 +696,7 @@
     "id": "armor_lc_light_chestplate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel 2 mm chestplate" },
+    "name": { "str": "mild steel light chestplate" },
     "description": "A light chestplate, 2 mm thick.  This one has been made with mild steel.",
     "weight": "7500 g",
     "volume": "8750 ml",
@@ -710,26 +710,24 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 2,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.0 },
-            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
-    }
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "xl_armor_lc_light_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 2 mm chestplate" },
+    "name": { "str": "XL mild steel light chestplate" },
     "copy-from": "armor_lc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -738,27 +736,25 @@
     "id": "armor_mc_light_chestplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_light_chestplate",
-    "name": { "str": "medium steel 2 mm chestplate" },
+    "name": { "str": "medium steel light chestplate" },
     "description": "A light chestplate, 2 mm thick.  Made with tougher medium steel, this offers solid protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.0 },
-            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "xl_armor_mc_light_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel 2 mm chestplate" },
+    "name": { "str": "XL medium steel light chestplate" },
     "copy-from": "armor_mc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -767,27 +763,25 @@
     "id": "armor_hc_light_chestplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_light_chestplate",
-    "name": { "str": "high steel 2 mm chestplate" },
+    "name": { "str": "high steel light chestplate" },
     "description": "A light chestplate, 2 mm thick.  Made with high carbon steel offering excellent protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.0 },
-            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "xl_armor_hc_light_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel 2 mm chestplate" },
+    "name": { "str": "XL high steel light chestplate" },
     "copy-from": "armor_hc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -796,27 +790,25 @@
     "id": "armor_ch_light_chestplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_light_chestplate",
-    "name": { "str": "case hardened 2 mm chestplate" },
+    "name": { "str": "case hardened light chestplate" },
     "description": "A light chestplate, 2 mm thick.  The mild steel has been case hardened, offering superior protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.0 },
-            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "xl_armor_ch_light_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened 2 mm chestplate" },
+    "name": { "str": "XL case hardened light chestplate" },
     "copy-from": "armor_ch_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -825,27 +817,25 @@
     "id": "armor_qt_light_chestplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_light_chestplate",
-    "name": { "str": "tempered 2 mm chestplate" },
+    "name": { "str": "tempered light chestplate" },
     "description": "A light chestplate, 2 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.0 },
-            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "xl_armor_qt_light_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered 2 mm chestplate" },
+    "name": { "str": "XL tempered light chestplate" },
     "copy-from": "armor_qt_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -854,7 +844,7 @@
     "id": "armor_lc_chestplate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel 4 mm chestplate" },
+    "name": { "str": "mild steel chestplate" },
     "description": "A chestplate, 4 mm thick.  This one has been made with mild steel.",
     "weight": "10 kg",
     "volume": "17500 ml",
@@ -868,26 +858,24 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 95, "thickness": 3.0 },
-            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
-    }
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 3.0 },
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_armor_lc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 4 mm chestplate" },
+    "name": { "str": "XL mild steel chestplate" },
     "copy-from": "armor_lc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -896,27 +884,25 @@
     "id": "armor_mc_chestplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_chestplate",
-    "name": { "str": "medium steel 4 mm chestplate" },
+    "name": { "str": "medium steel chestplate" },
     "description": "A chestplate, 4 mm thick.  Made with tougher medium steel, this offers solid protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 95, "thickness": 3.0 },
-            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 3.0 },
+          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_armor_mc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel 4 mm chestplate" },
+    "name": { "str": "XL medium steel chestplate" },
     "copy-from": "armor_mc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -925,27 +911,25 @@
     "id": "armor_hc_chestplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_chestplate",
-    "name": { "str": "high steel 4 mm chestplate" },
+    "name": { "str": "high steel chestplate" },
     "description": "A chestplate, 4 mm thick.  Made with high carbon steel offering excellent protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 95, "thickness": 3.0 },
-            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 3.0 },
+          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_armor_hc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel 4 mm chestplate" },
+    "name": { "str": "XL high steel chestplate" },
     "copy-from": "armor_hc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -954,27 +938,25 @@
     "id": "armor_ch_chestplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_chestplate",
-    "name": { "str": "case hardened 4 mm chestplate" },
+    "name": { "str": "case hardened chestplate" },
     "description": "A chestplate, 4 mm thick.  The mild steel has been case hardened, offering superior protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 3.0 },
-            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 3.0 },
+          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_armor_ch_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened 4 mm chestplate" },
+    "name": { "str": "XL case hardened chestplate" },
     "copy-from": "armor_ch_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -983,27 +965,25 @@
     "id": "armor_qt_chestplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_chestplate",
-    "name": { "str": "tempered 4 mm chestplate" },
+    "name": { "str": "tempered chestplate" },
     "description": "A chestplate, 4 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 3.0 },
-            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 20
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 3.0 },
+          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_armor_qt_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered 4 mm chestplate" },
+    "name": { "str": "XL tempered chestplate" },
     "copy-from": "armor_qt_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1012,7 +992,7 @@
     "id": "armor_lc_heavy_chestplate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel 6 mm chestplate" },
+    "name": { "str": "mild steel heavy chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  This one has been made with mild steel.",
     "weight": "17500 g",
     "volume": "17500 ml",
@@ -1026,26 +1006,24 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 6,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 95, "thickness": 5.0 },
-            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 25
-        }
-      ]
-    }
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 5.0 },
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
   },
   {
     "id": "xl_armor_lc_heavy_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel 6 mm chestplate" },
+    "name": { "str": "XL mild steel heavy chestplate" },
     "copy-from": "armor_lc_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1054,27 +1032,25 @@
     "id": "armor_mc_heavy_chestplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_chestplate",
-    "name": { "str": "medium steel 6 mm chestplate" },
+    "name": { "str": "medium steel heavy chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  Made with tougher medium steel, this offers solid protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 95, "thickness": 5.0 },
-            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 25
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 5.0 },
+          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
   },
   {
     "id": "xl_armor_mc_heavy_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel 6 mm chestplate" },
+    "name": { "str": "XL medium steel heavy chestplate" },
     "copy-from": "armor_mc_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1083,27 +1059,25 @@
     "id": "armor_hc_heavy_chestplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_chestplate",
-    "name": { "str": "high steel 6 mm chestplate" },
+    "name": { "str": "high steel heavy chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  Made with high carbon steel offering excellent protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 95, "thickness": 5.0 },
-            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 25
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 5.0 },
+          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
   },
   {
     "id": "xl_armor_hc_heavy_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel 6 mm chestplate" },
+    "name": { "str": "XL high steel heavy chestplate" },
     "copy-from": "armor_hc_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1112,27 +1086,25 @@
     "id": "armor_ch_heavy_chestplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_chestplate",
-    "name": { "str": "case hardened 6 mm chestplate" },
+    "name": { "str": "case hardened heavy chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  The mild steel has been case hardened, offering superior protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 5.0 },
-            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 25
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 5.0 },
+          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
   },
   {
     "id": "xl_armor_ch_heavy_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened 6 mm chestplate" },
+    "name": { "str": "XL case hardened heavy chestplate" },
     "copy-from": "armor_ch_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1141,27 +1113,25 @@
     "id": "armor_qt_heavy_chestplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_chestplate",
-    "name": { "str": "tempered 6 mm chestplate" },
+    "name": { "str": "tempered heavy chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 5.0 },
-            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": 25
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 5.0 },
+          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
   },
   {
     "id": "xl_armor_qt_heavy_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered 6 mm chestplate" },
+    "name": { "str": "XL tempered heavy chestplate" },
     "copy-from": "armor_qt_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }

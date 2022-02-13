@@ -506,11 +506,12 @@ void limitDebugClass( int class_bitmask )
 // Null OStream                                                     {{{2
 // ---------------------------------------------------------------------
 
-struct NullBuf : public std::streambuf {
-    NullBuf() = default;
-    int overflow( int c ) override {
-        return c;
-    }
+class NullStream : public std::ostream
+{
+    public:
+        NullStream() : std::ostream( nullptr ) {}
+        NullStream( const NullStream & ) = delete;
+        NullStream( NullStream && ) = delete;
 };
 
 // DebugFile OStream Wrapper                                        {{{2
@@ -1345,9 +1346,8 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         return out;
     }
 
-    static NullBuf nullBuf;
-    static std::ostream nullStream( &nullBuf );
-    return nullStream;
+    static NullStream null_stream;
+    return null_stream;
 }
 
 std::string game_info::operating_system()

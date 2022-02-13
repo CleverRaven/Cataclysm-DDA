@@ -61,19 +61,39 @@ jobs:
     continue-on-error: true
     runs-on: ubuntu-latest
     outputs:
+      fail_fast: ${{ steps.matrix_vars.outputs.fail_fast }}
       skip_tests: ${{ steps.matrix_vars.outputs.skip_tests }}
       max_parallel: ${{ steps.matrix_vars.outputs.max_parallel }}
     steps:
       - id: matrix_vars
         run: |
+          echo "::set-output name=fail_fast::$([ "$GITHUB_REF_NAME" = "master" ] && echo false || echo true)"
           echo "::set-output name=skip_tests::$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)"
           echo "::set-output name=max_parallel::$([ "$GITHUB_REF_NAME" = "master" ] && echo 20 || echo 1)"
   varied_builds:
     needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
     strategy:
+      fail-fast: ${{ fromJSON(needs.matrix-variables.outputs.fail_fast) }}
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
+          - compiler: clang++-6.0
+            os: ubuntu-18.04
+            tiles: 0
+            sound: 0
+            release: 1
+            cmake: 0
+            localize: 1
+            test-stage: 1
+            native: linux64           
+            archive-success: basic-build
+            dont_skip_data_only_changes: 1
+            title: Basic Build and Test (Clang 6, Ubuntu, Curses)
+            # ~190MB in a clean build
+            # ~30MB compressed
+            # .16 : 1 -> max ~485MB
+            ccache_limit: 3G
+
           - compiler: g++-9
             os: ubuntu-latest
             release: 1
@@ -81,13 +101,10 @@ jobs:
             tiles: 0
             sound: 0
             localize: 1
-            test-stage: 1
             gold: 1
             lto: 1
             native: linux64
-            archive-success: basic-build
-            dont_skip_data_only_changes: 1
-            title: Basic Build and Test (GCC 9, Curses, LTO)
+            title: GCC 9, Curses, LTO
             # ~850MB in a clean build
             # ~370MB compressed
             # .44 : 1 -> max ~1.8G
@@ -148,7 +165,6 @@ jobs:
             tiles: 1
             sound: 1
             localize: 1
-            test-stage: 1
             title: GCC 11, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
             ldflags: -static-libgcc -static-libstdc++
             mxe_target: x86_64-w64-mingw32.static.gcc11
@@ -156,20 +172,6 @@ jobs:
             # ~285MB in a clean build
             # ~36MB compressed
             # .12 : 1 -> max ~390MB
-            ccache_limit: 3G
-
-          - compiler: clang++-6.0
-            os: ubuntu-18.04
-            tiles: 0
-            sound: 0
-            release: 1
-            cmake: 0
-            localize: 1
-            native: linux64
-            title: Clang 6, Ubuntu, Curses, Release
-            # ~190MB in a clean build
-            # ~30MB compressed
-            # .16 : 1 -> max ~485MB
             ccache_limit: 3G
 
           - compiler: g++-7
@@ -213,7 +215,7 @@ jobs:
         CCACHE_FILECLONE: true
         CCACHE_HARDLINK: true
         CCACHE_NOCOMPRESS: true
-        SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (GCC 9, Curses, LTO)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
+        SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 6, Ubuntu, Curses)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
         SKIP_TESTS: ${{ needs.matrix-variables.outputs.skip_tests }}
     steps:
     - name: checkout repository
@@ -225,8 +227,11 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
-            libsdl2-mixer-dev libpulse-dev ccache gettext parallel
+          sudo apt-get install libncursesw5-dev ccache gettext parallel
+    - name: install SDL2 dependencies (ubuntu)
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
+      run: |
+          sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev
     - name: install old GCC (Ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-7' || matrix.compiler == 'g++-8') }}
       run: |

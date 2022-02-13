@@ -9,6 +9,7 @@
 
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -18,12 +19,18 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "optional.h"
+#include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 
 static const ammotype ammo_test_9mm( "test_9mm" );
+static const itype_id itype_test_backpack( "test_backpack" );
+static const itype_id itype_test_socks( "test_socks" );
+static const itype_id
+itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
+static const item_pocket::pocket_type pocket_container = item_pocket::pocket_type::CONTAINER;
 
 // Pocket Tests
 // ------------
@@ -1193,7 +1200,19 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
     }
 }
 
-TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
+// Pocket favorites
+// ----------------
+// Item pockets can be configured to only allow certain items automatically.
+// The rules defined are also known as pocket autopickup rules.
+//
+// Functions:
+// item_pocket::favorite_settings::accepts_item
+// item_pocket::favorite_settings::blacklist_item
+// item_pocket::favorite_settings::whitelist_item
+// item_pocket::favorite_settings::get_item_whitelist
+// item_pocket::favorite_settings::get_item_blacklist
+//
+TEST_CASE( "pocket favorites allow or restrict items", "[pocket][favorite][item]" )
 {
     item_location loc;
 
@@ -1266,6 +1285,46 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
     }
 
     SECTION( "mixing whitelist and blacklists" ) {
+        WHEN( "same item first whitelisted then blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_item( test_item.typeId() );
+            REQUIRE( settings.get_item_whitelist().count( test_item.typeId() ) );
+            settings.blacklist_item( test_item.typeId() );
+            THEN( "item should be removed from the whitelist" ) {
+                REQUIRE_FALSE( settings.get_item_whitelist().count( test_item.typeId() ) );
+            }
+        }
+
+        WHEN( "same item first blacklisted then whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_item( test_item.typeId() );
+            REQUIRE( settings.get_item_blacklist().count( test_item.typeId() ) );
+            settings.whitelist_item( test_item.typeId() );
+            THEN( "item should be removed from the blacklist" ) {
+                REQUIRE_FALSE( settings.get_item_blacklist().count( test_item.typeId() ) );
+            }
+        }
+
+        WHEN( "same category first whitelisted then blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            REQUIRE( settings.get_category_whitelist().count( test_item.get_category_shallow().id ) );
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            THEN( "category should be removed from the whitelist" ) {
+                REQUIRE_FALSE( settings.get_category_whitelist().count( test_item.get_category_shallow().id ) );
+            }
+        }
+
+        WHEN( "same category first blacklisted then whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            REQUIRE( settings.get_category_blacklist().count( test_item.get_category_shallow().id ) );
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            THEN( "category should be removed from the blacklist" ) {
+                REQUIRE_FALSE( settings.get_category_blacklist().count( test_item.get_category_shallow().id ) );
+            }
+        }
+
         WHEN( "category whitelisted but item blacklisted" ) {
             item_pocket::favorite_settings settings;
             settings.whitelist_category( test_item.get_category_shallow().id );
@@ -1312,8 +1371,177 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
                 REQUIRE( settings.accepts_item( test_item_different_category ) );
             }
         }
-
     }
+}
+
+TEST_CASE( "pocket favorites allow or restrict containers", "[pocket][favorite][item]" )
+{
+    item_pocket::favorite_settings settings;
+
+    GIVEN( "item container is empty" ) {
+        item item_plastic_bag = item( "bag_plastic" );
+        REQUIRE( item_plastic_bag.empty() );
+
+        WHEN( "item container is whitelisted" ) {
+            settings.whitelist_item( item_plastic_bag.typeId() );
+
+            THEN( "item container should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_plastic_bag ) );
+            }
+        }
+        WHEN( "item container is blacklisted" ) {
+            settings.blacklist_item( item_plastic_bag.typeId() );
+
+            THEN( "item container should not be accepted" ) {
+                REQUIRE_FALSE( settings.accepts_item( item_plastic_bag ) );
+            }
+        }
+        WHEN( "item container category is whitelisted" ) {
+            settings.whitelist_category( item_plastic_bag.get_category_shallow().id );
+
+            THEN( "item container should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_plastic_bag ) );
+            }
+        }
+        WHEN( "item container category is blacklisted" ) {
+            settings.blacklist_category( item_plastic_bag.get_category_shallow().id );
+
+            THEN( "item container should not be accepted" ) {
+                REQUIRE_FALSE( settings.accepts_item( item_plastic_bag ) );
+            }
+        }
+        WHEN( "item container is not listed in rules" ) {
+            THEN( "item container should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_plastic_bag ) );
+            }
+        }
+    }
+
+    GIVEN( "item container is not empty" ) {
+        item item_plastic_bag = item( "bag_plastic" );
+        item item_paper = item( "paper" );
+        item item_pencil = item( "pencil" );
+
+        item_plastic_bag.force_insert_item( item_paper, pocket_container );
+        item_plastic_bag.force_insert_item( item_pencil, pocket_container );
+
+        WHEN( "all items in container are whitelisted" ) {
+            settings.whitelist_item( item_paper.typeId() );
+            settings.whitelist_item( item_pencil.typeId() );
+
+            THEN( "container should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_plastic_bag ) );
+                REQUIRE_FALSE( settings.accepts_item( item( "bag_plastic" ) ) );
+            }
+            WHEN( "item container is blacklisted" ) {
+                settings.blacklist_item( item_plastic_bag.typeId() );
+
+                THEN( "item container should not be accepted" ) {
+                    REQUIRE_FALSE( settings.accepts_item( item_plastic_bag ) );
+                }
+            }
+        }
+        WHEN( "only some items in container are whitelisted" ) {
+            settings.whitelist_item( item_paper.typeId() );
+
+            THEN( "container should not be accepted" ) {
+                REQUIRE_FALSE( settings.accepts_item( item_plastic_bag ) );
+            }
+            WHEN( "item container is whitelisted" ) {
+                settings.whitelist_item( item_plastic_bag.typeId() );
+
+                THEN( "item container should be accepted" ) {
+                    REQUIRE( settings.accepts_item( item_plastic_bag ) );
+                }
+            }
+        }
+        WHEN( "all item categories in container are whitelisted" ) {
+            settings.whitelist_category( item_paper.get_category_shallow().id );
+            settings.whitelist_category( item_pencil.get_category_shallow().id );
+
+            THEN( "container should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_plastic_bag ) );
+                REQUIRE_FALSE( settings.accepts_item( item( "bag_plastic" ) ) );
+            }
+            WHEN( "item container category is blacklisted" ) {
+                settings.blacklist_category( item_plastic_bag.get_category_shallow().id );
+
+                THEN( "item container should not be accepted" ) {
+                    REQUIRE_FALSE( settings.accepts_item( item_plastic_bag ) );
+                }
+            }
+        }
+        WHEN( "only some item categories in container are whitelisted" ) {
+            settings.whitelist_category( item_paper.get_category_shallow().id );
+
+            THEN( "container should not be accepted" ) {
+                REQUIRE_FALSE( settings.accepts_item( item_plastic_bag ) );
+            }
+            WHEN( "item container category is whitelisted" ) {
+                settings.whitelist_category( item_plastic_bag.get_category_shallow().id );
+
+                THEN( "item container should be accepted" ) {
+                    REQUIRE( settings.accepts_item( item_plastic_bag ) );
+                }
+            }
+        }
+        WHEN( "no items in container are listed in rules" ) {
+            THEN( "container should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_plastic_bag ) );
+            }
+        }
+    }
+
+    GIVEN( "item container contains liquid" ) {
+        item item_clean_water = item( "water_clean" );
+        item item_bottled_water = item( "bottle_plastic" );
+        REQUIRE( item_bottled_water.fill_with( item_clean_water ) > 0 );
+
+        WHEN( "liquid item is whitelisted" ) {
+            settings.whitelist_item( item_clean_water.typeId() );
+            REQUIRE( settings.accepts_item( item_clean_water ) );
+
+            THEN( "item container containing liquid item should be accepted" ) {
+                REQUIRE( settings.accepts_item( item_bottled_water ) );
+                REQUIRE_FALSE( settings.accepts_item( item( "bottle_plastic" ) ) );
+            }
+        }
+        WHEN( "liquid item is blacklisted" ) {
+            settings.blacklist_item( item_clean_water.typeId() );
+            REQUIRE_FALSE( settings.accepts_item( item_clean_water ) );
+
+            THEN( "item container containing liquid item should not be accepted" ) {
+                REQUIRE_FALSE( settings.accepts_item( item_bottled_water ) );
+                REQUIRE( settings.accepts_item( item( "bottle_plastic" ) ) );
+            }
+        }
+        WHEN( "liquid item is not listed in rules" ) {
+            settings.whitelist_item( item( "paper" ).typeId() );
+
+            THEN( "item container containing liquid item should not be accepted" ) {
+                REQUIRE_FALSE( settings.accepts_item( item_bottled_water ) );
+            }
+        }
+    }
+}
+
+/**
+  * Add the given item to the best pocket of the dummy character.
+  * @param dummy The character to add the item to.
+  * @param it The item to add to the characters' pockets.
+  *
+  * @returns A pointer to the newly added item, if successfull.
+  */
+static item *add_item_to_best_pocket( Character &dummy, const item &it )
+{
+    item_pocket *pocket = dummy.best_pocket( it ).second;
+    REQUIRE( pocket );
+
+    item *ret = nullptr;
+    pocket->add( it, &ret );
+    REQUIRE( pocket->has_item( *ret ) );
+
+    return ret;
 }
 
 // Character::best_pocket
@@ -1327,11 +1555,138 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
 // (Second argument is `avoid` item pointer, not parent item location)
 TEST_CASE( "character best pocket", "[pocket][character][best]" )
 {
-    // TODO:
-    // Includes wielded item
-    // Includes worn items
-    // Uses best of multiple worn items
-    // Skips avoided items
+    item_location loc;
+    Character &dummy = get_player_character();
+
+    // reset dummy equipment before each test.
+    clear_avatar();
+
+    WHEN( "the player is wielding a container" ) {
+        item socks( itype_test_socks );
+        item container( itype_test_watertight_open_sealed_container_1L );
+
+        // wield the container item.
+        dummy.set_wielded_item( container );
+
+        THEN( "the player can stash an item in it" ) {
+            // check to see if the item can be stored in any pocket.
+            CHECK( dummy.can_stash_partial( socks ) );
+
+            // and check to see if the item is actually stored in the wielded container.
+            std::pair<item_location, item_pocket *> pocket = dummy.best_pocket( socks );
+            REQUIRE( pocket.second );
+            CHECK( *pocket.second == *get_only_pocket( container ) );
+        }
+    }
+
+    WHEN( "the player is wearing a container" ) {
+        item socks( itype_test_socks );
+        item backpack( itype_test_backpack );
+
+        // wear the backpack item.
+        REQUIRE( dummy.wear_item( backpack, false, false ) );
+
+        THEN( "the player can stash an item in it" ) {
+            // check to see if the item can be stored in any pocket.
+            CHECK( dummy.can_stash_partial( socks ) );
+
+            // and check to see if the item is actually stored in the wielded container.
+            std::pair<item_location, item_pocket *> pocket = dummy.best_pocket( socks );
+            REQUIRE( pocket.second );
+            CHECK( *pocket.second == *get_only_pocket( backpack ) );
+        }
+    }
+
+    WHEN( "wielding- and wearing a container" ) {
+        item socks( itype_test_socks );
+        item container_wear( itype_test_watertight_open_sealed_container_1L );
+        item container_wield( itype_test_watertight_open_sealed_container_1L );
+
+        // wield- and wear the respective container items.
+        REQUIRE( dummy.wield( container_wield ) );
+        REQUIRE( dummy.wear_item( container_wear, false, false ) );
+
+        THEN( "the wielded container has priority" ) {
+            // check to see if the item can be stored in any pocket.
+            CHECK( dummy.can_stash_partial( socks ) );
+
+            // and try to find a fitting pocket.
+            // then check to see if it is, indeed, the wielded container.
+            std::pair<item_location, item_pocket *> pocket = dummy.best_pocket( socks );
+            REQUIRE( pocket.second );
+            CHECK( *pocket.second == *get_only_pocket( container_wield ) );
+        }
+    }
+
+    WHEN( "wearing a container with a nested rigid container" ) {
+        item socks( itype_test_socks );
+        item backpack( itype_test_backpack );
+        item container( itype_test_watertight_open_sealed_container_1L );
+
+        // wear the backpack item.
+        REQUIRE( dummy.wear_item( backpack ) );
+
+        // nest the rigid container inside of the worn backpack.
+        add_item_to_best_pocket( dummy, container );
+
+        THEN( "best pocket will be in nested rigid container" ) {
+            // check to see if the item can be stored in any pocket.
+            CHECK( dummy.can_stash_partial( socks ) );
+
+            // and try to find a fitting pocket.
+            // then check to see if it is, indeed, the nested container.
+            std::pair<item_location, item_pocket *> best_pocket = dummy.best_pocket( socks );
+            REQUIRE( best_pocket.second );
+            CHECK( *best_pocket.second == *get_only_pocket( container ) );
+        }
+    }
+
+    WHEN( "wearing a container with a nested non-rigid container" ) {
+        item socks( itype_test_socks );
+        item backpack( itype_test_backpack );
+        item backpack_nested( itype_test_backpack );
+
+        // wear the backpack item.
+        REQUIRE( dummy.wear_item( backpack ) );
+
+        // nest the non-rigid container inside of the worn backpack.
+        add_item_to_best_pocket( dummy, backpack_nested );
+
+        THEN( "best pocket will be in worn container" ) {
+            // check to see if the item can be stored in any pocket.
+            CHECK( dummy.can_stash_partial( socks ) );
+
+            // and try to find a fitting pocket.
+            // then check to see if it is, indeed, the worn container.
+            std::pair<item_location, item_pocket *> best_pocket = dummy.best_pocket( socks );
+            REQUIRE( best_pocket.second );
+            CHECK( *best_pocket.second == *get_only_pocket( backpack ) );
+        }
+    }
+
+    WHEN( "wearing a container with a nested rigid container which should be avoided" ) {
+        item socks( itype_test_socks );
+        item backpack( itype_test_backpack );
+        item container( itype_test_watertight_open_sealed_container_1L );
+
+        // wear the backpack item.
+        REQUIRE( dummy.wear_item( backpack ) );
+
+        // nest the rigid container inside of the worn backpack.
+        item *nested_container = add_item_to_best_pocket( dummy, container );
+
+        THEN( "best pocket for new item will be in worn container" ) {
+            // check to see if the item can be stored in any pocket.
+            CHECK( dummy.can_stash_partial( socks ) );
+
+            // and try to find a fitting pocket.
+            // then check to see if it is, indeed, the worn backpack
+            // when the nested (preferable) container should be avoided.
+            std::pair<item_location, item_pocket *> best_pocket = dummy.best_pocket( socks, nested_container );
+            REQUIRE( best_pocket.second );
+            CHECK( *best_pocket.second == *get_only_pocket( backpack ) );
+        }
+    }
 }
 
 TEST_CASE( "guns and gunmods", "[pocket][gunmod]" )

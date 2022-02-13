@@ -609,6 +609,7 @@ std::string rewrite_vsnprintf( const char *msg );
 // string manipulations.
 void replace_name_tags( std::string &input );
 void replace_city_tag( std::string &input, const std::string &name );
+void replace_keybind_tag( std::string &input );
 
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all );
@@ -639,6 +640,8 @@ std::pair<std::string, nc_color> get_hp_bar( int cur_hp, int max_hp, bool is_mon
 std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
 
 std::pair<std::string, nc_color> get_light_level( float light );
+
+std::pair<std::string, nc_color> rad_badge_color( const int rad );
 
 /**
  * @return String containing the bar. Example: "Label [********    ]".
