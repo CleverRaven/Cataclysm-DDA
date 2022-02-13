@@ -164,23 +164,30 @@ void profession::load( const JsonObject &jo, const std::string & )
         jo.throw_error( "missing mandatory member \"name\"" );
     }
 
-    //If the "description" is an object then we have to deal with gender-specific descriptions,
-    if( jo.has_object( "description" ) ) {
-        JsonObject desc_obj = jo.get_object( "description" );
+    if( !was_loaded || jo.has_member( "description" ) ) {
+        std::string desc;
         std::string desc_male;
         std::string desc_female;
-        mandatory( desc_obj, false, "male", desc_male, text_style_check_reader() );
-        mandatory( desc_obj, false, "female", desc_female, text_style_check_reader() );
-        _description_male = to_translation( "prof_desc_male",  desc_male );
-        _description_female = to_translation( "prof_desc_female", desc_female );
-    } else if( jo.has_member( "description" ) ) {
-        std::string desc;
-        mandatory( jo, false, "description", desc, text_style_check_reader() );
+
+        bool use_default_description = true;
+        if( jo.has_object( "description" ) ) {
+            JsonObject desc_obj = jo.get_object( "description" );
+
+            if( !desc_obj.has_member( "str" ) ) {
+                use_default_description = false;
+                mandatory( desc_obj, false, "male", desc_male, text_style_check_reader() );
+                mandatory( desc_obj, false, "female", desc_female, text_style_check_reader() );
+            }
+        }
+
+        if( use_default_description ) {
+            mandatory( jo, false, "description", desc, text_style_check_reader() );
+            desc_male = desc;
+            desc_female = desc;
+        }
         // These also may differ depending on the language settings!
-        _description_male = to_translation( "prof_desc_male", desc );
-        _description_female = to_translation( "prof_desc_female", desc );
-    } else if( !was_loaded ) {
-        jo.throw_error( "missing mandatory member \"description\"" );
+        _description_male = to_translation( "prof_desc_male", desc_male );
+        _description_female = to_translation( "prof_desc_female", desc_female );
     }
 
     if( jo.has_string( "vehicle" ) ) {
