@@ -1002,7 +1002,16 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "tools": [
-      [ [ "glock_19", -1 ], [ "glock_17", -1 ], [ "glock_22", -1 ], [ "glock_31", -1 ] ],
+      [
+        [ "glock_19", -1 ],
+        [ "glock_17", -1 ],
+        [ "glock_22", -1 ],
+        [ "glock_31", -1 ],
+        [ "glock_21", -1 ],
+        [ "glock_20", -1 ],
+        [ "glock_40", -1 ],
+        [ "glock_29", -1 ]
+      ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
     "using": [ [ "welding_standard", 2 ] ],
