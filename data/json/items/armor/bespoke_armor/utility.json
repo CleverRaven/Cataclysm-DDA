@@ -123,14 +123,15 @@
     "material_thickness": 2,
     "pocket_data": [
       {
+        "description": "rifle sling",
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "1000 ml",
         "max_contains_volume": "8 L",
         "max_contains_weight": "8200 g",
         "max_item_length": "120 cm",
-        "volume_encumber_modifier": 0.5,
-        "moves": 50
+        "volume_encumber_modifier": 0.4,
+        "moves": 30
       },
       {
         "pocket_type": "CONTAINER",
