@@ -55,9 +55,8 @@ static void give_all_mutations( Character &you, const mutation_category_trait &c
             while( mutation_attempts > 0 && you.mutation_ok( mut, false, false ) ) {
                 INFO( "Current mutations: " << get_mutations_as_string( you ) );
                 INFO( "Mutating towards " << mut.c_str() );
-                if( !you.mutate_towards( mut ) ) {
-                    --mutation_attempts;
-                }
+                you.mutate_towards( mut );
+                --mutation_attempts;
             }
         }
     }

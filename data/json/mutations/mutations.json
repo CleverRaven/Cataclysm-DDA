@@ -2387,7 +2387,6 @@
     "visibility": 8,
     "ugliness": 1,
     "description": "Your fur has grown out significantly around your cheeks and neck.  It provides minor protection against attacks.",
-    "types": [ "SKIN" ],
     "prereqs": [ "FELINE_FUR" ],
     "category": [ "FELINE" ],
     "armor": [ { "part_types": [ "head", "mouth" ], "bash": 1 } ]
