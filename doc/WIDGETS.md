@@ -825,7 +825,6 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `date_text`             | Current day within season, like "Summer, day 15"
 | `env_temp_text`         | Environment temperature, if thermometer is available
 | `fatigue_text`          | Fatigue level - "Tired", "Dead Tired", "Exhausted"
-| `health_text`           | Hidden health - "OK", "Good", "Very good", "Bad", "Very bad", etc.
 | `mood_text`             | Avatar mood represented as an emoticon face
 | `move_mode_letter`      | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
 | `move_mode_text`        | Movement mode - "walking", "running", "crouching", "prone"
