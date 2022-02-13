@@ -39,9 +39,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.1 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "MUNDANE" ]
   },
@@ -93,9 +91,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.1 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ]
   },
