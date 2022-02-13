@@ -31,6 +31,6 @@
     "type": "item_group",
     "id": "NC_VOICE_armor",
     "subtype": "distribution",
-    "entries": [ { "item": "armor_nomad_jumpsuit", "prob": 20 }, { "item": "armor_nomad_jumpsuit_light", "prob": 80 } ]
+    "entries": [ { "item": "armor_nomad", "prob": 20 }, { "item": "armor_nomad_light", "prob": 80 } ]
   }
 ]

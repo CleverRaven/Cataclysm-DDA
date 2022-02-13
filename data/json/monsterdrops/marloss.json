@@ -20,6 +20,6 @@
   {
     "id": "zealot_outfit",
     "type": "item_group",
-    "items": [ [ "tunic", 90 ], [ "tunic_rag", 9 ], [ "armor_nomad_jumpsuit_light", 1 ] ]
+    "items": [ [ "tunic", 90 ], [ "tunic_rag", 9 ], [ "armor_nomad_light", 1 ] ]
   }
 ]

@@ -304,15 +304,5 @@
     "type": "recipe",
     "result": "xlsurvivor_suit",
     "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "armor_nomad_light",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "armor_nomad",
-    "obsolete": true
   }
 ]

@@ -1,15 +1,15 @@
 [
   {
-    "id": "armor_nomad_jumpsuit",
-    "type": "TOOL_ARMOR",
+    "id": "armor_nomad",
+    "type": "ARMOR",
     "name": { "str": "nomad jumpsuit" },
-    "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  It's clever construction adds additional core support helping you to carry more equipment.  A set of cooling tubes run throughout the clothing as well.",
+    "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  It's clever construction adds additional core support helping you to carry more equipment.",
     "weight": "5830 g",
     "volume": "7500 ml",
     "price": 35000,
     "price_postapoc": 1750,
     "to_hit": -3,
-    "material": [ "cotton", "leather" ],
+    "material": [ "lycra", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
@@ -21,7 +21,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -29,7 +29,53 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "pants pocket"
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 4,
+    "valid_mods": [ "steel_padded" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.1 } ] } ]
+    },
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "MUNDANE" ]
+  },
+  {
+    "id": "armor_nomad_advanced",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "advanced nomad jumpsuit" },
+    "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  It's clever construction adds additional core support helping you to carry more equipment.  A set of cooling tubes run throughout the clothing as well.",
+    "weight": "5830 g",
+    "volume": "7500 ml",
+    "price": 35000,
+    "price_postapoc": 1750,
+    "to_hit": -3,
+    "material": [ "lycra", "cotton" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "cover_melee": 95, "encumbrance": [ 8, 8 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 97, "encumbrance": [ 10, 10 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "cover_melee": 95, "encumbrance": [ 6, 6 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "pants pocket"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -39,7 +85,7 @@
     "use_action": {
       "type": "transform",
       "msg": "You turn the climate control on.",
-      "target": "armor_nomad_jumpsuit_on",
+      "target": "armor_nomad_advanced_on",
       "active": true,
       "need_charges": 1,
       "need_charges_msg": "Your internal reservoir is empty."
@@ -54,13 +100,13 @@
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ]
   },
   {
-    "id": "armor_nomad_jumpsuit_on",
-    "copy-from": "armor_nomad_jumpsuit",
-    "repairs_like": "armor_nomad_jumpsuit",
+    "id": "armor_nomad_advanced_on",
+    "copy-from": "armor_nomad_advanced",
+    "repairs_like": "armor_nomad",
     "type": "TOOL_ARMOR",
-    "name": { "str": "nomad jumpsuit (on)" },
+    "name": { "str": "advanced nomad jumpsuit (on)", "str_pl": "advanced nomad jumpsuits (on)" },
     "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  It's clever construction adds additional core support helping you to carry more equipment.  A set of cooling tubes are humming.",
-    "revert_to": "armor_nomad_jumpsuit",
+    "revert_to": "armor_nomad_advanced",
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "CLIMATE_CONTROL", "MUNDANE" ],
     "power_draw": 100000,
     "use_action": {
@@ -68,15 +114,15 @@
       "type": "transform",
       "menu_text": "Turn off",
       "msg": "The %s pipes stop humming.",
-      "target": "armor_nomad_jumpsuit"
+      "target": "armor_nomad_advanced"
     }
   },
   {
-    "id": "armor_nomad_jumpsuit_light",
+    "id": "armor_nomad_light",
     "type": "ARMOR",
     "name": { "str": "light nomad jumpsuit" },
-    "description": "A light, airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.   It's clever construction adds additional core support helping you to carry more equipment.",
-    "copy-from": "armor_nomad_jumpsuit",
+    "description": "A light, airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  It's clever construction adds additional core support helping you to carry more equipment.",
+    "copy-from": "armor_nomad",
     "price": 29500,
     "price_postapoc": 1250,
     "material": [ "cotton" ],
@@ -88,7 +134,7 @@
     ],
     "proportional": { "weight": 0.5, "volume": 0.75, "warmth": 0.75 },
     "use_action": [  ],
-    "delete": { "flags": [ "STURDY", "USES_BIONICE_POWER" ] }
+    "delete": { "flags": [ "STURDY" ] }
   },
   {
     "id": "armor_scavenger",
@@ -102,7 +148,7 @@
     "to_hit": -3,
     "material": [ "kevlar_layered", "nylon", "cotton" ],
     "symbol": "[",
-    "looks_like": "armor_nomad_jumpsuit",
+    "looks_like": "armor_nomad",
     "color": "green",
     "armor": [
       {
