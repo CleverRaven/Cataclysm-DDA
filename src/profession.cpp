@@ -172,19 +172,15 @@ void profession::load( const JsonObject &jo, const std::string & )
         bool use_default_description = true;
         if( jo.has_object( "description" ) ) {
             JsonObject desc_obj = jo.get_object( "description" );
+            desc_obj.allow_omitted_members();
 
-            if( desc_obj.has_member( "str" ) ) {
-                //Acknowledge "str" existence, but don't do anything with it.
-                //"str" will be handled by the default path below
-                desc_obj.get_member( "str" );
-            } else {
+            if( desc_obj.has_member( "male" ) && desc_obj.has_member( "female" ) ) {
                 use_default_description = false;
                 mandatory( desc_obj, false, "male", desc_male, text_style_check_reader() );
                 mandatory( desc_obj, false, "female", desc_female, text_style_check_reader() );
             }
         }
 
-        //Default path without male/female objects
         if( use_default_description ) {
             mandatory( jo, false, "description", desc, text_style_check_reader() );
             desc_male = desc;
