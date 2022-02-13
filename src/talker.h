@@ -498,5 +498,11 @@ class talker
         virtual int get_health() const {
             return 0;
         }
+        virtual int get_body_temp() const {
+            return 0;
+        }
+        virtual int get_body_temp_delta() const {
+            return 0;
+        }
 };
 #endif // CATA_SRC_TALKER_H

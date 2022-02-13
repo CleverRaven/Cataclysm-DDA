@@ -1436,6 +1436,14 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_health();
             };
+        } else if( checked_value == "body_temp" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_body_temp();
+            };
+        } else if( checked_value == "body_temp_delta" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_body_temp_delta();
+            };
         }
     } else if( jo.has_member( "moon" ) ) {
         return []( const T & ) {
