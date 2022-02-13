@@ -473,6 +473,9 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
     if( worn_item.has_flag( flag_SWIM_GOGGLES ) ) {
         description_stack.emplace_back( _( "It helps you to see clearly underwater." ) );
     }
+    if( worn_item.has_flag( flag_SUN_GLASSES ) ) {
+        description_stack.emplace_back( _( "It keeps the sun out of your eyes." ) );
+    }
     if( worn_item.has_flag( flag_SEMITANGIBLE ) ) {
         description_stack.emplace_back( _( "It can occupy the same space as other things." ) );
     }

@@ -160,8 +160,8 @@
       "next_weather",
       {
         "queue_eocs": "EOC_CAUSE_PORTAL_STORM",
-        "time_in_future_min": "30 minutes",
-        "time_in_future_max": "90 minutes"
+        "time_in_future_min": "2 minutes",
+        "time_in_future_max": "20 minutes"
       },
       {
         "u_message": "Reality is beginning to break.  It is subtle but something deep inside you feels the wrongness.",
@@ -552,7 +552,7 @@
     "id": "EOC_PORTAL_SMOKE",
     "effect": [
       { "u_message": "A million tiny pinpricks in space open for an instant and smoke pours everywhere.", "type": "bad" },
-      { "u_set_field": "fd_smoke" }
+      { "u_set_field": "fd_smoke", "outdoor_only": true }
     ]
   },
   {

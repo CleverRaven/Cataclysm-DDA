@@ -3311,7 +3311,7 @@ void Character::do_skill_rust()
 
         const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, 0 );
         const int oldSkillLevel = skill_level_obj.level();
-        if( skill_level_obj.rust( rust_resist ) ) {
+        if( skill_level_obj.rust( rust_resist, mutation_value( "skill_rust_multiplier" ) ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -bio_memory->power_trigger );
@@ -8091,9 +8091,11 @@ void Character::fall_asleep()
         // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
         // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
         // will last about 8 days.
+    } else if( has_active_mutation( trait_CHLOROMORPH ) ) {
+        fall_asleep( 1_days );
+    } else {
+        fall_asleep( 10_hours );    // default max sleep time.
     }
-
-    fall_asleep( 10_hours ); // default max sleep time.
 }
 
 void Character::fall_asleep( const time_duration &duration )
@@ -9595,6 +9597,7 @@ int Character::sleep_spot( const tripoint &p ) const
 
     int sleepy = static_cast<int>( comfort_info.level );
     bool watersleep = has_trait( trait_WATERSLEEP );
+    bool activechloro = has_active_mutation( trait_CHLOROMORPH );
 
     if( has_addiction( add_type::SLEEP ) ) {
         sleepy -= 4;
@@ -9604,6 +9607,10 @@ int Character::sleep_spot( const tripoint &p ) const
 
     if( watersleep && get_map().has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
         sleepy += 10; //comfy water!
+    }
+
+    if( activechloro ) {
+        sleepy += 25; // It's time for a nice nap.
     }
 
     if( get_fatigue() < fatigue_levels::TIRED + 1 ) {

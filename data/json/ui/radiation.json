@@ -81,7 +81,7 @@
     "type": "widget",
     "label": "Radiation",
     "style": "text",
-    "default_clause": { "text": "Unknown", "color": "light_gray" },
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
     "copy-from": "rad_badge_template",
     "//": "Shows worn/wielded radiation badge color from display::rad_badge_text_color"
   }

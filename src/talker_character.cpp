@@ -605,6 +605,11 @@ int talker_character_const::get_fine_detail_vision_mod() const
     return std::ceil( me_chr_const->fine_detail_vision_mod() );
 }
 
+int talker_character_const::get_health() const
+{
+    return me_chr_const->get_healthy();
+}
+
 void talker_character::add_bionic( const bionic_id &new_bionic )
 {
     me_chr->add_bionic( new_bionic );
