@@ -1901,6 +1901,7 @@ static void character_edit_menu()
         case D_WRITE_EOCS: {
             effect_on_conditions::write_eocs_to_file( you );
             popup( _( "effect_on_condition list written to eocs.output" ) );
+            break;
         }
         case D_EDIT_VARS: {
             std::string key, value;
@@ -1914,8 +1915,8 @@ static void character_edit_menu()
             .width( 85 )
             .edit( value );
             you.set_value( "npctalk_var_" + key, value );
+            break;
         }
-        break;
     }
 }
 
