@@ -12,7 +12,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "melee", 1 ] ],
     "book_learn": [ [ "mag_melee", 0 ], [ "manual_melee", 0 ] ],
-    "//": "Only training weapons, all of these have the WBLOCK_2 techniques and are relatively easy to handle, in other words they have a possitive to_hit bonus.",
+    "//": "Only training weapons, all of these have the WBLOCK_2 techniques and are relatively easy to handle, in other words they have a positive to_hit bonus.",
     "tools": [ [ "cudgel", "bokken", "bokken_fake", "bokken_inferior", "q_staff" ] ]
   },
   {
