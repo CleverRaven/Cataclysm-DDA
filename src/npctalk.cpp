@@ -1616,6 +1616,47 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
     } while( fa != std::string::npos && fb != std::string::npos );
 }
 
+void parse_var_tags( std::string &phrase, const dialogue &d )
+{
+    size_t fa;
+    size_t fb;
+    std::string tag;
+    do {
+        fa = phrase.find( '<' );
+        fb = phrase.find( '>' );
+        int l = fb - fa + 1;
+        if( fa != std::string::npos && fb != std::string::npos ) {
+            tag = phrase.substr( fa, fb - fa + 1 );
+        } else {
+            return;
+        }
+
+        if( tag.find( "<u_val:" ) != std::string::npos ) {
+            //adding a user variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            phrase.replace( fa, l, d.actor( false )->get_value( "npctalk_var_" + var ) );
+        } else if( tag.find( "<npc_val:" ) != std::string::npos ) {
+            //adding a npc variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            phrase.replace( fa, l, d.actor( true )->get_value( "npctalk_var_" + var ) );
+        } else if( tag.find( "<global_val:" ) != std::string::npos ) {
+            //adding a global variable to the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            global_variables &globvars = get_globals();
+            phrase.replace( fa, l, globvars.get_global_value( "npctalk_var_" + var ) );
+        } else if( !tag.empty() ) {
+            debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
+            phrase.replace( fa, fb - fa + 1, "????" );
+        }
+    } while( fa != std::string::npos && fb != std::string::npos );
+}
+
 void dialogue::add_topic( const std::string &topic_id )
 {
     topic_stack.emplace_back( topic_id );
@@ -2668,6 +2709,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         } else {
             translated_message = _( message );
         }
+        parse_var_tags( translated_message, d );
         if( sound ) {
             bool display = false;
             map &here = get_map();
@@ -3306,6 +3348,16 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
         };
         return;
     }
+}
+
+void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, const std::string &member )
+{
+    str_or_var value = get_str_or_var( jo.get_member( member ), member );
+    var_info var = read_var_info( jo.get_member( "target_var" ), false );
+    function = [value, var]( const dialogue & d ) {
+        write_var_value( var.type, var.name, d.actor( var.type == var_type::npc ),
+                         value.evaluate( d.actor( value.is_npc() ) ) );
+    };
 }
 
 void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
@@ -4133,6 +4185,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_custom_light_level( jo, "custom_light_level" );
     } else if( jo.has_object( "give_equipment" ) ) {
         subeffect_fun.set_give_equipment( jo, "give_equipment" );
+    } else if( jo.has_member( "set_string_var" ) ) {
+        subeffect_fun.set_set_string_var( jo, "set_string_var" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
