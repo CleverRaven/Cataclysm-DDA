@@ -113,8 +113,14 @@ int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool requir
             ( ret_val.min.type == var_type::npc && ret_val.max.type == var_type::u ) ) {
             jo.throw_error( "int_or_var min and max cannot be of types u and npc at once." );
         }
-    } else {
+    } else if( required ) {
         ret_val.min = get_int_or_var_part( jo.get_member( member ), member, required, default_val );
+    } else {
+        if( jo.has_member( member ) ) {
+            ret_val.min = get_int_or_var_part( jo.get_member( member ), member, required, default_val );
+        } else {
+            ret_val.min.int_val = default_val;
+        }
     }
     return ret_val;
 }
