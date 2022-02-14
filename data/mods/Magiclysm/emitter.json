@@ -20,5 +20,12 @@
     "intensity": 3,
     "qty": 3,
     "chance": 100
+  },
+  {
+    "id": "emit_frozen_energy",
+    "type": "emit",
+    "field": "fd_cold_energy",
+    "intensity": 3,
+    "qty": 24
   }
 ]

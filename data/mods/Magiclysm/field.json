@@ -95,5 +95,14 @@
     "phase": "liquid",
     "display_field": true,
     "looks_like": "fd_sludge"
+  },
+  {
+    "id": "fd_cold_energy",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "cold_heart_effect", "intensity": 1 } ],
+    "half_life": "10 seconds",
+    "immunity_data": { "traits": [ "PERMAFROST_MAGE" ] },
+    "half_life": "10 minutes",
+    "percent_spread": 50
   }
 ]
