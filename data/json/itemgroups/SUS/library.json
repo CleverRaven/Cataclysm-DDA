@@ -74,6 +74,7 @@
     "entries": [
       { "item": "mag_fabrication", "count": [ 1, 10 ], "prob": 80 },
       { "item": "manual_fabrication", "count": [ 1, 4 ], "prob": 70 },
+      { "item": "textbook_fabrication", "count": [ 1, 2 ], "prob": 60 },
       { "item": "mag_carpentry", "count": [ 1, 4 ], "prob": 80 },
       { "item": "glassblowing_book", "count": [ 1, 2 ], "prob": 60 },
       { "item": "theater_props", "count": [ 1, 2 ], "prob": 40 },
@@ -89,6 +90,7 @@
     "entries": [
       { "item": "mag_fabrication", "count": [ 0, 3 ], "prob": 20 },
       { "item": "manual_fabrication", "count": [ 0, 2 ], "prob": 30 },
+      { "item": "textbook_fabrication", "count": [ 0, 1 ], "prob": 20 },
       { "item": "mag_carpentry", "count": [ 0, 1 ], "prob": 20 },
       { "item": "glassblowing_book", "count": [ 0, 1 ], "prob": 20 },
       { "item": "theater_props", "count": [ 0, 1 ], "prob": 20 },

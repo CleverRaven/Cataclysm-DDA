@@ -155,6 +155,7 @@
     "type": "AMMO",
     "id": "money",
     "price": 1,
+    "price_postapoc": 0,
     "//": "= one cent, gives correct prices for cash cards",
     "name": { "str": "cent" },
     "symbol": "=",
