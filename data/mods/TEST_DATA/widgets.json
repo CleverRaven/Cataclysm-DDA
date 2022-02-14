@@ -433,6 +433,80 @@
     ]
   },
   {
+    "id": "test_health_clause_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "horrible",
+        "text": "Horrible",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "health" }, "<", { "const": -100 } ] }
+      },
+      {
+        "id": "very_bad",
+        "text": "Very bad",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": -100 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": -50 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bad",
+        "text": "Bad",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": -50 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": -10 } ] }
+          ]
+        }
+      },
+      {
+        "id": "ok",
+        "text": "OK",
+        "color": "light_gray",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": -10 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": 10 } ] }
+          ]
+        }
+      },
+      {
+        "id": "good",
+        "text": "Good",
+        "color": "white",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": 10 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": 50 } ] }
+          ]
+        }
+      },
+      {
+        "id": "very_good",
+        "text": "Very good",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": 50 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": 100 } ] }
+          ]
+        }
+      },
+      {
+        "id": "excellent",
+        "text": "Excellent",
+        "color": "light_green",
+        "condition": { "compare_int": [ { "u_val": "health" }, ">=", { "const": 100 } ] }
+      }
+    ]
+  },
+  {
     "id": "test_bucket_graph",
     "type": "widget",
     "style": "graph",
@@ -708,6 +782,13 @@
     "style": "number"
   },
   {
+    "id": "test_health_clause",
+    "type": "widget",
+    "label": "Health",
+    "style": "text",
+    "copy-from": "test_health_clause_template"
+  },
+  {
     "id": "test_weather_text",
     "type": "widget",
     "label": "Weather",
@@ -853,6 +934,17 @@
     "label": "MOON",
     "style": "text",
     "copy-from": "test_moon_phase_template"
+  },
+  {
+    "id": "test_disabled_when_empty",
+    "type": "widget",
+    "label": "NOT EMPTY",
+    "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      { "text": "Text exists", "color": "yellow", "condition": "u_can_see" },
+      { "text": "", "color": "red", "condition": { "not": "u_can_see" } }
+    ]
   },
   {
     "id": "test_clause_number",

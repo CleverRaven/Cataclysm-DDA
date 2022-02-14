@@ -58,6 +58,7 @@ static const itype_id itype_water( "water" );
 static const morale_type morale_food_good( "morale_food_good" );
 
 static const quality_id qual_ANVIL( "ANVIL" );
+static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_CHISEL( "CHISEL" );
 static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_FABRIC_CUT( "FABRIC_CUT" );
@@ -361,7 +362,16 @@ static void give_tools( const std::vector<item> &tools )
     const item backpack( "debug_backpack" );
     player_character.worn.push_back( backpack );
 
+    std::vector<item> boil;
     for( const item &gear : tools ) {
+        if( gear.get_quality( qual_BOIL, false ) == 0 ) {
+            player_character.i_add( gear );
+        } else {
+            boil.emplace_back( gear );
+        }
+    }
+    // add BOIL tools later so that they don't contain anything
+    for( const item &gear : boil ) {
         player_character.i_add( gear );
     }
 }
