@@ -48,7 +48,6 @@ enum class widget_var : int {
     compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
     env_temp_text,  // Environment temperature, if character has thermometer
-    fatigue_text,   // Fagitue description text, color string
     mood_text,      // Mood as a text emote, color string
     move_count_mode_text, // Movement counter and mode letter like "50(R)", color string
     overmap_loc_text,// Local overmap position, pseudo latitude/longitude with Z-level
