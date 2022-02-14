@@ -3182,7 +3182,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                 wprintz( w_flags, c_light_gray, _( "Starting location is bordered by an immense wall" ) );
                 wprintz( w_flags, c_light_gray, "\n" );
             }
-              const char *g_switch_msg = u.male ?
+            const char *g_switch_msg = u.male ?
                                        //~ Gender switch message. 1s - change key name, 2s - profession name.
                                        _( "Press <color_light_green>%1$s</color> to switch "
                                           "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
@@ -3301,7 +3301,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             retval = tab_direction::BACKWARD;
         } else if( action == "NEXT_TAB" ) {
             retval = tab_direction::FORWARD;
-        }else if( action == "CHANGE_GENDER" ) {
+        } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
         } else if( action == "SORT" ) {
             scenario_sorter.sort_by_points = !scenario_sorter.sort_by_points;
