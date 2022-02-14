@@ -146,6 +146,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_cicada",
+    "name": "cicada egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a cicada.  They are usually found near trees.",
+    "rot_spawn": "GROUP_EGG_CICADA"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "triffid_pod",
     "name": { "str": "triffid pod" },
     "weight": "278 g",
