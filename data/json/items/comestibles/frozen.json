@@ -78,8 +78,8 @@
     "description": "An all-natural cold beverage made with lemonade and sweeteners.  Tastes great when frozen.",
     "color": "white",
     "calories": 220,
-    "material": [ "water", "fruit" ]
-    "primary_material": "water"
+    "material": [ "water", "fruit" ],
+    "primary_material": "water",
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 6 ] ]
   },
   {
