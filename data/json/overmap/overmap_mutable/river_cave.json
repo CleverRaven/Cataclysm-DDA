@@ -3,7 +3,7 @@
     "type": "overmap_special",
     "id": "river_cave",
     "subtype": "mutable",
-    "locations": [ "water" ],
+    "locations": [ "water", "subterranean_empty" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 80, 100 ],
     "flags": [ "UNIQUE", "CLASSIC", "RIVER" ],
