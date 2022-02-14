@@ -185,6 +185,15 @@
     "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
   },
   {
+    "result": "xs_armguard_metal",
+    "type": "recipe",
+    "copy-from": "armguard_metal",
+    "time": "30 m",
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 3 ] ] ]
+  },
+  {
     "result": "xl_armguard_metal",
     "type": "recipe",
     "copy-from": "armguard_metal",

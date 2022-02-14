@@ -1101,6 +1101,16 @@
     "auto_needs": false
   },
   {
+    "id": "ACT_GENERIC_EOC",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "preparing",
+    "based_on": "time",
+    "interruptable": false,
+    "suspendable": false,
+    "interruptable_with_kb": false
+  },
+  {
     "id": "ACT_CBM_SURGERY",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

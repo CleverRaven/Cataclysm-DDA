@@ -1116,8 +1116,23 @@
   },
   {
     "type": "construction_group",
+    "id": "place_electric_forge",
+    "name": "Place Electric Forge"
+  },
+  {
+    "type": "construction_group",
     "id": "place_kiln",
     "name": "Place Kiln"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_heater_large",
+    "name": "Place Large Heater"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_heater_small",
+    "name": "Place Small Heater"
   },
   {
     "type": "construction_group",

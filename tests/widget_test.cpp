@@ -49,6 +49,7 @@ static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_infected( "infected" );
 
 static const flag_id json_flag_SPLINT( "SPLINT" );
+const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
 
 static const itype_id itype_blindfold( "blindfold" );
 static const itype_id itype_ear_plugs( "ear_plugs" );
@@ -91,7 +92,9 @@ static const widget_id widget_test_compass_legend_1( "test_compass_legend_1" );
 static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
 static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
 static const widget_id widget_test_dex_color_num( "test_dex_color_num" );
+static const widget_id widget_test_disabled_when_empty( "test_disabled_when_empty" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
+static const widget_id widget_test_health_clause( "test_health_clause" );
 static const widget_id widget_test_health_color_num( "test_health_color_num" );
 static const widget_id widget_test_hp_head_graph( "test_hp_head_graph" );
 static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
@@ -459,20 +462,32 @@ TEST_CASE( "widgets showing avatar stats with color for normal value", "[widget]
 TEST_CASE( "widgets showing avatar health with color for normal value", "[widget][health][color]" )
 {
     widget health_w = widget_test_health_color_num.obj();
+    widget health_clause_w = widget_test_health_clause.obj();
 
     avatar &ava = get_avatar();
     clear_avatar();
 
     ava.set_healthy( -200 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_red>-200</color>" );
-    ava.set_healthy( -100 );
-    CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-100</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_red>Horrible</color>" );
+    ava.set_healthy( -99 );
+    CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-99</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_red>Very bad</color>" );
+    ava.set_healthy( -49 );
+    CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-49</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_yellow>Bad</color>" );
     ava.set_healthy( 0 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_white>0</color>" );
-    ava.set_healthy( 100 );
-    CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>100</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_gray>OK</color>" );
+    ava.set_healthy( 49 );
+    CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>49</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_white>Good</color>" );
+    ava.set_healthy( 99 );
+    CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>99</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_green>Very good</color>" );
     ava.set_healthy( 200 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_green>200</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_green>Excellent</color>" );
 }
 
 TEST_CASE( "widgets showing avatar stamina", "[widget][avatar][stamina]" )
@@ -2136,5 +2151,78 @@ TEST_CASE( "Clause conditions - pure JSON widgets", "[widget][clause][condition]
                "Symbol Values: <color_c_red_red><</color><color_i_yellow>-</color><color_c_yellow>=</color><color_c_white_green>+</color><color_c_light_green>></color>" );
         CHECK( w_lgd.layout( ava, sidebar_width ) ==
                "<color_c_red_red><</color> blind  <color_i_yellow>-</color> deaf\n<color_c_yellow>=</color> daylight\n<color_c_white_green>+</color> good hearing\n<color_c_light_green>></color> good vision\n" );
+    }
+}
+
+TEST_CASE( "widget disabled when empty", "[widget]" )
+{
+    item blindfold( "blindfold" );
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    widget wgt = widget_test_disabled_when_empty.obj();
+    REQUIRE( wgt.has_flag( json_flag_W_DISABLED_WHEN_EMPTY ) );
+
+    SECTION( "test layout results" ) {
+        // Show widget text when character is not blind
+        REQUIRE( !ava.is_blind() );
+        CHECK( wgt.layout( ava ) == "NOT EMPTY: <color_c_yellow>Text exists</color>" );
+
+        // Hide the widget when character is blind.
+        // The empty string indicates to the calling function
+        // that the widget should not be rendered
+        // (combined with the W_DISABLED_WHEN_EMPTY flag).
+        ava.wear_item( blindfold );
+        REQUIRE( ava.is_blind() );
+        CHECK( wgt.layout( ava ).empty() );
+    }
+
+    SECTION( "test widget rendering when disabled" ) {
+#if !(defined(TILES) || defined(_WIN32))
+        // Running the tests in a developer environment works fine, but
+        // the CI env has no interactive shell, so we skip the screen scraping.
+        const char *term_env = ::getenv( "TERM" );
+        // The tests don't initialize the curses window, so initialize it here...
+        if( term_env != nullptr && std::string( term_env ) != "unknown" &&
+            cata_curses_test::initscr() != nullptr ) {
+#endif
+            const int cols = 32;
+            const int rows = 5;
+
+            catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+
+            werase( w );
+            SECTION( "Not empty" ) {
+                // Show widget text when character is not blind
+                REQUIRE( !ava.is_blind() );
+                CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
+                std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+                CHECK( lines[0] == " NOT EMPTY: Text exists         " );
+                CHECK( lines[1] == "                                " );
+                CHECK( lines[2] == "                                " );
+                CHECK( lines[3] == "                                " );
+                CHECK( lines[4] == "                                " );
+            }
+
+            werase( w );
+            SECTION( "Empty" ) {
+                // Hide the widget when character is blind.
+                ava.wear_item( blindfold );
+                REQUIRE( ava.is_blind() );
+                // Shouldn't be called (height should be decremented), but check it just in case
+                CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
+                std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+                CHECK( lines[0] == "                                " );
+                CHECK( lines[1] == "                                " );
+                CHECK( lines[2] == "                                " );
+                CHECK( lines[3] == "                                " );
+                CHECK( lines[4] == "                                " );
+            }
+
+#if !(defined(TILES) || defined(_WIN32))
+            // ... and free it here
+            cata_curses_test::endwin();
+        }
+#endif
     }
 }

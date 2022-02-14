@@ -79,8 +79,20 @@ window_panel::window_panel(
     const std::string &id, const translation &nm, const int ht, const int wd,
     const bool default_toggle_, const std::function<bool()> &render_func,
     const bool force_draw )
-    : draw( draw_func ), render( render_func ), toggle( default_toggle_ ),
-      always_draw( force_draw ), height( ht ), width( wd ), id( id ), name( nm )
+    : draw( [draw_func]( const draw_args & d ) -> int { draw_func( d ); return 0; } ),
+      render( render_func ), toggle( default_toggle_ ), always_draw( force_draw ),
+      height( ht ), width( wd ), id( id ), name( nm )
+{
+    wgt = widget_id::NULL_ID();
+}
+
+window_panel::window_panel(
+    const std::string &id, const translation &nm, const int ht, const int wd,
+    const bool default_toggle_, const std::function<bool()> &render_func,
+    const bool force_draw )
+    : draw( []( const draw_args & ) -> int { return 0; } ),
+      render( render_func ), toggle( default_toggle_ ), always_draw( force_draw ),
+      height( ht ), width( wd ), id( id ), name( nm )
 {
     wgt = widget_id::NULL_ID();
 }
@@ -166,6 +178,11 @@ void window_panel::set_widget( const widget_id &w )
 const widget_id &window_panel::get_widget() const
 {
     return wgt;
+}
+
+void window_panel::set_draw_func( const std::function<int( const draw_args & )> &draw_func )
+{
+    draw = draw_func;
 }
 
 panel_layout::panel_layout( const translation &_name, const std::vector<window_panel> &_panels )
