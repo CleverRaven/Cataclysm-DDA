@@ -30,5 +30,5 @@ magic*.h @KorGgenT
 /gfx/ @I-am-Erk
 /tools/ @int-ua
 /lang/ @BrettDong
-widget.cpp @wapcaplet
-wiget.h @wapcaplet
+widget.cpp @wapcaplet @dseguin
+widget.h @wapcaplet @dseguin
