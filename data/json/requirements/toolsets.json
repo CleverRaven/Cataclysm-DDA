@@ -63,7 +63,7 @@
   {
     "id": "sewing_standard",
     "type": "requirement",
-    "//": "Crafting or repair of fabric items",
+    "//": "Crafting or repair of fabric items, includes roughly 10 inches of thread.",
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "filament", 1, "LIST" ] ] ]
   },
