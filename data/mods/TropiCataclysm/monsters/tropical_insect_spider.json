@@ -430,7 +430,7 @@
     "flags": [ "SMELLS", "QUEEN", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
-    "id": "mon_cicada_larva",
+    "id": "mon_cicada_nymph",
     "type": "MONSTER",
     "name": { "str": "cicada nymph" },
     "description": "The mutated larval form of a Cicada.  It doesnt produce noise like the adults but its digging claws seem suited for scratching.",
