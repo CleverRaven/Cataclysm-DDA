@@ -501,7 +501,7 @@
   {
     "id": "mon_woodlouse",
     "type": "MONSTER",
-    "name": { "str": "giant woodlouse" },
+    "name": { "str": "giant woodlouse", "str_pl": "giant woodlice" },
     "description": "A woodlouse grown to the size of a big dog.  These humble crustaceans are harmless and enjoy damp places.",
     "default_faction": "insect",
     "bodytype": "insect",
