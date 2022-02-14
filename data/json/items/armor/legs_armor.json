@@ -354,14 +354,14 @@
     "symbol": "[",
     "looks_like": "leg_warmers",
     "color": "dark_gray",
-    "warmth": 20,
+    "warmth": 5,
     "material_thickness": 4,
     "environmental_protection": 1,
     "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
-        "encumbrance": 10,
+        "encumbrance": 4,
         "coverage": 90,
         "cover_melee": 90,
         "cover_ranged": 95,

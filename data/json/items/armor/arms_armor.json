@@ -130,14 +130,14 @@
     "material": [ "plastic", "neoprene" ],
     "symbol": "[",
     "color": "dark_gray",
-    "warmth": 20,
-    "material_thickness": 3,
+    "warmth": 5,
+    "material_thickness": 4,
     "environmental_protection": 1,
     "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 5,
+        "encumbrance": 4,
         "coverage": 90,
         "cover_melee": 90,
         "cover_ranged": 95,

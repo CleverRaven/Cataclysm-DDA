@@ -245,7 +245,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "hard chest guard" },
-    "description": "A plastron of interlocking plastic plate protecting your torso.",
+    "description": "A solid vest of plastic padding protecting your torso.",
     "weight": "1000 g",
     "volume": "7 L",
     "price": 60000,
@@ -255,12 +255,12 @@
     "symbol": "H",
     "looks_like": "cuirass_lightplate",
     "color": "dark_gray",
-    "warmth": 20,
+    "warmth": 10,
     "longest_side": "20 cm",
-    "material_thickness": 3,
+    "material_thickness": 4,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 20, "coverage": 90, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "cuirass_lightplate",
