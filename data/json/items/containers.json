@@ -665,7 +665,7 @@
         "max_item_length": "100 cm"
       }
     ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box_reinforced" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box_large_reinforced" }
   },
   {
     "id": "bucket",

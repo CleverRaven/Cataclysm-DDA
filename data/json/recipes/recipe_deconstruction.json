@@ -5827,5 +5827,15 @@
     "time": "20 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "steel_lump", 8 ] ] ]
+  },
+  {
+    "result": "sheet_kevlar",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "thread_kevlar", 2 ] ] ]
   }
 ]
