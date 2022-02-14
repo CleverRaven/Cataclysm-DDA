@@ -52,7 +52,7 @@ const std::unordered_set<std::string> complex_conds = { {
 } // namespace dialogue_data
 int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
                            int default_val = 0 );
-int_or_var_part get_int_or_var_part( const JsonValue &jo, std::string member, bool required = true,
+int_or_var_part get_int_or_var_part( const JsonValue &jv, std::string member, bool required = true,
                                      int default_val = 0 );
 duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required = true,
                                      time_duration default_val = 0_seconds );
