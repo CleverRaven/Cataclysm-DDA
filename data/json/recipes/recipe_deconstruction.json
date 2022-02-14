@@ -5837,5 +5837,15 @@
     "difficulty": 3,
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "thread_kevlar", 2 ] ] ]
+  },
+  {
+	"result": "leather_tarp",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 6 ] ] ]
   }
 ]
