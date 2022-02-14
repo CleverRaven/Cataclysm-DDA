@@ -1616,7 +1616,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
     } while( fa != std::string::npos && fb != std::string::npos );
 }
 
-void parse_var_tags( std::string &phrase, const dialogue &d )
+static void parse_var_tags( std::string &phrase, const dialogue &d )
 {
     size_t fa;
     size_t fb;

@@ -1904,8 +1904,10 @@ static void character_edit_menu()
             break;
         }
         case D_EDIT_VARS: {
-            std::string key, value;
-            string_input_popup popup_key, popup_val;
+            std::string key;
+            std::string value;
+            string_input_popup popup_key;
+            string_input_popup popup_val;
             popup_key
             .title( _( "Key" ) )
             .width( 85 )
@@ -2935,8 +2937,10 @@ void debug()
         break;
 
         case debug_menu_index::EDIT_GLOBAL_VARS: {
-            std::string key, value;
-            string_input_popup popup_key, popup_val;
+            std::string key;
+            std::string value;
+            string_input_popup popup_key;
+            string_input_popup popup_val;
             popup_key
             .title( _( "Key" ) )
             .width( 85 )

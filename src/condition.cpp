@@ -1128,7 +1128,8 @@ static tripoint get_tripoint_from_string( std::string type, T &d )
 template<class T>
 void conditional_t<T>::set_compare_string( const JsonObject &jo, const std::string &member )
 {
-    str_or_var first, second;
+    str_or_var first;
+    str_or_var second;
     JsonArray objects = jo.get_array( member );
     if( objects.size() != 2 ) {
         jo.throw_error( "incorrect number of values.  Expected 2 in " + jo.str() );
