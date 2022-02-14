@@ -2918,7 +2918,7 @@
     "name": { "str_sp": "shooter's ear plugs (on)" },
     "description": "A pair of in-ear drivers designed to dampen loud sounds and amplify quiet sounds.  Without batteries or when turned off, they function like normal earplugs and block most sound.  They will block sounds over a certain decibel amount when turned on.  The earplugs are currently on.",
     "flags": [ "OVERSIZE", "PARTIAL_DEAF", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
-    "//": "6-8 hours batter life",
+    "//": "6-8 hours battery life",
     "power_draw": 4000,
     "revert_to": "powered_earplugs",
     "use_action": {
