@@ -839,14 +839,6 @@ static activity_reason_info find_base_construction(
         return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, idx );
     }
 
-    //check if construction allows items at the location
-    if( build.post_flags.count( "keep_items" ) == 0 ) {
-        const map_stack stuff_there = here.i_at( loc );
-        if( !stuff_there.empty() ) {
-            return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
-        }
-    }
-
     //can build?
     const bool cc = can_construct( build, loc );
     const bool pcb = player_can_build( you, inv, build );
@@ -938,6 +930,13 @@ static activity_reason_info find_base_construction(
     }
     if( !pcb ) {
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
+    }
+    //check if construction allows items at the location
+    if( build.post_flags.count( "keep_items" ) == 0 ) {
+        const map_stack stuff_there = here.i_at( loc );
+        if( !stuff_there.empty() ) {
+            return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
+        }
     }
     //only cc failed, no pre-req
     return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
