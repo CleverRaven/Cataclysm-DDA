@@ -44,6 +44,41 @@
     ]
   },
   {
+    "id": "test_fatigue_clause_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "tired",
+        "text": "Tired",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 191 } ] },
+            { "compare_int": [ { "u_val": "fatigue" }, "<=", { "const": 383 } ] }
+          ]
+        }
+      },
+      {
+        "id": "dead_tired",
+        "text": "Dead Tired",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 383 } ] },
+            { "compare_int": [ { "u_val": "fatigue" }, "<=", { "const": 575 } ] }
+          ]
+        }
+      },
+      {
+        "id": "exhausted",
+        "text": "Exhausted",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 575 } ] }
+      }
+    ]
+  },
+  {
     "id": "test_bp_status_indicator_template",
     "type": "widget",
     "style": "clause",
@@ -809,6 +844,13 @@
     "label": "WEARINESS",
     "var": "weariness_level",
     "style": "number"
+  },
+  {
+    "id": "test_fatigue_clause",
+    "type": "widget",
+    "label": "Rest",
+    "style": "text",
+    "copy-from": "test_fatigue_clause_template"
   },
   {
     "id": "test_hp_head_graph",
