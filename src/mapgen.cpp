@@ -2016,7 +2016,7 @@ class jmapgen_gaspump : public jmapgen_piece
 /**
  * Place a specific liquid into the map.
  * "liquid": id of the liquid item (item should use charges)
- * "amount": quantity of liquid placed (a value of 0 uses the default amount)
+ * "amount": quantity of liquid placed (a value of -1 uses the default amount)
  * "chance": chance of liquid being placed, see @ref map::place_items
  */
 class jmapgen_liquid_item : public jmapgen_piece
@@ -2026,7 +2026,7 @@ class jmapgen_liquid_item : public jmapgen_piece
         mapgen_value<itype_id> liquid;
         jmapgen_int chance;
         jmapgen_liquid_item( const JsonObject &jsi, const std::string &/*context*/ ) :
-            amount( jsi, "amount", 0, 0 )
+            amount( jsi, "amount", -1, -1 )
             , liquid( jsi.get_member( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
         }
@@ -2041,11 +2041,18 @@ class jmapgen_liquid_item : public jmapgen_piece
                 // individual items here.
                 itype_id migrated = item_controller->migrate_id( chosen_id );
                 item newliquid( migrated, calendar::start_of_cataclysm );
-                if( amount.valmax > 0 ) {
-                    newliquid.charges = amount.get();
+
+                if( amount.val > -1 ) {
+                    if( amount.valmax > -1 ) {
+                        newliquid.charges = amount.get();
+                    } else {
+                        newliquid.charges = amount.val;
+                    }
                 }
-                dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ),
-                                           newliquid );
+                if( newliquid.charges > 0 ) {
+                    dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ),
+                                               newliquid );
+                }
             }
         }
 
