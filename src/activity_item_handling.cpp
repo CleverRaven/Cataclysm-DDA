@@ -838,7 +838,6 @@ static activity_reason_info find_base_construction(
         }
         return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, idx );
     }
-
     //can build?
     const bool cc = can_construct( build, loc );
     const bool pcb = player_can_build( you, inv, build );
