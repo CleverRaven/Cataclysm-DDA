@@ -1,0 +1,163 @@
+[
+  {
+    "id": "migo_plate_overgrown",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "overgrown iridescent carapace plate" },
+    "description": "A chunk of otherworldly carapace that looks like it was at one point shaped like armor but is now bulky and overgrown with sharp pieces jutting out haphazardly.  Scarred into the outer surface you can barely make out the label \"STRIKE FACE\".  It looks like you could force it into a ballistic vest.",
+    "weight": "2800 g",
+    "volume": "1533 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "alien_carapace", "flesh" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 10,
+    "non_functional": "migo_plate",
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID" ],
+    "armor": [
+      { "encumbrance": 6,
+        "coverage": 45,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "material": [
+          { "type": "alien_carapace", "covered_by_mat": 100, "thickness": 6.0 },
+          { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "migo_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "iridescent carapace plate" },
+    "description": "A chunk of otherworldly carapace that seems to have been forced into the shape of a ballistic plate with a slightly concave profile.  Scarred into the outer surface is the label \"STRIKE FACE\".  It looks like you could force it into a ballistic vest.",
+    "weight": "2000 g",
+    "volume": "1533 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "alien_carapace", "flesh" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 8,
+    "non_functional": "migo_plate_undergrown",
+    "//": "transforms over a day",
+    "countdown_interval": 86400,
+    "countdown_action": { "type": "transform", "target": "migo_plate_overgrown", "msg": "The iridescent carapace plate expands as it grows." },
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID" ],
+    "armor": [
+      { "encumbrance": 2,
+        "coverage": 42,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "material": [
+          { "type": "alien_carapace", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "migo_plate_undergrown",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "undergrown iridescent carapace plate" },
+    "description": "A chunk of otherworldly carapace that seems to have been forced into the shape of a ballistic plate with a slightly concave profile.  Scarred into the outer surface is the label \"STRIKE FACE\".  The armor coverage is spotty and it appears to be oozing and pulsing like it is in pain.",
+    "weight": "1500 g",
+    "volume": "1533 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "alien_carapace", "flesh" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 6,
+    "non_functional": "migo_plate_undergrown",
+    "//": "transforms over a day",
+    "countdown_interval": 86400,
+    "countdown_action": { "type": "transform", "target": "migo_plate", "msg": "The iridescent carapace plate expands as it grows." },
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID" ],
+    "armor": [
+      { "encumbrance": 2,
+        "coverage": 39,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "material": [
+          { "type": "alien_carapace", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "migo_plate_naked",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "plate of scarred flesh" },
+    "description": "A chunk of otherworldly flesh that seems to have been forced into the shape of a ballistic plate with a slightly concave profile.  There is no armor left on this plate just a mass of writhing alien flesh oozing in pain.  However it looks like it is slowly growing back.",
+    "weight": "1000 g",
+    "volume": "1533 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "flesh" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 4,
+    "//": "transforms over a day",
+    "countdown_interval": 86400,
+    "countdown_action": { "type": "transform", "target": "migo_plate_undergrown", "msg": "The iridescent carapace plate expands as it grows." },
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID" ],
+    "armor": [
+      { "encumbrance": 2,
+        "coverage": 0,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "material": [
+          { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "migo_skin",
+    "type": "ARMOR",
+    "name": { "str": "second skin" },
+    "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you, the sensation is uncomfortable.  The liquid seems bound to a choker made from odd materials that seems to hum slightly, the inside reads 'CAREFUL CHOKING HAZARD'.  The ooze flows frealy covering your entire body but never crossing the choker to get to your head.",
+    "weight": "900 g",
+    "volume": "1 L",
+    "price": 2500,
+    "price_postapoc": 400,
+    "material": [ "alien_liquid" ],
+    "symbol": "[",
+    "looks_like": "union_suit",
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso", "leg_l", "leg_r", "foot_l", "foot_r", "arm_l", "arm_r", "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 2 }
+    ],
+    "warmth": 1,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "SKINTIGHT", "STURDY", "FILTHY", "NO_CLEAN" ]
+  },
+  {
+    "id": "migo_skin_off",
+    "type": "ARMOR",
+    "name": { "str": "odd choker" },
+    "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you, the sensation is uncomfortable.  The liquid seems bound to a choker made from odd materials that seems to hum slightly, the inside reads 'CAREFUL CHOKING HAZARD'.  The ooze flows frealy covering your entire body but never crossing the choker to get to your head.",
+    "weight": "300 g",
+    "volume": "1 L",
+    "price": 2500,
+    "price_postapoc": 400,
+    "material": [ "alien_liquid" ],
+    "symbol": "[",
+    "looks_like": "union_suit",
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso", "leg_l", "leg_r", "foot_l", "foot_r", "arm_l", "arm_r", "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 2 }
+    ],
+    "warmth": 1,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "SKINTIGHT", "STURDY", "FILTHY", "NO_CLEAN" ]
+  }
+]
