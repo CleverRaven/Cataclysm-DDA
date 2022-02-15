@@ -46,7 +46,7 @@
     "intensity_levels": [
       {
         "name": {
-          "//~": "context: `hair on your neck`, according to maleclypse, `I've always heard that when you suspect you are being watched it feels like the hair on your neck is lifting away from your body`. the effect of field is delete ",
+          "//~": "context: `hair on your neck`, according to maleclypse, `I've always heard that when you suspect you are being watched it feels like the hair on your neck is lifting away from your body`. the effect of field is delete the invisibility effect from the character",
           "str": "hair on your neck"
         },
         "effects": [
