@@ -566,5 +566,27 @@
     "material_thickness": 3,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "boots_h20survivor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of survivor wetsuit boots", "str_pl": "pairs of survivor wetsuit boots" },
+    "description": "A pair of customized, Kevlar-armored neoprene boots.  These will keep you dry and alive, come hell or high water.",
+    "weight": "1180 g",
+    "volume": "1500 ml",
+    "price": 24000,
+    "price_postapoc": 6000,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": [ "kevlar", "plastic", "neoprene" ],
+    "symbol": "[",
+    "looks_like": "boots_bunker",
+    "color": "dark_gray",
+    "warmth": 15,
+    "material_thickness": 3,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ],
+    "armor": [ { "encumbrance": 32, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   }
 ]
