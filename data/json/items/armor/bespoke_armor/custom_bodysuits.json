@@ -483,6 +483,59 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "UNDERSIZE" ]
   },
   {
+    "id": "hsurvivor_jumpsuit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "heavy survivor suit" },
+    "description": "A heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "weight": "15500 g",
+    "volume": "12 L",
+    "price": 200000,
+    "price_postapoc": 7000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "kevlar_layered", "low_steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "survivor_suit",
+    "color": "dark_gray",
+    "armor": [
+  		{
+        "material" : [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "low_steel", "covered_by_mat": 90, "thickness": 1 },
+          { "type": "low_steel", "covered_by_mat": 90, "thickness": 1 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 17, 17 ]
+  		}
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
+    "warmth": 15,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "xl_hsurvivor_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XL heavy survivor suit" },
+    "copy-from": "hsurvivor_jumpsuit",
+    "proportional": { "weight": 1.13, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_hsurvivor_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XS heavy survivor suit" },
+    "copy-from": "hsurvivor_jumpsuit",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "wsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",

@@ -263,34 +263,18 @@
     "looks_like": "survivor_suit",
     "color": "dark_gray",
     "armor": [
-  		{
-        "material" : [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "steel", "covered_by_mat": 90, "thickness": 1 },
-          { "type": "steel", "covered_by_mat": 90, "thickness": 1 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": [ 17, 17 ]
-  		},
-  		{
-        "material" : [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "steel", "covered_by_mat": 90, "thickness": 1 },
-          { "type": "steel", "covered_by_mat": 90, "thickness": 1 }
-        ],
-        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": [ 17, 17 ]
-  		}
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 17, 31 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 17, 21 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 120 }
     ],
     "warmth": 15,
+    "material_thickness": 6,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
