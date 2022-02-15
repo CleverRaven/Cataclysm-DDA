@@ -5902,7 +5902,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                 contents_suffix_text = string_format( pgettext( "item name",
                                                       //~ [container item name] " > [inner item name]
                                                       " > %1$s" ), contents_tname );
-            } else if (contents_count != 0) {
+            } else if( contents_count != 0 ) {
                 // Otherwise, add a contents count!
                 contents_suffix_text = string_format( pgettext( "item name",
                                                       //~ [container item name] " > [inner item name] (qty)
