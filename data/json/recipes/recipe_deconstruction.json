@@ -5839,7 +5839,7 @@
     "components": [ [ [ "thread_kevlar", 2 ] ] ]
   },
   {
-	"result": "leather_tarp",
+    "result": "leather_tarp",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "10 m",

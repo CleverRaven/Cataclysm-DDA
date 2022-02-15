@@ -68,11 +68,11 @@
     "components": [ [ [ "filament", 1, "LIST" ] ] ]
   },
   {
-	"id": "sewing_aramids",
-	"type": "requirement",
-	"//": "crafting or repair of aramid based fabrics (nomex, kevlar). Aramid threads are abrasive and require a stronger needle. they also have special cutting considerations."
-	"qualities": [ { "id": "SEW", "level": 3 }, { "id": "CUT", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
-	"components": [[[ "advanced_filament", 1, "LIST"]]]
+    "id": "sewing_aramids",
+    "type": "requirement",
+    "//": "crafting or repair of aramid based fabrics (nomex, kevlar). Aramid threads are abrasive and require a stronger needle. they also have special cutting considerations.",
+    "qualities": [ { "id": "SEW", "level": 3 }, { "id": "CUT", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "advanced_filament", 1, "LIST" ] ] ]
   },
   {
     "id": "welding_standard",
