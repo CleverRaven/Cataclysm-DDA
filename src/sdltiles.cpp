@@ -836,22 +836,22 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
+    point s;
+    get_window_tile_counts( width, height, s.x, s.y );
+
     op = point( dest.x * fontwidth, dest.y * fontheight );
     // Rounding up to include incomplete tiles at the bottom/right edges
     screentile_width = divide_round_up( width, tile_width );
     screentile_height = divide_round_up( height, tile_height );
 
-    window_dimensions wnd_dim = get_window_dimensions( g->w_overmap );
-
     const int min_col = 0;
-    const int max_col = screentile_width;
+    const int max_col = s.x;
     const int min_row = 0;
-    const int max_row = screentile_height;
+    const int max_row = s.y;
     int height_3d = 0;
     avatar &you = get_avatar();
     const tripoint_abs_omt avatar_pos = you.global_omt_location();
-    const tripoint_abs_omt corner_NW = center_abs_omt - point( wnd_dim.window_size_cell.x / 2,
-                                       wnd_dim.window_size_cell.y / 2 );
+    const tripoint_abs_omt corner_NW = center_abs_omt - point( max_col / 2, max_row / 2 );
     const tripoint_abs_omt corner_SE = corner_NW + point( max_col - 1, max_row - 1 );
     const inclusive_cuboid<tripoint> overmap_area( corner_NW.raw(), corner_SE.raw() );
     // Debug vision allows seeing everything
@@ -3799,8 +3799,8 @@ static window_dimensions get_window_dimensions( const catacurses::window &win,
     } else if( overmap_font && g && win == g->w_overmap ) {
         if( use_tiles && use_tiles_overmap ) {
             // tiles might have different dimensions than standard font
-            dim.scaled_font_size.x = tilecontext->get_tile_width();
-            dim.scaled_font_size.y = tilecontext->get_tile_height();
+            dim.scaled_font_size.x = overmap_tilecontext->get_tile_width();
+            dim.scaled_font_size.y = overmap_tilecontext->get_tile_height();
         } else {
             dim.scaled_font_size.x = overmap_font->width;
             dim.scaled_font_size.y = overmap_font->height;
@@ -3920,16 +3920,16 @@ static int map_font_height()
 
 static int overmap_font_width()
 {
-    if( use_tiles && tilecontext && use_tiles_overmap ) {
-        return tilecontext->get_tile_width();
+    if( use_tiles && overmap_tilecontext && use_tiles_overmap ) {
+        return overmap_tilecontext->get_tile_width();
     }
     return ( overmap_font ? overmap_font.get() : font.get() )->width;
 }
 
 static int overmap_font_height()
 {
-    if( use_tiles && tilecontext && use_tiles_overmap ) {
-        return tilecontext->get_tile_height();
+    if( use_tiles && overmap_tilecontext && use_tiles_overmap ) {
+        return overmap_tilecontext->get_tile_height();
     }
     return ( overmap_font ? overmap_font.get() : font.get() )->height;
 }

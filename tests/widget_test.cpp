@@ -94,6 +94,7 @@ static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
 static const widget_id widget_test_dex_color_num( "test_dex_color_num" );
 static const widget_id widget_test_disabled_when_empty( "test_disabled_when_empty" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
+static const widget_id widget_test_health_clause( "test_health_clause" );
 static const widget_id widget_test_health_color_num( "test_health_color_num" );
 static const widget_id widget_test_hp_head_graph( "test_hp_head_graph" );
 static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
@@ -461,20 +462,32 @@ TEST_CASE( "widgets showing avatar stats with color for normal value", "[widget]
 TEST_CASE( "widgets showing avatar health with color for normal value", "[widget][health][color]" )
 {
     widget health_w = widget_test_health_color_num.obj();
+    widget health_clause_w = widget_test_health_clause.obj();
 
     avatar &ava = get_avatar();
     clear_avatar();
 
     ava.set_healthy( -200 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_red>-200</color>" );
-    ava.set_healthy( -100 );
-    CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-100</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_red>Horrible</color>" );
+    ava.set_healthy( -99 );
+    CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-99</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_red>Very bad</color>" );
+    ava.set_healthy( -49 );
+    CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-49</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_yellow>Bad</color>" );
     ava.set_healthy( 0 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_white>0</color>" );
-    ava.set_healthy( 100 );
-    CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>100</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_gray>OK</color>" );
+    ava.set_healthy( 49 );
+    CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>49</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_white>Good</color>" );
+    ava.set_healthy( 99 );
+    CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>99</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_green>Very good</color>" );
     ava.set_healthy( 200 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_green>200</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_green>Excellent</color>" );
 }
 
 TEST_CASE( "widgets showing avatar stamina", "[widget][avatar][stamina]" )

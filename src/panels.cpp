@@ -1442,7 +1442,7 @@ static void draw_ai_goal( const draw_args &args )
     behavior::character_oracle_t player_oracle( &u );
     std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 0, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
+    mvwprintz( w, point( 0, 0 ), c_light_gray, _( "Goal : %s" ), current_need );
     wnoutrefresh( w );
 }
 

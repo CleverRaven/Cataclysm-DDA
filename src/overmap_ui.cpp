@@ -1174,7 +1174,9 @@ static void draw_om_sidebar(
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
         print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
-        print_hint( "TOGGLE_OVERMAP_WEATHER", uistate.overmap_visible_weather ? c_pink : c_magenta );
+        print_hint( "TOGGLE_OVERMAP_WEATHER",
+                    !get_map().is_outside( get_player_character().pos() ) ? c_dark_gray :
+                    uistate.overmap_visible_weather ? c_pink : c_magenta );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
     }
@@ -1870,7 +1872,9 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs );
         } else if( action == "TOGGLE_OVERMAP_WEATHER" ) {
-            uistate.overmap_visible_weather = !uistate.overmap_visible_weather;
+            if( get_map().is_outside( get_player_character().pos() ) ) {
+                uistate.overmap_visible_weather = !uistate.overmap_visible_weather;
+            }
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
             fast_scroll = !fast_scroll;
         } else if( action == "TOGGLE_FOREST_TRAILS" ) {

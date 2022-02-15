@@ -714,37 +714,6 @@ std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u
     return std::make_pair( _( fatigue_string ), fatigue_color );
 }
 
-std::pair<std::string, nc_color> display::health_text_color( const Character &u )
-{
-    std::string h_string;
-    nc_color h_color = c_light_gray;
-
-    int current_health = u.get_healthy();
-    if( current_health < -100 ) {
-        h_string = "Horrible";
-        h_color = c_red;
-    } else if( current_health < -50 ) {
-        h_string = "Very bad";
-        h_color = c_light_red;
-    } else if( current_health < -10 ) {
-        h_string = "Bad";
-        h_color = c_yellow;
-    } else if( current_health < 10 ) {
-        h_string = "OK";
-        h_color = c_light_gray;
-    } else if( current_health < 50 ) {
-        h_string = "Good";
-        h_color = c_white;
-    } else if( current_health < 100 ) {
-        h_string = "Very good";
-        h_color = c_green;
-    } else {
-        h_string = "Excellent";
-        h_color = c_light_green;
-    }
-    return std::make_pair( _( h_string ), h_color );
-}
-
 std::pair<std::string, nc_color> display::pain_text_color( const Creature &c )
 {
     float scale = c.get_perceived_pain() / 10.f;
