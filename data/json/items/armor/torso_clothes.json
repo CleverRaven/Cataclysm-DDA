@@ -230,8 +230,11 @@
     "color": "light_red",
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ] },
+      { "coverage": 90, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ] }
+    ]
   },
   {
     "id": "flotation_vest",
@@ -310,7 +313,7 @@
     "color": "pink",
     "warmth": 2,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "coverage": 25, "covers": [ "torso" ] } ]
   },
   {
@@ -341,7 +344,8 @@
     ],
     "warmth": 30,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
     "id": "jersey",
@@ -467,8 +471,11 @@
         "text": "A t-shirt with the Debian logo on it, underneath it says \"The Universal Operating System\""
       }
     ],
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 90, "covers": [ "torso" ] } ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ] },
+      { "coverage": 90, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ] }
+    ]
   },
   {
     "id": "longshirt",
@@ -485,7 +492,7 @@
     "color": "blue",
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 3, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
@@ -572,7 +579,10 @@
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 7, "coverage": 90, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": 7, "coverage": 90, "covers": [ "torso" ] },
+      { "encumbrance": 0, "coverage": 90, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ] }
+    ]
   },
   {
     "id": "postman_shirt",
@@ -607,7 +617,10 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ] },
+      { "coverage": 90, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ] }
+    ]
   },
   {
     "id": "santa_dress",
@@ -810,7 +823,7 @@
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 6, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "sweatshirt",
@@ -830,7 +843,7 @@
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 6, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "technician_shirt_gray",
@@ -863,7 +876,10 @@
       { "id": "technician_shirt_lightblue", "text": "A light-blue work t-shirt with a small front pocket." }
     ],
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 4, 5 ], "coverage": 90, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": [ 4, 5 ], "coverage": 90, "covers": [ "torso" ] },
+      { "encumbrance": [ 0, 0 ], "coverage": 90, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ] }
+    ]
   },
   {
     "id": "tshirt",
@@ -880,8 +896,11 @@
     "color": "white",
     "warmth": 5,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ] },
+      { "coverage": 90, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ] }
+    ]
   },
   {
     "id": "tshirt_text",
@@ -905,8 +924,11 @@
         "text": "A short-sleeved cotton shirt with the text \"chown -R us ~your/base\" printed on the front."
       }
     ],
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ] },
+      { "coverage": 90, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ] }
+    ]
   },
   {
     "id": "tshirt_tour",
@@ -1047,6 +1069,6 @@
     "warmth": 45,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   }
 ]
