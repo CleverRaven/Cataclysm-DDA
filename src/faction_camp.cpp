@@ -133,8 +133,9 @@ static const mtype_id mon_wolf( "mon_wolf" );
 
 static const std::string faction_hide_site_0_string = "faction_hide_site_0";
 
-static const oter_str_id oter_faction_hide_site_0( faction_hide_site_0_string );
+//static const oter_str_id oter_faction_hide_site_0(faction_hide_site_0_string);
 static const oter_str_id oter_forest_wet( "forest_wet" );
+
 static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
 
 static const skill_id skill_bashing( "bashing" );
@@ -161,13 +162,19 @@ static const std::string faction_wall_level_n_0_string = "faction_wall_level_N_0
 static const std::string faction_wall_level_n_1_string = "faction_wall_level_N_1";
 
 static const update_mapgen_id update_mapgen_faction_wall_level_E_1( "faction_wall_level_E_1" );
-static const update_mapgen_id update_mapgen_faction_wall_level_N_1(
-    faction_wall_level_n_1_string.c_str() );
+//static const update_mapgen_id update_mapgen_faction_wall_level_N_1(
+//    faction_wall_level_n_1_string.c_str() );
 static const update_mapgen_id update_mapgen_faction_wall_level_S_1( "faction_wall_level_S_1" );
 static const update_mapgen_id update_mapgen_faction_wall_level_W_1( "faction_wall_level_W_1" );
 
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
+
+//  Moved the constant compound "string" declaration into a jumble here rather than where they belong
+//  because placing them together with their context is rejected by 'cata-static-string_id-constants, -warnings-as-errors'
+static const oter_str_id oter_faction_hide_site_0( faction_hide_site_0_string );
+static const update_mapgen_id update_mapgen_faction_wall_level_N_1(
+    faction_wall_level_n_1_string.c_str() );
 
 struct mass_volume {
     units::mass wgt = 0_gram;
