@@ -36,9 +36,11 @@
       { "monster": "mon_woodlouse", "weight": 3, "cost_multiplier": 0 },
       { "monster": "mon_caterpillar_giant", "weight": 2, "cost_multiplier": 0 },
       { "monster": "mon_large_scorpion", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_onicophore", "weight": 2, "cost_multiplier": 0, "conditions": [ "DAWN", "DUSK" },
       { "monster": "mon_butterfly", "weight": 2, "cost_multiplier": 0 },
       { "monster": "mon_moth", "weight": 2, "cost_multiplier": 0, "conditions": [ "DAWN", "DUSK" ] },
       { "monster": "mon_scorpion_giant", "weight": 1, "cost_multiplier": 3, "starts": "240 hours" },
+      { "monster": "mon_onicophore_giant", "weight": 1, "cost_multiplier": 3, "starts": "240 hours", "conditions": [ "DAWN", "DUSK" ] },
       { "monster": "mon_butterfly_giant", "weight": 1, "cost_multiplier": 3, "starts": "240 hours" },
       { "monster": "mon_butterfly_titan", "weight": 1, "cost_multiplier": 3, "starts": "480 hours" },
       {
