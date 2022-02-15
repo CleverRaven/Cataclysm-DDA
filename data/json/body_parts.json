@@ -672,7 +672,7 @@
     "id": "hand_palm_l",
     "type": "sub_body_part",
     "max_coverage": 20,
-    "parent": "hand_r",
+    "parent": "hand_l",
     "side": 1,
     "opposite": "hand_palm_r",
     "name_multiple": "palms",
