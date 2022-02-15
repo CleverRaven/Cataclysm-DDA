@@ -3131,6 +3131,17 @@
   },
   {
     "type": "construction",
+    "id": "app_solar",
+    "group": "place_solar_panel",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "solar_panel", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_heater_large",
     "group": "place_heater_large",
     "category": "APPLIANCE",
@@ -3148,6 +3159,50 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "small_space_heater", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_battery_small",
+    "group": "place_small_battery",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "small_storage_battery", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_battery_medium",
+    "group": "place_medium_battery",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "medium_storage_battery", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_battery",
+    "group": "place_battery",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "storage_battery", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_battery_large",
+    "group": "place_large_battery",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "large_storage_battery", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
