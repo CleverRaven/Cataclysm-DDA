@@ -641,6 +641,19 @@
     ]
   },
   {
+    "result": "kevlar_chainmail_suit_xs",
+    "type": "recipe",
+    "id_suffix": "hauberk",
+    "copy-from": "kevlar_chainmail_suit",
+    "components": [
+      [ [ "chainmail_hood", 1 ], [ "xs_chainmail_hood", 1 ] ],
+      [ [ "chainmail_hauberk", 1 ], [ "chainmail_hauberk_xs", 1 ] ],
+      [ [ "k_gambeson_hood", 1 ], [ "xs_k_gambeson_hood", 1 ] ],
+      [ [ "k_gambeson", 1 ], [ "k_gambeson_xs", 1 ] ],
+      [ [ "k_gambeson_pants", 1 ], [ "xs_k_gambeson_pants", 1 ] ]
+    ]
+  },
+  {
     "result": "xl_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit",
