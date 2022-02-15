@@ -538,6 +538,7 @@
     "result": "kevlar_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "chainmail_suit_hauberk",
+    "activity_level": "LIGHT_EXERCISE",
     "components": [
       [ [ "chainmail_vest", 1 ] ],
       [ [ "chainmail_arms", 1 ] ],
@@ -550,6 +551,7 @@
     "result": "kevlar_chainmail_hauberk_xs",
     "type": "recipe",
     "copy-from": "kevlar_chainmail_hauberk",
+    "activity_level": "LIGHT_EXERCISE",
     "components": [
       [ [ "chainmail_vest", 1 ], [ "xs_chainmail_vest", 1 ] ],
       [ [ "chainmail_arms", 1 ], [ "xs_chainmail_arms", 1 ] ],
@@ -575,6 +577,7 @@
     "result": "xl_kevlar_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "kevlar_chainmail_hauberk",
+    "activity_level": "LIGHT_EXERCISE",
     "components": [
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
@@ -622,6 +625,7 @@
     "result": "kevlar_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit_hauberk",
+    "activity_level": "LIGHT_EXERCISE",
     "components": [
       [ [ "chainmail_hood", 1 ] ],
       [ [ "chainmail_vest", 1 ] ],
@@ -636,6 +640,7 @@
     "result": "kevlar_chainmail_suit_xs",
     "type": "recipe",
     "copy-from": "kevlar_chainmail_suit",
+    "activity_level": "LIGHT_EXERCISE",
     "components": [
       [ [ "chainmail_hood", 1 ], [ "xs_chainmail_hood", 1 ] ],
       [ [ "chainmail_vest", 1 ], [ "xs_chainmail_vest", 1 ] ],
@@ -651,6 +656,7 @@
     "type": "recipe",
     "id_suffix": "hauberk",
     "copy-from": "kevlar_chainmail_suit",
+    "activity_level": "LIGHT_EXERCISE",
     "components": [
       [ [ "chainmail_hood", 1 ], [ "xs_chainmail_hood", 1 ] ],
       [ [ "chainmail_hauberk", 1 ], [ "chainmail_hauberk_xs", 1 ] ],
@@ -677,6 +683,7 @@
     "result": "xl_kevlar_chainmail_suit",
     "type": "recipe",
     "copy-from": "kevlar_chainmail_suit",
+    "activity_level": "LIGHT_EXERCISE",
     "components": [
       [ [ "xl_chainmail_hood", 1 ] ],
       [ [ "xl_chainmail_vest", 1 ] ],
@@ -692,6 +699,7 @@
     "type": "recipe",
     "id_suffix": "hauberk",
     "copy-from": "kevlar_chainmail_suit",
+    "activity_level": "LIGHT_EXERCISE",
     "components": [
       [ [ "xl_chainmail_hood", 1 ] ],
       [ [ "xl_chainmail_hauberk", 1 ] ],
@@ -724,6 +732,7 @@
     "type": "recipe",
     "id_suffix": "hauberk",
     "copy-from": "chainmail_suit_hauberk",
+    "activity_level": "LIGHT_EXERCISE",
     "components": [
       [ [ "chainmail_hood", 1 ] ],
       [ [ "chainmail_hauberk", 1 ] ],
@@ -760,6 +769,7 @@
     "result": "xl_kevlar_chainmail_suit",
     "type": "recipe",
     "copy-from": "chainmail_suit",
+    "activity_level": "LIGHT_EXERCISE",
     "components": [
       [ [ "xl_chainmail_hood", 1 ] ],
       [ [ "xl_chainmail_hauberk", 1 ] ],
