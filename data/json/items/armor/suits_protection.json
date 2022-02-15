@@ -1928,7 +1928,7 @@
     "id": "xs_k_gambeson_pants",
     "type": "ARMOR",
     "name": { "str": "XS Kevlar arming pants", "str_pl": "pairs of XS Kevlar arming pants" },
-    "copy-from": "xs_k_gambeson_pants",
+    "copy-from": "k_gambeson_pants",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
