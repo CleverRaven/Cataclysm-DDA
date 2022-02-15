@@ -541,7 +541,7 @@
   {
     "type": "effect_type",
     "id": "tpollen",
-    "name": [ "Hard of Breath" ],
+    "name": [ "Short of Breath" ],
     "desc": [ "The pollen makes it hard to breathe!" ],
     "miss_messages": [ [ "You cough out pollen.", 1 ] ],
     "rating": "bad",
@@ -1992,6 +1992,8 @@
   {
     "type": "effect_type",
     "id": "tapeworm",
+    "name": [ "Unidentified Illness" ],
+    "desc": [ "You aren't sure what's wrong with you but you don't feel well." ],
     "rating": "bad",
     "resist_traits": [ "VOMITSTOMACH" ],
     "base_mods": { "hunger_chance": [ 50 ], "hunger_min": [ 1 ] },
@@ -2000,6 +2002,8 @@
   {
     "type": "effect_type",
     "id": "bloodworms",
+    "name": [ "Unidentified Illness" ],
+    "desc": [ "You aren't sure what's wrong with you but you don't feel well." ],
     "rating": "bad",
     "base_mods": {
       "thirst_tick": [ 600 ],
@@ -2013,6 +2017,8 @@
   {
     "type": "effect_type",
     "id": "brainworms",
+    "name": [ "Unidentified Illness" ],
+    "desc": [ "You aren't sure what's wrong with you but you don't feel well." ],
     "rating": "bad",
     "base_mods": { "pain_chance": [ 512 ], "pain_min": [ 2 ], "pain_max": [ 8 ], "h_mod_chance": [ 512 ], "h_mod_min": [ -10 ] },
     "blood_analysis_description": "Intracranial Parasites"
@@ -2020,6 +2026,8 @@
   {
     "type": "effect_type",
     "id": "paincysts",
+    "name": [ "Unidentified Illness" ],
+    "desc": [ "You aren't sure what's wrong with you but you don't feel well." ],
     "rating": "bad",
     "base_mods": { "pain_chance": [ 256 ], "pain_min": [ 1 ], "pain_max": [ 4 ], "fatigue_chance": [ 256 ], "fatigue_min": [ 1 ] },
     "blood_analysis_description": "Intramuscular Parasites"
