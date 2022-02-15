@@ -1393,10 +1393,10 @@
       "str": "Kevlar chainmail armor"
     },
     "description": "A fully customized chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
-    "weight": "21036 g",
-    "volume": "7770 ml",
-    "price": 79000,
-    "price_postapoc": 9350,
+    "weight": "21376 g",
+    "volume": "8070 ml",
+    "price": 79412,
+    "price_postapoc": 9850,
     "to_hit": -1,
     "material": [
       "cotton",
@@ -1422,12 +1422,14 @@
       },
       {
         "material": [
-          { "type": "steel", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.3 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1.9 },
+          { "type": "steel", "covered_by_mat": 95, "thickness": 2 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 2 }
         ],
         "covers": [ "head" ],
-        "coverage": 95,
-        "encumbrance": [ 20, 20 ]
+        "coverage": 100,
+        "encumbrance": [ 24, 24 ]
       }
     ],
     "flags": [
