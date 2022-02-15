@@ -537,7 +537,7 @@
   {
     "result": "kevlar_chainmail_hauberk",
     "type": "recipe",
-    "copy-from": "chainmail_hauberk",
+    "copy-from": "chainmail_suit_hauberk",
     "components": [
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
@@ -568,7 +568,7 @@
   {
     "result": "xl_kevlar_chainmail_hauberk",
     "type": "recipe",
-    "copy-from": "xl_chainmail_hauberk",
+    "copy-from": "kevlar_chainmail_hauberk",
     "components": [
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
