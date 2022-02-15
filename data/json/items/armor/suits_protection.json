@@ -1364,7 +1364,7 @@
     "looks_like": "kevlar_chainmail_hauberk",
     "name": { "str": "XS kevlar chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "chainmail_suit",
@@ -1472,7 +1472,7 @@
     "looks_like": "kevlar_chainmail_suit",
     "name": { "str": "XS kevlar chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "chainmail_suit_faraday",
