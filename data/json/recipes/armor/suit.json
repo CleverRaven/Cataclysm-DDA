@@ -615,15 +615,15 @@
   {
     "result": "kevlar_chainmail_suit",
     "type": "recipe",
-    "copy-from": "chainmail_suit",
+    "copy-from": "chainmail_suit_hauberk",
     "components": [
       [ [ "chainmail_hood", 1 ] ],
       [ [ "chainmail_vest", 1 ] ],
       [ [ "chainmail_arms", 1 ] ],
       [ [ "chainmail_legs", 1 ] ],
+      [ [ "k_gambeson_hood", 1 ] ],
       [ [ "k_gambeson", 1 ] ],
-      [ [ "k_gambeson_pants", 1 ] ],
-      [ [ "k_gambeson_hood", 1 ] ]
+      [ [ "k_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -631,11 +631,13 @@
     "type": "recipe",
     "copy-from": "kevlar_chainmail_suit",
     "components": [
-      [ [ "chainmail_hood", 1 ] ],
-      [ [ "chainmail_vest", 1 ] ],
-      [ [ "chainmail_arms", 1 ] ],
-      [ [ "chainmail_legs", 1 ] ],
-      [ [ "k_gambeson", 1 ] ]
+      [ [ "chainmail_hood", 1 ], [ "xs_chainmail_hood", 1 ] ],
+      [ [ "chainmail_vest", 1 ], [ "xs_chainmail_vest", 1 ] ],
+      [ [ "chainmail_arms", 1 ], [ "xs_chainmail_arms", 1 ] ],
+      [ [ "chainmail_legs", 1 ], [ "xs_chainmail_legs", 1 ] ],
+      [ [ "k_gambeson_hood", 1 ] ],
+      [ [ "k_gambeson", 1 ], [ "k_gambeson_xs", 1 ] ],
+      [ [ "k_gambeson_pants", 1 ] ]
     ]
   },
   {
@@ -655,7 +657,7 @@
   {
     "result": "xl_kevlar_chainmail_suit",
     "type": "recipe",
-    "copy-from": "chainmail_suit",
+    "copy-from": "kevlar_chainmail_suit",
     "components": [
       [ [ "xl_chainmail_hood", 1 ] ],
       [ [ "xl_chainmail_vest", 1 ] ],
@@ -687,8 +689,15 @@
   {
     "result": "kevlar_chainmail_suit",
     "type": "recipe",
-    "copy-from": "chainmail_suit",
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "k_gambeson", 1 ] ], [ [ "k_gambeson_pants", 1 ] ] ]
+    "id_suffix": "hauberk"
+    "copy-from": "chainmail_suit_hauberk",
+    "components": [
+      [ [ "chainmail_hood", 1 ] ],
+      [ [ "chainmail_hauberk", 1 ] ],
+      [ [ "k_gambeson_hood", 1 ] ],
+      [ [ "k_gambeson", 1 ] ],
+      [ [ "k_gambeson_pants", 1 ] ]
+    ]
   },
   {
     "result": "xl_chainmail_suit",
