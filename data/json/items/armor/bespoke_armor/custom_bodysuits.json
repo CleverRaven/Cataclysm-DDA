@@ -229,9 +229,26 @@
     "looks_like": "survivor_jumpsuit",
     "color": "green",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
+  		{
+  	    "material" : [
+    		 { "type": "cotton", "covered_by_mat": 100, "thickness": 2 },
+    		 { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
+         { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+  		 ],
+  		"covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": [ 7, 7 ]
+  		},
+  		{
+  	    "material" : [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 2 },
+     		  { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+  		 ],
+  		"covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": [ 7, 7 ]
+  		}
     ],
     "pocket_data": [
       {
@@ -252,7 +269,6 @@
       }
     ],
     "warmth": 15,
-    "material_thickness": 4,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
@@ -288,9 +304,28 @@
     "looks_like": "touring_suit",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 12, 12 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 12, 12 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 12, 12 ] }
+  		{
+  	    "material" : [
+    		 { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
+    		 { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
+         { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 },
+         { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+  		 ],
+  		"covers": [ "torso" ],
+          "coverage": 100,
+          "encumbrance": [ 12, 12 ]
+  		},
+  		{
+  	    "material" : [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
+     		  { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+  		 ],
+  		"covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+          "coverage": 100,
+          "encumbrance": [ 12, 12 ]
+  		}
     ],
     "pocket_data": [
       {
@@ -311,7 +346,6 @@
       }
     ],
     "warmth": 15,
-    "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
