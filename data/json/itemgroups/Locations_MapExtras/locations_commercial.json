@@ -492,8 +492,8 @@
       [ "signal_flare", 15 ],
       [ "rm120c", 2 ],
       [ "knee_pads", 10 ],
-      [ "oxygen_tank", 10 ],
-      [ "smoxygen_tank", 5 ],
+      { "item": "oxygen_tank", "prob": 10, "charges": 24 },
+      { "item": "smoxygen_tank", "prob": 5, "charges": 12 },
       [ "clogs", 1 ],
       [ "speargun", 8 ],
       [ "minispeargun", 6 ],
@@ -1987,6 +1987,10 @@
   {
     "type": "item_group",
     "id": "gunshop_accessories",
-    "items": [ { "item": "powered_earmuffs", "prob": 50, "charges": [ 0, 50 ] }, [ "ear_plugs", 80 ] ]
+    "items": [
+      { "item": "powered_earmuffs", "prob": 50, "charges": [ 0, 50 ] },
+      [ "ear_plugs", 80 ],
+      { "item": "powered_earplugs", "prob": 50, "charges": [ 0, 75 ] }
+    ]
   }
 ]

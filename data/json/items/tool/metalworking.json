@@ -326,6 +326,7 @@
     "description": "These are a pair of flatjaw tongs.  They are commonly used for metalworking, fabrication or forging recipes.",
     "weight": "750 g",
     "volume": "500 ml",
+    "longest_side": "46 cm",
     "price": 1600,
     "price_postapoc": 10,
     "bashing": 6,
