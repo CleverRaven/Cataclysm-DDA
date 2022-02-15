@@ -54,19 +54,21 @@ struct character_modifier {
             return !builtin.empty();
         }
         // Which limb score is used to calculate this modifier (if any)
-        const limb_score_id &use_limb_score() const {
-            return limbscore;
+        const std::map<limb_score_id, float> &use_limb_scores() const {
+            return limbscores;
         }
 
     private:
         character_modifier_id id = character_modifier_id::NULL_ID();
-        limb_score_id limbscore = limb_score_id::NULL_ID();
+        std::map<limb_score_id, float> limbscores;
+        mod_type limbscore_modop = MULT;
         body_part_type::type limbtype = body_part_type::type::num_types;
         translation desc = translation();
         mod_type modtype = mod_type::NONE;
         float max_val = 0.0f;
         float min_val = 0.0f;
         float nominator = 0.0f;
+        float denominator = 1.0f;
         float subtractor = 0.0f;
         int override_encumb = -1;
         int override_wounds = -1;

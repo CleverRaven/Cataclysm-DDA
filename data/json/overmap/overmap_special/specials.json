@@ -5950,6 +5950,15 @@
   },
   {
     "type": "overmap_special",
+    "id": "Mi-Go Portal",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "mi-go_portal_north" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, -1 ],
+    "occurrences": [ 20, 100 ],
+    "flags": [ "MI-GO", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Isherwood Farms",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "special_field" },

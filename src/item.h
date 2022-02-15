@@ -1504,7 +1504,7 @@ class item : public visitable
 
         /**
          * Is it ever possible to reload this item?
-         * Only the base item is considered with any mods ignored
+         * ALso checks for reloading installed gunmods
          * @see player::can_reload()
          */
         bool is_reloadable() const;
