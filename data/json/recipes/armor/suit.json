@@ -514,7 +514,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": "1 h 45 m",
+    "time": "5 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -594,7 +594,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "1 h 50 m",
+    "time": "5 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
@@ -729,7 +729,6 @@
     ],
     "components": [
       [ [ "chainmail_hood", 1 ] ],
-      [ [ "gambeson_hood", 1 ] ],
       [ [ "chainmail_hauberk", 1 ] ]
     ]
   },
