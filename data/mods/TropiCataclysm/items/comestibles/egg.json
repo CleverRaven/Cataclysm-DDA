@@ -132,7 +132,7 @@
     "type": "COMESTIBLE",
     "id": "egg_termite",
     "name": "termite egg",
-    "copy-from": "egg_insect",
+    "copy-from": "ant_egg",
     "description": "The small translucent egg of a termite.  It will grow quickly into a nymph if allowed.",
     "rot_spawn": "GROUP_EGG_TERMITE"
   },
