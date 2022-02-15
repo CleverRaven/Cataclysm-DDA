@@ -207,20 +207,36 @@
     "id": "chainmail_vest",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "chainmail vest" },
+    "name": {
+      "str": "chainmail vest"
+    },
     "description": "A customized chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "weight": "6953 g",
     "volume": "1 L",
     "price": 10000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "steel", "cotton" ],
+    "material": [
+      "low_steel",
+      "cotton"
+    ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_red",
-    "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": [ 18, 18 ]
+      }
+    ],
+    "flags": [
+      "VARSIZE",
+      "STURDY"
+    ]
   },
   {
     "id": "xl_chainmail_vest",
@@ -228,7 +244,7 @@
     "name": { "str": "XL chainmail vest" },
     "copy-from": "chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_chainmail_vest",
@@ -237,7 +253,7 @@
     "looks_like": "chainmail_vest",
     "name": { "str": "XS chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "chestguard_hard",

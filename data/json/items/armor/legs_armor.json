@@ -139,13 +139,21 @@
     "price": 7500,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": [ "low_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": [ 18, 18 ]
+      }
+    ],
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "xl_chainmail_legs",
@@ -154,7 +162,7 @@
     "name": { "str": "XL chainmail leggings", "str_pl": "pairs of XL chainmail leggings" },
     "description": "Customized chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_chainmail_legs",
@@ -164,7 +172,7 @@
     "name": { "str": "XS chainmail leggings", "str_pl": "pairs of XS chainmail leggings" },
     "description": "Customized chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "leggings_thessalonian",

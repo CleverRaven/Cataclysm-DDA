@@ -609,23 +609,30 @@
     "price": 7500,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "material": [ "steel", "cotton" ],
+    "material": [ "low_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_red",
-    "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": [ 18, 18 ]
+      }
+    ],
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "xl_chainmail_arms",
     "type": "ARMOR",
     "name": { "str": "pair of XL chainmail sleeves", "str_pl": "pairs of XL chainmail sleeves" },
     "description": "Customized chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
-    "weight": "3212 g",
-    "volume": "1050 ml",
     "copy-from": "chainmail_arms",
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_chainmail_arms",
@@ -635,7 +642,7 @@
     "name": { "str": "pair of XS chainmail sleeves", "str_pl": "pairs of XS chainmail sleeves" },
     "description": "Customized chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "elbow_pads",
