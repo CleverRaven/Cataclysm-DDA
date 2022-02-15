@@ -578,7 +578,7 @@
     "id": "mon_onicophore_giant",
     "type": "MONSTER",
     "name": { "str": "velvet wyrm" },
-    "description": "An enormous velvet worm the length of several humans. Its mouthparts and skin have reinforced to hunt down and defend against the new fauna of the Cataclysm.",
+    "description": "An enormous velvet worm the length of several humans.  Its mouthparts and skin have reinforced to hunt down and defend against the new fauna of the Cataclysm.",
     "default_faction": "worm",
     "bodytype": "snake",
     "species": [ "WORM" ],
