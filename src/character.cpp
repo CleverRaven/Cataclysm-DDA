@@ -329,10 +329,17 @@ static const limb_score_id limb_score_vision( "vision" );
 
 static const matec_id tec_none( "tec_none" );
 
+static const material_id material_budget_steel( "budget_steel" );
+static const material_id material_case_hardened_steel( "case_hardened_steel" );
 static const material_id material_flesh( "flesh" );
+static const material_id material_hardsteel( "hardsteel" );
 static const material_id material_hflesh( "hflesh" );
+static const material_id material_high_steel( "high_steel" );
 static const material_id material_iron( "iron" );
+static const material_id material_low_steel( "low_steel" );
+static const material_id material_med_steel( "med_steel" );
 static const material_id material_steel( "steel" );
+static const material_id material_tempered_steel( "tempered_steel" );
 static const material_id material_wool( "wool" );
 
 static const morale_type morale_nightmare( "morale_nightmare" );
@@ -472,6 +479,8 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
+
+static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel, material_hardsteel };
 
 namespace io
 {
@@ -5429,8 +5438,7 @@ int Character::throw_range( const item &it ) const
                                static_cast<int>(
                                    tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1_liter;
-    static const std::set<material_id> affected_materials = { material_iron, material_steel };
-    if( has_active_bionic( bio_railgun ) && tmp.made_of_any( affected_materials ) ) {
+    if( has_active_bionic( bio_railgun ) && tmp.made_of_any( ferric ) ) {
         ret *= 2;
     }
     if( ret < 1 ) {
