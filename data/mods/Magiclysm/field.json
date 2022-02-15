@@ -43,10 +43,12 @@
   {
     "id": "fd_safe_shoppers",
     "type": "field_type",
-    "//": "context: `hair on your neck`, according to maleclypse, `I've always heard that when you suspect you are being watched it feels like the hair on your neck is lifting away from your body`. the effect of field is delete ",
     "intensity_levels": [
       {
-        "name": "hair on your neck",
+        "name": {
+          "//~": "context: `hair on your neck`, according to maleclypse, `I've always heard that when you suspect you are being watched it feels like the hair on your neck is lifting away from your body`. the effect of field is delete ",
+          "str": "hair on your neck"
+        },
         "effects": [
           {
             "effect_id": "safe_shoppers",
