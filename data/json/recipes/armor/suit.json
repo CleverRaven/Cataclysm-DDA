@@ -622,7 +622,8 @@
       [ [ "chainmail_arms", 1 ] ],
       [ [ "chainmail_legs", 1 ] ],
       [ [ "k_gambeson", 1 ] ],
-      [ [ "k_gambeson_pants", 1 ] ]
+      [ [ "k_gambeson_pants", 1 ] ],
+      [ [ "k_gambeson_hood", 1 ] ]
     ]
   },
   {
