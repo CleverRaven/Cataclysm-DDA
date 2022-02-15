@@ -51,12 +51,9 @@
     "description": "Precious GASOLINE.  The former world bowed to their petroleum god as it led them to their ruin.  There's plenty left over to fuel your inner road warrior.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
     "//": "clone of t_gas_pump, but other color, must be clone every time",
     "looks_like": "t_gas_pump",
+    "copy-from": "t_gas_pump",
     "symbol": "&",
-    "color": "yellow_red",
-    "move_cost": 0,
-    "coverage": 65,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "LIQUIDCONT" ],
-    "examine_action": "gaspump"
+    "color": "yellow_red"
   },
   {
     "type": "terrain",

@@ -95,6 +95,7 @@ class talker_character_const: public talker
         std::string short_description() const override;
         bool has_activity() const override;
         bool is_mounted() const override;
+        int get_activity_level() const override;
         int get_fatigue() const override;
         int get_hunger() const override;
         int get_thirst() const override;
@@ -120,6 +121,7 @@ class talker_character_const: public talker
         int get_bmi_permil() const override;
         const move_mode_id &get_move_mode() const override;
         int get_fine_detail_vision_mod() const override;
+        int get_health() const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;

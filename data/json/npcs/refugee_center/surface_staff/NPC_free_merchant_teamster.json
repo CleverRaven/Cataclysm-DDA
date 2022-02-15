@@ -241,7 +241,7 @@
   {
     "id": "directions_hub01",
     "type": "mission_definition",
-    "name": { "str": "Check out that farm" },
+    "name": { "str": "Check out that lab" },
     "description": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,

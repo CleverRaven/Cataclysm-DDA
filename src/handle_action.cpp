@@ -2453,6 +2453,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_MAP:
+            if( !m.is_outside( player_character.pos() ) ) {
+                uistate.overmap_visible_weather = false;
+            }
             ui::omap::display();
             break;
 
