@@ -729,8 +729,8 @@
     ],
     "components": [
       [ [ "chainmail_hood", 1 ] ],
-      [ [ "chainmail_hauberk", 1 ] ],
-      [ [ "gambeson_pants", 1 ] ]
+      [ [ "gambeson_hood", 1 ] ],
+      [ [ "chainmail_hauberk", 1 ] ]
     ]
   },
   {
