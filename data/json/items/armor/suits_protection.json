@@ -1317,7 +1317,7 @@
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.3 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1.9 },
-          { "type": "steel", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.2 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
@@ -1413,21 +1413,10 @@
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.3 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1.9 },
-          { "type": "steel", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.2 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 2.5 }
         ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": [ 24, 24 ]
-      },
-      {
-        "material": [
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.3 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1.9 },
-          { "type": "steel", "covered_by_mat": 95, "thickness": 2 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 2 }
-        ],
-        "covers": [ "head" ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": [ 24, 24 ]
       }
