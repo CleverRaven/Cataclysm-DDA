@@ -959,15 +959,16 @@ void input_context::register_action( const std::string &action_descriptor,
 
 std::vector<input_event> input_context::keys_bound_to( const std::string &action_descriptor,
         const int maximum_modifier_count,
-        const bool restrict_to_printable ) const
+        const bool restrict_to_printable,
+        const bool restrict_to_keyboard ) const
 {
     std::vector<input_event> result;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
             category );
     for( const auto &events_event : events ) {
         // Ignore non-keyboard input
-        if( ( events_event.type == input_event_t::keyboard_char
-              || events_event.type == input_event_t::keyboard_code )
+        if( ( !restrict_to_keyboard || ( events_event.type == input_event_t::keyboard_char
+                                         || events_event.type == input_event_t::keyboard_code ) )
             && is_event_type_enabled( events_event.type )
             && events_event.sequence.size() == 1
             && ( maximum_modifier_count < 0
@@ -1797,6 +1798,12 @@ bool input_context::is_event_type_enabled( const input_event_t type ) const
     return true;
 }
 
+bool input_context::is_registered_action( const std::string &action_name ) const
+{
+    return std::find( registered_actions.begin(), registered_actions.end(),
+                      action_name ) != registered_actions.end();
+}
+
 input_event input_context::first_unassigned_hotkey( const hotkey_queue &queue ) const
 {
     input_event ret = queue.first( *this );
@@ -1896,26 +1903,19 @@ const hotkey_queue &hotkey_queue::alphabets()
     return *queue;
 }
 
-const hotkey_queue &hotkey_queue::alpha_digits()
+const hotkey_queue &hotkey_queue::create_from_available_hotkeys( input_context &ctxt )
 {
     static std::unique_ptr<hotkey_queue> queue;
     if( !queue ) {
         queue = std::make_unique<hotkey_queue>();
-        for( int ch = '1'; ch <= '9'; ++ch ) {
-            queue->codes_keycode.emplace_back( ch );
-            queue->codes_keychar.emplace_back( ch );
+
+        std::string available_hotkeys = ctxt.get_available_single_char_hotkeys();
+        int input_length = available_hotkeys.length();
+
+        for( int i = 0; i < input_length; i++ ) {
+            queue->codes_keycode.emplace_back( available_hotkeys[i] );
+            queue->codes_keychar.emplace_back( available_hotkeys[i] );
         }
-        queue->codes_keycode.emplace_back( '0' );
-        queue->codes_keychar.emplace_back( '0' );
-        for( int ch = 'a'; ch <= 'z'; ++ch ) {
-            queue->codes_keycode.emplace_back( ch );
-            queue->codes_keychar.emplace_back( ch );
-        }
-        for( int ch = 'A'; ch <= 'Z'; ++ch ) {
-            queue->codes_keychar.emplace_back( ch );
-        }
-        queue->modifiers_keycode.emplace_back();
-        queue->modifiers_keycode.emplace_back( std::set<keymod_t>( { keymod_t::shift } ) );
     }
     return *queue;
 }

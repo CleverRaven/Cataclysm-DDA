@@ -68,6 +68,7 @@ static const furn_str_id furn_f_console_broken( "f_console_broken" );
 
 static const itype_id itype_black_box( "black_box" );
 static const itype_id itype_blood( "blood" );
+static const itype_id itype_blood_tainted( "blood_tainted" );
 static const itype_id itype_c4( "c4" );
 static const itype_id itype_cobalt_60( "cobalt_60" );
 static const itype_id itype_mininuke( "mininuke" );
@@ -925,7 +926,8 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood &&
+                       items.only_item().legacy_front().typeId() != itype_blood_tainted ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else { // Success!
                 const item &blood = items.only_item().legacy_front();
@@ -1606,7 +1608,8 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
             } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood &&
+                       items.only_item().legacy_front().typeId() != itype_blood_tainted ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );
