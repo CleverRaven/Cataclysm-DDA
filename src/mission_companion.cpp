@@ -102,11 +102,6 @@ static const std::string role_id_faction_camp = "FACTION_CAMP";
 static const std::string omt_evac_center_18 = "evac_center_18";
 static const std::string omt_ranch_camp_63 = "ranch_camp_63";
 
-static const std::string Crafting_string = "Crafting ";
-static const std::string Construction_string = "Construction ";
-static const std::string Camp_Hard_Coded_string = "Camp_Hard_Coded ";
-static const std::string Conversation_string = "Conversation ";
-
 static const std::string return_ally_question_string =
     "\n\nDo you wish to bring your allies back into your party?";
 static const std::string assign_scavenging_patrol_string = "Assign Scavenging Patrol";

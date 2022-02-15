@@ -135,7 +135,6 @@ static const std::string faction_hide_site_0_string = "faction_hide_site_0";
 
 static const oter_str_id oter_faction_hide_site_0( faction_hide_site_0_string );
 static const oter_str_id oter_forest_wet( "forest_wet" );
-
 static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
 
 static const skill_id skill_bashing( "bashing" );
@@ -892,8 +891,10 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
             } else {
                 entry = miss_info.action.translated();
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( base_camps::recover_ally_string + dir_id + base_camps::expansion_string +
-                                        upgrade.bldg,
+                std::string id = base_camps::recover_ally_string + dir_id;
+                id += base_camps::expansion_string;
+                id += upgrade.bldg;
+                mission_key.add_return( id,
                                         _( base_camps::recover_ally_string ) + dir_abbr + _( base_camps::expansion_string ) +
                                         " " + upgrade.name, dir, entry, avail );
             }
