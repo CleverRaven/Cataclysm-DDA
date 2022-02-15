@@ -748,6 +748,18 @@
     ]
   },
   {
+    "result": "kevlar_chainmail_suit",
+    "type": "recipe",
+    "id_suffix": "k_hauberk",
+    "copy-from": "chainmail_suit_hauberk",
+    "activity_level": "LIGHT_EXERCISE",
+    "components": [
+      [ [ "chainmail_hood", 1 ] ],
+      [ [ "k_chainmail_hauberk", 1 ] ],
+      [ [ "k_gambeson_hood", 1 ] ]
+    ]
+  },
+  {
     "result": "xl_chainmail_suit",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
