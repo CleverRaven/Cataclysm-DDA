@@ -1987,6 +1987,10 @@
   {
     "type": "item_group",
     "id": "gunshop_accessories",
-    "items": [ { "item": "powered_earmuffs", "prob": 50, "charges": [ 0, 50 ] }, [ "ear_plugs", 80 ] ]
+    "items": [
+      { "item": "powered_earmuffs", "prob": 50, "charges": [ 0, 50 ] },
+      [ "ear_plugs", 80 ],
+      { "item": "powered_earplugs", "prob": 50, "charges": [ 0, 75 ] }
+    ]
   }
 ]
