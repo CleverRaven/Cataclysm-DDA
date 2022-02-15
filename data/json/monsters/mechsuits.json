@@ -44,7 +44,8 @@
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
-      "STUN_IMMUNE"
+      "STUN_IMMUNE",
+      "MECH_DEFENSIVE"
     ]
   },
   {
@@ -92,7 +93,8 @@
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
-      "STUN_IMMUNE"
+      "STUN_IMMUNE",
+      "MECH_DEFENSIVE"
     ]
   },
   {
@@ -142,7 +144,8 @@
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
-      "STUN_IMMUNE"
+      "STUN_IMMUNE",
+      "MECH_DEFENSIVE"
     ]
   }
 ]
