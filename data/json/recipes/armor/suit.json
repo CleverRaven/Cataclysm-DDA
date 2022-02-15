@@ -755,7 +755,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "components": [
       [ [ "chainmail_hood", 1 ] ],
-      [ [ "k_chainmail_hauberk", 1 ] ],
+      [ [ "kevlar_chainmail_hauberk", 1 ] ],
       [ [ "k_gambeson_hood", 1 ] ]
     ]
   },
