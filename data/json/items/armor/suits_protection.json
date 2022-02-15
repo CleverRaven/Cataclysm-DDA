@@ -1293,10 +1293,44 @@
   {
     "id": "kevlar_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "Kevlar chainmail hauberk" },
+    "name": {
+      "str": "Kevlar chainmail hauberk"
+    },
     "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
-    "copy-from": "chainmail_hauberk",
-    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
+    "weight": "19030 g",
+    "volume": "7270 ml",
+    "price": 78488,
+    "price_postapoc": 6850,
+    "to_hit": -1,
+    "material": [
+      "cotton",
+      "steel",
+      "kevlar_layered",
+      "kevlar"
+    ],
+    "symbol": "[",
+    "looks_like": "armor_blarmor",
+    "color": "light_red",
+    "warmth": 60,
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.3 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1.9 },
+          { "type": "steel", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 24, 24 ]
+      }
+    ],
+    "flags": [
+      "VARSIZE",
+      "STURDY",
+      "OUTER",
+      "NONCONDUCTIVE"
+    ]
   },
   {
     "id": "xl_chainmail_hauberk",
@@ -1355,13 +1389,54 @@
   {
     "id": "kevlar_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "Kevlar chainmail armor" },
+    "name": {
+      "str": "Kevlar chainmail armor"
+    },
     "description": "A fully customized chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
-    "copy-from": "chainmail_suit",
-    "material_thickness": 6,
-    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE" ]
+    "weight": "21036 g",
+    "volume": "7770 ml",
+    "price": 79000,
+    "price_postapoc": 9350,
+    "to_hit": -1,
+    "material": [
+      "cotton",
+      "steel",
+      "kevlar_layered",
+      "kevlar"
+    ],
+    "symbol": "[",
+    "looks_like": "armor_blarmor",
+    "color": "light_red",
+    "warmth": 60,
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.3 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1.9 },
+          { "type": "steel", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 24, 24 ]
+      },
+      {
+        "material": [
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": [ 20, 20 ]
+      }
+    ],
+    "flags": [
+      "VARSIZE",
+      "STURDY",
+      "HELMET_COMPAT",
+      "OUTER",
+      "NONCONDUCTIVE"
+    ]
   },
   {
     "id": "xl_chainmail_suit",
