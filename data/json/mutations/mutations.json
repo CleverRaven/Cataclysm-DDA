@@ -6187,7 +6187,7 @@
     "name": { "str": "Mycorrhizal Communion" },
     "points": 2,
     "description": "You have gained the ability to commune with trees and comprehend their ancient wisdom.  Activate next to a tree to gradually gain overmap vision through connected forests.",
-    "prereqs": [ "HAIRROOTS", "ROOTS2", "ROOTS3" , "CHLOROMORPH" ],
+    "prereqs": [ "HAIRROOTS", "ROOTS2", "ROOTS3", "CHLOROMORPH" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
     "active": true,

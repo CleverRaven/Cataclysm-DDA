@@ -763,8 +763,9 @@ void Character::activate_mutation( const trait_id &mut )
         assign_activity( ACT_TREE_COMMUNION );
 
         if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) {
-            const time_duration startup_time = ( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) ? rng( 15_minutes,
-                                               30_minutes ) : rng( 60_minutes, 90_minutes );
+            const time_duration startup_time = ( has_trait( trait_ROOTS3 ) ||
+                                                 has_trait( trait_CHLOROMORPH ) ) ? rng( 15_minutes,
+                                                         30_minutes ) : rng( 60_minutes, 90_minutes );
             activity.values.push_back( to_turns<int>( startup_time ) );
             return;
         } else {
