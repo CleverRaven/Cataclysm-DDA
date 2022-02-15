@@ -131,7 +131,7 @@
     "id": "xs_k_gambeson_hood",
     "type": "ARMOR",
     "copy-from": "k_gambeson_hood",
-    "name": { "str": "XS gambeson hood" },
+    "name": { "str": "XS kevlar gambeson hood" },
     "description": "A customized hood made from quilted fabrics and kevlar.  Can be worn under helmets.  Comes in size XS.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE", "HELMET_COMPAT" ]

@@ -635,9 +635,9 @@
       [ [ "chainmail_vest", 1 ], [ "xs_chainmail_vest", 1 ] ],
       [ [ "chainmail_arms", 1 ], [ "xs_chainmail_arms", 1 ] ],
       [ [ "chainmail_legs", 1 ], [ "xs_chainmail_legs", 1 ] ],
-      [ [ "k_gambeson_hood", 1 ] ],
+      [ [ "k_gambeson_hood", 1 ], [ "xs_k_gambeson_hood", 1 ] ],
       [ [ "k_gambeson", 1 ], [ "k_gambeson_xs", 1 ] ],
-      [ [ "k_gambeson_pants", 1 ] ]
+      [ [ "k_gambeson_pants", 1 ], [ "xs_k_gambeson_pants", 1 ] ]
     ]
   },
   {
