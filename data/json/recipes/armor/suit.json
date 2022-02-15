@@ -778,9 +778,8 @@
     ],
     "components": [
       [ [ "xl_chainmail_hood", 1 ] ],
-      [ [ "xl_chainmail_hauberk", 1 ] ],
-      [ [ "xl_gambeson", 1 ] ],
-      [ [ "xl_gambeson_pants", 1 ] ]
+      [ [ "xl_gambeson_hood", 1 ] ],
+      [ [ "xl_chainmail_hauberk", 1 ] ]
     ]
   },
   {
