@@ -157,7 +157,7 @@
     "armor": [
       {
         "encumbrance": 5,
-        "coverage": 40,
+        "coverage": 80,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
