@@ -1911,7 +1911,7 @@
     "type": "ARMOR",
     "copy-from": "k_gambeson_vest",
     "looks_like": "k_gambeson",
-    "name": { "str": "XS kevlar gambeson" },
+    "name": { "str": "XS kevlar gambeson vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "UNDERSIZE" ],
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_xs_loose", "menu_text": "Loosen" }
