@@ -740,6 +740,7 @@
     "copy-from": "chainmail_suit_hauberk",
     "activity_level": "LIGHT_EXERCISE",
     "byproducts": [ [ "gambeson", 1 ] ],
+    "reversible": false,
     "components": [
       [ [ "chainmail_hood", 1 ] ],
       [ [ "chainmail_hauberk", 1 ] ],
