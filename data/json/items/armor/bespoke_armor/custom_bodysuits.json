@@ -308,21 +308,11 @@
     "armor": [
   		{
   	    "material" : [
-    		 { "type": "cotton", "covered_by_mat": 100, "thickness": 2 },
+    		 { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 },
     		 { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
   		 ],
-  		"covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": [ 7, 7 ]
-  		},
-  		{
-  	    "material" : [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 2 },
-     		  { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
-  		 ],
-  		"covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+  		"covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r"  ],
           "coverage": 100,
           "encumbrance": [ 7, 7 ]
   		}
@@ -355,7 +345,7 @@
     "name": { "str": "XL light survivor suit" },
     "copy-from": "lsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_lsurvivor_jumpsuit",
@@ -364,7 +354,7 @@
     "looks_like": "lsurvivor_jumpsuit",
     "name": { "str": "XS light survivor suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "survivor_jumpsuit",
@@ -383,23 +373,12 @@
     "armor": [
   		{
   	    "material" : [
-    		 { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
+    		 { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
     		 { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 },
          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
   		 ],
-  		"covers": [ "torso" ],
-          "coverage": 100,
-          "encumbrance": [ 12, 12 ]
-  		},
-  		{
-  	    "material" : [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
-     		  { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
-  		 ],
-  		"covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+  		"covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
           "coverage": 100,
           "encumbrance": [ 12, 12 ]
   		}
@@ -430,57 +409,18 @@
   {
     "id": "xlsurvivor_jumpsuit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "XL survivor suit" },
-    "description": "A massive hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
-    "weight": "12400 g",
-    "volume": "18 L",
-    "price": 150000,
-    "price_postapoc": 4000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "kevlar_layered", "leather" ],
-    "symbol": "[",
-    "looks_like": "survivor_jumpsuit",
-    "color": "brown",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 17, 17 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
-        "max_item_length": "15 cm",
-        "description": "pants pocket"
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
-        "max_item_length": "15 cm",
-        "description": "pants pocket"
-      }
-    ],
-    "warmth": 15,
-    "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "copy-from": "survivor_jumpsuit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xssurvivor_jumpsuit",
     "type": "ARMOR",
-    "copy-from": "survivor_jumpsuit",
-    "looks_like": "survivor_jumpsuit",
     "name": { "str": "XS survivor suit" },
-    "description": "A tiny hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "UNDERSIZE" ]
+    "copy-from": "survivor_jumpsuit",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "hsurvivor_jumpsuit",

@@ -1370,7 +1370,6 @@
     "time": "20 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 20 ], [ "fabric_leather_hide", 4 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
@@ -1380,6 +1379,7 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_articulation" }
     ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
@@ -1409,6 +1409,8 @@
     "result": "xs_hsurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "hsurvivor_jumpsuit",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
     "components": [
       [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
@@ -1437,6 +1439,8 @@
     "result": "xl_hsurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "hsurvivor_jumpsuit",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "tools": [ [ [ "welder", 63 ], [ "welder_crude", 95 ], [ "soldering_iron", 95 ], [ "toolset", 95 ] ] ],
     "components": [
       [ [ "steel_chunk", 5 ], [ "scrap", 15 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
