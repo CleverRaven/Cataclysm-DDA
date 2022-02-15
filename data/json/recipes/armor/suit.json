@@ -739,8 +739,6 @@
     "id_suffix": "hauberk",
     "copy-from": "chainmail_suit_hauberk",
     "activity_level": "LIGHT_EXERCISE",
-    "byproducts": [ [ "gambeson", 1 ] ],
-    "reversible": false,
     "components": [
       [ [ "chainmail_hood", 1 ] ],
       [ [ "chainmail_hauberk", 1 ] ],
@@ -755,6 +753,8 @@
     "id_suffix": "k_hauberk",
     "copy-from": "chainmail_suit_hauberk",
     "activity_level": "LIGHT_EXERCISE",
+    "byproducts": [ [ "gambeson", 1 ] ],
+    "reversible": false,
     "components": [
       [ [ "chainmail_hood", 1 ] ],
       [ [ "kevlar_chainmail_hauberk", 1 ] ],
