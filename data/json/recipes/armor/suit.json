@@ -663,6 +663,20 @@
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
       [ [ "xl_chainmail_legs", 1 ] ],
+      [ [ "xl_k_gambeson_hood", 1 ] ],
+      [ [ "xl_k_gambeson", 1 ] ],
+      [ [ "xl_k_gambeson_pants", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_kevlar_chainmail_suit",
+    "type": "recipe",
+    "id_suffix": "hauberk",
+    "copy-from": "kevlar_chainmail_suit",
+    "components": [
+      [ [ "xl_chainmail_hood", 1 ] ],
+      [ [ "xl_chainmail_hauberk", 1 ] ],
+      [ [ "xl_k_gambeson_hood", 1 ] ],
       [ [ "xl_k_gambeson", 1 ] ],
       [ [ "xl_k_gambeson_pants", 1 ] ]
     ]
