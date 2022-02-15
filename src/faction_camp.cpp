@@ -155,9 +155,6 @@ static const skill_id skill_unarmed( "unarmed" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-static const std::string faction_wall_level_n_0_string = "faction_wall_level_N_0";
-static const std::string faction_wall_level_n_1_string = "faction_wall_level_N_1";
-
 static const update_mapgen_id update_mapgen_faction_wall_level_E_1( "faction_wall_level_E_1" );
 //static const update_mapgen_id update_mapgen_faction_wall_level_N_1(
 //    faction_wall_level_n_1_string.c_str() );
@@ -169,6 +166,8 @@ static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 //  Moved the constant compound "string" declaration into a jumble here rather than where they belong
 //  because placing them together with their context is rejected by 'cata-static-string_id-constants, -warnings-as-errors'
+static const std::string faction_wall_level_n_0_string = "faction_wall_level_N_0";
+static const std::string faction_wall_level_n_1_string = "faction_wall_level_N_1";
 static const std::string faction_hide_site_0_string = "faction_hide_site_0";
 static const oter_str_id oter_faction_hide_site_0( faction_hide_site_0_string );
 static const update_mapgen_id update_mapgen_faction_wall_level_N_1(
