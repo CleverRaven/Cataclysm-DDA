@@ -243,7 +243,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     shooter.set_body();
     shooter.worn.emplace_back( "backpack" );
     equip_shooter( shooter, { "bastsandals", "armguard_hard", "armguard_soft", "armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
-    assert_encumbrance( shooter, 10 );
+    assert_encumbrance( shooter, 9 );
 
     SECTION( "an unskilled shooter with a common pistol" ) {
         arm_shooter( shooter, "glock_19" );
