@@ -66,7 +66,7 @@
     "category": "armor",
     "name": { "str": "gambeson hood" },
     "description": "A customized hood made from quilted fabrics.  Can be worn under helmets.",
-    "weight": "340 g",
+    "weight": "510 g",
     "volume": "300 ml",
     "price": 412,
     "price_postapoc": 500,
@@ -75,19 +75,10 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
+    "warmth": 30,
     "material_thickness": 5,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
-    "armor": [
-      { "encumbrance": 8, "coverage": 90, "covers": [ "head" ] },
-      {
-        "encumbrance": 4,
-        "coverage": 45,
-        "cover_vitals": 80,
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "torso_upper" ],
-        "layers": [ "OUTER" ]
-      }
-    ]
+    "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_gambeson_hood",
@@ -122,19 +113,10 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
+    "warmth": 30,
     "material_thickness": 3.2,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
-    "armor": [
-      { "encumbrance": 12, "coverage": 90, "covers": [ "head" ] },
-      {
-        "encumbrance": 6,
-        "coverage": 45,
-        "cover_vitals": 80,
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "torso_upper" ],
-        "layers": [ "OUTER" ]
-      }
-    ]
+    "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_k_gambeson_hood",

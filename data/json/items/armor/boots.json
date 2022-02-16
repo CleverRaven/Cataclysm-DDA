@@ -1506,20 +1506,18 @@
     "sided": true,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 90, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "foot_l", "foot_l" ],
-          "coverage": 100,
-          "encumbrance": 20,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "low_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "foot_l", "foot_l" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_lc_sabaton",
@@ -1547,20 +1545,18 @@
     "sided": true,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 90, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "foot_l", "foot_l" ],
-          "coverage": 100,
-          "encumbrance": 20,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "med_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "foot_l", "foot_l" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_mc_sabaton",
@@ -1588,20 +1584,18 @@
     "sided": true,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 90, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "foot_l", "foot_l" ],
-          "coverage": 100,
-          "encumbrance": 20,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "high_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "foot_l", "foot_l" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_hc_sabaton",
@@ -1629,20 +1623,18 @@
     "sided": true,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 90, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "foot_l", "foot_l" ],
-          "coverage": 100,
-          "encumbrance": 20,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "case_hardened_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "foot_l", "foot_l" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_ch_sabaton",
@@ -1670,20 +1662,18 @@
     "sided": true,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 90, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "foot_l", "foot_l" ],
-          "coverage": 100,
-          "encumbrance": 20,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "tempered_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "foot_l", "foot_l" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_qt_sabaton",

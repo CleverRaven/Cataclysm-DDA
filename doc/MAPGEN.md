@@ -948,7 +948,7 @@ pumps, or unless terrain the liquid spilled on has `LIQUIDCONT` flag), but can b
 | Field  | Description
 | ---    | ---
 | liquid | (required, item id) the item (a liquid)
-| amount | (optional, integer/min-max array) amount of liquid to place (a value of 0 defaults to the item's default charges)
+| amount | (optional, integer/min-max array) amount of liquid to place (a value of -1 defaults to the item's default charges)
 | chance | (optional, integer/min-max array) one in x chance of spawning a liquid, default value is 1 (100%)
 
 Example for dropping a default amount of gasoline (200 units) on the ground (either by using a character in the rows

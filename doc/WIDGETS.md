@@ -624,17 +624,18 @@ Widgets can use flags to specify special behaviors:
   "style": "text",
   "label": "My Widget",
   "var": "my_widget_var",
-  "flags": [ "W_LABEL_NONE", "W_DISABLED" ]
+  "flags": [ "W_LABEL_NONE", "W_DISABLED_BY_DEFAULT" ]
 }
 ```
 
 Here are some flags that can be included:
 
-| Flag id            | Description
-|---                 |---
-| `W_LABEL_NONE`     | Prevents the widget's label from being displayed in the sidebar
-| `W_DISABLED`       | Makes this widget disabled by default (only applies to top-level widgets/layouts)
-| `W_DYNAMIC_HEIGHT` | Allows certain multi-line widgets to dynamically adjust their height
+| Flag id                 | Description
+|---                      |---
+| `W_LABEL_NONE`          | Prevents the widget's label from being displayed in the sidebar
+| `W_DISABLED_BY_DEFAULT` | Makes this widget disabled by default (only applies to top-level widgets/layouts)
+| `W_DISABLED_WHEN_EMPTY` | Automatically hides this widget when the widget's text is empty
+| `W_DYNAMIC_HEIGHT`      | Allows certain multi-line widgets to dynamically adjust their height
 
 
 # Clauses and conditions
@@ -824,7 +825,6 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `date_text`             | Current day within season, like "Summer, day 15"
 | `env_temp_text`         | Environment temperature, if thermometer is available
 | `fatigue_text`          | Fatigue level - "Tired", "Dead Tired", "Exhausted"
-| `health_text`           | Hidden health - "OK", "Good", "Very good", "Bad", "Very bad", etc.
 | `mood_text`             | Avatar mood represented as an emoticon face
 | `move_mode_letter`      | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
 | `move_mode_text`        | Movement mode - "walking", "running", "crouching", "prone"
