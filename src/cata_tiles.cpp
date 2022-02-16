@@ -251,6 +251,7 @@ void tileset::clear()
         tile_ids_by_season[i].clear();
     }
     item_layer_data.clear();
+    field_layer_data.clear();
 }
 
 const tile_type *tileset::find_tile_type( const std::string &id ) const
