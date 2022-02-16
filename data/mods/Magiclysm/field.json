@@ -99,7 +99,6 @@
   {
     "id": "fd_cold_energy",
     "type": "field_type",
-    "immune_mtypes": [ "mon_frozen_turret" ],
     "display_field": true,
     "phase": "gas",
     "intensity_levels": [
