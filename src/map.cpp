@@ -5137,9 +5137,33 @@ std::list<item_location> map::items_with( const tripoint &p,
 }
 
 std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id &type,
-                                 int &quantity, const std::function<bool( const item & )> &filter )
+                                 int &quantity, const std::function<bool( const item & )> &filter, bool select_ind )
 {
     std::list<item> ret;
+    if( select_ind && !type->count_by_charges() ) {
+        std::vector<item_location> locs;
+        for( const tripoint &p : points_in_radius( origin, range ) ) {
+            std::list<item_location> tmp = items_with( p, [&filter, &type]( const item & it ) -> bool {
+                return filter( it ) && it.typeId() == type;
+            } );
+            locs.insert( locs.end(), tmp.begin(), tmp.end() );
+        }
+        while( quantity != static_cast<int>( locs.size() ) && quantity > 0 && !locs.empty() ) {
+            uilist imenu;
+            //~ Select components from the map to consume. %d = number of components left to consume.
+            imenu.title = string_format( _( "Select which component to use (%d left)" ), quantity );
+            for( const item_location &loc : locs ) {
+                imenu.addentry( loc->tname() + " (" + loc.describe() + ")" );
+            }
+            imenu.query();
+            if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= locs.size() ) {
+                break;
+            }
+            locs[imenu.ret]->use_amount( type, quantity, ret, filter );
+            locs[imenu.ret].remove_item();
+            locs.erase( locs.begin() + imenu.ret );
+        }
+    }
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
         for( const tripoint &p : points_in_radius( origin, radius ) ) {
             if( rl_dist( origin, p ) >= radius ) {

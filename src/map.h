@@ -1291,10 +1291,10 @@ class map
          * somewhere else.
          */
         /*@{*/
-        std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
-                                           int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> use_amount( const tripoint &origin, int range, const itype_id &type,
-                                    int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
+        std::list<item> use_amount_square( const tripoint &p, const itype_id &type, int &quantity,
+                                           const std::function<bool( const item & )> &filter = return_true<item> );
+        std::list<item> use_amount( const tripoint &origin, int range, const itype_id &type, int &quantity,
+                                    const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );

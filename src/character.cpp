@@ -8418,10 +8418,30 @@ bool Character::has_charges( const itype_id &it, int quantity,
 }
 
 std::list<item> Character::use_amount( const itype_id &it, int quantity,
-                                       const std::function<bool( const item & )> &filter )
+                                       const std::function<bool( const item & )> &filter, bool select_ind )
 {
     std::list<item> ret;
-    if( weapon.use_amount( it, quantity, ret ) ) {
+    if( select_ind && !it->count_by_charges() ) {
+        std::vector<item *> tmp = items_with( [&it, &filter]( const item & itm ) -> bool {
+            return filter( itm ) && itm.typeId() == it;
+        } );
+        while( quantity != static_cast<int>( tmp.size() ) && quantity > 0 && !tmp.empty() ) {
+            uilist imenu;
+            //~ Select components from inventory to consume. %d = number of components left to consume.
+            imenu.title = string_format( _( "Select which component to use (%d left)" ), quantity );
+            for( const item *itm : tmp ) {
+                imenu.addentry( itm->tname() );
+            }
+            imenu.query();
+            if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= tmp.size() ) {
+                break;
+            }
+            tmp[imenu.ret]->use_amount( it, quantity, ret, filter );
+            remove_item( *tmp[imenu.ret] );
+            tmp.erase( tmp.begin() + imenu.ret );
+        }
+    }
+    if( quantity > 0 && weapon.use_amount( it, quantity, ret ) ) {
         remove_weapon();
     }
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {

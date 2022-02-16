@@ -78,6 +78,8 @@ static const ammotype ammo_battery( "battery" );
 
 static const faction_id faction_no_faction( "no_faction" );
 
+static const item_category_id item_category_veh_parts( "veh_parts" );
+
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
@@ -3207,7 +3209,9 @@ void veh_interact::complete_vehicle( Character &you )
             // consume items extracting a match for the parts base item
             item base;
             for( const auto &e : reqs.get_components() ) {
-                for( auto &obj : you.consume_items( e, 1, is_crafting_component ) ) {
+                for( auto &obj : you.consume_items( e, 1, is_crafting_component, [&vpinfo]( const itype_id & itm ) {
+                return itm == vpinfo.base_item;
+            } ) ) {
                     if( obj.typeId() == vpinfo.base_item ) {
                         base = obj;
                     }
