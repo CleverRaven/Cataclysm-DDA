@@ -78,7 +78,6 @@ static const ammotype ammo_battery( "battery" );
 
 static const faction_id faction_no_faction( "no_faction" );
 
-static const item_category_id item_category_veh_parts( "veh_parts" );
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id itype_battery( "battery" );
