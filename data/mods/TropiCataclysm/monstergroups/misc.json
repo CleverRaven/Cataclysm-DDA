@@ -38,7 +38,7 @@
       { "monster": "mon_boa", "weight": 10 },
       { "monster": "mon_anaconda", "weight": 10 },
       { "monster": "mon_woodlouse", "weight": 10 },
-      { "monster": "mon_cicada_nympht", "weight": 10 }
+      { "monster": "mon_cicada_nymph", "weight": 10 }
     ]
   },
   {
