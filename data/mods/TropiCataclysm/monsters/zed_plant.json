@@ -180,7 +180,6 @@
       "GROUP_BASH",
       "POISON",
       "NO_BREATHE",
-      "DRIPS_GASOLINE",
       "PUSH_MON",
       "FILTHY",
       "PARALYZEVENOM"
@@ -238,7 +237,7 @@
     "speed": 75,
     "material": [ "veggy" ],
     "symbol": "Z",
-    "color": "light_green_red",
+    "color": "light_green",
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
