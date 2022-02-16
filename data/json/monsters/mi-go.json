@@ -303,9 +303,7 @@
     "vision_night": 25,
     "harvest": "zombie_meatslug",
     "scents_ignored": [ "sc_fetid" ],
-    "special_attacks": [
-      [ "PARROT", 4 ]
-    ],
+    "special_attacks": [ [ "PARROT", 4 ] ],
     "flags": [
       "WARM",
       "NO_BREATHE",
