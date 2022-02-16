@@ -96,7 +96,7 @@
     "id": "migo_plate_naked",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "plate of scarred flesh" },
+    "name": { "str": "plate of scarred flesh", "str_pl": "plates of scarred flesh" },
     "description": "A chunk of otherworldly flesh that seems to have been forced into the shape of a ballistic plate with a slightly concave profile.  There is no armor left on this plate just a mass of writhing alien flesh oozing in pain.  However it looks like it is slowly growing back.",
     "weight": "1000 g",
     "volume": "1533 ml",
@@ -125,7 +125,7 @@
     "type": "ARMOR",
     "name": { "str": "second skin" },
     "repairs_like": "jumpsuit",
-    "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you, the sensation is uncomfortable.  The liquid seems bound to a choker made from odd materials that seems to hum slightly, the inside reads 'CAREFUL CHOKING HAZARD' with an arrow pointing down.  The ooze flows frealy covering your entire body but never crossing the choker to get to your head.",
+    "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you, the sensation is uncomfortable.  The liquid seems bound to a choker made from odd materials that seems to hum slightly, the inside reads 'CAREFUL CHOKING HAZARD' with an arrow pointing down.  The ooze flows freely covering your entire body but never crossing the choker to get to your head.",
     "weight": "1500 g",
     "volume": "1 L",
     "price": 2500,
@@ -153,7 +153,7 @@
       },
       {
         "target": "migo_skin_off",
-        "msg": "the necklace hums and the liquid gets vaccumed back into it.",
+        "msg": "the necklace hums and the liquid gets sucked back into it.",
         "menu_text": "Deactivate the device",
         "type": "transform"
       }

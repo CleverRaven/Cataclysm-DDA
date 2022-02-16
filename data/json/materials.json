@@ -149,7 +149,7 @@
     "fire_resist": 4,
     "elec_resist": 0,
     "chip_resist": 10,
-    "dmg_adj": [ "agitated", "thinned", "culled", "erradicated" ],
+    "dmg_adj": [ "agitated", "thinned", "culled", "eradicated" ],
     "bash_dmg_verb": "ripples",
     "cut_dmg_verb": "passed through",
     "repaired_with": "blood"
