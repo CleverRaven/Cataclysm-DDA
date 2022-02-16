@@ -23,7 +23,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "60 m",
-	"//": "Time has gotten shorter but is double requirement time due to making a pair",
+    "//": "Time has gotten shorter but is double requirement time due to making a pair",
     "autolearn": true,
     "byproducts": [ [ "scrap_cotton", 3 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 1 ] ]
@@ -373,7 +373,7 @@
     "type": "recipe",
     "copy-from": "armguard_soft",
     "time": "315 m",
-    "byproducts": [ [ "scrap_cotton", 10 ], [ "scrap_neoprene", 1 ], ["neoprene", 2 ] ],
+    "byproducts": [ [ "scrap_cotton", 10 ], [ "scrap_neoprene", 1 ], [ "neoprene", 2 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 5 ], [ "tailoring_neoprene_patchwork", 4 ] ]
   },
   {
@@ -495,7 +495,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "sewing_standard", 12 ], [ "tailoring_cotton_patchwork", 40 ], [ "fastener_small", 1 ] ],
-	"byproducts": [ [ "cotton_patchwork", 2 ], ["scrap_cotton", 10]]
+    "byproducts": [ [ "cotton_patchwork", 2 ], [ "scrap_cotton", 10 ] ]
   },
   {
     "result": "xl_gambeson_sleeve",
@@ -509,7 +509,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "sewing_standard", 4 ], [ "tailoring_cotton_patchwork", 45 ], [ "fastener_small", 1 ] ],
-	"byproducts": [ [ "cotton_patchwork", 4 ], ["scrap_cotton", 3]]
+    "byproducts": [ [ "cotton_patchwork", 4 ], [ "scrap_cotton", 3 ] ]
   },
   {
     "result": "xs_gambeson_sleeve",
@@ -523,7 +523,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "sewing_standard", 2 ], [ "tailoring_cotton_patchwork", 30 ], [ "fastener_small", 1 ] ],
-	"byproducts": [ [ "cotton_patchwork", 2 ], ["scrap_cotton", 5]]
+    "byproducts": [ [ "cotton_patchwork", 2 ], [ "scrap_cotton", 5 ] ]
   },
   {
     "result": "k_gambeson_sleeve",
@@ -539,7 +539,7 @@
     "book_learn": [ [ "textbook_armwest", 4 ] ],
     "using": [ [ "sewing_standard", 2 ], [ "tailoring_kevlar_fabric", 3 ], [ "fastener_small", 1 ] ],
     "components": [ [ [ "sheet_kevlar_layered", 2 ] ] ],
-	"byproducts": [ [ "scrap_kevlar", 20 ] ]
+    "byproducts": [ [ "scrap_kevlar", 20 ] ]
   },
   {
     "result": "xl_k_gambeson_sleeve",
@@ -548,7 +548,7 @@
     "time": "6 h",
     "using": [ [ "sewing_standard", 17 ], [ "tailoring_kevlar_fabric", 7 ], [ "fastener_small", 2 ] ],
     "components": [ [ [ "sheet_kevlar_layered", 2 ] ] ],
-	"byproducts": [ [ "scrap_kevlar", 3 ] ]
+    "byproducts": [ [ "scrap_kevlar", 3 ] ]
   },
   {
     "result": "xs_k_gambeson_sleeve",
@@ -557,7 +557,7 @@
     "time": "4 h",
     "using": [ [ "sewing_standard", 8 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_small", 1 ] ],
     "components": [ [ [ "sheet_kevlar_layered", 1 ] ] ],
-	"byproducts": [ [ "scrap_kevlar", 7 ] ]
+    "byproducts": [ [ "scrap_kevlar", 7 ] ]
   },
   {
     "result": "armor_lc_lightarmguard",
