@@ -101,7 +101,7 @@
     "entries": [
       { "item": "xacto", "prob": 80 },
       { "item": "scissors", "prob": 80 },
-	  { "item": "bag_garbage", "prob": 95, "count": [ 1, 25 ] },
+      { "item": "bag_garbage", "prob": 95, "count": [ 1, 25 ] },
       { "item": "screwdriver", "prob": 70 },
       { "item": "hammer", "prob": 60 },
       { "item": "pliers", "prob": 60 },
@@ -139,7 +139,7 @@
       { "item": "cash_card", "count": [ 1, 3 ], "charges-min": 1, "charges-max": 1150 },
       { "item": "cash_card", "count": [ 1, 4 ], "charges": 0 },
       { "item": "lighter", "prob": 90, "charges-min": 0, "charges-max": 2 },
-	  { "item": "bag_garbage", "prob": 95, "count": [ 1, 25 ] },
+      { "item": "bag_garbage", "prob": 95, "count": [ 1, 25 ] },
       { "item": "bottle_opener", "prob": 90 },
       { "item": "pen", "prob": 90, "charges-min": 1, "charges-max": 25 },
       { "item": "coin_quarter", "prob": 90 },
