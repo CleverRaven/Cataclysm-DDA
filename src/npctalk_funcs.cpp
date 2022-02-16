@@ -1062,6 +1062,7 @@ void talk_function::start_training_seminar( npc &p )
         }
         return false;
     };
+    int last_index = 0;
     do {
         uilist nmenu;
         nmenu.text = _( "Who should participate?" );
@@ -1075,6 +1076,7 @@ void talk_function::start_training_seminar( npc &p )
             nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
         }
         nmenu.addentry( s_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.selected = nmenu.fselected = last_index;
         nmenu.query();
         if( nmenu.ret < 0 ) {
             return;
@@ -1088,6 +1090,7 @@ void talk_function::start_training_seminar( npc &p )
         } else {
             picked.emplace_back( students[nmenu.ret] );
         }
+        last_index = nmenu.fselected;
     } while( true );
 
     if( picked.empty() ) {

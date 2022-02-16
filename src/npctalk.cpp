@@ -358,6 +358,7 @@ static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
         return picked;
     }
     const int npc_count = npc_list.size();
+    int last_index = 0;
     do {
         uilist nmenu;
         nmenu.text = prompt;
@@ -371,6 +372,7 @@ static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
             nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
         }
         nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.selected = nmenu.fselected = last_index;
         nmenu.query();
         if( nmenu.ret < 0 ) {
             return std::vector<int>();
@@ -383,6 +385,7 @@ static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
         } else {
             picked.push_back( nmenu.ret );
         }
+        last_index = nmenu.fselected;
     } while( true );
     return picked;
 }
