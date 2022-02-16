@@ -2493,6 +2493,10 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
     // prune the set to remove tiles that are never gonna work out.
     const bool pre_dark_check = src_set.empty();
     const bool MOP_ACTIVITY = act_id == ACT_MULTIPLE_MOP;
+    if( MOP_ACTIVITY ) {
+        dark_capable = true;
+    }
+
     for( auto it2 = src_set.begin(); it2 != src_set.end(); ) {
         // remove dangerous tiles
         const tripoint set_pt = here.getlocal( *it2 );
@@ -2986,6 +2990,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         // and we can't check player.pos() for darkness before they've traveled to where they are going to be.
         // but now we are here, we check
         if( activity_to_restore != ACT_TIDY_UP &&
+            activity_to_restore != ACT_MULTIPLE_MOP &&
             activity_to_restore != ACT_MOVE_LOOT &&
             activity_to_restore != ACT_FETCH_REQUIRED &&
             you.fine_detail_vision_mod( you.pos() ) > 4.0 ) {
