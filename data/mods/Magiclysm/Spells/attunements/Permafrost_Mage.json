@@ -21,8 +21,6 @@
     "final_energy_cost": 400,
     "min_damage": 1,
     "max_damage": 1,
-    "min_range": 1,
-    "max_range": 1,
     "min_duration": 10000,
     "max_duration": 45000,
     "duration_increment": 2300
