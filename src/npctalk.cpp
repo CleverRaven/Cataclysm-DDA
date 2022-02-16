@@ -2497,9 +2497,8 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
                 for( int x = 0; x < 2; x++ ) {
                     for( int y = 0; y < 2; y++ ) {
                         tripoint_abs_sm revert_sm = project_to<coords::sm>( omt_pos );
-                        revert_sm += tripoint( x, y, 0 );
-                        const submap *sm = MAPBUFFER.lookup_submap( tripoint( revert_sm.x(), revert_sm.y(),
-                                           revert_sm.z() ) );
+                        revert_sm += point( x, y );
+                        const submap *sm = MAPBUFFER.lookup_submap( revert_sm );
                         get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1, revert_sm, 0, "",
                                                 sm->get_revert_submap() );
                     }
@@ -2714,8 +2713,8 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
             bool display = false;
             map &here = get_map();
             if( !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
-                if( !outdoor_only || here.get_abs_sub().z >= 0 ||
-                    one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                if( !outdoor_only || here.get_abs_sub().z() >= 0 ||
+                    one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z() /
                                                       target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
                     display = true;
                 }
@@ -2826,12 +2825,12 @@ void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::strin
         int local_volume = volume;
         Character *target = &get_player_character(); //Only the player can hear sound effects.
         if( target && !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
-            if( !outdoor_event || here.get_abs_sub().z >= 0 ) {
+            if( !outdoor_event || here.get_abs_sub().z() >= 0 ) {
                 if( local_volume == -1 ) {
                     local_volume = 80;
                 }
                 sfx::play_variant_sound( id, variant, local_volume, random_direction() );
-            } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+            } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z() /
                                          target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
                 if( local_volume == -1 ) {
                     local_volume = 80 * target->mutation_value( "hearing_modifier" );

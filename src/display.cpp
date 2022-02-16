@@ -205,7 +205,7 @@ std::string display::time_string( const Character &u )
     // Return exact time if character has a watch, or approximate time if aboveground
     if( u.has_watch() ) {
         return to_string_time_of_day( calendar::turn );
-    } else if( get_map().get_abs_sub().z >= 0 ) {
+    } else if( get_map().get_abs_sub().z() >= 0 ) {
         return display::time_approx();
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
@@ -1137,7 +1137,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
                                               mission_xyz.y() <= center_xyz.y() + bottom ) &&
                               ( row == top || row == bottom || col == left || col == right );
             // Get colorized symbol for this point
-            const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z );
+            const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z() );
             std::pair<std::string, nc_color> sym_color = display::overmap_tile_symbol_color( u, omt, edge,
                     found_mi );
 
