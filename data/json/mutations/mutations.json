@@ -578,7 +578,7 @@
     "points": 1,
     "description": "The bottoms of your feet are tough, and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
     "starting_trait": true,
-    "valid": false
+    "category": [ "GASTROPOD" ]
   },
   {
     "type": "mutation",
