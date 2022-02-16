@@ -14,8 +14,19 @@
     "looks_like": "vest_leather",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 70, "encumbrance": [ 2, 5 ] },
       {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 2, 5 ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      },
+      {
+        "covers": [ "torso" ],
+        "coverage": 75,
+        "encumbrance": [ 0, 0 ],
+        "specifically_covers": [ "torso_lower" ]
+      },
+	    {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 70,
         "encumbrance": [ 1, 1 ],
