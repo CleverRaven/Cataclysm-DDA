@@ -233,7 +233,7 @@
   {
     "id": "tailoring_cotton_small",
     "type": "requirement",
-    "//": "15g per unit. Crafting possibly-patchwork cotton items, adjusted for tailoring rework. Time needed is usually 15 minutes per unit if hand-stitching. 4 g + excessive weight of material is wasted, possibly producing cotton scraps.",
+    "//": "5g per unit. Crafting possibly-patchwork cotton items, adjusted for tailoring rework. Time needed is usually 15 minutes per unit if hand-stitching.  excessive weight of material is wasted, possibly producing cotton scraps.",
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "filament", 3, "LIST" ] ] ]
   },
