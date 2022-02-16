@@ -1299,6 +1299,10 @@ class map
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
 
+        /** Find items located at point p (on map or in vehicles) that pass the filter */
+        std::list<item_location> items_with( const tripoint &p,
+                                             const std::function<bool( const item & )> &filter );
+
         /**
         * Consume UPS from UPS sources from area centered at origin.
         * @param origin the position of player
