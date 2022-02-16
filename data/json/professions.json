@@ -737,6 +737,37 @@
   },
   {
     "type": "profession",
+    "id": "football_player",
+    "name": "Football Player",
+    "description": "Your epic touchdown was ruined when your coach's guts were torn out by undead fans.  Now you're first pick in the apocalypse draft.",
+    "points": 3,
+    "skills": [
+      { "level": 3, "name": "swimming" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "throw" },
+      { "level": 1, "name": "unarmed" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "helmet_football",
+          "football_armor",
+          "mouthpiece",
+          "socks_ankle",
+          "cleats",
+          "football",
+          "knee_pads",
+          "sports_drink",
+          "pants"
+        ],
+        "entries": [ { "item": "jersey", "snippets": [ "endsville" ] }, { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "under_armor_shorts" ],
+      "female": [ "sports_bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "true_foodperson",
     "name": "True Foodperson",
     "description": "You are the true Foodperson.  Some might think Foodperson is just a mascot, but you know better.  The mask has become your face, you are real, and the only thing standing between this world and oblivion is you.",
