@@ -3,7 +3,7 @@
     "id": "cold_energy",
     "type": "SPELL",
     "name": { "str": "Ice Fog" },
-    "description": "asdasd",
+    "description": "Using your mana, you began to accelerate ice particles inside the cold mist, grinding everything inside.",
     "valid_targets": [ "self" ],
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
     "effect": "spawn_item",
