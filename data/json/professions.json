@@ -704,10 +704,15 @@
     "name": "Baseball Player",
     "description": "You played with the local team.  You're the only one left, but now you can use your trusty bat for another purpose.  Home run!",
     "points": 1,
-    "skills": [ { "level": 3, "name": "throw" }, { "level": 1, "name": "melee" }, { "level": 1, "name": "bashing" } ],
+    "skills": [
+      { "level": 3, "name": "throw" },
+      { "level": 2, "name": "swimming" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "bashing" }
+    ],
     "items": {
       "both": {
-        "items": [ "baseball", "tshirt", "jacket_light", "jeans", "socks", "sneakers", "helmet_ball", "sports_drink", "gum" ],
+        "items": [ "baseball", "tshirt", "jacket_light", "jeans", "socks", "cleats", "helmet_ball", "sports_drink", "gum" ],
         "entries": [ { "group": "charged_smart_phone" }, { "item": "bat", "custom-flags": [ "auto_wield" ] } ]
       },
       "male": [ "boxer_shorts" ],
@@ -720,7 +725,7 @@
     "name": "Basketball Player",
     "description": "Your first major game was abruptly cancelled when zombies stormed the court.  Quick feet and good reflexes meant you were among the lucky few to escape the stadium alive.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" } ],
+    "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [ "tank_top", "b_shorts", "socks_ankle", "sneakers", "basketball", "sports_drink", "runner_bag" ],
