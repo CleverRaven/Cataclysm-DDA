@@ -144,11 +144,11 @@
     "latent_heat": 333,
     "bash_resist": 8,
     "cut_resist": 0,
-    "bullet_resist": 8,
+    "bullet_resist": 4,
     "acid_resist": 8,
     "fire_resist": 4,
     "elec_resist": 0,
-    "chip_resist": 100,
+    "chip_resist": 10,
     "dmg_adj": [ "agitated", "thinned", "culled", "erradicated" ],
     "bash_dmg_verb": "ripples",
     "cut_dmg_verb": "passed through"

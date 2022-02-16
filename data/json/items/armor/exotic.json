@@ -16,12 +16,13 @@
     "non_functional": "migo_plate",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID" ],
     "armor": [
-      { "encumbrance": 6,
+      {
+        "encumbrance": 6,
         "coverage": 45,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
         "material": [
-          { "type": "alien_carapace", "covered_by_mat": 100, "thickness": 6.0 },
+          { "type": "alien_carapace", "covered_by_mat": 100, "thickness": 5.0 },
           { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
         ]
       }
@@ -45,9 +46,10 @@
     "//": "transforms over a day",
     "countdown_interval": 86400,
     "countdown_action": { "type": "transform", "target": "migo_plate_overgrown", "msg": "The iridescent carapace plate expands as it grows." },
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "armor": [
-      { "encumbrance": 2,
+      {
+        "encumbrance": 2,
         "coverage": 42,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
@@ -76,9 +78,10 @@
     "//": "transforms over a day",
     "countdown_interval": 86400,
     "countdown_action": { "type": "transform", "target": "migo_plate", "msg": "The iridescent carapace plate expands as it grows." },
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "armor": [
-      { "encumbrance": 2,
+      {
+        "encumbrance": 2,
         "coverage": 39,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
@@ -106,15 +109,14 @@
     "//": "transforms over a day",
     "countdown_interval": 86400,
     "countdown_action": { "type": "transform", "target": "migo_plate_undergrown", "msg": "The iridescent carapace plate expands as it grows." },
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "armor": [
-      { "encumbrance": 2,
+      {
+        "encumbrance": 2,
         "coverage": 0,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
-        "material": [
-          { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
-        ]
+        "material": [ { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 } ]
       }
     ]
   },
@@ -122,8 +124,8 @@
     "id": "migo_skin",
     "type": "ARMOR",
     "name": { "str": "second skin" },
-    "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you, the sensation is uncomfortable.  The liquid seems bound to a choker made from odd materials that seems to hum slightly, the inside reads 'CAREFUL CHOKING HAZARD'.  The ooze flows frealy covering your entire body but never crossing the choker to get to your head.",
-    "weight": "900 g",
+    "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you, the sensation is uncomfortable.  The liquid seems bound to a choker made from odd materials that seems to hum slightly, the inside reads 'CAREFUL CHOKING HAZARD' with an arrow pointing down.  The ooze flows frealy covering your entire body but never crossing the choker to get to your head.",
+    "weight": "1500 g",
     "volume": "1 L",
     "price": 2500,
     "price_postapoc": 400,
@@ -132,32 +134,58 @@
     "looks_like": "union_suit",
     "color": "white",
     "armor": [
-      { "covers": [ "torso", "leg_l", "leg_r", "foot_l", "foot_r", "arm_l", "arm_r", "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 2 }
+      {
+        "covers": [ "torso", "leg_l", "leg_r", "foot_l", "foot_r", "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      }
+    ],
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "alien_liquid" ],
+        "skill": "survival",
+        "tool_quality": 0,
+        "cost_scaling": 0.1,
+        "move_cost": 100
+      },
+      {
+        "target": "migo_skin_off",
+        "msg": "the necklace hums and the liquid gets vaccumed back into it.",
+        "menu_text": "Deactivate the device",
+        "type": "transform"
+      }
     ],
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SKINTIGHT", "STURDY", "FILTHY", "NO_CLEAN" ]
+    "flags": [ "SKINTIGHT", "STURDY", "NO_REPAIR", "TRADER_AVOID", "FILTHY", "NO_CLEAN" ]
   },
   {
     "id": "migo_skin_off",
     "type": "ARMOR",
     "name": { "str": "odd choker" },
-    "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you, the sensation is uncomfortable.  The liquid seems bound to a choker made from odd materials that seems to hum slightly, the inside reads 'CAREFUL CHOKING HAZARD'.  The ooze flows frealy covering your entire body but never crossing the choker to get to your head.",
-    "weight": "300 g",
-    "volume": "1 L",
+    "description": "A choker made from odd materials that seems to hum slightly, the inside reads 'CAREFUL CHOKING HAZARD' with an arrow pointing down.  There is a mechanical button of some kind on the front.",
+    "weight": "1500 g",
+    "volume": "100 ml",
     "price": 2500,
     "price_postapoc": 400,
-    "material": [ "alien_liquid" ],
+    "material": [ "copper" ],
     "symbol": "[",
-    "looks_like": "union_suit",
+    "looks_like": "silver_necklace",
     "color": "white",
-    "armor": [
-      { "covers": [ "torso", "leg_l", "leg_r", "foot_l", "foot_r", "arm_l", "arm_r", "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 2 }
-    ],
+    "use_action": {
+      "need_worn": true,
+      "target": "migo_skin",
+      "msg": "murky ooze begins to leak out of the necklace and engulf your body from the neck down!",
+      "menu_text": "Activate the device",
+      "type": "transform"
+    },
+    "armor": [ { "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ], "coverage": 100, "encumbrance": 0 } ],
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SKINTIGHT", "STURDY", "FILTHY", "NO_CLEAN" ]
+    "flags": [ "BELTED", "STURDY", "TRADER_AVOID" ]
   }
 ]
