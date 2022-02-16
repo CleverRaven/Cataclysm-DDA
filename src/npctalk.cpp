@@ -2906,7 +2906,9 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
         std::string weather_aspect = jo.get_string( "weather" );
         if( weather_aspect == "temperature" ) {
             return [min, max]( const dialogue & d, int input ) {
-                get_weather().weather_precise->temperature = handle_min_max( d, input, min, max );;
+                const int new_temperature = handle_min_max( d, input, min, max );
+                get_weather().weather_precise->temperature = new_temperature;
+                get_weather().temperature = new_temperature;
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "windpower" ) {
