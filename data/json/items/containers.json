@@ -171,6 +171,23 @@
     "color": "light_gray"
   },
   {
+    "id": "bag_garbage",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "garbage bag" },
+    "looks_like": "bag_canvas",
+    "description": "A HEFTY plastic bag.  Literally trash.",
+    "weight": "30 g",
+    "volume": "50 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "110 L", "max_contains_weight": "20 kg", "moves": 400 } ],
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "light_gray"
+  },
+  {
     "id": "bag_paper_powder",
     "type": "GENERIC",
     "category": "container",
