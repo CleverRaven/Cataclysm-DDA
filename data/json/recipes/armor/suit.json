@@ -539,11 +539,11 @@
     "type": "recipe",
     "copy-from": "chainmail_hauberk",
     "components": [
-      [ [ "xl_chainmail_vest", 1 ] ],
-      [ [ "xl_chainmail_arms", 1 ] ],
-      [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_k_gambeson", 1 ] ],
-      [ [ "xl_k_gambeson_pants", 1 ] ]
+      [ [ "chainmail_vest", 1 ] ],
+      [ [ "chainmail_arms", 1 ] ],
+      [ [ "chainmail_legs", 1 ] ],
+      [ [ "k_gambeson", 1 ] ],
+      [ [ "k_gambeson_pants", 1 ] ]
     ]
   },
   {
