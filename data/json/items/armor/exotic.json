@@ -124,6 +124,7 @@
     "id": "migo_skin",
     "type": "ARMOR",
     "name": { "str": "second skin" },
+    "repairs_like": "jumpsuit",
     "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you, the sensation is uncomfortable.  The liquid seems bound to a choker made from odd materials that seems to hum slightly, the inside reads 'CAREFUL CHOKING HAZARD' with an arrow pointing down.  The ooze flows frealy covering your entire body but never crossing the choker to get to your head.",
     "weight": "1500 g",
     "volume": "1 L",
@@ -160,7 +161,7 @@
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SKINTIGHT", "STURDY", "NO_REPAIR", "TRADER_AVOID", "FILTHY", "NO_CLEAN" ]
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "FILTHY", "NO_CLEAN" ]
   },
   {
     "id": "migo_skin_off",
@@ -186,6 +187,34 @@
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "STURDY", "TRADER_AVOID" ]
+    "flags": [ "BELTED", "STURDY", "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "id": "feeding_kit",
+    "type": "TOOL",
+    "name": { "str": "feeding kit" },
+    "description": "This is a collection of syringes with nozzles, an aerosol sprayer as well as a few other attachments.  It seems designed for looking after some kind of creature that wants to stay wet.",
+    "weight": "85 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "plastic", "steel" ],
+    "symbol": ",",
+    "color": "red",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "water": 5 }, "watertight": true } ],
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "alien_liquid" ],
+        "skill": "survival",
+        "tool_quality": 0,
+        "cost_scaling": 0.1,
+        "move_cost": 100
+      }
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]
