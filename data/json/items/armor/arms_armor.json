@@ -614,11 +614,9 @@
     "color": "light_red",
     "material_thickness": 3,
     "flags": [ "VARSIZE", "STURDY" ],
-	"armor": [
+    "armor": [
       {
-        "material": [
-          { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 }
-        ],
+        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20

@@ -316,9 +316,9 @@
     "obsolete": true
   },
   {
-	"type": "recipe",
-	"result": "xl_kevlar_chainmail_hauberk",
-	"obsolete": true
+    "type": "recipe",
+    "result": "xl_kevlar_chainmail_hauberk",
+    "obsolete": true
   },
   {
     "type": "recipe",
@@ -331,8 +331,8 @@
     "obsolete": true
   },
   {
-	"type": "recipe",
-	"result": "xl_kevlar_chainmail_suit",
-	"obsolete": true
+    "type": "recipe",
+    "result": "xl_kevlar_chainmail_suit",
+    "obsolete": true
   }
 ]

@@ -1286,11 +1286,9 @@
     "color": "light_red",
     "warmth": 0,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-	"armor": [
+    "armor": [
       {
-        "material": [
-          { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 }
-        ],
+        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -1355,11 +1353,9 @@
     "color": "light_red",
     "warmth": 0,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
-	"armor": [
+    "armor": [
       {
-        "material": [
-          { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 }
-        ],
+        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 95,
         "encumbrance": 20

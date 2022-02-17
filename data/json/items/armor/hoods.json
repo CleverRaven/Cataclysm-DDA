@@ -38,11 +38,9 @@
     "color": "light_red",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
-	"armor": [
+    "armor": [
       {
-        "material": [
-          { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 }
-        ],
+        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
         "encumbrance": 10

@@ -519,11 +519,7 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "chainmail_vest", 1 ] ],
-      [ [ "chainmail_arms", 1 ] ],
-      [ [ "chainmail_legs", 1 ] ]
-    ]
+    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
   },
   {
     "result": "chainmail_hauberk_xs",
@@ -537,11 +533,7 @@
     "type": "recipe",
     "copy-from": "chainmail_hauberk",
     "time": "1h 45m",
-    "components": [
-      [ [ "xl_chainmail_vest", 1 ] ],
-      [ [ "xl_chainmail_arms", 1 ] ],
-      [ [ "xl_chainmail_legs", 1 ] ]
-    ]
+    "components": [ [ [ "xl_chainmail_vest", 1 ] ], [ [ "xl_chainmail_arms", 1 ] ], [ [ "xl_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "chainmail_suit",
@@ -556,24 +548,14 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "chainmail_hood", 1 ] ],
-      [ [ "chainmail_vest", 1 ] ],
-      [ [ "chainmail_arms", 1 ] ],
-      [ [ "chainmail_legs", 1 ] ]
-    ]
+    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
   },
   {
     "result": "chainmail_suit_xs",
     "type": "recipe",
     "copy-from": "chainmail_suit",
     "time": "1 h 50 m",
-    "components": [
-      [ [ "chainmail_hood", 1 ] ],
-      [ [ "chainmail_vest", 1 ] ],
-      [ [ "chainmail_arms", 1 ] ],
-      [ [ "chainmail_legs", 1 ] ]
-    ]
+    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_chainmail_suit",
@@ -623,10 +605,7 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [
-      [ [ "xl_chainmail_hood", 1 ] ],
-      [ [ "xl_chainmail_hauberk", 1 ] ]
-    ]
+    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ] ]
   },
   {
     "result": "chainmail_suit_faraday",

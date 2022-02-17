@@ -1211,11 +1211,9 @@
     "symbol": "[",
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY" ],
-	"armor": [
+    "armor": [
       {
-        "material": [
-          { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 }
-        ],
+        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
