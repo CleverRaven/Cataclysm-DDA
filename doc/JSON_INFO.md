@@ -652,6 +652,8 @@ For information about tools with option to export ASCII art in format ready to b
 | `heal_bonus`           | (_optional_) Innate amount of HP the bodypart heals every successful healing roll. See the `ALWAYS_HEAL` and `HEAL_OVERRIDE` flags.
 | `mend_rate`            | (_optional_) Innate mending rate of the limb, should it get broken. Default `1.0`, used as a multiplier on the healing factor after other factors are calculated. 
 | `health_limit`         | (_optional_) Amount of limb HP necessary for the limb to provide its melee `techniques` and `conditional_flags`.  Defaults to 1, meaning broken limbs don't contribute.
+| `ugliness`             | (_optional_) Ugliness of the part that can be covered up, negatives confer beauty bonuses.
+| `ugliness_mandatory`   | (_optional_) Inherent ugliness that can't be covered up by armor.
 | `bionic_slots`         | (_optional_) How many bionic slots does this part have.
 | `is_limb`              | (_optional_) Is this bodypart a limb and capable of breaking. (default: `false`)
 | `smash_message`        | (_optional_) The message displayed when using that part to smash something.
