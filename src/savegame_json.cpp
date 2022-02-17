@@ -132,9 +132,6 @@ static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const efftype_id effect_hypocalcemia( "hypocalcemia" );
-static const efftype_id effect_hypovitA( "hypovitA" );
-static const efftype_id effect_hypovitB( "hypovitB" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_scurvy( "scurvy" );
 
@@ -3752,18 +3749,6 @@ void Creature::load( const JsonObject &jsin )
         }
     } else {
         jsin.read( "effects", *effects );
-    }
-
-    // Remove legacy vitamin effects - they don't do anything, and can't be removed
-    // Remove this code whenever they actually do anything (0.F or later)
-    std::set<efftype_id> blacklisted = {
-        effect_hypocalcemia,
-        effect_hypovitA,
-        effect_hypovitB,
-        effect_scurvy
-    };
-    for( const efftype_id &remove : blacklisted ) {
-        remove_effect( remove );
     }
 
     jsin.read( "values", values );
