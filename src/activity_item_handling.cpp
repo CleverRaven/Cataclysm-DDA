@@ -930,6 +930,13 @@ static activity_reason_info find_base_construction(
     if( !pcb ) {
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
     }
+    //check if construction allows items at the location
+    if( build.post_flags.count( "keep_items" ) == 0 ) {
+        const map_stack stuff_there = here.i_at( loc );
+        if( !stuff_there.empty() ) {
+            return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
+        }
+    }
     //only cc failed, no pre-req
     return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
 }
@@ -1291,7 +1298,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( part_con ) {
             part_con_idx = part_con->id;
         }
-        const map_stack stuff_there = here.i_at( src_loc );
 
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
         const inventory pre_inv = you.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
@@ -1299,9 +1305,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             const blueprint_options &options = dynamic_cast<const blueprint_options &>
                                                ( zones.front().get_options() );
             const construction_id index = options.get_index();
-            if( !stuff_there.empty() ) {
-                return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, index );
-            }
             std::set<construction_id> used_idx;
             const activity_reason_info act_info = find_base_construction( list_constructions, you, pre_inv,
                                                   src_loc, part_con_idx, index, used_idx );
