@@ -238,6 +238,7 @@
     "copy-from": "armguard_metal",
     "time": "30 m",
     "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 3 ] ] ]
   },
   {

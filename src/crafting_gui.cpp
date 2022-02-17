@@ -1698,6 +1698,9 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
         right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
                      static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
+    } else if( player_character.crafting_speed_multiplier( rec ) > 1.0f ) {
+        right_print( w, 0, 1, i_green, string_format( _( "crafting is fast %d%%" ),
+                     static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else {
         right_print( w, 0, 1, i_green, _( "craftable" ) );
     }

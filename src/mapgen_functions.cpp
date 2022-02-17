@@ -238,10 +238,8 @@ void mapgen_crater( mapgendata &dat )
                 rng( 0, dat.n_fac ) <= j && rng( 0, dat.s_fac ) <= SEEX * 2 - 1 - j ) {
                 m->ter_set( point( i, j ), t_dirt );
                 m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true );
-                m->set_radiation( point( i, j ), rng( 0, 4 ) * rng( 0, 2 ) );
             } else {
                 m->ter_set( point( i, j ), dat.groundcover() );
-                m->set_radiation( point( i, j ), rng( 0, 2 ) * rng( 0, 2 ) * rng( 0, 2 ) );
             }
         }
     }

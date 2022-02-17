@@ -3156,6 +3156,10 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
                 if( !has_flag( ter_furn_flag::TFLAG_WALL, t ) ) {
                     ter_set( tz, t_open_air );
                     furn_set( tz, f_null );
+                    Creature *critter = get_creature_tracker().creature_at( tz );
+                    if( critter != nullptr ) {
+                        creature_on_trap( *critter );
+                    }
                 }
             }
         }
@@ -4351,12 +4355,14 @@ std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item>
     return ret;
 }
 
-void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id )
+void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id,
+                          const int max_attributes,
+                          const int power_level, const int max_negative_power )
 {
     relic_procgen_data::generation_rules rules;
-    rules.max_attributes = 5;
-    rules.power_level = 1000;
-    rules.max_negative_power = -2000;
+    rules.max_attributes = max_attributes;
+    rules.power_level = power_level;
+    rules.max_negative_power = max_negative_power;
 
     add_item_or_charges( p, id->create_item( rules ) );
 }
@@ -6715,7 +6721,11 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
     if( this != &main_map ) {
         // It's unsafe to load a map that overlaps with the primary map;
         // various caches get confused.  So make sure we're not doing that.
-        if( main_map.inbounds( project_to<coords::ms>( w ) ) ) {
+        // FIXME: Currently this happens for scripted update_mapgen, scenario
+        // start update mapgen, and faction camp construction update mapgen.
+        // None of those are easily fixable, so give the warning message only
+        // in test mode for now since it's just causing noise.
+        if( test_mode && main_map.inbounds( project_to<coords::ms>( w ) ) ) {
             debugmsg( "loading non-main map at %s which overlaps with main map (abs_sub = %s) "
                       "is not supported", w.to_string(), main_map.abs_sub.to_string() );
         }

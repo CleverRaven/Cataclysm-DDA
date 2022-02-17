@@ -42,7 +42,7 @@
     "components": [
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ] ],
-      [ [ "light_bulb", 1 ] ],
+      [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
       [ [ "steel_lump", 1 ] ],
       [ [ "pipe_fittings", 1 ] ],
       [ [ "pipe", 2 ] ]

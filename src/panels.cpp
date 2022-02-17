@@ -79,8 +79,20 @@ window_panel::window_panel(
     const std::string &id, const translation &nm, const int ht, const int wd,
     const bool default_toggle_, const std::function<bool()> &render_func,
     const bool force_draw )
-    : draw( draw_func ), render( render_func ), toggle( default_toggle_ ),
-      always_draw( force_draw ), height( ht ), width( wd ), id( id ), name( nm )
+    : draw( [draw_func]( const draw_args & d ) -> int { draw_func( d ); return 0; } ),
+      render( render_func ), toggle( default_toggle_ ), always_draw( force_draw ),
+      height( ht ), width( wd ), id( id ), name( nm )
+{
+    wgt = widget_id::NULL_ID();
+}
+
+window_panel::window_panel(
+    const std::string &id, const translation &nm, const int ht, const int wd,
+    const bool default_toggle_, const std::function<bool()> &render_func,
+    const bool force_draw )
+    : draw( []( const draw_args & ) -> int { return 0; } ),
+      render( render_func ), toggle( default_toggle_ ), always_draw( force_draw ),
+      height( ht ), width( wd ), id( id ), name( nm )
 {
     wgt = widget_id::NULL_ID();
 }
@@ -166,6 +178,11 @@ void window_panel::set_widget( const widget_id &w )
 const widget_id &window_panel::get_widget() const
 {
     return wgt;
+}
+
+void window_panel::set_draw_func( const std::function<int( const draw_args & )> &draw_func )
+{
+    draw = draw_func;
 }
 
 panel_layout::panel_layout( const translation &_name, const std::vector<window_panel> &_panels )
@@ -1425,7 +1442,7 @@ static void draw_ai_goal( const draw_args &args )
     behavior::character_oracle_t player_oracle( &u );
     std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 0, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
+    mvwprintz( w, point( 0, 0 ), c_light_gray, _( "Goal : %s" ), current_need );
     wnoutrefresh( w );
 }
 
@@ -1903,7 +1920,7 @@ static void draw_custom_hint( const draw_args &args )
     mvwprintz( w, point( 1, 1 ), c_light_gray,
                _( "Edit sidebar.json to adjust." ) );
     mvwprintz( w, point( 1, 2 ), c_light_gray,
-               _( "See SIDEBAR_MOD.md for help." ) );
+               _( "See WIDGETS.md for help." ) );
 
     wnoutrefresh( w );
 }

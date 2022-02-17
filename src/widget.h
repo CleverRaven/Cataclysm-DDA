@@ -49,10 +49,7 @@ enum class widget_var : int {
     date_text,      // Current date, in terms of day within season
     env_temp_text,  // Environment temperature, if character has thermometer
     fatigue_text,   // Fagitue description text, color string
-    health_text,    // Hidden health message, color string
-    lighting_text,  // Current light level, color string
     mood_text,      // Mood as a text emote, color string
-    moon_phase_text,// Current phase of the moon
     move_count_mode_text, // Movement counter and mode letter like "50(R)", color string
     overmap_loc_text,// Local overmap position, pseudo latitude/longitude with Z-level
     overmap_text,   // Local overmap and mission marker, multi-line color string

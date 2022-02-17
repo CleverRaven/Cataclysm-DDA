@@ -3006,6 +3006,11 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
                            iteminfo::show_plus, mod.handling );
     }
+    if( mod.loudness != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MODIFIER ) ) {
+        info.emplace_back( "GUNMOD", _( "Loudness modifier: " ), "",
+                           iteminfo::lower_is_better | iteminfo::show_plus,
+                           mod.loudness );
+    }
     if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
         for( const ammotype &at : type->mod->ammo_modifier ) {
             info.emplace_back( "GUNMOD", string_format( _( "Ammo: <stat>%s</stat>" ),
@@ -10798,7 +10803,8 @@ int item::getlight_emit() const
 {
     float lumint = type->light_emission;
     if( ammo_required() == 0 ||
-        ( has_flag( flag_USE_UPS ) && ammo_capacity( ammo_battery ) == 0 ) ) {
+        ( has_flag( flag_USE_UPS ) && ammo_capacity( ammo_battery ) == 0 ) ||
+        has_flag( flag_USES_BIONIC_POWER ) ) {
         return lumint;
     }
     if( lumint == 0 || ammo_remaining() == 0 ) {
@@ -11472,8 +11478,20 @@ int item::processing_speed() const
     if( is_corpse() || is_comestible() ) {
         return to_turns<int>( 10_minutes );
     }
-    // Unless otherwise indicated, update every turn.
-    return 1;
+
+    if( active || ethereal || wetness || has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
+        // Unless otherwise indicated, update every turn.
+        return 1;
+    }
+
+    // This item doesn't actually need processing.
+    // Either it contains items that need processing. Use processing speed from those.
+    // Or it is in same container with items that need processing.
+    int processing_speed = 10000;
+    for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        processing_speed = std::min( processing_speed, it->processing_speed() );
+    }
+    return processing_speed;
 }
 
 void item::apply_freezerburn()
