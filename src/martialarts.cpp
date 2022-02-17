@@ -1234,7 +1234,7 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
 std::string character_martial_arts::get_valid_attack_vector( const Character &user,
         std::vector<std::string> attack_vectors ) const
 {
-    for( const std::string av : attack_vectors ) {
+    for( auto av : attack_vectors ) {
         if( can_use_attack_vector( user, av ) ) {
             return av;
         }
@@ -1251,19 +1251,20 @@ bool character_martial_arts::can_use_attack_vector( const Character &user, std::
     int arm_l_hp = user.get_part_hp_cur( bodypart_id( "arm_l" ) );
     int leg_r_hp = user.get_part_hp_cur( bodypart_id( "leg_r" ) );
     int leg_l_hp = user.get_part_hp_cur( bodypart_id( "leg_l" ) );
+    bool healthy_arm = arm_r_hp > 0 || arm_l_hp > 0;
+    bool healthy_arms = arm_r_hp > 0 && arm_l_hp > 0;
+    bool healthy_legs = leg_r_hp > 0 && leg_l_hp > 0;
 
     if( av == "HEAD" || av == "TORSO" ) {
         return true;
-    } else if( av == "WEAPON" && valid_weapon && ( arm_r_hp > 0 || arm_l_hp > 0 ) ) {
+    } else if( av == "WEAPON" && valid_weapon && healthy_arm ) {
         return true;
     } else if( ( av == "HAND" || av == "WRIST" || av == "ARM" || av == "ELBOW" || av == "SHOULDER" ) &&
-               ( arm_r_hp > 0 ||
-                 arm_l_hp > 0 ) ) {
+               healthy_arm ) {
         return true;
-    } else if( ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && ( leg_r_hp > 0 &&
-               leg_l_hp > 0 ) ) {
+    } else if( ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs ) {
         return true;
-    } else if( ( av == "GRAPPLE" || av == "THROW" ) && ( arm_r_hp > 0 && arm_l_hp > 0 ) ) {
+    } else if( ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms ) {
         return true;
     }
 
