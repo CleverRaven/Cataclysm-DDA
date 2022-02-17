@@ -2,8 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "blood_spiders_itch",
-    "recurrence_min": "25 minutes",
-    "recurrence_max": "1 hours 15 minutes",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_effect": "blood_spiders" }, { "not": { "u_has_effect": "formication" } } ] },
     "deactivate_condition": { "not": { "or": [ { "u_has_effect": "blood_spiders" }, { "u_has_effect": "stim_overdose" } ] } },
     "effect": [
