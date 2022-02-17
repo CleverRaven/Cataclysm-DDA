@@ -104,6 +104,8 @@ static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
 
+static const int MAX_WIRE_VEHICLE_SIZE = 24;
+
 static bool finalized = false;
 
 // Construction functions.
@@ -1242,7 +1244,7 @@ bool construct::check_no_wiring( const tripoint &p )
     }
 
     const vehicle &veh_target = vp->vehicle();
-    return veh_target.has_tag( flag_WIRING );
+    return !veh_target.has_tag( flag_WIRING );
 }
 
 void construct::done_trunk_plank( const tripoint &/*p*/ )
@@ -1360,6 +1362,9 @@ void construct::done_vehicle( const tripoint &p )
 void construct::done_wiring( const tripoint &p )
 {
     map &here = get_map();
+
+    here.partial_con_remove( p );
+
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
@@ -1372,17 +1377,29 @@ void construct::done_wiring( const tripoint &p )
     veh->add_tag( flag_APPLIANCE );
     veh->add_tag( flag_WIRING );
 
-    // Merge any neighbouring wire vehicles into this one
+    // Merge any neighbouring wire vehicles into this one if the resulting vehicle would not be too large.
     for( const point &offset : four_adjacent_offsets ) {
         const optional_vpart_position vp = here.veh_at( p + offset );
         if( !vp ) {
             continue;
         }
 
+        bounding_box vehicle_box = veh->get_bounding_box(false);
+        int size_x = abs((vehicle_box.p2 - vehicle_box.p1).x) + 1;
+        int size_y = abs((vehicle_box.p2 - vehicle_box.p1).y) + 1;
+
         vehicle &veh_target = vp->vehicle();
         if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
-            if( !veh->merge_vehicle_parts( &veh_target ) ) {
-                debugmsg( "failed to merge vehicle parts" );
+            bounding_box target_vehicle_box = veh_target.get_bounding_box(false);
+
+            int target_size_x = abs((target_vehicle_box.p2 - target_vehicle_box.p1).x) + 1;
+            int target_size_y = abs((target_vehicle_box.p2 - target_vehicle_box.p1).y) + 1;
+
+            if (size_x + target_size_x <= MAX_WIRE_VEHICLE_SIZE &&
+                size_y + target_size_y <= MAX_WIRE_VEHICLE_SIZE) {
+                if( !veh->merge_vehicle_parts( &veh_target ) ) {
+                    debugmsg( "failed to merge vehicle parts" );
+                }
             }
         }
     }
@@ -1390,6 +1407,22 @@ void construct::done_wiring( const tripoint &p )
     // Update the vehicle cache immediately,
     // or the wiring will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
+
+    // Connect to any neighbouring appliances or wires
+    std::unordered_set<const vehicle *> connected_vehicles;
+    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
+        const optional_vpart_position vp = here.veh_at( trip );
+        if( !vp ) {
+            continue;
+        }
+        const vehicle &veh_target = vp->vehicle();
+        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+            if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
+                veh->connect( p, trip );
+                connected_vehicles.insert( &veh_target );
+            }
+        }
+    }
 }
 
 void construct::done_appliance( const tripoint &p )
