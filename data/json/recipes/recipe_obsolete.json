@@ -304,5 +304,35 @@
     "type": "recipe",
     "result": "xlsurvivor_suit",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_chainmail_hauberk_xs",
+    "obsolete": true
+  },
+  {
+	"type: "recipe",
+	"result": "xl_kevlar_chainmail_hauberk",
+	"obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_chainmail_suit_xs",
+    "obsolete": true
+  },
+  {
+	"type: "recipe",
+	"result": "xl_kevlar_chainmail_suit",
+	"obsolete": true
   }
 ]

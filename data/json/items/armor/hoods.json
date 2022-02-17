@@ -33,13 +33,21 @@
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ] } ]
+	"armor": [
+      {
+        "material": [
+          { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 10
+      }
+    ]
   },
   {
     "id": "xl_chainmail_hood",
