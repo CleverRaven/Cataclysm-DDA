@@ -3304,7 +3304,10 @@
     "type": "profession",
     "id": "reenactor",
     "name": { "male": "Historical Reenactor", "female": "Ahistorical Reenactor" },
-    "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans.",
+    "description": {
+      "male": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans.",
+      "female": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete."
+    },
     "points": 3,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_metalworking", "prof_gunsmithing_antique" ],
     "skills": [
@@ -3348,7 +3351,10 @@
     "type": "profession",
     "id": "reenactor2",
     "name": { "male": "Ahistorical Reenactor", "female": "Historical Reenactor" },
-    "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete.",
+    "description": {
+      "male": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete.",
+      "female": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans."
+    },
     "points": 3,
     "proficiencies": [ "prof_spinning", "prof_closures", "prof_knitting" ],
     "skills": [
