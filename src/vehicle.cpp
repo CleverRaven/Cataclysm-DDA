@@ -7182,7 +7182,7 @@ bounding_box vehicle::get_bounding_box( bool use_precalc )
         if( use_precalc ) {
             const int i_use = 0;
             int part_idx = part_at( p.xy() );
-            if (part_idx < 0) {
+            if( part_idx < 0 ) {
                 continue;
             }
             pt = parts[part_idx].precalc[i_use].xy();
