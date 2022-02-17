@@ -7714,7 +7714,11 @@ float item::bash_resist( bool to_self, const bodypart_id &bp, int roll ) const
             for( const part_material *m : armor_mats ) {
                 const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
                 // only count the material if it's hit
-                if( roll < m->cover ) {
+
+                // if roll is -1 each material is rolled at this point individually
+                int internal_roll;
+                roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+                if( internal_roll < m->cover ) {
                     resist += m->id->bash_resist() * eff_thic;
                 }
             }
@@ -7739,7 +7743,7 @@ float item::bash_resist( bool to_self, const bodypart_id &bp, int roll ) const
     return ( resist * eff_thickness ) + mod;
 }
 
-float item::bash_resist( const sub_bodypart_id &bp, bool to_self,  int roll ) const
+float item::bash_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
 {
     if( is_null() ) {
         return 0.0f;
@@ -7756,7 +7760,11 @@ float item::bash_resist( const sub_bodypart_id &bp, bool to_self,  int roll ) co
         for( const part_material *m : armor_mats ) {
             const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
             // only count the material if it's hit
-            if( roll < m->cover ) {
+
+            // if roll is -1 each material is rolled at this point individually
+            int internal_roll;
+            roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+            if( internal_roll < m->cover ) {
                 resist += m->id->bash_resist() * eff_thic;
             }
         }
@@ -7800,7 +7808,11 @@ float item::cut_resist( bool to_self, const bodypart_id &bp, int roll ) const
             for( const part_material *m : armor_mats ) {
                 const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
                 // only count the material if it's hit
-                if( roll < m->cover ) {
+
+                // if roll is -1 each material is rolled at this point individually
+                int internal_roll;
+                roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+                if( internal_roll < m->cover ) {
                     resist += m->id->cut_resist() * eff_thic;
                 }
             }
@@ -7842,7 +7854,11 @@ float item::cut_resist( const sub_bodypart_id &bp, bool to_self, int roll ) cons
         for( const part_material *m : armor_mats ) {
             const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
             // only count the material if it's hit
-            if( roll < m->cover ) {
+
+            // if roll is -1 each material is rolled at this point individually
+            int internal_roll;
+            roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+            if( internal_roll < m->cover ) {
                 resist += m->id->cut_resist() * eff_thic;
             }
         }
@@ -7901,7 +7917,11 @@ float item::bullet_resist( bool to_self, const bodypart_id &bp, int roll ) const
             for( const part_material *m : armor_mats ) {
                 const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
                 // only count the material if it's hit
-                if( roll < m->cover ) {
+
+                // if roll is -1 each material is rolled at this point individually
+                int internal_roll;
+                roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+                if( internal_roll < m->cover ) {
                     resist += m->id->bullet_resist() * eff_thic;
                 }
             }
@@ -7943,7 +7963,11 @@ float item::bullet_resist( const sub_bodypart_id &bp, bool to_self, int roll ) c
         for( const part_material *m : armor_mats ) {
             const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
             // only count the material if it's hit
-            if( roll < m->cover ) {
+
+            // if roll is -1 each material is rolled at this point individually
+            int internal_roll;
+            roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+            if( internal_roll < m->cover ) {
                 resist += m->id->bullet_resist() * eff_thic;
             }
         }
