@@ -2755,7 +2755,7 @@ class Character : public Creature, public visitable
          * @details Accesses level of a given vitamin.  If the vitamin_id specified does not
          * exist then this function simply returns 0.
          *
-         * @param vit ID of vitamin to check level for (ie "vitA", "vitB").
+         * @param vit ID of vitamin to check level for (ie "vitC", "iron").
          * @returns character's current level for specified vitamin
          */
         int vitamin_get( const vitamin_id &vit ) const;
