@@ -7161,24 +7161,46 @@ bool Character::unwield()
 std::string Character::weapname() const
 {
     if( weapon.is_gun() ) {
+        gun_mode current_mode = weapon.gun_current_mode();
         std::string gunmode;
+        std::string gun_name = current_mode->tname();
         // only required for empty mags and empty guns
         std::string mag_ammo;
-        if( weapon.gun_all_modes().size() > 1 ) {
-            gunmode = weapon.gun_current_mode().tname();
+        if( current_mode->gun_all_modes().size() > 1 ) {
+            gunmode = current_mode.tname() + " ";
         }
 
-        if( weapon.ammo_remaining() == 0 ) {
-            if( weapon.magazine_current() != nullptr ) {
-                const item *mag = weapon.magazine_current();
-                mag_ammo = string_format( " (0/%d)",
-                                          mag->ammo_capacity( item( mag->ammo_default() ).ammo_type() ) );
-            } else if( weapon.is_reloadable() ) {
+        if( current_mode->uses_magazine() || current_mode->magazine_integral() ) {
+            if( current_mode->uses_magazine() && !current_mode->magazine_current() ) {
                 mag_ammo = _( " (empty)" );
+            } else {
+                int cur_ammo = current_mode->ammo_remaining();
+                int max_ammo;
+                if( cur_ammo == 0 ) {
+                    max_ammo = current_mode->ammo_capacity( item( current_mode->ammo_default() ).ammo_type() );
+                } else {
+                    max_ammo = current_mode->ammo_capacity( current_mode->loaded_ammo().ammo_type() );
+                }
+
+                const double ratio = static_cast<double>( cur_ammo ) / static_cast<double>( max_ammo );
+                nc_color charges_color;
+                if( cur_ammo == 0 ) {
+                    charges_color = c_light_red;
+                } else if( cur_ammo == max_ammo ) {
+                    charges_color = c_white;
+                } else if( ratio < 1.0 / 3.0 ) {
+                    charges_color = c_red;
+                } else if( ratio < 2.0 / 3.0 ) {
+                    charges_color = c_yellow;
+                } else {
+                    charges_color = c_light_green;
+                }
+                mag_ammo = string_format( " (%s)", colorize( string_format( "%i/%i", cur_ammo, max_ammo ),
+                                          charges_color ) );
             }
         }
 
-        return string_format( "%s%s%s", gunmode, weapon.display_name(), mag_ammo );
+        return string_format( "%s%s%s", gunmode, gun_name, mag_ammo );
 
     } else if( !is_armed() ) {
         return _( "fists" );
