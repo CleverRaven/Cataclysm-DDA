@@ -283,7 +283,8 @@
     "messages": [ "You thrust at the %s", "<npcname> thrusts at %s" ],
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -298,7 +299,8 @@
     "block_counter": true,
     "crit_ok": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -313,7 +315,8 @@
     "block_counter": true,
     "crit_ok": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -325,7 +328,8 @@
     "required_buffs_all": [ "buff_bojutsu_onmove" ],
     "weighting": 2,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -346,7 +350,8 @@
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "melee_allowed": true,
     "crit_ok": true,
-    "disarms": true
+    "disarms": true,
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -645,7 +650,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "WRIST" ]
   },
   {
     "type": "technique",

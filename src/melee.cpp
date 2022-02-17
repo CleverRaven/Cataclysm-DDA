@@ -725,23 +725,26 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                     covers = worn_item.covers( bodypart_id( "arm_l" ) ) &&
                              worn_item.covers( bodypart_id( "arm_r" ) );
                 } else if( attack_vector == "ELBOW" ) {
-                    covers = worn_item.covers( bodypart_id( "arm_elbow_l" ) ) &&
-                             worn_item.covers( bodypart_id( "arm_elbow_r" ) );
+                    covers = worn_item.covers( sub_bodypart_id( "arm_elbow_l" ) ) &&
+                             worn_item.covers( sub_bodypart_id( "arm_elbow_r" ) );
+                } else if( attack_vector == "WRIST" ) {
+                    covers = worn_item.covers( sub_bodypart_id( "hand_wrist_l" ) ) &&
+                             worn_item.covers( sub_bodypart_id( "hand_wrist_r" ) );
                 } else if( attack_vector == "SHOULDER" ) {
-                    covers = worn_item.covers( bodypart_id( "arm_shoulder_l" ) ) &&
-                             worn_item.covers( bodypart_id( "arm_shoulder_r" ) );
+                    covers = worn_item.covers( sub_bodypart_id( "arm_shoulder_l" ) ) &&
+                             worn_item.covers( sub_bodypart_id( "arm_shoulder_r" ) );
                 } else if( attack_vector == "FOOT" ) {
                     covers = worn_item.covers( bodypart_id( "foot_l" ) ) &&
                              worn_item.covers( bodypart_id( "foot_r" ) );
                 } else if( attack_vector == "LOWER_LEG" ) {
-                    covers = worn_item.covers( bodypart_id( "leg_lower_l" ) ) &&
-                             worn_item.covers( bodypart_id( "leg_lower_r" ) );
+                    covers = worn_item.covers( sub_bodypart_id( "leg_lower_l" ) ) &&
+                             worn_item.covers( sub_bodypart_id( "leg_lower_r" ) );
                 } else if( attack_vector == "KNEE" ) {
-                    covers = worn_item.covers( bodypart_id( "leg_knee_l" ) ) &&
-                             worn_item.covers( bodypart_id( "leg_knee_r" ) );
+                    covers = worn_item.covers( sub_bodypart_id( "leg_knee_l" ) ) &&
+                             worn_item.covers( sub_bodypart_id( "leg_knee_r" ) );
                 } else if( attack_vector == "HIP" ) {
-                    covers = worn_item.covers( bodypart_id( "leg_hip_l" ) ) &&
-                             worn_item.covers( bodypart_id( "leg_hip_r" ) );
+                    covers = worn_item.covers( sub_bodypart_id( "leg_hip_l" ) ) &&
+                             worn_item.covers( sub_bodypart_id( "leg_hip_r" ) );
                 } else if( attack_vector == "HEAD" ) {
                     covers = worn_item.covers( bodypart_id( "head" ) );
                 } else if( attack_vector == "TORSO" ) {
@@ -1251,6 +1254,9 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         } else if( attack_vector == "ELBOW" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_elbow_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "arm_elbow_r" ) ) );
+        } else if( attack_vector == "WRIST" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "hand_wrist_l" ) ) ||
+                              ( !natural_attack_restricted_on( bodypart_id( "hand_wrist_r" ) ) );
         } else if( attack_vector == "SHOULDER" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_shoulder_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "arm_shoulder_r" ) ) );
@@ -1382,6 +1388,9 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
         } else if( attack_vector == "ELBOW" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_elbow_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "arm_elbow_r" ) ) );
+        } else if( attack_vector == "WRIST" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "hand_wrist_l" ) ) ||
+                              ( !natural_attack_restricted_on( bodypart_id( "hand_wrist_r" ) ) );
         } else if( attack_vector == "SHOULDER" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_shoulder_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "arm_shoulder_r" ) ) );
@@ -1486,6 +1495,9 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
         } else if( attack_vector == "ELBOW" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_elbow_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "arm_elbow_r" ) ) );
+        } else if( attack_vector == "WRIST" ) {
+            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "hand_wrist_l" ) ) ||
+                              ( !natural_attack_restricted_on( bodypart_id( "hand_wrist_r" ) ) );
         } else if( attack_vector == "SHOULDER" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_shoulder_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "arm_shoulder_r" ) ) );
