@@ -316,7 +316,7 @@
     "obsolete": true
   },
   {
-	"type: "recipe",
+	"type": "recipe",
 	"result": "xl_kevlar_chainmail_hauberk",
 	"obsolete": true
   },
@@ -331,7 +331,7 @@
     "obsolete": true
   },
   {
-	"type: "recipe",
+	"type": "recipe",
 	"result": "xl_kevlar_chainmail_suit",
 	"obsolete": true
   }
