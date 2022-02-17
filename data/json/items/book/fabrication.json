@@ -579,7 +579,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "WX010 Living Armor Observations", "str_pl": "copies of WX010 Living Armor Observations" },
-    "description": "This sheaf of papers seems to describe maintenance on a new form of ballistic armor.  \"the regenerative plates though promising for field use do require maintenance or combat to stop from becoming overgrown\"",
+    "description": "This sheaf of papers seems to describe maintenance on a new form of ballistic armor.  \"the regenerative plates though promising for field use do require maintenance or combat to stop from becoming overgrown\".",
     "weight": "50 g",
     "volume": "500 ml",
     "price": 125000,
