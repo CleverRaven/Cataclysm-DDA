@@ -273,6 +273,27 @@
     "price": 1000
   },
   {
+    "id": "inj_vitb",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "injectable vitamin B" },
+    "description": "Small vials of pale yellow liquid containing soluble vitamin B for injection.",
+    "weight": "40 g",
+    "volume": "250 ml",
+    "price": 150,
+    "price_postapoc": 500,
+    "charges": 2,
+    "stack_size": 10,
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject some vitamin B.",
+      "tools_needed": { "syringe": -1 }
+    }
+  },
+  {
     "id": "aep_suit",
     "type": "ARMOR",
     "category": "armor",
