@@ -2996,12 +2996,6 @@
     ],
     "warmth": 30,
     "material_thickness": 0.2,
-    "snippet_category": [
-      {
-        "id": "patched",
-        "text": "A jacket made from denim.  This one is haphazardly covered with patches featuring metal band logos."
-      }
-    ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
