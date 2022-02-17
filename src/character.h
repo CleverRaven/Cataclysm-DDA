@@ -963,19 +963,24 @@ class Character : public Creature, public visitable
 
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
-        void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap, std::string attack_vector,
+        void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                              std::string attack_vector,
                               const Creature *target, const bodypart_id &bp ) const;
         /** Adds player's total bash damage to the damage instance */
-        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap, std::string attack_vector,
+        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                               std::string attack_vector,
                                float crit_mod ) const;
         /** Adds player's total cut damage to the damage instance */
-        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap, std::string attack_vector,
+        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                              std::string attack_vector,
                               float crit_mod ) const;
         /** Adds player's total stab damage to the damage instance */
-        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap, std::string attack_vector,
+        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                               std::string attack_vector,
                                float crit_mod ) const;
         /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
-        void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap, std::string attack_vector,
+        void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                                std::string attack_vector,
                                 float crit_mod ) const;
 
         /** Returns true if the player should be dead */

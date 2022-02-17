@@ -150,8 +150,8 @@ class ma_technique
         bool attack_override = false; // The attack replaces the one it triggered off of
 
         ma_requirements reqs;
-                
-        // What way is the technique delivered to the target?        
+
+        // What way is the technique delivered to the target?
         std::vector<std::string> attack_vectors; // by priority
         std::vector<std::string> attack_vectors_random; // randomly
 
