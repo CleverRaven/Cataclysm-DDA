@@ -660,7 +660,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [  [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",

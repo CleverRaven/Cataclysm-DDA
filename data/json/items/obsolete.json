@@ -287,11 +287,7 @@
     "symbol": "!",
     "color": "magenta",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You inject some vitamin B.",
-      "tools_needed": { "syringe": -1 }
-    }
+    "use_action": { "type": "consume_drug", "activation_message": "You inject some vitamin B.", "tools_needed": { "syringe": -1 } }
   },
   {
     "id": "aep_suit",
