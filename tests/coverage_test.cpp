@@ -175,10 +175,9 @@ TEST_CASE( "Proportional armor material resistances", "[material]" )
 
     SECTION( "Multi material segmented armor vs. melee" ) {
         const float dmg = get_avg_melee_dmg( "test_multi_portion_segmented_armor" );
+        const float base_line = get_avg_melee_dmg( "test_portion_segmented_armor" );
         // our armor should NOT be near 1 mm cloth + 80% of 1mm of steel
         // and should be higher (so lower damage) since they can overlap
-        // this is cut damage of 12 so shouldn't be near 6 with small variance
-        // if it is someone broke material rolls
-        check_not_near( "Average damage", dmg, 6.0f, 0.1f );
+        check_not_near( "Average damage", dmg, base_line, 0.05f );
     }
 }
