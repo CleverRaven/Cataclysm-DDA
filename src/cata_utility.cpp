@@ -395,7 +395,7 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
 
                 ret = inflate( &zs, 0 );
 
-                if( outstring.size() < zs.total_out ) {
+                if( outstring.size() < static_cast<size_t>( zs.total_out ) ) {
                     outstring.append( outbuffer,
                                       zs.total_out - outstring.size() );
                 }
@@ -536,6 +536,18 @@ bool string_ends_with( const std::string &s1, const std::string &s2 )
 {
     return s1.size() >= s2.size() &&
            s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
+}
+
+bool string_empty_or_whitespace( const std::string &s )
+{
+    if( s.empty() ) {
+        return true;
+    }
+
+    std::wstring ws = utf8_to_wstr( s );
+    return std::all_of( ws.begin(), ws.end(), []( const wchar_t &c ) {
+        return std::iswspace( c );
+    } );
 }
 
 std::string join( const std::vector<std::string> &strings, const std::string &joiner )

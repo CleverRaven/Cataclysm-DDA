@@ -9,7 +9,7 @@
   {
     "id": "mon_zombie_garden",
     "type": "MONSTER",
-    "name": { "str": "pollinator zombie" },
+    "name": { "str": "garden zombie" },
     "description": "This zombie seems to be wearing some kind of gardener or botanic atire and is smeared full of pollen and sap.  The triffids have it controlled somehow but its purpose remains unclear.",
     "copy-from": "mon_beekeeper",
     "default_faction": "triffid",
@@ -67,6 +67,7 @@
       "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ],
       "//": "default zombie children clothing (always), additional items from child_items (sometimes)"
     },
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 4 } },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "upgrades": { "half_life": 20, "into": "mon_czombie_poison" },
@@ -179,7 +180,6 @@
       "GROUP_BASH",
       "POISON",
       "NO_BREATHE",
-      "DRIPS_GASOLINE",
       "PUSH_MON",
       "FILTHY",
       "PARALYZEVENOM"
@@ -237,7 +237,7 @@
     "speed": 75,
     "material": [ "veggy" ],
     "symbol": "Z",
-    "color": "light_green_red",
+    "color": "light_green",
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,

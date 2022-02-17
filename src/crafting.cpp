@@ -181,6 +181,7 @@ float Character::morale_crafting_speed_multiplier( const recipe &rec ) const
     // Halve speed at -50 effective morale, quarter at -150
     float morale_effect = 1.0f + ( morale_mult * morale ) / -50.0f;
 
+    add_msg_debug( debugmode::DF_CHARACTER, "Morale multiplier %.1f", 1.0f / morale_effect );
     return 1.0f / morale_effect;
 }
 
@@ -250,21 +251,15 @@ static float workbench_crafting_speed_multiplier( const item &craft,
     return multiplier;
 }
 
-float Character::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
+float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
     const float result = morale_crafting_speed_multiplier( rec ) *
                          lighting_craft_speed_multiplier( rec ) *
                          get_limb_score( limb_score_manip );
-    // Can't start if we'd need 300% time, but we can still finish the job
-    if( !in_progress && result < 0.33f ) {
-        return 0.0f;
-    }
-    // If we're working below 10% speed, just give up
-    if( result < 0.1f ) {
-        return 0.0f;
-    }
+    add_msg_debug( debugmode::DF_CHARACTER, "Limb score multiplier %.1f, crafting speed multiplier %1f",
+                   get_limb_score( limb_score_manip ), result );
 
-    return result;
+    return std::max( result, 0.0f );
 }
 
 float Character::crafting_speed_multiplier( const item &craft,
@@ -574,7 +569,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         // add containers separately from their contents
         if( !it->empty_container() ) {
             // is the non-empty container used for BOIL?
-            if( !it->is_watertight_container() || it->get_raw_quality( qual_BOIL ) <= 0 ) {
+            if( !it->is_watertight_container() || it->get_quality( qual_BOIL, false ) <= 0 ) {
                 item tmp = item( it->typeId(), it->birthday() );
                 tmp.is_favorite = it->is_favorite;
                 *crafting_cache.crafting_inventory += tmp;
@@ -736,7 +731,7 @@ static item_location set_item_map_or_vehicle( const Character &p, const tripoint
         // Couldn't add the in progress craft to the target part, so drop it to the map.
         p.add_msg_player_or_npc(
             //~ %1$s: vehicle part name, %2$s: name of the item being placed
-            pgettext( "furniture, item", "Not enough space on the %1$s. You drop the %1$s on the ground." ),
+            pgettext( "furniture, item", "Not enough space on the %1$s. You drop the %2$s on the ground." ),
             pgettext( "furniture, item",
                       "Not enough space on the %1$s. <npcname> drops the %2$s on the ground." ),
             vp->part().name(), newit.tname() );
@@ -1101,7 +1096,8 @@ static void destroy_random_component( item &craft, const Character &crafter )
 
     item destroyed = random_entry_removed( craft.components );
 
-    crafter.add_msg_player_or_npc( _( "You mess up and destroy the %s." ),
+    crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
+                                   _( "You mess up and destroy the %s." ),
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
 }
 
@@ -1273,6 +1269,9 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             set_components( food_contained.components, used, batch_size, newit_counter );
             newit_counter++;
         } else if( food_contained.is_food() && !food_contained.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+            // use a copy of the used list so that the byproducts don't build up over iterations (#38071)
+            std::list<item> usedbp;
+
             // if a component item has "cooks_like" it will be replaced by that item as a component
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
@@ -1285,10 +1284,22 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 if( should_heat || remove_raw ) {
                     comp.set_flag_recursive( flag_COOKED );
                 }
+
+                // when batch crafting, set_components depends on components being merged, so merge any unmerged ones here
+                if( comp.count_by_charges() ) {
+                    auto it = std::find_if( usedbp.begin(), usedbp.end(), [&comp]( const item & usedit ) {
+                        return usedit.type == comp.type;
+                    } );
+
+                    if( it != usedbp.end() ) {
+                        it->charges += comp.charges;
+                        continue;
+                    }
+                }
+
+                usedbp.emplace_back( comp );
             }
 
-            // use a copy of the used list so that the byproducts don't build up over iterations (#38071)
-            std::list<item> usedbp = used;
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
             if( making.has_byproducts() ) {
                 for( item &byproduct : making.create_byproducts( batch_size ) ) {
@@ -1833,14 +1844,14 @@ static void empty_buckets( Character &p )
 }
 
 std::list<item> Character::consume_items( const comp_selection<item_comp> &is, int batch,
-        const std::function<bool( const item & )> &filter )
+        const std::function<bool( const item & )> &filter, bool select_ind )
 {
-    return consume_items( get_map(), is, batch, filter, pos(), PICKUP_RANGE );
+    return consume_items( get_map(), is, batch, filter, pos(), PICKUP_RANGE, select_ind );
 }
 
 std::list<item> Character::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-        const std::function<bool( const item & )> &filter,
-        const tripoint &origin, int radius )
+        const std::function<bool( const item & )> &filter, const tripoint &origin, int radius,
+        bool select_ind )
 {
     std::list<item> ret;
 
@@ -1861,7 +1872,8 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             std::list<item> tmp = m.use_charges( loc, radius, selected_comp.type, real_count, filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = m.use_amount( loc, radius, selected_comp.type, real_count, filter );
+            std::list<item> tmp = m.use_amount( loc, radius, selected_comp.type, real_count, filter,
+                                                select_ind );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
@@ -1871,7 +1883,7 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = use_amount( selected_comp.type, real_count, filter );
+            std::list<item> tmp = use_amount( selected_comp.type, real_count, filter, select_ind );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
@@ -1897,12 +1909,13 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
 In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
 to consume_items */
 std::list<item> Character::consume_items( const std::vector<item_comp> &components, int batch,
-        const std::function<bool( const item & )> &filter )
+        const std::function<bool( const item & )> &filter,
+        const std::function<bool( const itype_id & )> &select_ind )
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE, this );
-    return consume_items( select_item_component( components, batch, map_inv, false, filter ), batch,
-                          filter );
+    comp_selection<item_comp> sel = select_item_component( components, batch, map_inv, false, filter );
+    return consume_items( sel, batch, filter, select_ind( sel.comp.type ) );
 }
 
 bool Character::consume_software_container( const itype_id &software_id )

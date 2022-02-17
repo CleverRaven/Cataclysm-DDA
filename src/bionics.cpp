@@ -130,7 +130,7 @@ static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
-static const efftype_id effect_paralysepoison( "paralysepoison" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill1( "pkill1" );
 static const efftype_id effect_pkill2( "pkill2" );
@@ -238,7 +238,9 @@ void bionic::initialize_pseudo_items( bool create_weapon )
 
     for( const itype_id &id : bid.passive_pseudo_items ) {
         if( !id.is_empty() && id.is_valid() ) {
-            passive_pseudo_items.emplace_back( item( id ) );
+            item pseudo( id );
+            pseudo.set_flag( flag_PSEUDO );
+            passive_pseudo_items.emplace_back( pseudo );
         }
     }
 
@@ -375,7 +377,24 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
 
     optional( jsobj, was_loaded, "dupes_allowed", dupes_allowed, false );
+
     optional( jsobj, was_loaded, "auto_deactivates", autodeactivated_bionics );
+
+    optional( jsobj, was_loaded, "activated_close_ui", activated_close_ui, false );
+
+    optional( jsobj, was_loaded, "deactivated_close_ui", deactivated_close_ui, false );
+
+    for( JsonValue jv : jsobj.get_array( "activated_eocs" ) ) {
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+
+    for( JsonValue jv : jsobj.get_array( "processed_eocs" ) ) {
+        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+
+    for( JsonValue jv : jsobj.get_array( "deactivated_eocs" ) ) {
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
 
     int enchant_num = 0;
     for( JsonValue jv : jsobj.get_array( "enchantments" ) ) {
@@ -717,6 +736,17 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     };
 
+    if( !bio.id->activated_eocs.empty() ) {
+        for( const effect_on_condition_id &eoc : bio.id->activated_eocs ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a bionic activation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
+            }
+        }
+    }
+
     item tmp_item;
     avatar &player_character = get_avatar();
     map &here = get_map();
@@ -867,7 +897,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                 effect_pblue, effect_iodine, effect_datura,
                 effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
                 effect_took_flumed, effect_antifungal, effect_venom_weaken,
-                effect_venom_dmg, effect_paralysepoison
+                effect_venom_dmg, effect_paralyzepoison
             }
         };
 
@@ -1218,6 +1248,18 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
     }
     const item &w_weapon = get_wielded_item();
     // Deactivation effects go here
+
+    if( !bio.id->deactivated_eocs.empty() ) {
+        for( const effect_on_condition_id &eoc : bio.id->deactivated_eocs ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a bionic deactivation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
+            }
+        }
+    }
+
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
         if( bio.get_uid() == get_weapon_bionic_uid() ) {
             bio.set_weapon( get_wielded_item() );
@@ -1767,6 +1809,17 @@ void Character::process_bionic( bionic &bio )
         }
     }
 
+    if( !bio.id->processed_eocs.empty() ) {
+        for( const effect_on_condition_id &eoc : bio.id->processed_eocs ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a bionic process.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
+            }
+        }
+    }
+
     // Bionic effects on every turn they are active go here.
     if( bio.id == bio_remote ) {
         if( g->remoteveh() == nullptr && get_value( "remote_controlling" ).empty() ) {
@@ -2311,11 +2364,12 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
                                _( "<npcname>'s parts are jiggled back into their familiar places." ) );
         add_msg( m_good, _( "Successfully removed %s." ), bio.id.obj().name );
+        const bionic_id bio_id = bio.id;
         remove_bionic( bio );
 
         item cbm( "burnt_out_bionic" );
-        if( item::type_is_defined( bio.id->itype() ) ) {
-            cbm = item( bio.id.c_str() );
+        if( item::type_is_defined( bio_id->itype() ) ) {
+            cbm = item( bio_id.c_str() );
         }
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
@@ -2601,10 +2655,10 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
         get_event_bus().send<event_type::installs_cbm>( getID(), bid );
         if( upbio_uid ) {
             if( cata::optional<bionic *> upbio = find_bionic_by_uid( upbio_uid ) ) {
+                const std::string bio_name = ( *upbio )->id->name.translated();
                 remove_bionic( **upbio );
                 //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
-                add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
-                         ( *upbio )->id->name, bid.obj().name );
+                add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ), bio_name, bid.obj().name );
             } else {
                 debugmsg( "Couldn't find bionic with UID %d to upgrade", upbio_uid );
             }
@@ -2958,11 +3012,12 @@ void Character::remove_bionic( const bionic &bio )
         lose_proficiency( lost );
     }
 
+    const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
     update_bionic_power_capacity();
     calc_encumbrance();
     recalc_sight_limits();
-    if( !bio.id->enchantments.empty() ) {
+    if( has_enchantments ) {
         recalculate_enchantment_cache();
     }
     effect_on_conditions::process_reactivate( *this );

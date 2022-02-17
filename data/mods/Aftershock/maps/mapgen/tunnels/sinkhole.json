@@ -1,0 +1,78 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_tunnel_sinkhole_surface" ],
+    "weight": 5000000,
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "                        ",
+        "            nnnn        ",
+        "          nnnnnn        ",
+        "         nnnnnnnn       ",
+        "           nnnnnn       ",
+        "        nnnnnnnn        ",
+        "     RRnnnnnnnnnb       ",
+        "     nnnnnnnnnnnn       ",
+        "    bnnnnnnnnnnnbb      ",
+        "    nnnnnnnnnnnnnnn     ",
+        "    bnnnnnnnnnnnnbb     ",
+        "    bbnnnnnnnnnnnbb     ",
+        "  b   bbbnnnnnnbb       ",
+        "       bbbbbbbb         ",
+        "         bbb            ",
+        "                        ",
+        "    b            b      ",
+        "              b         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        b               ",
+        "                        "
+      ],
+      "palettes": [ "afs_tunnel" ],
+      "terrain": { "n": "t_open_air", "R": "t_snowslope_down" },
+      "furniture": { "b": "f_boulder_medium" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_tunnel_sinkhole" ],
+    "weight": 5000000,
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rows": [
+        "#####s              ####",
+        "######,sI, ,,,     #####",
+        "########,,,,,,,,########",
+        "##########,,,,,,########",
+        "#########,,,,,,,,#######",
+        "###########,,,,,,#######",
+        "########,,,,,,,,########",
+        "#####RR,,,,,,,,,########",
+        "#####,,,,,,,,,,,,#######",
+        "#####,,,,,,,,,,,########",
+        "####,,,,,,,,,,,,,,,#####",
+        "#####,,,,,,,,,b,,#######",
+        "######,b,,,,,,,,,#######",
+        "#########,,,,,,#########",
+        "########,,,,,,  ########",
+        "########,,,, ,,    #####",
+        "########s,           ###",
+        "######,s,             ##",
+        "###           ,,,    ###",
+        "##           ,s,,   ####",
+        "###          ,,s,    ###",
+        "###,I,,      ,,     ####",
+        "#####s,              ###",
+        "######,             ####"
+      ],
+      "palettes": [ "afs_tunnel_any" ],
+      "terrain": { "R": "t_snowslope_up" },
+      "furniture": { "b": "f_boulder_medium" }
+    }
+  }
+]

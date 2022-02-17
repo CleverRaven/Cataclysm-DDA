@@ -98,7 +98,55 @@
       "tec_aikido_dodgethrow",
       "tec_aikido_blockthrow"
     ],
-    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel", "knuckle_steel_forged" ]
+    "weapons": [ "bagh_nakha", "bio_claws_weapon" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_bojutsu",
+    "name": { "str": "Bōjutsu" },
+    "description": "Bōjutsu, \"The Way of the Staff\", is the Japanese martial art of fighting with a staff.  Bōjutsu focuses on maintaining a good stance to effectively block and counterattack.",
+    "initiate": [ "You position yourself into an agile stance.", "%s enters an agile stance." ],
+    "learn_difficulty": 5,
+    "primary_skill": "bashing",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_bojutsu_static",
+        "name": "Bōjutsu Stance",
+        "description": "A agile stance that allows your blocks to reduce incoming damage.\n\nBlocked damage reduced by 100% of Dexterity.",
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1 } ]
+      },
+      {
+        "id": "buff_bojutsu_static2",
+        "name": "Skilled Striking",
+        "description": "As you get more skilled you're able to begin targeting striking points that allow more for damage.\n\nMelee skill increases Bash Weapon Damage Cap.",
+        "melee_allowed": true,
+        "melee_bash_damage_cap_bonus": true,
+        "skill_requirements": [ { "name": "melee", "level": 1 } ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_bojutsu_onmove",
+        "name": "Rolling Staff",
+        "description": "As you move you begin to rapidly and fluidly roll your staff between your hands.\n\n+10% Bash damage.\nEnables \"Rolling Strike\" technique.\nLasts for 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
+      }
+    ],
+    "techniques": [
+      "tec_bojutsu_thrust",
+      "tec_bojutsu_kneestrike",
+      "tec_bojutsu_frontstrike",
+      "tec_bojutsu_rollingstrike",
+      "tec_bojutsu_feint",
+      "tec_bojutsu_disarm"
+    ],
+    "weapon_category": [ "QUARTERSTAVES" ],
+    "weapons": [ "stick_long", "long_pole", "broom", "mop" ]
   },
   {
     "type": "martial_art",
@@ -177,31 +225,7 @@
       }
     ],
     "techniques": [ "tec_barbaran_impale", "tec_barbaran_disarm" ],
-    "weapons": [
-      "2h_flail_steel",
-      "2h_flail_wood",
-      "battleaxe",
-      "battleaxe_inferior",
-      "battleaxe_fake",
-      "hammer_sledge",
-      "hammer_sledge_heavy",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "mace",
-      "mace_inferior",
-      "mace_fake",
-      "morningstar",
-      "morningstar_inferior",
-      "morningstar_fake",
-      "sword_nail",
-      "sword_crude",
-      "sword_wood",
-      "warhammer",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake"
-    ]
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "FLAILS", "MACES", "GREAT_SWORDS", "GREAT_HAMMERS", "GREAT_AXES" ]
   },
   {
     "type": "martial_art",
@@ -652,7 +676,7 @@
       }
     ],
     "techniques": [ "tec_judo_backthrow", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
-    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel", "knuckle_steel_forged" ]
+    "weapons": [ "bagh_nakha", "bio_claws_weapon" ]
   },
   {
     "type": "martial_art",

@@ -41,7 +41,7 @@ static constexpr int KEY_UP         = 0x103;    /* up arrow */
 static constexpr int KEY_LEFT       = 0x104;    /* left arrow */
 static constexpr int KEY_RIGHT      = 0x105;    /* right arrow*/
 static constexpr int KEY_HOME       =
-    0x106;    /* home key */                   //<---------not used
+    0x106;    /* home key */
 static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
 static constexpr int KEY_DC         = 0x151;    /* Delete Character */
@@ -785,15 +785,19 @@ class input_context
          * @param action_descriptor The action descriptor for which to get the bound keys.
          * @param maximum_modifier_count Maximum number of modifiers allowed for
          *        the returned action. <0 means any number is allowed.
-         * @param restrict_to_printable If `true` the function returns the bound
+         * @param restrict_to_printable If `true`, the function returns the bound
          *        keys only if they are printable (space counts as non-printable
          *        here). If `false`, all keys (whether they are printable or not)
          *        are returned.
+         * @param restrict_to_keyboard If `true`, the function returns the bound keys only
+         *        if they are keyboard inputs. If `false`, all inputs, such as mouse
+         *        inputs are included.
          * @returns All keys bound to the given action descriptor.
          */
         std::vector<input_event> keys_bound_to( const std::string &action_descriptor,
                                                 int maximum_modifier_count = -1,
-                                                bool restrict_to_printable = true ) const;
+                                                bool restrict_to_printable = true,
+                                                bool restrict_to_keyboard = true ) const;
 
         /**
         * Get/Set edittext to display IME unspecified string.
@@ -813,6 +817,11 @@ class input_context
         void set_timeout( int val );
         void reset_timeout();
 
+
+        void set_category( std::string c ) {
+            category = c;
+        }
+
         input_event first_unassigned_hotkey( const hotkey_queue &queue ) const;
         input_event next_unassigned_hotkey( const hotkey_queue &queue, const input_event &prev ) const;
     private:
@@ -822,6 +831,7 @@ class input_context
     public:
         const std::string &input_to_action( const input_event &inp ) const;
         bool is_event_type_enabled( input_event_t type ) const;
+        bool is_registered_action( const std::string &action_name ) const;
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
@@ -896,13 +906,7 @@ class hotkey_queue
          */
         static const hotkey_queue &alphabets();
 
-        /**
-         * In keychar mode:
-         *   1-0, a-z, A-Z
-         * In keycode mode:
-         *   1-0, a-z, shift 1-0, shift a-z
-         */
-        static const hotkey_queue &alpha_digits();
+        static const hotkey_queue &create_from_available_hotkeys( input_context &ctxt );
 
     private:
         std::vector<int> codes_keychar;

@@ -15,10 +15,8 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_hunger_blank( "hunger_blank" );
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
@@ -31,8 +29,6 @@ static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_infected( "infected" );
 
-static const flag_id json_flag_RAD_DETECT( "RAD_DETECT" );
-static const flag_id json_flag_SPLINT( "SPLINT" );
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
 static const itype_id fuel_type_muscle( "muscle" );
@@ -718,37 +714,6 @@ std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u
     return std::make_pair( _( fatigue_string ), fatigue_color );
 }
 
-std::pair<std::string, nc_color> display::health_text_color( const Character &u )
-{
-    std::string h_string;
-    nc_color h_color = c_light_gray;
-
-    int current_health = u.get_healthy();
-    if( current_health < -100 ) {
-        h_string = "Horrible";
-        h_color = c_red;
-    } else if( current_health < -50 ) {
-        h_string = "Very bad";
-        h_color = c_light_red;
-    } else if( current_health < -10 ) {
-        h_string = "Bad";
-        h_color = c_yellow;
-    } else if( current_health < 10 ) {
-        h_string = "OK";
-        h_color = c_light_gray;
-    } else if( current_health < 50 ) {
-        h_string = "Good";
-        h_color = c_white;
-    } else if( current_health < 100 ) {
-        h_string = "Very good";
-        h_color = c_green;
-    } else {
-        h_string = "Excellent";
-        h_color = c_light_green;
-    }
-    return std::make_pair( _( h_string ), h_color );
-}
-
 std::pair<std::string, nc_color> display::pain_text_color( const Creature &c )
 {
     float scale = c.get_perceived_pain() / 10.f;
@@ -880,70 +845,6 @@ nc_color display::limb_color( const Character &u, const bodypart_id &bp, bool bl
     return i_color;
 }
 
-std::string display::rad_badge_color_name( const int rad )
-{
-    using pair_t = std::pair<const int, const translation>;
-
-    static const std::array<pair_t, 6> values = {{
-            pair_t {  0, to_translation( "color", "green" ) },
-            pair_t { 30, to_translation( "color", "blue" )  },
-            pair_t { 60, to_translation( "color", "yellow" )},
-            pair_t {120, to_translation( "color", "orange" )},
-            pair_t {240, to_translation( "color", "red" )   },
-            pair_t {500, to_translation( "color", "black" ) },
-        }
-    };
-
-    for( const auto &i : values ) {
-        if( rad <= i.first ) {
-            return i.second.translated();
-        }
-    }
-
-    return values.back().second.translated();
-}
-
-nc_color display::rad_badge_color( const int rad )
-{
-    using pair_t = std::pair<const int, nc_color>;
-
-    // Map radiation to a displayable color, using background color if needed
-    static const std::array<pair_t, 6> values = {{
-            pair_t {  0, c_white_green },   // white on green (for green)
-            pair_t { 30, h_white },         // white on blue (for blue)
-            pair_t { 60, i_yellow },        // black on yellow (for yellow)
-            pair_t {120, c_red_yellow },    // red on brown (for orange)
-            pair_t {240, c_red_red },       // black on red (for red)
-            pair_t {500, c_pink },          // pink on black (for black)
-        }
-    };
-
-    for( const auto &i : values ) {
-        if( rad <= i.first ) {
-            return i.second;
-        }
-    }
-
-    return values.back().second;
-}
-
-std::pair<std::string, nc_color> display::rad_badge_text_color( const Character &u )
-{
-    // Default - no radiation badge
-    std::string rad_text = "Unknown";
-    nc_color rad_color = c_light_gray;
-    // Get all items that can detect radiation
-    for( const item *it : u.all_items_with_flag( json_flag_RAD_DETECT ) ) {
-        // Radiation badges only work if they're exposed (worn or wielded)
-        if( u.is_worn( *it ) || u.is_wielding( *it ) ) {
-            rad_text = string_format( " %s ", rad_badge_color_name( it->irradiation ) );
-            rad_color = rad_badge_color( it->irradiation );
-            break; // Quit after the first one
-        }
-    }
-    return std::make_pair( rad_text, rad_color );
-}
-
 std::string display::vehicle_azimuth_text( const Character &u )
 {
     vehicle *veh = display::vehicle_driven( u );
@@ -1016,63 +917,15 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     return std::make_pair( fuel_text, fuel_color );
 }
 
-std::vector<std::pair<std::string, nc_color>> display::bodypart_status_colors( const Character &u,
-        const bodypart_id &bp )
+std::string display::colorized_bodypart_outer_armor( const Character &u, const bodypart_id &bp )
 {
-    // List of status strings and colors
-    std::vector<std::pair<std::string, nc_color>> ret;
-    // Empty if no bodypart given
-    if( bp == bodypart_str_id::NULL_ID() ) {
-        return ret;
+    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
+        --it;
+        if( it->covers( bp ) ) {
+            return it->tname( 1, true, 0 );
+        }
     }
-
-    const int bleed_intensity = u.get_effect_int( effect_bleed, bp );
-    const bool bleeding = bleed_intensity > 0;
-    const bool bitten = u.has_effect( effect_bite, bp.id() );
-    const bool infected = u.has_effect( effect_infected, bp.id() );
-    const bool broken = u.is_limb_broken( bp ) && bp->is_limb;
-    const bool splinted = u.worn_with_flag( json_flag_SPLINT,  bp );
-    const bool bandaged = u.has_effect( effect_bandaged,  bp.id() );
-    const bool disinfected = u.has_effect( effect_disinfected,  bp.id() );
-
-    // Ailments
-    if( broken ) {
-        ret.emplace_back( std::make_pair( "broken", c_magenta ) );
-    }
-    if( bitten ) {
-        ret.emplace_back( std::make_pair( "bitten", c_yellow ) );
-    }
-    if( bleeding ) {
-        ret.emplace_back( std::make_pair( "bleeding",
-                                          colorize_bleeding_intensity( bleed_intensity ) ) );
-    }
-    if( infected ) {
-        ret.emplace_back( std::make_pair( "infected", c_pink ) );
-    }
-    // Treatments
-    if( splinted ) {
-        ret.emplace_back( std::make_pair( "splinted", c_light_gray ) );
-    }
-    if( bandaged ) {
-        ret.emplace_back( std::make_pair( "bandaged", c_white ) );
-    }
-    if( disinfected ) {
-        ret.emplace_back( std::make_pair( "disinfected", c_light_green ) );
-    }
-
-    return ret;
-}
-
-std::string display::colorized_bodypart_status_text( const Character &u, const bodypart_id &bp )
-{
-    // Colorized strings for each status
-    std::vector<std::string> color_strings;
-    // Get all status strings and colorize them
-    for( const std::pair<std::string, nc_color> &sc : display::bodypart_status_colors( u, bp ) ) {
-        color_strings.emplace_back( colorize( sc.first, sc.second ) );
-    }
-    // Join with commas, or return "--" if no statuses
-    return color_strings.empty() ? "--" : join( color_strings, ", " );
+    return "-";
 }
 
 // Single-letter move mode (W, R, C, P)
@@ -1083,12 +936,12 @@ std::pair<std::string, nc_color> display::move_mode_letter_color( const Characte
     return std::make_pair( mm_text, mm_color );
 }
 
-// Full name of move mode (walking, running, crouching, prone)
-std::pair<std::string, nc_color> display::move_mode_text_color( const Character &u )
+// Movement counter and mode letter, like "50(R)" or "100(W)"
+std::pair<std::string, nc_color> display::move_count_and_mode_text_color( const avatar &u )
 {
-    const std::string mm_text = u.current_movement_mode()->type_name();
-    const nc_color mm_color = u.current_movement_mode()->panel_color();
-    return std::make_pair( mm_text, mm_color );
+    std::pair<std::string, nc_color> mode_pair = display::move_mode_letter_color( u );
+    std::string count_and_mode = string_format( "%d(%s)", u.movecounter, mode_pair.first );
+    return std::make_pair( count_and_mode, mode_pair.second );
 }
 
 std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string note_text )
@@ -1416,7 +1269,7 @@ std::string display::colorized_compass_text( const cardinal_direction dir, int w
     return get_compass_for_direction( dir, width );
 }
 
-std::string display::colorized_compass_legend_text( int width, int height )
+std::string display::colorized_compass_legend_text( int width, int max_height, int &height )
 {
     const monster_visible_info &mon_visible = get_avatar().get_mon_visible();
     std::vector<std::string> names;
@@ -1460,33 +1313,7 @@ std::string display::colorized_compass_legend_text( int width, int height )
         name = string_format( "%s %s", colorize( m.first->sym, m.first->color ), colorize( name, danger ) );
         names.emplace_back( name );
     }
-    // Split names into X lines, where X = height.
-    // Lines use the provided width.
-    // This effectively limits the text to a 'width'x'height' box.
-    std::string ret;
-    const int nsize = names.size();
-    for( int row = 0, nidx = 0; row < height && nidx < nsize; row++ ) {
-        int wavail = width;
-        int nwidth = utf8_width( names[nidx], true );
-        bool startofline = true;
-        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
-            startofline = false;
-            wavail -= nwidth;
-            ret += names[nidx];
-            nidx++;
-            if( nidx < nsize ) {
-                nwidth = utf8_width( names[nidx], true );
-                if( wavail > nwidth ) {
-                    ret += "  ";
-                    wavail -= 2;
-                }
-            }
-        }
-        if( row < height - 1 ) {
-            ret += "\n";
-        }
-    }
-    return ret;
+    return format_widget_multiline( names, max_height, width, height );
 }
 
 // Print monster info to the given window

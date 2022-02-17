@@ -86,8 +86,6 @@ struct fire_data;
 enum class damage_type : int;
 enum clothing_mod_type : int;
 
-std::string rad_badge_color( int rad );
-
 struct light_emission {
     unsigned short luminance;
     short width;
@@ -353,6 +351,12 @@ class item : public visitable
         bool is_ebook_storage() const;
 
         /**
+         * A heuristic on whether it's a good idea to use this as a melee weapon.
+         * Used for nicer messages only.
+         */
+        bool is_maybe_melee_weapon() const;
+
+        /**
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
          */
         std::string dirt_symbol() const;
@@ -480,10 +484,14 @@ class item : public visitable
                              bool debug ) const;
         void bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
-        void combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                          bool debug ) const;
+        void melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                bool debug ) const;
         void contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                             bool debug ) const;
+        void properties_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                              bool debug ) const;
+        void ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
         void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
 
@@ -622,6 +630,8 @@ class item : public visitable
                               int charges_in_vol = -1 ) const;
 
         units::length length() const;
+
+        units::length integral_length() const;
 
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
@@ -907,9 +917,9 @@ class item : public visitable
         /**
          * Return the level of a given quality the tool may have, or INT_MIN if it
          * does not have that quality, or lacks enough charges to have that quality.
+         * @param strict_boiling True if containers must be empty to have BOIL quality
          */
-        int get_quality( const quality_id &id ) const;
-        int get_raw_quality( const quality_id &id ) const;
+        int get_quality( const quality_id &id, const bool strict_boiling = true ) const;
 
         /**
          * Return true if this item's type is counted by charges
@@ -977,6 +987,11 @@ class item : public visitable
 
         /** Sets the item to new temperature and energy based new specific energy (J/g) and resets last_temp_check*/
         void set_item_specific_energy( float specific_energy );
+
+        /**
+         * Get the thermal energy of the item in Joules.
+         */
+        float get_item_thermal_energy() const;
 
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
@@ -1196,6 +1211,9 @@ class item : public visitable
         /**
          * Assuming that specified du hit the armor, reduce du based on the item's resistance to the
          * damage type. This will never reduce du.amount below 0.
+         * roll is normally set to 0 which means all materials protect for legacy
+         * giving a roll between 0-99 will influence the covered materials with a fixed roll
+         * giving a roll of -1 (< 0) will mean each material is rolled individually
          */
         void mitigate_damage( damage_unit &du, const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
         void mitigate_damage( damage_unit &du, const sub_bodypart_id &bp, int roll = 0 ) const;
@@ -1472,14 +1490,16 @@ class item : public visitable
         /**
          * Can the pocket contain the specified item?
          * @param it the item being put in
+         * @param nested whether or not the current call is nested (used recursively).
          */
         /*@{*/
-        ret_val<bool> can_contain( const item &it ) const;
+        ret_val<bool> can_contain( const item &it, const bool nested = false ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
+                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
+                bool nested = false );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
@@ -1487,7 +1507,7 @@ class item : public visitable
 
         /**
          * Is it ever possible to reload this item?
-         * Only the base item is considered with any mods ignored
+         * ALso checks for reloading installed gunmods
          * @see player::can_reload()
          */
         bool is_reloadable() const;
@@ -1603,7 +1623,7 @@ class item : public visitable
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
         bool has_relic_activation() const;
-        std::vector<trait_id> mutations_from_wearing( const Character &guy ) const;
+        std::vector<trait_id> mutations_from_wearing( const Character &guy, bool removing = false ) const;
 
         /**
          * Name of the item type (not the item), with proper plural.
@@ -1943,6 +1963,7 @@ class item : public visitable
         enum class encumber_flags : int {
             none = 0,
             assume_full = 1,
+            assume_empty = 2
         };
 
         const armor_portion_data *portion_for_bodypart( const bodypart_id &bodypart ) const;
@@ -2231,7 +2252,7 @@ class item : public visitable
         /** Get the default magazine type (if any) for the current effective ammo type
          *  @param conversion whether to include the effect of any flags or mods which convert item's ammo type
          *  @return magazine type or "null" if item has integral magazine or no magazines for current ammo type */
-        itype_id magazine_default( bool conversion = true ) const;
+        itype_id magazine_default( bool conversion = false ) const;
 
         /** Get compatible magazines (if any) for this item
          *  @return magazine compatibility which is always empty if item has integral magazine
@@ -2331,6 +2352,10 @@ class item : public visitable
          * Returns empty instance on non-gun items.
          */
         damage_instance gun_damage( bool with_ammo = true, bool shot = false ) const;
+        /**
+         * The minimum force required to cycle the gun, can be overridden by mods
+         */
+        int min_cycle_recoil() const;
         /**
          * Summed dispersion of a gun, including values from mods. Returns 0 on non-gun items.
          */
@@ -2640,11 +2665,6 @@ class item : public visitable
          * @param time_delta time duration from previous temperature calculation
          */
         void calc_temp( int temp, float insulation, const time_duration &time_delta );
-
-        /**
-         * Get the thermal energy of the item in Joules.
-         */
-        float get_item_thermal_energy() const;
 
         /** Calculates item specific energy (J/g) from temperature (K)*/
         float get_specific_energy_from_temperature( float new_temperature );

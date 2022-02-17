@@ -91,6 +91,7 @@
 #include "point.h"
 #include "popup.h"
 #include "recipe_dictionary.h"
+#include "relic.h"
 #include "rng.h"
 #include "sounds.h"
 #include "stomach.h"
@@ -123,8 +124,6 @@ static const faction_id faction_no_faction( "no_faction" );
 static const matype_id style_none( "style_none" );
 
 static const mtype_id mon_generator( "mon_generator" );
-
-static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_NONE( "NONE" );
@@ -334,8 +333,8 @@ static int game_uilist()
         { uilist_entry( debug_menu_index::ENABLE_ACHIEVEMENTS, true, 'a', _( "Enable achievements" ) ) },
         { uilist_entry( debug_menu_index::SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
         { uilist_entry( debug_menu_index::CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
-        { uilist_entry( debug_menu_index::QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
         { uilist_entry( debug_menu_index::ACTIVATE_EOC, true, 'E', _( "Activate EOC" ) ) },
+        { uilist_entry( debug_menu_index::QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
     };
 
     return uilist( _( "Game…" ), uilist_initializer );
@@ -1052,6 +1051,37 @@ static void change_spells( Character &character )
             }
 
             spell_middle_or_id( spellid );
+        }
+    }
+}
+
+static void spawn_artifact()
+{
+    map &here = get_map();
+    uilist relic_menu;
+    std::vector<relic_procgen_id> relic_list;
+    for( auto &elem : relic_procgen_data::get_all() ) {
+        relic_list.emplace_back( elem.id );
+    }
+    relic_menu.text = _( "Choose artifact data:" );
+    std::sort( relic_list.begin(), relic_list.end(), localized_compare );
+    int menu_ind = 0;
+    for( auto &elem : relic_list ) {
+        relic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, elem.c_str() );
+        ++menu_ind;
+    }
+    relic_menu.query();
+    int artifact_max_attributes;
+    int artifact_power_level;
+    int artifact_max_negative_value;
+    if( relic_menu.ret >= 0 && relic_menu.ret < static_cast<int>( relic_list.size() ) ) {
+        if( query_int( artifact_max_attributes, _( "Enter max attributes:" ) )
+            && query_int( artifact_power_level, _( "Enter power level:" ) )
+            && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) ) {
+            if( const cata::optional<tripoint> center = g->look_around() ) {
+                here.spawn_artifact( *center, relic_list[relic_menu.ret], artifact_max_attributes,
+                                     artifact_power_level, artifact_max_negative_value );
+            }
         }
     }
 }
@@ -2470,12 +2500,7 @@ void debug()
             break;
 
         case debug_menu_index::SPAWN_ARTIFACT:
-            if( const cata::optional<tripoint> center = g->look_around() ) {
-                artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
-                                                 ARTPROP_MAX - 1 ) );
-                here.create_anomaly( *center, prop );
-                here.spawn_artifact( *center, relic_procgen_data_alien_reality );
-            }
+            spawn_artifact();
             break;
 
         case debug_menu_index::SPAWN_CLAIRVOYANCE:

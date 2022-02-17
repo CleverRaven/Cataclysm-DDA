@@ -8,6 +8,7 @@
 *.tmp
 *.zip
 *.apk
+*.log
 /WinDepend/
 /bindist/
 /build/
@@ -56,16 +57,15 @@ json_formatter
 *.suo
 *.user
 *.vcxproj.filters
+*.lastbuildstate
 .vs/
 .vscode/
-Debug*/
-Release*/
+
+# Visual Studio project files
+/msvc-full-features/**/
 
 # Temporary CMakeFiles
 out/
-
-# Distribution script results
-/msvc-full-features/distribution
 
 # Visual Studio 2015
 /msvc-full-features/*db
@@ -80,7 +80,6 @@ Cataclysm.exe.lastcodeanalysissucceeded
 **/enc_temp_folder/*
 
 #vcpkg
-/msvc-full-features/vcpkg_installed
 /msvc-object_creator/vcpkg_installed
 
 # PVS Studio
@@ -119,6 +118,7 @@ tags
 nbproject/
 
 # Python runtime files
+__pycache__
 *.pyc
 
 # vim files

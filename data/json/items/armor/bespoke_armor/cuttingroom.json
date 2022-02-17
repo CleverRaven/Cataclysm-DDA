@@ -30,6 +30,15 @@
     "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
   },
   {
+    "id": "xs_boots_fsurvivor",
+    "type": "ARMOR",
+    "copy-from": "boots_fsurvivor",
+    "looks_like": "boots_fsurvivor",
+    "name": { "str": "pair of XS survivor fireboots", "str_pl": "pairs of XS survivor fireboots" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "boots_hsurvivor",
     "type": "ARMOR",
     "category": "armor",
@@ -58,6 +67,15 @@
     "copy-from": "boots_hsurvivor",
     "proportional": { "weight": 1.2, "volume": 1.2 },
     "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
+  },
+  {
+    "id": "xs_boots_hsurvivor",
+    "type": "ARMOR",
+    "copy-from": "boots_hsurvivor",
+    "looks_like": "boots_hsurvivor",
+    "name": { "str": "pair of XS heavy survivor boots", "str_pl": "pairs of XS heavy survivor boots" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "gloves_hsurvivor",
@@ -89,6 +107,15 @@
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF" ]
   },
   {
+    "id": "xs_gloves_hsurvivor",
+    "type": "ARMOR",
+    "copy-from": "gloves_hsurvivor",
+    "looks_like": "gloves_hsurvivor",
+    "name": { "str": "pair of XS heavy survivor gloves", "str_pl": "pairs of XS heavy survivor gloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "gloves_fsurvivor",
     "type": "ARMOR",
     "category": "armor",
@@ -116,6 +143,15 @@
     "copy-from": "gloves_fsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF" ]
+  },
+  {
+    "id": "xs_gloves_fsurvivor",
+    "type": "ARMOR",
+    "copy-from": "gloves_fsurvivor",
+    "looks_like": "gloves_fsurvivor",
+    "name": { "str": "pair of XS survivor firegloves", "str_pl": "pairs of XS survivor firegloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "hood_fsurvivor",
@@ -147,6 +183,16 @@
     "description": "A customized armored Nomex and Kevlar hood, very strong and durable.  Made in Muspelheim.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT", "OUTER", "WATERPROOF" ]
+  },
+  {
+    "id": "xs_hood_fsurvivor",
+    "type": "ARMOR",
+    "copy-from": "hood_fsurvivor",
+    "looks_like": "hood_fsurvivor",
+    "name": { "str": "XS survivor firehood" },
+    "description": "A customized armored Nomex and Kevlar hood, strong and durable.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT", "UNDERSIZE" ]
   },
   {
     "id": "fsurvivor_suit",
@@ -190,6 +236,15 @@
     "copy-from": "fsurvivor_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "POCKETS", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_fsurvivor_suit",
+    "type": "ARMOR",
+    "copy-from": "fsurvivor_suit",
+    "looks_like": "fsurvivor_suit",
+    "name": { "str": "XS survivor firesuit" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "hsurvivor_suit",
@@ -256,6 +311,16 @@
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
+    "id": "xshsurvivor_suit",
+    "type": "ARMOR",
+    "copy-from": "hsurvivor_suit",
+    "looks_like": "hsurvivor_suit",
+    "name": { "str": "XS heavy survivor suit" },
+    "description": "A heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "lsurvivor_armor",
     "type": "ARMOR",
     "category": "armor",
@@ -290,6 +355,15 @@
     "copy-from": "lsurvivor_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_lsurvivor_armor",
+    "type": "ARMOR",
+    "copy-from": "lsurvivor_armor",
+    "looks_like": "lsurvivor_armor",
+    "name": { "str": "XS light survivor body armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "lsurvivor_suit",

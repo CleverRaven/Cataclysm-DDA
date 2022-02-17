@@ -99,7 +99,8 @@ static std::string keys_text()
         colorize( "i", c_light_green ) + _( " item, " ) +
         colorize( "c", c_light_green ) + _( " category, " ) +
         colorize( "w", c_light_green ) + _( " whitelist, " ) +
-        colorize( "b", c_light_green ) + _( " blacklist" );
+        colorize( "b", c_light_green ) + _( " blacklist, " ) +
+        colorize( "x", c_light_green ) + _( " clear" );
 }
 
 bool pocket_favorite_callback::key( const input_context &, const input_event &event, int,
@@ -141,15 +142,12 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         selected_pocket->settings.set_unloadable( !selected_pocket->settings.is_unloadable() );
         return true;
     }
-
-    const bool item_id = input == 'i';
-    const bool cat_id = input == 'c';
     uilist selector_menu;
 
     const std::string remove_prefix = "<color_light_red>-</color> ";
     const std::string add_prefix = "<color_green>+</color> ";
 
-    if( item_id ) {
+    if( input == 'i' ) {
         const cata::flat_set<itype_id> &listed_itypes = whitelist
                 ? selected_pocket->settings.get_item_whitelist()
                 : selected_pocket->settings.get_item_blacklist();
@@ -213,7 +211,7 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         }
 
         return true;
-    } else if( cat_id ) {
+    } else if( input == 'c' ) {
         // Get all categories and sort by name
         std::vector<item_category> all_cat = item_category::get_all();
         const cata::flat_set<item_category_id> &listed_cat = whitelist
@@ -247,6 +245,11 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
             }
         }
         return true;
+    } else if( input == 'x' ) {
+        const int pocket_num = menu->selected + 1;
+        if( query_yn( _( "Are you sure you want to clear settings for pocket %d?" ), pocket_num ) ) {
+            selected_pocket->settings.clear();
+        }
     }
 
     return false;
@@ -260,7 +263,7 @@ item_contents::item_contents( const std::vector<pocket_data> &pockets )
     }
 }
 
-bool item_contents::empty_real() const
+bool item_contents::empty_with_no_mods() const
 {
     return contents.empty() ||
     std::all_of( contents.begin(), contents.end(), []( const item_pocket & p ) {
@@ -547,13 +550,12 @@ void item_contents::force_insert_item( const item &it, item_pocket::pocket_type 
 }
 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
-        item_location &parent, const item *avoid, const bool allow_sealed, const bool ignore_settings )
+        item_location &parent, const item *avoid, const bool allow_sealed, const bool ignore_settings,
+        const bool nested )
 {
-    if( !can_contain( it ).success() ) {
-        return { item_location(), nullptr };
-    }
-    std::pair<item_location, item_pocket *> ret;
-    ret.second = nullptr;
+    // @TODO: this could be made better by doing a plain preliminary volume check.
+    // if the total volume of the parent is not sufficient, a child won't have enough either.
+    std::pair<item_location, item_pocket *> ret = { parent, nullptr };
     for( item_pocket &pocket : contents ) {
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             // best pocket is for picking stuff up.
@@ -565,29 +567,24 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // that needs to be something a player explicitly does
             continue;
         }
-        if( !pocket.can_contain( it ).success() ) {
-            continue;
-        }
         if( !ignore_settings && !pocket.settings.accepts_item( it ) ) {
             // Item forbidden by whitelist / blacklist
             continue;
         }
-        if( ret.second == nullptr || ret.second->better_pocket( pocket, it ) ) {
-            // this pocket is the new candidate for "best"
-            ret.first = parent;
+        item_pocket *const nested_content_pocket =
+            pocket.best_pocket_in_contents( parent, it, avoid, allow_sealed, ignore_settings );
+        if( nested_content_pocket != nullptr ) {
+            // item fits in pockets contents, no need to check the pocket itself.
+            // this gives nested pockets priority over parent pockets.
+            ret.second = nested_content_pocket;
+            continue;
+        }
+        if( !pocket.can_contain( it ).success() || ( nested && !pocket.rigid() ) ) {
+            // non-rigid nested pocket makes no sense, item should also be able to fit in parent.
+            continue;
+        }
+        if( ret.second == nullptr || ret.second->better_pocket( pocket, it, /*nested=*/nested ) ) {
             ret.second = &pocket;
-            // check all pockets within to see if they are better
-            for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-                if( contained == avoid ) {
-                    continue;
-                }
-                std::pair<item_location, item_pocket *> internal_pocket =
-                    contained->best_pocket( it, parent, avoid, /*allow_sealed=*/false, /*ignore_settings=*/false );
-                if( internal_pocket.second != nullptr &&
-                    ret.second->better_pocket( *internal_pocket.second, it, true ) ) {
-                    ret = internal_pocket;
-                }
-            }
         }
     }
     return ret;
@@ -1188,8 +1185,7 @@ std::list<item *> item_contents::all_items_top( const std::function<bool( item_p
     for( item_pocket &pocket : contents ) {
         if( filter( pocket ) ) {
             std::list<item *> contained_items = pocket.all_items_top();
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
+            all_items_internal.splice( all_items_internal.end(), std::move( contained_items ) );
         }
     }
     return all_items_internal;
@@ -1216,8 +1212,7 @@ std::list<const item *> item_contents::all_items_top( const
     for( const item_pocket &pocket : contents ) {
         if( filter( pocket ) ) {
             std::list<const item *> contained_items = pocket.all_items_top();
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
+            all_items_internal.splice( all_items_internal.end(), std::move( contained_items ) );
         }
     }
     return all_items_internal;
@@ -1521,14 +1516,17 @@ void item_contents::add_pocket( const item &pocket_item )
 item item_contents::remove_pocket( int index )
 {
     // start at the first pocket
-    auto it = contents.begin();
+    auto rit = contents.rbegin();
+
 
     // find the pockets to remove from the item
-    for( int i = 0; i < index; ++i ) {
+    for( int i = additional_pockets.size() - 1; i >= index; --i ) {
         // move the iterator past all the pockets we aren't removing
-        std::advance( it, additional_pockets[i].get_all_contained_pockets().value().size() );
+        std::advance( rit, additional_pockets[i].get_all_contained_pockets().value().size() );
     }
 
+    // at this point reveresed past the pockets we want to get rid of so now start going forward
+    auto it = std::next( rit ).base();
     units::volume total_nonrigid_volume = 0_ml;
     for( item_pocket *i_pocket : additional_pockets[index].get_all_contained_pockets().value() ) {
         total_nonrigid_volume += i_pocket->max_contains_volume();
@@ -1984,7 +1982,7 @@ void item_contents::favorite_settings_menu( const std::string &item_name )
         return TERMY;
     };
     for( int i = 1; i <= num_container_pockets; i++ ) {
-        pocket_selector.addentry( string_format( "%d - %s", i, pocket_name[i - 1] ) );
+        pocket_selector.addentry( 0, true, '\0', string_format( "%d - %s", i, pocket_name[i - 1] ) );
     }
 
     pocket_selector.query();

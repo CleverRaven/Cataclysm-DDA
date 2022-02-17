@@ -209,11 +209,15 @@ struct body_part_type {
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
         body_part_type::type limb_type = body_part_type::type::num_types;
+        cata::flat_set <body_part_type::type> secondary_types;
+        bool has_type( const body_part_type::type &type ) const;
 
         // Threshold to start encumbrance scaling
         int encumbrance_threshold = 0;
         // Limit of encumbrance, after reaching this point the limb contributes no scores
         int encumbrance_limit = 0;
+        // Health at which the limb stops contributing its conditional flags / techs
+        int health_limit = 0;
 
         // If true, extra encumbrance on this limb affects dodge effectiveness
         bool encumb_impacts_dodge = false;
@@ -241,6 +245,11 @@ struct body_part_type {
         bool is_vital = false;
         bool is_limb = false;
 
+        // Ugliness of bodypart, can be mitigated by covering them up
+        int ugliness = 0;
+        // Ugliness that can't be covered (obviously nonstandard anatomy, even under bulky armor)
+        int ugliness_mandatory = 0;
+
         // Intrinsic temperature bonus of the bodypart
         int temp_min = 0;
         // Temperature bonus to apply when not overheated
@@ -252,6 +261,7 @@ struct body_part_type {
         // Wetness morale bonus/malus of the limb
         int wet_morale = 0;
         cata::flat_set<json_character_flag> flags;
+        cata::flat_set<json_character_flag> conditional_flags;
         bool has_flag( const json_character_flag &flag ) const;
 
         // Limb-specific attacks
@@ -465,6 +475,7 @@ class bodypart
         int get_encumbrance_threshold() const;
         // Check if we're above our encumbrance limit
         bool is_limb_overencumbered() const;
+        bool has_conditional_flag( const json_character_flag &flag ) const;
 
         // Get our limb attacks
         std::set<matec_id> get_limb_techs() const;

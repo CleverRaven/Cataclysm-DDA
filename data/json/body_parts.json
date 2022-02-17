@@ -207,7 +207,8 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You smash the %s with your fist.",
-    "bionic_slots": 5
+    "bionic_slots": 5,
+    "sub_parts": [ "hand_wrist_l", "hand_palm_l", "hand_back_l", "hand_fingers_l" ]
   },
   {
     "id": "hand_r",
@@ -235,7 +236,8 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You smash the %s with your fist.",
-    "bionic_slots": 5
+    "bionic_slots": 5,
+    "sub_parts": [ "hand_wrist_r", "hand_palm_r", "hand_back_r", "hand_fingers_r" ]
   },
   {
     "id": "leg_l",
@@ -389,7 +391,7 @@
     "accusative": { "ctxt": "bodypart_accusative", "str": "debug tail" },
     "hp_bar_ui_text": "DBG TAIL",
     "base_hp": 20,
-    "flags": [ "ALWAYS_BLOCK", "NONSTANDARD_BLOCK", "MEND_LIMB" ],
+    "flags": [ "ALWAYS_BLOCK", "NONSTANDARD_BLOCK", "MEND_LIMB", "WALL_CLING" ],
     "armor": { "bash": 10 },
     "unarmed_damage": [ { "damage_type": "acid", "amount": 10 }, { "damage_type": "bullet", "amount": 5, "armor_penetration": 100 } ],
     "techniques": [ "tec_dbg_sting" ],
@@ -615,5 +617,85 @@
     "opposite": "leg_lower_r",
     "name_multiple": "lower legs",
     "name": "left lower leg"
+  },
+  {
+    "id": "hand_wrist_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "hand_r",
+    "side": 1,
+    "opposite": "hand_wrist_l",
+    "name_multiple": "wrists",
+    "name": "right wrist"
+  },
+  {
+    "id": "hand_palm_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hand_r",
+    "side": 1,
+    "opposite": "hand_palm_l",
+    "name_multiple": "palms",
+    "name": "right palm"
+  },
+  {
+    "id": "hand_back_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hand_r",
+    "side": 1,
+    "opposite": "hand_back_l",
+    "name_multiple": "back of hands",
+    "name": "right back of hand"
+  },
+  {
+    "id": "hand_fingers_r",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "hand_r",
+    "side": 1,
+    "opposite": "hand_fingers_l",
+    "name_multiple": "wrists",
+    "name": "right fingers"
+  },
+  {
+    "id": "hand_wrist_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "hand_l",
+    "side": 1,
+    "opposite": "hand_wrist_r",
+    "name_multiple": "wrists",
+    "name": "left wrist"
+  },
+  {
+    "id": "hand_palm_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hand_l",
+    "side": 1,
+    "opposite": "hand_palm_r",
+    "name_multiple": "palms",
+    "name": "left palm"
+  },
+  {
+    "id": "hand_back_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "hand_l",
+    "side": 1,
+    "opposite": "hand_back_r",
+    "name_multiple": "back of hands",
+    "name": "left back of hand"
+  },
+  {
+    "id": "hand_fingers_l",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "hand_l",
+    "side": 1,
+    "opposite": "hand_fingers_r",
+    "name_multiple": "fingers",
+    "name": "left fingers"
   }
 ]

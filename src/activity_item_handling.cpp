@@ -69,14 +69,10 @@
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
-static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
-static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
-static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_MOP( "ACT_MOP" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -934,22 +930,15 @@ static activity_reason_info find_base_construction(
     if( !pcb ) {
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
     }
+    //check if construction allows items at the location
+    if( build.post_flags.count( "keep_items" ) == 0 ) {
+        const map_stack stuff_there = here.i_at( loc );
+        if( !stuff_there.empty() ) {
+            return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
+        }
+    }
     //only cc failed, no pre-req
     return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
-}
-
-static std::string random_string( size_t length )
-{
-    auto randchar = []() -> char {
-        static constexpr char charset[] =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-        static constexpr size_t num_chars = sizeof( charset ) - 1;
-        return charset[rng( 0, num_chars - 1 )];
-    };
-    std::string str( length, 0 );
-    std::generate_n( str.begin(), length, randchar );
-    return str;
 }
 
 static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
@@ -1309,7 +1298,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( part_con ) {
             part_con_idx = part_con->id;
         }
-        const map_stack stuff_there = here.i_at( src_loc );
 
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
         const inventory pre_inv = you.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
@@ -1317,9 +1305,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             const blueprint_options &options = dynamic_cast<const blueprint_options &>
                                                ( zones.front().get_options() );
             const construction_id index = options.get_index();
-            if( !stuff_there.empty() ) {
-                return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, index );
-            }
             std::set<construction_id> used_idx;
             const activity_reason_info act_info = find_base_construction( list_constructions, you, pre_inv,
                                                   src_loc, part_con_idx, index, used_idx );
@@ -1963,7 +1948,7 @@ static bool chop_plank_activity( Character &you, const tripoint &src_loc )
             here.i_rem( src_loc, &i );
             int moves = to_moves<int>( 20_minutes );
             you.add_msg_if_player( _( "You cut the log into planks." ) );
-            you.assign_activity( ACT_CHOP_PLANKS, moves, -1 );
+            you.assign_activity( player_activity( chop_planks_activity_actor( moves ) ) );
             you.activity.placement = here.getabs( src_loc );
             return true;
         }
@@ -2330,7 +2315,7 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
 static bool mop_activity( Character &you, const tripoint &src_loc )
 {
     // iuse::mop costs 15 moves per use
-    you.assign_activity( ACT_MOP, 15 );
+    you.assign_activity( player_activity( mop_activity_actor( 15 ) ) );
     you.activity.placement = get_map().getabs( src_loc );
     return true;
 }
@@ -2348,11 +2333,13 @@ static bool chop_tree_activity( Character &you, const tripoint &src_loc )
     map &here = get_map();
     const ter_id ter = here.ter( src_loc );
     if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
-        you.assign_activity( ACT_CHOP_TREE, moves, -1, you.get_item_position( best_qual ) );
+        you.assign_activity( player_activity( chop_tree_activity_actor( moves, item_location( you,
+                                              best_qual ) ) ) );
         you.activity.placement = here.getabs( src_loc );
         return true;
     } else if( ter == t_trunk || ter == t_stump ) {
-        you.assign_activity( ACT_CHOP_LOGS, moves, -1, you.get_item_position( best_qual ) );
+        you.assign_activity( player_activity( chop_logs_activity_actor( moves, item_location( you,
+                                              best_qual ) ) ) );
         you.activity.placement = here.getabs( src_loc );
         return true;
     }
@@ -2509,6 +2496,10 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
     // prune the set to remove tiles that are never gonna work out.
     const bool pre_dark_check = src_set.empty();
     const bool MOP_ACTIVITY = act_id == ACT_MULTIPLE_MOP;
+    if( MOP_ACTIVITY ) {
+        dark_capable = true;
+    }
+
     for( auto it2 = src_set.begin(); it2 != src_set.end(); ) {
         // remove dangerous tiles
         const tripoint set_pt = here.getlocal( *it2 );
@@ -3002,6 +2993,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         // and we can't check player.pos() for darkness before they've traveled to where they are going to be.
         // but now we are here, we check
         if( activity_to_restore != ACT_TIDY_UP &&
+            activity_to_restore != ACT_MULTIPLE_MOP &&
             activity_to_restore != ACT_MOVE_LOOT &&
             activity_to_restore != ACT_FETCH_REQUIRED &&
             you.fine_detail_vision_mod( you.pos() ) > 4.0 ) {

@@ -4,6 +4,8 @@
     "type": "GENERIC",
     "name": { "str": "fake item" },
     "description": "Dummy item.  If you see this, then something went wrong.",
+    "//": "Include ZERO_WEIGHT flag to avoid errors when instantiating pseudo items.",
+    "flags": [ "ZERO_WEIGHT" ],
     "weight": "1 g",
     "volume": "1 ml",
     "symbol": "@",
@@ -185,9 +187,10 @@
   },
   {
     "id": "fake_beverly_shear",
+    "copy-from": "fake_item",
     "type": "TOOL",
-    "copy-from": "fake_power_tool",
     "name": { "str": "Beverly shear" },
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "qualities": [ [ "SAW_M", 2 ] ]
   },
   {
@@ -200,19 +203,19 @@
     "id": "fake_tablesaw",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "tablesaw" }
+    "name": { "str": "table saw" }
   },
   {
     "id": "fake_mitresaw",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "mitresaw" }
+    "name": { "str": "mitre saw" }
   },
   {
     "id": "fake_bandsaw",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "bandsaw" }
+    "name": { "str": "band saw" }
   },
   {
     "id": "fake_router",
@@ -297,6 +300,30 @@
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "symbol": "L",
     "color": "dark_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "oil_press_mounted",
+    "copy-from": "fake_power_tool",
+    "type": "TOOL",
+    "name": { "str": "mounted electric oil press", "str_pl": "mounted electric oil presses" }
+  },
+  {
+    "id": "pseudo_training_dummy_light",
+    "type": "TOOL",
+    "name": { "str": "training dummy" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "@",
+    "color": "brown",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_training_dummy_heavy",
+    "type": "TOOL",
+    "name": { "str": "armored training dummy" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "@",
+    "color": "brown",
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   }
 ]

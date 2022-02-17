@@ -37,7 +37,6 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "NEVER_JAMS" ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ]
   },
   {
@@ -63,6 +62,7 @@
     "min_cycle_recoil": 1260,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 2 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "250 ml",
+    "default_mods": [ "bars" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

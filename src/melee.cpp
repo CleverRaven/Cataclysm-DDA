@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "anatomy.h"
 #include "bodypart.h"
 #include "bionics.h"
 #include "cached_options.h"
@@ -68,6 +69,8 @@
 #include "weakpoint.h"
 #include "weighted_list.h"
 
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_razors( "bio_razors" );
@@ -78,7 +81,7 @@ character_modifier_melee_attack_roll_mod( "melee_attack_roll_mod" );
 static const character_modifier_id
 character_modifier_melee_thrown_move_balance_mod( "melee_thrown_move_balance_mod" );
 static const character_modifier_id
-character_modifier_melee_thrown_move_manip_mod( "melee_thrown_move_manip_mod" );
+character_modifier_melee_thrown_move_lift_mod( "melee_thrown_move_lift_mod" );
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_beartrap( "beartrap" );
@@ -1135,12 +1138,15 @@ float Character::get_dodge() const
     // Reaction score of limbs influences dodge chances
     ret *= get_limb_score( limb_score_reaction );
 
+    // Modify by how much bigger/smaller we got from our limbs
+    ret /= anatomy( get_all_body_parts() ).get_size_ratio( anatomy_human_anatomy );
+
     return std::max( 0.0f, ret );
 }
 
 float Character::dodge_roll() const
 {
-    if( has_trait_flag( json_flag_HARDTOHIT ) ) {
+    if( has_flag( json_flag_HARDTOHIT ) ) {
         // two chances at rng!
         return std::max( get_dodge(), get_dodge() ) * 5;
     }
@@ -1165,6 +1171,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 
     const bool unarmed = weap.is_unarmed_weapon();
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
+    int melee_bonus = get_skill_level( skill_melee );
     if( has_active_bionic( bio_cqb ) ) {
         skill = BIO_CQB_LEVEL;
     }
@@ -1245,6 +1252,11 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     /** @EFFECT_BASHING caps bash damage with bashing weapons */
     float bash_cap = 2 * stat + 2 * skill;
     float bash_mul = 1.0f;
+
+    if( is_melee_bash_damage_cap_bonus() ) {
+        bash_cap += melee_bonus;
+    }
+
 
     if( has_trait( trait_KI_STRIKE ) && unarmed ) {
         /** @EFFECT_UNARMED increases bashing damage with unarmed weapons when paired with the Ki Strike trait */
@@ -2655,7 +2667,7 @@ int Character::attack_speed( const item &weap ) const
     const float ma_mult = mabuff_attack_cost_mult();
 
     double move_cost = base_move_cost;
-    move_cost *= get_modifier( character_modifier_melee_thrown_move_manip_mod );
+    move_cost *= get_modifier( character_modifier_melee_thrown_move_lift_mod );
     move_cost *= get_modifier( character_modifier_melee_thrown_move_balance_mod );
     move_cost *= stamina_penalty;
     move_cost += skill_cost;

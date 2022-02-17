@@ -15,6 +15,7 @@
 #include "condition.h"
 #include "creature.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -119,23 +120,24 @@ bool Character::has_trait( const trait_id &b ) const
     return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
 }
 
-bool Character::has_trait_flag( const json_character_flag &b ) const
+int Character::count_trait_flag( const json_character_flag &b ) const
 {
+    int ret = 0;
     // UGLY, SLOW, should be cached as my_mutation_flags or something
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &mut_data = mut.obj();
         if( mut_data.flags.count( b ) > 0 ) {
-            return true;
+            ret++;
         } else if( mut_data.activated ) {
             Character &player = get_player_character();
             if( ( mut_data.active_flags.count( b ) > 0 && player.has_active_mutation( mut ) ) ||
                 ( mut_data.inactive_flags.count( b ) > 0 && !player.has_active_mutation( mut ) ) ) {
-                return true;
+                ret++;
             }
         }
     }
 
-    return false;
+    return ret;
 }
 
 bool Character::has_base_trait( const trait_id &b ) const
@@ -285,7 +287,7 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
     }
 }
 
-bool reflex_activation_data::is_trigger_true( const Character &guy ) const
+bool reflex_activation_data::is_trigger_true( Character &guy ) const
 {
     dialogue d( get_talker_for( guy ), nullptr );
     return trigger( d );
@@ -350,13 +352,13 @@ const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) c
 
 void Character::recalculate_size()
 {
-    if( has_trait_flag( json_flag_TINY ) ) {
+    if( has_flag( json_flag_TINY ) ) {
         size_class = creature_size::tiny;
-    } else if( has_trait_flag( json_flag_SMALL ) ) {
+    } else if( has_flag( json_flag_SMALL ) ) {
         size_class = creature_size::small;
-    } else if( has_trait_flag( json_flag_LARGE ) ) {
+    } else if( has_flag( json_flag_LARGE ) ) {
         size_class = creature_size::large;
-    } else if( has_trait_flag( json_flag_HUGE ) ) {
+    } else if( has_flag( json_flag_HUGE ) ) {
         size_class = creature_size::huge;
     } else {
         size_class = creature_size::medium;
@@ -410,6 +412,15 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         }
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
+        }
+
+        // if an item gives an enchantment it shouldn't break or be shoved off
+        for( const enchantment &ench : armor.get_enchantments() ) {
+            for( const trait_id &inner_mut : ench.get_mutations() ) {
+                if( mut == inner_mut ) {
+                    return false;
+                }
+            }
         }
         if( !worn_destroyed_override && branch.destroys_gear ) {
             add_msg_player_or_npc( m_bad,
@@ -650,6 +661,18 @@ void Character::activate_mutation( const trait_id &mut )
         recalculate_enchantment_cache();
     }
 
+    if( !mut->activated_eocs.empty() ) {
+        for( const effect_on_condition_id &eoc : mut->activated_eocs ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a mutation activation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
+            }
+        }
+        tdata.powered = false;
+    }
+
     if( mdata.transform ) {
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( - trans->moves );
@@ -789,13 +812,25 @@ void Character::deactivate_mutation( const trait_id &mut )
         switch_mutations( mut, trans->target, trans->active );
     }
 
+    if( !mut->enchantments.empty() ) {
+        recalculate_enchantment_cache();
+    }
+
+    if( !mut->deactivated_eocs.empty() ) {
+        for( const effect_on_condition_id &eoc : mut->deactivated_eocs ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a mutation deactivation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
+            }
+        }
+    }
+
     if( mdata.transform && !mdata.transform->msg_transform.empty() ) {
         add_msg_if_player( m_neutral, mdata.transform->msg_transform );
     }
 
-    if( !mut->enchantments.empty() ) {
-        recalculate_enchantment_cache();
-    }
 }
 
 trait_id Character::trait_by_invlet( const int ch ) const

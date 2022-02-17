@@ -669,6 +669,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "bread", "prob": 65 },
+      { "item": "bread_garlic", "prob": 20 },
       { "item": "brown_bread", "prob": 50, "container-item": "bag_plastic" },
       { "item": "cake2", "prob": 10 },
       { "item": "cake3", "prob": 10 },
@@ -747,6 +748,7 @@
       { "item": "bread_flour", "prob": 35 },
       { "item": "cornmeal", "prob": 50 },
       { "item": "yeast", "prob": 40 },
+      { "item": "koji", "prob": 2 },
       { "item": "powder_eggs", "prob": 55 },
       { "item": "milk_UHT", "prob": 15 },
       { "item": "milk_evap", "prob": 25 },
@@ -954,6 +956,7 @@
       [ "vinegar", 20 ],
       [ "jam_fruit", 5 ],
       [ "bread", 17 ],
+      { "item": "confit_meat", "prob": 14 },
       [ "meat", 20 ],
       [ "cornbread", 7 ],
       [ "biscuit", 8 ],

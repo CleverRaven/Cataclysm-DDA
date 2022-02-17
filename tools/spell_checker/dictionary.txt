@@ -733,6 +733,8 @@ handloading
 hangry
 haori
 hardbound
+hardpoint
+hardpoints
 harmonically
 harries
 harvestable
@@ -1456,6 +1458,7 @@ sandleather
 sapience
 sarracenia
 satirizes
+sautered
 savetest
 sawblade
 sawblades
@@ -1757,6 +1760,8 @@ underbarrel
 undercovering
 underprepared
 underslung
+undersuit
+undersuits
 underwelming
 undulates
 uneasing

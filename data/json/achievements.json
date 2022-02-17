@@ -717,7 +717,7 @@
   {
     "id": "achievement_lvl_10_firstaid",
     "type": "achievement",
-    "name": "Dr House",
+    "name": "Dr. House",
     "description": "It's lupus.",
     "requirements": [ { "event_statistic": "num_gains_firstaid_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_firstaid" ]
@@ -1062,7 +1062,7 @@
   {
     "id": "achievement_lvl_10_unarmed",
     "type": "achievement",
-    "name": "Mr Miyagi",
+    "name": "Mr. Miyagi",
     "description": "To be your own weapon.",
     "requirements": [ { "event_statistic": "num_gains_unarmed_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_unarmed" ]

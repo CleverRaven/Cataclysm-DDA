@@ -78,6 +78,8 @@
     "description": "An all-natural cold beverage made with lemonade and sweeteners.  Tastes great when frozen.",
     "color": "white",
     "calories": 220,
+    "material": [ "water", "fruit" ],
+    "primary_material": "water",
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 6 ] ]
   },
   {
@@ -221,6 +223,7 @@
     "name": { "str": "gelato", "str_pl": "gelato scoops" },
     "description": "Italian-style ice cream.  Less airy, and more dense, giving it a richer flavor and texture.",
     "calories": 240,
+    "fun": 13,
     "price": 300,
     "price_postapoc": 200,
     "weight": "90 g",

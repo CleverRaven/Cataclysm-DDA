@@ -80,6 +80,13 @@ As the names suggest, these are *passive* benefits/penalties to having the artif
 - **type:** the type of enchantment value. see MAGIC.md for detailed documentation on enchantment values
 - **increment:** the increment that is used for the power multiplier
 - **power_per_increment:** the power value per increment
+- **ench_has:** where the artifact must be in inventory for the enchantment to take effect
+
+#### ench_has
+
+- **wield** This enchantment or spell only takes effect while the artifact is wielded
+- **worn** This enchantment or spell only takes effect while the artifact is wielded or worn
+- **held** This enchantment or spell only takes effect while the artifact is wielded, worn, or in inventory
 
 ### type_weights
 This determines the relative weight of the 'add' and 'mult' types.  When generated, an artifact first decides if it is going to apply an 'add' or a 'mult' ability based on the type_weights of each.  Then it uses the weights of the entries under the selected type to pick an ability.  This continues cycling until the artifact reaches the defined power level.  Possible values right now that are functional are:

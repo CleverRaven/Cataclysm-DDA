@@ -22,6 +22,7 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
 #include "output.h"
 #include "pimpl.h"
@@ -40,7 +41,8 @@ namespace
 std::string clothing_layer( const item &worn_item );
 std::vector<std::string> clothing_properties(
     const item &worn_item, int width, const Character &, const bodypart_id &bp );
-std::vector<std::string> clothing_protection( const item &worn_item, int width );
+std::vector<std::string> clothing_protection( const item &worn_item, int width,
+        const bodypart_id &bp );
 std::vector<std::string> clothing_flags_description( const item &worn_item );
 
 struct item_penalties {
@@ -192,7 +194,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
         print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
     }
 
-    std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 3 );
+    std::vector<std::string> prot = clothing_protection( *worn_item_it, win_width - 3, bp );
     if( i + prot.size() < win_height ) {
         for( std::string &iter : prot ) {
             print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
@@ -228,10 +230,10 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                     case layer_level::PERSONAL:
                         outstring.append( _( "in your <color_light_blue>personal aura</color>" ) );
                         break;
-                    case layer_level::UNDERWEAR:
+                    case layer_level::SKINTIGHT:
                         outstring.append( _( "<color_light_blue>close to your skin</color>" ) );
                         break;
-                    case layer_level::REGULAR:
+                    case layer_level::NORMAL:
                         outstring.append( _( "of <color_light_blue>normal</color> clothing" ) );
                         break;
                     case layer_level::WAIST:
@@ -357,23 +359,78 @@ std::vector<std::string> clothing_properties(
     return props;
 }
 
-std::vector<std::string> clothing_protection( const item &worn_item, const int width )
+std::vector<std::string> clothing_protection( const item &worn_item, const int width,
+        const bodypart_id &bp )
 {
     std::vector<std::string> prot;
     prot.reserve( 6 );
 
+    // prebuild and calc some values
+    // the rolls are basically a perfect hit for protection and a
+    // worst possible and a median hit
+    resistances worst_res = resistances( worn_item, false, 99, bp );
+    resistances best_res = resistances( worn_item, false, 0, bp );
+    resistances median_res = resistances( worn_item, false, 50, bp );
+
+    int percent_best = 100;
+    int percent_worst = 0;
+    const armor_portion_data *portion = worn_item.portion_for_bodypart( bp );
+    // if there isn't a portion this is probably pet armor
+    if( portion ) {
+        percent_best = portion->best_protection_chance;
+        percent_worst = portion->worst_protection_chance;
+    }
+
+    bool display_median = percent_best < 50 && percent_worst < 50;
+
+
     const std::string space = "  ";
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
-    prot.push_back( name_and_value( space + _( "Bash:" ),
-                                    string_format( "%.2f", worn_item.bash_resist() ), width ) );
-    prot.push_back( name_and_value( space + _( "Cut:" ),
-                                    string_format( "%.2f", worn_item.cut_resist() ), width ) );
-    prot.push_back( name_and_value( space + _( "Ballistic:" ),
-                                    string_format( "%.2f", worn_item.bullet_resist() ), width ) );
+    // bash ballistic and cut can have more involved info based on armor complexity
+    if( display_median ) {
+        prot.push_back( name_and_value( space + _( "Bash:" ),
+                                        string_format( _( "Worst: %.2f, Median: %.2f, Best: %.2f" ),
+                                                worst_res.type_resist( damage_type::BASH ), median_res.type_resist( damage_type::BASH ),
+                                                best_res.type_resist( damage_type::BASH ) ),
+                                        width ) );
+        prot.push_back( name_and_value( space + _( "Cut:" ),
+                                        string_format( _( "Worst: %.2f, Median: %.2f, Best: %.2f" ),
+                                                worst_res.type_resist( damage_type::CUT ), median_res.type_resist( damage_type::CUT ),
+                                                best_res.type_resist( damage_type::CUT ) ),
+                                        width ) );
+        prot.push_back( name_and_value( space + _( "Ballistic:" ),
+                                        string_format( _( "Worst: %.2f, Median: %.2f, Best: %.2f" ),
+                                                worst_res.type_resist( damage_type::BULLET ), median_res.type_resist( damage_type::BULLET ),
+                                                best_res.type_resist( damage_type::BULLET ) ),
+                                        width ) );
+    } else if( percent_worst > 0 ) {
+        prot.push_back( name_and_value( space + _( "Bash:" ),
+                                        string_format( _( "Worst: %.2f, Best: %.2f" ),
+                                                worst_res.type_resist( damage_type::BASH ),
+                                                best_res.type_resist( damage_type::BASH ) ),
+                                        width ) );
+        prot.push_back( name_and_value( space + _( "Cut:" ),
+                                        string_format( _( "Worst: %.2f, Best: %.2f" ),
+                                                worst_res.type_resist( damage_type::CUT ),
+                                                best_res.type_resist( damage_type::CUT ) ),
+                                        width ) );
+        prot.push_back( name_and_value( space + _( "Ballistic:" ),
+                                        string_format( _( "Worst: %.2f, Best: %.2f" ),
+                                                worst_res.type_resist( damage_type::BULLET ),
+                                                best_res.type_resist( damage_type::BULLET ) ),
+                                        width ) );
+    } else {
+        prot.push_back( name_and_value( space + _( "Bash:" ),
+                                        string_format( "%.2f", best_res.type_resist( damage_type::BASH ) ), width ) );
+        prot.push_back( name_and_value( space + _( "Cut:" ),
+                                        string_format( "%.2f", best_res.type_resist( damage_type::CUT ) ), width ) );
+        prot.push_back( name_and_value( space + _( "Ballistic:" ),
+                                        string_format( "%.2f", best_res.type_resist( damage_type::BULLET ) ), width ) );
+    }
     prot.push_back( name_and_value( space + _( "Acid:" ),
-                                    string_format( "%.2f", worn_item.acid_resist() ), width ) );
+                                    string_format( "%.2f", best_res.type_resist( damage_type::ACID ) ), width ) );
     prot.push_back( name_and_value( space + _( "Fire:" ),
-                                    string_format( "%.2f", worn_item.fire_resist() ), width ) );
+                                    string_format( "%.2f", best_res.type_resist( damage_type::HEAT ) ), width ) );
     prot.push_back( name_and_value( space + _( "Environmental:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
     return prot;
@@ -394,6 +451,9 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
     }
     if( worn_item.has_flag( flag_POCKETS ) ) {
         description_stack.emplace_back( _( "It has pockets." ) );
+    }
+    if( worn_item.has_flag( flag_SUN_GLASSES ) ) {
+        description_stack.emplace_back( _( "It keeps the sun out of your eyes." ) );
     }
     if( worn_item.has_flag( flag_WATERPROOF ) ) {
         description_stack.emplace_back( _( "It is waterproof." ) );

@@ -13,6 +13,7 @@
     "crafting_pseudo_item": "bloomery",
     "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 30 } ] },
+    "examine_action": "reload_furniture",
     "bash": {
       "str_min": 18,
       "str_max": 50,
