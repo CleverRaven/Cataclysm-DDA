@@ -130,7 +130,7 @@
     "material": [ "plastic", "neoprene" ],
     "symbol": "[",
     "color": "dark_gray",
-    "warmth": 5,
+    "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
     "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
