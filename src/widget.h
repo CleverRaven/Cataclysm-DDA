@@ -42,7 +42,6 @@ enum class widget_var : int {
     cardio_acc,     // Cardio accumulator, integer
     // Text vars
     activity_text,  // Activity level text, color string
-    body_temp_text, // Felt body temperature, color string
     bp_armor_outer_text, // Outermost armor on body part, with color/damage bars
     compass_text,   // Compass / visible threats by cardinal direction
     compass_legend_text, // Names of visible creatures that appear on the compass

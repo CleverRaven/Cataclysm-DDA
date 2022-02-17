@@ -75,6 +75,9 @@ static const widget_id widget_test_2_column_layout( "test_2_column_layout" );
 static const widget_id widget_test_3_column_layout( "test_3_column_layout" );
 static const widget_id widget_test_4_column_layout( "test_4_column_layout" );
 static const widget_id widget_test_activity_clauses( "test_activity_clauses" );
+static const widget_id widget_test_body_temp_clause( "test_body_temp_clause" );
+static const widget_id widget_test_body_temp_delta_sym( "test_body_temp_delta_sym" );
+static const widget_id widget_test_body_temp_delta_text( "test_body_temp_delta_text" );
 static const widget_id widget_test_bp_wetness_head_num( "test_bp_wetness_head_num" );
 static const widget_id widget_test_bp_wetness_torso_num( "test_bp_wetness_torso_num" );
 static const widget_id widget_test_bucket_graph( "test_bucket_graph" );
@@ -488,6 +491,58 @@ TEST_CASE( "widgets showing avatar health with color for normal value", "[widget
     ava.set_healthy( 200 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_green>200</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_green>Excellent</color>" );
+}
+
+TEST_CASE( "widgets showing body temperature and delta", "[widget]" )
+{
+    widget w_temp = widget_test_body_temp_clause.obj();
+    widget w_dtxt = widget_test_body_temp_delta_text.obj();
+    widget w_dsym = widget_test_body_temp_delta_sym.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    ava.set_all_parts_temp_cur( 499 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_blue>Freezing!</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_red>(Rising!!)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_red>↑↑↑</color>" );
+
+    ava.set_all_parts_temp_cur( 1999 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_cyan>Very cold!</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_light_red>(Rising!)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_light_red>↑↑</color>" );
+
+    ava.set_all_parts_temp_cur( 3499 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_light_blue>Chilly</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_yellow>(Rising)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_yellow>↑</color>" );
+
+    ava.set_all_parts_temp_cur( 5000 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_green>Comfortable</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: " );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_green>-</color>" );
+
+    ava.set_all_parts_temp_cur( 6501 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_yellow>warm</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_light_blue>(Falling)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_light_blue>↓</color>" );
+
+    ava.set_all_parts_temp_cur( 8001 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_light_red>Very hot!</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_cyan>(Falling!)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_cyan>↓↓</color>" );
+
+    ava.set_all_parts_temp_cur( 9501 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_red>Scorching!</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_blue>(Falling!!)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_blue>↓↓↓</color>" );
 }
 
 TEST_CASE( "widgets showing avatar stamina", "[widget][avatar][stamina]" )

@@ -73,7 +73,7 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member,
         int_or_var value;
         time_duration max_time;
         mandatory( jo, false, "default_time", max_time );
-        value.int_val = to_turns<int>( max_time );
+        value.min.int_val = to_turns<int>( max_time );
         default_val = value;
     }
     return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
@@ -99,21 +99,68 @@ str_or_var get_str_or_var( const JsonObject &jo, std::string member, bool requir
     return ret_val;
 }
 
-int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required,
-                           int default_val )
+int_or_var_part get_int_or_var_part( const JsonValue &jv, std::string member, bool required,
+                                     int default_val )
 {
-    int_or_var ret_val;
-    if( jo.has_int( member ) ) {
-        mandatory( jo, false, member, ret_val.int_val );
-    } else if( jo.has_object( member ) ) {
-        var_info var = read_var_info( jo.get_object( member ), true );
+    int_or_var_part ret_val;
+    if( jv.test_int() ) {
+        ret_val.int_val = jv.get_int();
+    } else if( jv.test_object() ) {
+        var_info var = read_var_info( jv.get_object(), true );
         ret_val.type = var.type;
         ret_val.var_val = var.name;
         ret_val.default_val = stoi( var.default_val );
     } else if( required ) {
-        jo.throw_error( "No valid value for ", member );
+        jv.throw_error( "No valid value for " + member );
     } else {
         ret_val.int_val = default_val;
+    }
+    return ret_val;
+}
+
+
+int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required,
+                           int default_val )
+{
+    int_or_var ret_val;
+    if( jo.has_array( member ) ) {
+        JsonArray ja = jo.get_array( member );
+        ret_val.min = get_int_or_var_part( ja.next(), member );
+        ret_val.max = get_int_or_var_part( ja.next(), member );
+        ret_val.pair = true;
+        if( ( ret_val.min.type == var_type::u && ret_val.max.type == var_type::npc ) ||
+            ( ret_val.min.type == var_type::npc && ret_val.max.type == var_type::u ) ) {
+            jo.throw_error( "int_or_var min and max cannot be of types u and npc at once." );
+        }
+    } else if( required ) {
+        ret_val.min = get_int_or_var_part( jo.get_member( member ), member, required, default_val );
+    } else {
+        if( jo.has_member( member ) ) {
+            ret_val.min = get_int_or_var_part( jo.get_member( member ), member, required, default_val );
+        } else {
+            ret_val.min.int_val = default_val;
+        }
+    }
+    return ret_val;
+}
+
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv, std::string member,
+        bool required, time_duration default_val )
+{
+    duration_or_var_part ret_val;
+    if( jv.test_string() ) {
+        ret_val.dur_val = read_from_json_string<time_duration>( jv, time_duration::units );
+    } else if( jv.test_int() ) {
+        ret_val.dur_val = time_duration::from_turns( jv.get_int() );
+    } else if( jv.test_object() ) {
+        var_info var = read_var_info( jv.get_object(), true );
+        ret_val.type = var.type;
+        ret_val.var_val = var.name;
+        ret_val.default_val = time_duration::from_turns( stoi( var.default_val ) );
+    } else if( required ) {
+        jv.throw_error( "No valid value for " + member );
+    } else {
+        ret_val.dur_val = default_val;
     }
     return ret_val;
 }
@@ -122,17 +169,23 @@ duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, b
                                      time_duration default_val )
 {
     duration_or_var ret_val;
-    if( jo.has_int( member ) || jo.has_string( member ) ) {
-        mandatory( jo, false, member, ret_val.dur_val );
-    } else if( jo.has_object( member ) ) {
-        var_info var = read_var_info( jo.get_object( member ), true );
-        ret_val.type = var.type;
-        ret_val.var_val = var.name;
-        ret_val.default_val = time_duration::from_turns( stoi( var.default_val ) );
+    if( jo.has_array( member ) ) {
+        JsonArray ja = jo.get_array( member );
+        ret_val.min = get_duration_or_var_part( ja.next(), member );
+        ret_val.max = get_duration_or_var_part( ja.next(), member );
+        ret_val.pair = true;
+        if( ( ret_val.min.type == var_type::u && ret_val.max.type == var_type::npc ) ||
+            ( ret_val.min.type == var_type::npc && ret_val.max.type == var_type::u ) ) {
+            jo.throw_error( "int_or_var min and max cannot be of types u and npc at once." );
+        }
     } else if( required ) {
-        jo.throw_error( "No valid value for ", member );
+        ret_val.min = get_duration_or_var_part( jo.get_member( member ), member, required, default_val );
     } else {
-        ret_val.dur_val = default_val;
+        if( jo.has_member( member ) ) {
+            ret_val.min = get_duration_or_var_part( jo.get_member( member ), member, required, default_val );
+        } else {
+            ret_val.min.dur_val = default_val;
+        }
     }
     return ret_val;
 }
@@ -459,14 +512,14 @@ void conditional_t<T>::set_need( const JsonObject &jo, const std::string &member
     const std::string &need = jo.get_string( member );
     int_or_var iov;
     if( jo.has_int( "amount" ) ) {
-        iov.int_val = jo.get_int( "amount" );
+        iov.min.int_val = jo.get_int( "amount" );
     } else if( jo.has_object( "amount" ) ) {
         iov = get_int_or_var( jo, "amount" );
     } else if( jo.has_string( "level" ) ) {
         const std::string &level = jo.get_string( "level" );
         auto flevel = fatigue_level_strs.find( level );
         if( flevel != fatigue_level_strs.end() ) {
-            iov.int_val = static_cast<int>( flevel->second );
+            iov.min.int_val = static_cast<int>( flevel->second );
         }
     }
     condition = [need, iov, is_npc]( const T & d ) {
@@ -1456,6 +1509,14 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "health" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_health();
+            };
+        } else if( checked_value == "body_temp" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_body_temp();
+            };
+        } else if( checked_value == "body_temp_delta" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_body_temp_delta();
             };
         }
     } else if( jo.has_member( "moon" ) ) {

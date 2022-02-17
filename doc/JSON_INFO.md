@@ -309,7 +309,7 @@ the fact that it's impassable, flammable, etc.) are inherited from
     "id": "t_tree_pine_harvested",
     "copy-from": "t_tree_pine",
     "name": "pine tree",
-    "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  Some of the branches have been stripped away and many of the pinecones aren't developed fully yet, but given a season, it could be harvestable again.  Also, you could cut it down with the right tools.",
+    "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  Some of the branches have been stripped away and many of the pinecones aren't developed fully yet, but given a season, it could be harvestable again.",
     "symbol": "4",
     "color": "brown",
     "looks_like": "t_tree_deadpine",
@@ -652,6 +652,8 @@ For information about tools with option to export ASCII art in format ready to b
 | `heal_bonus`           | (_optional_) Innate amount of HP the bodypart heals every successful healing roll. See the `ALWAYS_HEAL` and `HEAL_OVERRIDE` flags.
 | `mend_rate`            | (_optional_) Innate mending rate of the limb, should it get broken. Default `1.0`, used as a multiplier on the healing factor after other factors are calculated. 
 | `health_limit`         | (_optional_) Amount of limb HP necessary for the limb to provide its melee `techniques` and `conditional_flags`.  Defaults to 1, meaning broken limbs don't contribute.
+| `ugliness`             | (_optional_) Ugliness of the part that can be covered up, negatives confer beauty bonuses.
+| `ugliness_mandatory`   | (_optional_) Inherent ugliness that can't be covered up by armor.
 | `bionic_slots`         | (_optional_) How many bionic slots does this part have.
 | `is_limb`              | (_optional_) Is this bodypart a limb and capable of breaking. (default: `false`)
 | `smash_message`        | (_optional_) The message displayed when using that part to smash something.

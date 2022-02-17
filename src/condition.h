@@ -54,8 +54,13 @@ str_or_var get_str_or_var( const JsonObject &jo, std::string member, bool requir
                            std::string default_val = "" );
 int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
                            int default_val = 0 );
-duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
+int_or_var_part get_int_or_var_part( const JsonValue &jv, std::string member, bool required = true,
+                                     int default_val = 0 );
+duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required = true,
                                      time_duration default_val = 0_seconds );
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv, std::string member,
+        bool required = true,
+        time_duration default_val = 0_seconds );
 tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
                                 var_type type, talker *var_source );
 var_info read_var_info( JsonObject jo, bool require_default );
