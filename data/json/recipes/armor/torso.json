@@ -2459,6 +2459,28 @@
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
   {
+    "result": "load_bearing_vest_sling",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "load_bearing_vest", 1 ] ], [ [ "single_sling", 1 ] ] ]
+  },
+  {
+    "result": "heavy_load_bearing_vest_sling",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "heavy_load_bearing_vest", 1 ] ], [ [ "single_sling", 1 ] ] ]
+  },
+  {
     "result": "migo_plate",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",

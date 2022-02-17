@@ -1663,8 +1663,8 @@
     "id": "tec_tiger_break",
     "name": "Grab Break",
     "messages": [
-      "The %s tries to grab you, but you too powerful to be caged!",
-      "The %s tries to grab <npcname>, but they too powerful to be caged!"
+      "The %s tries to grab you, but you are too powerful to be caged!",
+      "The %s tries to grab <npcname>, but they are too powerful to be caged!"
     ],
     "unarmed_allowed": true,
     "defensive": true,

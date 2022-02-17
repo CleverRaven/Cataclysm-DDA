@@ -534,12 +534,26 @@
     "material_thickness": 6,
     "flags": [ "OUTER" ],
     "armor": [
-      { "encumbrance": 35, "coverage": 75, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
       {
-        "encumbrance": 16,
+        "encumbrance": 4,
+        "coverage": 90,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "material": [
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.0 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 6.0 }
+        ]
+      },
+      {
+        "encumbrance": 4,
         "coverage": 100,
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "material": [
+          { "type": "thermo_resin", "covered_by_mat": 80, "thickness": 1.0 },
+          { "type": "thermo_resin", "covered_by_mat": 80, "thickness": 1.0 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 6.0 }
+        ]
       }
     ]
   },
