@@ -313,6 +313,7 @@ void Character::apply_mods( const trait_id &mut, bool add_remove )
     dex_max += sign * get_mod( mut, "DEX" );
     int_max += sign * get_mod( mut, "INT" );
 
+    reset_stats();
     if( str_change != 0 ) {
         recalc_hp();
     }
