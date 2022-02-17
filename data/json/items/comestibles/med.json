@@ -1707,7 +1707,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take the %s.",
-      "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitA", 24, 48 ], [ "vitB", 24, 48 ], [ "vitC", 24, 48 ] ]
+      "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ] ]
     }
   },
   {
@@ -1844,8 +1844,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject some vitamin B.",
-      "tools_needed": { "syringe": -1 },
-      "vitamins": [ [ "vitB", 100 ] ]
+      "tools_needed": { "syringe": -1 }
     }
   },
   {
