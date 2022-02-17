@@ -419,17 +419,17 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "||||||||",
-        "|JJJX!^|",
-        "|ւ  X!||",
-        "|ŏ  - = ",
-        "|ւ  - |θ",
-        "|À  X!||",
-        "|JōJX!^|",
+        "|ÆÇÆX!^|",
+        "|ւÇÇX!||",
+        "|ŏÇÇ- = ",
+        "|ւÇÇ- |θ",
+        "|ÀÇÇX!||",
+        "|ÆōÆX!^|",
         "||||||||"
       ],
       "palettes": [ "lab_mutagen_palette", "lab_vent_palette" ],
-      "terrain": { "|": "t_wall_metal", "ւ": "t_floor_resin", "À": "t_floor_resin", "ŏ": "t_floor_resin" },
-      "furniture": { "!": "f_chair", "ō": "f_glass_fridge", "ŏ": "f_sink", "ւ": "f_alien_pod", "À": "f_alien_gasper" },
+      "terrain": { "|": "t_wall_metal", "ւ": "t_floor_resin", "À": "t_floor_resin", "ŏ": "t_floor_resin", "Æ": "t_floor_resin", "Ç": "t_floor_resin" },
+      "furniture": { "!": "f_chair", "ō": "f_glass_fridge", "ŏ": "f_sink", "ւ": "f_alien_pod", "À": "f_alien_gasper", "Æ": "f_alien_pod_resin" },
       "item": {
         "ŏ": [
           { "item": "migo_skin_off", "chance": 100 },

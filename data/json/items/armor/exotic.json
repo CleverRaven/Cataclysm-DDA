@@ -125,7 +125,7 @@
     "type": "ARMOR",
     "name": { "str": "second skin" },
     "repairs_like": "jumpsuit",
-    "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you, the sensation is uncomfortable.  The liquid seems bound to a choker made from odd materials that seems to hum slightly, the inside reads 'CAREFUL CHOKING HAZARD' with an arrow pointing down.  The ooze flows freely covering your entire body but never crossing the choker to get to your head.",
+    "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you, the sensation is uncomfortable.  The liquid appears bound to a choker made from odd materials that hum slightly, the inside reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".  The ooze flows freely covering your entire body but never crossing the choker to get to your head.",
     "weight": "1500 g",
     "volume": "1 L",
     "price": 2500,
