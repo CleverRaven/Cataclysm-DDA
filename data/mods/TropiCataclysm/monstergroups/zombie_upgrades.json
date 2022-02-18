@@ -12,7 +12,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_THORNY_SHAMBLER_UPGRADE",
+    "name": "GROUP_GARDEN_ZOMBIE_UPGRADE",
     "default": "mon_zombie_garden",
     "//": "Upgrades for the Thorny Shambler.",
     "monsters": [
