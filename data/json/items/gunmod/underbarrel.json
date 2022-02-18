@@ -140,7 +140,7 @@
       "target": "inter_bayonet",
       "moves": 120
     },
-    "mode_modifier": [ ],
+    "mode_modifier": [  ],
     "flags": [ "IRREMOVABLE", "ALLOWS_REMOTE_USE" ]
   },
   {
