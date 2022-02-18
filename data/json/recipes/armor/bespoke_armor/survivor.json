@@ -169,6 +169,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "7 h",
     "using": [ [ "sewing_standard", 112 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
       [ [ "rag", 7 ], [ "sheet_cotton_patchwork", 7 ], [ "sheet_cotton", 7 ], [ "jumpsuit", 1 ] ],
@@ -185,6 +186,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "8 h 10 m",
     "using": [ [ "sewing_standard", 200 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rag", 15 ], [ "sheet_cotton_patchwork", 15 ], [ "sheet_cotton", 15 ], [ "jumpsuit", 2 ] ],
