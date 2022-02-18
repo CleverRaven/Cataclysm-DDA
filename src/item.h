@@ -1211,6 +1211,9 @@ class item : public visitable
         /**
          * Assuming that specified du hit the armor, reduce du based on the item's resistance to the
          * damage type. This will never reduce du.amount below 0.
+         * roll is normally set to 0 which means all materials protect for legacy
+         * giving a roll between 0-99 will influence the covered materials with a fixed roll
+         * giving a roll of -1 (< 0) will mean each material is rolled individually
          */
         void mitigate_damage( damage_unit &du, const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
         void mitigate_damage( damage_unit &du, const sub_bodypart_id &bp, int roll = 0 ) const;

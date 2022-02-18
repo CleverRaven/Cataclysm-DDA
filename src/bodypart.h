@@ -245,6 +245,11 @@ struct body_part_type {
         bool is_vital = false;
         bool is_limb = false;
 
+        // Ugliness of bodypart, can be mitigated by covering them up
+        int ugliness = 0;
+        // Ugliness that can't be covered (obviously nonstandard anatomy, even under bulky armor)
+        int ugliness_mandatory = 0;
+
         // Intrinsic temperature bonus of the bodypart
         int temp_min = 0;
         // Temperature bonus to apply when not overheated

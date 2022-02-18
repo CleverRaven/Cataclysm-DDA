@@ -1144,7 +1144,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
+    "flags": [ "STURDY", "ONLY_ONE", "UNARMED_WEAPON", "DURABLE_MELEE" ],
     "armor": [
       {
         "material": [
@@ -1183,7 +1183,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
+    "flags": [ "STURDY", "ONLY_ONE", "UNARMED_WEAPON", "DURABLE_MELEE" ],
     "armor": [
       {
         "material": [
@@ -1222,7 +1222,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
+    "flags": [ "STURDY", "ONLY_ONE", "UNARMED_WEAPON", "DURABLE_MELEE" ],
     "armor": [
       {
         "material": [
@@ -1261,7 +1261,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
+    "flags": [ "STURDY", "ONLY_ONE", "UNARMED_WEAPON", "DURABLE_MELEE" ],
     "armor": [
       {
         "material": [
@@ -1300,7 +1300,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
+    "flags": [ "STURDY", "ONLY_ONE", "UNARMED_WEAPON", "DURABLE_MELEE" ],
     "armor": [
       {
         "material": [

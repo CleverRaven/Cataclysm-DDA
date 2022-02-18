@@ -5139,7 +5139,7 @@ bool mattack::evolve_kill_strike( monster *z )
     if( damage_dealt > 0 ) {
         game_message_type msg_type = target->is_avatar() ? m_bad : m_warning;
         target->add_msg_player_or_npc( msg_type,
-                                       _( "The %1$s impales yor chest for %2$d damage!" ),
+                                       _( "The %1$s impales your chest for %2$d damage!" ),
                                        _( "The %1$s impales <npcname>'s chest for %2$d damage!" ),
                                        z->name(), damage_dealt );
     } else {
