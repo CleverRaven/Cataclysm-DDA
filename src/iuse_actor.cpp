@@ -225,7 +225,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     int result = 0;
 
     const bool possess = p.has_item( it ) ||
-                         ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) == 1 );
+                         ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) <= 1 );
 
     if( possess && need_worn && !p.is_worn( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
@@ -4296,7 +4296,8 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
     prompt.text = _( "Modify which part" );
 
     for( size_t i = 0; i != mods.size(); ++i ) {
-        prompt.addentry( i, true, -1, mods[i]->tname() );
+        prompt.addentry( i, true, -1, string_format( "%s: %s", mods[i]->tname(),
+                         mods[i]->get_use( "transform" )->get_name() ) );
     }
 
     prompt.query();
@@ -4313,6 +4314,9 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
 ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
+    if( !p.is_wielding( it ) ) {
+        return ret_val<bool>::make_failure( _( "Need to be wielding." ) );
+    }
     const auto mods = it.gunmods();
 
     if( mods.empty() ) {

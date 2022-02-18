@@ -114,6 +114,7 @@
     "use_action": {
       "type": "transform",
       "msg": "You fold in the bayonet.  It can no longer be used.",
+      "menu_text": "Fold",
       "target": "inter_bayonet_folded",
       "moves": 120
     },
@@ -121,35 +122,25 @@
     "mod_targets": [ "shotgun", "rifle" ],
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
-    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB" ]
+    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "inter_bayonet_folded",
     "type": "GUNMOD",
     "name": { "str": "integrated bayonet (folded)" },
+    "copy-from": "inter_bayonet",
     "description": "This bayonet has been folded for storage.",
-    "weight": "1 g",
-    "volume": "92 ml",
     "longest_side": "22 cm",
+    "cutting": 0,
     "integral_longest_side": "0 cm",
-    "price": 4000,
-    "price_postapoc": 500,
-    "install_time": "0 s",
-    "to_hit": -1,
-    "cutting": 10,
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "underbarrel",
-    "mod_targets": [ "shotgun", "rifle" ],
-    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
     "use_action": {
       "type": "transform",
+      "menu_text": "Unfold",
       "msg": "You fold out the bayonet.  It can be used.",
       "target": "inter_bayonet",
       "moves": 120
     },
-    "flags": [ "IRREMOVABLE" ]
+    "flags": [ "IRREMOVABLE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "ksg_aux_shotgun",
