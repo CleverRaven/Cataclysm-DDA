@@ -123,7 +123,7 @@
     "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
-    "upgrades": { "half_life": 14, "into_group": "GROUP_THORNY_BOOMER_UPGRADE" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_MOSSY_BOOMER_UPGRADE" },
     "fungalize_into": "mon_boomer_fungus",
     "flags": [
       "SEES",
