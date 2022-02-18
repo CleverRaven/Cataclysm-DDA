@@ -246,7 +246,12 @@
           "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
         }
       },
-      "item": { "m": [ { "item": "alien_pod_resin", "chance": 50, "repeat": [ 2, 5 ] }, { "item": "fetid_goop", "chance": 40, "repeat": [ 2, 5 ] } ] },
+      "item": {
+        "m": [
+          { "item": "alien_pod_resin", "chance": 50, "repeat": [ 2, 5 ] },
+          { "item": "fetid_goop", "chance": 40, "repeat": [ 2, 5 ] }
+        ]
+      },
       "place_loot": [
         { "group": "tools_mutation", "x": [ 3, 5 ], "y": 3, "chance": 70 },
         { "group": "common_mutation_books", "x": [ 3, 5 ], "y": 4, "chance": 70 },
@@ -467,8 +472,22 @@
         "||||||||"
       ],
       "palettes": [ "lab_mutagen_palette", "lab_vent_palette" ],
-      "terrain": { "|": "t_wall_metal", "ւ": "t_floor_resin", "À": "t_floor_resin", "ŏ": "t_floor_resin", "Æ": "t_floor_resin", "Ç": "t_floor_resin" },
-      "furniture": { "!": "f_chair", "ō": "f_glass_fridge", "ŏ": "f_sink", "ւ": "f_alien_pod", "À": "f_alien_gasper", "Æ": "f_alien_pod_resin" },
+      "terrain": {
+        "|": "t_wall_metal",
+        "ւ": "t_floor_resin",
+        "À": "t_floor_resin",
+        "ŏ": "t_floor_resin",
+        "Æ": "t_floor_resin",
+        "Ç": "t_floor_resin"
+      },
+      "furniture": {
+        "!": "f_chair",
+        "ō": "f_glass_fridge",
+        "ŏ": "f_sink",
+        "ւ": "f_alien_pod",
+        "À": "f_alien_gasper",
+        "Æ": "f_alien_pod_resin"
+      },
       "item": {
         "ŏ": [
           { "item": "migo_skin_off", "chance": 100 },
