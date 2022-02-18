@@ -172,6 +172,221 @@
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
   {
+    "id": "lc_chainmail_legs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" },
+    "description": "Customized mild steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "weight": "4212 g",
+    "volume": "1500 ml",
+    "price": 7500,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "low_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_legs",
+    "name": { "str": "XL mild steel chainmail leggings", "str_pl": "pairs of XL mild steel chainmail leggings" },
+    "description": "Customized mild steel chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_lc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_legs",
+    "looks_like": "lc_chainmail_legs",
+    "name": { "str": "XS mild steel chainmail leggings", "str_pl": "pairs of XS mild steel chainmail leggings" },
+    "description": "Customized mild steel chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "mc_chainmail_legs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" },
+    "description": "Customized medium steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "weight": "4212 g",
+    "volume": "1500 ml",
+    "price": 7500,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "med_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_legs",
+    "name": { "str": "XL medium steel chainmail leggings", "str_pl": "pairs of XL medium steel chainmail leggings" },
+    "description": "Customized medium steel chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_mc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_legs",
+    "looks_like": "mc_chainmail_legs",
+    "name": { "str": "XS medium steel chainmail leggings", "str_pl": "pairs of XS medium steel chainmail leggings" },
+    "description": "Customized medium steel chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "hc_chainmail_legs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" },
+    "description": "Customized high steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "weight": "4212 g",
+    "volume": "1500 ml",
+    "price": 7500,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "high_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_legs",
+    "name": { "str": "XL high steel chainmail leggings", "str_pl": "pairs of XL high steel chainmail leggings" },
+    "description": "Customized high steel chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_hc_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_legs",
+    "looks_like": "hc_chainmail_legs",
+    "name": { "str": "XS high steel chainmail leggings", "str_pl": "pairs of XS high steel chainmail leggings" },
+    "description": "Customized high steel chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "ch_chainmail_legs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" },
+    "description": "Customized hardened steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "weight": "4212 g",
+    "volume": "1500 ml",
+    "price": 7500,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "case_hardened_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_legs",
+    "name": { "str": "XL hardened steel chainmail leggings", "str_pl": "pairs of XL hardened steel chainmail leggings" },
+    "description": "Customized hardened steel chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_ch_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_legs",
+    "looks_like": "ch_chainmail_legs",
+    "name": { "str": "XS hardened steel chainmail leggings", "str_pl": "pairs of XS hardened steel chainmail leggings" },
+    "description": "Customized hardened steel chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "qt_chainmail_legs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" },
+    "description": "Customized tempered steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "weight": "4212 g",
+    "volume": "1500 ml",
+    "price": 7500,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "tempered_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_legs",
+    "name": { "str": "XL tempered steel chainmail leggings", "str_pl": "pairs of XL tempered steel chainmail leggings" },
+    "description": "Customized tempered steel chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_qt_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_legs",
+    "looks_like": "qt_chainmail_legs",
+    "name": { "str": "XS tempered steel chainmail leggings", "str_pl": "pairs of XS tempered steel chainmail leggings" },
+    "description": "Customized tempered steel chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "leggings_thessalonian",
     "type": "ARMOR",
     "category": "armor",
@@ -814,8 +1029,8 @@
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "low_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -842,8 +1057,8 @@
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "med_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -870,8 +1085,8 @@
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "high_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -898,8 +1113,8 @@
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "case_hardened_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -926,8 +1141,8 @@
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "tempered_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -967,8 +1182,8 @@
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.75 },
+          { "type": "low_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -995,8 +1210,8 @@
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.75 },
+          { "type": "med_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -1023,8 +1238,8 @@
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.75 },
+          { "type": "high_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -1051,8 +1266,8 @@
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.75 },
+          { "type": "case_hardened_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -1079,8 +1294,8 @@
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.75 },
+          { "type": "tempered_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -1120,8 +1335,8 @@
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 2.25 },
+          { "type": "low_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -1148,8 +1363,8 @@
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 2.25 },
+          { "type": "med_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -1176,8 +1391,8 @@
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 2.25 },
+          { "type": "high_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -1204,8 +1419,8 @@
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 2.25 },
+          { "type": "case_hardened_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -1232,8 +1447,8 @@
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 2.25 },
+          { "type": "tempered_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],

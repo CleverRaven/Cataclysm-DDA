@@ -2270,6 +2270,226 @@
     "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 2 ] ], [ [ "rag", 4 ] ] ]
   },
   {
+    "result": "lc_chainmail_hood",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "lc_chainmail_standard", 2 ] ],
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xs_lc_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_hood",
+    "time": "3 h",
+    "using": [ [ "lc_chainmail_standard", 1 ] ],
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 38 ] ], [ [ "wire", 2 ] ], [ [ "rag", 3 ] ] ]
+  },
+  {
+    "result": "xl_lc_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_hood",
+    "time": "3 h 20 m",
+    "using": [ [ "lc_chainmail_standard", 4 ] ],
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "xl_lc_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_hood",
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "xs_lc_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_hood",
+    "time": "3 h 20 m",
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 2 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "mc_chainmail_hood",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "mc_chainmail_standard", 2 ] ],
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xs_mc_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_hood",
+    "time": "3 h",
+    "using": [ [ "mc_chainmail_standard", 1 ] ],
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 38 ] ], [ [ "wire", 2 ] ], [ [ "rag", 3 ] ] ]
+  },
+  {
+    "result": "xl_mc_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_hood",
+    "time": "3 h 20 m",
+    "using": [ [ "mc_chainmail_standard", 4 ] ],
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "xl_mc_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_hood",
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "xs_mc_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_hood",
+    "time": "3 h 20 m",
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 2 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "hc_chainmail_hood",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "hc_chainmail_standard", 2 ] ],
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xs_hc_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_hood",
+    "time": "3 h",
+    "using": [ [ "hc_chainmail_standard", 1 ] ],
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 38 ] ], [ [ "wire", 2 ] ], [ [ "rag", 3 ] ] ]
+  },
+  {
+    "result": "xl_hc_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_hood",
+    "time": "3 h 20 m",
+    "using": [ [ "hc_chainmail_standard", 4 ] ],
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "xl_hc_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_hood",
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "xs_hc_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_hood",
+    "time": "3 h 20 m",
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 2 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "ch_chainmail_hood",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "ch_chainmail_standard", 2 ] ],
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xs_ch_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_hood",
+    "time": "3 h",
+    "using": [ [ "ch_chainmail_standard", 1 ] ],
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 38 ] ], [ [ "wire", 2 ] ], [ [ "rag", 3 ] ] ]
+  },
+  {
+    "result": "xl_ch_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_hood",
+    "time": "3 h 20 m",
+    "using": [ [ "ch_chainmail_standard", 4 ] ],
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "xl_ch_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_hood",
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "xs_ch_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_hood",
+    "time": "3 h 20 m",
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 2 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "qt_chainmail_hood",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "qt_chainmail_standard", 2 ] ],
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xs_qt_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_hood",
+    "time": "3 h",
+    "using": [ [ "qt_chainmail_standard", 1 ] ],
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 38 ] ], [ [ "wire", 2 ] ], [ [ "rag", 3 ] ] ]
+  },
+  {
+    "result": "xl_qt_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_hood",
+    "time": "3 h 20 m",
+    "using": [ [ "qt_chainmail_standard", 4 ] ],
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "xl_qt_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_hood",
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "xs_qt_chainmail_hood",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_hood",
+    "time": "3 h 20 m",
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 2 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
     "result": "pot_xlhelmet",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

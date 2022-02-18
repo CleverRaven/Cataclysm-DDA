@@ -1238,6 +1238,206 @@
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
   {
+    "id": "lc_chainmail_feet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of mild steel chainmail chausses", "str_pl": "pairs of mild steel chainmail chausses" },
+    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "symbol": "[",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_chainmail_feet",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL mild steel chainmail chausses", "str_pl": "pairs of XL mild steel chainmail chausses" },
+    "copy-from": "lc_chainmail_feet",
+    "proportional": { "weight": 2, "volume": 2 },
+    "flags": [ "VARSIZE", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_lc_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_feet",
+    "looks_like": "chainmail_feet",
+    "name": { "str": "pair of XS mild steel chainmail chausses", "str_pl": "pairs of XS mild steel chainmail chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "mc_chainmail_feet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of medium steel chainmail chausses", "str_pl": "pairs of medium steel chainmail chausses" },
+    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "symbol": "[",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_chainmail_feet",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL medium steel chainmail chausses", "str_pl": "pairs of XL medium steel chainmail chausses" },
+    "copy-from": "mc_chainmail_feet",
+    "proportional": { "weight": 2, "volume": 2 },
+    "flags": [ "VARSIZE", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_mc_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_feet",
+    "looks_like": "chainmail_feet",
+    "name": { "str": "pair of XS medium steel chainmail chausses", "str_pl": "pairs of XS medium steel chainmail chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "hc_chainmail_feet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of high steel chainmail chausses", "str_pl": "pairs of high steel chainmail chausses" },
+    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "symbol": "[",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_chainmail_feet",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL high steel chainmail chausses", "str_pl": "pairs of XL high steel chainmail chausses" },
+    "copy-from": "hc_chainmail_feet",
+    "proportional": { "weight": 2, "volume": 2 },
+    "flags": [ "VARSIZE", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_hc_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_feet",
+    "looks_like": "chainmail_feet",
+    "name": { "str": "pair of XS high steel chainmail chausses", "str_pl": "pairs of XS high steel chainmail chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "ch_chainmail_feet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of hardened steel chainmail chausses", "str_pl": "pairs of hardened steel chainmail chausses" },
+    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "symbol": "[",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_chainmail_feet",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL hardened steel chainmail chausses", "str_pl": "pairs of XL hardened steel chainmail chausses" },
+    "copy-from": "ch_chainmail_feet",
+    "proportional": { "weight": 2, "volume": 2 },
+    "flags": [ "VARSIZE", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_ch_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_feet",
+    "looks_like": "chainmail_feet",
+    "name": { "str": "pair of XS hardened steel chainmail chausses", "str_pl": "pairs of XS hardened steel chainmail chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "qt_chainmail_feet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of tempered steel chainmail chausses", "str_pl": "pairs of tempered steel chainmail chausses" },
+    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "symbol": "[",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_chainmail_feet",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL tempered steel chainmail chausses", "str_pl": "pairs of XL tempered steel chainmail chausses" },
+    "copy-from": "qt_chainmail_feet",
+    "proportional": { "weight": 2, "volume": 2 },
+    "flags": [ "VARSIZE", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_qt_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_feet",
+    "looks_like": "chainmail_feet",
+    "name": { "str": "pair of XS tempered steel chainmail chausses", "str_pl": "pairs of XS tempered steel chainmail chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "nomex_socks",
     "type": "ARMOR",
     "name": { "str": "pair of flame-resistant socks", "str_pl": "pairs of flame-resistant socks" },

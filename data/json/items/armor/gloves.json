@@ -83,6 +83,211 @@
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
   {
+    "id": "lc_chainmail_hands",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of mild steel chainmail gloves", "str_pl": "pairs of mild steel chainmail gloves" },
+    "description": "Customized mild steel chainmail gloves that fully enclose the hand.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "symbol": "[",
+    "color": "light_red",
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_chainmail_hands",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL mild steel chainmail gloves", "str_pl": "pairs of XL mild steel chainmail gloves" },
+    "copy-from": "lc_chainmail_hands",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_lc_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hands",
+    "looks_like": "lc_chainmail_hands",
+    "name": { "str": "pair of XS mild steel chainmail gloves", "str_pl": "pairs of XS mild steel chainmail gloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "mc_chainmail_hands",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of medium steel chainmail gloves", "str_pl": "pairs of medium steel chainmail gloves" },
+    "description": "Customized medium steel chainmail gloves that fully enclose the hand.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "symbol": "[",
+    "color": "light_red",
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_chainmail_hands",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL medium steel chainmail gloves", "str_pl": "pairs of XL medium steel chainmail gloves" },
+    "copy-from": "mc_chainmail_hands",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_mc_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_hands",
+    "looks_like": "mc_chainmail_hands",
+    "name": { "str": "pair of XS medium steel chainmail gloves", "str_pl": "pairs of XS medium steel chainmail gloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "hc_chainmail_hands",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of high steel chainmail gloves", "str_pl": "pairs of high steel chainmail gloves" },
+    "description": "Customized high steel chainmail gloves that fully enclose the hand.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "symbol": "[",
+    "color": "light_red",
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_chainmail_hands",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL high steel chainmail gloves", "str_pl": "pairs of XL high steel chainmail gloves" },
+    "copy-from": "hc_chainmail_hands",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_hc_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_hands",
+    "looks_like": "hc_chainmail_hands",
+    "name": { "str": "pair of XS high steel chainmail gloves", "str_pl": "pairs of XS high steel chainmail gloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "ch_chainmail_hands",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of hardened steel chainmail gloves", "str_pl": "pairs of hardened steel chainmail gloves" },
+    "description": "Customized hardened steel chainmail gloves that fully enclose the hand.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "symbol": "[",
+    "color": "light_red",
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_chainmail_hands",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL hardened steel chainmail gloves", "str_pl": "pairs of XL hardened steel chainmail gloves" },
+    "copy-from": "ch_chainmail_hands",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_ch_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_hands",
+    "looks_like": "ch_chainmail_hands",
+    "name": { "str": "pair of XS hardened steel chainmail gloves", "str_pl": "pairs of XS hardened steel chainmail gloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "qt_chainmail_hands",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of tempered steel chainmail gloves", "str_pl": "pairs of tempered steel chainmail gloves" },
+    "description": "Customized tempered steel chainmail gloves that fully enclose the hand.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "symbol": "[",
+    "color": "light_red",
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_chainmail_hands",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL tempered steel chainmail gloves", "str_pl": "pairs of XL tempered steel chainmail gloves" },
+    "copy-from": "qt_chainmail_hands",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_qt_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_hands",
+    "looks_like": "qt_chainmail_hands",
+    "name": { "str": "pair of XS tempered steel chainmail gloves", "str_pl": "pairs of XS tempered steel chainmail gloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "fire_gauntlets",
     "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
@@ -959,8 +1164,8 @@
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 60, "thickness": 0.05 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "low_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "low_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -998,8 +1203,8 @@
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 60, "thickness": 0.05 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "med_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "med_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1037,8 +1242,8 @@
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 60, "thickness": 0.05 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "high_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "high_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1076,8 +1281,8 @@
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 60, "thickness": 0.05 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "case_hardened_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "case_hardened_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1115,8 +1320,8 @@
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 60, "thickness": 0.05 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "tempered_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "tempered_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1154,8 +1359,8 @@
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "low_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.2 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1193,8 +1398,8 @@
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "med_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.05 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1232,8 +1437,8 @@
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "high_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.05 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1271,8 +1476,8 @@
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "case_hardened_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.05 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1310,8 +1515,8 @@
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "tempered_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.05 }
         ],
         "covers": [ "hand_l", "hand_r" ],
