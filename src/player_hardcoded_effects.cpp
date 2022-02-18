@@ -41,6 +41,8 @@
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_anemia( "anemia" );
@@ -122,8 +124,6 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-
-static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_calcium( "calcium" );
