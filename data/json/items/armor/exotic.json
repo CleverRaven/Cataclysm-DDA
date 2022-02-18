@@ -136,18 +136,20 @@
     "color": "white",
     "armor": [
       {
-        "material": [ { "type": "unobtanium", "covered_by_mat": 10, "thickness": 0.5 },
+        "material": [
+          { "type": "unobtanium", "covered_by_mat": 10, "thickness": 0.5 },
           { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 }
-         ],
+        ],
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
         "coverage": 100,
         "encumbrance": 0
       },
       {
-        "material": [ { "type": "unobtanium", "covered_by_mat": 85, "thickness": 0.5 },
+        "material": [
+          { "type": "unobtanium", "covered_by_mat": 85, "thickness": 0.5 },
           { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 }
-         ],
+        ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "coverage": 100,
@@ -155,15 +157,11 @@
       },
       {
         "covers": [ "torso", "arm_l", "arm_r" ],
-        "specifically_covers": ["torso_lower", "arm_upper_l", "arm_elbow_l", "arm_lower_l", "arm_upper_r", "arm_elbow_r", "arm_lower_r"],
+        "specifically_covers": [ "torso_lower", "arm_upper_l", "arm_elbow_l", "arm_lower_l", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ],
         "coverage": 100,
         "encumbrance": 2
       },
-      {
-        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r", "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 2
-      }
+      { "covers": [ "leg_l", "leg_r", "foot_l", "foot_r", "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 2 }
     ],
     "use_action": [
       {
