@@ -155,7 +155,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "PublicPond_1a", "PublicPond_1b" ],
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "public pond",
     "sym": "P",
     "color": "i_green"
@@ -168,17 +168,16 @@
     "color": "yellow",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SOURCE_FARMING" ]
+    "flags": [ "SIDEWALK", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "publicgarden", "publicgarden_2" ],
+    "copy-from": "generic_city_building",
     "name": "public garden",
     "looks_like": "publicgarden",
     "sym": "g",
-    "color": "light_green",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -700,10 +699,9 @@
   {
     "type": "overmap_terrain",
     "id": [ "park_maze", "park_maze_2" ],
+    "copy-from": "generic_city_building",
     "name": "hedge maze",
     "sym": "g",
-    "color": "light_green",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "light_green"
   }
 ]
