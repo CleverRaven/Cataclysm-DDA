@@ -1377,10 +1377,11 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_welding_basic" }
     ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [ [ [ "welder", 64 ], [ "welder_crude", 97 ], [ "soldering_iron", 97 ], [ "toolset", 97 ] ] ],
     "components": [
       [ [ "rag", 10 ], [ "sheet_cotton_patchwork", 10 ], [ "sheet_cotton", 10 ], [ "jumpsuit", 1 ] ],
       [ [ "leather", 12 ], [ "tanned_hide", 2 ] ],
@@ -1396,7 +1397,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "copy-from": "hsurvivor_jumpsuit",
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "tools": [ [ [ "welder", 48 ], [ "welder_crude", 72 ], [ "soldering_iron", 72 ], [ "toolset", 72 ] ] ],
     "components": [
       [ [ "rag", 7 ], [ "sheet_cotton_patchwork", 7 ], [ "sheet_cotton", 7 ], [ "jumpsuit", 1 ] ],
       [ [ "leather", 9 ], [ "tanned_hide", 2 ] ],
@@ -1412,7 +1413,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "copy-from": "hsurvivor_jumpsuit",
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "tools": [ [ [ "welder", 63 ], [ "welder_crude", 95 ], [ "soldering_iron", 95 ], [ "toolset", 95 ] ] ],
+    "tools": [ [ [ "welder", 72 ], [ "welder_crude", 109 ], [ "soldering_iron", 109 ], [ "toolset", 109 ] ] ],
     "components": [
       [ [ "rag", 15 ], [ "sheet_cotton_patchwork", 15 ], [ "sheet_cotton", 15 ], [ "jumpsuit", 1 ] ],
       [ [ "leather", 18 ], [ "tanned_hide", 3 ] ],
