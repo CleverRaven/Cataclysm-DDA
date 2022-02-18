@@ -246,7 +246,7 @@
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "PARA_STING", 30 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
     "burn_into": "mon_zombie_fiend",
-    "upgrades": { "half_life": 21, "into": "mon_hulk_thorny" },
+    "upgrades": { "half_life": 21, "into": "mon_hulk_thorns" },
     "flags": [
       "SEES",
       "HEARS",
@@ -339,7 +339,7 @@
     "death_drops": "mon_zombie_thorny_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 10, "into": "mon_screecher_thorny" },
+    "upgrades": { "half_life": 10, "into": "mon_screecher_vines" },
     "flags": [
       "SEES",
       "HEARS",
@@ -429,7 +429,7 @@
     "death_drops": "mon_zombie_swimmer_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 28, "into": "mon_swimmer_biter" },
+    "upgrades": { "half_life": 28, "into": "mon_biter_swamped" },
     "flags": [
       "SEES",
       "HEARS",
@@ -448,7 +448,7 @@
     ]
   },
   {
-    "id": "mon_swimmer_swamped",
+    "id": "mon_biter_swamped",
     "type": "MONSTER",
     "name": { "str": "mangrove lurker" },
     "description": "This zombie seems to have adapted to move around on the water.  It uses the aquatic plants on its body to hide before hitting with its teeth.",
