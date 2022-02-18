@@ -92,7 +92,7 @@ namespace io
             case enchant_vals::mod::READING_EXP: return "READING_EXP";
             case enchant_vals::mod::SKILL_RUST_RESIST: return "SKILL_RUST_RESIST";
             case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";
-            case enchant_vals::mod::RECOIL: return "RECOIL";
+            case enchant_vals::mod::RECOIL_MODIFIER: return "RECOIL_MODIFIER";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
