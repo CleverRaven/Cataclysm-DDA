@@ -71,13 +71,13 @@ static auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 static activity_id act;
 static std::pair<std::string, std::string> engine_external_id_and_variant;
 
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-
-static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
