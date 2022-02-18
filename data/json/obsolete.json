@@ -45,6 +45,223 @@
     ]
   },
   {
+    "type": "mutation",
+    "id": "WINGS_BIRD",
+    "name": { "str": "Bird Wings" },
+    "//": "Deprecated by ARM_WINGS_BIRD",
+    "points": 2,
+    "visibility": 4,
+    "ugliness": 2,
+    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
+    "types": [ "WINGS" ],
+    "purifiable": true,
+    "valid": false,
+    "prereqs": [ "WINGS_STUB" ],
+    "threshreq": [ "THRESH_BIRD" ],
+    "flags": [ "WINGS_2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WINGS_BAT",
+    "name": { "str": "Bat Wings" },
+    "points": -1,
+    "visibility": 9,
+    "ugliness": 4,
+    "description": "You have a pair of large, leathery wings.  You can move them a little, but they are useless, and in fact put you off balance, reducing your ability to dodge slightly.",
+    "types": [ "WINGS" ],
+    "prereqs": [ "WINGS_STUB" ],
+    "valid": false,
+    "purifiable": true,
+    "dodge_modifier": -3
+  },
+  {
+    "type": "mutation",
+    "id": "INSECT_ARMS",
+    "name": { "str": "Insect Limbs" },
+    "//": "Deprecated by ARM_INSECT",
+    "points": -5,
+    "visibility": 8,
+    "ugliness": 5,
+    "description": "You've *finally* sprouted a pair of arms from your midsection.  They flail more or less uncontrollably, making you feel rather larval.",
+    "purifiable": true,
+    "valid": false,
+    "encumbrance_always": [ [ "arm_l", 30 ], [ "arm_r", 30 ] ],
+    "types": [ "HANDS" ],
+    "changes_to": [ "INSECT_ARMS_OK", "ARACHNID_ARMS" ],
+    "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
+    "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
+    "restricts_gear": [ "torso" ],
+    "passive_mods": { "dex_mod": -2 }
+  },
+  {
+    "type": "mutation",
+    "id": "INSECT_ARMS_OK",
+    "name": { "str": "Insect Arms" },
+    "//": "Deprecated by ARM_INSECT_OK",
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 5,
+    "description": "It's good having all your arms.  Though they're too thin to block or punch, you can fold them inside human-shaped gear if need be.",
+    "valid": false,
+    "purifiable": true,
+    "types": [ "HANDS" ],
+    "prereqs": [ "INSECT_ARMS" ],
+    "prereqs2": [ "ANTENNAE" ],
+    "threshreq": [ "THRESH_INSECT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARACHNID_ARMS",
+    "name": { "str": "Arachnid Limbs" },
+    "points": -7,
+    "visibility": 10,
+    "ugliness": 10,
+    "description": "There's the last two limbs you were expecting.  Unfortunately, you still can't coordinate them, so you're getting in your own way.  A lot.",
+    "valid": false,
+    "purifiable": true,
+    "encumbrance_always": [ [ "arm_l", 40 ], [ "arm_r", 40 ] ],
+    "types": [ "HANDS" ],
+    "changes_to": [ "ARACHNID_ARMS_OK" ],
+    "prereqs": [ "INSECT_ARMS" ],
+    "prereqs2": [ "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
+    "threshreq": [ "THRESH_SPIDER" ],
+    "restricts_gear": [ "torso" ],
+    "passive_mods": { "dex_mod": -4 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARACHNID_ARMS_OK",
+    "name": { "str": "Arachnid Arms" },
+    "points": 0,
+    "visibility": 6,
+    "ugliness": 10,
+    "description": "You have four handsome limbs, and then those mutant 'hand' and 'foot' things.  They probably aren't worth concealing.",
+    "valid": false,
+    "purifiable": true,
+    "types": [ "HANDS" ],
+    "prereqs": [ "ARACHNID_ARMS" ],
+    "prereqs2": [ "POISONOUS", "POISONOUS2", "WEB_RAPPEL" ],
+    "threshreq": [ "THRESH_SPIDER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_TENTACLES",
+    "//": "Deprecated by ARM_TENTACLE_2",
+    "name": { "str": "Tentacle Arms" },
+    "points": -4,
+    "visibility": 7,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your arms have transformed into tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  Somewhat decreases wet penalties.",
+    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
+    "types": [ "HANDS" ],
+    "leads_to": [ "CLAWS_TENTACLE" ],
+    "cancels": [ "NAILS", "CLAWS", "TALONS", "WEBBED" ],
+    "wet_protection": [
+      { "part": "arm_l", "neutral": 19 },
+      { "part": "arm_r", "neutral": 19 },
+      { "part": "hand_l", "neutral": 5 },
+      { "part": "hand_r", "neutral": 5 }
+    ],
+    "attacks": [
+      {
+        "attack_text_u": "You slap %s with your tentacle",
+        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
+        "blocker_mutations": [ "CLAWS_TENTACLE" ],
+        "chance": 1,
+        "hardcoded_effect": true
+      },
+      {
+        "attack_text_u": "You rake %s with your tentacle",
+        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
+        "required_mutations": [ "CLAWS_TENTACLE" ],
+        "chance": 1,
+        "hardcoded_effect": true
+      }
+    ],
+    "passive_mods": { "dex_mod": 1 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_TENTACLES_4",
+    "//": "Deprecated by ARM_TENTACLE_4",
+    "name": { "str": "4 Tentacles" },
+    "points": -2,
+    "visibility": 8,
+    "ugliness": 5,
+    "description": "Your arms have transformed into four tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 3 extra attacks with them.  Somewhat decreases wet penalties.",
+    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
+    "types": [ "HANDS" ],
+    "prereqs": [ "ARM_TENTACLES" ],
+    "valid": false,
+    "purifiable": true,
+    "wet_protection": [
+      { "part": "arm_l", "neutral": 19 },
+      { "part": "arm_r", "neutral": 19 },
+      { "part": "hand_l", "neutral": 5 },
+      { "part": "hand_r", "neutral": 5 }
+    ],
+    "attacks": [
+      {
+        "attack_text_u": "You slap %s with your tentacle",
+        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
+        "blocker_mutations": [ "CLAWS_TENTACLE" ],
+        "chance": 1,
+        "hardcoded_effect": true
+      },
+      {
+        "attack_text_u": "You rake %s with your tentacle",
+        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
+        "required_mutations": [ "CLAWS_TENTACLE" ],
+        "chance": 1,
+        "hardcoded_effect": true
+      }
+    ],
+    "passive_mods": { "dex_mod": 1 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_TENTACLES_8",
+    "//": "Deprecated by ARM_TENTACLE_8",
+    "name": { "str": "8 Tentacles" },
+    "points": -1,
+    "visibility": 9,
+    "ugliness": 6,
+    "description": "Your arms have transformed into eight tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 7 extra attacks with them.  Somewhat decreases wet penalties.",
+    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
+    "valid": false,
+    "purifiable": true,
+    "restricts_gear": [ "hand_l", "hand_r" ],
+    "types": [ "HANDS" ],
+    "prereqs": [ "ARM_TENTACLES_4" ],
+    "leads_to": [ "CLAWS_TENTACLE" ],
+    "wet_protection": [
+      { "part": "arm_l", "neutral": 19 },
+      { "part": "arm_r", "neutral": 19 },
+      { "part": "hand_l", "neutral": 5 },
+      { "part": "hand_r", "neutral": 5 }
+    ],
+    "attacks": [
+      {
+        "attack_text_u": "You slap %s with your tentacle",
+        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
+        "blocker_mutations": [ "CLAWS_TENTACLE" ],
+        "chance": 1,
+        "hardcoded_effect": true
+      },
+      {
+        "attack_text_u": "You rake %s with your tentacle",
+        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
+        "required_mutations": [ "CLAWS_TENTACLE" ],
+        "chance": 1,
+        "hardcoded_effect": true
+      }
+    ],
+    "passive_mods": { "dex_mod": 1 }
+  },
+  {
     "type": "MONSTER_FACTION",
     "name": "cop_zombie",
     "base_faction": "zombie"

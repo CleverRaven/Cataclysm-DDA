@@ -31,5 +31,134 @@
       },
       { "id": "downed", "chance": 50, "duration": 2, "message": "You bonk the %s real good", "req_flag": "DREAMY" }
     ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_tentacle_single",
+    "name": "Single Tentacle Cantrip",
+    "messages": [ "You reflexively lash %s with your tentacles", "<npcname> reflexively lashes %s with their tentacles" ],
+    "unarmed_allowed": true,
+    "melee_allowed": false,
+    "unarmed_weapons_allowed": false,
+    "crit_ok": true,
+    "attack_override": true,
+    "required_char_flags": [ "4TENTACLE_1", "4TENTACLE_2", "4TENTACLE_3", "4TENTACLE_4" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 3 },
+      { "stat": "damage", "type": "bash", "scale": 0.5, "scaling-stat": "str" }
+    ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.2 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_4tentacle_unarmed",
+    "name": "Unarmed 4Tentacle Slap",
+    "messages": [ "You lash %s with your tentacles", "<npcname> lashes %s with their tentacles" ],
+    "//": "Needs all tentacles free - or at least, unencumbered and healthy.",
+    "unarmed_allowed": true,
+    "melee_allowed": false,
+    "unarmed_weapons_allowed": false,
+    "crit_ok": true,
+    "repeat_min": 3,
+    "repeat_max": 4,
+    "required_char_flags_all": [ "4TENTACLE_1", "4TENTACLE_2", "4TENTACLE_3", "4TENTACLE_4" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 3 },
+      { "stat": "damage", "type": "bash", "scale": 0.5, "scaling-stat": "str" }
+    ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.3 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_4tentacle_armed",
+    "name": "Armed 4Tentacle Slap",
+    "messages": [ "You lash %s with your free tentacles", "<npcname> lashes %s with their free tentacles" ],
+    "//": "Any one tentacle suffices",
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": true,
+    "crit_ok": true,
+    "repeat_min": 1,
+    "repeat_max": 2,
+    "required_char_flags": [ "4TENTACLE_1", "4TENTACLE_2", "4TENTACLE_3", "4TENTACLE_4" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 3 },
+      { "stat": "damage", "type": "bash", "scale": 0.5, "scaling-stat": "str" }
+    ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.2 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_tentacle_rake_unarmed",
+    "name": "Unarmed Tentacle Rake",
+    "messages": [ "You strike %s with your clawed tentacles", "<npcname> strike %s with their clawed tentacles" ],
+    "unarmed_allowed": true,
+    "melee_allowed": false,
+    "unarmed_weapons_allowed": false,
+    "crit_ok": true,
+    "weighting": 2,
+    "repeat_min": 3,
+    "repeat_max": 4,
+    "required_char_flags_all": [ "TENTACLE_CLAW_1", "TENTACLE_CLAW_2", "TENTACLE_CLAW_3", "TENTACLE_CLAW_4" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scale": 8 },
+      { "stat": "damage", "type": "cut", "scale": 0.7, "scaling-stat": "str" }
+    ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.2 } ],
+    "tech_effects": [
+      {
+        "id": "venom_player1",
+        "chance": 66,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You envenom the %s!",
+        "req_flag": "POISONOUS"
+      },
+      {
+        "id": "venom_player2",
+        "chance": 66,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You envenom the %s!",
+        "req_flag": "POISONOUS2"
+      }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_tentacle_rake_armed",
+    "name": "Armed Tentacle Rake",
+    "messages": [ "You strike %s with your free clawed tentacles", "<npcname> strike %s with their free clawed tentacles" ],
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": true,
+    "crit_ok": true,
+    "weighting": 2,
+    "repeat_min": 1,
+    "repeat_max": 2,
+    "required_char_flags": [ "TENTACLE_CLAW_1", "TENTACLE_CLAW_2", "TENTACLE_CLAW_3", "TENTACLE_CLAW_4" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scale": 8 },
+      { "stat": "damage", "type": "cut", "scale": 0.7, "scaling-stat": "str" }
+    ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.2 } ],
+    "tech_effects": [
+      {
+        "id": "venom_player1",
+        "chance": 66,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Your claws envenom the %s!",
+        "req_flag": "POISONOUS"
+      },
+      {
+        "id": "venom_player2",
+        "chance": 66,
+        "duration": 60,
+        "on_damage": true,
+        "message": "You inject your venom into the %s!",
+        "req_flag": "POISONOUS2"
+      }
+    ]
   }
 ]

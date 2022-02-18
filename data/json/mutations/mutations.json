@@ -3322,7 +3322,8 @@
     "description": "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
     "prereqs": [ "POISRESIST" ],
     "changes_to": [ "POISONOUS2" ],
-    "category": [ "SLIME", "TROGLOBITE", "SPIDER", "CEPHALOPOD", "GASTROPOD", "CHIMERA", "BATRACHIAN" ]
+    "category": [ "SLIME", "TROGLOBITE", "SPIDER", "CEPHALOPOD", "GASTROPOD" ],
+    "flags": [ "POSIONOUS1" ]
   },
   {
     "type": "mutation",
@@ -3332,7 +3333,8 @@
     "description": "Your venom has become particularly strong.  You're confident that your bites or other cutting/stabbing natural attacks will take your target down quickly.",
     "prereqs": [ "POISONOUS" ],
     "threshreq": [ "THRESH_SPIDER" ],
-    "category": [ "SPIDER" ]
+    "category": [ "SPIDER" ],
+    "flags": [ "POSIONOUS2" ]
   },
   {
     "type": "mutation",
@@ -4380,20 +4382,6 @@
   },
   {
     "type": "mutation",
-    "id": "WINGS_BIRD",
-    "name": { "str": "Bird Wings" },
-    "points": 2,
-    "visibility": 4,
-    "ugliness": 2,
-    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
-    "types": [ "WINGS" ],
-    "prereqs": [ "WINGS_STUB" ],
-    "threshreq": [ "THRESH_BIRD" ],
-    "category": [ "BIRD" ],
-    "flags": [ "WINGS_2" ]
-  },
-  {
-    "type": "mutation",
     "id": "WINGS_INSECT",
     "name": { "str": "Insect Wings" },
     "points": 1,
@@ -5357,23 +5345,7 @@
     "visibility": 2,
     "ugliness": 2,
     "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
-    "types": [ "WINGS" ],
-    "changes_to": [ "WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT", "WINGS_BUTTERFLY" ],
-    "category": [ "BIRD", "BEAST", "INSECT" ]
-  },
-  {
-    "type": "mutation",
-    "id": "WINGS_BAT",
-    "name": { "str": "Bat Wings" },
-    "points": -5,
-    "visibility": 9,
-    "ugliness": 4,
-    "description": "You have a pair of large, leathery wings.  You can move them a little, but they are useless, and in fact put you off balance, reducing your ability to dodge slightly.",
-    "types": [ "WINGS" ],
-    "prereqs": [ "WINGS_STUB" ],
-    "category": [ "BEAST" ],
-    "threshreq": [ "THRESH_BEAST" ],
-    "dodge_modifier": -2
+    "changes_to": [ "WINGS_INSECT", "WINGS_BUTTERFLY" ]
   },
   {
     "type": "mutation",
@@ -6564,204 +6536,397 @@
   },
   {
     "type": "mutation",
+    "id": "ARM_PRE_FEATHERS",
+    "//": "Player-facing identical to the other arm preparation traits, slows down progression to feathered arms->wings",
+    "name": { "str": "Changing Arms" },
+    "points": 0,
+    "prereqs": [ "FEATHERS", "DOWN" ],
+    "types": [ "ARMS" ],
+    "description": "Your arms feel…different.  Occasionally something shifts under the skin - sometimes it does so without pain.  Whatever is happening in there, it's far from done.  <color_red><This change will be reversible.>",
+    "changes_to": [ "ARM_FEATHERS" ],
+    "category": [ "RAPTOR", "BIRD" ]
+  },
+  {
+    "type": "mutation",
     "id": "ARM_FEATHERS",
     "name": { "str": "Feathered Arms" },
     "points": -2,
     "visibility": 8,
-    "ugliness": 2,
-    "description": "Your arms have grown vibrantly-colored feathers.  They effectively waterproof your arms and take the edge off hits, but really get in the way.  They're simply too small to help you in the air.",
-    "category": [ "RAPTOR" ],
-    "wet_protection": [
-      { "part": "arm_l", "neutral": 50 },
-      { "part": "arm_r", "neutral": 50 },
-      { "part": "hand_l", "neutral": 10 },
-      { "part": "hand_r", "neutral": 10 }
-    ],
-    "encumbrance_always": [ [ "arm_l", 20 ], [ "arm_r", 20 ] ],
-    "armor": [ { "parts": [ "arm_l", "arm_r" ], "bash": 1 } ]
+    "description": "The feathers on your arms elongated and became stiff.  While they are impressive to look at and resistant to water and other contaminants, they always get in the way and you hate it when they get filthy.  <color_red><You can still go back to how you were.  If you continue on this path, that will change.>",
+    "valid": false,
+    "types": [ "ARMS" ],
+    "prereqs": [ "ARM_PRE_FEATHERS" ],
+    "changes_to": [ "ARM_WINGS_BIRD" ],
+    "//": "TODO: removing arms crashes the @ menu if hands still exist - don't do that.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "gain": "arm_bird_l" }, { "gain": "arm_bird_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",
-    "id": "INSECT_ARMS",
-    "name": { "str": "Insect Limbs" },
-    "points": -5,
-    "visibility": 8,
-    "ugliness": 5,
-    "description": "You've *finally* sprouted a pair of arms from your midsection.  They flail more or less uncontrollably, making you feel rather larval.",
-    "purifiable": false,
-    "encumbrance_always": [ [ "arm_l", 30 ], [ "arm_r", 30 ] ],
-    "types": [ "HANDS" ],
-    "changes_to": [ "INSECT_ARMS_OK", "ARACHNID_ARMS" ],
-    "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
-    "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
-    "category": [ "INSECT", "SPIDER" ],
-    "restricts_gear": [ "torso" ],
-    "passive_mods": { "dex_mod": -2 }
-  },
-  {
-    "type": "mutation",
-    "id": "INSECT_ARMS_OK",
-    "name": { "str": "Insect Arms" },
-    "points": 0,
+    "id": "ARM_WINGS_BIRD",
+    "name": { "str": "Bird Wings" },
+    "points": 2,
     "visibility": 4,
-    "ugliness": 5,
-    "description": "It's good having all your arms.  Though they're too thin to block or punch, you can fold them inside human-shaped gear if need be.",
+    "description": "Your feathered arms have elongated into proper wings.  Their new range of motion takes a lot of getting used to, and only two rudimentary fingers sticking out of your glorious plumage remind you of your original hands.  While they are too weak to properly take off, they should be enough to break your fall from any height.",
+    "types": [ "ARMS", "HANDS" ],
+    "prereqs": [ "ARM_FEATHERS" ],
+    "valid": false,
     "purifiable": false,
-    "types": [ "HANDS" ],
-    "prereqs": [ "INSECT_ARMS" ],
-    "prereqs2": [ "ANTENNAE" ],
+    "category": [ "BIRD" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_l" },
+          { "lose": "hand_r" },
+          { "gain": "arm_wing_bird_l" },
+          { "gain": "arm_wing_bird_r" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_PRE_BAT",
+    "points": 0,
+    "name": { "str": "Changing Arms" },
+    "description": "Your arms feel…different.  Occasionally something shifts under the skin - sometimes it does so without pain.  Whatever is happening in there, it's far from done.  <color_red><This change will be reversible.>",
+    "types": [ "ARMS" ],
+    "prereqs": [ "SKIN_ROUGH" ],
+    "changes_to": [ "ARM_BAT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_BAT",
+    "points": -1,
+    "name": { "str": "Leathery Arms" },
+    "description": "You have grown large membranes of skin on your arms, partly covering your wrist and little finger.  They're a challenge to fit into normal clothing, and are less dextrous on account of the extra bulk.  <color_red><This change will be reversible.>",
+    "types": [ "ARMS" ],
+    "prereqs": [ "ARM_PRE_BAT" ],
+    "changes_to": [ "ARM_WINGS_BAT" ],
+    "//": "TODO: removing arms crashes the @ menu if hands still exist - don't do that.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "gain": "arm_bat_l" }, { "gain": "arm_bat_r" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_WINGS_BAT",
+    "name": { "str": "Bat Wings" },
+    "points": -1,
+    "visibility": 9,
+    "description": "Your arms have warped into large, leathery wings.  Your fingers are bound together by a thick leather membrane, making manual tasks extremely challenging, and your arms' bone structure has grown lightweight.  Still, you could probably use them to break your fall and all that surface helps keep you cool.",
+    "types": [ "ARMS", "HANDS", "CLAWS" ],
+    "prereqs": [ "ARM_BAT" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "gain": "arm_wing_bat_l" }, { "gain": "arm_wing_bat_r" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_PRE_INSECT",
+    "name": { "str": "Strange Lumps" },
+    "points": 0,
+    "visibility": 1,
+    "ugliness": 1,
+    "description": "You have a strange-looking lump on each side of your torso, about where your ribcage used to end before it hid under your carapace.  You're sure they won't become a problem.",
+    "changes_to": [ "ARM_INSECT" ],
+    "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "threshreq": [ "THRESH_INSECT" ],
     "category": [ "INSECT" ]
   },
   {
     "type": "mutation",
-    "id": "ARACHNID_ARMS",
-    "name": { "str": "Arachnid Limbs" },
-    "points": -7,
-    "visibility": 10,
-    "ugliness": 10,
-    "description": "There's the last two limbs you were expecting.  Unfortunately, you still can't coordinate them, so you're getting in your own way.  A lot.",
+    "id": "ARM_INSECT",
+    "name": { "str": "Insect Limbs" },
+    "//": "Two extra, twitching arms, your originals are still intact",
+    "//2": "TODO: Put a cast on them to immobilize?",
+    "points": -5,
+    "visibility": 8,
+    "description": "A pair of thin, many-jointed arms emerge from your midsection.  You can't control them properly, and they seem to twitch and grasp at your surroundings in the least opportunate moment.",
     "purifiable": false,
-    "encumbrance_always": [ [ "arm_l", 40 ], [ "arm_r", 40 ] ],
-    "types": [ "HANDS" ],
-    "changes_to": [ "ARACHNID_ARMS_OK" ],
-    "prereqs": [ "INSECT_ARMS" ],
-    "prereqs2": [ "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
-    "threshreq": [ "THRESH_SPIDER" ],
-    "category": [ "SPIDER" ],
-    "restricts_gear": [ "torso" ],
-    "passive_mods": { "dex_mod": -4 }
+    "valid": false,
+    "changes_to": [ "ARM_INSECT_OK" ],
+    "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
+    "prereqs2": [ "ARM_PRE_INSECT" ],
+    "threshreq": [ "THRESH_INSECT" ],
+    "category": [ "INSECT" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "arm_insect_l" }, { "gain": "arm_insect_r" } ] } ]
   },
   {
     "type": "mutation",
-    "id": "ARACHNID_ARMS_OK",
-    "name": { "str": "Arachnid Arms" },
+    "id": "ARM_INSECT_OK",
+    "name": { "str": "Insect Arms" },
+    "//": "Two extra, cool arms on top of your base ones.  Some extra blockiness and manipulation score (not too much, until we do multiwield).  Not strong enough to count for twohanded stuff alone.",
     "points": 0,
-    "visibility": 6,
-    "ugliness": 10,
-    "description": "You have four handsome limbs, and then those mutant 'hand' and 'foot' things.  They probably aren't worth concealing.",
+    "visibility": 4,
+    "description": "You're finally in control of your new, proper arms.  They're weak and fragile, but complement your five-fingered ape hands nicely when it comes to manual dexterity.",
+    "valid": false,
     "purifiable": false,
-    "types": [ "HANDS" ],
-    "prereqs": [ "ARACHNID_ARMS" ],
-    "prereqs2": [ "POISONOUS", "POISONOUS2", "WEB_RAPPEL" ],
+    "prereqs": [ "ARM_INSECT" ],
+    "prereqs2": [ "ANTENNAE" ],
+    "category": [ "INSECT" ],
+    "threshreq": [ "THRESH_INSECT" ],
+    "enchantments": [
+      { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "arm_insect_good_l" }, { "gain": "arm_insect_good_r" } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_PRE_ARACHNID_UPPER",
+    "name": { "str": "Back Lumps" },
+    "//": "Postthresh creepy back arms, to go with the postthresh creepy waist legs.  You'll be able to skitter up and down walls with just the four, but these are not purifiable.  TODO: different gait?",
+    "points": 0,
+    "visibility": 1,
+    "ugliness": 1,
+    "description": "You have two strange-looking lumps on your back, about the location of your shoulder blades.  You're sure they won't become a problem.<color_red><This change will be reversible.>",
+    "changes_to": [ "ARM_ARACHNID_UPPER" ],
+    "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ]
   },
   {
     "type": "mutation",
-    "id": "ARM_TENTACLES",
+    "id": "ARM_PRE_ARACHNID_LOWER",
+    "name": { "str": "Changing Arms" },
+    "//": "Same player-facing as the other types of morphing arms. Not a Threshold trait, meaning you can lose your normal arms way before being able to get the full set, same will be true of the legs.",
+    "points": 0,
+    "description": "Your arms feel…different.  Occasionally something shifts under the skin - sometimes it does so without pain.  Whatever is happening in there, it's far from done.  <color_red><This change will be reversible.>",
+    "types": [ "ARMS", "HANDS" ],
+    "changes_to": [ "ARM_ARACHNID_LOWER" ],
+    "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
+    "category": [ "SPIDER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_ARACHNID_UPPER",
+    "name": { "str": "Emerging Spider Limbs" },
+    "//": "Huge, twitching spider legs jutting out of your back.  Charming, and imbalances you like no tomorrow.",
+    "description": "A pair of spindly, hairy spider legs emerge from your back.  You can't control them at all, and they are constantly twitching throwing you off balance and interfering with your movement.  Occasionally one of the more violent twitches draw the limbs further out, and you wonder how long they'll get.  <color_red><You can still go back to how you were.  If you continue on this path, that will change.>",
+    "points": -2,
+    "visibility": 5,
+    "valid": false,
+    "changes_to": [ "ARM_ARACHNID_UPPER_OK" ],
+    "//2": "You don't actually need prereqs",
+    "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
+    "prereqs2": [ "ARM_PRE_ARACHNID_UPPER" ],
+    "threshreq": [ "THRESH_SPIDER" ],
+    "enchantments": [
+      { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "arm_spider_upper_l" }, { "gain": "arm_spider_upper_r" } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_ARACHNID_LOWER",
+    "name": { "str": "Molting Arms" },
+    "//": "Absorbing your fingers, three claws you can't quite use and a lot of hair distracting you.",
+    "points": -2,
+    "visibility": 5,
+    "description": "Your arms and hands have started…shifting.  Long bristles emerge from where your forearms used to be, and your fingers are starting to fuse into three sharp claws.  The bristles are very sensitive, distracting you constantly, and your manual dexterity suffers greatly. <color_red><You can still go back to how you were.  If you continue on this path, that will change.>",
+    "types": [ "ARMS", "HANDS", "CLAWS" ],
+    "valid": false,
+    "changes_to": [ "ARM_ARACHNID_LOWER_OK" ],
+    "//2": "You don't actually need prereqs",
+    "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
+    "prereqs2": [ "ARM_PRE_ARACHNID_LOWER" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_l" },
+          { "lose": "hand_r" },
+          { "gain": "arm_spider_lower_l" },
+          { "gain": "arm_spider_lower_r" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_ARACHNID_UPPER_OK",
+    "name": { "str": "Upper Arachnid Arms" },
+    "//": "Postthresh, nonpurifiable, flaily clawy spider arms. +Unarmed damage, 1/4 wall clinging",
+    "points": 2,
+    "visibility": 10,
+    "description": "Your back now sports two huge, segmented spider legs.  They aren't enough to crawl properly on their own, but at least they stopped getting in your way with their constant twitching.  The claws on their ends could probably do some damage, and help with manual tasks minimally.",
+    "valid": false,
+    "purifiable": false,
+    "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
+    "prereqs2": [ "ARM_ARACHNID_UPPER" ],
+    "threshreq": [ "THRESH_SPIDER" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "gain": "arm_spider_upper_good_l" }, { "gain": "arm_spider_upper_good_r" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_ARACHNID_LOWER_OK",
+    "name": { "str": "Lower Arachnid Arms" },
+    "//": "Pre-thresh, nonpurifiable? +Unarmed damage",
+    "points": 2,
+    "visibility": 10,
+    "description": "You are finally free of those flailing bits of flesh jutting out of your carapace.  Your second pair of arms now looks mature - they aren't enough to crawl properly on their own, but the claws on their ends could probably do some damage.  Fine manipulation is a challenge unless you have the whole set, though.",
+    "types": [ "ARMS", "HANDS", "CLAWS" ],
+    "valid": false,
+    "purifiable": true,
+    "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
+    "prereqs2": [ "ARM_ARACHNID_LOWER" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_l" },
+          { "lose": "hand_r" },
+          { "gain": "arm_spider_lower_good_l" },
+          { "gain": "arm_spider_lower_good_r" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_PRE_TENTACLE_2",
+    "name": { "str": "Changing Arms" },
+    "//": "Same player-facing as the other types of morphing arms. Not a Threshold trait.",
+    "points": 0,
+    "description": "Your arms feel…different.  Occasionally something shifts under the skin - sometimes it does so without pain.  Whatever is happening in there, it's far from done.  <color_red><This change will be reversible.>",
+    "types": [ "ARMS", "HANDS", "CLAWS" ],
+    "changes_to": [ "ARM_TENTACLE_2" ],
+    "category": [ "CEPHALOPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_TENTACLE_2",
     "name": { "str": "Tentacle Arms" },
+    "//": "If you have a hand free attacks for STR/3+1 bash damage",
+    "//2": "Strong, clumsy, grippy arms and hand replacement.  Horrible manipulation, bad lift score, aight grip. Purifiable pre-thresh",
     "points": -4,
     "visibility": 7,
-    "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your arms have transformed into tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  Somewhat decreases wet penalties.",
-    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
-    "restricts_gear": [ "hand_l", "hand_r" ],
-    "types": [ "HANDS", "CLAWS" ],
-    "leads_to": [ "CLAWS_TENTACLE" ],
-    "changes_to": [ "ARM_TENTACLES_4" ],
+    "description": "Your arms and hands have transformed into thick, glistening tentacles.  The suckers make for great grip, but lacking bones their strength is less than you remember - and needless to say missing your fingers lead to horrible fine manipulation.<color_red><You can still go back to how you were.  If you continue on this path, that will change.>",
+    "types": [ "ARMS", "HANDS", "CLAWS" ],
     "category": [ "CEPHALOPOD" ],
-    "wet_protection": [
-      { "part": "arm_l", "neutral": 19 },
-      { "part": "arm_r", "neutral": 19 },
-      { "part": "hand_l", "neutral": 5 },
-      { "part": "hand_r", "neutral": 5 }
-    ],
-    "attacks": [
+    "prereqs": [ "ARM_PRE_TENTACLE_2" ],
+    "changes_to": [ "ARM_TENTACLE_4" ],
+    "enchantments": [
       {
-        "attack_text_u": "You slap %s with your tentacle",
-        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
-        "blocker_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
-      },
-      {
-        "attack_text_u": "You rake %s with your tentacle",
-        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
-        "required_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_l" },
+          { "lose": "hand_r" },
+          { "gain": "arm_tentacle_l" },
+          { "gain": "arm_tentacle_r" }
+        ]
       }
-    ],
-    "passive_mods": { "dex_mod": 1 }
+    ]
   },
   {
     "type": "mutation",
-    "id": "ARM_TENTACLES_4",
+    "id": "ARM_TENTACLE_4",
     "name": { "str": "4 Tentacles" },
+    "//2": "All right manipulation, strong melee attacks, can either progress to 8tentacles for weak shooty/manipulaty octopi or tentacle rakes +- venomous for a melee-oriented flavor.  Non-purifiable postthresh, you're stuck with some type of tentacles now.  Not a claw-type to allow for tentacle rakes",
     "points": -2,
     "visibility": 8,
-    "ugliness": 5,
-    "description": "Your arms have transformed into four tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 3 extra attacks with them.  Somewhat decreases wet penalties.",
-    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
-    "restricts_gear": [ "hand_l", "hand_r" ],
-    "types": [ "HANDS", "CLAWS" ],
-    "prereqs": [ "ARM_TENTACLES" ],
+    "description": "Your featureless arms have split in two, leaving four thick tentacles emerging from your shoulders.  They are about as strong as your original bony arms were, but fine manipulation continues to be challenging",
+    "types": [ "ARMS", "HANDS" ],
+    "prereqs": [ "ARM_TENTACLE_2" ],
     "leads_to": [ "CLAWS_TENTACLE" ],
-    "changes_to": [ "ARM_TENTACLES_8" ],
-    "category": [ "CEPHALOPOD" ],
-    "wet_protection": [
-      { "part": "arm_l", "neutral": 19 },
-      { "part": "arm_r", "neutral": 19 },
-      { "part": "hand_l", "neutral": 5 },
-      { "part": "hand_r", "neutral": 5 }
-    ],
-    "attacks": [
+    "changes_to": [ "ARM_TENTACLE_8" ],
+    "threshreq": [ "THRESH_CEPHALOPOD" ],
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
       {
-        "attack_text_u": "You slap %s with your tentacle",
-        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
-        "blocker_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
-      },
-      {
-        "attack_text_u": "You rake %s with your tentacle",
-        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
-        "required_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_l" },
+          { "lose": "hand_r" },
+          { "gain": "arm_4tentacle_1_l" },
+          { "gain": "arm_4tentacle_1_r" },
+          { "gain": "arm_4tentacle_2_l" },
+          { "gain": "arm_4tentacle_2_r" }
+        ]
       }
-    ],
-    "passive_mods": { "dex_mod": 1 }
+    ]
   },
   {
     "type": "mutation",
-    "id": "ARM_TENTACLES_8",
-    "name": { "str": "8 Tentacles" },
-    "points": -1,
-    "visibility": 9,
-    "ugliness": 6,
-    "description": "Your arms have transformed into eight tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 7 extra attacks with them.  Somewhat decreases wet penalties.",
-    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
-    "restricts_gear": [ "hand_l", "hand_r" ],
-    "types": [ "HANDS", "CLAWS" ],
+    "id": "CLAWS_TENTACLE",
+    "name": { "str": "Tentacle Rakes" },
+    "//": "Adds some nasty claws to your tentacles - unarmed damage up and dedicated tech, but manipulation is worse",
+    "points": 0,
+    "visibility": 4,
+    "mixed_effect": true,
+    "description": "Your upper tentacles have grown large, hook-barbed rakes on the ends.  They're quite vicious, but really aren't suited for fine manipulation.",
+    "types": [ "CLAWS" ],
     "prereqs": [ "ARM_TENTACLES_4" ],
-    "leads_to": [ "CLAWS_TENTACLE" ],
+    "threshreq": [ "THRESH_CEPHALOPOD" ],
     "category": [ "CEPHALOPOD" ],
-    "wet_protection": [
-      { "part": "arm_l", "neutral": 19 },
-      { "part": "arm_r", "neutral": 19 },
-      { "part": "hand_l", "neutral": 5 },
-      { "part": "hand_r", "neutral": 5 }
-    ],
-    "attacks": [
+    "enchantments": [
       {
-        "attack_text_u": "You slap %s with your tentacle",
-        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
-        "blocker_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
-      },
-      {
-        "attack_text_u": "You rake %s with your tentacle",
-        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
-        "required_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "gain": "hand_tentacle_claw_1_l" },
+          { "gain": "hand_tentacle_claw_1_r" },
+          { "gain": "hand_tentacle_claw_2_l" },
+          { "gain": "hand_tentacle_claw_2_r" }
+        ]
       }
-    ],
-    "passive_mods": { "dex_mod": 1 }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_TENTACLE_8",
+    "name": { "str": "Branching Tentacles" },
+    "//2": "Very manipulaty, pretty grippy, fragile as hell and too weak for dedicated attacks",
+    "points": 1,
+    "visibility": 9,
+    "description": "Where your arms used to be you now have two tangles of four tentacles each - they seek to weave together at rest or when exerting large force, but you can separate them when fine manipulation is needed.  Without bones they are much weaker than your old arms were, but their tips branch into three small manipulators and the suckers still offer great grip.",
+    "types": [ "ARMS", "HANDS", "CLAWS" ],
+    "prereqs": [ "ARM_TENTACLE_4" ],
+    "category": [ "CEPHALOPOD" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_l" },
+          { "lose": "hand_r" },
+          { "gain": "arm_8tentacle_1_l" },
+          { "gain": "arm_8tentacle_1_r" },
+          { "gain": "arm_8tentacle_2_l" },
+          { "gain": "arm_8tentacle_2_r" },
+          { "gain": "arm_8tentacle_3_l" },
+          { "gain": "arm_8tentacle_3_r" },
+          { "gain": "arm_8tentacle_4_l" },
+          { "gain": "arm_8tentacle_4_r" }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
