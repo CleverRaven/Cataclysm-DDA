@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_THORNY_BOOMER_UPGRADE",
+    "name": "GROUP_MOSSY_BOOMER_UPGRADE",
     "default": "mon_boomer_thorny",
     "//": "Upgrades for the Thorny Boomer.",
     "monsters": [
