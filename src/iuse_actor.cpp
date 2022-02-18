@@ -20,7 +20,6 @@
 #include "activity_type.h"
 #include "assign.h"
 #include "avatar.h" // IWYU pragma: keep
-#include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -4289,9 +4288,7 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
                                        std::placeholders::_1 ) ), gunmods.end() );
     };
 
-    //item gun_copy = item( it );
     std::vector<item *> mods = it.gunmods();
-    //std::vector<item *> mods_copy = gun_copy.gunmods();
 
     filter_non_usable( mods );
 
@@ -4305,19 +4302,8 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
     prompt.query();
 
     if( prompt.ret >= 0 ) {
-        //item_location mod_location = get_item_location( p, *mods[prompt.ret], pnt );
         p.invoke_item( mods[prompt.ret], "transform", pnt );
         return 0;
-        /*
-        if( p.meets_requirements( *mods[prompt.ret], gun_copy ) ||
-            query_yn( _( "Are you sure?  You may be lacking the skills needed to reattach this modification." ) ) ) {
-
-            if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
-                p.gunmod_remove( it, *mods[prompt.ret] );
-                return 0;
-            }
-        }
-        */
     }
 
     p.add_msg_if_player( _( "Never mind." ) );
