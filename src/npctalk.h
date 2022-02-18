@@ -139,8 +139,8 @@ const json_talk_topic *get_talk_topic( const std::string &id );
 
 template<class T>
 std::vector<int> npcs_select_menu( const std::vector<T *> &npc_list,
-        const std::string &prompt,
-        std::function<bool( const T * )> exclude_func )
+                                   const std::string &prompt,
+                                   std::function<bool( const T * )> exclude_func )
 {
     std::vector<int> picked;
     if( npc_list.empty() ) {
