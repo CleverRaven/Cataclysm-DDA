@@ -1215,7 +1215,9 @@ void Character::react_to_felt_pain( int intensity )
     if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         int pain_thresh = rng( 3, 5 );
 
-        if( has_trait( trait_HEAVYSLEEPER ) ) {
+        if( has_bionic( bio_sleep_shutdown ) ) {
+            pain_thresh += 999;
+        } else if( has_trait( trait_HEAVYSLEEPER ) ) {
             pain_thresh += 2;
         } else if( has_trait( trait_HEAVYSLEEPER2 ) ) {
             pain_thresh += 5;
