@@ -1156,7 +1156,7 @@
     "armor": [
       {
         "material": [
-          { "type": "case_ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
@@ -1165,7 +1165,7 @@
       },
       {
         "material": [
-          { "type": "case_ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "eyes", "mouth" ],
@@ -1189,7 +1189,7 @@
     "armor": [
       {
         "material": [
-          { "type": "case_ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],

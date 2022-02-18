@@ -1305,7 +1305,7 @@
           "lc_steel",
           "mc_steel",
           "hc_steel",
-          "case_ch_steel",
+          "ch_steel",
           "qt_steel",
           "platinum",
           "superalloy"
@@ -1361,7 +1361,7 @@
           "lc_steel",
           "mc_steel",
           "hc_steel",
-          "case_ch_steel",
+          "ch_steel",
           "qt_steel"
         ],
         "skill": "fabrication",

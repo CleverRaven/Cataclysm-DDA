@@ -1831,7 +1831,7 @@
     "armor": [
       {
         "material": [
-          { "type": "case_ch_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "ch_steel", "covered_by_mat": 90, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "foot_l", "foot_l" ],
