@@ -9098,6 +9098,11 @@ bool item::is_irremovable() const
     return has_flag( flag_IRREMOVABLE );
 }
 
+bool item::has_uses() const
+{
+    return !type->use_methods.empty();
+}
+
 bool item::is_broken() const
 {
     return has_flag( flag_ITEM_BROKEN );

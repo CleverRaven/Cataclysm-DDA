@@ -576,6 +576,11 @@
   },
   {
     "type": "item_action",
+    "id": "modify_gunmods",
+    "name": { "str": "Modify attached equipment" }
+  },
+  {
+    "type": "item_action",
     "id": "HAIRKIT",
     "name": { "str": "Trim the hair" }
   },
