@@ -1762,7 +1762,7 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
-    "id": "bio_faulty_powercell",
+    "id": "bio_radleak",
     "type": "bionic",
     "name": { "str": "Radioactive Leak" },
     "description": "This damaged CBM occasionally leaks radiation.",
