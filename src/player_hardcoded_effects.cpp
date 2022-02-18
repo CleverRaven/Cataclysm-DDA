@@ -1541,7 +1541,7 @@ void Character::hardcoded_effects( effect &it )
                         add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
                         activity.set_to_null();
                     } else if( ( !( has_trait( trait_HEAVYSLEEPER ) ||
-                                    has_trait( trait_HEAVYSLEEPER2 ) ) ||
+                                    has_trait( trait_HEAVYSLEEPER2 ) ||
                                     has_bionic( bio_sleep_shutdown ) ) &&
                                  dice( 2, 15 ) < volume ) ||
                                ( has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < volume ) ||
