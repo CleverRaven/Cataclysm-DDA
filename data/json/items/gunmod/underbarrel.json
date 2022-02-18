@@ -127,7 +127,7 @@
   {
     "id": "inter_bayonet_folded",
     "type": "GUNMOD",
-    "name": { "str": "integrated bayonet (folded)" },
+    "name": { "str": "integrated bayonet (folded)", "str_pl": "integrated bayonets (folded)" },
     "copy-from": "inter_bayonet",
     "description": "This bayonet has been folded for storage.",
     "longest_side": "22 cm",
@@ -140,6 +140,7 @@
       "target": "inter_bayonet",
       "moves": 120
     },
+    "mode_modifier": [ ],
     "flags": [ "IRREMOVABLE", "ALLOWS_REMOTE_USE" ]
   },
   {

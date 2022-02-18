@@ -4283,14 +4283,13 @@ void detach_gunmods_actor::finalize( const itype_id &my_item_type )
 cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
         const tripoint &pnt ) const
 {
-    auto filter_non_usable = []( std::vector<item *> &gunmods ) {
-        gunmods.erase( std::remove_if( gunmods.begin(), gunmods.end(), std::bind( &item::has_single_use,
-                                       std::placeholders::_1 ) ), gunmods.end() );
-    };
 
-    std::vector<item *> mods = it.gunmods();
-
-    filter_non_usable( mods );
+    std::vector<item *> mods;
+    for( item *mod : it.gunmods() ) {
+        if( mod->is_transformable() ) {
+            mods.push_back( mod );
+        }
+    }
 
     uilist prompt;
     prompt.text = _( "Modify which part" );
@@ -4303,6 +4302,8 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
     prompt.query();
 
     if( prompt.ret >= 0 ) {
+        // set gun to default incase this changes anything
+        it.gun_set_mode( gun_mode_id( "DEFAULT" ) );
         p.invoke_item( mods[prompt.ret], "transform", pnt );
         return 0;
     }
@@ -4323,10 +4324,10 @@ ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it,
         return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
     }
 
-    const bool no_modifiables = std::all_of( mods.begin(), mods.end(),
-                                std::bind( &item::has_single_use, std::placeholders::_1 ) );
+    const bool modifiables = std::all_of( mods.begin(), mods.end(),
+                                          std::bind( &item::is_transformable, std::placeholders::_1 ) );
 
-    if( no_modifiables ) {
+    if( !modifiables ) {
         return ret_val<bool>::make_failure( _( "None of the mods can be modified." ) );
     }
 

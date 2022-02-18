@@ -906,11 +906,6 @@ class item : public visitable
         */
         bool item_has_uses_recursive( bool contents_only = false ) const;
 
-        /**
-        * True if item has any uses.
-        */
-        bool has_single_use() const;
-
         /*@{*/
         /**
          * Funnel related functions. See weather.cpp for their usage.
