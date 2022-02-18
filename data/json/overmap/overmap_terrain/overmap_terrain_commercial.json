@@ -52,7 +52,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_cubical", "office_cubical_1" ],
+    "id": [ "office_cubical", "office_cubical_1", "small_office" ],
     "copy-from": "generic_city_building",
     "looks_like": "office_cubical",
     "name": "office",
@@ -60,7 +60,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_cubical_roof", "office_cubical_roof_1" ],
+    "id": [ "office_cubical_roof", "office_cubical_roof_1", "small_office_roof", "small_office_upper_roof" ],
     "copy-from": "generic_city_building",
     "looks_like": "office_cubical_roof",
     "name": "office roof",
@@ -356,8 +356,8 @@
     "id": "s_diner",
     "name": "diner",
     "copy-from": "generic_city_building",
-    "sym": "d",
-    "color": "green",
+    "looks_like": "s_restaurant",
+    "color": "pink",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
   },
   {
@@ -365,8 +365,8 @@
     "id": [ "s_diner_2ndfloor", "s_diner_roof" ],
     "name": "diner",
     "copy-from": "generic_city_building",
-    "sym": "d",
-    "color": "green"
+    "looks_like": "s_restaurant",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -832,9 +832,9 @@
       "hdwr_large_1_2_1",
       "hdwr_large_1_2_1"
     ],
-    "name": "home improvement superstore",
-    "sym": ".",
-    "color": "light_blue",
+    "name": "home improvement superstore roof",
+    "sym": "H",
+    "color": "light_green_yellow",
     "see_cost": 5
   },
   {
@@ -882,22 +882,6 @@
     "name": "dispensary roof",
     "sym": "D",
     "color": "i_green"
-  },
-  {
-    "id": "small_office",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "name": "small office",
-    "sym": "o",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "small_office_roof", "small_office_upper_roof" ],
-    "copy-from": "generic_city_building",
-    "name": "small office roof",
-    "sym": "o",
-    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -1591,7 +1575,15 @@
       "city_block2_roof_1",
       "city_block2_roof_2",
       "city_block2_roof_3",
-      "city_block2_roof_4",
+      "city_block2_roof_4"
+    ],
+    "copy-from": "generic_city_building",
+    "name": "urban city block",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "urban_25_3",
       "urban_25_4",
       "urban_25_5",
@@ -1604,7 +1596,8 @@
     ],
     "copy-from": "generic_city_building",
     "name": "urban city block",
-    "color": "light_blue"
+    "color": "light_blue",
+    "sym": "v"
   },
   {
     "type": "overmap_terrain",
@@ -1627,7 +1620,10 @@
       "urban_14_8",
       "urban_14_9"
     ],
-    "copy-from": "urban_13_3"
+    "copy-from": "generic_city_house",
+    "name": "dense urban",
+    "color": "i_white",
+    "see_cost": 40
   },
   {
     "type": "overmap_terrain",
