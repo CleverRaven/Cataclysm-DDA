@@ -8102,7 +8102,7 @@ void Character::fall_asleep()
         }
     }
     if( has_bionic( bio_sleep_shutdown ) ) {
-        add_msg_if_player( _( "Sleep Mode activated.  Disabling sensory response..." ) );
+        add_msg_if_player( _( "Sleep Mode activated.  Disabling sensory response. ) );
     }
     if( has_active_mutation( trait_HIBERNATE ) &&
         get_kcal_percent() > 0.8f ) {
