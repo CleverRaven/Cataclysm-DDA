@@ -1254,17 +1254,14 @@ bool character_martial_arts::can_use_attack_vector( const Character &user, std::
     bool healthy_arm = arm_r_hp > 0 || arm_l_hp > 0;
     bool healthy_arms = arm_r_hp > 0 && arm_l_hp > 0;
     bool healthy_legs = leg_r_hp > 0 && leg_l_hp > 0;
+    bool always_ok = av == "HEAD" || av == "TORSO";
+    bool weapon_ok = av == "WEAPON" && valid_weapon && healthy_arm;
+    bool arm_ok = av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
+                  av == "SHOULDER" && healthy_arm;
+    bool arms_ok = av == "GRAPPLE" || av == "THROW" && healthy_arms;
+    bool legs_ok = av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" && healthy_legs;
 
-    if( av == "HEAD" || av == "TORSO" ) {
-        return true;
-    } else if( av == "WEAPON" && valid_weapon && healthy_arm ) {
-        return true;
-    } else if( ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
-                 av == "SHOULDER" ) && healthy_arm ) {
-        return true;
-    } else if( ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs ) {
-        return true;
-    } else if( ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms ) {
+    if( always_ok || weapon_ok || arm_ok || arms_ok || legs_ok ) {
         return true;
     }
 
