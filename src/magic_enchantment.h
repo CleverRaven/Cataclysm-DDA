@@ -87,6 +87,7 @@ enum class mod : int {
     EXTRA_ELEC,
     EXTRA_ACID,
     EXTRA_BIO,
+    RECOIL, //affects recoil when shooting a gun
     // effects for the item that has the enchantment
     ITEM_DAMAGE_PURE,
     ITEM_DAMAGE_BASH,
@@ -114,8 +115,7 @@ enum class mod : int {
     ITEM_COVERAGE,
     ITEM_ATTACK_SPEED,
     ITEM_WET_PROTECTION,
-    NUM_MOD,
-    RECOIL //affects recoil when shooting
+    NUM_MOD
 };
 } // namespace enchant_vals
 
