@@ -427,7 +427,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "heavy survivor suit" },
-    "description": "A heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "description": "A heavy, hand-built combination armor made from tempered steel plates and a leather jumpsuit padded with layered kevlar.  Protects from the elements as well as from harm.",
     "weight": "15500 g",
     "volume": "12 L",
     "price": 200000,
