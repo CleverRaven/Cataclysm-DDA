@@ -429,7 +429,7 @@
     "death_drops": "mon_zombie_swimmer_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 28, "into": "mon_biter_swamped" },
+    "upgrades": { "half_life": 28, "into": "mon_swimmer_swampbiter" },
     "flags": [
       "SEES",
       "HEARS",
@@ -448,7 +448,7 @@
     ]
   },
   {
-    "id": "mon_biter_swamped",
+    "id": "mon_swimmer_swampbiter",
     "type": "MONSTER",
     "name": { "str": "mangrove lurker" },
     "description": "This zombie seems to have adapted to move around on the water.  It uses the aquatic plants on its body to hide before hitting with its teeth.",
