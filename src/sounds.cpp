@@ -176,6 +176,8 @@ static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+
 struct monster_sound_event {
     int volume;
     bool provocative;
@@ -604,7 +606,8 @@ void sounds::process_sound_markers( Character *you )
                        you->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
                   ( you->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
                   ( you->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
-                !you->has_effect( effect_narcosis ) ) {
+                !you->has_effect( effect_narcosis ) ) &&
+                !you->has_bionic( bio_sleep_shutdown ) ) {
                 //Not kidding about sleep-through-firefight
                 you->wake_up();
                 add_msg( m_warning, _( "Something is making noise." ) );
