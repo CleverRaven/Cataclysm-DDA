@@ -1287,7 +1287,7 @@ void suffer::from_bad_bionics( Character &you )
     if( you.has_bionic( bio_radleak ) && one_turn_in( 40_minutes ) ) {
         you.add_msg_if_player( m_bad, _( "You feel an uncomfortable sensation from within your body." ) );
         you.mod_rad( 1 );
-    }    
+    }
 }
 
 void suffer::from_stimulants( Character &you, const int current_stim )
