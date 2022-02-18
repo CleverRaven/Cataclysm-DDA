@@ -67,7 +67,7 @@
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "UNDERSIZE" ]
   },
   {
-    "id": "lc_chainmailhood",
+    "id": "lc_chainmail_hood",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail coif" },
@@ -92,26 +92,26 @@
     ]
   },
   {
-    "id": "xl_lc_chainmailhood",
+    "id": "xl_lc_chainmail_hood",
     "type": "ARMOR",
-    "copy-from": "lc_chainmailhood",
+    "copy-from": "lc_chainmail_hood",
     "name": { "str": "XL chainmail coif" },
     "description": "A customized mild steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
   },
   {
-    "id": "xs_lc_chainmailhood",
+    "id": "xs_lc_chainmail_hood",
     "type": "ARMOR",
-    "copy-from": "lc_chainmailhood",
-    "looks_like": "lc_chainmailhood",
+    "copy-from": "lc_chainmail_hood",
+    "looks_like": "lc_chainmail_hood",
     "name": { "str": "XS chainmail coif" },
     "description": "A customized mild steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "UNDERSIZE" ]
   },
   {
-    "id": "mc_chainmailhood",
+    "id": "mc_chainmail_hood",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail coif" },
@@ -136,26 +136,26 @@
     ]
   },
   {
-    "id": "xl_mc_chainmailhood",
+    "id": "xl_mc_chainmail_hood",
     "type": "ARMOR",
-    "copy-from": "mc_chainmailhood",
+    "copy-from": "mc_chainmail_hood",
     "name": { "str": "XL chainmail coif" },
     "description": "A customized medium steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
   },
   {
-    "id": "xs_mc_chainmailhood",
+    "id": "xs_mc_chainmail_hood",
     "type": "ARMOR",
-    "copy-from": "mc_chainmailhood",
-    "looks_like": "mc_chainmailhood",
+    "copy-from": "mc_chainmail_hood",
+    "looks_like": "mc_chainmail_hood",
     "name": { "str": "XS chainmail coif" },
     "description": "A customized medium steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "UNDERSIZE" ]
   },
   {
-    "id": "hc_chainmailhood",
+    "id": "hc_chainmail_hood",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail coif" },
@@ -180,26 +180,26 @@
     ]
   },
   {
-    "id": "xl_hc_chainmailhood",
+    "id": "xl_hc_chainmail_hood",
     "type": "ARMOR",
-    "copy-from": "hc_chainmailhood",
+    "copy-from": "hc_chainmail_hood",
     "name": { "str": "XL chainmail coif" },
     "description": "A customized high steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
   },
   {
-    "id": "xs_hc_chainmailhood",
+    "id": "xs_hc_chainmail_hood",
     "type": "ARMOR",
-    "copy-from": "hc_chainmailhood",
-    "looks_like": "hc_chainmailhood",
+    "copy-from": "hc_chainmail_hood",
+    "looks_like": "hc_chainmail_hood",
     "name": { "str": "XS chainmail coif" },
     "description": "A customized high steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "UNDERSIZE" ]
   },
   {
-    "id": "ch_chainmailhood",
+    "id": "ch_chainmail_hood",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail coif" },
@@ -224,26 +224,26 @@
     ]
   },
   {
-    "id": "xl_ch_chainmailhood",
+    "id": "xl_ch_chainmail_hood",
     "type": "ARMOR",
-    "copy-from": "ch_chainmailhood",
+    "copy-from": "ch_chainmail_hood",
     "name": { "str": "XL chainmail coif" },
     "description": "A customized hardened steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
   },
   {
-    "id": "xs_ch_chainmailhood",
+    "id": "xs_ch_chainmail_hood",
     "type": "ARMOR",
-    "copy-from": "ch_chainmailhood",
-    "looks_like": "ch_chainmailhood",
+    "copy-from": "ch_chainmail_hood",
+    "looks_like": "ch_chainmail_hood",
     "name": { "str": "XS chainmail coif" },
     "description": "A customized hardened steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "UNDERSIZE" ]
   },
   {
-    "id": "qt_chainmailhood",
+    "id": "qt_chainmail_hood",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail coif" },
@@ -268,19 +268,19 @@
     ]
   },
   {
-    "id": "xl_qt_chainmailhood",
+    "id": "xl_qt_chainmail_hood",
     "type": "ARMOR",
-    "copy-from": "qt_chainmailhood",
+    "copy-from": "qt_chainmail_hood",
     "name": { "str": "XL chainmail coif" },
     "description": "A customized tempered steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
   },
   {
-    "id": "xs_qt_chainmailhood",
+    "id": "xs_qt_chainmail_hood",
     "type": "ARMOR",
-    "copy-from": "qt_chainmailhood",
-    "looks_like": "qt_chainmailhood",
+    "copy-from": "qt_chainmail_hood",
+    "looks_like": "qt_chainmail_hood",
     "name": { "str": "XS chainmail coif" },
     "description": "A customized tempered steel chainmail hood.  Can be worn comfortably under helmets.  Comes in size XS.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },

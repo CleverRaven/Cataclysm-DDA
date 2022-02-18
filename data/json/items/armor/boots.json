@@ -1714,7 +1714,7 @@
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "foot_l", "foot_l" ],
@@ -1753,7 +1753,7 @@
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "mc_steel", "covered_by_mat": 90, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "foot_l", "foot_l" ],
@@ -1792,7 +1792,7 @@
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "hc_steel", "covered_by_mat": 90, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "foot_l", "foot_l" ],
@@ -1831,7 +1831,7 @@
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "case_ch_steel", "covered_by_mat": 90, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "foot_l", "foot_l" ],
@@ -1870,7 +1870,7 @@
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "qt_steel", "covered_by_mat": 90, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "foot_l", "foot_l" ],

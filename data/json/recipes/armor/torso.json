@@ -1989,7 +1989,7 @@
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
-    "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ] ],
+    "components": [ [ [ "lc_link_sheet", 7 ] ], [ [ "lc_chain_link", 175 ] ], [ [ "lc_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
   {
@@ -1998,7 +1998,7 @@
     "copy-from": "lc_chainmail_vest",
     "time": "7 h 10 m",
     "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
-    "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "lc_link_sheet", 5 ] ], [ [ "lc_chain_link", 131 ] ], [ [ "lc_wire", 1 ] ] ]
   },
   {
     "result": "xl_lc_chainmail_vest",
@@ -2006,7 +2006,7 @@
     "copy-from": "lc_chainmail_vest",
     "time": "8 h 5 m",
     "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
-    "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "lc_link_sheet", 10 ] ], [ [ "lc_chain_link", 210 ] ], [ [ "lc_wire", 2 ] ] ]
   },
   {
     "result": "mc_chainmail_vest",
@@ -2019,7 +2019,7 @@
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
-    "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ] ],
+    "components": [ [ [ "mc_link_sheet", 7 ] ], [ [ "mc_chain_link", 175 ] ], [ [ "mc_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
   {
@@ -2028,7 +2028,7 @@
     "copy-from": "mc_chainmail_vest",
     "time": "7 h 10 m",
     "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
-    "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "mc_link_sheet", 5 ] ], [ [ "mc_chain_link", 131 ] ], [ [ "mc_wire", 1 ] ] ]
   },
   {
     "result": "xl_mc_chainmail_vest",
@@ -2036,7 +2036,7 @@
     "copy-from": "mc_chainmail_vest",
     "time": "8 h 5 m",
     "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
-    "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "mc_link_sheet", 10 ] ], [ [ "mc_chain_link", 210 ] ], [ [ "mc_wire", 2 ] ] ]
   },
   {
     "result": "hc_chainmail_vest",
@@ -2049,7 +2049,7 @@
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
-    "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ] ],
+    "components": [ [ [ "hc_link_sheet", 7 ] ], [ [ "hc_chain_link", 175 ] ], [ [ "hc_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
   {
@@ -2058,7 +2058,7 @@
     "copy-from": "hc_chainmail_vest",
     "time": "7 h 10 m",
     "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
-    "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "hc_link_sheet", 5 ] ], [ [ "hc_chain_link", 131 ] ], [ [ "hc_wire", 1 ] ] ]
   },
   {
     "result": "xl_hc_chainmail_vest",
@@ -2066,7 +2066,7 @@
     "copy-from": "hc_chainmail_vest",
     "time": "8 h 5 m",
     "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
-    "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "hc_link_sheet", 10 ] ], [ [ "hc_chain_link", 210 ] ], [ [ "hc_wire", 2 ] ] ]
   },
   {
     "result": "ch_chainmail_vest",
@@ -2079,7 +2079,7 @@
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
-    "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ] ],
+    "components": [ [ [ "ch_link_sheet", 7 ] ], [ [ "ch_chain_link", 175 ] ], [ [ "ch_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
   {
@@ -2088,7 +2088,7 @@
     "copy-from": "ch_chainmail_vest",
     "time": "7 h 10 m",
     "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
-    "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "ch_link_sheet", 5 ] ], [ [ "ch_chain_link", 131 ] ], [ [ "ch_wire", 1 ] ] ]
   },
   {
     "result": "xl_ch_chainmail_vest",
@@ -2096,7 +2096,7 @@
     "copy-from": "ch_chainmail_vest",
     "time": "8 h 5 m",
     "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
-    "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "ch_link_sheet", 10 ] ], [ [ "ch_chain_link", 210 ] ], [ [ "ch_wire", 2 ] ] ]
   },
   {
     "result": "qt_chainmail_vest",
@@ -2109,7 +2109,7 @@
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
-    "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ] ],
+    "components": [ [ [ "qt_link_sheet", 7 ] ], [ [ "qt_chain_link", 175 ] ], [ [ "qt_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
   {
@@ -2118,7 +2118,7 @@
     "copy-from": "qt_chainmail_vest",
     "time": "7 h 10 m",
     "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
-    "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "qt_link_sheet", 5 ] ], [ [ "qt_chain_link", 131 ] ], [ [ "qt_wire", 1 ] ] ]
   },
   {
     "result": "xl_qt_chainmail_vest",
@@ -2126,7 +2126,7 @@
     "copy-from": "qt_chainmail_vest",
     "time": "8 h 5 m",
     "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
-    "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "qt_link_sheet", 10 ] ], [ [ "qt_chain_link", 210 ] ], [ [ "qt_wire", 2 ] ] ]
   },
   {
     "result": "armor_cuirass",

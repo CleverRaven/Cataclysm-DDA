@@ -45,9 +45,9 @@
     "reversible": true,
     "using": [ [ "chainmail_standard", 7 ], [ "clasps", 4 ] ],
     "components": [
-      [ [ "link_sheet", 35 ] ],
-      [ [ "chain_link", 917 ] ],
-      [ [ "wire", 7 ] ],
+      [ [ "lc_link_sheet", 35 ] ],
+      [ [ "lc_chain_link", 917 ] ],
+      [ [ "lc_wire", 7 ] ],
       [ [ "fur", 42 ], [ "tanned_pelt", 7 ], [ "leather", 42 ], [ "tanned_hide", 7 ] ]
     ],
     "proficiencies": [

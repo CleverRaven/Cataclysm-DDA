@@ -1534,7 +1534,7 @@
   },
   {
     "type": "material",
-    "id": "low_steel",
+    "id": "lc_steel",
     "name": "Low Carbon Steel",
     "//": "SAE 1010/UNS 10100, assumes .1% carbon content and zero slag.",
     "density": 8,
@@ -1556,7 +1556,7 @@
   },
   {
     "type": "material",
-    "id": "med_steel",
+    "id": "mc_steel",
     "name": "Medium Carbon Steel",
     "//": "SAE 1050/UNS 10500, assumes .50% carbon content and zero slag.",
     "density": 8,
@@ -1578,7 +1578,7 @@
   },
   {
     "type": "material",
-    "id": "high_steel",
+    "id": "hc_steel",
     "name": "High Carbon Steel",
     "//": "SAE 1085/UNS 10850, assumes .50% carbon content and zero slag.",
     "density": 8,
@@ -1600,7 +1600,7 @@
   },
   {
     "type": "material",
-    "id": "case_hardened_steel",
+    "id": "ch_steel",
     "name": "Case Hardened Carbon Steel",
     "//": "Case hardening based on average between .1 and .95 carbon steel with a 1.25 multiplier.",
     "density": 8,
@@ -1622,7 +1622,7 @@
   },
   {
     "type": "material",
-    "id": "tempered_steel",
+    "id": "qt_steel",
     "name": "Tempered Carbon Steel",
     "//": "Quench/tempering based on .6 carbon steel with a 1.5 multiplier.",
     "density": 8,
@@ -1644,7 +1644,7 @@
   },
   {
     "type": "material",
-    "id": "low_steel_chain",
+    "id": "lc_steel_chain",
     "name": "Low Carbon Steel Chain",
     "//": "SAE 1010/UNS 10100, assumes .1% carbon content and zero slag.",
     "density": 8,
@@ -1666,7 +1666,7 @@
   },
   {
     "type": "material",
-    "id": "med_steel_chain",
+    "id": "mc_steel_chain",
     "name": "Medium Carbon Steel Chain",
     "//": "SAE 1050/UNS 10500, assumes .50% carbon content and zero slag.",
     "density": 8,
@@ -1688,7 +1688,7 @@
   },
   {
     "type": "material",
-    "id": "high_steel_chain",
+    "id": "hc_steel_chain",
     "name": "High Carbon Steel Chain",
     "//": "SAE 1085/UNS 10850, assumes .50% carbon content and zero slag.",
     "density": 8,
@@ -1710,7 +1710,7 @@
   },
   {
     "type": "material",
-    "id": "case_hardened_steel_chain",
+    "id": "ch_steel_chain",
     "name": "Case Hardened Carbon Steel Chain",
     "//": "Case hardening based on average between .1 and .95 carbon steel with a 1.25 multiplier.",
     "density": 8,
@@ -1732,7 +1732,7 @@
   },
   {
     "type": "material",
-    "id": "tempered_steel_chain",
+    "id": "qt_steel_chain",
     "name": "Tempered Carbon Steel Chain",
     "//": "Quench/tempering based on .6 carbon steel with a 1.5 multiplier.",
     "density": 8,

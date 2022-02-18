@@ -1164,8 +1164,8 @@
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 60, "thickness": 1.25 },
-          { "type": "low_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "lc_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1203,8 +1203,8 @@
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 60, "thickness": 1.25 },
-          { "type": "med_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "mc_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1242,8 +1242,8 @@
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 60, "thickness": 1.25 },
-          { "type": "high_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "hc_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1281,8 +1281,8 @@
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 60, "thickness": 1.25 },
-          { "type": "case_hardened_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "case_ch_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "case_ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1320,8 +1320,8 @@
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 60, "thickness": 1.25 },
-          { "type": "tempered_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "qt_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1359,8 +1359,8 @@
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "low_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.2 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1398,8 +1398,8 @@
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "med_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.05 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1437,8 +1437,8 @@
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "high_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.05 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1476,8 +1476,8 @@
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "case_hardened_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "case_ch_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "case_ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.05 }
         ],
         "covers": [ "hand_l", "hand_r" ],
@@ -1515,8 +1515,8 @@
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "tempered_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.25 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.05 }
         ],
         "covers": [ "hand_l", "hand_r" ],
