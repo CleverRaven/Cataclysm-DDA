@@ -4333,7 +4333,7 @@ ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it,
     const bool no_modifiables = std::all_of( mods.begin(), mods.end(),
                                 std::bind( &item::has_uses, std::placeholders::_1 ) );
 
-    if( no_modifiables ) {
+    if( !no_modifiables ) {
         return ret_val<bool>::make_failure( _( "None of the mods can be modified." ) );
     }
 

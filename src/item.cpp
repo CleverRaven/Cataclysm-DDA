@@ -9100,7 +9100,8 @@ bool item::is_irremovable() const
 
 bool item::has_uses() const
 {
-    return !type->use_methods.empty();
+    // has more than just the attach method
+    return type->use_methods.size() > 1;
 }
 
 bool item::is_broken() const
