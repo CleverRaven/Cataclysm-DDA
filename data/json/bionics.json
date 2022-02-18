@@ -798,6 +798,19 @@
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
   },
   {
+    "id": "bio_lampoil",
+    "type": "bionic",
+    "name": { "str": "Oil Generator" },
+    "description": "Slowly generates bionic power out of lamp oil or motor oil.",
+    "occupied_bodyparts": [ [ "torso", 20 ] ],
+    "fuel_options": [ "lamp_oil", "motor_oil" ],
+    "fuel_capacity": 750,
+    "fuel_efficiency": 0.3,
+    "exothermic_power_gen": true,
+    "time": 5,
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
+  },
+  {
     "id": "bio_evap",
     "type": "bionic",
     "name": { "str": "Aero-Evaporator" },
