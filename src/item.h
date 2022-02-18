@@ -909,7 +909,7 @@ class item : public visitable
         /**
         * True if item has any uses.
         */
-        bool has_uses() const;
+        bool has_single_use() const;
 
         /*@{*/
         /**

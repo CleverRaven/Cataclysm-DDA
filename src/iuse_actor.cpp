@@ -20,6 +20,7 @@
 #include "activity_type.h"
 #include "assign.h"
 #include "avatar.h" // IWYU pragma: keep
+#include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -4281,22 +4282,21 @@ void detach_gunmods_actor::finalize( const itype_id &my_item_type )
 }
 
 cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
-        const tripoint & ) const
+        const tripoint &pnt ) const
 {
-    auto filter_irremovable = []( std::vector<item *> &gunmods ) {
-        gunmods.erase( std::remove_if( gunmods.begin(), gunmods.end(), std::bind( &item::is_irremovable,
+    auto filter_non_usable = []( std::vector<item *> &gunmods ) {
+        gunmods.erase( std::remove_if( gunmods.begin(), gunmods.end(), std::bind( &item::has_single_use,
                                        std::placeholders::_1 ) ), gunmods.end() );
     };
 
-    item gun_copy = item( it );
+    //item gun_copy = item( it );
     std::vector<item *> mods = it.gunmods();
-    std::vector<item *> mods_copy = gun_copy.gunmods();
+    //std::vector<item *> mods_copy = gun_copy.gunmods();
 
-    filter_irremovable( mods );
-    filter_irremovable( mods_copy );
+    filter_non_usable( mods );
 
     uilist prompt;
-    prompt.text = _( "Remove which modification?" );
+    prompt.text = _( "Modify which part" );
 
     for( size_t i = 0; i != mods.size(); ++i ) {
         prompt.addentry( i, true, -1, mods[i]->tname() );
@@ -4305,8 +4305,10 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
     prompt.query();
 
     if( prompt.ret >= 0 ) {
-        gun_copy.remove_item( *mods_copy[prompt.ret] );
-
+        //item_location mod_location = get_item_location( p, *mods[prompt.ret], pnt );
+        p.invoke_item( mods[prompt.ret], "transform", pnt );
+        return 0;
+        /*
         if( p.meets_requirements( *mods[prompt.ret], gun_copy ) ||
             query_yn( _( "Are you sure?  You may be lacking the skills needed to reattach this modification." ) ) ) {
 
@@ -4315,6 +4317,7 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
                 return 0;
             }
         }
+        */
     }
 
     p.add_msg_if_player( _( "Never mind." ) );
@@ -4331,14 +4334,14 @@ ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it,
     }
 
     const bool no_modifiables = std::all_of( mods.begin(), mods.end(),
-                                std::bind( &item::has_uses, std::placeholders::_1 ) );
+                                std::bind( &item::has_single_use, std::placeholders::_1 ) );
 
-    if( !no_modifiables ) {
+    if( no_modifiables ) {
         return ret_val<bool>::make_failure( _( "None of the mods can be modified." ) );
     }
 
     if( p.is_worn(
-            it ) ) { // Prevent removal of shoulder straps and thereby making the gun un-wearable again.
+            it ) ) { // I don't know if modifying really needs this but its for future proofing.
         return ret_val<bool>::make_failure( _( "Has to be taken off first." ) );
     }
 

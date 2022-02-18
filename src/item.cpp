@@ -9098,10 +9098,10 @@ bool item::is_irremovable() const
     return has_flag( flag_IRREMOVABLE );
 }
 
-bool item::has_uses() const
+bool item::has_single_use() const
 {
     // has more than just the attach method
-    return type->use_methods.size() > 1;
+    return type->use_methods.size() == 1;
 }
 
 bool item::is_broken() const
