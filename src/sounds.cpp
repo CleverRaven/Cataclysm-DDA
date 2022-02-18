@@ -77,6 +77,8 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
@@ -175,8 +177,6 @@ static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvest
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-
-static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 struct monster_sound_event {
     int volume;
@@ -606,7 +606,7 @@ void sounds::process_sound_markers( Character *you )
                        you->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
                   ( you->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
                   ( you->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
-                !you->has_effect( effect_narcosis ) ) &&
+                !you->has_effect( effect_narcosis ) &&
                 !you->has_bionic( bio_sleep_shutdown ) ) {
                 //Not kidding about sleep-through-firefight
                 you->wake_up();
