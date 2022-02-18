@@ -289,7 +289,7 @@
     ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "steel mill depot",
-    "sym": "|",
+    "sym": "│",
     "color": "dark_gray"
   },
   {
