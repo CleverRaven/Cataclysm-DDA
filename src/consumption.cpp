@@ -59,6 +59,7 @@ static const std::string comesttype_FOOD( "FOOD" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
+static const bionic_id bio_taste_blocker( "bio_faulty_grossfood" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
@@ -471,6 +472,10 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
             fun_max *= 3;
             fun = fun * 3 / 2;
         }
+    }
+
+    if( has_bionic( bio_faulty_grossfood ) &&
+        fun = fun - 20;
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
