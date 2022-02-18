@@ -38,7 +38,7 @@
     "result": "chainmail_harness_dog",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "copy-from": "chainmail_vest",
+    "copy-from": "lc_chainmail_vest",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
     "time": "4 h 30 m",

@@ -38,7 +38,7 @@
     "result": "chainmail_armor_horse",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "copy-from": "chainmail_vest",
+    "copy-from": "lc_chainmail_vest",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "time": "6 h 30 m",
