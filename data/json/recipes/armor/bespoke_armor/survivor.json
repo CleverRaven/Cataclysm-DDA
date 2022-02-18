@@ -102,7 +102,7 @@
       [ [ "rag", 20 ], [ "sheet_cotton_patchwork", 20 ], [ "sheet_cotton", 20 ], [ "jumpsuit", 1 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [ [ "duct_tape", 200 ] ],
-      [ [ "sheet_kevlar_layered", 24 ], [ "kevlar", 1], [ "swat_armor", 1], [ "ballistic_vest_esapi", 1] ]
+      [ [ "sheet_kevlar_layered", 24 ] ]
     ]
   },
   {
@@ -116,7 +116,7 @@
       [ [ "rag", 15 ], [ "sheet_cotton_patchwork", 15 ], [ "sheet_cotton", 22 ], [ "jumpsuit", 1 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [ [ "duct_tape", 150 ] ],
-      [ [ "sheet_kevlar_layered", 18 ], [ "kevlar", 1], [ "swat_armor", 1], [ "ballistic_vest_esapi", 1] ]
+      [ [ "sheet_kevlar_layered", 18 ] ]
     ]
   },
   {
@@ -130,7 +130,7 @@
       [ [ "rag", 30 ], [ "sheet_cotton_patchwork", 30 ], [ "sheet_cotton", 30 ], [ "jumpsuit", 2 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
       [ [ "duct_tape", 300 ] ],
-      [ [ "sheet_kevlar_layered", 36 ], [ "kevlar", 2], [ "swat_armor", 2], [ "ballistic_vest_esapi", 2] ]
+      [ [ "sheet_kevlar_layered", 36 ] ]
     ]
   },
   {
@@ -159,7 +159,7 @@
       [ [ "leather", 12 ], [ "tanned_hide", 2 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [ [ "duct_tape", 300 ] ],
-      [ [ "sheet_kevlar_layered", 36 ], [ "kevlar", 2], [ "swat_armor", 2], [ "ballistic_vest_esapi", 2], [ "ballistic_vest_heavy", 1 ] ]
+      [ [ "sheet_kevlar_layered", 36 ] ]
     ]
   },
   {
@@ -176,7 +176,7 @@
       [ [ "leather", 9 ], [ "tanned_hide", 2 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [ [ "duct_tape", 225 ] ],
-      [ [ "sheet_kevlar_layered", 27 ], [ "kevlar", 1], [ "swat_armor", 1], [ "ballistic_vest_esapi", 1], [ "ballistic_vest_heavy", 1 ] ]
+      [ [ "sheet_kevlar_layered", 27 ] ]
     ]
   },
   {
@@ -193,7 +193,7 @@
       [ [ "leather", 18 ], [ "tanned_hide", 3 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
       [ [ "duct_tape", 450 ] ],
-      [ [ "sheet_kevlar_layered", 54 ], [ "kevlar", 3], [ "swat_armor", 3], [ "ballistic_vest_esapi", 3], [ "ballistic_vest_heavy", 2 ] ]
+      [ [ "sheet_kevlar_layered", 54 ] ]
     ]
   },
   {
