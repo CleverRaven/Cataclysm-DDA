@@ -2377,7 +2377,7 @@
     "type": "recipe",
     "copy-from": "hc_chainmail_hood",
     "time": "3 h",
-    "using": [ [ "hc_chainmail_standard", 1 ] ],
+    "using": [ [ "chainmail_standard", 1 ] ],
     "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 38 ] ], [ [ "wire", 2 ] ], [ [ "rag", 3 ] ] ]
   },
   {

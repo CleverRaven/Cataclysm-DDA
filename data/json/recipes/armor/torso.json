@@ -1988,7 +1988,7 @@
     "difficulty": 7,
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "lc_chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
+    "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
     "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
@@ -1997,7 +1997,7 @@
     "type": "recipe",
     "copy-from": "lc_chainmail_vest",
     "time": "7 h 10 m",
-    "using": [ [ "lc_chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
+    "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
     "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ] ]
   },
   {
@@ -2005,7 +2005,7 @@
     "type": "recipe",
     "copy-from": "lc_chainmail_vest",
     "time": "8 h 5 m",
-    "using": [ [ "lc_chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
+    "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
     "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ] ]
   },
   {
@@ -2018,7 +2018,7 @@
     "difficulty": 7,
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "mc_chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
+    "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
     "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
@@ -2027,7 +2027,7 @@
     "type": "recipe",
     "copy-from": "mc_chainmail_vest",
     "time": "7 h 10 m",
-    "using": [ [ "mc_chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
+    "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
     "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ] ]
   },
   {
@@ -2035,7 +2035,7 @@
     "type": "recipe",
     "copy-from": "mc_chainmail_vest",
     "time": "8 h 5 m",
-    "using": [ [ "mc_chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
+    "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
     "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ] ]
   },
   {
@@ -2048,7 +2048,7 @@
     "difficulty": 7,
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "hc_chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
+    "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
     "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
@@ -2057,7 +2057,7 @@
     "type": "recipe",
     "copy-from": "hc_chainmail_vest",
     "time": "7 h 10 m",
-    "using": [ [ "hc_chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
+    "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
     "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ] ]
   },
   {
@@ -2065,7 +2065,7 @@
     "type": "recipe",
     "copy-from": "hc_chainmail_vest",
     "time": "8 h 5 m",
-    "using": [ [ "hc_chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
+    "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
     "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ] ]
   },
   {
@@ -2078,7 +2078,7 @@
     "difficulty": 7,
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "ch_chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
+    "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
     "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
@@ -2087,7 +2087,7 @@
     "type": "recipe",
     "copy-from": "ch_chainmail_vest",
     "time": "7 h 10 m",
-    "using": [ [ "ch_chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
+    "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
     "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ] ]
   },
   {
@@ -2095,7 +2095,7 @@
     "type": "recipe",
     "copy-from": "ch_chainmail_vest",
     "time": "8 h 5 m",
-    "using": [ [ "ch_chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
+    "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
     "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ] ]
   },
   {
@@ -2108,7 +2108,7 @@
     "difficulty": 7,
     "time": "7 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "qt_chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
+    "using": [ [ "chainmail_standard", 7 ], [ "fabric_standard_nostretch", 6 ] ],
     "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
@@ -2117,7 +2117,7 @@
     "type": "recipe",
     "copy-from": "qt_chainmail_vest",
     "time": "7 h 10 m",
-    "using": [ [ "qt_chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
+    "using": [ [ "chainmail_standard", 5 ], [ "fabric_standard_nostretch", 4 ] ],
     "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ] ]
   },
   {
@@ -2125,7 +2125,7 @@
     "type": "recipe",
     "copy-from": "qt_chainmail_vest",
     "time": "8 h 5 m",
-    "using": [ [ "qt_chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
+    "using": [ [ "chainmail_standard", 10 ], [ "fabric_standard_nostretch", 9 ] ],
     "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ] ]
   },
   {
