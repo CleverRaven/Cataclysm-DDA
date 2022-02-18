@@ -68,7 +68,7 @@ static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
-static const bionic_id bio_faulty_powercell( "bio_radleak" );
+static const bionic_id bio_radleak( "bio_radleak" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_asthma( "asthma" );
