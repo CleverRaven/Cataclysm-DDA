@@ -21,7 +21,7 @@
         "monster_message": "The zombie spews a cloud of pollen!"
       }
     ],
-    "upgrades": { "half_life": 20, "into_group": "GROUP_GARDEN_ZOMBIE_UPGRADE" }
+    "upgrades": { "half_life": 20, "into_group": "GROUP_GARDEN_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
