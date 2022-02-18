@@ -13,6 +13,7 @@ Format:
   "name": { "str": "Example NPC" },
   "job_description": "I'm helping you learn the game.",
   "common": false,
+  "sells_belongings": false,
   "bonus_str": { "rng": [ -4, 0 ] },
   "bonus_dex": { "rng": [ -2, 0 ] },
   "bonus_int": { "rng": [ 1, 5 ] },
@@ -28,18 +29,23 @@ Format:
   "shopkeeper_item_group": [
     { "group": "example_shopkeeper_itemgroup1" },
     { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
+    { "group": "example_shopkeeper_itemgroup3", "trust": 20, "rigid": true }
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true }
   ],
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
-There are a couple of items in the above template that may not be self explanatory. `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified. `"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
+There are a couple of items in the above template that may not be self explanatory:
+* `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified.
+* `"sells_belongings" false` means that this NPC's worn or held items will strictly be excluded from their shopkeeper list; otherwise, they'll be happy to sell things like their pants. It defaults to `true` if not specified.
+*`"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
 
 ##### Shopkeeper item groups
 `"shopkeeper_item_group"` entries have the following fields:
 - `"group"` : Identifies an item group to include in the possible shop rotation
 - `"trust"` : (_optional_) If the faction's trust with the player is below this value, items in this group will not be available for sale (Defaults to 0)
 - `"strict"` : (_optional_) If true, items in this group cannot be traded back to the player if traded to the NPC. (Defaults to false)
+- `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
 
 #### NPC
 There is a second template required for a new NPC. It looks like this:

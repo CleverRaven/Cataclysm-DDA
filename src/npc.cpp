@@ -1935,7 +1935,8 @@ bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) co
 
     // Keep items that we never want to trade and the ones we don't want to trade while in use.
     if( it.has_flag( flag_TRADER_KEEP ) ||
-        ( it.has_flag( flag_TRADER_KEEP_EQUIPPED ) && ( is_worn( it ) || is_wielding( it ) ) ) ) {
+        ( ( !myclass->sells_belongings || it.has_flag( flag_TRADER_KEEP_EQUIPPED ) ) && ( is_worn( it ) ||
+                is_wielding( it ) ) ) ) {
         return false;
     }
 
@@ -2038,14 +2039,19 @@ void npc::shop_restock()
         return;
     }
 
-    std::vector<item_group_id> from;
-    for( const auto &ig : myclass->get_shopkeeper_items() ) {
+    std::vector<item_group_id> rigid_groups;
+    std::vector<item_group_id> value_groups;
+    for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
         const faction *fac = get_faction();
         if( !fac || ig.trust <= fac->trusts_u ) {
-            from.emplace_back( ig.id );
+            if( ig.rigid ) {
+                rigid_groups.emplace_back( ig.id );
+            } else {
+                value_groups.emplace_back( ig.id );
+            }
         }
     }
-    if( from.empty() ) {
+    if( value_groups.empty() && rigid_groups.empty() ) {
         return;
     }
 
@@ -2070,26 +2076,46 @@ void npc::shop_restock()
         }
     }
 
-    int count = 0;
-    bool last_item = false;
-    while( shop_value > 0 && total_space > 0_ml && !last_item ) {
-        item tmpit = item_group::item_from( random_entry( from ), calendar::turn );
-        if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
-            tmpit.set_owner( *this );
-            ret.push_back( tmpit );
-            shop_value -= tmpit.price( true );
-            total_space -= tmpit.volume();
-            count += 1;
-            last_item = count > 10 && one_in( 100 );
+    // First, populate trade goods using rigid groups.
+    // Rigid groups are always processed a single time, regardless of the shopkeeper's inventory size or desired total value of goods.
+    if( !rigid_groups.empty() ) {
+        for( const item_group_id &rg : rigid_groups ) {
+            item_group::ItemList rigid_items = item_group::items_from( rg, calendar::turn );
+            if( !rigid_items.empty() ) {
+                for( item &tmpit : rigid_items ) {
+                    if( !tmpit.is_null() ) {
+                        tmpit.set_owner( *this );
+                        ret.push_back( tmpit );
+                    }
+                }
+            }
         }
     }
 
-    // This removes some items according to item spawn scaling factor,
-    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-    if( spawn_rate < 1 ) {
-        ret.remove_if( [spawn_rate]( auto & ) {
-            return !( rng_float( 0, 1 ) < spawn_rate );
-        } );
+    // Then, populate with valued groups.
+    // Value groups will run many times until the shopkeeper's total space is full or "shop_value"  is completely spent.
+    if( !value_groups.empty() ) {
+        int count = 0;
+        bool last_item = false;
+        while( shop_value > 0 && total_space > 0_ml && !last_item ) {
+            item tmpit = item_group::item_from( random_entry( value_groups ), calendar::turn );
+            if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
+                tmpit.set_owner( *this );
+                ret.push_back( tmpit );
+                shop_value -= tmpit.price( true );
+                total_space -= tmpit.volume();
+                count += 1;
+                last_item = count > 10 && one_in( 100 );
+            }
+        }
+
+        // This removes some items according to item spawn scaling factor
+        const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+        if( spawn_rate < 1 ) {
+            ret.remove_if( [spawn_rate]( auto & ) {
+                return !( rng_float( 0, 1 ) < spawn_rate );
+            } );
+        }
     }
 
     has_new_items = true;

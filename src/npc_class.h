@@ -48,6 +48,9 @@ struct shopkeeper_item_group {
     int trust;
     bool strict;
 
+    // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
+    bool rigid;
+
     shopkeeper_item_group() : id( item_group_id( "EMPTY_GROUP" ) ), trust( 0 ), strict( false ) {}
     shopkeeper_item_group( const std::string &id, int trust, bool strict ) :
         id( item_group_id( id ) ), trust( trust ), strict( strict ) {}
@@ -78,6 +81,9 @@ class npc_class
     public:
         npc_class_id id;
         bool was_loaded = false;
+
+        // By default, NPCs will be open to trade anything in their inventory, including worn items. If this is set to false, they won't sell items that they're directly wearing or wielding. Items inside of pockets/bags/etc are still fair game.
+        bool sells_belongings = true;
 
         item_group_id worn_override;
         item_group_id carry_override;
