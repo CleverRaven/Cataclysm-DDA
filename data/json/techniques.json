@@ -1082,7 +1082,7 @@
     "crit_tec": true,
     "stun_dur": 1,
     "attack_vectors": [ "WEAPON" ],
-    "attack_vectors_random": [ "HAND", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
+    "attack_vectors_random": [ "HAND", "FINGERS", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
   },
   {
     "type": "technique",

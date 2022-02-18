@@ -1259,8 +1259,8 @@ bool character_martial_arts::can_use_attack_vector( const Character &user, std::
         return true;
     } else if( av == "WEAPON" && valid_weapon && healthy_arm ) {
         return true;
-    } else if( ( av == "HAND" || av == "WRIST" || av == "ARM" || av == "ELBOW" || av == "SHOULDER" ) &&
-               healthy_arm ) {
+    } else if( ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
+                 av == "SHOULDER" ) && healthy_arm ) {
         return true;
     } else if( ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs ) {
         return true;
