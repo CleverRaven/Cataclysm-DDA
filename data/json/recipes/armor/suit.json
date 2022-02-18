@@ -1366,103 +1366,95 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 7,
-    "skills_required": [ "fabrication", 7 ],
+    "skills_required": [
+      "fabrication",
+      7
+    ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 20 ], [ "fabric_leather_hide", 4 ] ],
+    "using": [
+      [ "sewing_standard", 200 ],
+      [ "blacksmithing_standard", 10 ],
+      [ "mc_steel_standard", 3 ],
+      [ "fabric_leather_fur_hide", 2 ]
+    ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.1, "time_multiplier": 1.1 },
+      { "proficiency": "prof_leatherworking", "fail_multiplier": 1.1, "time_multiplier": 1.1 },
+      { "proficiency": "prof_closures", "fail_multiplier": 1.1, "time_multiplier": 1.1 },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_articulation", "fail_multiplier": 1.1, "time_multiplier": 1.1 },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_quenching" }
     ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "welder", 64 ], [ "welder_crude", 97 ], [ "soldering_iron", 97 ], [ "toolset", 97 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -240 ] ]
+    ],
     "components": [
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ], ["lc_steel_lump", 1 ], ["lc_steel_chunk", 4] ],
+      [ [ "rag", 10 ], [ "sheet_cotton_patchwork", 10 ], [ "sheet_cotton", 10 ], [ "jumpsuit", 1 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
       [ [ "duct_tape", 300 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
-        [ "sheet_kevlar_layered", 24 ]
-      ]
+      [ [ "sheet_kevlar_layered", 30 ] ]
     ]
   },
   {
     "result": "xs_hsurvivor_jumpsuit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "copy-from": "hsurvivor_jumpsuit",
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "using": [
+      [ "sewing_standard", 150 ],
+      [ "blacksmithing_standard", 8 ],
+      [ "mc_steel_standard", 2 ],
+      [ "fabric_leather_fur_hide", 2 ]
+    ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "welder", 48 ], [ "welder_crude", 72 ], [ "soldering_iron", 72 ], [ "toolset", 72 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -240 ] ]
+    ],
     "components": [
-      [ [ "steel_chunk", 3 ], [ "scrap", 9 ], ["lc_steel_lump", 1 ], ["lc_steel_chunk", 3] ],
+      [ [ "rag", 7 ], [ "sheet_cotton_patchwork", 7 ], [ "sheet_cotton", 7 ], [ "jumpsuit", 1 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
       [ [ "duct_tape", 225 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
-        [ "sheet_kevlar_layered", 18 ]
-      ]
+      [ [ "sheet_kevlar_layered", 23 ] ]
     ]
   },
   {
     "result": "xl_hsurvivor_jumpsuit",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "copy-from": "hsurvivor_jumpsuit",
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "tools": [ [ [ "welder", 63 ], [ "welder_crude", 95 ], [ "soldering_iron", 95 ], [ "toolset", 95 ] ] ],
+    "using": [
+      [ "sewing_standard", 300 ],
+      [ "blacksmithing_standard", 15 ],
+      [ "mc_steel_standard", 5 ],
+      [ "fabric_leather_fur_hide", 3 ]
+    ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "welder", 72 ], [ "welder_crude", 109 ], [ "soldering_iron", 109 ], [ "toolset", 109 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -240 ] ]
+    ],
     "components": [
-      [ [ "steel_chunk", 5 ], [ "scrap", 15 ], ["lc_steel_lump", 2 ], ["lc_steel_chunk", 5] ],
+      [ [ "rag", 15 ], [ "sheet_cotton_patchwork", 15 ], [ "sheet_cotton", 15 ], [ "jumpsuit", 1 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
-      [ [ "duct_tape", 340 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
-        [ "sheet_kevlar_layered", 27 ]
-      ]
+      [ [ "duct_tape", 450 ] ],
+      [ [ "sheet_kevlar_layered", 45 ] ]
     ]
   },
   {

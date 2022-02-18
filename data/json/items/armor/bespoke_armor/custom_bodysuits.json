@@ -427,14 +427,14 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "heavy survivor suit" },
-    "description": "A heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "description": "A heavy, hand-built combination armor made from tempered steel plates and a leather jumpsuit padded with layered kevlar.  Protects from the elements as well as from harm.",
     "weight": "15500 g",
     "volume": "12 L",
     "price": 200000,
     "price_postapoc": 7000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar_layered", "low_steel", "leather" ],
+    "material": [ "kevlar_layered", "tempered_steel", "leather" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "dark_gray",
@@ -443,8 +443,8 @@
         "material" : [
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "low_steel", "covered_by_mat": 90, "thickness": 1 },
-          { "type": "low_steel", "covered_by_mat": 90, "thickness": 1 }
+          { "type": "tempered_steel", "covered_by_mat": 90, "thickness": 0.6 },
+          { "type": "tempered_steel", "covered_by_mat": 90, "thickness": 0.6 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
