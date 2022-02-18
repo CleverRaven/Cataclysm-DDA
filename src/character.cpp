@@ -10579,7 +10579,7 @@ double Character::recoil_vehicle() const
 
 double Character::recoil_total() const
 {
-    return enchantment_cache->modify_value( enchant_vals::mod::RECOIL,
+    return enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER,
                                             ( recoil + recoil_vehicle() ) );
 }
 
