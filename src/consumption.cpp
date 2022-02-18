@@ -58,8 +58,8 @@ static const std::string comesttype_DRINK( "DRINK" );
 static const std::string comesttype_FOOD( "FOOD" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 static const bionic_id bio_faulty_grossfood( "bio_faulty_grossfood" );
+static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
