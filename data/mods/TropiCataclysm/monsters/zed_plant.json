@@ -20,6 +20,14 @@
     "color": "light_green",
     "death_drops": "mon_zombie_thorny_death_drops",
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "pollen_breath", "min_level": 1 },
+        "cooldown": 15,
+        "monster_message": "The zombie spews a cloud of pollen!"
+      }
+    ],
     "flags": [
       "SEES",
       "HEARS",
@@ -169,7 +177,7 @@
     "special_attacks": [ [ "scratch", 20 ] ],
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
     "death_drops": "mon_zombie_thorny_death_drops",
-    "death_function": { "effect": { "id": "sap", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_sap", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -210,16 +218,8 @@
     "vision_night": 3,
     "harvest": "exempt",
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
-    "special_attacks": [
-      {
-        "type": "spell",
-        "spell_data": { "id": "pollen_breath", "min_level": 1 },
-        "cooldown": 15,
-        "monster_message": "The zombie spews a cloud of pollen!"
-      }
-    ],
     "death_drops": "mon_zombie_thorny_death_drops",
-    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_boomer", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_pollen", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "PARALYZEVENOM" ]
   },
