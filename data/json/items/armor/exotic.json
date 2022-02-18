@@ -125,32 +125,47 @@
     "type": "ARMOR",
     "name": { "str": "second skin" },
     "repairs_like": "jumpsuit",
-    "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you, the sensation is uncomfortable.  The liquid appears bound to a choker made from odd materials that hum slightly, the inside reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".  The ooze flows freely covering your entire body but never crossing the choker to get to your head.",
+    "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you, the sensation is uncomfortable.  The liquid appears bound to the article at your neck made from odd materials that hum slightly, the inside reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".  The ooze flows freely covering your entire body but never crossing the gorget to get to your head.",
     "weight": "1500 g",
     "volume": "1 L",
     "price": 2500,
     "price_postapoc": 400,
-    "material": [ "alien_liquid" ],
+    "material": [ "alien_liquid", "unobtanium" ],
     "symbol": "[",
     "looks_like": "union_suit",
     "color": "white",
     "armor": [
       {
-        "covers": [ "torso", "leg_l", "leg_r", "foot_l", "foot_r", "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "material": [ { "type": "unobtanium", "covered_by_mat": 10, "thickness": 0.5 },
+          { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 }
+         ],
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "unobtanium", "covered_by_mat": 85, "thickness": 0.5 },
+          { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 }
+         ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "specifically_covers": ["torso_lower", "arm_upper_l", "arm_elbow_l", "arm_lower_l", "arm_upper_r", "arm_elbow_r", "arm_lower_r"],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      {
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r", "hand_l", "hand_r" ],
         "coverage": 100,
         "encumbrance": 2
       }
     ],
     "use_action": [
-      {
-        "type": "repair_item",
-        "item_action_type": "repair_metal",
-        "materials": [ "alien_liquid" ],
-        "skill": "survival",
-        "tool_quality": 0,
-        "cost_scaling": 0.1,
-        "move_cost": 100
-      },
       {
         "target": "migo_skin_off",
         "msg": "the necklace hums and the liquid gets sucked back into it.",
@@ -166,13 +181,13 @@
   {
     "id": "migo_skin_off",
     "type": "ARMOR",
-    "name": { "str": "odd choker" },
-    "description": "A choker made from odd materials that seems to hum slightly, the inside reads 'CAREFUL CHOKING HAZARD' with an arrow pointing down.  There is a mechanical button of some kind on the front.",
+    "name": { "str": "resonating gorget" },
+    "description": "A heavy duty gorget made from odd materials that hums slightly, it feels damp to the touch and there is a mechanical button of some kind on the front.  The inside reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".",
     "weight": "1500 g",
     "volume": "100 ml",
     "price": 2500,
     "price_postapoc": 400,
-    "material": [ "copper" ],
+    "material": [ "unobtanium" ],
     "symbol": "[",
     "looks_like": "silver_necklace",
     "color": "white",
@@ -183,11 +198,26 @@
       "menu_text": "Activate the device",
       "type": "transform"
     },
-    "armor": [ { "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ], "coverage": 100, "encumbrance": 0 } ],
+    "armor": [
+      {
+        "material": [ { "type": "unobtanium", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "coverage": 10,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "unobtanium", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 85,
+        "encumbrance": 0
+      }
+    ],
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "STURDY", "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID" ]
   },
   {
     "id": "feeding_kit",

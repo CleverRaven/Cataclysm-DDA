@@ -150,6 +150,7 @@
     "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_east",
+    "weight": 100,
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
@@ -185,6 +186,7 @@
     "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_east",
+    "weight": 100,
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
@@ -212,6 +214,43 @@
       "place_loot": [
         { "group": "tools_mutation", "x": [ 3, 5 ], "y": 3, "chance": 70 },
         { "group": "common_mutation_books", "x": [ 3, 5 ], "y": 4, "chance": 70 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab mutagen research areas. Center of room design.",
+    "nested_mapgen_id": "lab_mutagen_8x8_vault_east",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||||",
+        "|mmmmmm|",
+        "||    m|",
+        " = JJJm|",
+        "θ| JJJm|",
+        "||    m|",
+        "|mmmmmm|",
+        "||||||||"
+      ],
+      "palettes": [ "lab_mutagen_palette" ],
+      "terrain": { "|": "t_wall_metal" },
+      "computers": {
+        "θ": {
+          "name": "Alien-Sample Storage",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
+          "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
+        }
+      },
+      "item": { "m": [ { "item": "alien_pod_resin", "chance": 50, "repeat": [ 2, 5 ] }, { "item": "fetid_goop", "chance": 40, "repeat": [ 2, 5 ] } ] },
+      "place_loot": [
+        { "group": "tools_mutation", "x": [ 3, 5 ], "y": 3, "chance": 70 },
+        { "group": "common_mutation_books", "x": [ 3, 5 ], "y": 4, "chance": 70 },
+        { "item": "migo_bio_tech", "x": 3, "y": 3, "chance": 100 }
       ]
     }
   },
@@ -434,7 +473,8 @@
         "ŏ": [
           { "item": "migo_skin_off", "chance": 100 },
           { "item": "blood", "chance": 100 },
-          { "item": "feeding_kit", "chance": 100 }
+          { "item": "feeding_kit", "chance": 100 },
+          { "item": "corpse_half_beheaded", "chance": 100 }
         ],
         "ō": { "item": "blood", "chance": 100, "repeat": [ 2, 5 ] }
       },
