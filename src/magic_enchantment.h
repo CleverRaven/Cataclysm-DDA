@@ -87,7 +87,7 @@ enum class mod : int {
     EXTRA_ELEC,
     EXTRA_ACID,
     EXTRA_BIO,
-    RECOIL, //affects recoil when shooting a gun
+    RECOIL_MODIFIER, //affects recoil when shooting a gun
     // effects for the item that has the enchantment
     ITEM_DAMAGE_PURE,
     ITEM_DAMAGE_BASH,
