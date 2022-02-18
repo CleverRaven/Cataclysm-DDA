@@ -165,6 +165,7 @@ static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_voice( "bio_voice" );
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const character_modifier_id character_modifier_aim_speed_dex_mod( "aim_speed_dex_mod" );
 static const character_modifier_id character_modifier_aim_speed_mod( "aim_speed_mod" );
@@ -8097,6 +8098,9 @@ void Character::fall_asleep()
         } else {
             add_msg_if_player( _( "You use your %s to keep warm." ), item_name );
         }
+    }
+    if( has_bionic( bio_sleep_shutdown ) ) {
+        add_msg_if_player( _( "Sleep Mode activated.  Disabling sensory response..." ) );
     }
     if( has_active_mutation( trait_HIBERNATE ) &&
         get_kcal_percent() > 0.8f ) {
