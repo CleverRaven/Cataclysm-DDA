@@ -30,15 +30,15 @@ const std::unordered_set<std::string> simple_string_conds = { {
 };
 const std::unordered_set<std::string> complex_conds = { {
         "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait",
-        "u_has_trait_flag", "npc_has_trait_flag", "npc_has_class", "u_has_mission",
+        "u_has_flag", "npc_has_flag", "npc_has_class", "u_has_mission",
         "u_has_strength", "npc_has_strength", "u_has_dexterity", "npc_has_dexterity",
         "u_has_intelligence", "npc_has_intelligence", "u_has_perception", "npc_has_perception",
-        "u_is_wearing", "npc_is_wearing", "u_has_item", "npc_has_item",
+        "u_is_wearing", "npc_is_wearing", "u_has_item", "npc_has_item", "u_has_move_mode", "npc_has_move_mode",
         "u_has_items", "npc_has_items", "u_has_item_category", "npc_has_item_category",
         "u_has_bionics", "npc_has_bionics", "u_has_effect", "npc_has_effect", "u_need", "npc_need",
-        "u_at_om_location", "npc_at_om_location", "npc_role_nearby", "npc_allies", "npc_service",
-        "u_has_cash", "u_are_owed", "u_query", "npc_query",
-        "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override",
+        "u_at_om_location", "u_near_om_location", "npc_at_om_location", "npc_near_om_location", "npc_role_nearby", "npc_allies", "npc_service",
+        "u_has_cash", "u_are_owed", "u_query", "npc_query", "u_has_item_with_flag", "npc_has_item_with_flag",
+        "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override", "u_has_hp", "npc_has_hp",
         "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
@@ -52,8 +52,13 @@ const std::unordered_set<std::string> complex_conds = { {
 } // namespace dialogue_data
 int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
                            int default_val = 0 );
-duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
+int_or_var_part get_int_or_var_part( const JsonValue &jv, std::string member, bool required = true,
+                                     int default_val = 0 );
+duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required = true,
                                      time_duration default_val = 0_seconds );
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv, std::string member,
+        bool required = true,
+        time_duration default_val = 0_seconds );
 tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
                                 var_type type, talker *var_source );
 var_info read_var_info( JsonObject jo, bool require_default );
@@ -85,7 +90,7 @@ struct conditional_t {
 
         void set_has_any_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_trait_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_compare_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_compare_time_since_var( const JsonObject &jo, const std::string &member,
@@ -98,6 +103,7 @@ struct conditional_t {
         void set_has_dexterity( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_intelligence( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_perception( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_hp( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_deaf( bool is_npc = false );
         void set_is_on_terrain( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_in_field( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -110,11 +116,14 @@ struct conditional_t {
         void set_is_wearing( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_item( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_items( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_item_with_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_item_category( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_bionics( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_need( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_at_om_location( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_near_om_location( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_move_mode( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_role_nearby( const JsonObject &jo );
         void set_npc_allies( const JsonObject &jo );
         void set_u_has_cash( const JsonObject &jo );

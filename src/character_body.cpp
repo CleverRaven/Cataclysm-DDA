@@ -46,8 +46,8 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
-static const json_character_flag json_flag_HEATPROOF( "HEATPROOF" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
@@ -181,11 +181,15 @@ void Character::update_body( const time_point &from, const time_point &to )
         // since a trait from an item might be provided by another item as well
         auto it = std::find( current_traits.begin(), current_traits.end(), mut );
         if( it == current_traits.end() ) {
+            const mutation_branch &mut_b = *mut;
+            cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut_b ),
+                                    cached_mutations.end() );
             mutation_loss_effect( mut );
             enchantment_wear_change();
         }
     }
     for( const trait_id &mut : mutations_to_add ) {
+        cached_mutations.push_back( &mut.obj() );
         mutation_effect( mut, true );
         enchantment_wear_change();
     }
@@ -323,7 +327,7 @@ void Character::update_bodytemp()
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
-    const bool heat_immune = has_flag( json_flag_HEATPROOF );
+    const bool heat_immune = has_flag( json_flag_HEAT_IMMUNE );
     const bool has_heatsink = has_flag( json_flag_HEATSINK ) || is_wearing( itype_rm13_armor_on ) ||
                               heat_immune;
     const bool has_common_cold = has_effect( effect_common_cold );

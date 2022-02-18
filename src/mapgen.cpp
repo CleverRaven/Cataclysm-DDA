@@ -2016,7 +2016,7 @@ class jmapgen_gaspump : public jmapgen_piece
 /**
  * Place a specific liquid into the map.
  * "liquid": id of the liquid item (item should use charges)
- * "amount": quantity of liquid placed (a value of 0 uses the default amount)
+ * "amount": quantity of liquid placed (a value of -1 uses the default amount)
  * "chance": chance of liquid being placed, see @ref map::place_items
  */
 class jmapgen_liquid_item : public jmapgen_piece
@@ -2026,7 +2026,7 @@ class jmapgen_liquid_item : public jmapgen_piece
         mapgen_value<itype_id> liquid;
         jmapgen_int chance;
         jmapgen_liquid_item( const JsonObject &jsi, const std::string &/*context*/ ) :
-            amount( jsi, "amount", 0, 0 )
+            amount( jsi, "amount", -1, -1 )
             , liquid( jsi.get_member( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
         }
@@ -2041,11 +2041,18 @@ class jmapgen_liquid_item : public jmapgen_piece
                 // individual items here.
                 itype_id migrated = item_controller->migrate_id( chosen_id );
                 item newliquid( migrated, calendar::start_of_cataclysm );
-                if( amount.valmax > 0 ) {
-                    newliquid.charges = amount.get();
+
+                if( amount.val > -1 ) {
+                    if( amount.valmax > -1 ) {
+                        newliquid.charges = amount.get();
+                    } else {
+                        newliquid.charges = amount.val;
+                    }
                 }
-                dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ),
-                                           newliquid );
+                if( newliquid.charges > 0 ) {
+                    dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ),
+                                               newliquid );
+                }
             }
         }
 
@@ -2151,8 +2158,10 @@ class jmapgen_loot : public jmapgen_piece
                     const std::string &/*context*/ ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm,
-                                                spawn_flags::use_spawn_rate );
+                std::vector<item> spawn;
+                spawn.reserve( 20 );
+                isd->create( spawn, calendar::start_of_cataclysm,
+                             spawn_flags::use_spawn_rate );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
                                              dat.m.get_abs_sub().z ), spawn );
             }
@@ -7622,7 +7631,7 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
     bool shifted = false;
     tripoint_abs_ms avatar_pos = get_avatar().get_location();
     if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ) + tripoint( 0, 10, 0 ) );
+        g->place_player_overmap( project_to<coords::omt>( avatar_pos ) + tripoint( 0, 10, 0 ), false );
         shifted = true;
     }
     update_tmap.load( sm_pos, true );
@@ -7636,8 +7645,7 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
     update_tmap.rotate( rotation );
 
     if( shifted ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ) );
-        get_avatar().set_location( avatar_pos );
+        g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
     }
 
     return u;

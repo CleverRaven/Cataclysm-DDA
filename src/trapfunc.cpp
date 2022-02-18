@@ -115,8 +115,8 @@ bool trapfunc::bubble( const tripoint &p, Creature *c, item * )
 bool trapfunc::glass( const tripoint &p, Creature *c, item * )
 {
     if( c != nullptr ) {
-        // tiny animals and hallucinations don't trigger glass trap
-        if( c->get_size() == creature_size::tiny || c->is_hallucination() ) {
+        // tiny animals don't trigger glass trap
+        if( c->get_size() == creature_size::tiny ) {
             return false;
         }
         c->add_msg_player_or_npc( m_warning, _( "You step on some glass!" ),
@@ -269,7 +269,7 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
         return false;
     }
     // tiny animals don't trigger caltrops, they can squeeze between them
-    if( c->get_size() == creature_size::tiny || c->is_hallucination() ) {
+    if( c->get_size() == creature_size::tiny ) {
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "You step on a sharp glass caltrop!" ),

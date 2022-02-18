@@ -457,13 +457,14 @@
         "u_transform_radius": 2,
         "ter_furn_transform": "portal_cage_revert_transform",
         "target_var": { "global_val": "portal_cage" },
-        "time_in_future_min": "3 seconds",
-        "time_in_future_max": "5 seconds"
+        "time_in_future": [ "3 seconds", "5 seconds" ]
       },
       { "u_message": "All the empty space around you is suddenly even emptier than should be possible." }
     ],
     "false_effect": [
-      { "set_queue_effect_on_condition": [ "EOC_impossible_shape_attack", "EOC_shifting_mass_attack" ] },
+      {
+        "weighted_list_eocs": [ [ "EOC_shifting_mass_attack", 2 ], [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ], [ "EOC_PORTAL_INCORPOREAL", 1 ] ]
+      },
       { "u_message": "For an instant you feel the absence's hunger upon you." }
     ]
   },

@@ -65,6 +65,33 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "confit_meat",
+    "looks_like": "meat_cooked",
+    "name": { "str_sp": "meat confit" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "con confit" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "birdman confit" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "twisted confit" } }
+    ],
+    "weight": "351 g",
+    "color": "brown",
+    "spoils_in": "90 days",
+    "container": "can_medium",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -2,
+    "calories": 716,
+    "description": "Salted meat slowly cooked and preserved in butter or melted fat, a form of food preservation from the days before canning.  Rich and fattening, it will last for a long time.",
+    "price": 600,
+    "price_postapoc": 350,
+    "material": [ "flesh" ],
+    "volume": "250 ml",
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 20 ] ],
+    "fun": 1,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "sweet_sausage",
     "name": { "str": "sweet sausage" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } } ],

@@ -87,7 +87,7 @@
       { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
       { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
-      { "monster": "mon_feral_soldier", "weight": 300 }
+      { "monster": "mon_feral_soldier", "weight": 75 }
     ]
   },
   {
@@ -119,7 +119,7 @@
       { "monster": "mon_zombie_military_pilot", "weight": 20 },
       { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
       { "monster": "mon_zombie_scientist", "weight": 100 },
-      { "monster": "mon_feral_soldier", "weight": 300 }
+      { "monster": "mon_feral_soldier", "weight": 75 }
     ]
   }
 ]

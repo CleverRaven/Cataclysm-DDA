@@ -909,5 +909,20 @@
         [ "lc_steel_chunk", 4 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "stick",
+    "id_suffix": "stick_from_plank",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "30 minutes",
+    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1, "time_multiplier": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "byproducts": [ [ "splinter", 5 ] ],
+    "autolearn": [ [ "fabrication", 0 ] ]
   }
 ]

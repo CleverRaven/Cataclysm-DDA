@@ -12,6 +12,7 @@
     "autolearn": false,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 6 ], [ "textbook_carpentry", 5 ] ],
     "using": [ [ "welding_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_basic_engines" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 16 ] ],
@@ -454,6 +455,7 @@
     "skills_required": [ "mechanics", 2 ],
     "difficulty": 2,
     "time": "30 m",
+    "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -469,6 +471,7 @@
     "skills_required": [ "mechanics", 2 ],
     "difficulty": 2,
     "time": "30 m",
+    "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -529,6 +532,7 @@
     "time": "170 m",
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "welding_standard", 25 ] ],
+    "proficiencies": [ { "proficiency": "prof_basic_engines" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
     "components": [
       [ [ "sheet_metal", 3 ] ],
@@ -555,6 +559,7 @@
     "time": "170 m",
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "welding_standard", 25 ] ],
+    "proficiencies": [ { "proficiency": "prof_basic_engines" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
     "components": [
       [ [ "sheet_metal", 3 ] ],

@@ -122,23 +122,6 @@ std::string move_mode::name() const
     return _name.translated();
 }
 
-std::string move_mode::type_name() const
-{
-    switch( _type ) {
-        case move_mode_type::PRONE:
-            return _( "prone" );
-        case move_mode_type::CROUCHING:
-            return _( "crouching" );
-        case move_mode_type::WALKING:
-            return _( "walking" );
-        case move_mode_type::RUNNING:
-            return _( "running" );
-        default:
-            // Shouldn't happen, but make it visible if it does
-            return _( "bugging out" );
-    }
-}
-
 std::string move_mode::change_message( bool success, steed_type steed ) const
 {
     if( steed == steed_type::NUM ) {

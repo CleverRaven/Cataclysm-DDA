@@ -839,7 +839,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     point s;
     get_window_tile_counts( width, height, s.x, s.y );
 
-
     op = point( dest.x * fontwidth, dest.y * fontheight );
     // Rounding up to include incomplete tiles at the bottom/right edges
     screentile_width = divide_round_up( width, tile_width );
@@ -3800,8 +3799,8 @@ static window_dimensions get_window_dimensions( const catacurses::window &win,
     } else if( overmap_font && g && win == g->w_overmap ) {
         if( use_tiles && use_tiles_overmap ) {
             // tiles might have different dimensions than standard font
-            dim.scaled_font_size.x = tilecontext->get_tile_width();
-            dim.scaled_font_size.y = tilecontext->get_tile_height();
+            dim.scaled_font_size.x = overmap_tilecontext->get_tile_width();
+            dim.scaled_font_size.y = overmap_tilecontext->get_tile_height();
         } else {
             dim.scaled_font_size.x = overmap_font->width;
             dim.scaled_font_size.y = overmap_font->height;
@@ -3882,12 +3881,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         p = view_offset + selected;
     } else {
         const point selected( screen_pos.x / fw, screen_pos.y / fh );
-        if( capture_win == g->w_overmap ) {
-            p = view_offset + selected - point( std::ceil( dim.window_size_cell.x / 2.0 ),
-                                                std::ceil( dim.window_size_cell.y / 2.0 ) );
-        } else {
-            p = view_offset + selected - dim.window_size_cell / 2;
-        }
+        p = view_offset + selected - dim.window_size_cell / 2;
     }
 
     return tripoint( p, get_map().get_abs_sub().z );
@@ -3926,16 +3920,16 @@ static int map_font_height()
 
 static int overmap_font_width()
 {
-    if( use_tiles && tilecontext && use_tiles_overmap ) {
-        return tilecontext->get_tile_width();
+    if( use_tiles && overmap_tilecontext && use_tiles_overmap ) {
+        return overmap_tilecontext->get_tile_width();
     }
     return ( overmap_font ? overmap_font.get() : font.get() )->width;
 }
 
 static int overmap_font_height()
 {
-    if( use_tiles && tilecontext && use_tiles_overmap ) {
-        return tilecontext->get_tile_height();
+    if( use_tiles && overmap_tilecontext && use_tiles_overmap ) {
+        return overmap_tilecontext->get_tile_height();
     }
     return ( overmap_font ? overmap_font.get() : font.get() )->height;
 }
