@@ -16,7 +16,8 @@ Q 'def skip(to_skip): select(all(. != to_skip; .));
 	| .id as $id
 	| .overmaps[].overmap
 	| sub("_(north|south|east|west)$"; "")
-	| skip("forest", "forest_thick", "forest_water")  # Skip to prevent false positives
+	# Skip common terrains to prevent false positives
+	| skip("forest", "forest_thick", "forest_water", "field")
 	| [., $id]' \
 | jq --null-input \
 	'reduce inputs as [$k, $v] ({}; .[$k] += [$v])
