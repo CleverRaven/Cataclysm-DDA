@@ -75,6 +75,7 @@ enum class spell_flag : int {
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
     SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
+    NON_MAGICAL, // ignores spell resistance
     LAST
 };
 
@@ -234,6 +235,14 @@ class spell_type
         // field intensity added to the map is +- ( 1 + field_intensity_variance ) * field_intensity
         float field_intensity_variance = 0.0f;
 
+        // accuracy is a bonus against dodge, block, and spellcraft
+        // which allows the target to mitigate up to 33% damage for each type of resistance
+        // this could theoretically add up to 100%
+
+        int min_accuracy = 20;
+        float accuracy_increment = 0.0f;
+        int max_accuracy = 20;
+
         // minimum damage this spell can cause
         int min_damage = 0;
         // amount of damage increase per spell level
@@ -355,6 +364,9 @@ class spell_type
         static const int max_field_intensity_default;
         static const float field_intensity_increment_default;
         static const float field_intensity_variance_default;
+        static const int min_accuracy_default;
+        static const float accuracy_increment_default;
+        static const int max_accuracy_default;
         static const int min_damage_default;
         static const float damage_increment_default;
         static const int max_damage_default;
@@ -414,6 +426,7 @@ class spell
         int min_leveled_aoe() const;
         // minimum duration including levels (moves)
         int min_leveled_duration() const;
+        int min_leveled_accuracy() const;
 
     public:
         spell() = default;
@@ -451,6 +464,7 @@ class spell
         int field_intensity() const;
         // how much damage does the spell do
         int damage() const;
+        int accuracy() const;
         int damage_dot() const;
         damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps ) const;
         dealt_damage_instance get_dealt_damage_instance() const;
