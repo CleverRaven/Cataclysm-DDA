@@ -863,37 +863,6 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
 
-        // calculate worst case and best case protection %
-        for( armor_portion_data &armor_data : obj.armor->sub_data ) {
-            // go through each material and contribute its values
-            float tempbest = 1.0f;
-            float tempworst = 1.0f;
-            for( const part_material &mat : armor_data.materials ) {
-                // the percent chance the material is not hit
-                float cover = mat.cover * .01f;
-                float cover_invert = 1.0f - cover;
-
-                tempbest *= cover;
-                // just interested in cover values that can fail.
-                // multiplying by 0 would make this value pointless
-                if( cover_invert > 0 ) {
-                    tempworst *= cover_invert;
-                }
-            }
-
-            // if not exactly 0 it should display as at least 1
-            if( tempworst > 0 ) {
-                armor_data.worst_protection_chance = std::max( 1.0f, tempworst * 100.0f );
-            } else {
-                armor_data.worst_protection_chance = 0;
-            }
-            if( tempbest > 0 ) {
-                armor_data.best_protection_chance = std::max( 1.0f, tempbest * 100.0f );
-            } else {
-                armor_data.best_protection_chance = 0;
-            }
-        }
-
         // create the vector of all layers
         if( obj.has_flag( flag_PERSONAL ) ) {
             obj.armor->all_layers.push_back( layer_level::PERSONAL );
