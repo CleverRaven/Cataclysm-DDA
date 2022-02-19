@@ -257,7 +257,8 @@
     "id": "fake_oven",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "oven" }
+    "name": { "str": "oven" },
+    "qualities": [ [ "OVEN", 2 ] ]
   },
   {
     "id": "fake_water_purifier",
