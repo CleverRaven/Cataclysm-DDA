@@ -1313,6 +1313,176 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
   },
   {
+    "id": "lc_chainmail_hauberk",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "low steel chainmail hauberk" },
+    "description": "A fully customized low steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "14430 g",
+    "volume": "2750 ml",
+    "price": 35988,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "symbol": "[",
+    "looks_like": "armor_blarmor",
+    "color": "light_red",
+    "warmth": 0,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL low steel chainmail hauberk" },
+    "copy-from": "lc_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "lc_chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hauberk",
+    "looks_like": "lc_chainmail_hauberk",
+    "name": { "str": "XS low steel chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mc_chainmail_hauberk",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hauberk",
+    "name": { "str": "medium steel chainmail hauberk" },
+    "description": "A fully customized medium steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel chainmail hauberk" },
+    "copy-from": "mc_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "mc_chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_hauberk",
+    "looks_like": "mc_chainmail_hauberk",
+    "name": { "str": "XS medium steel chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "hc_chainmail_hauberk",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hauberk",
+    "name": { "str": "high steel chainmail hauberk" },
+    "description": "A fully customized high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel chainmail hauberk" },
+    "copy-from": "hc_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "hc_chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_hauberk",
+    "looks_like": "hc_chainmail_hauberk",
+    "name": { "str": "XS high steel chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ch_chainmail_hauberk",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hauberk",
+    "name": { "str": "hardened steel chainmail hauberk" },
+    "description": "A fully customized hardened steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened steel chainmail hauberk" },
+    "copy-from": "ch_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "ch_chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_hauberk",
+    "looks_like": "ch_chainmail_hauberk",
+    "name": { "str": "XS hardened steel chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "qt_chainmail_hauberk",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hauberk",
+    "name": { "str": "tempered steel chainmail hauberk" },
+    "description": "A fully customized tempered steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered steel chainmail hauberk" },
+    "copy-from": "qt_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "qt_chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_hauberk",
+    "looks_like": "qt_chainmail_hauberk",
+    "name": { "str": "XS tempered steel chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "chainmail_suit",
     "type": "ARMOR",
     "category": "armor",
@@ -1355,48 +1525,6 @@
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "UNDERSIZE" ]
   },
   {
-    "id": "lc_chainmail_hauberk",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "low steel chainmail hauberk" },
-    "description": "A fully customized low steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14430 g",
-    "volume": "2750 ml",
-    "price": 35988,
-    "price_postapoc": 3000,
-    "to_hit": -1,
-    "symbol": "[",
-    "looks_like": "armor_blarmor",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
-        "encumbrance": 20
-      }
-    ]
-  },
-  {
-    "id": "xl_lc_chainmail_hauberk",
-    "type": "ARMOR",
-    "name": { "str": "XL low steel chainmail hauberk" },
-    "copy-from": "lc_chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "lc_chainmail_hauberk_xs",
-    "type": "ARMOR",
-    "copy-from": "lc_chainmail_hauberk",
-    "looks_like": "lc_chainmail_hauberk",
-    "name": { "str": "XS low steel chainmail hauberk" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
-  },
-  {
     "id": "lc_chainmail_suit",
     "type": "ARMOR",
     "category": "armor",
@@ -1436,66 +1564,14 @@
     "looks_like": "lc_chainmail_suit",
     "name": { "str": "XS low steel chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "UNDERSIZE" ]
-  },
-  {
-    "id": "mc_chainmail_hauberk",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "medium steel chainmail hauberk" },
-    "description": "A fully customized medium steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14430 g",
-    "volume": "2750 ml",
-    "price": 35988,
-    "price_postapoc": 3000,
-    "to_hit": -1,
-    "symbol": "[",
-    "looks_like": "armor_blarmor",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
-        "encumbrance": 20
-      }
-    ]
-  },
-  {
-    "id": "xl_mc_chainmail_hauberk",
-    "type": "ARMOR",
-    "name": { "str": "XL medium steel chainmail hauberk" },
-    "copy-from": "mc_chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "mc_chainmail_hauberk_xs",
-    "type": "ARMOR",
-    "copy-from": "mc_chainmail_hauberk",
-    "looks_like": "mc_chainmail_hauberk",
-    "name": { "str": "XS medium steel chainmail hauberk" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "mc_chainmail_suit",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_chainmail_suit",
     "name": { "str": "medium steel chainmail armor" },
     "description": "A fully customized medium steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "16436 g",
-    "volume": "3250 ml",
-    "price": 45000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
@@ -1520,66 +1596,14 @@
     "looks_like": "mc_chainmail_suit",
     "name": { "str": "XS medium steel chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "UNDERSIZE" ]
-  },
-  {
-    "id": "hc_chainmail_hauberk",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "high steel chainmail hauberk" },
-    "description": "A fully customized high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14430 g",
-    "volume": "2750 ml",
-    "price": 35988,
-    "price_postapoc": 3000,
-    "to_hit": -1,
-    "symbol": "[",
-    "looks_like": "armor_blarmor",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
-        "encumbrance": 20
-      }
-    ]
-  },
-  {
-    "id": "xl_hc_chainmail_hauberk",
-    "type": "ARMOR",
-    "name": { "str": "XL high steel chainmail hauberk" },
-    "copy-from": "hc_chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "hc_chainmail_hauberk_xs",
-    "type": "ARMOR",
-    "copy-from": "hc_chainmail_hauberk",
-    "looks_like": "hc_chainmail_hauberk",
-    "name": { "str": "XS high steel chainmail hauberk" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "hc_chainmail_suit",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_chainmail_suit",
     "name": { "str": "high steel chainmail armor" },
     "description": "A fully customized high steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "16436 g",
-    "volume": "3250 ml",
-    "price": 45000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
@@ -1604,66 +1628,14 @@
     "looks_like": "hc_chainmail_suit",
     "name": { "str": "XS high steel chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "UNDERSIZE" ]
-  },
-  {
-    "id": "ch_chainmail_hauberk",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "hardened steel chainmail hauberk" },
-    "description": "A fully customized hardened steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14430 g",
-    "volume": "2750 ml",
-    "price": 35988,
-    "price_postapoc": 3000,
-    "to_hit": -1,
-    "symbol": "[",
-    "looks_like": "armor_blarmor",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
-        "encumbrance": 20
-      }
-    ]
-  },
-  {
-    "id": "xl_ch_chainmail_hauberk",
-    "type": "ARMOR",
-    "name": { "str": "XL hardened steel chainmail hauberk" },
-    "copy-from": "ch_chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "ch_chainmail_hauberk_xs",
-    "type": "ARMOR",
-    "copy-from": "ch_chainmail_hauberk",
-    "looks_like": "ch_chainmail_hauberk",
-    "name": { "str": "XS hardened steel chainmail hauberk" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "ch_chainmail_suit",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_chainmail_suit",
     "name": { "str": "hardened steel chainmail armor" },
     "description": "A fully customized hardened steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "16436 g",
-    "volume": "3250 ml",
-    "price": 45000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
@@ -1688,66 +1660,14 @@
     "looks_like": "ch_chainmail_suit",
     "name": { "str": "XS hardened steel chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "UNDERSIZE" ]
-  },
-  {
-    "id": "qt_chainmail_hauberk",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "tempered steel chainmail hauberk" },
-    "description": "A fully customized tempered steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14430 g",
-    "volume": "2750 ml",
-    "price": 35988,
-    "price_postapoc": 3000,
-    "to_hit": -1,
-    "symbol": "[",
-    "looks_like": "armor_blarmor",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
-        "encumbrance": 20
-      }
-    ]
-  },
-  {
-    "id": "xl_qt_chainmail_hauberk",
-    "type": "ARMOR",
-    "name": { "str": "XL tempered steel chainmail hauberk" },
-    "copy-from": "qt_chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "qt_chainmail_hauberk_xs",
-    "type": "ARMOR",
-    "copy-from": "qt_chainmail_hauberk",
-    "looks_like": "qt_chainmail_hauberk",
-    "name": { "str": "XS tempered steel chainmail hauberk" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "qt_chainmail_suit",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_chainmail_suit",
     "name": { "str": "tempered steel chainmail armor" },
     "description": "A fully customized tempered steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "16436 g",
-    "volume": "3250 ml",
-    "price": 45000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
@@ -1772,22 +1692,14 @@
     "looks_like": "qt_chainmail_suit",
     "name": { "str": "XS tempered steel chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "chainmail_suit_faraday",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_chainmail_suit",
     "name": { "str": "faraday chainmail suit" },
     "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
-    "weight": "23335 g",
-    "volume": "3500 ml",
-    "price": 35000,
-    "price_postapoc": 9000,
-    "to_hit": -1,
-    "symbol": "[",
-    "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "lc_steel", "covered_by_mat": 95, "thickness": 1.2 } ],
