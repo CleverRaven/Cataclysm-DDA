@@ -1212,7 +1212,7 @@
     "type": "AMMO",
     "id": "ch_chain_link",
     "copy-from": "lc_chain_link",
-    "name": { "str": "hardened steel chain link" }
+    "name": { "str": "hardened steel chain link" },
     "material": [ "ch_steel" ]
   },
   {
