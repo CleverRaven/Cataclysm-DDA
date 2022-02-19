@@ -7162,15 +7162,16 @@ std::string Character::weapname() const
 {
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
+        const bool no_mode = !current_mode.target;
         std::string gunmode;
-        std::string gun_name = current_mode->tname();
+        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname();
         // only required for empty mags and empty guns
         std::string mag_ammo;
-        if( current_mode->gun_all_modes().size() > 1 ) {
+        if( !no_mode && current_mode->gun_all_modes().size() > 1 ) {
             gunmode = current_mode.tname() + " ";
         }
 
-        if( current_mode->uses_magazine() || current_mode->magazine_integral() ) {
+        if( !no_mode && ( current_mode->uses_magazine() || current_mode->magazine_integral() ) ) {
             if( current_mode->uses_magazine() && !current_mode->magazine_current() ) {
                 mag_ammo = _( " (empty)" );
             } else {
