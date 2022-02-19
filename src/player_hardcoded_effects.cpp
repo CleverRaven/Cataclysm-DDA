@@ -1546,7 +1546,7 @@ void Character::hardcoded_effects( effect &it )
                                  dice( 2, 15 ) < volume ) ||
                                ( has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < volume ) ||
                                ( has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < volume ) ||
-                               ( has_bionic( bio_sleep_shutdown ) ) {
+                               ( has_bionic( bio_sleep_shutdown ) ) ) {
                         // Secure the flag before wake_up() clears the effect
                         bool slept_through = has_effect( effect_slept_through_alarm );
                         wake_up();
