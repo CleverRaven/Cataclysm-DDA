@@ -92,7 +92,7 @@ npc_ptr individual_mission( const tripoint_abs_omt &omt_pos, const std::string &
                             bool group = false, const std::vector<item *> &equipment = {},
                             const std::map<skill_id, int> &required_skills = {} );
 
-///All of these missions are associated with the ranch camp and need to me updated/merged into the new ones
+///All of these missions are associated with the ranch camp and need to be updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const std::string &id );
 void caravan_depart( npc &p, const std::string &dest, const std::string &id );
 int caravan_dist( const std::string &dest );

@@ -309,10 +309,16 @@ static std::vector<std::string> recipe_info(
     }
     const float time_maluses = avail.proficiency_time_maluses;
     const float fail_maluses = avail.proficiency_failure_maluses;
-    if( time_maluses != 1.0 || fail_maluses != 1.0 ) {
+    if( time_maluses != 1.0 && fail_maluses != 1.0 ) {
         oss << string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
                                  "and be %.1fx more likely to incur failures, because you "
-                                 "lack some of the proficiencies used.\n" ), time_maluses, fail_maluses );
+                                 "lack some of the proficiencies used.</color>\n" ), time_maluses, fail_maluses );
+    } else if( time_maluses != 1.0 ) {
+        oss << string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
+                                 "because you lack some of the proficiencies used.</color>\n" ), time_maluses );
+    } else if( fail_maluses != 1.0 ) {
+        oss << string_format( _( "<color_yellow>This recipe will be %.1fx more likely to incur failures, "
+                                 "because you lack some of the proficiencies used.</color>\n" ), fail_maluses );
     }
     if( !can_craft_this && !avail.has_proficiencies ) {
         oss << _( "<color_red>Cannot be crafted because you lack"

@@ -82,7 +82,8 @@ struct ma_requirements {
 
 
     std::set<flag_id> req_flags; // any item flags required for this technique
-    cata::flat_set<json_character_flag> req_char_flags; // Character flags required
+    cata::flat_set<json_character_flag> req_char_flags; // any listed character flags required
+    cata::flat_set<json_character_flag> req_char_flags_all; // all listed character flags required
     cata::flat_set<json_character_flag> forbidden_char_flags; // Character flags disabling the technique
 
     ma_requirements() {
