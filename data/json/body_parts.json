@@ -61,7 +61,8 @@
     "smash_message": "You smash the %s with a firm headbutt.",
     "smash_efficiency": 0.25,
     "bionic_slots": 18,
-    "flags": [ "LIMB_UPPER" ]
+    "flags": [ "LIMB_UPPER" ],
+    "sub_parts": [ "head_forehead", "head_crown", "head_nape", "head_neck", "head_ear_r", "head_ear_l" ]
   },
   {
     "id": "eyes",
@@ -87,7 +88,8 @@
     "flags": [ "IGNORE_TEMP", "LIMB_UPPER" ],
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
-    "bionic_slots": 4
+    "bionic_slots": 4,
+    "sub_parts": [ "eyes_left", "eyes_right" ]
   },
   {
     "id": "mouth",
@@ -114,7 +116,8 @@
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
     "bionic_slots": 4,
-    "flags": [ "LIMB_UPPER" ]
+    "flags": [ "LIMB_UPPER" ],
+    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks" ]
   },
   {
     "id": "arm_l",
@@ -337,6 +340,7 @@
     "drench_capacity": 3,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
+    "sub_parts": [ "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -367,6 +371,7 @@
     "drench_capacity": 3,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
+    "sub_parts": [ "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -697,5 +702,177 @@
     "opposite": "hand_fingers_r",
     "name_multiple": "fingers",
     "name": "left fingers"
+  },
+  {
+    "id": "eyes_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes",
+    "side": 1,
+    "opposite": "eyes_right",
+    "name_multiple": "eyes",
+    "name": "left eye"
+  },
+  {
+    "id": "eyes_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes",
+    "side": 2,
+    "opposite": "eyes_left",
+    "name_multiple": "eyes",
+    "name": "right eye"
+  },
+  {
+    "id": "mouth_lips",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "mouth",
+    "side": 0,
+    "name": "lips"
+  },
+  {
+    "id": "mouth_nose",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "mouth",
+    "side": 0,
+    "name": "nose"
+  },
+  {
+    "id": "mouth_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "mouth",
+    "side": 0,
+    "name": "cheeks"
+  },
+  {
+    "id": "foot_arch_l",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "foot_l",
+    "side": 1,
+    "opposite": "foot_arch_r",
+    "name_multiple": "foot arches",
+    "name": "left foot arch"
+  },
+  {
+    "id": "foot_toes_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "foot_l",
+    "side": 1,
+    "opposite": "foot_toes_r",
+    "name_multiple": "toes",
+    "name": "left toes"
+  },
+  {
+    "id": "foot_ankle_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "foot_l",
+    "side": 1,
+    "opposite": "foot_ankle_r",
+    "name_multiple": "ankles",
+    "name": "left ankle"
+  },
+  {
+    "id": "foot_heel_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "foot_l",
+    "side": 1,
+    "opposite": "foot_heel_r",
+    "name_multiple": "heels",
+    "name": "left heel"
+  },
+  {
+    "id": "foot_arch_r",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "foot_r",
+    "side": 1,
+    "opposite": "foot_arch_l",
+    "name_multiple": "foot arches",
+    "name": "left foot arch"
+  },
+  {
+    "id": "foot_toes_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "foot_r",
+    "side": 1,
+    "opposite": "foot_toes_l",
+    "name_multiple": "toes",
+    "name": "left toes"
+  },
+  {
+    "id": "foot_ankle_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "foot_r",
+    "side": 1,
+    "opposite": "foot_ankle_l",
+    "name_multiple": "ankles",
+    "name": "left ankle"
+  },
+  {
+    "id": "foot_heel_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "foot_r",
+    "side": 1,
+    "opposite": "foot_heel_l",
+    "name_multiple": "heels",
+    "name": "left heel"
+  },
+  {
+    "id": "head_forehead",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "head",
+    "side": 0,
+    "name": "forehead"
+  },
+  {
+    "id": "head_crown",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "head",
+    "side": 0,
+    "name": "crown"
+  },
+  {
+    "id": "head_nape",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "head",
+    "side": 0,
+    "name": "nape"
+  },
+  {
+    "id": "head_neck",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "head",
+    "side": 0,
+    "name": "neck"
+  },
+  {
+    "id": "head_ear_r",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "head",
+    "side": 2,
+    "name": "right ear"
+  },
+  {
+    "id": "head_ear_l",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "head",
+    "side": 1,
+    "name": "left ear"
   }
 ]
