@@ -56,7 +56,7 @@
       "place_signs": [
         { "signage": "Property for sale!", "x": 12, "y": 1 },
         { "signage": "Call <given_name> with <family_name> Realty at 555-6288!", "x": 12, "y": 2 }
-      ]
+      ],
       "monster": { "X": { "monster": "mon_triffid_lifegiver" }, "Y": { "monster": "mon_triffid_flower" } }
     }
   }
