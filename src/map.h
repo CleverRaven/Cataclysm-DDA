@@ -1210,7 +1210,8 @@ class map
         void i_rem( const point &p, item *it ) {
             i_rem( tripoint( p, abs_sub.z ), it );
         }
-        void spawn_artifact( const tripoint &p, const relic_procgen_id &id );
+        void spawn_artifact( const tripoint &p, const relic_procgen_id &id, const int max_attributes = 5,
+                             const int power_level = 1000, const int max_negative_power = -2000 );
         void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
@@ -1291,13 +1292,17 @@ class map
          * somewhere else.
          */
         /*@{*/
-        std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
-                                           int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> use_amount( const tripoint &origin, int range, const itype_id &type,
-                                    int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
+        std::list<item> use_amount_square( const tripoint &p, const itype_id &type, int &quantity,
+                                           const std::function<bool( const item & )> &filter = return_true<item> );
+        std::list<item> use_amount( const tripoint &origin, int range, const itype_id &type, int &quantity,
+                                    const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
+
+        /** Find items located at point p (on map or in vehicles) that pass the filter */
+        std::list<item_location> items_with( const tripoint &p,
+                                             const std::function<bool( const item & )> &filter );
 
         /**
         * Consume UPS from UPS sources from area centered at origin.

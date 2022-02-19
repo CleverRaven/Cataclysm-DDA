@@ -212,6 +212,7 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "req_flags", req_flags, string_id_reader<::json_flag> {} );
     optional( jo, was_loaded, "required_char_flags", req_char_flags );
+    optional( jo, was_loaded, "required_char_flags_all", req_char_flags_all );
     optional( jo, was_loaded, "forbidden_char_flags", forbidden_char_flags );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
@@ -609,6 +610,14 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         }
         if( !has_flag ) {
             return false;
+        }
+    }
+
+    if( !req_char_flags_all.empty() ) {
+        for( const json_character_flag &flag : req_char_flags_all ) {
+            if( !u.has_flag( flag ) ) {
+                return false;
+            }
         }
     }
 

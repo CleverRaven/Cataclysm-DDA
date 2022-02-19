@@ -275,7 +275,8 @@ class basecamp
         void reset_camp_workers();
         comp_list get_mission_workers( const std::string &mission_id, bool contains = false );
         // main mission start/return dispatch function
-        bool handle_mission( const std::string &miss_id, const cata::optional<point> &opt_miss_dir );
+        bool handle_mission( const std::string &miss_id,
+                             const cata::optional<point> &opt_miss_dir );
 
         // mission start functions
         /// generic mission start function that wraps individual mission

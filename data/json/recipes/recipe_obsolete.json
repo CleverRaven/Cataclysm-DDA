@@ -307,6 +307,156 @@
   },
   {
     "type": "recipe",
+    "result": "kevlar_chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_chainmail_hauberk_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_kevlar_chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_chainmail_suit_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_kevlar_chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hauberk_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_suit_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_hood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_hood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hands",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_hands",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_hands",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_feet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_feet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_feet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "hsurvivor_suit",
     "obsolete": true
   },
