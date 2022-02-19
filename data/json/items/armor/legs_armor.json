@@ -540,7 +540,7 @@
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
-        "encumbrance": 10,
+        "encumbrance": 4,
         "coverage": 90,
         "cover_melee": 90,
         "cover_ranged": 95,
