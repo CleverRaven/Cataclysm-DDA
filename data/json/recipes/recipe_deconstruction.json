@@ -5836,5 +5836,13 @@
     "difficulty": 3,
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "thread_kevlar", 2 ] ] ]
+  },
+  {
+    "result": "office_letter_opener",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ] ]
   }
 ]
