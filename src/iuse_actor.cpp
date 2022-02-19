@@ -115,6 +115,8 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
+static const gun_mode_id gun_mode_default( "DEFAULT" );
+
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
@@ -4303,7 +4305,7 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
 
     if( prompt.ret >= 0 ) {
         // set gun to default incase this changes anything
-        it.gun_set_mode( gun_mode_id( "DEFAULT" ) );
+        it.gun_set_mode( gun_mode_default );
         p.invoke_item( mods[prompt.ret], "transform", pnt );
         return 0;
     }
