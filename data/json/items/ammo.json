@@ -1205,7 +1205,7 @@
     "type": "AMMO",
     "id": "hc_chain_link",
     "copy-from": "lc_chain_link",
-    "name": { "str": "high steel chain link" }
+    "name": { "str": "high steel chain link" },
     "material": [ "hc_steel" ]
   },
   {
