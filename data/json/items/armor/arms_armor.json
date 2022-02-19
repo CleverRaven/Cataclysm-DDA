@@ -681,7 +681,7 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
     "name": { "str": "pair of XS mild steel chainmail sleeves", "str_pl": "pairs of XS chainmail sleeves" },
-    "description": "Customized chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized",
+    "description": "Customized mild steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
