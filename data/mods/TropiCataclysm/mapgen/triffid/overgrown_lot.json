@@ -14,9 +14,7 @@
         "P": "f_sign",
         "T": "f_null",
         "_": "f_null",
-        "t": "f_null",
-        "X": "t_dirtmound",
-        "Y": "t_dirtmound"
+        "t": "f_null"
       },
       "rows": [
         "..._....._._..._..._....",
@@ -53,7 +51,9 @@
         "P": "t_grass",
         "T": "t_tree_deadpine",
         "_": "t_dirt",
-        "t": "t_tree_maple"
+        "t": "t_tree_maple",
+        "X": "t_dirtmound",
+        "Y": "t_dirtmound"
       },
       "place_signs": [
         { "signage": "Property for sale!", "x": 12, "y": 1 },
