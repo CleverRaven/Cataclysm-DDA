@@ -1,0 +1,11 @@
+[
+ {
+    "type": "overmap_terrain",
+    "id": "overgrownlot",
+    "copy-from": "generic_city_building",
+    "name": "overgrown lot",
+    "sym": "O",
+    "color": "i_green",
+    "extend": { "flags": [ "GENERIC_LOOT" ] }
+ }
+]
