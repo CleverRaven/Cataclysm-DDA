@@ -9,4 +9,4 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 1
-    - run: ./tools/json_tools/assign_mission_target_needs_om_special.bash
+    - run: ./tools/json_tools/assign_mission_target_needs_om_special.bash 2>&1
