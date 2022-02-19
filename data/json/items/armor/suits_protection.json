@@ -1349,7 +1349,6 @@
     "id": "lc_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hauberk",
-    "looks_like": "lc_chainmail_hauberk",
     "name": { "str": "XS low steel chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1413,7 +1412,6 @@
     "id": "hc_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_hauberk",
-    "looks_like": "hc_chainmail_hauberk",
     "name": { "str": "XS high steel chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1445,7 +1443,6 @@
     "id": "ch_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_hauberk",
-    "looks_like": "ch_chainmail_hauberk",
     "name": { "str": "XS hardened steel chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1477,7 +1474,6 @@
     "id": "qt_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_hauberk",
-    "looks_like": "qt_chainmail_hauberk",
     "name": { "str": "XS tempered steel chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1561,7 +1557,6 @@
     "id": "lc_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_suit",
-    "looks_like": "lc_chainmail_suit",
     "name": { "str": "XS low steel chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1593,7 +1588,6 @@
     "id": "mc_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_suit",
-    "looks_like": "mc_chainmail_suit",
     "name": { "str": "XS medium steel chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1625,7 +1619,6 @@
     "id": "hc_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_suit",
-    "looks_like": "hc_chainmail_suit",
     "name": { "str": "XS high steel chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1657,7 +1650,6 @@
     "id": "ch_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_suit",
-    "looks_like": "ch_chainmail_suit",
     "name": { "str": "XS hardened steel chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1689,7 +1681,6 @@
     "id": "qt_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_suit",
-    "looks_like": "qt_chainmail_suit",
     "name": { "str": "XS tempered steel chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
