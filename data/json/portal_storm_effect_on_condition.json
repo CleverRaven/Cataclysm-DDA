@@ -635,6 +635,339 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DOOR_OPEN",
+    "global": true,
+    "effect": [
+      { "u_location_variable": { "global_val": "door_transform" }, "min_radius": 1, "max_radius": 15, "outdoor_only": true },
+      {
+        "u_transform_radius": 20,
+        "ter_furn_transform": "portal_door_transform",
+        "target_var": { "global_val": "door_transform" }
+      },
+      {
+        "u_transform_radius": 20,
+        "ter_furn_transform": "portal_door_close_transform",
+        "target_var": { "global_val": "door_transform" },
+        "time_in_future": [ "5 seconds", "15 seconds" ]
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "portal_door_transform",
+    "terrain": [
+      { "result": [ "t_door_o" ], "valid_terrain": [ "t_door_c" ], "message": " A door flies open!", "message_good": false },
+      {
+        "result": [ "f_beaded_door_o" ],
+        "valid_terrain": [ "f_beaded_door" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "f_canvas_door_o" ],
+        "valid_terrain": [ "f_canvas_door" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "f_large_canvas_door_o" ],
+        "valid_terrain": [ "f_large_canvas_door" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_laminated_door_glass_o" ],
+        "valid_terrain": [ "t_laminated_door_glass_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_lab_o" ],
+        "valid_terrain": [ "t_door_lab_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_white_o" ],
+        "valid_terrain": [ "t_door_white_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_gray_o" ],
+        "valid_terrain": [ "t_door_gray_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_red_o" ],
+        "valid_terrain": [ "t_door_red_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_green_o" ],
+        "valid_terrain": [ "t_door_green_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_red_o" ],
+        "valid_terrain": [ "t_door_glass_red_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_green_o" ],
+        "valid_terrain": [ "t_door_glass_green_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_white_o" ],
+        "valid_terrain": [ "t_door_glass_white_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_gray_o" ],
+        "valid_terrain": [ "t_door_glass_gray_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_o_peep" ],
+        "valid_terrain": [ "t_door_c_peep" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_curtain_o" ],
+        "valid_terrain": [ "t_door_curtain_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_makeshift_o" ],
+        "valid_terrain": [ "t_door_makeshift_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_o" ],
+        "valid_terrain": [ "t_door_glass_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_lab_o" ],
+        "valid_terrain": [ "t_door_glass_lab_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_frosted_o" ],
+        "valid_terrain": [ "t_door_glass_frosted_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_frosted_lab_o" ],
+        "valid_terrain": [ "t_door_glass_frosted_lab_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_chaingate_o" ],
+        "valid_terrain": [ "t_chaingate_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_fencegate_o" ],
+        "valid_terrain": [ "t_fencegate_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_screen_door_o" ],
+        "valid_terrain": [ "t_screen_door_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_chickenwire_gate_o" ],
+        "valid_terrain": [ "t_chickenwire_gate_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_gate_metal_o" ],
+        "valid_terrain": [ "t_gate_metal_c" ],
+        "message": " A door flies open!",
+        "message_good": false
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "portal_door_close_transform",
+    "terrain": [
+      { "result": [ "t_door_c" ], "valid_terrain": [ "t_door_o" ], "message": " A door slams shut!", "message_good": false },
+      {
+        "result": [ "f_beaded_door" ],
+        "valid_terrain": [ "f_beaded_door_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "f_canvas_door" ],
+        "valid_terrain": [ "f_canvas_door_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "f_large_canvas_door" ],
+        "valid_terrain": [ "f_large_canvas_door_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_laminated_door_glass_c" ],
+        "valid_terrain": [ "t_laminated_door_glass_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_lab_c" ],
+        "valid_terrain": [ "t_door_lab_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_white_c" ],
+        "valid_terrain": [ "t_door_white_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_gray_c" ],
+        "valid_terrain": [ "t_door_gray_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_red_c" ],
+        "valid_terrain": [ "t_door_red_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_green_c" ],
+        "valid_terrain": [ "t_door_green_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_red_c" ],
+        "valid_terrain": [ "t_door_glass_red_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_green_o" ],
+        "valid_terrain": [ "t_door_glass_green_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_white_c" ],
+        "valid_terrain": [ "t_door_glass_white_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_gray_c" ],
+        "valid_terrain": [ "t_door_glass_gray_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_c_peep" ],
+        "valid_terrain": [ "t_door_o_peep" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_curtain_c" ],
+        "valid_terrain": [ "t_door_curtain_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_makeshift_c" ],
+        "valid_terrain": [ "t_door_makeshift_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_c" ],
+        "valid_terrain": [ "t_door_glass_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_lab_c" ],
+        "valid_terrain": [ "t_door_glass_lab_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_frosted_c" ],
+        "valid_terrain": [ "t_door_glass_frosted_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_glass_frosted_lab_c" ],
+        "valid_terrain": [ "t_door_glass_frosted_lab_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_chaingate_c" ],
+        "valid_terrain": [ "t_chaingate_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_fencegate_c" ],
+        "valid_terrain": [ "t_fencegate_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_screen_door_c" ],
+        "valid_terrain": [ "t_screen_door_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_chickenwire_gate_c" ],
+        "valid_terrain": [ "t_chickenwire_gate_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_gate_metal_c" ],
+        "valid_terrain": [ "t_gate_metal_o" ],
+        "message": " A door slams shut!",
+        "message_good": false
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_VOICES_1",
     "global": true,
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
