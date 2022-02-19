@@ -10,12 +10,13 @@ function Q {
 }
 
 SPECIAL_OF_TERRAIN="$(mktemp --suffix -special-of-terrain.json )"
-Q '.[]
+Q 'def skip(to_skip): select(all(. != to_skip; .));
+    .[]
 	| select(.type=="overmap_special")
 	| .id as $id
 	| .overmaps[].overmap
 	| sub("_(north|south|east|west)$"; "")
-	| select(. != "forest")  # Skip to prevent false positives
+	| skip("forest", "forest_thick", "forest_water")  # Skip to prevent false positives
 	| [., $id]' \
 | jq --null-input \
 	'reduce inputs as [$k, $v] ({}; .[$k] += [$v])
