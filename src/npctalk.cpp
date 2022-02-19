@@ -3198,155 +3198,18 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
         value.int_val = to_turns<int>( max_time );
         max = value;
     }
-    std::string op = "none";
-    std::string result = "none";
     std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ), min,
             max );
-    // Normal full version
-    if( objects.size() == 5 ) {
-        op = objects.get_string( 3 );
-        result = objects.get_string( 1 );
-        if( result != "=" ) {
-            jo.throw_error( "invalid result " + op + " in " + jo.str() );
-            function = []( const dialogue & ) {
-                return false;
-            };
-        }
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 4 ) );
-        if( op == "*" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) * get_second_int( d ) );
-            };
-        } else if( op == "/" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) / get_second_int( d ) );
-            };
-        } else if( op == "+" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) + get_second_int( d ) );
-            };
-        } else if( op == "-" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) - get_second_int( d ) );
-            };
-        } else if( op == "%" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) % get_second_int( d ) );
-            };
-        } else if( op == "&" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) & get_second_int( d ) );
-            };
-        } else if( op == "|" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) | get_second_int( d ) );
-            };
-        } else if( op == "<<" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) << get_second_int( d ) );
-            };
-        } else if( op == ">>" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) >> get_second_int( d ) );
-            };
-        } else if( op == "^" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) ^ get_second_int( d ) );
-            };
-        } else {
-            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
-            function = []( const dialogue & ) {
-                return false;
-            };
-        }
-        // ~
-    } else if( objects.size() == 4 ) {
-        op = objects.get_string( 3 );
-        result = objects.get_string( 1 );
-        if( result != "=" ) {
-            jo.throw_error( "invalid result " + op + " in " + jo.str() );
-            function = []( const dialogue & ) {
-                return false;
-            };
-        }
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        if( op == "~" ) {
-            function = [get_first_int, set_int]( const dialogue & d ) {
-                set_int( d, ~get_first_int( d ) );
-            };
-        } else {
-            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
-            function = []( const dialogue & ) {
-                return false;
-            };
-        }
-
-        // =, -=, +=, *=, and /=
-    } else if( objects.size() == 3 ) {
-        result = objects.get_string( 1 );
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 2 ) );
-        if( result == "+=" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) + get_second_int( d ) );
-            };
-        } else if( result == "-=" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) - get_second_int( d ) );
-            };
-        } else if( result == "*=" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) * get_second_int( d ) );
-            };
-        } else if( result == "/=" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) / get_second_int( d ) );
-            };
-        } else if( result == "%=" ) {
-            function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) % get_second_int( d ) );
-            };
-        } else if( result == "=" ) {
-            function = [get_second_int, set_int]( const dialogue & d ) {
-                set_int( d, get_second_int( d ) );
-            };
-        } else {
-            jo.throw_error( "unexpected result " + result + " in " + jo.str() );
-            function = []( const dialogue & ) {
-                return false;
-            };
-        }
-        // ++ and --
-    } else if( objects.size() == 2 ) {
-        op = objects.get_string( 1 );
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
-                    objects.get_object( 0 ) );
-        if( op == "++" ) {
-            function = [get_first_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) + 1 );
-            };
-        } else if( op == "--" ) {
-            function = [get_first_int, set_int]( const dialogue & d ) {
-                set_int( d, get_first_int( d ) - 1 );
-            };
-        } else {
-            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
-            function = []( const dialogue & ) {
-                return false;
-            };
-        }
+    std::function<int( const dialogue & )> int_result = conditional_t< dialogue >::get_arithmetic( jo,
+            member );
+    if( !!int_result ) {
+        function = [int_result, set_int]( const dialogue & d ) {
+            set_int( d, int_result( d ) );
+        };
     } else {
-        jo.throw_error( "Invalid number of args in " + jo.str() );
         function = []( const dialogue & ) {
             return false;
         };
-        return;
     }
 }
 

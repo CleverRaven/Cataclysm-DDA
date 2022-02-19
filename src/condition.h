@@ -177,6 +177,8 @@ struct conditional_t {
         void set_compare_int( const JsonObject &jo, const std::string &member );
         static std::function<int( const T & )> get_get_int( const JsonObject &jo );
         static std::function<int( const T & )> get_get_int( std::string value, const JsonObject &jo );
+        static std::function<int( const T & )> get_arithmetic( const JsonObject &jo,
+                const std::string &member );
         bool operator()( const T &d ) const {
             if( !condition ) {
                 return false;

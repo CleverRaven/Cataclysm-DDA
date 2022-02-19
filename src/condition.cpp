@@ -1577,6 +1577,146 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
 }
 
 template<class T>
+std::function<int( const T & )> conditional_t<T>::get_arithmetic( const JsonObject &jo,
+        const std::string &member )
+{
+    JsonArray objects = jo.get_array( member );
+    std::string op = "none";
+    std::string result = "none";
+    // Normal full version
+    if( objects.size() == 5 ) {
+        op = objects.get_string( 3 );
+        result = objects.get_string( 1 );
+        if( result != "=" ) {
+            jo.throw_error( "invalid result " + op + " in " + jo.str() );
+            return nullptr;
+        }
+        std::function<int( const T & )> get_first_int = conditional_t< T >::get_get_int(
+                    objects.get_object( 2 ) );
+        std::function<int( const T & )> get_second_int = conditional_t< T >::get_get_int(
+                    objects.get_object( 4 ) );
+        if( op == "*" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) * get_second_int( d );
+            };
+        } else if( op == "/" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) / get_second_int( d );
+            };
+        } else if( op == "+" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) + get_second_int( d );
+            };
+        } else if( op == "-" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) - get_second_int( d );
+            };
+        } else if( op == "%" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) % get_second_int( d );
+            };
+        } else if( op == "&" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) & get_second_int( d );
+            };
+        } else if( op == "|" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) | get_second_int( d );
+            };
+        } else if( op == "<<" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) << get_second_int( d );
+            };
+        } else if( op == ">>" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) >> get_second_int( d );
+            };
+        } else if( op == "^" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) ^ get_second_int( d );
+            };
+        } else {
+            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
+            return nullptr;
+        }
+        // ~
+    } else if( objects.size() == 4 ) {
+        op = objects.get_string( 3 );
+        result = objects.get_string( 1 );
+        if( result != "=" ) {
+            jo.throw_error( "invalid result " + op + " in " + jo.str() );
+            return nullptr;
+        }
+        std::function<int( const T & )> get_first_int = conditional_t< T >::get_get_int(
+                    objects.get_object( 2 ) );
+        if( op == "~" ) {
+            return [get_first_int]( const T & d ) {
+                return ~get_first_int( d );
+            };
+        } else {
+            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
+            return nullptr;
+        }
+
+        // =, -=, +=, *=, and /=
+    } else if( objects.size() == 3 ) {
+        result = objects.get_string( 1 );
+        std::function<int( const T & )> get_first_int = conditional_t< T >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const T & )> get_second_int = conditional_t< T >::get_get_int(
+                    objects.get_object( 2 ) );
+        if( result == "+=" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) + get_second_int( d );
+            };
+        } else if( result == "-=" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) - get_second_int( d );
+            };
+        } else if( result == "*=" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) * get_second_int( d );
+            };
+        } else if( result == "/=" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) / get_second_int( d );
+            };
+        } else if( result == "%=" ) {
+            return [get_first_int, get_second_int]( const T & d ) {
+                return get_first_int( d ) % get_second_int( d );
+            };
+        } else if( result == "=" ) {
+            return [get_second_int]( const T & d ) {
+                return get_second_int( d );
+            };
+        } else {
+            jo.throw_error( "unexpected result " + result + " in " + jo.str() );
+            return nullptr;
+        }
+        // ++ and --
+    } else if( objects.size() == 2 ) {
+        op = objects.get_string( 1 );
+        std::function<int( const T & )> get_first_int = conditional_t< T >::get_get_int(
+                    objects.get_object( 0 ) );
+        if( op == "++" ) {
+            return [get_first_int]( const T & d ) {
+                return get_first_int( d ) + 1;
+            };
+        } else if( op == "--" ) {
+            return [get_first_int]( const T & d ) {
+                return get_first_int( d ) - 1;
+            };
+        } else {
+            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
+            return nullptr;
+        }
+    } else {
+        jo.throw_error( "Invalid number of args in " + jo.str() );
+        return nullptr;
+    }
+}
+
+template<class T>
 std::function<int( const T & )> conditional_t<T>::get_get_int( std::string value,
         const JsonObject &jo )
 {
