@@ -74,6 +74,7 @@ class ter_furn_transform
     public:
 
         ter_furn_transform_id id;
+        std::vector<std::pair<ter_furn_transform_id, mod_id>> src;
         bool was_loaded = false;
 
         void transform( const tripoint &location, bool shifted = false ) const;
