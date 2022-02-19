@@ -2380,6 +2380,68 @@
     ]
   },
   {
+    "id": "test_multi_portion_segmented_armor",
+    "type": "ARMOR",
+    "name": "Segmented armor",
+    "copy-from": "test_swat_armor",
+    "armor": [
+      {
+        "covers": [ "torso", "head", "mouth", "eyes" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 25 ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 }
+        ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 25 ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 25 ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "test_pants_fur",
     "type": "ARMOR",
     "name": { "str_sp": "fur pants" },

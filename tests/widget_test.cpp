@@ -96,6 +96,7 @@ static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
 static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
 static const widget_id widget_test_dex_color_num( "test_dex_color_num" );
 static const widget_id widget_test_disabled_when_empty( "test_disabled_when_empty" );
+static const widget_id widget_test_fatigue_clause( "test_fatigue_clause" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
 static const widget_id widget_test_health_clause( "test_health_clause" );
 static const widget_id widget_test_health_color_num( "test_health_color_num" );
@@ -460,6 +461,23 @@ TEST_CASE( "widgets showing avatar stats with color for normal value", "[widget]
         CHECK( int_w.layout( ava ) == "INT: <color_c_white>8</color>" );
         CHECK( per_w.layout( ava ) == "PER: <color_c_white>8</color>" );
     }
+}
+
+TEST_CASE( "widget showing character fatigue status", "[widget]" )
+{
+    widget fatigue_w = widget_test_fatigue_clause.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    ava.set_fatigue( 0 );
+    CHECK( fatigue_w.layout( ava ) == "Rest: " );
+    ava.set_fatigue( 192 );
+    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_yellow>Tired</color>" );
+    ava.set_fatigue( 384 );
+    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_light_red>Dead Tired</color>" );
+    ava.set_fatigue( 576 );
+    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_red>Exhausted</color>" );
 }
 
 TEST_CASE( "widgets showing avatar health with color for normal value", "[widget][health][color]" )
