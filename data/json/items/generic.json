@@ -738,7 +738,7 @@
     "type": "GENERIC",
     "id": "qt_wire",
     "copy-from": "lc_wire",
-    "name": { "str": "tempered steel wire" }
+    "name": { "str": "tempered steel wire" },
     "material": [ "qt_steel" ]
   },
   {
