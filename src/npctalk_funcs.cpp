@@ -1069,6 +1069,7 @@ void talk_function::start_training_seminar( npc &p )
     if( selected.empty() ) {
         return;
     }
+    picked.reserve( selected.size() );
     for( int sel : selected ) {
         picked.emplace_back( students[sel] );
     }
