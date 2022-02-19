@@ -543,7 +543,7 @@
   {
     "id": "mon_razor_butterflies",
     "type": "MONSTER",
-    "name": "razor butterfly",
+    "name": { "str": "razor butterfly", "str_pl": "razor butterflies" },
     "//": "Now only for shaman, todo: make them natural spawn, add harvest, etc",
     "description": "Some unknown species of butterfly, they have clear white wings with some orange rune pattern, and a razor-sharp part on the edge.  They are pretty big, but still in natural limits.",
     "default_faction": "factionless",
