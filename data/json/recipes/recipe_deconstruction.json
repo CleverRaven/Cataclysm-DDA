@@ -5843,6 +5843,6 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "silver_small", 2 ] ] ]
+    "components": [ [ [ "silver_small", 8 ] ] ]
   }
 ]
