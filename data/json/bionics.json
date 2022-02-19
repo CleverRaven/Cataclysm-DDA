@@ -805,7 +805,7 @@
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "fuel_options": [ "lamp_oil", "motor_oil" ],
     "fuel_capacity": 750,
-    "fuel_efficiency": 0.3,
+    "fuel_efficiency": 0.35,
     "exothermic_power_gen": true,
     "time": 5,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
@@ -1784,7 +1784,7 @@
     "description": "Reactive shock absorbers installed in your wrists and elbows which greatly reduce felt recoil.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 2 ], [ "hand_r", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RECOIL", "multiply": -0.4 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RECOIL_MODIFIER", "multiply": -0.4 } ] } ]
   },
   {
     "id": "bio_faulty_depression",
