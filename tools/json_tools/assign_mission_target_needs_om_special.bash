@@ -15,6 +15,7 @@ Q '.[]
 	| .id as $id
 	| .overmaps[].overmap
 	| sub("_(north|south|east|west)$"; "")
+	| select(. != "forest")  # Skip to prevent false positives
 	| [., $id]' \
 | jq --null-input \
 	'reduce inputs as [$k, $v] ({}; .[$k] += [$v])
