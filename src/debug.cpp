@@ -1560,8 +1560,17 @@ static std::string windows_version()
         }
         if( success && major_version == 10 ) {
             buffer_size = c_buffer_size;
-            success = RegQueryValueExA( handle_key, "ReleaseId", nullptr, &value_type, &byte_buffer[0],
-                                        &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
+            // present in Windows 10 version >= 20H2, aka 2009
+            success = RegQueryValueExA(handle_key, "DisplayVersion", nullptr, &value_type, &byte_buffer[0],
+                &buffer_size) == ERROR_SUCCESS && value_type == REG_SZ;
+
+            if (!success) {
+                // only accurate in Windows 10 version <= 2009
+                buffer_size = c_buffer_size;
+                success = RegQueryValueExA(handle_key, "ReleaseId", nullptr, &value_type, &byte_buffer[0],
+                    &buffer_size) == ERROR_SUCCESS && value_type == REG_SZ;
+            }
+
             if( success ) {
                 output.append( " " );
                 output.append( std::string( reinterpret_cast<char *>( byte_buffer.data() ) ) );
