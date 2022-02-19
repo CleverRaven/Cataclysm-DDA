@@ -364,6 +364,7 @@
     "id": "ch_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
+    "name": { "str": "chainmail vest" },
     "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
       {
