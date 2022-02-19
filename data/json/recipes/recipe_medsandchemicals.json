@@ -972,7 +972,7 @@
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "chem_saltpetre", 10 ] ], [ [ "chem_sulphur", 23 ] ], [ [ "charcoal", 1 ] ] ]
   },
-    {
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_black_powder",
