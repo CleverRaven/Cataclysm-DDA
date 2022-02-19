@@ -846,23 +846,23 @@
   {
     "id": "head_nape",
     "type": "sub_body_part",
-    "max_coverage": 10,
+    "max_coverage": 20,
     "parent": "head",
     "side": 0,
     "name": "nape"
   },
   {
-    "id": "head_neck",
+    "id": "head_throat",
     "type": "sub_body_part",
     "max_coverage": 20,
     "parent": "head",
     "side": 0,
-    "name": "neck"
+    "name": "throat"
   },
   {
     "id": "head_ear_r",
     "type": "sub_body_part",
-    "max_coverage": 15,
+    "max_coverage": 10,
     "parent": "head",
     "side": 2,
     "name": "right ear"
@@ -870,7 +870,7 @@
   {
     "id": "head_ear_l",
     "type": "sub_body_part",
-    "max_coverage": 15,
+    "max_coverage": 10,
     "parent": "head",
     "side": 1,
     "name": "left ear"
