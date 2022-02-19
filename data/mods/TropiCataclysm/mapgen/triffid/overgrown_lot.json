@@ -14,7 +14,9 @@
         "P": "f_sign",
         "T": "f_null",
         "_": "f_null",
-        "t": "f_null"
+        "t": "f_null",
+        "X": "t_dirtmound",
+        "Y": "t_dirtmound"
       },
       "rows": [
         "..._....._._..._..._....",
