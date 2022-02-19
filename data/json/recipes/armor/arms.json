@@ -544,8 +544,8 @@
     "type": "recipe",
     "copy-from": "k_gambeson_sleeve",
     "time": "6 h",
-	"//": "By weight will use 2.4 layered sheets, so lots of scraps",
-	"using": [ [ "sewing_standard", 4 ], [ "armor_kevlar_layered", 3 ], [ "tailoring_kevlar_fabric", 4 ], [ "fastener_small", 2 ] ],
+    "//": "By weight will use 2.4 layered sheets, so lots of scraps",
+    "using": [ [ "sewing_standard", 4 ], [ "armor_kevlar_layered", 3 ], [ "tailoring_kevlar_fabric", 4 ], [ "fastener_small", 2 ] ],
     "byproducts": [ [ "scrap_kevlar", 279 ] ]
   },
   {
@@ -553,7 +553,7 @@
     "type": "recipe",
     "copy-from": "k_gambeson_sleeve",
     "time": "4 h",
-	"using": [ [ "sewing_aramids", 2 ], [ "armor_kevlar_layered", 1 ], [ "tailoring_kevlar_fabric", 12 ], [ "fastener_small", 2 ] ]
+    "using": [ [ "sewing_aramids", 2 ], [ "armor_kevlar_layered", 1 ], [ "tailoring_kevlar_fabric", 12 ], [ "fastener_small", 2 ] ]
   },
   {
     "result": "armor_lc_lightarmguard",

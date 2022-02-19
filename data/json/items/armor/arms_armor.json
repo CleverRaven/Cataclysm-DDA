@@ -566,7 +566,7 @@
     "name": { "str": "pair of kevlar gambeson sleeves", "str_pl": "pairs of kevlar gambeson sleeves" },
     "description": "A pair sleeves made from layers of kevlar.",
     "weight": "986 g",
-	"//": "weight increased with tailoring rework",
+    "//": "weight increased with tailoring rework",
     "volume": "840 ml",
     "price": 1200,
     "price_postapoc": 400,
