@@ -239,7 +239,6 @@
     "id": "xs_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "chainmail_vest",
-    "looks_like": "chainmail_vest",
     "name": { "str": "XS chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
@@ -280,7 +279,6 @@
     "id": "xs_lc_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
-    "looks_like": "lc_chainmail_vest",
     "name": { "str": "XS chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -312,7 +310,6 @@
     "id": "xs_mc_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_vest",
-    "looks_like": "mc_chainmail_vest",
     "name": { "str": "XS chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -344,7 +341,6 @@
     "id": "xs_hc_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_vest",
-    "looks_like": "hc_chainmail_vest",
     "name": { "str": "XS chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -352,7 +348,6 @@
   {
     "id": "hc_chainmail_vest",
     "type": "ARMOR",
-    "category": "armor",
     "copy-from": "lc_chainmail_vest",
     "description": "A customized hardened steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
@@ -367,7 +362,6 @@
   {
     "id": "ch_chainmail_vest",
     "type": "ARMOR",
-    "category": "armor",
     "copy-from": "lc_chainmail_vest",
     "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
@@ -391,7 +385,6 @@
     "id": "xs_ch_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_vest",
-    "looks_like": "ch_chainmail_vest",
     "name": { "str": "XS chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -399,7 +392,6 @@
   {
     "id": "ch_chainmail_vest",
     "type": "ARMOR",
-    "category": "armor",
     "copy-from": "lc_chainmail_vest",
     "description": "A customized hardened steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
@@ -423,7 +415,6 @@
     "id": "xs_hc_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_vest",
-    "looks_like": "hc_chainmail_vest",
     "name": { "str": "XS chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -431,7 +422,6 @@
   {
     "id": "qt_chainmail_vest",
     "type": "ARMOR",
-    "category": "armor",
     "copy-from": "lc_chainmail_vest",
     "description": "A customized tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
@@ -455,7 +445,6 @@
     "id": "xs_qt_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_vest",
-    "looks_like": "qt_chainmail_vest",
     "name": { "str": "XS chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
