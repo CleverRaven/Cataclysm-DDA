@@ -767,7 +767,7 @@
     "use_action": [
       [ "CROWBAR", 0 ],
       { "type": "cast_spell", "spell_id": "mirror_image", "no_fail": true, "level": 10, "need_wielding": true }
-	  ]
+    ]
   },
   {
     "id": "rune_magus_weapon",
