@@ -483,7 +483,7 @@
     "volume": "1250 ml",
     "longest_side": "80 cm",
     "bashing": 50,
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "price": 12000,
     "price_postapoc": 500,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -523,7 +523,7 @@
     "volume": "600 ml",
     "longest_side": "40 cm",
     "bashing": 25,
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 6000,
     "price_postapoc": 250,
     "qualities": [ [ "HAMMER", 2 ] ]
@@ -544,7 +544,7 @@
     "volume": "1700 ml",
     "longest_side": "100 cm",
     "bashing": 80,
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" },
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "price": 24000,
     "price_postapoc": 750,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -798,7 +798,7 @@
     "volume": "350 ml",
     "longest_side": "20 cm",
     "bashing": 12,
-    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "good" },
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "good" },
     "price_postapoc": 50,
     "category": "weapons"
   },
@@ -906,7 +906,7 @@
     "longest_side": "60 cm",
     "bashing": 10,
     "cutting": 3,
-    "to_hit": { "grip": "none", "length": "short", "surface": "every", "balance": "neutral" },
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "neutral" },
     "flags": [ "STAB" ],
     "price": 8000,
     "price_postapoc": 50
@@ -1023,7 +1023,7 @@
     "longest_side": "20 cm",
     "bashing": 1,
     "cutting": 3,
-    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "good" },
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "good" },
     "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ],
     "weapon_category": [ "SHIVS" ]
   },
