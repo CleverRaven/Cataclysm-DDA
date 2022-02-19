@@ -2,13 +2,15 @@
 #ifndef CATA_SRC_WIDGET_H
 #define CATA_SRC_WIDGET_H
 
+#include <climits>
+#include <set>
 #include <string>
 #include <vector>
 
-#include "avatar.h"
+#include "clause.h"
+#include "color.h"
 #include "enum_traits.h"
-#include "generic_factory.h"
-#include "panels.h"
+#include "output.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
@@ -131,6 +133,8 @@ struct enum_traits<widget_alignment> {
 class JsonObject;
 template<typename T>
 class generic_factory;
+class avatar;
+struct dialogue;
 class widget;
 
 // Forward declaration, due to codependency on panels.h
@@ -144,6 +148,9 @@ struct widget_clause {
         translation text;
         nc_color color = c_unset;
         int value = INT_MIN;
+        clause_t clause_vals;
+
+        void load( const JsonObject &jo );
 
         // Condition for using this clause
         bool has_condition = false;
@@ -155,34 +162,10 @@ struct widget_clause {
                 int thresh_val = INT_MIN, bool skip_condition = false );
 
     public:
-        void load( const JsonObject &jo );
 
-        /**
-         * Static accessors:
-         *
-         * Returns the requested variable for the specified requirement, or a default value if
-         * the requirements aren't met. Here are the default values for each field:
-         *      id => ""
-         *     sym => ""
-         *    text => translation()
-         *   color => c_white
-         *   value => INT_MIN
-         *
-         * If multiple entries meet the requirement, you can specify a threshold value to get the
-         * entry with the highest value below that threshold.
-         *
-         * If a clause also has a "condition" field, that condition must also return true in order
-         * for that clause to be usable.
-         */
-
-        static int get_val_for_id( const std::string &clause_id,
-                                   const widget_id &wgt, bool skip_condition = false );
-        static const translation &get_text_for_id( const std::string &clause_id,
-                const widget_id &wgt, bool skip_condition = false );
-        static const std::string &get_sym_for_id( const std::string &clause_id,
-                const widget_id &wgt, bool skip_condition = false );
-        static nc_color get_color_for_id( const std::string &clause_id,
-                                          const widget_id &wgt, bool skip_condition = false );
+        std::string get_text( bool no_color = false ) const;
+        std::string get_sym( bool no_color = false ) const;
+        std::string get_value( bool no_color = false ) const;
 };
 
 // A widget is a UI element displaying information from the underlying value of a widget_var.
@@ -250,6 +233,8 @@ class widget
         widget_alignment _text_align;
         // Alignment of the widget label, if any (Default = LEFT)
         widget_alignment _label_align;
+        // Dynamic definitions for values and text
+        clause_t _clause_vals;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );

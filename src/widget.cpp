@@ -1,13 +1,16 @@
 #include "widget.h"
 
+#include "avatar.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "condition.h"
+#include "dialogue.h"
 #include "display.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "panels.h"
 
 const static flag_id json_flag_W_DISABLED_BY_DEFAULT( "W_DISABLED_BY_DEFAULT" );
 const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
@@ -253,6 +256,10 @@ void widget_clause::load( const JsonObject &jo )
         read_condition<dialogue>( jo, "condition", condition, false );
         has_condition = true;
     }
+
+    if( jo.has_object( "clause_values" ) ) {
+        clause_vals = clause_t( jo.get_object( "clause_values" ) );
+    }
 }
 
 bool widget_clause::meets_condition( const std::string &opt_var ) const
@@ -304,38 +311,43 @@ const widget_clause *widget_clause::get_clause_for_id( const std::string &clause
     return key == INT_MIN ? nullptr : vals[key];
 }
 
-int widget_clause::get_val_for_id( const std::string &clause_id, const widget_id &wgt,
-                                   bool skip_condition )
+std::string widget_clause::get_text( bool no_color ) const
 {
-    const widget_clause *wp = widget_clause::get_clause_for_id( clause_id, wgt, INT_MIN,
-                              skip_condition );
-    return wp == nullptr ? INT_MIN : wp->value;
+    cata::optional<translation> t = clause_vals.get_text();
+    std::string txt = ( text.empty() ? t.value_or( text ) : text ).translated();
+    if( no_color || txt.empty() ) {
+        return txt;
+    }
+    cata::optional<nc_color> c = clause_vals.get_color();
+    nc_color clr = color == c_unset ? c.value_or( color ) : color;
+    return clr == c_unset ? txt : colorize( txt, clr );
 }
 
-const translation &widget_clause::get_text_for_id( const std::string &clause_id,
-        const widget_id &wgt, bool skip_condition )
+std::string widget_clause::get_sym( bool no_color ) const
 {
-    static const translation none;
-    const widget_clause *wp = widget_clause::get_clause_for_id( clause_id, wgt, INT_MIN,
-                              skip_condition );
-    return wp == nullptr ? none : wp->text;
+    cata::optional<std::string> t = clause_vals.get_sym();
+    std::string txt = sym.empty() ? t.value_or( sym ) : sym;
+    if( no_color || txt.empty() ) {
+        return txt;
+    }
+    cata::optional<nc_color> c = clause_vals.get_color();
+    nc_color clr = color == c_unset ? c.value_or( color ) : color;
+    return clr == c_unset ? txt : colorize( txt, clr );
 }
 
-const std::string &widget_clause::get_sym_for_id( const std::string &clause_id,
-        const widget_id &wgt, bool skip_condition )
+std::string widget_clause::get_value( bool no_color ) const
 {
-    static const std::string none;
-    const widget_clause *wp = widget_clause::get_clause_for_id( clause_id, wgt, INT_MIN,
-                              skip_condition );
-    return wp == nullptr ? none : wp->sym;
-}
-
-nc_color widget_clause::get_color_for_id( const std::string &clause_id, const widget_id &wgt,
-        bool skip_condition )
-{
-    const widget_clause *wp = widget_clause::get_clause_for_id( clause_id, wgt, INT_MIN,
-                              skip_condition );
-    return wp == nullptr ? c_white : wp->color;
+    cata::optional<int> t = clause_vals.get_value();
+    std::string txt = string_format( "%d", value == INT_MIN ? t.value_or( value ) : value );
+    if( value == INT_MIN && !t ) {
+        txt = "";
+    }
+    if( no_color || txt.empty() ) {
+        return txt;
+    }
+    cata::optional<nc_color> c = clause_vals.get_color();
+    nc_color clr = color == c_unset ? c.value_or( color ) : color;
+    return clr == c_unset ? txt : colorize( txt, clr );
 }
 
 void widget::load( const JsonObject &jo, const std::string & )
@@ -394,6 +406,10 @@ void widget::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_object( "default_clause" ) ) {
         _default_clause.load( jo.get_object( "default_clause" ) );
+    }
+
+    if( jo.has_object( "clause_values" ) ) {
+        _clause_vals = clause_t( jo.get_object( "clause_values" ) );
     }
 
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
@@ -978,6 +994,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
 
 std::string widget::color_value_string( int value, int width_max )
 {
+    value = _clause_vals.get_value().value_or( value );
     std::string val_string = value_string( value, width_max );
     const nc_color cur_color = value_color( value );
     if( cur_color == c_unset ) {
@@ -1068,12 +1085,21 @@ std::string widget::text( int value, bool from_condition, int width )
     if( from_condition ) {
         return text_cond( false, width );
     }
-    return _strings.at( value ).translated();
+    cata::optional<translation> txt = _clause_vals.get_text();
+    if( !!txt ) {
+        return txt->translated();
+    }
+    return static_cast<int>( _strings.size() ) > value &&
+           value >= 0 ? _strings.at( value ).translated() : "";
 }
 
 std::string widget::sym( int value, bool from_condition )
 {
-    return from_condition ? sym_cond() : text( value, from_condition );
+    if( from_condition ) {
+        return sym_cond();
+    }
+    cata::optional<std::string> txt = _clause_vals.get_sym();
+    return txt.value_or( text( value, from_condition ) );
 }
 
 std::string widget::sym_text( bool from_condition, int width )
@@ -1091,14 +1117,11 @@ std::string widget::number_cond( enumeration_conjunction join_type ) const
     std::vector<const widget_clause *> wplist = get_clauses();
     if( wplist.empty() ) {
         // All clauses returned false conditions, use default
-        std::string txt = string_format( "%d", _default_clause.value );
-        return _default_clause.value == INT_MIN ? "" :
-               _default_clause.color == c_unset ? txt : colorize( txt, _default_clause.color );
+        return _default_clause.get_value();
     }
     // Get values as a comma-separated list
     return enumerate_as_string( wplist.begin(), wplist.end(), []( const widget_clause * wp ) {
-        std::string txt = string_format( "%d", wp->value );
-        return wp->color == c_unset ? txt : colorize( txt, wp->color );
+        return wp->get_value();
     }, join_type );
 }
 
@@ -1107,15 +1130,12 @@ std::string widget::text_cond( bool no_join, int width )
     std::vector<const widget_clause *> wplist = get_clauses();
     if( wplist.empty() ) {
         // All clauses returned false conditions, use default
-        std::string txt = _default_clause.text.translated();
-        return txt.empty() ? "" : _default_clause.color == c_unset ? txt : colorize( txt,
-                _default_clause.color );
+        return _default_clause.get_text();
     }
     std::vector<std::string> strings;
     strings.reserve( wplist.size() );
     for( const widget_clause *wp : wplist ) {
-        strings.emplace_back( wp->color == c_unset ? wp->text.translated() : colorize(
-                                  wp->text.translated(), wp->color ) );
+        strings.emplace_back( wp->get_text() );
     }
     int h = 0;
     std::string ret = format_widget_multiline( strings, _height_max, width, h, !no_join );
@@ -1131,21 +1151,19 @@ std::string widget::sym_cond( bool no_join, enumeration_conjunction join_type ) 
     std::vector<const widget_clause *> wplist = get_clauses();
     if( wplist.empty() ) {
         // All clauses returned false conditions, use default
-        std::string txt = _default_clause.sym;
-        return txt.empty() ? "" : _default_clause.color == c_unset ? txt : colorize( txt,
-                _default_clause.color );
+        return _default_clause.get_sym();
     }
     // No string joining, just show symbols one-after-the-other
     if( no_join ) {
         std::string ret;
         for( const widget_clause *wp : wplist ) {
-            ret += wp->color == c_unset ? wp->sym : colorize( wp->sym, wp->color );
+            ret += wp->get_sym();
         }
         return ret;
     }
     // Get values as a comma-separated list
     return enumerate_as_string( wplist.begin(), wplist.end(), []( const widget_clause * wp ) {
-        return wp->color == c_unset ? wp->sym : colorize( wp->sym, wp->color );
+        return wp->get_sym();
     }, join_type );
 }
 
@@ -1154,17 +1172,15 @@ std::string widget::sym_text_cond( bool no_join, int width )
     std::vector<const widget_clause *> wplist = get_clauses();
     if( wplist.empty() ) {
         // All clauses returned false conditions, use default
-        std::string txt = _default_clause.sym;
-        txt += ( txt.empty() ? "" : " " ) + _default_clause.text.translated();
-        return txt.empty() ? "" : _default_clause.color == c_unset ? txt : colorize( txt,
-                _default_clause.color );
+        std::string sym = _default_clause.get_sym();
+        sym += ( sym.empty() ? "" : " " ) + _default_clause.get_text( true );
+        return sym;
     }
     std::vector<std::string> strings;
     strings.reserve( wplist.size() );
     for( const widget_clause *wp : wplist ) {
-        std::string s = wp->color == c_unset ? wp->sym : colorize( wp->sym, wp->color );
-        std::string txt = string_format( "%s %s", s, wp->text.translated() );
-        strings.emplace_back( txt );
+        std::string s = wp->get_sym();
+        strings.emplace_back( s + ( s.empty() ? "" : " " ) + wp->get_text( true ) );
     }
     int h = 0;
     std::string ret = format_widget_multiline( strings, _height_max, width, h, !no_join );

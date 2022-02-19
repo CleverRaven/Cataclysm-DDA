@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include "avatar.h"
 #include "game.h"
 #include "game_constants.h"
 #include "player_helpers.h"
@@ -871,7 +872,7 @@ TEST_CASE( "thirst and hunger widgets", "[widget]" )
     ava.clear_effects();
     ava.add_effect( effect_hunger_very_hungry, 1_minutes );
     ava.set_thirst( 0 );
-    CHECK( wt.layout( ava ) == "THIRST: <color_c_white></color>" );
+    CHECK( wt.layout( ava ) == "THIRST: " );
     CHECK( wh.layout( ava ) == "HUNGER: <color_c_yellow>Very hungry</color>" );
 
     ava.clear_effects();
@@ -884,7 +885,7 @@ TEST_CASE( "thirst and hunger widgets", "[widget]" )
     ava.add_effect( effect_hunger_blank, 1_minutes );
     ava.set_thirst( 81 );
     CHECK( wt.layout( ava ) == "THIRST: <color_c_yellow>Very thirsty</color>" );
-    CHECK( wh.layout( ava ) == "HUNGER: <color_c_white></color>" );
+    CHECK( wh.layout( ava ) == "HUNGER: " );
 
     ava.clear_effects();
     ava.add_effect( effect_hunger_satisfied, 1_minutes );
@@ -2178,7 +2179,7 @@ TEST_CASE( "Clause conditions - pure JSON widgets", "[widget][clause][condition]
         CHECK( w_num.layout( ava ) == "Num Values: <color_c_dark_gray>1</color>" );
         CHECK( w_txt.layout( ava ) == "Text Values: <color_c_dark_gray>None</color>" );
         CHECK( w_sym.layout( ava ) == "Symbol Values: <color_c_dark_gray>.</color>" );
-        CHECK( w_lgd.layout( ava, sidebar_width ) == "<color_c_dark_gray>. None</color>              " );
+        CHECK( w_lgd.layout( ava, sidebar_width ) == "<color_c_dark_gray>.</color> None              " );
     }
 
     SECTION( "GOODHEARING" ) {
