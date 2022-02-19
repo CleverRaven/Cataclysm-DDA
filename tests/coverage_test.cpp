@@ -28,7 +28,7 @@ static constexpr tripoint badguy_pos( HALF_MAPSIZE_X + 1, HALF_MAPSIZE_Y, 0 );
 static void check_near( std::string subject, float actual, const float expected,
                         const float tolerance )
 {
-    THEN( string_format( "%s is about %.1f (+/- %.1f) with val %.1f", subject, expected, tolerance,
+    THEN( string_format( "%s is about %.1f (+/- %.2f) with val %.1f", subject, expected, tolerance,
                          actual ) ) {
         CHECK( actual == Approx( expected ).margin( tolerance ) );
     }

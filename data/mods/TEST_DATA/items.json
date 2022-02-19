@@ -2391,16 +2391,16 @@
         "encumbrance": [ 12, 25 ],
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 }
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 }
         ]
       },
       {
@@ -2409,16 +2409,16 @@
         "encumbrance": [ 12, 25 ],
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 }
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 }
         ]
       },
       {
@@ -2427,16 +2427,16 @@
         "encumbrance": [ 12, 25 ],
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 0.1 }
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.3 }
         ]
       }
     ]
@@ -2453,7 +2453,7 @@
         "encumbrance": [ 12, 25 ],
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 1 }
+          { "type": "steel", "covered_by_mat": 80, "thickness": 3 }
         ]
       },
       {
@@ -2462,7 +2462,7 @@
         "encumbrance": [ 12, 25 ],
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 1 }
+          { "type": "steel", "covered_by_mat": 80, "thickness": 3 }
         ]
       },
       {
@@ -2471,7 +2471,7 @@
         "encumbrance": [ 12, 25 ],
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "steel", "covered_by_mat": 80, "thickness": 1 }
+          { "type": "steel", "covered_by_mat": 80, "thickness": 3 }
         ]
       }
     ]
