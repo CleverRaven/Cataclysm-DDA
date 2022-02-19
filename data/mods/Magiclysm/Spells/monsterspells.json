@@ -204,5 +204,23 @@
     "effect": "attack",
     "shape": "line",
     "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ]
+  },
+  {
+    "id": "shambling_aoe",
+    "type": "SPELL",
+    "name": "Shambling attack",
+    "description": "Fast and devastating AoE attack.",
+    "effect": "attack",
+    "shape": "cone",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "max_level": 0,
+    "min_damage": 15,
+    "max_damage": 70,
+    "min_range": 3,
+    "max_range": 3,
+    "min_aoe": 90,
+    "max_aoe": 270,
+    "damage_type": "bash"
   }
 ]
